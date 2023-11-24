@@ -1,0 +1,29 @@
+fileignoreconfig:
+- filename: .github/workflows/release.yml
+  checksum: 3d0ae5f153aa5f1b1dc1bfc708939728012d6cb558cc8bd715e397013bc9f56b
+- filename: .infra/vault/vault.yml
+  checksum: d96d43188368fd30a2085e374fd1e0e7e0c1acd8d0943d99713f59fec422687c
+- filename: server/tests/utils/security/accessTokenService.test.ts
+  checksum: 017acd9d128165e6edcfd2c33a0f218c53b0ba2b4a77f3da3fe7b58f11d6fa90
+- filename: server/tests/utils/security/authorisationService.test.ts
+  checksum: da45d2cb721719b4c1c351ae2be4a53e046807416543fc1686e12753b4e82702
+- filename: shared/helpers/generateUri.test.ts
+  checksum: 7a6ccfe2e38e8edc675fcbd9379845a14bee1dc8784a32e2ffa87261b4c76ac1
+- filename: shared/helpers/generateUri.ts
+  checksum: ef7bcbc2c76441fdafda7dc51d1e3455a59d2de3fec9e0b70ff610e6011fb097
+scopeconfig:
+- scope: node
+custom_patterns:
+- (?s)[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}
+allowed_patterns:
+- key
+- Key
+- secret
+- SECRET
+- password
+- Password
+- pass
+- apiKey
+- ApiKey
+- api_key
+version: "1.0"

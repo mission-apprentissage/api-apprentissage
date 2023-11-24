@@ -1,0 +1,40 @@
+{
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "files.insertFinalNewline": true,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/*/lib": true,
+    "**/*/build": true,
+    "**/.webpack": true
+  },
+  "files.watcherExclude": {
+    "**/*/lib": true,
+    "**/*/dist": true,
+    "**/*/build": true,
+    "**/.webpack": true,
+    "**/node_modules": false
+  },
+  "search.exclude": {
+    "**/*/lib": true,
+    "**/*/dist": true,
+    "**/*/build": true,
+    "**/.webpack": true,
+    "**/.next": true,
+    "**/node_modules": true
+  },
+  "javascript.preferences.importModuleSpecifier": "relative",
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "vitest.enable": true,
+  "vitest.commandLine": "yarn test --single-thread",
+  "ansible.python.interpreterPath": "/opt/homebrew/bin/python3",
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
+}

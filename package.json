@@ -1,0 +1,111 @@
+{
+  "name": "mna",
+  "description": "[MNA] Template apprentissage",
+  "repository": "https://github.com/mission-apprentissage/template-apprentissage.git",
+  "version": "0.0.0",
+  "author": "MNA",
+  "license": "MIT",
+  "private": true,
+  "packageManager": "yarn@3.6.1",
+  "engines": {
+    "node": ">=20",
+    "npm": "please-use-yarn"
+  },
+  "workspaces": [
+    "ui",
+    "server",
+    "shared"
+  ],
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "eslint-plugin-react": "^7.32.2",
+    "global": "4.4.0",
+    "husky": "^8.0.3"
+  },
+  "scripts": {
+    "setup": ".bin/mna init:env",
+    "setup:mongodb": "docker compose exec -it mongodb mongosh --eval \"try { rs.status().ok } catch (e) { if (e.code === 94) {rs.initiate();} else {throw e} }\" --quiet",
+    "dev": "yarn services:start; yarn foreach:parallel run dev",
+    "cli": "yarn workspace server cli",
+    "seed": ".bin/mna seed:apply",
+    "deploy": ".bin/mna deploy",
+    "build": "yarn foreach:seq run build",
+    "migrations:status": "yarn cli migrations:status",
+    "migrations:up": "yarn cli migrations:up",
+    "migrations:create": "yarn cli migrations:create",
+    "server:dev": "yarn workspace server dev",
+    "ui:dev": "yarn workspace ui dev",
+    "services:start": "docker compose up --remove-orphans -d --wait",
+    "services:stop": "docker compose down",
+    "services:clean": "yarn services:stop; docker system prune --volumes",
+    "seed:update": ".bin/mna seed:update",
+    "lint": "eslint --ignore-path .gitignore --cache --ext .js,.jsx,.ts,.tsx .",
+    "lint:fix": "yarn lint --fix",
+    "prettier:fix": "prettier --write -u .",
+    "prettier:check": "prettier --check -u .",
+    "release": "semantic-release",
+    "release:interactive": ".bin/mna release:interactive",
+    "postinstall": "husky install",
+    "talisman:add-exception": "yarn node-talisman --githook pre-commit -i",
+    "e2e": "cypress open",
+    "e2e:headless": "cypress run",
+    "e2e:convert": "node cypress/convertRecords.mjs",
+    "test": "vitest",
+    "test:ci": "yarn test --run",
+    "test:ci:coverage": "yarn test:ci --coverage.include='ui' --coverage.include='server/src' --coverage.include='shared' --coverage.provider='v8' --coverage.enabled --coverage.all --coverage.exclude='**/tests' --coverage.exclude='**/.next'",
+    "test:watch": "vitest --watch",
+    "typecheck": "yarn foreach:parallel run typecheck",
+    "typecheck:ci": "yarn foreach:ci run typecheck",
+    "vault:edit": ".bin/mna vault:edit",
+    "foreach:seq": "yarn workspaces foreach -Av --exclude mna",
+    "foreach:parallel": "yarn foreach:seq -pi",
+    "foreach:ci": "yarn foreach:seq -p"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.7.1",
+    "@commitlint/config-conventional": "^17.7.0",
+    "@cypress/chrome-recorder": "^2.3.1",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/exec": "^6.0.3",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
+    "@vitest/coverage-v8": "^0.34.2",
+    "commander": "^10.0.1",
+    "cypress": "^12.17.4",
+    "eslint": "^8.47.0",
+    "eslint-config-next": "^13.4.17",
+    "eslint-import-resolver-typescript": "^3.6.0",
+    "eslint-plugin-cypress": "^2.14.0",
+    "eslint-plugin-import": "^2.28.0",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-mocha": "^10.1.0",
+    "eslint-plugin-n": "^16.2.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
+    "eslint-plugin-unused-imports": "^2.0.0",
+    "eslint-plugin-zod": "^1.4.0",
+    "lint-staged": "^14.0.1",
+    "node-talisman": "^1.29.10",
+    "prettier": "^3.0.3",
+    "semantic-release": "^21.0.7",
+    "semantic-release-slack-bot": "^4.0.0",
+    "typescript": "^5.1.6",
+    "vite-tsconfig-paths": "^4.2.0",
+    "vitest": "^0.34.2"
+  },
+  "prettier": {
+    "printWidth": 120,
+    "bracketSpacing": true,
+    "trailingComma": "es5",
+    "arrowParens": "always"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --ignore-path .gitignore --cache --fix",
+      "prettier --write -u"
+    ],
+    "*": [
+      "prettier --write -u"
+    ]
+  }
+}

@@ -1,0 +1,238 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`zodToMongoSchema > should convert email_denied schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "created_at": {
+      "bsonType": "date",
+      "description": "Date d'ajout en base de données",
+    },
+    "email": {
+      "bsonType": "string",
+      "description": "L'email rejetée",
+    },
+    "reason": {
+      "bsonType": "string",
+      "enum": [
+        "unsubscribe",
+      ],
+    },
+    "updated_at": {
+      "bsonType": "date",
+      "description": "Date de mise à jour en base de données",
+    },
+  },
+  "required": [
+    "_id",
+    "email",
+    "reason",
+    "created_at",
+  ],
+}
+`;
+
+exports[`zodToMongoSchema > should convert email_events schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "created_at": {
+      "bsonType": "date",
+    },
+    "delivered_at": {
+      "anyOf": [
+        {
+          "bsonType": "date",
+        },
+        {
+          "bsonType": "null",
+        },
+      ],
+    },
+    "email": {
+      "bsonType": "string",
+      "description": "Addresse email",
+    },
+    "errors": {
+      "bsonType": "array",
+      "items": {
+        "additionalProperties": false,
+        "bsonType": "object",
+        "properties": {
+          "message": {
+            "bsonType": "string",
+          },
+          "type": {
+            "bsonType": "string",
+            "enum": [
+              "fatal",
+              "soft_bounce",
+              "hard_bounce",
+              "complaint",
+              "invalid_email",
+              "blocked",
+              "error",
+            ],
+          },
+        },
+      },
+    },
+    "messageId": {
+      "bsonType": [
+        "string",
+        "null",
+      ],
+    },
+    "opened_at": {
+      "anyOf": [
+        {
+          "bsonType": "date",
+        },
+        {
+          "bsonType": "null",
+        },
+      ],
+    },
+    "template": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "name": {
+              "bsonType": "string",
+            },
+            "resetPasswordToken": {
+              "bsonType": "string",
+            },
+            "to": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "name",
+            "to",
+            "resetPasswordToken",
+          ],
+        },
+      ],
+    },
+    "updated_at": {
+      "bsonType": "date",
+    },
+  },
+  "required": [
+    "_id",
+    "email",
+    "template",
+    "created_at",
+    "updated_at",
+    "opened_at",
+    "delivered_at",
+    "messageId",
+    "errors",
+  ],
+}
+`;
+
+exports[`zodToMongoSchema > should convert sessions schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "created_at": {
+      "bsonType": "date",
+      "description": "Date d'ajout en base de données",
+    },
+    "expires_at": {
+      "bsonType": "date",
+      "description": "Date d'expiration",
+    },
+    "token": {
+      "bsonType": "string",
+      "description": "Token de la session",
+    },
+    "updated_at": {
+      "bsonType": "date",
+      "description": "Date de mise à jour en base de données",
+    },
+  },
+  "required": [
+    "_id",
+    "token",
+    "updated_at",
+    "created_at",
+    "expires_at",
+  ],
+}
+`;
+
+exports[`zodToMongoSchema > should convert users schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "api_key": {
+      "bsonType": [
+        "string",
+        "null",
+      ],
+      "description": "Clé API",
+    },
+    "api_key_used_at": {
+      "anyOf": [
+        {
+          "bsonType": "date",
+        },
+        {
+          "bsonType": "null",
+        },
+      ],
+      "description": "Date de dernière utilisation de la clé API",
+    },
+    "created_at": {
+      "bsonType": "date",
+      "description": "Date d'ajout en base de données",
+    },
+    "email": {
+      "bsonType": "string",
+      "description": "Email de l'utilisateur",
+    },
+    "is_admin": {
+      "bsonType": "bool",
+    },
+    "password": {
+      "bsonType": "string",
+      "description": "Mot de passe de l'utilisateur",
+    },
+    "updated_at": {
+      "bsonType": "date",
+      "description": "Date de mise à jour en base de données",
+    },
+  },
+  "required": [
+    "_id",
+    "email",
+    "password",
+    "is_admin",
+    "api_key",
+    "api_key_used_at",
+    "updated_at",
+    "created_at",
+  ],
+}
+`;

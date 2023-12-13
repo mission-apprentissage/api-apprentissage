@@ -170,7 +170,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                       "type": "string",
                     },
                     "name": {
-                      "example": "tmpl",
+                      "example": "api",
                       "type": "string",
                     },
                     "version": {
@@ -221,7 +221,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
   "servers": [
     {
       "description": "Production",
-      "url": "https://tmpl.apprentissage.beta.gouv.fr",
+      "url": "https://api.apprentissage.beta.gouv.fr",
     },
   ],
   "webhooks": {},

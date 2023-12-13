@@ -1,5 +1,6 @@
 #!/bin/bash
 set -euo pipefail
 
-export PRODUCT_NAME=tmpl
-export REPO_NAME=template-apprentissage
+export PRODUCT_NAME=api
+export REPO_NAME=api-apprentissage
+export DATABASE_NAME=api

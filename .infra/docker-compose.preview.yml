@@ -20,10 +20,10 @@ services:
     image: "ghcr.io/mission-apprentissage/mna_{{product_name}}_server:0.0.0-{{pr_number}}"
     container_name: "{{product_name}}_{{pr_number}}_server"
     environment:
-      - VIRTUAL_HOST={{pr_number}}.{{product_name}}-preview.apprentissage.beta.gouv.fr
+      - VIRTUAL_HOST={{pr_number}}.{{domain_name}}-preview.apprentissage.beta.gouv.fr
       - VIRTUAL_PATH=/api
       - VIRTUAL_PORT=5000
-      - LETSENCRYPT_HOST={{pr_number}}.{{product_name}}-preview.apprentissage.beta.gouv.fr
+      - LETSENCRYPT_HOST={{pr_number}}.{{domain_name}}-preview.apprentissage.beta.gouv.fr
       - LETSENCRYPT_EMAIL=misson.apprentissage.devops@gmail.com
     env_file: .env_server
     volumes:
@@ -45,16 +45,16 @@ services:
     env_file: .env_ui
     stop_grace_period: 30s
     environment:
-      - VIRTUAL_HOST={{pr_number}}.{{product_name}}-preview.apprentissage.beta.gouv.fr
+      - VIRTUAL_HOST={{pr_number}}.{{domain_name}}-preview.apprentissage.beta.gouv.fr
       - VIRTUAL_PATH=/
       - VIRTUAL_PORT=3000
-      - LETSENCRYPT_HOST={{pr_number}}.{{product_name}}-preview.apprentissage.beta.gouv.fr
+      - LETSENCRYPT_HOST={{pr_number}}.{{domain_name}}-preview.apprentissage.beta.gouv.fr
       - LETSENCRYPT_EMAIL=misson.apprentissage.devops@gmail.com
 
   processor:
     <<: *default
     image: "ghcr.io/mission-apprentissage/mna_{{product_name}}_server:0.0.0-{{pr_number}}"
-    container_name: "{{product_name}}_{{pr_number}}_processor"
+    container_name: "{{product_name}}_{{pr_number}}_jobs_processor"
     command: ["yarn", "cli", "processor"]
     env_file: .env_server
     stop_grace_period: 900s

@@ -24,11 +24,11 @@ Cette clé devra etre ajoutée sur [votre profile Github](https://github.com/set
 
 ### GPG
 
-Veuillez suivre les instructions dans le [README principal](../../README.md#gpg)
+[Suivre la documentation dédiée](../developpement/gpg.md)
 
 ### Provision du server
 
-TODO: See infra repo
+Le provisionnement des serveurs est géré par l'équipe transverse.
 
 ### Déclaration de l'environnement
 

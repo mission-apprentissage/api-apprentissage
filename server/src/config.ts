@@ -17,7 +17,7 @@ const config = {
   },
   session: {
     secret: env.get("SESSION_SECRET").required().asString(),
-    cookieName: "tmpl_session",
+    cookieName: "api_session",
     cookie: {
       maxAge: 30 * 24 * 3600000,
       httpOnly: true,

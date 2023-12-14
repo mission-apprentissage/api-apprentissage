@@ -10,7 +10,7 @@ export const zCoreRoutes = {
         "200": z
           .object({
             name: z.string().openapi({
-              example: "tmpl",
+              example: "api",
             }),
             version: z.string().openapi({
               example: "1.0.0",

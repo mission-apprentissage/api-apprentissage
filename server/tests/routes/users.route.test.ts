@@ -44,7 +44,7 @@ describe("Users routes", () => {
       method: "GET",
       url: "/api/auth/session",
       headers: {
-        ["Cookie"]: `tmpl_session=${token}`,
+        ["Cookie"]: `api_session=${token}`,
       },
     });
 
@@ -77,7 +77,7 @@ describe("Users routes", () => {
         is_admin: false,
       },
       headers: {
-        ["Cookie"]: `tmpl_session=${token}`,
+        ["Cookie"]: `api_session=${token}`,
       },
     });
 
@@ -113,7 +113,7 @@ describe("Users routes", () => {
         organisation_id: "64520f65d7726475fd54b3b7",
       },
       headers: {
-        ["Cookie"]: `tmpl_session=${token}`,
+        ["Cookie"]: `api_session=${token}`,
       },
     });
 

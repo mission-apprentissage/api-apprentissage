@@ -2,7 +2,6 @@
   "name": "server",
   "version": "0.0.0",
   "description": "[MNA] Template apprentissage server",
-  "repository": "https://github.com/mission-apprentissage/template-apprentissage.git",
   "author": "Mission apprentissage",
   "license": "MIT",
   "type": "module",

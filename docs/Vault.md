@@ -45,6 +45,12 @@ Pour référencer cette variable dans un fichier, il faut utiliser la syntaxe `{
 La variable `env_type` qui est définie dans le fichier `env.ini` sera automatiquement valorisée en fonction de
 l'environnement cible.
 
+## Gestion des accès
+
+Les accès au vault sont centralisés dans le [repository infra](https://github.com/mission-apprentissage/infra)
+
+Pour ajouter des accès il faut se rapprocher de l'équipe transverse.
+
 ## Vault git diff & merge
 
 Pour résoudre les conflits git sur le vault, il est possible de configurer git avec un mergetool custom. L'idée du custom merge tool est de décrypter le fichier pour appliquer le merge automatique de fichier.

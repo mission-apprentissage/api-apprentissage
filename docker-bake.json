@@ -23,7 +23,9 @@
   "target": {
     "common": {
       "args": {
-        "PUBLIC_VERSION": "${VERSION}"
+        "PUBLIC_VERSION": "${VERSION}",
+        "PUBLIC_PRODUCT_NAME": "${PRODUCT_NAME}",
+        "PUBLIC_REPO_NAME": "${REPO_NAME}"
       },
       "dockerfile": "Dockerfile",
       "platforms": ["linux/amd64"],

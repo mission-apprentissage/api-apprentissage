@@ -16,6 +16,10 @@ import { apiGet } from "../utils/api.utils";
 import { StartDsfr } from "./StartDsfr";
 
 async function getSession(): Promise<IUserPublic | undefined> {
+  if (process.env.NEXT_PHASE === "phase-production-build") {
+    return;
+  }
+
   try {
     const session: IUserPublic = await apiGet(`/auth/session`, {});
     return session;

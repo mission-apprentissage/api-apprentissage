@@ -2,7 +2,7 @@ fileignoreconfig:
 - filename: .github/workflows/release.yml
   checksum: 7933dd58c1c8a28721771b508d50e634ea96a56121b4e955d1f66af913b71222
 - filename: .infra/env.ini
-  checksum: 40a1c251b7279d66a3709359e9d51fe773ac82968455fa0b2d99434c7236a15a
+  checksum: ad2d27b8d9b8b9e49d7e71dfb1a3b96add1082dbc39e38127dec046471e5f984
 - filename: .infra/files/configs/mongodb/seed.gpg
   checksum: e2bbe5148091f534cef9a2bbd13f3ebcdf6503adbeb7a3309aaf1a70d93baa38
 - filename: .infra/files/scripts/seed.sh

@@ -70,7 +70,7 @@ jobs:
         run: echo "VERSION=$(git describe --tags --abbrev=0 | cut -c2-)" >> "$GITHUB_OUTPUT"
 
   docker-scout:
-    if: needs.release.outputs.VERSION != needs.release.outputs.PREV_VERSION
+    if: needs.release.outputs.VERSION != needs.release.outputs.PREV_VERSION && needs.release.outputs.PREV_VERSION != ''
     concurrency:
       group: "scout-${{ github.workflow }}-${{ github.ref }}"
     needs: ["release"]

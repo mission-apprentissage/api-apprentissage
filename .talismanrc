@@ -1,4 +1,6 @@
 fileignoreconfig:
+- filename: .bin/scripts/setup-local-env.sh
+  checksum: c9d412b132f3a7b8b6bde35f5acac94d1fffb87ce5ac718b6abc54b214899be2
 - filename: .github/workflows/release.yml
   checksum: 7933dd58c1c8a28721771b508d50e634ea96a56121b4e955d1f66af913b71222
 - filename: .infra/env.ini
@@ -14,7 +16,7 @@ fileignoreconfig:
 - filename: docs/developpement/gpg.md
   checksum: 137f146297aedce399926c6ddebe9bbfb22b0e924bbdbd30be2b4654f6b248ad
 - filename: server/.env.test
-  checksum: 8c4845011acedb5eae7e732ce0afae7b6689295d9a6bc5c21cc53f0a354c6a9e
+  checksum: b9cc11acc6033a57be80c6a1f85d70fdc6d9c7186de820409e64868ac44bc241
 - filename: server/tests/utils/security/accessTokenService.test.ts
   checksum: 017acd9d128165e6edcfd2c33a0f218c53b0ba2b4a77f3da3fe7b58f11d6fa90
 - filename: server/tests/utils/security/authorisationService.test.ts

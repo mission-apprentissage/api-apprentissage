@@ -37,6 +37,10 @@ RUN --mount=type=cache,target=/var/cache/apk apk add --update \
   && rm -rf /var/cache/apk/*
 
 ENV NODE_ENV production
+
+ARG PUBLIC_PRODUCT_NAME
+ENV PUBLIC_PRODUCT_NAME=$PUBLIC_PRODUCT_NAME
+
 ARG PUBLIC_VERSION
 ENV PUBLIC_VERSION=$PUBLIC_VERSION
 

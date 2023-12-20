@@ -16,7 +16,7 @@ ANSIBLE_CONFIG="${ROOT_DIR}/.infra/ansible/ansible.cfg" ansible all \
   --vault-password-file="${SCRIPT_DIR}/get-vault-password-client.sh"
 
 echo "PUBLIC_VERSION=0.0.0-local" >> "${ROOT_DIR}/server/.env"
-echo "PRODUCT_NAME=\"${PRODUCT_NAME}\"" >> "${ROOT_DIR}/server/.env"
+echo "PUBLIC_PRODUCT_NAME=\"${PRODUCT_NAME}\"" >> "${ROOT_DIR}/server/.env"
 
 echo "NEXT_PUBLIC_ENV=local" >> "${ROOT_DIR}/ui/.env"
 echo "NEXT_PUBLIC_VERSION=0.0.0-local" >> "${ROOT_DIR}/ui/.env"

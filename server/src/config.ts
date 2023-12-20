@@ -1,7 +1,7 @@
 import env from "env-var";
 
 const config = {
-  productName: env.get("PRODUCT_NAME").required().asString(),
+  productName: env.get("PUBLIC_PRODUCT_NAME").required().asString(),
   port: env.get("SERVER_PORT").required().asPortNumber(),
   version: env.get("PUBLIC_VERSION").required().asString(),
   env: env.get("ENV").required().asEnum(["local", "recette", "production", "preview", "test"]),

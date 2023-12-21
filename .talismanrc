@@ -12,7 +12,7 @@ fileignoreconfig:
 - filename: .infra/files/scripts/seed.sh
   checksum: a673a8f706cb90f2f5c9f98981b06ce95c566e67e2bb4a6323d6b1bdb8ef0233
 - filename: .infra/vault/vault.yml
-  checksum: e5aa1425e63d5b5c785464a8cdbbe93fd9f0f9d11ee32b81f67add73100396f8
+  checksum: 05fa80fc86392afea36fac7fe543d2bf51db9000f30276d46196d72b34d4b83b
 - filename: docs/developpement/1password.md
   checksum: f4eb70beab8d37ca9a1867b7d57d01f541b99372bbcccfb04301b81ad6331bcd
 - filename: docs/developpement/gpg.md

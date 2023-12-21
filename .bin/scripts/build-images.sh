@@ -36,6 +36,7 @@ fi
 export CHANNEL=$(get_channel $VERSION)
 
 # "$@" is the list of environements
+docker buildx bake --print --builder "mna-${PRODUCT_NAME}" --${mode} "$@"
 docker buildx bake --builder "mna-${PRODUCT_NAME}" --${mode} "$@"
 docker builder prune --builder "mna-${PRODUCT_NAME}" --keep-storage 20GB --force
 docker buildx stop --builder "mna-${PRODUCT_NAME}"

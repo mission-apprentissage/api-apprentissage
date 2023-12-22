@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 
 import { publicConfig } from "../config.public";
-import { Page, PAGES } from "./components/breadcrumb/Breadcrumb";
+import { NOTION_PAGES, Page, PAGES } from "./components/breadcrumb/Breadcrumb";
 
 function getSitemapItem(page: Page): MetadataRoute.Sitemap[number] {
   return {
@@ -12,6 +12,7 @@ function getSitemapItem(page: Page): MetadataRoute.Sitemap[number] {
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     getSitemapItem(PAGES.homepage()),
+    getSitemapItem(NOTION_PAGES.documentation),
     getSitemapItem(PAGES.mentionsLegales()),
     getSitemapItem(PAGES.accessibilite()),
     getSitemapItem(PAGES.cgu()),

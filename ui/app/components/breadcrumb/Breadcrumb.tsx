@@ -1,6 +1,24 @@
 import { Breadcrumb as DSFRBreadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
 import React, { FC } from "react";
 
+export const NOTION_PAGES = {
+  documentation: {
+    title: "Documentation",
+    path: "/documentation",
+    notionId: "321f3275b3394b838e2ef95df3bac056",
+  },
+  formations_apprentissage_index: {
+    title: "Présentation",
+    path: "/formations-en-apprentissage",
+    notionId: "d3707ab8b3f54cf285b13b85a67e7d63",
+  },
+  formations_apprentissage_rncp: {
+    title: "Rechercher une formation via son code RNCP",
+    path: "/formations-en-apprentissage/rncp",
+    notionId: "3bf833e84fb04e1aadcfb00d4a106bdc",
+  },
+} as const satisfies Record<string, NotionPage>;
+
 export const PAGES = {
   homepage: (): Page => ({
     title: "Accueil",
@@ -50,11 +68,15 @@ export const PAGES = {
     title: "Fiche utilisateur",
     path: `/admin/utilisateurs/${id}`,
   }),
-};
+} as const;
 
 export interface Page {
   title: string;
   path: string;
+}
+
+export interface NotionPage extends Page {
+  notionId: string;
 }
 
 interface Props {

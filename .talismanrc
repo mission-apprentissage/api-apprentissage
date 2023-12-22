@@ -29,6 +29,10 @@ fileignoreconfig:
   checksum: ef7bcbc2c76441fdafda7dc51d1e3455a59d2de3fec9e0b70ff610e6011fb097
 - filename: ui/.env.test
   checksum: f50055f6763fd45b159672e9cc465cd024cf3d5f9aacd22fad4c1a1c77114923
+- filename: ui/app/components/breadcrumb/Breadcrumb.tsx
+  checksum: 91e0291afc862997f8a0ae24174ddb53371d580d333548849b5f60af96c6207b
+- filename: ui/app/page.tsx
+  checksum: 0e679ae2b1910da52bb834ef5820998aa822947cca00cb54e23ea5da91586898
 - filename: ui/config.public.ts
   checksum: 881a79c87aabfb04bd101bc82504f66146f5b0abf322234ce1d3fcc26685caf2
 scopeconfig:

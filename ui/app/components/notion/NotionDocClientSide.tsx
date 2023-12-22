@@ -1,9 +1,9 @@
 "use client";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import Link from "next/link";
+import NextLink from "next/link";
 import { ExtendedRecordMap } from "notion-types";
-import { Suspense } from "react";
+import { ReactNode, Suspense } from "react";
 import { NotionRenderer } from "react-notion-x";
 
 import { NOTION_PAGES } from "../breadcrumb/Breadcrumb";
@@ -24,6 +24,10 @@ function resolveNotionLink(id: string) {
   return `/notion/${normalisedId}`;
 }
 
+function PageLink(props: { href: string; children: ReactNode }) {
+  return <NextLink href={props.href}>{props.children}</NextLink>;
+}
+
 export function NotionDocClientSide({ recordMap }: { recordMap: ExtendedRecordMap }) {
   return (
     <Suspense>
@@ -35,7 +39,8 @@ export function NotionDocClientSide({ recordMap }: { recordMap: ExtendedRecordMa
         darkMode={false}
         components={{
           nextImage: Image,
-          nextLink: Link,
+          nextLink: NextLink,
+          PageLink,
           Code,
           Collection,
           Equation,

@@ -12,17 +12,10 @@ interface GetNavigationItemsProps {
 const getNavigationItems = ({ user, pathname }: GetNavigationItemsProps): MainNavigationProps.Item[] => {
   let navigation: MainNavigationProps.Item[] = [
     {
-      isActive: pathname === PAGES.homepage().path,
-      text: PAGES.homepage().title,
+      isActive: pathname === NOTION_PAGES.homepage.path,
+      text: NOTION_PAGES.homepage.title,
       linkProps: {
-        href: PAGES.homepage().path,
-      },
-    },
-    {
-      isActive: pathname === NOTION_PAGES.documentation.path,
-      text: NOTION_PAGES.documentation.title,
-      linkProps: {
-        href: NOTION_PAGES.documentation.path,
+        href: NOTION_PAGES.homepage.path,
       },
     },
     {

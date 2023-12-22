@@ -2,11 +2,13 @@ import { NotionAPI } from "notion-client";
 
 import { Doc } from "@/app/components/NotionDoc";
 
+import { NOTION_PAGES } from "../components/breadcrumb/Breadcrumb";
+
 export const revalidate = 60;
 
 const fetchData = async () => {
   const notion = new NotionAPI();
-  const recordMap = await notion.getPage("Page-d-accueil-API-4b61748235d642f58cd73111f1f0423d");
+  const recordMap = await notion.getPage(NOTION_PAGES.formations_apprentissage_index.notionId);
   return recordMap;
 };
 

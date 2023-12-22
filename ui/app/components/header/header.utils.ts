@@ -2,7 +2,7 @@ import { MainNavigationProps } from "@codegouvfr/react-dsfr/MainNavigation";
 import { useMemo } from "react";
 import { IUserPublic } from "shared/models/user.model";
 
-import { PAGES } from "../breadcrumb/Breadcrumb";
+import { NOTION_PAGES, PAGES } from "../breadcrumb/Breadcrumb";
 
 interface GetNavigationItemsProps {
   user?: IUserPublic;
@@ -13,10 +13,33 @@ const getNavigationItems = ({ user, pathname }: GetNavigationItemsProps): MainNa
   let navigation: MainNavigationProps.Item[] = [
     {
       isActive: pathname === PAGES.homepage().path,
-      text: "Accueil",
+      text: PAGES.homepage().title,
       linkProps: {
         href: PAGES.homepage().path,
       },
+    },
+    {
+      isActive: pathname === NOTION_PAGES.documentation.path,
+      text: NOTION_PAGES.documentation.title,
+      linkProps: {
+        href: NOTION_PAGES.documentation.path,
+      },
+    },
+    {
+      isActive: pathname === NOTION_PAGES.formations_apprentissage_index.path,
+      text: "Formations en apprentissage",
+      menuLinks: [
+        {
+          isActive: pathname === NOTION_PAGES.formations_apprentissage_index.path,
+          text: NOTION_PAGES.formations_apprentissage_index.title,
+          linkProps: { href: NOTION_PAGES.formations_apprentissage_index.path },
+        },
+        {
+          isActive: pathname === NOTION_PAGES.formations_apprentissage_rncp.path,
+          text: NOTION_PAGES.formations_apprentissage_rncp.title,
+          linkProps: { href: NOTION_PAGES.formations_apprentissage_rncp.path },
+        },
+      ],
     },
   ];
 

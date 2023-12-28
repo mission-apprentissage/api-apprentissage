@@ -12,7 +12,8 @@ function getSitemapItem(page: Page): MetadataRoute.Sitemap[number] {
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     getSitemapItem(PAGES.homepage()),
-    getSitemapItem(NOTION_PAGES.documentation),
+    getSitemapItem(NOTION_PAGES.formations_apprentissage_index),
+    getSitemapItem(NOTION_PAGES.formations_apprentissage_rncp),
     getSitemapItem(PAGES.mentionsLegales()),
     getSitemapItem(PAGES.accessibilite()),
     getSitemapItem(PAGES.cgu()),

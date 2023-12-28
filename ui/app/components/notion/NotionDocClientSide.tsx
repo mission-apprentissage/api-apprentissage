@@ -1,12 +1,12 @@
 "use client";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import Link from "next/link";
+import NextLink from "next/link";
 import { ExtendedRecordMap } from "notion-types";
-import { Suspense } from "react";
+import { ReactNode, Suspense } from "react";
 import { NotionRenderer } from "react-notion-x";
 
-import { NOTION_PAGES } from "./breadcrumb/Breadcrumb";
+import { NOTION_PAGES } from "../breadcrumb/Breadcrumb";
 
 const Code = dynamic(() => import("react-notion-x/build/third-party/code").then((m) => m.Code));
 const Collection = dynamic(() => import("react-notion-x/build/third-party/collection").then((m) => m.Collection));
@@ -21,10 +21,14 @@ function resolveNotionLink(id: string) {
     return page.path;
   }
 
-  return `https://mission-apprentissage.notion.site/${normalisedId}`;
+  return `/notion/${normalisedId}`;
 }
 
-export const Doc = ({ recordMap }: { recordMap: ExtendedRecordMap }) => {
+function PageLink(props: { href: string; children: ReactNode }) {
+  return <NextLink href={props.href}>{props.children}</NextLink>;
+}
+
+export function NotionDocClientSide({ recordMap }: { recordMap: ExtendedRecordMap }) {
   return (
     <Suspense>
       <NotionRenderer
@@ -35,7 +39,8 @@ export const Doc = ({ recordMap }: { recordMap: ExtendedRecordMap }) => {
         darkMode={false}
         components={{
           nextImage: Image,
-          nextLink: Link,
+          nextLink: NextLink,
+          PageLink,
           Code,
           Collection,
           Equation,
@@ -45,4 +50,4 @@ export const Doc = ({ recordMap }: { recordMap: ExtendedRecordMap }) => {
       />
     </Suspense>
   );
-};
+}

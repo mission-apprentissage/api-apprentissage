@@ -1,16 +1,8 @@
-import { NotionAPI } from "notion-client";
+import { NOTION_PAGES } from "./components/breadcrumb/Breadcrumb";
+import NotionPage from "./components/notion/NotionPage";
 
-import { Doc } from "@/app/components/NotionDoc";
-
-export const revalidate = 60;
-
-const fetchData = async () => {
-  const notion = new NotionAPI();
-  const recordMap = await notion.getPage("Page-d-accueil-API-4b61748235d642f58cd73111f1f0423d");
-  return recordMap;
-};
+export const revalidate = 3_600;
 
 export default async function Home() {
-  const recordMap = await fetchData();
-  return <Doc recordMap={recordMap} />;
+  return <NotionPage pageId={NOTION_PAGES.homepage.notionId} />;
 }

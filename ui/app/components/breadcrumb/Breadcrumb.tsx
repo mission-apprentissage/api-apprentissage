@@ -2,9 +2,9 @@ import { Breadcrumb as DSFRBreadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb"
 import React, { FC } from "react";
 
 export const NOTION_PAGES = {
-  documentation: {
-    title: "Documentation",
-    path: "/documentation",
+  homepage: {
+    title: "Accueil",
+    path: "/",
     notionId: "321f3275b3394b838e2ef95df3bac056",
   },
   formations_apprentissage_index: {
@@ -20,10 +20,7 @@ export const NOTION_PAGES = {
 } as const satisfies Record<string, NotionPage>;
 
 export const PAGES = {
-  homepage: (): Page => ({
-    title: "Accueil",
-    path: "/",
-  }),
+  homepage: (): Page => NOTION_PAGES.homepage,
   mentionsLegales: (): Page => ({
     title: "Mentions Légales",
     path: "/mentions-legales",

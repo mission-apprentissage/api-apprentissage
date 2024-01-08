@@ -5,17 +5,27 @@ export const NOTION_PAGES = {
   homepage: {
     title: "Accueil",
     path: "/",
+    notionId: "4b61748235d642f58cd73111f1f0423d",
+  },
+  donnees_disponibles: {
+    title: "Données disponibles",
+    path: "/doc/donnees_disponibles",
     notionId: "321f3275b3394b838e2ef95df3bac056",
   },
-  formations_apprentissage_index: {
-    title: "Présentation",
-    path: "/formations-en-apprentissage",
-    notionId: "d3707ab8b3f54cf285b13b85a67e7d63",
-  },
-  formations_apprentissage_rncp: {
-    title: "Rechercher une formation via son code RNCP",
-    path: "/formations-en-apprentissage/rncp",
+  "/donnees/certifications_professionnelles": {
+    title: "Certifications professionnelles réalisables en apprentissage",
+    path: "/doc/donnees/certifications_professionnelles",
     notionId: "3bf833e84fb04e1aadcfb00d4a106bdc",
+  },
+  "/donnees/diplomes_titres": {
+    title: "Diplômes et titres réalisables en apprentissage",
+    path: "/doc/donnees/diplomes_titres",
+    notionId: "02a04b5f988f49379ab415cd35a86c3d",
+  },
+  "/donnees/correspondance_RNCP_CFD": {
+    title: "Correspondance RNCP et CFD",
+    path: "/doc/donnees/correspondance_RNCP_CFD",
+    notionId: "653bab8a42f4419a9bac2fd4d6725cce",
   },
 } as const satisfies Record<string, NotionPage>;
 

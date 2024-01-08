@@ -12,8 +12,10 @@ function getSitemapItem(page: Page): MetadataRoute.Sitemap[number] {
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     getSitemapItem(PAGES.homepage()),
-    getSitemapItem(NOTION_PAGES.formations_apprentissage_index),
-    getSitemapItem(NOTION_PAGES.formations_apprentissage_rncp),
+    getSitemapItem(NOTION_PAGES.donnees_disponibles),
+    getSitemapItem(NOTION_PAGES["/donnees/certifications_professionnelles"]),
+    getSitemapItem(NOTION_PAGES["/donnees/diplomes_titres"]),
+    getSitemapItem(NOTION_PAGES["/donnees/correspondance_RNCP_CFD"]),
     getSitemapItem(PAGES.mentionsLegales()),
     getSitemapItem(PAGES.accessibilite()),
     getSitemapItem(PAGES.cgu()),

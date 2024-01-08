@@ -19,20 +19,18 @@ const getNavigationItems = ({ user, pathname }: GetNavigationItemsProps): MainNa
       },
     },
     {
-      isActive: pathname === NOTION_PAGES.formations_apprentissage_index.path,
-      text: "Formations en apprentissage",
+      isActive: pathname === NOTION_PAGES.donnees_disponibles.path,
+      text: "Documentation",
       menuLinks: [
-        {
-          isActive: pathname === NOTION_PAGES.formations_apprentissage_index.path,
-          text: NOTION_PAGES.formations_apprentissage_index.title,
-          linkProps: { href: NOTION_PAGES.formations_apprentissage_index.path },
-        },
-        {
-          isActive: pathname === NOTION_PAGES.formations_apprentissage_rncp.path,
-          text: NOTION_PAGES.formations_apprentissage_rncp.title,
-          linkProps: { href: NOTION_PAGES.formations_apprentissage_rncp.path },
-        },
-      ],
+        NOTION_PAGES.donnees_disponibles,
+        NOTION_PAGES["/donnees/certifications_professionnelles"],
+        NOTION_PAGES["/donnees/diplomes_titres"],
+        NOTION_PAGES["/donnees/correspondance_RNCP_CFD"],
+      ].map((page) => ({
+        isActive: pathname === page.path,
+        text: page.title,
+        linkProps: { href: page.path },
+      })),
     },
   ];
 

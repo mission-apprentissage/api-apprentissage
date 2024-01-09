@@ -124,7 +124,7 @@ program
   });
 
 program
-  .command("job_processor")
+  .command("job_processor:start")
   .description("Run job processor")
   .action(async () => {
     const signal = createProcessExitSignal();

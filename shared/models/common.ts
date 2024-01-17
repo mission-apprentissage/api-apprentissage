@@ -1,7 +1,7 @@
 import type { CreateIndexesOptions, IndexSpecification } from "mongodb";
 import { ZodType } from "zod";
 
-export type CollectionName = "email_denied" | "email_events" | "sessions" | "users" | "acces";
+export type CollectionName = "email_denied" | "email_events" | "sessions" | "users" | "acce";
 
 export interface IModelDescriptor {
   zod: ZodType;

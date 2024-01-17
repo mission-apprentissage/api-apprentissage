@@ -3,7 +3,7 @@ import {
   oleoduc,
   writeData,
 } from "oleoduc";
-import { IAcce } from "shared/models/acce.model";
+import { IAcce } from "shared/models/acce/acce.model";
 
 import parentLogger from "@/common/logger";
 
@@ -33,7 +33,7 @@ export const run_acce_importer = async () => {
     writeData(
       async (data: Omit<IAcce, "_id" | "updated_at" | "created_at">) => {
         try {
-          const res = await getDbCollection("acces").updateOne(
+          const res = await getDbCollection("acce").updateOne(
             { numero_uai: data.numero_uai },
             {
               $set: {

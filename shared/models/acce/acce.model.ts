@@ -1,9 +1,9 @@
 import { z } from "zod";
 
-import { extensions } from "../helpers/zodHelpers/zodPrimitives";
-import { IModelDescriptor, zObjectId } from "./common";
+import { extensions } from "../../helpers/zodHelpers/zodPrimitives";
+import { IModelDescriptor, zObjectId } from "../common";
 
-const collectionName = "acces" as const;
+const collectionName = "acce" as const;
 
 const indexes: IModelDescriptor["indexes"] = [[{ numero_uai: 1 }, {}]];
 

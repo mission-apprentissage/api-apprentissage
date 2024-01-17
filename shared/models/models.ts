@@ -1,4 +1,4 @@
-import accesModelDescriptor, { IAcce } from "./acce.model";
+import acceModelDescriptor, { IAcce } from "./acce/acce.model";
 import { IModelDescriptor } from "./common";
 import emailDeniedModelDescriptor, { IEmailDenied } from "./email_denied.model";
 import emailEventsModelDescriptor, { IEmailEvent } from "./email_event.model";
@@ -10,7 +10,7 @@ export const modelDescriptors: IModelDescriptor[] = [
   sessionsModelDescriptor,
   emailDeniedModelDescriptor,
   emailEventsModelDescriptor,
-  accesModelDescriptor,
+  acceModelDescriptor,
 ];
 
 export type IDocumentMap = {

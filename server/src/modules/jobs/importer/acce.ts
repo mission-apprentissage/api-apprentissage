@@ -1,4 +1,9 @@
-import { filterData, oleoduc, writeData } from "oleoduc";
+import {
+  // filterData,
+  oleoduc,
+  writeData,
+} from "oleoduc";
+import { IAcce } from "shared/models/acce.model";
 
 import parentLogger from "@/common/logger";
 
@@ -8,15 +13,9 @@ import { parseCsv } from "../../../common/utils/parserUtils";
 
 const logger = parentLogger.child({ module: "importer:acce" });
 
-const ETATS = {
-  Ouvert: "1",
-  "À fermer": "2",
-  "À ouvrir": "3",
-  Fermé: "4",
-};
-
+// 17/01/2024 151_510 records
 export const run_acce_importer = async () => {
-  logger.info("Import ACCE data starting...");
+  logger.info("Geting ACCE file...");
 
   const stream = await streamCsvExtraction();
   const stats = {
@@ -26,24 +25,21 @@ export const run_acce_importer = async () => {
     failed: 0,
   };
 
+  logger.info("Import ACCE data starting...");
+
   await oleoduc(
     stream,
     parseCsv(),
-    // @ts-expect-error: TODO
-    filterData((data) => {
-      stats.total++;
-      return [ETATS["Ouvert"], ETATS["À ouvrir"]].includes(data.etat_etablissement);
-      // && Object.values(NATURES).includes(data.nature_uai)
-    }),
     writeData(
-      // @ts-expect-error: TODO
-      async (data) => {
+      async (data: Omit<IAcce, "_id" | "updated_at" | "created_at">) => {
         try {
           const res = await getDbCollection("acces").updateOne(
             { numero_uai: data.numero_uai },
             {
               $set: {
                 ...data,
+                created_at: new Date(),
+                updated_at: new Date(),
               },
             },
             { upsert: true }
@@ -52,6 +48,7 @@ export const run_acce_importer = async () => {
           stats.updated += res.modifiedCount;
           stats.created += res.upsertedCount;
         } catch (e) {
+          console.log(e.errInfo.details.schemaRulesNotSatisfied[0]);
           logger.error(e, `Impossible d'importer l'établissement ${data.numero_uai}`);
           stats.failed++;
         }

@@ -7,6 +7,13 @@ const collectionName = "acces" as const;
 
 const indexes: IModelDescriptor["indexes"] = [[{ numero_uai: 1 }, {}]];
 
+// const ETATS = { // etat_etablissement
+//   Ouvert: "1",
+//   "À fermer": "2",
+//   "À ouvrir": "3",
+//   Fermé: "4",
+// };
+
 export const ZAcce = z
   .object({
     _id: zObjectId,
@@ -23,8 +30,8 @@ export const ZAcce = z
     etat_etablissement_libe: z.string().optional(),
     ministere_tutelle: z.string().optional(),
     ministere_tutelle_libe: z.string().optional(),
-    tutelle_secondaire: z.string().optional(),
-    tutelle_secondaire_libe: z.string().optional(),
+    tutelle_2: z.string().optional(),
+    tutelle_2_libe: z.string().optional(),
     secteur_public_prive: z.string().optional(),
     secteur_public_prive_libe: z.string().optional(),
     sigle_uai: z.string().optional(),
@@ -46,7 +53,7 @@ export const ZAcce = z
     pays_libe: z.string().optional(),
     departement_insee_3: z.string().optional(),
     departement_insee_3_libe: z.string().optional(),
-    denomination_principale_uai: z.string().optional(),
+    denomination_principale: z.string().optional(),
     appellation_officielle: z.string().optional(),
     patronyme_uai: z.string().optional(),
     hebergement_etablissement: z.string().optional(),

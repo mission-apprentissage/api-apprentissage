@@ -1,14 +1,13 @@
 import { AxiosInstance } from "axios";
+import queryString from "query-string";
 
 import logger from "@/common/logger";
 import config from "@/config";
 
 import { apiRateLimiter } from "../utils/apiUtils";
 import { delay } from "../utils/asyncUtils";
-import { fetchData, fetchStream } from "../utils/httpUtils";
+import { fetchStream } from "../utils/httpUtils";
 import getApiClient from "./client";
-
-export const LIMIT_TRAINING_LINKS_PER_REQUEST = 100;
 
 const CHROME_USER_AGENT =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.128 Safari/537.36";
@@ -18,7 +17,6 @@ const SESSION_COOKIE_NAME = "men_default";
 const executeWithRateLimiting = apiRateLimiter("acce", {
   nbRequests: 1,
   durationInSeconds: 1,
-  maxQueueSize: LIMIT_TRAINING_LINKS_PER_REQUEST,
   client: getApiClient(
     {
       baseURL: "https://dep.adc.education.fr/acce",
@@ -28,7 +26,7 @@ const executeWithRateLimiting = apiRateLimiter("acce", {
   ),
 });
 
-function getFormHeaders(auth?: any) {
+function getFormHeaders(auth?: { Cookie: string }) {
   return {
     "User-Agent": CHROME_USER_AGENT,
     "Content-Type": "application/x-www-form-urlencoded",
@@ -40,35 +38,30 @@ async function login() {
   return executeWithRateLimiting(async (client: AxiosInstance) => {
     logger.debug(`Logging to ACCE...`);
 
-    const response = await fetchData(
-      `/ajax/ident.php`,
-      {
-        raw: true,
-        method: "POST",
-        headers: getFormHeaders(),
-        data: {
-          id: config.api.acce.username,
-          mdp: config.api.acce.password,
-          nom: null,
-          prenom: null,
-          email: null,
-          fonction: null,
-          organisme: null,
-          commentaire: null,
-        },
-      },
-      client
-    );
+    const data = JSON.stringify({
+      id: config.api.acce.username,
+      mdp: config.api.acce.password,
+      nom: null,
+      prenom: null,
+      email: null,
+      fonction: null,
+      organisme: null,
+      commentaire: null,
+      captcha_code: null,
+    });
+    const response = await client.post(`/ajax/ident.php`, queryString.stringify({ json: data }), {
+      headers: getFormHeaders(),
+    });
 
-    const cookie = response.headers["set-cookie"][0];
-    const sessionId = cookie.match(new RegExp(`${SESSION_COOKIE_NAME}=(.*);`))[1];
+    const cookie = response.headers["set-cookie"]?.[0] ?? "";
+    const sessionId = cookie.match(new RegExp(`${SESSION_COOKIE_NAME}=(.*);`))?.[1];
     return {
       Cookie: `${SESSION_COOKIE_NAME}=${sessionId}`,
     };
   });
 }
 
-async function startExtraction(auth: any) {
+async function startExtraction(auth: { Cookie: string }) {
   return executeWithRateLimiting(async (client: AxiosInstance) => {
     logger.debug(`Requesting a new extraction...`);
 
@@ -142,21 +135,22 @@ async function startExtraction(auth: any) {
     params.append("chk_uai[]", "date_geolocalisation");
     params.append("chk_uai[]", "source");
 
-    const { data } = await client.post(`/getextract.php`, {
+    const reponse = await client.post(`/getextract.php`, params.toString(), {
       headers: getFormHeaders(auth),
-      data: params.toString(),
     });
 
-    const [, extractionId] = data.match(/getextract\.php\?ex_id=(.*)"/);
+    const [, extractionId] = reponse.data.match(/getextract\.php\?ex_id=(.*)"/);
 
     return { extractionId };
   });
 }
 
-async function pollExtraction(auth: any, extractionId: string) {
+async function pollExtraction(auth: { Cookie: string }, extractionId: string) {
   return executeWithRateLimiting(async (client: AxiosInstance) => {
     logger.debug(`Polling extraction ${extractionId}...`);
+    console.log("Preparing file...");
 
+    // TODO refactor fetchStream
     const response = await fetchStream(
       `/getextract.php?ex_id=${extractionId}`,
       {
@@ -185,6 +179,7 @@ export async function streamCsvExtraction() {
 
   let stream;
   const { extractionId } = await startExtraction(auth);
+
   while (!(stream = await pollExtraction(auth, extractionId))) {
     await delay(5000); // pollMs
   }

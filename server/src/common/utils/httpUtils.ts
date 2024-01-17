@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig, CreateAxiosDefaults } from "axios";
 import http from "http";
 import https from "https";
-import { decodeStream } from "iconv-lite";
+import iconv from "iconv-lite";
 import { compose } from "oleoduc";
 
 import logger from "@/common/logger";
@@ -60,7 +60,7 @@ async function fetchStream(url: string, options: Partial<FetchOptions> = {}, cli
   const { raw, encoding = "UTF-8", ...rest } = options;
   const response = await _fetch(url, { responseType: "stream", ...rest }, client);
 
-  const stream = compose(response.data, decodeStream(encoding));
+  const stream = compose(response.data, iconv.decodeStream(encoding));
 
   if (raw) {
     return {

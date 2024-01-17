@@ -13,6 +13,7 @@ import config from "../../config";
 import { createUser } from "../actions/users.actions";
 import { recreateIndexes } from "./db/recreateIndexes";
 import { validateModels } from "./db/schemaValidation";
+import { run_acce_importer } from "./importer/acce";
 
 export async function setupJobProcessor() {
   return initJobProcessor({
@@ -50,6 +51,10 @@ export async function setupJobProcessor() {
       "migrations:create": {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         handler: async (job) => createMigration(job.payload as any),
+      },
+      "importer:acce": {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        handler: async () => run_acce_importer(),
       },
     },
   });

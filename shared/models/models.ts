@@ -1,3 +1,4 @@
+import accesModelDescriptor, { IAcce } from "./acce.model";
 import { IModelDescriptor } from "./common";
 import emailDeniedModelDescriptor, { IEmailDenied } from "./email_denied.model";
 import emailEventsModelDescriptor, { IEmailEvent } from "./email_event.model";
@@ -9,6 +10,7 @@ export const modelDescriptors: IModelDescriptor[] = [
   sessionsModelDescriptor,
   emailDeniedModelDescriptor,
   emailEventsModelDescriptor,
+  accesModelDescriptor,
 ];
 
 export type IDocumentMap = {
@@ -16,4 +18,5 @@ export type IDocumentMap = {
   email_events: IEmailEvent;
   users: IUser;
   sessions: ISession;
+  acces: IAcce;
 };

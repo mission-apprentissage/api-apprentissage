@@ -198,6 +198,12 @@ program
   .option("-q, --queued", "Run job asynchronously", false)
   .action(createJobAction("indexes:recreate"));
 
+program
+  .command("importer:acce")
+  .description("Import acce data")
+  .option("-q, --queued", "Run job asynchronously", false)
+  .action(createJobAction("importer:acce"));
+
 program.hook("preAction", (_, actionCommand) => {
   const command = actionCommand.name();
   // on définit le module du logger en global pour distinguer les logs des jobs

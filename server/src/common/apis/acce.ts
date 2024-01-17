@@ -72,14 +72,75 @@ async function startExtraction(auth: any) {
   return executeWithRateLimiting(async (client: AxiosInstance) => {
     logger.debug(`Requesting a new extraction...`);
 
+    // option_specificite_uai
+    // option_type_zone_uai
+    // option_specificite_filtre
+    // option_type_zone_filtre
+
     const params = new URLSearchParams();
     params.append("opt_sort_uai", "numero_uai");
     params.append("opt_type", "csv");
     params.append("chk_uai[]", "nature_uai");
     params.append("chk_uai[]", "nature_uai_libe");
+    params.append("chk_uai[]", "type_uai");
+    params.append("chk_uai[]", "type_uai_libe");
     params.append("chk_uai[]", "etat_etablissement");
     params.append("chk_uai[]", "etat_etablissement_libe");
+    params.append("chk_uai[]", "ministere_tutelle");
+    params.append("chk_uai[]", "ministere_tutelle_libe");
+    params.append("chk_uai[]", "tutelle_secondaire");
+    params.append("chk_uai[]", "tutelle_secondaire_libe");
+    params.append("chk_uai[]", "secteur_public_prive");
+    params.append("chk_uai[]", "secteur_public_prive_libe");
+    params.append("chk_uai[]", "sigle_uai");
+    params.append("chk_uai[]", "categorie_juridique");
+    params.append("chk_uai[]", "categorie_juridique_libe");
+    params.append("chk_uai[]", "contrat_etablissement");
+    params.append("chk_uai[]", "contrat_etablissement_libe");
+    params.append("chk_uai[]", "categorie_financiere");
+    params.append("chk_uai[]", "categorie_financiere_libe");
+    params.append("chk_uai[]", "situation_comptable");
+    params.append("chk_uai[]", "situation_comptable_libe");
+    params.append("chk_uai[]", "niveau_uai");
+    params.append("chk_uai[]", "niveau_uai_libe");
+    params.append("chk_uai[]", "commune");
+    params.append("chk_uai[]", "commune_libe");
+    params.append("chk_uai[]", "academie");
+    params.append("chk_uai[]", "academie_libe");
+    params.append("chk_uai[]", "pays");
+    params.append("chk_uai[]", "pays_libe");
+    params.append("chk_uai[]", "departement_insee_3");
+    params.append("chk_uai[]", "departement_insee_3_libe");
+    params.append("chk_uai[]", "denomination_principale_uai");
+    params.append("chk_uai[]", "appellation_officielle");
+    params.append("chk_uai[]", "patronyme_uai");
+    params.append("chk_uai[]", "hebergement_etablissement");
+    params.append("chk_uai[]", "hebergement_etablissement_libe");
+    params.append("chk_uai[]", "numero_siren_siret_uai");
+    params.append("chk_uai[]", "numero_finess_uai");
+    params.append("chk_uai[]", "date_ouverture");
+    params.append("chk_uai[]", "date_fermeture");
+    params.append("chk_uai[]", "date_derniere_mise_a_jour");
+    params.append("chk_uai[]", "lieu_dit_uai");
+    params.append("chk_uai[]", "adresse_uai");
+    params.append("chk_uai[]", "boite_postale_uai");
+    params.append("chk_uai[]", "code_postal_uai");
+    params.append("chk_uai[]", "etat_sirad_uai");
+    params.append("chk_uai[]", "localite_acheminement_uai");
+    params.append("chk_uai[]", "pays_etranger_acheminement");
+    params.append("chk_uai[]", "numero_telephone_uai");
+    params.append("chk_uai[]", "numero_telecopieur_uai");
+    params.append("chk_uai[]", "mention_distribution");
     params.append("chk_uai[]", "mel_uai");
+    params.append("chk_uai[]", "site_web");
+    params.append("chk_uai[]", "coordonnee_x");
+    params.append("chk_uai[]", "coordonnee_y");
+    params.append("chk_uai[]", "appariement");
+    params.append("chk_uai[]", "appariement_complement");
+    params.append("chk_uai[]", "localisation");
+    params.append("chk_uai[]", "localisation_complement");
+    params.append("chk_uai[]", "date_geolocalisation");
+    params.append("chk_uai[]", "source");
 
     const { data } = await client.post(`/getextract.php`, {
       headers: getFormHeaders(auth),

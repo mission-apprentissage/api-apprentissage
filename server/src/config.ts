@@ -48,6 +48,12 @@ const config = {
     },
   },
   disable_processors: env.get("DISABLE_PROCESSORS").default("false").asBool(),
+  api: {
+    acce: {
+      username: env.get("API_ACCE_USERNAME").required().asString(),
+      password: env.get("API_ACCE_PASSWORD").required().asString(),
+    },
+  },
 };
 
 export default config;

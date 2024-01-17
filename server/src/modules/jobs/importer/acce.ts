@@ -1,9 +1,11 @@
 import {
   // filterData,
   oleoduc,
+  transformIntoStream,
   writeData,
 } from "oleoduc";
 import { IAcce } from "shared/models/acce/acce.model";
+import unzip from "unzip-stream";
 
 import parentLogger from "@/common/logger";
 
@@ -27,6 +29,21 @@ export const run_acce_importer = async () => {
 
   logger.info("Import ACCE data starting...");
 
+  await oleoduc(
+    stream,
+    unzip.Parse(),
+    transformIntoStream(async (data) => {
+      console.log(data);
+      // await oleoduc(
+      //   data,
+      //   parseCsv(),
+      //   writeData((obj) => console.log(obj))
+      // );
+      return data; //Return a stream
+    })
+    // writeData((obj) => console.log(obj))
+  );
+  exit;
   await oleoduc(
     stream,
     parseCsv(),

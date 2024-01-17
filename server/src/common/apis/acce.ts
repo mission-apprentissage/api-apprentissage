@@ -65,12 +65,9 @@ async function startExtraction(auth: { Cookie: string }) {
   return executeWithRateLimiting(async (client: AxiosInstance) => {
     logger.debug(`Requesting a new extraction...`);
 
-    // option_specificite_uai
-    // option_type_zone_uai
-    // option_specificite_filtre
-    // option_type_zone_filtre
-
     const params = new URLSearchParams();
+
+    //ACCE_UAI.csv
     params.append("opt_sort_uai", "numero_uai");
     params.append("opt_type", "csv");
     params.append("chk_uai[]", "nature_uai");
@@ -134,6 +131,29 @@ async function startExtraction(auth: { Cookie: string }) {
     params.append("chk_uai[]", "localisation_complement");
     params.append("chk_uai[]", "date_geolocalisation");
     params.append("chk_uai[]", "source");
+
+    //ACCE_UAI_SPEC.csv
+    params.append("chk_specificite[]", "numero_uai_trouve"); // numero_uai
+    params.append("chk_specificite[]", "code"); // specificite_uai
+    params.append("chk_specificite[]", "code_libe"); // specificite_uai_libe
+    params.append("chk_specificite[]", "date_ouverture"); // date_ouverture
+    params.append("chk_specificite[]", "date_fermeture"); // date_fermeture
+
+    //ACCE_UAI_ZONE.csv
+    params.append("chk_zone[]", "numero_uai_trouve"); // numero_uai
+    params.append("chk_zone[]", "type_zone_uai"); // type_zone_uai
+    params.append("chk_zone[]", "type_zone_uai_libe"); // type_zone_uai_libe
+    params.append("chk_zone[]", "zone"); // zone
+    params.append("chk_zone[]", "zone_libe"); // zone_libe
+    params.append("chk_zone[]", "date_ouverture"); // date_ouverture
+    params.append("chk_zone[]", "date_fermeture"); // date_fermeture
+    params.append("chk_zone[]", "date_derniere_mise_a_jour"); // date_derniere_mise_a_jour
+
+    // ACCE_UAI_FILLE.csv
+    params.append("chk_filles", "1");
+
+    //ACCE_UAI_MERE.csv
+    params.append("chk_meres", "1");
 
     const reponse = await client.post(`/getextract.php`, params.toString(), {
       headers: getFormHeaders(auth),

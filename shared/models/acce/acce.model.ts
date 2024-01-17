@@ -18,9 +18,8 @@ export const ZAcce = z
   .object({
     _id: zObjectId,
     numero_uai: extensions.uai,
+
     // MERE || FILE numero_uai_trouve	numero_uai_mere	type_rattachement
-    // UAI SPEC numero_uai	specificite_uai	specificite_uai_libe	date_ouverture	date_fermeture
-    // UAI ZONE numero_uai	type_zone_uai	type_zone_uai_libe	zone	zone_libe	date_ouverture	date_fermeture	date_derniere_mise_a_jour
 
     nature_uai: z.string().optional(),
     nature_uai_libe: z.string().optional(),

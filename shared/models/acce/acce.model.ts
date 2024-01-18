@@ -26,8 +26,8 @@ export const ZAcce = z
     numero_uai_fille: z.string().optional(),
     type_rattachement_fille: z.string().optional(),
 
-    zone: ZAcceZone,
-    specificite: ZAcceSpecificite,
+    zones: z.array(ZAcceZone.optional()),
+    specificites: z.array(ZAcceSpecificite.optional()),
 
     nature_uai: z.string().optional(),
     nature_uai_libe: z.string().optional(),

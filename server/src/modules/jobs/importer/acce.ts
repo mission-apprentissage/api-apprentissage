@@ -53,13 +53,18 @@ export const run_acce_importer = async () => {
     writeData(
       async (data: Omit<IAcce, "_id" | "updated_at" | "created_at">) => {
         try {
+          logger.info(`Update ${data.numero_uai}`);
           const res = await getDbCollection("acce").updateOne(
             { numero_uai: data.numero_uai },
             {
               $set: {
                 ...data,
-                created_at: new Date(),
+                zones: [],
+                specificites: [],
                 updated_at: new Date(),
+              },
+              $setOnInsert: {
+                created_at: new Date(),
               },
             },
             { upsert: true }
@@ -86,13 +91,18 @@ export const run_acce_importer = async () => {
           { numero_uai: data.numero_uai },
           {
             $set: {
-              specificite: {
-                specificite_uai: data.specificite_uai,
-                specificite_uai_libe: data.specificite_uai_libe,
-                date_ouverture: data.date_ouverture,
-                date_fermeture: data.date_fermeture,
-              },
               updated_at: new Date(),
+            },
+            $addToSet: {
+              specificites: {
+                ...(data.specificite_uai ? { specificite_uai: data.specificite_uai } : {}),
+                ...(data.specificite_uai_libe ? { specificite_uai_libe: data.specificite_uai_libe } : {}),
+                ...(data.date_ouverture ? { date_ouverture: data.date_ouverture } : {}),
+                ...(data.date_fermeture ? { date_fermeture: data.date_fermeture } : {}),
+              },
+            },
+            $setOnInsert: {
+              created_at: new Date(),
             },
           },
           { upsert: true }
@@ -107,28 +117,40 @@ export const run_acce_importer = async () => {
     parseCsv(),
     writeData(
       async (data: Omit<IAcce, "_id" | "updated_at" | "created_at"> & IAcceZone) => {
-        await getDbCollection("acce").updateOne(
-          { numero_uai: data.numero_uai },
-          {
-            $set: {
-              zone: {
-                type_zone_uai: data.type_zone_uai,
-                type_zone_uai_libe: data.type_zone_uai_libe,
-                zone: data.zone,
-                zone_libe: data.zone_libe,
-                date_ouverture: data.date_ouverture,
-                date_fermeture: data.date_fermeture,
-                date_derniere_mise_a_jour: data.date_derniere_mise_a_jour,
+        try {
+          await getDbCollection("acce").updateOne(
+            { numero_uai: data.numero_uai },
+            {
+              $set: {
+                updated_at: new Date(),
               },
-              updated_at: new Date(),
+              $addToSet: {
+                zones: {
+                  ...(data.type_zone_uai ? { type_zone_uai: data.type_zone_uai } : {}),
+                  ...(data.type_zone_uai_libe ? { type_zone_uai_libe: data.type_zone_uai_libe } : {}),
+                  ...(data.zone ? { zone: data.zone } : {}),
+                  ...(data.zone_libe ? { zone_libe: data.zone_libe } : {}),
+                  ...(data.date_ouverture ? { date_ouverture: data.date_ouverture } : {}),
+                  ...(data.date_fermeture ? { date_fermeture: data.date_fermeture } : {}),
+                  ...(data.date_derniere_mise_a_jour
+                    ? { date_derniere_mise_a_jour: data.date_derniere_mise_a_jour }
+                    : {}),
+                },
+              },
+              $setOnInsert: {
+                created_at: new Date(),
+              },
             },
-          },
-          { upsert: true }
-        );
+            { upsert: true }
+          );
+        } catch (e) {
+          console.log(e.errInfo.details.schemaRulesNotSatisfied[0]);
+        }
       },
       { parallel: 10 }
     )
   );
+
   await oleoduc(
     acce_uai_mere,
     parseCsv(),
@@ -138,9 +160,12 @@ export const run_acce_importer = async () => {
           { numero_uai: data.numero_uai },
           {
             $set: {
-              numero_uai_mere: data.numero_uai_mere,
-              type_rattachement_mere: data.type_rattachement,
+              ...(data.numero_uai_mere ? { numero_uai_mere: data.numero_uai_mere } : {}),
+              ...(data.type_rattachement ? { type_rattachement_mere: data.type_rattachement } : {}),
               updated_at: new Date(),
+            },
+            $setOnInsert: {
+              created_at: new Date(),
             },
           },
           { upsert: true }
@@ -149,6 +174,7 @@ export const run_acce_importer = async () => {
       { parallel: 10 }
     )
   );
+
   await oleoduc(
     acce_uai_fille,
     parseCsv(),
@@ -158,9 +184,12 @@ export const run_acce_importer = async () => {
           { numero_uai: data.numero_uai },
           {
             $set: {
-              numero_uai_fille: data.numero_uai_fille,
-              type_rattachement_fille: data.type_rattachement,
+              ...(data.numero_uai_fille ? { numero_uai_fille: data.numero_uai_fille } : {}),
+              ...(data.type_rattachement ? { type_rattachement_fille: data.type_rattachement } : {}),
               updated_at: new Date(),
+            },
+            $setOnInsert: {
+              created_at: new Date(),
             },
           },
           { upsert: true }

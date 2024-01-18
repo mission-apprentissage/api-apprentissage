@@ -19,18 +19,32 @@ const getNavigationItems = ({ user, pathname }: GetNavigationItemsProps): MainNa
       },
     },
     {
-      isActive: pathname === NOTION_PAGES.donnees_disponibles.path,
-      text: "Documentation",
-      menuLinks: [
-        NOTION_PAGES.donnees_disponibles,
-        NOTION_PAGES["/donnees/certifications_professionnelles"],
-        NOTION_PAGES["/donnees/diplomes_titres"],
-        NOTION_PAGES["/donnees/correspondance_RNCP_CFD"],
-      ].map((page) => ({
-        isActive: pathname === page.path,
-        text: page.title,
-        linkProps: { href: page.path },
-      })),
+      isActive: pathname === NOTION_PAGES.donnees.path,
+      text: NOTION_PAGES.donnees.title,
+      linkProps: {
+          href: NOTION_PAGES.donnees.path,
+        },
+    },
+    {
+      isActive: pathname === NOTION_PAGES.usage.path,
+      text: NOTION_PAGES.usage.title,
+      linkProps: {
+          href: NOTION_PAGES.usage.path,
+        },
+    },
+    {
+      isActive: pathname === NOTION_PAGES.documentation_technique.path,
+      text: NOTION_PAGES.documentation_techniques.title,
+      linkProps: {
+          href: NOTION_PAGES.documentation_technique.path,
+        },
+    },
+    {
+      isActive: pathname === NOTION_PAGES.acces.path,
+      text: NOTION_PAGES.acces.title,
+      linkProps: {
+          href: NOTION_PAGES.acces.path,
+        },
     },
   ];
 

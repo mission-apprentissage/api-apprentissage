@@ -1,4 +1,5 @@
 import { AxiosInstance } from "axios";
+import { compose } from "oleoduc";
 import queryString from "query-string";
 
 import logger from "@/common/logger";
@@ -6,7 +7,6 @@ import config from "@/config";
 
 import { apiRateLimiter } from "../utils/apiUtils";
 import { delay } from "../utils/asyncUtils";
-import { fetchStream } from "../utils/httpUtils";
 import getApiClient from "./client";
 
 const CHROME_USER_AGENT =
@@ -170,27 +170,22 @@ async function pollExtraction(auth: { Cookie: string }, extractionId: string) {
     logger.debug(`Polling extraction ${extractionId}...`);
     console.log("Preparing file...");
 
-    // TODO refactor fetchStream
-    const response = await fetchStream(
-      `/getextract.php?ex_id=${extractionId}`,
-      {
-        raw: true,
-        encoding: "iso-8859-1",
-        method: "GET",
-        headers: {
-          "User-Agent": CHROME_USER_AGENT,
-          ...auth,
-        },
+    const response = await client.get(`/getextract.php?ex_id=${extractionId}`, {
+      headers: {
+        "User-Agent": CHROME_USER_AGENT,
+        ...auth,
       },
-      client
-    );
+      responseType: "stream",
+    });
+
+    const stream = compose(response.data);
 
     const isReady = response.headers["content-disposition"]?.startsWith("attachement");
     if (!isReady) {
-      response.stream.destroy();
+      stream.destroy();
       return null;
     }
-    return response.stream;
+    return stream;
   });
 }
 

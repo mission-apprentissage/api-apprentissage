@@ -2,6 +2,8 @@ import { z } from "zod";
 
 import { extensions } from "../../helpers/zodHelpers/zodPrimitives";
 import { IModelDescriptor, zObjectId } from "../common";
+import { ZAcceSpecificite } from "./acce.specificite.part";
+import { ZAcceZone } from "./acce.zone.part";
 
 const collectionName = "acce" as const;
 
@@ -19,7 +21,13 @@ export const ZAcce = z
     _id: zObjectId,
     numero_uai: extensions.uai,
 
-    // MERE || FILE numero_uai_trouve	numero_uai_mere	type_rattachement
+    numero_uai_mere: z.string().optional(),
+    type_rattachement_mere: z.string().optional(),
+    numero_uai_fille: z.string().optional(),
+    type_rattachement_fille: z.string().optional(),
+
+    zone: ZAcceZone,
+    specificite: ZAcceSpecificite,
 
     nature_uai: z.string().optional(),
     nature_uai_libe: z.string().optional(),

@@ -21,7 +21,6 @@
     - include_tasks: ./tasks/preview_pr.yml
       vars:
         build: true
-        repo_name: "{{repo_name}}"
         docker_images:
           - "mna_{{product_name}}_ui"
           - "mna_{{product_name}}_server"

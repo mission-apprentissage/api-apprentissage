@@ -9,32 +9,32 @@ export const NOTION_PAGES = {
   },
   donnees: {
     title: "Données disponibles",
-    path: "/donnees",
+    path: "/doc/donnees",
     notionId: "321f3275b3394b838e2ef95df3bac056",
   },
-  "/donnees/certifications_professionnelles": {
+  donnees_certifications_professionnelles: {
     title: "Certifications professionnelles réalisables en apprentissage",
-    path: "/donnees/certifications_professionnelles",
+    path: "/doc/donnees/certifications_professionnelles",
     notionId: "3bf833e84fb04e1aadcfb00d4a106bdc",
   },
-  "/donnees/diplomes_titres": {
+  donnees_diplomes_titres: {
     title: "Diplômes et titres réalisables en apprentissage",
-    path: "donnees/diplomes_titres",
+    path: "/doc/donnees/diplomes_titres",
     notionId: "02a04b5f988f49379ab415cd35a86c3d",
   },
-  "/donnees/correspondance_RNCP_CFD": {
+  donnees_correspondance_RNCP_CFD: {
     title: "Correspondance RNCP et CFD",
-    path: "donnees/correspondance_RNCP_CFD",
+    path: "/doc/donnees/correspondance_RNCP_CFD",
     notionId: "653bab8a42f4419a9bac2fd4d6725cce",
   },
   usage: {
     title: "Cas d'usage",
-    path: "/usage",
+    path: "/doc/usage",
     notionId: "718ca83753cd4893a06f437f4fc68322",
   },
   documentation_technique: {
     title: "Documentation technique",
-    path: "/documentation_technique",
+    path: "/doc/documentation_technique",
     notionId: "721dad13d474442faf58a75eb2c65423",
   },
 } as const satisfies Record<string, NotionPage>;

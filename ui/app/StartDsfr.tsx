@@ -2,7 +2,6 @@
 
 import { startReactDsfr } from "@codegouvfr/react-dsfr/next-appdir";
 import Link from "next/link";
-import { defaultColorScheme } from "theme/defaultColorScheme";
 
 declare module "@codegouvfr/react-dsfr/next-appdir" {
   interface RegisterLink {
@@ -10,7 +9,7 @@ declare module "@codegouvfr/react-dsfr/next-appdir" {
   }
 }
 
-startReactDsfr({ defaultColorScheme, Link });
+startReactDsfr({ defaultColorScheme: "light", Link });
 
 export function StartDsfr() {
   //Yes, leave null here.

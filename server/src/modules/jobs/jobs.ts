@@ -19,7 +19,18 @@ export async function setupJobProcessor() {
   return initJobProcessor({
     db: getDatabase(),
     logger,
-    crons: config.env === "preview" || config.env === "local" ? {} : {},
+    crons:
+      config.env === "preview" || config.env === "local"
+        ? {}
+        : {
+            "Mise à jour acce": {
+              cron_string: "0 1 * * *",
+              handler: async () => {
+                await run_acce_importer();
+                return Promise.resolve(1);
+              },
+            },
+          },
     jobs: {
       "users:create": {
         handler: async (job) => {

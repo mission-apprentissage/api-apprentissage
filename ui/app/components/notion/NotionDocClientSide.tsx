@@ -1,4 +1,5 @@
 "use client";
+import { useIsDark } from "@codegouvfr/react-dsfr/useIsDark";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import NextLink from "next/link";
@@ -29,14 +30,15 @@ function PageLink(props: { href: string; children: ReactNode }) {
 }
 
 export function NotionDocClientSide({ recordMap }: { recordMap: ExtendedRecordMap }) {
+  const { isDark } = useIsDark();
   return (
     <Suspense>
       <NotionRenderer
-        pageTitle={false}
         disableHeader={true}
         recordMap={recordMap}
         fullPage={true}
-        darkMode={false}
+        darkMode={isDark}
+        showTableOfContents
         components={{
           nextImage: Image,
           nextLink: NextLink,

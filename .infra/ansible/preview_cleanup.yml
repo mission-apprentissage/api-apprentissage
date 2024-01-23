@@ -17,7 +17,6 @@
         loop_var: pr_number
       vars:
         build: false
-        repo_name: "{{repo_name}}"
         docker_images:
           - "mna_{{product_name}}_ui"
           - "mna_{{product_name}}_server"
@@ -28,7 +27,7 @@
 
     - name: Prune Docker Images
       shell:
-        cmd: docker image prune --force
+        cmd: docker image prune --all --force
 
     - name: Prune Docker Volumes
       shell:

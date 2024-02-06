@@ -1,6 +1,7 @@
+import querystring from "node:querystring";
+
 import { AxiosInstance } from "axios";
 import { compose } from "oleoduc";
-import queryString from "query-string";
 
 import logger from "@/common/logger";
 import config from "@/config";
@@ -49,7 +50,7 @@ async function login() {
       commentaire: null,
       captcha_code: null,
     });
-    const response = await client.post(`/ajax/ident.php`, queryString.stringify({ json: data }), {
+    const response = await client.post(`/ajax/ident.php`, querystring.stringify({ json: data }), {
       headers: getFormHeaders(),
     });
 

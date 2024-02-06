@@ -5,7 +5,7 @@ import { IModelDescriptor, zObjectId } from "../common";
 import { ZAcceSpecificite } from "./acce.specificite.part";
 import { ZAcceZone } from "./acce.zone.part";
 
-const collectionName = "acce" as const;
+const collectionName = "source.acce" as const;
 
 const indexes: IModelDescriptor["indexes"] = [[{ numero_uai: 1 }, {}]];
 

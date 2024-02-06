@@ -13,7 +13,7 @@ import { streamCsvExtraction } from "../../../common/apis/acce";
 import { getDbCollection } from "../../../common/utils/mongodbUtils";
 import { parseCsv } from "../../../common/utils/parserUtils";
 
-const logger = parentLogger.child({ module: "importer:acce" });
+const logger = parentLogger.child({ module: "import:acce" });
 
 // 17/01/2024 151_510 records
 export const run_acce_importer = async () => {
@@ -39,10 +39,35 @@ export const run_acce_importer = async () => {
     etl.map((entry: any) => {
       console.log(entry.path);
       if (entry.path == "ACCE_UAI.csv") return entry.pipe(acce_uai);
-      else if (entry.path == "ACCE_UAI_SPEC.csv") return entry.pipe(acce_uai_spec);
-      else if (entry.path == "ACCE_UAI_ZONE.csv") return entry.pipe(acce_uai_zone);
-      else if (entry.path == "ACCE_UAI_MERE.csv") return entry.pipe(acce_uai_mere);
-      else if (entry.path == "ACCE_UAI_FILLE.csv") return entry.pipe(acce_uai_fille);
+      else entry.autodrain();
+    })
+  );
+  stream.pipe(unzipper.Parse()).pipe(
+    etl.map((entry: any) => {
+      console.log(entry.path);
+      if (entry.path == "ACCE_UAI_SPEC.csv") return entry.pipe(acce_uai_spec);
+      else entry.autodrain();
+    })
+  );
+  stream.pipe(unzipper.Parse()).pipe(
+    etl.map((entry: any) => {
+      console.log(entry.path);
+      if (entry.path == "ACCE_UAI_ZONE.csv") return entry.pipe(acce_uai_zone);
+      else entry.autodrain();
+    })
+  );
+
+  stream.pipe(unzipper.Parse()).pipe(
+    etl.map((entry: any) => {
+      console.log(entry.path);
+      if (entry.path == "ACCE_UAI_MERE.csv") return entry.pipe(acce_uai_mere);
+      else entry.autodrain();
+    })
+  );
+  stream.pipe(unzipper.Parse()).pipe(
+    etl.map((entry: any) => {
+      console.log(entry.path);
+      if (entry.path == "ACCE_UAI_FILLE.csv") return entry.pipe(acce_uai_fille);
       else entry.autodrain();
     })
   );
@@ -54,7 +79,7 @@ export const run_acce_importer = async () => {
       async (data: Omit<IAcce, "_id" | "updated_at" | "created_at">) => {
         try {
           logger.info(`Update ${data.numero_uai}`);
-          const res = await getDbCollection("acce").updateOne(
+          const res = await getDbCollection("source.acce").updateOne(
             { numero_uai: data.numero_uai },
             {
               $set: {
@@ -87,7 +112,7 @@ export const run_acce_importer = async () => {
     parseCsv(),
     writeData(
       async (data: Omit<IAcce, "_id" | "updated_at" | "created_at"> & IAcceSpecificite) => {
-        await getDbCollection("acce").updateOne(
+        await getDbCollection("source.acce").updateOne(
           { numero_uai: data.numero_uai },
           {
             $set: {
@@ -118,7 +143,7 @@ export const run_acce_importer = async () => {
     writeData(
       async (data: Omit<IAcce, "_id" | "updated_at" | "created_at"> & IAcceZone) => {
         try {
-          await getDbCollection("acce").updateOne(
+          await getDbCollection("source.acce").updateOne(
             { numero_uai: data.numero_uai },
             {
               $set: {
@@ -156,7 +181,7 @@ export const run_acce_importer = async () => {
     parseCsv(),
     writeData(
       async (data: Omit<IAcce, "_id" | "updated_at" | "created_at"> & { type_rattachement: string }) => {
-        await getDbCollection("acce").updateOne(
+        await getDbCollection("source.acce").updateOne(
           { numero_uai: data.numero_uai },
           {
             $set: {
@@ -180,7 +205,7 @@ export const run_acce_importer = async () => {
     parseCsv(),
     writeData(
       async (data: Omit<IAcce, "_id" | "updated_at" | "created_at"> & { type_rattachement: string }) => {
-        await getDbCollection("acce").updateOne(
+        await getDbCollection("source.acce").updateOne(
           { numero_uai: data.numero_uai },
           {
             $set: {

@@ -199,10 +199,10 @@ program
   .action(createJobAction("indexes:recreate"));
 
 program
-  .command("importer:acce")
+  .command("import:acce")
   .description("Import acce data")
   .option("-q, --queued", "Run job asynchronously", false)
-  .action(createJobAction("importer:acce"));
+  .action(createJobAction("import:acce"));
 
 program.hook("preAction", (_, actionCommand) => {
   const command = actionCommand.name();

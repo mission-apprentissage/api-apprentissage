@@ -18,5 +18,5 @@ export type IDocumentMap = {
   email_events: IEmailEvent;
   users: IUser;
   sessions: ISession;
-  acces: IAcce;
+  "source.acce": IAcce;
 };

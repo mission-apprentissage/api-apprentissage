@@ -63,7 +63,7 @@ export async function setupJobProcessor() {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         handler: async (job) => createMigration(job.payload as any),
       },
-      "importer:acce": {
+      "import:acce": {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         handler: async () => run_acce_importer(),
       },

@@ -14,17 +14,16 @@ interface ApiRateLimiterOptions {
 export const apiRateLimiter = (name: string, options: ApiRateLimiterOptions) => {
   const rateLimiter = new RateLimiterMemory({
     keyPrefix: name,
-    points: options.nbRequests || 1,
-    duration: options.durationInSeconds || 1,
-    // perSeconds: options.perSeconds || 1,
+    points: options.nbRequests ?? 1,
+    duration: options.durationInSeconds ?? 1,
   });
 
   const queue = new RateLimiterQueue(rateLimiter, {
-    maxQueueSize: options.maxQueueSize || 25,
+    maxQueueSize: options.maxQueueSize ?? 25,
   });
 
   return async <T>(callback: (i: AxiosInstance | AxiosCacheInstance) => T): Promise<T> => {
-    await timeout(queue.removeTokens(1), options.timeout || 10000);
+    await timeout(queue.removeTokens(1), options.timeout ?? 10_000);
     return callback(options.client);
   };
 };

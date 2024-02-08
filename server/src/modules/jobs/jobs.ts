@@ -64,7 +64,6 @@ export async function setupJobProcessor() {
         handler: async (job) => createMigration(job.payload as any),
       },
       "import:acce": {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         handler: async () => run_acce_importer(),
       },
     },

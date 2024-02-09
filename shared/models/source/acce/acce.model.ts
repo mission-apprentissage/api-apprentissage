@@ -1,7 +1,6 @@
 import { z } from "zod";
 
-import { UAI_REGEX } from "../../constants/regex";
-import { IModelDescriptor, zObjectId } from "../common";
+import { IModelDescriptor, zObjectId } from "../../common";
 
 const collectionName = "source.acce" as const;
 
@@ -97,7 +96,7 @@ const zAcceUai = z
     date: z.date(),
     data: zUaiBaseFields
       .extend({
-        numero_uai: z.string().regex(UAI_REGEX),
+        numero_uai: z.string(),
       })
       .strict(),
   })
@@ -110,7 +109,7 @@ const zAcceUaiZone = z
     date: z.date(),
     data: z
       .object({
-        numero_uai: z.string().regex(UAI_REGEX),
+        numero_uai: z.string(),
         type_zone_uai: z.string(),
         type_zone_uai_libe: z.string(),
         zone: z.string(),
@@ -130,7 +129,7 @@ const zAcceUaiSpec = z
     date: z.date(),
     data: z
       .object({
-        numero_uai: z.string().regex(UAI_REGEX),
+        numero_uai: z.string(),
         specificite_uai: z.string(),
         specificite_uai_libe: z.string(),
         date_ouverture: z.string(),
@@ -147,8 +146,8 @@ const zAcceUaiMere = z
     date: z.date(),
     data: zUaiBaseFields
       .extend({
-        numero_uai_trouve: z.string().regex(UAI_REGEX),
-        numero_uai_mere: z.string().regex(UAI_REGEX),
+        numero_uai_trouve: z.string(),
+        numero_uai_mere: z.string(),
         type_rattachement: z.string(),
       })
       .strict(),
@@ -162,8 +161,8 @@ const zAcceUaiFille = z
     date: z.date(),
     data: zUaiBaseFields
       .extend({
-        numero_uai_trouve: z.string().regex(UAI_REGEX),
-        numero_uai_fille: z.string().regex(UAI_REGEX),
+        numero_uai_trouve: z.string(),
+        numero_uai_fille: z.string(),
         type_rattachement: z.string(),
       })
       .strict(),

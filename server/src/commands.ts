@@ -9,6 +9,7 @@ import logger from "@/common/logger";
 import { closeMongodbConnection } from "@/common/utils/mongodbUtils";
 import createServer from "@/modules/server/server";
 
+import { closeMemoryCache } from "./common/apis/client";
 import { closeMailer } from "./common/services/mailer/mailer";
 import { closeSentry, initSentryProcessor } from "./common/services/sentry/sentry";
 import { sleep } from "./common/utils/asyncUtils";
@@ -28,6 +29,7 @@ program
     }
   })
   .hook("postAction", async () => {
+    closeMemoryCache();
     await closeMailer();
     await closeMongodbConnection();
     await closeSentry();

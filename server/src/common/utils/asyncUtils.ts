@@ -24,7 +24,3 @@ export async function sleep(durationMs: number, signal?: AbortSignal): Promise<v
     signal?.addEventListener("abort", listener);
   });
 }
-
-export async function delay(milliseconds: number) {
-  return new Promise<void>((resolve) => setTimeout(() => resolve(), milliseconds));
-}

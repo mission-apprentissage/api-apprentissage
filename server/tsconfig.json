@@ -28,7 +28,7 @@
     "forceConsistentCasingInFileNames": true,
     /* Type Checking */
     "strict": true,
-    // "noImplicitAny": false,
+    "noImplicitAny": true,
     "noUnusedLocals": true,
     "exactOptionalPropertyTypes": true,
     "noImplicitReturns": true,

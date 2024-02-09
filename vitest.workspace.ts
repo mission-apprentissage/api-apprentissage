@@ -7,7 +7,7 @@ export default defineWorkspace([
     test: {
       name: "server",
       root: "./server",
-      include: ["./tests/**/*.test.ts"],
+      include: ["./tests/**/*.test.ts", "./src/**/*.test.ts"],
       setupFiles: ["./tests/setup.ts"],
       globalSetup: ["./server/tests/globalSetup.ts"],
       threads: true,

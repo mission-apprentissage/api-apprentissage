@@ -9,6 +9,7 @@ import logger from "@/common/logger";
 import { closeMongodbConnection } from "@/common/utils/mongodbUtils";
 import createServer from "@/modules/server/server";
 
+import { closeMemoryCache } from "./common/apis/client";
 import { closeMailer } from "./common/services/mailer/mailer";
 import { closeSentry, initSentryProcessor } from "./common/services/sentry/sentry";
 import { sleep } from "./common/utils/asyncUtils";
@@ -28,6 +29,7 @@ program
     }
   })
   .hook("postAction", async () => {
+    closeMemoryCache();
     await closeMailer();
     await closeMongodbConnection();
     await closeSentry();
@@ -197,6 +199,12 @@ program
   .option("-d, --drop", "Drop indexes before recreating them")
   .option("-q, --queued", "Run job asynchronously", false)
   .action(createJobAction("indexes:recreate"));
+
+program
+  .command("import:acce")
+  .description("Import acce data")
+  .option("-q, --queued", "Run job asynchronously", false)
+  .action(createJobAction("import:acce"));
 
 program.hook("preAction", (_, actionCommand) => {
   const command = actionCommand.name();

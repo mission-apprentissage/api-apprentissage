@@ -4,7 +4,13 @@ import NotFoundPage from "../../not-found";
 
 export const revalidate = 3_600;
 
-export default async function DocPage(props: any) {
+type DocPageProps = {
+  params: {
+    slug: string[];
+  };
+};
+
+export default async function DocPage(props: DocPageProps) {
   const path = `/doc/${props.params.slug.join("/")}`;
   const page = Object.values(NOTION_PAGES).find((p) => {
     return p.path === path;

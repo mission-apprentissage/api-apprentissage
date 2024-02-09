@@ -19,18 +19,25 @@ const getNavigationItems = ({ user, pathname }: GetNavigationItemsProps): MainNa
       },
     },
     {
-      isActive: pathname === NOTION_PAGES.donnees_disponibles.path,
-      text: "Documentation",
-      menuLinks: [
-        NOTION_PAGES.donnees_disponibles,
-        NOTION_PAGES["/donnees/certifications_professionnelles"],
-        NOTION_PAGES["/donnees/diplomes_titres"],
-        NOTION_PAGES["/donnees/correspondance_RNCP_CFD"],
-      ].map((page) => ({
-        isActive: pathname === page.path,
-        text: page.title,
-        linkProps: { href: page.path },
-      })),
+      isActive: pathname.startsWith(NOTION_PAGES.donnees.path),
+      text: NOTION_PAGES.donnees.title,
+      linkProps: {
+        href: NOTION_PAGES.donnees.path,
+      },
+    },
+    {
+      isActive: pathname.startsWith(NOTION_PAGES.usage.path),
+      text: NOTION_PAGES.usage.title,
+      linkProps: {
+        href: NOTION_PAGES.usage.path,
+      },
+    },
+    {
+      isActive: pathname.startsWith(NOTION_PAGES.documentation_technique.path),
+      text: NOTION_PAGES.documentation_technique.title,
+      linkProps: {
+        href: NOTION_PAGES.documentation_technique.path,
+      },
     },
   ];
 
@@ -57,7 +64,7 @@ const getNavigationItems = ({ user, pathname }: GetNavigationItemsProps): MainNa
     const { menuLinks } = item;
 
     const menuLinkWithActive = menuLinks?.map((link) => ({ ...link, isActive: link.linkProps.href === pathname }));
-    const isActive = pathname === item.linkProps?.href || menuLinkWithActive?.some((link) => link.isActive);
+    const isActive = item.isActive || menuLinkWithActive?.some((link) => link.isActive);
 
     return { ...item, isActive, menuLinks };
   }) as MainNavigationProps.Item[];

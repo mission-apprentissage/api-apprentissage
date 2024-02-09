@@ -26,7 +26,7 @@ describe("importAcceData", () => {
   });
 
   it("should extract zipped acce data", async () => {
-    const date = new Date(2023, 3, 9);
+    const date = new Date("2023-04-08T22:00:00.000Z");
     vi.setSystemTime(date);
 
     const dataFixture = join(dirname(fileURLToPath(import.meta.url)), "fixtures/acce_data.zip");
@@ -49,7 +49,7 @@ describe("importAcceData", () => {
   it("should replace old data every time", async () => {
     const dataFixture = join(dirname(fileURLToPath(import.meta.url)), "fixtures/acce_data.zip");
 
-    const date1 = new Date(2023, 3, 9);
+    const date1 = new Date("2023-04-08T22:00:00.000Z");
     vi.setSystemTime(date1);
 
     const s1 = createReadStream(dataFixture);
@@ -58,7 +58,7 @@ describe("importAcceData", () => {
     expect(data1).toHaveLength(25);
     expect(data1[0].date).toEqual(date1);
 
-    const date2 = new Date(2024, 3, 10);
+    const date2 = new Date("2023-04-10T22:00:00.000Z");
     vi.setSystemTime(date2);
 
     const s2 = createReadStream(dataFixture);

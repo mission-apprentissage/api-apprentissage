@@ -5,14 +5,14 @@ import { join } from "node:path";
 import querystring from "node:querystring";
 
 import { internal } from "@hapi/boom";
-import { AxiosInstance } from "axios";
+import { AxiosInstance, isAxiosError } from "axios";
 
 import logger from "@/common/logger";
 import config from "@/config";
 
 import { withCause } from "../errors/withCause";
 import { apiRateLimiter } from "../utils/apiUtils";
-import { delay } from "../utils/asyncUtils";
+import { sleep } from "../utils/asyncUtils";
 import getApiClient from "./client";
 
 const CHROME_USER_AGENT =
@@ -40,7 +40,7 @@ function getFormHeaders(auth?: { Cookie: string }) {
   };
 }
 
-async function login() {
+export async function login() {
   return acceClient(async (client: AxiosInstance) => {
     try {
       logger.debug(`Logging to ACCE...`);
@@ -66,12 +66,19 @@ async function login() {
         throw internal("api.acce: missing connexion cookie", { headers: response.headers });
       }
 
-      const sessionId = cookie.match(new RegExp(`${SESSION_COOKIE_NAME}=(.*);`))?.[1];
+      const sessionMatch = cookie.match(new RegExp(`${SESSION_COOKIE_NAME}=(.*);`));
+
+      if (!sessionMatch) {
+        throw internal("api.acce: invalid session name");
+      }
 
       return {
-        Cookie: `${SESSION_COOKIE_NAME}=${sessionId}`,
+        Cookie: `${SESSION_COOKIE_NAME}=${sessionMatch[1]}`,
       };
     } catch (error) {
+      if (isAxiosError(error)) {
+        throw internal("api.acce: unable to login", { data: error.toJSON() });
+      }
       throw withCause(internal("api.acce: unable to login"), error);
     }
   });
@@ -184,6 +191,9 @@ async function startExtraction(auth: { Cookie: string }) {
 
       return { extractionId: match[1] };
     } catch (error) {
+      if (isAxiosError(error)) {
+        throw internal("api.acce: unable to startExtraction", { data: error.toJSON() });
+      }
       throw withCause(internal("api.acce: unable to startExtraction"), error);
     }
   });
@@ -211,13 +221,16 @@ async function pollExtraction(auth: { Cookie: string }, extractionId: string) {
 
       return response.data;
     } catch (error) {
+      if (isAxiosError(error)) {
+        throw internal("api.acce: unable to pollExtraction", error.toJSON());
+      }
       throw withCause(internal("api.acce: unable to pollExtraction"), error);
     }
   });
 }
 
 export async function downloadCsvExtraction(): Promise<ReadStream> {
-  const tmpDir = await mkdtemp(join(tmpdir(), "acce-"));
+  const tmpDir = await mkdtemp(join(tmpdir(), `acce-${config.env}-`));
   const destFile = join(tmpDir, "data.zip");
 
   try {
@@ -226,8 +239,10 @@ export async function downloadCsvExtraction(): Promise<ReadStream> {
     let stream;
     const { extractionId } = await startExtraction(auth);
 
+    // Max 30min to download
+    const timeoutSignal = AbortSignal.timeout(config.env === "test" ? 150 : 30 * 60 * 1_000);
     while (!(stream = await pollExtraction(auth, extractionId))) {
-      await delay(5_000);
+      await sleep(config.env === "test" ? 10 : 5_000, timeoutSignal);
     }
 
     await writeFile(destFile, stream);

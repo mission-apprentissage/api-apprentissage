@@ -13,7 +13,7 @@ import config from "../../config";
 import { createUser } from "../actions/users.actions";
 import { recreateIndexes } from "./db/recreateIndexes";
 import { validateModels } from "./db/schemaValidation";
-import { run_acce_importer } from "./importer/acce";
+import { runAcceImporter } from "./importer/acce";
 
 export async function setupJobProcessor() {
   return initJobProcessor({
@@ -26,8 +26,8 @@ export async function setupJobProcessor() {
             "Mise à jour acce": {
               cron_string: "0 1 * * *",
               handler: async () => {
-                await run_acce_importer();
-                return Promise.resolve(1);
+                await runAcceImporter();
+                return 1;
               },
             },
           },
@@ -64,7 +64,7 @@ export async function setupJobProcessor() {
         handler: async (job) => createMigration(job.payload as any),
       },
       "import:acce": {
-        handler: async () => run_acce_importer(),
+        handler: async () => runAcceImporter(),
       },
     },
   });

@@ -1,101 +1,184 @@
 import { z } from "zod";
 
+import { UAI_REGEX } from "../../constants/regex";
 import { IModelDescriptor, zObjectId } from "../common";
 
 const collectionName = "source.acce" as const;
 
 const indexes: IModelDescriptor["indexes"] = [[{ date: 1, source: 1 }, {}]];
 
-// const ETATS = { // etat_etablissement
-//   Ouvert: "1",
-//   "À fermer": "2",
-//   "À ouvrir": "3",
-//   Fermé: "4",
-// };
-
-export const ZAcce = z
+const zUaiBaseFields = z
   .object({
-    _id: zObjectId,
-
-    source: z.string(),
-    date: z.date(),
-    data: z.unknown(),
-    // .object({
-    //   numero_uai: extensions.uai,
-
-    //   numero_uai_mere: z.string().optional(),
-    //   type_rattachement_mere: z.string().optional(),
-    //   numero_uai_fille: z.string().optional(),
-    //   type_rattachement_fille: z.string().optional(),
-
-    //   zones: z.array(ZAcceZone.optional()),
-    //   specificites: z.array(ZAcceSpecificite.optional()),
-
-    //   nature_uai: z.string().optional(),
-    //   nature_uai_libe: z.string().optional(),
-    //   type_uai: z.string().optional(),
-    //   type_uai_libe: z.string().optional(),
-    //   etat_etablissement: z.string().optional(), // 1,2,3,4
-    //   etat_etablissement_libe: z.string().optional(),
-    //   ministere_tutelle: z.string().optional(),
-    //   ministere_tutelle_libe: z.string().optional(),
-    //   tutelle_2: z.string().optional(),
-    //   tutelle_2_libe: z.string().optional(),
-    //   secteur_public_prive: z.string().optional(),
-    //   secteur_public_prive_libe: z.string().optional(),
-    //   sigle_uai: z.string().optional(),
-    //   categorie_juridique: z.string().optional(),
-    //   categorie_juridique_libe: z.string().optional(),
-    //   contrat_etablissement: z.string().optional(),
-    //   contrat_etablissement_libe: z.string().optional(),
-    //   categorie_financiere: z.string().optional(),
-    //   categorie_financiere_libe: z.string().optional(),
-    //   situation_comptable: z.string().optional(),
-    //   situation_comptable_libe: z.string().optional(),
-    //   niveau_uai: z.string().optional(),
-    //   niveau_uai_libe: z.string().optional(),
-    //   commune: z.string().optional(),
-    //   commune_libe: z.string().optional(),
-    //   academie: z.string().optional(),
-    //   academie_libe: z.string().optional(),
-    //   pays: z.string().optional(),
-    //   pays_libe: z.string().optional(),
-    //   departement_insee_3: z.string().optional(),
-    //   departement_insee_3_libe: z.string().optional(),
-    //   denomination_principale: z.string().optional(),
-    //   appellation_officielle: z.string().optional(),
-    //   patronyme_uai: z.string().optional(),
-    //   hebergement_etablissement: z.string().optional(),
-    //   hebergement_etablissement_libe: z.string().optional(),
-    //   numero_siren_siret_uai: z.string().optional(),
-    //   numero_finess_uai: z.string().optional(),
-    //   date_ouverture: z.string().optional(),
-    //   date_fermeture: z.string().optional(),
-    //   date_derniere_mise_a_jour: z.string().optional(),
-    //   lieu_dit_uai: z.string().optional(),
-    //   adresse_uai: z.string().optional(),
-    //   boite_postale_uai: z.string().optional(),
-    //   code_postal_uai: z.string().optional(),
-    //   etat_sirad_uai: z.string().optional(),
-    //   localite_acheminement_uai: z.string().optional(),
-    //   pays_etranger_acheminement: z.string().optional(),
-    //   numero_telephone_uai: z.string().optional(),
-    //   numero_telecopieur_uai: z.string().optional(),
-    //   mention_distribution: z.string().optional(),
-    //   mel_uai: z.string().email().optional(),
-    //   site_web: z.string().optional(),
-    //   coordonnee_x: z.string().optional(),
-    //   coordonnee_y: z.string().optional(),
-    //   appariement: z.string().optional(),
-    //   appariement_complement: z.string().optional(),
-    //   localisation: z.string().optional(),
-    //   localisation_complement: z.string().optional(),
-    //   date_geolocalisation: z.string().optional(),
-    //   source: z.string().optional(),
-    // })
-    // .strict(),
+    nature_uai: z.string().regex(/^\d{3}$/),
+    nature_uai_libe: z.string(),
+    type_uai: z.string(),
+    type_uai_libe: z.string(),
+    etat_etablissement: z.enum(["1", "2", "3", "4"]),
+    etat_etablissement_libe: z.enum(["Ouvert", "À fermer", "À ouvrir", "Fermé"]),
+    ministere_tutelle: z.string().regex(/^\d{2}$/),
+    ministere_tutelle_libe: z.string(),
+    tutelle_2: z
+      .string()
+      .regex(/^\d{2}$/)
+      .nullable(),
+    tutelle_2_libe: z.string().nullable(),
+    secteur_public_prive: z.enum(["PR", "PU"]),
+    secteur_public_prive_libe: z.enum(["Privé", "Public"]),
+    sigle_uai: z.string().nullable(),
+    categorie_juridique: z.string(),
+    categorie_juridique_libe: z.string(),
+    contrat_etablissement: z.enum(["99", "10", "30", "20", "50", "31", "21", "!!", "40", "41"]),
+    contrat_etablissement_libe: z.enum([
+      "Sans objet",
+      "Hors contrat",
+      "Contrat d'association pour toutes les classes",
+      "Contrat simple pour toutes les classes",
+      "Reconnu par l'Etat",
+      "Contrat d'association pour une partie des classes",
+      "Contrat simple pour une partie des classes",
+      "Inconnu du gestionnaire",
+      "Contrats simple et d'association pour toutes les classes",
+      "Contrats simple et d'association pour une partie des classes",
+    ]),
+    categorie_financiere: z.string().nullable(),
+    categorie_financiere_libe: z.string().nullable(),
+    situation_comptable: z.string(),
+    situation_comptable_libe: z.string(),
+    niveau_uai: z.enum(["1", "3", "2", "4"]),
+    niveau_uai_libe: z.enum(["UAI célibataire", "UAI fille", "UAI mère", "UAI mère et fille"]),
+    commune: z.string(),
+    commune_libe: z.string().nullable(),
+    academie: z
+      .string()
+      .regex(/^\d{2}$/)
+      .nullable(),
+    academie_libe: z.string().nullable(),
+    pays: z.string(),
+    pays_libe: z.string(),
+    departement_insee_3: z.string().nullable(),
+    departement_insee_3_libe: z.string().nullable(),
+    denomination_principale: z.string().nullable(),
+    appellation_officielle: z.string().nullable(),
+    patronyme_uai: z.string().nullable(),
+    hebergement_etablissement: z.string(),
+    hebergement_etablissement_libe: z.string(),
+    numero_siren_siret_uai: z.string().nullable(),
+    numero_finess_uai: z.string().nullable(),
+    date_ouverture: z.coerce.string(),
+    date_fermeture: z.string().nullable(),
+    date_derniere_mise_a_jour: z.string(),
+    lieu_dit_uai: z.string().nullable(),
+    adresse_uai: z.string().nullable(),
+    boite_postale_uai: z.string().nullable(),
+    code_postal_uai: z.string().nullable(),
+    etat_sirad_uai: z.string().nullable(),
+    localite_acheminement_uai: z.string().nullable(),
+    pays_etranger_acheminement: z.string().nullable(),
+    numero_telephone_uai: z.string().nullable(),
+    numero_telecopieur_uai: z.string().nullable(),
+    mention_distribution: z.string().nullable(),
+    mel_uai: z.string().nullable(),
+    site_web: z.string().nullable(),
+    coordonnee_x: z.coerce.number().nullable(),
+    coordonnee_y: z.coerce.number().nullable(),
+    appariement: z.string().nullable(),
+    appariement_complement: z.string().nullable(),
+    localisation: z.string().nullable(),
+    localisation_complement: z.string().nullable(),
+    date_geolocalisation: z.string().nullable(),
+    source: z.string().nullable(),
   })
   .strict();
+
+const zAcceUai = z
+  .object({
+    _id: zObjectId,
+    source: z.literal("ACCE_UAI.csv"),
+    date: z.date(),
+    data: zUaiBaseFields
+      .extend({
+        numero_uai: z.string().regex(UAI_REGEX),
+      })
+      .strict(),
+  })
+  .strict();
+
+const zAcceUaiZone = z
+  .object({
+    _id: zObjectId,
+    source: z.literal("ACCE_UAI_ZONE.csv"),
+    date: z.date(),
+    data: z
+      .object({
+        numero_uai: z.string().regex(UAI_REGEX),
+        type_zone_uai: z.string(),
+        type_zone_uai_libe: z.string(),
+        zone: z.string(),
+        zone_libe: z.string(),
+        date_ouverture: z.string(),
+        date_fermeture: z.string().nullable(),
+        date_derniere_mise_a_jour: z.string().nullable(),
+      })
+      .strict(),
+  })
+  .strict();
+
+const zAcceUaiSpec = z
+  .object({
+    _id: zObjectId,
+    source: z.literal("ACCE_UAI_SPEC.csv"),
+    date: z.date(),
+    data: z
+      .object({
+        numero_uai: z.string().regex(UAI_REGEX),
+        specificite_uai: z.string(),
+        specificite_uai_libe: z.string(),
+        date_ouverture: z.string(),
+        date_fermeture: z.string().nullable(),
+      })
+      .strict(),
+  })
+  .strict();
+
+const zAcceUaiMere = z
+  .object({
+    _id: zObjectId,
+    source: z.literal("ACCE_UAI_MERE.csv"),
+    date: z.date(),
+    data: zUaiBaseFields
+      .extend({
+        numero_uai_trouve: z.string().regex(UAI_REGEX),
+        numero_uai_mere: z.string().regex(UAI_REGEX),
+        type_rattachement: z.string(),
+      })
+      .strict(),
+  })
+  .strict();
+
+const zAcceUaiFille = z
+  .object({
+    _id: zObjectId,
+    source: z.literal("ACCE_UAI_FILLE.csv"),
+    date: z.date(),
+    data: zUaiBaseFields
+      .extend({
+        numero_uai_trouve: z.string().regex(UAI_REGEX),
+        numero_uai_fille: z.string().regex(UAI_REGEX),
+        type_rattachement: z.string(),
+      })
+      .strict(),
+  })
+  .strict();
+
+export const ZAcceByType = {
+  "ACCE_UAI.csv": zAcceUai,
+  "ACCE_UAI_ZONE.csv": zAcceUaiZone,
+  "ACCE_UAI_SPEC.csv": zAcceUaiSpec,
+  "ACCE_UAI_MERE.csv": zAcceUaiMere,
+  "ACCE_UAI_FILLE.csv": zAcceUaiFille,
+};
+
+export const ZAcce = z.union([zAcceUai, zAcceUaiZone, zAcceUaiSpec, zAcceUaiMere, zAcceUaiFille]);
 
 export type IAcce = z.output<typeof ZAcce>;
 

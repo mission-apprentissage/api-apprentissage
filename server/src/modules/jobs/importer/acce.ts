@@ -5,7 +5,7 @@ import { pipeline } from "node:stream/promises";
 import { internal } from "@hapi/boom";
 import { parse } from "csv-parse";
 import { ObjectId } from "mongodb";
-import { IAcce, ZAcceByType } from "shared/models/acce/acce.model";
+import { IAcce, ZAcceByType } from "shared/models/source/acce/acce.model";
 import unzipper from "unzipper";
 
 import parentLogger from "@/common/logger";

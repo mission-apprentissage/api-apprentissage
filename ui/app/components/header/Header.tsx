@@ -54,8 +54,6 @@ export const Header = () => {
     [handleLogout]
   );
 
-  console.log(navigation);
-
   return (
     <DSFRHeader
       brandTop={

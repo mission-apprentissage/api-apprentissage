@@ -1,4 +1,4 @@
-// import "./globals.css";
+import "./globals.css";
 import "react-notion-x/src/styles.css";
 
 import { DsfrHead } from "@codegouvfr/react-dsfr/next-appdir/DsfrHead";

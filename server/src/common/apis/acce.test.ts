@@ -5,7 +5,7 @@ import { afterEach, describe, expect, it } from "vitest";
 
 import { downloadCsvExtraction, login } from "./acce";
 
-describe.skip("login", () => {
+describe("login", () => {
   it("should login correctly", async () => {
     const scope = nock("https://dep.adc.education.fr/acce")
       .post("/ajax/ident.php", (body) => {

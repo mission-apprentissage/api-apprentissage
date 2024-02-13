@@ -10,10 +10,10 @@ import { AxiosInstance, isAxiosError } from "axios";
 import logger from "@/common/logger";
 import config from "@/config";
 
-import { withCause } from "../errors/withCause";
-import { apiRateLimiter } from "../utils/apiUtils";
-import { sleep } from "../utils/asyncUtils";
-import getApiClient from "./client";
+import { withCause } from "../../errors/withCause";
+import { apiRateLimiter } from "../../utils/apiUtils";
+import { sleep } from "../../utils/asyncUtils";
+import getApiClient from "../client";
 
 const CHROME_USER_AGENT =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.128 Safari/537.36";

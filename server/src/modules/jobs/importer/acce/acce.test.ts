@@ -5,7 +5,7 @@ import { IAcce } from "shared/models/source/acce/acce.model";
 import { fileURLToPath } from "url";
 import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { getDbCollection } from "../../../common/utils/mongodbUtils";
+import { getDbCollection } from "../../../../common/utils/mongodbUtils";
 import { importAcceData } from "./acce";
 
 const mongo = useMongo();

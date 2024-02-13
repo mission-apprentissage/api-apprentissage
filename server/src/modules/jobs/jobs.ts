@@ -13,7 +13,7 @@ import config from "../../config";
 import { createUser } from "../actions/users.actions";
 import { recreateIndexes } from "./db/recreateIndexes";
 import { validateModels } from "./db/schemaValidation";
-import { runAcceImporter } from "./importer/acce";
+import { runAcceImporter } from "./importer/acce/acce";
 
 export async function setupJobProcessor() {
   return initJobProcessor({

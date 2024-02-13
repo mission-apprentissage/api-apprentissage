@@ -10,10 +10,10 @@ import unzipper from "unzipper";
 
 import parentLogger from "@/common/logger";
 
-import { downloadCsvExtraction } from "../../../common/apis/acce";
-import { withCause } from "../../../common/errors/withCause";
-import { getDbCollection } from "../../../common/utils/mongodbUtils";
-import { createBatchTransformStream } from "../../../common/utils/streamUtils";
+import { downloadCsvExtraction } from "../../../../common/apis/acce/acce";
+import { withCause } from "../../../../common/errors/withCause";
+import { getDbCollection } from "../../../../common/utils/mongodbUtils";
+import { createBatchTransformStream } from "../../../../common/utils/streamUtils";
 
 const logger = parentLogger.child({ module: "import:acce" });
 

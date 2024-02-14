@@ -53,6 +53,9 @@ const config = {
       username: env.get("API_ACCE_USERNAME").required().asString(),
       password: env.get("API_ACCE_PASSWORD").required().asString(),
     },
+    referentielOnisep: {
+      endpoint: "https://referentiel.apprentissage.onisep.fr/api/v1",
+    },
   },
 };
 

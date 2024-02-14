@@ -205,6 +205,11 @@ program
   .description("Import acce data")
   .option("-q, --queued", "Run job asynchronously", false)
   .action(createJobAction("import:acce"));
+program
+  .command("import:referentiel")
+  .description("Import referentiel data")
+  .option("-q, --queued", "Run job asynchronously", false)
+  .action(createJobAction("import:referentiel"));
 
 program.hook("preAction", (_, actionCommand) => {
   const command = actionCommand.name();

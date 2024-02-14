@@ -1,8 +1,8 @@
-import { IOrganismesReferentiel } from "shared/types/OrganismesReferentiel";
+import { IReferentiel } from "shared/models/source/source.referentiel.model";
 
 import config from "@/config";
 
-import getApiClient from "./client";
+import getApiClient from "../client";
 
 // Cf Documentation : https://referentiel.apprentissage.onisep.fr/api/v1/doc/#/
 
@@ -21,7 +21,7 @@ const client = getApiClient(
 export const fetchReferentielOrganismes = async () => {
   const {
     data: { organismes },
-  } = await client.get<{ organismes: IOrganismesReferentiel[] }>("/organismes.json", {
+  } = await client.get<{ organismes: IReferentiel[] }>("/organismes.json", {
     params: {
       items_par_page: 50000,
     },

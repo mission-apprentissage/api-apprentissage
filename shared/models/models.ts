@@ -3,6 +3,7 @@ import emailDeniedModelDescriptor, { IEmailDenied } from "./email_denied.model";
 import emailEventsModelDescriptor, { IEmailEvent } from "./email_event.model";
 import sessionsModelDescriptor, { ISession } from "./session.model";
 import sourceAcceModelDescriptor, { IAcce } from "./source/acce/acce.model";
+import { ISourceBcn, sourceBcnModel } from "./source/bcn/bcn.model";
 import usersModelDescriptor, { IUser } from "./user.model";
 
 export const modelDescriptors: IModelDescriptor[] = [
@@ -11,6 +12,7 @@ export const modelDescriptors: IModelDescriptor[] = [
   emailDeniedModelDescriptor,
   emailEventsModelDescriptor,
   sourceAcceModelDescriptor,
+  sourceBcnModel,
 ];
 
 export type IDocumentMap = {
@@ -19,4 +21,5 @@ export type IDocumentMap = {
   users: IUser;
   sessions: ISession;
   "source.acce": IAcce;
+  "source.bcn": ISourceBcn;
 };

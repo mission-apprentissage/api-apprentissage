@@ -22,7 +22,7 @@ export const zBcn = z.union([
   zBcn_V_FormationDiplome,
 ]);
 
-export const sourceBcnModel = {
+export const sourceBcnModelDescriptor = {
   zod: zBcn,
   indexes,
   collectionName,

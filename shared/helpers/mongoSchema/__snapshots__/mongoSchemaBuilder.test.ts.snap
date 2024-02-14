@@ -1676,6 +1676,1207 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
 }
 `;
 
+exports[`zodToMongoSchema > should convert source.bcn schema 1`] = `
+{
+  "anyOf": [
+    {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "_id": {
+          "bsonType": "objectId",
+        },
+        "data": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "ANCIEN_DIPLOME_1": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "ANCIEN_DIPLOME_2": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "ANCIEN_DIPLOME_3": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "ANCIEN_DIPLOME_4": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "ANCIEN_DIPLOME_5": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "ANCIEN_DIPLOME_6": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "ANCIEN_DIPLOME_7": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "ANCIEN_RECME": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "CITE_DOMAINE_DETAILLE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "CITE_DOMAINE_FORMATION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "COMMENTAIRE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_ABROGATION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_CREATION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_1": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_10": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_2": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_3": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_4": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_5": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_6": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_7": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_8": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_9": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_DERNIERE_SESSION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_FERMETURE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_INTERVENTION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_OUVERTURE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_PREMIERE_SESSION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_SESSION_RATTRAPAGE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "FORMATION_DIPLOME": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "GESTIONNAIRE_FORMATION_DIPLOME": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "GROUPE_SPECIALITE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "ID_DOCUMENT": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "LETTRE_SPECIALITE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "LIBELLE_COURT": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "LIBELLE_LONG_200": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "LIBELLE_STAT_33": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "NATURE_FORMATION_DIPLOME": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "NB_MEF_FERME": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "NB_MEF_OUVERT": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "NIVEAU_FORMATION_DIPLOME": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "NIVEAU_QUALIFICATION_RNCP": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "NOUVEAU_DIPLOME_1": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "NOUVEAU_DIPLOME_2": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "NOUVEAU_DIPLOME_3": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "NOUVEAU_DIPLOME_4": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "NOUVEAU_DIPLOME_5": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "NOUVEAU_DIPLOME_6": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "NOUVEAU_DIPLOME_7": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_CITE_2013_DOMAINE_DETAILL.LIBELLE_EDITION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_CITE_DOMAINE_FORMATION.LIBELLE_EDITION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_COMMENTAIRE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_GROUPE_SPECIALITE.LIBELLE_LONG": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_LETTRE_SPECIALITE.LIBELLE_LONG": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_NATURE_FORMATION_DIPLOME.LIBELLE_100": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_NIVEAU_FORMATION_DIPLOME.LIBELLE_100": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_NIVEAU_QUALIFICATION_RNCP.LIBELLE_LONG": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "OBSERVATION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "UNITE_CAPITALISABLE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+          },
+          "required": [
+            "FORMATION_DIPLOME",
+            "NIVEAU_FORMATION_DIPLOME",
+            "N_NIVEAU_FORMATION_DIPLOME.LIBELLE_100",
+            "GROUPE_SPECIALITE",
+            "N_GROUPE_SPECIALITE.LIBELLE_LONG",
+            "LETTRE_SPECIALITE",
+            "N_LETTRE_SPECIALITE.LIBELLE_LONG",
+            "ANCIEN_RECME",
+            "LIBELLE_COURT",
+            "LIBELLE_STAT_33",
+            "LIBELLE_LONG_200",
+            "DATE_OUVERTURE",
+            "DATE_FERMETURE",
+            "UNITE_CAPITALISABLE",
+            "DATE_PREMIERE_SESSION",
+            "DATE_DERNIERE_SESSION",
+            "DATE_ARRETE_CREATION",
+            "DATE_ARRETE_ABROGATION",
+            "DATE_ARRETE_MODIFICATION_1",
+            "DATE_ARRETE_MODIFICATION_2",
+            "DATE_ARRETE_MODIFICATION_3",
+            "DATE_ARRETE_MODIFICATION_4",
+            "DATE_ARRETE_MODIFICATION_5",
+            "DATE_ARRETE_MODIFICATION_6",
+            "DATE_ARRETE_MODIFICATION_7",
+            "DATE_ARRETE_MODIFICATION_8",
+            "DATE_ARRETE_MODIFICATION_9",
+            "DATE_ARRETE_MODIFICATION_10",
+            "COMMENTAIRE",
+            "NATURE_FORMATION_DIPLOME",
+            "N_NATURE_FORMATION_DIPLOME.LIBELLE_100",
+            "GESTIONNAIRE_FORMATION_DIPLOME",
+            "DATE_INTERVENTION",
+            "ID_DOCUMENT",
+            "CITE_DOMAINE_FORMATION",
+            "N_CITE_DOMAINE_FORMATION.LIBELLE_EDITION",
+            "NIVEAU_QUALIFICATION_RNCP",
+            "N_NIVEAU_QUALIFICATION_RNCP.LIBELLE_LONG",
+            "ANCIEN_DIPLOME_1",
+            "ANCIEN_DIPLOME_2",
+            "ANCIEN_DIPLOME_3",
+            "ANCIEN_DIPLOME_4",
+            "ANCIEN_DIPLOME_5",
+            "ANCIEN_DIPLOME_6",
+            "ANCIEN_DIPLOME_7",
+            "NOUVEAU_DIPLOME_1",
+            "NOUVEAU_DIPLOME_2",
+            "NOUVEAU_DIPLOME_3",
+            "NOUVEAU_DIPLOME_4",
+            "NOUVEAU_DIPLOME_5",
+            "NOUVEAU_DIPLOME_6",
+            "NOUVEAU_DIPLOME_7",
+            "NB_MEF_OUVERT",
+            "NB_MEF_FERME",
+            "DATE_SESSION_RATTRAPAGE",
+            "OBSERVATION",
+            "N_COMMENTAIRE",
+            "CITE_DOMAINE_DETAILLE",
+            "N_CITE_2013_DOMAINE_DETAILL.LIBELLE_EDITION",
+          ],
+        },
+        "date": {
+          "bsonType": "date",
+        },
+        "source": {
+          "bsonType": "string",
+        },
+      },
+      "required": [
+        "_id",
+        "source",
+        "date",
+        "data",
+      ],
+    },
+    {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "_id": {
+          "bsonType": "objectId",
+        },
+        "data": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "ANCIEN_RECME": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "CITE_DOMAINE_DETAILLE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "CITE_DOMAINE_FORMATION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "COMMENTAIRE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_ABROGATION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_CREATION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_1": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_10": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_2": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_3": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_4": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_5": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_6": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_7": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_8": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_9": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_DERNIERE_SESSION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_FERMETURE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_INTERVENTION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_OUVERTURE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_PREMIERE_SESSION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DIPLOME_SISE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "FORMATION_DIPLOME": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "GESTIONNAIRE_FORMATION_DIPLOME": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "GROUPE_SPECIALITE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "HABILITATION_ORIGINE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "ID_DOCUMENT": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "LETTRE_SPECIALITE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "LIBELLE_COURT": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "LIBELLE_LONG_200": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "LIBELLE_STAT_33": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "NATURE_FORMATION_DIPLOME": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "NIVEAU_FORMATION_DIPLOME": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "NIVEAU_QUALIFICATION_RNCP": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "NUMERO_UAI": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_CITE_2013_DOMAINE_DETAILL.LIBELLE_EDITION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_CITE_DOMAINE_FORMATION.LIBELLE_EDITION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_COMMENTAIRE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_DIPLOME_SISE.LIBELLE_INTITULE_1": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_GROUPE_SPECIALITE.LIBELLE_LONG": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_LETTRE_SPECIALITE.LIBELLE_LONG": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_NATURE_FORMATION_DIPLOME.LIBELLE_100": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_NIVEAU_FORMATION_DIPLOME.LIBELLE_100": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_NIVEAU_QUALIFICATION_RNCP.LIBELLE_LONG": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "UNITE_CAPITALISABLE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+          },
+          "required": [
+            "FORMATION_DIPLOME",
+            "NIVEAU_FORMATION_DIPLOME",
+            "N_NIVEAU_FORMATION_DIPLOME.LIBELLE_100",
+            "GROUPE_SPECIALITE",
+            "N_GROUPE_SPECIALITE.LIBELLE_LONG",
+            "LETTRE_SPECIALITE",
+            "N_LETTRE_SPECIALITE.LIBELLE_LONG",
+            "ANCIEN_RECME",
+            "LIBELLE_COURT",
+            "LIBELLE_STAT_33",
+            "LIBELLE_LONG_200",
+            "DATE_OUVERTURE",
+            "DATE_FERMETURE",
+            "UNITE_CAPITALISABLE",
+            "DATE_PREMIERE_SESSION",
+            "DATE_DERNIERE_SESSION",
+            "DATE_ARRETE_CREATION",
+            "DATE_ARRETE_ABROGATION",
+            "DATE_ARRETE_MODIFICATION_1",
+            "DATE_ARRETE_MODIFICATION_2",
+            "DATE_ARRETE_MODIFICATION_3",
+            "DATE_ARRETE_MODIFICATION_4",
+            "DATE_ARRETE_MODIFICATION_5",
+            "DATE_ARRETE_MODIFICATION_6",
+            "DATE_ARRETE_MODIFICATION_7",
+            "DATE_ARRETE_MODIFICATION_8",
+            "DATE_ARRETE_MODIFICATION_9",
+            "DATE_ARRETE_MODIFICATION_10",
+            "COMMENTAIRE",
+            "NATURE_FORMATION_DIPLOME",
+            "N_NATURE_FORMATION_DIPLOME.LIBELLE_100",
+            "GESTIONNAIRE_FORMATION_DIPLOME",
+            "DATE_INTERVENTION",
+            "ID_DOCUMENT",
+            "CITE_DOMAINE_FORMATION",
+            "N_CITE_DOMAINE_FORMATION.LIBELLE_EDITION",
+            "NIVEAU_QUALIFICATION_RNCP",
+            "N_NIVEAU_QUALIFICATION_RNCP.LIBELLE_LONG",
+            "N_COMMENTAIRE",
+            "CITE_DOMAINE_DETAILLE",
+            "N_CITE_2013_DOMAINE_DETAILL.LIBELLE_EDITION",
+            "DIPLOME_SISE",
+            "N_DIPLOME_SISE.LIBELLE_INTITULE_1",
+            "HABILITATION_ORIGINE",
+            "NUMERO_UAI",
+          ],
+        },
+        "date": {
+          "bsonType": "date",
+        },
+        "source": {
+          "bsonType": "string",
+        },
+      },
+      "required": [
+        "_id",
+        "source",
+        "date",
+        "data",
+      ],
+    },
+    {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "_id": {
+          "bsonType": "objectId",
+        },
+        "data": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "ANCIEN_NIVEAU": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_FERMETURE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_INTERVENTION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_OUVERTURE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "LIBELLE_100": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "LIBELLE_COURT": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "NIVEAU_FORMATION_DIPLOME": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "NIVEAU_INTERMINISTERIEL": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "NIVEAU_QUALIFICATION_RNCP": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_COMMENTAIRE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_NIVEAU_INTERMINISTERIEL.LIBELLE_LONG": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_NIVEAU_QUALIFICATION_RNCP.LIBELLE_LONG": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+          },
+          "required": [
+            "NIVEAU_FORMATION_DIPLOME",
+            "LIBELLE_COURT",
+            "DATE_OUVERTURE",
+            "DATE_FERMETURE",
+            "DATE_INTERVENTION",
+            "NIVEAU_QUALIFICATION_RNCP",
+            "N_NIVEAU_QUALIFICATION_RNCP.LIBELLE_LONG",
+            "N_COMMENTAIRE",
+            "NIVEAU_INTERMINISTERIEL",
+            "N_NIVEAU_INTERMINISTERIEL.LIBELLE_LONG",
+            "LIBELLE_100",
+            "ANCIEN_NIVEAU",
+          ],
+        },
+        "date": {
+          "bsonType": "date",
+        },
+        "source": {
+          "bsonType": "string",
+        },
+      },
+      "required": [
+        "_id",
+        "source",
+        "date",
+        "data",
+      ],
+    },
+    {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "_id": {
+          "bsonType": "objectId",
+        },
+        "data": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "ANCIEN_RECME": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "CITE_DOMAINE_FORMATION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "COMMENTAIRE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_ABROGATION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_CREATION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_1": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_10": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_2": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_3": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_4": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_5": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_6": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_7": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_8": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_9": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_DERNIERE_SESSION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_FERMETURE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_INTERVENTION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_OUVERTURE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_PREMIERE_SESSION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "FORMATION_DIPLOME": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "GESTIONNAIRE_FORMATION_DIPLOME": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "GROUPE_SPECIALITE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "ID_DOCUMENT": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "LETTRE_SPECIALITE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "LIBELLE_COURT": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "LIBELLE_LONG_200": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "LIBELLE_STAT_33": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "NATURE_FORMATION_DIPLOME": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "NIVEAU_FORMATION_DIPLOME": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "NIVEAU_QUALIFICATION_RNCP": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_CITE_DOMAINE_FORMATION.LIBELLE_EDITION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_GROUPE_SPECIALITE.LIBELLE_LONG": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_LETTRE_SPECIALITE.LIBELLE_LONG": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_NATURE_FORMATION_DIPLOME.LIBELLE_100": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_NIVEAU_FORMATION_DIPLOME.LIBELLE_100": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_NIVEAU_QUALIFICATION_RNCP.LIBELLE_LONG": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "UNITE_CAPITALISABLE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+          },
+          "required": [
+            "FORMATION_DIPLOME",
+            "NIVEAU_FORMATION_DIPLOME",
+            "N_NIVEAU_FORMATION_DIPLOME.LIBELLE_100",
+            "GROUPE_SPECIALITE",
+            "N_GROUPE_SPECIALITE.LIBELLE_LONG",
+            "LETTRE_SPECIALITE",
+            "N_LETTRE_SPECIALITE.LIBELLE_LONG",
+            "ANCIEN_RECME",
+            "LIBELLE_COURT",
+            "LIBELLE_STAT_33",
+            "LIBELLE_LONG_200",
+            "DATE_OUVERTURE",
+            "DATE_FERMETURE",
+            "UNITE_CAPITALISABLE",
+            "DATE_PREMIERE_SESSION",
+            "DATE_DERNIERE_SESSION",
+            "DATE_ARRETE_CREATION",
+            "DATE_ARRETE_ABROGATION",
+            "DATE_ARRETE_MODIFICATION_1",
+            "DATE_ARRETE_MODIFICATION_2",
+            "DATE_ARRETE_MODIFICATION_3",
+            "DATE_ARRETE_MODIFICATION_4",
+            "DATE_ARRETE_MODIFICATION_5",
+            "DATE_ARRETE_MODIFICATION_6",
+            "DATE_ARRETE_MODIFICATION_7",
+            "DATE_ARRETE_MODIFICATION_8",
+            "DATE_ARRETE_MODIFICATION_9",
+            "DATE_ARRETE_MODIFICATION_10",
+            "COMMENTAIRE",
+            "NATURE_FORMATION_DIPLOME",
+            "N_NATURE_FORMATION_DIPLOME.LIBELLE_100",
+            "GESTIONNAIRE_FORMATION_DIPLOME",
+            "DATE_INTERVENTION",
+            "ID_DOCUMENT",
+            "CITE_DOMAINE_FORMATION",
+            "N_CITE_DOMAINE_FORMATION.LIBELLE_EDITION",
+            "NIVEAU_QUALIFICATION_RNCP",
+            "N_NIVEAU_QUALIFICATION_RNCP.LIBELLE_LONG",
+          ],
+        },
+        "date": {
+          "bsonType": "date",
+        },
+        "source": {
+          "bsonType": "string",
+        },
+      },
+      "required": [
+        "_id",
+        "source",
+        "date",
+        "data",
+      ],
+    },
+  ],
+}
+`;
+
 exports[`zodToMongoSchema > should convert source.referentiel schema 1`] = `
 {
   "additionalProperties": false,

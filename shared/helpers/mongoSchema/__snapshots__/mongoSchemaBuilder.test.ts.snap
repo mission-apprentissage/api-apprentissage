@@ -1676,6 +1676,654 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
 }
 `;
 
+exports[`zodToMongoSchema > should convert source.referentiel schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "_meta": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "anomalies": {
+          "bsonType": "array",
+          "items": {
+            "additionalProperties": false,
+            "bsonType": "object",
+            "properties": {
+              "code": {
+                "bsonType": "string",
+              },
+              "date": {
+                "bsonType": "string",
+              },
+              "date_collecte": {
+                "bsonType": "string",
+              },
+              "details": {
+                "bsonType": "string",
+              },
+              "job": {
+                "bsonType": "string",
+              },
+              "key": {
+                "bsonType": "string",
+              },
+              "sources": {
+                "bsonType": "array",
+                "items": {
+                  "anyOf": [
+                    {
+                      "not": {},
+                    },
+                    {
+                      "bsonType": "string",
+                    },
+                  ],
+                },
+              },
+              "type": {
+                "bsonType": "string",
+              },
+            },
+            "required": [
+              "key",
+              "type",
+              "job",
+              "details",
+            ],
+          },
+        },
+        "date_collecte": {
+          "bsonType": "string",
+        },
+        "date_dernier_import": {
+          "bsonType": "string",
+        },
+        "date_import": {
+          "bsonType": "string",
+        },
+        "nouveau": {
+          "bsonType": "bool",
+        },
+        "uai_probable": {
+          "bsonType": "string",
+        },
+      },
+      "required": [
+        "nouveau",
+        "anomalies",
+      ],
+    },
+    "adresse": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "academie": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "code": {
+              "bsonType": "string",
+            },
+            "nom": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "code",
+            "nom",
+          ],
+        },
+        "code_insee": {
+          "bsonType": "string",
+        },
+        "code_postal": {
+          "bsonType": "string",
+        },
+        "departement": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "code": {
+              "bsonType": "string",
+            },
+            "nom": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "code",
+            "nom",
+          ],
+        },
+        "geojson": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "geometry": {
+              "additionalProperties": false,
+              "bsonType": "object",
+              "properties": {
+                "coordinates": {},
+                "type": {
+                  "bsonType": "string",
+                },
+              },
+              "required": [
+                "type",
+              ],
+            },
+            "properties": {
+              "additionalProperties": false,
+              "bsonType": "object",
+              "properties": {
+                "score": {
+                  "bsonType": "number",
+                },
+                "source": {
+                  "bsonType": "string",
+                },
+              },
+            },
+            "type": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "type",
+            "geometry",
+            "properties",
+          ],
+        },
+        "label": {
+          "bsonType": "string",
+        },
+        "localite": {
+          "bsonType": "string",
+        },
+        "region": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "code": {
+              "bsonType": "string",
+            },
+            "nom": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "code",
+            "nom",
+          ],
+        },
+      },
+      "required": [
+        "code_postal",
+        "code_insee",
+        "localite",
+        "region",
+        "academie",
+      ],
+    },
+    "certifications": {
+      "bsonType": "array",
+      "items": {
+        "additionalProperties": false,
+        "bsonType": "object",
+        "properties": {
+          "code": {
+            "bsonType": "string",
+          },
+          "date_collecte": {
+            "bsonType": "string",
+          },
+          "label": {
+            "bsonType": "string",
+          },
+          "sources": {
+            "bsonType": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "not": {},
+                },
+                {
+                  "bsonType": "string",
+                },
+              ],
+            },
+          },
+          "type": {
+            "bsonType": "string",
+          },
+        },
+        "required": [
+          "type",
+        ],
+      },
+    },
+    "contacts": {
+      "bsonType": "array",
+      "items": {
+        "additionalProperties": false,
+        "bsonType": "object",
+        "properties": {
+          "confirmé": {
+            "bsonType": "bool",
+          },
+          "date_collecte": {
+            "bsonType": "string",
+          },
+          "email": {
+            "bsonType": "string",
+          },
+          "sources": {
+            "bsonType": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "not": {},
+                },
+                {
+                  "bsonType": "string",
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
+    "diplomes": {
+      "bsonType": "array",
+      "items": {
+        "additionalProperties": false,
+        "bsonType": "object",
+        "properties": {
+          "code": {
+            "bsonType": "string",
+          },
+          "date_collecte": {
+            "bsonType": "string",
+          },
+          "label": {
+            "bsonType": "string",
+          },
+          "niveau": {
+            "bsonType": "string",
+          },
+          "sources": {
+            "bsonType": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "not": {},
+                },
+                {
+                  "bsonType": "string",
+                },
+              ],
+            },
+          },
+          "type": {
+            "bsonType": "string",
+          },
+        },
+        "required": [
+          "type",
+        ],
+      },
+    },
+    "enseigne": {
+      "bsonType": "string",
+    },
+    "etat_administratif": {
+      "bsonType": "string",
+      "enum": [
+        "actif",
+        "fermé",
+      ],
+    },
+    "forme_juridique": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "code": {
+          "bsonType": "string",
+        },
+        "label": {
+          "bsonType": "string",
+        },
+      },
+      "required": [
+        "code",
+        "label",
+      ],
+    },
+    "lieux_de_formation": {
+      "bsonType": "array",
+      "items": {
+        "additionalProperties": false,
+        "bsonType": "object",
+        "properties": {
+          "adresse": {
+            "additionalProperties": false,
+            "bsonType": "object",
+            "properties": {
+              "academie": {
+                "additionalProperties": false,
+                "bsonType": "object",
+                "properties": {
+                  "code": {
+                    "bsonType": "string",
+                  },
+                  "nom": {
+                    "bsonType": "string",
+                  },
+                },
+                "required": [
+                  "code",
+                  "nom",
+                ],
+              },
+              "code_insee": {
+                "bsonType": "string",
+              },
+              "code_postal": {
+                "bsonType": "string",
+              },
+              "departement": {
+                "additionalProperties": false,
+                "bsonType": "object",
+                "properties": {
+                  "code": {
+                    "bsonType": "string",
+                  },
+                  "nom": {
+                    "bsonType": "string",
+                  },
+                },
+                "required": [
+                  "code",
+                  "nom",
+                ],
+              },
+              "geojson": {
+                "additionalProperties": false,
+                "bsonType": "object",
+                "properties": {
+                  "geometry": {
+                    "additionalProperties": false,
+                    "bsonType": "object",
+                    "properties": {
+                      "coordinates": {},
+                      "type": {
+                        "bsonType": "string",
+                      },
+                    },
+                    "required": [
+                      "type",
+                    ],
+                  },
+                  "properties": {
+                    "additionalProperties": false,
+                    "bsonType": "object",
+                    "properties": {
+                      "score": {
+                        "bsonType": "number",
+                      },
+                      "source": {
+                        "bsonType": "string",
+                      },
+                    },
+                  },
+                  "type": {
+                    "bsonType": "string",
+                  },
+                },
+                "required": [
+                  "type",
+                  "geometry",
+                  "properties",
+                ],
+              },
+              "label": {
+                "bsonType": "string",
+              },
+              "localite": {
+                "bsonType": "string",
+              },
+              "region": {
+                "additionalProperties": false,
+                "bsonType": "object",
+                "properties": {
+                  "code": {
+                    "bsonType": "string",
+                  },
+                  "nom": {
+                    "bsonType": "string",
+                  },
+                },
+                "required": [
+                  "code",
+                  "nom",
+                ],
+              },
+            },
+            "required": [
+              "code_postal",
+              "code_insee",
+              "localite",
+              "region",
+              "academie",
+            ],
+          },
+          "code": {
+            "bsonType": "string",
+          },
+          "date_collecte": {
+            "bsonType": "string",
+          },
+          "siret": {
+            "bsonType": "string",
+          },
+          "sources": {
+            "bsonType": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "not": {},
+                },
+                {
+                  "bsonType": "string",
+                },
+              ],
+            },
+          },
+          "uai": {
+            "bsonType": "string",
+          },
+          "uai_fiable": {
+            "bsonType": "bool",
+          },
+        },
+      },
+    },
+    "nature": {
+      "bsonType": "string",
+      "enum": [
+        "responsable",
+        "formateur",
+        "responsable_formateur",
+        "inconnue",
+      ],
+    },
+    "numero_declaration_activite": {
+      "bsonType": "string",
+    },
+    "qualiopi": {
+      "bsonType": "bool",
+    },
+    "raison_sociale": {
+      "bsonType": "string",
+    },
+    "referentiels": {
+      "bsonType": "array",
+      "items": {
+        "anyOf": [
+          {
+            "not": {},
+          },
+          {
+            "bsonType": "string",
+          },
+        ],
+      },
+    },
+    "relations": {
+      "bsonType": "array",
+      "items": {
+        "anyOf": [
+          {
+            "not": {},
+          },
+          {
+            "additionalProperties": false,
+            "bsonType": "object",
+            "properties": {
+              "date_collecte": {
+                "bsonType": "string",
+              },
+              "label": {
+                "bsonType": "string",
+              },
+              "referentiel": {
+                "bsonType": "bool",
+              },
+              "siret": {
+                "bsonType": "string",
+              },
+              "sources": {
+                "bsonType": "array",
+                "items": {
+                  "anyOf": [
+                    {
+                      "not": {},
+                    },
+                    {
+                      "bsonType": "string",
+                    },
+                  ],
+                },
+              },
+              "type": {
+                "bsonType": "string",
+                "enum": [
+                  "formateur->responsable",
+                  "responsable->formateur",
+                  "entreprise",
+                ],
+              },
+            },
+          },
+        ],
+      },
+    },
+    "reseaux": {
+      "bsonType": "array",
+      "items": {
+        "additionalProperties": false,
+        "bsonType": "object",
+        "properties": {
+          "code": {
+            "bsonType": "string",
+          },
+          "date_collecte": {
+            "bsonType": "string",
+          },
+          "label": {
+            "bsonType": "string",
+          },
+          "sources": {
+            "bsonType": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "not": {},
+                },
+                {
+                  "bsonType": "string",
+                },
+              ],
+            },
+          },
+        },
+        "required": [
+          "code",
+          "label",
+        ],
+      },
+    },
+    "siege_social": {
+      "bsonType": "bool",
+    },
+    "siret": {
+      "bsonType": "string",
+    },
+    "uai": {
+      "bsonType": "string",
+    },
+    "uai_potentiels": {
+      "bsonType": "array",
+      "items": {
+        "additionalProperties": false,
+        "bsonType": "object",
+        "properties": {
+          "date_collecte": {
+            "bsonType": "string",
+          },
+          "sources": {
+            "bsonType": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "not": {},
+                },
+                {
+                  "bsonType": "string",
+                },
+              ],
+            },
+          },
+          "uai": {
+            "bsonType": "string",
+          },
+        },
+        "required": [
+          "uai",
+        ],
+      },
+    },
+  },
+  "required": [
+    "_id",
+    "siret",
+    "certifications",
+    "contacts",
+    "diplomes",
+    "lieux_de_formation",
+    "nature",
+    "referentiels",
+    "reseaux",
+    "uai_potentiels",
+  ],
+}
+`;
+
 exports[`zodToMongoSchema > should convert users schema 1`] = `
 {
   "additionalProperties": false,

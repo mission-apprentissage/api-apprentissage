@@ -4,20 +4,15 @@ import { IModelDescriptor, zObjectId } from "../../common";
 
 const collectionName = "source.referentiel" as const;
 
-const indexes: IModelDescriptor["indexes"] = [
-  // [{ date: 1, source: 1 }, {}] // TODO
-];
+const indexes: IModelDescriptor["indexes"] = [[{ date: 1 }, {}]];
 
-const zSourceReferentiel = z
+export const zReferentiel = z
   .object({
-    _id: zObjectId,
     siret: z.string(),
     uai: z.string().optional(),
-
     raison_sociale: z.string().optional(),
     enseigne: z.string().optional(),
     siege_social: z.boolean().optional(),
-
     certifications: z.array(
       z
         .object({
@@ -29,7 +24,6 @@ const zSourceReferentiel = z
         })
         .strict()
     ),
-
     contacts: z.array(
       z
         .object({
@@ -40,7 +34,6 @@ const zSourceReferentiel = z
         })
         .strict()
     ),
-
     diplomes: z.array(
       z
         .object({
@@ -53,7 +46,6 @@ const zSourceReferentiel = z
         })
         .strict()
     ),
-
     lieux_de_formation: z.array(
       z
         .object({
@@ -113,11 +105,8 @@ const zSourceReferentiel = z
         })
         .strict()
     ),
-
     nature: z.enum(["responsable", "formateur", "responsable_formateur", "inconnue"]),
-
     referentiels: z.array(z.string().optional()),
-
     relations: z
       .array(
         z
@@ -134,7 +123,6 @@ const zSourceReferentiel = z
           .optional()
       )
       .optional(),
-
     reseaux: z.array(
       z
         .object({
@@ -154,10 +142,8 @@ const zSourceReferentiel = z
         })
         .strict()
     ),
-
     numero_declaration_activite: z.string().optional(),
     qualiopi: z.boolean().optional(),
-
     adresse: z
       .object({
         label: z.string().optional(),
@@ -204,9 +190,7 @@ const zSourceReferentiel = z
       })
       .strict()
       .optional(),
-
     etat_administratif: z.enum(["actif", "fermé"]).optional(),
-
     forme_juridique: z
       .object({
         code: z.string(),
@@ -214,7 +198,6 @@ const zSourceReferentiel = z
       })
       .strict()
       .optional(),
-
     _meta: z
       .object({
         date_import: z.string().optional(),
@@ -239,6 +222,14 @@ const zSourceReferentiel = z
       })
       .strict()
       .optional(),
+  })
+  .strict();
+
+export const zSourceReferentiel = z
+  .object({
+    _id: zObjectId,
+    date: z.date(),
+    data: zReferentiel.strict(),
   })
   .strict();
 

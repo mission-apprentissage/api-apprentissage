@@ -156,7 +156,7 @@ const zSourceReferentiel = z
     ),
 
     numero_declaration_activite: z.string().optional(),
-    qualiopi: z.boolean(),
+    qualiopi: z.boolean().optional(),
 
     adresse: z
       .object({
@@ -229,8 +229,8 @@ const zSourceReferentiel = z
               type: z.string(),
               job: z.string(),
               sources: z.array(z.string().optional()).optional(),
-              date: z.string(),
-              code: z.string(),
+              date: z.string().optional(),
+              code: z.string().optional(),
               details: z.string(),
               date_collecte: z.string().optional(),
             })

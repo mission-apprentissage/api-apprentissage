@@ -9,5 +9,10 @@ export async function runReferentielImporter() {
   logger.info("Geting Referentiel ...");
 
   const organismes = await fetchReferentielOrganismes();
-  await getDbCollection("source.referentiel").insertMany(organismes);
+
+  try {
+    await getDbCollection("source.referentiel").insertMany(organismes);
+  } catch (error) {
+    logger.error(error);
+  }
 }

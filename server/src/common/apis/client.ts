@@ -19,7 +19,7 @@ const closeMemoryCache = () => {
 };
 
 const getApiClient = (options: AxiosRequestConfig, { cache }: { cache: boolean } = { cache: true }): AxiosInstance => {
-  if (!client) {
+  if (!client || client.getUri() !== options.baseURL) {
     client = axios.create({
       timeout: 5000,
       ...options,

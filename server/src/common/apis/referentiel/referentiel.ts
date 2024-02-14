@@ -6,7 +6,7 @@ import getApiClient from "../client";
 
 // Cf Documentation : https://referentiel.apprentissage.onisep.fr/api/v1/doc/#/
 
-const client = getApiClient(
+const referentielClient = getApiClient(
   {
     baseURL: config.api.referentielOnisep.endpoint,
     timeout: 0, // no timeout
@@ -19,11 +19,12 @@ const client = getApiClient(
  * Par défaut on récupère 50000 éléments par page et tous les champs
  */
 export const fetchReferentielOrganismes = async () => {
+  // https://referentiel.apprentissage.onisep.fr/api/v1/organismes.json?items_par_page=10&ordre=desc
   const {
     data: { organismes },
-  } = await client.get<{ organismes: ISourceReferentiel[] }>("/organismes.json", {
+  } = await referentielClient.get<{ organismes: ISourceReferentiel[] }>("/organismes.json", {
     params: {
-      items_par_page: 50000,
+      items_par_page: 60000,
     },
   });
 

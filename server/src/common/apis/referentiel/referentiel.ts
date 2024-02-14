@@ -9,7 +9,6 @@ import getApiClient from "../client";
 const referentielClient = getApiClient(
   {
     baseURL: config.api.referentielOnisep.endpoint,
-    timeout: 0, // no timeout
   },
   { cache: false }
 );

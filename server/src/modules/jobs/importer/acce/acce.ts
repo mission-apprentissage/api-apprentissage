@@ -5,7 +5,7 @@ import { pipeline } from "node:stream/promises";
 import { internal } from "@hapi/boom";
 import { parse } from "csv-parse";
 import { ObjectId } from "mongodb";
-import { IAcce, ZAcceByType } from "shared/models/source/source.acce.model";
+import { ISourceAcce, ZAcceByType } from "shared/models/source/acce/source.acce.model";
 import unzipper from "unzipper";
 
 import parentLogger from "@/common/logger";
@@ -64,7 +64,7 @@ async function parseAcceFile(stream: ReadStream, source: string, date: Date) {
     );
 
     await getDbCollection("source.acce").deleteMany({
-      source: source as IAcce["source"],
+      source: source as ISourceAcce["source"],
       date: { $ne: date },
     });
   } catch (error) {

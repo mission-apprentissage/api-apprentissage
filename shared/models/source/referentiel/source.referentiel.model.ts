@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { IModelDescriptor, zObjectId } from "../common";
+import { IModelDescriptor, zObjectId } from "../../common";
 
 const collectionName = "source.referentiel" as const;
 
@@ -8,7 +8,7 @@ const indexes: IModelDescriptor["indexes"] = [
   // [{ date: 1, source: 1 }, {}] // TODO
 ];
 
-const zReferentiel = z
+const zSourceReferentiel = z
   .object({
     _id: zObjectId,
     siret: z.string(),
@@ -242,10 +242,10 @@ const zReferentiel = z
   })
   .strict();
 
-export type IReferentiel = z.output<typeof zReferentiel>;
+export type ISourceReferentiel = z.output<typeof zSourceReferentiel>;
 
 export default {
-  zod: zReferentiel,
+  zod: zSourceReferentiel,
   indexes,
   collectionName,
 };

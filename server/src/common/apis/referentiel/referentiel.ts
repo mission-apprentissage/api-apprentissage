@@ -1,4 +1,4 @@
-import { IReferentiel } from "shared/models/source/source.referentiel.model";
+import { ISourceReferentiel } from "shared/models/source/referentiel/source.referentiel.model";
 
 import config from "@/config";
 
@@ -21,7 +21,7 @@ const client = getApiClient(
 export const fetchReferentielOrganismes = async () => {
   const {
     data: { organismes },
-  } = await client.get<{ organismes: IReferentiel[] }>("/organismes.json", {
+  } = await client.get<{ organismes: ISourceReferentiel[] }>("/organismes.json", {
     params: {
       items_par_page: 50000,
     },

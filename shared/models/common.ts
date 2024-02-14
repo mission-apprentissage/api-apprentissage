@@ -7,6 +7,7 @@ export type CollectionName =
   | "sessions"
   | "users"
   | "source.acce"
+  | "source.bcn"
   | "source.referentiel";
 
 export interface IModelDescriptor {

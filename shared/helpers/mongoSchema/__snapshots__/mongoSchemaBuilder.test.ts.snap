@@ -1984,13 +1984,13 @@ exports[`zodToMongoSchema > should convert source.bcn schema 1`] = `
                 "null",
               ],
             },
-            "N_CITE_2013_DOMAINE_DETAILL.LIBELLE_EDITION": {
+            "N_CITE_2013_DOMAINE_DETAILL_LIBELLE_EDITION": {
               "bsonType": [
                 "string",
                 "null",
               ],
             },
-            "N_CITE_DOMAINE_FORMATION.LIBELLE_EDITION": {
+            "N_CITE_DOMAINE_FORMATION_LIBELLE_EDITION": {
               "bsonType": [
                 "string",
                 "null",
@@ -2002,31 +2002,31 @@ exports[`zodToMongoSchema > should convert source.bcn schema 1`] = `
                 "null",
               ],
             },
-            "N_GROUPE_SPECIALITE.LIBELLE_LONG": {
+            "N_GROUPE_SPECIALITE_LIBELLE_LONG": {
               "bsonType": [
                 "string",
                 "null",
               ],
             },
-            "N_LETTRE_SPECIALITE.LIBELLE_LONG": {
+            "N_LETTRE_SPECIALITE_LIBELLE_LONG": {
               "bsonType": [
                 "string",
                 "null",
               ],
             },
-            "N_NATURE_FORMATION_DIPLOME.LIBELLE_100": {
+            "N_NATURE_FORMATION_DIPLOME_LIBELLE_100": {
               "bsonType": [
                 "string",
                 "null",
               ],
             },
-            "N_NIVEAU_FORMATION_DIPLOME.LIBELLE_100": {
+            "N_NIVEAU_FORMATION_DIPLOME_LIBELLE_100": {
               "bsonType": [
                 "string",
                 "null",
               ],
             },
-            "N_NIVEAU_QUALIFICATION_RNCP.LIBELLE_LONG": {
+            "N_NIVEAU_QUALIFICATION_RNCP_LIBELLE_LONG": {
               "bsonType": [
                 "string",
                 "null",
@@ -2048,11 +2048,11 @@ exports[`zodToMongoSchema > should convert source.bcn schema 1`] = `
           "required": [
             "FORMATION_DIPLOME",
             "NIVEAU_FORMATION_DIPLOME",
-            "N_NIVEAU_FORMATION_DIPLOME.LIBELLE_100",
+            "N_NIVEAU_FORMATION_DIPLOME_LIBELLE_100",
             "GROUPE_SPECIALITE",
-            "N_GROUPE_SPECIALITE.LIBELLE_LONG",
+            "N_GROUPE_SPECIALITE_LIBELLE_LONG",
             "LETTRE_SPECIALITE",
-            "N_LETTRE_SPECIALITE.LIBELLE_LONG",
+            "N_LETTRE_SPECIALITE_LIBELLE_LONG",
             "ANCIEN_RECME",
             "LIBELLE_COURT",
             "LIBELLE_STAT_33",
@@ -2076,14 +2076,14 @@ exports[`zodToMongoSchema > should convert source.bcn schema 1`] = `
             "DATE_ARRETE_MODIFICATION_10",
             "COMMENTAIRE",
             "NATURE_FORMATION_DIPLOME",
-            "N_NATURE_FORMATION_DIPLOME.LIBELLE_100",
+            "N_NATURE_FORMATION_DIPLOME_LIBELLE_100",
             "GESTIONNAIRE_FORMATION_DIPLOME",
             "DATE_INTERVENTION",
             "ID_DOCUMENT",
             "CITE_DOMAINE_FORMATION",
-            "N_CITE_DOMAINE_FORMATION.LIBELLE_EDITION",
+            "N_CITE_DOMAINE_FORMATION_LIBELLE_EDITION",
             "NIVEAU_QUALIFICATION_RNCP",
-            "N_NIVEAU_QUALIFICATION_RNCP.LIBELLE_LONG",
+            "N_NIVEAU_QUALIFICATION_RNCP_LIBELLE_LONG",
             "ANCIEN_DIPLOME_1",
             "ANCIEN_DIPLOME_2",
             "ANCIEN_DIPLOME_3",
@@ -2104,7 +2104,7 @@ exports[`zodToMongoSchema > should convert source.bcn schema 1`] = `
             "OBSERVATION",
             "N_COMMENTAIRE",
             "CITE_DOMAINE_DETAILLE",
-            "N_CITE_2013_DOMAINE_DETAILL.LIBELLE_EDITION",
+            "N_CITE_2013_DOMAINE_DETAILL_LIBELLE_EDITION",
           ],
         },
         "date": {
@@ -2342,13 +2342,13 @@ exports[`zodToMongoSchema > should convert source.bcn schema 1`] = `
                 "null",
               ],
             },
-            "N_CITE_2013_DOMAINE_DETAILL.LIBELLE_EDITION": {
+            "N_CITE_2013_DOMAINE_DETAILL_LIBELLE_EDITION": {
               "bsonType": [
                 "string",
                 "null",
               ],
             },
-            "N_CITE_DOMAINE_FORMATION.LIBELLE_EDITION": {
+            "N_CITE_DOMAINE_FORMATION_LIBELLE_EDITION": {
               "bsonType": [
                 "string",
                 "null",
@@ -2360,37 +2360,37 @@ exports[`zodToMongoSchema > should convert source.bcn schema 1`] = `
                 "null",
               ],
             },
-            "N_DIPLOME_SISE.LIBELLE_INTITULE_1": {
+            "N_DIPLOME_SISE_LIBELLE_INTITULE_1": {
               "bsonType": [
                 "string",
                 "null",
               ],
             },
-            "N_GROUPE_SPECIALITE.LIBELLE_LONG": {
+            "N_GROUPE_SPECIALITE_LIBELLE_LONG": {
               "bsonType": [
                 "string",
                 "null",
               ],
             },
-            "N_LETTRE_SPECIALITE.LIBELLE_LONG": {
+            "N_LETTRE_SPECIALITE_LIBELLE_LONG": {
               "bsonType": [
                 "string",
                 "null",
               ],
             },
-            "N_NATURE_FORMATION_DIPLOME.LIBELLE_100": {
+            "N_NATURE_FORMATION_DIPLOME_LIBELLE_100": {
               "bsonType": [
                 "string",
                 "null",
               ],
             },
-            "N_NIVEAU_FORMATION_DIPLOME.LIBELLE_100": {
+            "N_NIVEAU_FORMATION_DIPLOME_LIBELLE_100": {
               "bsonType": [
                 "string",
                 "null",
               ],
             },
-            "N_NIVEAU_QUALIFICATION_RNCP.LIBELLE_LONG": {
+            "N_NIVEAU_QUALIFICATION_RNCP_LIBELLE_LONG": {
               "bsonType": [
                 "string",
                 "null",
@@ -2406,11 +2406,11 @@ exports[`zodToMongoSchema > should convert source.bcn schema 1`] = `
           "required": [
             "FORMATION_DIPLOME",
             "NIVEAU_FORMATION_DIPLOME",
-            "N_NIVEAU_FORMATION_DIPLOME.LIBELLE_100",
+            "N_NIVEAU_FORMATION_DIPLOME_LIBELLE_100",
             "GROUPE_SPECIALITE",
-            "N_GROUPE_SPECIALITE.LIBELLE_LONG",
+            "N_GROUPE_SPECIALITE_LIBELLE_LONG",
             "LETTRE_SPECIALITE",
-            "N_LETTRE_SPECIALITE.LIBELLE_LONG",
+            "N_LETTRE_SPECIALITE_LIBELLE_LONG",
             "ANCIEN_RECME",
             "LIBELLE_COURT",
             "LIBELLE_STAT_33",
@@ -2434,19 +2434,19 @@ exports[`zodToMongoSchema > should convert source.bcn schema 1`] = `
             "DATE_ARRETE_MODIFICATION_10",
             "COMMENTAIRE",
             "NATURE_FORMATION_DIPLOME",
-            "N_NATURE_FORMATION_DIPLOME.LIBELLE_100",
+            "N_NATURE_FORMATION_DIPLOME_LIBELLE_100",
             "GESTIONNAIRE_FORMATION_DIPLOME",
             "DATE_INTERVENTION",
             "ID_DOCUMENT",
             "CITE_DOMAINE_FORMATION",
-            "N_CITE_DOMAINE_FORMATION.LIBELLE_EDITION",
+            "N_CITE_DOMAINE_FORMATION_LIBELLE_EDITION",
             "NIVEAU_QUALIFICATION_RNCP",
-            "N_NIVEAU_QUALIFICATION_RNCP.LIBELLE_LONG",
+            "N_NIVEAU_QUALIFICATION_RNCP_LIBELLE_LONG",
             "N_COMMENTAIRE",
             "CITE_DOMAINE_DETAILLE",
-            "N_CITE_2013_DOMAINE_DETAILL.LIBELLE_EDITION",
+            "N_CITE_2013_DOMAINE_DETAILL_LIBELLE_EDITION",
             "DIPLOME_SISE",
-            "N_DIPLOME_SISE.LIBELLE_INTITULE_1",
+            "N_DIPLOME_SISE_LIBELLE_INTITULE_1",
             "HABILITATION_ORIGINE",
             "NUMERO_UAI",
           ],
@@ -2536,13 +2536,13 @@ exports[`zodToMongoSchema > should convert source.bcn schema 1`] = `
                 "null",
               ],
             },
-            "N_NIVEAU_INTERMINISTERIEL.LIBELLE_LONG": {
+            "N_NIVEAU_INTERMINISTERIEL_LIBELLE_LONG": {
               "bsonType": [
                 "string",
                 "null",
               ],
             },
-            "N_NIVEAU_QUALIFICATION_RNCP.LIBELLE_LONG": {
+            "N_NIVEAU_QUALIFICATION_RNCP_LIBELLE_LONG": {
               "bsonType": [
                 "string",
                 "null",
@@ -2556,10 +2556,10 @@ exports[`zodToMongoSchema > should convert source.bcn schema 1`] = `
             "DATE_FERMETURE",
             "DATE_INTERVENTION",
             "NIVEAU_QUALIFICATION_RNCP",
-            "N_NIVEAU_QUALIFICATION_RNCP.LIBELLE_LONG",
+            "N_NIVEAU_QUALIFICATION_RNCP_LIBELLE_LONG",
             "N_COMMENTAIRE",
             "NIVEAU_INTERMINISTERIEL",
-            "N_NIVEAU_INTERMINISTERIEL.LIBELLE_LONG",
+            "N_NIVEAU_INTERMINISTERIEL_LIBELLE_LONG",
             "LIBELLE_100",
             "ANCIEN_NIVEAU",
           ],
@@ -2775,37 +2775,37 @@ exports[`zodToMongoSchema > should convert source.bcn schema 1`] = `
                 "null",
               ],
             },
-            "N_CITE_DOMAINE_FORMATION.LIBELLE_EDITION": {
+            "N_CITE_DOMAINE_FORMATION_LIBELLE_EDITION": {
               "bsonType": [
                 "string",
                 "null",
               ],
             },
-            "N_GROUPE_SPECIALITE.LIBELLE_LONG": {
+            "N_GROUPE_SPECIALITE_LIBELLE_LONG": {
               "bsonType": [
                 "string",
                 "null",
               ],
             },
-            "N_LETTRE_SPECIALITE.LIBELLE_LONG": {
+            "N_LETTRE_SPECIALITE_LIBELLE_LONG": {
               "bsonType": [
                 "string",
                 "null",
               ],
             },
-            "N_NATURE_FORMATION_DIPLOME.LIBELLE_100": {
+            "N_NATURE_FORMATION_DIPLOME_LIBELLE_100": {
               "bsonType": [
                 "string",
                 "null",
               ],
             },
-            "N_NIVEAU_FORMATION_DIPLOME.LIBELLE_100": {
+            "N_NIVEAU_FORMATION_DIPLOME_LIBELLE_100": {
               "bsonType": [
                 "string",
                 "null",
               ],
             },
-            "N_NIVEAU_QUALIFICATION_RNCP.LIBELLE_LONG": {
+            "N_NIVEAU_QUALIFICATION_RNCP_LIBELLE_LONG": {
               "bsonType": [
                 "string",
                 "null",
@@ -2821,11 +2821,11 @@ exports[`zodToMongoSchema > should convert source.bcn schema 1`] = `
           "required": [
             "FORMATION_DIPLOME",
             "NIVEAU_FORMATION_DIPLOME",
-            "N_NIVEAU_FORMATION_DIPLOME.LIBELLE_100",
+            "N_NIVEAU_FORMATION_DIPLOME_LIBELLE_100",
             "GROUPE_SPECIALITE",
-            "N_GROUPE_SPECIALITE.LIBELLE_LONG",
+            "N_GROUPE_SPECIALITE_LIBELLE_LONG",
             "LETTRE_SPECIALITE",
-            "N_LETTRE_SPECIALITE.LIBELLE_LONG",
+            "N_LETTRE_SPECIALITE_LIBELLE_LONG",
             "ANCIEN_RECME",
             "LIBELLE_COURT",
             "LIBELLE_STAT_33",
@@ -2849,14 +2849,14 @@ exports[`zodToMongoSchema > should convert source.bcn schema 1`] = `
             "DATE_ARRETE_MODIFICATION_10",
             "COMMENTAIRE",
             "NATURE_FORMATION_DIPLOME",
-            "N_NATURE_FORMATION_DIPLOME.LIBELLE_100",
+            "N_NATURE_FORMATION_DIPLOME_LIBELLE_100",
             "GESTIONNAIRE_FORMATION_DIPLOME",
             "DATE_INTERVENTION",
             "ID_DOCUMENT",
             "CITE_DOMAINE_FORMATION",
-            "N_CITE_DOMAINE_FORMATION.LIBELLE_EDITION",
+            "N_CITE_DOMAINE_FORMATION_LIBELLE_EDITION",
             "NIVEAU_QUALIFICATION_RNCP",
-            "N_NIVEAU_QUALIFICATION_RNCP.LIBELLE_LONG",
+            "N_NIVEAU_QUALIFICATION_RNCP_LIBELLE_LONG",
           ],
         },
         "date": {

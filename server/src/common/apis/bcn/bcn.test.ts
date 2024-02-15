@@ -25,7 +25,7 @@ describe("bcn", () => {
 
     const scope = nock("https://infocentre.pleiade.education.fr")
       .post("/bcn/index.php/export/CSV")
-      .query({ n: table, separator: ";" })
+      .query({ n: table, separator: ";", withForeign: true })
       .reply(200, Buffer.from(expectedData, "latin1"));
 
     const stream = await fetchBcnData(table);

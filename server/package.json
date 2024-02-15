@@ -65,6 +65,7 @@
     "@types/lodash-es": "^4.17.8",
     "@types/migrate-mongo": "^10.0.0",
     "@types/mjml": "^4.7.1",
+    "@types/node": "^20.11.18",
     "@types/nodemailer": "^6.4.9",
     "@types/nodemailer-html-to-text": "^3.1.0",
     "@types/unzipper": "^0.10.9",

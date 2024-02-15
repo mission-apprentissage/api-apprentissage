@@ -2,15 +2,10 @@ import { ReadStream } from "node:fs";
 
 import { internal } from "@hapi/boom";
 import { isAxiosError } from "axios";
+import { ISourceBcn } from "shared/models/source/bcn/source.bcn.model";
 
 import { withCause } from "../../errors/withCause";
 import getApiClient from "../client";
-
-export type BCN_TABLE =
-  | "V_FORMATION_DIPLOME"
-  | "N_FORMATION_DIPLOME"
-  | "N_FORMATION_DIPLOME_ENQUETE_51"
-  | "N_NIVEAU_FORMATION_DIPLOME";
 
 const bcnClient = getApiClient(
   {
@@ -20,7 +15,7 @@ const bcnClient = getApiClient(
   { cache: false }
 );
 
-export async function fetchBcnData(table: BCN_TABLE): Promise<ReadStream> {
+export async function fetchBcnData(table: ISourceBcn["source"]): Promise<ReadStream> {
   try {
     const response = await bcnClient({
       method: "POST",
@@ -28,6 +23,7 @@ export async function fetchBcnData(table: BCN_TABLE): Promise<ReadStream> {
       params: {
         n: table,
         separator: ";",
+        withForeign: true,
       },
       responseType: "stream",
     });

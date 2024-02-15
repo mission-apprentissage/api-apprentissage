@@ -6,11 +6,11 @@ export const zBcn_V_FormationDiplomeData = z
   .object({
     FORMATION_DIPLOME: z.string().nullable(),
     NIVEAU_FORMATION_DIPLOME: z.string().nullable(),
-    "N_NIVEAU_FORMATION_DIPLOME.LIBELLE_100": z.string().nullable(),
+    N_NIVEAU_FORMATION_DIPLOME_LIBELLE_100: z.string().nullable(),
     GROUPE_SPECIALITE: z.string().nullable(),
-    "N_GROUPE_SPECIALITE.LIBELLE_LONG": z.string().nullable(),
+    N_GROUPE_SPECIALITE_LIBELLE_LONG: z.string().nullable(),
     LETTRE_SPECIALITE: z.string().nullable(),
-    "N_LETTRE_SPECIALITE.LIBELLE_LONG": z.string().nullable(),
+    N_LETTRE_SPECIALITE_LIBELLE_LONG: z.string().nullable(),
     ANCIEN_RECME: z.string().nullable(),
     LIBELLE_COURT: z.string().nullable(),
     LIBELLE_STAT_33: z.string().nullable(),
@@ -34,14 +34,14 @@ export const zBcn_V_FormationDiplomeData = z
     DATE_ARRETE_MODIFICATION_10: z.string().nullable(),
     COMMENTAIRE: z.string().nullable(),
     NATURE_FORMATION_DIPLOME: z.string().nullable(),
-    "N_NATURE_FORMATION_DIPLOME.LIBELLE_100": z.string().nullable(),
+    N_NATURE_FORMATION_DIPLOME_LIBELLE_100: z.string().nullable(),
     GESTIONNAIRE_FORMATION_DIPLOME: z.string().nullable(),
     DATE_INTERVENTION: z.string().nullable(),
     ID_DOCUMENT: z.string().nullable(),
     CITE_DOMAINE_FORMATION: z.string().nullable(),
-    "N_CITE_DOMAINE_FORMATION.LIBELLE_EDITION": z.string().nullable(),
+    N_CITE_DOMAINE_FORMATION_LIBELLE_EDITION: z.string().nullable(),
     NIVEAU_QUALIFICATION_RNCP: z.string().nullable(),
-    "N_NIVEAU_QUALIFICATION_RNCP.LIBELLE_LONG": z.string().nullable(),
+    N_NIVEAU_QUALIFICATION_RNCP_LIBELLE_LONG: z.string().nullable(),
   })
   .strict();
 

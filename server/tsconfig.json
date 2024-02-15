@@ -40,5 +40,9 @@
     "pretty": true
   },
   "include": ["./**/*.ts", "./**/*.js"],
-  "exclude": ["**/node_modules", "coverage", "dist"]
+  "exclude": ["**/node_modules", "coverage", "dist"],
+  "typeAcquisition": {
+    "enable": true,
+    "include": ["@types/node"]
+  }
 }

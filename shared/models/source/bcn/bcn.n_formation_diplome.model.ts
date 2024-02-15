@@ -25,7 +25,7 @@ export const zBcn_N_FormationDiplomeData = zBcn_V_FormationDiplomeData
     OBSERVATION: z.string().nullable(),
     N_COMMENTAIRE: z.string().nullable(),
     CITE_DOMAINE_DETAILLE: z.string().nullable(),
-    "N_CITE_2013_DOMAINE_DETAILL.LIBELLE_EDITION": z.string().nullable(),
+    N_CITE_2013_DOMAINE_DETAILL_LIBELLE_EDITION: z.string().nullable(),
   })
   .strict();
 

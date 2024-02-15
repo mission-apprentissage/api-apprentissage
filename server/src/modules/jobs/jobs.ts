@@ -14,6 +14,7 @@ import { createUser } from "../actions/users.actions";
 import { recreateIndexes } from "./db/recreateIndexes";
 import { validateModels } from "./db/schemaValidation";
 import { runAcceImporter } from "./importer/acce/acce";
+import { runBcnImporter } from "./importer/bcn/bcn.importer";
 import { runReferentielImporter } from "./importer/referentiel/referentiel";
 
 export async function setupJobProcessor() {
@@ -28,6 +29,13 @@ export async function setupJobProcessor() {
               cron_string: "0 1 * * *",
               handler: async () => {
                 await runAcceImporter();
+                return 1;
+              },
+            },
+            "Import des données BCN": {
+              cron_string: "0 9 * * *",
+              handler: async () => {
+                await runBcnImporter();
                 return 1;
               },
             },

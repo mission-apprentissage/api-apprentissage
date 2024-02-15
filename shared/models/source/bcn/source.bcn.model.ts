@@ -28,4 +28,11 @@ export const sourceBcnModelDescriptor = {
   collectionName,
 } as const satisfies IModelDescriptor;
 
+export const zBcnBySource = {
+  N_FORMATION_DIPLOME: zBcn_N_FormationDiplome,
+  N_FORMATION_DIPLOME_ENQUETE_51: zBcn_N51_FormationDiplome,
+  N_NIVEAU_FORMATION_DIPLOME: zBcn_N_NiveauFormationDiplome,
+  V_FORMATION_DIPLOME: zBcn_V_FormationDiplome,
+} as const;
+
 export type ISourceBcn = z.output<typeof zBcn>;

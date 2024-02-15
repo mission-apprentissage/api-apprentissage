@@ -1,7 +1,8 @@
 import nock from "nock";
+import { ISourceBcn } from "shared/models/source/bcn/source.bcn.model";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
-import { BCN_TABLE, fetchBcnData } from "./bcn";
+import { fetchBcnData } from "./bcn";
 
 describe("bcn", () => {
   beforeEach(() => {
@@ -13,7 +14,7 @@ describe("bcn", () => {
     nock.enableNetConnect();
   });
 
-  it.each<[BCN_TABLE]>([
+  it.each<[ISourceBcn["source"]]>([
     ["V_FORMATION_DIPLOME"],
     ["N_FORMATION_DIPLOME"],
     ["N_FORMATION_DIPLOME_ENQUETE_51"],

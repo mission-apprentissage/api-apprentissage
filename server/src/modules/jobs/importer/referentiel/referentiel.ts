@@ -1,4 +1,3 @@
-import { captureException } from "@sentry/node";
 import { ObjectId } from "mongodb";
 import { zSourceReferentiel } from "shared/models/source/referentiel/source.referentiel.model";
 
@@ -16,22 +15,17 @@ export async function runReferentielImporter() {
 
   const organismes = await fetchReferentielOrganismes();
 
-  try {
-    const toInsert = organismes.map((data) =>
-      zSourceReferentiel.parse({
-        _id: new ObjectId(),
-        date: importDate,
-        data,
-      })
-    );
+  const toInsert = organismes.map((data) =>
+    zSourceReferentiel.parse({
+      _id: new ObjectId(),
+      date: importDate,
+      data,
+    })
+  );
 
-    await getDbCollection("source.referentiel").insertMany(toInsert);
+  await getDbCollection("source.referentiel").insertMany(toInsert);
 
-    await getDbCollection("source.referentiel").deleteMany({
-      date: { $ne: importDate },
-    });
-  } catch (error) {
-    captureException(error);
-    logger.error(error);
-  }
+  await getDbCollection("source.referentiel").deleteMany({
+    date: { $ne: importDate },
+  });
 }

@@ -18,7 +18,7 @@ curl -sS --retry 5 --retry-all-errors https://{{dns_name}}/metabase/api/setup \
     \"user\": {
         \"password_confirm\": \"{{ vault[env_type].METABASE_ADMIN_PASS }}\",
         \"password\": \"{{ vault[env_type].METABASE_ADMIN_PASS }}\",
-        \"site_name\": \"boite aux lettres\",
+        \"site_name\": \"{{product_name}}\",
         \"email\": \"{{ vault[env_type].METABASE_ADMIN_EMAIL }}\",
         \"last_name\": null,
         \"first_name\": null
@@ -43,7 +43,7 @@ curl -sS --retry 5 --retry-all-errors https://{{dns_name}}/metabase/api/setup \
     },
     \"invite\": null,
     \"prefs\": {
-        \"site_name\": \"boite aux lettres\",
+        \"site_name\": \"{{product_name}}\",
         \"site_locale\": \"fr\",
         \"allow_tracking\": false
     }

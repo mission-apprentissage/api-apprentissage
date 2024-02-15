@@ -14,6 +14,7 @@ import { createUser } from "../actions/users.actions";
 import { recreateIndexes } from "./db/recreateIndexes";
 import { validateModels } from "./db/schemaValidation";
 import { runAcceImporter } from "./importer/acce/acce";
+import { runReferentielImporter } from "./importer/referentiel/referentiel";
 
 export async function setupJobProcessor() {
   return initJobProcessor({
@@ -65,6 +66,9 @@ export async function setupJobProcessor() {
       },
       "import:acce": {
         handler: async () => runAcceImporter(),
+      },
+      "import:referentiel": {
+        handler: async () => runReferentielImporter(),
       },
     },
   });

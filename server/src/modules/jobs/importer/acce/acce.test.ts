@@ -1,7 +1,7 @@
 import { useMongo } from "@tests/utils/mongo.utils";
 import { createReadStream } from "fs";
 import { dirname, join } from "path";
-import { IAcce } from "shared/models/source/acce/acce.model";
+import { ISourceAcce } from "shared/models/source/acce/source.acce.model";
 import { fileURLToPath } from "url";
 import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -33,7 +33,7 @@ describe("importAcceData", () => {
     const s = createReadStream(dataFixture);
 
     const coll = getDbCollection("source.acce");
-    const getData = async (source: IAcce["source"]) => {
+    const getData = async (source: ISourceAcce["source"]) => {
       const data = await coll.find({ source }).toArray();
       return data.map((datum) => ({ ...datum, _id: "ObjectId" }));
     };

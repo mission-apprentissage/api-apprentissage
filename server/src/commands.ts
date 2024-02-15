@@ -201,15 +201,13 @@ program
   .action(createJobAction("indexes:recreate"));
 
 program
-  .command("import:acce")
-  .description("Import acce data")
+  .command("job:run")
+  .description("Run a job")
+  .requiredOption("-n, --name <string>", "Job name")
   .option("-q, --queued", "Run job asynchronously", false)
-  .action(createJobAction("import:acce"));
-program
-  .command("import:referentiel")
-  .description("Import referentiel data")
-  .option("-q, --queued", "Run job asynchronously", false)
-  .action(createJobAction("import:referentiel"));
+  .action(({ name, ...options }) => {
+    return createJobAction(name)(options);
+  });
 
 program.hook("preAction", (_, actionCommand) => {
   const command = actionCommand.name();

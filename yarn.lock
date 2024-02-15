@@ -2730,12 +2730,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*":
-  version: 20.9.3
-  resolution: "@types/node@npm:20.9.3"
+"@types/node@npm:*, @types/node@npm:^20.11.18":
+  version: 20.11.18
+  resolution: "@types/node@npm:20.11.18"
   dependencies:
     undici-types: ~5.26.4
-  checksum: 0cfbfd2a8bd18acc75aa4d7685c7dcf56344f48addd4041d306dc194f3132f8014d56fd49fcb26bcdf400b883f9527e5e2beaf52dfce029cef15c69b8ed2e72a
+  checksum: b34fb342152b5a5b486e9d54d62003f6ca18e2f0f1682c8c4a3d6388e9456dab310775cbdc8302a7945fb72a42ff283b770f8fb6ca5120f77b9b3b7de40c9760
   languageName: node
   linkType: hard
 
@@ -14133,6 +14133,7 @@ __metadata:
     "@types/lodash-es": ^4.17.8
     "@types/migrate-mongo": ^10.0.0
     "@types/mjml": ^4.7.1
+    "@types/node": ^20.11.18
     "@types/nodemailer": ^6.4.9
     "@types/nodemailer-html-to-text": ^3.1.0
     "@types/unzipper": ^0.10.9

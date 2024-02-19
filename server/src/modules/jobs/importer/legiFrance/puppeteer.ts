@@ -22,8 +22,6 @@ export const waitPageLoad = async (page: Page) => {
 };
 
 export const gotoUrl = async ({ page, url }: { page: Page; url: string }): Promise<void> => {
-  console.log("gotoUrl >> In");
-
   await page.goto(url, {
     waitUntil: "domcontentloaded",
   });

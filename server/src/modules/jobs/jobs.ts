@@ -15,6 +15,7 @@ import { recreateIndexes } from "./db/recreateIndexes";
 import { validateModels } from "./db/schemaValidation";
 import { runAcceImporter } from "./importer/acce/acce";
 import { runBcnImporter } from "./importer/bcn/bcn.importer";
+import { runConventionToPDF } from "./importer/legiFrance/conventionToPdf";
 import { runLegiFranceImporter } from "./importer/legiFrance/scrapLegiFrance";
 import { runReferentielImporter } from "./importer/referentiel/referentiel";
 
@@ -81,6 +82,9 @@ export async function setupJobProcessor() {
       },
       "import:legifrance": {
         handler: async () => runLegiFranceImporter(),
+      },
+      convention: {
+        handler: async () => runConventionToPDF(),
       },
     },
   });

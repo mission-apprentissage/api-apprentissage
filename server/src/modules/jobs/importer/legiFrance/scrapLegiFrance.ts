@@ -19,7 +19,11 @@ async function getDetailsCC({ page, url, code }: { page: Page; url: string; code
   await gotoUrl({ page, url });
   const subElement = await page.$(".picto-list > li:nth-child(2)");
   if (!subElement) {
-    throw new Error("Oups");
+    const details = {
+      soustitre: "",
+    };
+    cacheDetailsCC.set(code, details);
+    return details;
   }
   const soustitre = await subElement.evaluate((el: any) => el.textContent);
   const details = {

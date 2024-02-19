@@ -4,6 +4,7 @@ import emailEventsModelDescriptor, { IEmailEvent } from "./email_event.model";
 import sessionsModelDescriptor, { ISession } from "./session.model";
 import sourceAcceModelDescriptor, { ISourceAcce } from "./source/acce/source.acce.model";
 import { ISourceBcn, sourceBcnModelDescriptor } from "./source/bcn/source.bcn.model";
+import sourceCatalogueModelDescriptor, { ISourceCatalogue } from "./source/catalogue/source.catalogue.model";
 import sourcReferentielModelDescriptor, { ISourceReferentiel } from "./source/referentiel/source.referentiel.model";
 import usersModelDescriptor, { IUser } from "./user.model";
 
@@ -15,6 +16,7 @@ export const modelDescriptors: IModelDescriptor[] = [
   sourceAcceModelDescriptor,
   sourcReferentielModelDescriptor,
   sourceBcnModelDescriptor,
+  sourceCatalogueModelDescriptor,
 ];
 
 export type IDocumentMap = {
@@ -25,4 +27,5 @@ export type IDocumentMap = {
   "source.acce": ISourceAcce;
   "source.referentiel": ISourceReferentiel;
   "source.bcn": ISourceBcn;
+  "source.catalgoue": ISourceCatalogue;
 };

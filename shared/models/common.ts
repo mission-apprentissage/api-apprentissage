@@ -9,7 +9,8 @@ export type CollectionName =
   | "source.acce"
   | "source.bcn"
   | "source.referentiel"
-  | "source.catalogue";
+  | "source.catalogue"
+  | "source.kit_apprentissage";
 
 export interface IModelDescriptor {
   zod: ZodType;

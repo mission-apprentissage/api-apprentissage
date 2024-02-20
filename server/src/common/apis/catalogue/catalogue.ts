@@ -1,7 +1,7 @@
 import { type ReadStream } from "node:fs";
 import querystring from "node:querystring";
 
-import { compose } from "oleoduc";
+import { compose, transformData } from "oleoduc";
 
 import logger from "@/common/logger";
 import config from "@/config";
@@ -125,5 +125,11 @@ export const getAllFormationsFromCatalogue = async () => {
     }
   );
 
-  return compose(response, createJsonLineTransformStream());
+  return compose(
+    compose(
+      response.data,
+      transformData((d: any) => d.toString())
+    ),
+    createJsonLineTransformStream()
+  );
 };

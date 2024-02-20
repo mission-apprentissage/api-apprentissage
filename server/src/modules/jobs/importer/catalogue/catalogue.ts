@@ -33,7 +33,6 @@ const getCatalogueFormations = async () => {
     const formations = [] as IFormationCatalogue[];
     await oleoduc(
       await getAllFormationsFromCatalogue(),
-      // TODO any
       writeData(async (formation: any) => {
         stats.total++;
         try {

@@ -7,13 +7,14 @@ import { ISourceBcn } from "shared/models/source/bcn/source.bcn.model";
 import { fileURLToPath } from "url";
 import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { fetchBcnData } from "../../../../common/apis/bcn/bcn";
-import { getDbCollection } from "../../../../common/utils/mongodbUtils";
+import { fetchBcnData } from "@/common/apis/bcn/bcn";
+import { getDbCollection } from "@/common/utils/mongodbUtils";
+
 import { runBcnImporter } from "./bcn.importer";
 
 const mongo = useMongo();
 
-vi.mock("../../../../common/apis/bcn/bcn", async (importOriginal) => {
+vi.mock("@/common/apis/bcn/bcn", async (importOriginal) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const mod = (await importOriginal()) as any;
   return {
@@ -50,7 +51,7 @@ describe("runBcnImporter", () => {
       return createReadStream(dataFixture);
     });
 
-    await runBcnImporter();
+    const stats = await runBcnImporter();
 
     const coll = getDbCollection("source.bcn");
     const data = await coll.find({}).toArray();
@@ -78,6 +79,12 @@ describe("runBcnImporter", () => {
     expect(fetchBcnData).toHaveBeenNthCalledWith(2, "N_FORMATION_DIPLOME_ENQUETE_51");
     expect(fetchBcnData).toHaveBeenNthCalledWith(3, "N_NIVEAU_FORMATION_DIPLOME");
     expect(fetchBcnData).toHaveBeenNthCalledWith(4, "V_FORMATION_DIPLOME");
+    expect(stats).toEqual({
+      N_FORMATION_DIPLOME: 9,
+      N_FORMATION_DIPLOME_ENQUETE_51: 9,
+      N_NIVEAU_FORMATION_DIPLOME: 9,
+      V_FORMATION_DIPLOME: 9,
+    });
   });
 
   it("should throw an error if importBcnSource fails", async () => {

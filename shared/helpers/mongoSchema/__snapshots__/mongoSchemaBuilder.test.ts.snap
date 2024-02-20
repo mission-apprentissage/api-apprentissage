@@ -2877,6 +2877,101 @@ exports[`zodToMongoSchema > should convert source.bcn schema 1`] = `
 }
 `;
 
+exports[`zodToMongoSchema > should convert source.kit_apprentissage schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "data": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "Abrégé de diplôme (RNCP)": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "Accès à l'apprentissage de la fiche RNCP (oui/non)": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "Code Diplôme": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "Date d'échéance de la fiche RNCP": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "Dernière MaJ": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "Fiche ACTIVE/INACTIVE": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "FicheRNCP": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "Intitulé diplôme (DEPP)": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "Niveau fiche RNCP": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+      },
+      "required": [
+        "Code Diplôme",
+        "Intitulé diplôme (DEPP)",
+        "FicheRNCP",
+        "Niveau fiche RNCP",
+        "Abrégé de diplôme (RNCP)",
+        "Dernière MaJ",
+        "Accès à l'apprentissage de la fiche RNCP (oui/non)",
+        "Date d'échéance de la fiche RNCP",
+        "Fiche ACTIVE/INACTIVE",
+      ],
+    },
+    "date": {
+      "bsonType": "date",
+    },
+    "source": {
+      "bsonType": "string",
+    },
+  },
+  "required": [
+    "_id",
+    "source",
+    "date",
+    "data",
+  ],
+}
+`;
+
 exports[`zodToMongoSchema > should convert source.referentiel schema 1`] = `
 {
   "additionalProperties": false,

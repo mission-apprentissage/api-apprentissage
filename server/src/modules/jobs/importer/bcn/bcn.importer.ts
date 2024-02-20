@@ -7,15 +7,14 @@ import { ObjectId } from "mongodb";
 import { ISourceBcn, zBcnBySource } from "shared/models/source/bcn/source.bcn.model";
 
 import { fetchBcnData } from "@/common/apis/bcn/bcn";
+import { withCause } from "@/common/errors/withCause";
 import parentLogger from "@/common/logger";
-
-import { withCause } from "../../../../common/errors/withCause";
-import { getDbCollection } from "../../../../common/utils/mongodbUtils";
-import { createBatchTransformStream } from "../../../../common/utils/streamUtils";
+import { getDbCollection } from "@/common/utils/mongodbUtils";
+import { createBatchTransformStream } from "@/common/utils/streamUtils";
 
 const logger = parentLogger.child({ module: "import:bcn" });
 
-async function importBcnSource(source: ISourceBcn["source"], date: Date) {
+async function importBcnSource(source: ISourceBcn["source"], date: Date): Promise<number> {
   logger.info({ source }, "fetching BCN data");
 
   try {
@@ -73,19 +72,28 @@ async function importBcnSource(source: ISourceBcn["source"], date: Date) {
       source,
       date: { $ne: date },
     });
+
+    return await getDbCollection("source.bcn").countDocuments({ date, source });
   } catch (error) {
     throw withCause(internal("import.bcn: unable to importBcnSource", { source }), error);
   }
 }
 
-export async function runBcnImporter() {
+export async function runBcnImporter(): Promise<Record<string, number>> {
   const importDate = new Date();
 
   try {
-    await importBcnSource("N_FORMATION_DIPLOME", importDate);
-    await importBcnSource("N_FORMATION_DIPLOME_ENQUETE_51", importDate);
-    await importBcnSource("N_NIVEAU_FORMATION_DIPLOME", importDate);
-    await importBcnSource("V_FORMATION_DIPLOME", importDate);
+    const statsBySource: Record<string, number> = {};
+
+    statsBySource["N_FORMATION_DIPLOME"] = await importBcnSource("N_FORMATION_DIPLOME", importDate);
+    statsBySource["N_FORMATION_DIPLOME_ENQUETE_51"] = await importBcnSource(
+      "N_FORMATION_DIPLOME_ENQUETE_51",
+      importDate
+    );
+    statsBySource["N_NIVEAU_FORMATION_DIPLOME"] = await importBcnSource("N_NIVEAU_FORMATION_DIPLOME", importDate);
+    statsBySource["V_FORMATION_DIPLOME"] = await importBcnSource("V_FORMATION_DIPLOME", importDate);
+
+    return statsBySource;
   } catch (error) {
     throw withCause(internal("import.bcn: unable to runBcnImporter"), error);
   }

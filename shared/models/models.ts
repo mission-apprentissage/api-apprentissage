@@ -34,4 +34,5 @@ export type IDocumentMap = {
   "source.bcn": ISourceBcn;
   "source.kit_apprentissage": ISourceKitApprentissage;
   "source.catalogue": ISourceCatalogue;
+  "source.kit_apprentissage": ISourceKitApprentissage;
 };

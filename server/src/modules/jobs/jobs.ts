@@ -15,7 +15,7 @@ import { recreateIndexes } from "./db/recreateIndexes";
 import { validateModels } from "./db/schemaValidation";
 import { runAcceImporter } from "./importer/acce/acce";
 import { runBcnImporter } from "./importer/bcn/bcn.importer";
-import { runCatalogueImporter } from "./importer/catalogue/catalogue";
+import { runCatalogueImporter } from "./importer/catalogue/catalogue.importer";
 import { runReferentielImporter } from "./importer/referentiel/referentiel";
 
 export async function setupJobProcessor() {

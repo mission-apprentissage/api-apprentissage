@@ -6,21 +6,6 @@ const collectionName = "source.catalogue" as const;
 
 const indexes: IModelDescriptor["indexes"] = [[{ date: 1 }, {}]];
 
-const Z2DCoord = z.tuple([z.number(), z.number()]);
-
-export const ZPointGeometry = z
-  .object({
-    coordinates: Z2DCoord,
-    type: z.string(),
-  })
-  .strict();
-
-export type IGeoPoint = z.input<typeof ZPointGeometry>;
-
-// Define schemas for nested objects
-const geoCoordSchema = z.string();
-
-// Define schemas for each interface
 const etablissementFormateurSchema = z
   .object({
     etablissement_formateur_id: z.string().nullish(),
@@ -38,7 +23,7 @@ const etablissementFormateurSchema = z
     etablissement_formateur_complement_adresse: z.string().nullish(),
     etablissement_formateur_cedex: z.string().nullish(),
     etablissement_formateur_entreprise_raison_sociale: z.string().nullish(),
-    geo_coordonnees_etablissement_formateur: geoCoordSchema.nullish(),
+    geo_coordonnees_etablissement_formateur: z.string().nullish(),
     etablissement_formateur_region: z.string().nullish(),
     etablissement_formateur_num_departement: z.string().nullish(),
     etablissement_formateur_nom_departement: z.string().nullish(),
@@ -49,10 +34,9 @@ const etablissementFormateurSchema = z
     etablissement_formateur_published: z.boolean().nullish(),
     etablissement_formateur_catalogue_published: z.boolean().nullish(),
     rncp_etablissement_formateur_habilite: z.boolean().nullish(),
-    etablissement_formateur_date_creation: z.date().nullish(),
+    etablissement_formateur_date_creation: z.string().nullish(),
   })
-  .strict()
-  .deepPartial();
+  .strict();
 
 const etablissementGestionnaireSchema = z
   .object({
@@ -71,7 +55,7 @@ const etablissementGestionnaireSchema = z
     etablissement_gestionnaire_complement_adresse: z.string().nullish(),
     etablissement_gestionnaire_cedex: z.string().nullish(),
     etablissement_gestionnaire_entreprise_raison_sociale: z.string().nullish(),
-    geo_coordonnees_etablissement_gestionnaire: geoCoordSchema.nullish(),
+    geo_coordonnees_etablissement_gestionnaire: z.string().nullish(),
     etablissement_gestionnaire_region: z.string().nullish(),
     etablissement_gestionnaire_num_departement: z.string().nullish(),
     etablissement_gestionnaire_nom_departement: z.string().nullish(),
@@ -82,10 +66,9 @@ const etablissementGestionnaireSchema = z
     etablissement_gestionnaire_published: z.boolean().nullish(),
     etablissement_gestionnaire_catalogue_published: z.boolean().nullish(),
     rncp_etablissement_gestionnaire_habilite: z.boolean().nullish(),
-    etablissement_gestionnaire_date_creation: z.date().nullish(),
+    etablissement_gestionnaire_date_creation: z.string().nullish(),
   })
-  .strict()
-  .deepPartial();
+  .strict();
 
 const etablissementReferenceSchema = z
   .object({
@@ -93,22 +76,20 @@ const etablissementReferenceSchema = z
     etablissement_reference_published: z.boolean().nullish(),
     etablissement_reference_habilite_rncp: z.boolean().nullish(),
     etablissement_reference_certifie_qualite: z.boolean().nullish(),
-    etablissement_reference_date_creation: z.date().nullish(),
+    etablissement_reference_date_creation: z.string().nullish(),
   })
-  .strict()
-  .deepPartial();
+  .strict();
 
-// Define a schema for a single string or an array of strings
 const stringOrArraySchema = z.union([z.string(), z.array(z.string())]);
 
-// Define the Zod schema for IFormationCatalogue
 export const zFormationCatalogue = z
   .object({
-    cle_ministere_educatif: z.string().nullish(),
+    _id: z.string(),
+    cle_ministere_educatif: z.string(),
     cfd: z.string(),
     cfd_specialite: z.string().nullish(),
     cfa_outdated: z.boolean().nullish(),
-    cfd_date_fermeture: z.date().nullish(),
+    cfd_date_fermeture: z.string().nullish(),
     cfd_entree: z.string().nullish(),
     mef_10_code: z.string().nullish(),
     mefs_10: z.array(z.string()).nullish(),
@@ -166,7 +147,6 @@ export const zFormationCatalogue = z
     to_update: z.boolean().nullish(),
     update_error: z.string().nullish(),
     lieu_formation_geo_coordonnees: z.string().nullish(),
-    lieu_formation_geopoint: ZPointGeometry.nullish(),
     lieu_formation_adresse: z.string().nullish(),
     lieu_formation_adresse_computed: z.string().nullish(),
     lieu_formation_siret: z.string().nullish(),
@@ -194,13 +174,13 @@ export const zFormationCatalogue = z
     date_debut: z.array(z.string()).nullish(),
     date_fin: z.array(z.string()).nullish(),
     modalites_entrees_sorties: z.array(z.boolean()).nullish(),
-    num_tel: z.string().nullable().describe("Numéro de téléphone de contact"),
+    num_tel: z.string().nullish().describe("Numéro de téléphone de contact"),
     distance: z.number().nullish(),
   })
   .strict()
-  .extend(etablissementFormateurSchema.shape)
-  .extend(etablissementGestionnaireSchema.shape)
-  .extend(etablissementReferenceSchema.shape);
+  .merge(etablissementFormateurSchema)
+  .merge(etablissementGestionnaireSchema)
+  .merge(etablissementReferenceSchema);
 
 export const zSourceCatalogue = z
   .object({

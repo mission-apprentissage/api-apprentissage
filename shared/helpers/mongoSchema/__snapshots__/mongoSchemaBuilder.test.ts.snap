@@ -2889,6 +2889,9 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
       "additionalProperties": false,
       "bsonType": "object",
       "properties": {
+        "_id": {
+          "bsonType": "string",
+        },
         "affelnet_a_charger": {
           "bsonType": [
             "bool",
@@ -2987,13 +2990,9 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
           "bsonType": "string",
         },
         "cfd_date_fermeture": {
-          "anyOf": [
-            {
-              "bsonType": "date",
-            },
-            {
-              "bsonType": "null",
-            },
+          "bsonType": [
+            "string",
+            "null",
           ],
         },
         "cfd_entree": {
@@ -3009,10 +3008,7 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
           ],
         },
         "cle_ministere_educatif": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
+          "bsonType": "string",
         },
         "code_commune_insee": {
           "bsonType": [
@@ -3178,13 +3174,9 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
           ],
         },
         "etablissement_formateur_date_creation": {
-          "anyOf": [
-            {
-              "bsonType": "date",
-            },
-            {
-              "bsonType": "null",
-            },
+          "bsonType": [
+            "string",
+            "null",
           ],
         },
         "etablissement_formateur_declare_prefecture": {
@@ -3332,13 +3324,9 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
           ],
         },
         "etablissement_gestionnaire_date_creation": {
-          "anyOf": [
-            {
-              "bsonType": "date",
-            },
-            {
-              "bsonType": "null",
-            },
+          "bsonType": [
+            "string",
+            "null",
           ],
         },
         "etablissement_gestionnaire_declare_prefecture": {
@@ -3444,13 +3432,9 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
           ],
         },
         "etablissement_reference_date_creation": {
-          "anyOf": [
-            {
-              "bsonType": "date",
-            },
-            {
-              "bsonType": "null",
-            },
+          "bsonType": [
+            "string",
+            "null",
           ],
         },
         "etablissement_reference_habilite_rncp": {
@@ -3586,39 +3570,6 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
           "bsonType": [
             "string",
             "null",
-          ],
-        },
-        "lieu_formation_geopoint": {
-          "anyOf": [
-            {
-              "additionalProperties": false,
-              "bsonType": "object",
-              "properties": {
-                "coordinates": {
-                  "bsonType": "array",
-                  "items": [
-                    {
-                      "bsonType": "number",
-                    },
-                    {
-                      "bsonType": "number",
-                    },
-                  ],
-                  "maxItems": 2,
-                  "minItems": 2,
-                },
-                "type": {
-                  "bsonType": "string",
-                },
-              },
-              "required": [
-                "coordinates",
-                "type",
-              ],
-            },
-            {
-              "bsonType": "null",
-            },
           ],
         },
         "lieu_formation_siret": {
@@ -3964,8 +3915,9 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
         },
       },
       "required": [
+        "_id",
+        "cle_ministere_educatif",
         "cfd",
-        "num_tel",
       ],
     },
     "date": {

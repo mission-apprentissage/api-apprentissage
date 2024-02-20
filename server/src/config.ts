@@ -58,10 +58,6 @@ const config = {
     },
     catalogue: {
       baseurl: "https://catalogue-apprentissage.intercariforef.org",
-      endpoints: {
-        formations: "/api/v1/entity/formations",
-        etablissements: "/api/v1/entity/etablissements",
-      },
     },
   },
 };

@@ -1,5 +1,9 @@
 import { Transform } from "node:stream";
 
+import { compose } from "oleoduc";
+import streamJson from "stream-json";
+import streamers from "stream-json/streamers/StreamArray.js";
+
 type Options = {
   size: number;
 };
@@ -26,4 +30,17 @@ export function createBatchTransformStream(opts: Options): Transform {
       callback();
     },
   });
+}
+
+export function createJsonLineTransformStream(): Transform {
+  return compose(
+    streamJson.parser(),
+    streamers.streamArray(),
+    new Transform({
+      objectMode: true,
+      transform(chunk, _encoding, callback) {
+        callback(null, chunk.value);
+      },
+    })
+  );
 }

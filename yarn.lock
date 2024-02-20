@@ -2866,6 +2866,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/stream-chain@npm:*":
+  version: 2.0.4
+  resolution: "@types/stream-chain@npm:2.0.4"
+  dependencies:
+    "@types/node": "*"
+  checksum: 355a7ee0ebfaf977b9e376a288da0e65da17ee55892a24b6d369c7027c2dfea16f105fb856f8da473ff3462a8fdc52f6d2e837cbc5bab334fa89cbe97f39ac3e
+  languageName: node
+  linkType: hard
+
+"@types/stream-json@npm:^1.7.7":
+  version: 1.7.7
+  resolution: "@types/stream-json@npm:1.7.7"
+  dependencies:
+    "@types/node": "*"
+    "@types/stream-chain": "*"
+  checksum: 5ab30cb5c478bec6969b788343293fb5d268a2164947617a8550b336f80a1e85d354e510e823e0a4b4dd21c932f921f7146ef426a87df8834a5984a1d943ed1e
+  languageName: node
+  linkType: hard
+
 "@types/unist@npm:^2, @types/unist@npm:^2.0.0, @types/unist@npm:^2.0.2":
   version: 2.0.10
   resolution: "@types/unist@npm:2.0.10"
@@ -5140,6 +5159,20 @@ __metadata:
   version: 5.5.2
   resolution: "csv-parse@npm:5.5.2"
   checksum: de2eb0c29b049783ef101b7eb843456200dc9a4fc9f4b400473bb0521b41aadb77af560cf4edc49bac65cc457b32596519860120181b26ec3b372109ddf8e8ea
+  languageName: node
+  linkType: hard
+
+"cyclist@npm:1.0.1":
+  version: 1.0.1
+  resolution: "cyclist@npm:1.0.1"
+  checksum: 3cc2fdeb358599ca0ea96f5ecf2fc530ccab7ed1f8aa1a894aebfacd2009281bd7380cb9b30db02a18cdd00b3ed1d7ce81a3b11fe56e33a6a0fe4424dc592fbe
+  languageName: node
+  linkType: hard
+
+"cyclist@npm:^1.0.1":
+  version: 1.0.2
+  resolution: "cyclist@npm:1.0.2"
+  checksum: d7c0336565b9b72ee72347831cbd05fadcc59cc9ab89dcf38293b1a64c2c5fb777c9ce44967390dabe8235f9898f5cb222cd6672f4920b757da8861310082716
   languageName: node
   linkType: hard
 
@@ -12066,6 +12099,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"oleoduc@npm:^0.8.0":
+  version: 0.8.0
+  resolution: "oleoduc@npm:0.8.0"
+  dependencies:
+    cyclist: 1.0.1
+    parallel-transform: 1.2.0
+  checksum: 98e315f3eb01c0db46a047f1721932e3a2e5dcee70ac70c7f4c66611a8a1881cc4113de03cacd0d6eeb3f2ee039ee5c64c6c7710630597dcd8f2c6e93d0001ed
+  languageName: node
+  linkType: hard
+
 "on-exit-leak-free@npm:^2.1.0":
   version: 2.1.2
   resolution: "on-exit-leak-free@npm:2.1.2"
@@ -12358,6 +12401,17 @@ __metadata:
   bin:
     pacote: lib/bin.js
   checksum: c731572be2bf226b117eba076d242bd4cd8be7aa01e004af3374a304ad7ab330539e22644bc33de12d2a7d45228ccbcbf4d710f59c84414f3d09a1a95ee6f0bf
+  languageName: node
+  linkType: hard
+
+"parallel-transform@npm:1.2.0":
+  version: 1.2.0
+  resolution: "parallel-transform@npm:1.2.0"
+  dependencies:
+    cyclist: ^1.0.1
+    inherits: ^2.0.3
+    readable-stream: ^2.1.5
+  checksum: ab6ddc1a662cefcfb3d8d546a111763d3b223f484f2e9194e33aefd8f6760c319d0821fd22a00a3adfbd45929b50d2c84cc121389732f013c2ae01c226269c27
   languageName: node
   linkType: hard
 
@@ -13362,7 +13416,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"readable-stream@npm:^2.0.0, readable-stream@npm:^2.0.2, readable-stream@npm:~2.3.6":
+"readable-stream@npm:^2.0.0, readable-stream@npm:^2.0.2, readable-stream@npm:^2.1.5, readable-stream@npm:~2.3.6":
   version: 2.3.8
   resolution: "readable-stream@npm:2.3.8"
   dependencies:
@@ -14136,6 +14190,7 @@ __metadata:
     "@types/node": ^20.11.18
     "@types/nodemailer": ^6.4.9
     "@types/nodemailer-html-to-text": ^3.1.0
+    "@types/stream-json": ^1.7.7
     "@types/unzipper": ^0.10.9
     axios: ^1.5.1
     axios-cache-interceptor: ^1.3.2
@@ -14161,9 +14216,11 @@ __metadata:
     nock: ^13.3.3
     nodemailer: ^6.9.4
     nodemailer-html-to-text: ^3.2.0
+    oleoduc: ^0.8.0
     pino-pretty: ^10.2.3
     rate-limiter-flexible: ^2.4.2
     shared: "workspace:*"
+    stream-json: ^1.8.0
     tsup: ^7.2.0
     typescript: ^5.1.6
     unzipper: ^0.10.14
@@ -14673,6 +14730,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"stream-chain@npm:^2.2.5":
+  version: 2.2.5
+  resolution: "stream-chain@npm:2.2.5"
+  checksum: c83cbf504bd11e2bcbe761a92801295b3decac7ffa4092ceffca2eb1b5d0763bcc511fa22cd8044e8a18c21ca66794fd10c8d9cd1292a3e6c0d83a4194c6b8ed
+  languageName: node
+  linkType: hard
+
 "stream-combiner2@npm:~1.1.1":
   version: 1.1.1
   resolution: "stream-combiner2@npm:1.1.1"
@@ -14680,6 +14744,15 @@ __metadata:
     duplexer2: ~0.1.0
     readable-stream: ^2.0.2
   checksum: dd32d179fa8926619c65471a7396fc638ec8866616c0b8747c4e05563ccdb0b694dd4e83cd799f1c52789c965a40a88195942b82b8cea2ee7a5536f1954060f9
+  languageName: node
+  linkType: hard
+
+"stream-json@npm:^1.8.0":
+  version: 1.8.0
+  resolution: "stream-json@npm:1.8.0"
+  dependencies:
+    stream-chain: ^2.2.5
+  checksum: c17ac72228815850fc5226d8c0a80afd6c2ffbfa71c572ad99ad2eac145dc836a3fc6f62a298b3df716f1726cc1ed8a448892ed9fb6123f46abf2f89c908749f
   languageName: node
   linkType: hard
 

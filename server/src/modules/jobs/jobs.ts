@@ -15,6 +15,7 @@ import { recreateIndexes } from "./db/recreateIndexes";
 import { validateModels } from "./db/schemaValidation";
 import { runAcceImporter } from "./importer/acce/acce";
 import { runBcnImporter } from "./importer/bcn/bcn.importer";
+import { runCatalogueImporter } from "./importer/catalogue/catalogue.importer";
 import { runReferentielImporter } from "./importer/referentiel/referentiel";
 
 export async function setupJobProcessor() {
@@ -75,8 +76,14 @@ export async function setupJobProcessor() {
       "import:acce": {
         handler: async () => runAcceImporter(),
       },
+      "import:bcn": {
+        handler: async () => runBcnImporter(),
+      },
       "import:referentiel": {
         handler: async () => runReferentielImporter(),
+      },
+      "import:catalogue": {
+        handler: async () => runCatalogueImporter(),
       },
     },
   });

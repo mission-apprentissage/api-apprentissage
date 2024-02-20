@@ -56,6 +56,9 @@ const config = {
     referentielOnisep: {
       endpoint: "https://referentiel.apprentissage.onisep.fr/api/v1",
     },
+    catalogue: {
+      baseurl: "https://catalogue-apprentissage.intercariforef.org",
+    },
   },
 };
 

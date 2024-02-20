@@ -2877,6 +2877,1061 @@ exports[`zodToMongoSchema > should convert source.bcn schema 1`] = `
 }
 `;
 
+exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "data": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "_id": {
+          "bsonType": "string",
+        },
+        "affelnet_a_charger": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "affelnet_code_nature": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "affelnet_infos_offre": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "affelnet_raison_depublication": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "affelnet_reference": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "affelnet_secteur": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "affelnet_statut": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "affelnet_statut_history": {
+          "anyOf": [
+            {
+              "bsonType": "array",
+              "items": {
+                "additionalProperties": true,
+                "bsonType": "object",
+              },
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "annee": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "bcn_mefs_10": {
+          "anyOf": [
+            {
+              "bsonType": "array",
+              "items": {
+                "additionalProperties": true,
+                "bsonType": "object",
+              },
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "capacite": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "catalogue_published": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "cfa_outdated": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "cfd": {
+          "bsonType": "string",
+        },
+        "cfd_date_fermeture": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "cfd_entree": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "cfd_specialite": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "cle_ministere_educatif": {
+          "bsonType": "string",
+        },
+        "code_commune_insee": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "code_postal": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "commentaires": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "contenu": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "created_at": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "date_debut": {
+          "anyOf": [
+            {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "string",
+              },
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "date_fin": {
+          "anyOf": [
+            {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "string",
+              },
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "diplome": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "distance": {
+          "bsonType": [
+            "number",
+            "null",
+          ],
+        },
+        "distance_lieu_formation_etablissement_formateur": {
+          "bsonType": [
+            "number",
+            "null",
+          ],
+        },
+        "draft": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "duree": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "editedFields": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "bsonType": "object",
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "email": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "entierement_a_distance": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "etablissement_formateur_adresse": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_catalogue_published": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "etablissement_formateur_cedex": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_code_commune_insee": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_code_postal": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_complement_adresse": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_conventionne": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_courriel": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_datadock": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_date_creation": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_declare_prefecture": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_enseigne": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_entreprise_raison_sociale": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_id": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_localite": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_nom_academie": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_nom_departement": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_num_academie": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_num_departement": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_published": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "etablissement_formateur_region": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_siren": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_siret": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_type": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_uai": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_adresse": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_catalogue_published": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_cedex": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_code_commune_insee": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_code_postal": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_complement_adresse": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_conventionne": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_courriel": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_datadock": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_date_creation": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_declare_prefecture": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_enseigne": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_entreprise_raison_sociale": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_id": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_localite": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_nom_academie": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_nom_departement": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_num_academie": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_num_departement": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_published": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_region": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_siren": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_siret": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_type": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_uai": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_reference": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_reference_certifie_qualite": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "etablissement_reference_date_creation": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_reference_habilite_rncp": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "etablissement_reference_published": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "geo_coordonnees_etablissement_formateur": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "geo_coordonnees_etablissement_gestionnaire": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "id_action": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "id_certifinfo": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "id_formation": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "id_rco_formation": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "ids_action": {
+          "anyOf": [
+            {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "string",
+              },
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "info_opcos": {
+          "bsonType": [
+            "number",
+            "null",
+          ],
+        },
+        "info_opcos_intitule": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "intitule_court": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "intitule_long": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "last_update_at": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "last_update_who": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "libelle_court": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "bsonType": "string",
+                },
+                {
+                  "bsonType": "array",
+                  "items": {
+                    "bsonType": "string",
+                  },
+                },
+              ],
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "lieu_formation_adresse": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "lieu_formation_adresse_computed": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "lieu_formation_geo_coordonnees": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "lieu_formation_siret": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "localite": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "mef_10_code": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "mefs_10": {
+          "anyOf": [
+            {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "string",
+              },
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "modalites_entrees_sorties": {
+          "anyOf": [
+            {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "bool",
+              },
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "niveau": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "niveau_entree_obligatoire": {
+          "bsonType": [
+            "number",
+            "null",
+          ],
+        },
+        "niveau_formation_diplome": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "nom": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "nom_academie": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "nom_departement": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "num_academie": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "num_departement": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "num_tel": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+          "description": "Numéro de téléphone de contact",
+        },
+        "objectif": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "onisep_discipline": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "onisep_domaine_sousdomaine": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "onisep_intitule": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "onisep_libelle_poursuite": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "onisep_lien_site_onisepfr": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "onisep_url": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "opcos": {
+          "anyOf": [
+            {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "string",
+              },
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "parcoursup_a_charger": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "parcoursup_error": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "parcoursup_id": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "parcoursup_raison_depublication": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "parcoursup_reference": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "parcoursup_statut": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "parcoursup_statut_history": {
+          "anyOf": [
+            {
+              "bsonType": "array",
+              "items": {
+                "additionalProperties": true,
+                "bsonType": "object",
+              },
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "published": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "rco_published": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "region": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "rncp_code": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "rncp_details": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "bsonType": "object",
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "rncp_eligible_apprentissage": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {},
+                },
+                {
+                  "bsonType": [
+                    "bool",
+                    "null",
+                  ],
+                },
+              ],
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "rncp_etablissement_formateur_habilite": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "rncp_etablissement_gestionnaire_habilite": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "rncp_intitule": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "rome_codes": {
+          "anyOf": [
+            {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "string",
+              },
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "source": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "tags": {
+          "anyOf": [
+            {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "string",
+              },
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "to_update": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "uai_formation": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "update_error": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "updates_history": {
+          "anyOf": [
+            {
+              "bsonType": "array",
+              "items": {
+                "additionalProperties": true,
+                "bsonType": "object",
+              },
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+      },
+      "required": [
+        "_id",
+        "cle_ministere_educatif",
+        "cfd",
+      ],
+    },
+    "date": {
+      "bsonType": "date",
+    },
+  },
+  "required": [
+    "_id",
+    "date",
+    "data",
+  ],
+}
+`;
+
 exports[`zodToMongoSchema > should convert source.kit_apprentissage schema 1`] = `
 {
   "additionalProperties": false,

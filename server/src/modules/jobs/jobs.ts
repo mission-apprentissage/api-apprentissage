@@ -76,6 +76,9 @@ export async function setupJobProcessor() {
       "import:acce": {
         handler: async () => runAcceImporter(),
       },
+      "import:bcn": {
+        handler: async () => runBcnImporter(),
+      },
       "import:referentiel": {
         handler: async () => runReferentielImporter(),
       },

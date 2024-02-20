@@ -2866,6 +2866,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/stream-chain@npm:*":
+  version: 2.0.4
+  resolution: "@types/stream-chain@npm:2.0.4"
+  dependencies:
+    "@types/node": "*"
+  checksum: 355a7ee0ebfaf977b9e376a288da0e65da17ee55892a24b6d369c7027c2dfea16f105fb856f8da473ff3462a8fdc52f6d2e837cbc5bab334fa89cbe97f39ac3e
+  languageName: node
+  linkType: hard
+
+"@types/stream-json@npm:^1.7.7":
+  version: 1.7.7
+  resolution: "@types/stream-json@npm:1.7.7"
+  dependencies:
+    "@types/node": "*"
+    "@types/stream-chain": "*"
+  checksum: 5ab30cb5c478bec6969b788343293fb5d268a2164947617a8550b336f80a1e85d354e510e823e0a4b4dd21c932f921f7146ef426a87df8834a5984a1d943ed1e
+  languageName: node
+  linkType: hard
+
 "@types/unist@npm:^2, @types/unist@npm:^2.0.0, @types/unist@npm:^2.0.2":
   version: 2.0.10
   resolution: "@types/unist@npm:2.0.10"
@@ -14171,6 +14190,7 @@ __metadata:
     "@types/node": ^20.11.18
     "@types/nodemailer": ^6.4.9
     "@types/nodemailer-html-to-text": ^3.1.0
+    "@types/stream-json": ^1.7.7
     "@types/unzipper": ^0.10.9
     axios: ^1.5.1
     axios-cache-interceptor: ^1.3.2

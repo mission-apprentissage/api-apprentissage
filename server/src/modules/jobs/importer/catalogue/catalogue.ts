@@ -59,7 +59,7 @@ const importFormations = async () => {
   }
 };
 
-export const importCatalogueFormationJob = async () => {
+export const importCatalogueFormationJob = async (): Promise<any> => {
   logger.info(" -- Import formations catalogue -- ");
 
   try {

@@ -2,7 +2,7 @@ import { Transform } from "node:stream";
 
 import { compose, transformData } from "oleoduc";
 import streamJson from "stream-json";
-import streamers from "stream-json/streamers/StreamArray";
+import streamers from "stream-json/streamers/StreamArray.js";
 
 type Options = {
   size: number;

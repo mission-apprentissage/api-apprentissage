@@ -54,6 +54,7 @@
     "pino-pretty": "^10.2.3",
     "rate-limiter-flexible": "^2.4.2",
     "shared": "workspace:*",
+    "stream-json": "^1.8.0",
     "unzipper": "^0.10.14",
     "zod": "^3.22.4",
     "zod-mongodb-schema": "^1.0.0"

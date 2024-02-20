@@ -14200,6 +14200,7 @@ __metadata:
     pino-pretty: ^10.2.3
     rate-limiter-flexible: ^2.4.2
     shared: "workspace:*"
+    stream-json: ^1.8.0
     tsup: ^7.2.0
     typescript: ^5.1.6
     unzipper: ^0.10.14
@@ -14709,6 +14710,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"stream-chain@npm:^2.2.5":
+  version: 2.2.5
+  resolution: "stream-chain@npm:2.2.5"
+  checksum: c83cbf504bd11e2bcbe761a92801295b3decac7ffa4092ceffca2eb1b5d0763bcc511fa22cd8044e8a18c21ca66794fd10c8d9cd1292a3e6c0d83a4194c6b8ed
+  languageName: node
+  linkType: hard
+
 "stream-combiner2@npm:~1.1.1":
   version: 1.1.1
   resolution: "stream-combiner2@npm:1.1.1"
@@ -14716,6 +14724,15 @@ __metadata:
     duplexer2: ~0.1.0
     readable-stream: ^2.0.2
   checksum: dd32d179fa8926619c65471a7396fc638ec8866616c0b8747c4e05563ccdb0b694dd4e83cd799f1c52789c965a40a88195942b82b8cea2ee7a5536f1954060f9
+  languageName: node
+  linkType: hard
+
+"stream-json@npm:^1.8.0":
+  version: 1.8.0
+  resolution: "stream-json@npm:1.8.0"
+  dependencies:
+    stream-chain: ^2.2.5
+  checksum: c17ac72228815850fc5226d8c0a80afd6c2ffbfa71c572ad99ad2eac145dc836a3fc6f62a298b3df716f1726cc1ed8a448892ed9fb6123f46abf2f89c908749f
   languageName: node
   linkType: hard
 

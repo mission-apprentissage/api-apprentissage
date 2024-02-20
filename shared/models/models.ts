@@ -27,5 +27,5 @@ export type IDocumentMap = {
   "source.acce": ISourceAcce;
   "source.referentiel": ISourceReferentiel;
   "source.bcn": ISourceBcn;
-  "source.catalgoue": ISourceCatalogue;
+  "source.catalogue": ISourceCatalogue;
 };

@@ -210,6 +210,7 @@ export const zSourceCatalogue = z
   })
   .strict();
 
+export type IFormationCatalogue = z.output<typeof zFormationCatalogue>;
 export type ISourceCatalogue = z.output<typeof zSourceCatalogue>;
 
 export default {

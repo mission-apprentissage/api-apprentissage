@@ -1,10 +1,15 @@
-import { captureException } from "@sentry/node";
+import { ObjectId } from "mongodb";
 import { oleoduc, writeData } from "oleoduc";
-import { IGeoPoint, zFormationCatalogue } from "shared/models/source/catalogue/source.catalogue.model";
+import {
+  IFormationCatalogue,
+  IGeoPoint,
+  zFormationCatalogue,
+  zSourceCatalogue,
+} from "shared/models/source/catalogue/source.catalogue.model";
 
 import parentLogger from "@/common/logger";
 
-import { countFormations, getAllFormationsFromCatalogue } from "../../../../common/apis/catalogue/catalogue";
+import { getAllFormationsFromCatalogue } from "../../../../common/apis/catalogue/catalogue";
 import { getDbCollection } from "../../../../common/utils/mongodbUtils";
 
 const logger = parentLogger.child({ module: "import:catalogue" });
@@ -18,16 +23,14 @@ const convertStringCoordinatesToGeoPoint = (coordinates: string): IGeoPoint => {
   };
 };
 
-const importFormations = async () => {
-  logger.info("Geting Catalogue ...");
-
+const getCatalogueFormations = async () => {
   const stats = {
     total: 0,
     created: 0,
     failed: 0,
   };
-
   try {
+    const formations = [] as IFormationCatalogue[];
     await oleoduc(
       await getAllFormationsFromCatalogue(),
       // TODO any
@@ -40,8 +43,7 @@ const importFormations = async () => {
             formation.lieu_formation_geo_coordonnees
           );
           const parsedFormation = zFormationCatalogue.parse(formation);
-
-          await getDbCollection("source.catalogue").insertOne(parsedFormation);
+          formations.push(parsedFormation);
           stats.created++;
         } catch (e) {
           logger.error("Erreur enregistrement de formation", e);
@@ -51,7 +53,7 @@ const importFormations = async () => {
       { parallel: 500 }
     );
 
-    return stats;
+    return { stats, formations };
   } catch (error) {
     // stop here if not able to get trainings (keep existing ones)
     logger.error(`Error fetching formations from Catalogue`, error);
@@ -59,41 +61,29 @@ const importFormations = async () => {
   }
 };
 
-export const importCatalogueFormationJob = async (): Promise<any> => {
-  logger.info(" -- Import formations catalogue -- ");
+export async function runCatalogueImporter() {
+  logger.info("Geting Catalogue ...");
 
-  try {
-    const countCatalogue = await countFormations();
+  const importDate = new Date();
 
-    // if catalogue is empty, stop the process
-    if (!countCatalogue) {
-      // await notifyToSlack({
-      //   subject: "IMPORT FORMATION",
-      //   message: `Import formations catalogue annulée: aucunes formations recensées sur le catalogue. (Erreur disponibilité API catalogue)`,
-      // });
-      return;
-    }
+  const { stats, formations } = await getCatalogueFormations();
 
-    await getDbCollection("source.catalogue").deleteMany({});
+  const toInsert = formations.map((data) =>
+    zSourceCatalogue.parse({
+      _id: new ObjectId(),
+      date: importDate,
+      data,
+    })
+  );
 
-    const stats = await importFormations();
+  await getDbCollection("source.catalogue").insertMany(toInsert);
 
-    logger.info(`Fin traitement`);
+  await getDbCollection("source.catalogue").deleteMany({
+    date: { $ne: importDate },
+  });
 
-    // await notifyToSlack({
-    //   subject: "IMPORT FORMATION",
-    //   message: `Import formations catalogue terminé. ${stats.created} OK. ${stats.failed} erreur(s)`,
-    //   error: false,
-    // });
-
-    return {
-      result: "Import formations catalogue terminé",
-      nb_formations: stats.created,
-      erreurs: stats.failed,
-    };
-  } catch (error) {
-    captureException(error);
-    logger.error(error);
-    // await notifyToSlack({ subject: "IMPORT FORMATION", message: `ECHEC Import formations catalogue`, error: true });
-  }
-};
+  return {
+    nb_formations: stats.created,
+    erreurs: stats.failed,
+  };
+}

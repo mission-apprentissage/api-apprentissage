@@ -16,6 +16,7 @@ import { validateModels } from "./db/schemaValidation";
 import { runAcceImporter } from "./importer/acce/acce";
 import { runBcnImporter } from "./importer/bcn/bcn.importer";
 import { runCatalogueImporter } from "./importer/catalogue/catalogue.importer";
+import { runKitApprentissageImporter } from "./importer/kit/kitApprentissage.importer";
 import { runReferentielImporter } from "./importer/referentiel/referentiel";
 
 export async function setupJobProcessor() {
@@ -37,6 +38,27 @@ export async function setupJobProcessor() {
               cron_string: "0 9 * * *",
               handler: async () => {
                 await runBcnImporter();
+                return 1;
+              },
+            },
+            "Import des données Kit Apprentissage": {
+              cron_string: "0 9 * * *",
+              handler: async () => {
+                await runKitApprentissageImporter();
+                return 1;
+              },
+            },
+            "Import des données Referentiel": {
+              cron_string: "0 9 * * *",
+              handler: async () => {
+                await runReferentielImporter();
+                return 1;
+              },
+            },
+            "Import des données Catalogue": {
+              cron_string: "0 9 * * *",
+              handler: async () => {
+                await runCatalogueImporter();
                 return 1;
               },
             },

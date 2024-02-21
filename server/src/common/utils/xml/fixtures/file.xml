@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<FICHES>
+    <VERSION_FLUX>3.0</VERSION_FLUX>
+    <FICHE>
+        <ID_FICHE yop="123">22192</ID_FICHE>
+        <NUMERO_FICHE>RS5841</NUMERO_FICHE>
+        <INTITULE>Réaliser un maquillage permanent</INTITULE>
+        <ETAT_FICHE>Publiée</ETAT_FICHE>
+        <FORMACODES>
+            <FORMACODE>
+                <CODE>42052</CODE>
+                <LIBELLE> Maquillage</LIBELLE>
+            </FORMACODE>
+        </FORMACODES>
+        <ACTIF>Non</ACTIF>
+    </FICHE>
+    <FICHE>
+        <ID_FICHE>22731</ID_FICHE>
+        <NUMERO_FICHE>RS6010</NUMERO_FICHE>
+    </FICHE>
+</FICHES>

@@ -1,0 +1,95 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`parseXmlFileStream > should parse XML file stream and emit open tags 1`] = `
+[
+  {
+    "attributes": {},
+    "children": {
+      "ACTIF": [
+        {
+          "attributes": {},
+          "children": {},
+          "value": "Non",
+        },
+      ],
+      "ETAT_FICHE": [
+        {
+          "attributes": {},
+          "children": {},
+          "value": "Publiée",
+        },
+      ],
+      "FORMACODES": [
+        {
+          "attributes": {},
+          "children": {
+            "FORMACODE": [
+              {
+                "attributes": {},
+                "children": {
+                  "CODE": [
+                    {
+                      "attributes": {},
+                      "children": {},
+                      "value": "42052",
+                    },
+                  ],
+                  "LIBELLE": [
+                    {
+                      "attributes": {},
+                      "children": {},
+                      "value": "Maquillage",
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        },
+      ],
+      "ID_FICHE": [
+        {
+          "attributes": {
+            "yop": "123",
+          },
+          "children": {},
+          "value": "22192",
+        },
+      ],
+      "INTITULE": [
+        {
+          "attributes": {},
+          "children": {},
+          "value": "Réaliser un maquillage permanent",
+        },
+      ],
+      "NUMERO_FICHE": [
+        {
+          "attributes": {},
+          "children": {},
+          "value": "RS5841",
+        },
+      ],
+    },
+  },
+  {
+    "attributes": {},
+    "children": {
+      "ID_FICHE": [
+        {
+          "attributes": {},
+          "children": {},
+          "value": "22731",
+        },
+      ],
+      "NUMERO_FICHE": [
+        {
+          "attributes": {},
+          "children": {},
+          "value": "RS6010",
+        },
+      ],
+    },
+  },
+]
+`;

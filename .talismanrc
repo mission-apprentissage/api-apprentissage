@@ -4,7 +4,7 @@ fileignoreconfig:
 - filename: .github/workflows/release.yml
   checksum: 7933dd58c1c8a28721771b508d50e634ea96a56121b4e955d1f66af913b71222
 - filename: .infra/.env_server
-  checksum: 47443d2dc2cd61a691780a9c25c29c6238f3b8b14f399c98427acc96bf792e83
+  checksum: b3a8e65cbcaaa40c4c9b5ea7ca1b88a822991755163aaf75b96d6bf0dd5c5152
 - filename: .infra/env.ini
   checksum: ad2d27b8d9b8b9e49d7e71dfb1a3b96add1082dbc39e38127dec046471e5f984
 - filename: .infra/files/configs/mailpit/auth

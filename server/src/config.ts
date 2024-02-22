@@ -61,7 +61,7 @@ const config = {
     },
     entreprise: {
       baseurl: "https://entreprise.api.gouv.fr/v3",
-      key: env.get("API_ENTREPRISE_KEY").asString(),
+      key: env.get("API_ENTREPRISE_KEY").required().asString(),
       defaultRecipient: "13002526500013", // Siret DINUM
       object: "Consolidation des données",
       context: "MNA",

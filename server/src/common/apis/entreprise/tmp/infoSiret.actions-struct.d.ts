@@ -19,7 +19,7 @@ interface result extends ApiEntEtablissement {
   adresse?: string;
   type_voie?: string;
   nom_voie?: string;
-  ferme?: boolean;
+  ferme: boolean;
 }
 
 export type InfoSiret =
@@ -34,9 +34,7 @@ export type InfoSiret =
       };
     }
   | {
-      result: {
-        ferme: false;
-      };
+      result: null;
       error: {
         message: string;
         secret_siret: boolean;

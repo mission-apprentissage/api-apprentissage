@@ -13,6 +13,7 @@ export type ApiEntEtablissement = {
   siret: string;
   etat_administratif: string;
   enseigne: string;
+  date_fermeture?: string | null;
   activite_principale: {
     code: string;
   };

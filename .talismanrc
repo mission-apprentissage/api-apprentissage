@@ -21,6 +21,8 @@ fileignoreconfig:
   checksum: 137f146297aedce399926c6ddebe9bbfb22b0e924bbdbd30be2b4654f6b248ad
 - filename: server/.env.test
   checksum: b9cc11acc6033a57be80c6a1f85d70fdc6d9c7186de820409e64868ac44bc241
+- filename: server/src/common/apis/data_gouv/data_gouv.api.test.ts
+  checksum: 8f9baf3df9017a6eebd740861296c4a5eec9d2aec90f571d24d5390a3f37c2a9
 - filename: server/tests/utils/security/accessTokenService.test.ts
   checksum: 017acd9d128165e6edcfd2c33a0f218c53b0ba2b4a77f3da3fe7b58f11d6fa90
 - filename: server/tests/utils/security/authorisationService.test.ts

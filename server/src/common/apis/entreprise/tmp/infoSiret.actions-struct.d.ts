@@ -30,7 +30,15 @@ export type InfoSiret =
       result: null;
       error: {
         message: string;
-        secret_siret?: boolean;
         api_entreprise_status?: "OK" | "KO";
+      };
+    }
+  | {
+      result: {
+        ferme: false;
+      };
+      error: {
+        message: string;
+        secret_siret: boolean;
       };
     };

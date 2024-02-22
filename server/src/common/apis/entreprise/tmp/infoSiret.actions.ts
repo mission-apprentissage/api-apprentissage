@@ -26,7 +26,9 @@ export const findDataFromSiret = async (providedSiret: string): Promise<InfoSire
     logger.error(e);
     if (e.reason === 451) {
       return {
-        result: null,
+        result: {
+          ferme: false,
+        },
         error: {
           message: `Le Siret ${siret} existe mais est indisponible pour raisons légales`,
           secret_siret: true,

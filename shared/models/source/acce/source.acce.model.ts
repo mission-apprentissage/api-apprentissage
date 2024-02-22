@@ -177,8 +177,15 @@ export const ZAcceByType = {
   "ACCE_UAI_FILLE.csv": zAcceUaiFille,
 };
 
-export const ZSourceAcce = z.union([zAcceUai, zAcceUaiZone, zAcceUaiSpec, zAcceUaiMere, zAcceUaiFille]);
+export const ZSourceAcce = z.discriminatedUnion("source", [
+  zAcceUai,
+  zAcceUaiZone,
+  zAcceUaiSpec,
+  zAcceUaiMere,
+  zAcceUaiFille,
+]);
 
+export type ISourceAcceUai = z.output<typeof zAcceUai>;
 export type ISourceAcce = z.output<typeof ZSourceAcce>;
 
 export default {

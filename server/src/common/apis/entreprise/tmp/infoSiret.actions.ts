@@ -4,16 +4,10 @@ import { validateSIRET } from "shared/helpers/zodHelpers/siretValidator";
 import { ApiEntEtablissement, getEtablissementDiffusible } from "@/common/apis/entreprise/entreprise";
 import logger from "@/common/logger";
 
-import { buildAdresse, findDataByDepartementNum, getDepartementCodeFromCodeInsee } from "../../../utils/adresseUtils";
+import { buildAdresse, findDataByDepartementNum, getDepartementCodeFromCodeInsee } from "./adresseUtils";
 import { InfoSiret } from "./infoSiret.actions-struct";
 
-/**
- * Récupération des informations dun etablissement depuis son SIRET
- * @param {string} providedSiret
- * @returns
- */
 export const findDataFromSiret = async (providedSiret: string): Promise<InfoSiret> => {
-  // Vérification du format
   if (!providedSiret || !validateSIRET(providedSiret.trim())) {
     return {
       result: null,
@@ -25,7 +19,6 @@ export const findDataFromSiret = async (providedSiret: string): Promise<InfoSire
 
   const siret = `${providedSiret}`.trim();
 
-  // Récupération des infos via API Entreprise
   let etablissementApiInfo: ApiEntEtablissement;
   try {
     etablissementApiInfo = await getEtablissementDiffusible(siret);
@@ -57,7 +50,6 @@ export const findDataFromSiret = async (providedSiret: string): Promise<InfoSire
     };
   }
 
-  // Récupération des informations de localisation
   const code_dept = getDepartementCodeFromCodeInsee(etablissementApiInfo.adresse.code_commune);
   const { code_region, num_academie } = findDataByDepartementNum(code_dept);
 

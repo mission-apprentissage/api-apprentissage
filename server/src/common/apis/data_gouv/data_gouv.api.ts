@@ -1,7 +1,10 @@
+import { ReadStream } from "node:fs";
+
 import { internal } from "@hapi/boom";
 import { z, ZodError } from "zod";
 
 import { withCause } from "../../errors/withCause";
+import { downloadFileInTmpFile } from "../../utils/apiUtils";
 import getApiClient from "../client";
 
 const client = getApiClient(
@@ -18,6 +21,8 @@ const zDataGouvDatasetResource = z.object({
   latest: z.string().url(),
   title: z.string(),
 });
+
+export type IDataGouvDatasetResource = z.output<typeof zDataGouvDatasetResource>;
 
 const zDataGouvDataset = z.object({
   id: z.string(),
@@ -41,5 +46,17 @@ export async function fetchDataGouvDataSet(datasetId: string): Promise<IDataGouv
     }
 
     throw withCause(internal("api.data_gouv: unable to fetchDataGouvDataSet", { datasetId }), error);
+  }
+}
+
+export async function downloadDataGouvResource(resource: IDataGouvDatasetResource) {
+  try {
+    const response = await client.get<ReadStream>(resource.latest, {
+      responseType: "stream",
+    });
+
+    return await downloadFileInTmpFile(response.data, resource.title);
+  } catch (error) {
+    throw withCause(internal("api.data_gouv: unable to downloadDataGouvResource", { resource }), error);
   }
 }

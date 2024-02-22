@@ -1,7 +1,4 @@
-import { createReadStream, type ReadStream } from "node:fs";
-import { mkdtemp, rm, writeFile } from "node:fs/promises";
-import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { type ReadStream } from "node:fs";
 import querystring from "node:querystring";
 
 import { internal } from "@hapi/boom";
@@ -11,7 +8,7 @@ import logger from "@/common/logger";
 import config from "@/config";
 
 import { withCause } from "../../errors/withCause";
-import { apiRateLimiter } from "../../utils/apiUtils";
+import { apiRateLimiter, downloadFileInTmpFile } from "../../utils/apiUtils";
 import { sleep } from "../../utils/asyncUtils";
 import getApiClient from "../client";
 
@@ -230,9 +227,6 @@ async function pollExtraction(auth: { Cookie: string }, extractionId: string) {
 }
 
 export async function downloadCsvExtraction(): Promise<ReadStream> {
-  const tmpDir = await mkdtemp(join(tmpdir(), `acce-${config.env}-`));
-  const destFile = join(tmpDir, "data.zip");
-
   try {
     const auth = await login();
 
@@ -245,17 +239,8 @@ export async function downloadCsvExtraction(): Promise<ReadStream> {
       await sleep(config.env === "test" ? 10 : 5_000, timeoutSignal);
     }
 
-    await writeFile(destFile, stream);
-
-    const readStream = createReadStream(destFile);
-
-    readStream.once("close", async () => {
-      await rm(tmpDir, { force: true, recursive: true });
-    });
-
-    return readStream;
+    return await downloadFileInTmpFile(stream, "data.zip");
   } catch (error) {
-    await rm(tmpDir, { force: true, recursive: true });
     throw withCause(internal("api.acce: unable to download acce database"), error);
   }
 }

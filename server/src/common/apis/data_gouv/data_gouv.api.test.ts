@@ -1,7 +1,9 @@
+import { ReadStream } from "node:fs";
+
 import nock from "nock";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
-import { fetchDataGouvDataSet } from "@/common/apis/data_gouv/data_gouv.api";
+import { downloadDataGouvResource, fetchDataGouvDataSet } from "@/common/apis/data_gouv/data_gouv.api";
 
 describe("fetchDataGouvDataSet", () => {
   beforeEach(() => {
@@ -77,5 +79,36 @@ describe("fetchDataGouvDataSet", () => {
     await expect(fetchDataGouvDataSet(datasetId)).rejects.toThrowError(
       "api.data_gouv: unable to fetchDataGouvDataSet; unexpected api data"
     );
+  });
+});
+
+describe("downloadDataGouvResource", () => {
+  afterEach(() => {
+    nock.cleanAll();
+  });
+
+  it("should download response and return a readStream", async () => {
+    const scope = nock("https://www.data.gouv.fr/fr")
+      .get("/datasets/r/06ffc0a9-8937-4f89-b724-b773495847b7")
+      .reply(200, "Here is your data");
+
+    const stream = await downloadDataGouvResource({
+      created_at: new Date("2024-02-22T03:00:46.090000+00:00"),
+      id: "06ffc0a9-8937-4f89-b724-b773495847b7",
+      last_modified: new Date("2024-02-22T03:00:50.657000+00:00"),
+      latest: "https://www.data.gouv.fr/fr/datasets/r/06ffc0a9-8937-4f89-b724-b773495847b7",
+      title: "export-fiches-rs-v3-0-2024-02-22.zip",
+    });
+
+    expect(stream).toEqual(expect.any(ReadStream));
+
+    scope.done();
+
+    let data = "";
+    for await (const chunk of stream) {
+      data += chunk as string;
+    }
+
+    expect(data).toBe("Here is your data");
   });
 });

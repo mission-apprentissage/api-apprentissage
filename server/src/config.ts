@@ -59,6 +59,13 @@ const config = {
     catalogue: {
       baseurl: "https://catalogue-apprentissage.intercariforef.org",
     },
+    entreprise: {
+      baseurl: "https://entreprise.api.gouv.fr/v3",
+      key: env.get("API_ENTREPRISE_KEY").asString(),
+      defaultRecipient: "13002526500013", // Siret DINUM
+      object: "Consolidation des données",
+      context: "MNA",
+    },
   },
 };
 

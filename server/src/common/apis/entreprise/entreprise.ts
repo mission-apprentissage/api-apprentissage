@@ -9,7 +9,7 @@ import { withCause } from "../../errors/withCause";
 import { apiRateLimiter } from "../../utils/apiUtils";
 import getApiClient from "../client";
 
-type ApiEntEtablissement = {
+export type ApiEntEtablissement = {
   siret: string;
   etat_administratif: string;
   enseigne: string;

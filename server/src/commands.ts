@@ -209,6 +209,17 @@ program
     return createJobAction(name)(options);
   });
 
+program
+  .command("experimental:redressement:uai-siret")
+  .option("--uai <string>", "uai")
+  .option("--siret <string>", "siret")
+  .option("--date <string>", "date")
+  .option("--certification <string>", "certification")
+  .option("-q, --queued", "Run job asynchronously", false)
+  .action(({ uai, siret, certification }) => {
+    return createJobAction("experimental:redressement:uai-siret")({ couple: { uai, siret }, certification });
+  });
+
 program.hook("preAction", (_, actionCommand) => {
   const command = actionCommand.name();
   // on définit le module du logger en global pour distinguer les logs des jobs

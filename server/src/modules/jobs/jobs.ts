@@ -13,6 +13,7 @@ import config from "../../config";
 import { createUser } from "../actions/users.actions";
 import { recreateIndexes } from "./db/recreateIndexes";
 import { validateModels } from "./db/schemaValidation";
+import { runExperiementalRedressementUaiSiret } from "./experimental/redressement/uai.siret";
 import { runAcceImporter } from "./importer/acce/acce";
 import { runBcnImporter } from "./importer/bcn/bcn.importer";
 import { runCatalogueImporter } from "./importer/catalogue/catalogue.importer";
@@ -106,6 +107,9 @@ export async function setupJobProcessor() {
       },
       "import:catalogue": {
         handler: async () => runCatalogueImporter(),
+      },
+      "experimental:redressement:uai-siret": {
+        handler: async (job) => runExperiementalRedressementUaiSiret(job.payload as any),
       },
     },
   });

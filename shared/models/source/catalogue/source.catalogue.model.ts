@@ -147,6 +147,7 @@ export const zFormationCatalogue = z
     to_update: z.boolean().nullish(),
     update_error: z.string().nullish(),
     lieu_formation_geo_coordonnees: z.string().nullish(),
+    lieu_formation_geopoint: z.unknown().nullish(),
     lieu_formation_adresse: z.string().nullish(),
     lieu_formation_adresse_computed: z.string().nullish(),
     lieu_formation_siret: z.string().nullish(),

@@ -18,27 +18,6 @@ const getNavigationItems = ({ user, pathname }: GetNavigationItemsProps): MainNa
         href: NOTION_PAGES.homepage.path,
       },
     },
-    {
-      isActive: pathname.startsWith(NOTION_PAGES.donnees.path),
-      text: NOTION_PAGES.donnees.title,
-      linkProps: {
-        href: NOTION_PAGES.donnees.path,
-      },
-    },
-    {
-      isActive: pathname.startsWith(NOTION_PAGES.usage.path),
-      text: NOTION_PAGES.usage.title,
-      linkProps: {
-        href: NOTION_PAGES.usage.path,
-      },
-    },
-    {
-      isActive: pathname.startsWith(NOTION_PAGES.documentation_technique.path),
-      text: NOTION_PAGES.documentation_technique.title,
-      linkProps: {
-        href: NOTION_PAGES.documentation_technique.path,
-      },
-    },
   ];
 
   if (user?.is_admin) {

@@ -7,11 +7,6 @@ export const NOTION_PAGES = {
     path: "/",
     notionId: "4b61748235d642f58cd73111f1f0423d",
   },
-  documentation_technique: {
-    title: "Documentation technique",
-    path: "/doc/documentation_technique",
-    notionId: "721dad13d474442faf58a75eb2c65423",
-  },
 } as const satisfies Record<string, NotionPage>;
 
 export const PAGES = {

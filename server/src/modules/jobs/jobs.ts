@@ -16,6 +16,7 @@ import { validateModels } from "./db/schemaValidation";
 import { runAcceImporter } from "./importer/acce/acce";
 import { runBcnImporter } from "./importer/bcn/bcn.importer";
 import { runCatalogueImporter } from "./importer/catalogue/catalogue.importer";
+import { runRncpImporter } from "./importer/france_competence/france_competence.importer";
 import { runKitApprentissageImporter } from "./importer/kit/kitApprentissage.importer";
 import { runReferentielImporter } from "./importer/referentiel/referentiel";
 
@@ -29,38 +30,27 @@ export async function setupJobProcessor() {
         : {
             "Mise à jour acce": {
               cron_string: "0 1 * * *",
-              handler: async () => {
-                await runAcceImporter();
-                return 1;
-              },
+              handler: runAcceImporter,
             },
             "Import des données BCN": {
               cron_string: "0 9 * * *",
-              handler: async () => {
-                await runBcnImporter();
-                return 1;
-              },
+              handler: runBcnImporter,
             },
             "Import des données Kit Apprentissage": {
               cron_string: "0 9 * * *",
-              handler: async () => {
-                await runKitApprentissageImporter();
-                return 1;
-              },
+              handler: runKitApprentissageImporter,
             },
             "Import des données Referentiel": {
               cron_string: "0 9 * * *",
-              handler: async () => {
-                await runReferentielImporter();
-                return 1;
-              },
+              handler: runReferentielImporter,
             },
             "Import des données Catalogue": {
               cron_string: "0 9 * * *",
-              handler: async () => {
-                await runCatalogueImporter();
-                return 1;
-              },
+              handler: runCatalogueImporter,
+            },
+            "Import des données France Compétences": {
+              cron_string: "0 9 * * *",
+              handler: runRncpImporter,
             },
           },
     jobs: {

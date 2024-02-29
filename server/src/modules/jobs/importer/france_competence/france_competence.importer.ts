@@ -49,7 +49,7 @@ function getFichierMetaFromFilename(entry: Entry): FichierMeta {
   if (/^export_fiches_CSV_Ancienne_Nouvelle_Certification_\d{4}_\d{2}_\d{2}\.csv/.test(entry.path)) {
     return { source: "ancienne_nouvelle_certification" };
   }
-  if (/^export_fiches_CSV_VoiesdAccès_\d{4}_\d{2}_\d{2}\.csv/.test(entry.path)) {
+  if (/^export_fiches_CSV_VoixdAccès_\d{4}_\d{2}_\d{2}\.csv/.test(entry.path)) {
     return { source: "voies_d_acces" };
   }
   if (/^export_fiches_CSV_Rome_\d{4}_\d{2}_\d{2}\.csv/.test(entry.path)) {

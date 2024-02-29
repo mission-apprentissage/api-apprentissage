@@ -2,6 +2,7 @@ import { z } from "zod";
 
 export const zSourceFcStandard = z
   .object({
+    Id_Fiche: z.string(),
     Numero_Fiche: z.string(),
     Intitule: z.string().nullable(),
     Abrege_Libelle: z.string().nullable(),

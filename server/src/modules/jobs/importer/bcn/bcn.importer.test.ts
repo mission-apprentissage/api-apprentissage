@@ -1,11 +1,9 @@
-import { afterEach } from "node:test";
-
 import { useMongo } from "@tests/utils/mongo.utils";
 import { createReadStream } from "fs";
 import { dirname, join } from "path";
 import { ISourceBcn } from "shared/models/source/bcn/source.bcn.model";
 import { fileURLToPath } from "url";
-import { afterAll, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { fetchBcnData } from "@/common/apis/bcn/bcn";
 import { getDbCollection } from "@/common/utils/mongodbUtils";
@@ -28,8 +26,10 @@ describe("runBcnImporter", () => {
     vi.mocked(fetchBcnData).mockReset();
   });
 
-  afterAll(async () => {
-    vi.useRealTimers();
+  beforeEach(() => {
+    vi.useFakeTimers();
+
+    return () => vi.useRealTimers();
   });
 
   it("should import Bcn sources", async () => {

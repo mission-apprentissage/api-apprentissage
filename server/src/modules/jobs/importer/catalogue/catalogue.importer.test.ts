@@ -1,9 +1,8 @@
 import { Readable } from "node:stream";
-import { afterEach } from "node:test";
 
 import { useMongo } from "@tests/utils/mongo.utils";
 import { ObjectId } from "mongodb";
-import { afterAll, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { fetchCatalogueData } from "@/common/apis/catalogue/catalogue";
 import { getDbCollection } from "@/common/utils/mongodbUtils";
@@ -23,16 +22,14 @@ vi.mock("@/common/apis/catalogue/catalogue", async (importOriginal) => {
 describe("runBcnImporter", () => {
   useMongo();
 
-  beforeEach(async () => {
+  beforeEach(() => {
     vi.useFakeTimers();
+
+    return () => vi.useRealTimers();
   });
 
   afterEach(() => {
     vi.mocked(fetchCatalogueData).mockReset();
-  });
-
-  afterAll(async () => {
-    vi.useRealTimers();
   });
 
   it("should import Catalogue data", async () => {

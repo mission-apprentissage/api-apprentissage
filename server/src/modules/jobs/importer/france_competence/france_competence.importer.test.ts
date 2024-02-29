@@ -1,7 +1,12 @@
 import { generateMock } from "@anatine/zod-mock";
 import { useMongo } from "@tests/utils/mongo.utils";
 import { stringify } from "csv-stringify";
+import { createReadStream } from "fs";
 import { ObjectId } from "mongodb";
+import nock from "nock";
+import { dirname, join } from "path";
+import { IDataGouvDataset } from "shared";
+import { IImportMeta } from "shared/models/import.meta.model";
 import {
   ISourceFcStandard,
   zSourceFcStandard,
@@ -13,10 +18,22 @@ import {
 } from "shared/models/source/france_competence/source.france_competence.model";
 import { Readable } from "stream";
 import { Entry } from "unzipper";
-import { describe, expect, it } from "vitest";
+import { fileURLToPath } from "url";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { getDbCollection } from "../../../../common/utils/mongodbUtils";
-import { importRncpFile, processRecord } from "./france_competence.importer";
+import { fetchDataGouvDataSet } from "@/common/apis/data_gouv/data_gouv.api";
+import { getDbCollection } from "@/common/utils/mongodbUtils";
+
+import { importRncpArchive, importRncpFile, processRecord, runRncpImporter } from "./france_competence.importer";
+
+vi.mock("@/common/apis/data_gouv/data_gouv.api", async (importOriginal) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const mod = (await importOriginal()) as any;
+  return {
+    ...mod,
+    fetchDataGouvDataSet: vi.fn(),
+  };
+});
 
 const seed = 20240227;
 
@@ -873,7 +890,7 @@ describe("importRncpFile", () => {
     ["nsf", "export_fiches_CSV_Nsf_2024_02_22.csv"],
     ["formacode", "export_fiches_CSV_Formacode_2024_02_22.csv"],
     ["ancienne_nouvelle_certification", "export_fiches_CSV_Ancienne_Nouvelle_Certification_2024_02_22.csv"],
-    ["voies_d_acces", "export_fiches_CSV_VoiesdAccès_2024_02_22.csv"],
+    ["voies_d_acces", "export_fiches_CSV_VoixdAccès_2024_02_22.csv"],
     ["rome", "export_fiches_CSV_Rome_2024_02_22.csv"],
     ["certificateurs", "export_fiches_CSV_Certificateurs_2024_02_22.csv"],
   ])("when file is %s", (source, filename) => {
@@ -1134,5 +1151,159 @@ describe("importRncpFile", () => {
         ]);
       });
     });
+  });
+});
+
+describe("importRncpArchive", () => {
+  useMongo();
+
+  beforeEach(() => {
+    nock.disableNetConnect();
+  });
+
+  afterEach(() => {
+    nock.cleanAll();
+    nock.enableNetConnect();
+  });
+
+  it("should import all files", async () => {
+    const archiveMeta = {
+      date_publication: new Date("2024-02-22T00:00:00.000Z"),
+      last_updated: new Date("2024-02-22T03:02:07.320000+00:00"),
+      nom: "export-fiches-csv-2024-02-22.zip",
+      resource: {
+        created_at: new Date("2024-02-22T03:02:02.578000+00:00"),
+        id: "f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6",
+        last_modified: new Date("2024-02-22T03:02:07.320000+00:00"),
+        latest: "https://www.data.gouv.fr/fr/datasets/r/f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6",
+        title: "export-fiches-csv-2024-02-22.zip",
+      },
+    } as const;
+
+    const importMeta: IImportMeta = {
+      _id: new ObjectId(),
+      import_date: new Date("2024-02-22T03:02:07.320000+00:00"),
+      type: "france_competence",
+    };
+
+    const dataFixture = join(
+      dirname(fileURLToPath(import.meta.url)),
+      "fixtures/sample/export-fiches-csv-2024-02-22.zip"
+    );
+    const s = createReadStream(dataFixture);
+
+    nock("https://www.data.gouv.fr/fr").get(`/datasets/r/f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6`).reply(200, s);
+
+    await importRncpArchive(archiveMeta, importMeta);
+
+    const fiches = await getDbCollection("source.france_competence").find({}).toArray();
+
+    fiches.forEach((fiche) => {
+      expect(fiche).toMatchSnapshot({
+        _id: expect.any(ObjectId),
+      });
+    });
+  });
+});
+
+describe("runRncpImporter", () => {
+  useMongo();
+
+  const now = new Date("2024-02-22T09:00:07.000Z");
+
+  beforeEach(() => {
+    vi.useFakeTimers();
+    vi.setSystemTime(now);
+    nock.disableNetConnect();
+
+    return () => {
+      vi.mocked(fetchDataGouvDataSet).mockReset();
+      vi.useRealTimers();
+      nock.cleanAll();
+      nock.enableNetConnect();
+    };
+  });
+
+  const dataFixture = join(dirname(fileURLToPath(import.meta.url)), "fixtures/sample/export-fiches-csv-2024-02-22.zip");
+
+  it("should work with initial import", async () => {
+    const dataset: IDataGouvDataset = {
+      id: "5eebbc067a14b6fecc9c9976",
+      title: "Répertoire national des certifications professionnelles et répertoire spécifique",
+      resources: [
+        {
+          created_at: new Date("2024-02-22T03:02:02.578000+00:00"),
+          id: "f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6",
+          last_modified: new Date("2024-02-22T03:02:07.320000+00:00"),
+          latest: "https://www.data.gouv.fr/fr/datasets/r/f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6",
+          title: "export-fiches-csv-2024-02-22.zip",
+        },
+        {
+          // Resource should be ignored
+          created_at: new Date("2024-02-22T03:00:46.090000+00:00"),
+          id: "06ffc0a9-8937-4f89-b724-b773495847b7",
+          last_modified: new Date("2024-02-22T03:00:50.657000+00:00"),
+          latest: "https://www.data.gouv.fr/fr/datasets/r/06ffc0a9-8937-4f89-b724-b773495847b7",
+          title: "export-fiches-rs-v3-0-2024-02-22.zip",
+        },
+      ],
+    };
+
+    vi.mocked(fetchDataGouvDataSet).mockResolvedValue(dataset);
+
+    nock("https://www.data.gouv.fr/fr")
+      .get(`/datasets/r/f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6`)
+      .reply(200, createReadStream(dataFixture));
+
+    const result = await runRncpImporter();
+
+    expect(fetchDataGouvDataSet).toHaveBeenCalledWith("5eebbc067a14b6fecc9c9976");
+    await expect(getDbCollection("import.meta").find({}).toArray()).resolves.toEqual([
+      {
+        _id: expect.any(ObjectId),
+        import_date: now,
+        type: "france_competence",
+      },
+    ]);
+    await expect(getDbCollection("source.france_competence").countDocuments()).resolves.toBe(10);
+    expect(result).toEqual({
+      activated: 2,
+      active: 2,
+      archives: [
+        {
+          date_publication: new Date("2024-02-22T00:00:00.000Z"),
+          last_updated: new Date("2024-02-22T03:02:07.320Z"),
+          nom: "export-fiches-csv-2024-02-22.zip",
+          resource: dataset.resources[0],
+        },
+      ],
+      created: 10,
+      total: 10,
+      updated: 10,
+    });
+
+    vi.advanceTimersByTime(60_000);
+    // Another import 1min after, should do nothing
+    const result2 = await runRncpImporter();
+    expect(result2).toEqual({
+      activated: 0,
+      active: 2,
+      archives: [],
+      created: 0,
+      total: 10,
+      updated: 0,
+    });
+    await expect(getDbCollection("import.meta").find({}).toArray()).resolves.toEqual([
+      {
+        _id: expect.any(ObjectId),
+        import_date: now,
+        type: "france_competence",
+      },
+      {
+        _id: expect.any(ObjectId),
+        import_date: new Date(),
+        type: "france_competence",
+      },
+    ]);
   });
 });

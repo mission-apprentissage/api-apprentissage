@@ -59,7 +59,7 @@ export const zFranceCompetence = z
     _id: zObjectId,
     created_at: z.date(),
     updated_at: z.date(),
-    numero_fiche: z.string().regex(/^RNCP\d+$/),
+    numero_fiche: z.string().regex(/^(RNCP|RS)\d+$/),
     active: z.boolean().nullable(),
     date_premiere_publication: z.date().nullable(),
     date_derniere_publication: z.date().nullable(),

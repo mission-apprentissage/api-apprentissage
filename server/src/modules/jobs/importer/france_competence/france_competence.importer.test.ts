@@ -1,0 +1,1138 @@
+import { generateMock } from "@anatine/zod-mock";
+import { useMongo } from "@tests/utils/mongo.utils";
+import { stringify } from "csv-stringify";
+import { ObjectId } from "mongodb";
+import {
+  ISourceFcStandard,
+  zSourceFcStandard,
+} from "shared/models/source/france_competence/parts/source.france_competence.standard.model";
+import {
+  ISourceFranceCompetence,
+  ISourceFranceCompetenceDataKey,
+  zFranceCompetenceDataBySource,
+} from "shared/models/source/france_competence/source.france_competence.model";
+import { Readable } from "stream";
+import { Entry } from "unzipper";
+import { describe, expect, it } from "vitest";
+
+import { getDbCollection } from "../../../../common/utils/mongodbUtils";
+import { importRncpFile, processRecord } from "./france_competence.importer";
+
+const seed = 20240227;
+
+// Spec de l'algorithme https://www.notion.so/mission-apprentissage/Job-d-import-des-donn-es-RNCP-via-France-Comp-tences-v1-0-66efcd3edce84bd09db34a9e7f8a0d73
+describe("processRecord", () => {
+  const importMeta = {
+    import_date: new Date("2024-02-22T09:00:00.000Z"),
+    type: "france_competence",
+    _id: new ObjectId(),
+  } as const;
+
+  const archiveMeta = {
+    date_publication: new Date("2024-02-22T00:00:00.000Z"),
+    nom: "export-fiches-csv-2024-02-22.zip",
+    last_updated: new Date("2024-02-22T03:02:07.320000+00:00"),
+    resource: {
+      created_at: new Date("2024-02-22T03:02:02.578000+00:00"),
+      id: "f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6",
+      last_modified: new Date("2024-02-22T03:02:07.320000+00:00"),
+      latest: "https://www.data.gouv.fr/fr/datasets/r/f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6",
+      title: "export-fiches-csv-2024-02-22.zip",
+    },
+  };
+
+  const numeroFiche = "RNCP123";
+
+  const expectedInitialData = {
+    _id: expect.any(ObjectId),
+    active: null,
+    created_at: importMeta.import_date,
+    updated_at: importMeta.import_date,
+    date_premiere_publication: null,
+    date_derniere_publication: null,
+    date_premiere_activation: null,
+    date_derniere_activation: null,
+    source: "rncp",
+    files: {},
+    data: {
+      ccn: [],
+      partenaires: [],
+      blocs_de_competences: [],
+      nsf: [],
+      formacode: [],
+      ancienne_nouvelle_certification: [],
+      voies_d_acces: [],
+      rome: [],
+      certificateurs: [],
+      standard: null,
+    },
+  };
+
+  const expectedCreateRecord = {
+    updateOne: {
+      filter: { numero_fiche: numeroFiche },
+      update: {
+        $setOnInsert: expectedInitialData,
+      },
+      upsert: true,
+    },
+  };
+
+  const expectedUpdateDateDernierePublication = {
+    updateOne: {
+      filter: {
+        $or: [
+          {
+            numero_fiche: numeroFiche,
+            date_derniere_publication: { $lt: archiveMeta.date_publication },
+          },
+          {
+            numero_fiche: numeroFiche,
+            date_derniere_publication: null,
+          },
+        ],
+      },
+      update: {
+        $set: {
+          updated_at: importMeta.import_date,
+          date_derniere_publication: archiveMeta.date_publication,
+          data: expectedInitialData.data,
+        },
+      },
+    },
+  };
+
+  const expectedUpdateDatePremierePublication = {
+    updateOne: {
+      filter: {
+        $or: [
+          {
+            numero_fiche: numeroFiche,
+            date_premiere_publication: { $gt: archiveMeta.date_publication },
+          },
+          {
+            numero_fiche: numeroFiche,
+            date_premiere_publication: null,
+          },
+        ],
+      },
+      update: {
+        $set: {
+          updated_at: importMeta.import_date,
+          date_premiere_publication: archiveMeta.date_publication,
+        },
+      },
+    },
+  };
+
+  describe("when fichier is standard", () => {
+    const fichierMeta = { source: "standard" } as const;
+    const columns = Object.keys(zSourceFcStandard.shape).map((key) => ({ name: key }));
+
+    const expectedSetFileMeta = {
+      updateOne: {
+        filter: { numero_fiche: numeroFiche },
+        update: {
+          $set: {
+            "files.f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6": {
+              nom: archiveMeta.nom,
+              last_updated: archiveMeta.last_updated,
+              date_publication: archiveMeta.date_publication,
+            },
+            updated_at: importMeta.import_date,
+          },
+        },
+      },
+    };
+
+    describe("when fiche is active", () => {
+      it("should create a new record properly", () => {
+        const record = {
+          ...generateMock(zSourceFcStandard, {
+            seed,
+          }),
+          Numero_Fiche: "RNCP123",
+          Actif: "ACTIVE",
+        };
+
+        const result = processRecord(importMeta, archiveMeta, fichierMeta, record, columns);
+
+        expect(result).toEqual([
+          expectedCreateRecord,
+          expectedSetFileMeta,
+          expectedUpdateDateDernierePublication,
+          expectedUpdateDatePremierePublication,
+          {
+            updateOne: {
+              filter: {
+                numero_fiche: record.Numero_Fiche,
+                date_derniere_publication: archiveMeta.date_publication,
+              },
+              update: {
+                $set: {
+                  updated_at: importMeta.import_date,
+                  "data.standard": record,
+                  active: true,
+                },
+              },
+            },
+          },
+          {
+            updateOne: {
+              filter: {
+                numero_fiche: record.Numero_Fiche,
+                date_premiere_activation: null,
+              },
+              update: {
+                $set: {
+                  updated_at: importMeta.import_date,
+                  date_premiere_activation: archiveMeta.date_publication,
+                  date_derniere_activation: archiveMeta.date_publication,
+                },
+              },
+            },
+          },
+          {
+            updateOne: {
+              filter: {
+                numero_fiche: record.Numero_Fiche,
+                date_premiere_activation: { $gt: archiveMeta.date_publication },
+              },
+              update: {
+                $set: {
+                  updated_at: importMeta.import_date,
+                  date_premiere_activation: archiveMeta.date_publication,
+                },
+              },
+            },
+          },
+          {
+            updateOne: {
+              filter: {
+                numero_fiche: record.Numero_Fiche,
+                date_derniere_activation: { $lt: archiveMeta.date_publication },
+              },
+              update: {
+                $set: {
+                  updated_at: importMeta.import_date,
+                  date_derniere_activation: archiveMeta.date_publication,
+                },
+              },
+            },
+          },
+        ]);
+      });
+    });
+
+    describe("when fiche is inactive", () => {
+      it("should create a new record properly", () => {
+        const record = {
+          ...generateMock(zSourceFcStandard, {
+            seed,
+          }),
+          Numero_Fiche: "RNCP123",
+          Actif: "INACTIVE",
+        };
+
+        expect(record.Actif).toBe("INACTIVE");
+
+        const result = processRecord(importMeta, archiveMeta, fichierMeta, record, columns);
+
+        expect(result).toEqual([
+          expectedCreateRecord,
+          expectedSetFileMeta,
+          expectedUpdateDateDernierePublication,
+          expectedUpdateDatePremierePublication,
+          {
+            updateOne: {
+              filter: {
+                numero_fiche: record.Numero_Fiche,
+                date_derniere_publication: archiveMeta.date_publication,
+              },
+              update: {
+                $set: {
+                  updated_at: importMeta.import_date,
+                  "data.standard": record,
+                  active: false,
+                },
+              },
+            },
+          },
+        ]);
+      });
+    });
+  });
+
+  describe.each<[keyof ISourceFranceCompetence["data"]]>([["ccn"]])("when fichier is %s", (source) => {
+    const fichierMeta = { source } as const;
+    const columns = Object.keys(zFranceCompetenceDataBySource[source].shape).map((key) => ({ name: key }));
+
+    it("should create a new record properly", () => {
+      const record = {
+        ...generateMock(zFranceCompetenceDataBySource[source], {
+          seed,
+        }),
+        Numero_Fiche: "RNCP123",
+      };
+
+      const result = processRecord(importMeta, archiveMeta, fichierMeta, record, columns);
+
+      expect(result).toEqual([
+        expectedCreateRecord,
+        expectedUpdateDateDernierePublication,
+        expectedUpdateDatePremierePublication,
+        {
+          updateOne: {
+            filter: {
+              numero_fiche: record.Numero_Fiche,
+              date_derniere_publication: archiveMeta.date_publication,
+            },
+            update: {
+              $set: {
+                updated_at: importMeta.import_date,
+              },
+              $addToSet: {
+                [`data.${source}`]: record,
+              },
+            },
+          },
+        },
+      ]);
+    });
+  });
+});
+
+function mockEntry<T extends object>(path: string, data: T[]): Entry {
+  const entry = Readable.from(data).pipe(
+    stringify({
+      header: true,
+      columns: Object.keys(data[0]),
+      delimiter: ";",
+    })
+  ) as unknown as Entry;
+  entry.path = path;
+  return entry;
+}
+
+describe("importRncpFile", () => {
+  useMongo();
+
+  describe("when file is standard", () => {
+    const importMeta = {
+      import_date: new Date("2024-02-22T09:00:00.000Z"),
+      type: "france_competence",
+      _id: new ObjectId(),
+    } as const;
+
+    const archiveMeta = {
+      date_publication: new Date("2024-02-22T00:00:00.000Z"),
+      nom: "export-fiches-csv-2024-02-22.zip",
+      last_updated: new Date("2024-02-22T03:02:07.320000+00:00"),
+      resource: {
+        created_at: new Date("2024-02-22T03:02:02.578000+00:00"),
+        id: "f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6",
+        last_modified: new Date("2024-02-22T03:02:07.320000+00:00"),
+        latest: "https://www.data.gouv.fr/fr/datasets/r/0002",
+        title: "export-fiches-csv-2024-02-22.zip",
+      },
+    };
+
+    describe("when fiche does not exist", () => {
+      it("it should create fiche", async () => {
+        const data = [
+          {
+            ...generateMock(zSourceFcStandard, { seed }),
+            Numero_Fiche: "RNCP001",
+            Actif: "ACTIVE",
+          },
+        ];
+
+        const entry = mockEntry("export_fiches_CSV_Standard_2024_02_22.csv", data);
+
+        await importRncpFile(entry, archiveMeta, importMeta);
+
+        expect(await getDbCollection("source.france_competence").find({}).toArray()).toEqual([
+          {
+            _id: expect.any(ObjectId),
+            numero_fiche: "RNCP001",
+            active: true,
+            created_at: importMeta.import_date,
+            updated_at: importMeta.import_date,
+            date_premiere_publication: archiveMeta.date_publication,
+            date_derniere_publication: archiveMeta.date_publication,
+            date_premiere_activation: archiveMeta.date_publication,
+            date_derniere_activation: archiveMeta.date_publication,
+            source: "rncp",
+            files: {
+              "f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6": {
+                nom: archiveMeta.nom,
+                last_updated: archiveMeta.last_updated,
+                date_publication: archiveMeta.date_publication,
+              },
+            },
+            data: {
+              ccn: [],
+              partenaires: [],
+              blocs_de_competences: [],
+              nsf: [],
+              formacode: [],
+              ancienne_nouvelle_certification: [],
+              voies_d_acces: [],
+              rome: [],
+              certificateurs: [],
+              standard: data[0],
+            },
+          },
+        ]);
+      });
+    });
+
+    describe("when file is more recent", () => {
+      const initialFicheActive: ISourceFranceCompetence = {
+        _id: new ObjectId(),
+        numero_fiche: "RNCP001",
+        active: true,
+        created_at: new Date("2024-02-21T09:00:00.000Z"),
+        updated_at: new Date("2024-02-21T09:00:00.000Z"),
+        date_premiere_publication: new Date("2024-02-21T09:00:00.000Z"),
+        date_derniere_publication: new Date("2024-02-21T09:00:00.000Z"),
+        date_premiere_activation: new Date("2024-02-21T09:00:00.000Z"),
+        date_derniere_activation: new Date("2024-02-21T09:00:00.000Z"),
+        source: "rncp",
+        files: {
+          "0001": {
+            nom: "export-fiches-csv-2024-02-21.zip",
+            last_updated: new Date("2024-02-21T03:02:07.320000+00:00"),
+            date_publication: new Date("2024-02-21T03:02:07.320000+00:00"),
+          },
+        },
+        data: {
+          ccn: [generateMock(zFranceCompetenceDataBySource.ccn, { seed })],
+          partenaires: [generateMock(zFranceCompetenceDataBySource.partenaires, { seed: seed + 1 })],
+          blocs_de_competences: [generateMock(zFranceCompetenceDataBySource.blocs_de_competences, { seed: seed + 2 })],
+          nsf: [generateMock(zFranceCompetenceDataBySource.nsf, { seed: seed + 3 })],
+          formacode: [generateMock(zFranceCompetenceDataBySource.formacode, { seed: seed + 4 })],
+          ancienne_nouvelle_certification: [
+            generateMock(zFranceCompetenceDataBySource.ancienne_nouvelle_certification, { seed: seed + 5 }),
+          ],
+          voies_d_acces: [generateMock(zFranceCompetenceDataBySource.voies_d_acces, { seed: seed + 6 })],
+          rome: [generateMock(zFranceCompetenceDataBySource.rome, { seed: seed + 7 })],
+          certificateurs: [generateMock(zFranceCompetenceDataBySource.certificateurs, { seed: seed + 8 })],
+          standard: {
+            ...generateMock(zSourceFcStandard, { seed }),
+            Numero_Fiche: "RNCP001",
+            Actif: "ACTIVE",
+          },
+        },
+      };
+
+      const initialFicheInactive: ISourceFranceCompetence = {
+        ...initialFicheActive,
+        active: false,
+        date_premiere_activation: null,
+        date_derniere_activation: null,
+        data: {
+          ...initialFicheActive.data,
+          standard: {
+            ...generateMock(zSourceFcStandard, { seed }),
+            Numero_Fiche: "RNCP001",
+            Actif: "ACTIVE",
+          },
+        },
+      };
+
+      const activeStandardData: ISourceFcStandard = {
+        ...generateMock(zSourceFcStandard, { seed }),
+        Numero_Fiche: "RNCP001",
+        Actif: "ACTIVE",
+      };
+
+      const inactiveStandardData: ISourceFcStandard = {
+        ...generateMock(zSourceFcStandard, { seed }),
+        Numero_Fiche: "RNCP001",
+        Actif: "INACTIVE",
+      };
+
+      describe("when fiche active -> active", () => {
+        it("it should update fiche", async () => {
+          await getDbCollection("source.france_competence").insertOne(initialFicheActive);
+
+          const entry = mockEntry("export_fiches_CSV_Standard_2024_02_22.csv", [activeStandardData]);
+
+          await importRncpFile(entry, archiveMeta, importMeta);
+
+          expect(await getDbCollection("source.france_competence").find({}).toArray()).toEqual([
+            {
+              ...initialFicheActive,
+              updated_at: importMeta.import_date,
+              date_derniere_publication: archiveMeta.date_publication,
+              date_derniere_activation: archiveMeta.date_publication,
+              files: {
+                ...initialFicheActive.files,
+                [archiveMeta.resource.id]: {
+                  nom: archiveMeta.nom,
+                  last_updated: archiveMeta.last_updated,
+                  date_publication: archiveMeta.date_publication,
+                },
+              },
+              data: {
+                ccn: [],
+                partenaires: [],
+                blocs_de_competences: [],
+                nsf: [],
+                formacode: [],
+                ancienne_nouvelle_certification: [],
+                voies_d_acces: [],
+                rome: [],
+                certificateurs: [],
+                standard: activeStandardData,
+              },
+            },
+          ]);
+        });
+      });
+
+      describe("when fiche active -> inactive", () => {
+        it("it should update fiche", async () => {
+          await getDbCollection("source.france_competence").insertOne(initialFicheActive);
+
+          const entry = mockEntry("export_fiches_CSV_Standard_2024_02_22.csv", [inactiveStandardData]);
+
+          await importRncpFile(entry, archiveMeta, importMeta);
+
+          expect(await getDbCollection("source.france_competence").find({}).toArray()).toEqual([
+            {
+              ...initialFicheActive,
+              active: false,
+              updated_at: importMeta.import_date,
+              date_derniere_publication: archiveMeta.date_publication,
+              files: {
+                ...initialFicheActive.files,
+                [archiveMeta.resource.id]: {
+                  nom: archiveMeta.nom,
+                  last_updated: archiveMeta.last_updated,
+                  date_publication: archiveMeta.date_publication,
+                },
+              },
+              data: {
+                ccn: [],
+                partenaires: [],
+                blocs_de_competences: [],
+                nsf: [],
+                formacode: [],
+                ancienne_nouvelle_certification: [],
+                voies_d_acces: [],
+                rome: [],
+                certificateurs: [],
+                standard: inactiveStandardData,
+              },
+            },
+          ]);
+        });
+      });
+
+      describe("when fiche inactive -> active", () => {
+        it("it should update fiche", async () => {
+          await getDbCollection("source.france_competence").insertOne(initialFicheInactive);
+
+          const entry = mockEntry("export_fiches_CSV_Standard_2024_02_22.csv", [activeStandardData]);
+
+          await importRncpFile(entry, archiveMeta, importMeta);
+
+          expect(await getDbCollection("source.france_competence").find({}).toArray()).toEqual([
+            {
+              ...initialFicheInactive,
+              updated_at: importMeta.import_date,
+              active: true,
+              date_derniere_publication: archiveMeta.date_publication,
+              date_premiere_activation: archiveMeta.date_publication,
+              date_derniere_activation: archiveMeta.date_publication,
+              files: {
+                ...initialFicheInactive.files,
+                [archiveMeta.resource.id]: {
+                  nom: archiveMeta.nom,
+                  last_updated: archiveMeta.last_updated,
+                  date_publication: archiveMeta.date_publication,
+                },
+              },
+              data: {
+                ccn: [],
+                partenaires: [],
+                blocs_de_competences: [],
+                nsf: [],
+                formacode: [],
+                ancienne_nouvelle_certification: [],
+                voies_d_acces: [],
+                rome: [],
+                certificateurs: [],
+                standard: activeStandardData,
+              },
+            },
+          ]);
+        });
+      });
+
+      describe("when fiche inactive -> inactive", () => {
+        it("it should update fiche", async () => {
+          await getDbCollection("source.france_competence").insertOne(initialFicheInactive);
+
+          const entry = mockEntry("export_fiches_CSV_Standard_2024_02_22.csv", [inactiveStandardData]);
+
+          await importRncpFile(entry, archiveMeta, importMeta);
+
+          expect(await getDbCollection("source.france_competence").find({}).toArray()).toEqual([
+            {
+              ...initialFicheInactive,
+              updated_at: importMeta.import_date,
+              date_derniere_publication: archiveMeta.date_publication,
+              files: {
+                ...initialFicheInactive.files,
+                [archiveMeta.resource.id]: {
+                  nom: archiveMeta.nom,
+                  last_updated: archiveMeta.last_updated,
+                  date_publication: archiveMeta.date_publication,
+                },
+              },
+              data: {
+                ccn: [],
+                partenaires: [],
+                blocs_de_competences: [],
+                nsf: [],
+                formacode: [],
+                ancienne_nouvelle_certification: [],
+                voies_d_acces: [],
+                rome: [],
+                certificateurs: [],
+                standard: inactiveStandardData,
+              },
+            },
+          ]);
+        });
+      });
+    });
+
+    describe("when file is from same archive", () => {
+      it("should update fiche without removing other sources data", async () => {
+        const initialFiche: ISourceFranceCompetence = {
+          _id: new ObjectId(),
+          numero_fiche: "RNCP001",
+          active: null,
+          created_at: importMeta.import_date,
+          updated_at: importMeta.import_date,
+          date_premiere_publication: archiveMeta.date_publication,
+          date_derniere_publication: archiveMeta.date_publication,
+          date_premiere_activation: null,
+          date_derniere_activation: null,
+          source: "rncp",
+          files: {},
+          data: {
+            ccn: [generateMock(zFranceCompetenceDataBySource.ccn, { seed })],
+            partenaires: [generateMock(zFranceCompetenceDataBySource.partenaires, { seed: seed + 1 })],
+            blocs_de_competences: [
+              generateMock(zFranceCompetenceDataBySource.blocs_de_competences, { seed: seed + 2 }),
+            ],
+            nsf: [generateMock(zFranceCompetenceDataBySource.nsf, { seed: seed + 3 })],
+            formacode: [generateMock(zFranceCompetenceDataBySource.formacode, { seed: seed + 4 })],
+            ancienne_nouvelle_certification: [
+              generateMock(zFranceCompetenceDataBySource.ancienne_nouvelle_certification, { seed: seed + 5 }),
+            ],
+            voies_d_acces: [generateMock(zFranceCompetenceDataBySource.voies_d_acces, { seed: seed + 6 })],
+            rome: [generateMock(zFranceCompetenceDataBySource.rome, { seed: seed + 7 })],
+            certificateurs: [generateMock(zFranceCompetenceDataBySource.certificateurs, { seed: seed + 8 })],
+            standard: null,
+          },
+        };
+
+        const standardData: ISourceFcStandard = {
+          ...generateMock(zSourceFcStandard, { seed }),
+          Numero_Fiche: "RNCP001",
+          Actif: "ACTIVE",
+        };
+        await getDbCollection("source.france_competence").insertOne(initialFiche);
+
+        const entry = mockEntry("export_fiches_CSV_Standard_2024_02_22.csv", [standardData]);
+
+        await importRncpFile(entry, archiveMeta, importMeta);
+
+        expect(await getDbCollection("source.france_competence").find({}).toArray()).toEqual([
+          {
+            ...initialFiche,
+            updated_at: importMeta.import_date,
+            active: true,
+            date_derniere_publication: archiveMeta.date_publication,
+            date_premiere_activation: archiveMeta.date_publication,
+            date_derniere_activation: archiveMeta.date_publication,
+            files: {
+              [archiveMeta.resource.id]: {
+                nom: archiveMeta.nom,
+                last_updated: archiveMeta.last_updated,
+                date_publication: archiveMeta.date_publication,
+              },
+            },
+            data: {
+              ...initialFiche.data,
+              standard: standardData,
+            },
+          },
+        ]);
+      });
+    });
+
+    describe("when file is older", () => {
+      const archiveMetaOlder = {
+        date_publication: new Date("2024-02-01T00:00:00.000Z"),
+        nom: "export-fiches-csv-2024-02-01.zip",
+        last_updated: new Date("2024-02-01T03:02:07.320000+00:00"),
+        resource: {
+          created_at: new Date("2024-02-01T03:02:02.578000+00:00"),
+          id: "f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6",
+          last_modified: new Date("2024-02-01T03:02:07.320000+00:00"),
+          latest: "https://www.data.gouv.fr/fr/datasets/r/0002",
+          title: "export-fiches-csv-2024-02-01.zip",
+        },
+      };
+
+      const initialFicheActive: ISourceFranceCompetence = {
+        _id: new ObjectId(),
+        numero_fiche: "RNCP001",
+        active: true,
+        created_at: new Date("2024-02-21T09:00:00.000Z"),
+        updated_at: new Date("2024-02-21T09:00:00.000Z"),
+        date_premiere_publication: new Date("2024-02-21T09:00:00.000Z"),
+        date_derniere_publication: new Date("2024-02-21T09:00:00.000Z"),
+        date_premiere_activation: new Date("2024-02-21T09:00:00.000Z"),
+        date_derniere_activation: new Date("2024-02-21T09:00:00.000Z"),
+        source: "rncp",
+        files: {
+          "0001": {
+            nom: "export-fiches-csv-2024-02-21.zip",
+            last_updated: new Date("2024-02-21T03:02:07.320000+00:00"),
+            date_publication: new Date("2024-02-21T03:02:07.320000+00:00"),
+          },
+        },
+        data: {
+          ccn: [generateMock(zFranceCompetenceDataBySource.ccn, { seed })],
+          partenaires: [generateMock(zFranceCompetenceDataBySource.partenaires, { seed: seed + 1 })],
+          blocs_de_competences: [generateMock(zFranceCompetenceDataBySource.blocs_de_competences, { seed: seed + 2 })],
+          nsf: [generateMock(zFranceCompetenceDataBySource.nsf, { seed: seed + 3 })],
+          formacode: [generateMock(zFranceCompetenceDataBySource.formacode, { seed: seed + 4 })],
+          ancienne_nouvelle_certification: [
+            generateMock(zFranceCompetenceDataBySource.ancienne_nouvelle_certification, { seed: seed + 5 }),
+          ],
+          voies_d_acces: [generateMock(zFranceCompetenceDataBySource.voies_d_acces, { seed: seed + 6 })],
+          rome: [generateMock(zFranceCompetenceDataBySource.rome, { seed: seed + 7 })],
+          certificateurs: [generateMock(zFranceCompetenceDataBySource.certificateurs, { seed: seed + 8 })],
+          standard: {
+            ...generateMock(zSourceFcStandard, { seed }),
+            Numero_Fiche: "RNCP001",
+            Actif: "ACTIVE",
+          },
+        },
+      };
+
+      const initialFicheInactive: ISourceFranceCompetence = {
+        ...initialFicheActive,
+        active: false,
+        date_premiere_activation: null,
+        date_derniere_activation: null,
+        data: {
+          ...initialFicheActive.data,
+          standard: {
+            ...generateMock(zSourceFcStandard, { seed }),
+            Numero_Fiche: "RNCP001",
+            Actif: "ACTIVE",
+          },
+        },
+      };
+
+      const activeStandardData: ISourceFcStandard = {
+        ...generateMock(zSourceFcStandard, { seed }),
+        Numero_Fiche: "RNCP001",
+        Actif: "ACTIVE",
+      };
+
+      const inactiveStandardData: ISourceFcStandard = {
+        ...generateMock(zSourceFcStandard, { seed }),
+        Numero_Fiche: "RNCP001",
+        Actif: "INACTIVE",
+      };
+
+      describe("when fiche current:active & older:active", () => {
+        it("it should update fiche", async () => {
+          await getDbCollection("source.france_competence").insertOne(initialFicheActive);
+
+          const entry = mockEntry("export_fiches_CSV_Standard_2024_02_01.csv", [activeStandardData]);
+
+          await importRncpFile(entry, archiveMetaOlder, importMeta);
+
+          expect(await getDbCollection("source.france_competence").find({}).toArray()).toEqual([
+            {
+              ...initialFicheActive,
+              updated_at: importMeta.import_date,
+              date_premiere_publication: archiveMetaOlder.date_publication,
+              date_premiere_activation: archiveMetaOlder.date_publication,
+              files: {
+                ...initialFicheActive.files,
+                [archiveMetaOlder.resource.id]: {
+                  nom: archiveMetaOlder.nom,
+                  last_updated: archiveMetaOlder.last_updated,
+                  date_publication: archiveMetaOlder.date_publication,
+                },
+              },
+            },
+          ]);
+        });
+      });
+
+      describe("when fiche current:active -> older:inactive", () => {
+        it("it should update fiche", async () => {
+          await getDbCollection("source.france_competence").insertOne(initialFicheActive);
+
+          const entry = mockEntry("export_fiches_CSV_Standard_2024_02_01.csv", [inactiveStandardData]);
+
+          await importRncpFile(entry, archiveMetaOlder, importMeta);
+
+          expect(await getDbCollection("source.france_competence").find({}).toArray()).toEqual([
+            {
+              ...initialFicheActive,
+              updated_at: importMeta.import_date,
+              date_premiere_publication: archiveMetaOlder.date_publication,
+              files: {
+                ...initialFicheActive.files,
+                [archiveMetaOlder.resource.id]: {
+                  nom: archiveMetaOlder.nom,
+                  last_updated: archiveMetaOlder.last_updated,
+                  date_publication: archiveMetaOlder.date_publication,
+                },
+              },
+            },
+          ]);
+        });
+      });
+
+      describe("when fiche current:inactive -> older:active", () => {
+        it("it should update fiche", async () => {
+          await getDbCollection("source.france_competence").insertOne(initialFicheInactive);
+
+          const entry = mockEntry("export_fiches_CSV_Standard_2024_02_01.csv", [activeStandardData]);
+
+          await importRncpFile(entry, archiveMetaOlder, importMeta);
+
+          expect(await getDbCollection("source.france_competence").find({}).toArray()).toEqual([
+            {
+              ...initialFicheInactive,
+              updated_at: importMeta.import_date,
+              date_premiere_publication: archiveMetaOlder.date_publication,
+              date_premiere_activation: archiveMetaOlder.date_publication,
+              date_derniere_activation: archiveMetaOlder.date_publication,
+              files: {
+                ...initialFicheInactive.files,
+                [archiveMetaOlder.resource.id]: {
+                  nom: archiveMetaOlder.nom,
+                  last_updated: archiveMetaOlder.last_updated,
+                  date_publication: archiveMetaOlder.date_publication,
+                },
+              },
+            },
+          ]);
+        });
+      });
+
+      describe("when fiche current:inactive -> older:inactive", () => {
+        it("it should update fiche", async () => {
+          await getDbCollection("source.france_competence").insertOne(initialFicheInactive);
+
+          const entry = mockEntry("export_fiches_CSV_Standard_2024_02_01.csv", [inactiveStandardData]);
+
+          await importRncpFile(entry, archiveMetaOlder, importMeta);
+
+          expect(await getDbCollection("source.france_competence").find({}).toArray()).toEqual([
+            {
+              ...initialFicheInactive,
+              updated_at: importMeta.import_date,
+              date_premiere_publication: archiveMetaOlder.date_publication,
+              files: {
+                ...initialFicheInactive.files,
+                [archiveMetaOlder.resource.id]: {
+                  nom: archiveMetaOlder.nom,
+                  last_updated: archiveMetaOlder.last_updated,
+                  date_publication: archiveMetaOlder.date_publication,
+                },
+              },
+            },
+          ]);
+        });
+      });
+    });
+  });
+
+  describe.each<[Exclude<ISourceFranceCompetenceDataKey, "standard">, string]>([
+    ["ccn", "export_fiches_CSV_CCN_2024_02_22.csv"],
+    ["partenaires", "export_fiches_CSV_Partenaires_2024_02_22.csv"],
+    ["blocs_de_competences", "export_fiches_CSV_Blocs_De_Compétences_2024_02_22.csv"],
+    ["nsf", "export_fiches_CSV_Nsf_2024_02_22.csv"],
+    ["formacode", "export_fiches_CSV_Formacode_2024_02_22.csv"],
+    ["ancienne_nouvelle_certification", "export_fiches_CSV_Ancienne_Nouvelle_Certification_2024_02_22.csv"],
+    ["voies_d_acces", "export_fiches_CSV_VoiesdAccès_2024_02_22.csv"],
+    ["rome", "export_fiches_CSV_Rome_2024_02_22.csv"],
+    ["certificateurs", "export_fiches_CSV_Certificateurs_2024_02_22.csv"],
+  ])("when file is %s", (source, filename) => {
+    const importMeta = {
+      import_date: new Date("2024-02-22T09:00:00.000Z"),
+      type: "france_competence",
+      _id: new ObjectId(),
+    } as const;
+
+    const archiveMeta = {
+      date_publication: new Date("2024-02-22T00:00:00.000Z"),
+      nom: "export-fiches-csv-2024-02-22.zip",
+      last_updated: new Date("2024-02-22T03:02:07.320000+00:00"),
+      resource: {
+        created_at: new Date("2024-02-22T03:02:02.578000+00:00"),
+        id: "f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6",
+        last_modified: new Date("2024-02-22T03:02:07.320000+00:00"),
+        latest: "https://www.data.gouv.fr/fr/datasets/r/0002",
+        title: "export-fiches-csv-2024-02-22.zip",
+      },
+    };
+
+    const data = [
+      {
+        ...generateMock(zFranceCompetenceDataBySource[source], { seed: seed + 10 }),
+        Numero_Fiche: "RNCP001",
+      },
+      {
+        ...generateMock(zFranceCompetenceDataBySource[source], { seed: seed + 11 }),
+        Numero_Fiche: "RNCP001",
+      },
+    ];
+
+    describe("when fiche does not exist", () => {
+      it("it should create fiche", async () => {
+        const entry = mockEntry(filename, data);
+
+        await importRncpFile(entry, archiveMeta, importMeta);
+
+        expect(await getDbCollection("source.france_competence").find({}).toArray()).toEqual([
+          {
+            _id: expect.any(ObjectId),
+            numero_fiche: "RNCP001",
+            active: null,
+            created_at: importMeta.import_date,
+            updated_at: importMeta.import_date,
+            date_premiere_publication: archiveMeta.date_publication,
+            date_derniere_publication: archiveMeta.date_publication,
+            date_premiere_activation: null,
+            date_derniere_activation: null,
+            source: "rncp",
+            files: {},
+            data: {
+              ccn: [],
+              partenaires: [],
+              blocs_de_competences: [],
+              nsf: [],
+              formacode: [],
+              ancienne_nouvelle_certification: [],
+              voies_d_acces: [],
+              rome: [],
+              certificateurs: [],
+              standard: null,
+              [source]: data,
+            },
+          },
+        ]);
+      });
+    });
+
+    describe("when file is more recent", () => {
+      const initialFiche: ISourceFranceCompetence = {
+        _id: new ObjectId(),
+        numero_fiche: "RNCP001",
+        active: true,
+        created_at: new Date("2024-02-21T09:00:00.000Z"),
+        updated_at: new Date("2024-02-21T09:00:00.000Z"),
+        date_premiere_publication: new Date("2024-02-21T09:00:00.000Z"),
+        date_derniere_publication: new Date("2024-02-21T09:00:00.000Z"),
+        date_premiere_activation: new Date("2024-02-21T09:00:00.000Z"),
+        date_derniere_activation: new Date("2024-02-21T09:00:00.000Z"),
+        source: "rncp",
+        files: {
+          "0001": {
+            nom: "export-fiches-csv-2024-02-21.zip",
+            last_updated: new Date("2024-02-21T03:02:07.320000+00:00"),
+            date_publication: new Date("2024-02-21T03:02:07.320000+00:00"),
+          },
+        },
+        data: {
+          ccn: [generateMock(zFranceCompetenceDataBySource.ccn, { seed })],
+          partenaires: [generateMock(zFranceCompetenceDataBySource.partenaires, { seed: seed + 1 })],
+          blocs_de_competences: [generateMock(zFranceCompetenceDataBySource.blocs_de_competences, { seed: seed + 2 })],
+          nsf: [generateMock(zFranceCompetenceDataBySource.nsf, { seed: seed + 3 })],
+          formacode: [generateMock(zFranceCompetenceDataBySource.formacode, { seed: seed + 4 })],
+          ancienne_nouvelle_certification: [
+            generateMock(zFranceCompetenceDataBySource.ancienne_nouvelle_certification, { seed: seed + 5 }),
+          ],
+          voies_d_acces: [generateMock(zFranceCompetenceDataBySource.voies_d_acces, { seed: seed + 6 })],
+          rome: [generateMock(zFranceCompetenceDataBySource.rome, { seed: seed + 7 })],
+          certificateurs: [generateMock(zFranceCompetenceDataBySource.certificateurs, { seed: seed + 8 })],
+          standard: {
+            ...generateMock(zSourceFcStandard, { seed }),
+            Numero_Fiche: "RNCP001",
+            Actif: "ACTIVE",
+          },
+        },
+      };
+
+      it("it should update fiche", async () => {
+        await getDbCollection("source.france_competence").insertOne(initialFiche);
+
+        const entry = mockEntry(filename, data);
+
+        await importRncpFile(entry, archiveMeta, importMeta);
+
+        expect(await getDbCollection("source.france_competence").find({}).toArray()).toEqual([
+          {
+            ...initialFiche,
+            updated_at: importMeta.import_date,
+            date_derniere_publication: archiveMeta.date_publication,
+            data: {
+              ccn: [],
+              partenaires: [],
+              blocs_de_competences: [],
+              nsf: [],
+              formacode: [],
+              ancienne_nouvelle_certification: [],
+              voies_d_acces: [],
+              rome: [],
+              certificateurs: [],
+              standard: null,
+              [source]: data,
+            },
+          },
+        ]);
+      });
+    });
+
+    describe("when file is from same archive", () => {
+      it("should update fiche without removing other sources data", async () => {
+        const initialFiche: ISourceFranceCompetence = {
+          _id: new ObjectId(),
+          numero_fiche: "RNCP001",
+          active: true,
+          created_at: importMeta.import_date,
+          updated_at: importMeta.import_date,
+          date_premiere_publication: archiveMeta.date_publication,
+          date_derniere_publication: archiveMeta.date_publication,
+          date_premiere_activation: archiveMeta.date_publication,
+          date_derniere_activation: archiveMeta.date_publication,
+          source: "rncp",
+          files: {},
+          data: {
+            ccn: [generateMock(zFranceCompetenceDataBySource.ccn, { seed })],
+            partenaires: [generateMock(zFranceCompetenceDataBySource.partenaires, { seed: seed + 1 })],
+            blocs_de_competences: [
+              generateMock(zFranceCompetenceDataBySource.blocs_de_competences, { seed: seed + 2 }),
+            ],
+            nsf: [generateMock(zFranceCompetenceDataBySource.nsf, { seed: seed + 3 })],
+            formacode: [generateMock(zFranceCompetenceDataBySource.formacode, { seed: seed + 4 })],
+            ancienne_nouvelle_certification: [
+              generateMock(zFranceCompetenceDataBySource.ancienne_nouvelle_certification, { seed: seed + 5 }),
+            ],
+            voies_d_acces: [generateMock(zFranceCompetenceDataBySource.voies_d_acces, { seed: seed + 6 })],
+            rome: [generateMock(zFranceCompetenceDataBySource.rome, { seed: seed + 7 })],
+            certificateurs: [generateMock(zFranceCompetenceDataBySource.certificateurs, { seed: seed + 8 })],
+            standard: generateMock(zSourceFcStandard, { seed: seed + 9 }),
+          },
+        };
+
+        await getDbCollection("source.france_competence").insertOne(initialFiche);
+
+        const entry = mockEntry(filename, data);
+
+        await importRncpFile(entry, archiveMeta, importMeta);
+
+        expect(await getDbCollection("source.france_competence").find({}).toArray()).toEqual([
+          {
+            ...initialFiche,
+            updated_at: importMeta.import_date,
+            active: true,
+            date_derniere_publication: archiveMeta.date_publication,
+            data: {
+              ...initialFiche.data,
+              [source]: [...initialFiche.data[source], ...data],
+            },
+          },
+        ]);
+      });
+    });
+
+    describe("when file is older", () => {
+      const archiveMetaOlder = {
+        date_publication: new Date("2024-02-01T00:00:00.000Z"),
+        nom: "export-fiches-csv-2024-02-01.zip",
+        last_updated: new Date("2024-02-01T03:02:07.320000+00:00"),
+        resource: {
+          created_at: new Date("2024-02-01T03:02:02.578000+00:00"),
+          id: "f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6",
+          last_modified: new Date("2024-02-01T03:02:07.320000+00:00"),
+          latest: "https://www.data.gouv.fr/fr/datasets/r/0002",
+          title: "export-fiches-csv-2024-02-01.zip",
+        },
+      };
+
+      const initialFiche: ISourceFranceCompetence = {
+        _id: new ObjectId(),
+        numero_fiche: "RNCP001",
+        active: true,
+        created_at: new Date("2024-02-21T09:00:00.000Z"),
+        updated_at: new Date("2024-02-21T09:00:00.000Z"),
+        date_premiere_publication: new Date("2024-02-21T09:00:00.000Z"),
+        date_derniere_publication: new Date("2024-02-21T09:00:00.000Z"),
+        date_premiere_activation: new Date("2024-02-21T09:00:00.000Z"),
+        date_derniere_activation: new Date("2024-02-21T09:00:00.000Z"),
+        source: "rncp",
+        files: {
+          "0001": {
+            nom: "export-fiches-csv-2024-02-21.zip",
+            last_updated: new Date("2024-02-21T03:02:07.320000+00:00"),
+            date_publication: new Date("2024-02-21T03:02:07.320000+00:00"),
+          },
+        },
+        data: {
+          ccn: [generateMock(zFranceCompetenceDataBySource.ccn, { seed })],
+          partenaires: [generateMock(zFranceCompetenceDataBySource.partenaires, { seed: seed + 1 })],
+          blocs_de_competences: [generateMock(zFranceCompetenceDataBySource.blocs_de_competences, { seed: seed + 2 })],
+          nsf: [generateMock(zFranceCompetenceDataBySource.nsf, { seed: seed + 3 })],
+          formacode: [generateMock(zFranceCompetenceDataBySource.formacode, { seed: seed + 4 })],
+          ancienne_nouvelle_certification: [
+            generateMock(zFranceCompetenceDataBySource.ancienne_nouvelle_certification, { seed: seed + 5 }),
+          ],
+          voies_d_acces: [generateMock(zFranceCompetenceDataBySource.voies_d_acces, { seed: seed + 6 })],
+          rome: [generateMock(zFranceCompetenceDataBySource.rome, { seed: seed + 7 })],
+          certificateurs: [generateMock(zFranceCompetenceDataBySource.certificateurs, { seed: seed + 8 })],
+          standard: {
+            ...generateMock(zSourceFcStandard, { seed }),
+            Numero_Fiche: "RNCP001",
+            Actif: "ACTIVE",
+          },
+        },
+      };
+
+      it("it should update fiche", async () => {
+        await getDbCollection("source.france_competence").insertOne(initialFiche);
+
+        const entry = mockEntry(filename, data);
+
+        await importRncpFile(entry, archiveMetaOlder, importMeta);
+
+        expect(await getDbCollection("source.france_competence").find({}).toArray()).toEqual([
+          {
+            ...initialFiche,
+            updated_at: importMeta.import_date,
+            date_premiere_publication: archiveMetaOlder.date_publication,
+          },
+        ]);
+      });
+    });
+  });
+});

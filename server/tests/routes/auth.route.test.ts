@@ -1,6 +1,6 @@
 import assert from "node:assert";
 
-import { afterAll, beforeAll, beforeEach, describe, it } from "vitest";
+import { beforeAll, describe, it } from "vitest";
 
 import config from "@/config";
 import { getSession } from "@/modules/actions/sessions.actions";
@@ -17,21 +17,15 @@ type Cookie = {
 };
 
 describe("Authentication", () => {
-  const mongo = useMongo();
+  useMongo();
   let app: Server;
 
   beforeAll(async () => {
     app = await createServer();
-    await Promise.all([app.ready(), mongo.beforeAll()]);
+    await app.ready();
+
+    return () => app.close();
   }, 15_000);
-
-  beforeEach(async () => {
-    await mongo.beforeEach();
-  });
-
-  afterAll(async () => {
-    await Promise.all([mongo.afterAll(), app.close()]);
-  });
 
   it("should sign user in with valid credentials", async () => {
     const user = await createUser({

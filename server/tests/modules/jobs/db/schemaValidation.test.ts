@@ -1,13 +1,12 @@
-import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
 import { getDatabase } from "../../../../src/common/utils/mongodbUtils";
 import { countInvalidDocuments, validateDocuments } from "../../../../src/modules/jobs/db/schemaValidation";
 import { useMongo } from "../../../utils/mongo.utils";
 
-const mongo = useMongo();
+useMongo();
 
 beforeAll(async () => {
-  await mongo.beforeAll();
   await getDatabase().createCollection("shipping", {
     validator: {
       $jsonSchema: {
@@ -24,13 +23,8 @@ beforeAll(async () => {
   });
 });
 
-beforeEach(async () => {
-  await mongo.beforeEach();
-});
-
 afterAll(async () => {
   await getDatabase().dropCollection("shipping");
-  await mongo.afterAll();
 });
 
 describe("countInvalidDocuments", () => {

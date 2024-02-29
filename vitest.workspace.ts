@@ -13,6 +13,10 @@ export default defineWorkspace([
       globalSetup: ["./server/tests/globalSetup.ts"],
       threads: true,
       clearMocks: true,
+      sequence: {
+        // Important for useMongo to be sequential
+        hooks: "stack",
+      },
     },
     resolve: {
       alias: {

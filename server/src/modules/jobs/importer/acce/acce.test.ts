@@ -3,27 +3,13 @@ import { createReadStream } from "fs";
 import { dirname, join } from "path";
 import { ISourceAcce } from "shared/models/source/acce/source.acce.model";
 import { fileURLToPath } from "url";
-import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { getDbCollection } from "../../../../common/utils/mongodbUtils";
 import { importAcceData } from "./acce";
 
-const mongo = useMongo();
-
 describe("importAcceData", () => {
-  beforeAll(async () => {
-    await mongo.beforeAll();
-  });
-
-  beforeEach(async () => {
-    await mongo.beforeEach();
-    vi.useFakeTimers();
-  });
-
-  afterAll(async () => {
-    vi.useRealTimers();
-    await mongo.afterAll();
-  });
+  useMongo();
 
   it("should extract zipped acce data", async () => {
     const date = new Date("2023-04-08T22:00:00.000Z");

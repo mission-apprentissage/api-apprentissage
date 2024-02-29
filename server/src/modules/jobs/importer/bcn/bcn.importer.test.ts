@@ -1,18 +1,14 @@
-import { afterEach } from "node:test";
-
 import { useMongo } from "@tests/utils/mongo.utils";
 import { createReadStream } from "fs";
 import { dirname, join } from "path";
 import { ISourceBcn } from "shared/models/source/bcn/source.bcn.model";
 import { fileURLToPath } from "url";
-import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { fetchBcnData } from "@/common/apis/bcn/bcn";
 import { getDbCollection } from "@/common/utils/mongodbUtils";
 
 import { runBcnImporter } from "./bcn.importer";
-
-const mongo = useMongo();
 
 vi.mock("@/common/apis/bcn/bcn", async (importOriginal) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -24,22 +20,16 @@ vi.mock("@/common/apis/bcn/bcn", async (importOriginal) => {
 });
 
 describe("runBcnImporter", () => {
-  beforeAll(async () => {
-    await mongo.beforeAll();
-  });
-
-  beforeEach(async () => {
-    await mongo.beforeEach();
-    vi.useFakeTimers();
-  });
+  useMongo();
 
   afterEach(() => {
     vi.mocked(fetchBcnData).mockReset();
   });
 
-  afterAll(async () => {
-    vi.useRealTimers();
-    await mongo.afterAll();
+  beforeEach(() => {
+    vi.useFakeTimers();
+
+    return () => vi.useRealTimers();
   });
 
   it("should import Bcn sources", async () => {

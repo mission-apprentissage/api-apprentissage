@@ -1,0 +1,1004 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`importRncpArchive > should import all files 1`] = `
+{
+  "_id": Any<ObjectId>,
+  "active": false,
+  "created_at": 2024-02-22T03:02:07.320Z,
+  "data": {
+    "ancienne_nouvelle_certification": [
+      {
+        "Ancienne_Certification": null,
+        "Nouvelle_Certification": "RNCP38228",
+        "Numero_Fiche": "RNCP509",
+      },
+    ],
+    "blocs_de_competences": [
+      {
+        "Bloc_Competences_Code": "RNCP509BC05",
+        "Bloc_Competences_Libelle": "UG2 : Mathématiques-Sciences physiques et chimiques",
+        "Numero_Fiche": "RNCP509",
+      },
+      {
+        "Bloc_Competences_Code": "RNCP509BC06",
+        "Bloc_Competences_Libelle": "UG3 : Éducation physique et sportive",
+        "Numero_Fiche": "RNCP509",
+      },
+      {
+        "Bloc_Competences_Code": "RNCP509BC01",
+        "Bloc_Competences_Libelle": "UP1 : Vérification d’une installation et organisation de l’intervention",
+        "Numero_Fiche": "RNCP509",
+      },
+      {
+        "Bloc_Competences_Code": "RNCP509BC02",
+        "Bloc_Competences_Libelle": "UP2 : Vérification d’une installation de robinet incendie armé",
+        "Numero_Fiche": "RNCP509",
+      },
+      {
+        "Bloc_Competences_Code": "RNCP509BC03",
+        "Bloc_Competences_Libelle": "UP3 : Vérification d’extincteurs et démonstration d’utilisation",
+        "Numero_Fiche": "RNCP509",
+      },
+      {
+        "Bloc_Competences_Code": "RNCP509BC04",
+        "Bloc_Competences_Libelle": "UG1 : Français – Histoire, géographie et enseignement moral et civique",
+        "Numero_Fiche": "RNCP509",
+      },
+    ],
+    "ccn": [],
+    "certificateurs": [
+      {
+        "Nom_Certificateur": "MINISTERE DE L'EDUCATION NATIONALE ET DE LA JEUNESSE",
+        "Numero_Fiche": "RNCP509",
+        "Siret_Certificateur": "11004301500012",
+      },
+    ],
+    "formacode": [
+      {
+        "Formacode_Code": "42872",
+        "Formacode_Libelle": "42872 : Sécurité incendie",
+        "Numero_Fiche": "RNCP509",
+      },
+    ],
+    "nsf": [
+      {
+        "Nsf_Code": "251",
+        "Nsf_Intitule": "251 : Mécanique générale et de précision, usinage",
+        "Numero_Fiche": "RNCP509",
+      },
+    ],
+    "partenaires": [],
+    "rome": [
+      {
+        "Codes_Rome_Code": "I1203",
+        "Codes_Rome_Libelle": "Maintenance des bâtiments et des locaux",
+        "Numero_Fiche": "RNCP509",
+      },
+    ],
+    "standard": {
+      "Abrege_Intitule": "Certificat d'aptitude professionnelle",
+      "Abrege_Libelle": "CAP",
+      "Accessible_Nouvelle_Caledonie": "Non",
+      "Accessible_Polynesie_Francaise": "Non",
+      "Actif": "INACTIVE",
+      "Date_Decision": null,
+      "Date_Effet": null,
+      "Date_Fin_Enregistrement": "31/08/2023",
+      "Date_dernier_jo": null,
+      "Id_Fiche": "14791",
+      "Intitule": "Agent vérificateur d'appareils extincteurs",
+      "Nomenclature_Europe_Intitule": "Niveau 3",
+      "Nomenclature_Europe_Niveau": "NIV3",
+      "Numero_Fiche": "RNCP509",
+      "Type_Enregistrement": "Enregistrement de droit",
+      "Validation_Partielle": null,
+    },
+    "voies_d_acces": [
+      {
+        "Numero_Fiche": "RNCP509",
+        "Si_Jury": "Par expérience",
+      },
+      {
+        "Numero_Fiche": "RNCP509",
+        "Si_Jury": "Par candidature individuelle",
+      },
+      {
+        "Numero_Fiche": "RNCP509",
+        "Si_Jury": "Après un parcours de formation sous statut d’élève ou d’étudiant",
+      },
+      {
+        "Numero_Fiche": "RNCP509",
+        "Si_Jury": "En contrat d’apprentissage",
+      },
+      {
+        "Numero_Fiche": "RNCP509",
+        "Si_Jury": "En contrat de professionnalisation",
+      },
+      {
+        "Numero_Fiche": "RNCP509",
+        "Si_Jury": "Après un parcours de formation continue",
+      },
+    ],
+  },
+  "date_derniere_activation": null,
+  "date_derniere_publication": 2024-02-22T00:00:00.000Z,
+  "date_premiere_activation": null,
+  "date_premiere_publication": 2024-02-22T00:00:00.000Z,
+  "files": {
+    "f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6": {
+      "date_publication": 2024-02-22T00:00:00.000Z,
+      "last_updated": 2024-02-22T03:02:07.320Z,
+      "nom": "export-fiches-csv-2024-02-22.zip",
+    },
+  },
+  "numero_fiche": "RNCP509",
+  "source": "rncp",
+  "updated_at": 2024-02-22T03:02:07.320Z,
+}
+`;
+
+exports[`importRncpArchive > should import all files 2`] = `
+{
+  "_id": Any<ObjectId>,
+  "active": null,
+  "created_at": 2024-02-22T03:02:07.320Z,
+  "data": {
+    "ancienne_nouvelle_certification": [
+      {
+        "Ancienne_Certification": "RNCP509",
+        "Nouvelle_Certification": null,
+        "Numero_Fiche": "RNCP38228",
+      },
+    ],
+    "blocs_de_competences": [],
+    "ccn": [],
+    "certificateurs": [],
+    "formacode": [],
+    "nsf": [],
+    "partenaires": [],
+    "rome": [],
+    "standard": null,
+    "voies_d_acces": [],
+  },
+  "date_derniere_activation": null,
+  "date_derniere_publication": 2024-02-22T00:00:00.000Z,
+  "date_premiere_activation": null,
+  "date_premiere_publication": 2024-02-22T00:00:00.000Z,
+  "files": {},
+  "numero_fiche": "RNCP38228",
+  "source": "rncp",
+  "updated_at": 2024-02-22T03:02:07.320Z,
+}
+`;
+
+exports[`importRncpArchive > should import all files 3`] = `
+{
+  "_id": Any<ObjectId>,
+  "active": false,
+  "created_at": 2024-02-22T03:02:07.320Z,
+  "data": {
+    "ancienne_nouvelle_certification": [
+      {
+        "Ancienne_Certification": null,
+        "Nouvelle_Certification": "RNCP4049",
+        "Numero_Fiche": "RNCP1197",
+      },
+    ],
+    "blocs_de_competences": [],
+    "ccn": [],
+    "certificateurs": [],
+    "formacode": [],
+    "nsf": [
+      {
+        "Nsf_Code": "221w",
+        "Nsf_Intitule": "221w : Commercialisation de produits alimentaires",
+        "Numero_Fiche": "RNCP1197",
+      },
+    ],
+    "partenaires": [],
+    "rome": [],
+    "standard": {
+      "Abrege_Intitule": null,
+      "Abrege_Libelle": null,
+      "Accessible_Nouvelle_Caledonie": "Non",
+      "Accessible_Polynesie_Francaise": "Non",
+      "Actif": "INACTIVE",
+      "Date_Decision": null,
+      "Date_Effet": null,
+      "Date_Fin_Enregistrement": "31/12/2006",
+      "Date_dernier_jo": "25/01/2002",
+      "Id_Fiche": "481",
+      "Intitule": "Technico-commercial pour l'agro-alimentaire (Fiche incomplète)",
+      "Nomenclature_Europe_Intitule": "Niveau 6",
+      "Nomenclature_Europe_Niveau": "NIV6",
+      "Numero_Fiche": "RNCP1197",
+      "Type_Enregistrement": "Enregistrement sur demande",
+      "Validation_Partielle": null,
+    },
+    "voies_d_acces": [],
+  },
+  "date_derniere_activation": null,
+  "date_derniere_publication": 2024-02-22T00:00:00.000Z,
+  "date_premiere_activation": null,
+  "date_premiere_publication": 2024-02-22T00:00:00.000Z,
+  "files": {
+    "f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6": {
+      "date_publication": 2024-02-22T00:00:00.000Z,
+      "last_updated": 2024-02-22T03:02:07.320Z,
+      "nom": "export-fiches-csv-2024-02-22.zip",
+    },
+  },
+  "numero_fiche": "RNCP1197",
+  "source": "rncp",
+  "updated_at": 2024-02-22T03:02:07.320Z,
+}
+`;
+
+exports[`importRncpArchive > should import all files 4`] = `
+{
+  "_id": Any<ObjectId>,
+  "active": false,
+  "created_at": 2024-02-22T03:02:07.320Z,
+  "data": {
+    "ancienne_nouvelle_certification": [
+      {
+        "Ancienne_Certification": "RNCP1197",
+        "Nouvelle_Certification": "RNCP22094",
+        "Numero_Fiche": "RNCP4049",
+      },
+    ],
+    "blocs_de_competences": [],
+    "ccn": [],
+    "certificateurs": [],
+    "formacode": [],
+    "nsf": [
+      {
+        "Nsf_Code": "221w",
+        "Nsf_Intitule": "221w : Commercialisation de produits alimentaires",
+        "Numero_Fiche": "RNCP4049",
+      },
+    ],
+    "partenaires": [],
+    "rome": [
+      {
+        "Codes_Rome_Code": "D1407",
+        "Codes_Rome_Libelle": "Relation technico-commerciale",
+        "Numero_Fiche": "RNCP4049",
+      },
+      {
+        "Codes_Rome_Code": "D1406",
+        "Codes_Rome_Libelle": "Management en force de vente",
+        "Numero_Fiche": "RNCP4049",
+      },
+      {
+        "Codes_Rome_Code": "H1102",
+        "Codes_Rome_Libelle": "Management et ingénierie d''affaires",
+        "Numero_Fiche": "RNCP4049",
+      },
+    ],
+    "standard": {
+      "Abrege_Intitule": null,
+      "Abrege_Libelle": null,
+      "Accessible_Nouvelle_Caledonie": "Non",
+      "Accessible_Polynesie_Francaise": "Non",
+      "Actif": "INACTIVE",
+      "Date_Decision": null,
+      "Date_Effet": null,
+      "Date_Fin_Enregistrement": "02/02/2015",
+      "Date_dernier_jo": "02/02/2011",
+      "Id_Fiche": "1883",
+      "Intitule": "Chef de projet commercial pour l'agroalimentaire",
+      "Nomenclature_Europe_Intitule": "Niveau 6",
+      "Nomenclature_Europe_Niveau": "NIV6",
+      "Numero_Fiche": "RNCP4049",
+      "Type_Enregistrement": "Enregistrement sur demande",
+      "Validation_Partielle": null,
+    },
+    "voies_d_acces": [
+      {
+        "Numero_Fiche": "RNCP4049",
+        "Si_Jury": "Par expérience",
+      },
+      {
+        "Numero_Fiche": "RNCP4049",
+        "Si_Jury": "Par candidature individuelle",
+      },
+      {
+        "Numero_Fiche": "RNCP4049",
+        "Si_Jury": "Après un parcours de formation sous statut d’élève ou d’étudiant",
+      },
+      {
+        "Numero_Fiche": "RNCP4049",
+        "Si_Jury": "Après un parcours de formation continue",
+      },
+    ],
+  },
+  "date_derniere_activation": null,
+  "date_derniere_publication": 2024-02-22T00:00:00.000Z,
+  "date_premiere_activation": null,
+  "date_premiere_publication": 2024-02-22T00:00:00.000Z,
+  "files": {
+    "f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6": {
+      "date_publication": 2024-02-22T00:00:00.000Z,
+      "last_updated": 2024-02-22T03:02:07.320Z,
+      "nom": "export-fiches-csv-2024-02-22.zip",
+    },
+  },
+  "numero_fiche": "RNCP4049",
+  "source": "rncp",
+  "updated_at": 2024-02-22T03:02:07.320Z,
+}
+`;
+
+exports[`importRncpArchive > should import all files 5`] = `
+{
+  "_id": Any<ObjectId>,
+  "active": false,
+  "created_at": 2024-02-22T03:02:07.320Z,
+  "data": {
+    "ancienne_nouvelle_certification": [
+      {
+        "Ancienne_Certification": "RNCP4049",
+        "Nouvelle_Certification": "RNCP28155",
+        "Numero_Fiche": "RNCP22094",
+      },
+    ],
+    "blocs_de_competences": [],
+    "ccn": [],
+    "certificateurs": [],
+    "formacode": [],
+    "nsf": [
+      {
+        "Nsf_Code": "221w",
+        "Nsf_Intitule": "221w : Commercialisation de produits alimentaires",
+        "Numero_Fiche": "RNCP22094",
+      },
+    ],
+    "partenaires": [],
+    "rome": [
+      {
+        "Codes_Rome_Code": "D1406",
+        "Codes_Rome_Libelle": "Management en force de vente",
+        "Numero_Fiche": "RNCP22094",
+      },
+      {
+        "Codes_Rome_Code": "H1102",
+        "Codes_Rome_Libelle": "Management et ingénierie d''affaires",
+        "Numero_Fiche": "RNCP22094",
+      },
+      {
+        "Codes_Rome_Code": "D1407",
+        "Codes_Rome_Libelle": "Relation technico-commerciale",
+        "Numero_Fiche": "RNCP22094",
+      },
+    ],
+    "standard": {
+      "Abrege_Intitule": null,
+      "Abrege_Libelle": null,
+      "Accessible_Nouvelle_Caledonie": "Non",
+      "Accessible_Polynesie_Francaise": "Non",
+      "Actif": "INACTIVE",
+      "Date_Decision": null,
+      "Date_Effet": null,
+      "Date_Fin_Enregistrement": "31/12/2015",
+      "Date_dernier_jo": "31/12/2014",
+      "Id_Fiche": "2908",
+      "Intitule": "Chef de projet commercial pour l'agroalimentaire",
+      "Nomenclature_Europe_Intitule": "Niveau 6",
+      "Nomenclature_Europe_Niveau": "NIV6",
+      "Numero_Fiche": "RNCP22094",
+      "Type_Enregistrement": "Enregistrement sur demande",
+      "Validation_Partielle": null,
+    },
+    "voies_d_acces": [
+      {
+        "Numero_Fiche": "RNCP22094",
+        "Si_Jury": "Par expérience",
+      },
+      {
+        "Numero_Fiche": "RNCP22094",
+        "Si_Jury": "Après un parcours de formation sous statut d’élève ou d’étudiant",
+      },
+      {
+        "Numero_Fiche": "RNCP22094",
+        "Si_Jury": "Après un parcours de formation continue",
+      },
+      {
+        "Numero_Fiche": "RNCP22094",
+        "Si_Jury": "Par candidature individuelle",
+      },
+    ],
+  },
+  "date_derniere_activation": null,
+  "date_derniere_publication": 2024-02-22T00:00:00.000Z,
+  "date_premiere_activation": null,
+  "date_premiere_publication": 2024-02-22T00:00:00.000Z,
+  "files": {
+    "f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6": {
+      "date_publication": 2024-02-22T00:00:00.000Z,
+      "last_updated": 2024-02-22T03:02:07.320Z,
+      "nom": "export-fiches-csv-2024-02-22.zip",
+    },
+  },
+  "numero_fiche": "RNCP22094",
+  "source": "rncp",
+  "updated_at": 2024-02-22T03:02:07.320Z,
+}
+`;
+
+exports[`importRncpArchive > should import all files 6`] = `
+{
+  "_id": Any<ObjectId>,
+  "active": false,
+  "created_at": 2024-02-22T03:02:07.320Z,
+  "data": {
+    "ancienne_nouvelle_certification": [
+      {
+        "Ancienne_Certification": "RNCP22094",
+        "Nouvelle_Certification": "RNCP30271",
+        "Numero_Fiche": "RNCP28155",
+      },
+    ],
+    "blocs_de_competences": [],
+    "ccn": [],
+    "certificateurs": [],
+    "formacode": [],
+    "nsf": [
+      {
+        "Nsf_Code": "221w",
+        "Nsf_Intitule": "221w : Commercialisation de produits alimentaires",
+        "Numero_Fiche": "RNCP28155",
+      },
+    ],
+    "partenaires": [],
+    "rome": [
+      {
+        "Codes_Rome_Code": "H1102",
+        "Codes_Rome_Libelle": "Management et ingénierie d''affaires",
+        "Numero_Fiche": "RNCP28155",
+      },
+      {
+        "Codes_Rome_Code": "D1407",
+        "Codes_Rome_Libelle": "Relation technico-commerciale",
+        "Numero_Fiche": "RNCP28155",
+      },
+      {
+        "Codes_Rome_Code": "D1406",
+        "Codes_Rome_Libelle": "Management en force de vente",
+        "Numero_Fiche": "RNCP28155",
+      },
+    ],
+    "standard": {
+      "Abrege_Intitule": null,
+      "Abrege_Libelle": null,
+      "Accessible_Nouvelle_Caledonie": "Non",
+      "Accessible_Polynesie_Francaise": "Non",
+      "Actif": "INACTIVE",
+      "Date_Decision": null,
+      "Date_Effet": null,
+      "Date_Fin_Enregistrement": "21/04/2022",
+      "Date_dernier_jo": "21/04/2017",
+      "Id_Fiche": "3906",
+      "Intitule": "Chef de projet commercial pour l'agroalimentaire et services associés",
+      "Nomenclature_Europe_Intitule": "Niveau 6",
+      "Nomenclature_Europe_Niveau": "NIV6",
+      "Numero_Fiche": "RNCP28155",
+      "Type_Enregistrement": "Enregistrement sur demande",
+      "Validation_Partielle": null,
+    },
+    "voies_d_acces": [
+      {
+        "Numero_Fiche": "RNCP28155",
+        "Si_Jury": "Par candidature individuelle",
+      },
+      {
+        "Numero_Fiche": "RNCP28155",
+        "Si_Jury": "Après un parcours de formation sous statut d’élève ou d’étudiant",
+      },
+      {
+        "Numero_Fiche": "RNCP28155",
+        "Si_Jury": "En contrat d’apprentissage",
+      },
+      {
+        "Numero_Fiche": "RNCP28155",
+        "Si_Jury": "Après un parcours de formation continue",
+      },
+      {
+        "Numero_Fiche": "RNCP28155",
+        "Si_Jury": "Par expérience",
+      },
+    ],
+  },
+  "date_derniere_activation": null,
+  "date_derniere_publication": 2024-02-22T00:00:00.000Z,
+  "date_premiere_activation": null,
+  "date_premiere_publication": 2024-02-22T00:00:00.000Z,
+  "files": {
+    "f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6": {
+      "date_publication": 2024-02-22T00:00:00.000Z,
+      "last_updated": 2024-02-22T03:02:07.320Z,
+      "nom": "export-fiches-csv-2024-02-22.zip",
+    },
+  },
+  "numero_fiche": "RNCP28155",
+  "source": "rncp",
+  "updated_at": 2024-02-22T03:02:07.320Z,
+}
+`;
+
+exports[`importRncpArchive > should import all files 7`] = `
+{
+  "_id": Any<ObjectId>,
+  "active": false,
+  "created_at": 2024-02-22T03:02:07.320Z,
+  "data": {
+    "ancienne_nouvelle_certification": [
+      {
+        "Ancienne_Certification": "RNCP28155",
+        "Nouvelle_Certification": null,
+        "Numero_Fiche": "RNCP30271",
+      },
+    ],
+    "blocs_de_competences": [],
+    "ccn": [],
+    "certificateurs": [
+      {
+        "Nom_Certificateur": "ESCAIA",
+        "Numero_Fiche": "RNCP30271",
+        "Siret_Certificateur": "82948645500019",
+      },
+    ],
+    "formacode": [
+      {
+        "Formacode_Code": "21551",
+        "Formacode_Libelle": "21551 : Commercialisation agroalimentaire",
+        "Numero_Fiche": "RNCP30271",
+      },
+    ],
+    "nsf": [
+      {
+        "Nsf_Code": "221w",
+        "Nsf_Intitule": "221w : Commercialisation de produits alimentaires",
+        "Numero_Fiche": "RNCP30271",
+      },
+    ],
+    "partenaires": [],
+    "rome": [
+      {
+        "Codes_Rome_Code": "H1102",
+        "Codes_Rome_Libelle": "Management et ingénierie d''affaires",
+        "Numero_Fiche": "RNCP30271",
+      },
+      {
+        "Codes_Rome_Code": "D1407",
+        "Codes_Rome_Libelle": "Relation technico-commerciale",
+        "Numero_Fiche": "RNCP30271",
+      },
+      {
+        "Codes_Rome_Code": "D1406",
+        "Codes_Rome_Libelle": "Management en force de vente",
+        "Numero_Fiche": "RNCP30271",
+      },
+    ],
+    "standard": {
+      "Abrege_Intitule": null,
+      "Abrege_Libelle": null,
+      "Accessible_Nouvelle_Caledonie": "Non",
+      "Accessible_Polynesie_Francaise": "Non",
+      "Actif": "INACTIVE",
+      "Date_Decision": null,
+      "Date_Effet": null,
+      "Date_Fin_Enregistrement": "21/04/2022",
+      "Date_dernier_jo": "08/02/2018",
+      "Id_Fiche": "4462",
+      "Intitule": "Chef de projet commercial pour l'agroalimentaire et services associés",
+      "Nomenclature_Europe_Intitule": "Niveau 6",
+      "Nomenclature_Europe_Niveau": "NIV6",
+      "Numero_Fiche": "RNCP30271",
+      "Type_Enregistrement": "Enregistrement sur demande",
+      "Validation_Partielle": null,
+    },
+    "voies_d_acces": [
+      {
+        "Numero_Fiche": "RNCP30271",
+        "Si_Jury": "En contrat d’apprentissage",
+      },
+      {
+        "Numero_Fiche": "RNCP30271",
+        "Si_Jury": "Par expérience",
+      },
+      {
+        "Numero_Fiche": "RNCP30271",
+        "Si_Jury": "Par candidature individuelle",
+      },
+      {
+        "Numero_Fiche": "RNCP30271",
+        "Si_Jury": "Après un parcours de formation continue",
+      },
+      {
+        "Numero_Fiche": "RNCP30271",
+        "Si_Jury": "Après un parcours de formation sous statut d’élève ou d’étudiant",
+      },
+    ],
+  },
+  "date_derniere_activation": null,
+  "date_derniere_publication": 2024-02-22T00:00:00.000Z,
+  "date_premiere_activation": null,
+  "date_premiere_publication": 2024-02-22T00:00:00.000Z,
+  "files": {
+    "f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6": {
+      "date_publication": 2024-02-22T00:00:00.000Z,
+      "last_updated": 2024-02-22T03:02:07.320Z,
+      "nom": "export-fiches-csv-2024-02-22.zip",
+    },
+  },
+  "numero_fiche": "RNCP30271",
+  "source": "rncp",
+  "updated_at": 2024-02-22T03:02:07.320Z,
+}
+`;
+
+exports[`importRncpArchive > should import all files 8`] = `
+{
+  "_id": Any<ObjectId>,
+  "active": false,
+  "created_at": 2024-02-22T03:02:07.320Z,
+  "data": {
+    "ancienne_nouvelle_certification": [
+      {
+        "Ancienne_Certification": null,
+        "Nouvelle_Certification": "RS6117",
+        "Numero_Fiche": "RNCP19468",
+      },
+    ],
+    "blocs_de_competences": [],
+    "ccn": [
+      {
+        "Ccn_1_Libelle": "Boulangerie-pâtisserie (Entreprises artisanales)",
+        "Ccn_1_Numero": "3117",
+        "Ccn_2_Libelle": null,
+        "Ccn_2_Numero": null,
+        "Ccn_3_Libelle": null,
+        "Ccn_3_Numero": null,
+        "Numero_Fiche": "RNCP19468",
+      },
+    ],
+    "certificateurs": [
+      {
+        "Nom_Certificateur": "CONFEDE. NATIONALE BOULANGERS PATISSIERS",
+        "Numero_Fiche": "RNCP19468",
+        "Siret_Certificateur": "78466840200018",
+      },
+    ],
+    "formacode": [],
+    "nsf": [
+      {
+        "Nsf_Code": "221",
+        "Nsf_Intitule": "221 : Agro-alimentaire, alimentation, cuisine",
+        "Numero_Fiche": "RNCP19468",
+      },
+    ],
+    "partenaires": [
+      {
+        "Habilitation_Partenaire": "HABILITATION_ORGA_FORM",
+        "Nom_Partenaire": "INSTITUT NATIONAL DE LA BOULANGERIE PATISSERIE - INBP",
+        "Numero_Fiche": "RNCP19468",
+        "Siret_Partenaire": "53326535100015",
+      },
+    ],
+    "rome": [
+      {
+        "Codes_Rome_Code": "D1102",
+        "Codes_Rome_Libelle": "Boulangerie - viennoiserie",
+        "Numero_Fiche": "RNCP19468",
+      },
+      {
+        "Codes_Rome_Code": "D1104",
+        "Codes_Rome_Libelle": "Pâtisserie, confiserie, chocolaterie et glacerie",
+        "Numero_Fiche": "RNCP19468",
+      },
+    ],
+    "standard": {
+      "Abrege_Intitule": null,
+      "Abrege_Libelle": null,
+      "Accessible_Nouvelle_Caledonie": "Non",
+      "Accessible_Polynesie_Francaise": "Non",
+      "Actif": "INACTIVE",
+      "Date_Decision": null,
+      "Date_Effet": null,
+      "Date_Fin_Enregistrement": "21/07/2021",
+      "Date_dernier_jo": "21/07/2018",
+      "Id_Fiche": "4691",
+      "Intitule": "CQP Tourier",
+      "Nomenclature_Europe_Intitule": "Sans niveau – le positionnement dans le cadre de national des certifications professionnelles est non déterminé",
+      "Nomenclature_Europe_Niveau": "REPRISE",
+      "Numero_Fiche": "RNCP19468",
+      "Type_Enregistrement": "Enregistrement sur demande",
+      "Validation_Partielle": null,
+    },
+    "voies_d_acces": [
+      {
+        "Numero_Fiche": "RNCP19468",
+        "Si_Jury": "Par expérience",
+      },
+      {
+        "Numero_Fiche": "RNCP19468",
+        "Si_Jury": "Après un parcours de formation continue",
+      },
+      {
+        "Numero_Fiche": "RNCP19468",
+        "Si_Jury": "En contrat de professionnalisation",
+      },
+      {
+        "Numero_Fiche": "RNCP19468",
+        "Si_Jury": "Par candidature individuelle",
+      },
+    ],
+  },
+  "date_derniere_activation": null,
+  "date_derniere_publication": 2024-02-22T00:00:00.000Z,
+  "date_premiere_activation": null,
+  "date_premiere_publication": 2024-02-22T00:00:00.000Z,
+  "files": {
+    "f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6": {
+      "date_publication": 2024-02-22T00:00:00.000Z,
+      "last_updated": 2024-02-22T03:02:07.320Z,
+      "nom": "export-fiches-csv-2024-02-22.zip",
+    },
+  },
+  "numero_fiche": "RNCP19468",
+  "source": "rncp",
+  "updated_at": 2024-02-22T03:02:07.320Z,
+}
+`;
+
+exports[`importRncpArchive > should import all files 9`] = `
+{
+  "_id": Any<ObjectId>,
+  "active": true,
+  "created_at": 2024-02-22T03:02:07.320Z,
+  "data": {
+    "ancienne_nouvelle_certification": [
+      {
+        "Ancienne_Certification": "RNCP19468",
+        "Nouvelle_Certification": null,
+        "Numero_Fiche": "RS6117",
+      },
+    ],
+    "blocs_de_competences": [],
+    "ccn": [
+      {
+        "Ccn_1_Libelle": "Boulangerie-pâtisserie (Entreprises artisanales)",
+        "Ccn_1_Numero": "3117",
+        "Ccn_2_Libelle": null,
+        "Ccn_2_Numero": null,
+        "Ccn_3_Libelle": null,
+        "Ccn_3_Numero": null,
+        "Numero_Fiche": "RS6117",
+      },
+    ],
+    "certificateurs": [
+      {
+        "Nom_Certificateur": "CONFEDE. NATIONALE BOULANGERS PATISSIERS",
+        "Numero_Fiche": "RS6117",
+        "Siret_Certificateur": "78466840200018",
+      },
+      {
+        "Nom_Certificateur": "INSTITUT NATIONAL BOULANGERIE PATISSERIE",
+        "Numero_Fiche": "RS6117",
+        "Siret_Certificateur": "31504294500032",
+      },
+    ],
+    "formacode": [
+      {
+        "Formacode_Code": "21538",
+        "Formacode_Libelle": "21538 : Boulangerie",
+        "Numero_Fiche": "RS6117",
+      },
+      {
+        "Formacode_Code": "21528",
+        "Formacode_Libelle": "21528 : Pâtisserie",
+        "Numero_Fiche": "RS6117",
+      },
+    ],
+    "nsf": [
+      {
+        "Nsf_Code": "221",
+        "Nsf_Intitule": "221 : Agro-alimentaire, alimentation, cuisine",
+        "Numero_Fiche": "RS6117",
+      },
+    ],
+    "partenaires": [
+      {
+        "Habilitation_Partenaire": "HABILITATION_ORGA_FORM",
+        "Nom_Partenaire": "URMA - CENTRE FORMATION STE CLOTILDE",
+        "Numero_Fiche": "RS6117",
+        "Siret_Partenaire": "18974011100035",
+      },
+      {
+        "Habilitation_Partenaire": "HABILITATION_ORGA_FORM",
+        "Nom_Partenaire": "CFA DES PYRENEES ORIENTALES",
+        "Numero_Fiche": "RS6117",
+        "Siret_Partenaire": "13002793100323",
+      },
+      {
+        "Habilitation_Partenaire": "HABILITATION_ORGA_FORM",
+        "Nom_Partenaire": "CMA CAUDRY",
+        "Numero_Fiche": "RS6117",
+        "Siret_Partenaire": "13002374000223",
+      },
+      {
+        "Habilitation_Partenaire": "HABILITATION_ORGA_FORM",
+        "Nom_Partenaire": "INSTITUT NATIONAL BOULANGERIE PATISSERIE",
+        "Numero_Fiche": "RS6117",
+        "Siret_Partenaire": "31504294500032",
+      },
+      {
+        "Habilitation_Partenaire": "HABILITATION_ORGA_FORM",
+        "Nom_Partenaire": "ASS OUVRIERE COMPAGNON DEVOIR TOUR FRANC",
+        "Numero_Fiche": "RS6117",
+        "Siret_Partenaire": "77566202600381",
+      },
+      {
+        "Habilitation_Partenaire": "HABILITATION_ORGA_FORM",
+        "Nom_Partenaire": "ASS OUVRIERE COMPAGNON DEVOIR TOUR FRANC",
+        "Numero_Fiche": "RS6117",
+        "Siret_Partenaire": "77566202600050",
+      },
+    ],
+    "rome": [],
+    "standard": {
+      "Abrege_Intitule": null,
+      "Abrege_Libelle": null,
+      "Accessible_Nouvelle_Caledonie": "Non",
+      "Accessible_Polynesie_Francaise": "Non",
+      "Actif": "ACTIVE",
+      "Date_Decision": "29/09/2022",
+      "Date_Effet": null,
+      "Date_Fin_Enregistrement": "29/09/2025",
+      "Date_dernier_jo": null,
+      "Id_Fiche": "23237",
+      "Intitule": "CQP Tourier",
+      "Nomenclature_Europe_Intitule": null,
+      "Nomenclature_Europe_Niveau": null,
+      "Numero_Fiche": "RS6117",
+      "Type_Enregistrement": "Enregistrement sur demande",
+      "Validation_Partielle": "Non",
+    },
+    "voies_d_acces": [
+      {
+        "Numero_Fiche": "RS6117",
+        "Si_Jury": "Après un parcours de formation continue",
+      },
+      {
+        "Numero_Fiche": "RS6117",
+        "Si_Jury": "Par expérience",
+      },
+      {
+        "Numero_Fiche": "RS6117",
+        "Si_Jury": "En contrat de professionnalisation",
+      },
+    ],
+  },
+  "date_derniere_activation": 2024-02-22T00:00:00.000Z,
+  "date_derniere_publication": 2024-02-22T00:00:00.000Z,
+  "date_premiere_activation": 2024-02-22T00:00:00.000Z,
+  "date_premiere_publication": 2024-02-22T00:00:00.000Z,
+  "files": {
+    "f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6": {
+      "date_publication": 2024-02-22T00:00:00.000Z,
+      "last_updated": 2024-02-22T03:02:07.320Z,
+      "nom": "export-fiches-csv-2024-02-22.zip",
+    },
+  },
+  "numero_fiche": "RS6117",
+  "source": "rncp",
+  "updated_at": 2024-02-22T03:02:07.320Z,
+}
+`;
+
+exports[`importRncpArchive > should import all files 10`] = `
+{
+  "_id": Any<ObjectId>,
+  "active": true,
+  "created_at": 2024-02-22T03:02:07.320Z,
+  "data": {
+    "ancienne_nouvelle_certification": [],
+    "blocs_de_competences": [],
+    "ccn": [],
+    "certificateurs": [
+      {
+        "Nom_Certificateur": "SIMPLON.CO",
+        "Numero_Fiche": "RS5000",
+        "Siret_Certificateur": "79279132900016",
+      },
+    ],
+    "formacode": [
+      {
+        "Formacode_Code": "31004",
+        "Formacode_Libelle": "31004 : Blockchain",
+        "Numero_Fiche": "RS5000",
+      },
+    ],
+    "nsf": [
+      {
+        "Nsf_Code": "326",
+        "Nsf_Intitule": "326 : Informatique, traitement de l'information, réseaux de transmission",
+        "Numero_Fiche": "RS5000",
+      },
+      {
+        "Nsf_Code": "114b",
+        "Nsf_Intitule": "114b : Modèles mathématiques ; Informatique mathématique",
+        "Numero_Fiche": "RS5000",
+      },
+    ],
+    "partenaires": [
+      {
+        "Habilitation_Partenaire": "HABILITATION_ORGA_FORM",
+        "Nom_Partenaire": "ALYRA",
+        "Numero_Fiche": "RS5000",
+        "Siret_Partenaire": "82815245400033",
+      },
+      {
+        "Habilitation_Partenaire": "HABILITATION_ORGA_FORM",
+        "Nom_Partenaire": "ACADEE",
+        "Numero_Fiche": "RS5000",
+        "Siret_Partenaire": "87920070700013",
+      },
+      {
+        "Habilitation_Partenaire": "HABILITATION_ORGA_FORM",
+        "Nom_Partenaire": "ORSYS",
+        "Numero_Fiche": "RS5000",
+        "Siret_Partenaire": "48276116000019",
+      },
+    ],
+    "rome": [],
+    "standard": {
+      "Abrege_Intitule": null,
+      "Abrege_Libelle": null,
+      "Accessible_Nouvelle_Caledonie": "Non",
+      "Accessible_Polynesie_Francaise": "Non",
+      "Actif": "ACTIVE",
+      "Date_Decision": "13/06/2019",
+      "Date_Effet": null,
+      "Date_Fin_Enregistrement": "24/05/2024",
+      "Date_dernier_jo": null,
+      "Id_Fiche": "2",
+      "Intitule": "Exploiter la blockchain dans le développement d’applications",
+      "Nomenclature_Europe_Intitule": null,
+      "Nomenclature_Europe_Niveau": null,
+      "Numero_Fiche": "RS5000",
+      "Type_Enregistrement": "Enregistrement sur demande",
+      "Validation_Partielle": "Non",
+    },
+    "voies_d_acces": [
+      {
+        "Numero_Fiche": "RS5000",
+        "Si_Jury": "Après un parcours de formation continue",
+      },
+      {
+        "Numero_Fiche": "RS5000",
+        "Si_Jury": "Par candidature individuelle",
+      },
+      {
+        "Numero_Fiche": "RS5000",
+        "Si_Jury": "Par expérience",
+      },
+    ],
+  },
+  "date_derniere_activation": 2024-02-22T00:00:00.000Z,
+  "date_derniere_publication": 2024-02-22T00:00:00.000Z,
+  "date_premiere_activation": 2024-02-22T00:00:00.000Z,
+  "date_premiere_publication": 2024-02-22T00:00:00.000Z,
+  "files": {
+    "f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6": {
+      "date_publication": 2024-02-22T00:00:00.000Z,
+      "last_updated": 2024-02-22T03:02:07.320Z,
+      "nom": "export-fiches-csv-2024-02-22.zip",
+    },
+  },
+  "numero_fiche": "RS5000",
+  "source": "rncp",
+  "updated_at": 2024-02-22T03:02:07.320Z,
+}
+`;

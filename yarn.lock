@@ -22,6 +22,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@anatine/zod-mock@npm:^3.13.3":
+  version: 3.13.3
+  resolution: "@anatine/zod-mock@npm:3.13.3"
+  dependencies:
+    randexp: ^0.5.3
+  peerDependencies:
+    "@faker-js/faker": ^7.0.0 || ^8.0.0
+    zod: ^3.21.4
+  checksum: b7e233c624f6ab74f679d72fadd640c2dbc5ec7738419854e85edd95fcd35697cdf20c1ce6147b7545e4c0ab7efcbff3462dd3009b49d5fce27ef2070a71c5ee
+  languageName: node
+  linkType: hard
+
 "@asteasolutions/zod-to-openapi@npm:^6.2.0":
   version: 6.3.0
   resolution: "@asteasolutions/zod-to-openapi@npm:6.3.0"
@@ -892,6 +904,13 @@ __metadata:
   version: 8.54.0
   resolution: "@eslint/js@npm:8.54.0"
   checksum: 6d88a6f711ef0133566b5340e3178a178fbb297585766460f195d0a9db85688f1e5cf8559fd5748aeb3131e2096c66595b323d8edab22df015acda68f1ebde92
+  languageName: node
+  linkType: hard
+
+"@faker-js/faker@npm:^8.4.1":
+  version: 8.4.1
+  resolution: "@faker-js/faker@npm:8.4.1"
+  checksum: d802d531f8929562715adc279cfec763c9a4bc596ec67b0ce43fd0ae61b285d2b0eec6f1f4aa852452a63721a842fe7e81926dce7bd92acca94b01e2a1f55f5a
   languageName: node
   linkType: hard
 
@@ -5171,6 +5190,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"csv-stringify@npm:^6.0.0":
+  version: 6.4.6
+  resolution: "csv-stringify@npm:6.4.6"
+  checksum: cacf20b3c2e0d68272e81e8b757fbc60a546e9e7b04916019af02326eadd42c163edb9f8f52bbc2dbe5d457282d560d6954fb2ef9848a96e2e5b3241a44be8a1
+  languageName: node
+  linkType: hard
+
 "cyclist@npm:1.0.1":
   version: 1.0.1
   resolution: "cyclist@npm:1.0.1"
@@ -5618,6 +5644,13 @@ __metadata:
   version: 16.3.1
   resolution: "dotenv@npm:16.3.1"
   checksum: 15d75e7279018f4bafd0ee9706593dd14455ddb71b3bcba9c52574460b7ccaf67d5cf8b2c08a5af1a9da6db36c956a04a1192b101ee102a3e0cf8817bbcf3dfd
+  languageName: node
+  linkType: hard
+
+"drange@npm:^1.0.2":
+  version: 1.1.1
+  resolution: "drange@npm:1.1.1"
+  checksum: 7e6ed639f9ab4d826e79717e2b0685a7ab02ecd39dac6483305dcc43ea2a27dc78b538e10adaba35c086efab216ef1f53f22bc402abfd0d29454b1c5f48fecd1
   languageName: node
   linkType: hard
 
@@ -13081,6 +13114,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"randexp@npm:^0.5.3":
+  version: 0.5.3
+  resolution: "randexp@npm:0.5.3"
+  dependencies:
+    drange: ^1.0.2
+    ret: ^0.2.0
+  checksum: 9a4011b4b012debea545fc379a18208876fffc1179d2ac211351caf7626a3956efc4bc41e329bc5b241a671553eda58e0703933a9bcfdf90dde501ba1a2cf40a
+  languageName: node
+  linkType: hard
+
 "rate-limiter-flexible@npm:^2.4.2":
   version: 2.4.2
   resolution: "rate-limiter-flexible@npm:2.4.2"
@@ -13801,7 +13844,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ret@npm:~0.2.0":
+"ret@npm:^0.2.0, ret@npm:~0.2.0":
   version: 0.2.2
   resolution: "ret@npm:0.2.2"
   checksum: 774964bb413a3525e687bca92d81c1cd75555ec33147c32ecca22f3d06409e35df87952cfe3d57afff7650a0f7e42139cf60cb44e94c29dde390243bc1941f16
@@ -14196,6 +14239,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "server@workspace:server"
   dependencies:
+    "@anatine/zod-mock": ^3.13.3
+    "@faker-js/faker": ^8.4.1
     "@fastify/auth": ^4.4.0
     "@fastify/cookie": ^9.1.0
     "@fastify/cors": ^8.4.1
@@ -14228,6 +14273,7 @@ __metadata:
     commander: ^10.0.1
     cron-parser: ^4.9.0
     csv-parse: ^5.4.0
+    csv-stringify: ^6.0.0
     date-fns: ^2.30.0
     dotenv: ^16.3.1
     ejs: ^3.1.9

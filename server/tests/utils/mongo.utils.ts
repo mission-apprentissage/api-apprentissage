@@ -1,4 +1,5 @@
 import { modelDescriptors } from "shared/models/models";
+import { beforeAll, beforeEach } from "vitest";
 
 import {
   clearAllCollections,
@@ -21,17 +22,13 @@ export const stopMongodb = async () => {
 };
 
 export const useMongo = () => {
-  return {
-    beforeAll: async () => {
-      await startAndConnectMongodb();
-    },
+  beforeAll(async () => {
+    await startAndConnectMongodb();
 
-    afterAll: async () => {
-      await stopMongodb();
-    },
+    return () => stopMongodb();
+  });
 
-    beforeEach: async () => {
-      await clearAllCollections();
-    },
-  };
+  beforeEach(async () => {
+    await clearAllCollections();
+  });
 };

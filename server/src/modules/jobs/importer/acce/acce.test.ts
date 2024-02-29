@@ -3,26 +3,18 @@ import { createReadStream } from "fs";
 import { dirname, join } from "path";
 import { ISourceAcce } from "shared/models/source/acce/source.acce.model";
 import { fileURLToPath } from "url";
-import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { getDbCollection } from "../../../../common/utils/mongodbUtils";
 import { importAcceData } from "./acce";
 
-const mongo = useMongo();
-
 describe("importAcceData", () => {
-  beforeAll(async () => {
-    await mongo.beforeAll();
-  });
+  useMongo();
 
-  beforeEach(async () => {
-    await mongo.beforeEach();
+  beforeEach(() => {
     vi.useFakeTimers();
-  });
 
-  afterAll(async () => {
-    vi.useRealTimers();
-    await mongo.afterAll();
+    return () => vi.useRealTimers();
   });
 
   it("should extract zipped acce data", async () => {

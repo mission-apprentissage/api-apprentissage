@@ -3932,6 +3932,550 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
 }
 `;
 
+exports[`zodToMongoSchema > should convert source.france_competence schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "active": {
+      "bsonType": [
+        "bool",
+        "null",
+      ],
+    },
+    "created_at": {
+      "bsonType": "date",
+    },
+    "data": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "ancienne_nouvelle_certification": {
+          "bsonType": "array",
+          "items": {
+            "additionalProperties": false,
+            "bsonType": "object",
+            "properties": {
+              "Ancienne_Certification": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+              "Nouvelle_Certification": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+              "Numero_Fiche": {
+                "bsonType": "string",
+              },
+            },
+            "required": [
+              "Numero_Fiche",
+              "Ancienne_Certification",
+              "Nouvelle_Certification",
+            ],
+          },
+        },
+        "blocs_de_competences": {
+          "bsonType": "array",
+          "items": {
+            "additionalProperties": false,
+            "bsonType": "object",
+            "properties": {
+              "Bloc_Competences_Code": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+              "Bloc_Competences_Libelle": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+              "Numero_Fiche": {
+                "bsonType": "string",
+              },
+            },
+            "required": [
+              "Numero_Fiche",
+              "Bloc_Competences_Code",
+              "Bloc_Competences_Libelle",
+            ],
+          },
+        },
+        "ccn": {
+          "bsonType": "array",
+          "items": {
+            "additionalProperties": false,
+            "bsonType": "object",
+            "properties": {
+              "Ccn_1_Libelle": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+              "Ccn_1_Numero": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+              "Ccn_2_Libelle": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+              "Ccn_2_Numero": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+              "Ccn_3_Libelle": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+              "Ccn_3_Numero": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+              "Numero_Fiche": {
+                "bsonType": "string",
+              },
+            },
+            "required": [
+              "Numero_Fiche",
+              "Ccn_1_Numero",
+              "Ccn_1_Libelle",
+              "Ccn_2_Numero",
+              "Ccn_2_Libelle",
+              "Ccn_3_Numero",
+              "Ccn_3_Libelle",
+            ],
+          },
+        },
+        "certificateurs": {
+          "bsonType": "array",
+          "items": {
+            "additionalProperties": false,
+            "bsonType": "object",
+            "properties": {
+              "Nom_Certificateur": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+              "Numero_Fiche": {
+                "bsonType": "string",
+              },
+              "Siret_Certificateur": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+            },
+            "required": [
+              "Numero_Fiche",
+              "Siret_Certificateur",
+              "Nom_Certificateur",
+            ],
+          },
+        },
+        "formacode": {
+          "bsonType": "array",
+          "items": {
+            "additionalProperties": false,
+            "bsonType": "object",
+            "properties": {
+              "Formacode_Code": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+              "Formacode_Libelle": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+              "Numero_Fiche": {
+                "bsonType": "string",
+              },
+            },
+            "required": [
+              "Numero_Fiche",
+              "Formacode_Code",
+              "Formacode_Libelle",
+            ],
+          },
+        },
+        "nsf": {
+          "bsonType": "array",
+          "items": {
+            "additionalProperties": false,
+            "bsonType": "object",
+            "properties": {
+              "Nsf_Code": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+              "Nsf_Intitule": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+              "Numero_Fiche": {
+                "bsonType": "string",
+              },
+            },
+            "required": [
+              "Numero_Fiche",
+              "Nsf_Code",
+              "Nsf_Intitule",
+            ],
+          },
+        },
+        "partenaires": {
+          "bsonType": "array",
+          "items": {
+            "additionalProperties": false,
+            "bsonType": "object",
+            "properties": {
+              "Habilitation_Partenaire": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+              "Nom_Partenaire": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+              "Numero_Fiche": {
+                "bsonType": "string",
+              },
+              "Siret_Partenaire": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+            },
+            "required": [
+              "Numero_Fiche",
+              "Nom_Partenaire",
+              "Siret_Partenaire",
+              "Habilitation_Partenaire",
+            ],
+          },
+        },
+        "rome": {
+          "bsonType": "array",
+          "items": {
+            "additionalProperties": false,
+            "bsonType": "object",
+            "properties": {
+              "Codes_Rome_Code": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+              "Codes_Rome_Libelle": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+              "Numero_Fiche": {
+                "bsonType": "string",
+              },
+            },
+            "required": [
+              "Numero_Fiche",
+              "Codes_Rome_Code",
+              "Codes_Rome_Libelle",
+            ],
+          },
+        },
+        "standard": {
+          "anyOf": [
+            {
+              "additionalProperties": false,
+              "bsonType": "object",
+              "properties": {
+                "Abrege_Intitule": {
+                  "bsonType": [
+                    "string",
+                    "null",
+                  ],
+                },
+                "Abrege_Libelle": {
+                  "bsonType": [
+                    "string",
+                    "null",
+                  ],
+                },
+                "Accessible_Nouvelle_Caledonie": {
+                  "bsonType": [
+                    "string",
+                    "null",
+                  ],
+                },
+                "Accessible_Polynesie_Francaise": {
+                  "bsonType": [
+                    "string",
+                    "null",
+                  ],
+                },
+                "Actif": {
+                  "anyOf": [
+                    {
+                      "bsonType": "string",
+                      "enum": [
+                        "ACTIVE",
+                        "INACTIVE",
+                      ],
+                    },
+                    {
+                      "bsonType": "null",
+                    },
+                  ],
+                },
+                "Date_Decision": {
+                  "bsonType": [
+                    "string",
+                    "null",
+                  ],
+                },
+                "Date_Effet": {
+                  "bsonType": [
+                    "string",
+                    "null",
+                  ],
+                },
+                "Date_Fin_Enregistrement": {
+                  "bsonType": [
+                    "string",
+                    "null",
+                  ],
+                },
+                "Date_dernier_jo": {
+                  "bsonType": [
+                    "string",
+                    "null",
+                  ],
+                },
+                "Id_Fiche": {
+                  "bsonType": "string",
+                },
+                "Intitule": {
+                  "bsonType": [
+                    "string",
+                    "null",
+                  ],
+                },
+                "Nomenclature_Europe_Intitule": {
+                  "bsonType": [
+                    "string",
+                    "null",
+                  ],
+                },
+                "Nomenclature_Europe_Niveau": {
+                  "bsonType": [
+                    "string",
+                    "null",
+                  ],
+                },
+                "Numero_Fiche": {
+                  "bsonType": "string",
+                },
+                "Type_Enregistrement": {
+                  "bsonType": [
+                    "string",
+                    "null",
+                  ],
+                },
+                "Validation_Partielle": {
+                  "bsonType": [
+                    "string",
+                    "null",
+                  ],
+                },
+              },
+              "required": [
+                "Id_Fiche",
+                "Numero_Fiche",
+                "Intitule",
+                "Abrege_Libelle",
+                "Abrege_Intitule",
+                "Nomenclature_Europe_Niveau",
+                "Nomenclature_Europe_Intitule",
+                "Accessible_Nouvelle_Caledonie",
+                "Accessible_Polynesie_Francaise",
+                "Date_dernier_jo",
+                "Date_Decision",
+                "Date_Fin_Enregistrement",
+                "Date_Effet",
+                "Type_Enregistrement",
+                "Validation_Partielle",
+                "Actif",
+              ],
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "voies_d_acces": {
+          "bsonType": "array",
+          "items": {
+            "additionalProperties": false,
+            "bsonType": "object",
+            "properties": {
+              "Numero_Fiche": {
+                "bsonType": "string",
+              },
+              "Si_Jury": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+            },
+            "required": [
+              "Numero_Fiche",
+              "Si_Jury",
+            ],
+          },
+        },
+      },
+      "required": [
+        "ccn",
+        "partenaires",
+        "blocs_de_competences",
+        "nsf",
+        "formacode",
+        "ancienne_nouvelle_certification",
+        "voies_d_acces",
+        "rome",
+        "certificateurs",
+        "standard",
+      ],
+    },
+    "date_derniere_activation": {
+      "anyOf": [
+        {
+          "bsonType": "date",
+        },
+        {
+          "bsonType": "null",
+        },
+      ],
+    },
+    "date_derniere_publication": {
+      "anyOf": [
+        {
+          "bsonType": "date",
+        },
+        {
+          "bsonType": "null",
+        },
+      ],
+    },
+    "date_premiere_activation": {
+      "anyOf": [
+        {
+          "bsonType": "date",
+        },
+        {
+          "bsonType": "null",
+        },
+      ],
+    },
+    "date_premiere_publication": {
+      "anyOf": [
+        {
+          "bsonType": "date",
+        },
+        {
+          "bsonType": "null",
+        },
+      ],
+    },
+    "files": {
+      "additionalProperties": {
+        "additionalProperties": false,
+        "bsonType": "object",
+        "properties": {
+          "date_publication": {
+            "bsonType": "date",
+          },
+          "last_updated": {
+            "bsonType": "date",
+          },
+          "nom": {
+            "bsonType": "string",
+          },
+        },
+        "required": [
+          "nom",
+          "last_updated",
+          "date_publication",
+        ],
+      },
+      "bsonType": "object",
+    },
+    "numero_fiche": {
+      "bsonType": "string",
+      "pattern": "^(RNCP|RS)\\\\d+$",
+    },
+    "source": {
+      "bsonType": "string",
+    },
+    "updated_at": {
+      "bsonType": "date",
+    },
+  },
+  "required": [
+    "_id",
+    "created_at",
+    "updated_at",
+    "numero_fiche",
+    "active",
+    "date_premiere_publication",
+    "date_derniere_publication",
+    "date_premiere_activation",
+    "date_derniere_activation",
+    "source",
+    "files",
+    "data",
+  ],
+}
+`;
+
 exports[`zodToMongoSchema > should convert source.kit_apprentissage schema 1`] = `
 {
   "additionalProperties": false,

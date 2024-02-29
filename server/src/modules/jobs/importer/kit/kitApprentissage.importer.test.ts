@@ -1,7 +1,7 @@
 import { useMongo } from "@tests/utils/mongo.utils";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
-import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { getStaticFilePath } from "@/common/utils/getStaticFilePath";
 import { getDbCollection } from "@/common/utils/mongodbUtils";
@@ -12,21 +12,13 @@ vi.mock("@/common/utils/getStaticFilePath", () => ({
   getStaticFilePath: vi.fn(),
 }));
 
-const mongo = useMongo();
-
 describe("runKitApprentissageImporter", () => {
-  beforeAll(async () => {
-    await mongo.beforeAll();
-  });
+  useMongo();
 
   beforeEach(async () => {
-    await mongo.beforeEach();
     vi.useFakeTimers();
-  });
 
-  afterAll(async () => {
-    vi.useRealTimers();
-    await mongo.afterAll();
+    return () => vi.useRealTimers();
   });
 
   it("should import Kit Apprentissage source", async () => {

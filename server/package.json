@@ -61,6 +61,8 @@
     "zod-mongodb-schema": "^1.0.0"
   },
   "devDependencies": {
+    "@anatine/zod-mock": "^3.13.3",
+    "@faker-js/faker": "^8.4.1",
     "@types/bunyan": "^1.8.8",
     "@types/bunyan-prettystream": "^0.1.32",
     "@types/ejs": "^3.1.2",
@@ -74,6 +76,7 @@
     "@types/sax": "^1.2.7",
     "@types/stream-json": "^1.7.7",
     "@types/unzipper": "^0.10.9",
+    "csv-stringify": "^6.0.0",
     "dotenv": "^16.3.1",
     "nock": "^13.3.3",
     "tsup": "^7.2.0",

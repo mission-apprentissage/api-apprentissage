@@ -11,6 +11,7 @@ import getApiClient from "../client";
 const client = getApiClient(
   {
     baseURL: "https://www.data.gouv.fr/api/1",
+    timeout: 120_000,
   },
   { cache: false }
 );

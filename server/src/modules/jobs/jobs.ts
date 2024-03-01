@@ -31,26 +31,32 @@ export async function setupJobProcessor() {
             "Mise à jour acce": {
               cron_string: "0 1 * * *",
               handler: runAcceImporter,
+              resumable: true,
             },
             "Import des données BCN": {
               cron_string: "0 9 * * *",
               handler: runBcnImporter,
+              resumable: true,
             },
             "Import des données Kit Apprentissage": {
               cron_string: "0 9 * * *",
               handler: runKitApprentissageImporter,
+              resumable: true,
             },
             "Import des données Referentiel": {
               cron_string: "0 9 * * *",
               handler: runReferentielImporter,
+              resumable: true,
             },
             "Import des données Catalogue": {
               cron_string: "0 9 * * *",
               handler: runCatalogueImporter,
+              resumable: true,
             },
             "Import des données France Compétences": {
               cron_string: "0 9 * * *",
               handler: runRncpImporter,
+              resumable: true,
             },
           },
     jobs: {

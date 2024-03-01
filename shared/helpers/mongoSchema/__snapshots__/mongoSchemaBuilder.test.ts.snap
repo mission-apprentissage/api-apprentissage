@@ -196,7 +196,7 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
               "anyOf": [
                 {
                   "bsonType": "string",
-                  "pattern": "^\\\\d{2}$",
+                  "pattern": "^\\d{2}$",
                 },
                 {
                   "bsonType": "null",
@@ -418,14 +418,14 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
             },
             "ministere_tutelle": {
               "bsonType": "string",
-              "pattern": "^\\\\d{2}$",
+              "pattern": "^\\d{2}$",
             },
             "ministere_tutelle_libe": {
               "bsonType": "string",
             },
             "nature_uai": {
               "bsonType": "string",
-              "pattern": "^\\\\d{3}$",
+              "pattern": "^\\d{3}$",
             },
             "nature_uai_libe": {
               "bsonType": "string",
@@ -535,7 +535,7 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
               "anyOf": [
                 {
                   "bsonType": "string",
-                  "pattern": "^\\\\d{2}$",
+                  "pattern": "^\\d{2}$",
                 },
                 {
                   "bsonType": "null",
@@ -767,7 +767,7 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
               "anyOf": [
                 {
                   "bsonType": "string",
-                  "pattern": "^\\\\d{2}$",
+                  "pattern": "^\\d{2}$",
                 },
                 {
                   "bsonType": "null",
@@ -989,14 +989,14 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
             },
             "ministere_tutelle": {
               "bsonType": "string",
-              "pattern": "^\\\\d{2}$",
+              "pattern": "^\\d{2}$",
             },
             "ministere_tutelle_libe": {
               "bsonType": "string",
             },
             "nature_uai": {
               "bsonType": "string",
-              "pattern": "^\\\\d{3}$",
+              "pattern": "^\\d{3}$",
             },
             "nature_uai_libe": {
               "bsonType": "string",
@@ -1109,7 +1109,7 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
               "anyOf": [
                 {
                   "bsonType": "string",
-                  "pattern": "^\\\\d{2}$",
+                  "pattern": "^\\d{2}$",
                 },
                 {
                   "bsonType": "null",
@@ -1227,7 +1227,7 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
               "anyOf": [
                 {
                   "bsonType": "string",
-                  "pattern": "^\\\\d{2}$",
+                  "pattern": "^\\d{2}$",
                 },
                 {
                   "bsonType": "null",
@@ -1449,14 +1449,14 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
             },
             "ministere_tutelle": {
               "bsonType": "string",
-              "pattern": "^\\\\d{2}$",
+              "pattern": "^\\d{2}$",
             },
             "ministere_tutelle_libe": {
               "bsonType": "string",
             },
             "nature_uai": {
               "bsonType": "string",
-              "pattern": "^\\\\d{3}$",
+              "pattern": "^\\d{3}$",
             },
             "nature_uai_libe": {
               "bsonType": "string",
@@ -1569,7 +1569,7 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
               "anyOf": [
                 {
                   "bsonType": "string",
-                  "pattern": "^\\\\d{2}$",
+                  "pattern": "^\\d{2}$",
                 },
                 {
                   "bsonType": "null",
@@ -4450,7 +4450,7 @@ exports[`zodToMongoSchema > should convert source.france_competence schema 1`] =
     },
     "numero_fiche": {
       "bsonType": "string",
-      "pattern": "^(RNCP|RS)\\\\d+$",
+      "pattern": "^(RNCP|RS)\\d+$",
     },
     "source": {
       "bsonType": "string",

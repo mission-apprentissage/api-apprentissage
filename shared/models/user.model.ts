@@ -28,7 +28,6 @@ const indexes: IModelDescriptor["indexes"] = [
       weights: {
         email: 10,
       },
-      name: "search",
     },
   ],
 ];

@@ -1,16 +1,27 @@
 import { z } from "zod";
 
+import { zDataGouvDatasetResource } from "../apis";
 import { IModelDescriptor, zObjectId } from "./common";
 
 const collectionName = "import.meta" as const;
 
 const indexes: IModelDescriptor["indexes"] = [[{ type: 1, import_date: 1 }, {}]];
 
+export const zArchiveMeta = z.object({
+  date_publication: z.date(),
+  last_updated: z.date(),
+  nom: z.string(),
+  resource: zDataGouvDatasetResource,
+});
+
+export type IArchiveMeta = z.output<typeof zArchiveMeta>;
+
 export const zImportMeta = z
   .object({
     _id: zObjectId,
     import_date: z.date(),
     type: z.literal("france_competence"),
+    archiveMeta: zArchiveMeta,
   })
   .strict();
 

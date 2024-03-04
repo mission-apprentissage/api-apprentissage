@@ -1,4 +1,5 @@
 import { addJob, initJobProcessor } from "job-processor";
+import { zImportMeta } from "shared/models/import.meta.model";
 import { zUserCreate } from "shared/models/user.model";
 
 import {
@@ -16,7 +17,11 @@ import { validateModels } from "./db/schemaValidation";
 import { runAcceImporter } from "./importer/acce/acce";
 import { runBcnImporter } from "./importer/bcn/bcn.importer";
 import { runCatalogueImporter } from "./importer/catalogue/catalogue.importer";
-import { runRncpImporter } from "./importer/france_competence/france_competence.importer";
+import {
+  importRncpArchive,
+  onImportRncpArchiveFailure,
+  runRncpImporter,
+} from "./importer/france_competence/france_competence.importer";
 import { runKitApprentissageImporter } from "./importer/kit/kitApprentissage.importer";
 import { runReferentielImporter } from "./importer/referentiel/referentiel";
 
@@ -102,6 +107,15 @@ export async function setupJobProcessor() {
       },
       "import:catalogue": {
         handler: async () => runCatalogueImporter(),
+      },
+      "import:france_competence:resource": {
+        handler: async (job) => importRncpArchive(zImportMeta.parse(job.payload)),
+        onJobExited: async (job) => {
+          if (job.status === "errored") {
+            await onImportRncpArchiveFailure(zImportMeta.parse(job.payload));
+          }
+        },
+        resumable: true,
       },
     },
   });

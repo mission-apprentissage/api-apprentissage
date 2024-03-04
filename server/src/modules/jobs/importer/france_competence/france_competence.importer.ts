@@ -2,9 +2,10 @@ import { Transform } from "node:stream";
 
 import { internal } from "@hapi/boom";
 import { parse } from "csv-parse";
+import { addJob } from "job-processor";
 import { AnyBulkWriteOperation, ObjectId } from "mongodb";
 import { IDataGouvDataset, IDataGouvDatasetResource } from "shared";
-import { IImportMeta } from "shared/models/import.meta.model";
+import { IArchiveMeta, IImportMeta } from "shared/models/import.meta.model";
 import { ISourceFcStandard } from "shared/models/source/france_competence/parts/source.france_competence.standard.model";
 import {
   ISourceFranceCompetence,
@@ -18,13 +19,6 @@ import { downloadDataGouvResource, fetchDataGouvDataSet } from "@/common/apis/da
 import { withCause } from "@/common/errors/withCause";
 import { getDbCollection } from "@/common/utils/mongodbUtils";
 import { createChangeBatchCardinalityTransformStream } from "@/common/utils/streamUtils";
-
-type ArchiveMeta = {
-  date_publication: Date;
-  last_updated: Date;
-  nom: string;
-  resource: IDataGouvDatasetResource;
-};
 
 type FichierMeta = {
   source: keyof ISourceFranceCompetence["data"];
@@ -65,7 +59,7 @@ function getFichierMetaFromFilename(entry: Entry): FichierMeta {
   throw internal("import.france_competence: unexpected filename", { filename: entry.path });
 }
 
-function getArchiveMeta(resource: IDataGouvDatasetResource): ArchiveMeta | null {
+function getArchiveMeta(resource: IDataGouvDatasetResource): IArchiveMeta | null {
   const match = resource.title.match(/^export-fiches-csv-(\d{4})-(\d{2})-(\d{2})\.zip/);
   if (!match) {
     return null;
@@ -81,7 +75,6 @@ function getArchiveMeta(resource: IDataGouvDatasetResource): ArchiveMeta | null 
 
 export function processRecord(
   importMeta: IImportMeta,
-  archiveMeta: ArchiveMeta,
   fichierMeta: FichierMeta,
   record: Record<string, string | null>,
   columns: { name: string }[]
@@ -139,10 +132,10 @@ export function processRecord(
         filter: { numero_fiche: data.Numero_Fiche },
         update: {
           $set: {
-            [`files.${archiveMeta.resource.id}`]: {
-              nom: archiveMeta.nom,
-              last_updated: archiveMeta.last_updated,
-              date_publication: archiveMeta.date_publication,
+            [`files.${importMeta.archiveMeta.resource.id}`]: {
+              nom: importMeta.archiveMeta.nom,
+              last_updated: importMeta.archiveMeta.last_updated,
+              date_publication: importMeta.archiveMeta.date_publication,
             },
             updated_at: importMeta.import_date,
           },
@@ -155,13 +148,16 @@ export function processRecord(
     updateOne: {
       filter: {
         $or: [
-          { numero_fiche: data.Numero_Fiche, date_derniere_publication: { $lt: archiveMeta.date_publication } },
+          {
+            numero_fiche: data.Numero_Fiche,
+            date_derniere_publication: { $lt: importMeta.archiveMeta.date_publication },
+          },
           { numero_fiche: data.Numero_Fiche, date_derniere_publication: null },
         ],
       },
       update: {
         $set: {
-          date_derniere_publication: archiveMeta.date_publication,
+          date_derniere_publication: importMeta.archiveMeta.date_publication,
           data: initialData,
           updated_at: importMeta.import_date,
         },
@@ -173,13 +169,16 @@ export function processRecord(
     updateOne: {
       filter: {
         $or: [
-          { numero_fiche: data.Numero_Fiche, date_premiere_publication: { $gt: archiveMeta.date_publication } },
+          {
+            numero_fiche: data.Numero_Fiche,
+            date_premiere_publication: { $gt: importMeta.archiveMeta.date_publication },
+          },
           { numero_fiche: data.Numero_Fiche, date_premiere_publication: null },
         ],
       },
       update: {
         $set: {
-          date_premiere_publication: archiveMeta.date_publication,
+          date_premiere_publication: importMeta.archiveMeta.date_publication,
           updated_at: importMeta.import_date,
         },
       },
@@ -189,7 +188,7 @@ export function processRecord(
   if (fichierMeta.source === "standard") {
     operations.push({
       updateOne: {
-        filter: { numero_fiche: data.Numero_Fiche, date_derniere_publication: archiveMeta.date_publication },
+        filter: { numero_fiche: data.Numero_Fiche, date_derniere_publication: importMeta.archiveMeta.date_publication },
         update: {
           $set: {
             updated_at: importMeta.import_date,
@@ -206,8 +205,8 @@ export function processRecord(
           filter: { numero_fiche: data.Numero_Fiche, date_premiere_activation: null },
           update: {
             $set: {
-              date_premiere_activation: archiveMeta.date_publication,
-              date_derniere_activation: archiveMeta.date_publication,
+              date_premiere_activation: importMeta.archiveMeta.date_publication,
+              date_derniere_activation: importMeta.archiveMeta.date_publication,
               updated_at: importMeta.import_date,
             },
           },
@@ -215,10 +214,13 @@ export function processRecord(
       });
       operations.push({
         updateOne: {
-          filter: { numero_fiche: data.Numero_Fiche, date_premiere_activation: { $gt: archiveMeta.date_publication } },
+          filter: {
+            numero_fiche: data.Numero_Fiche,
+            date_premiere_activation: { $gt: importMeta.archiveMeta.date_publication },
+          },
           update: {
             $set: {
-              date_premiere_activation: archiveMeta.date_publication,
+              date_premiere_activation: importMeta.archiveMeta.date_publication,
               updated_at: importMeta.import_date,
             },
           },
@@ -226,10 +228,13 @@ export function processRecord(
       });
       operations.push({
         updateOne: {
-          filter: { numero_fiche: data.Numero_Fiche, date_derniere_activation: { $lt: archiveMeta.date_publication } },
+          filter: {
+            numero_fiche: data.Numero_Fiche,
+            date_derniere_activation: { $lt: importMeta.archiveMeta.date_publication },
+          },
           update: {
             $set: {
-              date_derniere_activation: archiveMeta.date_publication,
+              date_derniere_activation: importMeta.archiveMeta.date_publication,
               updated_at: importMeta.import_date,
             },
           },
@@ -239,7 +244,7 @@ export function processRecord(
   } else {
     operations.push({
       updateOne: {
-        filter: { numero_fiche: data.Numero_Fiche, date_derniere_publication: archiveMeta.date_publication },
+        filter: { numero_fiche: data.Numero_Fiche, date_derniere_publication: importMeta.archiveMeta.date_publication },
         update: {
           $addToSet: {
             [`data.${fichierMeta.source}`]: data,
@@ -255,7 +260,7 @@ export function processRecord(
   return operations;
 }
 
-export async function importRncpFile(entry: Entry, archiveMeta: ArchiveMeta, importMeta: IImportMeta) {
+export async function importRncpFile(entry: Entry, importMeta: IImportMeta) {
   try {
     const fichierMeta = getFichierMetaFromFilename(entry);
 
@@ -275,7 +280,7 @@ export async function importRncpFile(entry: Entry, archiveMeta: ArchiveMeta, imp
             return acc;
           }, {});
 
-          return processRecord(importMeta, archiveMeta, fichierMeta, data, columns);
+          return processRecord(importMeta, fichierMeta, data, columns);
         },
       }),
       createChangeBatchCardinalityTransformStream({ size: 1_000 }),
@@ -297,33 +302,73 @@ export async function importRncpFile(entry: Entry, archiveMeta: ArchiveMeta, imp
   }
 }
 
-export async function importRncpArchive(archiveMeta: ArchiveMeta, importMeta: IImportMeta) {
+export async function importRncpArchive(importMeta: IImportMeta) {
   try {
-    const readStream = await downloadDataGouvResource(archiveMeta.resource);
+    const readStream = await downloadDataGouvResource(importMeta.archiveMeta.resource);
     const zip = readStream.pipe(unzipper.Parse({ forceStream: true }));
     for await (const entry of zip) {
-      await importRncpFile(entry, archiveMeta, importMeta);
+      await importRncpFile(entry, importMeta);
       entry.autodrain();
     }
+
+    const [total, active, created, updated, activated] = await Promise.all([
+      getDbCollection("source.france_competence").countDocuments(),
+      getDbCollection("source.france_competence").countDocuments({ active: true }),
+      getDbCollection("source.france_competence").countDocuments({ created_at: importMeta.import_date }),
+      getDbCollection("source.france_competence").countDocuments({ updated_at: importMeta.import_date }),
+      getDbCollection("source.france_competence").countDocuments({
+        date_premiere_activation: importMeta.archiveMeta.date_publication,
+      }),
+    ]);
+
+    return {
+      total,
+      active,
+      created,
+      updated,
+      activated,
+    };
   } catch (error) {
-    throw withCause(internal("import.france_competence: unable to importRncpArchive", { archiveMeta }), error);
+    throw withCause(internal("import.france_competence: unable to importRncpArchive", { importMeta }), error);
   }
 }
 
-export async function getUnprocessedArchives(dataset: IDataGouvDataset): Promise<ArchiveMeta[]> {
+export async function onImportRncpArchiveFailure(importMeta: IImportMeta) {
   try {
-    const lastSuccessfullyImported = await getDbCollection("import.meta").findOne(
-      { type: "france_competence" },
-      { sort: { import_date: -1 } }
-    );
+    await getDbCollection("import.meta").deleteOne({ _id: importMeta._id });
+  } catch (error) {
+    throw withCause(internal("import.france_competence: unable to onImportRncpArchiveFailure"), error);
+  }
+}
 
-    const lastSuccessfullyImportedTime = lastSuccessfullyImported?.import_date.getTime() ?? 0;
+async function getUnprocessedImportMeta(dataset: IDataGouvDataset): Promise<IImportMeta[]> {
+  try {
+    const successfullyImported = await getDbCollection("import.meta")
+      .find({ type: "france_competence" }, { sort: { import_date: -1 } })
+      .toArray();
 
-    return dataset.resources.reduce<ArchiveMeta[]>((acc, resource) => {
+    const successfullyImportedByResourceId = successfullyImported.reduce<Map<string, IImportMeta>>((acc, meta) => {
+      acc.set(meta.archiveMeta.resource.id, meta);
+      return acc;
+    }, new Map());
+
+    return dataset.resources.reduce<IImportMeta[]>((acc, resource) => {
       const archiveMeta = getArchiveMeta(resource);
 
-      if (archiveMeta && archiveMeta.last_updated.getTime() > lastSuccessfullyImportedTime) {
-        acc.push(archiveMeta);
+      if (!archiveMeta) {
+        return acc;
+      }
+
+      const lastSuccessfullyImportedTime =
+        successfullyImportedByResourceId.get(resource.id)?.archiveMeta.last_updated.getTime() ?? 0;
+
+      if (archiveMeta.last_updated.getTime() > lastSuccessfullyImportedTime) {
+        acc.push({
+          _id: new ObjectId(),
+          import_date: new Date(),
+          type: "france_competence",
+          archiveMeta,
+        });
       }
 
       return acc;
@@ -337,37 +382,16 @@ export async function runRncpImporter() {
   try {
     const dataset = await fetchDataGouvDataSet("5eebbc067a14b6fecc9c9976");
 
-    const importMeta: IImportMeta = {
-      _id: new ObjectId(),
-      import_date: new Date(),
-      type: "france_competence",
-    };
+    const importMetas = await getUnprocessedImportMeta(dataset);
 
-    const archiveMetas = await getUnprocessedArchives(dataset);
-
-    for (const archiveMeta of archiveMetas) {
-      await importRncpArchive(archiveMeta, importMeta);
+    for (const importMeta of importMetas) {
+      await addJob({ name: "import:france_competence:resource", payload: importMeta });
+      await getDbCollection("import.meta").insertOne(importMeta);
     }
 
-    const [total, active, created, updated, activated] = await Promise.all([
-      getDbCollection("source.france_competence").countDocuments(),
-      getDbCollection("source.france_competence").countDocuments({ active: true }),
-      getDbCollection("source.france_competence").countDocuments({ created_at: importMeta.import_date }),
-      getDbCollection("source.france_competence").countDocuments({ updated_at: importMeta.import_date }),
-      getDbCollection("source.france_competence").countDocuments({
-        date_premiere_activation: { $in: archiveMetas.map((archiveMeta) => archiveMeta.date_publication) },
-      }),
-    ]);
-
-    await getDbCollection("import.meta").insertOne(importMeta);
-
     return {
-      total,
-      active,
-      created,
-      updated,
-      activated,
-      archives: archiveMetas,
+      count: importMetas.length,
+      archives: importMetas.map((meta) => meta.archiveMeta.nom),
     };
   } catch (error) {
     throw withCause(internal("import.france_competence: unable to runRncpImporter"), error);

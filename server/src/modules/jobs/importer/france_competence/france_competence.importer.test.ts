@@ -2,6 +2,7 @@ import { generateMock } from "@anatine/zod-mock";
 import { useMongo } from "@tests/utils/mongo.utils";
 import { stringify } from "csv-stringify";
 import { createReadStream } from "fs";
+import { addJob } from "job-processor";
 import { ObjectId } from "mongodb";
 import nock from "nock";
 import { dirname, join } from "path";
@@ -24,7 +25,22 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { fetchDataGouvDataSet } from "@/common/apis/data_gouv/data_gouv.api";
 import { getDbCollection } from "@/common/utils/mongodbUtils";
 
-import { importRncpArchive, importRncpFile, processRecord, runRncpImporter } from "./france_competence.importer";
+import {
+  importRncpArchive,
+  importRncpFile,
+  onImportRncpArchiveFailure,
+  processRecord,
+  runRncpImporter,
+} from "./france_competence.importer";
+
+vi.mock("job-processor", async (importOriginal) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const mod = (await importOriginal()) as any;
+  return {
+    ...mod,
+    addJob: vi.fn().mockResolvedValue(undefined),
+  };
+});
 
 vi.mock("@/common/apis/data_gouv/data_gouv.api", async (importOriginal) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -39,12 +55,6 @@ const seed = 20240227;
 
 // Spec de l'algorithme https://www.notion.so/mission-apprentissage/Job-d-import-des-donn-es-RNCP-via-France-Comp-tences-v1-0-66efcd3edce84bd09db34a9e7f8a0d73
 describe("processRecord", () => {
-  const importMeta = {
-    import_date: new Date("2024-02-22T09:00:00.000Z"),
-    type: "france_competence",
-    _id: new ObjectId(),
-  } as const;
-
   const archiveMeta = {
     date_publication: new Date("2024-02-22T00:00:00.000Z"),
     nom: "export-fiches-csv-2024-02-22.zip",
@@ -57,6 +67,13 @@ describe("processRecord", () => {
       title: "export-fiches-csv-2024-02-22.zip",
     },
   };
+
+  const importMeta = {
+    import_date: new Date("2024-02-22T09:00:00.000Z"),
+    type: "france_competence",
+    _id: new ObjectId(),
+    archiveMeta,
+  } as const;
 
   const numeroFiche = "RNCP123";
 
@@ -172,7 +189,7 @@ describe("processRecord", () => {
           Actif: "ACTIVE",
         };
 
-        const result = processRecord(importMeta, archiveMeta, fichierMeta, record, columns);
+        const result = processRecord(importMeta, fichierMeta, record, columns);
 
         expect(result).toEqual([
           expectedCreateRecord,
@@ -253,7 +270,7 @@ describe("processRecord", () => {
 
         expect(record.Actif).toBe("INACTIVE");
 
-        const result = processRecord(importMeta, archiveMeta, fichierMeta, record, columns);
+        const result = processRecord(importMeta, fichierMeta, record, columns);
 
         expect(result).toEqual([
           expectedCreateRecord,
@@ -292,7 +309,7 @@ describe("processRecord", () => {
         Numero_Fiche: "RNCP123",
       };
 
-      const result = processRecord(importMeta, archiveMeta, fichierMeta, record, columns);
+      const result = processRecord(importMeta, fichierMeta, record, columns);
 
       expect(result).toEqual([
         expectedCreateRecord,
@@ -335,12 +352,6 @@ describe("importRncpFile", () => {
   useMongo();
 
   describe("when file is standard", () => {
-    const importMeta = {
-      import_date: new Date("2024-02-22T09:00:00.000Z"),
-      type: "france_competence",
-      _id: new ObjectId(),
-    } as const;
-
     const archiveMeta = {
       date_publication: new Date("2024-02-22T00:00:00.000Z"),
       nom: "export-fiches-csv-2024-02-22.zip",
@@ -354,6 +365,13 @@ describe("importRncpFile", () => {
       },
     };
 
+    const importMeta = {
+      import_date: new Date("2024-02-22T09:00:00.000Z"),
+      type: "france_competence",
+      _id: new ObjectId(),
+      archiveMeta,
+    } as const;
+
     describe("when fiche does not exist", () => {
       it("it should create fiche", async () => {
         const data = [
@@ -366,7 +384,7 @@ describe("importRncpFile", () => {
 
         const entry = mockEntry("export_fiches_CSV_Standard_2024_02_22.csv", data);
 
-        await importRncpFile(entry, archiveMeta, importMeta);
+        await importRncpFile(entry, importMeta);
 
         expect(await getDbCollection("source.france_competence").find({}).toArray()).toEqual([
           {
@@ -476,7 +494,7 @@ describe("importRncpFile", () => {
 
           const entry = mockEntry("export_fiches_CSV_Standard_2024_02_22.csv", [activeStandardData]);
 
-          await importRncpFile(entry, archiveMeta, importMeta);
+          await importRncpFile(entry, importMeta);
 
           expect(await getDbCollection("source.france_competence").find({}).toArray()).toEqual([
             {
@@ -515,7 +533,7 @@ describe("importRncpFile", () => {
 
           const entry = mockEntry("export_fiches_CSV_Standard_2024_02_22.csv", [inactiveStandardData]);
 
-          await importRncpFile(entry, archiveMeta, importMeta);
+          await importRncpFile(entry, importMeta);
 
           expect(await getDbCollection("source.france_competence").find({}).toArray()).toEqual([
             {
@@ -554,7 +572,7 @@ describe("importRncpFile", () => {
 
           const entry = mockEntry("export_fiches_CSV_Standard_2024_02_22.csv", [activeStandardData]);
 
-          await importRncpFile(entry, archiveMeta, importMeta);
+          await importRncpFile(entry, importMeta);
 
           expect(await getDbCollection("source.france_competence").find({}).toArray()).toEqual([
             {
@@ -595,7 +613,7 @@ describe("importRncpFile", () => {
 
           const entry = mockEntry("export_fiches_CSV_Standard_2024_02_22.csv", [inactiveStandardData]);
 
-          await importRncpFile(entry, archiveMeta, importMeta);
+          await importRncpFile(entry, importMeta);
 
           expect(await getDbCollection("source.france_competence").find({}).toArray()).toEqual([
             {
@@ -669,7 +687,7 @@ describe("importRncpFile", () => {
 
         const entry = mockEntry("export_fiches_CSV_Standard_2024_02_22.csv", [standardData]);
 
-        await importRncpFile(entry, archiveMeta, importMeta);
+        await importRncpFile(entry, importMeta);
 
         expect(await getDbCollection("source.france_competence").find({}).toArray()).toEqual([
           {
@@ -780,7 +798,7 @@ describe("importRncpFile", () => {
 
           const entry = mockEntry("export_fiches_CSV_Standard_2024_02_01.csv", [activeStandardData]);
 
-          await importRncpFile(entry, archiveMetaOlder, importMeta);
+          await importRncpFile(entry, { ...importMeta, archiveMeta: archiveMetaOlder });
 
           expect(await getDbCollection("source.france_competence").find({}).toArray()).toEqual([
             {
@@ -807,7 +825,7 @@ describe("importRncpFile", () => {
 
           const entry = mockEntry("export_fiches_CSV_Standard_2024_02_01.csv", [inactiveStandardData]);
 
-          await importRncpFile(entry, archiveMetaOlder, importMeta);
+          await importRncpFile(entry, { ...importMeta, archiveMeta: archiveMetaOlder });
 
           expect(await getDbCollection("source.france_competence").find({}).toArray()).toEqual([
             {
@@ -833,7 +851,7 @@ describe("importRncpFile", () => {
 
           const entry = mockEntry("export_fiches_CSV_Standard_2024_02_01.csv", [activeStandardData]);
 
-          await importRncpFile(entry, archiveMetaOlder, importMeta);
+          await importRncpFile(entry, { ...importMeta, archiveMeta: archiveMetaOlder });
 
           expect(await getDbCollection("source.france_competence").find({}).toArray()).toEqual([
             {
@@ -861,7 +879,7 @@ describe("importRncpFile", () => {
 
           const entry = mockEntry("export_fiches_CSV_Standard_2024_02_01.csv", [inactiveStandardData]);
 
-          await importRncpFile(entry, archiveMetaOlder, importMeta);
+          await importRncpFile(entry, { ...importMeta, archiveMeta: archiveMetaOlder });
 
           expect(await getDbCollection("source.france_competence").find({}).toArray()).toEqual([
             {
@@ -894,12 +912,6 @@ describe("importRncpFile", () => {
     ["rome", "export_fiches_CSV_Rome_2024_02_22.csv"],
     ["certificateurs", "export_fiches_CSV_Certificateurs_2024_02_22.csv"],
   ])("when file is %s", (source, filename) => {
-    const importMeta = {
-      import_date: new Date("2024-02-22T09:00:00.000Z"),
-      type: "france_competence",
-      _id: new ObjectId(),
-    } as const;
-
     const archiveMeta = {
       date_publication: new Date("2024-02-22T00:00:00.000Z"),
       nom: "export-fiches-csv-2024-02-22.zip",
@@ -912,6 +924,13 @@ describe("importRncpFile", () => {
         title: "export-fiches-csv-2024-02-22.zip",
       },
     };
+
+    const importMeta = {
+      import_date: new Date("2024-02-22T09:00:00.000Z"),
+      type: "france_competence",
+      _id: new ObjectId(),
+      archiveMeta,
+    } as const;
 
     const data = [
       {
@@ -928,7 +947,7 @@ describe("importRncpFile", () => {
       it("it should create fiche", async () => {
         const entry = mockEntry(filename, data);
 
-        await importRncpFile(entry, archiveMeta, importMeta);
+        await importRncpFile(entry, importMeta);
 
         expect(await getDbCollection("source.france_competence").find({}).toArray()).toEqual([
           {
@@ -1005,7 +1024,7 @@ describe("importRncpFile", () => {
 
         const entry = mockEntry(filename, data);
 
-        await importRncpFile(entry, archiveMeta, importMeta);
+        await importRncpFile(entry, importMeta);
 
         expect(await getDbCollection("source.france_competence").find({}).toArray()).toEqual([
           {
@@ -1066,7 +1085,7 @@ describe("importRncpFile", () => {
 
         const entry = mockEntry(filename, data);
 
-        await importRncpFile(entry, archiveMeta, importMeta);
+        await importRncpFile(entry, importMeta);
 
         expect(await getDbCollection("source.france_competence").find({}).toArray()).toEqual([
           {
@@ -1140,7 +1159,7 @@ describe("importRncpFile", () => {
 
         const entry = mockEntry(filename, data);
 
-        await importRncpFile(entry, archiveMetaOlder, importMeta);
+        await importRncpFile(entry, { ...importMeta, archiveMeta: archiveMetaOlder });
 
         expect(await getDbCollection("source.france_competence").find({}).toArray()).toEqual([
           {
@@ -1184,6 +1203,7 @@ describe("importRncpArchive", () => {
       _id: new ObjectId(),
       import_date: new Date("2024-02-22T03:02:07.320000+00:00"),
       type: "france_competence",
+      archiveMeta,
     };
 
     const dataFixture = join(
@@ -1194,7 +1214,7 @@ describe("importRncpArchive", () => {
 
     nock("https://www.data.gouv.fr/fr").get(`/datasets/r/f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6`).reply(200, s);
 
-    await importRncpArchive(archiveMeta, importMeta);
+    await importRncpArchive(importMeta);
 
     const fiches = await getDbCollection("source.france_competence").find({}).toArray();
 
@@ -1226,27 +1246,44 @@ describe("runRncpImporter", () => {
 
   const dataFixture = join(dirname(fileURLToPath(import.meta.url)), "fixtures/sample/export-fiches-csv-2024-02-22.zip");
 
-  it("should work with initial import", async () => {
+  it("should schedule properly", async () => {
+    const newResource = {
+      created_at: new Date("2024-02-22T03:02:02.578000+00:00"),
+      id: "f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6",
+      last_modified: new Date("2024-02-22T03:02:07.320000+00:00"),
+      latest: "https://www.data.gouv.fr/fr/datasets/r/f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6",
+      title: "export-fiches-csv-2024-02-22.zip",
+    };
+
+    // Resource name doesn't match ==> should be ignored
+    const ignoredResource = {
+      created_at: new Date("2024-02-22T03:00:46.090000+00:00"),
+      id: "06ffc0a9-8937-4f89-b724-b773495847b7",
+      last_modified: new Date("2024-02-22T03:00:50.657000+00:00"),
+      latest: "https://www.data.gouv.fr/fr/datasets/r/06ffc0a9-8937-4f89-b724-b773495847b7",
+      title: "export-fiches-rs-v3-0-2024-02-22.zip",
+    };
+
+    const existingResource = {
+      created_at: new Date("2024-02-21T03:02:04.366000+00:00"),
+      id: "bc7f5072-c22f-4754-933f-cd8b91ebe81b",
+      last_modified: new Date("2024-02-21T03:02:14.430000+00:00"),
+      latest: "https://www.data.gouv.fr/fr/datasets/r/bc7f5072-c22f-4754-933f-cd8b91ebe81b",
+      title: "export-fiches-csv-2024-02-21.zip",
+    };
+
+    const updatedResource = {
+      created_at: new Date("2024-02-20T03:02:07.728000+00:00"),
+      id: "35318a3e-57a9-44cb-8b14-195bf3ba90a4",
+      last_modified: new Date("2024-02-22T03:02:12.137000+00:00"),
+      latest: "https://www.data.gouv.fr/fr/datasets/r/35318a3e-57a9-44cb-8b14-195bf3ba90a4",
+      title: "export-fiches-csv-2024-02-20.zip",
+    };
+
     const dataset: IDataGouvDataset = {
       id: "5eebbc067a14b6fecc9c9976",
       title: "Répertoire national des certifications professionnelles et répertoire spécifique",
-      resources: [
-        {
-          created_at: new Date("2024-02-22T03:02:02.578000+00:00"),
-          id: "f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6",
-          last_modified: new Date("2024-02-22T03:02:07.320000+00:00"),
-          latest: "https://www.data.gouv.fr/fr/datasets/r/f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6",
-          title: "export-fiches-csv-2024-02-22.zip",
-        },
-        {
-          // Resource should be ignored
-          created_at: new Date("2024-02-22T03:00:46.090000+00:00"),
-          id: "06ffc0a9-8937-4f89-b724-b773495847b7",
-          last_modified: new Date("2024-02-22T03:00:50.657000+00:00"),
-          latest: "https://www.data.gouv.fr/fr/datasets/r/06ffc0a9-8937-4f89-b724-b773495847b7",
-          title: "export-fiches-rs-v3-0-2024-02-22.zip",
-        },
-      ],
+      resources: [newResource, ignoredResource, existingResource, updatedResource],
     };
 
     vi.mocked(fetchDataGouvDataSet).mockResolvedValue(dataset);
@@ -1255,55 +1292,130 @@ describe("runRncpImporter", () => {
       .get(`/datasets/r/f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6`)
       .reply(200, createReadStream(dataFixture));
 
+    const initialImports: IImportMeta[] = [
+      {
+        _id: new ObjectId(),
+        import_date: new Date("2024-02-21T09:00:00.000Z"),
+        type: "france_competence",
+        archiveMeta: {
+          date_publication: new Date("2024-02-21T00:00:00.000Z"),
+          last_updated: existingResource.last_modified,
+          nom: "export-fiches-csv-2024-02-21.zip",
+          resource: existingResource,
+        },
+      },
+      {
+        _id: new ObjectId(),
+        import_date: new Date("2024-02-20T09:00:00.000Z"),
+        type: "france_competence",
+        archiveMeta: {
+          date_publication: new Date("2024-02-20T00:00:00.000Z"),
+          last_updated: new Date("2024-02-20T03:00:00.000Z"),
+          nom: "export-fiches-csv-2024-02-20.zip",
+          resource: { ...updatedResource, last_modified: new Date("2024-02-20T03:00:00.000Z") },
+        },
+      },
+    ];
+    await getDbCollection("import.meta").insertMany(initialImports);
+
     const result = await runRncpImporter();
 
-    expect(fetchDataGouvDataSet).toHaveBeenCalledWith("5eebbc067a14b6fecc9c9976");
-    await expect(getDbCollection("import.meta").find({}).toArray()).resolves.toEqual([
-      {
-        _id: expect.any(ObjectId),
-        import_date: now,
-        type: "france_competence",
-      },
-    ]);
-    await expect(getDbCollection("source.france_competence").countDocuments()).resolves.toBe(10);
     expect(result).toEqual({
-      activated: 2,
-      active: 2,
-      archives: [
-        {
-          date_publication: new Date("2024-02-22T00:00:00.000Z"),
-          last_updated: new Date("2024-02-22T03:02:07.320Z"),
-          nom: "export-fiches-csv-2024-02-22.zip",
-          resource: dataset.resources[0],
-        },
-      ],
-      created: 10,
-      total: 10,
-      updated: 10,
+      count: 2,
+      archives: [newResource.title, updatedResource.title],
     });
+    expect(fetchDataGouvDataSet).toHaveBeenCalledWith("5eebbc067a14b6fecc9c9976");
 
-    vi.advanceTimersByTime(60_000);
-    // Another import 1min after, should do nothing
-    const result2 = await runRncpImporter();
-    expect(result2).toEqual({
-      activated: 0,
-      active: 2,
-      archives: [],
-      created: 0,
-      total: 10,
-      updated: 0,
-    });
+    const newImportMeta = {
+      _id: expect.any(ObjectId),
+      import_date: now,
+      type: "france_competence",
+      archiveMeta: {
+        date_publication: new Date("2024-02-22T00:00:00.000Z"),
+        last_updated: newResource.last_modified,
+        nom: newResource.title,
+        resource: newResource,
+      },
+    };
+
+    const updatedImportMeta = {
+      _id: expect.any(ObjectId),
+      import_date: now,
+      type: "france_competence",
+      archiveMeta: {
+        date_publication: new Date("2024-02-20T00:00:00.000Z"),
+        last_updated: updatedResource.last_modified,
+        nom: "export-fiches-csv-2024-02-20.zip",
+        resource: updatedResource,
+      },
+    };
+
     await expect(getDbCollection("import.meta").find({}).toArray()).resolves.toEqual([
-      {
-        _id: expect.any(ObjectId),
-        import_date: now,
-        type: "france_competence",
-      },
-      {
-        _id: expect.any(ObjectId),
-        import_date: new Date(),
-        type: "france_competence",
-      },
+      ...initialImports,
+      newImportMeta,
+      updatedImportMeta,
     ]);
+    expect(addJob).toHaveBeenCalledTimes(2);
+    expect(addJob).toHaveBeenNthCalledWith(1, {
+      name: "import:france_competence:resource",
+      payload: newImportMeta,
+    });
+    expect(addJob).toHaveBeenNthCalledWith(2, {
+      name: "import:france_competence:resource",
+      payload: updatedImportMeta,
+    });
+  });
+});
+
+describe("onImportRncpArchiveFailure", () => {
+  useMongo();
+
+  it("should remove failed import meta", async () => {
+    const existingResource = {
+      created_at: new Date("2024-02-21T03:02:04.366000+00:00"),
+      id: "bc7f5072-c22f-4754-933f-cd8b91ebe81b",
+      last_modified: new Date("2024-02-21T03:02:14.430000+00:00"),
+      latest: "https://www.data.gouv.fr/fr/datasets/r/bc7f5072-c22f-4754-933f-cd8b91ebe81b",
+      title: "export-fiches-csv-2024-02-21.zip",
+    };
+
+    const failedResource = {
+      created_at: new Date("2024-02-20T03:02:07.728000+00:00"),
+      id: "35318a3e-57a9-44cb-8b14-195bf3ba90a4",
+      last_modified: new Date("2024-02-22T03:02:12.137000+00:00"),
+      latest: "https://www.data.gouv.fr/fr/datasets/r/35318a3e-57a9-44cb-8b14-195bf3ba90a4",
+      title: "export-fiches-csv-2024-02-20.zip",
+    };
+
+    const initialImports: IImportMeta[] = [
+      {
+        _id: new ObjectId(),
+        import_date: new Date("2024-02-21T09:00:00.000Z"),
+        type: "france_competence",
+        archiveMeta: {
+          date_publication: new Date("2024-02-21T00:00:00.000Z"),
+          last_updated: existingResource.last_modified,
+          nom: "export-fiches-csv-2024-02-21.zip",
+          resource: existingResource,
+        },
+      },
+      {
+        _id: new ObjectId(),
+        import_date: new Date("2024-02-20T09:00:00.000Z"),
+        type: "france_competence",
+        archiveMeta: {
+          date_publication: new Date("2024-02-20T00:00:00.000Z"),
+          last_updated: failedResource.last_modified,
+          nom: "export-fiches-csv-2024-02-20.zip",
+          resource: failedResource,
+        },
+      },
+    ];
+
+    await getDbCollection("import.meta").insertMany(initialImports);
+
+    await onImportRncpArchiveFailure(initialImports[1]);
+
+    await expect(getDbCollection("import.meta").find({}).toArray()).resolves.toEqual([initialImports[0]]);
   });
 });

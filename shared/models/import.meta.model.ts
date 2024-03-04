@@ -11,7 +11,10 @@ export const zArchiveMeta = z.object({
   date_publication: z.date(),
   last_updated: z.date(),
   nom: z.string(),
-  resource: zDataGouvDatasetResource,
+  resource: zDataGouvDatasetResource.extend({
+    created_at: z.date(),
+    last_modified: z.date(),
+  }),
 });
 
 export type IArchiveMeta = z.output<typeof zArchiveMeta>;

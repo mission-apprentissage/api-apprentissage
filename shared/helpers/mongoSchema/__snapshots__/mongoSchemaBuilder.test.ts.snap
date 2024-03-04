@@ -143,6 +143,79 @@ exports[`zodToMongoSchema > should convert email_events schema 1`] = `
 }
 `;
 
+exports[`zodToMongoSchema > should convert import.meta schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "archiveMeta": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "date_publication": {
+          "bsonType": "date",
+        },
+        "last_updated": {
+          "bsonType": "date",
+        },
+        "nom": {
+          "bsonType": "string",
+        },
+        "resource": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "created_at": {
+              "bsonType": "date",
+            },
+            "id": {
+              "bsonType": "string",
+            },
+            "last_modified": {
+              "bsonType": "date",
+            },
+            "latest": {
+              "bsonType": "string",
+            },
+            "title": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "created_at",
+            "id",
+            "last_modified",
+            "latest",
+            "title",
+          ],
+        },
+      },
+      "required": [
+        "date_publication",
+        "last_updated",
+        "nom",
+        "resource",
+      ],
+    },
+    "import_date": {
+      "bsonType": "date",
+    },
+    "type": {
+      "bsonType": "string",
+    },
+  },
+  "required": [
+    "_id",
+    "import_date",
+    "type",
+    "archiveMeta",
+  ],
+}
+`;
+
 exports[`zodToMongoSchema > should convert sessions schema 1`] = `
 {
   "additionalProperties": false,

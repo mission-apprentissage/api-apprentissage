@@ -1,7 +1,7 @@
 import { IModelDescriptor } from "./common";
 import emailDeniedModelDescriptor, { IEmailDenied } from "./email_denied.model";
 import emailEventsModelDescriptor, { IEmailEvent } from "./email_event.model";
-import { IImportMeta } from "./import.meta.model";
+import { IImportMeta, importMetaModelDescriptor } from "./import.meta.model";
 import sessionsModelDescriptor, { ISession } from "./session.model";
 import sourceAcceModelDescriptor, { ISourceAcce } from "./source/acce/source.acce.model";
 import { ISourceBcn, sourceBcnModelDescriptor } from "./source/bcn/source.bcn.model";
@@ -18,10 +18,11 @@ import sourcReferentielModelDescriptor, { ISourceReferentiel } from "./source/re
 import usersModelDescriptor, { IUser } from "./user.model";
 
 export const modelDescriptors: IModelDescriptor[] = [
-  usersModelDescriptor,
-  sessionsModelDescriptor,
   emailDeniedModelDescriptor,
   emailEventsModelDescriptor,
+  importMetaModelDescriptor,
+  usersModelDescriptor,
+  sessionsModelDescriptor,
   sourceAcceModelDescriptor,
   sourcReferentielModelDescriptor,
   sourceBcnModelDescriptor,

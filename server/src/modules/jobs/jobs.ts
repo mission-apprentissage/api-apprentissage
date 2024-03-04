@@ -108,6 +108,9 @@ export async function setupJobProcessor() {
       "import:catalogue": {
         handler: async () => runCatalogueImporter(),
       },
+      "import:france_competence": {
+        handler: async () => runRncpImporter(),
+      },
       "import:france_competence:resource": {
         handler: async (job) => importRncpArchive(zImportMeta.parse(job.payload)),
         onJobExited: async (job) => {

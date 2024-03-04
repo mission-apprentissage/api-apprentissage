@@ -1359,10 +1359,12 @@ describe("runRncpImporter", () => {
     expect(addJob).toHaveBeenNthCalledWith(1, {
       name: "import:france_competence:resource",
       payload: newImportMeta,
+      queued: true,
     });
     expect(addJob).toHaveBeenNthCalledWith(2, {
       name: "import:france_competence:resource",
       payload: updatedImportMeta,
+      queued: true,
     });
   });
 });

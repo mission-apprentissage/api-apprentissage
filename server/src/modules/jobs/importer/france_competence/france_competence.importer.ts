@@ -385,7 +385,7 @@ export async function runRncpImporter() {
     const importMetas = await getUnprocessedImportMeta(dataset);
 
     for (const importMeta of importMetas) {
-      await addJob({ name: "import:france_competence:resource", payload: importMeta });
+      await addJob({ name: "import:france_competence:resource", payload: importMeta, queued: true });
       await getDbCollection("import.meta").insertOne(importMeta);
     }
 

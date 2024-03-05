@@ -25,6 +25,10 @@ const indexes: IModelDescriptor["indexes"] = [
   [{ created_at: 1 }, {}],
   [{ updated_at: 1 }, {}],
   [{ active: 1 }, {}],
+  [{ numero_fiche: 1, date_premiere_publication: 1 }, {}],
+  [{ numero_fiche: 1, date_derniere_publication: 1 }, {}],
+  [{ numero_fiche: 1, date_premiere_activation: 1 }, {}],
+  [{ numero_fiche: 1, date_derniere_activation: 1 }, {}],
 ];
 
 export const zFranceCompetenceDataBySource = {

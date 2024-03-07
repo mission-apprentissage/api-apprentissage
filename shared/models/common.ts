@@ -2,6 +2,7 @@ import type { CreateIndexesOptions, IndexSpecification } from "mongodb";
 import { ZodType } from "zod";
 
 export type CollectionName =
+  | "certifications"
   | "email_denied"
   | "email_events"
   | "import.meta"

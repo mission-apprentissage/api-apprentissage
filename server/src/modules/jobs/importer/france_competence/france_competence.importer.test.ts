@@ -7,7 +7,7 @@ import { ObjectId } from "mongodb";
 import nock from "nock";
 import { dirname, join } from "path";
 import { IDataGouvDataset } from "shared";
-import { IImportMeta } from "shared/models/import.meta.model";
+import { IImportMetaFranceCompetence } from "shared/models/import.meta.model";
 import {
   ISourceFcStandard,
   zSourceFcStandard,
@@ -1199,7 +1199,7 @@ describe("importRncpArchive", () => {
       },
     } as const;
 
-    const importMeta: IImportMeta = {
+    const importMeta: IImportMetaFranceCompetence = {
       _id: new ObjectId(),
       import_date: new Date("2024-02-22T03:02:07.320000+00:00"),
       type: "france_competence",
@@ -1292,7 +1292,7 @@ describe("runRncpImporter", () => {
       .get(`/datasets/r/f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6`)
       .reply(200, createReadStream(dataFixture));
 
-    const initialImports: IImportMeta[] = [
+    const initialImports: IImportMetaFranceCompetence[] = [
       {
         _id: new ObjectId(),
         import_date: new Date("2024-02-21T09:00:00.000Z"),
@@ -1389,7 +1389,7 @@ describe("onImportRncpArchiveFailure", () => {
       title: "export-fiches-csv-2024-02-20.zip",
     };
 
-    const initialImports: IImportMeta[] = [
+    const initialImports: IImportMetaFranceCompetence[] = [
       {
         _id: new ObjectId(),
         import_date: new Date("2024-02-21T09:00:00.000Z"),

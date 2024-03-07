@@ -75,6 +75,7 @@ async function importBcnSource(source: ISourceBcn["source"], date: Date): Promis
 
     return await getDbCollection("source.bcn").countDocuments({ date, source });
   } catch (error) {
+    await getDbCollection("source.bcn").deleteMany({ date });
     throw withCause(internal("import.bcn: unable to importBcnSource", { source }), error);
   }
 }
@@ -92,6 +93,12 @@ export async function runBcnImporter(): Promise<Record<string, number>> {
     );
     statsBySource["N_NIVEAU_FORMATION_DIPLOME"] = await importBcnSource("N_NIVEAU_FORMATION_DIPLOME", importDate);
     statsBySource["V_FORMATION_DIPLOME"] = await importBcnSource("V_FORMATION_DIPLOME", importDate);
+
+    await getDbCollection("import.meta").insertOne({
+      _id: new ObjectId(),
+      import_date: importDate,
+      type: "bcn",
+    });
 
     return statsBySource;
   } catch (error) {

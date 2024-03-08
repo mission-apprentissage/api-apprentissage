@@ -283,7 +283,7 @@ export async function importRncpFile(entry: Entry, importMeta: IImportMeta) {
           return processRecord(importMeta, fichierMeta, data, columns);
         },
       }),
-      createChangeBatchCardinalityTransformStream({ size: 1_000 }),
+      createChangeBatchCardinalityTransformStream({ size: 500 }),
       new Transform({
         objectMode: true,
         async transform(chunk: AnyBulkWriteOperation<ISourceFranceCompetence>[], _encoding, callback) {

@@ -56,7 +56,7 @@ services:
       resources:
         limits:
           memory: 2g
-      replicas: 4
+      replicas: 2
     command: ["yarn", "cli", "job_processor:start"]
     env_file: .env_server
     stop_grace_period: 2h

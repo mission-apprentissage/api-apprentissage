@@ -22,7 +22,7 @@ export async function rechercheOrganismesReferentiel(
   if (!rorDbResultsExtact.length) {
     return {
       rule: "ROR8",
-      referentiel: rorDbResults.map(({ _id, data }) => ({
+      organismes: rorDbResults.map(({ _id, data }) => ({
         _id,
         nature: data.nature,
         uai: data.uai,
@@ -34,8 +34,7 @@ export async function rechercheOrganismesReferentiel(
   if (rorDbResults.length !== rorDbResultsExtact.length) {
     return {
       rule: "ROR10",
-      // TODO TBD
-      referentiel: rorDbResults.map(({ _id, data }) => ({
+      organismes: rorDbResults.map(({ _id, data }) => ({
         _id,
         nature: data.nature,
         uai: data.uai,
@@ -49,7 +48,7 @@ export async function rechercheOrganismesReferentiel(
   if (!rorDbResultsExtactNature.length) {
     return {
       rule: "ROR11",
-      referentiel: rorDbResultsExtact.map(({ _id, data }) => ({
+      organismes: rorDbResultsExtact.map(({ _id, data }) => ({
         _id,
         nature: data.nature,
         uai: data.uai,
@@ -61,7 +60,7 @@ export async function rechercheOrganismesReferentiel(
   if (rorDbResultsExtactNature.length > 1) {
     return {
       rule: "ROR12",
-      referentiel: rorDbResultsExtactNature.map(({ _id, data }) => ({
+      organismes: rorDbResultsExtactNature.map(({ _id, data }) => ({
         _id,
         nature: data.nature,
         uai: data.uai,
@@ -77,7 +76,7 @@ export async function rechercheOrganismesReferentiel(
   if (match.data.etat_administratif === "fermé" && (previousRules === "PC1" || previousRules === "PC3")) {
     return {
       rule: "ROR5",
-      referentiel: [
+      organismes: [
         {
           _id: match._id,
           nature: match.data.nature,
@@ -91,7 +90,7 @@ export async function rechercheOrganismesReferentiel(
 
   return {
     rule: previousRules?.replace("PC", "ROR"), // ROR1,ROR2,ROR3,ROR4
-    referentiel: [
+    organismes: [
       {
         _id: match._id,
         nature: match.data.nature,
@@ -111,6 +110,8 @@ export async function rechercheLieuxReferentiel(uai: string, _options?: { date: 
         projection: {
           _id: 1,
           "data.nature": 1,
+          "data.uai": 1,
+          "data.siret": 1,
           "data.lieux_de_formation.code": 1,
           "data.lieux_de_formation.siret": 1,
           "data.lieux_de_formation.uai": 1,
@@ -136,13 +137,17 @@ export async function rechercheLieuxReferentiel(uai: string, _options?: { date: 
   if (dbResult.length > 1) {
     return {
       rule: "RLR4",
-      referentiel: dbResult.map(({ _id, data }) => ({ _id, nature: data.nature })), // TODO lieu
+      organismes: dbResult.map(({ _id, data }) => {
+        const lieux_de_formation = data.lieux_de_formation.filter((l) => {
+          return l.uai === uai;
+        });
+        return { _id, nature: data.nature, uai: data.uai, siret: data.siret, lieux_de_formation };
+      }),
     };
   }
 
   //dbResult.length === 1
   const [match] = dbResult;
-  // TODO check uai_fiable === false
 
   const lieux = match.data.lieux_de_formation.filter((l) => {
     return l.uai === uai;
@@ -151,6 +156,9 @@ export async function rechercheLieuxReferentiel(uai: string, _options?: { date: 
   if (lieux.length !== 1) {
     return {
       rule: "RLR2", // TODO
+      organismes: dbResult.map(({ _id, data }) => {
+        return { _id, nature: data.nature, uai: data.uai, siret: data.siret, lieux_de_formation: lieux };
+      }),
     };
   }
 
@@ -158,25 +166,51 @@ export async function rechercheLieuxReferentiel(uai: string, _options?: { date: 
   const [lon, lat] = lieux[0].adresse?.geojson?.geometry.coordinates || [0, 0];
   const { geojson: _, ...lieuxAdress } = lieux[0]?.adresse || {};
 
-  // TODO Check uniq adress + PC1 et PC2
+  const sameLocalisation = match.data.lieux_de_formation.filter((l) => {
+    return l.code === lieux[0].code;
+  });
+
+  if (sameLocalisation.length !== 1) {
+    return {
+      rule: "RLR5",
+      organismes: [
+        {
+          _id: match._id,
+          nature: match.data.nature,
+          uai: match.data.uai,
+          siret: match.data.siret,
+        },
+      ],
+      lieux_de_formation: {
+        ...lieux[0],
+        adresse: {
+          ...lieuxAdress,
+          lon,
+          lat,
+        },
+      },
+      nature: "lieux_de_formation",
+    };
+  }
 
   return {
     rule: "RLR1",
-    referentiel: [
+    organismes: [
       {
         _id: match._id,
         nature: match.data.nature,
-        // TODO SIRET uai
-        lieu: {
-          ...lieux[0],
-          adresse: {
-            ...lieuxAdress,
-            lon,
-            lat,
-          },
-        },
+        uai: match.data.uai,
+        siret: match.data.siret,
       },
     ],
+    lieux_de_formation: {
+      ...lieux[0],
+      adresse: {
+        ...lieuxAdress,
+        lon,
+        lat,
+      },
+    },
     nature: "lieux_de_formation",
   };
 }
@@ -236,7 +270,7 @@ export async function rechercheCatalogue(
       },
     }) => {
       // @ts-expect-error
-      const [lon, lat] = lieu_formation_geopoint || [0, 0];
+      const [lon, lat] = lieu_formation_geopoint.coordinates || [0, 0];
       return {
         cle_ministere_educatif,
         cfd,

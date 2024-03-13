@@ -65,19 +65,16 @@ export async function run({ couple, date, certification }: ArgsPayload): Promise
   const { rule: u1rule, ...restu1 } = await rechercheOrganismesReferentiel(resultPrerequisite as PrerequisiteResult);
   resultUnitaire = {
     ...resultUnitaire,
-    ...(u1rule !== "ROR9" ? { ROR: restu1 } : {}),
+    ...(u1rule !== "ROR9" ? { ROR: restu1 } : { ROR: null }),
     rules: [...resultUnitaire.rules, u1rule],
   };
 
-  if (u1rule !== "ROR1") {
-    // TODO faux on doit tjrs aller chercher les lieux RLR4
-    const { rule: u2rule, ...restu2 } = await rechercheLieuxReferentiel(resultPrerequisite.uai);
-    resultUnitaire = {
-      ...resultUnitaire,
-      ...(u2rule !== "RLR3" ? { RLR: restu2 } : {}),
-      rules: [...resultUnitaire.rules, u2rule],
-    };
-  }
+  const { rule: u2rule, ...restu2 } = await rechercheLieuxReferentiel(resultPrerequisite.uai);
+  resultUnitaire = {
+    ...resultUnitaire,
+    ...(u2rule !== "RLR3" ? { RLR: restu2 } : { RLR: null }),
+    rules: [...resultUnitaire.rules, u2rule],
+  };
 
   const { rule: cataloguerule, result } = await rechercheCatalogue(resultPrerequisite as PrerequisiteResult, {
     date,

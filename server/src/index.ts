@@ -19,7 +19,7 @@ import { setupJobProcessor } from "./modules/jobs/jobs";
 
     await initMailer();
 
-    startCLI();
+    await startCLI();
   } catch (err) {
     captureException(err);
     logger.error({ err }, "startup error");

@@ -61,7 +61,9 @@ export function parseParisLocalDate(date: string, time: string = "00:00:00", day
     minute: Number(minute),
     second: Number(second),
   });
-  result.setDate(result.getDate() + dayOffset);
+  if (dayOffset !== 0) {
+    result.setDate(result.getDate() + dayOffset);
+  }
   return result;
 }
 

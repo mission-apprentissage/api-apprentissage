@@ -5,6 +5,7 @@
   "author": "Mission apprentissage",
   "license": "MIT",
   "type": "module",
+  "sideEffects": false,
   "engines": {
     "node": ">=20",
     "npm": "please-use-yarn"

@@ -2,12 +2,12 @@ import { oas31 } from "openapi3-ts";
 import { Jsonify } from "type-fest";
 import { AnyZodObject, ZodType } from "zod";
 
-import { z } from "../helpers/zodWithOpenApi";
 import { AccessPermission, AccessRessouces } from "../security/permissions";
+import { zodOpenApi } from "../zod/zodWithOpenApi";
 
-export const ZResError = z
+export const ZResError = zodOpenApi
   .object({
-    data: z
+    data: zodOpenApi
       .any()
       .optional()
       .openapi({
@@ -30,39 +30,39 @@ export const ZResError = z
           },
         },
       }),
-    code: z.string().nullish(),
-    message: z.string().openapi({
+    code: zodOpenApi.string().nullish(),
+    message: zodOpenApi.string().openapi({
       description: "Un message explicatif de l'erreur",
       example: "querystring.longitude: Number attendu",
     }),
-    name: z.string().openapi({
+    name: zodOpenApi.string().openapi({
       description: "Le type générique de l'erreur",
       example: "Bad Request",
     }),
-    statusCode: z.number().openapi({
+    statusCode: zodOpenApi.number().openapi({
       description: "Le status code retourné",
       example: 400,
     }),
   })
   .strict();
 
-export const ZResOk = z.object({}).strict();
+export const ZResOk = zodOpenApi.object({}).strict();
 
-export type IResError = z.input<typeof ZResError>;
-export type IResErrorJson = Jsonify<z.output<typeof ZResError>>;
+export type IResError = zodOpenApi.input<typeof ZResError>;
+export type IResErrorJson = Jsonify<zodOpenApi.output<typeof ZResError>>;
 
-export const ZReqParamsSearchPagination = z
+export const ZReqParamsSearchPagination = zodOpenApi
   .object({
-    page: z.preprocess((v) => parseInt(v as string, 10), z.number().positive().optional()),
-    limit: z.preprocess((v) => parseInt(v as string, 10), z.number().positive().optional()),
-    q: z.string().optional(),
+    page: zodOpenApi.preprocess((v) => parseInt(v as string, 10), zodOpenApi.number().positive().optional()),
+    limit: zodOpenApi.preprocess((v) => parseInt(v as string, 10), zodOpenApi.number().positive().optional()),
+    q: zodOpenApi.string().optional(),
   })
   .strict();
-export type IReqParamsSearchPagination = z.input<typeof ZReqParamsSearchPagination>;
+export type IReqParamsSearchPagination = zodOpenApi.input<typeof ZReqParamsSearchPagination>;
 
-export const ZReqHeadersAuthorization = z
+export const ZReqHeadersAuthorization = zodOpenApi
   .object({
-    Authorization: z.string().describe("Bearer token").optional(),
+    Authorization: zodOpenApi.string().describe("Bearer token").optional(),
   })
   .passthrough();
 

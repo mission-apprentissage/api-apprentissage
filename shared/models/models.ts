@@ -1,3 +1,4 @@
+import { certificationsModelDescriptor, ICertification } from "./certification.model";
 import { IModelDescriptor } from "./common";
 import emailDeniedModelDescriptor, { IEmailDenied } from "./email_denied.model";
 import emailEventsModelDescriptor, { IEmailEvent } from "./email_event.model";
@@ -18,6 +19,7 @@ import sourcReferentielModelDescriptor, { ISourceReferentiel } from "./source/re
 import usersModelDescriptor, { IUser } from "./user.model";
 
 export const modelDescriptors: IModelDescriptor[] = [
+  certificationsModelDescriptor,
   emailDeniedModelDescriptor,
   emailEventsModelDescriptor,
   importMetaModelDescriptor,
@@ -32,6 +34,7 @@ export const modelDescriptors: IModelDescriptor[] = [
 ];
 
 export type IDocumentMap = {
+  certifications: ICertification;
   email_denied: IEmailDenied;
   email_events: IEmailEvent;
   "import.meta": IImportMeta;

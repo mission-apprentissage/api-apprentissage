@@ -13,7 +13,11 @@ export * from "./bcn.v_formation_diplome.model";
 
 const collectionName = "source.bcn" as const;
 
-const indexes: IModelDescriptor["indexes"] = [[{ date: 1, source: 1 }, {}]];
+const indexes: IModelDescriptor["indexes"] = [
+  [{ date: 1, source: 1 }, {}],
+  [{ "data.FORMATION_DIPLOME": 1, source: 1 }, {}],
+  [{ source: 1, "data.FORMATION_DIPLOME": 1 }, {}],
+];
 
 export const zBcn = z.union([
   zBcn_N_FormationDiplome,

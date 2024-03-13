@@ -1,5 +1,5 @@
 import { addJob, initJobProcessor } from "job-processor";
-import { zImportMeta } from "shared/models/import.meta.model";
+import { zImportMetaFranceCompetence } from "shared/models/import.meta.model";
 import { zUserCreate } from "shared/models/user.model";
 
 import {
@@ -17,6 +17,7 @@ import { validateModels } from "./db/schemaValidation";
 import { runAcceImporter } from "./importer/acce/acce";
 import { runBcnImporter } from "./importer/bcn/bcn.importer";
 import { runCatalogueImporter } from "./importer/catalogue/catalogue.importer";
+import { importCertifications } from "./importer/certifications/certifications.importer";
 import {
   importRncpArchive,
   onImportRncpArchiveFailure,
@@ -102,6 +103,9 @@ export async function setupJobProcessor() {
       "import:bcn": {
         handler: async () => runBcnImporter(),
       },
+      "import:kit_apprentissage": {
+        handler: async () => runKitApprentissageImporter(),
+      },
       "import:referentiel": {
         handler: async () => runReferentielImporter(),
       },
@@ -112,12 +116,16 @@ export async function setupJobProcessor() {
         handler: async () => runRncpImporter(),
       },
       "import:france_competence:resource": {
-        handler: async (job) => importRncpArchive(zImportMeta.parse(job.payload)),
+        handler: async (job) => importRncpArchive(zImportMetaFranceCompetence.parse(job.payload)),
         onJobExited: async (job) => {
           if (job.status === "errored") {
-            await onImportRncpArchiveFailure(zImportMeta.parse(job.payload));
+            await onImportRncpArchiveFailure(zImportMetaFranceCompetence.parse(job.payload));
           }
         },
+        resumable: true,
+      },
+      "import:certifications": {
+        handler: async () => importCertifications(),
         resumable: true,
       },
     },

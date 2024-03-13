@@ -16,9 +16,9 @@ import { getDbCollection } from "@/common/utils/mongodbUtils";
 import { createBatchTransformStream } from "@/common/utils/streamUtils";
 
 async function importKitApprentissageSource(filename: ISourceKitApprentissage["source"]): Promise<number> {
-  try {
-    const date = new Date();
+  const date = new Date();
 
+  try {
     await pipeline(
       createReadStream(getStaticFilePath(`kit_apprentissage/${filename}`)),
       parse({
@@ -43,7 +43,7 @@ async function importKitApprentissageSource(filename: ISourceKitApprentissage["s
           });
         },
       }),
-      createBatchTransformStream({ size: 1_000 }),
+      createBatchTransformStream({ size: 100 }),
       new Transform({
         objectMode: true,
         async transform(chunk, _encoding, callback) {
@@ -62,8 +62,15 @@ async function importKitApprentissageSource(filename: ISourceKitApprentissage["s
       date: { $ne: date },
     });
 
+    await getDbCollection("import.meta").insertOne({
+      _id: new ObjectId(),
+      import_date: date,
+      type: "kit_apprentissage",
+    });
+
     return await getDbCollection("source.kit_apprentissage").countDocuments({ date, source: filename });
   } catch (error) {
+    await getDbCollection("source.kit_apprentissage").deleteMany({ date });
     throw withCause(internal("import.kit_apprentissage: unable to importKitApprentissageSource", { filename }), error);
   }
 }

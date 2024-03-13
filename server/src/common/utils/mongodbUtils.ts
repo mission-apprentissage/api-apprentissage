@@ -53,6 +53,10 @@ export const closeMongodbConnection = async () => {
   return mongodbClient?.close();
 };
 
+export function startSession() {
+  return ensureInitialization().startSession();
+}
+
 export const getDatabase = () => {
   return ensureInitialization().db();
 };

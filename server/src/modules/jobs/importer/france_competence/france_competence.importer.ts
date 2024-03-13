@@ -5,7 +5,7 @@ import { parse } from "csv-parse";
 import { addJob } from "job-processor";
 import { AnyBulkWriteOperation, ObjectId } from "mongodb";
 import { IDataGouvDataset, IDataGouvDatasetResource } from "shared";
-import { IArchiveMeta, IImportMeta } from "shared/models/import.meta.model";
+import { IArchiveMeta, IImportMetaFranceCompetence } from "shared/models/import.meta.model";
 import { ISourceFcStandard } from "shared/models/source/france_competence/parts/source.france_competence.standard.model";
 import {
   ISourceFranceCompetence,
@@ -74,7 +74,7 @@ function getArchiveMeta(resource: IDataGouvDatasetResource): IArchiveMeta | null
 }
 
 export function processRecord(
-  importMeta: IImportMeta,
+  importMeta: IImportMetaFranceCompetence,
   fichierMeta: FichierMeta,
   record: Record<string, string | null>,
   columns: { name: string }[]
@@ -260,7 +260,7 @@ export function processRecord(
   return operations;
 }
 
-export async function importRncpFile(entry: Entry, importMeta: IImportMeta) {
+export async function importRncpFile(entry: Entry, importMeta: IImportMetaFranceCompetence) {
   try {
     const fichierMeta = getFichierMetaFromFilename(entry);
 
@@ -302,7 +302,7 @@ export async function importRncpFile(entry: Entry, importMeta: IImportMeta) {
   }
 }
 
-export async function importRncpArchive(importMeta: IImportMeta) {
+export async function importRncpArchive(importMeta: IImportMetaFranceCompetence) {
   try {
     const readStream = await downloadDataGouvResource(importMeta.archiveMeta.resource);
     const zip = readStream.pipe(unzipper.Parse({ forceStream: true }));
@@ -333,7 +333,7 @@ export async function importRncpArchive(importMeta: IImportMeta) {
   }
 }
 
-export async function onImportRncpArchiveFailure(importMeta: IImportMeta) {
+export async function onImportRncpArchiveFailure(importMeta: IImportMetaFranceCompetence) {
   try {
     await getDbCollection("import.meta").deleteOne({ _id: importMeta._id });
   } catch (error) {
@@ -341,18 +341,21 @@ export async function onImportRncpArchiveFailure(importMeta: IImportMeta) {
   }
 }
 
-async function getUnprocessedImportMeta(dataset: IDataGouvDataset): Promise<IImportMeta[]> {
+async function getUnprocessedImportMeta(dataset: IDataGouvDataset): Promise<IImportMetaFranceCompetence[]> {
   try {
     const successfullyImported = await getDbCollection("import.meta")
-      .find({ type: "france_competence" }, { sort: { import_date: -1 } })
+      .find<IImportMetaFranceCompetence>({ type: "france_competence" }, { sort: { import_date: -1 } })
       .toArray();
 
-    const successfullyImportedByResourceId = successfullyImported.reduce<Map<string, IImportMeta>>((acc, meta) => {
-      acc.set(meta.archiveMeta.resource.id, meta);
-      return acc;
-    }, new Map());
+    const successfullyImportedByResourceId = successfullyImported.reduce<Map<string, IImportMetaFranceCompetence>>(
+      (acc, meta) => {
+        acc.set(meta.archiveMeta.resource.id, meta);
+        return acc;
+      },
+      new Map()
+    );
 
-    return dataset.resources.reduce<IImportMeta[]>((acc, resource) => {
+    return dataset.resources.reduce<IImportMetaFranceCompetence[]>((acc, resource) => {
       const archiveMeta = getArchiveMeta(resource);
 
       if (!archiveMeta) {

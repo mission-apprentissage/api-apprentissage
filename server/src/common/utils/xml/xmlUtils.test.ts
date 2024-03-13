@@ -58,8 +58,6 @@ describe("parseXmlFileStream", () => {
       outputStream.on("error", resolve);
     });
 
-    console.log(error);
-
     expect((error as Error).message).toMatch("Unclosed root tag");
   });
 });

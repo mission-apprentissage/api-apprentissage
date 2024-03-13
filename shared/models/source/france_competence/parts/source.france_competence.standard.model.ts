@@ -1,10 +1,12 @@
 import { z } from "zod";
 
+import { zTypeEnregistrement } from "../../../../zod/certifications.primitives";
+
 export const zSourceFcStandard = z
   .object({
     Id_Fiche: z.string(),
     Numero_Fiche: z.string(),
-    Intitule: z.string().nullable(),
+    Intitule: z.string(),
     Abrege_Libelle: z.string().nullable(),
     Abrege_Intitule: z.string().nullable(),
     Nomenclature_Europe_Niveau: z.string().nullable(),
@@ -15,7 +17,7 @@ export const zSourceFcStandard = z
     Date_Decision: z.string().nullable(),
     Date_Fin_Enregistrement: z.string().nullable(),
     Date_Effet: z.string().nullable(),
-    Type_Enregistrement: z.string().nullable(),
+    Type_Enregistrement: zTypeEnregistrement,
     Validation_Partielle: z.string().nullable(),
     Actif: z.enum(["ACTIVE", "INACTIVE"]).nullable(),
   })

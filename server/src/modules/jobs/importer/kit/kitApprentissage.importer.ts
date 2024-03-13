@@ -43,7 +43,7 @@ async function importKitApprentissageSource(filename: ISourceKitApprentissage["s
           });
         },
       }),
-      createBatchTransformStream({ size: 1_000 }),
+      createBatchTransformStream({ size: 100 }),
       new Transform({
         objectMode: true,
         async transform(chunk, _encoding, callback) {

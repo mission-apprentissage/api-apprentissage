@@ -6,8 +6,8 @@ const collectionName = "source.kit_apprentissage" as const;
 
 const indexes: IModelDescriptor["indexes"] = [
   [{ date: 1, source: 1 }, {}],
-  [{ "data.Code Diplôme": 1, "data.FicheRNCP": 1 }, { unique: true }],
-  [{ "data.FicheRNCP": 1, "data.Code Diplôme": 1 }, { unique: true }],
+  [{ "data.Code Diplôme": 1, "data.FicheRNCP": 1 }, {}],
+  [{ "data.FicheRNCP": 1, "data.Code Diplôme": 1 }, {}],
 ];
 
 export const zKitApprentissageData = z

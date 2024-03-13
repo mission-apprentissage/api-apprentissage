@@ -49,7 +49,7 @@ async function parseAcceFile(stream: ReadStream, source: string, date: Date) {
           });
         },
       }),
-      createBatchTransformStream({ size: 1_000 }),
+      createBatchTransformStream({ size: 100 }),
       new Transform({
         objectMode: true,
         async transform(chunk, _encoding, callback) {

@@ -5,7 +5,10 @@ import { IModelDescriptor, zObjectId } from "./common";
 
 const collectionName = "import.meta" as const;
 
-const indexes: IModelDescriptor["indexes"] = [[{ type: 1, import_date: 1 }, {}]];
+const indexes: IModelDescriptor["indexes"] = [
+  [{ type: 1, import_date: 1 }, {}],
+  [{ type: 1, "archiveMeta.date_publication": 1 }, {}],
+];
 
 export const zArchiveMeta = z.object({
   date_publication: z.date(),
@@ -43,8 +46,12 @@ export const zImportMetaCertifications = z
     type: z.literal("certifications"),
     source: z.object({
       bcn: z.object({ import_date: z.date() }),
-      franceCompetence: z.object({ import_date: z.date(), nom: z.string() }),
-      kitApprentissage: z.object({ import_date: z.date() }),
+      france_competence: z.object({
+        import_date: z.date(),
+        nom: z.string(),
+        oldest_date_publication: z.date(),
+      }),
+      kit_apprentissage: z.object({ import_date: z.date() }),
     }),
   })
   .strict();

@@ -6,6 +6,9 @@
   "author": "mna",
   "license": "MIT",
   "private": true,
+  "sideEffects": [
+    "./zod/zodWithOpenApi.ts"
+  ],
   "type": "module",
   "engines": {
     "node": ">=20",

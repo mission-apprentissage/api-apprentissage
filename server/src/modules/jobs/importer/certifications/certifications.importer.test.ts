@@ -4,6 +4,10 @@ import {
   generateCertificationFixture,
   generateKitApprentissageFixture,
   generateKitApprentissageFixtureData,
+  generateSourceBcn_N_FormationDiplomeDataFixture,
+  generateSourceBcn_N_FormationDiplomeFixture,
+  generateSourceBcn_N51_FormationDiplomeDataFixture,
+  generateSourceBcn_N51_FormationDiplomeFixture,
   generateSourceBcn_V_FormationDiplomeDataFixture,
   generateSourceBcn_V_FormationDiplomeFixture,
   generateSourceFranceCompetenceFixture,
@@ -16,6 +20,24 @@ import { importCertifications } from "./certifications.importer";
 const now = new Date("2024-03-07T10:00:00Z");
 const twoHoursAgo = new Date(now.getTime() - 2 * 3600 * 1000);
 const yesterday = new Date(now.getTime() - 24 * 3600 * 1000);
+
+const oldestImportFc = {
+  _id: new ObjectId(),
+  import_date: new Date("2024-03-05T09:32:27.106Z"),
+  type: "france_competence",
+  archiveMeta: {
+    date_publication: new Date("2021-12-24T02:00:00.000Z"),
+    last_updated: new Date("2021-12-24T04:00:16.005Z"),
+    nom: "export-fiches-csv-2021-12-24.zip",
+    resource: {
+      created_at: new Date("2021-12-24T04:00:15.762Z"),
+      id: "284d7bfd-1949-46b6-bf09-cdf2fe93c53b",
+      last_modified: new Date("2021-12-24T04:00:16.005Z"),
+      latest: "https://www.data.gouv.fr/fr/datasets/r/284d7bfd-1949-46b6-bf09-cdf2fe93c53b",
+      title: "export-fiches-csv-2021-12-24.zip",
+    },
+  },
+} as const;
 
 const yesterdayImports = {
   kit_apprentissage: { _id: new ObjectId(), type: "kit_apprentissage", import_date: yesterday },
@@ -47,11 +69,12 @@ const yesterdayImportCert = {
     bcn: {
       import_date: yesterdayImports.bcn.import_date,
     },
-    franceCompetence: {
+    france_competence: {
       import_date: yesterdayImports.france_competence.import_date,
       nom: yesterdayImports.france_competence.archiveMeta.nom,
+      oldest_date_publication: new Date("2021-12-24T02:00:00.000Z"),
     },
-    kitApprentissage: {
+    kit_apprentissage: {
       import_date: yesterdayImports.kit_apprentissage.import_date,
     },
   },
@@ -87,11 +110,12 @@ const todayImportCert = {
     bcn: {
       import_date: todayImports.bcn.import_date,
     },
-    franceCompetence: {
+    france_competence: {
       import_date: todayImports.france_competence.import_date,
       nom: todayImports.france_competence.archiveMeta.nom,
+      oldest_date_publication: new Date("2021-12-24T02:00:00.000Z"),
     },
-    kitApprentissage: {
+    kit_apprentissage: {
       import_date: todayImports.kit_apprentissage.import_date,
     },
   },
@@ -120,7 +144,7 @@ describe("importCertifications", () => {
           await getDbCollection("import.meta").insertOne(todayImports.bcn);
         }
         if (source !== "france_competence") {
-          await getDbCollection("import.meta").insertOne(todayImports.france_competence);
+          await getDbCollection("import.meta").insertMany([oldestImportFc, todayImports.france_competence]);
         }
       });
 
@@ -135,7 +159,7 @@ describe("importCertifications", () => {
     beforeEach(async () => {
       await getDbCollection("import.meta").insertOne(yesterdayImports.kit_apprentissage);
       await getDbCollection("import.meta").insertOne(yesterdayImports.bcn);
-      await getDbCollection("import.meta").insertOne(yesterdayImports.france_competence);
+      await getDbCollection("import.meta").insertMany([oldestImportFc, yesterdayImports.france_competence]);
     });
 
     describe("when initial import", () => {
@@ -189,14 +213,14 @@ describe("importCertifications", () => {
               import_date: now,
               source: {
                 bcn: source === "bcn" ? todayImportCert.source.bcn : yesterdayImportCert.source.bcn,
-                franceCompetence:
+                france_competence:
                   source === "france_competence"
-                    ? todayImportCert.source.franceCompetence
-                    : yesterdayImportCert.source.franceCompetence,
-                kitApprentissage:
+                    ? todayImportCert.source.france_competence
+                    : yesterdayImportCert.source.france_competence,
+                kit_apprentissage:
                   source === "kit_apprentissage"
-                    ? todayImportCert.source.kitApprentissage
-                    : yesterdayImportCert.source.kitApprentissage,
+                    ? todayImportCert.source.kit_apprentissage
+                    : yesterdayImportCert.source.kit_apprentissage,
               },
               type: "certifications",
             },
@@ -223,7 +247,9 @@ describe("importCertifications", () => {
       });
 
       it("should throw an error", async () => {
-        await expect(importCertifications()).rejects.toThrowError("Missing entries in source.kit_apprentissage");
+        await expect(importCertifications()).rejects.toThrowError(
+          "import.certifications: unable to importCertifications"
+        );
       });
     });
 
@@ -239,13 +265,15 @@ describe("importCertifications", () => {
         );
         await getDbCollection("source.bcn").insertOne(
           generateSourceBcn_V_FormationDiplomeFixture({
-            data: generateSourceBcn_V_FormationDiplomeDataFixture({ FORMATION_DIPLOME: "RNCP1796" }),
+            data: generateSourceBcn_V_FormationDiplomeDataFixture({ FORMATION_DIPLOME: "36T23301" }),
           })
         );
       });
 
       it("should throw an error", async () => {
-        await expect(importCertifications()).rejects.toThrowError("Missing entries in source.kit_apprentissage");
+        await expect(importCertifications()).rejects.toThrowError(
+          "import.certifications: unable to importCertifications"
+        );
       });
     });
   });
@@ -343,8 +371,18 @@ describe("importCertifications", () => {
           FORMATION_DIPLOME: existingCertifications.updated[0].code.cfd,
         }),
       }),
+      generateSourceBcn_N_FormationDiplomeFixture({
+        data: generateSourceBcn_N_FormationDiplomeDataFixture({
+          FORMATION_DIPLOME: existingCertifications.updated[0].code.cfd,
+        }),
+      }),
       generateSourceBcn_V_FormationDiplomeFixture({
         data: generateSourceBcn_V_FormationDiplomeDataFixture({
+          FORMATION_DIPLOME: existingCertifications.updated[1].code.cfd,
+        }),
+      }),
+      generateSourceBcn_N51_FormationDiplomeFixture({
+        data: generateSourceBcn_N51_FormationDiplomeDataFixture({
           FORMATION_DIPLOME: existingCertifications.updated[1].code.cfd,
         }),
       }),
@@ -353,11 +391,22 @@ describe("importCertifications", () => {
           FORMATION_DIPLOME: existingCertifications.removed[1].code.cfd,
         }),
       }),
+      generateSourceBcn_N_FormationDiplomeFixture({
+        data: generateSourceBcn_N_FormationDiplomeDataFixture({
+          FORMATION_DIPLOME: existingCertifications.removed[1].code.cfd,
+        }),
+      }),
       generateSourceBcn_V_FormationDiplomeFixture({
         data: generateSourceBcn_V_FormationDiplomeDataFixture({ FORMATION_DIPLOME: newCertifications[0].code.cfd }),
       }),
+      generateSourceBcn_N_FormationDiplomeFixture({
+        data: generateSourceBcn_N_FormationDiplomeDataFixture({ FORMATION_DIPLOME: newCertifications[0].code.cfd }),
+      }),
       generateSourceBcn_V_FormationDiplomeFixture({
         data: generateSourceBcn_V_FormationDiplomeDataFixture({ FORMATION_DIPLOME: newCertifications[1].code.cfd }),
+      }),
+      generateSourceBcn_N51_FormationDiplomeFixture({
+        data: generateSourceBcn_N51_FormationDiplomeDataFixture({ FORMATION_DIPLOME: newCertifications[1].code.cfd }),
       }),
     ];
 
@@ -378,6 +427,7 @@ describe("importCertifications", () => {
         getDbCollection("source.bcn").insertMany(bcnData),
         getDbCollection("source.france_competence").insertMany(franceCompetenceData),
         getDbCollection("source.kit_apprentissage").insertMany(kitApprentissageData),
+        getDbCollection("import.meta").insertOne(oldestImportFc),
         getDbCollection("import.meta").insertOne(yesterdayImportCert),
         getDbCollection("import.meta").insertOne(todayImports.kit_apprentissage),
         getDbCollection("import.meta").insertOne(todayImports.bcn),
@@ -398,8 +448,8 @@ describe("importCertifications", () => {
           import_date: now,
           source: {
             bcn: todayImportCert.source.bcn,
-            franceCompetence: todayImportCert.source.franceCompetence,
-            kitApprentissage: todayImportCert.source.kitApprentissage,
+            france_competence: todayImportCert.source.france_competence,
+            kit_apprentissage: todayImportCert.source.kit_apprentissage,
           },
           type: "certifications",
         },

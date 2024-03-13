@@ -1,5 +1,7 @@
 import { ObjectId } from "bson";
 
+import { IBcn_N_FormationDiplome } from "../source/bcn/bcn.n_formation_diplome.model";
+import { IBcn_N51_FormationDiplome } from "../source/bcn/bcn.n51_formation_diplome.model";
 import { IBcn_V_FormationDiplome } from "../source/bcn/bcn.v_formation_diplome.model";
 import { getFixtureValue } from "./fixture_helper";
 
@@ -76,5 +78,71 @@ export function generateSourceBcn_V_FormationDiplomeFixture(
     source: "V_FORMATION_DIPLOME",
     date: getFixtureValue(data, "date", new Date("2024-03-07T00:00:00Z")),
     data: getFixtureValue(data, "data", generateSourceBcn_V_FormationDiplomeDataFixture()),
+  };
+}
+
+export function generateSourceBcn_N_FormationDiplomeDataFixture(
+  data?: Partial<IBcn_N_FormationDiplome["data"]>
+): IBcn_N_FormationDiplome["data"] {
+  return {
+    ...generateSourceBcn_V_FormationDiplomeDataFixture(data),
+    ANCIEN_DIPLOME_1: null,
+    ANCIEN_DIPLOME_2: null,
+    ANCIEN_DIPLOME_3: null,
+    ANCIEN_DIPLOME_4: null,
+    ANCIEN_DIPLOME_5: null,
+    ANCIEN_DIPLOME_6: null,
+    ANCIEN_DIPLOME_7: null,
+    NOUVEAU_DIPLOME_1: null,
+    NOUVEAU_DIPLOME_2: null,
+    NOUVEAU_DIPLOME_3: null,
+    NOUVEAU_DIPLOME_4: null,
+    NOUVEAU_DIPLOME_5: null,
+    NOUVEAU_DIPLOME_6: null,
+    NOUVEAU_DIPLOME_7: null,
+    NB_MEF_OUVERT: null,
+    NB_MEF_FERME: null,
+    DATE_SESSION_RATTRAPAGE: null,
+    OBSERVATION: null,
+    N_COMMENTAIRE: null,
+    CITE_DOMAINE_DETAILLE: null,
+    N_CITE_2013_DOMAINE_DETAILL_LIBELLE_EDITION: null,
+  };
+}
+
+export function generateSourceBcn_N_FormationDiplomeFixture(
+  data?: Partial<IBcn_N_FormationDiplome>
+): IBcn_N_FormationDiplome {
+  return {
+    _id: getFixtureValue(data, "_id", new ObjectId()),
+    source: "N_FORMATION_DIPLOME",
+    date: getFixtureValue(data, "date", new Date("2024-03-07T00:00:00Z")),
+    data: getFixtureValue(data, "data", generateSourceBcn_N_FormationDiplomeDataFixture()),
+  };
+}
+
+export function generateSourceBcn_N51_FormationDiplomeDataFixture(
+  data?: Partial<IBcn_N51_FormationDiplome["data"]>
+): IBcn_N51_FormationDiplome["data"] {
+  return {
+    ...generateSourceBcn_V_FormationDiplomeDataFixture(data),
+    N_COMMENTAIRE: null,
+    CITE_DOMAINE_DETAILLE: null,
+    N_CITE_2013_DOMAINE_DETAILL_LIBELLE_EDITION: null,
+    DIPLOME_SISE: null,
+    N_DIPLOME_SISE_LIBELLE_INTITULE_1: null,
+    HABILITATION_ORIGINE: null,
+    NUMERO_UAI: null,
+  };
+}
+
+export function generateSourceBcn_N51_FormationDiplomeFixture(
+  data?: Partial<IBcn_N51_FormationDiplome>
+): IBcn_N51_FormationDiplome {
+  return {
+    _id: getFixtureValue(data, "_id", new ObjectId()),
+    source: "N_FORMATION_DIPLOME_ENQUETE_51",
+    date: getFixtureValue(data, "date", new Date("2024-03-07T00:00:00Z")),
+    data: getFixtureValue(data, "data", generateSourceBcn_N51_FormationDiplomeDataFixture()),
   };
 }

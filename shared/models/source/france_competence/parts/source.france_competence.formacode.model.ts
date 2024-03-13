@@ -3,8 +3,8 @@ import { z } from "zod";
 export const zSourceFcFormacode = z
   .object({
     Numero_Fiche: z.string(),
-    Formacode_Code: z.string().nullable(),
-    Formacode_Libelle: z.string().nullable(),
+    Formacode_Code: z.string(),
+    Formacode_Libelle: z.string(),
   })
   .strict();
 

@@ -136,7 +136,13 @@ program
       return;
     }
 
-    await startProcessor(signal);
+    try {
+      await startProcessor(signal);
+    } catch (error) {
+      captureException(error);
+      logger.error(error);
+      program.error("Command failed", { exitCode: 1 });
+    }
   });
 
 function createJobAction(name: string) {

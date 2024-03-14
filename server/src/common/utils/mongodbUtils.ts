@@ -18,6 +18,10 @@ export const ensureInitialization = () => {
   return mongodbClient;
 };
 
+export function setMongodbClient(client: MongoClient) {
+  mongodbClient = client;
+}
+
 /**
  * @param  {string} uri
  * @returns client

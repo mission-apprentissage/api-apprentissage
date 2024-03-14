@@ -1,4 +1,4 @@
-import { Transform } from "node:stream";
+import { addAbortSignal, Transform } from "node:stream";
 
 import { internal } from "@hapi/boom";
 import { parse } from "csv-parse";
@@ -12,6 +12,7 @@ import {
   ISourceFranceCompetenceDataPart,
   zFranceCompetenceDataBySource,
 } from "shared/models/source/france_competence/source.france_competence.model";
+import { parisTimezoneDate } from "shared/zod/date.primitives";
 import { pipeline } from "stream/promises";
 import unzipper, { Entry } from "unzipper";
 
@@ -66,7 +67,14 @@ function getArchiveMeta(resource: IDataGouvDatasetResource): IArchiveMeta | null
   }
   const [, year, month, day] = match;
   return {
-    date_publication: new Date(`${year}-${month}-${day}T00:00:00.000Z`),
+    date_publication: parisTimezoneDate({
+      year: Number(year),
+      month: Number(month),
+      day: Number(day),
+      hour: 0,
+      minute: 0,
+      second: 0,
+    }),
     last_updated: new Date(resource.last_modified),
     nom: resource.title,
     resource,
@@ -260,7 +268,7 @@ export function processRecord(
   return operations;
 }
 
-export async function importRncpFile(entry: Entry, importMeta: IImportMetaFranceCompetence) {
+export async function importRncpFile(entry: Entry, importMeta: IImportMetaFranceCompetence, signal?: AbortSignal) {
   try {
     const fichierMeta = getFichierMetaFromFilename(entry);
 
@@ -295,19 +303,26 @@ export async function importRncpFile(entry: Entry, importMeta: IImportMetaFrance
             callback(withCause(internal("import.france_competence: error when inserting"), error));
           }
         },
-      })
+      }),
+      { signal }
     );
   } catch (error) {
+    if (signal && error.name === signal?.reason?.name) {
+      throw signal.reason;
+    }
     throw withCause(internal("import.france_competence: unable to importRncpFile"), error);
   }
 }
 
-export async function importRncpArchive(importMeta: IImportMetaFranceCompetence) {
+export async function importRncpArchive(importMeta: IImportMetaFranceCompetence, signal?: AbortSignal) {
   try {
     const readStream = await downloadDataGouvResource(importMeta.archiveMeta.resource);
+
+    if (signal) addAbortSignal(signal, readStream);
+
     const zip = readStream.pipe(unzipper.Parse({ forceStream: true }));
     for await (const entry of zip) {
-      await importRncpFile(entry, importMeta);
+      await importRncpFile(entry, importMeta, signal);
       entry.autodrain();
     }
 
@@ -329,6 +344,9 @@ export async function importRncpArchive(importMeta: IImportMetaFranceCompetence)
       activated,
     };
   } catch (error) {
+    if (signal && error.name === signal?.reason?.name) {
+      throw signal.reason;
+    }
     throw withCause(internal("import.france_competence: unable to importRncpArchive", { importMeta }), error);
   }
 }

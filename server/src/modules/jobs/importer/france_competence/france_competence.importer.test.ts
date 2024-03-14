@@ -56,7 +56,7 @@ const seed = 20240227;
 // Spec de l'algorithme https://www.notion.so/mission-apprentissage/Job-d-import-des-donn-es-RNCP-via-France-Comp-tences-v1-0-66efcd3edce84bd09db34a9e7f8a0d73
 describe("processRecord", () => {
   const archiveMeta = {
-    date_publication: new Date("2024-02-22T00:00:00.000Z"),
+    date_publication: new Date("2024-02-21T23:00:00.000Z"),
     nom: "export-fiches-csv-2024-02-22.zip",
     last_updated: new Date("2024-02-22T03:02:07.320000+00:00"),
     resource: {
@@ -353,7 +353,7 @@ describe("importRncpFile", () => {
 
   describe("when file is standard", () => {
     const archiveMeta = {
-      date_publication: new Date("2024-02-22T00:00:00.000Z"),
+      date_publication: new Date("2024-02-21T23:00:00.000Z"),
       nom: "export-fiches-csv-2024-02-22.zip",
       last_updated: new Date("2024-02-22T03:02:07.320000+00:00"),
       resource: {
@@ -913,7 +913,7 @@ describe("importRncpFile", () => {
     ["certificateurs", "export_fiches_CSV_Certificateurs_2024_02_22.csv"],
   ])("when file is %s", (source, filename) => {
     const archiveMeta = {
-      date_publication: new Date("2024-02-22T00:00:00.000Z"),
+      date_publication: new Date("2024-02-21T23:00:00.000Z"),
       nom: "export-fiches-csv-2024-02-22.zip",
       last_updated: new Date("2024-02-22T03:02:07.320000+00:00"),
       resource: {
@@ -1187,7 +1187,7 @@ describe("importRncpArchive", () => {
 
   it("should import all files", async () => {
     const archiveMeta = {
-      date_publication: new Date("2024-02-22T00:00:00.000Z"),
+      date_publication: new Date("2024-02-21T23:00:00.000Z"),
       last_updated: new Date("2024-02-22T03:02:07.320000+00:00"),
       nom: "export-fiches-csv-2024-02-22.zip",
       resource: {
@@ -1309,7 +1309,7 @@ describe("runRncpImporter", () => {
         import_date: new Date("2024-02-20T09:00:00.000Z"),
         type: "france_competence",
         archiveMeta: {
-          date_publication: new Date("2024-02-20T00:00:00.000Z"),
+          date_publication: new Date("2024-02-19T23:00:00.000Z"),
           last_updated: new Date("2024-02-20T03:00:00.000Z"),
           nom: "export-fiches-csv-2024-02-20.zip",
           resource: { ...updatedResource, last_modified: new Date("2024-02-20T03:00:00.000Z") },
@@ -1331,7 +1331,7 @@ describe("runRncpImporter", () => {
       import_date: now,
       type: "france_competence",
       archiveMeta: {
-        date_publication: new Date("2024-02-22T00:00:00.000Z"),
+        date_publication: new Date("2024-02-21T23:00:00.000Z"),
         last_updated: newResource.last_modified,
         nom: newResource.title,
         resource: newResource,
@@ -1343,7 +1343,7 @@ describe("runRncpImporter", () => {
       import_date: now,
       type: "france_competence",
       archiveMeta: {
-        date_publication: new Date("2024-02-20T00:00:00.000Z"),
+        date_publication: new Date("2024-02-19T23:00:00.000Z"),
         last_updated: updatedResource.last_modified,
         nom: "export-fiches-csv-2024-02-20.zip",
         resource: updatedResource,
@@ -1406,7 +1406,7 @@ describe("onImportRncpArchiveFailure", () => {
         import_date: new Date("2024-02-20T09:00:00.000Z"),
         type: "france_competence",
         archiveMeta: {
-          date_publication: new Date("2024-02-20T00:00:00.000Z"),
+          date_publication: new Date("2024-02-19T23:00:00.000Z"),
           last_updated: failedResource.last_modified,
           nom: "export-fiches-csv-2024-02-20.zip",
           resource: failedResource,

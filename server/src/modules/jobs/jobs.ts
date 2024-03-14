@@ -31,7 +31,7 @@ export async function setupJobProcessor() {
     db: getDatabase(),
     logger,
     crons:
-      config.env === "preview" || config.env === "local"
+      config.env === "preview"
         ? {}
         : {
             "Mise à jour acce": {
@@ -40,28 +40,33 @@ export async function setupJobProcessor() {
               resumable: true,
             },
             "Import des données BCN": {
-              cron_string: "0 9 * * *",
+              cron_string: "0 4 * * *",
               handler: runBcnImporter,
               resumable: true,
             },
             "Import des données Kit Apprentissage": {
-              cron_string: "0 9 * * *",
+              cron_string: "0 4 * * *",
               handler: runKitApprentissageImporter,
               resumable: true,
             },
             "Import des données Referentiel": {
-              cron_string: "0 9 * * *",
+              cron_string: "0 4 * * *",
               handler: runReferentielImporter,
               resumable: true,
             },
             "Import des données Catalogue": {
-              cron_string: "0 9 * * *",
+              cron_string: "0 4 * * *",
               handler: runCatalogueImporter,
               resumable: true,
             },
             "Import des données France Compétences": {
-              cron_string: "0 9 * * *",
+              cron_string: "0 */2 * * *",
               handler: runRncpImporter,
+              resumable: true,
+            },
+            "Import des certifications": {
+              cron_string: "0 */2 * * *",
+              handler: importCertifications,
               resumable: true,
             },
           },
@@ -116,7 +121,7 @@ export async function setupJobProcessor() {
         handler: async () => runRncpImporter(),
       },
       "import:france_competence:resource": {
-        handler: async (job) => importRncpArchive(zImportMetaFranceCompetence.parse(job.payload)),
+        handler: async (job, signal) => importRncpArchive(zImportMetaFranceCompetence.parse(job.payload), signal),
         onJobExited: async (job) => {
           if (job.status === "errored") {
             await onImportRncpArchiveFailure(zImportMetaFranceCompetence.parse(job.payload));

@@ -1,11 +1,11 @@
 import { internal } from "@hapi/boom";
 import { ICertificationInput, zCertification } from "shared/models/certification.model";
-import { IImportMetaCertifications } from "shared/models/import.meta.model";
 import { ISourceFranceCompetence } from "shared/models/source/france_competence/source.france_competence.model";
 import { INiveauDiplomeEuropeen } from "shared/zod/certifications.primitives";
 import { parseNullableParisLocalDate } from "shared/zod/date.primitives";
 
 import { withCause } from "../../../../../common/errors/withCause";
+import { INiveauInterministerielSearchMap } from "./certification.cfd.builder";
 
 function parseNiveauEuropeen(value: string | null): INiveauDiplomeEuropeen | null {
   if (value === null) {
@@ -32,20 +32,20 @@ function parseNiveauEuropeen(value: string | null): INiveauDiplomeEuropeen | nul
   }
 }
 
-function getDateActivation(data: ISourceFranceCompetence, importMeta: IImportMetaCertifications) {
+function getDateActivation(data: ISourceFranceCompetence, oldestFranceCompetenceDatePublication: Date) {
   if (data.date_premiere_activation === null) {
     return null;
   }
 
-  return data.date_premiere_activation.getTime() > importMeta.source.france_competence.oldest_date_publication.getTime()
+  return data.date_premiere_activation.getTime() > oldestFranceCompetenceDatePublication.getTime()
     ? data.date_premiere_activation
     : null;
 }
 
 export function buildCertificationRncp(
   data: ISourceFranceCompetence | null | undefined,
-  importMeta: IImportMetaCertifications,
-  niveauEuropeenToInterministerielMap: Map<INiveauDiplomeEuropeen | null, string>
+  oldestFranceCompetenceDatePublication: Date,
+  niveauInterministerielSearchMap: INiveauInterministerielSearchMap
 ): ICertificationInput["rncp"] {
   try {
     if (data == null) {
@@ -60,7 +60,7 @@ export function buildCertificationRncp(
 
     const rawData: ICertificationInput["rncp"] = {
       actif: standard.Actif === "ACTIVE",
-      activation: getDateActivation(data, importMeta),
+      activation: getDateActivation(data, oldestFranceCompetenceDatePublication),
       fin_enregistrement: parseNullableParisLocalDate(standard.Date_Fin_Enregistrement, "23:59:59", -1),
       debut_parcours:
         parseNullableParisLocalDate(standard.Date_Effet, "00:00:00") ??
@@ -107,7 +107,8 @@ export function buildCertificationRncp(
       niveau: {
         europeen: parseNiveauEuropeen(standard.Nomenclature_Europe_Niveau),
         interministeriel:
-          niveauEuropeenToInterministerielMap.get(parseNiveauEuropeen(standard.Nomenclature_Europe_Niveau)) ?? null,
+          niveauInterministerielSearchMap.fromEuropeen.get(parseNiveauEuropeen(standard.Nomenclature_Europe_Niveau)) ??
+          null,
       },
       nsf: data.data.nsf.map((nsf) => ({
         code: nsf.Nsf_Code,
@@ -118,6 +119,9 @@ export function buildCertificationRncp(
 
     return zCertification.shape.rncp.parse(rawData);
   } catch (error) {
-    throw withCause(internal("Failed to build certification RNCP", { numero_fiche: data?.numero_fiche, data }), error);
+    throw withCause(
+      internal("import.certifications: failed to build certification RNCP", { numero_fiche: data?.numero_fiche, data }),
+      error
+    );
   }
 }

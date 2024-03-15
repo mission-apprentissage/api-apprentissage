@@ -3,7 +3,48 @@ import { ObjectId } from "bson";
 import { ISourceFranceCompetence } from "../source/france_competence/source.france_competence.model";
 import { getFixtureValue } from "./fixture_helper";
 
-export function generateSourceFranceCompetenceFixture(data: Partial<ISourceFranceCompetence>): ISourceFranceCompetence {
+type ISourceFranceCompetenceDataInput = Partial<
+  Omit<ISourceFranceCompetence["data"], "standard"> & {
+    standard?: Partial<ISourceFranceCompetence["data"]["standard"]>;
+  }
+>;
+
+function generateSourceFranceCompetenceStandardFixture(
+  input?: Partial<ISourceFranceCompetence["data"]["standard"]>
+): ISourceFranceCompetence["data"]["standard"] {
+  if (input === null) {
+    return null;
+  }
+
+  return {
+    Id_Fiche: getFixtureValue(input, "Id_Fiche", "16910"),
+    Numero_Fiche: getFixtureValue(input, "Numero_Fiche", "RNCP1796"),
+    Intitule: getFixtureValue(input, "Intitule", "Conducteur de travaux aménagement finitions"),
+    Abrege_Libelle: getFixtureValue(input, "Abrege_Libelle", "TP"),
+    Abrege_Intitule: getFixtureValue(input, "Abrege_Intitule", "Titre professionnel"),
+    Nomenclature_Europe_Niveau: getFixtureValue(input, "Nomenclature_Europe_Niveau", "NIV5"),
+    Nomenclature_Europe_Intitule: getFixtureValue(input, "Nomenclature_Europe_Intitule", "Niveau 5"),
+    Accessible_Nouvelle_Caledonie: getFixtureValue(input, "Accessible_Nouvelle_Caledonie", "Non"),
+    Accessible_Polynesie_Francaise: getFixtureValue(input, "Accessible_Polynesie_Francaise", "Non"),
+    Date_dernier_jo: getFixtureValue(input, "Date_dernier_jo", "26/02/2019"),
+    Date_Decision: getFixtureValue(input, "Date_Decision", null),
+    Date_Fin_Enregistrement: getFixtureValue(input, "Date_Fin_Enregistrement", "07/05/2024"),
+    Date_Effet: getFixtureValue(input, "Date_Effet", "07/05/2019"),
+    Type_Enregistrement: getFixtureValue(input, "Type_Enregistrement", "Enregistrement de droit"),
+    Validation_Partielle: getFixtureValue(input, "Validation_Partielle", null),
+    Actif: getFixtureValue(input, "Actif", "ACTIVE"),
+  };
+}
+
+type ISourceFranceCompetenceFixtureInput = Partial<
+  Omit<ISourceFranceCompetence, "data"> & {
+    data?: ISourceFranceCompetenceDataInput;
+  }
+>;
+
+export function generateSourceFranceCompetenceFixture(
+  data: ISourceFranceCompetenceFixtureInput
+): ISourceFranceCompetence {
   const numeroFiche = getFixtureValue(data, "numero_fiche", "RNCP1796");
 
   return {
@@ -99,24 +140,7 @@ export function generateSourceFranceCompetenceFixture(data: Partial<ISourceFranc
           Nom_Certificateur: "MINISTERE DU TRAVAIL DU PLEIN EMPLOI ET DE L' INSERTION",
         },
       ]),
-      standard: getFixtureValue(data?.data, "standard", {
-        Id_Fiche: "16910",
-        Numero_Fiche: numeroFiche,
-        Intitule: "Conducteur de travaux aménagement finitions",
-        Abrege_Libelle: "TP",
-        Abrege_Intitule: "Titre professionnel",
-        Nomenclature_Europe_Niveau: "NIV5",
-        Nomenclature_Europe_Intitule: "Niveau 5",
-        Accessible_Nouvelle_Caledonie: "Non",
-        Accessible_Polynesie_Francaise: "Non",
-        Date_dernier_jo: "26/02/2019",
-        Date_Decision: null,
-        Date_Fin_Enregistrement: "07/05/2024",
-        Date_Effet: "07/05/2019",
-        Type_Enregistrement: "Enregistrement de droit",
-        Validation_Partielle: null,
-        Actif: "ACTIVE",
-      }),
+      standard: generateSourceFranceCompetenceStandardFixture(data?.data?.standard),
     },
   };
 }

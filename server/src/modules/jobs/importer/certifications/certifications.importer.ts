@@ -3,29 +3,15 @@ import { pipeline } from "node:stream/promises";
 
 import { internal } from "@hapi/boom";
 import { AggregationCursor, ObjectId } from "mongodb";
-import { ICertification } from "shared/models/certification.model";
 import { IImportMetaCertifications, IImportMetaFranceCompetence } from "shared/models/import.meta.model";
-import { IBcn_N_FormationDiplome } from "shared/models/source/bcn/bcn.n_formation_diplome.model";
-import { IBcn_N51_FormationDiplome } from "shared/models/source/bcn/bcn.n51_formation_diplome.model";
-import { IBcn_V_FormationDiplome } from "shared/models/source/bcn/bcn.v_formation_diplome.model";
-import { ISourceFranceCompetence } from "shared/models/source/france_competence/source.france_competence.model";
-import { ISourceKitApprentissage } from "shared/models/source/kitApprentissage/source.kit_apprentissage.model";
-import { INiveauDiplomeEuropeen } from "shared/zod/certifications.primitives";
 
 import { withCause } from "@/common/errors/withCause";
 import parentLogger from "@/common/logger";
 import { getDbCollection } from "@/common/utils/mongodbUtils";
 import { createBatchTransformStream } from "@/common/utils/streamUtils";
 
-import { buildCertificationCfd, buildNiveauEuropeenToInterministerielMap } from "./builder/certification.cfd.builder";
-import { buildCertificationPeriodeValidite } from "./builder/certification.periode_validite.builder";
-import { buildCertificationRncp } from "./builder/certification.rncp.builder";
-
-export type ISourceAggregatedData = {
-  bcn?: Array<IBcn_N_FormationDiplome | IBcn_N51_FormationDiplome | IBcn_V_FormationDiplome> | null;
-  kit_apprentissage?: ISourceKitApprentissage | null;
-  france_competence: ISourceFranceCompetence | null;
-};
+import { buildCertification, ISourceAggregatedData } from "./builder/certification.builder";
+import { buildInterministerielSearchMap, INiveauInterministerielSearchMap } from "./builder/certification.cfd.builder";
 
 const logger = parentLogger.child({ module: "import:certifications" });
 
@@ -201,32 +187,16 @@ export async function getImportMeta(): Promise<IImportMetaCertifications | null>
   return null;
 }
 
-export function buildCertification(
-  data: ISourceAggregatedData,
-  importMeta: IImportMetaCertifications,
-  niveauEuropeenToInterministerielMap: Map<INiveauDiplomeEuropeen | null, string>
-): Omit<ICertification, "_id" | "created_at" | "updated_at"> {
-  const code = {
-    cfd: data.bcn?.[0]?.data.FORMATION_DIPLOME || null,
-    rncp: data.france_competence?.numero_fiche || null,
-  };
-  const cfd = buildCertificationCfd(data.bcn);
-  const rncp = buildCertificationRncp(data.france_competence, importMeta, niveauEuropeenToInterministerielMap);
-
-  return {
-    code,
-    periode_validite: buildCertificationPeriodeValidite(cfd, rncp),
-    cfd,
-    rncp,
-  };
-}
-
 export function buildCertificationUpdateOperation(
   data: ISourceAggregatedData,
   importMeta: IImportMetaCertifications,
-  niveauEuropeenToInterministerielMap: Map<INiveauDiplomeEuropeen | null, string>
+  niveauInterministerielSearchMap: INiveauInterministerielSearchMap
 ) {
-  const { code, ...value } = buildCertification(data, importMeta, niveauEuropeenToInterministerielMap);
+  const { code, ...value } = buildCertification(
+    data,
+    importMeta.source.france_competence.oldest_date_publication,
+    niveauInterministerielSearchMap
+  );
 
   return {
     updateOne: {
@@ -247,9 +217,7 @@ export function getSourceAggregatedDataFromBcn(): AggregationCursor<ISourceAggre
   return getDbCollection("source.bcn").aggregate<ISourceAggregatedData>([
     {
       $match: {
-        source: {
-          $in: ["N_FORMATION_DIPLOME", "N_FORMATION_DIPLOME_ENQUETE_51", "V_FORMATION_DIPLOME"],
-        },
+        source: "V_FORMATION_DIPLOME",
       },
     },
     {
@@ -258,6 +226,12 @@ export function getSourceAggregatedDataFromBcn(): AggregationCursor<ISourceAggre
         bcn: {
           $push: "$$ROOT",
         },
+      },
+    },
+    {
+      $unwind: {
+        path: "$bcn",
+        preserveNullAndEmptyArrays: true,
       },
     },
     {
@@ -324,7 +298,7 @@ export function getSourceAggregatedDataFromFranceCompetence(): AggregationCursor
 export async function importSourceAggregatedData(
   cursor: AggregationCursor<ISourceAggregatedData>,
   importMeta: IImportMetaCertifications,
-  niveauEuropeenToInterministerielMap: Map<INiveauDiplomeEuropeen | null, string>
+  niveauInterministerielSearchMap: INiveauInterministerielSearchMap
 ) {
   await pipeline(
     cursor,
@@ -332,7 +306,7 @@ export async function importSourceAggregatedData(
       objectMode: true,
       async transform(chunk: ISourceAggregatedData, _encoding, callback) {
         try {
-          const op = buildCertificationUpdateOperation(chunk, importMeta, niveauEuropeenToInterministerielMap);
+          const op = buildCertificationUpdateOperation(chunk, importMeta, niveauInterministerielSearchMap);
           callback(null, op);
         } catch (error) {
           callback(withCause(internal("import.certifications: error when building certification"), error));
@@ -437,14 +411,14 @@ export async function importCertifications() {
 
     await controlKitApprentissageCoverage();
 
-    const niveauEuropeenToInterministerielMap = await buildNiveauEuropeenToInterministerielMap();
+    const niveauInterministerielSearchMap = await buildInterministerielSearchMap();
 
-    await importSourceAggregatedData(getSourceAggregatedDataFromBcn(), importMeta, niveauEuropeenToInterministerielMap);
+    await importSourceAggregatedData(getSourceAggregatedDataFromBcn(), importMeta, niveauInterministerielSearchMap);
 
     await importSourceAggregatedData(
       getSourceAggregatedDataFromFranceCompetence(),
       importMeta,
-      niveauEuropeenToInterministerielMap
+      niveauInterministerielSearchMap
     );
 
     const stats = await computeImportStats(importMeta.import_date);

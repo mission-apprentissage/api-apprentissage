@@ -35,7 +35,6 @@ export const zCertification = z.object({
       fermeture: z.date().nullable(),
       creation: z.date().nullable(),
       abrogation: z.date().nullable(),
-      domaine: zodOpenApi.string(),
       intitule: zodOpenApi.object({
         long: zodOpenApi.string(),
         court: zodOpenApi.string(),

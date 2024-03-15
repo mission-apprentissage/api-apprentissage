@@ -34,9 +34,6 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
                 },
               ],
             },
-            "domaine": {
-              "bsonType": "string",
-            },
             "fermeture": {
               "anyOf": [
                 {
@@ -213,7 +210,6 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
             "fermeture",
             "creation",
             "abrogation",
-            "domaine",
             "intitule",
             "nature",
             "gestionnaire",
@@ -3183,10 +3179,7 @@ exports[`zodToMongoSchema > should convert source.bcn schema 1`] = `
               ],
             },
             "NIVEAU_INTERMINISTERIEL": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
+              "bsonType": "string",
             },
             "NIVEAU_QUALIFICATION_RNCP": {
               "bsonType": [

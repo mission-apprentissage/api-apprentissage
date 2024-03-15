@@ -1,6 +1,7 @@
 import { ObjectId } from "bson";
 
 import { IBcn_N_FormationDiplome } from "../source/bcn/bcn.n_formation_diplome.model";
+import { IBcn_N_NiveauFormationDiplome } from "../source/bcn/bcn.n_niveau_formation_diplome.model";
 import { IBcn_N51_FormationDiplome } from "../source/bcn/bcn.n51_formation_diplome.model";
 import { IBcn_V_FormationDiplome } from "../source/bcn/bcn.v_formation_diplome.model";
 import { getFixtureValue } from "./fixture_helper";
@@ -70,14 +71,20 @@ export function generateSourceBcn_V_FormationDiplomeDataFixture(
   };
 }
 
+type IBcn_V_FormationDiplomeInput = Partial<
+  Omit<IBcn_V_FormationDiplome, "data"> & {
+    data?: Partial<IBcn_V_FormationDiplome["data"]>;
+  }
+>;
+
 export function generateSourceBcn_V_FormationDiplomeFixture(
-  data?: Partial<IBcn_V_FormationDiplome>
+  data?: IBcn_V_FormationDiplomeInput
 ): IBcn_V_FormationDiplome {
   return {
     _id: getFixtureValue(data, "_id", new ObjectId()),
     source: "V_FORMATION_DIPLOME",
     date: getFixtureValue(data, "date", new Date("2024-03-07T00:00:00Z")),
-    data: getFixtureValue(data, "data", generateSourceBcn_V_FormationDiplomeDataFixture()),
+    data: generateSourceBcn_V_FormationDiplomeDataFixture(data?.data),
   };
 }
 
@@ -145,4 +152,161 @@ export function generateSourceBcn_N51_FormationDiplomeFixture(
     date: getFixtureValue(data, "date", new Date("2024-03-07T00:00:00Z")),
     data: getFixtureValue(data, "data", generateSourceBcn_N51_FormationDiplomeDataFixture()),
   };
+}
+
+export function generateSourceBcn_N_NiveauFormationDiplomeFixtureList(): IBcn_N_NiveauFormationDiplome[] {
+  return [
+    {
+      _id: new ObjectId(),
+      source: "N_NIVEAU_FORMATION_DIPLOME",
+      date: new Date("2024-03-07T00:00:00Z"),
+      data: {
+        NIVEAU_FORMATION_DIPLOME: "967",
+        LIBELLE_COURT: "BAFD",
+        DATE_OUVERTURE: null,
+        DATE_FERMETURE: null,
+        DATE_INTERVENTION: "08/11/2021",
+        NIVEAU_QUALIFICATION_RNCP: "00",
+        N_NIVEAU_QUALIFICATION_RNCP_LIBELLE_LONG: "HORS PERIMETRE",
+        N_COMMENTAIRE: "Création suite à une demande des équipes examens/concours",
+        NIVEAU_INTERMINISTERIEL: "9",
+        N_NIVEAU_INTERMINISTERIEL_LIBELLE_LONG: "INCONNU",
+        LIBELLE_100: "BREVET D'APTITUDE AUX FONCTIONS DE DIRECTEUR",
+        ANCIEN_NIVEAU: null,
+      },
+    },
+    {
+      _id: new ObjectId(),
+      source: "N_NIVEAU_FORMATION_DIPLOME",
+      date: new Date("2024-03-07T00:00:00Z"),
+      data: {
+        NIVEAU_FORMATION_DIPLOME: "56S",
+        LIBELLE_COURT: "TH5-S",
+        DATE_OUVERTURE: null,
+        DATE_FERMETURE: null,
+        DATE_INTERVENTION: "10/12/2020",
+        NIVEAU_QUALIFICATION_RNCP: "03",
+        N_NIVEAU_QUALIFICATION_RNCP_LIBELLE_LONG: "NIVEAU 3",
+        N_COMMENTAIRE: null,
+        NIVEAU_INTERMINISTERIEL: "5",
+        N_NIVEAU_INTERMINISTERIEL_LIBELLE_LONG: "NIVEAU V",
+        LIBELLE_100: "TH DE NIV 5 SANTE SOCIAL",
+        ANCIEN_NIVEAU: null,
+      },
+    },
+    {
+      _id: new ObjectId(),
+      source: "N_NIVEAU_FORMATION_DIPLOME",
+      date: new Date("2024-03-07T00:00:00Z"),
+      data: {
+        NIVEAU_FORMATION_DIPLOME: "46Z",
+        LIBELLE_COURT: "TH4",
+        DATE_OUVERTURE: "01/08/1996",
+        DATE_FERMETURE: null,
+        DATE_INTERVENTION: "10/12/2020",
+        NIVEAU_QUALIFICATION_RNCP: "04",
+        N_NIVEAU_QUALIFICATION_RNCP_LIBELLE_LONG: "NIVEAU 4",
+        N_COMMENTAIRE: null,
+        NIVEAU_INTERMINISTERIEL: "4",
+        N_NIVEAU_INTERMINISTERIEL_LIBELLE_LONG: "NIVEAU IV",
+        LIBELLE_100: "TH DE NIV 4 NON PRECISE",
+        ANCIEN_NIVEAU: null,
+      },
+    },
+    {
+      _id: new ObjectId(),
+      source: "N_NIVEAU_FORMATION_DIPLOME",
+      date: new Date("2024-03-07T00:00:00Z"),
+      data: {
+        NIVEAU_FORMATION_DIPLOME: "36Q",
+        LIBELLE_COURT: "TH3-Q",
+        DATE_OUVERTURE: "01/09/1997",
+        DATE_FERMETURE: null,
+        DATE_INTERVENTION: "10/12/2020",
+        NIVEAU_QUALIFICATION_RNCP: "05",
+        N_NIVEAU_QUALIFICATION_RNCP_LIBELLE_LONG: "NIVEAU 5",
+        N_COMMENTAIRE: null,
+        NIVEAU_INTERMINISTERIEL: "3",
+        N_NIVEAU_INTERMINISTERIEL_LIBELLE_LONG: "NIVEAU III",
+        LIBELLE_100: "TH DE NIV 3 MINISTERE DE L'EQUIPEMENT TRANSPORT TOURISME",
+        ANCIEN_NIVEAU: null,
+      },
+    },
+    {
+      _id: new ObjectId(),
+      source: "N_NIVEAU_FORMATION_DIPLOME",
+      date: new Date("2024-03-07T00:00:00Z"),
+      data: {
+        NIVEAU_FORMATION_DIPLOME: "36T",
+        LIBELLE_COURT: "36T",
+        DATE_OUVERTURE: "01/09/2019",
+        DATE_FERMETURE: "31/08/2024",
+        DATE_INTERVENTION: "19/01/2021",
+        NIVEAU_QUALIFICATION_RNCP: "05",
+        N_NIVEAU_QUALIFICATION_RNCP_LIBELLE_LONG: "NIVEAU 5",
+        N_COMMENTAIRE: "rncp 1796",
+        NIVEAU_INTERMINISTERIEL: "3",
+        N_NIVEAU_INTERMINISTERIEL_LIBELLE_LONG: "TH DE NIV 3 MINISTERE DU TRAVAIL - AFPA",
+        LIBELLE_100: "TH DE NIV 3 MINISTERE DU TRAVAIL - AFPA",
+        ANCIEN_NIVEAU: null,
+      },
+    },
+    {
+      _id: new ObjectId(),
+      source: "N_NIVEAU_FORMATION_DIPLOME",
+      date: new Date("2024-03-07T00:00:00Z"),
+      data: {
+        NIVEAU_FORMATION_DIPLOME: "26R",
+        LIBELLE_COURT: "TH2-R",
+        DATE_OUVERTURE: "01/06/1997",
+        DATE_FERMETURE: null,
+        DATE_INTERVENTION: "10/12/2020",
+        NIVEAU_QUALIFICATION_RNCP: "06",
+        N_NIVEAU_QUALIFICATION_RNCP_LIBELLE_LONG: "NIVEAU 6",
+        N_COMMENTAIRE: null,
+        NIVEAU_INTERMINISTERIEL: "2",
+        N_NIVEAU_INTERMINISTERIEL_LIBELLE_LONG: "NIVEAU II",
+        LIBELLE_100: "TH DE NIV 2 INSTANCES REGIONALES",
+        ANCIEN_NIVEAU: null,
+      },
+    },
+    {
+      _id: new ObjectId(),
+      source: "N_NIVEAU_FORMATION_DIPLOME",
+      date: new Date("2024-03-07T00:00:00Z"),
+      data: {
+        NIVEAU_FORMATION_DIPLOME: "16R",
+        LIBELLE_COURT: "TH1-R",
+        DATE_OUVERTURE: "01/06/1997",
+        DATE_FERMETURE: null,
+        DATE_INTERVENTION: "06/01/2021",
+        NIVEAU_QUALIFICATION_RNCP: "07",
+        N_NIVEAU_QUALIFICATION_RNCP_LIBELLE_LONG: "NIVEAU 7",
+        N_COMMENTAIRE: null,
+        NIVEAU_INTERMINISTERIEL: "1",
+        N_NIVEAU_INTERMINISTERIEL_LIBELLE_LONG: "NIVEAU I",
+        LIBELLE_100: "TH DE NIV 1 INSTANCES REGIONALES",
+        ANCIEN_NIVEAU: null,
+      },
+    },
+    {
+      _id: new ObjectId(),
+      source: "N_NIVEAU_FORMATION_DIPLOME",
+      date: new Date("2024-03-07T00:00:00Z"),
+      data: {
+        NIVEAU_FORMATION_DIPLOME: "100",
+        LIBELLE_COURT: "DOCTORAT",
+        DATE_OUVERTURE: null,
+        DATE_FERMETURE: null,
+        DATE_INTERVENTION: "10/12/2020",
+        NIVEAU_QUALIFICATION_RNCP: "08",
+        N_NIVEAU_QUALIFICATION_RNCP_LIBELLE_LONG: "NIVEAU 8",
+        N_COMMENTAIRE: null,
+        NIVEAU_INTERMINISTERIEL: "1",
+        N_NIVEAU_INTERMINISTERIEL_LIBELLE_LONG: "NIVEAU I",
+        LIBELLE_100: "DOCTORAT D'UNIVERSITE",
+        ANCIEN_NIVEAU: null,
+      },
+    },
+  ];
 }

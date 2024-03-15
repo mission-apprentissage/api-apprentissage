@@ -6,6 +6,7 @@ import {
   generateKitApprentissageFixtureData,
   generateSourceBcn_N_FormationDiplomeDataFixture,
   generateSourceBcn_N_FormationDiplomeFixture,
+  generateSourceBcn_N_NiveauFormationDiplomeFixtureList,
   generateSourceBcn_N51_FormationDiplomeDataFixture,
   generateSourceBcn_N51_FormationDiplomeFixture,
   generateSourceBcn_V_FormationDiplomeDataFixture,
@@ -408,6 +409,7 @@ describe("importCertifications", () => {
       generateSourceBcn_N51_FormationDiplomeFixture({
         data: generateSourceBcn_N51_FormationDiplomeDataFixture({ FORMATION_DIPLOME: newCertifications[1].code.cfd }),
       }),
+      ...generateSourceBcn_N_NiveauFormationDiplomeFixtureList(),
     ];
 
     const franceCompetenceData = [

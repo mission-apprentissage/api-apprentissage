@@ -12,7 +12,7 @@ export const zBcn_N_NiveauFormationDiplomeData = z
     NIVEAU_QUALIFICATION_RNCP: z.string().nullable(),
     N_NIVEAU_QUALIFICATION_RNCP_LIBELLE_LONG: z.string().nullable(),
     N_COMMENTAIRE: z.string().nullable(),
-    NIVEAU_INTERMINISTERIEL: z.string().nullable(),
+    NIVEAU_INTERMINISTERIEL: z.string(),
     N_NIVEAU_INTERMINISTERIEL_LIBELLE_LONG: z.string().nullable(),
     LIBELLE_100: z.string().nullable(),
     ANCIEN_NIVEAU: z.string().nullable(),

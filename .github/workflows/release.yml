@@ -56,7 +56,7 @@ jobs:
 
       - name: Retrieve previous version
         id: get-prev-version
-        run: echo "VERSION=$(git describe --tags --abbrev=0 | cut -c2-)" >> "$GITHUB_OUTPUT"
+        run: echo "VERSION=$(.bin/scripts/get-version.sh)" >> "$GITHUB_OUTPUT"
 
       - name: bump and release
         run: yarn release
@@ -67,7 +67,7 @@ jobs:
 
       - name: Retrieve new version
         id: get-version
-        run: echo "VERSION=$(git describe --tags --abbrev=0 | cut -c2-)" >> "$GITHUB_OUTPUT"
+        run: echo "VERSION=$(.bin/scripts/get-version.sh)" >> "$GITHUB_OUTPUT"
 
   docker-scout:
     if: needs.release.outputs.VERSION != needs.release.outputs.PREV_VERSION && needs.release.outputs.PREV_VERSION != ''

@@ -30,6 +30,10 @@ export function setMongodbClient(client: MongoClient) {
 export const connectToMongodb = async (uri: string) => {
   const client = new MongoClient(uri, {
     appName: config.productName,
+    heartbeatFrequencyMS: 10_000,
+    retryWrites: true,
+    retryReads: true,
+    minPoolSize: config.env === "test" ? 0 : 5,
   });
 
   client.on("connectionPoolReady", () => {
@@ -164,7 +168,16 @@ export const createIndexes = async () => {
     if (!descriptor.indexes) {
       return;
     }
-    const indexes = await getDbCollection(descriptor.collectionName).listIndexes().toArray();
+    const indexes = await getDbCollection(descriptor.collectionName)
+      .listIndexes()
+      .toArray()
+      .catch((err) => {
+        // NamespaceNotFound
+        if (err.code === 26) {
+          return [];
+        }
+        throw err;
+      });
     const indexesToRemove = new Set(indexes.filter((i) => i.name !== "_id_"));
 
     logger.info(`Create indexes for collection ${descriptor.collectionName}`);
@@ -187,6 +200,8 @@ export const createIndexes = async () => {
               if (err.code === 85 || err.code === 86) {
                 await getDbCollection(descriptor.collectionName).dropIndex(existingIndex.name);
                 await getDbCollection(descriptor.collectionName).createIndex(index, options);
+              } else {
+                throw err;
               }
             });
         } catch (err) {

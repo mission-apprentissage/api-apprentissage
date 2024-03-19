@@ -27,6 +27,8 @@ fileignoreconfig:
   checksum: 696f52a8c9fad933dd78f8590f8c111380cfe8bb8da6cd21e1b7d671a5ed5256
 - filename: server/src/modules/jobs/importer/france_competence/france_competence.importer.ts
   checksum: efb76c4727f41db630ed32ab6d1e142d03d03ccfe3655eb7a4a7e20dc6ec1f56
+- filename: server/src/modules/server/utils/password.utils.ts
+  checksum: 9f89c62a64d0c649473775c9afeed5b057c505db71ec3302d19d25790fc7e50d
 - filename: server/tests/utils/security/accessTokenService.test.ts
   checksum: 017acd9d128165e6edcfd2c33a0f218c53b0ba2b4a77f3da3fe7b58f11d6fa90
 - filename: server/tests/utils/security/authorisationService.test.ts

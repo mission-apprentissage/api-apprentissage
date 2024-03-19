@@ -186,11 +186,31 @@ describe("importCertifications", () => {
         await getDbCollection("import.meta").insertOne(yesterdayImportCert);
       });
 
-      it("should skip import", async () => {
-        expect(await importCertifications()).toBe(null);
-        expect(await getDbCollection("import.meta").find({ type: "certifications" }).toArray()).toEqual([
-          yesterdayImportCert,
-        ]);
+      describe("when force=false", () => {
+        it("should skip import", async () => {
+          expect(await importCertifications()).toBe(null);
+          expect(await getDbCollection("import.meta").find({ type: "certifications" }).toArray()).toEqual([
+            yesterdayImportCert,
+          ]);
+        });
+      });
+      describe("when force=true", () => {
+        it("should import", async () => {
+          expect(await importCertifications({ force: true })).toEqual({
+            total: { orphanCfd: 0, orphanRncp: 0, total: 0 },
+            created: { orphanCfd: 0, orphanRncp: 0, total: 0 },
+            deleted: { orphanCfd: 0, orphanRncp: 0, total: 0 },
+          });
+          expect(await getDbCollection("import.meta").find({ type: "certifications" }).toArray()).toEqual([
+            yesterdayImportCert,
+            {
+              _id: expect.any(ObjectId),
+              import_date: now,
+              source: yesterdayImportCert.source,
+              type: "certifications",
+            },
+          ]);
+        });
       });
     });
 

@@ -71,14 +71,9 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
               "bsonType": "object",
               "properties": {
                 "code": {
-                  "anyOf": [
-                    {
-                      "bsonType": "string",
-                      "pattern": "^[0-9A-Z]$",
-                    },
-                    {
-                      "bsonType": "null",
-                    },
+                  "bsonType": [
+                    "string",
+                    "null",
                   ],
                 },
                 "libelle": {
@@ -149,7 +144,6 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
                 "properties": {
                   "code": {
                     "bsonType": "string",
-                    "pattern": "^\\d{2,3}[a-z]?$",
                   },
                   "intitule": {
                     "bsonType": [
@@ -330,6 +324,25 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
                 ],
               },
             },
+            "certificateurs": {
+              "bsonType": "array",
+              "items": {
+                "additionalProperties": false,
+                "bsonType": "object",
+                "properties": {
+                  "nom": {
+                    "bsonType": "string",
+                  },
+                  "siret": {
+                    "bsonType": "string",
+                  },
+                },
+                "required": [
+                  "siret",
+                  "nom",
+                ],
+              },
+            },
             "convention_collectives": {
               "bsonType": "array",
               "items": {
@@ -476,6 +489,38 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
                 ],
               },
             },
+            "voie_acces": {
+              "additionalProperties": false,
+              "bsonType": "object",
+              "properties": {
+                "apprentissage": {
+                  "bsonType": "bool",
+                },
+                "candidature_individuelle": {
+                  "bsonType": "bool",
+                },
+                "contrat_professionnalisation": {
+                  "bsonType": "bool",
+                },
+                "experience": {
+                  "bsonType": "bool",
+                },
+                "formation_continue": {
+                  "bsonType": "bool",
+                },
+                "formation_statut_eleve": {
+                  "bsonType": "bool",
+                },
+              },
+              "required": [
+                "apprentissage",
+                "experience",
+                "candidature_individuelle",
+                "contrat_professionnalisation",
+                "formation_continue",
+                "formation_statut_eleve",
+              ],
+            },
           },
           "required": [
             "actif",
@@ -490,6 +535,8 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
             "niveau",
             "nsf",
             "enregistrement",
+            "voie_acces",
+            "certificateurs",
           ],
         },
         {
@@ -4714,19 +4761,13 @@ exports[`zodToMongoSchema > should convert source.france_competence schema 1`] =
             "bsonType": "object",
             "properties": {
               "Nom_Certificateur": {
-                "bsonType": [
-                  "string",
-                  "null",
-                ],
+                "bsonType": "string",
               },
               "Numero_Fiche": {
                 "bsonType": "string",
               },
               "Siret_Certificateur": {
-                "bsonType": [
-                  "string",
-                  "null",
-                ],
+                "bsonType": "string",
               },
             },
             "required": [

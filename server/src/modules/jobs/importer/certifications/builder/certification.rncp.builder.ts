@@ -1,5 +1,5 @@
 import { internal } from "@hapi/boom";
-import { ICertificationInput, zCertification } from "shared/models/certification.model";
+import { ICertificationInput, ICertificationRncpInput, zCertification } from "shared/models/certification.model";
 import { ISourceFranceCompetence } from "shared/models/source/france_competence/source.france_competence.model";
 import { INiveauDiplomeEuropeen } from "shared/zod/certifications.primitives";
 import { parseNullableParisLocalDate } from "shared/zod/date.primitives";
@@ -115,6 +115,39 @@ export function buildCertificationRncp(
         intitule: nsf.Nsf_Intitule,
       })),
       enregistrement: standard.Type_Enregistrement,
+      voie_acces: data.data.voies_d_acces.reduce<ICertificationRncpInput["voie_acces"]>(
+        (acc, voie) => {
+          if (voie.Si_Jury === "En contrat d’apprentissage") {
+            acc.apprentissage = true;
+          } else if (voie.Si_Jury === "Par expérience") {
+            acc.experience = true;
+          } else if (voie.Si_Jury === "Par candidature individuelle") {
+            acc.candidature_individuelle = true;
+          } else if (voie.Si_Jury === "En contrat de professionnalisation") {
+            acc.contrat_professionnalisation = true;
+          } else if (voie.Si_Jury === "Après un parcours de formation continue") {
+            acc.formation_continue = true;
+          } else if (voie.Si_Jury === "Après un parcours de formation sous statut d’élève ou d’étudiant") {
+            acc.formation_statut_eleve = true;
+          } else {
+            throw internal("import.certifications: unexpected voie d'acces value", { voie });
+          }
+
+          return acc;
+        },
+        {
+          apprentissage: false,
+          experience: false,
+          candidature_individuelle: false,
+          contrat_professionnalisation: false,
+          formation_continue: false,
+          formation_statut_eleve: false,
+        }
+      ),
+      certificateurs: data.data.certificateurs.map((certificateur) => ({
+        siret: certificateur.Siret_Certificateur,
+        nom: certificateur.Nom_Certificateur,
+      })),
     };
 
     return zCertification.shape.rncp.parse(rawData);

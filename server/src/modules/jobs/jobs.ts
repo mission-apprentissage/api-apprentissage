@@ -67,7 +67,7 @@ export async function setupJobProcessor() {
             },
             "Import des certifications": {
               cron_string: "0 */2 * * *",
-              handler: importCertifications,
+              handler: () => importCertifications(),
               resumable: true,
             },
           },

@@ -1,4 +1,5 @@
 import { captureException } from "@sentry/node";
+import { isEqual } from "lodash-es";
 import { Collection, CollectionInfo, MongoClient, MongoServerError } from "mongodb";
 import { CollectionName, IModelDescriptor } from "shared/models/common";
 import { IDocumentMap, modelDescriptors } from "shared/models/models";
@@ -29,6 +30,10 @@ export function setMongodbClient(client: MongoClient) {
 export const connectToMongodb = async (uri: string) => {
   const client = new MongoClient(uri, {
     appName: config.productName,
+    heartbeatFrequencyMS: 10_000,
+    retryWrites: true,
+    retryReads: true,
+    minPoolSize: config.env === "test" ? 0 : 5,
   });
 
   client.on("connectionPoolReady", () => {
@@ -163,17 +168,55 @@ export const createIndexes = async () => {
     if (!descriptor.indexes) {
       return;
     }
+    const indexes = await getDbCollection(descriptor.collectionName)
+      .listIndexes()
+      .toArray()
+      .catch((err) => {
+        // NamespaceNotFound
+        if (err.code === 26) {
+          return [];
+        }
+        throw err;
+      });
+    const indexesToRemove = new Set(indexes.filter((i) => i.name !== "_id_"));
+
     logger.info(`Create indexes for collection ${descriptor.collectionName}`);
     await Promise.all(
-      descriptor.indexes.map(async ([index, options]) => {
+      descriptor.indexes.map(async ([index, options]): Promise<void> => {
         try {
-          await getDbCollection(descriptor.collectionName).createIndex(index, options);
+          const existingIndex =
+            // Use Object.entries because order matters
+            indexes.find((i) => isEqual(Object.entries(i.key), Object.entries(index)) || options.name === i.name) ??
+            null;
+
+          if (existingIndex) {
+            indexesToRemove.delete(existingIndex);
+          }
+
+          await getDbCollection(descriptor.collectionName)
+            .createIndex(index, options)
+            .catch(async (err) => {
+              // IndexOptionsConflict & IndexKeySpecsConflict
+              if (err.code === 85 || err.code === 86) {
+                await getDbCollection(descriptor.collectionName).dropIndex(existingIndex.name);
+                await getDbCollection(descriptor.collectionName).createIndex(index, options);
+              } else {
+                throw err;
+              }
+            });
         } catch (err) {
           captureException(err);
           logger.error(`Error creating indexes for ${descriptor.collectionName}: ${err}`);
         }
       })
     );
+
+    if (indexesToRemove.size > 0) {
+      logger.warn(`Dropping extra indexes for collection ${descriptor.collectionName}`, indexesToRemove);
+      await Promise.all(
+        Array.from(indexesToRemove).map((index) => getDbCollection(descriptor.collectionName).dropIndex(index.name))
+      );
+    }
   }
 };
 

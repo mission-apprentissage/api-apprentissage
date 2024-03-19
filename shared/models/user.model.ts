@@ -18,13 +18,6 @@ const indexes: IModelDescriptor["indexes"] = [
         locale: "simple",
         strength: 1,
       },
-    },
-  ],
-  [
-    {
-      email: "text",
-    },
-    {
       weights: {
         email: 10,
       },

@@ -438,4 +438,87 @@ describe("buildCertificationRncp", () => {
       ).toThrow("import.certifications: failed to build certification RNCP");
     });
   });
+
+  describe("voie_acces", () => {
+    it.each([
+      ["En contrat d’apprentissage", "apprentissage"],
+      ["Par expérience", "experience"],
+      ["Par candidature individuelle", "candidature_individuelle"],
+      ["En contrat de professionnalisation", "contrat_professionnalisation"],
+      ["Après un parcours de formation continue", "formation_continue"],
+      ["Après un parcours de formation sous statut d’élève ou d’étudiant", "formation_statut_eleve"],
+    ])('should returns true for Si_Jury "%s"', (jury, expected) => {
+      const fc = generateSourceFranceCompetenceFixture({
+        data: { voies_d_acces: [{ Numero_Fiche: "RNCP38596", Si_Jury: jury }] },
+      });
+      const result = buildCertificationRncp(fc, oldestFranceCompetenceDatePublication, niveauInterministerielSearchMap);
+      expect(result?.voie_acces).toEqual({
+        apprentissage: false,
+        experience: false,
+        candidature_individuelle: false,
+        contrat_professionnalisation: false,
+        formation_continue: false,
+        formation_statut_eleve: false,
+        [expected]: true,
+      });
+    });
+
+    it('should support multiple "Si_Jury"', () => {
+      const fc = generateSourceFranceCompetenceFixture({
+        data: {
+          voies_d_acces: [
+            { Numero_Fiche: "RNCP38596", Si_Jury: "En contrat d’apprentissage" },
+            { Numero_Fiche: "RNCP38596", Si_Jury: "Par expérience" },
+            { Numero_Fiche: "RNCP38596", Si_Jury: "Par candidature individuelle" },
+            { Numero_Fiche: "RNCP38596", Si_Jury: "En contrat de professionnalisation" },
+            { Numero_Fiche: "RNCP38596", Si_Jury: "Après un parcours de formation continue" },
+            { Numero_Fiche: "RNCP38596", Si_Jury: "Après un parcours de formation sous statut d’élève ou d’étudiant" },
+          ],
+        },
+      });
+      const result = buildCertificationRncp(fc, oldestFranceCompetenceDatePublication, niveauInterministerielSearchMap);
+      expect(result?.voie_acces).toEqual({
+        apprentissage: true,
+        experience: true,
+        candidature_individuelle: true,
+        contrat_professionnalisation: true,
+        formation_continue: true,
+        formation_statut_eleve: true,
+      });
+    });
+
+    it('should throw when "Si_Jury" is not part of enum', () => {
+      const fc = generateSourceFranceCompetenceFixture({
+        data: { voies_d_acces: [{ Numero_Fiche: "RNCP38596", Si_Jury: "foo" }] },
+      });
+      expect(() =>
+        buildCertificationRncp(fc, oldestFranceCompetenceDatePublication, niveauInterministerielSearchMap)
+      ).toThrow("import.certifications: failed to build certification RNCP");
+    });
+  });
+  describe("certificateurs", () => {
+    it("should returns Siret_Certificateur and Nom_Certificateur for each certificateurs", () => {
+      const fc = generateSourceFranceCompetenceFixture({
+        data: {
+          certificateurs: [
+            {
+              Numero_Fiche: "RNCP38596",
+              Siret_Certificateur: "11000007200014",
+              Nom_Certificateur: "MINISTERE DU TRAVAIL DU PLEIN EMPLOI ET DE L'INSERTION",
+            },
+            {
+              Numero_Fiche: "RNCP38596",
+              Siret_Certificateur: "11004301500012",
+              Nom_Certificateur: "MINISTERE DE L'EDUCATION NATIONALE ET DE LA JEUNESSE",
+            },
+          ],
+        },
+      });
+      const result = buildCertificationRncp(fc, oldestFranceCompetenceDatePublication, niveauInterministerielSearchMap);
+      expect(result?.certificateurs).toEqual([
+        { siret: "11000007200014", nom: "MINISTERE DU TRAVAIL DU PLEIN EMPLOI ET DE L'INSERTION" },
+        { siret: "11004301500012", nom: "MINISTERE DE L'EDUCATION NATIONALE ET DE LA JEUNESSE" },
+      ]);
+    });
+  });
 });

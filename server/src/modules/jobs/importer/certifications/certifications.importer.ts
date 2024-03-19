@@ -27,6 +27,10 @@ type IImportStat = {
   deleted: IImportStatItem;
 };
 
+type ImportCertificationsOptions = {
+  force?: boolean | undefined;
+};
+
 export async function controlKitApprentissageCoverage() {
   const missingBcnEntries = await getDbCollection("source.kit_apprentissage")
     .aggregate([
@@ -154,7 +158,7 @@ async function getLatestImportMeta(): Promise<IImportMetaCertifications | null> 
   return importMeta;
 }
 
-export async function getImportMeta(): Promise<IImportMetaCertifications | null> {
+async function getImportMeta(options: ImportCertificationsOptions | null): Promise<IImportMetaCertifications | null> {
   const [latestImportMeta, sourceImportMeta] = await Promise.all([getLatestImportMeta(), getSourceImportMeta()]);
 
   if (!sourceImportMeta) {
@@ -169,7 +173,7 @@ export async function getImportMeta(): Promise<IImportMetaCertifications | null>
     source: sourceImportMeta,
   };
 
-  if (!latestImportMeta) {
+  if (!latestImportMeta || options?.force === true) {
     // Initial import
     return importMeta;
   }
@@ -400,9 +404,9 @@ async function computeImportStats(importDate: Date): Promise<IImportStat> {
   };
 }
 
-export async function importCertifications() {
+export async function importCertifications(options: ImportCertificationsOptions | null = null) {
   try {
-    const importMeta = await getImportMeta();
+    const importMeta = await getImportMeta(options);
 
     if (importMeta === null) {
       logger.info("import.certifications: skipping import");

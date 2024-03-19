@@ -105,6 +105,17 @@ export function generateCertificationRncpFixture(data?: Partial<ICertification["
       },
     ]),
     enregistrement: getFixtureValue(data, "enregistrement", "Enregistrement sur demande"),
+    voie_acces: getFixtureValue(data, "voie_acces", {
+      apprentissage: true,
+      experience: true,
+      candidature_individuelle: true,
+      contrat_professionnalisation: true,
+      formation_continue: true,
+      formation_statut_eleve: true,
+    }),
+    certificateurs: getFixtureValue(data, "certificateurs", [
+      { siret: "11000007200014", nom: "MINISTERE DU TRAVAIL DU PLEIN EMPLOI ET DE L' INSERTION" },
+    ]),
   };
 }
 

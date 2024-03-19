@@ -1,6 +1,7 @@
 import { addJob, initJobProcessor } from "job-processor";
 import { zImportMetaFranceCompetence } from "shared/models/import.meta.model";
 import { zUserCreate } from "shared/models/user.model";
+import { z } from "zod";
 
 import {
   create as createMigration,
@@ -130,7 +131,15 @@ export async function setupJobProcessor() {
         resumable: true,
       },
       "import:certifications": {
-        handler: async () => importCertifications(),
+        handler: async (job) =>
+          importCertifications(
+            z
+              .object({
+                force: z.boolean().optional(),
+              })
+              .nullish()
+              .parse(job.payload)
+          ),
         resumable: true,
       },
     },

@@ -8627,9 +8627,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"job-processor@npm:^1.4.11":
-  version: 1.4.11
-  resolution: "job-processor@npm:1.4.11"
+"job-processor@npm:^1.4.12":
+  version: 1.4.12
+  resolution: "job-processor@npm:1.4.12"
   dependencies:
     "@sentry/node": ^7.80.0
     cron-parser: ^4.9.0
@@ -8638,7 +8638,7 @@ __metadata:
     mongodb: "*"
     zod: ^3.0.0
     zod-mongodb-schema: ^1.0.0
-  checksum: 3d831aba93bf793b4991a003a496e52be5fb5d14573d749f32cc43d1c216ec2eae3da3e02396a49fc96aa1619c9eb6eadc2f1232b281645538cdc175f987dd85
+  checksum: b095783aa2608777fa32ba1bec423696b93c94709e8711417dbbd7cf9cb7e2596d822a4bfdd0cc4f8cc4301787ee664e10a877e84ec949b95d411dd04ce66be4
   languageName: node
   linkType: hard
 
@@ -13644,7 +13644,7 @@ __metadata:
     env-var: ^7.4.1
     fastify: ^4.26.2
     fastify-type-provider-zod: ^1.1.9
-    job-processor: ^1.4.11
+    job-processor: ^1.4.12
     jsonwebtoken: ^9.0.2
     lil-http-terminator: ^1.2.3
     lodash-es: ^4.17.21

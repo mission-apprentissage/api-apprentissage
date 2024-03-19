@@ -1,30 +1,30 @@
 import { z } from "zod";
 
-import { zUser, zUserPublic } from "../models/user.model";
-import { IRoutesDef, ZReqHeadersAuthorization, ZResOk } from "./common.routes";
+import { zUser, zUserPublic } from "../../models/user.model";
+import { IRoutesDef, ZReqHeadersAuthorization, ZResOk } from "../common.routes";
 
 export const zAuthRoutes = {
   get: {
-    "/auth/reset-password": {
+    "/_private/auth/reset-password": {
       method: "get",
-      path: "/auth/reset-password",
+      path: "/_private/auth/reset-password",
       querystring: z.object({ email: z.string().email() }).strict(),
       response: {
         "200": ZResOk,
       },
       securityScheme: null,
     },
-    "/auth/logout": {
+    "/_private/auth/logout": {
       method: "get",
-      path: "/auth/logout",
+      path: "/_private/auth/logout",
       response: {
         "200": ZResOk,
       },
       securityScheme: null,
     },
-    "/auth/session": {
+    "/_private/auth/session": {
       method: "get",
-      path: "/auth/session",
+      path: "/_private/auth/session",
       response: {
         "200": zUserPublic,
       },
@@ -37,9 +37,9 @@ export const zAuthRoutes = {
     },
   },
   post: {
-    "/auth/reset-password": {
+    "/_private/auth/reset-password": {
       method: "post",
-      path: "/auth/reset-password",
+      path: "/_private/auth/reset-password",
       body: z
         .object({
           password: zUser.shape.password,
@@ -54,9 +54,9 @@ export const zAuthRoutes = {
         ressources: {},
       },
     },
-    "/auth/login": {
+    "/_private/auth/login": {
       method: "post",
-      path: "/auth/login",
+      path: "/_private/auth/login",
       body: z
         .object({
           email: zUser.shape.email,

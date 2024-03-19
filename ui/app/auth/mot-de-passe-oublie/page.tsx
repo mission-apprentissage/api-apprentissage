@@ -7,13 +7,13 @@ import { Box, Typography } from "@mui/material";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { IGetRoutes, IQuery } from "shared";
-import { IStatus } from "shared/routes/auth.routes";
+import { IStatus } from "shared/routes/_private/auth.routes";
 
 import { apiGet } from "../../../utils/api.utils";
 import Breadcrumb, { PAGES } from "../../components/breadcrumb/Breadcrumb";
 import FormContainer from "../components/FormContainer";
 
-type Route = IGetRoutes["/auth/reset-password"];
+type Route = IGetRoutes["/_private/auth/reset-password"];
 
 const MotDePasseOubliePage = () => {
   const [status, setStatus] = useState<IStatus>();
@@ -26,7 +26,7 @@ const MotDePasseOubliePage = () => {
 
   const onSubmit: SubmitHandler<IQuery<Route>> = async (data) => {
     try {
-      await apiGet("/auth/reset-password", {
+      await apiGet("/_private/auth/reset-password", {
         querystring: data,
       });
 

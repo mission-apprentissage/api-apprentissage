@@ -34,7 +34,7 @@ const createToken = (type: TokenType, subject: string | null = null, options: IC
 export function createResetPasswordToken(user: IUser) {
   return generateAccessToken(user, [
     generateScope({
-      schema: zRoutes.post["/auth/reset-password"],
+      schema: zRoutes.post["/_private/auth/reset-password"],
       options: "all",
       resources: {},
     }),

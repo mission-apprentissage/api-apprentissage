@@ -167,7 +167,7 @@ describe("accessTokenService", () => {
     it("should detect an invalid token that is for a different route", () => {
       const token = generateAccessToken(user, [
         generateScope({
-          schema: zRoutes.post["/admin/user"],
+          schema: zRoutes.post["/_private/admin/user"],
           resources: {},
           options: "all",
         }),

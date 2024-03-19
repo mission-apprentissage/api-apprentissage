@@ -1,13 +1,13 @@
 import { z } from "zod";
 
-import { zObjectId } from "../models/common";
-import { IRoutesDef } from "./common.routes";
+import { zObjectId } from "../../models/common";
+import { IRoutesDef } from "../common.routes";
 
 export const zEmailRoutes = {
   get: {
-    "/emails/preview": {
+    "/_private/emails/preview": {
       method: "get",
-      path: "/emails/preview",
+      path: "/_private/emails/preview",
       querystring: z
         .object({
           data: z.string(),
@@ -18,9 +18,9 @@ export const zEmailRoutes = {
       },
       securityScheme: null,
     },
-    "/emails/:id/markAsOpened": {
+    "/_private/emails/:id/markAsOpened": {
       method: "get",
-      path: "/emails/:id/markAsOpened",
+      path: "/_private/emails/:id/markAsOpened",
       params: z.object({ id: zObjectId }).strict(),
       response: {
         "200": z.unknown(),
@@ -31,9 +31,9 @@ export const zEmailRoutes = {
         ressources: {},
       },
     },
-    "/emails/unsubscribe": {
+    "/_private/emails/unsubscribe": {
       method: "get",
-      path: "/emails/unsubscribe",
+      path: "/_private/emails/unsubscribe",
       querystring: z
         .object({
           data: z.string(),
@@ -46,9 +46,9 @@ export const zEmailRoutes = {
     },
   },
   post: {
-    "/emails/webhook": {
+    "/_private/emails/webhook": {
       method: "post",
-      path: "/emails/webhook",
+      path: "/_private/emails/webhook",
       querystring: z
         .object({
           webhookKey: z.string(),

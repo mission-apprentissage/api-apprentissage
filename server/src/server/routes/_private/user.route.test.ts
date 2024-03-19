@@ -8,7 +8,7 @@ import { createUser } from "@/actions/users.actions";
 import { getDbCollection } from "@/services/mongodb/mongodbService";
 import { createUserTokenSimple } from "@/utils/jwtUtils";
 
-import createServer, { Server } from "../server";
+import createServer, { Server } from "../../server";
 
 describe("Users routes", () => {
   useMongo();
@@ -37,7 +37,7 @@ describe("Users routes", () => {
 
     const response = await app.inject({
       method: "GET",
-      url: "/api/auth/session",
+      url: "/api/_private/auth/session",
       headers: {
         ["Cookie"]: `api_session=${token}`,
       },
@@ -65,7 +65,7 @@ describe("Users routes", () => {
 
     const response = await app.inject({
       method: "POST",
-      url: "/api/admin/user",
+      url: "/api/_private/admin/user",
       payload: {
         email: "email@exemple.fr",
         password: "my-password",
@@ -101,7 +101,7 @@ describe("Users routes", () => {
 
     const response = await app.inject({
       method: "POST",
-      url: "/api/admin/user",
+      url: "/api/_private/admin/user",
       payload: {
         email: "email@exemple.fr",
         password: "my-password",

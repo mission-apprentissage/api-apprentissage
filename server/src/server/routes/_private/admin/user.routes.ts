@@ -3,16 +3,17 @@ import { RootFilterOperators } from "mongodb";
 import { zRoutes } from "shared";
 import { IUser, toPublicUser } from "shared/models/user.model";
 
-import { createUser } from "../../../actions/users.actions";
-import { getDbCollection } from "../../../services/mongodb/mongodbService";
-import { Server } from "../../server";
+import { createUser } from "@/actions/users.actions";
+import { getDbCollection } from "@/services/mongodb/mongodbService";
+
+import { Server } from "../../../server";
 
 export const userAdminRoutes = ({ server }: { server: Server }) => {
   server.post(
-    "/admin/user",
+    "/_private/admin/user",
     {
-      schema: zRoutes.post["/admin/user"],
-      onRequest: [server.auth(zRoutes.post["/admin/user"])],
+      schema: zRoutes.post["/_private/admin/user"],
+      onRequest: [server.auth(zRoutes.post["/_private/admin/user"])],
     },
     async (request, response) => {
       const user = await createUser(request.body);
@@ -26,10 +27,10 @@ export const userAdminRoutes = ({ server }: { server: Server }) => {
   );
 
   server.get(
-    "/admin/users",
+    "/_private/admin/users",
     {
-      schema: zRoutes.get["/admin/users"],
-      onRequest: [server.auth(zRoutes.get["/admin/users"])],
+      schema: zRoutes.get["/_private/admin/users"],
+      onRequest: [server.auth(zRoutes.get["/_private/admin/users"])],
     },
     async (request, response) => {
       const filter: RootFilterOperators<IUser> = {};
@@ -47,10 +48,10 @@ export const userAdminRoutes = ({ server }: { server: Server }) => {
   );
 
   server.get(
-    "/admin/users/:id",
+    "/_private/admin/users/:id",
     {
-      schema: zRoutes.get["/admin/users/:id"],
-      onRequest: [server.auth(zRoutes.get["/admin/users/:id"])],
+      schema: zRoutes.get["/_private/admin/users/:id"],
+      onRequest: [server.auth(zRoutes.get["/_private/admin/users/:id"])],
     },
     async (request, response) => {
       const user = await getDbCollection("users").findOne({ _id: request.params.id });

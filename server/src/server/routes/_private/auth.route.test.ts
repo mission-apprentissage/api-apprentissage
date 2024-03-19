@@ -35,7 +35,7 @@ describe("Authentication", () => {
 
     const response = await app.inject({
       method: "POST",
-      url: "/api/auth/login",
+      url: "/api/_private/auth/login",
       payload: {
         email: user?.email,
         password: "my-password",
@@ -58,7 +58,7 @@ describe("Authentication", () => {
 
     const responseIncorrectEmail = await app.inject({
       method: "POST",
-      url: "/api/auth/login",
+      url: "/api/_private/auth/login",
       payload: {
         email: "another-email@exemple.fr",
         password: "my-password",
@@ -69,7 +69,7 @@ describe("Authentication", () => {
 
     const responseIncorrectPassword = await app.inject({
       method: "POST",
-      url: "/api/auth/login",
+      url: "/api/_private/auth/login",
       payload: {
         email: user?.email,
         password: "incorrect-password",
@@ -88,7 +88,7 @@ describe("Authentication", () => {
 
     const responseLogin = await app.inject({
       method: "POST",
-      url: "/api/auth/login",
+      url: "/api/_private/auth/login",
       payload: {
         email: user?.email,
         password: "my-password",
@@ -103,7 +103,7 @@ describe("Authentication", () => {
 
     const response = await app.inject({
       method: "GET",
-      url: "/api/auth/session",
+      url: "/api/_private/auth/session",
       cookies: {
         [sessionCookie.name]: sessionCookie.value,
       },
@@ -125,7 +125,7 @@ describe("Authentication", () => {
 
     const responseLogin = await app.inject({
       method: "POST",
-      url: "/api/auth/login",
+      url: "/api/_private/auth/login",
       payload: {
         email: user?.email,
         password: "my-password",
@@ -137,7 +137,7 @@ describe("Authentication", () => {
 
     const responseLogout = await app.inject({
       method: "GET",
-      url: "/api/auth/logout",
+      url: "/api/_private/auth/logout",
       cookies: {
         [sessionCookie.name]: sessionCookie.value,
       },
@@ -154,7 +154,7 @@ describe("Authentication", () => {
 
     const response = await app.inject({
       method: "GET",
-      url: "/api/auth/session",
+      url: "/api/_private/auth/session",
       cookies: {
         [sessionCookie.name]: sessionCookie?.value as string,
       },

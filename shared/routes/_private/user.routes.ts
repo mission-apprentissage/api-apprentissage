@@ -1,12 +1,12 @@
 import { z } from "zod";
 
-import { IRoutesDef } from "./common.routes";
+import { IRoutesDef } from "../common.routes";
 
 export const zUserRoutes = {
   get: {
-    "/user/generate-api-key": {
+    "/_private/user/generate-api-key": {
       method: "get",
-      path: "/user/generate-api-key",
+      path: "/_private/user/generate-api-key",
       response: {
         "200": z.object({ api_key: z.string() }).strict(),
       },

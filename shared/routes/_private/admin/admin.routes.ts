@@ -1,14 +1,14 @@
 import { z } from "zod";
 
-import { zObjectId } from "../../models/common";
-import { zUserCreate, zUserPublic } from "../../models/user.model";
-import { IRoutesDef, ZReqParamsSearchPagination } from "../common.routes";
+import { zObjectId } from "../../../models/common";
+import { zUserCreate, zUserPublic } from "../../../models/user.model";
+import { IRoutesDef, ZReqParamsSearchPagination } from "../../common.routes";
 
 export const zUserAdminRoutes = {
   get: {
-    "/admin/users": {
+    "/_private/admin/users": {
       method: "get",
-      path: "/admin/users",
+      path: "/_private/admin/users",
       querystring: ZReqParamsSearchPagination,
       response: { "200": z.array(zUserPublic) },
       securityScheme: {
@@ -17,9 +17,9 @@ export const zUserAdminRoutes = {
         ressources: {},
       },
     },
-    "/admin/users/:id": {
+    "/_private/admin/users/:id": {
       method: "get",
-      path: "/admin/users/:id",
+      path: "/_private/admin/users/:id",
       params: z.object({ id: zObjectId }).strict(),
       response: { "200": zUserPublic },
       securityScheme: {
@@ -30,9 +30,9 @@ export const zUserAdminRoutes = {
     },
   },
   post: {
-    "/admin/user": {
+    "/_private/admin/user": {
       method: "post",
-      path: "/admin/user",
+      path: "/_private/admin/user",
       body: zUserCreate,
       response: {
         "200": zUserPublic,

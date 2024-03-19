@@ -1,9 +1,9 @@
 import type { Server } from "../server";
-import { userAdminRoutes } from "./admin/user.routes";
-import { authRoutes } from "./auth.routes";
-import { emailsRoutes } from "./emails.routes";
+import { userAdminRoutes } from "./_private/admin/user.routes";
+import { authRoutes } from "./_private/auth.routes";
+import { emailsRoutes } from "./_private/emails.routes";
+import { userRoutes } from "./_private/user.routes";
 import { healthcheckRoutes } from "./healthcheck.routes";
-import { userRoutes } from "./user.routes";
 
 type RegisterRoutes = (opts: { server: Server }) => void;
 

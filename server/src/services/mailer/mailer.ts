@@ -11,11 +11,11 @@ import { IEmailEvent } from "shared/models/email_event.model";
 import { ITemplate } from "shared/models/email_event/email_templates";
 import { assertUnreachable } from "shared/utils/assertUnreachable";
 
+import { addEmailError, createEmailEvent, isUnsubscribed, setEmailMessageId } from "@/actions/emails.actions";
 import config from "@/config";
+import { getStaticFilePath } from "@/utils/getStaticFilePath";
+import { serializeEmailTemplate } from "@/utils/jwtUtils";
 
-import { addEmailError, createEmailEvent, isUnsubscribed, setEmailMessageId } from "../../actions/emails.actions";
-import { getStaticFilePath } from "../../utils/getStaticFilePath";
-import { serializeEmailTemplate } from "../../utils/jwtUtils";
 import logger from "../logger";
 import { generateAccessToken, generateScope } from "../security/accessTokenService";
 
@@ -102,7 +102,7 @@ function getMarkAsOpenedActionLink(emailEvent: IEmailEvent | null) {
 
   const token = generateAccessToken({ email: emailEvent.template.to }, [
     generateScope({
-      schema: zRoutes.get["/emails/:id/markAsOpened"],
+      schema: zRoutes.get["/_private/emails/:id/markAsOpened"],
       options: "all",
       resources: {},
     }),

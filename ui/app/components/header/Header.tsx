@@ -14,7 +14,7 @@ export const Header = () => {
   const pathname = usePathname();
 
   const handleLogout = useCallback(async () => {
-    await apiGet("/auth/logout", {});
+    await apiGet("/_private/auth/logout", {});
     setUser();
     push(PAGES.homepage().path);
   }, [setUser, push]);

@@ -2,17 +2,18 @@ import Boom from "@hapi/boom";
 import { zRoutes } from "shared";
 import { IEmailError } from "shared/models/email_event.model";
 
-import { markEmailAsDelivered, markEmailAsFailed, markEmailAsOpened, unsubscribe } from "../../actions/emails.actions";
-import config from "../../config";
-import { renderEmail } from "../../services/mailer/mailer";
-import { deserializeEmailTemplate } from "../../utils/jwtUtils";
-import { Server } from "../server";
+import { markEmailAsDelivered, markEmailAsFailed, markEmailAsOpened, unsubscribe } from "@/actions/emails.actions";
+import config from "@/config";
+import { renderEmail } from "@/services/mailer/mailer";
+import { deserializeEmailTemplate } from "@/utils/jwtUtils";
+
+import { Server } from "../../server";
 
 export const emailsRoutes = ({ server }: { server: Server }) => {
   server.get(
-    "/emails/preview",
+    "/_private/emails/preview",
     {
-      schema: zRoutes.get["/emails/preview"],
+      schema: zRoutes.get["/_private/emails/preview"],
     },
     async (request, response) => {
       const template = deserializeEmailTemplate(request.query.data);
@@ -26,10 +27,10 @@ export const emailsRoutes = ({ server }: { server: Server }) => {
   );
 
   server.get(
-    "/emails/:id/markAsOpened",
+    "/_private/emails/:id/markAsOpened",
     {
-      schema: zRoutes.get["/emails/:id/markAsOpened"],
-      onRequest: [server.auth(zRoutes.get["/emails/:id/markAsOpened"])],
+      schema: zRoutes.get["/_private/emails/:id/markAsOpened"],
+      onRequest: [server.auth(zRoutes.get["/_private/emails/:id/markAsOpened"])],
     },
     async (request, response) => {
       await markEmailAsOpened(request.params.id);
@@ -42,9 +43,9 @@ export const emailsRoutes = ({ server }: { server: Server }) => {
   );
 
   server.get(
-    "/emails/unsubscribe",
+    "/_private/emails/unsubscribe",
     {
-      schema: zRoutes.get["/emails/unsubscribe"],
+      schema: zRoutes.get["/_private/emails/unsubscribe"],
     },
     async (request, response) => {
       const template = deserializeEmailTemplate(request.query.data);
@@ -81,9 +82,9 @@ export const emailsRoutes = ({ server }: { server: Server }) => {
   );
 
   server.post(
-    "/emails/webhook",
+    "/_private/emails/webhook",
     {
-      schema: zRoutes.post["/emails/webhook"],
+      schema: zRoutes.post["/_private/emails/webhook"],
     },
     async (request, response) => {
       const { webhookKey } = request.query;

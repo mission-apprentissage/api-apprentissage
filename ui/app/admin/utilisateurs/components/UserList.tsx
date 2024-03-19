@@ -19,7 +19,7 @@ const UserList = () => {
   const { data: users } = useQuery<IUserPublic[]>({
     queryKey: ["users", { searchValue, page, limit }],
     queryFn: async () => {
-      const data = await apiGet("/admin/users", {
+      const data = await apiGet("/_private/admin/users", {
         querystring: { q: searchValue, page, limit },
       });
 

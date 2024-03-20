@@ -53,7 +53,7 @@ jobs:
           if [[ "${APP_VERSION}" == "latest" ]]; then
             echo "VERSION=$(git describe --tags --abbrev=0 --candidates 100 --always)" >> "$GITHUB_OUTPUT"
           else
-            echo "VERSION=${APP_VERSION}" >> "$GITHUB_OUTPUT
+            echo "VERSION=${APP_VERSION}" >> "$GITHUB_OUTPUT"
           fi
         env:
           APP_VERSION: ${{ github.event.inputs.app_version }}

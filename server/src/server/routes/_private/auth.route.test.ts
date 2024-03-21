@@ -160,7 +160,7 @@ describe("Authentication", () => {
       },
     });
 
-    assert.equal(response.statusCode, 403);
+    assert.equal(response.statusCode, 401);
   });
 
   // TODO SHOULD BE NOOP EMAIL

@@ -48,7 +48,7 @@ async function authCookieSession(req: FastifyRequest): Promise<UserWithType<"use
   const token = req.cookies?.[config.session.cookieName];
 
   if (!token) {
-    throw Boom.forbidden("Session invalide");
+    return null;
   }
 
   try {
@@ -73,7 +73,7 @@ async function authApiKey(req: FastifyRequest): Promise<UserWithType<"user", IUs
   const token = extractBearerTokenFromHeader(req);
 
   if (!token) {
-    throw Boom.forbidden("Jeton manquant");
+    return null;
   }
 
   try {
@@ -82,7 +82,7 @@ async function authApiKey(req: FastifyRequest): Promise<UserWithType<"user", IUs
     const user = await getDbCollection("users").findOne({ _id: new ObjectId(_id) });
 
     if (!user || !user?.api_key || !compareKeys(user.api_key, api_key)) {
-      throw Boom.forbidden("Jeton invalide");
+      return null;
     }
 
     const api_key_used_at = new Date();
@@ -90,7 +90,8 @@ async function authApiKey(req: FastifyRequest): Promise<UserWithType<"user", IUs
     await updateUser(user.email, { api_key_used_at });
     return user ? { type: "user", value: { ...user, api_key_used_at } } : null;
   } catch (error) {
-    throw Boom.forbidden("Jeton invalide");
+    captureException(error);
+    return null;
   }
 }
 

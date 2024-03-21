@@ -79,7 +79,7 @@ jobs:
       - name: Checkout project
         uses: actions/checkout@v4
         with:
-          ref: ${{ needs.version.outputs.VERSION }}
+          ref: "v${{ needs.version.outputs.VERSION }}"
 
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2

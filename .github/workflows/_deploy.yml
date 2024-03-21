@@ -48,7 +48,7 @@ jobs:
       VERSION: ${{ steps.get-version.outputs.VERSION }}
     steps:
       - name: Checkout project
-        if: ${{ github.event.inputs.app_version == 'latest' }}
+        if: ${{ inputs.app_version == 'latest' }}
         uses: actions/checkout@v4
 
       - name: Get Version
@@ -60,7 +60,7 @@ jobs:
             echo "VERSION=${APP_VERSION}" >> "$GITHUB_OUTPUT"
           fi
         env:
-          APP_VERSION: ${{ github.event.inputs.app_version }}
+          APP_VERSION: ${{ inputs.app_version }}
 
   deploy:
     needs: version

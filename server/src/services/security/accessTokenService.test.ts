@@ -13,8 +13,7 @@ const mockUser = (email: string): IUser => {
     email,
     password: "",
     is_admin: false,
-    api_key: null,
-    api_key_used_at: null,
+    api_keys: [],
     updated_at: new Date(),
     created_at: new Date(),
   };

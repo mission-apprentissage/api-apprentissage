@@ -1,7 +1,5 @@
-import assert from "node:assert";
-
 import { useMongo } from "@tests/mongo.test.utils";
-import { beforeAll, describe, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
 
 import { createSession, createSessionToken } from "@/actions/sessions.actions";
 import { createUser } from "@/actions/users.actions";
@@ -29,11 +27,11 @@ describe("Users routes", () => {
     });
 
     const token = createSessionToken(user.email);
-    await createSession({ token });
+    await createSession(user.email);
 
     const userWithToken = await getDbCollection("users").findOne({ _id: user._id });
 
-    assert.equal(userWithToken?.api_key_used_at, undefined);
+    expect(userWithToken?.api_keys).toHaveLength(0);
 
     const response = await app.inject({
       method: "GET",
@@ -43,11 +41,18 @@ describe("Users routes", () => {
       },
     });
 
-    assert.equal(response.statusCode, 200);
-    assert.equal(response.json()._id, user?._id);
-    assert.equal(response.json().email, "connected@exemple.fr");
-    assert.equal(response.json().password, undefined);
-    assert.equal(response.json().api_key, undefined);
+    const userResponse = response.json();
+
+    expect(response.statusCode).toBe(200);
+    expect(userResponse).toEqual({
+      _id: user._id.toString(),
+      email: "connected@exemple.fr",
+      is_admin: false,
+      has_api_key: false,
+      api_key_used_at: null,
+      created_at: expect.stringMatching(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/),
+      updated_at: expect.stringMatching(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/),
+    });
   });
 
   it("should allow admin to create a user", async () => {
@@ -59,9 +64,7 @@ describe("Users routes", () => {
 
     const token = createUserTokenSimple({ payload: { email: admin.email } });
 
-    await createSession({
-      token,
-    });
+    await createSession(admin.email);
 
     const response = await app.inject({
       method: "POST",
@@ -80,10 +83,18 @@ describe("Users routes", () => {
       email: "email@exemple.fr",
     });
 
-    assert.equal(response.statusCode, 200);
-    assert.equal(response.json()._id, user?._id.toString());
-    assert.equal(response.json().email, "email@exemple.fr");
-    assert.equal(response.json().password, undefined);
+    const userResponse = response.json();
+
+    expect(response.statusCode).toBe(200);
+    expect(userResponse).toEqual({
+      _id: user?._id.toString(),
+      email: "email@exemple.fr",
+      is_admin: false,
+      has_api_key: false,
+      api_key_used_at: null,
+      created_at: expect.stringMatching(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/),
+      updated_at: expect.stringMatching(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/),
+    });
   });
 
   it("should not allow non-admin to create a user", async () => {
@@ -95,9 +106,7 @@ describe("Users routes", () => {
 
     const token = createUserTokenSimple({ payload: { email: user.email } });
 
-    await createSession({
-      token,
-    });
+    await createSession(user.email);
 
     const response = await app.inject({
       method: "POST",
@@ -112,6 +121,6 @@ describe("Users routes", () => {
       },
     });
 
-    assert.equal(response.statusCode, 403);
+    expect(response.statusCode).toBe(403);
   });
 });

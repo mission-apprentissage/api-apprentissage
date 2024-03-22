@@ -1,7 +1,8 @@
 import assert from "node:assert";
 
 import { useMongo } from "@tests/mongo.test.utils";
-import { beforeAll, describe, it } from "vitest";
+import { ObjectId } from "mongodb";
+import { beforeAll, describe, expect, it } from "vitest";
 
 import { getSession } from "@/actions/sessions.actions";
 import { createUser } from "@/actions/users.actions";
@@ -42,14 +43,19 @@ describe("Authentication", () => {
       },
     });
 
-    assert.equal(response.statusCode, 200);
-    assert.equal(response.json()._id, user?._id);
-    assert.equal(response.json().email, user?.email);
-    assert.equal(response.json().password, undefined);
-    assert.equal(response.json().api_key, undefined);
+    expect(response.statusCode).toBe(200);
+    expect(response.json()).toEqual({
+      _id: user?._id.toString(),
+      email: "email@exemple.fr",
+      is_admin: false,
+      has_api_key: false,
+      api_key_used_at: null,
+      created_at: expect.stringMatching(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/),
+      updated_at: expect.stringMatching(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/),
+    });
   });
 
-  it.skip("should not sign user in with invalid credentials", async () => {
+  it("should not sign user in with invalid credentials", async () => {
     const user = await createUser({
       email: "email@exemple.fr",
       password: "my-password",
@@ -65,7 +71,7 @@ describe("Authentication", () => {
       },
     });
 
-    assert.equal(responseIncorrectEmail.statusCode, 403);
+    expect(responseIncorrectEmail.statusCode).toBe(403);
 
     const responseIncorrectPassword = await app.inject({
       method: "POST",
@@ -76,7 +82,7 @@ describe("Authentication", () => {
       },
     });
 
-    assert.equal(responseIncorrectPassword.statusCode, 403);
+    expect(responseIncorrectPassword.statusCode).toBe(403);
   });
 
   it("should identify user and create session in db after signing in", async () => {
@@ -98,8 +104,14 @@ describe("Authentication", () => {
     const cookies = responseLogin.cookies as Cookie[];
     const sessionCookie = cookies.find((cookie) => cookie.name === config.session.cookieName) as Cookie;
 
-    const session = await getSession({ token: sessionCookie.value });
-    assert.equal(session?.token, sessionCookie.value);
+    const session = await getSession({ email: "email@exemple.fr" });
+    expect(session).toEqual({
+      _id: expect.any(ObjectId),
+      email: "email@exemple.fr",
+      expires_at: expect.any(Date),
+      created_at: expect.any(Date),
+      updated_at: expect.any(Date),
+    });
 
     const response = await app.inject({
       method: "GET",
@@ -109,11 +121,16 @@ describe("Authentication", () => {
       },
     });
 
-    assert.equal(response.statusCode, 200);
-    assert.equal(response.json()._id, user?._id);
-    assert.equal(response.json().email, user?.email);
-    assert.equal(response.json().password, undefined);
-    assert.equal(response.json().api_key, undefined);
+    expect(response.statusCode).toBe(200);
+    expect(response.json()).toEqual({
+      _id: user?._id.toString(),
+      email: "email@exemple.fr",
+      is_admin: false,
+      has_api_key: false,
+      api_key_used_at: null,
+      created_at: expect.stringMatching(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/),
+      updated_at: expect.stringMatching(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/),
+    });
   });
 
   it("should not identify user using session and delete in database after signing out", async () => {

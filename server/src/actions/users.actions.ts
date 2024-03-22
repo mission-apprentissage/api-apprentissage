@@ -3,6 +3,7 @@ import { IUser, IUserCreate } from "shared/models/user.model";
 
 import { getDbCollection } from "@/services/mongodb/mongodbService";
 
+import config from "../config";
 import { generateKey, generateSecretHash, hashPassword } from "../utils/cryptoUtils";
 import { createUserTokenSimple } from "../utils/jwtUtils";
 
@@ -15,8 +16,7 @@ export const createUser = async (data: IUserCreate): Promise<IUser> => {
     ...data,
     _id,
     password,
-    api_key: null,
-    api_key_used_at: null,
+    api_keys: [] as IUser["api_keys"],
     updated_at: now,
     created_at: now,
   };
@@ -41,11 +41,27 @@ export const generateApiKey = async (user: IUser) => {
   const generatedKey = generateKey();
   const secretHash = generateSecretHash(generatedKey);
 
-  await updateUser(user.email, { api_key: secretHash, api_key_used_at: null });
+  await getDbCollection("users").findOneAndUpdate(
+    {
+      email: user.email,
+    },
+    {
+      $set: { updated_at: new Date() },
+      $push: {
+        api_keys: {
+          _id: new ObjectId(),
+          name: null,
+          key: secretHash,
+          last_used_at: null,
+          expires_at: new Date(Date.now() + config.api_key.expiresIn),
+        },
+      },
+    }
+  );
 
   const token = createUserTokenSimple({
     payload: { _id: user._id, api_key: generatedKey },
-    expiresIn: "365d",
+    expiresIn: config.api_key.expiresIn / 1_000,
   });
 
   return token;

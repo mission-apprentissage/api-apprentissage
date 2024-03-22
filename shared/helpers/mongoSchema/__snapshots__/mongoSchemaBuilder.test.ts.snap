@@ -892,13 +892,12 @@ exports[`zodToMongoSchema > should convert sessions schema 1`] = `
       "bsonType": "date",
       "description": "Date d'ajout en base de données",
     },
+    "email": {
+      "bsonType": "string",
+    },
     "expires_at": {
       "bsonType": "date",
       "description": "Date d'expiration",
-    },
-    "token": {
-      "bsonType": "string",
-      "description": "Token de la session",
     },
     "updated_at": {
       "bsonType": "date",
@@ -907,7 +906,7 @@ exports[`zodToMongoSchema > should convert sessions schema 1`] = `
   },
   "required": [
     "_id",
-    "token",
+    "email",
     "updated_at",
     "created_at",
     "expires_at",
@@ -5903,23 +5902,46 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
     "_id": {
       "bsonType": "objectId",
     },
-    "api_key": {
-      "bsonType": [
-        "string",
-        "null",
-      ],
-      "description": "Clé API",
-    },
-    "api_key_used_at": {
-      "anyOf": [
-        {
-          "bsonType": "date",
+    "api_keys": {
+      "bsonType": "array",
+      "items": {
+        "additionalProperties": false,
+        "bsonType": "object",
+        "properties": {
+          "_id": {
+            "bsonType": "objectId",
+          },
+          "expires_at": {
+            "bsonType": "date",
+          },
+          "key": {
+            "bsonType": "string",
+          },
+          "last_used_at": {
+            "anyOf": [
+              {
+                "bsonType": "date",
+              },
+              {
+                "bsonType": "null",
+              },
+            ],
+          },
+          "name": {
+            "bsonType": [
+              "string",
+              "null",
+            ],
+          },
         },
-        {
-          "bsonType": "null",
-        },
-      ],
-      "description": "Date de dernière utilisation de la clé API",
+        "required": [
+          "_id",
+          "name",
+          "key",
+          "last_used_at",
+          "expires_at",
+        ],
+      },
     },
     "created_at": {
       "bsonType": "date",
@@ -5946,8 +5968,7 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
     "email",
     "password",
     "is_admin",
-    "api_key",
-    "api_key_used_at",
+    "api_keys",
     "updated_at",
     "created_at",
   ],

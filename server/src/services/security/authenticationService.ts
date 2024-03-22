@@ -12,7 +12,6 @@ import { assertUnreachable } from "shared/utils/assertUnreachable";
 import config from "@/config";
 
 import { getSession } from "../../actions/sessions.actions";
-import { updateUser } from "../../actions/users.actions";
 import { compareKeys } from "../../utils/cryptoUtils";
 import { decodeToken } from "../../utils/jwtUtils";
 import { getDbCollection } from "../mongodb/mongodbService";
@@ -52,13 +51,13 @@ async function authCookieSession(req: FastifyRequest): Promise<UserWithType<"use
   }
 
   try {
-    const session = await getSession({ token });
+    const { email } = jwt.verify(token, config.auth.user.jwtSecret) as JwtPayload;
+
+    const session = await getSession({ email });
 
     if (!session) {
       return null;
     }
-
-    const { email } = jwt.verify(token, config.auth.user.jwtSecret) as JwtPayload;
 
     const user = await getDbCollection("users").findOne({ email: email.toLowerCase() });
 
@@ -81,14 +80,25 @@ async function authApiKey(req: FastifyRequest): Promise<UserWithType<"user", IUs
 
     const user = await getDbCollection("users").findOne({ _id: new ObjectId(`${_id}`) });
 
-    if (!user || !user?.api_key || !compareKeys(user.api_key, api_key)) {
+    const savedKey = user?.api_keys.find((key) => compareKeys(key.key, api_key));
+
+    if (!savedKey) {
       return null;
     }
 
-    const api_key_used_at = new Date();
+    const now = new Date();
+    const updatedUser = await getDbCollection("users").findOneAndUpdate(
+      { "api_keys._id": savedKey._id },
+      {
+        $set: {
+          "api_keys.$.last_used_at": now,
+          updated_at: now,
+        },
+      },
+      { returnDocument: "after" }
+    );
 
-    await updateUser(user.email, { api_key_used_at });
-    return user ? { type: "user", value: { ...user, api_key_used_at } } : null;
+    return updatedUser === null ? null : { type: "user", value: updatedUser };
   } catch (error) {
     captureException(error);
     return null;

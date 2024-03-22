@@ -23,6 +23,7 @@ const indexes: IModelDescriptor["indexes"] = [
       },
     },
   ],
+  [{ "api_keys._id": 1 }, {}],
 ];
 
 export const zApiKey = z.object({
@@ -32,6 +33,8 @@ export const zApiKey = z.object({
   last_used_at: z.date().nullable(),
   expires_at: z.date(),
 });
+
+export type IApiKey = z.output<typeof zApiKey>;
 
 export const zUser = z
   .object({

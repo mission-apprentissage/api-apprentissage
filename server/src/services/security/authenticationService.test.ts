@@ -170,6 +170,7 @@ describe("authenticationMiddleware", () => {
         type: "user",
         value: expectedUser,
       });
+      expect(req.api_key).toEqual(expectedUser.api_keys[0]);
 
       const allUsers = await getDbCollection("users").find().toArray();
       expect(allUsers).toEqual([
@@ -220,6 +221,7 @@ describe("authenticationMiddleware", () => {
         type: "user",
         value: expectedUser1,
       });
+      expect(req1.api_key).toEqual(expectedUser1.api_keys[0]);
       const allUsers1 = await getDbCollection("users").find().toArray();
       expect(allUsers1).toEqual([
         expectedUser1,
@@ -259,6 +261,7 @@ describe("authenticationMiddleware", () => {
         type: "user",
         value: expectedUser2,
       });
+      expect(req2.api_key).toEqual(expectedUser2.api_keys[1]);
       const allUsers2 = await getDbCollection("users").find().toArray();
       expect(allUsers2).toEqual([
         expectedUser2,

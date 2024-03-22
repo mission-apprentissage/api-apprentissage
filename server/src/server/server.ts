@@ -17,6 +17,7 @@ import { IRouteSchema, WithSecurityScheme } from "shared/routes/common.routes";
 
 import config from "../config";
 import { initSentryFastify } from "../services/sentry/sentry";
+import { apiKeyUsageMiddleware } from "./middlewares/apiKeyUsageMiddleware";
 import { auth } from "./middlewares/authMiddleware";
 import { errorMiddleware } from "./middlewares/errorMiddleware";
 import { logMiddleware } from "./middlewares/logMiddleware";
@@ -85,6 +86,7 @@ export async function bind(app: Server) {
     res.status(404).send(Boom.notFound("Path does not exists").output);
   });
 
+  apiKeyUsageMiddleware(app);
   errorMiddleware(app);
 
   return app;

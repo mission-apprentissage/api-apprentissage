@@ -3,6 +3,7 @@ import { IModelDescriptor } from "./common";
 import emailDeniedModelDescriptor, { IEmailDenied } from "./email_denied.model";
 import emailEventsModelDescriptor, { IEmailEvent } from "./email_event.model";
 import { IImportMeta, importMetaModelDescriptor } from "./import.meta.model";
+import { IIndicateurUsageApi, indicateurUsageApiModelDescriptor } from "./indicateurs/usage_api.model";
 import sessionsModelDescriptor, { ISession } from "./session.model";
 import sourceAcceModelDescriptor, { ISourceAcce } from "./source/acce/source.acce.model";
 import { ISourceBcn, sourceBcnModelDescriptor } from "./source/bcn/source.bcn.model";
@@ -25,6 +26,7 @@ export const modelDescriptors: IModelDescriptor[] = [
   importMetaModelDescriptor,
   usersModelDescriptor,
   sessionsModelDescriptor,
+  indicateurUsageApiModelDescriptor,
   sourceAcceModelDescriptor,
   sourcReferentielModelDescriptor,
   sourceBcnModelDescriptor,
@@ -40,6 +42,7 @@ export type IDocumentMap = {
   "import.meta": IImportMeta;
   users: IUser;
   sessions: ISession;
+  "indicateurs.usage_api": IIndicateurUsageApi;
   "source.acce": ISourceAcce;
   "source.referentiel": ISourceReferentiel;
   "source.bcn": ISourceBcn;

@@ -4,7 +4,7 @@ import { FastifyRequest } from "fastify";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { ObjectId } from "mongodb";
 import { PathParam, QueryString } from "shared/helpers/generateUri";
-import { IUser } from "shared/models/user.model";
+import { IApiKey, IUser } from "shared/models/user.model";
 import { ISecuredRouteSchema, WithSecurityScheme } from "shared/routes/common.routes";
 import { UserWithType } from "shared/security/permissions";
 import { assertUnreachable } from "shared/utils/assertUnreachable";
@@ -22,6 +22,7 @@ export type IUserWithType = UserWithType<"token", IAccessToken> | UserWithType<"
 declare module "fastify" {
   interface FastifyRequest {
     user?: null | IUserWithType;
+    api_key?: IApiKey | null;
   }
 }
 
@@ -85,6 +86,8 @@ async function authApiKey(req: FastifyRequest): Promise<UserWithType<"user", IUs
     if (!savedKey) {
       return null;
     }
+
+    req.api_key = savedKey;
 
     const now = new Date();
     const updatedUser = await getDbCollection("users").findOneAndUpdate(

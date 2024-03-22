@@ -64,7 +64,8 @@ describe("Users routes", () => {
     }),
   } satisfies Record<string, ICertification>;
 
-  const toLocalDateString = (date: Date | null) => (date === null ? null : DateTime.fromJSDate(date).toISO());
+  const toLocalDateString = (date: Date | null) =>
+    date === null ? null : DateTime.fromJSDate(date, { zone: "Europe/Paris" }).toISO();
 
   const toExpectedJson = ({ _id, ...rest }: ICertification) => {
     return {
@@ -148,7 +149,7 @@ describe("Users routes", () => {
     ["?code.rncp=", [certifications["13512840_null"], certifications["3553260B_null"]]],
     ["?code.rncp=null", [certifications["13512840_null"], certifications["3553260B_null"]]],
     ["?code.cfd=3553260B&code.rncp=RNCP21529", [certifications["3553260B_RNCP21529"]]],
-  ])("should perform search %s correctly", async (search, expected) => {
+  ])('should perform search "%s" correctly', async (search, expected) => {
     const response = await app.inject({
       method: "GET",
       url: `/api/certification/v1${search}`,

@@ -7,14 +7,12 @@ import { getDbCollection } from "@/services/mongodb/mongodbService";
 
 import config from "../config";
 
-type TCreateSession = Pick<ISession, "token">;
-
-async function createSession(data: TCreateSession) {
+async function createSession(email: string) {
   const now = new Date();
 
-  const session = {
+  const session: ISession = {
     _id: new ObjectId(),
-    ...data,
+    email,
     updated_at: now,
     created_at: now,
     expires_at: new Date(now.getTime() + config.session.cookie.maxAge),
@@ -36,14 +34,14 @@ async function deleteSession(token: string) {
 function createSessionToken(email: string) {
   return jwt.sign({ email }, config.auth.user.jwtSecret, {
     issuer: config.publicUrl,
-    expiresIn: config.auth.user.expiresIn,
+    expiresIn: config.session.cookie.maxAge / 1_000,
     subject: email,
   });
 }
 
 async function startSession(email: string, res: FastifyReply) {
   const token = createSessionToken(email);
-  await createSession({ token });
+  await createSession(email);
   res.setCookie(config.session.cookieName, token, config.session.cookie);
 }
 

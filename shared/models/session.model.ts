@@ -10,7 +10,7 @@ const indexes: IModelDescriptor["indexes"] = [[{ expires_at: 1 }, { expireAfterS
 export const ZSession = z
   .object({
     _id: zObjectId,
-    token: z.string().describe("Token de la session"),
+    email: z.string(),
     updated_at: z.date().describe("Date de mise à jour en base de données"),
     created_at: z.date().describe("Date d'ajout en base de données"),
     expires_at: z.date().describe("Date d'expiration"),

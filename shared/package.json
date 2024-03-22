@@ -21,6 +21,7 @@
     "@asteasolutions/zod-to-openapi": "^6.4.0",
     "lodash-es": "^4.17.21",
     "luhn": "^2.4.1",
+    "luxon": "^3.4.4",
     "openapi3-ts": "^4.2.2",
     "react": "18.2.0",
     "type-fest": "^4.12.0",
@@ -28,6 +29,7 @@
     "zod-to-json-schema": "^3.22.4"
   },
   "devDependencies": {
+    "@types/luxon": "^3.4.2",
     "bson": "^6.5.0",
     "mongodb": "^6.5.0",
     "typescript": "^5.4.2",

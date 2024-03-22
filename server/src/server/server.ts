@@ -82,7 +82,7 @@ export async function bind(app: Server) {
   );
 
   app.setNotFoundHandler((req, res) => {
-    res.status(404).send(Boom.notFound().output);
+    res.status(404).send(Boom.notFound("Path does not exists").output);
   });
 
   errorMiddleware(app);

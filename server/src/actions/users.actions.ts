@@ -6,7 +6,7 @@ import { getDbCollection } from "@/services/mongodb/mongodbService";
 import { generateKey, generateSecretHash, hashPassword } from "../utils/cryptoUtils";
 import { createUserTokenSimple } from "../utils/jwtUtils";
 
-export const createUser = async (data: IUserCreate) => {
+export const createUser = async (data: IUserCreate): Promise<IUser> => {
   const _id = new ObjectId();
 
   const password = hashPassword(data.password);

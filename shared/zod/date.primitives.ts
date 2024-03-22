@@ -26,8 +26,7 @@ export function parisTimezoneDate(parts: IDateParts): LocalDate {
 
 export function parseParisLocalDate(date: string, time: string = "00:00:00", dayOffset: number = 0): LocalDate {
   const dt = DateTime.fromFormat(`${date} ${time}`, "dd/MM/yyyy HH:mm:ss", { zone: "Europe/Paris" });
-  dt.plus({ days: dayOffset });
-  return LocalDate.fromDate(dt.toJSDate());
+  return LocalDate.fromDate(dt.plus({ days: dayOffset }).toJSDate());
 }
 
 export function parseNullableParisLocalDate(

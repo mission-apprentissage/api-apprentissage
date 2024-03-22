@@ -12,7 +12,6 @@ import { assertUnreachable } from "shared/utils/assertUnreachable";
 import config from "@/config";
 
 import { getSession } from "../../actions/sessions.actions";
-import { updateUser } from "../../actions/users.actions";
 import { compareKeys } from "../../utils/cryptoUtils";
 import { decodeToken } from "../../utils/jwtUtils";
 import { getDbCollection } from "../mongodb/mongodbService";
@@ -81,14 +80,22 @@ async function authApiKey(req: FastifyRequest): Promise<UserWithType<"user", IUs
 
     const user = await getDbCollection("users").findOne({ _id: new ObjectId(`${_id}`) });
 
-    if (!user || !user?.api_key || !compareKeys(user.api_key, api_key)) {
+    const now = new Date().getTime();
+    const savedKey = user?.api_keys.find((key) => key.expires_at.getTime() > now && compareKeys(key.key, api_key));
+
+    if (!savedKey) {
       return null;
     }
 
-    const api_key_used_at = new Date();
-
-    await updateUser(user.email, { api_key_used_at });
-    return user ? { type: "user", value: { ...user, api_key_used_at } } : null;
+    const updatedUser = await getDbCollection("users").findOneAndUpdate(
+      { "api_keys._id": savedKey._id },
+      {
+        $set: {
+          "api_keys.$[].last_used_at": new Date(),
+        },
+      }
+    );
+    return updatedUser === null ? null : { type: "user", value: updatedUser };
   } catch (error) {
     captureException(error);
     return null;

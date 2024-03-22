@@ -29,6 +29,10 @@ fileignoreconfig:
   checksum: efb76c4727f41db630ed32ab6d1e142d03d03ccfe3655eb7a4a7e20dc6ec1f56
 - filename: server/src/modules/server/utils/password.utils.ts
   checksum: 9f89c62a64d0c649473775c9afeed5b057c505db71ec3302d19d25790fc7e50d
+- filename: server/src/server/routes/_private/auth.route.test.ts
+  checksum: 7638f5ddf7a7f64cf945141faf7dddc6275849fbbd19aeae3b2368712ea5c739
+- filename: server/src/server/routes/_private/user.route.test.ts
+  checksum: 32533880dcdb9b27e0d3e11a3f74c95c0ec18528e90fab3309878aa559b41b3e
 - filename: server/src/server/routes/certification.route.test.ts
   checksum: 150216e913999cb9924c4c2aab6247274cbecd401988b1fc6c83c2d2182f6d6a
 - filename: server/tests/utils/security/accessTokenService.test.ts

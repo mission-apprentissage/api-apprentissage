@@ -5903,23 +5903,42 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
     "_id": {
       "bsonType": "objectId",
     },
-    "api_key": {
-      "bsonType": [
-        "string",
-        "null",
-      ],
-      "description": "Clé API",
-    },
-    "api_key_used_at": {
-      "anyOf": [
-        {
-          "bsonType": "date",
+    "api_keys": {
+      "bsonType": "array",
+      "items": {
+        "additionalProperties": false,
+        "bsonType": "object",
+        "properties": {
+          "_id": {
+            "bsonType": "objectId",
+          },
+          "key": {
+            "bsonType": "string",
+          },
+          "last_used_at": {
+            "anyOf": [
+              {
+                "bsonType": "date",
+              },
+              {
+                "bsonType": "null",
+              },
+            ],
+          },
+          "name": {
+            "bsonType": [
+              "string",
+              "null",
+            ],
+          },
         },
-        {
-          "bsonType": "null",
-        },
-      ],
-      "description": "Date de dernière utilisation de la clé API",
+        "required": [
+          "_id",
+          "name",
+          "key",
+          "last_used_at",
+        ],
+      },
     },
     "created_at": {
       "bsonType": "date",
@@ -5946,8 +5965,7 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
     "email",
     "password",
     "is_admin",
-    "api_key",
-    "api_key_used_at",
+    "api_keys",
     "updated_at",
     "created_at",
   ],

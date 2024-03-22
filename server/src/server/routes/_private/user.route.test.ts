@@ -27,7 +27,7 @@ describe("Users routes", () => {
     });
 
     const token = createSessionToken(user.email);
-    await createSession({ token });
+    await createSession(user.email);
 
     const userWithToken = await getDbCollection("users").findOne({ _id: user._id });
 
@@ -64,9 +64,7 @@ describe("Users routes", () => {
 
     const token = createUserTokenSimple({ payload: { email: admin.email } });
 
-    await createSession({
-      token,
-    });
+    await createSession(admin.email);
 
     const response = await app.inject({
       method: "POST",
@@ -108,9 +106,7 @@ describe("Users routes", () => {
 
     const token = createUserTokenSimple({ payload: { email: user.email } });
 
-    await createSession({
-      token,
-    });
+    await createSession(user.email);
 
     const response = await app.inject({
       method: "POST",

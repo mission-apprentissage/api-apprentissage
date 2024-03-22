@@ -1,6 +1,7 @@
 import assert from "node:assert";
 
 import { useMongo } from "@tests/mongo.test.utils";
+import { ObjectId } from "mongodb";
 import { beforeAll, describe, expect, it } from "vitest";
 
 import { getSession } from "@/actions/sessions.actions";
@@ -103,8 +104,14 @@ describe("Authentication", () => {
     const cookies = responseLogin.cookies as Cookie[];
     const sessionCookie = cookies.find((cookie) => cookie.name === config.session.cookieName) as Cookie;
 
-    const session = await getSession({ token: sessionCookie.value });
-    assert.equal(session?.token, sessionCookie.value);
+    const session = await getSession({ email: "email@exemple.fr" });
+    expect(session).toEqual({
+      _id: expect.any(ObjectId),
+      email: "email@exemple.fr",
+      expires_at: expect.any(Date),
+      created_at: expect.any(Date),
+      updated_at: expect.any(Date),
+    });
 
     const response = await app.inject({
       method: "GET",

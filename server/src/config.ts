@@ -33,6 +33,8 @@ const config = {
   auth: {
     user: {
       jwtSecret: env.get("AUTH_USER_JWT_SECRET").required().asString(),
+      // 1 mois: meme valeur que le cookie de session
+      expiresIn: 30 * 24 * 3600,
     },
     resetPasswordToken: {
       jwtSecret: env.get("AUTH_PASSWORD_JWT_SECRET").required().asString(),

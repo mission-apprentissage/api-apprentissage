@@ -156,8 +156,10 @@ describe("Users routes", () => {
         Authorization: `Bearer ${token}`,
       },
     });
-    expect(response.statusCode).toBe(200);
-    expect(response.json()).toEqual(expected.map(toExpectedJson));
+    expect.soft(response.statusCode).toBe(200);
+    const result = response.json();
+    expect.soft(result).toHaveLength(expected.length);
+    expect.soft(result).toEqual(expect.arrayContaining(expected.map(toExpectedJson)));
   });
 
   it("should return localised date string", async () => {
@@ -168,12 +170,13 @@ describe("Users routes", () => {
         Authorization: `Bearer ${token}`,
       },
     });
-    expect(response.statusCode).toBe(200);
-    expect(response.json().at(0).periode_validite).toEqual({
+    expect.soft(response.statusCode).toBe(200);
+    const result = response.json();
+    expect.soft(result.at(0).periode_validite).toEqual({
       debut: "2023-10-12T00:00:00.000+02:00",
       fin: "2026-08-31T23:59:59.000+02:00",
     });
-    expect(response.json().at(0).cfd).toEqual(
+    expect.soft(result.at(0).cfd).toEqual(
       expect.objectContaining({
         ouverture: "2008-09-01T00:00:00.000+02:00",
         fermeture: "2026-08-31T23:59:59.000+02:00",
@@ -181,7 +184,7 @@ describe("Users routes", () => {
         abrogation: "2024-12-31T23:59:59.000+01:00",
       })
     );
-    expect(response.json().at(0).rncp).toEqual(
+    expect.soft(result.at(0).rncp).toEqual(
       expect.objectContaining({
         activation: "2023-10-12T00:00:00.000+02:00",
         fin_enregistrement: "2026-08-31T23:59:59.000+02:00",

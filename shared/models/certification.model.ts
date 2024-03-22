@@ -8,6 +8,7 @@ import {
   zRncpBlocCompetenceCode,
   zTypeEnregistrement,
 } from "../zod/certifications.primitives";
+import { zLocalDate } from "../zod/date.primitives";
 import { zodOpenApi } from "../zod/zodWithOpenApi";
 import { IModelDescriptor, zObjectId } from "./common";
 
@@ -20,9 +21,9 @@ const indexes: IModelDescriptor["indexes"] = [
 
 const zCertificationRncp = zodOpenApi.object({
   actif: zodOpenApi.boolean(),
-  activation: z.date().nullable(),
-  fin_enregistrement: z.date().nullable(),
-  debut_parcours: z.date().nullable(),
+  activation: zLocalDate.nullable(),
+  fin_enregistrement: zLocalDate.nullable(),
+  debut_parcours: zLocalDate.nullable(),
   intitule: z.string(),
   blocs: zodOpenApi.array(
     zodOpenApi.object({
@@ -82,15 +83,15 @@ export const zCertification = z.object({
     rncp: zRncp.nullable(),
   }),
   periode_validite: zodOpenApi.object({
-    debut: z.date().nullable(),
-    fin: z.date().nullable(),
+    debut: zLocalDate.nullable(),
+    fin: zLocalDate.nullable(),
   }),
   cfd: zodOpenApi
     .object({
-      ouverture: z.date().nullable(),
-      fermeture: z.date().nullable(),
-      creation: z.date().nullable(),
-      abrogation: z.date().nullable(),
+      ouverture: zLocalDate.nullable(),
+      fermeture: zLocalDate.nullable(),
+      creation: zLocalDate.nullable(),
+      abrogation: zLocalDate.nullable(),
       intitule: zodOpenApi.object({
         long: zodOpenApi.string(),
         court: zodOpenApi.string(),

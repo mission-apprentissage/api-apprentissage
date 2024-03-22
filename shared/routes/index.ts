@@ -5,6 +5,7 @@ import { zUserAdminRoutes } from "./_private/admin/admin.routes";
 import { zAuthRoutes } from "./_private/auth.routes";
 import { zEmailRoutes } from "./_private/emails.routes";
 import { zUserRoutes } from "./_private/user.routes";
+import { zCertificationsRoutes } from "./certification.routes";
 import { IRouteSchema, IRouteSchemaWrite } from "./common.routes";
 import { zCoreRoutes } from "./healthcheck.routes";
 
@@ -14,6 +15,7 @@ const zRoutesGet = {
   ...zAuthRoutes.get,
   ...zCoreRoutes.get,
   ...zEmailRoutes.get,
+  ...zCertificationsRoutes.get,
 } as const;
 
 const zRoutesPost = {

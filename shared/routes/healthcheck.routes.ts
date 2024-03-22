@@ -22,7 +22,7 @@ export const zCoreRoutes = {
       },
       securityScheme: null,
       openapi: {
-        tags: ["système"] as string[],
+        tags: ["Système"] as string[],
       },
     },
     "/healthcheck/sentry": {

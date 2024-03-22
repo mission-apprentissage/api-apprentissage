@@ -9,15 +9,6 @@ import config from "@/config";
 
 import { Server } from "../server";
 
-function getZodMessageError(error: ZodError, context: string): string {
-  const normalizedContext = context ? `${context}.` : "";
-  return error.issues.reduce((acc, issue, i) => {
-    const path = issue.path.length === 0 ? "" : issue.path.join(".");
-    const delimiter = i === 0 ? "" : ", ";
-    return acc + `${delimiter}${normalizedContext}${path}: ${issue.message}`;
-  }, "");
-}
-
 export function boomify(rawError: FastifyError | Boom.Boom<unknown> | Error | ZodError): Boom.Boom<unknown> {
   if (Boom.isBoom(rawError)) {
     return rawError;
@@ -25,19 +16,17 @@ export function boomify(rawError: FastifyError | Boom.Boom<unknown> | Error | Zo
 
   if (rawError.name === "ResponseValidationError") {
     if (config.env === "local") {
-      return Boom.internal(getZodMessageError((rawError as ResponseValidationError).details as ZodError, "response"), {
-        rawError,
+      const zodError = (rawError as ResponseValidationError).details as ZodError;
+      return Boom.internal(rawError.message, {
+        validationError: zodError.format(),
       });
     }
 
-    return Boom.internal("Une erreur est survenue");
+    return Boom.internal();
   }
 
   if (rawError instanceof ZodError) {
-    return Boom.badRequest(
-      getZodMessageError(rawError, (rawError as unknown as FastifyError).validationContext ?? ""),
-      { validationError: rawError }
-    );
+    return Boom.badRequest("Request validation failed", { validationError: rawError.format() });
   }
 
   if ((rawError as FastifyError).statusCode) {
@@ -51,7 +40,7 @@ export function boomify(rawError: FastifyError | Boom.Boom<unknown> | Error | Zo
     return Boom.internal(rawError.message, { rawError, cause: rawError });
   }
 
-  return Boom.internal("Une erreur est survenue");
+  return Boom.internal();
 }
 
 export function errorMiddleware(server: Server) {
@@ -67,7 +56,7 @@ export function errorMiddleware(server: Server) {
       };
 
       if (error.output.statusCode >= 500) {
-        server.log.error(rawError);
+        server.log.error(rawError instanceof ZodError ? rawError.format() : rawError);
         captureException(rawError);
       }
 

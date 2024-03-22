@@ -79,7 +79,7 @@ async function authApiKey(req: FastifyRequest): Promise<UserWithType<"user", IUs
   try {
     const { _id, api_key } = decodeToken(token) as JwtPayload;
 
-    const user = await getDbCollection("users").findOne({ _id: new ObjectId(_id) });
+    const user = await getDbCollection("users").findOne({ _id: new ObjectId(`${_id}`) });
 
     if (!user || !user?.api_key || !compareKeys(user.api_key, api_key)) {
       return null;

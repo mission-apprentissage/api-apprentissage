@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { parisTimezoneDate, parseParisLocalDate, zDateParisLocalDate } from "./date.primitives";
+import { parisTimezoneDate, parseParisLocalDate, zParisLocalDateString } from "./date.primitives";
 
 describe("parisTimezoneDate", () => {
   it.each([
@@ -40,7 +40,7 @@ describe("zDateParisLocalDate", () => {
     ["31/03/2024", "2024-03-30T23:00:00.000Z"],
     ["20/07/2024", "2024-07-19T22:00:00.000Z"],
   ])("should return the correct date", (input, expected) => {
-    const result = zDateParisLocalDate.parse(input);
+    const result = zParisLocalDateString.parse(input);
     expect(result.toISOString()).toBe(expected);
   });
 });

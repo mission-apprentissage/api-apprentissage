@@ -14,26 +14,20 @@ export const ZResError = zodOpenApi
         description: "Données contextuelles liées à l'erreur",
         example: {
           validationError: {
-            issues: [
-              {
-                code: "invalid_type",
-                expected: "number",
-                received: "nan",
-                path: ["longitude"],
-                message: "Number attendu",
-              },
-            ],
-            name: "ZodError",
-            statusCode: 400,
-            code: "FST_ERR_VALIDATION",
-            validationContext: "querystring",
+            _errors: [],
+            "code.cfd": {
+              _errors: ["Invalid"],
+            },
+            "code.rncp": {
+              _errors: ["Invalid"],
+            },
           },
         },
       }),
     code: zodOpenApi.string().nullish(),
     message: zodOpenApi.string().openapi({
       description: "Un message explicatif de l'erreur",
-      example: "querystring.longitude: Number attendu",
+      example: "Request validation failed",
     }),
     name: zodOpenApi.string().openapi({
       description: "Le type générique de l'erreur",

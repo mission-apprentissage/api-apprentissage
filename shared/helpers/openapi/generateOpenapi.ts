@@ -4,6 +4,7 @@ import type { SecurityRequirementObject } from "openapi3-ts/oas30";
 import { ZodType } from "zod";
 
 import { zRoutes } from "../../index";
+import { zPublicCertification } from "../../models/certification.model";
 import { IRouteSchema, ZResError } from "../../routes/common.routes";
 
 function generateOpenApiResponseObject(schema: ZodType, description: string | null = null): ResponseConfig {
@@ -125,6 +126,10 @@ function addOpenApiOperation(
   });
 }
 
+function registerModel(registry: OpenAPIRegistry) {
+  registry.register("Certification", zPublicCertification);
+}
+
 export function generateOpenApiSchema(version: string, env: string, publicUrl: string) {
   const registry = new OpenAPIRegistry();
 
@@ -134,6 +139,7 @@ export function generateOpenApiSchema(version: string, env: string, publicUrl: s
     in: "header",
   });
   registerResponsesError(registry);
+  registerModel(registry);
 
   for (const [method, pathRoutes] of Object.entries(zRoutes)) {
     for (const [path, route] of Object.entries(pathRoutes)) {

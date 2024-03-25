@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { zCertification } from "../models/certification.model";
+import { zPublicCertification } from "../models/certification.model";
 import { zCfdParam, zRncpParam } from "../zod/certifications.primitives";
 import { IRoutesDef } from "./common.routes";
 
@@ -10,11 +10,33 @@ export const zCertificationsRoutes = {
       method: "get",
       path: "/certification/v1",
       querystring: z.object({
-        "code.cfd": zCfdParam.optional(),
-        "code.rncp": zRncpParam.optional(),
+        "code.cfd": zCfdParam.optional().openapi({
+          examples: ["46X32402", "", "null"],
+          param: {
+            description: [
+              "**Filtre la liste des certifications par `code.cfd`**",
+              "- Si la valeur est vide ou `null`, filtre avec `code.cfd = null`",
+              "- Si la valeur est absente, aucun filtre n'est appliqué",
+              "- Sinon doit respecter le regex `/^[A-Z0-9]{3}\\d{3}[A-Z0-9]{2}$/`",
+            ].join("\n\n"),
+            allowEmptyValue: true,
+          },
+        }),
+        "code.rncp": zRncpParam.optional().openapi({
+          examples: ["RNCP12345", "", "null"],
+          param: {
+            description: [
+              "**Filtre la liste des certifications par `code.rncp`**",
+              "- Si la valeur est vide ou `null`, filtre avec `code.rncp = null`",
+              "- Si la valeur est absente, aucun filtre n'est appliqué",
+              "- Sinon doit respecter le regex `/^RNCP\\d{3,5}$/`",
+            ].join("\n\n"),
+            allowEmptyValue: true,
+          },
+        }),
       }),
       response: {
-        "200": z.array(zCertification.omit({ _id: true })),
+        "200": z.array(zPublicCertification),
       },
       securityScheme: {
         auth: "api-key",

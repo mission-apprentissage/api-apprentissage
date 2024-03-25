@@ -20,9 +20,19 @@ const indexes: IModelDescriptor["indexes"] = [
 ];
 
 const zCertificationRncp = zodOpenApi.object({
-  actif: zodOpenApi.boolean(),
-  activation: zLocalDate.nullable(),
-  fin_enregistrement: zLocalDate.nullable(),
+  actif: zodOpenApi.boolean().openapi({
+    description:
+      "Lorsque la fiche est active, les inscriptions à la formation sont ouvertes, à l’inverse, lorsque la fiche est inactive, les inscriptions sont fermées.",
+  }),
+  activation: zLocalDate.nullable().openapi({
+    description:
+      "**Date à laquelle la fiche RNCP est passée au statut `actif`.**\n\nLa date est retournée au format ISO 8601 avec le fuseau horaire Europe/Paris.\n\nLa couverture de ce champ est partiel car nous ne sommes pas en mesure pour le moment de récupérer les dates d'activation antérieures au 24 décembre 2021.",
+    examples: ["2021-09-01T00:00:00.000+02:00", "2022-01-01T00:00:00.000+01:00"],
+  }),
+  fin_enregistrement: zLocalDate.nullable().openapi({
+    description:
+      "**Date de fin d’enregistrement d’une fiche au RNCP.**\n\nLorsque la date d'échéance d'enregistrement de la certification est dépassée. La fiche passe automatiquement au statut Inactive.\n\nPour les enregistrement de droit, cette date est renseignée par le certificateur. Pour les enregistrements sur demande, elle est déterminée par commission au moment de la décision d’enregistrement.\n\nFrance Compétence ne fournie pas l'information du fuseau horaire, nous interprétons arbitrairement sur le fuseau horaire 'Europe/Paris'.\n\nLa date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
+  }),
   debut_parcours: zLocalDate.nullable(),
   intitule: z.string(),
   blocs: zodOpenApi.array(
@@ -173,31 +183,85 @@ export const zCertification = z.object({
         .openapi({
           description: "**Nature du diplôme.**",
         }),
-      gestionnaire: zodOpenApi.string().nullable(),
-      session: zodOpenApi.object({
-        premiere: z.number().int().nullable(),
-        fin: z.number().int().nullable(),
+      gestionnaire: zodOpenApi.string().nullable().openapi({
+        description: "**Service responsable de la définition du diplôme.**",
+        example: "DGESCO A2-3",
       }),
-      niveau: zodOpenApi.object({
-        sigle: zodOpenApi.string(),
-        europeen: zNiveauDiplomeEuropeen.nullable(),
-        formation_diplome: zodOpenApi.string(),
-        intitule: zodOpenApi.string().nullable(),
-        interministeriel: zodOpenApi.string(),
-      }),
-      nsf: zodOpenApi.array(
-        z.object({
-          code: zodOpenApi.string(),
-          intitule: zodOpenApi.string().nullable(),
+      session: zodOpenApi
+        .object({
+          premiere: z.number().int().nullable().openapi({
+            description: "**Année de sortie des premiers diplômés.**",
+            example: 2022,
+          }),
+          fin: z.number().int().nullable().openapi({
+            description: "**Année de sortie des derniers diplômés.**",
+            example: 2025,
+          }),
         })
-      ),
+        .openapi({
+          description: "**Première et derniere année de sortie des diplômés.**",
+        }),
+      niveau: zodOpenApi
+        .object({
+          sigle: zodOpenApi.string().openapi({
+            description: "**Libellé abrégé du niveau de la formation.**",
+            examples: ["CAP", "DUT", "BTS", "CPGE"],
+          }),
+          europeen: zNiveauDiplomeEuropeen.nullable().openapi({
+            description:
+              "**Niveau de qualification de la certification (de 1 à 8) utilisés dans les référentiels nationaux européens.**",
+            examples: ["3", "5"],
+          }),
+          formation_diplome: zodOpenApi.string().openapi({
+            description: "**Code à 3 caractères qui renseigne sur le niveau du diplôme.**",
+            examples: ["500", "370"],
+          }),
+          intitule: zodOpenApi
+            .string()
+            .nullable()
+            .openapi({
+              description: "**Libellé complet du niveau de la formation.**",
+              examples: ["CLASSE PREPA", "TITRE PROFESSIONNEL HOMOLOGUE OU CERTIFIE"],
+            }),
+          interministeriel: zodOpenApi.string().openapi({
+            description: "**Code interministériel du niveau de la formation.**",
+            examples: ["3", "6"],
+          }),
+        })
+        .openapi({
+          description:
+            "**Regroupement des données relative au niveau de la certification provenant de la base centrale des nomenclatures (BCN).**",
+        }),
+      nsf: zodOpenApi
+        .array(
+          z.object({
+            code: zodOpenApi.string().openapi({
+              description: "**Code NSF de la certification.**",
+              examples: ["221", "310"],
+            }),
+            intitule: zodOpenApi
+              .string()
+              .nullable()
+              .openapi({
+                description: "**Intitulé du domaine de formation de la certification.**",
+                examples: ["AGRO-ALIMENTAIRE, ALIMENTATION, CUISINE", "SPECIALIT.PLURIV.DES ECHANGES & GESTION"],
+              }),
+          })
+        )
+        .openapi({
+          description:
+            "Code(s) et intitulé(s) du domaine de formation à laquelle appartient la certification, il suit la Nomenclature des Spécialités de Formation (NSF) de l’INSEE.\n\nLe code NSF est déduis du code formation diplôme (CFD), il n'inclus donc pas la lettre de spécialité et le tableau ne contient qu'un seul élément.",
+        }),
     })
     .nullable()
     .openapi({
       description:
         "**Regroupement des données relative au Code Formation Diplôme (CFD) de la certification provenant de la base centrale des nomenclatures (BCN).**\n\nLorsque `certification.code.cfd` est `null`, alors le champs `certification.cfd` est alors `null`",
     }),
-  rncp: zCertificationRncp.nullable(),
+  rncp: zCertificationRncp.nullable().openapi({
+    description:
+      "**Regroupement des données relative au Répertoire National des Certifications Professionnelles (RNCP) de la certification provenant de France Compétence.**\n\nLorsque `certification.code.rncp` est `null`, alors le champs `certification.rncp` est alors `null`.",
+  }),
   created_at: z.date(),
   updated_at: z.date(),
 });

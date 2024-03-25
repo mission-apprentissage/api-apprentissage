@@ -124,16 +124,55 @@ export const zCertification = z.object({
           "**Date de fermeture du diplôme.**\n\nLa base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.\n\nLa date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
         examples: ["2022-08-31T23:59:59.000+02:00", "2022-12-31T23:59:59.000+01:00"],
       }),
-      creation: zLocalDate.nullable(),
-      abrogation: zLocalDate.nullable(),
-      intitule: zodOpenApi.object({
-        long: zodOpenApi.string(),
-        court: zodOpenApi.string(),
+      creation: zLocalDate.nullable().openapi({
+        description:
+          "**Date d'arrêté de création du diplôme.**\n\nLa base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '00:00:00' sur le fuseau horaire 'Europe/Paris'.\n\nLa date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
+        examples: ["2014-02-21T00:00:00.000+01:00", "2018-05-11T00:00:00.000+02:00"],
       }),
-      nature: zodOpenApi.object({
-        code: zodOpenApi.string().nullable(),
-        libelle: zodOpenApi.string().nullable(),
+      abrogation: zLocalDate.nullable().openapi({
+        description:
+          "**Date d'arrêté d'abrogation du diplôme.**\n\nLa base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.\n\nLa date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
+        examples: ["2022-08-31T23:59:59.000+02:00", "2022-12-31T23:59:59.000+01:00"],
       }),
+      intitule: zodOpenApi
+        .object({
+          long: zodOpenApi.string().openapi({
+            description: "**Intitulé long du diplôme.**",
+            examples: ["BOULANGER (CAP)", "GENIE BIOLOGIQUE OPTION AGRONOMIE (DUT)"],
+          }),
+          court: zodOpenApi.string().openapi({
+            description: "**Intitulé court du diplôme.**",
+            examples: ["BOULANGER", "GENIE BIO - AGRONOMIE"],
+          }),
+        })
+        .openapi({
+          description:
+            "**Intitulé du diplôme.**\n\nLa base centrale des nomenclatures (BCN) fournie un intitulé long et court du diplôme.",
+        }),
+      nature: zodOpenApi
+        .object({
+          code: zodOpenApi
+            .string()
+            .nullable()
+            .openapi({
+              description: "**Code de la nature du diplôme.**",
+              examples: ["1", "2", "P"],
+            }),
+          libelle: zodOpenApi
+            .string()
+            .nullable()
+            .openapi({
+              description: "**Intitulé de la nature du diplôme.**",
+              examples: [
+                "DIPLOME NATIONAL / DIPLOME D'ETAT",
+                "TITRE PROFESSIONNEL HOMOLOGUE OU CERTIFIE",
+                "CLASSE PREPA",
+              ],
+            }),
+        })
+        .openapi({
+          description: "**Nature du diplôme.**",
+        }),
       gestionnaire: zodOpenApi.string().nullable(),
       session: zodOpenApi.object({
         premiere: z.number().int().nullable(),

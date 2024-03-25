@@ -45,6 +45,9 @@ export const zCertificationsRoutes = {
       },
       openapi: {
         tags: ["Certifications"] as string[],
+        summary: "Récupération des certifications",
+        description: "Récupère la liste des certifications, filtrée par `code.cfd` et `code.rncp`",
+        operationId: "getCertifications",
       },
     },
   },

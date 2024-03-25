@@ -151,10 +151,11 @@ export function generateOpenApiSchema(version: string, env: string, publicUrl: s
 
   return generator.generateDocument({
     info: {
-      title: "API documentation",
+      title: "Documentation technique de l'API Apprentissage",
       version,
       license: {
-        name: "MIT",
+        name: "Etalab-2.0",
+        url: "https://github.com/etalab/licence-ouverte/blob/master/LO.md",
       },
     },
     openapi: "3.1.0",
@@ -164,5 +165,6 @@ export function generateOpenApiSchema(version: string, env: string, publicUrl: s
         description: env,
       },
     ],
+    tags: [{ name: "Certifications", description: "Liste des opérations sur les certifications." }],
   });
 }

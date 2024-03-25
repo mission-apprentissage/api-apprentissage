@@ -20,13 +20,27 @@ export const zNiveauDiplomeEuropeen = zodOpenApi.enum(["1", "2", "3", "4", "5", 
 
 export type INiveauDiplomeEuropeen = zodOpenApi.output<typeof zNiveauDiplomeEuropeen>;
 
-export const zNsfCode = zodOpenApi.string().regex(/^\d{2,3}[a-z]?$/);
+export const zNsfCode = zodOpenApi
+  .string()
+  .regex(/^\d{2,3}[a-z]?$/)
+  .openapi({
+    example: "221",
+  });
 
 export const zCfdNatureCode = zodOpenApi.string().regex(/^[0-9A-Z]$/);
 
-export const zRncpBlocCompetenceCode = zodOpenApi.string().regex(/^RNCP\d{3,5}BC\d{1,2}$/);
+export const zRncpBlocCompetenceCode = zodOpenApi
+  .string()
+  .regex(/^RNCP\d{3,5}BC\d{1,2}$/)
+  .openapi({
+    example: "RNCP37537BC01",
+  });
 
-export const zTypeEnregistrement = zodOpenApi.enum(["Enregistrement de droit", "Enregistrement sur demande"]);
+export const zTypeEnregistrement = zodOpenApi.enum(["Enregistrement de droit", "Enregistrement sur demande"]).openapi({
+  description:
+    "Permet de savoir si la certification est enregistrée de droit ou sur demande au Repertoire National des Certifications Professionnelles (RNCP)",
+  example: "Enregistrement de droit",
+});
 
 export const zCertificationCode = zodOpenApi
   .string()

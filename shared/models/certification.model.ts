@@ -33,57 +33,125 @@ const zCertificationRncp = zodOpenApi.object({
     description:
       "**Date de fin d’enregistrement d’une fiche au RNCP.**\n\nLorsque la date d'échéance d'enregistrement de la certification est dépassée. La fiche passe automatiquement au statut Inactive.\n\nPour les enregistrement de droit, cette date est renseignée par le certificateur. Pour les enregistrements sur demande, elle est déterminée par commission au moment de la décision d’enregistrement.\n\nFrance Compétence ne fournie pas l'information du fuseau horaire, nous interprétons arbitrairement sur le fuseau horaire 'Europe/Paris'.\n\nLa date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
   }),
-  debut_parcours: zLocalDate.nullable(),
-  intitule: z.string(),
-  blocs: zodOpenApi.array(
-    zodOpenApi.object({
-      code: zRncpBlocCompetenceCode,
-      intitule: zodOpenApi.string().nullable(),
-    })
-  ),
-  rome: zodOpenApi.array(
-    zodOpenApi.object({
-      code: zodOpenApi.string(),
-      intitule: zodOpenApi.string(),
-    })
-  ),
-  formacodes: zodOpenApi.array(
-    zodOpenApi.object({
-      code: zodOpenApi.string(),
-      intitule: zodOpenApi.string(),
-    })
-  ),
-  convention_collectives: zodOpenApi.array(
-    zodOpenApi.object({
-      numero: zodOpenApi.string(),
-      intitule: zodOpenApi.string(),
-    })
-  ),
+  debut_parcours: zLocalDate.nullable().openapi({
+    description:
+      "**Date de début des parcours certifiants.**Anciennement appelé 'date d'effet' pour les enregistrements de droit et correspondant à la date de décision pour les enregistrements sur demande.\n\nLa date est retournée au format ISO 8601 avec le fuseau horaire Europe/Paris.",
+    examples: ["2021-09-01T00:00:00.000+02:00", "2022-01-01T00:00:00.000+01:00"],
+  }),
+  intitule: z.string().openapi({
+    example: "Boulanger",
+  }),
+  blocs: zodOpenApi
+    .array(
+      zodOpenApi.object({
+        code: zRncpBlocCompetenceCode,
+        intitule: zodOpenApi.string().nullable().openapi({
+          example: "Approvisionnement, communication, sécurité alimentaire et hygiène en boulangerie",
+        }),
+      })
+    )
+    .openapi({
+      description: "Liste du (ou des) code (s) et intitulé(s) des blocs de compétences validées par la certification",
+    }),
+  rome: zodOpenApi
+    .array(
+      zodOpenApi.object({
+        code: zodOpenApi.string().openapi({
+          example: "D1102",
+        }),
+        intitule: zodOpenApi.string().openapi({
+          example: "Boulangerie - viennoiserie",
+        }),
+      })
+    )
+    .openapi({
+      description:
+        "Code(s) et intitulé(s) de la (ou des) fiche(s) métier du Répertoire Opérationnel des Métiers et de l’Emploi (ROME) associé(s) à la certification.",
+    }),
+  formacodes: zodOpenApi
+    .array(
+      zodOpenApi.object({
+        code: zodOpenApi.string().openapi({
+          example: "21538",
+        }),
+        intitule: zodOpenApi.string().openapi({
+          example: "21538 : Boulangerie",
+        }),
+      })
+    )
+    .openapi({
+      description: "Code(s) et intitulé(s) du (ou des) code Formacode(s) auquel(s) appartien(ne)t la certification",
+    }),
+  convention_collectives: zodOpenApi
+    .array(
+      zodOpenApi.object({
+        numero: zodOpenApi.string().openapi({
+          example: "3002",
+        }),
+        intitule: zodOpenApi.string().openapi({
+          example: "Bâtiment (Employés, techniciens et agents de maîtrise, ingénieurs, assimilés et cadres)",
+        }),
+      })
+    )
+    .openapi({
+      description: "Numéro(s) et intitulé(s) de la convention collective associée(s) à la fiche RNCP",
+    }),
   niveau: zodOpenApi.object({
-    europeen: zNiveauDiplomeEuropeen.nullable(),
+    europeen: zNiveauDiplomeEuropeen.nullable().openapi({
+      description:
+        "Niveau de qualification de la certification (de 1 à 8) utilisés dans les référentiels nationaux européens.",
+      example: "3",
+    }),
     interministeriel: zodOpenApi.string().nullable(),
   }),
-  nsf: zodOpenApi.array(
-    z.object({
-      code: zNsfCode,
-      intitule: zodOpenApi.string().nullable(),
-    })
-  ),
+  nsf: zodOpenApi
+    .array(
+      z.object({
+        code: zNsfCode,
+        intitule: zodOpenApi.string().nullable().openapi({
+          example: "221 : Agro-alimentaire, alimentation, cuisine",
+        }),
+      })
+    )
+    .openapi({
+      description:
+        "Code(s) et intitulé(s) du domaine de formation à laquelle appartient la certification, il suit la Nomenclature des Spécialités de Formation (NSF) de l’INSEE.",
+    }),
   enregistrement: zTypeEnregistrement,
   voie_acces: zodOpenApi.object({
-    apprentissage: zodOpenApi.boolean(),
-    experience: zodOpenApi.boolean(),
-    candidature_individuelle: zodOpenApi.boolean(),
-    contrat_professionnalisation: zodOpenApi.boolean(),
-    formation_continue: zodOpenApi.boolean(),
-    formation_statut_eleve: zodOpenApi.boolean(),
+    apprentissage: zodOpenApi.boolean().openapi({
+      description: "Certification accessible en contrat d’apprentissage.",
+    }),
+    experience: zodOpenApi.boolean().openapi({
+      description: "Certification accessible par expérience.",
+    }),
+    candidature_individuelle: zodOpenApi.boolean().openapi({
+      description: "Certification accessible par candidature individuelle.",
+    }),
+    contrat_professionnalisation: zodOpenApi.boolean().openapi({
+      description: "Certification accessible en contrat de professionnalisation.",
+    }),
+    formation_continue: zodOpenApi.boolean().openapi({
+      description: "Certification accessible après un parcours de formation continue.",
+    }),
+    formation_statut_eleve: zodOpenApi.boolean().openapi({
+      description: "Certification accessible après un parcours de formation sous statut d’élève ou d’étudiant.",
+    }),
   }),
-  certificateurs: zodOpenApi.array(
-    zodOpenApi.object({
-      siret: zodOpenApi.string(),
-      nom: zodOpenApi.string(),
-    })
-  ),
+  certificateurs: zodOpenApi
+    .array(
+      zodOpenApi.object({
+        siret: zodOpenApi.string().openapi({
+          description: "Numéro SIRET du certificateur renseigné dans le RNCP.",
+        }),
+        nom: zodOpenApi.string().openapi({
+          description: "Nom du certificateur renseigné dans le RNCP.",
+        }),
+      })
+    )
+    .openapi({
+      description: "Liste des certificateurs de la certification.",
+    }),
 });
 
 export const zCertification = z.object({

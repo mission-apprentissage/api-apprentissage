@@ -469,13 +469,16 @@ La couverture de ce champ est partiel car nous ne sommes pas en mesure pour le m
                 ],
               },
               "blocs": {
+                "description": "Liste du (ou des) code (s) et intitulé(s) des blocs de compétences validées par la certification",
                 "items": {
                   "properties": {
                     "code": {
+                      "example": "RNCP37537BC01",
                       "pattern": "^RNCP\\d{3,5}BC\\d{1,2}$",
                       "type": "string",
                     },
                     "intitule": {
+                      "example": "Approvisionnement, communication, sécurité alimentaire et hygiène en boulangerie",
                       "type": [
                         "string",
                         "null",
@@ -491,12 +494,15 @@ La couverture de ce champ est partiel car nous ne sommes pas en mesure pour le m
                 "type": "array",
               },
               "certificateurs": {
+                "description": "Liste des certificateurs de la certification.",
                 "items": {
                   "properties": {
                     "nom": {
+                      "description": "Nom du certificateur renseigné dans le RNCP.",
                       "type": "string",
                     },
                     "siret": {
+                      "description": "Numéro SIRET du certificateur renseigné dans le RNCP.",
                       "type": "string",
                     },
                   },
@@ -509,12 +515,15 @@ La couverture de ce champ est partiel car nous ne sommes pas en mesure pour le m
                 "type": "array",
               },
               "convention_collectives": {
+                "description": "Numéro(s) et intitulé(s) de la convention collective associée(s) à la fiche RNCP",
                 "items": {
                   "properties": {
                     "intitule": {
+                      "example": "Bâtiment (Employés, techniciens et agents de maîtrise, ingénieurs, assimilés et cadres)",
                       "type": "string",
                     },
                     "numero": {
+                      "example": "3002",
                       "type": "string",
                     },
                   },
@@ -527,6 +536,13 @@ La couverture de ce champ est partiel car nous ne sommes pas en mesure pour le m
                 "type": "array",
               },
               "debut_parcours": {
+                "description": "**Date de début des parcours certifiants.**Anciennement appelé 'date d'effet' pour les enregistrements de droit et correspondant à la date de décision pour les enregistrements sur demande.
+
+La date est retournée au format ISO 8601 avec le fuseau horaire Europe/Paris.",
+                "examples": [
+                  "2021-09-01T00:00:00.000+02:00",
+                  "2022-01-01T00:00:00.000+01:00",
+                ],
                 "format": "date-time",
                 "type": [
                   "string",
@@ -534,10 +550,12 @@ La couverture de ce champ est partiel car nous ne sommes pas en mesure pour le m
                 ],
               },
               "enregistrement": {
+                "description": "Permet de savoir si la certification est enregistrée de droit ou sur demande au Repertoire National des Certifications Professionnelles (RNCP)",
                 "enum": [
                   "Enregistrement de droit",
                   "Enregistrement sur demande",
                 ],
+                "example": "Enregistrement de droit",
                 "type": "string",
               },
               "fin_enregistrement": {
@@ -557,12 +575,15 @@ La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.
                 ],
               },
               "formacodes": {
+                "description": "Code(s) et intitulé(s) du (ou des) code Formacode(s) auquel(s) appartien(ne)t la certification",
                 "items": {
                   "properties": {
                     "code": {
+                      "example": "21538",
                       "type": "string",
                     },
                     "intitule": {
+                      "example": "21538 : Boulangerie",
                       "type": "string",
                     },
                   },
@@ -575,11 +596,13 @@ La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.
                 "type": "array",
               },
               "intitule": {
+                "example": "Boulanger",
                 "type": "string",
               },
               "niveau": {
                 "properties": {
                   "europeen": {
+                    "description": "Niveau de qualification de la certification (de 1 à 8) utilisés dans les référentiels nationaux européens.",
                     "enum": [
                       "1",
                       "2",
@@ -590,6 +613,7 @@ La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.
                       "7",
                       "8",
                     ],
+                    "example": "3",
                     "type": [
                       "string",
                       "null",
@@ -609,13 +633,16 @@ La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.
                 "type": "object",
               },
               "nsf": {
+                "description": "Code(s) et intitulé(s) du domaine de formation à laquelle appartient la certification, il suit la Nomenclature des Spécialités de Formation (NSF) de l’INSEE.",
                 "items": {
                   "properties": {
                     "code": {
+                      "example": "221",
                       "pattern": "^\\d{2,3}[a-z]?$",
                       "type": "string",
                     },
                     "intitule": {
+                      "example": "221 : Agro-alimentaire, alimentation, cuisine",
                       "type": [
                         "string",
                         "null",
@@ -631,12 +658,15 @@ La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.
                 "type": "array",
               },
               "rome": {
+                "description": "Code(s) et intitulé(s) de la (ou des) fiche(s) métier du Répertoire Opérationnel des Métiers et de l’Emploi (ROME) associé(s) à la certification.",
                 "items": {
                   "properties": {
                     "code": {
+                      "example": "D1102",
                       "type": "string",
                     },
                     "intitule": {
+                      "example": "Boulangerie - viennoiserie",
                       "type": "string",
                     },
                   },
@@ -651,21 +681,27 @@ La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.
               "voie_acces": {
                 "properties": {
                   "apprentissage": {
+                    "description": "Certification accessible en contrat d’apprentissage.",
                     "type": "boolean",
                   },
                   "candidature_individuelle": {
+                    "description": "Certification accessible par candidature individuelle.",
                     "type": "boolean",
                   },
                   "contrat_professionnalisation": {
+                    "description": "Certification accessible en contrat de professionnalisation.",
                     "type": "boolean",
                   },
                   "experience": {
+                    "description": "Certification accessible par expérience.",
                     "type": "boolean",
                   },
                   "formation_continue": {
+                    "description": "Certification accessible après un parcours de formation continue.",
                     "type": "boolean",
                   },
                   "formation_statut_eleve": {
+                    "description": "Certification accessible après un parcours de formation sous statut d’élève ou d’étudiant.",
                     "type": "boolean",
                   },
                 },
@@ -1223,13 +1259,16 @@ La couverture de ce champ est partiel car nous ne sommes pas en mesure pour le m
                             ],
                           },
                           "blocs": {
+                            "description": "Liste du (ou des) code (s) et intitulé(s) des blocs de compétences validées par la certification",
                             "items": {
                               "properties": {
                                 "code": {
+                                  "example": "RNCP37537BC01",
                                   "pattern": "^RNCP\\d{3,5}BC\\d{1,2}$",
                                   "type": "string",
                                 },
                                 "intitule": {
+                                  "example": "Approvisionnement, communication, sécurité alimentaire et hygiène en boulangerie",
                                   "type": [
                                     "string",
                                     "null",
@@ -1245,12 +1284,15 @@ La couverture de ce champ est partiel car nous ne sommes pas en mesure pour le m
                             "type": "array",
                           },
                           "certificateurs": {
+                            "description": "Liste des certificateurs de la certification.",
                             "items": {
                               "properties": {
                                 "nom": {
+                                  "description": "Nom du certificateur renseigné dans le RNCP.",
                                   "type": "string",
                                 },
                                 "siret": {
+                                  "description": "Numéro SIRET du certificateur renseigné dans le RNCP.",
                                   "type": "string",
                                 },
                               },
@@ -1263,12 +1305,15 @@ La couverture de ce champ est partiel car nous ne sommes pas en mesure pour le m
                             "type": "array",
                           },
                           "convention_collectives": {
+                            "description": "Numéro(s) et intitulé(s) de la convention collective associée(s) à la fiche RNCP",
                             "items": {
                               "properties": {
                                 "intitule": {
+                                  "example": "Bâtiment (Employés, techniciens et agents de maîtrise, ingénieurs, assimilés et cadres)",
                                   "type": "string",
                                 },
                                 "numero": {
+                                  "example": "3002",
                                   "type": "string",
                                 },
                               },
@@ -1281,6 +1326,13 @@ La couverture de ce champ est partiel car nous ne sommes pas en mesure pour le m
                             "type": "array",
                           },
                           "debut_parcours": {
+                            "description": "**Date de début des parcours certifiants.**Anciennement appelé 'date d'effet' pour les enregistrements de droit et correspondant à la date de décision pour les enregistrements sur demande.
+
+La date est retournée au format ISO 8601 avec le fuseau horaire Europe/Paris.",
+                            "examples": [
+                              "2021-09-01T00:00:00.000+02:00",
+                              "2022-01-01T00:00:00.000+01:00",
+                            ],
                             "format": "date-time",
                             "type": [
                               "string",
@@ -1288,10 +1340,12 @@ La couverture de ce champ est partiel car nous ne sommes pas en mesure pour le m
                             ],
                           },
                           "enregistrement": {
+                            "description": "Permet de savoir si la certification est enregistrée de droit ou sur demande au Repertoire National des Certifications Professionnelles (RNCP)",
                             "enum": [
                               "Enregistrement de droit",
                               "Enregistrement sur demande",
                             ],
+                            "example": "Enregistrement de droit",
                             "type": "string",
                           },
                           "fin_enregistrement": {
@@ -1311,12 +1365,15 @@ La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.
                             ],
                           },
                           "formacodes": {
+                            "description": "Code(s) et intitulé(s) du (ou des) code Formacode(s) auquel(s) appartien(ne)t la certification",
                             "items": {
                               "properties": {
                                 "code": {
+                                  "example": "21538",
                                   "type": "string",
                                 },
                                 "intitule": {
+                                  "example": "21538 : Boulangerie",
                                   "type": "string",
                                 },
                               },
@@ -1329,11 +1386,13 @@ La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.
                             "type": "array",
                           },
                           "intitule": {
+                            "example": "Boulanger",
                             "type": "string",
                           },
                           "niveau": {
                             "properties": {
                               "europeen": {
+                                "description": "Niveau de qualification de la certification (de 1 à 8) utilisés dans les référentiels nationaux européens.",
                                 "enum": [
                                   "1",
                                   "2",
@@ -1344,6 +1403,7 @@ La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.
                                   "7",
                                   "8",
                                 ],
+                                "example": "3",
                                 "type": [
                                   "string",
                                   "null",
@@ -1363,13 +1423,16 @@ La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.
                             "type": "object",
                           },
                           "nsf": {
+                            "description": "Code(s) et intitulé(s) du domaine de formation à laquelle appartient la certification, il suit la Nomenclature des Spécialités de Formation (NSF) de l’INSEE.",
                             "items": {
                               "properties": {
                                 "code": {
+                                  "example": "221",
                                   "pattern": "^\\d{2,3}[a-z]?$",
                                   "type": "string",
                                 },
                                 "intitule": {
+                                  "example": "221 : Agro-alimentaire, alimentation, cuisine",
                                   "type": [
                                     "string",
                                     "null",
@@ -1385,12 +1448,15 @@ La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.
                             "type": "array",
                           },
                           "rome": {
+                            "description": "Code(s) et intitulé(s) de la (ou des) fiche(s) métier du Répertoire Opérationnel des Métiers et de l’Emploi (ROME) associé(s) à la certification.",
                             "items": {
                               "properties": {
                                 "code": {
+                                  "example": "D1102",
                                   "type": "string",
                                 },
                                 "intitule": {
+                                  "example": "Boulangerie - viennoiserie",
                                   "type": "string",
                                 },
                               },
@@ -1405,21 +1471,27 @@ La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.
                           "voie_acces": {
                             "properties": {
                               "apprentissage": {
+                                "description": "Certification accessible en contrat d’apprentissage.",
                                 "type": "boolean",
                               },
                               "candidature_individuelle": {
+                                "description": "Certification accessible par candidature individuelle.",
                                 "type": "boolean",
                               },
                               "contrat_professionnalisation": {
+                                "description": "Certification accessible en contrat de professionnalisation.",
                                 "type": "boolean",
                               },
                               "experience": {
+                                "description": "Certification accessible par expérience.",
                                 "type": "boolean",
                               },
                               "formation_continue": {
+                                "description": "Certification accessible après un parcours de formation continue.",
                                 "type": "boolean",
                               },
                               "formation_statut_eleve": {
+                                "description": "Certification accessible après un parcours de formation sous statut d’élève ou d’étudiant.",
                                 "type": "boolean",
                               },
                             },
@@ -1901,13 +1973,16 @@ La couverture de ce champ est partiel car nous ne sommes pas en mesure pour le m
                             ],
                           },
                           "blocs": {
+                            "description": "Liste du (ou des) code (s) et intitulé(s) des blocs de compétences validées par la certification",
                             "items": {
                               "properties": {
                                 "code": {
+                                  "example": "RNCP37537BC01",
                                   "pattern": "^RNCP\\d{3,5}BC\\d{1,2}$",
                                   "type": "string",
                                 },
                                 "intitule": {
+                                  "example": "Approvisionnement, communication, sécurité alimentaire et hygiène en boulangerie",
                                   "type": [
                                     "string",
                                     "null",
@@ -1923,12 +1998,15 @@ La couverture de ce champ est partiel car nous ne sommes pas en mesure pour le m
                             "type": "array",
                           },
                           "certificateurs": {
+                            "description": "Liste des certificateurs de la certification.",
                             "items": {
                               "properties": {
                                 "nom": {
+                                  "description": "Nom du certificateur renseigné dans le RNCP.",
                                   "type": "string",
                                 },
                                 "siret": {
+                                  "description": "Numéro SIRET du certificateur renseigné dans le RNCP.",
                                   "type": "string",
                                 },
                               },
@@ -1941,12 +2019,15 @@ La couverture de ce champ est partiel car nous ne sommes pas en mesure pour le m
                             "type": "array",
                           },
                           "convention_collectives": {
+                            "description": "Numéro(s) et intitulé(s) de la convention collective associée(s) à la fiche RNCP",
                             "items": {
                               "properties": {
                                 "intitule": {
+                                  "example": "Bâtiment (Employés, techniciens et agents de maîtrise, ingénieurs, assimilés et cadres)",
                                   "type": "string",
                                 },
                                 "numero": {
+                                  "example": "3002",
                                   "type": "string",
                                 },
                               },
@@ -1959,6 +2040,13 @@ La couverture de ce champ est partiel car nous ne sommes pas en mesure pour le m
                             "type": "array",
                           },
                           "debut_parcours": {
+                            "description": "**Date de début des parcours certifiants.**Anciennement appelé 'date d'effet' pour les enregistrements de droit et correspondant à la date de décision pour les enregistrements sur demande.
+
+La date est retournée au format ISO 8601 avec le fuseau horaire Europe/Paris.",
+                            "examples": [
+                              "2021-09-01T00:00:00.000+02:00",
+                              "2022-01-01T00:00:00.000+01:00",
+                            ],
                             "format": "date-time",
                             "type": [
                               "string",
@@ -1966,10 +2054,12 @@ La couverture de ce champ est partiel car nous ne sommes pas en mesure pour le m
                             ],
                           },
                           "enregistrement": {
+                            "description": "Permet de savoir si la certification est enregistrée de droit ou sur demande au Repertoire National des Certifications Professionnelles (RNCP)",
                             "enum": [
                               "Enregistrement de droit",
                               "Enregistrement sur demande",
                             ],
+                            "example": "Enregistrement de droit",
                             "type": "string",
                           },
                           "fin_enregistrement": {
@@ -1989,12 +2079,15 @@ La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.
                             ],
                           },
                           "formacodes": {
+                            "description": "Code(s) et intitulé(s) du (ou des) code Formacode(s) auquel(s) appartien(ne)t la certification",
                             "items": {
                               "properties": {
                                 "code": {
+                                  "example": "21538",
                                   "type": "string",
                                 },
                                 "intitule": {
+                                  "example": "21538 : Boulangerie",
                                   "type": "string",
                                 },
                               },
@@ -2007,11 +2100,13 @@ La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.
                             "type": "array",
                           },
                           "intitule": {
+                            "example": "Boulanger",
                             "type": "string",
                           },
                           "niveau": {
                             "properties": {
                               "europeen": {
+                                "description": "Niveau de qualification de la certification (de 1 à 8) utilisés dans les référentiels nationaux européens.",
                                 "enum": [
                                   "1",
                                   "2",
@@ -2022,6 +2117,7 @@ La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.
                                   "7",
                                   "8",
                                 ],
+                                "example": "3",
                                 "type": [
                                   "string",
                                   "null",
@@ -2041,13 +2137,16 @@ La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.
                             "type": "object",
                           },
                           "nsf": {
+                            "description": "Code(s) et intitulé(s) du domaine de formation à laquelle appartient la certification, il suit la Nomenclature des Spécialités de Formation (NSF) de l’INSEE.",
                             "items": {
                               "properties": {
                                 "code": {
+                                  "example": "221",
                                   "pattern": "^\\d{2,3}[a-z]?$",
                                   "type": "string",
                                 },
                                 "intitule": {
+                                  "example": "221 : Agro-alimentaire, alimentation, cuisine",
                                   "type": [
                                     "string",
                                     "null",
@@ -2063,12 +2162,15 @@ La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.
                             "type": "array",
                           },
                           "rome": {
+                            "description": "Code(s) et intitulé(s) de la (ou des) fiche(s) métier du Répertoire Opérationnel des Métiers et de l’Emploi (ROME) associé(s) à la certification.",
                             "items": {
                               "properties": {
                                 "code": {
+                                  "example": "D1102",
                                   "type": "string",
                                 },
                                 "intitule": {
+                                  "example": "Boulangerie - viennoiserie",
                                   "type": "string",
                                 },
                               },
@@ -2083,21 +2185,27 @@ La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.
                           "voie_acces": {
                             "properties": {
                               "apprentissage": {
+                                "description": "Certification accessible en contrat d’apprentissage.",
                                 "type": "boolean",
                               },
                               "candidature_individuelle": {
+                                "description": "Certification accessible par candidature individuelle.",
                                 "type": "boolean",
                               },
                               "contrat_professionnalisation": {
+                                "description": "Certification accessible en contrat de professionnalisation.",
                                 "type": "boolean",
                               },
                               "experience": {
+                                "description": "Certification accessible par expérience.",
                                 "type": "boolean",
                               },
                               "formation_continue": {
+                                "description": "Certification accessible après un parcours de formation continue.",
                                 "type": "boolean",
                               },
                               "formation_statut_eleve": {
+                                "description": "Certification accessible après un parcours de formation sous statut d’élève ou d’étudiant.",
                                 "type": "boolean",
                               },
                             },

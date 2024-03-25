@@ -19,7 +19,7 @@ export default function RedocPage() {
         theme: {
           spacing: {
             sectionHorizontal: 20,
-            sectionVertical: 5,
+            sectionVertical: 10,
           },
           sidebar: {
             width: "0px",
@@ -32,7 +32,26 @@ export default function RedocPage() {
             },
           },
         },
-        nonce: "random",
+        labels: {
+          enum: "Enum",
+          enumSingleValue: "Valeur",
+          enumArray: "Éléments",
+          default: "Défaut",
+          deprecated: "Déprécié",
+          example: "Exemple",
+          examples: "Exemples",
+          recursive: "Récurssif",
+          arrayOf: "Tableau de ",
+          webhook: "Événement",
+          const: "Valeur",
+          noResultsFound: "Aucun résultat trouvé",
+          download: "Télécharger",
+          downloadSpecification: "Télécharger la spécification OpenAPI",
+          responses: "Réponses",
+          callbackResponses: "Réponses des callbacks",
+          requestSamples: "Exemples de requêtes",
+          responseSamples: "Exemples de réponses",
+        },
       }}
     />
   );

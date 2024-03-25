@@ -180,7 +180,7 @@ describe("authenticationMiddleware", () => {
       ]);
     });
 
-    it.skip("should support multiple keys", async () => {
+    it("should support multiple keys", async () => {
       const token1 = await generateApiKey(user);
 
       const tomorrow = new Date("2024-03-22T12:00:00Z");
@@ -257,7 +257,7 @@ describe("authenticationMiddleware", () => {
       };
 
       await expect(authenticationMiddleware(schema, req2)).resolves.toBeUndefined();
-      expect(req1.user).toEqual({
+      expect(req2.user).toEqual({
         type: "user",
         value: expectedUser2,
       });

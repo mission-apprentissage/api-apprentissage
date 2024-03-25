@@ -13,21 +13,26 @@ export function apiKeyUsageMiddleware(server: Server) {
       now.setUTCMinutes(0);
       now.setUTCHours(0);
 
-      const metadata: Omit<IIndicateurUsageApi, "_id" | "count"> = {
+      const metadata: Omit<IIndicateurUsageApi, "_id" | "usage"> = {
         user_id: request.user.value._id,
         api_key_id: request.api_key._id,
         method: request.routeOptions.method,
         path: request.routeOptions.config.url,
         date: now,
-        status_code: reply.statusCode,
       };
 
       await getDbCollection("indicateurs.usage_api").updateOne(
         metadata,
-        { $setOnInsert: { ...metadata, count: 0 } },
+        { $setOnInsert: { ...metadata, usage: {} } },
         { upsert: true }
       );
-      await getDbCollection("indicateurs.usage_api").updateOne(metadata, { $inc: { count: 1 } });
+      await getDbCollection("indicateurs.usage_api").updateOne(metadata, [
+        {
+          $set: {
+            [`usage.${reply.statusCode}`]: { $add: [{ $ifNull: [`$usage.${reply.statusCode}`, 0] }, 1] },
+          },
+        },
+      ]);
     }
   });
 }

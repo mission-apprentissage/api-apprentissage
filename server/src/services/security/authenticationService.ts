@@ -87,8 +87,6 @@ async function authApiKey(req: FastifyRequest): Promise<UserWithType<"user", IUs
       return null;
     }
 
-    req.api_key = savedKey;
-
     const now = new Date();
     const updatedUser = await getDbCollection("users").findOneAndUpdate(
       { "api_keys._id": savedKey._id },
@@ -100,6 +98,8 @@ async function authApiKey(req: FastifyRequest): Promise<UserWithType<"user", IUs
       },
       { returnDocument: "after" }
     );
+
+    req.api_key = updatedUser?.api_keys.find((key) => key._id.equals(savedKey._id)) ?? null;
 
     return updatedUser === null ? null : { type: "user", value: updatedUser };
   } catch (error) {

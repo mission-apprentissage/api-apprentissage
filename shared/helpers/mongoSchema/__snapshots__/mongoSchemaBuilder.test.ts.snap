@@ -880,6 +880,48 @@ exports[`zodToMongoSchema > should convert import.meta schema 1`] = `
 }
 `;
 
+exports[`zodToMongoSchema > should convert indicateurs.usage_api schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "api_key_id": {
+      "bsonType": "objectId",
+    },
+    "date": {
+      "bsonType": "date",
+    },
+    "method": {
+      "bsonType": "string",
+    },
+    "path": {
+      "bsonType": "string",
+    },
+    "usage": {
+      "additionalProperties": {
+        "bsonType": "number",
+      },
+      "bsonType": "object",
+    },
+    "user_id": {
+      "bsonType": "objectId",
+    },
+  },
+  "required": [
+    "_id",
+    "method",
+    "path",
+    "date",
+    "user_id",
+    "api_key_id",
+    "usage",
+  ],
+}
+`;
+
 exports[`zodToMongoSchema > should convert sessions schema 1`] = `
 {
   "additionalProperties": false,

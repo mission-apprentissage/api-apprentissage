@@ -127,11 +127,10 @@ describe("apiKeyUsageMiddleware", () => {
       api_key_id: user.api_keys[0]._id,
       method: "GET",
       path: "/",
-      status_code: 200,
     };
 
     expect(await getDbCollection("indicateurs.usage_api").find().toArray()).toEqual([
-      { ...attributes, date: new Date("2024-03-21T00:00:00Z"), count: 1 },
+      { ...attributes, date: new Date("2024-03-21T00:00:00Z"), usage: { "200": 1 } },
     ]);
 
     await runGet();
@@ -140,7 +139,7 @@ describe("apiKeyUsageMiddleware", () => {
     await runGet();
 
     expect(await getDbCollection("indicateurs.usage_api").find().toArray()).toEqual([
-      { ...attributes, date: new Date("2024-03-21T00:00:00Z"), count: 3 },
+      { ...attributes, date: new Date("2024-03-21T00:00:00Z"), usage: { "200": 3 } },
     ]);
 
     // We advance time by 1 hour
@@ -148,8 +147,8 @@ describe("apiKeyUsageMiddleware", () => {
     await runGet();
 
     expect(await getDbCollection("indicateurs.usage_api").find().toArray()).toEqual([
-      { ...attributes, date: new Date("2024-03-21T00:00:00Z"), count: 3 },
-      { ...attributes, date: new Date("2024-03-22T00:00:00Z"), count: 1 },
+      { ...attributes, date: new Date("2024-03-21T00:00:00Z"), usage: { "200": 3 } },
+      { ...attributes, date: new Date("2024-03-22T00:00:00Z"), usage: { "200": 1 } },
     ]);
   });
 
@@ -167,8 +166,7 @@ describe("apiKeyUsageMiddleware", () => {
     };
 
     expect(await getDbCollection("indicateurs.usage_api").find().toArray()).toEqual([
-      { ...attributes, date: new Date("2024-03-21T00:00:00Z"), count: 2, status_code: 200 },
-      { ...attributes, date: new Date("2024-03-21T00:00:00Z"), count: 1, status_code: 400 },
+      { ...attributes, date: new Date("2024-03-21T00:00:00Z"), usage: { "200": 2, 400: 1 } },
     ]);
   });
 
@@ -191,8 +189,7 @@ describe("apiKeyUsageMiddleware", () => {
         method: "GET",
         path: "/",
         date: new Date("2024-03-21T00:00:00Z"),
-        status_code: 200,
-        count: 50,
+        usage: { "200": 50 },
       },
     ]);
   });

@@ -170,6 +170,7 @@ describe("authenticationMiddleware", () => {
         type: "user",
         value: expectedUser,
       });
+      expect(req.api_key).toEqual(expectedUser.api_keys[0]);
 
       const allUsers = await getDbCollection("users").find().toArray();
       expect(allUsers).toEqual([
@@ -179,7 +180,7 @@ describe("authenticationMiddleware", () => {
       ]);
     });
 
-    it.skip("should support multiple keys", async () => {
+    it("should support multiple keys", async () => {
       const token1 = await generateApiKey(user);
 
       const tomorrow = new Date("2024-03-22T12:00:00Z");
@@ -220,6 +221,7 @@ describe("authenticationMiddleware", () => {
         type: "user",
         value: expectedUser1,
       });
+      expect(req1.api_key).toEqual(expectedUser1.api_keys[0]);
       const allUsers1 = await getDbCollection("users").find().toArray();
       expect(allUsers1).toEqual([
         expectedUser1,
@@ -255,10 +257,11 @@ describe("authenticationMiddleware", () => {
       };
 
       await expect(authenticationMiddleware(schema, req2)).resolves.toBeUndefined();
-      expect(req1.user).toEqual({
+      expect(req2.user).toEqual({
         type: "user",
         value: expectedUser2,
       });
+      expect(req2.api_key).toEqual(expectedUser2.api_keys[1]);
       const allUsers2 = await getDbCollection("users").find().toArray();
       expect(allUsers2).toEqual([
         expectedUser2,

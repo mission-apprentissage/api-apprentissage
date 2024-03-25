@@ -8,6 +8,7 @@ export type CollectionName =
   | "import.meta"
   | "sessions"
   | "users"
+  | "indicateurs.usage_api"
   | "source.acce"
   | "source.bcn"
   | "source.referentiel"

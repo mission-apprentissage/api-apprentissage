@@ -29,6 +29,8 @@ fileignoreconfig:
   checksum: efb76c4727f41db630ed32ab6d1e142d03d03ccfe3655eb7a4a7e20dc6ec1f56
 - filename: server/src/modules/server/utils/password.utils.ts
   checksum: 9f89c62a64d0c649473775c9afeed5b057c505db71ec3302d19d25790fc7e50d
+- filename: server/src/server/middlewares/apiKeyUsageMiddleware.test.ts
+  checksum: 514c6fa5a35d678cfe0250709673e1ab9c316e80c60a71ea5df50cfa798f3350
 - filename: server/src/server/routes/_private/auth.route.test.ts
   checksum: 966f7dc81af2a38577f3cf365e63afb941ba5ea59bf33f96fff5ea2a066222c3
 - filename: server/src/server/routes/_private/user.route.test.ts

@@ -1,4 +1,6 @@
 "use client";
+import "./hide-sidebar.css";
+
 import { RedocStandalone } from "redoc";
 
 import { publicConfig } from "../../config.public";

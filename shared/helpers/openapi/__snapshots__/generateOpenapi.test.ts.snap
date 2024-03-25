@@ -176,216 +176,58 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "content": {
               "application/json": {
                 "schema": {
-                  "anyOf": [
-                    {
-                      "items": {
+                  "items": {
+                    "properties": {
+                      "cfd": {
                         "properties": {
-                          "cfd": {
-                            "properties": {
-                              "abrogation": {
-                                "type": [
-                                  "string",
-                                  "null",
-                                ],
-                              },
-                              "creation": {
-                                "type": [
-                                  "string",
-                                  "null",
-                                ],
-                              },
-                              "fermeture": {
-                                "type": [
-                                  "string",
-                                  "null",
-                                ],
-                              },
-                              "gestionnaire": {
-                                "type": [
-                                  "string",
-                                  "null",
-                                ],
-                              },
-                              "intitule": {
-                                "properties": {
-                                  "court": {
-                                    "type": "string",
-                                  },
-                                  "long": {
-                                    "type": "string",
-                                  },
-                                },
-                                "required": [
-                                  "long",
-                                  "court",
-                                ],
-                                "type": "object",
-                              },
-                              "nature": {
-                                "properties": {
-                                  "code": {
-                                    "type": [
-                                      "string",
-                                      "null",
-                                    ],
-                                  },
-                                  "libelle": {
-                                    "type": [
-                                      "string",
-                                      "null",
-                                    ],
-                                  },
-                                },
-                                "required": [
-                                  "code",
-                                  "libelle",
-                                ],
-                                "type": "object",
-                              },
-                              "niveau": {
-                                "properties": {
-                                  "europeen": {
-                                    "enum": [
-                                      "1",
-                                      "2",
-                                      "3",
-                                      "4",
-                                      "5",
-                                      "6",
-                                      "7",
-                                      "8",
-                                    ],
-                                    "type": [
-                                      "string",
-                                      "null",
-                                    ],
-                                  },
-                                  "formation_diplome": {
-                                    "type": "string",
-                                  },
-                                  "interministeriel": {
-                                    "type": "string",
-                                  },
-                                  "intitule": {
-                                    "type": [
-                                      "string",
-                                      "null",
-                                    ],
-                                  },
-                                  "sigle": {
-                                    "type": "string",
-                                  },
-                                },
-                                "required": [
-                                  "sigle",
-                                  "europeen",
-                                  "formation_diplome",
-                                  "intitule",
-                                  "interministeriel",
-                                ],
-                                "type": "object",
-                              },
-                              "nsf": {
-                                "items": {
-                                  "properties": {
-                                    "code": {
-                                      "type": "string",
-                                    },
-                                    "intitule": {
-                                      "type": [
-                                        "string",
-                                        "null",
-                                      ],
-                                    },
-                                  },
-                                  "required": [
-                                    "code",
-                                    "intitule",
-                                  ],
-                                  "type": "object",
-                                },
-                                "type": "array",
-                              },
-                              "ouverture": {
-                                "type": [
-                                  "string",
-                                  "null",
-                                ],
-                              },
-                              "session": {
-                                "properties": {
-                                  "fin": {
-                                    "type": [
-                                      "integer",
-                                      "null",
-                                    ],
-                                  },
-                                  "premiere": {
-                                    "type": [
-                                      "integer",
-                                      "null",
-                                    ],
-                                  },
-                                },
-                                "required": [
-                                  "premiere",
-                                  "fin",
-                                ],
-                                "type": "object",
-                              },
-                            },
-                            "required": [
-                              "ouverture",
-                              "fermeture",
-                              "creation",
-                              "abrogation",
-                              "intitule",
-                              "nature",
-                              "gestionnaire",
-                              "session",
-                              "niveau",
-                              "nsf",
-                            ],
+                          "abrogation": {
                             "type": [
-                              "object",
+                              "string",
                               "null",
                             ],
                           },
-                          "code": {
+                          "creation": {
+                            "type": [
+                              "string",
+                              "null",
+                            ],
+                          },
+                          "fermeture": {
+                            "type": [
+                              "string",
+                              "null",
+                            ],
+                          },
+                          "gestionnaire": {
+                            "type": [
+                              "string",
+                              "null",
+                            ],
+                          },
+                          "intitule": {
                             "properties": {
-                              "cfd": {
-                                "pattern": "^[A-Z0-9]{3}\\d{3}[A-Z0-9]{2}$",
-                                "type": [
-                                  "string",
-                                  "null",
-                                ],
+                              "court": {
+                                "type": "string",
                               },
-                              "rncp": {
-                                "pattern": "^RNCP\\d{3,5}$",
-                                "type": [
-                                  "string",
-                                  "null",
-                                ],
+                              "long": {
+                                "type": "string",
                               },
                             },
                             "required": [
-                              "cfd",
-                              "rncp",
+                              "long",
+                              "court",
                             ],
                             "type": "object",
                           },
-                          "created_at": {
-                            "type": "string",
-                          },
-                          "periode_validite": {
+                          "nature": {
                             "properties": {
-                              "debut": {
+                              "code": {
                                 "type": [
                                   "string",
                                   "null",
                                 ],
                               },
-                              "fin": {
+                              "libelle": {
                                 "type": [
                                   "string",
                                   "null",
@@ -393,315 +235,415 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                               },
                             },
                             "required": [
-                              "debut",
+                              "code",
+                              "libelle",
+                            ],
+                            "type": "object",
+                          },
+                          "niveau": {
+                            "properties": {
+                              "europeen": {
+                                "enum": [
+                                  "1",
+                                  "2",
+                                  "3",
+                                  "4",
+                                  "5",
+                                  "6",
+                                  "7",
+                                  "8",
+                                ],
+                                "type": [
+                                  "string",
+                                  "null",
+                                ],
+                              },
+                              "formation_diplome": {
+                                "type": "string",
+                              },
+                              "interministeriel": {
+                                "type": "string",
+                              },
+                              "intitule": {
+                                "type": [
+                                  "string",
+                                  "null",
+                                ],
+                              },
+                              "sigle": {
+                                "type": "string",
+                              },
+                            },
+                            "required": [
+                              "sigle",
+                              "europeen",
+                              "formation_diplome",
+                              "intitule",
+                              "interministeriel",
+                            ],
+                            "type": "object",
+                          },
+                          "nsf": {
+                            "items": {
+                              "properties": {
+                                "code": {
+                                  "type": "string",
+                                },
+                                "intitule": {
+                                  "type": [
+                                    "string",
+                                    "null",
+                                  ],
+                                },
+                              },
+                              "required": [
+                                "code",
+                                "intitule",
+                              ],
+                              "type": "object",
+                            },
+                            "type": "array",
+                          },
+                          "ouverture": {
+                            "type": [
+                              "string",
+                              "null",
+                            ],
+                          },
+                          "session": {
+                            "properties": {
+                              "fin": {
+                                "type": [
+                                  "integer",
+                                  "null",
+                                ],
+                              },
+                              "premiere": {
+                                "type": [
+                                  "integer",
+                                  "null",
+                                ],
+                              },
+                            },
+                            "required": [
+                              "premiere",
                               "fin",
                             ],
                             "type": "object",
                           },
-                          "rncp": {
-                            "properties": {
-                              "actif": {
-                                "type": "boolean",
-                              },
-                              "activation": {
-                                "type": [
-                                  "string",
-                                  "null",
-                                ],
-                              },
-                              "blocs": {
-                                "items": {
-                                  "properties": {
-                                    "code": {
-                                      "pattern": "^RNCP\\d{3,5}BC\\d{1,2}$",
-                                      "type": "string",
-                                    },
-                                    "intitule": {
-                                      "type": [
-                                        "string",
-                                        "null",
-                                      ],
-                                    },
-                                  },
-                                  "required": [
-                                    "code",
-                                    "intitule",
-                                  ],
-                                  "type": "object",
-                                },
-                                "type": "array",
-                              },
-                              "certificateurs": {
-                                "items": {
-                                  "properties": {
-                                    "nom": {
-                                      "type": "string",
-                                    },
-                                    "siret": {
-                                      "type": "string",
-                                    },
-                                  },
-                                  "required": [
-                                    "siret",
-                                    "nom",
-                                  ],
-                                  "type": "object",
-                                },
-                                "type": "array",
-                              },
-                              "convention_collectives": {
-                                "items": {
-                                  "properties": {
-                                    "intitule": {
-                                      "type": "string",
-                                    },
-                                    "numero": {
-                                      "type": "string",
-                                    },
-                                  },
-                                  "required": [
-                                    "numero",
-                                    "intitule",
-                                  ],
-                                  "type": "object",
-                                },
-                                "type": "array",
-                              },
-                              "debut_parcours": {
-                                "type": [
-                                  "string",
-                                  "null",
-                                ],
-                              },
-                              "enregistrement": {
-                                "enum": [
-                                  "Enregistrement de droit",
-                                  "Enregistrement sur demande",
-                                ],
-                                "type": "string",
-                              },
-                              "fin_enregistrement": {
-                                "type": [
-                                  "string",
-                                  "null",
-                                ],
-                              },
-                              "formacodes": {
-                                "items": {
-                                  "properties": {
-                                    "code": {
-                                      "type": "string",
-                                    },
-                                    "intitule": {
-                                      "type": "string",
-                                    },
-                                  },
-                                  "required": [
-                                    "code",
-                                    "intitule",
-                                  ],
-                                  "type": "object",
-                                },
-                                "type": "array",
-                              },
-                              "intitule": {
-                                "type": "string",
-                              },
-                              "niveau": {
-                                "properties": {
-                                  "europeen": {
-                                    "enum": [
-                                      "1",
-                                      "2",
-                                      "3",
-                                      "4",
-                                      "5",
-                                      "6",
-                                      "7",
-                                      "8",
-                                    ],
-                                    "type": [
-                                      "string",
-                                      "null",
-                                    ],
-                                  },
-                                  "interministeriel": {
-                                    "type": [
-                                      "string",
-                                      "null",
-                                    ],
-                                  },
-                                },
-                                "required": [
-                                  "europeen",
-                                  "interministeriel",
-                                ],
-                                "type": "object",
-                              },
-                              "nsf": {
-                                "items": {
-                                  "properties": {
-                                    "code": {
-                                      "pattern": "^\\d{2,3}[a-z]?$",
-                                      "type": "string",
-                                    },
-                                    "intitule": {
-                                      "type": [
-                                        "string",
-                                        "null",
-                                      ],
-                                    },
-                                  },
-                                  "required": [
-                                    "code",
-                                    "intitule",
-                                  ],
-                                  "type": "object",
-                                },
-                                "type": "array",
-                              },
-                              "rome": {
-                                "items": {
-                                  "properties": {
-                                    "code": {
-                                      "type": "string",
-                                    },
-                                    "intitule": {
-                                      "type": "string",
-                                    },
-                                  },
-                                  "required": [
-                                    "code",
-                                    "intitule",
-                                  ],
-                                  "type": "object",
-                                },
-                                "type": "array",
-                              },
-                              "voie_acces": {
-                                "properties": {
-                                  "apprentissage": {
-                                    "type": "boolean",
-                                  },
-                                  "candidature_individuelle": {
-                                    "type": "boolean",
-                                  },
-                                  "contrat_professionnalisation": {
-                                    "type": "boolean",
-                                  },
-                                  "experience": {
-                                    "type": "boolean",
-                                  },
-                                  "formation_continue": {
-                                    "type": "boolean",
-                                  },
-                                  "formation_statut_eleve": {
-                                    "type": "boolean",
-                                  },
-                                },
-                                "required": [
-                                  "apprentissage",
-                                  "experience",
-                                  "candidature_individuelle",
-                                  "contrat_professionnalisation",
-                                  "formation_continue",
-                                  "formation_statut_eleve",
-                                ],
-                                "type": "object",
-                              },
-                            },
-                            "required": [
-                              "actif",
-                              "activation",
-                              "fin_enregistrement",
-                              "debut_parcours",
-                              "intitule",
-                              "blocs",
-                              "rome",
-                              "formacodes",
-                              "convention_collectives",
-                              "niveau",
-                              "nsf",
-                              "enregistrement",
-                              "voie_acces",
-                              "certificateurs",
-                            ],
+                        },
+                        "required": [
+                          "ouverture",
+                          "fermeture",
+                          "creation",
+                          "abrogation",
+                          "intitule",
+                          "nature",
+                          "gestionnaire",
+                          "session",
+                          "niveau",
+                          "nsf",
+                        ],
+                        "type": [
+                          "object",
+                          "null",
+                        ],
+                      },
+                      "code": {
+                        "properties": {
+                          "cfd": {
+                            "pattern": "^[A-Z0-9]{3}\\d{3}[A-Z0-9]{2}$",
                             "type": [
-                              "object",
+                              "string",
                               "null",
                             ],
                           },
-                          "updated_at": {
-                            "type": "string",
+                          "rncp": {
+                            "pattern": "^RNCP\\d{3,5}$",
+                            "type": [
+                              "string",
+                              "null",
+                            ],
                           },
                         },
                         "required": [
-                          "code",
-                          "periode_validite",
                           "cfd",
                           "rncp",
-                          "created_at",
-                          "updated_at",
                         ],
                         "type": "object",
                       },
-                      "type": "array",
-                    },
-                    {
-                      "additionalProperties": false,
-                      "properties": {
-                        "code": {
-                          "type": [
-                            "string",
-                            "null",
-                          ],
-                        },
-                        "data": {
-                          "description": "Données contextuelles liées à l'erreur",
-                          "example": {
-                            "validationError": {
-                              "code": "FST_ERR_VALIDATION",
-                              "issues": [
-                                {
-                                  "code": "invalid_type",
-                                  "expected": "number",
-                                  "message": "Number attendu",
-                                  "path": [
-                                    "longitude",
-                                  ],
-                                  "received": "nan",
-                                },
-                              ],
-                              "name": "ZodError",
-                              "statusCode": 400,
-                              "validationContext": "querystring",
-                            },
+                      "created_at": {
+                        "type": "string",
+                      },
+                      "periode_validite": {
+                        "properties": {
+                          "debut": {
+                            "type": [
+                              "string",
+                              "null",
+                            ],
+                          },
+                          "fin": {
+                            "type": [
+                              "string",
+                              "null",
+                            ],
                           },
                         },
-                        "message": {
-                          "description": "Un message explicatif de l'erreur",
-                          "example": "querystring.longitude: Number attendu",
-                          "type": "string",
-                        },
-                        "name": {
-                          "description": "Le type générique de l'erreur",
-                          "example": "Bad Request",
-                          "type": "string",
-                        },
-                        "statusCode": {
-                          "description": "Le status code retourné",
-                          "example": 400,
-                          "type": "number",
-                        },
+                        "required": [
+                          "debut",
+                          "fin",
+                        ],
+                        "type": "object",
                       },
-                      "required": [
-                        "message",
-                        "name",
-                        "statusCode",
-                      ],
-                      "type": "object",
+                      "rncp": {
+                        "properties": {
+                          "actif": {
+                            "type": "boolean",
+                          },
+                          "activation": {
+                            "type": [
+                              "string",
+                              "null",
+                            ],
+                          },
+                          "blocs": {
+                            "items": {
+                              "properties": {
+                                "code": {
+                                  "pattern": "^RNCP\\d{3,5}BC\\d{1,2}$",
+                                  "type": "string",
+                                },
+                                "intitule": {
+                                  "type": [
+                                    "string",
+                                    "null",
+                                  ],
+                                },
+                              },
+                              "required": [
+                                "code",
+                                "intitule",
+                              ],
+                              "type": "object",
+                            },
+                            "type": "array",
+                          },
+                          "certificateurs": {
+                            "items": {
+                              "properties": {
+                                "nom": {
+                                  "type": "string",
+                                },
+                                "siret": {
+                                  "type": "string",
+                                },
+                              },
+                              "required": [
+                                "siret",
+                                "nom",
+                              ],
+                              "type": "object",
+                            },
+                            "type": "array",
+                          },
+                          "convention_collectives": {
+                            "items": {
+                              "properties": {
+                                "intitule": {
+                                  "type": "string",
+                                },
+                                "numero": {
+                                  "type": "string",
+                                },
+                              },
+                              "required": [
+                                "numero",
+                                "intitule",
+                              ],
+                              "type": "object",
+                            },
+                            "type": "array",
+                          },
+                          "debut_parcours": {
+                            "type": [
+                              "string",
+                              "null",
+                            ],
+                          },
+                          "enregistrement": {
+                            "enum": [
+                              "Enregistrement de droit",
+                              "Enregistrement sur demande",
+                            ],
+                            "type": "string",
+                          },
+                          "fin_enregistrement": {
+                            "type": [
+                              "string",
+                              "null",
+                            ],
+                          },
+                          "formacodes": {
+                            "items": {
+                              "properties": {
+                                "code": {
+                                  "type": "string",
+                                },
+                                "intitule": {
+                                  "type": "string",
+                                },
+                              },
+                              "required": [
+                                "code",
+                                "intitule",
+                              ],
+                              "type": "object",
+                            },
+                            "type": "array",
+                          },
+                          "intitule": {
+                            "type": "string",
+                          },
+                          "niveau": {
+                            "properties": {
+                              "europeen": {
+                                "enum": [
+                                  "1",
+                                  "2",
+                                  "3",
+                                  "4",
+                                  "5",
+                                  "6",
+                                  "7",
+                                  "8",
+                                ],
+                                "type": [
+                                  "string",
+                                  "null",
+                                ],
+                              },
+                              "interministeriel": {
+                                "type": [
+                                  "string",
+                                  "null",
+                                ],
+                              },
+                            },
+                            "required": [
+                              "europeen",
+                              "interministeriel",
+                            ],
+                            "type": "object",
+                          },
+                          "nsf": {
+                            "items": {
+                              "properties": {
+                                "code": {
+                                  "pattern": "^\\d{2,3}[a-z]?$",
+                                  "type": "string",
+                                },
+                                "intitule": {
+                                  "type": [
+                                    "string",
+                                    "null",
+                                  ],
+                                },
+                              },
+                              "required": [
+                                "code",
+                                "intitule",
+                              ],
+                              "type": "object",
+                            },
+                            "type": "array",
+                          },
+                          "rome": {
+                            "items": {
+                              "properties": {
+                                "code": {
+                                  "type": "string",
+                                },
+                                "intitule": {
+                                  "type": "string",
+                                },
+                              },
+                              "required": [
+                                "code",
+                                "intitule",
+                              ],
+                              "type": "object",
+                            },
+                            "type": "array",
+                          },
+                          "voie_acces": {
+                            "properties": {
+                              "apprentissage": {
+                                "type": "boolean",
+                              },
+                              "candidature_individuelle": {
+                                "type": "boolean",
+                              },
+                              "contrat_professionnalisation": {
+                                "type": "boolean",
+                              },
+                              "experience": {
+                                "type": "boolean",
+                              },
+                              "formation_continue": {
+                                "type": "boolean",
+                              },
+                              "formation_statut_eleve": {
+                                "type": "boolean",
+                              },
+                            },
+                            "required": [
+                              "apprentissage",
+                              "experience",
+                              "candidature_individuelle",
+                              "contrat_professionnalisation",
+                              "formation_continue",
+                              "formation_statut_eleve",
+                            ],
+                            "type": "object",
+                          },
+                        },
+                        "required": [
+                          "actif",
+                          "activation",
+                          "fin_enregistrement",
+                          "debut_parcours",
+                          "intitule",
+                          "blocs",
+                          "rome",
+                          "formacodes",
+                          "convention_collectives",
+                          "niveau",
+                          "nsf",
+                          "enregistrement",
+                          "voie_acces",
+                          "certificateurs",
+                        ],
+                        "type": [
+                          "object",
+                          "null",
+                        ],
+                      },
+                      "updated_at": {
+                        "type": "string",
+                      },
                     },
-                  ],
+                    "required": [
+                      "code",
+                      "periode_validite",
+                      "cfd",
+                      "rncp",
+                      "created_at",
+                      "updated_at",
+                    ],
+                    "type": "object",
+                  },
+                  "type": "array",
                 },
               },
             },
@@ -746,216 +688,58 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "content": {
               "application/json": {
                 "schema": {
-                  "anyOf": [
-                    {
-                      "items": {
+                  "items": {
+                    "properties": {
+                      "cfd": {
                         "properties": {
-                          "cfd": {
-                            "properties": {
-                              "abrogation": {
-                                "type": [
-                                  "string",
-                                  "null",
-                                ],
-                              },
-                              "creation": {
-                                "type": [
-                                  "string",
-                                  "null",
-                                ],
-                              },
-                              "fermeture": {
-                                "type": [
-                                  "string",
-                                  "null",
-                                ],
-                              },
-                              "gestionnaire": {
-                                "type": [
-                                  "string",
-                                  "null",
-                                ],
-                              },
-                              "intitule": {
-                                "properties": {
-                                  "court": {
-                                    "type": "string",
-                                  },
-                                  "long": {
-                                    "type": "string",
-                                  },
-                                },
-                                "required": [
-                                  "long",
-                                  "court",
-                                ],
-                                "type": "object",
-                              },
-                              "nature": {
-                                "properties": {
-                                  "code": {
-                                    "type": [
-                                      "string",
-                                      "null",
-                                    ],
-                                  },
-                                  "libelle": {
-                                    "type": [
-                                      "string",
-                                      "null",
-                                    ],
-                                  },
-                                },
-                                "required": [
-                                  "code",
-                                  "libelle",
-                                ],
-                                "type": "object",
-                              },
-                              "niveau": {
-                                "properties": {
-                                  "europeen": {
-                                    "enum": [
-                                      "1",
-                                      "2",
-                                      "3",
-                                      "4",
-                                      "5",
-                                      "6",
-                                      "7",
-                                      "8",
-                                    ],
-                                    "type": [
-                                      "string",
-                                      "null",
-                                    ],
-                                  },
-                                  "formation_diplome": {
-                                    "type": "string",
-                                  },
-                                  "interministeriel": {
-                                    "type": "string",
-                                  },
-                                  "intitule": {
-                                    "type": [
-                                      "string",
-                                      "null",
-                                    ],
-                                  },
-                                  "sigle": {
-                                    "type": "string",
-                                  },
-                                },
-                                "required": [
-                                  "sigle",
-                                  "europeen",
-                                  "formation_diplome",
-                                  "intitule",
-                                  "interministeriel",
-                                ],
-                                "type": "object",
-                              },
-                              "nsf": {
-                                "items": {
-                                  "properties": {
-                                    "code": {
-                                      "type": "string",
-                                    },
-                                    "intitule": {
-                                      "type": [
-                                        "string",
-                                        "null",
-                                      ],
-                                    },
-                                  },
-                                  "required": [
-                                    "code",
-                                    "intitule",
-                                  ],
-                                  "type": "object",
-                                },
-                                "type": "array",
-                              },
-                              "ouverture": {
-                                "type": [
-                                  "string",
-                                  "null",
-                                ],
-                              },
-                              "session": {
-                                "properties": {
-                                  "fin": {
-                                    "type": [
-                                      "integer",
-                                      "null",
-                                    ],
-                                  },
-                                  "premiere": {
-                                    "type": [
-                                      "integer",
-                                      "null",
-                                    ],
-                                  },
-                                },
-                                "required": [
-                                  "premiere",
-                                  "fin",
-                                ],
-                                "type": "object",
-                              },
-                            },
-                            "required": [
-                              "ouverture",
-                              "fermeture",
-                              "creation",
-                              "abrogation",
-                              "intitule",
-                              "nature",
-                              "gestionnaire",
-                              "session",
-                              "niveau",
-                              "nsf",
-                            ],
+                          "abrogation": {
                             "type": [
-                              "object",
+                              "string",
                               "null",
                             ],
                           },
-                          "code": {
+                          "creation": {
+                            "type": [
+                              "string",
+                              "null",
+                            ],
+                          },
+                          "fermeture": {
+                            "type": [
+                              "string",
+                              "null",
+                            ],
+                          },
+                          "gestionnaire": {
+                            "type": [
+                              "string",
+                              "null",
+                            ],
+                          },
+                          "intitule": {
                             "properties": {
-                              "cfd": {
-                                "pattern": "^[A-Z0-9]{3}\\d{3}[A-Z0-9]{2}$",
-                                "type": [
-                                  "string",
-                                  "null",
-                                ],
+                              "court": {
+                                "type": "string",
                               },
-                              "rncp": {
-                                "pattern": "^RNCP\\d{3,5}$",
-                                "type": [
-                                  "string",
-                                  "null",
-                                ],
+                              "long": {
+                                "type": "string",
                               },
                             },
                             "required": [
-                              "cfd",
-                              "rncp",
+                              "long",
+                              "court",
                             ],
                             "type": "object",
                           },
-                          "created_at": {
-                            "type": "string",
-                          },
-                          "periode_validite": {
+                          "nature": {
                             "properties": {
-                              "debut": {
+                              "code": {
                                 "type": [
                                   "string",
                                   "null",
                                 ],
                               },
-                              "fin": {
+                              "libelle": {
                                 "type": [
                                   "string",
                                   "null",
@@ -963,315 +747,415 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                               },
                             },
                             "required": [
-                              "debut",
+                              "code",
+                              "libelle",
+                            ],
+                            "type": "object",
+                          },
+                          "niveau": {
+                            "properties": {
+                              "europeen": {
+                                "enum": [
+                                  "1",
+                                  "2",
+                                  "3",
+                                  "4",
+                                  "5",
+                                  "6",
+                                  "7",
+                                  "8",
+                                ],
+                                "type": [
+                                  "string",
+                                  "null",
+                                ],
+                              },
+                              "formation_diplome": {
+                                "type": "string",
+                              },
+                              "interministeriel": {
+                                "type": "string",
+                              },
+                              "intitule": {
+                                "type": [
+                                  "string",
+                                  "null",
+                                ],
+                              },
+                              "sigle": {
+                                "type": "string",
+                              },
+                            },
+                            "required": [
+                              "sigle",
+                              "europeen",
+                              "formation_diplome",
+                              "intitule",
+                              "interministeriel",
+                            ],
+                            "type": "object",
+                          },
+                          "nsf": {
+                            "items": {
+                              "properties": {
+                                "code": {
+                                  "type": "string",
+                                },
+                                "intitule": {
+                                  "type": [
+                                    "string",
+                                    "null",
+                                  ],
+                                },
+                              },
+                              "required": [
+                                "code",
+                                "intitule",
+                              ],
+                              "type": "object",
+                            },
+                            "type": "array",
+                          },
+                          "ouverture": {
+                            "type": [
+                              "string",
+                              "null",
+                            ],
+                          },
+                          "session": {
+                            "properties": {
+                              "fin": {
+                                "type": [
+                                  "integer",
+                                  "null",
+                                ],
+                              },
+                              "premiere": {
+                                "type": [
+                                  "integer",
+                                  "null",
+                                ],
+                              },
+                            },
+                            "required": [
+                              "premiere",
                               "fin",
                             ],
                             "type": "object",
                           },
-                          "rncp": {
-                            "properties": {
-                              "actif": {
-                                "type": "boolean",
-                              },
-                              "activation": {
-                                "type": [
-                                  "string",
-                                  "null",
-                                ],
-                              },
-                              "blocs": {
-                                "items": {
-                                  "properties": {
-                                    "code": {
-                                      "pattern": "^RNCP\\d{3,5}BC\\d{1,2}$",
-                                      "type": "string",
-                                    },
-                                    "intitule": {
-                                      "type": [
-                                        "string",
-                                        "null",
-                                      ],
-                                    },
-                                  },
-                                  "required": [
-                                    "code",
-                                    "intitule",
-                                  ],
-                                  "type": "object",
-                                },
-                                "type": "array",
-                              },
-                              "certificateurs": {
-                                "items": {
-                                  "properties": {
-                                    "nom": {
-                                      "type": "string",
-                                    },
-                                    "siret": {
-                                      "type": "string",
-                                    },
-                                  },
-                                  "required": [
-                                    "siret",
-                                    "nom",
-                                  ],
-                                  "type": "object",
-                                },
-                                "type": "array",
-                              },
-                              "convention_collectives": {
-                                "items": {
-                                  "properties": {
-                                    "intitule": {
-                                      "type": "string",
-                                    },
-                                    "numero": {
-                                      "type": "string",
-                                    },
-                                  },
-                                  "required": [
-                                    "numero",
-                                    "intitule",
-                                  ],
-                                  "type": "object",
-                                },
-                                "type": "array",
-                              },
-                              "debut_parcours": {
-                                "type": [
-                                  "string",
-                                  "null",
-                                ],
-                              },
-                              "enregistrement": {
-                                "enum": [
-                                  "Enregistrement de droit",
-                                  "Enregistrement sur demande",
-                                ],
-                                "type": "string",
-                              },
-                              "fin_enregistrement": {
-                                "type": [
-                                  "string",
-                                  "null",
-                                ],
-                              },
-                              "formacodes": {
-                                "items": {
-                                  "properties": {
-                                    "code": {
-                                      "type": "string",
-                                    },
-                                    "intitule": {
-                                      "type": "string",
-                                    },
-                                  },
-                                  "required": [
-                                    "code",
-                                    "intitule",
-                                  ],
-                                  "type": "object",
-                                },
-                                "type": "array",
-                              },
-                              "intitule": {
-                                "type": "string",
-                              },
-                              "niveau": {
-                                "properties": {
-                                  "europeen": {
-                                    "enum": [
-                                      "1",
-                                      "2",
-                                      "3",
-                                      "4",
-                                      "5",
-                                      "6",
-                                      "7",
-                                      "8",
-                                    ],
-                                    "type": [
-                                      "string",
-                                      "null",
-                                    ],
-                                  },
-                                  "interministeriel": {
-                                    "type": [
-                                      "string",
-                                      "null",
-                                    ],
-                                  },
-                                },
-                                "required": [
-                                  "europeen",
-                                  "interministeriel",
-                                ],
-                                "type": "object",
-                              },
-                              "nsf": {
-                                "items": {
-                                  "properties": {
-                                    "code": {
-                                      "pattern": "^\\d{2,3}[a-z]?$",
-                                      "type": "string",
-                                    },
-                                    "intitule": {
-                                      "type": [
-                                        "string",
-                                        "null",
-                                      ],
-                                    },
-                                  },
-                                  "required": [
-                                    "code",
-                                    "intitule",
-                                  ],
-                                  "type": "object",
-                                },
-                                "type": "array",
-                              },
-                              "rome": {
-                                "items": {
-                                  "properties": {
-                                    "code": {
-                                      "type": "string",
-                                    },
-                                    "intitule": {
-                                      "type": "string",
-                                    },
-                                  },
-                                  "required": [
-                                    "code",
-                                    "intitule",
-                                  ],
-                                  "type": "object",
-                                },
-                                "type": "array",
-                              },
-                              "voie_acces": {
-                                "properties": {
-                                  "apprentissage": {
-                                    "type": "boolean",
-                                  },
-                                  "candidature_individuelle": {
-                                    "type": "boolean",
-                                  },
-                                  "contrat_professionnalisation": {
-                                    "type": "boolean",
-                                  },
-                                  "experience": {
-                                    "type": "boolean",
-                                  },
-                                  "formation_continue": {
-                                    "type": "boolean",
-                                  },
-                                  "formation_statut_eleve": {
-                                    "type": "boolean",
-                                  },
-                                },
-                                "required": [
-                                  "apprentissage",
-                                  "experience",
-                                  "candidature_individuelle",
-                                  "contrat_professionnalisation",
-                                  "formation_continue",
-                                  "formation_statut_eleve",
-                                ],
-                                "type": "object",
-                              },
-                            },
-                            "required": [
-                              "actif",
-                              "activation",
-                              "fin_enregistrement",
-                              "debut_parcours",
-                              "intitule",
-                              "blocs",
-                              "rome",
-                              "formacodes",
-                              "convention_collectives",
-                              "niveau",
-                              "nsf",
-                              "enregistrement",
-                              "voie_acces",
-                              "certificateurs",
-                            ],
+                        },
+                        "required": [
+                          "ouverture",
+                          "fermeture",
+                          "creation",
+                          "abrogation",
+                          "intitule",
+                          "nature",
+                          "gestionnaire",
+                          "session",
+                          "niveau",
+                          "nsf",
+                        ],
+                        "type": [
+                          "object",
+                          "null",
+                        ],
+                      },
+                      "code": {
+                        "properties": {
+                          "cfd": {
+                            "pattern": "^[A-Z0-9]{3}\\d{3}[A-Z0-9]{2}$",
                             "type": [
-                              "object",
+                              "string",
                               "null",
                             ],
                           },
-                          "updated_at": {
-                            "type": "string",
+                          "rncp": {
+                            "pattern": "^RNCP\\d{3,5}$",
+                            "type": [
+                              "string",
+                              "null",
+                            ],
                           },
                         },
                         "required": [
-                          "code",
-                          "periode_validite",
                           "cfd",
                           "rncp",
-                          "created_at",
-                          "updated_at",
                         ],
                         "type": "object",
                       },
-                      "type": "array",
-                    },
-                    {
-                      "additionalProperties": false,
-                      "properties": {
-                        "code": {
-                          "type": [
-                            "string",
-                            "null",
-                          ],
-                        },
-                        "data": {
-                          "description": "Données contextuelles liées à l'erreur",
-                          "example": {
-                            "validationError": {
-                              "code": "FST_ERR_VALIDATION",
-                              "issues": [
-                                {
-                                  "code": "invalid_type",
-                                  "expected": "number",
-                                  "message": "Number attendu",
-                                  "path": [
-                                    "longitude",
-                                  ],
-                                  "received": "nan",
-                                },
-                              ],
-                              "name": "ZodError",
-                              "statusCode": 400,
-                              "validationContext": "querystring",
-                            },
+                      "created_at": {
+                        "type": "string",
+                      },
+                      "periode_validite": {
+                        "properties": {
+                          "debut": {
+                            "type": [
+                              "string",
+                              "null",
+                            ],
+                          },
+                          "fin": {
+                            "type": [
+                              "string",
+                              "null",
+                            ],
                           },
                         },
-                        "message": {
-                          "description": "Un message explicatif de l'erreur",
-                          "example": "querystring.longitude: Number attendu",
-                          "type": "string",
-                        },
-                        "name": {
-                          "description": "Le type générique de l'erreur",
-                          "example": "Bad Request",
-                          "type": "string",
-                        },
-                        "statusCode": {
-                          "description": "Le status code retourné",
-                          "example": 400,
-                          "type": "number",
-                        },
+                        "required": [
+                          "debut",
+                          "fin",
+                        ],
+                        "type": "object",
                       },
-                      "required": [
-                        "message",
-                        "name",
-                        "statusCode",
-                      ],
-                      "type": "object",
+                      "rncp": {
+                        "properties": {
+                          "actif": {
+                            "type": "boolean",
+                          },
+                          "activation": {
+                            "type": [
+                              "string",
+                              "null",
+                            ],
+                          },
+                          "blocs": {
+                            "items": {
+                              "properties": {
+                                "code": {
+                                  "pattern": "^RNCP\\d{3,5}BC\\d{1,2}$",
+                                  "type": "string",
+                                },
+                                "intitule": {
+                                  "type": [
+                                    "string",
+                                    "null",
+                                  ],
+                                },
+                              },
+                              "required": [
+                                "code",
+                                "intitule",
+                              ],
+                              "type": "object",
+                            },
+                            "type": "array",
+                          },
+                          "certificateurs": {
+                            "items": {
+                              "properties": {
+                                "nom": {
+                                  "type": "string",
+                                },
+                                "siret": {
+                                  "type": "string",
+                                },
+                              },
+                              "required": [
+                                "siret",
+                                "nom",
+                              ],
+                              "type": "object",
+                            },
+                            "type": "array",
+                          },
+                          "convention_collectives": {
+                            "items": {
+                              "properties": {
+                                "intitule": {
+                                  "type": "string",
+                                },
+                                "numero": {
+                                  "type": "string",
+                                },
+                              },
+                              "required": [
+                                "numero",
+                                "intitule",
+                              ],
+                              "type": "object",
+                            },
+                            "type": "array",
+                          },
+                          "debut_parcours": {
+                            "type": [
+                              "string",
+                              "null",
+                            ],
+                          },
+                          "enregistrement": {
+                            "enum": [
+                              "Enregistrement de droit",
+                              "Enregistrement sur demande",
+                            ],
+                            "type": "string",
+                          },
+                          "fin_enregistrement": {
+                            "type": [
+                              "string",
+                              "null",
+                            ],
+                          },
+                          "formacodes": {
+                            "items": {
+                              "properties": {
+                                "code": {
+                                  "type": "string",
+                                },
+                                "intitule": {
+                                  "type": "string",
+                                },
+                              },
+                              "required": [
+                                "code",
+                                "intitule",
+                              ],
+                              "type": "object",
+                            },
+                            "type": "array",
+                          },
+                          "intitule": {
+                            "type": "string",
+                          },
+                          "niveau": {
+                            "properties": {
+                              "europeen": {
+                                "enum": [
+                                  "1",
+                                  "2",
+                                  "3",
+                                  "4",
+                                  "5",
+                                  "6",
+                                  "7",
+                                  "8",
+                                ],
+                                "type": [
+                                  "string",
+                                  "null",
+                                ],
+                              },
+                              "interministeriel": {
+                                "type": [
+                                  "string",
+                                  "null",
+                                ],
+                              },
+                            },
+                            "required": [
+                              "europeen",
+                              "interministeriel",
+                            ],
+                            "type": "object",
+                          },
+                          "nsf": {
+                            "items": {
+                              "properties": {
+                                "code": {
+                                  "pattern": "^\\d{2,3}[a-z]?$",
+                                  "type": "string",
+                                },
+                                "intitule": {
+                                  "type": [
+                                    "string",
+                                    "null",
+                                  ],
+                                },
+                              },
+                              "required": [
+                                "code",
+                                "intitule",
+                              ],
+                              "type": "object",
+                            },
+                            "type": "array",
+                          },
+                          "rome": {
+                            "items": {
+                              "properties": {
+                                "code": {
+                                  "type": "string",
+                                },
+                                "intitule": {
+                                  "type": "string",
+                                },
+                              },
+                              "required": [
+                                "code",
+                                "intitule",
+                              ],
+                              "type": "object",
+                            },
+                            "type": "array",
+                          },
+                          "voie_acces": {
+                            "properties": {
+                              "apprentissage": {
+                                "type": "boolean",
+                              },
+                              "candidature_individuelle": {
+                                "type": "boolean",
+                              },
+                              "contrat_professionnalisation": {
+                                "type": "boolean",
+                              },
+                              "experience": {
+                                "type": "boolean",
+                              },
+                              "formation_continue": {
+                                "type": "boolean",
+                              },
+                              "formation_statut_eleve": {
+                                "type": "boolean",
+                              },
+                            },
+                            "required": [
+                              "apprentissage",
+                              "experience",
+                              "candidature_individuelle",
+                              "contrat_professionnalisation",
+                              "formation_continue",
+                              "formation_statut_eleve",
+                            ],
+                            "type": "object",
+                          },
+                        },
+                        "required": [
+                          "actif",
+                          "activation",
+                          "fin_enregistrement",
+                          "debut_parcours",
+                          "intitule",
+                          "blocs",
+                          "rome",
+                          "formacodes",
+                          "convention_collectives",
+                          "niveau",
+                          "nsf",
+                          "enregistrement",
+                          "voie_acces",
+                          "certificateurs",
+                        ],
+                        "type": [
+                          "object",
+                          "null",
+                        ],
+                      },
+                      "updated_at": {
+                        "type": "string",
+                      },
                     },
-                  ],
+                    "required": [
+                      "code",
+                      "periode_validite",
+                      "cfd",
+                      "rncp",
+                      "created_at",
+                      "updated_at",
+                    ],
+                    "type": "object",
+                  },
+                  "type": "array",
                 },
               },
             },

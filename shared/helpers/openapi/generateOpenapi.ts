@@ -59,8 +59,10 @@ function generateOpenApiResponsesObject<R extends IRouteSchema["response"]>(
   const codes = Object.keys(response) as Array<keyof R>;
 
   return codes.reduce((acc, code: keyof R) => {
+    const c: string = code as string;
+    const isErrorCode = c.startsWith("4") || c.startsWith("5");
     const schema: ZodType = response[code as `${1 | 2 | 3 | 4 | 5}${string}`];
-    acc[code as string] = generateOpenApiResponseObject(code in acc ? schema.or(ZResError) : schema);
+    acc[c] = generateOpenApiResponseObject(code in acc && isErrorCode ? schema.or(ZResError) : schema);
 
     return acc;
   }, commonResponses);

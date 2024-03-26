@@ -1,5 +1,3 @@
-"use client";
-
 import Breadcrumb, { PAGES } from "../components/breadcrumb/Breadcrumb";
 import Cgu from "./components/Cgu";
 

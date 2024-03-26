@@ -57,7 +57,8 @@ export async function bind(app: Server) {
       operationsSorter: "method",
       tagsSorter: "alpha",
       docExpansion: "list",
-      deepLinking: false,
+      filter: true,
+      deepLinking: true,
     },
   };
   await app.register(fastifySwaggerUi, swaggerUiOptions);

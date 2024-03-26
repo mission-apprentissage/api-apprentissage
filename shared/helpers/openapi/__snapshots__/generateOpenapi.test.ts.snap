@@ -4,113 +4,64 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
 {
   "components": {
     "parameters": {},
-    "responses": {
-      "BadRequest": {
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error",
-            },
-          },
-        },
-        "description": "La requete ne respecte pas les reglès de validations.",
-      },
-      "Forbidden": {
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error",
-            },
-          },
-        },
-        "description": "L'utilisateur n'a pas les droits d'effectuer l'opération demandée",
-      },
-      "InternalServerError": {
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error",
-            },
-          },
-        },
-        "description": "Le serveur a rencontré une situation qu'il ne sait pas traiter.",
-      },
-      "NotFound": {
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error",
-            },
-          },
-        },
-        "description": "Le serveur n'a pas trouvé la ressource demandée.",
-      },
-      "ServiceUnavailable": {
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error",
-            },
-          },
-        },
-        "description": "Le serveur n'est pas prêt pour traiter la requête",
-      },
-      "TooManyRequests": {
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error",
-            },
-          },
-        },
-        "description": "L'utilisateur a émis trop de requêtes dans un laps de temps donné.",
-      },
-      "Unauthorized": {
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error",
-            },
-          },
-        },
-        "description": "L'authentification est requise.",
-      },
-    },
     "schemas": {
-      "Error": {
+      "BadGateway": {
         "additionalProperties": false,
+        "description": "Le service est indisponible.",
         "properties": {
-          "code": {
-            "type": [
-              "string",
-              "null",
-            ],
+          "data": {
+            "description": "Données contextuelles liées à l'erreur",
           },
+          "message": {
+            "description": "Un message explicatif de l'erreur",
+            "example": "Bad Gateway",
+            "type": "string",
+          },
+          "name": {
+            "description": "Le type générique de l'erreur",
+            "example": "Bad Gateway",
+            "type": "string",
+          },
+          "statusCode": {
+            "description": "Le status code retourné",
+            "enum": [
+              502,
+            ],
+            "type": "number",
+          },
+        },
+        "required": [
+          "message",
+          "name",
+          "statusCode",
+        ],
+        "type": "object",
+      },
+      "BadRequest": {
+        "additionalProperties": false,
+        "description": "Paramètre de requête non valide.",
+        "properties": {
           "data": {
             "description": "Données contextuelles liées à l'erreur",
             "example": {
               "validationError": {
-                "code": "FST_ERR_VALIDATION",
-                "issues": [
-                  {
-                    "code": "invalid_type",
-                    "expected": "number",
-                    "message": "Number attendu",
-                    "path": [
-                      "longitude",
-                    ],
-                    "received": "nan",
-                  },
-                ],
-                "name": "ZodError",
-                "statusCode": 400,
-                "validationContext": "querystring",
+                "_errors": [],
+                "code.cfd": {
+                  "_errors": [
+                    "Invalid",
+                  ],
+                },
+                "code.rncp": {
+                  "_errors": [
+                    "Invalid",
+                  ],
+                },
               },
             },
           },
           "message": {
             "description": "Un message explicatif de l'erreur",
-            "example": "querystring.longitude: Number attendu",
+            "example": "Request validation failed",
             "type": "string",
           },
           "name": {
@@ -120,7 +71,870 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
           },
           "statusCode": {
             "description": "Le status code retourné",
-            "example": 400,
+            "enum": [
+              400,
+            ],
+            "type": "number",
+          },
+        },
+        "required": [
+          "message",
+          "name",
+          "statusCode",
+        ],
+        "type": "object",
+      },
+      "Certification": {
+        "properties": {
+          "cfd": {
+            "description": "**Regroupement des données relative au Code Formation Diplôme (CFD) de la certification provenant de la base centrale des nomenclatures (BCN).**
+
+Lorsque \`certification.code.cfd\` est \`null\`, alors le champs \`certification.cfd\` est alors \`null\`",
+            "properties": {
+              "abrogation": {
+                "description": "**Date d'arrêté d'abrogation du diplôme.**
+
+La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.
+
+La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
+                "examples": [
+                  "2022-08-31T23:59:59.000+02:00",
+                  "2022-12-31T23:59:59.000+01:00",
+                ],
+                "format": "date-time",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "creation": {
+                "description": "**Date d'arrêté de création du diplôme.**
+
+La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '00:00:00' sur le fuseau horaire 'Europe/Paris'.
+
+La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
+                "examples": [
+                  "2014-02-21T00:00:00.000+01:00",
+                  "2018-05-11T00:00:00.000+02:00",
+                ],
+                "format": "date-time",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "fermeture": {
+                "description": "**Date de fermeture du diplôme.**
+
+La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.
+
+La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
+                "examples": [
+                  "2022-08-31T23:59:59.000+02:00",
+                  "2022-12-31T23:59:59.000+01:00",
+                ],
+                "format": "date-time",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "gestionnaire": {
+                "description": "**Service responsable de la définition du diplôme.**",
+                "example": "DGESCO A2-3",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "intitule": {
+                "description": "**Intitulé du diplôme.**
+
+La base centrale des nomenclatures (BCN) fournie un intitulé long et court du diplôme.",
+                "properties": {
+                  "court": {
+                    "description": "**Intitulé court du diplôme.**",
+                    "examples": [
+                      "BOULANGER",
+                      "GENIE BIO - AGRONOMIE",
+                    ],
+                    "type": "string",
+                  },
+                  "long": {
+                    "description": "**Intitulé long du diplôme.**",
+                    "examples": [
+                      "BOULANGER (CAP)",
+                      "GENIE BIOLOGIQUE OPTION AGRONOMIE (DUT)",
+                    ],
+                    "type": "string",
+                  },
+                },
+                "required": [
+                  "long",
+                  "court",
+                ],
+                "type": "object",
+              },
+              "nature": {
+                "description": "**Nature du diplôme.**",
+                "properties": {
+                  "code": {
+                    "description": "**Code de la nature du diplôme.**",
+                    "examples": [
+                      "1",
+                      "2",
+                      "P",
+                    ],
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "libelle": {
+                    "description": "**Intitulé de la nature du diplôme.**",
+                    "examples": [
+                      "DIPLOME NATIONAL / DIPLOME D'ETAT",
+                      "TITRE PROFESSIONNEL HOMOLOGUE OU CERTIFIE",
+                      "CLASSE PREPA",
+                    ],
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                },
+                "required": [
+                  "code",
+                  "libelle",
+                ],
+                "type": "object",
+              },
+              "niveau": {
+                "description": "**Regroupement des données relative au niveau de la certification provenant de la base centrale des nomenclatures (BCN).**",
+                "properties": {
+                  "europeen": {
+                    "description": "**Niveau de qualification de la certification (de 1 à 8) utilisés dans les référentiels nationaux européens.**",
+                    "enum": [
+                      "1",
+                      "2",
+                      "3",
+                      "4",
+                      "5",
+                      "6",
+                      "7",
+                      "8",
+                    ],
+                    "examples": [
+                      "3",
+                      "5",
+                    ],
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "formation_diplome": {
+                    "description": "**Code à 3 caractères qui renseigne sur le niveau du diplôme.**",
+                    "examples": [
+                      "500",
+                      "370",
+                    ],
+                    "type": "string",
+                  },
+                  "interministeriel": {
+                    "description": "**Code interministériel du niveau de la formation.**",
+                    "examples": [
+                      "3",
+                      "6",
+                    ],
+                    "type": "string",
+                  },
+                  "intitule": {
+                    "description": "**Libellé complet du niveau de la formation.**",
+                    "examples": [
+                      "CLASSE PREPA",
+                      "TITRE PROFESSIONNEL HOMOLOGUE OU CERTIFIE",
+                    ],
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "sigle": {
+                    "description": "**Libellé abrégé du niveau de la formation.**",
+                    "examples": [
+                      "CAP",
+                      "DUT",
+                      "BTS",
+                      "CPGE",
+                    ],
+                    "type": "string",
+                  },
+                },
+                "required": [
+                  "sigle",
+                  "europeen",
+                  "formation_diplome",
+                  "intitule",
+                  "interministeriel",
+                ],
+                "type": "object",
+              },
+              "nsf": {
+                "description": "Code(s) et intitulé(s) du domaine de formation à laquelle appartient la certification, il suit la Nomenclature des Spécialités de Formation (NSF) de l’INSEE.
+
+Le code NSF est déduis du code formation diplôme (CFD), il n'inclus donc pas la lettre de spécialité et le tableau ne contient qu'un seul élément.",
+                "items": {
+                  "properties": {
+                    "code": {
+                      "description": "**Code NSF de la certification.**",
+                      "examples": [
+                        "221",
+                        "310",
+                      ],
+                      "type": "string",
+                    },
+                    "intitule": {
+                      "description": "**Intitulé du domaine de formation de la certification.**",
+                      "examples": [
+                        "AGRO-ALIMENTAIRE, ALIMENTATION, CUISINE",
+                        "SPECIALIT.PLURIV.DES ECHANGES & GESTION",
+                      ],
+                      "type": [
+                        "string",
+                        "null",
+                      ],
+                    },
+                  },
+                  "required": [
+                    "code",
+                    "intitule",
+                  ],
+                  "type": "object",
+                },
+                "type": "array",
+              },
+              "ouverture": {
+                "description": "**Date d'ouverture du diplôme.**
+
+La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '00:00:00' sur le fuseau horaire 'Europe/Paris'.
+
+La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
+                "examples": [
+                  "2021-09-01T00:00:00.000+02:00",
+                  "2022-01-01T00:00:00.000+01:00",
+                ],
+                "format": "date-time",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "session": {
+                "description": "**Première et derniere année de sortie des diplômés.**",
+                "properties": {
+                  "fin": {
+                    "description": "**Année de sortie des derniers diplômés.**",
+                    "example": 2025,
+                    "type": [
+                      "integer",
+                      "null",
+                    ],
+                  },
+                  "premiere": {
+                    "description": "**Année de sortie des premiers diplômés.**",
+                    "example": 2022,
+                    "type": [
+                      "integer",
+                      "null",
+                    ],
+                  },
+                },
+                "required": [
+                  "premiere",
+                  "fin",
+                ],
+                "type": "object",
+              },
+            },
+            "required": [
+              "ouverture",
+              "fermeture",
+              "creation",
+              "abrogation",
+              "intitule",
+              "nature",
+              "gestionnaire",
+              "session",
+              "niveau",
+              "nsf",
+            ],
+            "type": [
+              "object",
+              "null",
+            ],
+          },
+          "code": {
+            "description": "**Une certification correspond à un couple CFD-RNCP sur une période donnée.**
+
+Le couple CFD-RNCP est unique, mais lorsque la correspondance n'est pas connue, l'un des deux peut être \`null\`.",
+            "properties": {
+              "cfd": {
+                "description": "**Code Formation Diplôme (CFD) de la certification.**
+
+Lorsque celui-ci est \`null\`, alors le champs \`certification.cfd\` est alors \`null\`",
+                "example": "50022137",
+                "pattern": "^[A-Z0-9]{3}\\d{3}[A-Z0-9]{2}$",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "rncp": {
+                "description": "**Code Répertoire National des Certifications Professionnelles (RNCP) de la certification.**
+
+Lorsque celui-ci est \`null\`, alors le champs \`certification.rncp\` est alors \`null\`",
+                "example": "RNCP37537",
+                "pattern": "^RNCP\\d{3,5}$",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+            },
+            "required": [
+              "cfd",
+              "rncp",
+            ],
+            "type": "object",
+          },
+          "periode_validite": {
+            "description": "Un couple CFD-RNCP a une période de validité qui correspond à l’intersection de la période d’ouverture du diplôme et de la période d’activité de la fiche RNCP.",
+            "properties": {
+              "debut": {
+                "description": "**Date de début de validité de la certification.**
+
+Cette date correspond à l'intersection de la date d'ouverture du diplôme et de la date d'activation de la fiche RNCP. La couverture de ce champ est partiel car nous ne sommes pas en mesure pour le moment de récupérer les dates d'activation antérieures au 24 décembre 2021.
+
+La date est retournée au format ISO 8601 avec le fuseau horaire Europe/Paris.",
+                "examples": [
+                  "2021-09-01T00:00:00.000+02:00",
+                  "2022-01-01T00:00:00.000+01:00",
+                ],
+                "format": "date-time",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "fin": {
+                "description": "**Date de fin de validité de la certification.**
+
+Cette date correspond à l'intersection de la date de fermeture du diplôme et de la date de fin d'enregistrement.
+
+La date est retournée au format ISO 8601 avec le fuseau horaire Europe/Paris.",
+                "examples": [
+                  "2022-08-31T23:59:59.000+02:00",
+                  "2022-12-31T23:59:59.000+01:00",
+                ],
+                "format": "date-time",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+            },
+            "required": [
+              "debut",
+              "fin",
+            ],
+            "type": "object",
+          },
+          "rncp": {
+            "description": "**Regroupement des données relative au Répertoire National des Certifications Professionnelles (RNCP) de la certification provenant de France Compétence.**
+
+Lorsque \`certification.code.rncp\` est \`null\`, alors le champs \`certification.rncp\` est alors \`null\`.",
+            "properties": {
+              "actif": {
+                "description": "Lorsque la fiche est active, les inscriptions à la formation sont ouvertes, à l’inverse, lorsque la fiche est inactive, les inscriptions sont fermées.",
+                "type": "boolean",
+              },
+              "activation": {
+                "description": "**Date à laquelle la fiche RNCP est passée au statut \`actif\`.**
+
+La date est retournée au format ISO 8601 avec le fuseau horaire Europe/Paris.
+
+La couverture de ce champ est partiel car nous ne sommes pas en mesure pour le moment de récupérer les dates d'activation antérieures au 24 décembre 2021.",
+                "examples": [
+                  "2021-09-01T00:00:00.000+02:00",
+                  "2022-01-01T00:00:00.000+01:00",
+                ],
+                "format": "date-time",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "blocs": {
+                "description": "Liste du (ou des) code (s) et intitulé(s) des blocs de compétences validées par la certification",
+                "items": {
+                  "properties": {
+                    "code": {
+                      "example": "RNCP37537BC01",
+                      "pattern": "^RNCP\\d{3,5}BC\\d{1,2}$",
+                      "type": "string",
+                    },
+                    "intitule": {
+                      "example": "Approvisionnement, communication, sécurité alimentaire et hygiène en boulangerie",
+                      "type": [
+                        "string",
+                        "null",
+                      ],
+                    },
+                  },
+                  "required": [
+                    "code",
+                    "intitule",
+                  ],
+                  "type": "object",
+                },
+                "type": "array",
+              },
+              "certificateurs": {
+                "description": "Liste des certificateurs de la certification.",
+                "items": {
+                  "properties": {
+                    "nom": {
+                      "description": "Nom du certificateur renseigné dans le RNCP.",
+                      "type": "string",
+                    },
+                    "siret": {
+                      "description": "Numéro SIRET du certificateur renseigné dans le RNCP.",
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "siret",
+                    "nom",
+                  ],
+                  "type": "object",
+                },
+                "type": "array",
+              },
+              "convention_collectives": {
+                "description": "Numéro(s) et intitulé(s) de la convention collective associée(s) à la fiche RNCP",
+                "items": {
+                  "properties": {
+                    "intitule": {
+                      "example": "Bâtiment (Employés, techniciens et agents de maîtrise, ingénieurs, assimilés et cadres)",
+                      "type": "string",
+                    },
+                    "numero": {
+                      "example": "3002",
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "numero",
+                    "intitule",
+                  ],
+                  "type": "object",
+                },
+                "type": "array",
+              },
+              "debut_parcours": {
+                "description": "**Date de début des parcours certifiants.**Anciennement appelé 'date d'effet' pour les enregistrements de droit et correspondant à la date de décision pour les enregistrements sur demande.
+
+La date est retournée au format ISO 8601 avec le fuseau horaire Europe/Paris.",
+                "examples": [
+                  "2021-09-01T00:00:00.000+02:00",
+                  "2022-01-01T00:00:00.000+01:00",
+                ],
+                "format": "date-time",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "enregistrement": {
+                "description": "Permet de savoir si la certification est enregistrée de droit ou sur demande au Repertoire National des Certifications Professionnelles (RNCP)",
+                "enum": [
+                  "Enregistrement de droit",
+                  "Enregistrement sur demande",
+                ],
+                "example": "Enregistrement de droit",
+                "type": "string",
+              },
+              "fin_enregistrement": {
+                "description": "**Date de fin d’enregistrement d’une fiche au RNCP.**
+
+Lorsque la date d'échéance d'enregistrement de la certification est dépassée. La fiche passe automatiquement au statut Inactive.
+
+Pour les enregistrement de droit, cette date est renseignée par le certificateur. Pour les enregistrements sur demande, elle est déterminée par commission au moment de la décision d’enregistrement.
+
+France Compétence ne fournie pas l'information du fuseau horaire, nous interprétons arbitrairement sur le fuseau horaire 'Europe/Paris'.
+
+La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
+                "format": "date-time",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "formacodes": {
+                "description": "Code(s) et intitulé(s) du (ou des) code Formacode(s) auquel(s) appartien(ne)t la certification",
+                "items": {
+                  "properties": {
+                    "code": {
+                      "example": "21538",
+                      "type": "string",
+                    },
+                    "intitule": {
+                      "example": "21538 : Boulangerie",
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "code",
+                    "intitule",
+                  ],
+                  "type": "object",
+                },
+                "type": "array",
+              },
+              "intitule": {
+                "example": "Boulanger",
+                "type": "string",
+              },
+              "niveau": {
+                "properties": {
+                  "europeen": {
+                    "description": "Niveau de qualification de la certification (de 1 à 8) utilisés dans les référentiels nationaux européens.",
+                    "enum": [
+                      "1",
+                      "2",
+                      "3",
+                      "4",
+                      "5",
+                      "6",
+                      "7",
+                      "8",
+                    ],
+                    "example": "3",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "interministeriel": {
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                },
+                "required": [
+                  "europeen",
+                  "interministeriel",
+                ],
+                "type": "object",
+              },
+              "nsf": {
+                "description": "Code(s) et intitulé(s) du domaine de formation à laquelle appartient la certification, il suit la Nomenclature des Spécialités de Formation (NSF) de l’INSEE.",
+                "items": {
+                  "properties": {
+                    "code": {
+                      "example": "221",
+                      "pattern": "^\\d{2,3}[a-z]?$",
+                      "type": "string",
+                    },
+                    "intitule": {
+                      "example": "221 : Agro-alimentaire, alimentation, cuisine",
+                      "type": [
+                        "string",
+                        "null",
+                      ],
+                    },
+                  },
+                  "required": [
+                    "code",
+                    "intitule",
+                  ],
+                  "type": "object",
+                },
+                "type": "array",
+              },
+              "rome": {
+                "description": "Code(s) et intitulé(s) de la (ou des) fiche(s) métier du Répertoire Opérationnel des Métiers et de l’Emploi (ROME) associé(s) à la certification.",
+                "items": {
+                  "properties": {
+                    "code": {
+                      "example": "D1102",
+                      "type": "string",
+                    },
+                    "intitule": {
+                      "example": "Boulangerie - viennoiserie",
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "code",
+                    "intitule",
+                  ],
+                  "type": "object",
+                },
+                "type": "array",
+              },
+              "voie_acces": {
+                "properties": {
+                  "apprentissage": {
+                    "description": "Certification accessible en contrat d’apprentissage.",
+                    "type": "boolean",
+                  },
+                  "candidature_individuelle": {
+                    "description": "Certification accessible par candidature individuelle.",
+                    "type": "boolean",
+                  },
+                  "contrat_professionnalisation": {
+                    "description": "Certification accessible en contrat de professionnalisation.",
+                    "type": "boolean",
+                  },
+                  "experience": {
+                    "description": "Certification accessible par expérience.",
+                    "type": "boolean",
+                  },
+                  "formation_continue": {
+                    "description": "Certification accessible après un parcours de formation continue.",
+                    "type": "boolean",
+                  },
+                  "formation_statut_eleve": {
+                    "description": "Certification accessible après un parcours de formation sous statut d’élève ou d’étudiant.",
+                    "type": "boolean",
+                  },
+                },
+                "required": [
+                  "apprentissage",
+                  "experience",
+                  "candidature_individuelle",
+                  "contrat_professionnalisation",
+                  "formation_continue",
+                  "formation_statut_eleve",
+                ],
+                "type": "object",
+              },
+            },
+            "required": [
+              "actif",
+              "activation",
+              "fin_enregistrement",
+              "debut_parcours",
+              "intitule",
+              "blocs",
+              "rome",
+              "formacodes",
+              "convention_collectives",
+              "niveau",
+              "nsf",
+              "enregistrement",
+              "voie_acces",
+              "certificateurs",
+            ],
+            "type": [
+              "object",
+              "null",
+            ],
+          },
+        },
+        "required": [
+          "code",
+          "periode_validite",
+          "cfd",
+          "rncp",
+        ],
+        "type": "object",
+      },
+      "Forbidden": {
+        "additionalProperties": false,
+        "description": "Habilitations insuffisantes pour accéder à la ressource",
+        "properties": {
+          "data": {
+            "description": "Données contextuelles liées à l'erreur",
+          },
+          "message": {
+            "description": "Un message explicatif de l'erreur",
+            "example": "Forbidden",
+            "type": "string",
+          },
+          "name": {
+            "description": "Le type générique de l'erreur",
+            "example": "Forbidden",
+            "type": "string",
+          },
+          "statusCode": {
+            "description": "Le status code retourné",
+            "enum": [
+              403,
+            ],
+            "type": "number",
+          },
+        },
+        "required": [
+          "message",
+          "name",
+          "statusCode",
+        ],
+        "type": "object",
+      },
+      "InternalServerError": {
+        "additionalProperties": false,
+        "description": "Une erreur inattendue s'est produite sur le serveur.",
+        "properties": {
+          "data": {
+            "description": "Données contextuelles liées à l'erreur",
+          },
+          "message": {
+            "description": "Un message explicatif de l'erreur",
+            "example": "Internal Server Error",
+            "type": "string",
+          },
+          "name": {
+            "description": "Le type générique de l'erreur",
+            "example": "Internal Server Error",
+            "type": "string",
+          },
+          "statusCode": {
+            "description": "Le status code retourné",
+            "enum": [
+              500,
+            ],
+            "type": "number",
+          },
+        },
+        "required": [
+          "message",
+          "name",
+          "statusCode",
+        ],
+        "type": "object",
+      },
+      "NotFound": {
+        "additionalProperties": false,
+        "description": "Resource non trouvée",
+        "properties": {
+          "data": {
+            "description": "Données contextuelles liées à l'erreur",
+          },
+          "message": {
+            "description": "Un message explicatif de l'erreur",
+            "example": "Not Found",
+            "type": "string",
+          },
+          "name": {
+            "description": "Le type générique de l'erreur",
+            "example": "Not Found",
+            "type": "string",
+          },
+          "statusCode": {
+            "description": "Le status code retourné",
+            "enum": [
+              404,
+            ],
+            "type": "number",
+          },
+        },
+        "required": [
+          "message",
+          "name",
+          "statusCode",
+        ],
+        "type": "object",
+      },
+      "ServiceUnavailable": {
+        "additionalProperties": false,
+        "description": "Le service est en maintenance",
+        "properties": {
+          "data": {
+            "description": "Données contextuelles liées à l'erreur",
+          },
+          "message": {
+            "description": "Un message explicatif de l'erreur",
+            "example": "Service Unavailable",
+            "type": "string",
+          },
+          "name": {
+            "description": "Le type générique de l'erreur",
+            "example": "Service Unavailable",
+            "type": "string",
+          },
+          "statusCode": {
+            "description": "Le status code retourné",
+            "enum": [
+              502,
+            ],
+            "type": "number",
+          },
+        },
+        "required": [
+          "message",
+          "name",
+          "statusCode",
+        ],
+        "type": "object",
+      },
+      "TooManyRequests": {
+        "additionalProperties": false,
+        "description": "Limite de volumétrie atteinte pour la clé d’API",
+        "properties": {
+          "data": {
+            "description": "Données contextuelles liées à l'erreur",
+          },
+          "message": {
+            "description": "Un message explicatif de l'erreur",
+            "example": "Too Many Requests",
+            "type": "string",
+          },
+          "name": {
+            "description": "Le type générique de l'erreur",
+            "example": "Too Many Requests",
+            "type": "string",
+          },
+          "statusCode": {
+            "description": "Le status code retourné",
+            "enum": [
+              419,
+            ],
+            "type": "number",
+          },
+        },
+        "required": [
+          "message",
+          "name",
+          "statusCode",
+        ],
+        "type": "object",
+      },
+      "Unauthorized": {
+        "additionalProperties": false,
+        "description": "Clé d’API manquante ou invalide",
+        "properties": {
+          "data": {
+            "description": "Données contextuelles liées à l'erreur",
+          },
+          "message": {
+            "description": "Un message explicatif de l'erreur",
+            "example": "Unauthorized",
+            "type": "string",
+          },
+          "name": {
+            "description": "Le type générique de l'erreur",
+            "example": "Unauthorized",
+            "type": "string",
+          },
+          "statusCode": {
+            "description": "Le status code retourné",
+            "enum": [
+              401,
+            ],
             "type": "number",
           },
         },
@@ -134,38 +948,68 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
     },
     "securitySchemes": {
       "api-key": {
-        "in": "header",
-        "name": "authorization",
-        "type": "apiKey",
+        "bearerFormat": "Bearer",
+        "description": "Clé d'API à fournir dans le header \`Authorization\`.",
+        "scheme": "bearer",
+        "type": "http",
       },
     },
   },
   "info": {
     "license": {
-      "name": "MIT",
+      "name": "Etalab-2.0",
+      "url": "https://github.com/etalab/licence-ouverte/blob/master/LO.md",
     },
-    "title": "API documentation",
+    "title": "Documentation technique de l'API Apprentissage",
     "version": "V1.0",
   },
   "openapi": "3.1.0",
   "paths": {
     "/certification/v1": {
       "get": {
+        "description": "Récupère la liste des certifications, filtrée par \`code.cfd\` et \`code.rncp\`",
+        "operationId": "getCertifications",
         "parameters": [
           {
+            "allowEmptyValue": true,
+            "description": "**Filtre la liste des certifications par \`code.cfd\`**
+
+- Si la valeur est vide ou \`null\`, filtre avec \`code.cfd = null\`
+
+- Si la valeur est absente, aucun filtre n'est appliqué
+
+- Sinon doit respecter le regex \`/^[A-Z0-9]{3}\\d{3}[A-Z0-9]{2}$/\`",
             "in": "query",
             "name": "code.cfd",
             "required": false,
             "schema": {
+              "examples": [
+                "46X32402",
+                "",
+                "null",
+              ],
               "pattern": "^([A-Z0-9]{3}\\d{3}[A-Z0-9]{2}|null)?$",
               "type": "string",
             },
           },
           {
+            "allowEmptyValue": true,
+            "description": "**Filtre la liste des certifications par \`code.rncp\`**
+
+- Si la valeur est vide ou \`null\`, filtre avec \`code.rncp = null\`
+
+- Si la valeur est absente, aucun filtre n'est appliqué
+
+- Sinon doit respecter le regex \`/^RNCP\\d{3,5}$/\`",
             "in": "query",
             "name": "code.rncp",
             "required": false,
             "schema": {
+              "examples": [
+                "RNCP12345",
+                "",
+                "null",
+              ],
               "pattern": "^(RNCP\\d{3,5}|null)?$",
               "type": "string",
             },
@@ -176,40 +1020,89 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "content": {
               "application/json": {
                 "schema": {
+                  "description": "Liste des certifications",
                   "items": {
                     "properties": {
                       "cfd": {
+                        "description": "**Regroupement des données relative au Code Formation Diplôme (CFD) de la certification provenant de la base centrale des nomenclatures (BCN).**
+
+Lorsque \`certification.code.cfd\` est \`null\`, alors le champs \`certification.cfd\` est alors \`null\`",
                         "properties": {
                           "abrogation": {
+                            "description": "**Date d'arrêté d'abrogation du diplôme.**
+
+La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.
+
+La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
+                            "examples": [
+                              "2022-08-31T23:59:59.000+02:00",
+                              "2022-12-31T23:59:59.000+01:00",
+                            ],
+                            "format": "date-time",
                             "type": [
                               "string",
                               "null",
                             ],
                           },
                           "creation": {
+                            "description": "**Date d'arrêté de création du diplôme.**
+
+La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '00:00:00' sur le fuseau horaire 'Europe/Paris'.
+
+La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
+                            "examples": [
+                              "2014-02-21T00:00:00.000+01:00",
+                              "2018-05-11T00:00:00.000+02:00",
+                            ],
+                            "format": "date-time",
                             "type": [
                               "string",
                               "null",
                             ],
                           },
                           "fermeture": {
+                            "description": "**Date de fermeture du diplôme.**
+
+La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.
+
+La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
+                            "examples": [
+                              "2022-08-31T23:59:59.000+02:00",
+                              "2022-12-31T23:59:59.000+01:00",
+                            ],
+                            "format": "date-time",
                             "type": [
                               "string",
                               "null",
                             ],
                           },
                           "gestionnaire": {
+                            "description": "**Service responsable de la définition du diplôme.**",
+                            "example": "DGESCO A2-3",
                             "type": [
                               "string",
                               "null",
                             ],
                           },
                           "intitule": {
+                            "description": "**Intitulé du diplôme.**
+
+La base centrale des nomenclatures (BCN) fournie un intitulé long et court du diplôme.",
                             "properties": {
                               "court": {
+                                "description": "**Intitulé court du diplôme.**",
+                                "examples": [
+                                  "BOULANGER",
+                                  "GENIE BIO - AGRONOMIE",
+                                ],
                                 "type": "string",
                               },
                               "long": {
+                                "description": "**Intitulé long du diplôme.**",
+                                "examples": [
+                                  "BOULANGER (CAP)",
+                                  "GENIE BIOLOGIQUE OPTION AGRONOMIE (DUT)",
+                                ],
                                 "type": "string",
                               },
                             },
@@ -220,14 +1113,27 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                             "type": "object",
                           },
                           "nature": {
+                            "description": "**Nature du diplôme.**",
                             "properties": {
                               "code": {
+                                "description": "**Code de la nature du diplôme.**",
+                                "examples": [
+                                  "1",
+                                  "2",
+                                  "P",
+                                ],
                                 "type": [
                                   "string",
                                   "null",
                                 ],
                               },
                               "libelle": {
+                                "description": "**Intitulé de la nature du diplôme.**",
+                                "examples": [
+                                  "DIPLOME NATIONAL / DIPLOME D'ETAT",
+                                  "TITRE PROFESSIONNEL HOMOLOGUE OU CERTIFIE",
+                                  "CLASSE PREPA",
+                                ],
                                 "type": [
                                   "string",
                                   "null",
@@ -241,8 +1147,10 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                             "type": "object",
                           },
                           "niveau": {
+                            "description": "**Regroupement des données relative au niveau de la certification provenant de la base centrale des nomenclatures (BCN).**",
                             "properties": {
                               "europeen": {
+                                "description": "**Niveau de qualification de la certification (de 1 à 8) utilisés dans les référentiels nationaux européens.**",
                                 "enum": [
                                   "1",
                                   "2",
@@ -253,24 +1161,50 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                                   "7",
                                   "8",
                                 ],
+                                "examples": [
+                                  "3",
+                                  "5",
+                                ],
                                 "type": [
                                   "string",
                                   "null",
                                 ],
                               },
                               "formation_diplome": {
+                                "description": "**Code à 3 caractères qui renseigne sur le niveau du diplôme.**",
+                                "examples": [
+                                  "500",
+                                  "370",
+                                ],
                                 "type": "string",
                               },
                               "interministeriel": {
+                                "description": "**Code interministériel du niveau de la formation.**",
+                                "examples": [
+                                  "3",
+                                  "6",
+                                ],
                                 "type": "string",
                               },
                               "intitule": {
+                                "description": "**Libellé complet du niveau de la formation.**",
+                                "examples": [
+                                  "CLASSE PREPA",
+                                  "TITRE PROFESSIONNEL HOMOLOGUE OU CERTIFIE",
+                                ],
                                 "type": [
                                   "string",
                                   "null",
                                 ],
                               },
                               "sigle": {
+                                "description": "**Libellé abrégé du niveau de la formation.**",
+                                "examples": [
+                                  "CAP",
+                                  "DUT",
+                                  "BTS",
+                                  "CPGE",
+                                ],
                                 "type": "string",
                               },
                             },
@@ -284,12 +1218,25 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                             "type": "object",
                           },
                           "nsf": {
+                            "description": "Code(s) et intitulé(s) du domaine de formation à laquelle appartient la certification, il suit la Nomenclature des Spécialités de Formation (NSF) de l’INSEE.
+
+Le code NSF est déduis du code formation diplôme (CFD), il n'inclus donc pas la lettre de spécialité et le tableau ne contient qu'un seul élément.",
                             "items": {
                               "properties": {
                                 "code": {
+                                  "description": "**Code NSF de la certification.**",
+                                  "examples": [
+                                    "221",
+                                    "310",
+                                  ],
                                   "type": "string",
                                 },
                                 "intitule": {
+                                  "description": "**Intitulé du domaine de formation de la certification.**",
+                                  "examples": [
+                                    "AGRO-ALIMENTAIRE, ALIMENTATION, CUISINE",
+                                    "SPECIALIT.PLURIV.DES ECHANGES & GESTION",
+                                  ],
                                   "type": [
                                     "string",
                                     "null",
@@ -305,20 +1252,35 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                             "type": "array",
                           },
                           "ouverture": {
+                            "description": "**Date d'ouverture du diplôme.**
+
+La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '00:00:00' sur le fuseau horaire 'Europe/Paris'.
+
+La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
+                            "examples": [
+                              "2021-09-01T00:00:00.000+02:00",
+                              "2022-01-01T00:00:00.000+01:00",
+                            ],
+                            "format": "date-time",
                             "type": [
                               "string",
                               "null",
                             ],
                           },
                           "session": {
+                            "description": "**Première et derniere année de sortie des diplômés.**",
                             "properties": {
                               "fin": {
+                                "description": "**Année de sortie des derniers diplômés.**",
+                                "example": 2025,
                                 "type": [
                                   "integer",
                                   "null",
                                 ],
                               },
                               "premiere": {
+                                "description": "**Année de sortie des premiers diplômés.**",
+                                "example": 2022,
                                 "type": [
                                   "integer",
                                   "null",
@@ -350,8 +1312,15 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                         ],
                       },
                       "code": {
+                        "description": "**Une certification correspond à un couple CFD-RNCP sur une période donnée.**
+
+Le couple CFD-RNCP est unique, mais lorsque la correspondance n'est pas connue, l'un des deux peut être \`null\`.",
                         "properties": {
                           "cfd": {
+                            "description": "**Code Formation Diplôme (CFD) de la certification.**
+
+Lorsque celui-ci est \`null\`, alors le champs \`certification.cfd\` est alors \`null\`",
+                            "example": "50022137",
                             "pattern": "^[A-Z0-9]{3}\\d{3}[A-Z0-9]{2}$",
                             "type": [
                               "string",
@@ -359,6 +1328,10 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                             ],
                           },
                           "rncp": {
+                            "description": "**Code Répertoire National des Certifications Professionnelles (RNCP) de la certification.**
+
+Lorsque celui-ci est \`null\`, alors le champs \`certification.rncp\` est alors \`null\`",
+                            "example": "RNCP37537",
                             "pattern": "^RNCP\\d{3,5}$",
                             "type": [
                               "string",
@@ -372,18 +1345,36 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                         ],
                         "type": "object",
                       },
-                      "created_at": {
-                        "type": "string",
-                      },
                       "periode_validite": {
+                        "description": "Un couple CFD-RNCP a une période de validité qui correspond à l’intersection de la période d’ouverture du diplôme et de la période d’activité de la fiche RNCP.",
                         "properties": {
                           "debut": {
+                            "description": "**Date de début de validité de la certification.**
+
+Cette date correspond à l'intersection de la date d'ouverture du diplôme et de la date d'activation de la fiche RNCP. La couverture de ce champ est partiel car nous ne sommes pas en mesure pour le moment de récupérer les dates d'activation antérieures au 24 décembre 2021.
+
+La date est retournée au format ISO 8601 avec le fuseau horaire Europe/Paris.",
+                            "examples": [
+                              "2021-09-01T00:00:00.000+02:00",
+                              "2022-01-01T00:00:00.000+01:00",
+                            ],
+                            "format": "date-time",
                             "type": [
                               "string",
                               "null",
                             ],
                           },
                           "fin": {
+                            "description": "**Date de fin de validité de la certification.**
+
+Cette date correspond à l'intersection de la date de fermeture du diplôme et de la date de fin d'enregistrement.
+
+La date est retournée au format ISO 8601 avec le fuseau horaire Europe/Paris.",
+                            "examples": [
+                              "2022-08-31T23:59:59.000+02:00",
+                              "2022-12-31T23:59:59.000+01:00",
+                            ],
+                            "format": "date-time",
                             "type": [
                               "string",
                               "null",
@@ -397,24 +1388,41 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                         "type": "object",
                       },
                       "rncp": {
+                        "description": "**Regroupement des données relative au Répertoire National des Certifications Professionnelles (RNCP) de la certification provenant de France Compétence.**
+
+Lorsque \`certification.code.rncp\` est \`null\`, alors le champs \`certification.rncp\` est alors \`null\`.",
                         "properties": {
                           "actif": {
+                            "description": "Lorsque la fiche est active, les inscriptions à la formation sont ouvertes, à l’inverse, lorsque la fiche est inactive, les inscriptions sont fermées.",
                             "type": "boolean",
                           },
                           "activation": {
+                            "description": "**Date à laquelle la fiche RNCP est passée au statut \`actif\`.**
+
+La date est retournée au format ISO 8601 avec le fuseau horaire Europe/Paris.
+
+La couverture de ce champ est partiel car nous ne sommes pas en mesure pour le moment de récupérer les dates d'activation antérieures au 24 décembre 2021.",
+                            "examples": [
+                              "2021-09-01T00:00:00.000+02:00",
+                              "2022-01-01T00:00:00.000+01:00",
+                            ],
+                            "format": "date-time",
                             "type": [
                               "string",
                               "null",
                             ],
                           },
                           "blocs": {
+                            "description": "Liste du (ou des) code (s) et intitulé(s) des blocs de compétences validées par la certification",
                             "items": {
                               "properties": {
                                 "code": {
+                                  "example": "RNCP37537BC01",
                                   "pattern": "^RNCP\\d{3,5}BC\\d{1,2}$",
                                   "type": "string",
                                 },
                                 "intitule": {
+                                  "example": "Approvisionnement, communication, sécurité alimentaire et hygiène en boulangerie",
                                   "type": [
                                     "string",
                                     "null",
@@ -430,12 +1438,15 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                             "type": "array",
                           },
                           "certificateurs": {
+                            "description": "Liste des certificateurs de la certification.",
                             "items": {
                               "properties": {
                                 "nom": {
+                                  "description": "Nom du certificateur renseigné dans le RNCP.",
                                   "type": "string",
                                 },
                                 "siret": {
+                                  "description": "Numéro SIRET du certificateur renseigné dans le RNCP.",
                                   "type": "string",
                                 },
                               },
@@ -448,12 +1459,15 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                             "type": "array",
                           },
                           "convention_collectives": {
+                            "description": "Numéro(s) et intitulé(s) de la convention collective associée(s) à la fiche RNCP",
                             "items": {
                               "properties": {
                                 "intitule": {
+                                  "example": "Bâtiment (Employés, techniciens et agents de maîtrise, ingénieurs, assimilés et cadres)",
                                   "type": "string",
                                 },
                                 "numero": {
+                                  "example": "3002",
                                   "type": "string",
                                 },
                               },
@@ -466,31 +1480,54 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                             "type": "array",
                           },
                           "debut_parcours": {
+                            "description": "**Date de début des parcours certifiants.**Anciennement appelé 'date d'effet' pour les enregistrements de droit et correspondant à la date de décision pour les enregistrements sur demande.
+
+La date est retournée au format ISO 8601 avec le fuseau horaire Europe/Paris.",
+                            "examples": [
+                              "2021-09-01T00:00:00.000+02:00",
+                              "2022-01-01T00:00:00.000+01:00",
+                            ],
+                            "format": "date-time",
                             "type": [
                               "string",
                               "null",
                             ],
                           },
                           "enregistrement": {
+                            "description": "Permet de savoir si la certification est enregistrée de droit ou sur demande au Repertoire National des Certifications Professionnelles (RNCP)",
                             "enum": [
                               "Enregistrement de droit",
                               "Enregistrement sur demande",
                             ],
+                            "example": "Enregistrement de droit",
                             "type": "string",
                           },
                           "fin_enregistrement": {
+                            "description": "**Date de fin d’enregistrement d’une fiche au RNCP.**
+
+Lorsque la date d'échéance d'enregistrement de la certification est dépassée. La fiche passe automatiquement au statut Inactive.
+
+Pour les enregistrement de droit, cette date est renseignée par le certificateur. Pour les enregistrements sur demande, elle est déterminée par commission au moment de la décision d’enregistrement.
+
+France Compétence ne fournie pas l'information du fuseau horaire, nous interprétons arbitrairement sur le fuseau horaire 'Europe/Paris'.
+
+La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
+                            "format": "date-time",
                             "type": [
                               "string",
                               "null",
                             ],
                           },
                           "formacodes": {
+                            "description": "Code(s) et intitulé(s) du (ou des) code Formacode(s) auquel(s) appartien(ne)t la certification",
                             "items": {
                               "properties": {
                                 "code": {
+                                  "example": "21538",
                                   "type": "string",
                                 },
                                 "intitule": {
+                                  "example": "21538 : Boulangerie",
                                   "type": "string",
                                 },
                               },
@@ -503,11 +1540,13 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                             "type": "array",
                           },
                           "intitule": {
+                            "example": "Boulanger",
                             "type": "string",
                           },
                           "niveau": {
                             "properties": {
                               "europeen": {
+                                "description": "Niveau de qualification de la certification (de 1 à 8) utilisés dans les référentiels nationaux européens.",
                                 "enum": [
                                   "1",
                                   "2",
@@ -518,6 +1557,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                                   "7",
                                   "8",
                                 ],
+                                "example": "3",
                                 "type": [
                                   "string",
                                   "null",
@@ -537,13 +1577,16 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                             "type": "object",
                           },
                           "nsf": {
+                            "description": "Code(s) et intitulé(s) du domaine de formation à laquelle appartient la certification, il suit la Nomenclature des Spécialités de Formation (NSF) de l’INSEE.",
                             "items": {
                               "properties": {
                                 "code": {
+                                  "example": "221",
                                   "pattern": "^\\d{2,3}[a-z]?$",
                                   "type": "string",
                                 },
                                 "intitule": {
+                                  "example": "221 : Agro-alimentaire, alimentation, cuisine",
                                   "type": [
                                     "string",
                                     "null",
@@ -559,12 +1602,15 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                             "type": "array",
                           },
                           "rome": {
+                            "description": "Code(s) et intitulé(s) de la (ou des) fiche(s) métier du Répertoire Opérationnel des Métiers et de l’Emploi (ROME) associé(s) à la certification.",
                             "items": {
                               "properties": {
                                 "code": {
+                                  "example": "D1102",
                                   "type": "string",
                                 },
                                 "intitule": {
+                                  "example": "Boulangerie - viennoiserie",
                                   "type": "string",
                                 },
                               },
@@ -579,21 +1625,27 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                           "voie_acces": {
                             "properties": {
                               "apprentissage": {
+                                "description": "Certification accessible en contrat d’apprentissage.",
                                 "type": "boolean",
                               },
                               "candidature_individuelle": {
+                                "description": "Certification accessible par candidature individuelle.",
                                 "type": "boolean",
                               },
                               "contrat_professionnalisation": {
+                                "description": "Certification accessible en contrat de professionnalisation.",
                                 "type": "boolean",
                               },
                               "experience": {
+                                "description": "Certification accessible par expérience.",
                                 "type": "boolean",
                               },
                               "formation_continue": {
+                                "description": "Certification accessible après un parcours de formation continue.",
                                 "type": "boolean",
                               },
                               "formation_statut_eleve": {
+                                "description": "Certification accessible après un parcours de formation sous statut d’élève ou d’étudiant.",
                                 "type": "boolean",
                               },
                             },
@@ -629,17 +1681,12 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                           "null",
                         ],
                       },
-                      "updated_at": {
-                        "type": "string",
-                      },
                     },
                     "required": [
                       "code",
                       "periode_validite",
                       "cfd",
                       "rncp",
-                      "created_at",
-                      "updated_at",
                     ],
                     "type": "object",
                   },
@@ -647,28 +1694,334 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 },
               },
             },
-            "description": "",
+            "description": "Liste des certifications",
           },
           "400": {
-            "$ref": "#/components/responses/BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Paramètre de requête non valide.",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                      "example": {
+                        "validationError": {
+                          "_errors": [],
+                          "code.cfd": {
+                            "_errors": [
+                              "Invalid",
+                            ],
+                          },
+                          "code.rncp": {
+                            "_errors": [
+                              "Invalid",
+                            ],
+                          },
+                        },
+                      },
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Request validation failed",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Bad Request",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        400,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Paramètre de requête non valide.",
           },
           "401": {
-            "$ref": "#/components/responses/Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Clé d’API manquante ou invalide",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Unauthorized",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Unauthorized",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        401,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Clé d’API manquante ou invalide",
           },
           "403": {
-            "$ref": "#/components/responses/Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Habilitations insuffisantes pour accéder à la ressource",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Forbidden",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Forbidden",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        403,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Habilitations insuffisantes pour accéder à la ressource",
           },
           "404": {
-            "$ref": "#/components/responses/NotFound",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Resource non trouvée",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Not Found",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Not Found",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        404,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Resource non trouvée",
           },
           "429": {
-            "$ref": "#/components/responses/TooManyRequests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Limite de volumétrie atteinte pour la clé d’API",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Too Many Requests",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Too Many Requests",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        419,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Limite de volumétrie atteinte pour la clé d’API",
           },
           "500": {
-            "$ref": "#/components/responses/InternalServerError",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Une erreur inattendue s'est produite sur le serveur.",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Internal Server Error",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Internal Server Error",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        500,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Une erreur inattendue s'est produite sur le serveur.",
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Le service est indisponible.",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Bad Gateway",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Bad Gateway",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        502,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Le service est indisponible.",
           },
           "503": {
-            "$ref": "#/components/responses/ServiceUnavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Le service est en maintenance",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Service Unavailable",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Service Unavailable",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        502,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Le service est en maintenance",
           },
         },
         "security": [
@@ -676,6 +2029,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "api-key": [],
           },
         ],
+        "summary": "Récupération des certifications",
         "tags": [
           "Certifications",
         ],
@@ -688,499 +2042,365 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "content": {
               "application/json": {
                 "schema": {
-                  "items": {
-                    "properties": {
-                      "cfd": {
-                        "properties": {
-                          "abrogation": {
-                            "type": [
-                              "string",
-                              "null",
-                            ],
-                          },
-                          "creation": {
-                            "type": [
-                              "string",
-                              "null",
-                            ],
-                          },
-                          "fermeture": {
-                            "type": [
-                              "string",
-                              "null",
-                            ],
-                          },
-                          "gestionnaire": {
-                            "type": [
-                              "string",
-                              "null",
-                            ],
-                          },
-                          "intitule": {
-                            "properties": {
-                              "court": {
-                                "type": "string",
-                              },
-                              "long": {
-                                "type": "string",
-                              },
-                            },
-                            "required": [
-                              "long",
-                              "court",
-                            ],
-                            "type": "object",
-                          },
-                          "nature": {
-                            "properties": {
-                              "code": {
-                                "type": [
-                                  "string",
-                                  "null",
-                                ],
-                              },
-                              "libelle": {
-                                "type": [
-                                  "string",
-                                  "null",
-                                ],
-                              },
-                            },
-                            "required": [
-                              "code",
-                              "libelle",
-                            ],
-                            "type": "object",
-                          },
-                          "niveau": {
-                            "properties": {
-                              "europeen": {
-                                "enum": [
-                                  "1",
-                                  "2",
-                                  "3",
-                                  "4",
-                                  "5",
-                                  "6",
-                                  "7",
-                                  "8",
-                                ],
-                                "type": [
-                                  "string",
-                                  "null",
-                                ],
-                              },
-                              "formation_diplome": {
-                                "type": "string",
-                              },
-                              "interministeriel": {
-                                "type": "string",
-                              },
-                              "intitule": {
-                                "type": [
-                                  "string",
-                                  "null",
-                                ],
-                              },
-                              "sigle": {
-                                "type": "string",
-                              },
-                            },
-                            "required": [
-                              "sigle",
-                              "europeen",
-                              "formation_diplome",
-                              "intitule",
-                              "interministeriel",
-                            ],
-                            "type": "object",
-                          },
-                          "nsf": {
-                            "items": {
-                              "properties": {
-                                "code": {
-                                  "type": "string",
-                                },
-                                "intitule": {
-                                  "type": [
-                                    "string",
-                                    "null",
-                                  ],
-                                },
-                              },
-                              "required": [
-                                "code",
-                                "intitule",
-                              ],
-                              "type": "object",
-                            },
-                            "type": "array",
-                          },
-                          "ouverture": {
-                            "type": [
-                              "string",
-                              "null",
-                            ],
-                          },
-                          "session": {
-                            "properties": {
-                              "fin": {
-                                "type": [
-                                  "integer",
-                                  "null",
-                                ],
-                              },
-                              "premiere": {
-                                "type": [
-                                  "integer",
-                                  "null",
-                                ],
-                              },
-                            },
-                            "required": [
-                              "premiere",
-                              "fin",
-                            ],
-                            "type": "object",
-                          },
-                        },
-                        "required": [
-                          "ouverture",
-                          "fermeture",
-                          "creation",
-                          "abrogation",
-                          "intitule",
-                          "nature",
-                          "gestionnaire",
-                          "session",
-                          "niveau",
-                          "nsf",
-                        ],
-                        "type": [
-                          "object",
-                          "null",
-                        ],
-                      },
-                      "code": {
-                        "properties": {
-                          "cfd": {
-                            "pattern": "^[A-Z0-9]{3}\\d{3}[A-Z0-9]{2}$",
-                            "type": [
-                              "string",
-                              "null",
-                            ],
-                          },
-                          "rncp": {
-                            "pattern": "^RNCP\\d{3,5}$",
-                            "type": [
-                              "string",
-                              "null",
-                            ],
-                          },
-                        },
-                        "required": [
-                          "cfd",
-                          "rncp",
-                        ],
-                        "type": "object",
-                      },
-                      "created_at": {
-                        "type": "string",
-                      },
-                      "periode_validite": {
-                        "properties": {
-                          "debut": {
-                            "type": [
-                              "string",
-                              "null",
-                            ],
-                          },
-                          "fin": {
-                            "type": [
-                              "string",
-                              "null",
-                            ],
-                          },
-                        },
-                        "required": [
-                          "debut",
-                          "fin",
-                        ],
-                        "type": "object",
-                      },
-                      "rncp": {
-                        "properties": {
-                          "actif": {
-                            "type": "boolean",
-                          },
-                          "activation": {
-                            "type": [
-                              "string",
-                              "null",
-                            ],
-                          },
-                          "blocs": {
-                            "items": {
-                              "properties": {
-                                "code": {
-                                  "pattern": "^RNCP\\d{3,5}BC\\d{1,2}$",
-                                  "type": "string",
-                                },
-                                "intitule": {
-                                  "type": [
-                                    "string",
-                                    "null",
-                                  ],
-                                },
-                              },
-                              "required": [
-                                "code",
-                                "intitule",
-                              ],
-                              "type": "object",
-                            },
-                            "type": "array",
-                          },
-                          "certificateurs": {
-                            "items": {
-                              "properties": {
-                                "nom": {
-                                  "type": "string",
-                                },
-                                "siret": {
-                                  "type": "string",
-                                },
-                              },
-                              "required": [
-                                "siret",
-                                "nom",
-                              ],
-                              "type": "object",
-                            },
-                            "type": "array",
-                          },
-                          "convention_collectives": {
-                            "items": {
-                              "properties": {
-                                "intitule": {
-                                  "type": "string",
-                                },
-                                "numero": {
-                                  "type": "string",
-                                },
-                              },
-                              "required": [
-                                "numero",
-                                "intitule",
-                              ],
-                              "type": "object",
-                            },
-                            "type": "array",
-                          },
-                          "debut_parcours": {
-                            "type": [
-                              "string",
-                              "null",
-                            ],
-                          },
-                          "enregistrement": {
-                            "enum": [
-                              "Enregistrement de droit",
-                              "Enregistrement sur demande",
-                            ],
-                            "type": "string",
-                          },
-                          "fin_enregistrement": {
-                            "type": [
-                              "string",
-                              "null",
-                            ],
-                          },
-                          "formacodes": {
-                            "items": {
-                              "properties": {
-                                "code": {
-                                  "type": "string",
-                                },
-                                "intitule": {
-                                  "type": "string",
-                                },
-                              },
-                              "required": [
-                                "code",
-                                "intitule",
-                              ],
-                              "type": "object",
-                            },
-                            "type": "array",
-                          },
-                          "intitule": {
-                            "type": "string",
-                          },
-                          "niveau": {
-                            "properties": {
-                              "europeen": {
-                                "enum": [
-                                  "1",
-                                  "2",
-                                  "3",
-                                  "4",
-                                  "5",
-                                  "6",
-                                  "7",
-                                  "8",
-                                ],
-                                "type": [
-                                  "string",
-                                  "null",
-                                ],
-                              },
-                              "interministeriel": {
-                                "type": [
-                                  "string",
-                                  "null",
-                                ],
-                              },
-                            },
-                            "required": [
-                              "europeen",
-                              "interministeriel",
-                            ],
-                            "type": "object",
-                          },
-                          "nsf": {
-                            "items": {
-                              "properties": {
-                                "code": {
-                                  "pattern": "^\\d{2,3}[a-z]?$",
-                                  "type": "string",
-                                },
-                                "intitule": {
-                                  "type": [
-                                    "string",
-                                    "null",
-                                  ],
-                                },
-                              },
-                              "required": [
-                                "code",
-                                "intitule",
-                              ],
-                              "type": "object",
-                            },
-                            "type": "array",
-                          },
-                          "rome": {
-                            "items": {
-                              "properties": {
-                                "code": {
-                                  "type": "string",
-                                },
-                                "intitule": {
-                                  "type": "string",
-                                },
-                              },
-                              "required": [
-                                "code",
-                                "intitule",
-                              ],
-                              "type": "object",
-                            },
-                            "type": "array",
-                          },
-                          "voie_acces": {
-                            "properties": {
-                              "apprentissage": {
-                                "type": "boolean",
-                              },
-                              "candidature_individuelle": {
-                                "type": "boolean",
-                              },
-                              "contrat_professionnalisation": {
-                                "type": "boolean",
-                              },
-                              "experience": {
-                                "type": "boolean",
-                              },
-                              "formation_continue": {
-                                "type": "boolean",
-                              },
-                              "formation_statut_eleve": {
-                                "type": "boolean",
-                              },
-                            },
-                            "required": [
-                              "apprentissage",
-                              "experience",
-                              "candidature_individuelle",
-                              "contrat_professionnalisation",
-                              "formation_continue",
-                              "formation_statut_eleve",
-                            ],
-                            "type": "object",
-                          },
-                        },
-                        "required": [
-                          "actif",
-                          "activation",
-                          "fin_enregistrement",
-                          "debut_parcours",
-                          "intitule",
-                          "blocs",
-                          "rome",
-                          "formacodes",
-                          "convention_collectives",
-                          "niveau",
-                          "nsf",
-                          "enregistrement",
-                          "voie_acces",
-                          "certificateurs",
-                        ],
-                        "type": [
-                          "object",
-                          "null",
-                        ],
-                      },
-                      "updated_at": {
-                        "type": "string",
-                      },
+                  "additionalProperties": false,
+                  "description": "Statut de l'application",
+                  "properties": {
+                    "env": {
+                      "enum": [
+                        "local",
+                        "recette",
+                        "production",
+                        "preview",
+                        "test",
+                      ],
+                      "type": "string",
                     },
-                    "required": [
-                      "code",
-                      "periode_validite",
-                      "cfd",
-                      "rncp",
-                      "created_at",
-                      "updated_at",
-                    ],
-                    "type": "object",
+                    "name": {
+                      "example": "api",
+                      "type": "string",
+                    },
+                    "version": {
+                      "example": "1.0.0",
+                      "type": "string",
+                    },
                   },
-                  "type": "array",
+                  "required": [
+                    "name",
+                    "version",
+                    "env",
+                  ],
+                  "type": "object",
                 },
               },
             },
-            "description": "",
+            "description": "Statut de l'application",
           },
           "400": {
-            "$ref": "#/components/responses/BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Paramètre de requête non valide.",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                      "example": {
+                        "validationError": {
+                          "_errors": [],
+                          "code.cfd": {
+                            "_errors": [
+                              "Invalid",
+                            ],
+                          },
+                          "code.rncp": {
+                            "_errors": [
+                              "Invalid",
+                            ],
+                          },
+                        },
+                      },
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Request validation failed",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Bad Request",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        400,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Paramètre de requête non valide.",
           },
           "401": {
-            "$ref": "#/components/responses/Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Clé d’API manquante ou invalide",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Unauthorized",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Unauthorized",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        401,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Clé d’API manquante ou invalide",
           },
           "403": {
-            "$ref": "#/components/responses/Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Habilitations insuffisantes pour accéder à la ressource",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Forbidden",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Forbidden",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        403,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Habilitations insuffisantes pour accéder à la ressource",
           },
           "404": {
-            "$ref": "#/components/responses/NotFound",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Resource non trouvée",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Not Found",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Not Found",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        404,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Resource non trouvée",
           },
           "429": {
-            "$ref": "#/components/responses/TooManyRequests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Limite de volumétrie atteinte pour la clé d’API",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Too Many Requests",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Too Many Requests",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        419,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Limite de volumétrie atteinte pour la clé d’API",
           },
           "500": {
-            "$ref": "#/components/responses/InternalServerError",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Une erreur inattendue s'est produite sur le serveur.",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Internal Server Error",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Internal Server Error",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        500,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Une erreur inattendue s'est produite sur le serveur.",
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Le service est indisponible.",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Bad Gateway",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Bad Gateway",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        502,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Le service est indisponible.",
           },
           "503": {
-            "$ref": "#/components/responses/ServiceUnavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Le service est en maintenance",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Service Unavailable",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Service Unavailable",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        502,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Le service est en maintenance",
           },
         },
         "security": [],
@@ -1194,6 +2414,12 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
     {
       "description": "Production",
       "url": "https://api.apprentissage.beta.gouv.fr",
+    },
+  ],
+  "tags": [
+    {
+      "description": "Liste des opérations sur les certifications.",
+      "name": "Certifications",
     },
   ],
   "webhooks": {},

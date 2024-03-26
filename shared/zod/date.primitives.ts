@@ -48,6 +48,11 @@ export const zParisLocalDateString = zodOpenApi
     return parseParisLocalDate(val);
   });
 
-export const zLocalDate = zodOpenApi.date().transform((val) => {
-  return ParisDate.fromDate(val);
-});
+export const zLocalDate = zodOpenApi
+  .date()
+  .transform((val) => {
+    return ParisDate.fromDate(val);
+  })
+  .openapi({
+    format: "date-time",
+  });

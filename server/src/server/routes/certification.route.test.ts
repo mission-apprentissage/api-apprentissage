@@ -67,7 +67,7 @@ describe("Users routes", () => {
   const toLocalDateString = (date: Date | null) =>
     date === null ? null : DateTime.fromJSDate(date, { zone: "Europe/Paris" }).toISO();
 
-  const toExpectedJson = ({ _id, ...rest }: ICertification) => {
+  const toExpectedJson = ({ _id, updated_at: _u, created_at: _c, ...rest }: ICertification) => {
     return {
       ...rest,
       periode_validite: {
@@ -93,8 +93,6 @@ describe("Users routes", () => {
               fin_enregistrement: toLocalDateString(rest.rncp.fin_enregistrement),
               debut_parcours: toLocalDateString(rest.rncp.debut_parcours),
             },
-      created_at: rest.created_at.toISOString(),
-      updated_at: rest.updated_at.toISOString(),
     };
   };
 

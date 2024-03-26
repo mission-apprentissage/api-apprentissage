@@ -1,5 +1,3 @@
-"use client";
-
 import { Typography } from "@mui/material";
 
 import Breadcrumb, { PAGES } from "../../components/breadcrumb/Breadcrumb";

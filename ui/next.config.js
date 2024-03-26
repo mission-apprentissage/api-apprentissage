@@ -55,6 +55,15 @@ const nextConfig = {
           },
         ],
       },
+      {
+        source: "/redoc",
+        headers: [
+          {
+            key: "Content-Security-Policy",
+            value: inline(contentSecurityPolicy + ` worker-src 'self' blob:;`),
+          },
+        ],
+      },
     ];
   },
   webpack: (config) => {

@@ -1,4 +1,4 @@
-import { fr } from "@codegouvfr/react-dsfr";
+import { fr } from "@codegouvfr/react-dsfr/fr";
 import { styled } from "@mui/material";
 
 const FormContainer = styled("div")(({ theme }) => ({

@@ -17,7 +17,7 @@ export const zCoreRoutes = {
             }),
             env: zodOpenApi.enum(["local", "recette", "production", "preview", "test"]),
           })
-          .describe("API Health")
+          .describe("Statut de l'application")
           .strict(),
       },
       securityScheme: null,

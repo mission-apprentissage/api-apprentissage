@@ -5,68 +5,64 @@ import { ZodType } from "zod";
 
 import { zRoutes } from "../../index";
 import { zPublicCertification } from "../../models/certification.model";
-import { IRouteSchema, ZResError } from "../../routes/common.routes";
+import {
+  IRouteSchema,
+  zResBadGateway,
+  zResBadRequest,
+  zResForbidden,
+  zResInternalServerError,
+  zResNotFound,
+  zResServiceUnavailable,
+  zResTooManyRequest,
+  zResUnauthorized,
+} from "../../routes/common.routes";
+import { zodOpenApi } from "../../zod/zodWithOpenApi";
 
-function generateOpenApiResponseObject(schema: ZodType, description: string | null = null): ResponseConfig {
+function getZodDescription(schema: ZodType): string {
+  return schema._def.openapi?.metadata?.description ?? schema.description ?? "";
+}
+
+function generateOpenApiResponseObject(main: ZodType, alternative: ZodType | null = null): ResponseConfig {
   return {
-    description: description ?? schema._def.openapi?.metadata?.description ?? schema.description ?? "",
+    description: getZodDescription(main),
     content: {
       "application/json": {
-        schema,
+        schema: alternative === null ? main : zodOpenApi.union([main, alternative]),
       },
     },
   };
 }
 
-const commonResponses: { [statusCode: string]: ResponseConfig | { $ref: string } } = {
-  400: { $ref: "#/components/responses/BadRequest" },
-  401: { $ref: "#/components/responses/Unauthorized" },
-  403: { $ref: "#/components/responses/Forbidden" },
-  404: { $ref: "#/components/responses/NotFound" },
-  429: { $ref: "#/components/responses/TooManyRequests" },
-  500: { $ref: "#/components/responses/InternalServerError" },
-  503: { $ref: "#/components/responses/ServiceUnavailable" },
+const errorResponses: { [statusCode: string]: [string, ZodType] } = {
+  400: ["BadRequest", zResBadRequest],
+  401: ["Unauthorized", zResUnauthorized],
+  403: ["Forbidden", zResForbidden],
+  404: ["NotFound", zResNotFound],
+  429: ["TooManyRequests", zResTooManyRequest],
+  500: ["InternalServerError", zResInternalServerError],
+  502: ["BadGateway", zResBadGateway],
+  503: ["ServiceUnavailable", zResServiceUnavailable],
 };
 
-function registerResponseError(id: string, description: string, registry: OpenAPIRegistry) {
-  registry.registerComponent("responses", id, {
-    description,
-    content: { "application/json": { schema: { $ref: "#/components/schemas/Error" } } },
-  });
-}
-
-function registerResponsesError(registry: OpenAPIRegistry) {
-  registry.register("Error", ZResError);
-  registerResponseError("BadRequest", "La requete ne respecte pas les reglès de validations.", registry);
-  registerResponseError("Unauthorized", "L'authentification est requise.", registry);
-  registerResponseError("Forbidden", "L'utilisateur n'a pas les droits d'effectuer l'opération demandée", registry);
-  registerResponseError("NotFound", "Le serveur n'a pas trouvé la ressource demandée.", registry);
-  registerResponseError(
-    "TooManyRequests",
-    "L'utilisateur a émis trop de requêtes dans un laps de temps donné.",
-    registry
-  );
-  registerResponseError(
-    "InternalServerError",
-    "Le serveur a rencontré une situation qu'il ne sait pas traiter.",
-    registry
-  );
-  registerResponseError("ServiceUnavailable", "Le serveur n'est pas prêt pour traiter la requête", registry);
-}
+const models: Record<string, ZodType> = {
+  Certification: zPublicCertification,
+};
 
 function generateOpenApiResponsesObject<R extends IRouteSchema["response"]>(
   response: R
-): { [statusCode: string]: ResponseConfig | { $ref: string } } {
-  const codes = Object.keys(response) as Array<keyof R>;
+): { [statusCode: string]: ResponseConfig } {
+  const codes = new Set([...Object.keys(response), ...Object.keys(errorResponses)]);
 
-  return codes.reduce((acc, code: keyof R) => {
-    const c: string = code as string;
-    const isErrorCode = c.startsWith("4") || c.startsWith("5");
-    const schema: ZodType = response[code as `${1 | 2 | 3 | 4 | 5}${string}`];
-    acc[c] = generateOpenApiResponseObject(code in acc && isErrorCode ? schema.or(ZResError) : schema);
+  return Array.from(codes).reduce<Record<string, ResponseConfig>>((acc, code) => {
+    if (code in response) {
+      const r: ZodType = response[code as `${1 | 2 | 3 | 4 | 5}${string}`];
 
+      acc[code] = generateOpenApiResponseObject(r, errorResponses[code]?.[1] ?? null);
+    } else if (code in errorResponses) {
+      acc[code] = generateOpenApiResponseObject(errorResponses[code][1]);
+    }
     return acc;
-  }, commonResponses);
+  }, {});
 }
 
 function generateOpenApiRequest(route: IRouteSchema): RouteConfig["request"] {
@@ -120,25 +116,31 @@ function addOpenApiOperation(
     method,
     path: formatParamUrl(path),
     request: generateOpenApiRequest(route),
-    // @ts-expect-error
     responses: generateOpenApiResponsesObject(route.response),
     security: getSecurityRequirementObject(route),
   });
 }
 
 function registerModel(registry: OpenAPIRegistry) {
-  registry.register("Certification", zPublicCertification);
+  Object.entries(models).forEach(([id, zod]) => {
+    registry.register(id, zod);
+  });
+
+  Object.entries(errorResponses).forEach(([_statusCode, [id, zod]]) => {
+    registry.register(id, zod);
+  });
 }
 
 export function generateOpenApiSchema(version: string, env: string, publicUrl: string) {
   const registry = new OpenAPIRegistry();
 
   registry.registerComponent("securitySchemes", "api-key", {
-    type: "apiKey",
-    name: "authorization",
-    in: "header",
+    type: "http",
+    scheme: "bearer",
+    bearerFormat: "Bearer",
+    description: "Clé d'API à fournir dans le header `Authorization`.",
   });
-  registerResponsesError(registry);
+
   registerModel(registry);
 
   for (const [method, pathRoutes] of Object.entries(zRoutes)) {

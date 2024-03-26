@@ -1,3 +1,5 @@
+"use client";
+
 import { Header as DSFRHeader, HeaderProps } from "@codegouvfr/react-dsfr/Header";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";

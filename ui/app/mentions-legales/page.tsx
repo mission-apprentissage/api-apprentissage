@@ -1,5 +1,3 @@
-"use client";
-
 import Breadcrumb, { PAGES } from "../components/breadcrumb/Breadcrumb";
 import MentionsLegales from "./components/MentionLegales";
 

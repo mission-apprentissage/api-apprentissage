@@ -36,7 +36,9 @@ export const zCertificationsRoutes = {
         }),
       }),
       response: {
-        "200": z.array(zPublicCertification),
+        "200": z.array(zPublicCertification).openapi({
+          description: "Liste des certifications",
+        }),
       },
       securityScheme: {
         auth: "api-key",

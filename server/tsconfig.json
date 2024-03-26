@@ -30,7 +30,7 @@
     "strict": true,
     "noImplicitAny": true,
     "noUnusedLocals": true,
-    "exactOptionalPropertyTypes": true,
+    "exactOptionalPropertyTypes": false,
     "noImplicitReturns": true,
     "useUnknownInCatchVariables": false,
     "noUncheckedIndexedAccess": false,

@@ -5,15 +5,15 @@ import { program } from "commander";
 import { addJob, startJobProcessor } from "job-processor";
 import HttpTerminator from "lil-http-terminator";
 
-import logger from "@/common/logger";
-import { closeMongodbConnection } from "@/common/utils/mongodbUtils";
-import createServer from "@/modules/server/server";
+import createServer from "@/server/server";
+import logger from "@/services/logger";
+import { closeMongodbConnection } from "@/services/mongodb/mongodbService";
 
-import { closeMemoryCache } from "./common/apis/client";
-import { closeMailer } from "./common/services/mailer/mailer";
-import { closeSentry, initSentryProcessor } from "./common/services/sentry/sentry";
-import { sleep } from "./common/utils/asyncUtils";
 import config from "./config";
+import { closeMemoryCache } from "./services/apis/client";
+import { closeMailer } from "./services/mailer/mailer";
+import { closeSentry, initSentryProcessor } from "./services/sentry/sentry";
+import { sleep } from "./utils/asyncUtils";
 
 program
   .configureHelp({
@@ -136,7 +136,13 @@ program
       return;
     }
 
-    await startProcessor(signal);
+    try {
+      await startProcessor(signal);
+    } catch (error) {
+      captureException(error);
+      logger.error(error);
+      program.error("Command failed", { exitCode: 1 });
+    }
   });
 
 function createJobAction(name: string) {

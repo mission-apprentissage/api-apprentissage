@@ -21,7 +21,7 @@ async function getSession(): Promise<IUserPublic | undefined> {
   }
 
   try {
-    const session: IUserPublic = await apiGet(`/auth/session`, {});
+    const session: IUserPublic = await apiGet(`/_private/auth/session`, {});
     return session;
   } catch (error) {
     console.log(error);

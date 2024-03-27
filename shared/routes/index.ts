@@ -1,12 +1,13 @@
 import { ConditionalExcept, EmptyObject, Jsonify } from "type-fest";
 import z, { ZodType } from "zod";
 
-import { zUserAdminRoutes } from "./admin/admin.routes";
-import { zAuthRoutes } from "./auth.routes";
+import { zUserAdminRoutes } from "./_private/admin/admin.routes";
+import { zAuthRoutes } from "./_private/auth.routes";
+import { zEmailRoutes } from "./_private/emails.routes";
+import { zUserRoutes } from "./_private/user.routes";
+import { zCertificationsRoutes } from "./certification.routes";
 import { IRouteSchema, IRouteSchemaWrite } from "./common.routes";
-import { zCoreRoutes } from "./core.routes";
-import { zEmailRoutes } from "./emails.routes";
-import { zUserRoutes } from "./user.routes";
+import { zCoreRoutes } from "./healthcheck.routes";
 
 const zRoutesGet = {
   ...zUserAdminRoutes.get,
@@ -14,6 +15,7 @@ const zRoutesGet = {
   ...zAuthRoutes.get,
   ...zCoreRoutes.get,
   ...zEmailRoutes.get,
+  ...zCertificationsRoutes.get,
 } as const;
 
 const zRoutesPost = {
@@ -81,9 +83,7 @@ type IRequestRaw<S extends IRouteSchema> = {
   body: S extends IRouteSchemaWrite ? IBody<S> : never;
 };
 
-export type IRequest<S extends IRouteSchema> = ConditionalExcept<
-  IRequestRaw<S>,
-  never | EmptyObject
-> extends EmptyObject
-  ? EmptyObject
-  : ConditionalExcept<IRequestRaw<S>, never | EmptyObject>;
+export type IRequest<S extends IRouteSchema> =
+  ConditionalExcept<IRequestRaw<S>, never | EmptyObject> extends EmptyObject
+    ? EmptyObject
+    : ConditionalExcept<IRequestRaw<S>, never | EmptyObject>;

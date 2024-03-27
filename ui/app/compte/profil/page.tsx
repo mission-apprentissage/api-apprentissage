@@ -35,7 +35,7 @@ const ProfilPage = () => {
 
   const generateApiKey = async () => {
     try {
-      const data = await apiGet("/user/generate-api-key", {});
+      const data = await apiGet("/_private/user/generate-api-key", {});
 
       setApiKey(data.api_key);
     } catch (error) {

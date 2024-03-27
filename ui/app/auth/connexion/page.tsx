@@ -10,14 +10,14 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { IBody, IPostRoutes } from "shared";
-import { IStatus } from "shared/routes/auth.routes";
+import { IStatus } from "shared/routes/_private/auth.routes";
 
 import { useAuth } from "../../../context/AuthContext";
 import { apiPost } from "../../../utils/api.utils";
 import Breadcrumb, { PAGES } from "../../components/breadcrumb/Breadcrumb";
 import FormContainer from "../components/FormContainer";
 
-type Route = IPostRoutes["/auth/login"];
+type Route = IPostRoutes["/_private/auth/login"];
 
 const ConnexionPage = () => {
   const { push } = useRouter();
@@ -32,7 +32,7 @@ const ConnexionPage = () => {
 
   const onSubmit: SubmitHandler<IBody<Route>> = async (data) => {
     try {
-      setUser(await apiPost("/auth/login", { body: data }));
+      setUser(await apiPost("/_private/auth/login", { body: data }));
     } catch (error) {
       const errorMessage = (error as Record<string, string>)?.message;
 

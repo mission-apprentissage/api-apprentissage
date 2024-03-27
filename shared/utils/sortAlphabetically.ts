@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function sortAlphabeticallyBy<Key extends string, T extends { [key in Key]: any }>(
   sortBy: Key,
   array: readonly T[]

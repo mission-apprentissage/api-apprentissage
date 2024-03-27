@@ -1,3 +1,4 @@
+"use client";
 import { getLink } from "@codegouvfr/react-dsfr/link";
 import { Summary } from "@codegouvfr/react-dsfr/Summary";
 import { Grid, Typography } from "@mui/material";

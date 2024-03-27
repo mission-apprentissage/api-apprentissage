@@ -10,17 +10,45 @@ fileignoreconfig:
 - filename: .infra/files/configs/mailpit/auth
   checksum: 0b0a9c7bad5e1ec13d14c563d22c56c2cbcb2572fa40a4b2c5a11d6ca60eb8d1
 - filename: .infra/files/configs/mongodb/seed.gpg
-  checksum: e2bbe5148091f534cef9a2bbd13f3ebcdf6503adbeb7a3309aaf1a70d93baa38
+  checksum: cab7b4e34c0a97288b5a895e88275eca3bb4a0e55b64655f7d0b345ae0613ace
 - filename: .infra/files/scripts/seed.sh
   checksum: a673a8f706cb90f2f5c9f98981b06ce95c566e67e2bb4a6323d6b1bdb8ef0233
 - filename: .infra/vault/vault.yml
-  checksum: 40698ddc2d0d2a28a94eb13cd9282cba3e46dfbccb38933743aff69871f53598
+  checksum: b682515eea220435b1a7c044c23169d5504103f1cd081a9759945b7e4323e228
 - filename: docs/developpement/1password.md
   checksum: f4eb70beab8d37ca9a1867b7d57d01f541b99372bbcccfb04301b81ad6331bcd
 - filename: docs/developpement/gpg.md
   checksum: 137f146297aedce399926c6ddebe9bbfb22b0e924bbdbd30be2b4654f6b248ad
 - filename: server/.env.test
   checksum: b9cc11acc6033a57be80c6a1f85d70fdc6d9c7186de820409e64868ac44bc241
+- filename: server/package.json
+  checksum: 6f5fe90e17e058af25218e57be4aa9f77ceabab896de515a736d34f455acf5a6
+- filename: server/src/common/apis/data_gouv/data_gouv.api.test.ts
+  checksum: 8f9baf3df9017a6eebd740861296c4a5eec9d2aec90f571d24d5390a3f37c2a9
+- filename: server/src/jobs/importer/france_competence/france_competence.importer.test.ts
+  checksum: 3e755cd8fd314acae130c73c40349a3118fe23ec854175df6c7ef43c6dfb0144
+- filename: server/src/jobs/importer/france_competence/france_competence.importer.ts
+  checksum: 1cd3034dfc731e1751f2fcc4308bc9d6fcfbb836665c85955a29f22c84805df3
+- filename: server/src/modules/jobs/importer/france_competence/france_competence.importer.test.ts
+  checksum: 696f52a8c9fad933dd78f8590f8c111380cfe8bb8da6cd21e1b7d671a5ed5256
+- filename: server/src/modules/jobs/importer/france_competence/france_competence.importer.ts
+  checksum: efb76c4727f41db630ed32ab6d1e142d03d03ccfe3655eb7a4a7e20dc6ec1f56
+- filename: server/src/modules/server/utils/password.utils.ts
+  checksum: 9f89c62a64d0c649473775c9afeed5b057c505db71ec3302d19d25790fc7e50d
+- filename: server/src/server/middlewares/apiKeyUsageMiddleware.test.ts
+  checksum: 9a1bac0d51b7f1a605a2d317f7875de696d0d4d874bf8d61ad05f66cef06c147
+- filename: server/src/server/middlewares/apiKeyUsageMiddleware.ts
+  checksum: 7feb85c66f8d008908b7a897e01ae369c57892e66e78c7124c74f200587da51a
+- filename: server/src/server/routes/_private/auth.route.test.ts
+  checksum: 966f7dc81af2a38577f3cf365e63afb941ba5ea59bf33f96fff5ea2a066222c3
+- filename: server/src/server/routes/_private/user.route.test.ts
+  checksum: 32533880dcdb9b27e0d3e11a3f74c95c0ec18528e90fab3309878aa559b41b3e
+- filename: server/src/server/routes/certification.route.test.ts
+  checksum: fddb0ef3fa49ae00fbedf74b219642741fd55968b0e79cf2ded9bcd7b8a64956
+- filename: server/src/services/apis/data_gouv/data_gouv.api.test.ts
+  checksum: b3bf0da3f21bf6aad5909230e54d24072bf9b3b025eadae988b5c36e47c08994
+- filename: server/src/services/security/authenticationService.test.ts
+  checksum: 0bf068be562d95ed0ec51a77e007533d400155baca1b1aaf88ca627d9b1d719b
 - filename: server/tests/utils/security/accessTokenService.test.ts
   checksum: 017acd9d128165e6edcfd2c33a0f218c53b0ba2b4a77f3da3fe7b58f11d6fa90
 - filename: server/tests/utils/security/authorisationService.test.ts

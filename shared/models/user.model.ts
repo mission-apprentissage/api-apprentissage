@@ -18,20 +18,23 @@ const indexes: IModelDescriptor["indexes"] = [
         locale: "simple",
         strength: 1,
       },
-    },
-  ],
-  [
-    {
-      email: "text",
-    },
-    {
       weights: {
         email: 10,
       },
-      name: "search",
     },
   ],
+  [{ "api_keys._id": 1 }, {}],
 ];
+
+export const zApiKey = z.object({
+  _id: zObjectId,
+  name: z.string().nullable(),
+  key: z.string(),
+  last_used_at: z.date().nullable(),
+  expires_at: z.date(),
+});
+
+export type IApiKey = z.output<typeof zApiKey>;
 
 export const zUser = z
   .object({
@@ -39,8 +42,7 @@ export const zUser = z
     email: z.string().email().describe("Email de l'utilisateur"),
     password: z.string().describe("Mot de passe de l'utilisateur"),
     is_admin: z.boolean(),
-    api_key: z.string().nullable().describe("Clé API"),
-    api_key_used_at: z.date().nullable().describe("Date de dernière utilisation de la clé API"),
+    api_keys: z.array(zApiKey),
     updated_at: z.date().describe("Date de mise à jour en base de données"),
     created_at: z.date().describe("Date d'ajout en base de données"),
   })
@@ -60,7 +62,7 @@ export const zUserPublic = z
     email: zUser.shape.email,
     is_admin: zUser.shape.is_admin,
     has_api_key: z.boolean(),
-    api_key_used_at: zUser.shape.api_key_used_at,
+    api_key_used_at: z.date().nullable(),
     updated_at: zUser.shape.updated_at,
     created_at: zUser.shape.created_at,
   })
@@ -75,8 +77,12 @@ export function toPublicUser(user: IUser): z.output<typeof zUserPublic> {
     _id: user._id,
     email: user.email,
     is_admin: user.is_admin,
-    has_api_key: Boolean(user.api_key),
-    api_key_used_at: user.api_key_used_at,
+    has_api_key: user.api_keys.length > 0,
+    api_key_used_at: user.api_keys.reduce<Date | null>((acc, key) => {
+      if (acc === null) return key.last_used_at;
+      if (key.last_used_at === null) return acc;
+      return acc.getTime() > key.last_used_at.getTime() ? acc : key.last_used_at;
+    }, null),
     updated_at: user.updated_at,
     created_at: user.created_at,
   });

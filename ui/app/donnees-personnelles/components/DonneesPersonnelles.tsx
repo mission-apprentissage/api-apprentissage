@@ -1,4 +1,4 @@
-import { fr } from "@codegouvfr/react-dsfr";
+import { fr } from "@codegouvfr/react-dsfr/fr";
 import { Summary } from "@codegouvfr/react-dsfr/Summary";
 import { Grid, Typography } from "@mui/material";
 import React from "react";

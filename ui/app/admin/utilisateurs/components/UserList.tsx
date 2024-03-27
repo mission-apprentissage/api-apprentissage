@@ -1,3 +1,4 @@
+"use client";
 import Button from "@codegouvfr/react-dsfr/Button";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -19,7 +20,7 @@ const UserList = () => {
   const { data: users } = useQuery<IUserPublic[]>({
     queryKey: ["users", { searchValue, page, limit }],
     queryFn: async () => {
-      const data = await apiGet("/admin/users", {
+      const data = await apiGet("/_private/admin/users", {
         querystring: { q: searchValue, page, limit },
       });
 

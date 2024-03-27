@@ -8,14 +8,14 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { IPostRoutes } from "shared";
-import { IStatus } from "shared/routes/auth.routes";
+import { IStatus } from "shared/routes/_private/auth.routes";
 
 import { apiPost } from "../../../utils/api.utils";
 import Breadcrumb, { PAGES } from "../../components/breadcrumb/Breadcrumb";
 import FormContainer from "../components/FormContainer";
 // import { NavLink } from "../../components/NavLink";
 
-interface IFormValues extends Zod.input<IPostRoutes["/auth/reset-password"]["body"]> {
+interface IFormValues extends Zod.input<IPostRoutes["/_private/auth/reset-password"]["body"]> {
   password_confirmation: string;
 }
 
@@ -42,7 +42,7 @@ const ModifierMotDePassePage = () => {
 
   const onSubmit: SubmitHandler<IFormValues> = async ({ password }) => {
     try {
-      await apiPost("/auth/reset-password", {
+      await apiPost("/_private/auth/reset-password", {
         headers: {
           authorization: `Bearer ${token}`,
         },

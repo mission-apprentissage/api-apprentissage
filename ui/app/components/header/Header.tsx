@@ -1,6 +1,9 @@
+"use client";
+
 import { Header as DSFRHeader, HeaderProps } from "@codegouvfr/react-dsfr/Header";
+import { useIsDark } from "@codegouvfr/react-dsfr/useIsDark";
 import { usePathname, useRouter } from "next/navigation";
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 
 import { publicConfig } from "../../../config.public";
 import { useAuth } from "../../../context/AuthContext";
@@ -9,12 +12,19 @@ import { PAGES } from "../breadcrumb/Breadcrumb";
 import { useNavigationItems } from "./header.utils";
 
 export const Header = () => {
+  // Force light mode
+  const { isDark, setIsDark } = useIsDark();
+  useEffect(() => {
+    if (isDark) {
+      setIsDark(false);
+    }
+  }, [isDark, setIsDark]);
   const { user, setUser } = useAuth();
   const { push } = useRouter();
   const pathname = usePathname();
 
   const handleLogout = useCallback(async () => {
-    await apiGet("/auth/logout", {});
+    await apiGet("/_private/auth/logout", {});
     setUser();
     push(PAGES.homepage().path);
   }, [setUser, push]);

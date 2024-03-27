@@ -2,12 +2,12 @@ import { captureException } from "@sentry/node";
 import { modelDescriptors } from "shared/models/models";
 
 import { startCLI } from "@/commands";
-import logger from "@/common/logger";
-import { configureDbSchemaValidation, connectToMongodb } from "@/common/utils/mongodbUtils";
 import config from "@/config";
+import logger from "@/services/logger";
+import { configureDbSchemaValidation, connectToMongodb } from "@/services/mongodb/mongodbService";
 
-import { initMailer } from "./common/services/mailer/mailer";
-import { setupJobProcessor } from "./modules/jobs/jobs";
+import { setupJobProcessor } from "./jobs/jobs";
+import { initMailer } from "./services/mailer/mailer";
 
 (async function () {
   try {
@@ -19,7 +19,7 @@ import { setupJobProcessor } from "./modules/jobs/jobs";
 
     await initMailer();
 
-    startCLI();
+    await startCLI();
   } catch (err) {
     captureException(err);
     logger.error({ err }, "startup error");

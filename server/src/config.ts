@@ -26,10 +26,15 @@ const config = {
       secure: env.get("SESSION_COOKIE_SECURE").default("true").asBool(),
     },
   },
+  api_key: {
+    // 3 mois
+    expiresIn: 90 * 24 * 60 * 60 * 1000,
+  },
   auth: {
     user: {
       jwtSecret: env.get("AUTH_USER_JWT_SECRET").required().asString(),
-      expiresIn: "7d",
+      // 1 mois: meme valeur que le cookie de session
+      expiresIn: 30 * 24 * 3600,
     },
     resetPasswordToken: {
       jwtSecret: env.get("AUTH_PASSWORD_JWT_SECRET").required().asString(),

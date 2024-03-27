@@ -7,7 +7,7 @@ interface Props {
 }
 
 const AdminUserViewPage = async ({ params }: Props) => {
-  const user = await apiGet(`/admin/users/:id`, { params });
+  const user = await apiGet(`/_private/admin/users/:id`, { params });
 
   return <UserView user={user} />;
 };

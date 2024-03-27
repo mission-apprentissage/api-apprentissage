@@ -4,6 +4,8 @@ import { Grid, Typography } from "@mui/material";
 import { publicConfig } from "../../../config.public";
 import Section from "../../components/section/Section";
 
+export const mentionLegalesVersion = "v1.0";
+
 const anchors = {
   DateMaj: "date-mise-a-jour",
   EditeurPlateforme: "editeur-plateforme",
@@ -55,7 +57,7 @@ const MentionsLegales = () => {
         </Typography>
 
         <Typography>Mentions légales du site « {publicConfig.productMeta.productName} »</Typography>
-        <Typography>Dernière mise à jour le : 23 mars 2024 - v1.0</Typography>
+        <Typography>Dernière mise à jour le : 23 mars 2024 - {mentionLegalesVersion}</Typography>
 
         <Section id={anchors.DateMaj}>
           <Typography variant="h3" gutterBottom>

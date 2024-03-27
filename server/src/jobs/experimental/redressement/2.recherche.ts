@@ -265,7 +265,7 @@ export async function rechercheCatalogue(
     if (etablissement_gestionnaire_siret === couple.siret) nature_pour_cette_formation.push("responsable");
     if (etablissement_formateur_siret === couple.siret) nature_pour_cette_formation.push("formateur");
 
-    const infoCatalogueEducatif = await fetchFormationCatalogueEducatif(cle_ministere_educatif);
+    const { uai_formation } = await fetchFormationCatalogueEducatif(cle_ministere_educatif);
 
     catalogueResults.push({
       cle_ministere_educatif,
@@ -281,12 +281,7 @@ export async function rechercheCatalogue(
         uai: etablissement_formateur_uai,
       },
       lieu: {
-        ...(infoCatalogueEducatif
-          ? {
-              uai: infoCatalogueEducatif.uai_formation,
-              uai_formation_valide: infoCatalogueEducatif.uai_formation_valide,
-            }
-          : {}),
+        ...(uai_formation ? { uai: uai_formation } : {}),
         geo_coordonnees: lieu_formation_geo_coordonnees,
         lon,
         lat,

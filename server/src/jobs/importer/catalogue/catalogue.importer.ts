@@ -8,6 +8,7 @@ import { zSourceCatalogue } from "shared/models/source/catalogue/source.catalogu
 import parentLogger from "@/services/logger";
 
 import { fetchCatalogueData } from "../../../services/apis/catalogue/catalogue";
+import { fetchCatalogueEducatifData } from "../../../services/apis/catalogue/catalogueEducatif";
 import { withCause } from "../../../services/errors/withCause";
 import { getDbCollection } from "../../../services/mongodb/mongodbService";
 import { createBatchTransformStream } from "../../../utils/streamUtils";
@@ -55,12 +56,42 @@ async function importCatalogueFormations(importDate: Date): Promise<number> {
   }
 }
 
+async function importCatalogueEducatifUaiFormation(): Promise<void> {
+  try {
+    await pipeline(
+      await fetchCatalogueEducatifData(),
+      new Transform({
+        objectMode: true,
+        transform(data, _encoding, callback) {
+          callback(null, { cle_ministere_educatif: data.cle_ministere_educatif, uai_formation: data.uai_formation });
+        },
+      }),
+      createBatchTransformStream({ size: 100 }),
+      new Transform({
+        objectMode: true,
+        async transform(chunk, _encoding, callback) {
+          try {
+            // BULK UPDATE
+            callback();
+          } catch (error) {
+            callback(withCause(internal("import.catalogue: error when inserting"), error));
+          }
+        },
+      })
+    );
+  } catch (error) {
+    throw withCause(internal("import.catalogue: unable to importCatalogueFormations"), error);
+  }
+}
+
 export async function runCatalogueImporter() {
   const importDate = new Date();
 
   try {
     logger.info("Geting Catalogue ...");
-    return await importCatalogueFormations(importDate);
+    const importedCount = await importCatalogueFormations(importDate);
+    await importCatalogueEducatifUaiFormation();
+    return importedCount;
   } catch (error) {
     throw withCause(internal("import.catalogue: unable to runCatalogueImporter"), error);
   }

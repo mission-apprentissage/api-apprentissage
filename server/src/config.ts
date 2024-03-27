@@ -64,6 +64,11 @@ const config = {
     catalogue: {
       baseurl: "https://catalogue-apprentissage.intercariforef.org",
     },
+    catalogueEducatif: {
+      baseurl: "https://catalogue.apprentissage.education.gouv.fr",
+      username: env.get("API_CATALOGUE_EDUCATIF_USERNAME").required().asString(),
+      password: env.get("API_CATALOGUE_EDUCATIF_PASSWORD").required().asString(),
+    },
     entreprise: {
       baseurl: "https://entreprise.api.gouv.fr/v3",
       key: env.get("API_ENTREPRISE_KEY").required().asString(),

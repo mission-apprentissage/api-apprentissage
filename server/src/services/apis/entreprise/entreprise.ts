@@ -46,9 +46,8 @@ export type ApiEntEtablissement = {
   };
 };
 
-// Cf Documentation : https://entreprise.api.gouv.fr/
-// Migration V2 - V3 cf: https://entreprise.api.gouv.fr/files/correspondance_champs_v2_etablissements.pdf
-const entrepriseClient = apiRateLimiter("entreprise", {
+// Cf Documentation : https://doc.entreprise.api.gouv.fr/#param-tres-obligatoires
+const apiEntrepriseClient = apiRateLimiter("apiEntreprise", {
   nbRequests: 2,
   durationInSeconds: 1,
   client: getApiClient({
@@ -63,15 +62,53 @@ const apiParams = {
   object: config.api.entreprise.object,
 };
 
-/**
- * Cf swagger : https://entreprise.api.gouv.fr/developpeurs/openapi#tag/Informations-generales/paths/~1v3~1insee~1sirene~1etablissements~1%7Bsiret%7D/get
- * @param {string} siret
- * @returns
- */
-export async function getEtablissementDiffusible(siret: string): Promise<ApiEntEtablissement> {
-  return entrepriseClient(async (client: AxiosInstance) => {
+export const getEntreprisePart = (endpoint: string) => {
+  return apiEntrepriseClient(async (client) => {
     try {
-      logger.debug(`Get etablissement diffusible...`);
+      logger.debug(`[Entreprise API] Fetching entreprise part ${endpoint}...`);
+      const response = await client.get(endpoint, {
+        params: apiParams,
+      });
+
+      return response.data.data;
+    } catch (error) {
+      if (error.message === "timeout of 5000ms exceeded") {
+        return null;
+      }
+      if (error.response.status === 404) {
+        return null;
+      }
+
+      if (isAxiosError(error)) {
+        throw internal(`api.entreprise: unable to get part entreprise ${endpoint}`, { data: error.toJSON() });
+      }
+      throw withCause(internal(`api.entreprise: unable to get part entreprise ${endpoint}`), error);
+    }
+  });
+};
+
+export const getEntreprise = async (siren: string) => {
+  // fetch all parts in parallel
+  const [entreprise, siege_social, numero_tva, extrait_kbis] = await Promise.all([
+    getEntreprisePart(`insee/sirene/unites_legales/diffusibles/${siren}`),
+    getEntreprisePart(`insee/sirene/unites_legales/${siren}/diffusibles/siege_social`),
+    // not critical, so we catch errors
+    getEntreprisePart(`european_commission/unites_legales/${siren}/numero_tva`).catch(() => null),
+    getEntreprisePart(`infogreffe/rcs/unites_legales/${siren}/extrait_kbis`).catch(() => null),
+  ]);
+
+  return {
+    ...entreprise,
+    siege_social,
+    numero_tva,
+    extrait_kbis,
+  };
+};
+
+export async function getEtablissementDiffusible(siret: string): Promise<ApiEntEtablissement> {
+  return apiEntrepriseClient(async (client: AxiosInstance) => {
+    try {
+      logger.debug(`[Entreprise API] Fetching etablissement diffusible ${siret}...`);
       axiosRetry(client, { retries: 3 });
       const response = await client.get(`insee/sirene/etablissements/diffusibles/${siret}`, {
         params: apiParams,

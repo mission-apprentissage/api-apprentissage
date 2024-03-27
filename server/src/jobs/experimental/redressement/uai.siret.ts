@@ -1,7 +1,7 @@
 import parentLogger from "@/services/logger";
 
 import { prerequisite_siret, prerequisite_uai, PrerequisiteResult } from "./1.prerequisite";
-import { rechercheCatalogue, rechercheLieuxReferentiel, rechercheOrganismesReferentiel } from "./2.unitaire";
+import { rechercheCatalogue, rechercheLieuxReferentiel, rechercheOrganismesReferentiel } from "./2.recherche";
 
 const logger = parentLogger.child({ module: "experimental:redressement:uai-siret" });
 
@@ -20,6 +20,7 @@ interface ArgsPayload {
 export async function runExperiementalRedressementUaiSiret(arg: ArgsPayload): Promise<any> {
   const result = await run({ ...arg });
   console.log(result);
+  console.log(result.RC);
 }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function run({ couple, date, certification }: ArgsPayload): Promise<any> {
@@ -33,11 +34,12 @@ export async function run({ couple, date, certification }: ArgsPayload): Promise
   const prerequisiteSiret = couple.siret ? await prerequisite_siret(couple.siret, { date }) : null;
 
   if (!couple.siret && couple.uai && prerequisiteUai) {
+    // TODO ADD ROR single search
     // Only uai provided
     const { rule: u2rule, ...restu2 } = await rechercheLieuxReferentiel(couple.uai);
     return {
       ...prerequisiteUai,
-      [u2rule]: restu2,
+      ...(u2rule !== "RLR3" ? { RLR: restu2 } : { RLR: null }),
       rules: [u2rule],
     };
   } else if (couple.siret && !couple.uai && prerequisiteSiret) {
@@ -70,12 +72,14 @@ export async function run({ couple, date, certification }: ArgsPayload): Promise
     rules: [...resultUnitaire.rules, u1rule],
   };
 
-  const { rule: u2rule, ...restu2 } = await rechercheLieuxReferentiel(resultPrerequisite.uai);
-  resultUnitaire = {
-    ...resultUnitaire,
-    ...(u2rule !== "RLR3" ? { RLR: restu2 } : { RLR: null }),
-    rules: [...resultUnitaire.rules, u2rule],
-  };
+  if (u1rule !== "ROR1") {
+    const { rule: u2rule, ...restu2 } = await rechercheLieuxReferentiel(resultPrerequisite.uai);
+    resultUnitaire = {
+      ...resultUnitaire,
+      ...(u2rule !== "RLR3" ? { RLR: restu2 } : { RLR: null }),
+      rules: [...resultUnitaire.rules, u2rule],
+    };
+  }
 
   const { rule: cataloguerule, result } = await rechercheCatalogue(resultPrerequisite as PrerequisiteResult, {
     date,

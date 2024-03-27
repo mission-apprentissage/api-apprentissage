@@ -4,7 +4,7 @@ fileignoreconfig:
 - filename: .github/workflows/release.yml
   checksum: 7933dd58c1c8a28721771b508d50e634ea96a56121b4e955d1f66af913b71222
 - filename: .infra/.env_server
-  checksum: b3a8e65cbcaaa40c4c9b5ea7ca1b88a822991755163aaf75b96d6bf0dd5c5152
+  checksum: f8f6bd2c52345e3de937dd710cfc6986d53ce361ea4797270881fa5af8aa25e9
 - filename: .infra/env.ini
   checksum: ad2d27b8d9b8b9e49d7e71dfb1a3b96add1082dbc39e38127dec046471e5f984
 - filename: .infra/files/configs/mailpit/auth
@@ -14,7 +14,7 @@ fileignoreconfig:
 - filename: .infra/files/scripts/seed.sh
   checksum: a673a8f706cb90f2f5c9f98981b06ce95c566e67e2bb4a6323d6b1bdb8ef0233
 - filename: .infra/vault/vault.yml
-  checksum: bdf1fa47ecc3b70e293fafed8248414980d9b6ad7247d5406a2453bab95a35e4
+  checksum: dda7ddec032d85f0dbe49108caf3a84b3f6c4651d1115690856b8d7c6f18d1ed
 - filename: docs/developpement/1password.md
   checksum: f4eb70beab8d37ca9a1867b7d57d01f541b99372bbcccfb04301b81ad6331bcd
 - filename: docs/developpement/gpg.md

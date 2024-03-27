@@ -1,5 +1,6 @@
 import { getDbCollection } from "@/services/mongodb/mongodbService";
 
+import { fetchFormationCatalogueEducatif } from "../../../services/apis/catalogue/catalogueEducatif";
 import { PrerequisiteResult } from "./1.prerequisite";
 
 export async function rechercheOrganismesReferentiel(
@@ -24,18 +25,6 @@ export async function rechercheOrganismesReferentiel(
   if (!rorDbResultsExtact.length) {
     return {
       rule: "ROR8",
-      organismes: rorDbResults.map(({ _id, data }) => ({
-        _id,
-        nature: data.nature,
-        uai: data.uai,
-        siret: data.siret,
-      })),
-    };
-  }
-
-  if (rorDbResults.length !== rorDbResultsExtact.length) {
-    return {
-      rule: "ROR10",
       organismes: rorDbResults.map(({ _id, data }) => ({
         _id,
         nature: data.nature,
@@ -224,7 +213,7 @@ export async function rechercheCatalogue(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any> {
   const couple = { uai: pre.uai, siret: pre.siret };
-  const dbResult = await getDbCollection("source.catalogue")
+  const dbResults = await getDbCollection("source.catalogue")
     .find(
       {
         $or: [
@@ -249,51 +238,62 @@ export async function rechercheCatalogue(
     )
     .toArray();
 
-  if (!dbResult.length) {
+  if (!dbResults.length) {
     return {
       rule: "RC3", // No Match
       result: [],
     };
   }
 
-  const catalogueResults = dbResult.map(
-    ({
-      data: {
-        cle_ministere_educatif,
-        cfd,
-        rncp_code,
-        lieu_formation_geo_coordonnees,
-        lieu_formation_adresse,
-        tags,
-        etablissement_formateur_siret,
-        etablissement_formateur_uai,
-        etablissement_gestionnaire_siret,
-        etablissement_gestionnaire_uai,
+  const catalogueResults = [];
+  for (const {
+    data: {
+      cle_ministere_educatif,
+      cfd,
+      rncp_code,
+      lieu_formation_geo_coordonnees,
+      lieu_formation_adresse,
+      tags,
+      etablissement_formateur_siret,
+      etablissement_formateur_uai,
+      etablissement_gestionnaire_siret,
+      etablissement_gestionnaire_uai,
+    },
+  } of dbResults) {
+    const [lat, lon] = lieu_formation_geo_coordonnees?.split(",") || [0, 0];
+    const nature_pour_cette_formation = [];
+    if (etablissement_gestionnaire_siret === couple.siret) nature_pour_cette_formation.push("responsable");
+    if (etablissement_formateur_siret === couple.siret) nature_pour_cette_formation.push("formateur");
+
+    const infoCatalogueEducatif = await fetchFormationCatalogueEducatif(cle_ministere_educatif);
+
+    catalogueResults.push({
+      cle_ministere_educatif,
+      cfd,
+      rncp: rncp_code,
+      tags,
+      responsable: {
+        siret: etablissement_gestionnaire_siret,
+        uai: etablissement_gestionnaire_uai,
       },
-    }) => {
-      const [lat, lon] = lieu_formation_geo_coordonnees?.split(",") || [0, 0];
-      return {
-        cle_ministere_educatif,
-        cfd,
-        rncp: rncp_code,
-        tags,
-        responsable: {
-          siret: etablissement_gestionnaire_siret,
-          uai: etablissement_gestionnaire_uai,
-        },
-        formateur: {
-          siret: etablissement_formateur_siret,
-          uai: etablissement_formateur_uai,
-        },
-        lieu: {
-          geo_coordonnees: lieu_formation_geo_coordonnees,
-          lon,
-          lat,
-          adresse: lieu_formation_adresse,
-        },
-      };
-    }
-  );
+      formateur: {
+        siret: etablissement_formateur_siret,
+        uai: etablissement_formateur_uai,
+      },
+      lieu: {
+        ...(infoCatalogueEducatif
+          ? {
+              uai: infoCatalogueEducatif.uai_formation,
+              uai_formation_valide: infoCatalogueEducatif.uai_formation_valide,
+            }
+          : {}),
+        geo_coordonnees: lieu_formation_geo_coordonnees,
+        lon,
+        lat,
+        adresse: lieu_formation_adresse,
+      },
+    });
+  }
 
   if (options?.certification) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -318,7 +318,7 @@ export async function rechercheCatalogue(
   }
 
   return {
-    rule: "RC4",
+    rule: "RC5",
     result: catalogueResults,
   };
 }

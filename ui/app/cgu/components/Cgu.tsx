@@ -1,5 +1,4 @@
 "use client";
-import { getLink } from "@codegouvfr/react-dsfr/link";
 import { Summary } from "@codegouvfr/react-dsfr/Summary";
 import { Grid, Typography } from "@mui/material";
 import React, { FC, useEffect } from "react";
@@ -47,8 +46,6 @@ const summaryData = [
 interface Props {
   onLoad?: () => void;
 }
-
-const { Link } = getLink();
 
 const Cgu: FC<Props> = ({ onLoad }) => {
   useEffect(() => {

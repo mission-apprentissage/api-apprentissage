@@ -4,34 +4,37 @@ import { Grid, Typography } from "@mui/material";
 import { publicConfig } from "../../../config.public";
 import Section from "../../components/section/Section";
 
+export const mentionLegalesVersion = "v1.0";
+
 const anchors = {
-  EditeurDuSite: "editeur-du-site",
+  DateMaj: "date-mise-a-jour",
+  EditeurPlateforme: "editeur-plateforme",
   DirecteurDeLaPublication: "directeur-de-la-publication",
-  HebergementDuSite: "hebergement-du-site",
+  HebergementPlateforme: "hebergement-plateforme",
   Accessibilite: "accessibilite",
-  SignalerUnDyfonctionnement: "signaler-un-dyfonctionnement",
+  Securite: "securite",
 };
 
 const summaryData = [
   {
     anchorName: "Éditeur du site",
-    anchorLink: anchors.EditeurDuSite,
+    anchorLink: anchors.EditeurPlateforme,
   },
   {
     anchorName: "Directeur de la publication",
     anchorLink: anchors.DirecteurDeLaPublication,
   },
   {
-    anchorName: "Hébergement du site",
-    anchorLink: anchors.HebergementDuSite,
+    anchorName: "Hébergement de la plateforme",
+    anchorLink: anchors.HebergementPlateforme,
   },
   {
     anchorName: "Accessibilité",
     anchorLink: anchors.Accessibilite,
   },
   {
-    anchorName: "Signaler un dysfonctionnement",
-    anchorLink: anchors.SignalerUnDyfonctionnement,
+    anchorName: "Sécurité",
+    anchorLink: anchors.Securite,
   },
 ];
 
@@ -54,18 +57,27 @@ const MentionsLegales = () => {
         </Typography>
 
         <Typography>Mentions légales du site « {publicConfig.productMeta.productName} »</Typography>
+        <Typography>Dernière mise à jour le : 23 mars 2024 - {mentionLegalesVersion}</Typography>
 
-        <Section id={anchors.EditeurDuSite}>
+        <Section id={anchors.DateMaj}>
           <Typography variant="h3" gutterBottom>
-            Éditeur du site
+            Date de la dernière mise à jour
+          </Typography>
+          <Typography>Ces mentions légales ont été mise à jour le 27/03/2024.</Typography>
+        </Section>
+
+        <Section id={anchors.EditeurPlateforme}>
+          <Typography variant="h3" gutterBottom>
+            Éditeur de la plateforme
           </Typography>
           <Typography>
-            Ce site est édité par la Délégation Générale à l'Emploi et à la Formation Professionnelle (DGEFP) et la
-            Mission interministérielle de l'apprentissage.
+            La plateforme “API Apprentissage” est éditée par la Délégation générale à l’emploi et à la formation
+            professionnelle (DGEFP), située :
             <br />
             <br />
-            10-18 place des 5 Martyrs du Lycée Buffon
-            <br /> 75015 Paris
+            14 avenue Duquesne
+            <br /> 75007 Paris
+            <br /> France
           </Typography>
         </Section>
 
@@ -74,14 +86,14 @@ const MentionsLegales = () => {
             Directeur de la publication
           </Typography>
           <Typography gutterBottom>
-            Le Directeur de la publication est Monsieur Bruno Lucas, Délégué général à l'Emploi et à la Formation
-            Professionnelle.
+            Le directeur de la publication est Monsieur Jérôme MARCHAND-ARVIER, Délégué général à l’emploi et à la
+            formation professionnelle.
           </Typography>
         </Section>
 
-        <Section id={anchors.HebergementDuSite}>
+        <Section id={anchors.HebergementPlateforme}>
           <Typography variant="h3" gutterBottom>
-            Hébergement du site
+            Hébergement de la plateforme
           </Typography>
           <Typography>
             L'hébergement est assuré par OVH SAS, situé à l'adresse suivante :
@@ -109,21 +121,25 @@ const MentionsLegales = () => {
             Accessibilité
           </Typography>
           <Typography>
-            La conformité aux normes d'accessibilité numérique est un objectif ultérieur mais nous tâchons de rendre ce
-            site accessible à toutes et à tous.
+            La conformité aux normes d’accessibilité numérique est une priorité, en cours de mise en œuvre et sera
+            effective dans une prochaine version de cette plateforme.
+            <br />
+            <br />
+            Pour en savoir plus sur la politique d’accessibilité numérique de l’État :
+            https://accessibilite.numerique.gouv.fr/
           </Typography>
         </Section>
 
-        <Section id={anchors.SignalerUnDyfonctionnement}>
+        <Section id={anchors.Securite}>
           <Typography variant="h3" gutterBottom>
             Signaler un dysfonctionnement
           </Typography>
           <Typography>
-            Si vous rencontrez un défaut d'accessibilité vous empêchant d'accéder à un contenu ou une fonctionnalité du
-            site, merci de nous en faire part.
+            La plateforme est protégée par un certificat électronique, matérialisé pour la grande majorité des
+            navigateurs par un cadenas. Cette protection participe à la confidentialité des échanges.
             <br />
-            Si vous n'obtenez pas de réponse rapide de notre part, vous êtes en droit de faire parvenir vos doléances ou
-            une demande de saisine au Défenseur des droits.
+            En aucun cas les services associés à la plateforme ne seront à l’origine d’envoi de courriels pour demander
+            la saisie d’informations personnelles.
           </Typography>
         </Section>
       </Grid>

@@ -119,7 +119,10 @@ const PolitiqueDeConfidentialite = () => {
           </Typography>
           <Table
             data={[
-              ["Données du compte utilisateur API Apprentissage", "Données du compte utilisateur API Apprentissage"],
+              [
+                "Données du compte utilisateur API Apprentissage",
+                "2 ans à compter de la dernière utilisation du compte par l’utilisateur",
+              ],
             ]}
             headers={["Catégorie de données", "Durées de conservation"]}
           />

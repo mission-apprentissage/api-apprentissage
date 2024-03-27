@@ -15,10 +15,6 @@ const anchors = {
 
 const summaryData = [
   {
-    anchorName: "Date de la mise à jour",
-    anchorLink: anchors.DateMaj,
-  },
-  {
     anchorName: "Éditeur du site",
     anchorLink: anchors.EditeurPlateforme,
   },
@@ -59,6 +55,7 @@ const MentionsLegales = () => {
         </Typography>
 
         <Typography>Mentions légales du site « {publicConfig.productMeta.productName} »</Typography>
+        <Typography>Dernière mise à jour le : 23 mars 2024 - v1.0</Typography>
 
         <Section id={anchors.DateMaj}>
           <Typography variant="h3" gutterBottom>

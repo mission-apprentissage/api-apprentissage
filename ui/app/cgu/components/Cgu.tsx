@@ -12,9 +12,6 @@ const anchors = {
   Objet: "objet",
   Definition: "definition",
   FonctionnaliteLieesAuxComptesDesUtilisateurs: "fonctionnalite-liees-aux-comptes-des-utilisateurs",
-  PresentationDesServices: "presentation-des-services",
-  Securite: "securite",
-  Hyperliens: "hyperliens",
   Responsabilites: "responsabilites",
   MiseAjourDesConditionsUtilisation: "mise-a-jour-des-conditions-utilisation",
 };
@@ -31,7 +28,7 @@ const summaryData = [
   },
   {
     anchorName: "Article 4 - Fonctionnalités liées aux comptes des utilisateurs",
-    anchorLink: "fonctionnalites-liees-aux-comptes-des-utilisateurs",
+    anchorLink: "fonctionnalite-liees-aux-comptes-des-utilisateurs",
   },
   {
     anchorName: "Article 5 - Responsabilités",
@@ -39,7 +36,7 @@ const summaryData = [
   },
   {
     anchorName: "Article 6 - Mise à jour des conditions générales d'utilisation",
-    anchorLink: "mise-a-jour-des-conditions-generales-utilisation",
+    anchorLink: "mise-a-jour-des-conditions-utilisation",
   },
 ];
 

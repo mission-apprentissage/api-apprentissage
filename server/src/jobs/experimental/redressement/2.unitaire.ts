@@ -238,7 +238,6 @@ export async function rechercheCatalogue(
           "data.cfd": 1,
           "data.rncp_code": 1,
           "data.lieu_formation_geo_coordonnees": 1,
-          "data.lieu_formation_geopoint": 1,
           "data.lieu_formation_adresse": 1,
           "data.tags": 1,
           "data.etablissement_formateur_siret": 1,
@@ -264,7 +263,6 @@ export async function rechercheCatalogue(
         cfd,
         rncp_code,
         lieu_formation_geo_coordonnees,
-        lieu_formation_geopoint,
         lieu_formation_adresse,
         tags,
         etablissement_formateur_siret,
@@ -273,8 +271,7 @@ export async function rechercheCatalogue(
         etablissement_gestionnaire_uai,
       },
     }) => {
-      // @ts-expect-error
-      const [lon, lat] = lieu_formation_geopoint.coordinates || [0, 0];
+      const [lat, lon] = lieu_formation_geo_coordonnees?.split(",") || [0, 0];
       return {
         cle_ministere_educatif,
         cfd,

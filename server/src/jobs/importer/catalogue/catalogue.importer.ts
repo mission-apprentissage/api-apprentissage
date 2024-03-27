@@ -59,7 +59,7 @@ export async function runCatalogueImporter() {
   const importDate = new Date();
 
   try {
-    logger.info("Geting Catalogue ...");
+    logger.info("Getting Catalogue ...");
     return await importCatalogueFormations(importDate);
   } catch (error) {
     throw withCause(internal("import.catalogue: unable to runCatalogueImporter"), error);

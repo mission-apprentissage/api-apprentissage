@@ -304,19 +304,19 @@ describe("importCertifications", () => {
       updated: [
         generateCertificationFixture({
           _id: new ObjectId(),
-          code: { cfd: "20512008", rncp: "RNCP24420" },
+          identifiant: { cfd: "20512008", rncp: "RNCP24420", rncp_anterieur_2019: true },
           created_at: yesterday,
           updated_at: yesterday,
         }),
         generateCertificationFixture({
           _id: new ObjectId(),
-          code: { cfd: "70010004", rncp: null },
+          identifiant: { cfd: "70010004", rncp: null, rncp_anterieur_2019: null },
           created_at: yesterday,
           updated_at: yesterday,
         }),
         generateCertificationFixture({
           _id: new ObjectId(),
-          code: { cfd: null, rncp: "RNCP987" },
+          identifiant: { cfd: null, rncp: "RNCP987", rncp_anterieur_2019: true },
           created_at: yesterday,
           updated_at: yesterday,
         }),
@@ -324,19 +324,19 @@ describe("importCertifications", () => {
       removed: [
         generateCertificationFixture({
           _id: new ObjectId(),
-          code: { cfd: "56T25202", rncp: "RNCP37545" },
+          identifiant: { cfd: "56T25202", rncp: "RNCP37545" },
           created_at: yesterday,
           updated_at: yesterday,
         }),
         generateCertificationFixture({
           _id: new ObjectId(),
-          code: { cfd: "56X23201", rncp: null },
+          identifiant: { cfd: "56X23201", rncp: null },
           created_at: yesterday,
           updated_at: yesterday,
         }),
         generateCertificationFixture({
           _id: new ObjectId(),
-          code: { cfd: null, rncp: "RNCP183" },
+          identifiant: { cfd: null, rncp: "RNCP183" },
           created_at: yesterday,
           updated_at: yesterday,
         }),
@@ -346,19 +346,19 @@ describe("importCertifications", () => {
     const newCertifications = [
       generateCertificationFixture({
         _id: new ObjectId(),
-        code: { cfd: "56T25106", rncp: "RNCP34148" },
+        identifiant: { cfd: "56T25106", rncp: "RNCP34148", rncp_anterieur_2019: false },
         created_at: now,
         updated_at: now,
       }),
       generateCertificationFixture({
         _id: new ObjectId(),
-        code: { cfd: "97031104", rncp: null },
+        identifiant: { cfd: "97031104", rncp: null, rncp_anterieur_2019: null },
         created_at: now,
         updated_at: now,
       }),
       generateCertificationFixture({
         _id: new ObjectId(),
-        code: { cfd: null, rncp: "RNCP14636" },
+        identifiant: { cfd: null, rncp: "RNCP14636", rncp_anterieur_2019: true },
         created_at: now,
         updated_at: now,
       }),
@@ -367,21 +367,21 @@ describe("importCertifications", () => {
     const kitApprentissageData = [
       generateKitApprentissageFixture({
         data: generateKitApprentissageFixtureData({
-          "Code Diplôme": existingCertifications.updated[0].code.cfd,
-          FicheRNCP: existingCertifications.updated[0].code.rncp,
+          "Code Diplôme": existingCertifications.updated[0].identifiant.cfd,
+          FicheRNCP: existingCertifications.updated[0].identifiant.rncp,
         }),
       }),
       generateKitApprentissageFixture({
         // Couple updated
         data: generateKitApprentissageFixtureData({
-          "Code Diplôme": existingCertifications.removed[1].code.cfd,
-          FicheRNCP: existingCertifications.removed[2].code.rncp,
+          "Code Diplôme": existingCertifications.removed[1].identifiant.cfd,
+          FicheRNCP: existingCertifications.removed[2].identifiant.rncp,
         }),
       }),
       generateKitApprentissageFixture({
         data: generateKitApprentissageFixtureData({
-          "Code Diplôme": newCertifications[0].code.cfd,
-          FicheRNCP: newCertifications[0].code.rncp,
+          "Code Diplôme": newCertifications[0].identifiant.cfd,
+          FicheRNCP: newCertifications[0].identifiant.rncp,
         }),
       }),
     ];
@@ -389,55 +389,63 @@ describe("importCertifications", () => {
     const bcnData = [
       generateSourceBcn_V_FormationDiplomeFixture({
         data: generateSourceBcn_V_FormationDiplomeDataFixture({
-          FORMATION_DIPLOME: existingCertifications.updated[0].code.cfd,
+          FORMATION_DIPLOME: existingCertifications.updated[0].identifiant.cfd,
         }),
       }),
       generateSourceBcn_N_FormationDiplomeFixture({
         data: generateSourceBcn_N_FormationDiplomeDataFixture({
-          FORMATION_DIPLOME: existingCertifications.updated[0].code.cfd,
+          FORMATION_DIPLOME: existingCertifications.updated[0].identifiant.cfd,
         }),
       }),
       generateSourceBcn_V_FormationDiplomeFixture({
         data: generateSourceBcn_V_FormationDiplomeDataFixture({
-          FORMATION_DIPLOME: existingCertifications.updated[1].code.cfd,
+          FORMATION_DIPLOME: existingCertifications.updated[1].identifiant.cfd,
         }),
       }),
       generateSourceBcn_N51_FormationDiplomeFixture({
         data: generateSourceBcn_N51_FormationDiplomeDataFixture({
-          FORMATION_DIPLOME: existingCertifications.updated[1].code.cfd,
+          FORMATION_DIPLOME: existingCertifications.updated[1].identifiant.cfd,
         }),
       }),
       generateSourceBcn_V_FormationDiplomeFixture({
         data: generateSourceBcn_V_FormationDiplomeDataFixture({
-          FORMATION_DIPLOME: existingCertifications.removed[1].code.cfd,
+          FORMATION_DIPLOME: existingCertifications.removed[1].identifiant.cfd,
         }),
       }),
       generateSourceBcn_N_FormationDiplomeFixture({
         data: generateSourceBcn_N_FormationDiplomeDataFixture({
-          FORMATION_DIPLOME: existingCertifications.removed[1].code.cfd,
+          FORMATION_DIPLOME: existingCertifications.removed[1].identifiant.cfd,
         }),
       }),
       generateSourceBcn_V_FormationDiplomeFixture({
-        data: generateSourceBcn_V_FormationDiplomeDataFixture({ FORMATION_DIPLOME: newCertifications[0].code.cfd }),
+        data: generateSourceBcn_V_FormationDiplomeDataFixture({
+          FORMATION_DIPLOME: newCertifications[0].identifiant.cfd,
+        }),
       }),
       generateSourceBcn_N_FormationDiplomeFixture({
-        data: generateSourceBcn_N_FormationDiplomeDataFixture({ FORMATION_DIPLOME: newCertifications[0].code.cfd }),
+        data: generateSourceBcn_N_FormationDiplomeDataFixture({
+          FORMATION_DIPLOME: newCertifications[0].identifiant.cfd,
+        }),
       }),
       generateSourceBcn_V_FormationDiplomeFixture({
-        data: generateSourceBcn_V_FormationDiplomeDataFixture({ FORMATION_DIPLOME: newCertifications[1].code.cfd }),
+        data: generateSourceBcn_V_FormationDiplomeDataFixture({
+          FORMATION_DIPLOME: newCertifications[1].identifiant.cfd,
+        }),
       }),
       generateSourceBcn_N51_FormationDiplomeFixture({
-        data: generateSourceBcn_N51_FormationDiplomeDataFixture({ FORMATION_DIPLOME: newCertifications[1].code.cfd }),
+        data: generateSourceBcn_N51_FormationDiplomeDataFixture({
+          FORMATION_DIPLOME: newCertifications[1].identifiant.cfd,
+        }),
       }),
       ...generateSourceBcn_N_NiveauFormationDiplomeFixtureList(),
     ];
 
     const franceCompetenceData = [
-      generateSourceFranceCompetenceFixture({ numero_fiche: existingCertifications.updated[0].code.rncp ?? "" }),
-      generateSourceFranceCompetenceFixture({ numero_fiche: existingCertifications.updated[2].code.rncp ?? "" }),
-      generateSourceFranceCompetenceFixture({ numero_fiche: existingCertifications.removed[2].code.rncp ?? "" }),
-      generateSourceFranceCompetenceFixture({ numero_fiche: newCertifications[0].code.rncp ?? "" }),
-      generateSourceFranceCompetenceFixture({ numero_fiche: newCertifications[2].code.rncp ?? "" }),
+      generateSourceFranceCompetenceFixture({ numero_fiche: existingCertifications.updated[0].identifiant.rncp ?? "" }),
+      generateSourceFranceCompetenceFixture({ numero_fiche: existingCertifications.updated[2].identifiant.rncp ?? "" }),
+      generateSourceFranceCompetenceFixture({ numero_fiche: existingCertifications.removed[2].identifiant.rncp ?? "" }),
+      generateSourceFranceCompetenceFixture({ numero_fiche: newCertifications[0].identifiant.rncp ?? "" }),
+      generateSourceFranceCompetenceFixture({ numero_fiche: newCertifications[2].identifiant.rncp ?? "" }),
     ];
 
     beforeEach(async () => {
@@ -454,7 +462,7 @@ describe("importCertifications", () => {
         getDbCollection("import.meta").insertOne(todayImports.kit_apprentissage),
         getDbCollection("import.meta").insertOne(todayImports.bcn),
         getDbCollection("import.meta").insertOne(todayImports.france_competence),
-      ]).catch(console.error);
+      ]);
     });
 
     it("should import certifications", async () => {
@@ -482,27 +490,128 @@ describe("importCertifications", () => {
         await getDbCollection("certifications")
           .find(
             {},
-            { projection: { _id: 0, code: 1, created_at: 1, updated_at: 1 }, sort: { "code.cfd": 1, "code.rncp": 1 } }
+            {
+              projection: { _id: 0, identifiant: 1, created_at: 1, updated_at: 1 },
+              sort: { "identifiant.cfd": 1, "identifiant.rncp": 1 },
+            }
           )
           .toArray()
       ).toEqual(
         [
-          ...existingCertifications.updated.map((c) => ({ code: c.code, created_at: c.created_at, updated_at: now })),
+          ...existingCertifications.updated.map((c) => ({
+            identifiant: c.identifiant,
+            created_at: c.created_at,
+            updated_at: now,
+          })),
           {
-            code: {
-              cfd: existingCertifications.removed[1].code.cfd,
-              rncp: existingCertifications.removed[2].code.rncp,
+            identifiant: {
+              cfd: existingCertifications.removed[1].identifiant.cfd,
+              rncp: existingCertifications.removed[2].identifiant.rncp,
+              rncp_anterieur_2019: existingCertifications.removed[2].identifiant.rncp_anterieur_2019,
             },
             created_at: now,
             updated_at: now,
           },
-          ...newCertifications.map((c) => ({ code: c.code, created_at: now, updated_at: now })),
+          ...newCertifications.map((c) => ({ identifiant: c.identifiant, created_at: now, updated_at: now })),
         ].toSorted((a, b) => {
           return (
-            (a.code.cfd ?? "").localeCompare(b.code.cfd ?? "") || (a.code.rncp ?? "").localeCompare(b.code.rncp ?? "")
+            (a.identifiant.cfd ?? "").localeCompare(b.identifiant.cfd ?? "") ||
+            (a.identifiant.rncp ?? "").localeCompare(b.identifiant.rncp ?? "")
           );
         })
       );
+    });
+  });
+
+  describe("when existing rncp_anterieur_2019 is invalid", () => {
+    const existingCertification = generateCertificationFixture({
+      _id: new ObjectId(),
+      identifiant: { cfd: "20512008", rncp: "RNCP24420", rncp_anterieur_2019: false },
+      created_at: yesterday,
+      updated_at: yesterday,
+    });
+
+    const kitApprentissageData = [
+      generateKitApprentissageFixture({
+        data: generateKitApprentissageFixtureData({
+          "Code Diplôme": existingCertification.identifiant.cfd,
+          FicheRNCP: existingCertification.identifiant.rncp,
+        }),
+      }),
+    ];
+
+    const bcnData = [
+      generateSourceBcn_V_FormationDiplomeFixture({
+        data: generateSourceBcn_V_FormationDiplomeDataFixture({
+          FORMATION_DIPLOME: existingCertification.identifiant.cfd,
+        }),
+      }),
+      generateSourceBcn_N_FormationDiplomeFixture({
+        data: generateSourceBcn_N_FormationDiplomeDataFixture({
+          FORMATION_DIPLOME: existingCertification.identifiant.cfd,
+        }),
+      }),
+      ...generateSourceBcn_N_NiveauFormationDiplomeFixtureList(),
+    ];
+
+    const franceCompetenceData = [
+      generateSourceFranceCompetenceFixture({ numero_fiche: existingCertification.identifiant.rncp ?? "" }),
+    ];
+
+    beforeEach(async () => {
+      await Promise.all([
+        getDbCollection("certifications").insertOne(existingCertification),
+        getDbCollection("source.bcn").insertMany(bcnData),
+        getDbCollection("source.france_competence").insertMany(franceCompetenceData),
+        getDbCollection("source.kit_apprentissage").insertMany(kitApprentissageData),
+        getDbCollection("import.meta").insertOne(oldestImportFc),
+        getDbCollection("import.meta").insertOne(yesterdayImportCert),
+        getDbCollection("import.meta").insertOne(todayImports.kit_apprentissage),
+        getDbCollection("import.meta").insertOne(todayImports.bcn),
+        getDbCollection("import.meta").insertOne(todayImports.france_competence),
+      ]);
+    });
+
+    it("should update rncp_", async () => {
+      expect(await importCertifications()).toEqual({
+        total: { orphanCfd: 0, orphanRncp: 0, total: 1 },
+        created: { orphanCfd: 0, orphanRncp: 0, total: 0 },
+        deleted: { orphanCfd: 0, orphanRncp: 0, total: 0 },
+      });
+      expect(await getDbCollection("import.meta").find({ type: "certifications" }).toArray()).toEqual([
+        yesterdayImportCert,
+        {
+          _id: expect.any(ObjectId),
+          import_date: now,
+          source: {
+            bcn: todayImportCert.source.bcn,
+            france_competence: todayImportCert.source.france_competence,
+            kit_apprentissage: todayImportCert.source.kit_apprentissage,
+          },
+          type: "certifications",
+        },
+      ]);
+
+      // Ignore all fields, they will be tests individually
+      expect(
+        await getDbCollection("certifications")
+          .find(
+            {},
+            {
+              projection: { _id: 0, identifiant: 1, updated_at: 1 },
+              sort: { "identifiant.cfd": 1, "identifiant.rncp": 1 },
+            }
+          )
+          .toArray()
+      ).toEqual([
+        {
+          identifiant: {
+            ...existingCertification.identifiant,
+            rncp_anterieur_2019: true,
+          },
+          updated_at: now,
+        },
+      ]);
     });
   });
 });

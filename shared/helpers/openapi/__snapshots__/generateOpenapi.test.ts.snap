@@ -86,117 +86,37 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
       },
       "Certification": {
         "properties": {
-          "cfd": {
-            "description": "**Regroupement des données relative au Code Formation Diplôme (CFD) de la certification provenant de la base centrale des nomenclatures (BCN).**
-
-Lorsque \`certification.code.cfd\` est \`null\`, alors le champs \`certification.cfd\` est alors \`null\`",
+          "base_legale": {
             "properties": {
-              "abrogation": {
-                "description": "**Date d'arrêté d'abrogation du diplôme.**
+              "cfd": {
+                "properties": {
+                  "abrogation": {
+                    "description": "**Date d'arrêté d'abrogation du diplôme.**
 
 La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.
 
 La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
-                "examples": [
-                  "2022-08-31T23:59:59.000+02:00",
-                  "2022-12-31T23:59:59.000+01:00",
-                ],
-                "format": "date-time",
-                "type": [
-                  "string",
-                  "null",
-                ],
-              },
-              "creation": {
-                "description": "**Date d'arrêté de création du diplôme.**
+                    "examples": [
+                      "2022-08-31T23:59:59.000+02:00",
+                      "2022-12-31T23:59:59.000+01:00",
+                    ],
+                    "format": "date-time",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "creation": {
+                    "description": "**Date d'arrêté de création du diplôme.**
 
 La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '00:00:00' sur le fuseau horaire 'Europe/Paris'.
 
 La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
-                "examples": [
-                  "2014-02-21T00:00:00.000+01:00",
-                  "2018-05-11T00:00:00.000+02:00",
-                ],
-                "format": "date-time",
-                "type": [
-                  "string",
-                  "null",
-                ],
-              },
-              "fermeture": {
-                "description": "**Date de fermeture du diplôme.**
-
-La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.
-
-La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
-                "examples": [
-                  "2022-08-31T23:59:59.000+02:00",
-                  "2022-12-31T23:59:59.000+01:00",
-                ],
-                "format": "date-time",
-                "type": [
-                  "string",
-                  "null",
-                ],
-              },
-              "gestionnaire": {
-                "description": "**Service responsable de la définition du diplôme.**",
-                "example": "DGESCO A2-3",
-                "type": [
-                  "string",
-                  "null",
-                ],
-              },
-              "intitule": {
-                "description": "**Intitulé du diplôme.**
-
-La base centrale des nomenclatures (BCN) fournie un intitulé long et court du diplôme.",
-                "properties": {
-                  "court": {
-                    "description": "**Intitulé court du diplôme.**",
                     "examples": [
-                      "BOULANGER",
-                      "GENIE BIO - AGRONOMIE",
+                      "2014-02-21T00:00:00.000+01:00",
+                      "2018-05-11T00:00:00.000+02:00",
                     ],
-                    "type": "string",
-                  },
-                  "long": {
-                    "description": "**Intitulé long du diplôme.**",
-                    "examples": [
-                      "BOULANGER (CAP)",
-                      "GENIE BIOLOGIQUE OPTION AGRONOMIE (DUT)",
-                    ],
-                    "type": "string",
-                  },
-                },
-                "required": [
-                  "long",
-                  "court",
-                ],
-                "type": "object",
-              },
-              "nature": {
-                "description": "**Nature du diplôme.**",
-                "properties": {
-                  "code": {
-                    "description": "**Code de la nature du diplôme.**",
-                    "examples": [
-                      "1",
-                      "2",
-                      "P",
-                    ],
-                    "type": [
-                      "string",
-                      "null",
-                    ],
-                  },
-                  "libelle": {
-                    "description": "**Intitulé de la nature du diplôme.**",
-                    "examples": [
-                      "DIPLOME NATIONAL / DIPLOME D'ETAT",
-                      "TITRE PROFESSIONNEL HOMOLOGUE OU CERTIFIE",
-                      "CLASSE PREPA",
-                    ],
+                    "format": "date-time",
                     "type": [
                       "string",
                       "null",
@@ -204,102 +124,33 @@ La base centrale des nomenclatures (BCN) fournie un intitulé long et court du d
                   },
                 },
                 "required": [
-                  "code",
-                  "libelle",
+                  "creation",
+                  "abrogation",
                 ],
-                "type": "object",
-              },
-              "niveau": {
-                "description": "**Regroupement des données relative au niveau de la certification provenant de la base centrale des nomenclatures (BCN).**",
-                "properties": {
-                  "europeen": {
-                    "description": "**Niveau de qualification de la certification (de 1 à 8) utilisés dans les référentiels nationaux européens.**",
-                    "enum": [
-                      "1",
-                      "2",
-                      "3",
-                      "4",
-                      "5",
-                      "6",
-                      "7",
-                      "8",
-                    ],
-                    "examples": [
-                      "3",
-                      "5",
-                    ],
-                    "type": [
-                      "string",
-                      "null",
-                    ],
-                  },
-                  "formation_diplome": {
-                    "description": "**Code à 3 caractères qui renseigne sur le niveau du diplôme.**",
-                    "examples": [
-                      "500",
-                      "370",
-                    ],
-                    "type": "string",
-                  },
-                  "interministeriel": {
-                    "description": "**Code interministériel du niveau de la formation.**",
-                    "examples": [
-                      "3",
-                      "6",
-                    ],
-                    "type": "string",
-                  },
-                  "intitule": {
-                    "description": "**Libellé complet du niveau de la formation.**",
-                    "examples": [
-                      "CLASSE PREPA",
-                      "TITRE PROFESSIONNEL HOMOLOGUE OU CERTIFIE",
-                    ],
-                    "type": [
-                      "string",
-                      "null",
-                    ],
-                  },
-                  "sigle": {
-                    "description": "**Libellé abrégé du niveau de la formation.**",
-                    "examples": [
-                      "CAP",
-                      "DUT",
-                      "BTS",
-                      "CPGE",
-                    ],
-                    "type": "string",
-                  },
-                },
-                "required": [
-                  "sigle",
-                  "europeen",
-                  "formation_diplome",
-                  "intitule",
-                  "interministeriel",
+                "type": [
+                  "object",
+                  "null",
                 ],
-                "type": "object",
               },
-              "nsf": {
-                "description": "Code(s) et intitulé(s) du domaine de formation à laquelle appartient la certification, il suit la Nomenclature des Spécialités de Formation (NSF) de l’INSEE.
-
-Le code NSF est déduis du code formation diplôme (CFD), il n'inclus donc pas la lettre de spécialité et le tableau ne contient qu'un seul élément.",
+            },
+            "required": [
+              "cfd",
+            ],
+            "type": "object",
+          },
+          "blocs_competences": {
+            "properties": {
+              "rncp": {
+                "description": "Liste du (ou des) code (s) et intitulé(s) des blocs de compétences validées par la certification",
                 "items": {
                   "properties": {
                     "code": {
-                      "description": "**Code NSF de la certification.**",
-                      "examples": [
-                        "221",
-                        "310",
-                      ],
+                      "example": "RNCP37537BC01",
+                      "pattern": "^RNCP\\d{3,5}BC\\d{1,2}$",
                       "type": "string",
                     },
                     "intitule": {
-                      "description": "**Intitulé du domaine de formation de la certification.**",
-                      "examples": [
-                        "AGRO-ALIMENTAIRE, ALIMENTATION, CUISINE",
-                        "SPECIALIT.PLURIV.DES ECHANGES & GESTION",
-                      ],
+                      "example": "Approvisionnement, communication, sécurité alimentaire et hygiène en boulangerie",
                       "type": [
                         "string",
                         "null",
@@ -312,69 +163,195 @@ Le code NSF est déduis du code formation diplôme (CFD), il n'inclus donc pas l
                   ],
                   "type": "object",
                 },
-                "type": "array",
-              },
-              "ouverture": {
-                "description": "**Date d'ouverture du diplôme.**
-
-La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '00:00:00' sur le fuseau horaire 'Europe/Paris'.
-
-La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
-                "examples": [
-                  "2021-09-01T00:00:00.000+02:00",
-                  "2022-01-01T00:00:00.000+01:00",
-                ],
-                "format": "date-time",
                 "type": [
-                  "string",
+                  "array",
                   "null",
                 ],
               },
-              "session": {
-                "description": "**Première et derniere année de sortie des diplômés.**",
-                "properties": {
-                  "fin": {
-                    "description": "**Année de sortie des derniers diplômés.**",
-                    "example": 2025,
-                    "type": [
-                      "integer",
-                      "null",
-                    ],
+            },
+            "required": [
+              "rncp",
+            ],
+            "type": "object",
+          },
+          "convention_collectives": {
+            "properties": {
+              "rncp": {
+                "description": "Numéro(s) et intitulé(s) de la convention collective associée(s) à la fiche RNCP",
+                "items": {
+                  "properties": {
+                    "intitule": {
+                      "example": "Bâtiment (Employés, techniciens et agents de maîtrise, ingénieurs, assimilés et cadres)",
+                      "type": "string",
+                    },
+                    "numero": {
+                      "example": "3002",
+                      "type": "string",
+                    },
                   },
-                  "premiere": {
-                    "description": "**Année de sortie des premiers diplômés.**",
-                    "example": 2022,
+                  "required": [
+                    "numero",
+                    "intitule",
+                  ],
+                  "type": "object",
+                },
+                "type": [
+                  "array",
+                  "null",
+                ],
+              },
+            },
+            "required": [
+              "rncp",
+            ],
+            "type": "object",
+          },
+          "domaines": {
+            "properties": {
+              "formacodes": {
+                "properties": {
+                  "rncp": {
+                    "description": "Code(s) et intitulé(s) du (ou des) code Formacode(s) auquel(s) appartien(ne)t la certification",
+                    "items": {
+                      "properties": {
+                        "code": {
+                          "example": "21538",
+                          "type": "string",
+                        },
+                        "intitule": {
+                          "example": "21538 : Boulangerie",
+                          "type": "string",
+                        },
+                      },
+                      "required": [
+                        "code",
+                        "intitule",
+                      ],
+                      "type": "object",
+                    },
                     "type": [
-                      "integer",
+                      "array",
                       "null",
                     ],
                   },
                 },
                 "required": [
-                  "premiere",
-                  "fin",
+                  "rncp",
+                ],
+                "type": "object",
+              },
+              "nsf": {
+                "properties": {
+                  "cfd": {
+                    "description": "Code(s) et intitulé(s) du domaine de formation à laquelle appartient la certification, il suit la Nomenclature des Spécialités de Formation (NSF) de l’INSEE.
+
+Le code NSF est déduis du code formation diplôme (CFD), il n'inclus donc pas la lettre de spécialité et le tableau ne contient qu'un seul élément.",
+                    "properties": {
+                      "code": {
+                        "description": "**Code NSF de la certification.**",
+                        "examples": [
+                          "221",
+                          "310",
+                        ],
+                        "type": "string",
+                      },
+                      "intitule": {
+                        "description": "**Intitulé du domaine de formation de la certification.**",
+                        "examples": [
+                          "AGRO-ALIMENTAIRE, ALIMENTATION, CUISINE",
+                          "SPECIALIT.PLURIV.DES ECHANGES & GESTION",
+                        ],
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                    },
+                    "required": [
+                      "code",
+                      "intitule",
+                    ],
+                    "type": [
+                      "object",
+                      "null",
+                    ],
+                  },
+                  "rncp": {
+                    "description": "Code(s) et intitulé(s) du domaine de formation à laquelle appartient la certification, il suit la Nomenclature des Spécialités de Formation (NSF) de l’INSEE.",
+                    "items": {
+                      "properties": {
+                        "code": {
+                          "example": "221",
+                          "pattern": "^\\d{2,3}[a-z]?$",
+                          "type": "string",
+                        },
+                        "intitule": {
+                          "example": "221 : Agro-alimentaire, alimentation, cuisine",
+                          "type": [
+                            "string",
+                            "null",
+                          ],
+                        },
+                      },
+                      "required": [
+                        "code",
+                        "intitule",
+                      ],
+                      "type": "object",
+                    },
+                    "type": [
+                      "array",
+                      "null",
+                    ],
+                  },
+                },
+                "required": [
+                  "cfd",
+                  "rncp",
+                ],
+                "type": "object",
+              },
+              "rome": {
+                "properties": {
+                  "rncp": {
+                    "description": "Code(s) et intitulé(s) de la (ou des) fiche(s) métier du Répertoire Opérationnel des Métiers et de l’Emploi (ROME) associé(s) à la certification.",
+                    "items": {
+                      "properties": {
+                        "code": {
+                          "example": "D1102",
+                          "type": "string",
+                        },
+                        "intitule": {
+                          "example": "Boulangerie - viennoiserie",
+                          "type": "string",
+                        },
+                      },
+                      "required": [
+                        "code",
+                        "intitule",
+                      ],
+                      "type": "object",
+                    },
+                    "type": [
+                      "array",
+                      "null",
+                    ],
+                  },
+                },
+                "required": [
+                  "rncp",
                 ],
                 "type": "object",
               },
             },
             "required": [
-              "ouverture",
-              "fermeture",
-              "creation",
-              "abrogation",
-              "intitule",
-              "nature",
-              "gestionnaire",
-              "session",
-              "niveau",
+              "formacodes",
               "nsf",
+              "rome",
             ],
-            "type": [
-              "object",
-              "null",
-            ],
+            "type": "object",
           },
-          "code": {
+          "identifiant": {
             "description": "**Une certification correspond à un couple CFD-RNCP sur une période donnée.**
 
 Le couple CFD-RNCP est unique, mais lorsque la correspondance n'est pas connue, l'un des deux peut être \`null\`.",
@@ -401,9 +378,176 @@ Lorsque celui-ci est \`null\`, alors le champs \`certification.rncp\` est alors 
                   "null",
                 ],
               },
+              "rncp_anterieur_2019": {
+                "type": [
+                  "boolean",
+                  "null",
+                ],
+              },
             },
             "required": [
               "cfd",
+              "rncp",
+              "rncp_anterieur_2019",
+            ],
+            "type": "object",
+          },
+          "intitule": {
+            "properties": {
+              "cfd": {
+                "description": "**Intitulé du diplôme.**
+
+La base centrale des nomenclatures (BCN) fournie un intitulé long et court du diplôme.",
+                "properties": {
+                  "court": {
+                    "description": "**Intitulé court du diplôme.**",
+                    "examples": [
+                      "BOULANGER",
+                      "GENIE BIO - AGRONOMIE",
+                    ],
+                    "type": "string",
+                  },
+                  "long": {
+                    "description": "**Intitulé long du diplôme.**",
+                    "examples": [
+                      "BOULANGER (CAP)",
+                      "GENIE BIOLOGIQUE OPTION AGRONOMIE (DUT)",
+                    ],
+                    "type": "string",
+                  },
+                },
+                "required": [
+                  "long",
+                  "court",
+                ],
+                "type": [
+                  "object",
+                  "null",
+                ],
+              },
+              "niveau": {
+                "properties": {
+                  "cfd": {
+                    "description": "**Regroupement des données relative au niveau de la certification provenant de la base centrale des nomenclatures (BCN).**",
+                    "properties": {
+                      "europeen": {
+                        "description": "**Niveau de qualification de la certification (de 1 à 8) utilisés dans les référentiels nationaux européens.**",
+                        "enum": [
+                          "1",
+                          "2",
+                          "3",
+                          "4",
+                          "5",
+                          "6",
+                          "7",
+                          "8",
+                        ],
+                        "examples": [
+                          "3",
+                          "5",
+                        ],
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "formation_diplome": {
+                        "description": "**Code à 3 caractères qui renseigne sur le niveau du diplôme.**",
+                        "examples": [
+                          "500",
+                          "370",
+                        ],
+                        "type": "string",
+                      },
+                      "interministeriel": {
+                        "description": "**Code interministériel du niveau de la formation.**",
+                        "examples": [
+                          "3",
+                          "6",
+                        ],
+                        "type": "string",
+                      },
+                      "libelle": {
+                        "description": "**Libellé complet du niveau de la formation.**",
+                        "examples": [
+                          "CLASSE PREPA",
+                          "TITRE PROFESSIONNEL HOMOLOGUE OU CERTIFIE",
+                        ],
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "sigle": {
+                        "description": "**Libellé abrégé du niveau de la formation.**",
+                        "examples": [
+                          "CAP",
+                          "DUT",
+                          "BTS",
+                          "CPGE",
+                        ],
+                        "type": "string",
+                      },
+                    },
+                    "required": [
+                      "europeen",
+                      "formation_diplome",
+                      "interministeriel",
+                      "libelle",
+                      "sigle",
+                    ],
+                    "type": [
+                      "object",
+                      "null",
+                    ],
+                  },
+                  "rncp": {
+                    "properties": {
+                      "europeen": {
+                        "description": "Niveau de qualification de la certification (de 1 à 8) utilisés dans les référentiels nationaux européens.",
+                        "enum": [
+                          "1",
+                          "2",
+                          "3",
+                          "4",
+                          "5",
+                          "6",
+                          "7",
+                          "8",
+                        ],
+                        "example": "3",
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                    },
+                    "required": [
+                      "europeen",
+                    ],
+                    "type": [
+                      "object",
+                      "null",
+                    ],
+                  },
+                },
+                "required": [
+                  "cfd",
+                  "rncp",
+                ],
+                "type": "object",
+              },
+              "rncp": {
+                "example": "Boulanger",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+            },
+            "required": [
+              "cfd",
+              "niveau",
               "rncp",
             ],
             "type": "object",
@@ -411,6 +555,68 @@ Lorsque celui-ci est \`null\`, alors le champs \`certification.rncp\` est alors 
           "periode_validite": {
             "description": "Un couple CFD-RNCP a une période de validité qui correspond à l’intersection de la période d’ouverture du diplôme et de la période d’activité de la fiche RNCP.",
             "properties": {
+              "cfd": {
+                "properties": {
+                  "derniere_session": {
+                    "description": "**Année de sortie des derniers diplômés.**",
+                    "example": 2025,
+                    "type": [
+                      "integer",
+                      "null",
+                    ],
+                  },
+                  "fermeture": {
+                    "description": "**Date de fermeture du diplôme.**
+
+La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.
+
+La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
+                    "examples": [
+                      "2022-08-31T23:59:59.000+02:00",
+                      "2022-12-31T23:59:59.000+01:00",
+                    ],
+                    "format": "date-time",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "ouverture": {
+                    "description": "**Date d'ouverture du diplôme.**
+
+La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '00:00:00' sur le fuseau horaire 'Europe/Paris'.
+
+La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
+                    "examples": [
+                      "2021-09-01T00:00:00.000+02:00",
+                      "2022-01-01T00:00:00.000+01:00",
+                    ],
+                    "format": "date-time",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "premiere_session": {
+                    "description": "**Année de sortie des premiers diplômés.**",
+                    "example": 2022,
+                    "type": [
+                      "integer",
+                      "null",
+                    ],
+                  },
+                },
+                "required": [
+                  "ouverture",
+                  "fermeture",
+                  "premiere_session",
+                  "derniere_session",
+                ],
+                "type": [
+                  "object",
+                  "null",
+                ],
+              },
               "debut": {
                 "description": "**Date de début de validité de la certification.**
 
@@ -443,64 +649,82 @@ La date est retournée au format ISO 8601 avec le fuseau horaire Europe/Paris.",
                   "null",
                 ],
               },
-            },
-            "required": [
-              "debut",
-              "fin",
-            ],
-            "type": "object",
-          },
-          "rncp": {
-            "description": "**Regroupement des données relative au Répertoire National des Certifications Professionnelles (RNCP) de la certification provenant de France Compétence.**
-
-Lorsque \`certification.code.rncp\` est \`null\`, alors le champs \`certification.rncp\` est alors \`null\`.",
-            "properties": {
-              "actif": {
-                "description": "Lorsque la fiche est active, les inscriptions à la formation sont ouvertes, à l’inverse, lorsque la fiche est inactive, les inscriptions sont fermées.",
-                "type": "boolean",
-              },
-              "activation": {
-                "description": "**Date à laquelle la fiche RNCP est passée au statut \`actif\`.**
+              "rncp": {
+                "properties": {
+                  "actif": {
+                    "description": "Lorsque la fiche est active, les inscriptions à la formation sont ouvertes, à l’inverse, lorsque la fiche est inactive, les inscriptions sont fermées.",
+                    "type": "boolean",
+                  },
+                  "activation": {
+                    "description": "**Date à laquelle la fiche RNCP est passée au statut \`actif\`.**
 
 La date est retournée au format ISO 8601 avec le fuseau horaire Europe/Paris.
 
 La couverture de ce champ est partiel car nous ne sommes pas en mesure pour le moment de récupérer les dates d'activation antérieures au 24 décembre 2021.",
-                "examples": [
-                  "2021-09-01T00:00:00.000+02:00",
-                  "2022-01-01T00:00:00.000+01:00",
+                    "examples": [
+                      "2021-09-01T00:00:00.000+02:00",
+                      "2022-01-01T00:00:00.000+01:00",
+                    ],
+                    "format": "date-time",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "debut_parcours": {
+                    "description": "**Date de début des parcours certifiants.**Anciennement appelé 'date d'effet' pour les enregistrements de droit et correspondant à la date de décision pour les enregistrements sur demande.
+
+La date est retournée au format ISO 8601 avec le fuseau horaire Europe/Paris.",
+                    "examples": [
+                      "2021-09-01T00:00:00.000+02:00",
+                      "2022-01-01T00:00:00.000+01:00",
+                    ],
+                    "format": "date-time",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "fin_enregistrement": {
+                    "description": "**Date de fin d’enregistrement d’une fiche au RNCP.**
+
+Lorsque la date d'échéance d'enregistrement de la certification est dépassée. La fiche passe automatiquement au statut Inactive.
+
+Pour les enregistrement de droit, cette date est renseignée par le certificateur. Pour les enregistrements sur demande, elle est déterminée par commission au moment de la décision d’enregistrement.
+
+France Compétence ne fournie pas l'information du fuseau horaire, nous interprétons arbitrairement sur le fuseau horaire 'Europe/Paris'.
+
+La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
+                    "format": "date-time",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                },
+                "required": [
+                  "actif",
+                  "activation",
+                  "fin_enregistrement",
+                  "debut_parcours",
                 ],
-                "format": "date-time",
                 "type": [
-                  "string",
+                  "object",
                   "null",
                 ],
               },
-              "blocs": {
-                "description": "Liste du (ou des) code (s) et intitulé(s) des blocs de compétences validées par la certification",
-                "items": {
-                  "properties": {
-                    "code": {
-                      "example": "RNCP37537BC01",
-                      "pattern": "^RNCP\\d{3,5}BC\\d{1,2}$",
-                      "type": "string",
-                    },
-                    "intitule": {
-                      "example": "Approvisionnement, communication, sécurité alimentaire et hygiène en boulangerie",
-                      "type": [
-                        "string",
-                        "null",
-                      ],
-                    },
-                  },
-                  "required": [
-                    "code",
-                    "intitule",
-                  ],
-                  "type": "object",
-                },
-                "type": "array",
-              },
-              "certificateurs": {
+            },
+            "required": [
+              "debut",
+              "fin",
+              "cfd",
+              "rncp",
+            ],
+            "type": "object",
+          },
+          "type": {
+            "properties": {
+              "certificateurs_rncp": {
                 "description": "Liste des certificateurs de la certification.",
                 "items": {
                   "properties": {
@@ -519,237 +743,144 @@ La couverture de ce champ est partiel car nous ne sommes pas en mesure pour le m
                   ],
                   "type": "object",
                 },
-                "type": "array",
-              },
-              "convention_collectives": {
-                "description": "Numéro(s) et intitulé(s) de la convention collective associée(s) à la fiche RNCP",
-                "items": {
-                  "properties": {
-                    "intitule": {
-                      "example": "Bâtiment (Employés, techniciens et agents de maîtrise, ingénieurs, assimilés et cadres)",
-                      "type": "string",
-                    },
-                    "numero": {
-                      "example": "3002",
-                      "type": "string",
-                    },
-                  },
-                  "required": [
-                    "numero",
-                    "intitule",
-                  ],
-                  "type": "object",
-                },
-                "type": "array",
-              },
-              "debut_parcours": {
-                "description": "**Date de début des parcours certifiants.**Anciennement appelé 'date d'effet' pour les enregistrements de droit et correspondant à la date de décision pour les enregistrements sur demande.
-
-La date est retournée au format ISO 8601 avec le fuseau horaire Europe/Paris.",
-                "examples": [
-                  "2021-09-01T00:00:00.000+02:00",
-                  "2022-01-01T00:00:00.000+01:00",
-                ],
-                "format": "date-time",
                 "type": [
-                  "string",
+                  "array",
                   "null",
                 ],
               },
-              "enregistrement": {
+              "enregistrement_rncp": {
                 "description": "Permet de savoir si la certification est enregistrée de droit ou sur demande au Repertoire National des Certifications Professionnelles (RNCP)",
                 "enum": [
                   "Enregistrement de droit",
                   "Enregistrement sur demande",
                 ],
                 "example": "Enregistrement de droit",
-                "type": "string",
-              },
-              "fin_enregistrement": {
-                "description": "**Date de fin d’enregistrement d’une fiche au RNCP.**
-
-Lorsque la date d'échéance d'enregistrement de la certification est dépassée. La fiche passe automatiquement au statut Inactive.
-
-Pour les enregistrement de droit, cette date est renseignée par le certificateur. Pour les enregistrements sur demande, elle est déterminée par commission au moment de la décision d’enregistrement.
-
-France Compétence ne fournie pas l'information du fuseau horaire, nous interprétons arbitrairement sur le fuseau horaire 'Europe/Paris'.
-
-La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
-                "format": "date-time",
                 "type": [
                   "string",
                   "null",
                 ],
               },
-              "formacodes": {
-                "description": "Code(s) et intitulé(s) du (ou des) code Formacode(s) auquel(s) appartien(ne)t la certification",
-                "items": {
-                  "properties": {
-                    "code": {
-                      "example": "21538",
-                      "type": "string",
-                    },
-                    "intitule": {
-                      "example": "21538 : Boulangerie",
-                      "type": "string",
-                    },
-                  },
-                  "required": [
-                    "code",
-                    "intitule",
-                  ],
-                  "type": "object",
-                },
-                "type": "array",
+              "gestionnaire_diplome": {
+                "description": "**Service responsable de la définition du diplôme.**",
+                "example": "DGESCO A2-3",
+                "type": [
+                  "string",
+                  "null",
+                ],
               },
-              "intitule": {
-                "example": "Boulanger",
-                "type": "string",
-              },
-              "niveau": {
+              "nature": {
                 "properties": {
-                  "europeen": {
-                    "description": "Niveau de qualification de la certification (de 1 à 8) utilisés dans les référentiels nationaux européens.",
-                    "enum": [
-                      "1",
-                      "2",
-                      "3",
-                      "4",
-                      "5",
-                      "6",
-                      "7",
-                      "8",
+                  "cfd": {
+                    "description": "**Nature du diplôme.**",
+                    "properties": {
+                      "code": {
+                        "description": "**Code de la nature du diplôme.**",
+                        "examples": [
+                          "1",
+                          "2",
+                          "P",
+                        ],
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "libelle": {
+                        "description": "**Intitulé de la nature du diplôme.**",
+                        "examples": [
+                          "DIPLOME NATIONAL / DIPLOME D'ETAT",
+                          "TITRE PROFESSIONNEL HOMOLOGUE OU CERTIFIE",
+                          "CLASSE PREPA",
+                        ],
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                    },
+                    "required": [
+                      "code",
+                      "libelle",
                     ],
-                    "example": "3",
                     "type": [
-                      "string",
-                      "null",
-                    ],
-                  },
-                  "interministeriel": {
-                    "type": [
-                      "string",
+                      "object",
                       "null",
                     ],
                   },
                 },
                 "required": [
-                  "europeen",
-                  "interministeriel",
+                  "cfd",
                 ],
                 "type": "object",
               },
-              "nsf": {
-                "description": "Code(s) et intitulé(s) du domaine de formation à laquelle appartient la certification, il suit la Nomenclature des Spécialités de Formation (NSF) de l’INSEE.",
-                "items": {
-                  "properties": {
-                    "code": {
-                      "example": "221",
-                      "pattern": "^\\d{2,3}[a-z]?$",
-                      "type": "string",
-                    },
-                    "intitule": {
-                      "example": "221 : Agro-alimentaire, alimentation, cuisine",
-                      "type": [
-                        "string",
-                        "null",
-                      ],
-                    },
-                  },
-                  "required": [
-                    "code",
-                    "intitule",
-                  ],
-                  "type": "object",
-                },
-                "type": "array",
-              },
-              "rome": {
-                "description": "Code(s) et intitulé(s) de la (ou des) fiche(s) métier du Répertoire Opérationnel des Métiers et de l’Emploi (ROME) associé(s) à la certification.",
-                "items": {
-                  "properties": {
-                    "code": {
-                      "example": "D1102",
-                      "type": "string",
-                    },
-                    "intitule": {
-                      "example": "Boulangerie - viennoiserie",
-                      "type": "string",
-                    },
-                  },
-                  "required": [
-                    "code",
-                    "intitule",
-                  ],
-                  "type": "object",
-                },
-                "type": "array",
-              },
               "voie_acces": {
                 "properties": {
-                  "apprentissage": {
-                    "description": "Certification accessible en contrat d’apprentissage.",
-                    "type": "boolean",
-                  },
-                  "candidature_individuelle": {
-                    "description": "Certification accessible par candidature individuelle.",
-                    "type": "boolean",
-                  },
-                  "contrat_professionnalisation": {
-                    "description": "Certification accessible en contrat de professionnalisation.",
-                    "type": "boolean",
-                  },
-                  "experience": {
-                    "description": "Certification accessible par expérience.",
-                    "type": "boolean",
-                  },
-                  "formation_continue": {
-                    "description": "Certification accessible après un parcours de formation continue.",
-                    "type": "boolean",
-                  },
-                  "formation_statut_eleve": {
-                    "description": "Certification accessible après un parcours de formation sous statut d’élève ou d’étudiant.",
-                    "type": "boolean",
+                  "rncp": {
+                    "properties": {
+                      "apprentissage": {
+                        "description": "Certification accessible en contrat d’apprentissage.",
+                        "type": "boolean",
+                      },
+                      "candidature_individuelle": {
+                        "description": "Certification accessible par candidature individuelle.",
+                        "type": "boolean",
+                      },
+                      "contrat_professionnalisation": {
+                        "description": "Certification accessible en contrat de professionnalisation.",
+                        "type": "boolean",
+                      },
+                      "experience": {
+                        "description": "Certification accessible par expérience.",
+                        "type": "boolean",
+                      },
+                      "formation_continue": {
+                        "description": "Certification accessible après un parcours de formation continue.",
+                        "type": "boolean",
+                      },
+                      "formation_statut_eleve": {
+                        "description": "Certification accessible après un parcours de formation sous statut d’élève ou d’étudiant.",
+                        "type": "boolean",
+                      },
+                    },
+                    "required": [
+                      "apprentissage",
+                      "experience",
+                      "candidature_individuelle",
+                      "contrat_professionnalisation",
+                      "formation_continue",
+                      "formation_statut_eleve",
+                    ],
+                    "type": [
+                      "object",
+                      "null",
+                    ],
                   },
                 },
                 "required": [
-                  "apprentissage",
-                  "experience",
-                  "candidature_individuelle",
-                  "contrat_professionnalisation",
-                  "formation_continue",
-                  "formation_statut_eleve",
+                  "rncp",
                 ],
                 "type": "object",
               },
             },
             "required": [
-              "actif",
-              "activation",
-              "fin_enregistrement",
-              "debut_parcours",
-              "intitule",
-              "blocs",
-              "rome",
-              "formacodes",
-              "convention_collectives",
-              "niveau",
-              "nsf",
-              "enregistrement",
+              "certificateurs_rncp",
+              "enregistrement_rncp",
+              "gestionnaire_diplome",
+              "nature",
               "voie_acces",
-              "certificateurs",
             ],
-            "type": [
-              "object",
-              "null",
-            ],
+            "type": "object",
           },
         },
         "required": [
-          "code",
+          "identifiant",
+          "intitule",
+          "base_legale",
+          "blocs_competences",
+          "convention_collectives",
+          "domaines",
           "periode_validite",
-          "cfd",
-          "rncp",
+          "type",
         ],
         "type": "object",
       },
@@ -980,7 +1111,7 @@ La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.
 
 - Sinon doit respecter le regex \`/^[A-Z0-9]{3}\\d{3}[A-Z0-9]{2}$/\`",
             "in": "query",
-            "name": "code.cfd",
+            "name": "identifiant.cfd",
             "required": false,
             "schema": {
               "examples": [
@@ -1002,7 +1133,7 @@ La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.
 
 - Sinon doit respecter le regex \`/^RNCP\\d{3,5}$/\`",
             "in": "query",
-            "name": "code.rncp",
+            "name": "identifiant.rncp",
             "required": false,
             "schema": {
               "examples": [
@@ -1023,117 +1154,37 @@ La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.
                   "description": "Liste des certifications",
                   "items": {
                     "properties": {
-                      "cfd": {
-                        "description": "**Regroupement des données relative au Code Formation Diplôme (CFD) de la certification provenant de la base centrale des nomenclatures (BCN).**
-
-Lorsque \`certification.code.cfd\` est \`null\`, alors le champs \`certification.cfd\` est alors \`null\`",
+                      "base_legale": {
                         "properties": {
-                          "abrogation": {
-                            "description": "**Date d'arrêté d'abrogation du diplôme.**
+                          "cfd": {
+                            "properties": {
+                              "abrogation": {
+                                "description": "**Date d'arrêté d'abrogation du diplôme.**
 
 La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.
 
 La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
-                            "examples": [
-                              "2022-08-31T23:59:59.000+02:00",
-                              "2022-12-31T23:59:59.000+01:00",
-                            ],
-                            "format": "date-time",
-                            "type": [
-                              "string",
-                              "null",
-                            ],
-                          },
-                          "creation": {
-                            "description": "**Date d'arrêté de création du diplôme.**
+                                "examples": [
+                                  "2022-08-31T23:59:59.000+02:00",
+                                  "2022-12-31T23:59:59.000+01:00",
+                                ],
+                                "format": "date-time",
+                                "type": [
+                                  "string",
+                                  "null",
+                                ],
+                              },
+                              "creation": {
+                                "description": "**Date d'arrêté de création du diplôme.**
 
 La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '00:00:00' sur le fuseau horaire 'Europe/Paris'.
 
 La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
-                            "examples": [
-                              "2014-02-21T00:00:00.000+01:00",
-                              "2018-05-11T00:00:00.000+02:00",
-                            ],
-                            "format": "date-time",
-                            "type": [
-                              "string",
-                              "null",
-                            ],
-                          },
-                          "fermeture": {
-                            "description": "**Date de fermeture du diplôme.**
-
-La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.
-
-La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
-                            "examples": [
-                              "2022-08-31T23:59:59.000+02:00",
-                              "2022-12-31T23:59:59.000+01:00",
-                            ],
-                            "format": "date-time",
-                            "type": [
-                              "string",
-                              "null",
-                            ],
-                          },
-                          "gestionnaire": {
-                            "description": "**Service responsable de la définition du diplôme.**",
-                            "example": "DGESCO A2-3",
-                            "type": [
-                              "string",
-                              "null",
-                            ],
-                          },
-                          "intitule": {
-                            "description": "**Intitulé du diplôme.**
-
-La base centrale des nomenclatures (BCN) fournie un intitulé long et court du diplôme.",
-                            "properties": {
-                              "court": {
-                                "description": "**Intitulé court du diplôme.**",
                                 "examples": [
-                                  "BOULANGER",
-                                  "GENIE BIO - AGRONOMIE",
+                                  "2014-02-21T00:00:00.000+01:00",
+                                  "2018-05-11T00:00:00.000+02:00",
                                 ],
-                                "type": "string",
-                              },
-                              "long": {
-                                "description": "**Intitulé long du diplôme.**",
-                                "examples": [
-                                  "BOULANGER (CAP)",
-                                  "GENIE BIOLOGIQUE OPTION AGRONOMIE (DUT)",
-                                ],
-                                "type": "string",
-                              },
-                            },
-                            "required": [
-                              "long",
-                              "court",
-                            ],
-                            "type": "object",
-                          },
-                          "nature": {
-                            "description": "**Nature du diplôme.**",
-                            "properties": {
-                              "code": {
-                                "description": "**Code de la nature du diplôme.**",
-                                "examples": [
-                                  "1",
-                                  "2",
-                                  "P",
-                                ],
-                                "type": [
-                                  "string",
-                                  "null",
-                                ],
-                              },
-                              "libelle": {
-                                "description": "**Intitulé de la nature du diplôme.**",
-                                "examples": [
-                                  "DIPLOME NATIONAL / DIPLOME D'ETAT",
-                                  "TITRE PROFESSIONNEL HOMOLOGUE OU CERTIFIE",
-                                  "CLASSE PREPA",
-                                ],
+                                "format": "date-time",
                                 "type": [
                                   "string",
                                   "null",
@@ -1141,102 +1192,33 @@ La base centrale des nomenclatures (BCN) fournie un intitulé long et court du d
                               },
                             },
                             "required": [
-                              "code",
-                              "libelle",
+                              "creation",
+                              "abrogation",
                             ],
-                            "type": "object",
-                          },
-                          "niveau": {
-                            "description": "**Regroupement des données relative au niveau de la certification provenant de la base centrale des nomenclatures (BCN).**",
-                            "properties": {
-                              "europeen": {
-                                "description": "**Niveau de qualification de la certification (de 1 à 8) utilisés dans les référentiels nationaux européens.**",
-                                "enum": [
-                                  "1",
-                                  "2",
-                                  "3",
-                                  "4",
-                                  "5",
-                                  "6",
-                                  "7",
-                                  "8",
-                                ],
-                                "examples": [
-                                  "3",
-                                  "5",
-                                ],
-                                "type": [
-                                  "string",
-                                  "null",
-                                ],
-                              },
-                              "formation_diplome": {
-                                "description": "**Code à 3 caractères qui renseigne sur le niveau du diplôme.**",
-                                "examples": [
-                                  "500",
-                                  "370",
-                                ],
-                                "type": "string",
-                              },
-                              "interministeriel": {
-                                "description": "**Code interministériel du niveau de la formation.**",
-                                "examples": [
-                                  "3",
-                                  "6",
-                                ],
-                                "type": "string",
-                              },
-                              "intitule": {
-                                "description": "**Libellé complet du niveau de la formation.**",
-                                "examples": [
-                                  "CLASSE PREPA",
-                                  "TITRE PROFESSIONNEL HOMOLOGUE OU CERTIFIE",
-                                ],
-                                "type": [
-                                  "string",
-                                  "null",
-                                ],
-                              },
-                              "sigle": {
-                                "description": "**Libellé abrégé du niveau de la formation.**",
-                                "examples": [
-                                  "CAP",
-                                  "DUT",
-                                  "BTS",
-                                  "CPGE",
-                                ],
-                                "type": "string",
-                              },
-                            },
-                            "required": [
-                              "sigle",
-                              "europeen",
-                              "formation_diplome",
-                              "intitule",
-                              "interministeriel",
+                            "type": [
+                              "object",
+                              "null",
                             ],
-                            "type": "object",
                           },
-                          "nsf": {
-                            "description": "Code(s) et intitulé(s) du domaine de formation à laquelle appartient la certification, il suit la Nomenclature des Spécialités de Formation (NSF) de l’INSEE.
-
-Le code NSF est déduis du code formation diplôme (CFD), il n'inclus donc pas la lettre de spécialité et le tableau ne contient qu'un seul élément.",
+                        },
+                        "required": [
+                          "cfd",
+                        ],
+                        "type": "object",
+                      },
+                      "blocs_competences": {
+                        "properties": {
+                          "rncp": {
+                            "description": "Liste du (ou des) code (s) et intitulé(s) des blocs de compétences validées par la certification",
                             "items": {
                               "properties": {
                                 "code": {
-                                  "description": "**Code NSF de la certification.**",
-                                  "examples": [
-                                    "221",
-                                    "310",
-                                  ],
+                                  "example": "RNCP37537BC01",
+                                  "pattern": "^RNCP\\d{3,5}BC\\d{1,2}$",
                                   "type": "string",
                                 },
                                 "intitule": {
-                                  "description": "**Intitulé du domaine de formation de la certification.**",
-                                  "examples": [
-                                    "AGRO-ALIMENTAIRE, ALIMENTATION, CUISINE",
-                                    "SPECIALIT.PLURIV.DES ECHANGES & GESTION",
-                                  ],
+                                  "example": "Approvisionnement, communication, sécurité alimentaire et hygiène en boulangerie",
                                   "type": [
                                     "string",
                                     "null",
@@ -1249,69 +1231,195 @@ Le code NSF est déduis du code formation diplôme (CFD), il n'inclus donc pas l
                               ],
                               "type": "object",
                             },
-                            "type": "array",
-                          },
-                          "ouverture": {
-                            "description": "**Date d'ouverture du diplôme.**
-
-La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '00:00:00' sur le fuseau horaire 'Europe/Paris'.
-
-La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
-                            "examples": [
-                              "2021-09-01T00:00:00.000+02:00",
-                              "2022-01-01T00:00:00.000+01:00",
-                            ],
-                            "format": "date-time",
                             "type": [
-                              "string",
+                              "array",
                               "null",
                             ],
                           },
-                          "session": {
-                            "description": "**Première et derniere année de sortie des diplômés.**",
-                            "properties": {
-                              "fin": {
-                                "description": "**Année de sortie des derniers diplômés.**",
-                                "example": 2025,
-                                "type": [
-                                  "integer",
-                                  "null",
-                                ],
+                        },
+                        "required": [
+                          "rncp",
+                        ],
+                        "type": "object",
+                      },
+                      "convention_collectives": {
+                        "properties": {
+                          "rncp": {
+                            "description": "Numéro(s) et intitulé(s) de la convention collective associée(s) à la fiche RNCP",
+                            "items": {
+                              "properties": {
+                                "intitule": {
+                                  "example": "Bâtiment (Employés, techniciens et agents de maîtrise, ingénieurs, assimilés et cadres)",
+                                  "type": "string",
+                                },
+                                "numero": {
+                                  "example": "3002",
+                                  "type": "string",
+                                },
                               },
-                              "premiere": {
-                                "description": "**Année de sortie des premiers diplômés.**",
-                                "example": 2022,
+                              "required": [
+                                "numero",
+                                "intitule",
+                              ],
+                              "type": "object",
+                            },
+                            "type": [
+                              "array",
+                              "null",
+                            ],
+                          },
+                        },
+                        "required": [
+                          "rncp",
+                        ],
+                        "type": "object",
+                      },
+                      "domaines": {
+                        "properties": {
+                          "formacodes": {
+                            "properties": {
+                              "rncp": {
+                                "description": "Code(s) et intitulé(s) du (ou des) code Formacode(s) auquel(s) appartien(ne)t la certification",
+                                "items": {
+                                  "properties": {
+                                    "code": {
+                                      "example": "21538",
+                                      "type": "string",
+                                    },
+                                    "intitule": {
+                                      "example": "21538 : Boulangerie",
+                                      "type": "string",
+                                    },
+                                  },
+                                  "required": [
+                                    "code",
+                                    "intitule",
+                                  ],
+                                  "type": "object",
+                                },
                                 "type": [
-                                  "integer",
+                                  "array",
                                   "null",
                                 ],
                               },
                             },
                             "required": [
-                              "premiere",
-                              "fin",
+                              "rncp",
+                            ],
+                            "type": "object",
+                          },
+                          "nsf": {
+                            "properties": {
+                              "cfd": {
+                                "description": "Code(s) et intitulé(s) du domaine de formation à laquelle appartient la certification, il suit la Nomenclature des Spécialités de Formation (NSF) de l’INSEE.
+
+Le code NSF est déduis du code formation diplôme (CFD), il n'inclus donc pas la lettre de spécialité et le tableau ne contient qu'un seul élément.",
+                                "properties": {
+                                  "code": {
+                                    "description": "**Code NSF de la certification.**",
+                                    "examples": [
+                                      "221",
+                                      "310",
+                                    ],
+                                    "type": "string",
+                                  },
+                                  "intitule": {
+                                    "description": "**Intitulé du domaine de formation de la certification.**",
+                                    "examples": [
+                                      "AGRO-ALIMENTAIRE, ALIMENTATION, CUISINE",
+                                      "SPECIALIT.PLURIV.DES ECHANGES & GESTION",
+                                    ],
+                                    "type": [
+                                      "string",
+                                      "null",
+                                    ],
+                                  },
+                                },
+                                "required": [
+                                  "code",
+                                  "intitule",
+                                ],
+                                "type": [
+                                  "object",
+                                  "null",
+                                ],
+                              },
+                              "rncp": {
+                                "description": "Code(s) et intitulé(s) du domaine de formation à laquelle appartient la certification, il suit la Nomenclature des Spécialités de Formation (NSF) de l’INSEE.",
+                                "items": {
+                                  "properties": {
+                                    "code": {
+                                      "example": "221",
+                                      "pattern": "^\\d{2,3}[a-z]?$",
+                                      "type": "string",
+                                    },
+                                    "intitule": {
+                                      "example": "221 : Agro-alimentaire, alimentation, cuisine",
+                                      "type": [
+                                        "string",
+                                        "null",
+                                      ],
+                                    },
+                                  },
+                                  "required": [
+                                    "code",
+                                    "intitule",
+                                  ],
+                                  "type": "object",
+                                },
+                                "type": [
+                                  "array",
+                                  "null",
+                                ],
+                              },
+                            },
+                            "required": [
+                              "cfd",
+                              "rncp",
+                            ],
+                            "type": "object",
+                          },
+                          "rome": {
+                            "properties": {
+                              "rncp": {
+                                "description": "Code(s) et intitulé(s) de la (ou des) fiche(s) métier du Répertoire Opérationnel des Métiers et de l’Emploi (ROME) associé(s) à la certification.",
+                                "items": {
+                                  "properties": {
+                                    "code": {
+                                      "example": "D1102",
+                                      "type": "string",
+                                    },
+                                    "intitule": {
+                                      "example": "Boulangerie - viennoiserie",
+                                      "type": "string",
+                                    },
+                                  },
+                                  "required": [
+                                    "code",
+                                    "intitule",
+                                  ],
+                                  "type": "object",
+                                },
+                                "type": [
+                                  "array",
+                                  "null",
+                                ],
+                              },
+                            },
+                            "required": [
+                              "rncp",
                             ],
                             "type": "object",
                           },
                         },
                         "required": [
-                          "ouverture",
-                          "fermeture",
-                          "creation",
-                          "abrogation",
-                          "intitule",
-                          "nature",
-                          "gestionnaire",
-                          "session",
-                          "niveau",
+                          "formacodes",
                           "nsf",
+                          "rome",
                         ],
-                        "type": [
-                          "object",
-                          "null",
-                        ],
+                        "type": "object",
                       },
-                      "code": {
+                      "identifiant": {
                         "description": "**Une certification correspond à un couple CFD-RNCP sur une période donnée.**
 
 Le couple CFD-RNCP est unique, mais lorsque la correspondance n'est pas connue, l'un des deux peut être \`null\`.",
@@ -1338,9 +1446,176 @@ Lorsque celui-ci est \`null\`, alors le champs \`certification.rncp\` est alors 
                               "null",
                             ],
                           },
+                          "rncp_anterieur_2019": {
+                            "type": [
+                              "boolean",
+                              "null",
+                            ],
+                          },
                         },
                         "required": [
                           "cfd",
+                          "rncp",
+                          "rncp_anterieur_2019",
+                        ],
+                        "type": "object",
+                      },
+                      "intitule": {
+                        "properties": {
+                          "cfd": {
+                            "description": "**Intitulé du diplôme.**
+
+La base centrale des nomenclatures (BCN) fournie un intitulé long et court du diplôme.",
+                            "properties": {
+                              "court": {
+                                "description": "**Intitulé court du diplôme.**",
+                                "examples": [
+                                  "BOULANGER",
+                                  "GENIE BIO - AGRONOMIE",
+                                ],
+                                "type": "string",
+                              },
+                              "long": {
+                                "description": "**Intitulé long du diplôme.**",
+                                "examples": [
+                                  "BOULANGER (CAP)",
+                                  "GENIE BIOLOGIQUE OPTION AGRONOMIE (DUT)",
+                                ],
+                                "type": "string",
+                              },
+                            },
+                            "required": [
+                              "long",
+                              "court",
+                            ],
+                            "type": [
+                              "object",
+                              "null",
+                            ],
+                          },
+                          "niveau": {
+                            "properties": {
+                              "cfd": {
+                                "description": "**Regroupement des données relative au niveau de la certification provenant de la base centrale des nomenclatures (BCN).**",
+                                "properties": {
+                                  "europeen": {
+                                    "description": "**Niveau de qualification de la certification (de 1 à 8) utilisés dans les référentiels nationaux européens.**",
+                                    "enum": [
+                                      "1",
+                                      "2",
+                                      "3",
+                                      "4",
+                                      "5",
+                                      "6",
+                                      "7",
+                                      "8",
+                                    ],
+                                    "examples": [
+                                      "3",
+                                      "5",
+                                    ],
+                                    "type": [
+                                      "string",
+                                      "null",
+                                    ],
+                                  },
+                                  "formation_diplome": {
+                                    "description": "**Code à 3 caractères qui renseigne sur le niveau du diplôme.**",
+                                    "examples": [
+                                      "500",
+                                      "370",
+                                    ],
+                                    "type": "string",
+                                  },
+                                  "interministeriel": {
+                                    "description": "**Code interministériel du niveau de la formation.**",
+                                    "examples": [
+                                      "3",
+                                      "6",
+                                    ],
+                                    "type": "string",
+                                  },
+                                  "libelle": {
+                                    "description": "**Libellé complet du niveau de la formation.**",
+                                    "examples": [
+                                      "CLASSE PREPA",
+                                      "TITRE PROFESSIONNEL HOMOLOGUE OU CERTIFIE",
+                                    ],
+                                    "type": [
+                                      "string",
+                                      "null",
+                                    ],
+                                  },
+                                  "sigle": {
+                                    "description": "**Libellé abrégé du niveau de la formation.**",
+                                    "examples": [
+                                      "CAP",
+                                      "DUT",
+                                      "BTS",
+                                      "CPGE",
+                                    ],
+                                    "type": "string",
+                                  },
+                                },
+                                "required": [
+                                  "europeen",
+                                  "formation_diplome",
+                                  "interministeriel",
+                                  "libelle",
+                                  "sigle",
+                                ],
+                                "type": [
+                                  "object",
+                                  "null",
+                                ],
+                              },
+                              "rncp": {
+                                "properties": {
+                                  "europeen": {
+                                    "description": "Niveau de qualification de la certification (de 1 à 8) utilisés dans les référentiels nationaux européens.",
+                                    "enum": [
+                                      "1",
+                                      "2",
+                                      "3",
+                                      "4",
+                                      "5",
+                                      "6",
+                                      "7",
+                                      "8",
+                                    ],
+                                    "example": "3",
+                                    "type": [
+                                      "string",
+                                      "null",
+                                    ],
+                                  },
+                                },
+                                "required": [
+                                  "europeen",
+                                ],
+                                "type": [
+                                  "object",
+                                  "null",
+                                ],
+                              },
+                            },
+                            "required": [
+                              "cfd",
+                              "rncp",
+                            ],
+                            "type": "object",
+                          },
+                          "rncp": {
+                            "example": "Boulanger",
+                            "type": [
+                              "string",
+                              "null",
+                            ],
+                          },
+                        },
+                        "required": [
+                          "cfd",
+                          "niveau",
                           "rncp",
                         ],
                         "type": "object",
@@ -1348,6 +1623,68 @@ Lorsque celui-ci est \`null\`, alors le champs \`certification.rncp\` est alors 
                       "periode_validite": {
                         "description": "Un couple CFD-RNCP a une période de validité qui correspond à l’intersection de la période d’ouverture du diplôme et de la période d’activité de la fiche RNCP.",
                         "properties": {
+                          "cfd": {
+                            "properties": {
+                              "derniere_session": {
+                                "description": "**Année de sortie des derniers diplômés.**",
+                                "example": 2025,
+                                "type": [
+                                  "integer",
+                                  "null",
+                                ],
+                              },
+                              "fermeture": {
+                                "description": "**Date de fermeture du diplôme.**
+
+La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.
+
+La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
+                                "examples": [
+                                  "2022-08-31T23:59:59.000+02:00",
+                                  "2022-12-31T23:59:59.000+01:00",
+                                ],
+                                "format": "date-time",
+                                "type": [
+                                  "string",
+                                  "null",
+                                ],
+                              },
+                              "ouverture": {
+                                "description": "**Date d'ouverture du diplôme.**
+
+La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '00:00:00' sur le fuseau horaire 'Europe/Paris'.
+
+La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
+                                "examples": [
+                                  "2021-09-01T00:00:00.000+02:00",
+                                  "2022-01-01T00:00:00.000+01:00",
+                                ],
+                                "format": "date-time",
+                                "type": [
+                                  "string",
+                                  "null",
+                                ],
+                              },
+                              "premiere_session": {
+                                "description": "**Année de sortie des premiers diplômés.**",
+                                "example": 2022,
+                                "type": [
+                                  "integer",
+                                  "null",
+                                ],
+                              },
+                            },
+                            "required": [
+                              "ouverture",
+                              "fermeture",
+                              "premiere_session",
+                              "derniere_session",
+                            ],
+                            "type": [
+                              "object",
+                              "null",
+                            ],
+                          },
                           "debut": {
                             "description": "**Date de début de validité de la certification.**
 
@@ -1380,64 +1717,82 @@ La date est retournée au format ISO 8601 avec le fuseau horaire Europe/Paris.",
                               "null",
                             ],
                           },
-                        },
-                        "required": [
-                          "debut",
-                          "fin",
-                        ],
-                        "type": "object",
-                      },
-                      "rncp": {
-                        "description": "**Regroupement des données relative au Répertoire National des Certifications Professionnelles (RNCP) de la certification provenant de France Compétence.**
-
-Lorsque \`certification.code.rncp\` est \`null\`, alors le champs \`certification.rncp\` est alors \`null\`.",
-                        "properties": {
-                          "actif": {
-                            "description": "Lorsque la fiche est active, les inscriptions à la formation sont ouvertes, à l’inverse, lorsque la fiche est inactive, les inscriptions sont fermées.",
-                            "type": "boolean",
-                          },
-                          "activation": {
-                            "description": "**Date à laquelle la fiche RNCP est passée au statut \`actif\`.**
+                          "rncp": {
+                            "properties": {
+                              "actif": {
+                                "description": "Lorsque la fiche est active, les inscriptions à la formation sont ouvertes, à l’inverse, lorsque la fiche est inactive, les inscriptions sont fermées.",
+                                "type": "boolean",
+                              },
+                              "activation": {
+                                "description": "**Date à laquelle la fiche RNCP est passée au statut \`actif\`.**
 
 La date est retournée au format ISO 8601 avec le fuseau horaire Europe/Paris.
 
 La couverture de ce champ est partiel car nous ne sommes pas en mesure pour le moment de récupérer les dates d'activation antérieures au 24 décembre 2021.",
-                            "examples": [
-                              "2021-09-01T00:00:00.000+02:00",
-                              "2022-01-01T00:00:00.000+01:00",
+                                "examples": [
+                                  "2021-09-01T00:00:00.000+02:00",
+                                  "2022-01-01T00:00:00.000+01:00",
+                                ],
+                                "format": "date-time",
+                                "type": [
+                                  "string",
+                                  "null",
+                                ],
+                              },
+                              "debut_parcours": {
+                                "description": "**Date de début des parcours certifiants.**Anciennement appelé 'date d'effet' pour les enregistrements de droit et correspondant à la date de décision pour les enregistrements sur demande.
+
+La date est retournée au format ISO 8601 avec le fuseau horaire Europe/Paris.",
+                                "examples": [
+                                  "2021-09-01T00:00:00.000+02:00",
+                                  "2022-01-01T00:00:00.000+01:00",
+                                ],
+                                "format": "date-time",
+                                "type": [
+                                  "string",
+                                  "null",
+                                ],
+                              },
+                              "fin_enregistrement": {
+                                "description": "**Date de fin d’enregistrement d’une fiche au RNCP.**
+
+Lorsque la date d'échéance d'enregistrement de la certification est dépassée. La fiche passe automatiquement au statut Inactive.
+
+Pour les enregistrement de droit, cette date est renseignée par le certificateur. Pour les enregistrements sur demande, elle est déterminée par commission au moment de la décision d’enregistrement.
+
+France Compétence ne fournie pas l'information du fuseau horaire, nous interprétons arbitrairement sur le fuseau horaire 'Europe/Paris'.
+
+La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
+                                "format": "date-time",
+                                "type": [
+                                  "string",
+                                  "null",
+                                ],
+                              },
+                            },
+                            "required": [
+                              "actif",
+                              "activation",
+                              "fin_enregistrement",
+                              "debut_parcours",
                             ],
-                            "format": "date-time",
                             "type": [
-                              "string",
+                              "object",
                               "null",
                             ],
                           },
-                          "blocs": {
-                            "description": "Liste du (ou des) code (s) et intitulé(s) des blocs de compétences validées par la certification",
-                            "items": {
-                              "properties": {
-                                "code": {
-                                  "example": "RNCP37537BC01",
-                                  "pattern": "^RNCP\\d{3,5}BC\\d{1,2}$",
-                                  "type": "string",
-                                },
-                                "intitule": {
-                                  "example": "Approvisionnement, communication, sécurité alimentaire et hygiène en boulangerie",
-                                  "type": [
-                                    "string",
-                                    "null",
-                                  ],
-                                },
-                              },
-                              "required": [
-                                "code",
-                                "intitule",
-                              ],
-                              "type": "object",
-                            },
-                            "type": "array",
-                          },
-                          "certificateurs": {
+                        },
+                        "required": [
+                          "debut",
+                          "fin",
+                          "cfd",
+                          "rncp",
+                        ],
+                        "type": "object",
+                      },
+                      "type": {
+                        "properties": {
+                          "certificateurs_rncp": {
                             "description": "Liste des certificateurs de la certification.",
                             "items": {
                               "properties": {
@@ -1456,237 +1811,144 @@ La couverture de ce champ est partiel car nous ne sommes pas en mesure pour le m
                               ],
                               "type": "object",
                             },
-                            "type": "array",
-                          },
-                          "convention_collectives": {
-                            "description": "Numéro(s) et intitulé(s) de la convention collective associée(s) à la fiche RNCP",
-                            "items": {
-                              "properties": {
-                                "intitule": {
-                                  "example": "Bâtiment (Employés, techniciens et agents de maîtrise, ingénieurs, assimilés et cadres)",
-                                  "type": "string",
-                                },
-                                "numero": {
-                                  "example": "3002",
-                                  "type": "string",
-                                },
-                              },
-                              "required": [
-                                "numero",
-                                "intitule",
-                              ],
-                              "type": "object",
-                            },
-                            "type": "array",
-                          },
-                          "debut_parcours": {
-                            "description": "**Date de début des parcours certifiants.**Anciennement appelé 'date d'effet' pour les enregistrements de droit et correspondant à la date de décision pour les enregistrements sur demande.
-
-La date est retournée au format ISO 8601 avec le fuseau horaire Europe/Paris.",
-                            "examples": [
-                              "2021-09-01T00:00:00.000+02:00",
-                              "2022-01-01T00:00:00.000+01:00",
-                            ],
-                            "format": "date-time",
                             "type": [
-                              "string",
+                              "array",
                               "null",
                             ],
                           },
-                          "enregistrement": {
+                          "enregistrement_rncp": {
                             "description": "Permet de savoir si la certification est enregistrée de droit ou sur demande au Repertoire National des Certifications Professionnelles (RNCP)",
                             "enum": [
                               "Enregistrement de droit",
                               "Enregistrement sur demande",
                             ],
                             "example": "Enregistrement de droit",
-                            "type": "string",
-                          },
-                          "fin_enregistrement": {
-                            "description": "**Date de fin d’enregistrement d’une fiche au RNCP.**
-
-Lorsque la date d'échéance d'enregistrement de la certification est dépassée. La fiche passe automatiquement au statut Inactive.
-
-Pour les enregistrement de droit, cette date est renseignée par le certificateur. Pour les enregistrements sur demande, elle est déterminée par commission au moment de la décision d’enregistrement.
-
-France Compétence ne fournie pas l'information du fuseau horaire, nous interprétons arbitrairement sur le fuseau horaire 'Europe/Paris'.
-
-La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
-                            "format": "date-time",
                             "type": [
                               "string",
                               "null",
                             ],
                           },
-                          "formacodes": {
-                            "description": "Code(s) et intitulé(s) du (ou des) code Formacode(s) auquel(s) appartien(ne)t la certification",
-                            "items": {
-                              "properties": {
-                                "code": {
-                                  "example": "21538",
-                                  "type": "string",
-                                },
-                                "intitule": {
-                                  "example": "21538 : Boulangerie",
-                                  "type": "string",
-                                },
-                              },
-                              "required": [
-                                "code",
-                                "intitule",
-                              ],
-                              "type": "object",
-                            },
-                            "type": "array",
+                          "gestionnaire_diplome": {
+                            "description": "**Service responsable de la définition du diplôme.**",
+                            "example": "DGESCO A2-3",
+                            "type": [
+                              "string",
+                              "null",
+                            ],
                           },
-                          "intitule": {
-                            "example": "Boulanger",
-                            "type": "string",
-                          },
-                          "niveau": {
+                          "nature": {
                             "properties": {
-                              "europeen": {
-                                "description": "Niveau de qualification de la certification (de 1 à 8) utilisés dans les référentiels nationaux européens.",
-                                "enum": [
-                                  "1",
-                                  "2",
-                                  "3",
-                                  "4",
-                                  "5",
-                                  "6",
-                                  "7",
-                                  "8",
+                              "cfd": {
+                                "description": "**Nature du diplôme.**",
+                                "properties": {
+                                  "code": {
+                                    "description": "**Code de la nature du diplôme.**",
+                                    "examples": [
+                                      "1",
+                                      "2",
+                                      "P",
+                                    ],
+                                    "type": [
+                                      "string",
+                                      "null",
+                                    ],
+                                  },
+                                  "libelle": {
+                                    "description": "**Intitulé de la nature du diplôme.**",
+                                    "examples": [
+                                      "DIPLOME NATIONAL / DIPLOME D'ETAT",
+                                      "TITRE PROFESSIONNEL HOMOLOGUE OU CERTIFIE",
+                                      "CLASSE PREPA",
+                                    ],
+                                    "type": [
+                                      "string",
+                                      "null",
+                                    ],
+                                  },
+                                },
+                                "required": [
+                                  "code",
+                                  "libelle",
                                 ],
-                                "example": "3",
                                 "type": [
-                                  "string",
-                                  "null",
-                                ],
-                              },
-                              "interministeriel": {
-                                "type": [
-                                  "string",
+                                  "object",
                                   "null",
                                 ],
                               },
                             },
                             "required": [
-                              "europeen",
-                              "interministeriel",
+                              "cfd",
                             ],
                             "type": "object",
                           },
-                          "nsf": {
-                            "description": "Code(s) et intitulé(s) du domaine de formation à laquelle appartient la certification, il suit la Nomenclature des Spécialités de Formation (NSF) de l’INSEE.",
-                            "items": {
-                              "properties": {
-                                "code": {
-                                  "example": "221",
-                                  "pattern": "^\\d{2,3}[a-z]?$",
-                                  "type": "string",
-                                },
-                                "intitule": {
-                                  "example": "221 : Agro-alimentaire, alimentation, cuisine",
-                                  "type": [
-                                    "string",
-                                    "null",
-                                  ],
-                                },
-                              },
-                              "required": [
-                                "code",
-                                "intitule",
-                              ],
-                              "type": "object",
-                            },
-                            "type": "array",
-                          },
-                          "rome": {
-                            "description": "Code(s) et intitulé(s) de la (ou des) fiche(s) métier du Répertoire Opérationnel des Métiers et de l’Emploi (ROME) associé(s) à la certification.",
-                            "items": {
-                              "properties": {
-                                "code": {
-                                  "example": "D1102",
-                                  "type": "string",
-                                },
-                                "intitule": {
-                                  "example": "Boulangerie - viennoiserie",
-                                  "type": "string",
-                                },
-                              },
-                              "required": [
-                                "code",
-                                "intitule",
-                              ],
-                              "type": "object",
-                            },
-                            "type": "array",
-                          },
                           "voie_acces": {
                             "properties": {
-                              "apprentissage": {
-                                "description": "Certification accessible en contrat d’apprentissage.",
-                                "type": "boolean",
-                              },
-                              "candidature_individuelle": {
-                                "description": "Certification accessible par candidature individuelle.",
-                                "type": "boolean",
-                              },
-                              "contrat_professionnalisation": {
-                                "description": "Certification accessible en contrat de professionnalisation.",
-                                "type": "boolean",
-                              },
-                              "experience": {
-                                "description": "Certification accessible par expérience.",
-                                "type": "boolean",
-                              },
-                              "formation_continue": {
-                                "description": "Certification accessible après un parcours de formation continue.",
-                                "type": "boolean",
-                              },
-                              "formation_statut_eleve": {
-                                "description": "Certification accessible après un parcours de formation sous statut d’élève ou d’étudiant.",
-                                "type": "boolean",
+                              "rncp": {
+                                "properties": {
+                                  "apprentissage": {
+                                    "description": "Certification accessible en contrat d’apprentissage.",
+                                    "type": "boolean",
+                                  },
+                                  "candidature_individuelle": {
+                                    "description": "Certification accessible par candidature individuelle.",
+                                    "type": "boolean",
+                                  },
+                                  "contrat_professionnalisation": {
+                                    "description": "Certification accessible en contrat de professionnalisation.",
+                                    "type": "boolean",
+                                  },
+                                  "experience": {
+                                    "description": "Certification accessible par expérience.",
+                                    "type": "boolean",
+                                  },
+                                  "formation_continue": {
+                                    "description": "Certification accessible après un parcours de formation continue.",
+                                    "type": "boolean",
+                                  },
+                                  "formation_statut_eleve": {
+                                    "description": "Certification accessible après un parcours de formation sous statut d’élève ou d’étudiant.",
+                                    "type": "boolean",
+                                  },
+                                },
+                                "required": [
+                                  "apprentissage",
+                                  "experience",
+                                  "candidature_individuelle",
+                                  "contrat_professionnalisation",
+                                  "formation_continue",
+                                  "formation_statut_eleve",
+                                ],
+                                "type": [
+                                  "object",
+                                  "null",
+                                ],
                               },
                             },
                             "required": [
-                              "apprentissage",
-                              "experience",
-                              "candidature_individuelle",
-                              "contrat_professionnalisation",
-                              "formation_continue",
-                              "formation_statut_eleve",
+                              "rncp",
                             ],
                             "type": "object",
                           },
                         },
                         "required": [
-                          "actif",
-                          "activation",
-                          "fin_enregistrement",
-                          "debut_parcours",
-                          "intitule",
-                          "blocs",
-                          "rome",
-                          "formacodes",
-                          "convention_collectives",
-                          "niveau",
-                          "nsf",
-                          "enregistrement",
+                          "certificateurs_rncp",
+                          "enregistrement_rncp",
+                          "gestionnaire_diplome",
+                          "nature",
                           "voie_acces",
-                          "certificateurs",
                         ],
-                        "type": [
-                          "object",
-                          "null",
-                        ],
+                        "type": "object",
                       },
                     },
                     "required": [
-                      "code",
+                      "identifiant",
+                      "intitule",
+                      "base_legale",
+                      "blocs_competences",
+                      "convention_collectives",
+                      "domaines",
                       "periode_validite",
-                      "cfd",
-                      "rncp",
+                      "type",
                     ],
                     "type": "object",
                   },

@@ -4,7 +4,8 @@ import "react-notion-x/src/styles.css";
 import { DsfrHead } from "@codegouvfr/react-dsfr/next-appdir/DsfrHead";
 import { DsfrProvider } from "@codegouvfr/react-dsfr/next-appdir/DsfrProvider";
 import { getHtmlAttributes } from "@codegouvfr/react-dsfr/next-appdir/getHtmlAttributes";
-import { Metadata } from "next";
+import { captureException } from "@sentry/nextjs";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { PropsWithChildren } from "react";
 import { IUserPublic } from "shared/models/user.model";
@@ -12,7 +13,7 @@ import { IUserPublic } from "shared/models/user.model";
 import { publicConfig } from "../config.public";
 import { AuthContextProvider } from "../context/AuthContext";
 import { defaultColorScheme } from "../theme/defaultColorScheme";
-import { apiGet } from "../utils/api.utils";
+import { ApiError, apiGet } from "../utils/api.utils";
 import { StartDsfr } from "./StartDsfr";
 
 async function getSession(): Promise<IUserPublic | undefined> {
@@ -24,7 +25,10 @@ async function getSession(): Promise<IUserPublic | undefined> {
     const session: IUserPublic = await apiGet(`/_private/auth/session`, {});
     return session;
   } catch (error) {
-    console.log(error);
+    if ((error as ApiError).context?.statusCode !== 401) {
+      captureException(error);
+    }
+
     return;
   }
 }

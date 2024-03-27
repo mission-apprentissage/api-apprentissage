@@ -36,14 +36,14 @@ function generateSourceFranceCompetenceStandardFixture(
   };
 }
 
-type ISourceFranceCompetenceFixtureInput = Partial<
+export type ISourceFranceCompetenceFixtureInput = Partial<
   Omit<ISourceFranceCompetence, "data"> & {
     data?: ISourceFranceCompetenceDataInput;
   }
 >;
 
 export function generateSourceFranceCompetenceFixture(
-  data: ISourceFranceCompetenceFixtureInput
+  data?: ISourceFranceCompetenceFixtureInput
 ): ISourceFranceCompetence {
   const numeroFiche = getFixtureValue(data, "numero_fiche", "RNCP1796");
 

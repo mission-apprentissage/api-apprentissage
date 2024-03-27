@@ -10,7 +10,7 @@ export const zCertificationsRoutes = {
       method: "get",
       path: "/certification/v1",
       querystring: z.object({
-        "code.cfd": zCfdParam.optional().openapi({
+        "identifiant.cfd": zCfdParam.optional().openapi({
           examples: ["46X32402", "", "null"],
           param: {
             description: [
@@ -22,7 +22,7 @@ export const zCertificationsRoutes = {
             allowEmptyValue: true,
           },
         }),
-        "code.rncp": zRncpParam.optional().openapi({
+        "identifiant.rncp": zRncpParam.optional().openapi({
           examples: ["RNCP12345", "", "null"],
           param: {
             description: [

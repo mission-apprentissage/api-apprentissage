@@ -1,4 +1,3 @@
-import { getLink } from "@codegouvfr/react-dsfr/link";
 import Summary from "@codegouvfr/react-dsfr/Summary";
 import Table from "@codegouvfr/react-dsfr/Table";
 import { Grid, Typography } from "@mui/material";
@@ -6,45 +5,46 @@ import React from "react";
 
 import Section from "../../components/section/Section";
 
-const CONTACT_ADDRESS = "tableau-de-bord@apprentissage.beta.gouv.fr";
-
-const { Link } = getLink();
-
 const anchors = {
-  Finalite: "finalite",
-  DonneesACaracterePersonelTraitees: "donnees-a-caractere-personel-traitees",
-  BaseJuridiqueDuTraitementDeDonnees: "base-juridique-du-traitement-de-donnees",
-  DureeDeConservation: "duree-de-conservation",
-  DroitDesPersonnesConcernees: "droit-des-personnes-concernees",
-  DestinatairesDesDonnees: "destinataires-des-donnees",
-  SecuriteEtConfidentialiteDesDonnees: "securite-et-confidentialite-des-donnees",
+  QuiEstResponsable: "qui-est-responsable",
+  PourquoiTraitonsNousDesDonnees: "pourquoi-traitons-nous-donnees",
+  QuellesSontLesDonneesACaracterePersonnel: "quelles-sont-donnees-caractere-personnel",
+  QuEstCeQuiNousAutoriseATraiterDonneesCaracterePersonnel: "qu-est-ce-qui-autorise-donnees-caractere-personnel",
+  PendantCombienTpsConservonsNousDonnees: "pendant-combien-tps-conservons-nous-donnees",
+  VosDroitsSurDonneesVousConcernant: "vos-droits-donnees-vous-concernant",
+  QuiVaAvoirAccessDonnees: "qui-va-avoir-acces-donnees",
+  QuiNousAideTraiterDonnees: "qui-aide-traiter-donnees",
 };
 
 const summaryData = [
-  { anchorName: "Finalité", anchorLink: "finalite" },
+  { anchorName: "Qui est responsable", anchorLink: "responsable" },
   {
-    anchorName: "Données à caractère personnel traitées",
-    anchorLink: "donnees-a-caractere-personel-traitees",
+    anchorName: "Pourquoi traitons-nous des données",
+    anchorLink: "pourquoi-traitons-nous-donnees",
   },
   {
-    anchorName: "Base juridique du traitement de données",
-    anchorLink: "base-juridique-du-traitement-de-donnees",
+    anchorName: "Quelles sont les données à caractère personnel que nous traitons",
+    anchorLink: "quelles-sont-donnees-caractere-personnel",
   },
   {
-    anchorName: "Durée de conservation",
-    anchorLink: "duree-de-conservation",
+    anchorName: "Qu’est-ce qui nous autorise à traiter des données à caractère personnel",
+    anchorLink: "qu-est-ce-qui-autorise-donnees-caractere-personnel",
   },
   {
-    anchorName: "Droit des personnes concernées",
-    anchorLink: "droit-des-personnes-concernees",
+    anchorName: "Pendant combien de temps conservons-nous ces données",
+    anchorLink: "pendant-combien-tps-conservons-nous-donnees",
   },
   {
-    anchorName: "Destinataires des données",
-    anchorLink: "destinataires-des-donnees",
+    anchorName: "Vos droits sur les données vous concernant",
+    anchorLink: "vos-droits-donnees-vous-concernant",
   },
   {
-    anchorName: "Sécurité et confidentialité des données",
-    anchorLink: "securite-et-confidentialite-des-donnees",
+    anchorName: "Qui va avoir accès à ces données",
+    anchorLink: "qui-va-avoir-acces-donnees",
+  },
+  {
+    anchorName: "Qui nous aide à traiter vos données",
+    anchorLink: "qui-aide-traiter-donnees",
   },
 ];
 
@@ -66,209 +66,158 @@ const PolitiqueDeConfidentialite = () => {
           Politique de confidentialité
         </Typography>
 
-        <Section>
+        <Section mt={4} id={anchors.QuiEstResponsable}>
           <Typography variant="h3" gutterBottom>
-            Traitement des données à caractère personnel
+            Qui est responsable ?
           </Typography>
           <Typography>
-            Le tableau de bord de l'apprentissage est développé par la Mission nationale pour l'apprentissage, mandatée
-            par le ministère du Travail.
+            Le ministère du Travail, du Plein emploi et de l’insertion traite des données à caractère personnel dans le
+            cadre de “l’API Apprentissage” en qualité de responsable de traitement. L’API Apprentissage est développée
+            au sein de la Mission Interministérielle pour l’Apprentissage. <br />
+            L’objectif poursuivi est de simplifier l’accès à des données de l’apprentissage fiables et à jour grâce à un
+            point d’entrée unique et documenté.
           </Typography>
         </Section>
 
-        <Section mt={4} id={anchors.Finalite}>
+        <Section mt={4} id={anchors.PourquoiTraitonsNousDesDonnees}>
           <Typography variant="h3" gutterBottom>
-            Finalités
+            Pourquoi traitons-nous des données ?
           </Typography>
           <Typography>
-            Nous manipulons des données à caractère personnel pour améliorer la qualité du suivi et du pilotage de
-            l'apprentissage par les différents acteurs. Plus précisément, elles visent à :
+            Le ministère du Travail, du Plein emploi et de l’insertion traite des données à caractère personnel dans le
+            cadre de l’utilisation de l’API Apprentissage pour :
           </Typography>
           <ul>
-            <li>
-              Produire sous la forme d'un tableau de bord les données synthétiques des effectifs de l&apos;apprentissage
-              afin de contribuer au pilotage de l'apprentissage au niveau national et territorial par les acteurs
-              publics ou avec délégation de service public ;
-            </li>
-            <li>
-              Identifier les jeunes en recherche de contrat ou en situation de décrochage pour améliorer leur
-              accompagnement ;
-            </li>
-            <li>
-              Produire les données nécessaires aux organismes de formation pour répondre aux enquêtes (notamment SIFA) ;
-            </li>
-            <li>Créer un compte pour accéder ou fournir des données;</li>
-            <li>Suivre et piloter l&apos;usage du tableau de bord par l&apos;équipe Mission apprentissage ;</li>
-            <li>Identifier les organismes de formation et leurs réseaux (référentiel).</li>
+            <li>Gérer les comptes utilisateur de l’API et la gestion des jetons d’accès.</li>
           </ul>
         </Section>
-        <Section mt={4} id={anchors.DonneesACaracterePersonelTraitees}>
+
+        <Section id={anchors.QuellesSontLesDonneesACaracterePersonnel}>
           <Typography variant="h3" gutterBottom>
-            Données à caractère personnel traitées
+            Quelles sont les données à caractère personnel que nous traitons ?
           </Typography>
-          <Typography>
-            Nous traitons les données à caractère personnel et catégories de données à caractère personnel suivantes :
-          </Typography>
+          <Typography>Les données à caractère personnel concernées sont les suivantes :</Typography>
           <ul>
-            <li>
-              Données relatives à l'identification du candidat ou jeune (nom, prénom, date de naissance, INE, adresse
-              e-mail) ;
-            </li>
-            <li>Données relatives au représentant légal du jeune (nom, numéro de téléphone) ;</li>
-            <li>
-              Données relatives aux évènements du parcours des apprenants (date de début et de fin, date de début fin de
-              contrat, et rupture, organisme de formation et département) ;
-            </li>
-            <li>Informations relatives au souhait de formation des candidats ;</li>
-            <li>Données de contact des organisme de formation (adresse e-mail) ;</li>
-            <li>Données de contact des entreprises (adresse e-mail).</li>
+            <li>Données du compte utilisateur API Apprentissage : adresse e-mail.</li>
           </ul>
         </Section>
-        <Section id={anchors.BaseJuridiqueDuTraitementDeDonnees}>
+
+        <Section mt={4} id={anchors.QuEstCeQuiNousAutoriseATraiterDonneesCaracterePersonnel}>
           <Typography variant="h3" gutterBottom>
-            Base juridique du traitement de données
+            Qu’est-ce qui nous autorise à traiter des données à caractère personnel ?
           </Typography>
           <Typography>
-            Nous sommes autorisés à traiter vos données dans le cadre d'une mission d'intérêt public ou relevant de
-            l'exercice de l'autorité publique dont est investi le responsable de traitement au sens de l'article 6-e du
-            RPGD. Cette mission est notamment précisée dans la lettre de Mission de la Mission nationale pour
-            l'apprentissage du 10 septembre 2019 et décision gouvernementale du 26 novembre 2019.
+            Les données à caractère personnel susvisées sont traitées par le biais de l’exécution d’une mission
+            d’intérêt public ou relevant de l’exercice de l’autorité publique dont est investi le responsable de
+            traitement au sens de l’article 6-1 e) du RGPD.
           </Typography>
         </Section>
-        <Section mt={4} id={anchors.DureeDeConservation}>
+
+        <Section mt={4} id={anchors.PendantCombienTpsConservonsNousDonnees}>
           <Typography variant="h3" gutterBottom>
-            Durée de conservation
+            Pendant combien de temps conservons-nous ces données ?
           </Typography>
-          <Typography>
-            Nous conservons vos données pour une durée de 2 ans à compter de la dernière modification liée aux
-            informations sur un candidat.
-          </Typography>
-        </Section>
-        <Section mt={4} id={anchors.DroitDesPersonnesConcernees}>
-          <Typography variant="h3" gutterBottom>
-            Droit des personnes concernées
-          </Typography>
-          <Typography>Vous disposez des droits suivants concernant vos données à caractère personnel :</Typography>
-          <ul>
-            <li>Droit d'information et droit d'accès aux données ;</li>
-            <li>Droit de rectification des données ;</li>
-            <li>Droit d'opposition au traitement de données ;</li>
-            <li>Droit à la limitation des données.</li>
-          </ul>
-          <Typography>
-            <br />
-            Pour les exercer, faites-nous parvenir une demande en précisant la date et l'heure précise de la requête –
-            ces éléments sont indispensables pour nous permettre de retrouver votre recherche – par voie électronique à
-            l'adresse suivante : <Link href={`mailto:${CONTACT_ADDRESS}`}>{CONTACT_ADDRESS}</Link>
-            <br />
-            <br />
-            Par voie postale :
-            <br />
-            <br />
-            Délégation générale à l'emploi et à la formation professionnelle
-            <br />
-            14 avenue Duquesne
-            <br />
-            75350 Paris SP 07
-            <br />
-            <br />
-            En raison de l'obligation de sécurité et de confidentialité dans le traitement des données à caractère
-            personnel qui incombe au responsable de traitement, votre demande ne sera traitée que si vous apportez la
-            preuve de votre identité. <br />
-            Pour vous aider dans votre démarche, vous trouverez ici
-            <br />
-            <Link href="https://www.cnil.fr/fr/modele/courrier/exercer-son-droit-dacces">
-              https://www.cnil.fr/fr/modele/courrier/exercer-son-droit-dacces
-            </Link>
-            , un modèle de courrier élaboré par la CNIL.
-            <br />
-            <br />
-            Le responsable de traitement s'engage à répondre dans un délai raisonnable qui ne saurait dépasser 1 mois à
-            compter de la réception de votre demande.
-          </Typography>
-        </Section>
-        <Section mt={4} id={anchors.DestinatairesDesDonnees}>
-          <Typography variant="h3" gutterBottom>
-            Destinataires des données
-          </Typography>
-          <Typography>
-            Nous nous engageons à ce que les données à caractères personnels soient traitées par les seules personnes
-            autorisées.
-          </Typography>
-          <br />
-          <Typography>Ont accès aux données :</Typography>
-          <ul>
-            <li>Les agents autorisés des DREETS, dans le cadre de leurs missions de service public ;</li>
-            <li>Les organismes de formation ;</li>
-            <li>Les réseaux d'organismes de formation ;</li>
-            <li>Les Régions ;</li>
-            <li>Les personnes autorisées au sein des Rectorats, dans le cadre de leurs missions de service public ;</li>
-            <li>Les personnes autorisées au sein des Académies, dans le cadre de leurs missions de service public ;</li>
-            <li>
-              Les personnes autorisées travaillant pour le compte de la mission interministérielle pour l'apprentissage
-              dans le cadre de la conception des services numériques ;
-            </li>
-            <li>
-              Les personnes travaillant pour le compte de la mission interministérielle pour l'apprentissage dans le
-              cadre de propositions ciblées d&apos;offres d'emploi ou d'alternance ;
-            </li>
-          </ul>
-        </Section>
-        <Section mt={4} id={anchors.SecuriteEtConfidentialiteDesDonnees}>
-          <Typography variant="h3" gutterBottom>
-            Sécurité et confidentialité des données
-          </Typography>
-          <Typography>
-            Les mesures techniques et organisationnelles de sécurité adoptées pour assurer la confidentialité,
-            l'intégrité et protéger l'accès des données sont notamment :
-          </Typography>
-          <ul>
-            <li>Anonymisation ;</li>
-            <li>Stockage des données en base de données ;</li>
-            <li>Stockage des mots de passe en base sont hachés ;</li>
-            <li>Cloisonnement des données ;</li>
-            <li>Mesures de traçabilité ;</li>
-            <li>Surveillance ;</li>
-            <li>Protection contre les virus, malwares et logiciels espions ;</li>
-            <li>Protection des réseaux ;</li>
-            <li>Sauvegarde ;</li>
-            <li>Mesures restrictives limitant l'accès physiques aux données à caractère personnel.</li>
-          </ul>
-          <Typography>Sous-traitants</Typography>
           <Table
             data={[
               [
-                "OVH SAS",
-                "France",
-                "Hébergement",
-                <Link href="https://www.ovhcloud.com/fr/personal-data-protection" key="ovh">
-                  https://www.ovhcloud.com/fr/personal-data-protection
-                </Link>,
+                "Données du compte utilisateur API Apprentissage",
+                "2 ans à compter de la dernière utilisation du compte par l’utilisateur",
               ],
             ]}
-            headers={["Partenaire", "Pays destinataire", "Traitement réalisé", "Garanties"]}
+            headers={["Catégorie de données", "Durées de conservation"]}
           />
+        </Section>
 
+        <Section mt={4} id={anchors.VosDroitsSurDonneesVousConcernant}>
           <Typography variant="h3" gutterBottom>
-            Cookies et autres traceurs
+            Vos droits sur les données vous concernant
+          </Typography>
+          <Typography>Vous disposez des droits suivants concernant vos données à caractère personnel :</Typography>
+          <br />
+          <ul>
+            <li>Droit d’information et droit d’accès aux données ;</li>
+            <li>Droit de rectification des données ;</li>
+            <li>Droit à la limitation du traitement de vos données ;</li>
+            <li>Droit d’opposition ;</li>
+          </ul>
+          <Typography>
+            Vous pouvez exercer vos droits en adressant un courrier à la Déléguée à la protection des données à
+            l’adresse suivante :
+            <br />
+            <br />
+            127 rue de Grenelle
+            <br />
+            <br />
+            75007 Paris
+            <br />
+            <br />
+            Pour les exercer vous pouvez nous contacter par mail à l’adresse suivante : api@apprentissage.beta.gouv.fr
+            <br />
+            Nous nous engageons à vous répondre dans un délai d’un mois à compter de la réception de votre demande.
+            <br />
+            Si vous estimez, après nous avoir contactés, que vos droits ne sont pas respectés ou que le traitement n’est
+            pas conforme à la réglementation sur la protection des données à caractère personnel, vous pouvez adresser
+            une réclamation à la CNIL :
+            <a href="https://www.cnil.fr/fr/cnil-direct/question/adresser-une-reclamation-plainte-la-cnil-quelles-conditions-et-comment">
+              https://www.cnil.fr/fr/cnil-direct/question/adresser-une-reclamation-plainte-la-cnil-quelles-conditions-et-comment
+            </a>
+          </Typography>
+        </Section>
+
+        <Section mt={4} id={anchors.QuiVaAvoirAccessDonnees}>
+          <Typography variant="h3" gutterBottom>
+            Qui va avoir accès à ces données ?
           </Typography>
           <Typography>
-            Un cookie est un fichier déposé sur votre terminal lors de la visite d'un site. Il a pour but de collecter
-            des informations relatives à votre navigation et de vous adresser des services adaptés à votre terminal
-            (ordinateur, mobile ou tablette).
-            <br />
-            <br />
-            Le site ne dépose pas de cookies de mesure d'audience (nombre de visites, pages consultées). Néanmoins, nous
-            utilisons Plausible qui permet de suivre les tendances d'utilisation de notre site. L'outil ne permet pas
-            d'identifier les personnes, ni de tracer votre usage d'internet, dans ou en dehors du site.
-            <br />
-            <br />
-            Pour plus d'information à propos de Plausible :
-            <br />
-            <Link href="https://plausible.io/data-policy#first-thing-first-what-we-collect-and-what-we-use-it-for">
-              https://plausible.io/data-policy#first-thing-first-what-we-collect-and-what-we-use-it-for
-            </Link>{" "}
-            et <Link href="https://plausible.io/privacy">https://plausible.io/privacy</Link>.
+            Les accès aux données sont strictement encadrés et juridiquement justifiés. Les personnes suivantes, les
+            destinataires, vont avoir accès aux données :
+          </Typography>
+          <ul>
+            <li>
+              La Délégation générale à l’emploi et à la formation professionnelle (DGEFP) et les membres de la Mission
+              interministérielle pour l’Apprentissage et plus spécifiquement de l’équipe API Apprentissage ;
+            </li>
+          </ul>
+        </Section>
+
+        <Section mt={4} id={anchors.QuiNousAideTraiterDonnees}>
+          <Typography variant="h3" gutterBottom>
+            Qui nous aide à traiter vos données ?
+          </Typography>
+          <Typography>
+            Certaines des données sont envoyées à des sous-traitants pour réaliser certaines missions. Le responsable de
+            traitement s'est assuré de la mise en œuvre par ses sous-traitants de garanties adéquates et du respect de
+            conditions strictes de confidentialité et de sécurité.
+          </Typography>
+          <ul>
+            <li>
+              OVH
+              <ul>
+                <li>Traitement réalisé : Hébergement</li>
+                <li>Pays destinataire des données : France</li>
+                <li>
+                  Garanties :
+                  <a href="https://us.ovhcloud.com/legal/data-processing-agreement/">
+                    https://us.ovhcloud.com/legal/data-processing-agreement/
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              Brevo
+              <ul>
+                <li>Traitement réalisé : Envoi d'e-mails</li>
+                <li>Pays destinataire des données : France</li>
+                <li>
+                  Garanties :
+                  <a href="https://www.brevo.com/fr/legal/termsofuse/">https://www.brevo.com/fr/legal/termsofuse/</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <Typography>
+            API apprentissage utilise notamment l’outil de mesure d’audience Plausible, qui ne dépose aucun cookie ou
+            traceur et ne traite pas de données à caractère personnel.
           </Typography>
         </Section>
       </Grid>

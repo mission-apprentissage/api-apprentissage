@@ -64,19 +64,16 @@ export async function fetchCatalogueEducatifData(): Promise<Readable> {
     $and: [{ uai_formation: { $ne: null } }, { uai_formation: { $ne: "" } }],
   });
 
-  const countResponse = await catalogueEducatifClient.get<number>("/api/v1/entity/formations/count", {
-    params: { query },
-  });
-
   const response = await catalogueEducatifClient.get<Readable>("/api/v1/entity/formations.json", {
     responseType: "stream",
+    headers: { cookie: cookieAuthCatalogueEducatif },
     params: {
       query,
       select: JSON.stringify({
         cle_ministere_educatif: 1,
         uai_formation: 1,
       }),
-      limit: countResponse.data,
+      limit: 1000000,
     },
   });
 

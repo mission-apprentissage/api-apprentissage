@@ -1,6 +1,6 @@
 import { getDbCollection } from "@/services/mongodb/mongodbService";
 
-import { fetchFormationCatalogueEducatif } from "../../../services/apis/catalogue/catalogueEducatif";
+import { countOrganismeContrats } from "../../../services/apis/bal/bal.service";
 import { PrerequisiteResult } from "./1.prerequisite";
 
 export async function rechercheOrganismesReferentiel(
@@ -228,6 +228,7 @@ export async function rechercheCatalogue(
           "data.rncp_code": 1,
           "data.lieu_formation_geo_coordonnees": 1,
           "data.lieu_formation_adresse": 1,
+          "data.uai_formation": 1,
           "data.tags": 1,
           "data.etablissement_formateur_siret": 1,
           "data.etablissement_formateur_uai": 1,
@@ -253,6 +254,7 @@ export async function rechercheCatalogue(
       rncp_code,
       lieu_formation_geo_coordonnees,
       lieu_formation_adresse,
+      uai_formation,
       tags,
       etablissement_formateur_siret,
       etablissement_formateur_uai,
@@ -264,8 +266,6 @@ export async function rechercheCatalogue(
     const nature_pour_cette_formation = [];
     if (etablissement_gestionnaire_siret === couple.siret) nature_pour_cette_formation.push("responsable");
     if (etablissement_formateur_siret === couple.siret) nature_pour_cette_formation.push("formateur");
-
-    const { uai_formation } = await fetchFormationCatalogueEducatif(cle_ministere_educatif);
 
     catalogueResults.push({
       cle_ministere_educatif,
@@ -315,5 +315,34 @@ export async function rechercheCatalogue(
   return {
     rule: "RC5",
     result: catalogueResults,
+  };
+}
+
+export async function rechercheOrganismeDECA(
+  pre: PrerequisiteResult,
+  _options?: { date: Date | undefined; certification: string | undefined }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+): Promise<any> {
+  const couple = { uai: pre.uai, siret: pre.siret };
+
+  const decaOrgansimesResults = await countOrganismeContrats(couple.siret);
+
+  if (!decaOrgansimesResults.contrats.total) {
+    return {
+      rule: "ROD3", // Aucun contrats
+      result: null,
+    };
+  }
+
+  if (!decaOrgansimesResults.contrats.appr) {
+    return {
+      rule: "ROD2", // Aucun contrats en APPR
+      result: decaOrgansimesResults,
+    };
+  }
+
+  return {
+    rule: "ROD1", // OK il existe des contrats en APPR
+    result: decaOrgansimesResults,
   };
 }

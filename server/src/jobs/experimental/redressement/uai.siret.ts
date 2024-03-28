@@ -1,7 +1,12 @@
 import parentLogger from "@/services/logger";
 
 import { prerequisite_siret, prerequisite_uai, PrerequisiteResult } from "./1.prerequisite";
-import { rechercheCatalogue, rechercheLieuxReferentiel, rechercheOrganismesReferentiel } from "./2.recherche";
+import {
+  rechercheCatalogue,
+  rechercheLieuxReferentiel,
+  rechercheOrganismeDECA,
+  rechercheOrganismesReferentiel,
+} from "./2.recherche";
 
 const logger = parentLogger.child({ module: "experimental:redressement:uai-siret" });
 
@@ -89,6 +94,20 @@ export async function run({ couple, date, certification }: ArgsPayload): Promise
     ...resultUnitaire,
     ...(cataloguerule !== "RC3" ? { RC: result } : {}),
     rules: [...resultUnitaire.rules, cataloguerule],
+  };
+
+  const { rule: decarule, result: resultDeca } = await rechercheOrganismeDECA(
+    resultPrerequisite as PrerequisiteResult,
+    {
+      date,
+      certification,
+    }
+  );
+
+  resultUnitaire = {
+    ...resultUnitaire,
+    ...(decarule !== "ROD3" ? { ROD: resultDeca } : {}),
+    rules: [...resultUnitaire.rules, decarule],
   };
 
   return resultUnitaire;

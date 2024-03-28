@@ -76,6 +76,10 @@ const config = {
       object: "Consolidation des données",
       context: "MNA",
     },
+    bal: {
+      baseurl: env.get("API_BAL_URL").required().asString(),
+      apiKey: env.get("API_BAL_API_KEY").required().asString(),
+    },
   },
 };
 

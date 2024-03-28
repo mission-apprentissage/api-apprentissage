@@ -20,7 +20,7 @@ fileignoreconfig:
 - filename: docs/developpement/gpg.md
   checksum: 137f146297aedce399926c6ddebe9bbfb22b0e924bbdbd30be2b4654f6b248ad
 - filename: server/.env.test
-  checksum: b9cc11acc6033a57be80c6a1f85d70fdc6d9c7186de820409e64868ac44bc241
+  checksum: 3a393aed0e58498de58ec50c81698747b824589603caaa9ecc31ad2d4437afc3
 - filename: server/package.json
   checksum: 6f5fe90e17e058af25218e57be4aa9f77ceabab896de515a736d34f455acf5a6
 - filename: server/src/common/apis/data_gouv/data_gouv.api.test.ts

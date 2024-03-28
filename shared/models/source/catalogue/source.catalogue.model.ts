@@ -4,7 +4,7 @@ import { IModelDescriptor, zObjectId } from "../../common";
 
 const collectionName = "source.catalogue" as const;
 
-const indexes: IModelDescriptor["indexes"] = [[{ date: 1 }, {}]];
+const indexes: IModelDescriptor["indexes"] = [[{ date: 1, "data.cle_ministere_educatif": 1 }, {}]];
 
 const etablissementFormateurSchema = z
   .object({

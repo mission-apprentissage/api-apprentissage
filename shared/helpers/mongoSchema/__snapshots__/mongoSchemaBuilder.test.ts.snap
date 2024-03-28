@@ -4302,6 +4302,14 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
             "null",
           ],
         },
+        "lieu_formation_geopoint": {
+          "anyOf": [
+            {},
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
         "lieu_formation_siret": {
           "bsonType": [
             "string",

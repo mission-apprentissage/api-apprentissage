@@ -87,7 +87,6 @@ describe("processRecord", () => {
     date_premiere_activation: null,
     date_derniere_activation: null,
     source: "rncp",
-    files: {},
     data: {
       ccn: [],
       partenaires: [],
@@ -168,11 +167,6 @@ describe("processRecord", () => {
         filter: { numero_fiche: numeroFiche },
         update: {
           $set: {
-            "files.f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6": {
-              nom: archiveMeta.nom,
-              last_updated: archiveMeta.last_updated,
-              date_publication: archiveMeta.date_publication,
-            },
             updated_at: importMeta.import_date,
           },
         },
@@ -398,13 +392,6 @@ describe("importRncpFile", () => {
             date_premiere_activation: archiveMeta.date_publication,
             date_derniere_activation: archiveMeta.date_publication,
             source: "rncp",
-            files: {
-              "f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6": {
-                nom: archiveMeta.nom,
-                last_updated: archiveMeta.last_updated,
-                date_publication: archiveMeta.date_publication,
-              },
-            },
             data: {
               ccn: [],
               partenaires: [],
@@ -434,13 +421,6 @@ describe("importRncpFile", () => {
         date_premiere_activation: new Date("2024-02-21T09:00:00.000Z"),
         date_derniere_activation: new Date("2024-02-21T09:00:00.000Z"),
         source: "rncp",
-        files: {
-          "0001": {
-            nom: "export-fiches-csv-2024-02-21.zip",
-            last_updated: new Date("2024-02-21T03:02:07.320000+00:00"),
-            date_publication: new Date("2024-02-21T03:02:07.320000+00:00"),
-          },
-        },
         data: {
           ccn: [generateMock(zFranceCompetenceDataBySource.ccn, { seed })],
           partenaires: [generateMock(zFranceCompetenceDataBySource.partenaires, { seed: seed + 1 })],
@@ -502,14 +482,6 @@ describe("importRncpFile", () => {
               updated_at: importMeta.import_date,
               date_derniere_publication: archiveMeta.date_publication,
               date_derniere_activation: archiveMeta.date_publication,
-              files: {
-                ...initialFicheActive.files,
-                [archiveMeta.resource.id]: {
-                  nom: archiveMeta.nom,
-                  last_updated: archiveMeta.last_updated,
-                  date_publication: archiveMeta.date_publication,
-                },
-              },
               data: {
                 ccn: [],
                 partenaires: [],
@@ -541,14 +513,6 @@ describe("importRncpFile", () => {
               active: false,
               updated_at: importMeta.import_date,
               date_derniere_publication: archiveMeta.date_publication,
-              files: {
-                ...initialFicheActive.files,
-                [archiveMeta.resource.id]: {
-                  nom: archiveMeta.nom,
-                  last_updated: archiveMeta.last_updated,
-                  date_publication: archiveMeta.date_publication,
-                },
-              },
               data: {
                 ccn: [],
                 partenaires: [],
@@ -582,14 +546,6 @@ describe("importRncpFile", () => {
               date_derniere_publication: archiveMeta.date_publication,
               date_premiere_activation: archiveMeta.date_publication,
               date_derniere_activation: archiveMeta.date_publication,
-              files: {
-                ...initialFicheInactive.files,
-                [archiveMeta.resource.id]: {
-                  nom: archiveMeta.nom,
-                  last_updated: archiveMeta.last_updated,
-                  date_publication: archiveMeta.date_publication,
-                },
-              },
               data: {
                 ccn: [],
                 partenaires: [],
@@ -620,14 +576,6 @@ describe("importRncpFile", () => {
               ...initialFicheInactive,
               updated_at: importMeta.import_date,
               date_derniere_publication: archiveMeta.date_publication,
-              files: {
-                ...initialFicheInactive.files,
-                [archiveMeta.resource.id]: {
-                  nom: archiveMeta.nom,
-                  last_updated: archiveMeta.last_updated,
-                  date_publication: archiveMeta.date_publication,
-                },
-              },
               data: {
                 ccn: [],
                 partenaires: [],
@@ -659,7 +607,6 @@ describe("importRncpFile", () => {
           date_premiere_activation: null,
           date_derniere_activation: null,
           source: "rncp",
-          files: {},
           data: {
             ccn: [generateMock(zFranceCompetenceDataBySource.ccn, { seed })],
             partenaires: [generateMock(zFranceCompetenceDataBySource.partenaires, { seed: seed + 1 })],
@@ -697,13 +644,6 @@ describe("importRncpFile", () => {
             date_derniere_publication: archiveMeta.date_publication,
             date_premiere_activation: archiveMeta.date_publication,
             date_derniere_activation: archiveMeta.date_publication,
-            files: {
-              [archiveMeta.resource.id]: {
-                nom: archiveMeta.nom,
-                last_updated: archiveMeta.last_updated,
-                date_publication: archiveMeta.date_publication,
-              },
-            },
             data: {
               ...initialFiche.data,
               standard: standardData,
@@ -738,13 +678,6 @@ describe("importRncpFile", () => {
         date_premiere_activation: new Date("2024-02-21T09:00:00.000Z"),
         date_derniere_activation: new Date("2024-02-21T09:00:00.000Z"),
         source: "rncp",
-        files: {
-          "0001": {
-            nom: "export-fiches-csv-2024-02-21.zip",
-            last_updated: new Date("2024-02-21T03:02:07.320000+00:00"),
-            date_publication: new Date("2024-02-21T03:02:07.320000+00:00"),
-          },
-        },
         data: {
           ccn: [generateMock(zFranceCompetenceDataBySource.ccn, { seed })],
           partenaires: [generateMock(zFranceCompetenceDataBySource.partenaires, { seed: seed + 1 })],
@@ -806,14 +739,6 @@ describe("importRncpFile", () => {
               updated_at: importMeta.import_date,
               date_premiere_publication: archiveMetaOlder.date_publication,
               date_premiere_activation: archiveMetaOlder.date_publication,
-              files: {
-                ...initialFicheActive.files,
-                [archiveMetaOlder.resource.id]: {
-                  nom: archiveMetaOlder.nom,
-                  last_updated: archiveMetaOlder.last_updated,
-                  date_publication: archiveMetaOlder.date_publication,
-                },
-              },
             },
           ]);
         });
@@ -832,14 +757,6 @@ describe("importRncpFile", () => {
               ...initialFicheActive,
               updated_at: importMeta.import_date,
               date_premiere_publication: archiveMetaOlder.date_publication,
-              files: {
-                ...initialFicheActive.files,
-                [archiveMetaOlder.resource.id]: {
-                  nom: archiveMetaOlder.nom,
-                  last_updated: archiveMetaOlder.last_updated,
-                  date_publication: archiveMetaOlder.date_publication,
-                },
-              },
             },
           ]);
         });
@@ -860,14 +777,6 @@ describe("importRncpFile", () => {
               date_premiere_publication: archiveMetaOlder.date_publication,
               date_premiere_activation: archiveMetaOlder.date_publication,
               date_derniere_activation: archiveMetaOlder.date_publication,
-              files: {
-                ...initialFicheInactive.files,
-                [archiveMetaOlder.resource.id]: {
-                  nom: archiveMetaOlder.nom,
-                  last_updated: archiveMetaOlder.last_updated,
-                  date_publication: archiveMetaOlder.date_publication,
-                },
-              },
             },
           ]);
         });
@@ -886,14 +795,6 @@ describe("importRncpFile", () => {
               ...initialFicheInactive,
               updated_at: importMeta.import_date,
               date_premiere_publication: archiveMetaOlder.date_publication,
-              files: {
-                ...initialFicheInactive.files,
-                [archiveMetaOlder.resource.id]: {
-                  nom: archiveMetaOlder.nom,
-                  last_updated: archiveMetaOlder.last_updated,
-                  date_publication: archiveMetaOlder.date_publication,
-                },
-              },
             },
           ]);
         });
@@ -961,7 +862,6 @@ describe("importRncpFile", () => {
             date_premiere_activation: null,
             date_derniere_activation: null,
             source: "rncp",
-            files: {},
             data: {
               ccn: [],
               partenaires: [],
@@ -992,13 +892,6 @@ describe("importRncpFile", () => {
         date_premiere_activation: new Date("2024-02-21T09:00:00.000Z"),
         date_derniere_activation: new Date("2024-02-21T09:00:00.000Z"),
         source: "rncp",
-        files: {
-          "0001": {
-            nom: "export-fiches-csv-2024-02-21.zip",
-            last_updated: new Date("2024-02-21T03:02:07.320000+00:00"),
-            date_publication: new Date("2024-02-21T03:02:07.320000+00:00"),
-          },
-        },
         data: {
           ccn: [generateMock(zFranceCompetenceDataBySource.ccn, { seed })],
           partenaires: [generateMock(zFranceCompetenceDataBySource.partenaires, { seed: seed + 1 })],
@@ -1062,7 +955,6 @@ describe("importRncpFile", () => {
           date_premiere_activation: archiveMeta.date_publication,
           date_derniere_activation: archiveMeta.date_publication,
           source: "rncp",
-          files: {},
           data: {
             ccn: [generateMock(zFranceCompetenceDataBySource.ccn, { seed })],
             partenaires: [generateMock(zFranceCompetenceDataBySource.partenaires, { seed: seed + 1 })],
@@ -1127,13 +1019,6 @@ describe("importRncpFile", () => {
         date_premiere_activation: new Date("2024-02-21T09:00:00.000Z"),
         date_derniere_activation: new Date("2024-02-21T09:00:00.000Z"),
         source: "rncp",
-        files: {
-          "0001": {
-            nom: "export-fiches-csv-2024-02-21.zip",
-            last_updated: new Date("2024-02-21T03:02:07.320000+00:00"),
-            date_publication: new Date("2024-02-21T03:02:07.320000+00:00"),
-          },
-        },
         data: {
           ccn: [generateMock(zFranceCompetenceDataBySource.ccn, { seed })],
           partenaires: [generateMock(zFranceCompetenceDataBySource.partenaires, { seed: seed + 1 })],

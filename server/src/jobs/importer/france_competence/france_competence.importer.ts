@@ -120,7 +120,6 @@ export function processRecord(
     date_premiere_activation: null,
     date_derniere_activation: null,
     source: "rncp",
-    files: {},
     data: initialData,
   };
 
@@ -140,11 +139,6 @@ export function processRecord(
         filter: { numero_fiche: data.Numero_Fiche },
         update: {
           $set: {
-            [`files.${importMeta.archiveMeta.resource.id}`]: {
-              nom: importMeta.archiveMeta.nom,
-              last_updated: importMeta.archiveMeta.last_updated,
-              date_publication: importMeta.archiveMeta.date_publication,
-            },
             updated_at: importMeta.import_date,
           },
         },

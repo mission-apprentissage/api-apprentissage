@@ -5335,29 +5335,6 @@ exports[`zodToMongoSchema > should convert source.france_competence schema 1`] =
         },
       ],
     },
-    "files": {
-      "additionalProperties": {
-        "additionalProperties": false,
-        "bsonType": "object",
-        "properties": {
-          "date_publication": {
-            "bsonType": "date",
-          },
-          "last_updated": {
-            "bsonType": "date",
-          },
-          "nom": {
-            "bsonType": "string",
-          },
-        },
-        "required": [
-          "nom",
-          "last_updated",
-          "date_publication",
-        ],
-      },
-      "bsonType": "object",
-    },
     "numero_fiche": {
       "bsonType": "string",
       "pattern": "^(RNCP|RS)\\d+$",
@@ -5380,7 +5357,6 @@ exports[`zodToMongoSchema > should convert source.france_competence schema 1`] =
     "date_premiere_activation",
     "date_derniere_activation",
     "source",
-    "files",
     "data",
   ],
 }

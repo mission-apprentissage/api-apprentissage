@@ -266,7 +266,7 @@ export async function rechercheCatalogue(
     }
   }
 
-  const catalogueResults = [];
+  let catalogueResults = [];
   for (const {
     data: {
       cle_ministere_educatif,
@@ -287,8 +287,8 @@ export async function rechercheCatalogue(
     const nature_pour_cette_formation = [];
     if (etablissement_gestionnaire_siret === couple.siret) nature_pour_cette_formation.push("responsable");
     if (etablissement_formateur_siret === couple.siret) nature_pour_cette_formation.push("formateur");
-    if (lieu_formation_siret === couple.siret) nature_pour_cette_formation.push("lieu");
-    else if (uai_formation === couple.uai) nature_pour_cette_formation.push("lieu");
+    // if (lieu_formation_siret === couple.siret) nature_pour_cette_formation.push("lieu");
+    // else if (uai_formation === couple.uai) nature_pour_cette_formation.push("lieu");
 
     catalogueResults.push({
       cle_ministere_educatif,
@@ -315,6 +315,10 @@ export async function rechercheCatalogue(
     });
   }
 
+  if (options?.rlrRule === "RLR1" || options?.rlrRule === "RLR5") {
+    catalogueResults = catalogueResults.filter((f) => f.lieu.uai === couple.uai);
+  }
+
   if (options?.certification) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const certificationResults = catalogueResults.filter((result: any) => result.cfd === options.certification); // TODO rncp
@@ -334,6 +338,13 @@ export async function rechercheCatalogue(
     return {
       rule: "RC2",
       result: certificationResults,
+    };
+  }
+
+  if (catalogueResults.length === 1) {
+    return {
+      rule: "RC1",
+      result: catalogueResults[0],
     };
   }
 

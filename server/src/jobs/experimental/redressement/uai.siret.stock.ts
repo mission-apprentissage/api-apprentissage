@@ -8,18 +8,26 @@ const logger = parentLogger.child({ module: "experimental:redressement:uai-siret
 export async function runExperiementalRedressementUaiSiretStock(): Promise<any> {
   logger.info("Starting");
 
-  // couple: {
-  //   uai: "0333636Y",
-  //   siret: "89368204700038",
-  // },
-  // certification: "26X31021",
   const stock = [
+    // {
+    //   couple: {
+    //     uai: "0333636Y",
+    //     siret: "89368204700038",
+    //   },
+    //   certification: "26X31021",
+    // },
+    // {
+    //   couple: {
+    //     uai: "0942340H",
+    //     siret: "84989709500014",
+    //   },
+    //   // certification: "36023201",
+    // },
     {
       couple: {
-        uai: "0942340H",
-        siret: "84989709500014",
+        uai: "9760229V",
+        siret: "20000446300028",
       },
-      // certification: "36023201",
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ].map((p: any) => ({

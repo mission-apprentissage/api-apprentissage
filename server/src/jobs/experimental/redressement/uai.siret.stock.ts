@@ -16,19 +16,19 @@ export async function runExperiementalRedressementUaiSiretStock(): Promise<any> 
     //   },
     //   certification: "26X31021",
     // },
-    // {
-    //   couple: {
-    //     uai: "0942340H",
-    //     siret: "84989709500014",
-    //   },
-    //   // certification: "36023201",
-    // },
     {
       couple: {
-        uai: "9760229V",
-        siret: "20000446300028",
+        uai: "0942340H",
+        siret: "84989709500014",
       },
+      // certification: "36023201",
     },
+    // {
+    //   couple: {
+    //     uai: "9760229V",
+    //     siret: "20000446300028",
+    //   },
+    // },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ].map((p: any) => ({
     uai_in: p.couple.uai,
@@ -87,7 +87,11 @@ async function run(payload: ArgsPayload): Promise<any> {
     };
   }
 
-  if (infoCouple.rules.includes("PC1") && infoCouple.rules.includes("RLR1") && infoCouple.rules.includes("RC1")) {
+  if (
+    infoCouple.rules.includes("PC1") &&
+    (infoCouple.rules.includes("RLR1") || infoCouple.rules.includes("RLR5")) &&
+    infoCouple.rules.includes("RC1")
+  ) {
     return {
       uai_in: payload.couple.uai,
       siret_in: payload.couple.siret,

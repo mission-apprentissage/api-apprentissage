@@ -2443,24 +2443,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/bunyan-prettystream@npm:^0.1.35":
-  version: 0.1.35
-  resolution: "@types/bunyan-prettystream@npm:0.1.35"
-  dependencies:
-    "@types/node": "*"
-  checksum: 026ca11c3b6880ebd72fb221678de82e88ef96d32ee5b4bc3c56a0bd765e6694cf808473c9d4c01f0441f0cbe28c90cd62ab04782f4939b28df6303c2d62459e
-  languageName: node
-  linkType: hard
-
-"@types/bunyan@npm:^1.8.11":
-  version: 1.8.11
-  resolution: "@types/bunyan@npm:1.8.11"
-  dependencies:
-    "@types/node": "*"
-  checksum: 9c8bf737bc3ca7a7a5bd1ad1414145342025e2c1e18c246b4a48e1ac052267d9072b85e9dba94eef6c53facd298365fc9f0957d9f99286e0f04a2b2c030fe13a
-  languageName: node
-  linkType: hard
-
 "@types/cacheable-request@npm:^6.0.1":
   version: 6.0.3
   resolution: "@types/cacheable-request@npm:6.0.3"
@@ -3962,36 +3944,6 @@ __metadata:
   peerDependencies:
     esbuild: ">=0.17"
   checksum: 13a78ac0aee0f33614c24f2747167c7faebef6c9d1d5453b464fc85fa164a3a3aab657b2b31b7b5d2a088e4958676fef0454328ff7baddd6bfb03a8ff8d8b928
-  languageName: node
-  linkType: hard
-
-"bunyan-prettystream@npm:^0.1.3":
-  version: 0.1.3
-  resolution: "bunyan-prettystream@npm:0.1.3"
-  checksum: 01085641663bc6f90129d1dcf884615bba8efb362af0d2748d6e214a7e33acb26b94bd8d1e916e53720d27905aec3033a59245949cf3463c94c19c3881ed3b11
-  languageName: node
-  linkType: hard
-
-"bunyan@npm:^1.8.15":
-  version: 1.8.15
-  resolution: "bunyan@npm:1.8.15"
-  dependencies:
-    dtrace-provider: ~0.8
-    moment: ^2.19.3
-    mv: ~2
-    safe-json-stringify: ~1
-  dependenciesMeta:
-    dtrace-provider:
-      optional: true
-    moment:
-      optional: true
-    mv:
-      optional: true
-    safe-json-stringify:
-      optional: true
-  bin:
-    bunyan: bin/bunyan
-  checksum: a479e0787c3a0b6565b54bd15f0b6c729d624c5aba53523e140e49e279b7a78508df93000e758bf6d02361117d6b4e6e5fc1d5ece05366fb6c4ba41bf1ac7d52
   languageName: node
   linkType: hard
 
@@ -5509,16 +5461,6 @@ __metadata:
   version: 1.1.1
   resolution: "drange@npm:1.1.1"
   checksum: 7e6ed639f9ab4d826e79717e2b0685a7ab02ecd39dac6483305dcc43ea2a27dc78b538e10adaba35c086efab216ef1f53f22bc402abfd0d29454b1c5f48fecd1
-  languageName: node
-  linkType: hard
-
-"dtrace-provider@npm:~0.8":
-  version: 0.8.8
-  resolution: "dtrace-provider@npm:0.8.8"
-  dependencies:
-    nan: ^2.14.0
-    node-gyp: latest
-  checksum: f2dc89df6a9c443dc9bae3b53496e0685b5da89142951d451c1ce062c75d96698ffc0b3d90f621a59a6a18578be552378ad4e08210759038910ff2080be556b9
   languageName: node
   linkType: hard
 
@@ -7384,19 +7326,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"glob@npm:^6.0.1":
-  version: 6.0.4
-  resolution: "glob@npm:6.0.4"
-  dependencies:
-    inflight: ^1.0.4
-    inherits: 2
-    minimatch: 2 || 3
-    once: ^1.3.0
-    path-is-absolute: ^1.0.0
-  checksum: c4946c3d015ac81f704d185f2b3a55eb670100693c2cf7bc833d0efd970ec727d860d4839a5178e46a7e594b34a34661bae2f4c3405727c9fd189f84954ca3c0
-  languageName: node
-  linkType: hard
-
 "glob@npm:^7.1.3":
   version: 7.2.3
   resolution: "glob@npm:7.2.3"
@@ -8801,9 +8730,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"job-processor@npm:^1.4.12":
-  version: 1.4.12
-  resolution: "job-processor@npm:1.4.12"
+"job-processor@npm:^1.4.13":
+  version: 1.4.13
+  resolution: "job-processor@npm:1.4.13"
   dependencies:
     "@sentry/node": ^7.80.0
     cron-parser: ^4.9.0
@@ -8812,7 +8741,7 @@ __metadata:
     mongodb: "*"
     zod: ^3.0.0
     zod-mongodb-schema: ^1.0.0
-  checksum: b095783aa2608777fa32ba1bec423696b93c94709e8711417dbbd7cf9cb7e2596d822a4bfdd0cc4f8cc4301787ee664e10a877e84ec949b95d411dd04ce66be4
+  checksum: 718c216eeb61497c6239298bab35cbe47661729e178ffc0ad787a6607a51d8752f080842ba37c1b23b23775475e71b918562cc49d5c72373e64afc0e3708e4e6
   languageName: node
   linkType: hard
 
@@ -10299,15 +10228,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimatch@npm:2 || 3, minimatch@npm:^3.0.0, minimatch@npm:^3.0.4, minimatch@npm:^3.0.5, minimatch@npm:^3.1.1, minimatch@npm:^3.1.2":
-  version: 3.1.2
-  resolution: "minimatch@npm:3.1.2"
-  dependencies:
-    brace-expansion: ^1.1.7
-  checksum: c154e566406683e7bcb746e000b84d74465b3a832c45d59912b9b55cd50dee66e5c4b1e5566dba26154040e51672f9aa450a9aef0c97cfc7336b78b7afb9540a
-  languageName: node
-  linkType: hard
-
 "minimatch@npm:9.0.1":
   version: 9.0.1
   resolution: "minimatch@npm:9.0.1"
@@ -10323,6 +10243,15 @@ __metadata:
   dependencies:
     brace-expansion: ^2.0.1
   checksum: 253487976bf485b612f16bf57463520a14f512662e592e95c571afdab1442a6a6864b6c88f248ce6fc4ff0b6de04ac7aa6c8bb51e868e99d1d65eb0658a708b5
+  languageName: node
+  linkType: hard
+
+"minimatch@npm:^3.0.0, minimatch@npm:^3.0.4, minimatch@npm:^3.0.5, minimatch@npm:^3.1.1, minimatch@npm:^3.1.2":
+  version: 3.1.2
+  resolution: "minimatch@npm:3.1.2"
+  dependencies:
+    brace-expansion: ^1.1.7
+  checksum: c154e566406683e7bcb746e000b84d74465b3a832c45d59912b9b55cd50dee66e5c4b1e5566dba26154040e51672f9aa450a9aef0c97cfc7336b78b7afb9540a
   languageName: node
   linkType: hard
 
@@ -10850,7 +10779,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mkdirp@npm:>=0.5 0, mkdirp@npm:^0.5.5, mkdirp@npm:~0.5.1":
+"mkdirp@npm:>=0.5 0, mkdirp@npm:^0.5.5":
   version: 0.5.6
   resolution: "mkdirp@npm:0.5.6"
   dependencies:
@@ -10971,13 +10900,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"moment@npm:^2.19.3":
-  version: 2.29.4
-  resolution: "moment@npm:2.29.4"
-  checksum: 0ec3f9c2bcba38dc2451b1daed5daded747f17610b92427bebe1d08d48d8b7bdd8d9197500b072d14e326dd0ccf3e326b9e3d07c5895d3d49e39b6803b76e80e
-  languageName: node
-  linkType: hard
-
 "mongodb-connection-string-url@npm:^3.0.0":
   version: 3.0.0
   resolution: "mongodb-connection-string-url@npm:3.0.0"
@@ -11072,17 +10994,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mv@npm:~2":
-  version: 2.1.1
-  resolution: "mv@npm:2.1.1"
-  dependencies:
-    mkdirp: ~0.5.1
-    ncp: ~2.0.0
-    rimraf: ~2.4.0
-  checksum: 59d4b5ebff6c265b452d6630ae8873d573c82e36fdc1ed9c34c7901a0bf2d3d357022f49db8e9bded127b743f709c7ef7befec249a2b3967578d649a8029aa06
-  languageName: node
-  linkType: hard
-
 "mz@npm:^2.4.0, mz@npm:^2.7.0":
   version: 2.7.0
   resolution: "mz@npm:2.7.0"
@@ -11091,15 +11002,6 @@ __metadata:
     object-assign: ^4.0.1
     thenify-all: ^1.0.0
   checksum: 8427de0ece99a07e9faed3c0c6778820d7543e3776f9a84d22cf0ec0a8eb65f6e9aee9c9d353ff9a105ff62d33a9463c6ca638974cc652ee8140cd1e35951c87
-  languageName: node
-  linkType: hard
-
-"nan@npm:^2.14.0":
-  version: 2.18.0
-  resolution: "nan@npm:2.18.0"
-  dependencies:
-    node-gyp: latest
-  checksum: 4fe42f58456504eab3105c04a5cffb72066b5f22bd45decf33523cb17e7d6abc33cca2a19829407b9000539c5cb25f410312d4dc5b30220167a3594896ea6a0a
   languageName: node
   linkType: hard
 
@@ -11135,15 +11037,6 @@ __metadata:
   version: 1.4.0
   resolution: "natural-compare@npm:1.4.0"
   checksum: 23ad088b08f898fc9b53011d7bb78ec48e79de7627e01ab5518e806033861bef68d5b0cd0e2205c2f36690ac9571ff6bcb05eb777ced2eeda8d4ac5b44592c3d
-  languageName: node
-  linkType: hard
-
-"ncp@npm:~2.0.0":
-  version: 2.0.0
-  resolution: "ncp@npm:2.0.0"
-  bin:
-    ncp: ./bin/ncp
-  checksum: ea9b19221da1d1c5529bdb9f8e85c9d191d156bcaae408cce5e415b7fbfd8744c288e792bd7faf1fe3b70fd44c74e22f0d43c39b209bc7ac1fb8016f70793a16
   languageName: node
   linkType: hard
 
@@ -12495,9 +12388,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pino-pretty@npm:^10.3.1":
-  version: 10.3.1
-  resolution: "pino-pretty@npm:10.3.1"
+"pino-pretty@npm:^11.0.0":
+  version: 11.0.0
+  resolution: "pino-pretty@npm:11.0.0"
   dependencies:
     colorette: ^2.0.7
     dateformat: ^4.6.3
@@ -12515,7 +12408,7 @@ __metadata:
     strip-json-comments: ^3.1.1
   bin:
     pino-pretty: bin.js
-  checksum: 51e2d670745a396ddfd12da9f7ea5c2e4dc93a84589ffb29f64f4118d4b83ab636ee21f4aee7a47adb04664d5d921fb33e039e0ea961bb1c1cffefa28444563c
+  checksum: 9915634548002c83b8217ab197e28ffdbda9f633d183b03cebb71ce8cccfc7c1295e59be4986229460a231ff71ca5bf9d5f9ff8bc291263b81e89d6688928484
   languageName: node
   linkType: hard
 
@@ -12526,7 +12419,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pino@npm:^8.17.0":
+"pino@npm:^8.17.0, pino@npm:^8.19.0":
   version: 8.19.0
   resolution: "pino@npm:8.19.0"
   dependencies:
@@ -13712,17 +13605,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rimraf@npm:~2.4.0":
-  version: 2.4.5
-  resolution: "rimraf@npm:2.4.5"
-  dependencies:
-    glob: ^6.0.1
-  bin:
-    rimraf: ./bin.js
-  checksum: 036793b4055d65344ad7bea73c3f4095640af7455478fe56c19783619463e6bb4374ab3556b9e6d4d6d3dd210eb677b0955ece38813e734c294fd2687201151d
-  languageName: node
-  linkType: hard
-
 "rollup@npm:2.78.0":
   version: 2.78.0
   resolution: "rollup@npm:2.78.0"
@@ -13848,13 +13730,6 @@ __metadata:
   version: 5.1.2
   resolution: "safe-buffer@npm:5.1.2"
   checksum: f2f1f7943ca44a594893a852894055cf619c1fbcb611237fc39e461ae751187e7baf4dc391a72125e0ac4fb2d8c5c0b3c71529622e6a58f46b960211e704903c
-  languageName: node
-  linkType: hard
-
-"safe-json-stringify@npm:~1":
-  version: 1.2.0
-  resolution: "safe-json-stringify@npm:1.2.0"
-  checksum: 5bb32db6d6a3ceb3752df51f4043a412419cd3d4fcd5680a865dfa34cd7e575ba659c077d13f52981ced084061df9c75c7fb12e391584d4264e6914c1cd3d216
   languageName: node
   linkType: hard
 
@@ -14052,8 +13927,6 @@ __metadata:
     "@sentry/integrations": ^7.107.0
     "@sentry/node": ^7.107.0
     "@sentry/tracing": ^7.107.0
-    "@types/bunyan": ^1.8.11
-    "@types/bunyan-prettystream": ^0.1.35
     "@types/ejs": ^3.1.5
     "@types/jsonwebtoken": ^9.0.6
     "@types/lodash-es": ^4.17.12
@@ -14069,8 +13942,6 @@ __metadata:
     axios: ^1.6.8
     axios-cache-interceptor: ^1.5.1
     axios-retry: ^4.0.0
-    bunyan: ^1.8.15
-    bunyan-prettystream: ^0.1.3
     commander: ^12.0.0
     cron-parser: ^4.9.0
     csv-parse: ^5.5.5
@@ -14081,7 +13952,7 @@ __metadata:
     env-var: ^7.4.1
     fastify: ^4.26.2
     fastify-type-provider-zod: ^1.1.9
-    job-processor: ^1.4.12
+    job-processor: ^1.4.13
     jsonwebtoken: ^9.0.2
     lil-http-terminator: ^1.2.3
     lodash-es: ^4.17.21
@@ -14093,7 +13964,8 @@ __metadata:
     nodemailer: ^6.9.12
     nodemailer-html-to-text: ^3.2.0
     oleoduc: ^0.8.0
-    pino-pretty: ^10.3.1
+    pino: ^8.19.0
+    pino-pretty: ^11.0.0
     rate-limiter-flexible: ^5.0.0
     sax: ^1.3.0
     shared: "workspace:*"

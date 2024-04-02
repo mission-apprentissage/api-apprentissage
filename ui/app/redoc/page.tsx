@@ -12,7 +12,7 @@ export default function RedocPage() {
     <RedocStandalone
       specUrl={`${publicConfig.apiEndpoint}/documentation/json`}
       options={{
-        sortPropsAlphabetically: true,
+        sortPropsAlphabetically: false,
         sortEnumValuesAlphabetically: true,
         sortOperationsAlphabetically: true,
         sortTagsAlphabetically: true,

@@ -4,7 +4,7 @@ import { IModelDescriptor, zObjectId } from "../../common";
 
 const collectionName = "source.catalogue" as const;
 
-const indexes: IModelDescriptor["indexes"] = [[{ date: 1 }, {}]];
+const indexes: IModelDescriptor["indexes"] = [[{ date: 1, "data.cle_ministere_educatif": 1 }, {}]];
 
 const etablissementFormateurSchema = z
   .object({
@@ -147,6 +147,7 @@ export const zFormationCatalogue = z
     to_update: z.boolean().nullish(),
     update_error: z.string().nullish(),
     lieu_formation_geo_coordonnees: z.string().nullish(),
+    lieu_formation_geopoint: z.unknown().nullish(),
     lieu_formation_adresse: z.string().nullish(),
     lieu_formation_adresse_computed: z.string().nullish(),
     lieu_formation_siret: z.string().nullish(),

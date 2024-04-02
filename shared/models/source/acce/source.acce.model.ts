@@ -4,7 +4,10 @@ import { IModelDescriptor, zObjectId } from "../../common";
 
 const collectionName = "source.acce" as const;
 
-const indexes: IModelDescriptor["indexes"] = [[{ date: 1, source: 1 }, {}]];
+const indexes: IModelDescriptor["indexes"] = [
+  [{ date: 1, source: 1 }, {}],
+  [{ source: 1, "data.numero_uai": 1 }, {}],
+];
 
 const zUaiBaseFields = z
   .object({
@@ -177,8 +180,15 @@ export const ZAcceByType = {
   "ACCE_UAI_FILLE.csv": zAcceUaiFille,
 };
 
-export const ZSourceAcce = z.union([zAcceUai, zAcceUaiZone, zAcceUaiSpec, zAcceUaiMere, zAcceUaiFille]);
+export const ZSourceAcce = z.discriminatedUnion("source", [
+  zAcceUai,
+  zAcceUaiZone,
+  zAcceUaiSpec,
+  zAcceUaiMere,
+  zAcceUaiFille,
+]);
 
+export type ISourceAcceUai = z.output<typeof zAcceUai>;
 export type ISourceAcce = z.output<typeof ZSourceAcce>;
 
 export default {

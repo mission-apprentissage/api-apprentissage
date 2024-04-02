@@ -5,10 +5,16 @@ import { ObjectId } from "mongodb";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { fetchCatalogueData } from "@/services/apis/catalogue/catalogue";
+import { fetchCatalogueEducatifData } from "@/services/apis/catalogue/catalogueEducatif";
 import { getDbCollection } from "@/services/mongodb/mongodbService";
 
 import { runCatalogueImporter } from "./catalogue.importer";
-import { catalogueDataFixture, generateCatalogueData } from "./fixtures/sample";
+import {
+  catalogueDataFixture,
+  exceptedUaiFormation,
+  generateCatalogueData,
+  generateCatalogueEducatifData,
+} from "./fixtures/sample";
 
 vi.mock("@/services/apis/catalogue/catalogue", async (importOriginal) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -16,6 +22,14 @@ vi.mock("@/services/apis/catalogue/catalogue", async (importOriginal) => {
   return {
     ...mod,
     fetchCatalogueData: vi.fn(),
+  };
+});
+vi.mock("@/services/apis/catalogue/catalogueEducatif", async (importOriginal) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const mod = (await importOriginal()) as any;
+  return {
+    ...mod,
+    fetchCatalogueEducatifData: vi.fn(),
   };
 });
 
@@ -30,6 +44,7 @@ describe("runBcnImporter", () => {
 
   afterEach(() => {
     vi.mocked(fetchCatalogueData).mockReset();
+    vi.mocked(fetchCatalogueEducatifData).mockReset();
   });
 
   it("should import Catalogue data", async () => {
@@ -38,6 +53,9 @@ describe("runBcnImporter", () => {
 
     vi.mocked(fetchCatalogueData).mockImplementation(async () => {
       return Readable.from(generateCatalogueData());
+    });
+    vi.mocked(fetchCatalogueEducatifData).mockImplementation(async () => {
+      return Readable.from(generateCatalogueEducatifData());
     });
 
     const stats = await runCatalogueImporter();
@@ -48,7 +66,10 @@ describe("runBcnImporter", () => {
     expect(data.length).toBe(catalogueDataFixture.length);
     expect(data).toEqual(
       catalogueDataFixture.map((data) => ({
-        data,
+        data: {
+          ...data,
+          uai_formation: exceptedUaiFormation[data.cle_ministere_educatif],
+        },
         _id: expect.any(ObjectId),
         date,
       }))
@@ -62,6 +83,7 @@ describe("runBcnImporter", () => {
     const error = new Error("Unable to fetch data");
 
     vi.mocked(fetchCatalogueData).mockRejectedValue(error);
+    vi.mocked(fetchCatalogueEducatifData).mockRejectedValue(error);
 
     await expect(runCatalogueImporter()).rejects.toThrowError("import.catalogue: unable to runCatalogueImporter");
   });

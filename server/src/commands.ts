@@ -215,6 +215,17 @@ program
     return createJobAction(name)(options);
   });
 
+program
+  .command("experimental:redressement:uai-siret")
+  .option("--uai <string>", "uai")
+  .option("--siret <string>", "siret")
+  .option("--date <string>", "date")
+  .option("--certification <string>", "certification")
+  .option("-q, --queued", "Run job asynchronously", false)
+  .action(({ uai, siret, certification }) => {
+    return createJobAction("experimental:redressement:uai-siret")({ couple: { uai, siret }, certification });
+  });
+
 export async function startCLI() {
   await program.parseAsync(process.argv);
 }

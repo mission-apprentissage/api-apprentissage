@@ -4,7 +4,10 @@ import { IModelDescriptor, zObjectId } from "../../common";
 
 const collectionName = "source.referentiel" as const;
 
-const indexes: IModelDescriptor["indexes"] = [[{ date: 1 }, {}]];
+const indexes: IModelDescriptor["indexes"] = [
+  [{ date: 1 }, {}],
+  [{ "data.lieux_de_formation.uai": 1 }, {}],
+];
 
 export const zReferentiel = z
   .object({

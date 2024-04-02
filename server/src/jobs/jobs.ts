@@ -11,6 +11,7 @@ import logger, { createJobProcessorLogger } from "../services/logger";
 import { getDatabase } from "../services/mongodb/mongodbService";
 import { recreateIndexes } from "./db/recreateIndexes";
 import { validateModels } from "./db/schemaValidation";
+import { runExperiementalRedressementUaiSiret } from "./experimental/redressement/uai.siret";
 import { runAcceImporter } from "./importer/acce/acce";
 import { runBcnImporter } from "./importer/bcn/bcn.importer";
 import { runCatalogueImporter } from "./importer/catalogue/catalogue.importer";
@@ -137,6 +138,10 @@ export async function setupJobProcessor() {
               .parse(job.payload)
           ),
         resumable: true,
+      },
+      "experimental:redressement:uai-siret": {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        handler: async (job) => runExperiementalRedressementUaiSiret(job.payload as any),
       },
     },
   });

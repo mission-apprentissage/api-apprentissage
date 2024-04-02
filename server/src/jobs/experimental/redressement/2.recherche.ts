@@ -209,11 +209,25 @@ export async function rechercheLieuxReferentiel(uai: string, _options?: { date: 
 
 export async function rechercheCatalogue(
   pre: PrerequisiteResult,
-  options?: { date: Date | undefined; certification: string | undefined }
+  options?: { date: Date | undefined; certification: string | undefined; rlrRule: string }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any> {
   const couple = { uai: pre.uai, siret: pre.siret };
-  const dbResults = await getDbCollection("source.catalogue")
+  const projection = {
+    "data.cle_ministere_educatif": 1,
+    "data.cfd": 1,
+    "data.rncp_code": 1,
+    "data.lieu_formation_geo_coordonnees": 1,
+    "data.lieu_formation_adresse": 1,
+    "data.uai_formation": 1,
+    "data.lieu_formation_siret": 1,
+    "data.tags": 1,
+    "data.etablissement_formateur_siret": 1,
+    "data.etablissement_formateur_uai": 1,
+    "data.etablissement_gestionnaire_siret": 1,
+    "data.etablissement_gestionnaire_uai": 1,
+  };
+  let dbResults = await getDbCollection("source.catalogue")
     .find(
       {
         $or: [
@@ -222,28 +236,34 @@ export async function rechercheCatalogue(
         ],
       },
       {
-        projection: {
-          "data.cle_ministere_educatif": 1,
-          "data.cfd": 1,
-          "data.rncp_code": 1,
-          "data.lieu_formation_geo_coordonnees": 1,
-          "data.lieu_formation_adresse": 1,
-          "data.uai_formation": 1,
-          "data.tags": 1,
-          "data.etablissement_formateur_siret": 1,
-          "data.etablissement_formateur_uai": 1,
-          "data.etablissement_gestionnaire_siret": 1,
-          "data.etablissement_gestionnaire_uai": 1,
-        },
+        projection,
       }
     )
     .toArray();
 
   if (!dbResults.length) {
-    return {
-      rule: "RC3", // No Match
-      result: [],
-    };
+    if (options?.rlrRule !== "RLR1") {
+      return {
+        rule: "RC3", // No Match
+        result: [],
+      };
+    }
+    dbResults = await getDbCollection("source.catalogue")
+      .find(
+        {
+          $or: [{ "data.uai_formation": couple.uai }],
+        },
+        {
+          projection,
+        }
+      )
+      .toArray();
+    if (!dbResults.length) {
+      return {
+        rule: "RC6", // No Match
+        result: [],
+      };
+    }
   }
 
   const catalogueResults = [];
@@ -255,6 +275,7 @@ export async function rechercheCatalogue(
       lieu_formation_geo_coordonnees,
       lieu_formation_adresse,
       uai_formation,
+      lieu_formation_siret,
       tags,
       etablissement_formateur_siret,
       etablissement_formateur_uai,
@@ -266,6 +287,8 @@ export async function rechercheCatalogue(
     const nature_pour_cette_formation = [];
     if (etablissement_gestionnaire_siret === couple.siret) nature_pour_cette_formation.push("responsable");
     if (etablissement_formateur_siret === couple.siret) nature_pour_cette_formation.push("formateur");
+    if (lieu_formation_siret === couple.siret) nature_pour_cette_formation.push("lieu");
+    else if (uai_formation === couple.uai) nature_pour_cette_formation.push("lieu");
 
     catalogueResults.push({
       cle_ministere_educatif,
@@ -283,6 +306,7 @@ export async function rechercheCatalogue(
       },
       lieu: {
         ...(uai_formation ? { uai: uai_formation } : {}),
+        siret: lieu_formation_siret ?? null,
         geo_coordonnees: lieu_formation_geo_coordonnees,
         lon,
         lat,

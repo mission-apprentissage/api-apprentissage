@@ -69,29 +69,32 @@ async function run({ couple, date, certification }: ArgsPayload): Promise<any> {
 
   /////////////////////////////////////////////////////
   let resultUnitaire = resultPrerequisite;
-  const { rule: u1rule, ...restu1 } = await rechercheOrganismesReferentiel(resultPrerequisite as PrerequisiteResult);
+  const { rule: rorRule, ...restu1 } = await rechercheOrganismesReferentiel(resultPrerequisite as PrerequisiteResult);
   resultUnitaire = {
     ...resultUnitaire,
-    ...(u1rule !== "ROR9" ? { ROR: restu1 } : { ROR: null }),
-    rules: [...resultUnitaire.rules, u1rule],
+    ...(rorRule !== "ROR9" ? { ROR: restu1 } : { ROR: null }),
+    rules: [...resultUnitaire.rules, rorRule],
   };
 
-  if (u1rule !== "ROR1") {
-    const { rule: u2rule, ...restu2 } = await rechercheLieuxReferentiel(resultPrerequisite.uai);
+  let rlrRule = "";
+  if (rorRule !== "ROR1") {
+    const { rule: rlrRuleT, ...restu2 } = await rechercheLieuxReferentiel(resultPrerequisite.uai);
+    rlrRule = rlrRuleT;
     resultUnitaire = {
       ...resultUnitaire,
-      ...(u2rule !== "RLR3" ? { RLR: restu2 } : { RLR: null }),
-      rules: [...resultUnitaire.rules, u2rule],
+      ...(rlrRuleT !== "RLR3" ? { RLR: restu2 } : { RLR: null }),
+      rules: [...resultUnitaire.rules, rlrRuleT],
     };
   }
 
   const { rule: cataloguerule, result } = await rechercheCatalogue(resultPrerequisite as PrerequisiteResult, {
     date,
     certification,
+    rlrRule,
   });
   resultUnitaire = {
     ...resultUnitaire,
-    ...(cataloguerule !== "RC3" ? { RC: result } : {}),
+    ...(cataloguerule !== "RC3" && cataloguerule !== "RC4" ? { RC: result } : { RC: null }),
     rules: [...resultUnitaire.rules, cataloguerule],
   };
 

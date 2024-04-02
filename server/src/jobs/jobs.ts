@@ -142,7 +142,12 @@ export async function setupJobProcessor() {
       },
       "experimental:redressement:uai-siret": {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        handler: async (job) => runExperiementalRedressementUaiSiret(job.payload as any),
+        handler: async (job) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const result = await runExperiementalRedressementUaiSiret(job.payload as any);
+          console.log(result);
+          return;
+        },
       },
       "experimental:redressement:uai-siret:stock": {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

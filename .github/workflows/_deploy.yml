@@ -51,6 +51,7 @@ jobs:
         if: ${{ inputs.app_version == 'latest' }}
         uses: actions/checkout@v4
         with:
+          fetch-depth: 0
           fetch-tags: true
 
       - name: Get Version

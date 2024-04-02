@@ -50,6 +50,8 @@ jobs:
       - name: Checkout project
         if: ${{ inputs.app_version == 'latest' }}
         uses: actions/checkout@v4
+        with:
+          fetch-tags: true
 
       - name: Get Version
         id: get-version

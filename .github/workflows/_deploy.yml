@@ -56,6 +56,7 @@ jobs:
 
       - name: Get Version
         id: get-version
+        shell: bash
         run: |
           if [[ "${APP_VERSION}" == "latest" ]]; then
             echo "VERSION=${$(git describe --tags --abbrev=0 --candidates 100 --always)#v}" >> "$GITHUB_OUTPUT"

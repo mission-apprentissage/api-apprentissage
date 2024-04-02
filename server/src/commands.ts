@@ -23,7 +23,7 @@ program
     const command = actionCommand.name();
     // on définit le module du logger en global pour distinguer les logs des jobs
     if (command !== "start") {
-      logger.fields.module = `cli:${command}`;
+      logger.setBindings({ module: `cli:${command}` });
       // Pas besoin d'init Sentry dans le cas du server car il est start automatiquement
       initSentryProcessor();
     }
@@ -225,14 +225,6 @@ program
   .action(({ uai, siret, certification }) => {
     return createJobAction("experimental:redressement:uai-siret")({ couple: { uai, siret }, certification });
   });
-
-program.hook("preAction", (_, actionCommand) => {
-  const command = actionCommand.name();
-  // on définit le module du logger en global pour distinguer les logs des jobs
-  if (command !== "start") {
-    logger.fields.module = `job:${command}`;
-  }
-});
 
 export async function startCLI() {
   await program.parseAsync(process.argv);

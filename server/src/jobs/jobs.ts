@@ -7,7 +7,7 @@ import { create as createMigration, status as statusMigration, up as upMigration
 
 import { createUser } from "../actions/users.actions";
 import config from "../config";
-import logger from "../services/logger";
+import logger, { createJobProcessorLogger } from "../services/logger";
 import { getDatabase } from "../services/mongodb/mongodbService";
 import { recreateIndexes } from "./db/recreateIndexes";
 import { validateModels } from "./db/schemaValidation";
@@ -27,7 +27,7 @@ import { runReferentielImporter } from "./importer/referentiel/referentiel";
 export async function setupJobProcessor() {
   return initJobProcessor({
     db: getDatabase(),
-    logger,
+    logger: createJobProcessorLogger(logger),
     crons:
       config.env === "preview"
         ? {}

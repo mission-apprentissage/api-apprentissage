@@ -10,7 +10,7 @@ fileignoreconfig:
 - filename: .infra/files/configs/mailpit/auth
   checksum: 0b0a9c7bad5e1ec13d14c563d22c56c2cbcb2572fa40a4b2c5a11d6ca60eb8d1
 - filename: .infra/files/configs/mongodb/seed.gpg
-  checksum: c3cc9d6fc72a31eb63b0e7ad7c9b33321ce2a60e05d56076c97ba9b2241d73ca
+  checksum: 90d2f6d0ed1f4e7ba2fc90e2d384df5a84175f33e0ddf1a2492da491c85325cf
 - filename: .infra/files/scripts/seed.sh
   checksum: a673a8f706cb90f2f5c9f98981b06ce95c566e67e2bb4a6323d6b1bdb8ef0233
 - filename: .infra/vault/vault.yml
@@ -63,6 +63,8 @@ fileignoreconfig:
   checksum: 91e0291afc862997f8a0ae24174ddb53371d580d333548849b5f60af96c6207b
 - filename: ui/app/page.tsx
   checksum: 0e679ae2b1910da52bb834ef5820998aa822947cca00cb54e23ea5da91586898
+- filename: ui/app/politique-confidentialite/components/PolitiqueConfidentialite.tsx
+  checksum: ea957c848c1e0757cf538204cc3f5316405bfea31f49f230f0ffa5019ee2e70d
 - filename: ui/config.public.ts
   checksum: 881a79c87aabfb04bd101bc82504f66146f5b0abf322234ce1d3fcc26685caf2
 scopeconfig:

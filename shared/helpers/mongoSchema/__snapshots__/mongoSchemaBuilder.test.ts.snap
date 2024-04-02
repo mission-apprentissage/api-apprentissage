@@ -8,135 +8,59 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
     "_id": {
       "bsonType": "objectId",
     },
-    "cfd": {
-      "anyOf": [
-        {
-          "additionalProperties": false,
-          "bsonType": "object",
-          "properties": {
-            "abrogation": {
-              "anyOf": [
-                {
-                  "bsonType": "date",
-                },
-                {
-                  "bsonType": "null",
-                },
-              ],
-            },
-            "creation": {
-              "anyOf": [
-                {
-                  "bsonType": "date",
-                },
-                {
-                  "bsonType": "null",
-                },
-              ],
-            },
-            "fermeture": {
-              "anyOf": [
-                {
-                  "bsonType": "date",
-                },
-                {
-                  "bsonType": "null",
-                },
-              ],
-            },
-            "gestionnaire": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
-            },
-            "intitule": {
+    "base_legale": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "cfd": {
+          "anyOf": [
+            {
               "additionalProperties": false,
               "bsonType": "object",
               "properties": {
-                "court": {
-                  "bsonType": "string",
-                },
-                "long": {
-                  "bsonType": "string",
-                },
-              },
-              "required": [
-                "long",
-                "court",
-              ],
-            },
-            "nature": {
-              "additionalProperties": false,
-              "bsonType": "object",
-              "properties": {
-                "code": {
-                  "bsonType": [
-                    "string",
-                    "null",
-                  ],
-                },
-                "libelle": {
-                  "bsonType": [
-                    "string",
-                    "null",
-                  ],
-                },
-              },
-              "required": [
-                "code",
-                "libelle",
-              ],
-            },
-            "niveau": {
-              "additionalProperties": false,
-              "bsonType": "object",
-              "properties": {
-                "europeen": {
+                "abrogation": {
                   "anyOf": [
                     {
-                      "bsonType": "string",
-                      "enum": [
-                        "1",
-                        "2",
-                        "3",
-                        "4",
-                        "5",
-                        "6",
-                        "7",
-                        "8",
-                      ],
+                      "bsonType": "date",
                     },
                     {
                       "bsonType": "null",
                     },
                   ],
                 },
-                "formation_diplome": {
-                  "bsonType": "string",
-                },
-                "interministeriel": {
-                  "bsonType": "string",
-                },
-                "intitule": {
-                  "bsonType": [
-                    "string",
-                    "null",
+                "creation": {
+                  "anyOf": [
+                    {
+                      "bsonType": "date",
+                    },
+                    {
+                      "bsonType": "null",
+                    },
                   ],
-                },
-                "sigle": {
-                  "bsonType": "string",
                 },
               },
               "required": [
-                "sigle",
-                "europeen",
-                "formation_diplome",
-                "intitule",
-                "interministeriel",
+                "creation",
+                "abrogation",
               ],
             },
-            "nsf": {
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+      },
+      "required": [
+        "cfd",
+      ],
+    },
+    "blocs_competences": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "rncp": {
+          "anyOf": [
+            {
               "bsonType": "array",
               "items": {
                 "additionalProperties": false,
@@ -144,6 +68,7 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
                 "properties": {
                   "code": {
                     "bsonType": "string",
+                    "pattern": "^RNCP\\d{3,5}BC\\d{1,2}$",
                   },
                   "intitule": {
                     "bsonType": [
@@ -158,66 +83,202 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
                 ],
               },
             },
-            "ouverture": {
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+      },
+      "required": [
+        "rncp",
+      ],
+    },
+    "convention_collectives": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "rncp": {
+          "anyOf": [
+            {
+              "bsonType": "array",
+              "items": {
+                "additionalProperties": false,
+                "bsonType": "object",
+                "properties": {
+                  "intitule": {
+                    "bsonType": "string",
+                  },
+                  "numero": {
+                    "bsonType": "string",
+                  },
+                },
+                "required": [
+                  "numero",
+                  "intitule",
+                ],
+              },
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+      },
+      "required": [
+        "rncp",
+      ],
+    },
+    "created_at": {
+      "bsonType": "date",
+    },
+    "domaines": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "formacodes": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "rncp": {
               "anyOf": [
                 {
-                  "bsonType": "date",
+                  "bsonType": "array",
+                  "items": {
+                    "additionalProperties": false,
+                    "bsonType": "object",
+                    "properties": {
+                      "code": {
+                        "bsonType": "string",
+                      },
+                      "intitule": {
+                        "bsonType": "string",
+                      },
+                    },
+                    "required": [
+                      "code",
+                      "intitule",
+                    ],
+                  },
                 },
                 {
                   "bsonType": "null",
                 },
               ],
             },
-            "session": {
-              "additionalProperties": false,
-              "bsonType": "object",
-              "properties": {
-                "fin": {
-                  "anyOf": [
-                    {
-                      "bsonType": "int",
+          },
+          "required": [
+            "rncp",
+          ],
+        },
+        "nsf": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "cfd": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "bsonType": "object",
+                  "properties": {
+                    "code": {
+                      "bsonType": "string",
                     },
-                    {
-                      "bsonType": "null",
+                    "intitule": {
+                      "bsonType": [
+                        "string",
+                        "null",
+                      ],
                     },
+                  },
+                  "required": [
+                    "code",
+                    "intitule",
                   ],
                 },
-                "premiere": {
-                  "anyOf": [
-                    {
-                      "bsonType": "int",
-                    },
-                    {
-                      "bsonType": "null",
-                    },
-                  ],
+                {
+                  "bsonType": "null",
                 },
-              },
-              "required": [
-                "premiere",
-                "fin",
+              ],
+            },
+            "rncp": {
+              "anyOf": [
+                {
+                  "bsonType": "array",
+                  "items": {
+                    "additionalProperties": false,
+                    "bsonType": "object",
+                    "properties": {
+                      "code": {
+                        "bsonType": "string",
+                        "pattern": "^\\d{2,3}[a-z]?$",
+                      },
+                      "intitule": {
+                        "bsonType": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                    },
+                    "required": [
+                      "code",
+                      "intitule",
+                    ],
+                  },
+                },
+                {
+                  "bsonType": "null",
+                },
               ],
             },
           },
           "required": [
-            "ouverture",
-            "fermeture",
-            "creation",
-            "abrogation",
-            "intitule",
-            "nature",
-            "gestionnaire",
-            "session",
-            "niveau",
-            "nsf",
+            "cfd",
+            "rncp",
           ],
         },
-        {
-          "bsonType": "null",
+        "rome": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "rncp": {
+              "anyOf": [
+                {
+                  "bsonType": "array",
+                  "items": {
+                    "additionalProperties": false,
+                    "bsonType": "object",
+                    "properties": {
+                      "code": {
+                        "bsonType": "string",
+                      },
+                      "intitule": {
+                        "bsonType": "string",
+                      },
+                    },
+                    "required": [
+                      "code",
+                      "intitule",
+                    ],
+                  },
+                },
+                {
+                  "bsonType": "null",
+                },
+              ],
+            },
+          },
+          "required": [
+            "rncp",
+          ],
         },
+      },
+      "required": [
+        "formacodes",
+        "nsf",
+        "rome",
       ],
     },
-    "code": {
+    "identifiant": {
       "additionalProperties": false,
       "bsonType": "object",
       "properties": {
@@ -243,19 +304,223 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
             },
           ],
         },
+        "rncp_anterieur_2019": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
       },
       "required": [
         "cfd",
         "rncp",
+        "rncp_anterieur_2019",
       ],
     },
-    "created_at": {
-      "bsonType": "date",
+    "intitule": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "cfd": {
+          "anyOf": [
+            {
+              "additionalProperties": false,
+              "bsonType": "object",
+              "properties": {
+                "court": {
+                  "bsonType": "string",
+                },
+                "long": {
+                  "bsonType": "string",
+                },
+              },
+              "required": [
+                "long",
+                "court",
+              ],
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "niveau": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "cfd": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "bsonType": "object",
+                  "properties": {
+                    "europeen": {
+                      "anyOf": [
+                        {
+                          "bsonType": "string",
+                          "enum": [
+                            "1",
+                            "2",
+                            "3",
+                            "4",
+                            "5",
+                            "6",
+                            "7",
+                            "8",
+                          ],
+                        },
+                        {
+                          "bsonType": "null",
+                        },
+                      ],
+                    },
+                    "formation_diplome": {
+                      "bsonType": "string",
+                    },
+                    "interministeriel": {
+                      "bsonType": "string",
+                    },
+                    "libelle": {
+                      "bsonType": [
+                        "string",
+                        "null",
+                      ],
+                    },
+                    "sigle": {
+                      "bsonType": "string",
+                    },
+                  },
+                  "required": [
+                    "europeen",
+                    "formation_diplome",
+                    "interministeriel",
+                    "libelle",
+                    "sigle",
+                  ],
+                },
+                {
+                  "bsonType": "null",
+                },
+              ],
+            },
+            "rncp": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "bsonType": "object",
+                  "properties": {
+                    "europeen": {
+                      "anyOf": [
+                        {
+                          "bsonType": "string",
+                          "enum": [
+                            "1",
+                            "2",
+                            "3",
+                            "4",
+                            "5",
+                            "6",
+                            "7",
+                            "8",
+                          ],
+                        },
+                        {
+                          "bsonType": "null",
+                        },
+                      ],
+                    },
+                  },
+                  "required": [
+                    "europeen",
+                  ],
+                },
+                {
+                  "bsonType": "null",
+                },
+              ],
+            },
+          },
+          "required": [
+            "cfd",
+            "rncp",
+          ],
+        },
+        "rncp": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+      },
+      "required": [
+        "cfd",
+        "niveau",
+        "rncp",
+      ],
     },
     "periode_validite": {
       "additionalProperties": false,
       "bsonType": "object",
       "properties": {
+        "cfd": {
+          "anyOf": [
+            {
+              "additionalProperties": false,
+              "bsonType": "object",
+              "properties": {
+                "derniere_session": {
+                  "anyOf": [
+                    {
+                      "bsonType": "int",
+                    },
+                    {
+                      "bsonType": "null",
+                    },
+                  ],
+                },
+                "fermeture": {
+                  "anyOf": [
+                    {
+                      "bsonType": "date",
+                    },
+                    {
+                      "bsonType": "null",
+                    },
+                  ],
+                },
+                "ouverture": {
+                  "anyOf": [
+                    {
+                      "bsonType": "date",
+                    },
+                    {
+                      "bsonType": "null",
+                    },
+                  ],
+                },
+                "premiere_session": {
+                  "anyOf": [
+                    {
+                      "bsonType": "int",
+                    },
+                    {
+                      "bsonType": "null",
+                    },
+                  ],
+                },
+              },
+              "required": [
+                "ouverture",
+                "fermeture",
+                "premiere_session",
+                "derniere_session",
+              ],
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
         "debut": {
           "anyOf": [
             {
@@ -276,55 +541,73 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
             },
           ],
         },
+        "rncp": {
+          "anyOf": [
+            {
+              "additionalProperties": false,
+              "bsonType": "object",
+              "properties": {
+                "actif": {
+                  "bsonType": "bool",
+                },
+                "activation": {
+                  "anyOf": [
+                    {
+                      "bsonType": "date",
+                    },
+                    {
+                      "bsonType": "null",
+                    },
+                  ],
+                },
+                "debut_parcours": {
+                  "anyOf": [
+                    {
+                      "bsonType": "date",
+                    },
+                    {
+                      "bsonType": "null",
+                    },
+                  ],
+                },
+                "fin_enregistrement": {
+                  "anyOf": [
+                    {
+                      "bsonType": "date",
+                    },
+                    {
+                      "bsonType": "null",
+                    },
+                  ],
+                },
+              },
+              "required": [
+                "actif",
+                "activation",
+                "debut_parcours",
+                "fin_enregistrement",
+              ],
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
       },
       "required": [
         "debut",
         "fin",
+        "cfd",
+        "rncp",
       ],
     },
-    "rncp": {
-      "anyOf": [
-        {
-          "additionalProperties": false,
-          "bsonType": "object",
-          "properties": {
-            "actif": {
-              "bsonType": "bool",
-            },
-            "activation": {
-              "anyOf": [
-                {
-                  "bsonType": "date",
-                },
-                {
-                  "bsonType": "null",
-                },
-              ],
-            },
-            "blocs": {
-              "bsonType": "array",
-              "items": {
-                "additionalProperties": false,
-                "bsonType": "object",
-                "properties": {
-                  "code": {
-                    "bsonType": "string",
-                    "pattern": "^RNCP\\d{3,5}BC\\d{1,2}$",
-                  },
-                  "intitule": {
-                    "bsonType": [
-                      "string",
-                      "null",
-                    ],
-                  },
-                },
-                "required": [
-                  "code",
-                  "intitule",
-                ],
-              },
-            },
-            "certificateurs": {
+    "type": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "certificateurs_rncp": {
+          "anyOf": [
+            {
               "bsonType": "array",
               "items": {
                 "additionalProperties": false,
@@ -343,205 +626,124 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
                 ],
               },
             },
-            "convention_collectives": {
-              "bsonType": "array",
-              "items": {
-                "additionalProperties": false,
-                "bsonType": "object",
-                "properties": {
-                  "intitule": {
-                    "bsonType": "string",
-                  },
-                  "numero": {
-                    "bsonType": "string",
-                  },
-                },
-                "required": [
-                  "numero",
-                  "intitule",
-                ],
-              },
+            {
+              "bsonType": "null",
             },
-            "debut_parcours": {
-              "anyOf": [
-                {
-                  "bsonType": "date",
-                },
-                {
-                  "bsonType": "null",
-                },
-              ],
-            },
-            "enregistrement": {
+          ],
+        },
+        "enregistrement_rncp": {
+          "anyOf": [
+            {
               "bsonType": "string",
               "enum": [
                 "Enregistrement de droit",
                 "Enregistrement sur demande",
               ],
             },
-            "fin_enregistrement": {
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "gestionnaire_diplome": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "nature": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "cfd": {
               "anyOf": [
                 {
-                  "bsonType": "date",
+                  "additionalProperties": false,
+                  "bsonType": "object",
+                  "properties": {
+                    "code": {
+                      "bsonType": [
+                        "string",
+                        "null",
+                      ],
+                    },
+                    "libelle": {
+                      "bsonType": [
+                        "string",
+                        "null",
+                      ],
+                    },
+                  },
+                  "required": [
+                    "code",
+                    "libelle",
+                  ],
                 },
                 {
                   "bsonType": "null",
                 },
               ],
             },
-            "formacodes": {
-              "bsonType": "array",
-              "items": {
-                "additionalProperties": false,
-                "bsonType": "object",
-                "properties": {
-                  "code": {
-                    "bsonType": "string",
-                  },
-                  "intitule": {
-                    "bsonType": "string",
-                  },
-                },
-                "required": [
-                  "code",
-                  "intitule",
-                ],
-              },
-            },
-            "intitule": {
-              "bsonType": "string",
-            },
-            "niveau": {
-              "additionalProperties": false,
-              "bsonType": "object",
-              "properties": {
-                "europeen": {
-                  "anyOf": [
-                    {
-                      "bsonType": "string",
-                      "enum": [
-                        "1",
-                        "2",
-                        "3",
-                        "4",
-                        "5",
-                        "6",
-                        "7",
-                        "8",
-                      ],
+          },
+          "required": [
+            "cfd",
+          ],
+        },
+        "voie_acces": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "rncp": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "bsonType": "object",
+                  "properties": {
+                    "apprentissage": {
+                      "bsonType": "bool",
                     },
-                    {
-                      "bsonType": "null",
+                    "candidature_individuelle": {
+                      "bsonType": "bool",
                     },
+                    "contrat_professionnalisation": {
+                      "bsonType": "bool",
+                    },
+                    "experience": {
+                      "bsonType": "bool",
+                    },
+                    "formation_continue": {
+                      "bsonType": "bool",
+                    },
+                    "formation_statut_eleve": {
+                      "bsonType": "bool",
+                    },
+                  },
+                  "required": [
+                    "apprentissage",
+                    "experience",
+                    "candidature_individuelle",
+                    "contrat_professionnalisation",
+                    "formation_continue",
+                    "formation_statut_eleve",
                   ],
                 },
-                "interministeriel": {
-                  "bsonType": [
-                    "string",
-                    "null",
-                  ],
+                {
+                  "bsonType": "null",
                 },
-              },
-              "required": [
-                "europeen",
-                "interministeriel",
-              ],
-            },
-            "nsf": {
-              "bsonType": "array",
-              "items": {
-                "additionalProperties": false,
-                "bsonType": "object",
-                "properties": {
-                  "code": {
-                    "bsonType": "string",
-                    "pattern": "^\\d{2,3}[a-z]?$",
-                  },
-                  "intitule": {
-                    "bsonType": [
-                      "string",
-                      "null",
-                    ],
-                  },
-                },
-                "required": [
-                  "code",
-                  "intitule",
-                ],
-              },
-            },
-            "rome": {
-              "bsonType": "array",
-              "items": {
-                "additionalProperties": false,
-                "bsonType": "object",
-                "properties": {
-                  "code": {
-                    "bsonType": "string",
-                  },
-                  "intitule": {
-                    "bsonType": "string",
-                  },
-                },
-                "required": [
-                  "code",
-                  "intitule",
-                ],
-              },
-            },
-            "voie_acces": {
-              "additionalProperties": false,
-              "bsonType": "object",
-              "properties": {
-                "apprentissage": {
-                  "bsonType": "bool",
-                },
-                "candidature_individuelle": {
-                  "bsonType": "bool",
-                },
-                "contrat_professionnalisation": {
-                  "bsonType": "bool",
-                },
-                "experience": {
-                  "bsonType": "bool",
-                },
-                "formation_continue": {
-                  "bsonType": "bool",
-                },
-                "formation_statut_eleve": {
-                  "bsonType": "bool",
-                },
-              },
-              "required": [
-                "apprentissage",
-                "experience",
-                "candidature_individuelle",
-                "contrat_professionnalisation",
-                "formation_continue",
-                "formation_statut_eleve",
               ],
             },
           },
           "required": [
-            "actif",
-            "activation",
-            "fin_enregistrement",
-            "debut_parcours",
-            "intitule",
-            "blocs",
-            "rome",
-            "formacodes",
-            "convention_collectives",
-            "niveau",
-            "nsf",
-            "enregistrement",
-            "voie_acces",
-            "certificateurs",
+            "rncp",
           ],
         },
-        {
-          "bsonType": "null",
-        },
+      },
+      "required": [
+        "nature",
+        "gestionnaire_diplome",
+        "enregistrement_rncp",
+        "voie_acces",
+        "certificateurs_rncp",
       ],
     },
     "updated_at": {
@@ -550,10 +752,14 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
   },
   "required": [
     "_id",
-    "code",
+    "identifiant",
+    "intitule",
+    "base_legale",
+    "blocs_competences",
+    "convention_collectives",
+    "domaines",
     "periode_validite",
-    "cfd",
-    "rncp",
+    "type",
     "created_at",
     "updated_at",
   ],

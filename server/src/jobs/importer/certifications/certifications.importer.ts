@@ -11,7 +11,7 @@ import { getDbCollection } from "@/services/mongodb/mongodbService";
 import { createBatchTransformStream } from "@/utils/streamUtils";
 
 import { buildCertification, ISourceAggregatedData } from "./builder/certification.builder";
-import { buildInterministerielSearchMap, INiveauInterministerielSearchMap } from "./builder/certification.cfd.builder";
+import { validateNiveauFormationDiplomeToInterministerielRule } from "./builder/intitule/certification.intitule.builder";
 
 const logger = parentLogger.child({ module: "import:certifications" });
 
@@ -73,45 +73,6 @@ export async function controlKitApprentissageCoverage() {
       {
         $match: { france_competence: { $size: 0 } },
       },
-      // {
-      //   $unwind: {
-      //       path: "$france_competence",
-      //       preserveNullAndEmptyArrays: true,
-      //     },
-      // },
-      // {
-      //   $addFields: {
-      //       voies_d_acces: {
-      //         $ifNull: [
-      //           "$france_competence.data.voies_d_acces.Si_Jury",
-      //           [],
-      //         ],
-      //       },
-      //     },
-      // },
-      // {
-      //   $addFields: {
-      //       apprentissageOrProfessionnalisation: {
-      //         $or: [
-      //           {
-      //             $in: [
-      //               "En contrat d'apprentissage",
-      //               "$voies_d_acces",
-      //             ],
-      //           },
-      //           {
-      //             $in: [
-      //               "En contrat de professionnalisation",
-      //               "$voies_d_acces",
-      //             ],
-      //           },
-      //         ],
-      //       },
-      //     },
-      // },
-      // {
-      //   $match: {    apprentissageOrProfessionnalisation: false,},
-      // },
     ])
     .toArray();
 
@@ -191,23 +152,19 @@ async function getImportMeta(options: ImportCertificationsOptions | null): Promi
   return null;
 }
 
-export function buildCertificationUpdateOperation(
-  data: ISourceAggregatedData,
-  importMeta: IImportMetaCertifications,
-  niveauInterministerielSearchMap: INiveauInterministerielSearchMap
-) {
-  const { code, ...value } = buildCertification(
+export function buildCertificationUpdateOperation(data: ISourceAggregatedData, importMeta: IImportMetaCertifications) {
+  const { identifiant, ...value } = buildCertification(
     data,
-    importMeta.source.france_competence.oldest_date_publication,
-    niveauInterministerielSearchMap
+    importMeta.source.france_competence.oldest_date_publication
   );
 
   return {
     updateOne: {
-      filter: { code },
+      filter: { "identifiant.cfd": identifiant.cfd, "identifiant.rncp": identifiant.rncp },
       update: {
         $set: {
           ...value,
+          "identifiant.rncp_anterieur_2019": identifiant.rncp_anterieur_2019,
           updated_at: importMeta.import_date,
         },
         $setOnInsert: { _id: new ObjectId(), created_at: importMeta.import_date },
@@ -301,8 +258,7 @@ export function getSourceAggregatedDataFromFranceCompetence(): AggregationCursor
 
 export async function importSourceAggregatedData(
   cursor: AggregationCursor<ISourceAggregatedData>,
-  importMeta: IImportMetaCertifications,
-  niveauInterministerielSearchMap: INiveauInterministerielSearchMap
+  importMeta: IImportMetaCertifications
 ) {
   await pipeline(
     cursor,
@@ -310,7 +266,7 @@ export async function importSourceAggregatedData(
       objectMode: true,
       async transform(chunk: ISourceAggregatedData, _encoding, callback) {
         try {
-          const op = buildCertificationUpdateOperation(chunk, importMeta, niveauInterministerielSearchMap);
+          const op = buildCertificationUpdateOperation(chunk, importMeta);
           callback(null, op);
         } catch (error) {
           callback(withCause(internal("import.certifications: error when building certification"), error));
@@ -345,39 +301,39 @@ async function computeImportStats(importDate: Date): Promise<IImportStat> {
     deleted,
   ] = await Promise.all([
     getDbCollection("certifications").countDocuments({
-      "code.cfd": { $ne: null },
-      "code.rncp": null,
+      "identifiant.cfd": { $ne: null },
+      "identifiant.rncp": null,
       updated_at: importDate,
     }),
     getDbCollection("certifications").countDocuments({
-      "code.rncp": { $ne: null },
-      "code.cfd": null,
+      "identifiant.rncp": { $ne: null },
+      "identifiant.cfd": null,
       updated_at: importDate,
     }),
     getDbCollection("certifications").countDocuments({
       updated_at: importDate,
     }),
     getDbCollection("certifications").countDocuments({
-      "code.cfd": { $ne: null },
-      "code.rncp": null,
+      "identifiant.cfd": { $ne: null },
+      "identifiant.rncp": null,
       created_at: importDate,
     }),
     getDbCollection("certifications").countDocuments({
-      "code.rncp": { $ne: null },
-      "code.cfd": null,
+      "identifiant.rncp": { $ne: null },
+      "identifiant.cfd": null,
       created_at: importDate,
     }),
     getDbCollection("certifications").countDocuments({
       created_at: importDate,
     }),
     getDbCollection("certifications").countDocuments({
-      "code.cfd": { $ne: null },
-      "code.rncp": null,
+      "identifiant.cfd": { $ne: null },
+      "identifiant.rncp": null,
       updated_at: { $ne: importDate },
     }),
     getDbCollection("certifications").countDocuments({
-      "code.rncp": { $ne: null },
-      "code.cfd": null,
+      "identifiant.rncp": { $ne: null },
+      "identifiant.cfd": null,
       updated_at: { $ne: importDate },
     }),
     getDbCollection("certifications").countDocuments({
@@ -415,15 +371,11 @@ export async function importCertifications(options: ImportCertificationsOptions 
 
     await controlKitApprentissageCoverage();
 
-    const niveauInterministerielSearchMap = await buildInterministerielSearchMap();
+    await validateNiveauFormationDiplomeToInterministerielRule();
 
-    await importSourceAggregatedData(getSourceAggregatedDataFromBcn(), importMeta, niveauInterministerielSearchMap);
+    await importSourceAggregatedData(getSourceAggregatedDataFromBcn(), importMeta);
 
-    await importSourceAggregatedData(
-      getSourceAggregatedDataFromFranceCompetence(),
-      importMeta,
-      niveauInterministerielSearchMap
-    );
+    await importSourceAggregatedData(getSourceAggregatedDataFromFranceCompetence(), importMeta);
 
     const stats = await computeImportStats(importMeta.import_date);
 

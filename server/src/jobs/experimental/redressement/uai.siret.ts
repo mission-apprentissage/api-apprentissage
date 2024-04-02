@@ -15,7 +15,7 @@ export interface ICouple {
   siret?: string | undefined | null;
 }
 
-interface ArgsPayload {
+export interface ArgsPayload {
   couple: ICouple;
   date?: Date;
   certification?: string;
@@ -24,12 +24,11 @@ interface ArgsPayload {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function runExperiementalRedressementUaiSiret(arg: ArgsPayload): Promise<any> {
   const result = await run({ ...arg });
-  console.log(result);
-  console.log(result.RC);
+  return result;
 }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function run({ couple, date, certification }: ArgsPayload): Promise<any> {
-  logger.info("Provided", couple, certification);
+async function run({ couple, date, certification }: ArgsPayload): Promise<any> {
+  logger.info(`Provided ${JSON.stringify({ couple, certification })}`);
   if (!couple.siret && !couple.uai) {
     throw new Error("L'UAI et le Siret ne sont pas définis");
   }

@@ -272,6 +272,7 @@ export async function rechercheCatalogue(
       cfd,
       rncp: rncp_code,
       tags,
+      nature_pour_cette_formation,
       responsable: {
         siret: etablissement_gestionnaire_siret,
         uai: etablissement_gestionnaire_uai,

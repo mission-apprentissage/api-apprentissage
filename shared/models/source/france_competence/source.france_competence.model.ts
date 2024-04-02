@@ -70,15 +70,6 @@ export const zFranceCompetence = z
     date_premiere_activation: z.date().nullable(),
     date_derniere_activation: z.date().nullable(),
     source: z.literal("rncp"),
-    files: z.record(
-      z
-        .object({
-          nom: z.string(),
-          last_updated: z.date(),
-          date_publication: z.date(),
-        })
-        .strict()
-    ),
     data: z
       .object({
         ccn: z.array(zFranceCompetenceDataBySource.ccn),

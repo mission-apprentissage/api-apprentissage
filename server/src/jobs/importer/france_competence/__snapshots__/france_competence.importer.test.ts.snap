@@ -124,13 +124,6 @@ exports[`importRncpArchive > should import all files 1`] = `
   "date_derniere_publication": 2024-02-21T23:00:00.000Z,
   "date_premiere_activation": null,
   "date_premiere_publication": 2024-02-21T23:00:00.000Z,
-  "files": {
-    "f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6": {
-      "date_publication": 2024-02-21T23:00:00.000Z,
-      "last_updated": 2024-02-22T03:02:07.320Z,
-      "nom": "export-fiches-csv-2024-02-22.zip",
-    },
-  },
   "numero_fiche": "RNCP509",
   "source": "rncp",
   "updated_at": 2024-02-22T03:02:07.320Z,
@@ -164,7 +157,6 @@ exports[`importRncpArchive > should import all files 2`] = `
   "date_derniere_publication": 2024-02-21T23:00:00.000Z,
   "date_premiere_activation": null,
   "date_premiere_publication": 2024-02-21T23:00:00.000Z,
-  "files": {},
   "numero_fiche": "RNCP38228",
   "source": "rncp",
   "updated_at": 2024-02-22T03:02:07.320Z,
@@ -221,13 +213,6 @@ exports[`importRncpArchive > should import all files 3`] = `
   "date_derniere_publication": 2024-02-21T23:00:00.000Z,
   "date_premiere_activation": null,
   "date_premiere_publication": 2024-02-21T23:00:00.000Z,
-  "files": {
-    "f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6": {
-      "date_publication": 2024-02-21T23:00:00.000Z,
-      "last_updated": 2024-02-22T03:02:07.320Z,
-      "nom": "export-fiches-csv-2024-02-22.zip",
-    },
-  },
   "numero_fiche": "RNCP1197",
   "source": "rncp",
   "updated_at": 2024-02-22T03:02:07.320Z,
@@ -317,13 +302,6 @@ exports[`importRncpArchive > should import all files 4`] = `
   "date_derniere_publication": 2024-02-21T23:00:00.000Z,
   "date_premiere_activation": null,
   "date_premiere_publication": 2024-02-21T23:00:00.000Z,
-  "files": {
-    "f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6": {
-      "date_publication": 2024-02-21T23:00:00.000Z,
-      "last_updated": 2024-02-22T03:02:07.320Z,
-      "nom": "export-fiches-csv-2024-02-22.zip",
-    },
-  },
   "numero_fiche": "RNCP4049",
   "source": "rncp",
   "updated_at": 2024-02-22T03:02:07.320Z,
@@ -413,13 +391,6 @@ exports[`importRncpArchive > should import all files 5`] = `
   "date_derniere_publication": 2024-02-21T23:00:00.000Z,
   "date_premiere_activation": null,
   "date_premiere_publication": 2024-02-21T23:00:00.000Z,
-  "files": {
-    "f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6": {
-      "date_publication": 2024-02-21T23:00:00.000Z,
-      "last_updated": 2024-02-22T03:02:07.320Z,
-      "nom": "export-fiches-csv-2024-02-22.zip",
-    },
-  },
   "numero_fiche": "RNCP22094",
   "source": "rncp",
   "updated_at": 2024-02-22T03:02:07.320Z,
@@ -513,13 +484,6 @@ exports[`importRncpArchive > should import all files 6`] = `
   "date_derniere_publication": 2024-02-21T23:00:00.000Z,
   "date_premiere_activation": null,
   "date_premiere_publication": 2024-02-21T23:00:00.000Z,
-  "files": {
-    "f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6": {
-      "date_publication": 2024-02-21T23:00:00.000Z,
-      "last_updated": 2024-02-22T03:02:07.320Z,
-      "nom": "export-fiches-csv-2024-02-22.zip",
-    },
-  },
   "numero_fiche": "RNCP28155",
   "source": "rncp",
   "updated_at": 2024-02-22T03:02:07.320Z,
@@ -625,13 +589,6 @@ exports[`importRncpArchive > should import all files 7`] = `
   "date_derniere_publication": 2024-02-21T23:00:00.000Z,
   "date_premiere_activation": null,
   "date_premiere_publication": 2024-02-21T23:00:00.000Z,
-  "files": {
-    "f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6": {
-      "date_publication": 2024-02-21T23:00:00.000Z,
-      "last_updated": 2024-02-22T03:02:07.320Z,
-      "nom": "export-fiches-csv-2024-02-22.zip",
-    },
-  },
   "numero_fiche": "RNCP30271",
   "source": "rncp",
   "updated_at": 2024-02-22T03:02:07.320Z,
@@ -739,13 +696,6 @@ exports[`importRncpArchive > should import all files 8`] = `
   "date_derniere_publication": 2024-02-21T23:00:00.000Z,
   "date_premiere_activation": null,
   "date_premiere_publication": 2024-02-21T23:00:00.000Z,
-  "files": {
-    "f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6": {
-      "date_publication": 2024-02-21T23:00:00.000Z,
-      "last_updated": 2024-02-22T03:02:07.320Z,
-      "nom": "export-fiches-csv-2024-02-22.zip",
-    },
-  },
   "numero_fiche": "RNCP19468",
   "source": "rncp",
   "updated_at": 2024-02-22T03:02:07.320Z,
@@ -884,13 +834,6 @@ exports[`importRncpArchive > should import all files 9`] = `
   "date_derniere_publication": 2024-02-21T23:00:00.000Z,
   "date_premiere_activation": 2024-02-21T23:00:00.000Z,
   "date_premiere_publication": 2024-02-21T23:00:00.000Z,
-  "files": {
-    "f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6": {
-      "date_publication": 2024-02-21T23:00:00.000Z,
-      "last_updated": 2024-02-22T03:02:07.320Z,
-      "nom": "export-fiches-csv-2024-02-22.zip",
-    },
-  },
   "numero_fiche": "RS6117",
   "source": "rncp",
   "updated_at": 2024-02-22T03:02:07.320Z,
@@ -990,13 +933,6 @@ exports[`importRncpArchive > should import all files 10`] = `
   "date_derniere_publication": 2024-02-21T23:00:00.000Z,
   "date_premiere_activation": 2024-02-21T23:00:00.000Z,
   "date_premiere_publication": 2024-02-21T23:00:00.000Z,
-  "files": {
-    "f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6": {
-      "date_publication": 2024-02-21T23:00:00.000Z,
-      "last_updated": 2024-02-22T03:02:07.320Z,
-      "nom": "export-fiches-csv-2024-02-22.zip",
-    },
-  },
   "numero_fiche": "RS5000",
   "source": "rncp",
   "updated_at": 2024-02-22T03:02:07.320Z,

@@ -58,13 +58,6 @@ export function generateSourceFranceCompetenceFixture(
     date_premiere_publication: getFixtureValue(data, "date_premiere_publication", new Date("2021-12-24T00:00:00.000Z")),
     source: getFixtureValue(data, "source", "rncp"),
     updated_at: getFixtureValue(data, "updated_at", new Date("2024-03-05T09:32:27.106Z")),
-    files: getFixtureValue(data, "files", {
-      "3651f1ea-ad81-42d6-a7ae-7b40af3c6117": {
-        nom: "export-fiches-csv-2022-02-12.zip",
-        last_updated: new Date("2022-02-12T04:00:20.941Z"),
-        date_publication: new Date("2022-02-12T00:00:00.000Z"),
-      },
-    }),
     data: {
       ccn: getFixtureValue(data?.data, "ccn", [
         {

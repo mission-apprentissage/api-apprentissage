@@ -11,8 +11,8 @@ import {
 const logger = parentLogger.child({ module: "experimental:redressement:uai-siret" });
 
 export interface ICouple {
-  uai: string | undefined | null;
-  siret: string | undefined | null;
+  uai?: string | undefined | null;
+  siret?: string | undefined | null;
 }
 
 interface ArgsPayload {
@@ -25,7 +25,7 @@ interface ArgsPayload {
 export async function runExperiementalRedressementUaiSiret(arg: ArgsPayload): Promise<any> {
   const result = await run({ ...arg });
   console.log(result);
-  // console.log(result.RC);
+  console.log(result.RC);
 }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function run({ couple, date, certification }: ArgsPayload): Promise<any> {

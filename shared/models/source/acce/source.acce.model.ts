@@ -4,7 +4,10 @@ import { IModelDescriptor, zObjectId } from "../../common";
 
 const collectionName = "source.acce" as const;
 
-const indexes: IModelDescriptor["indexes"] = [[{ date: 1, source: 1 }, {}]];
+const indexes: IModelDescriptor["indexes"] = [
+  [{ date: 1, source: 1 }, {}],
+  [{ source: 1, "data.numero_uai": 1 }, {}],
+];
 
 const zUaiBaseFields = z
   .object({

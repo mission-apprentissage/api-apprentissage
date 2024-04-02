@@ -3,5 +3,5 @@ export function sortAlphabeticallyBy<Key extends string, T extends { [key in Key
   sortBy: Key,
   array: readonly T[]
 ): T[] {
-  return array.slice().sort((a, b) => Intl.Collator().compare(a[sortBy], b[sortBy])); // permet de gérer les accents
+  return array.toSorted((a, b) => Intl.Collator().compare(a[sortBy], b[sortBy])); // permet de gérer les accents
 }

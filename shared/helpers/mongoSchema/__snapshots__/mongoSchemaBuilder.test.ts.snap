@@ -584,8 +584,8 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
               "required": [
                 "actif",
                 "activation",
-                "fin_enregistrement",
                 "debut_parcours",
+                "fin_enregistrement",
               ],
             },
             {
@@ -739,11 +739,11 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
         },
       },
       "required": [
-        "certificateurs_rncp",
-        "enregistrement_rncp",
-        "gestionnaire_diplome",
         "nature",
+        "gestionnaire_diplome",
+        "enregistrement_rncp",
         "voie_acces",
+        "certificateurs_rncp",
       ],
     },
     "updated_at": {

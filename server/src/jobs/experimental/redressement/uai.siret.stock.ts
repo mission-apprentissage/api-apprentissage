@@ -87,6 +87,18 @@ export async function runExperiementalRedressementUaiSiretStock(): Promise<any> 
     //     siret: "19920804200010",
     //   },
     // },
+    // {
+    //   couple: {
+    //     uai: "0751909T",
+    //     siret: "39942123900043",
+    //   },
+    // },
+    // {
+    //   couple: {
+    //     uai: "0691696U",
+    //     siret: "77572257200036",
+    //   },
+    // },
     {
       couple: {
         uai: "0751909T",
@@ -438,23 +450,55 @@ async function run(payload: ArgsPayload): Promise<any> {
     if (orl.siret === infoCouple.siret) {
       siret_out.out = orl.siret;
       siret_out.nature_globale = orl.nature;
+    } else if (orl.uai === infoCouple.uai) {
+      siret_out.out = orl.siret;
+      siret_out.nature_globale = orl.nature;
     }
 
     const formationsUniq = formationsHasUniq(infoCouple.RC);
 
+    let responsable = formationsUniq.responsable;
+    let formateur = formationsUniq.formateur;
     const nature_siret = [];
-    if (formationsUniq.responsable && formationsUniq.responsable.siret === infoCouple.siret) {
+    if (responsable && responsable.siret === infoCouple.siret) {
       nature_siret.push("responsable");
     }
-    if (formationsUniq.formateur && formationsUniq.formateur.siret === infoCouple.siret) {
+    if (formateur && formateur.siret === infoCouple.siret) {
       nature_siret.push("formateur");
     }
     const nature_uai = [];
-    if (formationsUniq.responsable && formationsUniq.responsable.uai === infoCouple.uai) {
+    if (responsable && responsable.uai === infoCouple.uai) {
       nature_uai.push("responsable");
     }
-    if (formationsUniq.formateur && formationsUniq.formateur.uai === infoCouple.uai) {
+    if (formateur && formateur.uai === infoCouple.uai) {
       nature_uai.push("formateur");
+    }
+
+    if (!responsable) {
+      const formationsFilteredBySiret = infoCouple.RC.filter(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (f: any) => f.responsable.siret === orl.siret
+      );
+
+      const formationsUniqORLResponsable = formationsHasUniq(formationsFilteredBySiret);
+      responsable = formationsUniqORLResponsable.responsable;
+    }
+    if (!formateur) {
+      const formationsFilteredBySiret = infoCouple.RC.filter(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (f: any) => f.formateur.siret === orl.siret
+      );
+
+      const formationsUniqORLFormateur = formationsHasUniq(formationsFilteredBySiret);
+      formateur = formationsUniqORLFormateur.formateur;
+    }
+
+    let formationsCatalogue = infoCouple.RC;
+    if (responsable && formateur) {
+      formationsCatalogue = infoCouple.RC.filter(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (f: any) => f.responsable.siret === responsable.siret && f.formateur.siret === formateur.siret
+      );
     }
 
     return {
@@ -469,15 +513,15 @@ async function run(payload: ArgsPayload): Promise<any> {
       },
       siret: {
         ...siret_out,
-        nature: formationsUniq.responsable && formationsUniq.formateur ? nature_siret.join("_") || null : null,
+        nature: responsable && formateur ? nature_siret.join("_") || null : null,
       },
-      ...(formationsUniq.responsable ? { responsable: formationsUniq.responsable } : { responsable: null }),
-      ...(formationsUniq.formateur ? { formateur: formationsUniq.formateur } : { formateur: null }),
+      ...(responsable ? { responsable } : { responsable: null }),
+      ...(formateur ? { formateur } : { formateur: null }),
       lieu: formationsUniq.lieu ?? infoCouple.RLR.lieux_de_formation,
 
       _meta: {
-        countFormations: infoCouple.RC.length,
-        catalogue: infoCouple.RC,
+        countFormations: formationsCatalogue.length,
+        catalogue: formationsCatalogue,
         deca: infoCouple.ROD,
       },
       updated: true,
@@ -559,11 +603,10 @@ async function run(payload: ArgsPayload): Promise<any> {
 
     uai: null,
     siret: null,
-
     responsable: null,
     formateur: null,
     lieu: null,
-    _meta: {},
+    _meta: { ...infoCouple },
     updated: true,
     rules: infoCouple.rules,
   };

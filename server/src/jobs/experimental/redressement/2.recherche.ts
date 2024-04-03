@@ -284,18 +284,22 @@ export async function rechercheCatalogue(
     },
   } of dbResults) {
     const [lat, lon] = lieu_formation_geo_coordonnees?.split(",") || [0, 0];
-    const nature_pour_cette_formation = [];
-    if (etablissement_gestionnaire_siret === couple.siret) nature_pour_cette_formation.push("responsable");
-    if (etablissement_formateur_siret === couple.siret) nature_pour_cette_formation.push("formateur");
-    // if (lieu_formation_siret === couple.siret) nature_pour_cette_formation.push("lieu");
-    // else if (uai_formation === couple.uai) nature_pour_cette_formation.push("lieu");
+    const nature_siret = [];
+    if (etablissement_gestionnaire_siret === couple.siret) nature_siret.push("responsable");
+    if (etablissement_formateur_siret === couple.siret) nature_siret.push("formateur");
+
+    const nature_uai = [];
+    if (etablissement_gestionnaire_uai === couple.uai) nature_uai.push("responsable");
+    if (etablissement_formateur_uai === couple.uai) nature_uai.push("formateur");
+    if (uai_formation === couple.uai) nature_uai.push("lieux_de_formation");
 
     catalogueResults.push({
       cle_ministere_educatif,
       cfd,
       rncp: rncp_code,
       tags,
-      nature_pour_cette_formation,
+      nature_siret_pour_cette_formation: nature_siret.join("_"),
+      nature_uai_pour_cette_formation: nature_uai.join("_"),
       responsable: {
         siret: etablissement_gestionnaire_siret,
         uai: etablissement_gestionnaire_uai,
@@ -316,6 +320,7 @@ export async function rechercheCatalogue(
   }
 
   if (options?.rlrRule === "RLR1" || options?.rlrRule === "RLR5") {
+    // TODO If f.lieu.uai not dfine in catalogue ?
     catalogueResults = catalogueResults.filter((f) => f.lieu.uai === couple.uai);
   }
 

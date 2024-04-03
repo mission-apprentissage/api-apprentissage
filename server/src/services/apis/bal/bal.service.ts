@@ -15,6 +15,7 @@ const apiBalClient = apiRateLimiter("apiBal", {
   durationInSeconds: 1,
   client: getApiClient({
     baseURL: config.api.bal.baseurl,
+    timeout: 90_000,
   }),
 });
 

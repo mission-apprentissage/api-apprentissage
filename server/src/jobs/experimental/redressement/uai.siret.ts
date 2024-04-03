@@ -98,19 +98,28 @@ async function run({ couple, date, certification }: ArgsPayload): Promise<any> {
     rules: [...resultUnitaire.rules, cataloguerule],
   };
 
-  const { rule: decarule, result: resultDeca } = await rechercheOrganismeDECA(
-    resultPrerequisite as PrerequisiteResult,
-    {
-      date,
-      certification,
-    }
-  );
+  try {
+    const { rule: decarule, result: resultDeca } = await rechercheOrganismeDECA(
+      resultPrerequisite as PrerequisiteResult,
+      {
+        date,
+        certification,
+      }
+    );
 
-  resultUnitaire = {
-    ...resultUnitaire,
-    ...(decarule !== "ROD3" ? { ROD: resultDeca } : {}),
-    rules: [...resultUnitaire.rules, decarule],
-  };
+    resultUnitaire = {
+      ...resultUnitaire,
+      ...(decarule !== "ROD3" ? { ROD: resultDeca } : { ROD: null }),
+      rules: [...resultUnitaire.rules, decarule],
+    };
+  } catch (error) {
+    resultUnitaire = {
+      ...resultUnitaire,
+      // @ts-ignore
+      ROD: null,
+      rules: [...resultUnitaire.rules],
+    };
+  }
 
   return resultUnitaire;
 }

@@ -227,6 +227,7 @@ export async function rechercheCatalogue(
     "data.etablissement_gestionnaire_siret": 1,
     "data.etablissement_gestionnaire_uai": 1,
   };
+  // const filtreAnneeFormation = ["2024"]
   let dbResults = await getDbCollection("source.catalogue")
     .find(
       {

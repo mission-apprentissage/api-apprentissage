@@ -7,7 +7,7 @@ import { findDataFromSiret } from "../../../services/apis/entreprise/tmp/infoSir
 type PrerequisiteUaiResult = {
   uai: string;
   uai_ouvert: boolean;
-  uai_etat: "Ouvert" | "Fermé";
+  uai_etat: "Ouvert" | "Fermé" | "Erreur";
   uai_date_ouverture: string;
   uai_date_fermeture: string;
 };
@@ -15,7 +15,7 @@ type PrerequisiteUaiResult = {
 type PrerequisiteSiretResult = {
   siret: string;
   siret_ouvert: boolean;
-  siret_etat: "Ouvert" | "Fermé";
+  siret_etat: "Ouvert" | "Fermé" | "Erreur";
   siret_date_ouverture: string;
   siret_date_fermeture: string;
 };
@@ -38,8 +38,26 @@ export async function prerequisite_uai(
     })
     .toArray();
 
-  if (!dbResult.length) throw new Error("L'UAI fourni n'est pas retrouvé dans ACCE");
-  if (dbResult.length > 1) throw new Error("L'UAI fourni est retrouvé plusieurs fois dans ACCE");
+  if (!dbResult.length) {
+    console.log("L'UAI fourni n'est pas retrouvé dans ACCE");
+    return {
+      uai,
+      uai_ouvert: false,
+      uai_etat: "Erreur",
+      uai_date_ouverture: "",
+      uai_date_fermeture: "",
+    };
+  }
+  if (dbResult.length > 1) {
+    console.log("L'UAI fourni est retrouvé plusieurs fois dans ACCE");
+    return {
+      uai,
+      uai_ouvert: false,
+      uai_etat: "Erreur",
+      uai_date_ouverture: "",
+      uai_date_fermeture: "",
+    };
+  }
 
   const [acceResult] = dbResult;
 
@@ -59,12 +77,30 @@ export async function prerequisite_siret(
   _options?: { date: Date | undefined }
 ): Promise<PrerequisiteSiretResult | null> {
   // TODO verif shape/format
-  if (!siret) throw new Error("Le siret fourni n'est pas au bon format");
+  if (!siret) {
+    console.log("Le siret fourni n'est pas au bon format");
+    return {
+      siret: "",
+      siret_ouvert: false,
+      siret_etat: "Erreur",
+      siret_date_ouverture: "",
+      siret_date_fermeture: "",
+    };
+  }
 
   const siretData = await findDataFromSiret(siret);
 
   // TODO handle Null
-  if (!siretData.result) throw new Error(siretData.error.message);
+  if (!siretData.result) {
+    console.log(siretData.error.message);
+    return {
+      siret,
+      siret_ouvert: false,
+      siret_etat: "Erreur",
+      siret_date_ouverture: "",
+      siret_date_fermeture: "",
+    };
+  }
   // if (siretData.error.secret_siret) return null;
 
   return {

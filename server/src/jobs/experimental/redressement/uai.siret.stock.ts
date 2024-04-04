@@ -99,10 +99,22 @@ export async function runExperiementalRedressementUaiSiretStock(): Promise<any> 
     //     siret: "77572257200036",
     //   },
     // },
+    // {
+    //   couple: {
+    //     uai: "0751909T",
+    //     siret: "39942123900043",
+    //   },
+    // },
+    // {
+    //   couple: {
+    //     uai: "0871055Z",
+    //     siret: "19870730900011",
+    //   },
+    // },
     {
       couple: {
-        uai: "0751909T",
-        siret: "39942123900043",
+        uai: "0492376S",
+        siret: "77566202600100",
       },
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -443,7 +455,7 @@ async function run(payload: ArgsPayload): Promise<any> {
   if (
     infoCouple.rules.includes("PC2") &&
     (infoCouple.rules.includes("RLR1") || infoCouple.rules.includes("RLR5")) &&
-    infoCouple.rules.includes("RC5") // ROR2
+    infoCouple.rules.includes("RC5")
   ) {
     const siret_out = { out: null, nature_globale: null, nature: null };
     const orl = infoCouple.RLR.organismes[0]; // organisme_referentiel_rattache_au_lieu
@@ -522,6 +534,106 @@ async function run(payload: ArgsPayload): Promise<any> {
       _meta: {
         countFormations: formationsCatalogue.length,
         catalogue: formationsCatalogue,
+        deca: infoCouple.ROD,
+      },
+      updated: true,
+      rules: infoCouple.rules,
+    };
+  }
+
+  if (infoCouple.rules.includes("PC3")) {
+    const formationsUniq = formationsHasUniq(infoCouple.RC);
+
+    let responsable = formationsUniq.responsable;
+    let formateur = formationsUniq.formateur;
+    const nature_siret = [];
+    if (responsable && responsable.siret === infoCouple.siret) {
+      nature_siret.push("responsable");
+    }
+    if (formateur && formateur.siret === infoCouple.siret) {
+      nature_siret.push("formateur");
+    }
+    const nature_uai = [];
+    if (responsable && responsable.uai === infoCouple.uai) {
+      nature_uai.push("responsable");
+    }
+    if (formateur && formateur.uai === infoCouple.uai) {
+      nature_uai.push("formateur");
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const uai_out: any = { out: null, nature_globale: null, nature: null };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const siret_out: any = { out: null, nature_globale: null, nature: null };
+
+    if (responsable || formateur) {
+      if (responsable?.siret === infoCouple.siret) {
+        uai_out.out = responsable?.uai || null;
+        siret_out.out = responsable?.siret || null;
+      } else if (formateur?.siret === infoCouple.siret) {
+        uai_out.out = formateur?.uai || null;
+        siret_out.out = formateur?.siret || null;
+      }
+      uai_out.nature = nature_uai.join("_") || null;
+      siret_out.nature = nature_siret.join("_");
+      siret_out.nature_globale = nature_siret.join("_");
+    }
+
+    if (!responsable && !formateur) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const rors = infoCouple.ROR.organismes.filter((ror: any) => ror.siret === infoCouple.siret);
+      if (rors.length === 1) {
+        const ror = rors[0];
+
+        siret_out.out = ror.siret;
+        siret_out.nature_globale = ror.nature;
+
+        const formationsFilteredBySiret = infoCouple.RC.filter(
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (f: any) => f.responsable.siret === infoCouple.siret || f.formateur.siret === infoCouple.siret
+        );
+
+        const formationsUniq = formationsHasUniq(formationsFilteredBySiret);
+
+        const nature_siret = [];
+        if (formationsUniq.responsable && formationsUniq.responsable.siret === infoCouple.siret) {
+          nature_siret.push("responsable");
+        }
+        if (formationsUniq.formateur && formationsUniq.formateur.siret === infoCouple.siret) {
+          nature_siret.push("formateur");
+        }
+        const nature_uai = [];
+        if (formationsUniq.responsable && formationsUniq.responsable.uai === infoCouple.uai) {
+          nature_uai.push("responsable");
+        }
+        if (formationsUniq.formateur && formationsUniq.formateur.uai === infoCouple.uai) {
+          nature_uai.push("formateur");
+        }
+      }
+
+      if (formationsUniq.responsable) responsable = formationsUniq.responsable;
+      if (formationsUniq.formateur) formateur = formationsUniq.formateur;
+
+      siret_out.nature = formationsUniq.responsable && formationsUniq.formateur ? nature_siret.join("_") || null : null;
+    }
+
+    return {
+      uai_in: payload.couple.uai,
+      siret_in: payload.couple.siret,
+      certification_in: payload.certification ?? null,
+      uai: {
+        ...uai_out,
+        nature_globale: null,
+      },
+      siret: {
+        ...siret_out,
+      },
+      ...(responsable ? { responsable } : { responsable: null }),
+      ...(formateur ? { formateur } : { formateur: null }),
+      lieu: formationsUniq.lieu ?? null,
+      _meta: {
+        countFormations: infoCouple.RC.length,
+        catalogue: infoCouple.RC,
         deca: infoCouple.ROD,
       },
       updated: true,

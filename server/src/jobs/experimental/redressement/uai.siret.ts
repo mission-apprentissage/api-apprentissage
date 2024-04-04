@@ -77,15 +77,15 @@ async function run({ couple, date, certification }: ArgsPayload): Promise<any> {
   };
 
   let rlrRule = "";
-  if (rorRule !== "ROR1") {
-    const { rule: rlrRuleT, ...restu2 } = await rechercheLieuxReferentiel(resultPrerequisite.uai);
-    rlrRule = rlrRuleT;
-    resultUnitaire = {
-      ...resultUnitaire,
-      ...(rlrRuleT !== "RLR3" ? { RLR: restu2 } : { RLR: null }),
-      rules: [...resultUnitaire.rules, rlrRuleT],
-    };
-  }
+  // if (rorRule !== "ROR1") {
+  const { rule: rlrRuleT, ...restu2 } = await rechercheLieuxReferentiel(resultPrerequisite.uai);
+  rlrRule = rlrRuleT;
+  resultUnitaire = {
+    ...resultUnitaire,
+    ...(rlrRuleT !== "RLR3" ? { RLR: restu2 } : { RLR: null }),
+    rules: [...resultUnitaire.rules, rlrRuleT],
+  };
+  // }
 
   const { rule: cataloguerule, result } = await rechercheCatalogue(resultPrerequisite as PrerequisiteResult, {
     date,

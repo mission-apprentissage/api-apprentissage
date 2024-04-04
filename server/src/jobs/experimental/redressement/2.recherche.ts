@@ -80,7 +80,7 @@ export async function rechercheOrganismesReferentiel(
   }
 
   return {
-    rule: previousRules?.replace("PC", "ROR"), // ROR1,ROR2,ROR3,ROR4
+    rule: "ROR1", //previousRules?.replace("PC", "ROR"), // ROR1,ROR2,ROR3,ROR4
     organismes: [
       {
         _id: match._id,

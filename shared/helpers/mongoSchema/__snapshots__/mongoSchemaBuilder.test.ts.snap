@@ -5394,13 +5394,40 @@ exports[`zodToMongoSchema > should convert source.kit_apprentissage schema 1`] =
             "null",
           ],
         },
-        "Code Diplôme": {
+        "Ancienne Certification (RNCP)": {
           "bsonType": [
             "string",
             "null",
           ],
         },
+        "Code Diplôme": {
+          "bsonType": "string",
+        },
         "Date d'échéance de la fiche RNCP": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "Date de début des parcours certifiants": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "Date de décision": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "Date de publication de la fiche": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "Date limite de la délivrance": {
           "bsonType": [
             "string",
             "null",
@@ -5419,6 +5446,9 @@ exports[`zodToMongoSchema > should convert source.kit_apprentissage schema 1`] =
           ],
         },
         "FicheRNCP": {
+          "bsonType": "string",
+        },
+        "Intitulé certification (RNCP)": {
           "bsonType": [
             "string",
             "null",
@@ -5436,6 +5466,18 @@ exports[`zodToMongoSchema > should convert source.kit_apprentissage schema 1`] =
             "null",
           ],
         },
+        "Nouvelle Certification rempla (RNCP)": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "Type d'enregistrement": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
       },
       "required": [
         "Code Diplôme",
@@ -5447,6 +5489,14 @@ exports[`zodToMongoSchema > should convert source.kit_apprentissage schema 1`] =
         "Accès à l'apprentissage de la fiche RNCP (oui/non)",
         "Date d'échéance de la fiche RNCP",
         "Fiche ACTIVE/INACTIVE",
+        "Intitulé certification (RNCP)",
+        "Type d'enregistrement",
+        "Date de publication de la fiche",
+        "Date de décision",
+        "Date de début des parcours certifiants",
+        "Date limite de la délivrance",
+        "Nouvelle Certification rempla (RNCP)",
+        "Ancienne Certification (RNCP)",
       ],
     },
     "date": {
@@ -5454,6 +5504,11 @@ exports[`zodToMongoSchema > should convert source.kit_apprentissage schema 1`] =
     },
     "source": {
       "bsonType": "string",
+      "pattern": "^((Kit_apprentissage_\\d{8})|(Kit apprentissage et RNCP v\\d\\.\\d))\\.csv$",
+    },
+    "version": {
+      "bsonType": "string",
+      "pattern": "^\\d{8}$",
     },
   },
   "required": [
@@ -5461,6 +5516,7 @@ exports[`zodToMongoSchema > should convert source.kit_apprentissage schema 1`] =
     "source",
     "date",
     "data",
+    "version",
   ],
 }
 `;

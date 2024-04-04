@@ -36,5 +36,6 @@
   "vitest.enable": true,
   "vitest.commandLine": "yarn test --single-thread",
   "ansible.python.interpreterPath": "/opt/homebrew/bin/python3",
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "vitest.workspaceConfig": "vitest.workspace.ts"
 }

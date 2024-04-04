@@ -57,8 +57,10 @@ export const getMongodbClient = () => mongodbClient;
 
 export const closeMongodbConnection = async () => {
   logger.warn("Closing MongoDB");
-  // Let 100ms for possible callback cleanup to register tasks in mongodb queue
-  await sleep(200);
+  if (process.env.NODE_ENV !== "test") {
+    // Let 100ms for possible callback cleanup to register tasks in mongodb queue
+    await sleep(200);
+  }
   return mongodbClient?.close();
 };
 

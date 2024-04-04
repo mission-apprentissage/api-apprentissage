@@ -97,6 +97,8 @@ function getTransport() {
     return {
       target: "pino-pretty",
       options: {
+        levelFirst: true,
+        colorize: true,
         messageKey: "message",
         messageFormat: "{if module} [{module}] - {end} {message}",
       },
@@ -141,12 +143,15 @@ export default pino({
   name: config.productName,
   level: config.log.level,
   enabled: process.env.NODE_ENV !== "test",
-  depthLimit: 10,
+  depthLimit: 50,
   transport: getTransport(),
   messageKey: "message",
   formatters: {
     log(data: Record<string, unknown>): Record<string, unknown> {
       return logFormatter(data, new Set()) as Record<string, unknown>;
     },
+  },
+  serializers: {
+    err: (err) => err,
   },
 });

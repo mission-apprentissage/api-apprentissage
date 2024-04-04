@@ -367,21 +367,21 @@ describe("importCertifications", () => {
     const kitApprentissageData = [
       generateKitApprentissageFixture({
         data: generateKitApprentissageFixtureData({
-          "Code Diplôme": existingCertifications.updated[0].identifiant.cfd,
-          FicheRNCP: existingCertifications.updated[0].identifiant.rncp,
+          "Code Diplôme": existingCertifications.updated[0].identifiant.cfd!,
+          FicheRNCP: existingCertifications.updated[0].identifiant.rncp!,
         }),
       }),
       generateKitApprentissageFixture({
         // Couple updated
         data: generateKitApprentissageFixtureData({
-          "Code Diplôme": existingCertifications.removed[1].identifiant.cfd,
-          FicheRNCP: existingCertifications.removed[2].identifiant.rncp,
+          "Code Diplôme": existingCertifications.removed[1].identifiant.cfd!,
+          FicheRNCP: existingCertifications.removed[2].identifiant.rncp!,
         }),
       }),
       generateKitApprentissageFixture({
         data: generateKitApprentissageFixtureData({
-          "Code Diplôme": newCertifications[0].identifiant.cfd,
-          FicheRNCP: newCertifications[0].identifiant.rncp,
+          "Code Diplôme": newCertifications[0].identifiant.cfd!,
+          FicheRNCP: newCertifications[0].identifiant.rncp!,
         }),
       }),
     ];
@@ -534,8 +534,8 @@ describe("importCertifications", () => {
     const kitApprentissageData = [
       generateKitApprentissageFixture({
         data: generateKitApprentissageFixtureData({
-          "Code Diplôme": existingCertification.identifiant.cfd,
-          FicheRNCP: existingCertification.identifiant.rncp,
+          "Code Diplôme": existingCertification.identifiant.cfd!,
+          FicheRNCP: existingCertification.identifiant.rncp!,
         }),
       }),
     ];

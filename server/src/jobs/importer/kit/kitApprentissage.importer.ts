@@ -1,13 +1,11 @@
+import { readdir } from "node:fs/promises";
 import { Transform } from "node:stream";
 
 import { internal } from "@hapi/boom";
 import { parse } from "csv-parse";
 import { createReadStream } from "fs";
 import { ObjectId } from "mongodb";
-import {
-  ISourceKitApprentissage,
-  zKitApprentissage,
-} from "shared/models/source/kitApprentissage/source.kit_apprentissage.model";
+import { ISourceKitApprentissage } from "shared/models/source/kitApprentissage/source.kit_apprentissage.model";
 import { pipeline } from "stream/promises";
 
 import { withCause } from "@/services/errors/withCause";
@@ -15,10 +13,15 @@ import { getDbCollection } from "@/services/mongodb/mongodbService";
 import { getStaticFilePath } from "@/utils/getStaticFilePath";
 import { createBatchTransformStream } from "@/utils/streamUtils";
 
-async function importKitApprentissageSource(filename: ISourceKitApprentissage["source"]): Promise<number> {
-  const date = new Date();
+import { buildKitApprentissageEntry, getVersionNumber } from "./builder/kit_apprentissage.builder";
 
+async function importKitApprentissageSource(
+  importDate: Date,
+  filename: ISourceKitApprentissage["source"]
+): Promise<void> {
   try {
+    const version = getVersionNumber(filename);
+
     await pipeline(
       createReadStream(getStaticFilePath(`kit_apprentissage/${filename}`)),
       parse({
@@ -30,17 +33,7 @@ async function importKitApprentissageSource(filename: ISourceKitApprentissage["s
         quote: true,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         onRecord: (record, { columns }: any) => {
-          const data = columns.reduce((acc: Record<string, string | null>, column: { name: string }) => {
-            // Replace all mongodb dot special character with underscore
-            acc[column.name.replaceAll(".", "_")] = record[column.name]?.trim() || null;
-            return acc;
-          }, {});
-          return zKitApprentissage.parse({
-            _id: new ObjectId(),
-            source: filename,
-            date,
-            data,
-          });
+          return buildKitApprentissageEntry(columns, record, filename, importDate, version);
         },
       }),
       createBatchTransformStream({ size: 100 }),
@@ -56,29 +49,37 @@ async function importKitApprentissageSource(filename: ISourceKitApprentissage["s
         },
       })
     );
-
-    await getDbCollection("source.kit_apprentissage").deleteMany({
-      source: filename,
-      date: { $ne: date },
-    });
-
-    await getDbCollection("import.meta").insertOne({
-      _id: new ObjectId(),
-      import_date: date,
-      type: "kit_apprentissage",
-    });
-
-    return await getDbCollection("source.kit_apprentissage").countDocuments({ date, source: filename });
   } catch (error) {
-    await getDbCollection("source.kit_apprentissage").deleteMany({ date });
     throw withCause(internal("import.kit_apprentissage: unable to importKitApprentissageSource", { filename }), error);
   }
 }
 
+async function listKitApprentissageFiles(): Promise<string[]> {
+  return await readdir(getStaticFilePath("kit_apprentissage"));
+}
+
 export async function runKitApprentissageImporter(): Promise<number> {
+  const importDate = new Date();
+
   try {
-    return await importKitApprentissageSource("kit_apprentissage_20240119.csv");
+    const files = await listKitApprentissageFiles();
+    for (const file of files) {
+      await importKitApprentissageSource(importDate, file);
+    }
+
+    await getDbCollection("source.kit_apprentissage").deleteMany({
+      date: { $ne: importDate },
+    });
+
+    await getDbCollection("import.meta").insertOne({
+      _id: new ObjectId(),
+      import_date: importDate,
+      type: "kit_apprentissage",
+    });
+
+    return await getDbCollection("source.kit_apprentissage").countDocuments({ date: importDate });
   } catch (error) {
+    await getDbCollection("source.kit_apprentissage").deleteMany({ date: importDate });
     throw withCause(internal("import.kit_apprentissage: unable to runKitApprentissageImporter"), error);
   }
 }

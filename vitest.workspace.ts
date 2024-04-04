@@ -11,7 +11,7 @@ export default defineWorkspace([
       include: ["./tests/**/*.test.ts", "./src/**/*.test.ts"],
       setupFiles: ["./tests/setup.ts"],
       globalSetup: ["./server/tests/globalSetup.ts"],
-      threads: true,
+      // threads: true,
       clearMocks: true,
       sequence: {
         // Important for useMongo to be sequential

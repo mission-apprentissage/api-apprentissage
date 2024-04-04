@@ -35,9 +35,17 @@ export async function controlKitApprentissageCoverage() {
   const missingBcnEntries = await getDbCollection("source.kit_apprentissage")
     .aggregate([
       {
+        $match: { "data.Code Diplôme": { $ne: "NR" } },
+      },
+      {
+        $group: {
+          _id: "$data.Code Diplôme",
+        },
+      },
+      {
         $lookup: {
           from: "source.bcn",
-          localField: "data.Code Diplôme",
+          localField: "_id",
           foreignField: "data.FORMATION_DIPLOME",
           as: "bcn",
         },
@@ -47,6 +55,7 @@ export async function controlKitApprentissageCoverage() {
           bcn: { $size: 0 },
         },
       },
+      { $project: { _id: 1 } },
     ])
     .toArray();
 
@@ -63,15 +72,23 @@ export async function controlKitApprentissageCoverage() {
         $match: { "data.FicheRNCP": { $ne: "NR" } },
       },
       {
+        $group: {
+          _id: "$data.FicheRNCP",
+        },
+      },
+      {
         $lookup: {
           from: "source.france_competence",
-          localField: "data.FicheRNCP",
+          localField: "_id",
           foreignField: "numero_fiche",
           as: "france_competence",
         },
       },
       {
         $match: { france_competence: { $size: 0 } },
+      },
+      {
+        $project: { _id: 1 },
       },
     ])
     .toArray();
@@ -221,6 +238,12 @@ export function getSourceAggregatedDataFromBcn(): AggregationCursor<ISourceAggre
       $unwind: {
         path: "$france_competence",
         preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
+      $project: {
+        bcn: "$bcn",
+        france_competence: "$france_competence",
       },
     },
   ]);

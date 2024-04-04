@@ -1,7 +1,6 @@
 import { ICertification, zCertification } from "shared/models/certification.model";
 import { IBcn_V_FormationDiplome } from "shared/models/source/bcn/bcn.v_formation_diplome.model";
 import { ISourceFranceCompetence } from "shared/models/source/france_competence/source.france_competence.model";
-import { ISourceKitApprentissage } from "shared/models/source/kitApprentissage/source.kit_apprentissage.model";
 
 import { buildCertificationBaseLegale } from "./base_legale/certification.base_legale.builder";
 import { buildCertificationBlocsCompetences } from "./blocs_competences/certification.blocs_competences.builder";
@@ -13,7 +12,6 @@ import { buildCertificationType } from "./type/certification.type.builder";
 
 export type ISourceAggregatedData = {
   bcn?: IBcn_V_FormationDiplome | null;
-  kit_apprentissage?: ISourceKitApprentissage | null;
   france_competence?: ISourceFranceCompetence | null;
 };
 

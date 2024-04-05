@@ -2,7 +2,7 @@ fileignoreconfig:
 - filename: .bin/scripts/setup-local-env.sh
   checksum: c9d412b132f3a7b8b6bde35f5acac94d1fffb87ce5ac718b6abc54b214899be2
 - filename: .github/workflows/release.yml
-  checksum: 7933dd58c1c8a28721771b508d50e634ea96a56121b4e955d1f66af913b71222
+  checksum: 213bdbcaa6a206bb57affdbdec0353115e0d6857eadeb3bb2b2e0ae240b2eb1b
 - filename: .infra/.env_server
   checksum: e4cee673fbdde25c398a5f5b4166bf95c5220a478caabd8d56a6c0b4ec28184c
 - filename: .infra/env.ini

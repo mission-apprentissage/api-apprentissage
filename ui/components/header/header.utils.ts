@@ -18,6 +18,13 @@ const getNavigationItems = ({ user, pathname }: GetNavigationItemsProps): MainNa
         href: NOTION_PAGES.homepage.path,
       },
     },
+    {
+      isActive: pathname === PAGES.documentationTechnique().path,
+      text: PAGES.documentationTechnique().title,
+      linkProps: {
+        href: PAGES.documentationTechnique().path,
+      },
+    },
   ];
 
   if (user?.is_admin) {

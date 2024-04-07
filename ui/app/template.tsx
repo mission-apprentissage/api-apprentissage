@@ -1,7 +1,5 @@
 "use client";
 
-import MuiDsfrThemeProvider from "@codegouvfr/react-dsfr/mui";
-import { Box, Container } from "@mui/material";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import PlausibleProvider from "next-plausible";
@@ -9,8 +7,6 @@ import { FC, useRef } from "react";
 
 import { publicConfig } from "../config.public";
 import { queryClient } from "../utils/query.utils";
-import Footer from "./components/Footer";
-import { Header } from "./components/header/Header";
 
 interface Props {
   children: React.ReactNode;
@@ -22,15 +18,7 @@ const RootTemplate: FC<Props> = ({ children }) => {
 
   return (
     <PlausibleProvider trackLocalhost={false} enabled={tracking.current} domain={publicConfig.host}>
-      <QueryClientProvider client={queryClient}>
-        <MuiDsfrThemeProvider>
-          <Header />
-          <Container maxWidth="xl">
-            <Box minHeight="60vh">{children}</Box>
-          </Container>
-          <Footer />
-        </MuiDsfrThemeProvider>
-      </QueryClientProvider>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </PlausibleProvider>
   );
 };

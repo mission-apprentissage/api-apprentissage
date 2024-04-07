@@ -1,5 +1,7 @@
-import { NOTION_PAGES } from "../../components/breadcrumb/Breadcrumb";
-import NotionPage from "../../components/notion/NotionPage";
+import { Container } from "@mui/material";
+
+import { NOTION_PAGES } from "../../../components/breadcrumb/Breadcrumb";
+import NotionPage from "../../../components/notion/NotionPage";
 import NotFoundPage from "../../not-found";
 
 export const revalidate = 3_600;
@@ -20,5 +22,9 @@ export default async function DocPage(props: DocPageProps) {
     return <NotFoundPage />;
   }
 
-  return <NotionPage pageId={page.notionId} />;
+  return (
+    <Container maxWidth="xl">
+      <NotionPage pageId={page.notionId} />
+    </Container>
+  );
 }

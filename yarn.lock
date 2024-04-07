@@ -1131,6 +1131,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mui/material-nextjs@npm:^5.15.11":
+  version: 5.15.11
+  resolution: "@mui/material-nextjs@npm:5.15.11"
+  dependencies:
+    "@babel/runtime": ^7.23.9
+  peerDependencies:
+    "@emotion/cache": ^11.11.0
+    "@emotion/server": ^11.11.0
+    "@mui/material": ^5.0.0
+    "@types/react": ^17.0.0 || ^18.0.0
+    next: ^13.0.0 || ^14.0.0
+    react: ^17.0.0 || ^18.0.0
+  peerDependenciesMeta:
+    "@emotion/cache":
+      optional: true
+    "@emotion/server":
+      optional: true
+    "@types/react":
+      optional: true
+  checksum: 53f6e9686a285188450f838fe5cd5569de38914958647fc09104857691538b46a7f0fe58803864a6f7f3fdf4d2634dae44bede1ac7bf89f172c93fefb6e4f8ee
+  languageName: node
+  linkType: hard
+
 "@mui/material@npm:^5.15.15":
   version: 5.15.15
   resolution: "@mui/material@npm:5.15.15"
@@ -15595,10 +15618,12 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.24.4
     "@codegouvfr/react-dsfr": ^1.9.6
+    "@emotion/cache": ^11.11.0
     "@emotion/react": ^11.11.4
     "@emotion/server": ^11.11.0
     "@emotion/styled": ^11.11.5
     "@mui/material": ^5.15.15
+    "@mui/material-nextjs": ^5.15.11
     "@mui/system": ^5.15.15
     "@mui/x-data-grid": ^6.19.8
     "@sentry/integrations": ^7.109.0

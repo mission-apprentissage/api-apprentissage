@@ -8,6 +8,7 @@ export interface PublicConfig {
   env: "local" | "preview" | "recette" | "production";
   version: string;
   productMeta: {
+    brandName: "API Apprentissage";
     productName: string;
     repoName: string;
   };
@@ -106,7 +107,7 @@ function getProductMeta(): PublicConfig["productMeta"] {
     throw new Error("missing NEXT_PUBLIC_PRODUCT_REPO env-vars");
   }
 
-  return { productName, repoName };
+  return { productName, repoName, brandName: "API Apprentissage" };
 }
 
 function getEnv(): PublicConfig["env"] {

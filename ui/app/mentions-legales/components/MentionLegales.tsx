@@ -1,8 +1,8 @@
 import { Summary } from "@codegouvfr/react-dsfr/Summary";
 import { Grid, Typography } from "@mui/material";
 
+import Section from "../../../components/section/Section";
 import { publicConfig } from "../../../config.public";
-import Section from "../../components/section/Section";
 
 export const mentionLegalesVersion = "v1.0";
 
@@ -56,7 +56,7 @@ const MentionsLegales = () => {
           Mentions légales
         </Typography>
 
-        <Typography>Mentions légales du site « {publicConfig.productMeta.productName} »</Typography>
+        <Typography>Mentions légales du site « {publicConfig.productMeta.brandName} »</Typography>
         <Typography>Dernière mise à jour le : 23 mars 2024 - {mentionLegalesVersion}</Typography>
 
         <Section id={anchors.DateMaj}>

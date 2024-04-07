@@ -4,7 +4,7 @@ import Link from "next/link";
 // import { usePlausible } from "next-plausible";
 import React from "react";
 
-import { publicConfig } from "../../config.public";
+import { publicConfig } from "../config.public";
 import { PAGES } from "./breadcrumb/Breadcrumb";
 
 const Footer = () => {

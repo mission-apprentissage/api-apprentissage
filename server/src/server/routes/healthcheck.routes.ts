@@ -9,7 +9,7 @@ export const healthcheckRoutes = ({ server }: { server: Server }) => {
   server.get("/healthcheck", { schema: zRoutes.get["/healthcheck"] }, async (request, response) => {
     ensureInitialization();
     response.status(200).send({
-      name: `${config.productName} Apprentissage API`,
+      name: "API Apprentissage",
       version: config.version,
       env: config.env,
     });

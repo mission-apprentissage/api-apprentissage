@@ -56,7 +56,7 @@ const nextConfig = {
         ],
       },
       {
-        source: "/redoc",
+        source: "/documentation-technique",
         headers: [
           {
             key: "Content-Security-Policy",

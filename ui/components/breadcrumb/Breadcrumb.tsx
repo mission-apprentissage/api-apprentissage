@@ -11,6 +11,10 @@ export const NOTION_PAGES = {
 
 export const PAGES = {
   homepage: (): Page => NOTION_PAGES.homepage,
+  documentationTechnique: (): Page => ({
+    title: "Documentation technique",
+    path: "/documentation-technique",
+  }),
   mentionsLegales: (): Page => ({
     title: "Mentions Légales",
     path: "/mentions-legales",

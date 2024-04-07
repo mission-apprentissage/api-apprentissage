@@ -2,9 +2,9 @@ import { Typography } from "@mui/material";
 import { FC } from "react";
 import { IUserPublic } from "shared/models/user.model";
 
+import Breadcrumb, { PAGES } from "../../../../../components/breadcrumb/Breadcrumb";
 import InfoDetails from "../../../../../components/infoDetails/InfoDetails";
 import { formatDate } from "../../../../../utils/date.utils";
-import Breadcrumb, { PAGES } from "../../../../components/breadcrumb/Breadcrumb";
 
 interface Props {
   user: IUserPublic;

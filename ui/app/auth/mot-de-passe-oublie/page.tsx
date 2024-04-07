@@ -3,14 +3,14 @@
 import { Alert } from "@codegouvfr/react-dsfr/Alert";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { Input } from "@codegouvfr/react-dsfr/Input";
-import { Box, Typography } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { IGetRoutes, IQuery } from "shared";
 import { IStatus } from "shared/routes/_private/auth.routes";
 
+import Breadcrumb, { PAGES } from "../../../components/breadcrumb/Breadcrumb";
 import { apiGet } from "../../../utils/api.utils";
-import Breadcrumb, { PAGES } from "../../components/breadcrumb/Breadcrumb";
 import FormContainer from "../components/FormContainer";
 
 type Route = IGetRoutes["/_private/auth/reset-password"];
@@ -50,7 +50,7 @@ const MotDePasseOubliePage = () => {
   };
 
   return (
-    <>
+    <Container maxWidth="xl">
       <Breadcrumb pages={[PAGES.connexion(), PAGES.motDePasseOublie()]} />
       <FormContainer>
         <Typography variant="h2" gutterBottom>
@@ -81,7 +81,7 @@ const MotDePasseOubliePage = () => {
           </Box>
         </form>
       </FormContainer>
-    </>
+    </Container>
   );
 };
 export default MotDePasseOubliePage;

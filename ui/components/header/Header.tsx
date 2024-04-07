@@ -5,9 +5,9 @@ import { useIsDark } from "@codegouvfr/react-dsfr/useIsDark";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo } from "react";
 
-import { publicConfig } from "../../../config.public";
-import { useAuth } from "../../../context/AuthContext";
-import { apiGet } from "../../../utils/api.utils";
+import { publicConfig } from "../../config.public";
+import { useAuth } from "../../context/AuthContext";
+import { apiGet } from "../../utils/api.utils";
 import { PAGES } from "../breadcrumb/Breadcrumb";
 import { useNavigationItems } from "./header.utils";
 
@@ -75,10 +75,10 @@ export const Header = () => {
       }
       homeLinkProps={{
         href: "/",
-        title: `Accueil - ${publicConfig.productMeta.productName}`,
+        title: `Accueil - ${publicConfig.productMeta.brandName}`,
       }}
       quickAccessItems={user ? loggedIn : loggedOut}
-      serviceTitle={publicConfig.productMeta.productName}
+      serviceTitle={publicConfig.productMeta.brandName}
       navigation={navigation}
     />
   );

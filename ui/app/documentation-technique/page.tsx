@@ -19,20 +19,20 @@ export default function RedocPage() {
         menuToggle: true,
         hideSchemaTitles: false,
         theme: {
-          spacing: {
-            sectionHorizontal: 20,
-            sectionVertical: 10,
-          },
-          sidebar: {
-            width: "0px",
-          },
-          typography: {
-            headings: {
-              fontFamily: "inherit",
-              fontWeight: "bold",
-              lineHeight: "1.15",
-            },
-          },
+          // spacing: {
+          //   sectionHorizontal: 20,
+          //   sectionVertical: 10,
+          // },
+          // sidebar: {
+          //   width: "0px",
+          // },
+          // typography: {
+          //   headings: {
+          //     fontFamily: "inherit",
+          //     fontWeight: "bold",
+          //     lineHeight: "1.15",
+          //   },
+          // },
         },
         labels: {
           enum: "Enum",

@@ -1,7 +1,13 @@
-import NotionPage from "../../components/notion/NotionPage";
+import { Container } from "@mui/material";
+
+import NotionPage from "../../../components/notion/NotionPage";
 
 export const revalidate = 300;
 
 export default async function Page({ params: { id } }: { params: { id: string } }) {
-  return <NotionPage pageId={id} />;
+  return (
+    <Container maxWidth="xl">
+      <NotionPage pageId={id} />
+    </Container>
+  );
 }

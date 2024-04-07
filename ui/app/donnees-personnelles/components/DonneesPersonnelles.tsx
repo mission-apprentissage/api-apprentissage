@@ -3,8 +3,8 @@ import { Summary } from "@codegouvfr/react-dsfr/Summary";
 import { Grid, Typography } from "@mui/material";
 import React from "react";
 
+import Section from "../../../components/section/Section";
 import { publicConfig } from "../../../config.public";
-import Section from "../../components/section/Section";
 
 const anchors = {
   mission: "mission",
@@ -45,7 +45,7 @@ const DonneesPersonnelles = () => {
           Protection des données à caractère personnel
         </Typography>
         <Typography>
-          Le service {publicConfig.productMeta.productName} est{" "}
+          Le service {publicConfig.productMeta.brandName} est{" "}
           <strong>
             construit dans le respect de la vie privée des personnes et applique les standards de sécurité de
             l&apos;État.
@@ -94,9 +94,9 @@ const DonneesPersonnelles = () => {
           </Typography>
 
           <Typography gutterBottom>
-            Le service {publicConfig.productMeta.productName} vise à mettre à disposition de toutes les parties
-            prenantes de la formation en apprentissage les données clés, de manière dynamique, afin de permettre un
-            pilotage opérationnel réactif dans les territoires.
+            Le service {publicConfig.productMeta.brandName} vise à mettre à disposition de toutes les parties prenantes
+            de la formation en apprentissage les données clés, de manière dynamique, afin de permettre un pilotage
+            opérationnel réactif dans les territoires.
           </Typography>
           <Typography>
             L'affichage des données en temps réel auprès des acteurs institutionnels leur permet :
@@ -130,7 +130,7 @@ const DonneesPersonnelles = () => {
 
           <Typography>
             Dans le respect du RGPD, seules les données utiles à la construction du service{" "}
-            {publicConfig.productMeta.productName} sont collectées.
+            {publicConfig.productMeta.brandName} sont collectées.
           </Typography>
           <Typography>Données concernant l'apprenant :</Typography>
           <ul>

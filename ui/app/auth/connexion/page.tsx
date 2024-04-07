@@ -4,7 +4,7 @@ import { Alert } from "@codegouvfr/react-dsfr/Alert";
 import { PasswordInput } from "@codegouvfr/react-dsfr/blocks/PasswordInput";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { Input } from "@codegouvfr/react-dsfr/Input";
-import { Box } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -12,9 +12,9 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { IBody, IPostRoutes } from "shared";
 import { IStatus } from "shared/routes/_private/auth.routes";
 
+import Breadcrumb, { PAGES } from "../../../components/breadcrumb/Breadcrumb";
 import { useAuth } from "../../../context/AuthContext";
 import { apiPost } from "../../../utils/api.utils";
-import Breadcrumb, { PAGES } from "../../components/breadcrumb/Breadcrumb";
 import FormContainer from "../components/FormContainer";
 
 type Route = IPostRoutes["/_private/auth/login"];
@@ -50,7 +50,7 @@ const ConnexionPage = () => {
   }
 
   return (
-    <>
+    <Container maxWidth="xl">
       <Breadcrumb pages={[PAGES.connexion()]} />
       <FormContainer>
         <Typography variant="h2" gutterBottom>
@@ -100,7 +100,7 @@ const ConnexionPage = () => {
           </Box>
         </form>
       </FormContainer>
-    </>
+    </Container>
   );
 };
 export default ConnexionPage;

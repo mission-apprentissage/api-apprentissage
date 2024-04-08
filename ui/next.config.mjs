@@ -6,8 +6,6 @@ import { withPlausibleProxy } from "next-plausible";
 import path from "path";
 import { fileURLToPath } from "url";
 
-import { contentSecurityPolicy, inline } from "./csp.mjs";
-
 const nextConfig = {
   transpilePackages: ["shared"],
   poweredByHeader: false,
@@ -21,19 +19,6 @@ const nextConfig = {
     disableClientWebpackPlugin: true,
     hideSourceMaps: false,
     widenClientFileUpload: true,
-  },
-  async headers() {
-    return [
-      {
-        source: "/:path*",
-        headers: [
-          {
-            key: "Content-Security-Policy",
-            value: inline(contentSecurityPolicy),
-          },
-        ],
-      },
-    ];
   },
   webpack: (config) => {
     config.module.rules.push({

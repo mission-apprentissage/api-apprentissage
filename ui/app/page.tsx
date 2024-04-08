@@ -138,7 +138,7 @@ function CommentUtiliserApiSection() {
   return (
     <Box sx={{ background: fr.colors.decisions.background.alt.beigeGrisGalet.default }}>
       <Container maxWidth="xl" disableGutters>
-        <Box display="grid" gridTemplateColumns={{ sm: "1fr", md: "1fr 1fr" }} padding={fr.spacing("6w")}>
+        <Box display="grid" gridTemplateColumns={{ sm: "1fr", md: "1fr 1fr" }} padding={{ md: fr.spacing("6w") }}>
           <Box display="flex" alignItems="center" justifyContent="center" position="relative">
             <Hidden mdDown>
               <Image
@@ -186,7 +186,7 @@ function ProtectionDesDonneeSection() {
   return (
     <Box sx={{ background: fr.colors.decisions.background.alt.blueEcume.default }}>
       <Container maxWidth="xl" disableGutters>
-        <Box display="grid" gridTemplateColumns={{ sm: "1fr", md: "1fr 1fr" }} padding={fr.spacing("6w")}>
+        <Box display="grid" gridTemplateColumns={{ sm: "1fr", md: "1fr 1fr" }} padding={{ md: fr.spacing("6w") }}>
           <Box display="grid" gap={fr.spacing("3w")} padding={fr.spacing("3w")}>
             <Typography variant="h2" sx={{ color: fr.colors.decisions.text.label.blueEcume.default }}>
               Protection des données

@@ -1,5 +1,5 @@
 import fastifySentryPlugin, { FastifySentryOptions } from "@immobiliarelabs/fastify-sentry";
-import { CaptureConsole, ExtraErrorData } from "@sentry/integrations";
+import { captureConsoleIntegration, extraErrorDataIntegration } from "@sentry/integrations";
 import * as Sentry from "@sentry/node";
 import { FastifyRequest } from "fastify";
 
@@ -14,12 +14,10 @@ function getOptions(): Sentry.NodeOptions {
     release: config.version,
     enabled: config.env !== "local",
     integrations: [
-      new Sentry.Integrations.Http({ tracing: true }),
+      Sentry.httpIntegration({ tracing: true }),
       new Sentry.Integrations.Mongo({ useMongoose: false }),
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      new CaptureConsole({ levels: ["error"] }) as any,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      new ExtraErrorData({ depth: 16 }) as any,
+      captureConsoleIntegration({ levels: ["error"] }),
+      extraErrorDataIntegration({ depth: 16 }),
     ],
   };
 }

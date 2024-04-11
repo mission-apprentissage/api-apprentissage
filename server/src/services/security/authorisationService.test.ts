@@ -1,32 +1,22 @@
-import { ObjectId } from "mongodb";
-import { IUser } from "shared/models/user.model";
+import { generateUserFixture } from "shared/models/fixtures";
+import { SchemaWithSecurity } from "shared/routes/common.routes";
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
 import { zObjectId } from "zod-mongodb-schema";
 
-import { generateAccessToken, generateScope, parseAccessToken, SchemaWithSecurity } from "./accessTokenService";
+import { generateAccessToken, generateScope, parseAccessToken } from "./accessTokenService";
 import { isAuthorizedToken, isAuthorizedUser, Ressources } from "./authorisationService";
-
-const mockUser = (email: string, data: Partial<IUser> = {}): IUser => {
-  return {
-    _id: new ObjectId(),
-    email,
-    password: "",
-    is_admin: false,
-    api_keys: [],
-    updated_at: new Date(),
-    created_at: new Date(),
-    ...data,
-  };
-};
 
 describe("isAuthorizedToken", () => {
   const requiredUsers = [
-    mockUser("required_1@mail.com"),
-    mockUser("required_2@mail.com"),
-    mockUser("required_3@mail.com"),
+    generateUserFixture({ email: "required_1@mail.com" }),
+    generateUserFixture({ email: "required_2@mail.com" }),
+    generateUserFixture({ email: "required_3@mail.com" }),
   ];
-  const otherUsers = [mockUser("extra_1@mail.com"), mockUser("extra_2@mail.com")];
+  const otherUsers = [
+    generateUserFixture({ email: "extra_1@mail.com" }),
+    generateUserFixture({ email: "extra_2@mail.com" }),
+  ];
 
   const resources: Ressources = {
     users: requiredUsers,
@@ -131,10 +121,10 @@ describe("isAuthorizedToken", () => {
 });
 
 describe("isAuthorizedUser", () => {
-  const user1 = mockUser("user1@mail.com");
-  const user2 = mockUser("user2@mail.com");
-  const admin1 = mockUser("admin@mail.com", { is_admin: true });
-  const admin2 = mockUser("admin@mail.com", { is_admin: true });
+  const user1 = generateUserFixture({ email: "user1@mail.com" });
+  const user2 = generateUserFixture({ email: "user2@mail.com" });
+  const admin1 = generateUserFixture({ email: "admin@mail.com", is_admin: true });
+  const admin2 = generateUserFixture({ email: "admin@mail.com", is_admin: true });
 
   describe("admin permission", () => {
     it("admin user should be allowed for any user", () => {

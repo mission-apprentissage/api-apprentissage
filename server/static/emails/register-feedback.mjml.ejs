@@ -1,0 +1,19 @@
+<mjml>
+  <%- include('./common/head.ejs'); %>
+
+  <mj-body background-color="#f9fafc" width="700px">
+    <%- include('./common/header.ejs'); %>
+    <mj-wrapper padding="54px" background-color="#ffffff">
+      <mj-section padding-top="0">
+        <mj-column>
+          <mj-text font-size="20px" line-height="32px" font-weight="700">Feedback: Création de compte</mj-text>
+
+          <mj-text>Utilisateur: <%= template.from %></mj-text>
+          <mj-text><%= template.comment %></mj-text>
+        </mj-column>
+      </mj-section>
+      <%- include('./common/signature.ejs'); %>
+    </mj-wrapper>
+    <%- include('./common/footer.ejs'); %>
+  </mj-body>
+</mjml>

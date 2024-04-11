@@ -1,13 +1,16 @@
-import assert from "node:assert";
-
 import { useMongo } from "@tests/mongo.test.utils";
 import { ObjectId } from "mongodb";
-import { beforeAll, describe, expect, it } from "vitest";
+import { generateUserFixture } from "shared/models/fixtures";
+import { beforeAll, describe, expect, it, vi } from "vitest";
 
-import { getSession } from "@/actions/sessions.actions";
-import { createUser } from "@/actions/users.actions";
+import { createSession, createSessionToken, getSession } from "@/actions/sessions.actions";
 import config from "@/config";
 import createServer, { Server } from "@/server/server";
+import { sendEmail } from "@/services/mailer/mailer";
+import { getDbCollection } from "@/services/mongodb/mongodbService";
+import { parseAccessToken } from "@/services/security/accessTokenService";
+
+import { generateMagicLinkToken, generateRegisterToken } from "../../../actions/auth.actions";
 
 type Cookie = {
   name: string;
@@ -15,6 +18,12 @@ type Cookie = {
   path: string;
   httpOnly: boolean;
 };
+
+vi.mock("@/services/mailer/mailer", () => {
+  return {
+    sendEmail: vi.fn(),
+  };
+});
 
 describe("Authentication", () => {
   useMongo();
@@ -27,206 +36,397 @@ describe("Authentication", () => {
     return () => app.close();
   }, 15_000);
 
-  it("should sign user in with valid credentials", async () => {
-    const user = await createUser({
-      email: "email@exemple.fr",
-      password: "my-password",
-      is_admin: false,
+  describe("GET /api/_private/auth/session", () => {
+    it("should get the current user connected via cookie-session", async () => {
+      const user = generateUserFixture({
+        email: "connected@exemple.fr",
+        is_admin: false,
+      });
+      await getDbCollection("users").insertOne(user);
+
+      const token = createSessionToken(user.email);
+      await createSession(user.email);
+
+      const userWithToken = await getDbCollection("users").findOne({ _id: user._id });
+
+      expect(userWithToken?.api_keys).toHaveLength(0);
+
+      const response = await app.inject({
+        method: "GET",
+        url: "/api/_private/auth/session",
+        headers: {
+          ["Cookie"]: `api_session=${token}`,
+        },
+      });
+
+      const userResponse = response.json();
+
+      expect(response.statusCode).toBe(200);
+      expect(userResponse).toEqual({
+        _id: user._id.toString(),
+        email: "connected@exemple.fr",
+        is_admin: false,
+        has_api_key: false,
+        api_key_used_at: null,
+        created_at: expect.stringMatching(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/),
+        updated_at: expect.stringMatching(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/),
+      });
     });
 
-    const response = await app.inject({
-      method: "POST",
-      url: "/api/_private/auth/login",
-      payload: {
-        email: user?.email,
-        password: "my-password",
-      },
-    });
+    it("should returns 401 when user is not connected", async () => {
+      const response = await app.inject({
+        method: "GET",
+        url: "/api/_private/auth/session",
+      });
 
-    expect(response.statusCode).toBe(200);
-    expect(response.json()).toEqual({
-      _id: user?._id.toString(),
-      email: "email@exemple.fr",
-      is_admin: false,
-      has_api_key: false,
-      api_key_used_at: null,
-      created_at: expect.stringMatching(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/),
-      updated_at: expect.stringMatching(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/),
-    });
-  });
+      const userResponse = response.json();
 
-  it("should not sign user in with invalid credentials", async () => {
-    const user = await createUser({
-      email: "email@exemple.fr",
-      password: "my-password",
-      is_admin: false,
-    });
-
-    const responseIncorrectEmail = await app.inject({
-      method: "POST",
-      url: "/api/_private/auth/login",
-      payload: {
-        email: "another-email@exemple.fr",
-        password: "my-password",
-      },
-    });
-
-    expect(responseIncorrectEmail.statusCode).toBe(403);
-
-    const responseIncorrectPassword = await app.inject({
-      method: "POST",
-      url: "/api/_private/auth/login",
-      payload: {
-        email: user?.email,
-        password: "incorrect-password",
-      },
-    });
-
-    expect(responseIncorrectPassword.statusCode).toBe(403);
-  });
-
-  it("should identify user and create session in db after signing in", async () => {
-    const user = await createUser({
-      email: "email@exemple.fr",
-      password: "my-password",
-      is_admin: false,
-    });
-
-    const responseLogin = await app.inject({
-      method: "POST",
-      url: "/api/_private/auth/login",
-      payload: {
-        email: user?.email,
-        password: "my-password",
-      },
-    });
-
-    const cookies = responseLogin.cookies as Cookie[];
-    const sessionCookie = cookies.find((cookie) => cookie.name === config.session.cookieName) as Cookie;
-
-    const session = await getSession({ email: "email@exemple.fr" });
-    expect(session).toEqual({
-      _id: expect.any(ObjectId),
-      email: "email@exemple.fr",
-      expires_at: expect.any(Date),
-      created_at: expect.any(Date),
-      updated_at: expect.any(Date),
-    });
-
-    const response = await app.inject({
-      method: "GET",
-      url: "/api/_private/auth/session",
-      cookies: {
-        [sessionCookie.name]: sessionCookie.value,
-      },
-    });
-
-    expect(response.statusCode).toBe(200);
-    expect(response.json()).toEqual({
-      _id: user?._id.toString(),
-      email: "email@exemple.fr",
-      is_admin: false,
-      has_api_key: false,
-      api_key_used_at: null,
-      created_at: expect.stringMatching(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/),
-      updated_at: expect.stringMatching(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/),
+      expect(response.statusCode).toBe(401);
+      expect(userResponse).toEqual({
+        message: "Vous devez être connecté pour accéder à cette ressource",
+        name: "Unauthorized",
+        statusCode: 401,
+      });
     });
   });
 
-  it("should not identify user using session and delete in database after signing out", async () => {
-    const user = await createUser({
-      email: "email@example.fr",
-      password: "my-password",
-      is_admin: false,
+  describe("POST /_private/auth/login-request", () => {
+    it("should send register email for new email", async () => {
+      const response = await app.inject({
+        method: "POST",
+        url: "/api/_private/auth/login-request",
+        payload: {
+          email: "user@exemple.fr",
+        },
+      });
+
+      expect(response.statusCode).toBe(200);
+      expect(JSON.parse(response.body)).toEqual({ success: true });
+
+      expect(vi.mocked(sendEmail)).toHaveBeenCalledWith({
+        name: "register",
+        to: "user@exemple.fr",
+        token: expect.any(String),
+      });
+
+      const accessToken = parseAccessToken(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (vi.mocked(sendEmail).mock.calls[0][0] as any).token,
+        { method: "post", path: "/_private/auth/register" },
+        {},
+        {}
+      );
+      expect(accessToken).toEqual({
+        exp: expect.any(Number),
+        iat: expect.any(Number),
+        identity: {
+          email: "user@exemple.fr",
+        },
+        iss: "http://localhost",
+        scopes: [
+          {
+            method: "post",
+            options: "all",
+            path: "/_private/auth/register",
+            resources: {},
+          },
+          {
+            method: "post",
+            options: "all",
+            path: "/_private/auth/register-feedback",
+            resources: {},
+          },
+        ],
+      });
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      expect((accessToken as any).exp).toBeLessThanOrEqual(Date.now() / 1_000 + 30 * 24 * 3600);
     });
 
-    const responseLogin = await app.inject({
-      method: "POST",
-      url: "/api/_private/auth/login",
-      payload: {
-        email: user?.email,
-        password: "my-password",
-      },
+    it("should send magic link email for existing email", async () => {
+      const user = generateUserFixture({
+        email: "user@exemple.fr",
+      });
+      await getDbCollection("users").insertOne(user);
+
+      const response = await app.inject({
+        method: "POST",
+        url: "/api/_private/auth/login-request",
+        payload: {
+          email: "user@exemple.fr",
+        },
+      });
+
+      expect(response.statusCode).toBe(200);
+      expect(JSON.parse(response.body)).toEqual({ success: true });
+
+      expect(vi.mocked(sendEmail)).toHaveBeenCalledWith({
+        name: "magic-link",
+        to: "user@exemple.fr",
+        token: expect.any(String),
+      });
+
+      const accessToken = parseAccessToken(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (vi.mocked(sendEmail).mock.calls[0][0] as any).token,
+        { method: "post", path: "/_private/auth/login" },
+        {},
+        {}
+      );
+      expect(accessToken).toEqual({
+        exp: expect.any(Number),
+        iat: expect.any(Number),
+        identity: {
+          email: "user@exemple.fr",
+        },
+        iss: "http://localhost",
+        scopes: [
+          {
+            method: "post",
+            options: "all",
+            path: "/_private/auth/login",
+            resources: {},
+          },
+        ],
+      });
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      expect((accessToken as any).exp).toBeLessThanOrEqual(Date.now() / 1_000 + 7 * 24 * 3600);
     });
-
-    let cookies = responseLogin.cookies as Cookie[];
-    let sessionCookie = cookies.find((cookie) => cookie.name === config.session.cookieName) as Cookie;
-
-    const responseLogout = await app.inject({
-      method: "GET",
-      url: "/api/_private/auth/logout",
-      cookies: {
-        [sessionCookie.name]: sessionCookie.value,
-      },
-    });
-
-    cookies = responseLogout.cookies as Cookie[];
-    sessionCookie = cookies.find((cookie) => cookie.name === config.session.cookieName) as Cookie;
-
-    assert.equal(responseLogout.statusCode, 200);
-    assert.equal(sessionCookie.value, "");
-
-    const session = await getSession({ token: sessionCookie.value });
-    assert.equal(session, null);
-
-    const response = await app.inject({
-      method: "GET",
-      url: "/api/_private/auth/session",
-      cookies: {
-        [sessionCookie.name]: sessionCookie?.value as string,
-      },
-    });
-
-    assert.equal(response.statusCode, 401);
   });
 
-  // TODO SHOULD BE NOOP EMAIL
-  // it("should send reset password email", async () => {
-  //   const user = await createUser({
-  //     email: "email@exemple.fr",
-  //     password: "my-password",
-  //     organisation_id: "64520f65d7726475fd54b3b7",
-  //   });
+  describe("POST /_private/auth/register-feedback", () => {
+    it("should send feedback email", async () => {
+      const token = generateRegisterToken("user@exemple.fr");
+      const response = await app.inject({
+        method: "POST",
+        url: "/api/_private/auth/register-feedback",
+        headers: { authorization: `Bearer ${token}` },
+        body: {
+          comment: "My super comment",
+        },
+      });
 
-  //   const response = await app.inject({
-  //     method: "GET",
-  //     url: "/api/auth/reset-password",
-  //     query: {
-  //       email: user?.email as string,
-  //     },
-  //   });
+      expect(response.statusCode).toBe(200);
+      expect(JSON.parse(response.body)).toEqual({ success: true });
 
-  //   assert.equal(response.statusCode, 200);
-  // });
+      expect(vi.mocked(sendEmail)).toHaveBeenCalledWith({
+        name: "register-feedback",
+        to: "support_api@apprentissage.beta.gouv.fr",
+        comment: "My super comment",
+        from: "user@exemple.fr",
+      });
+    });
+  });
 
-  // it("should reset user password", async () => {
-  //   const user = await createUser({
-  //     email: "email@exemple.fr",
-  //     password: "my-password",
-  //     organisation_id: "64520f65d7726475fd54b3b7",
-  //   });
+  describe("POST /api/_private/auth/login", () => {
+    it("should returns 401 if missing access-token", async () => {
+      const response = await app.inject({
+        method: "POST",
+        url: "/api/_private/auth/login",
+      });
 
-  //   const token = createResetPasswordToken(user?.email as string);
-  //   const newPassword = "new-password";
-  //   const response = await app.inject({
-  //     method: "POST",
-  //     url: "/api/auth/reset-password",
-  //     payload: {
-  //       password: newPassword,
-  //       token,
-  //     },
-  //   });
+      const userResponse = response.json();
 
-  //   assert.equal(response.statusCode, 200);
+      expect(response.statusCode).toBe(401);
+      expect(userResponse).toEqual({
+        message: "Le lien de connexion pour accéder à cette ressource est invalide",
+        name: "Unauthorized",
+        statusCode: 401,
+      });
+    });
 
-  //   const updatedPasswordUser = await findUser({ _id: user?._id });
+    it("should start session", async () => {
+      const user = generateUserFixture({
+        email: "user@exemple.fr",
+      });
+      await getDbCollection("users").insertOne(user);
+      const token = generateMagicLinkToken("user@exemple.fr");
+      const response = await app.inject({
+        method: "POST",
+        url: "/api/_private/auth/login",
+        headers: { authorization: `Bearer ${token}` },
+      });
 
-  //   const match = verifyPassword(
-  //     newPassword,
-  //     updatedPasswordUser?.password as string
-  //   );
+      const userResponse = response.json();
 
-  //   assert.notEqual(updatedPasswordUser?.password, user?.password);
-  //   assert.equal(match, true);
-  // });
+      expect(response.statusCode).toBe(200);
+      const userData = {
+        _id: user._id.toString(),
+        api_key_used_at: null,
+        created_at: user.created_at.toJSON(),
+        email: user.email,
+        has_api_key: false,
+        is_admin: false,
+        updated_at: user.updated_at.toJSON(),
+      };
+      expect(userResponse).toEqual(userData);
+
+      const cookies = response.cookies as Cookie[];
+      const sessionCookie = cookies.find((cookie) => cookie.name === config.session.cookieName) as Cookie;
+
+      const session = await getSession({ email: user.email });
+      expect(session).toEqual({
+        _id: expect.any(ObjectId),
+        email: user.email,
+        expires_at: expect.any(Date),
+        created_at: expect.any(Date),
+        updated_at: expect.any(Date),
+      });
+
+      const responseSession = await app.inject({
+        method: "GET",
+        url: "/api/_private/auth/session",
+        cookies: {
+          [sessionCookie.name]: sessionCookie.value,
+        },
+      });
+
+      expect(responseSession.statusCode).toBe(200);
+      expect(responseSession.json()).toEqual(userData);
+    });
+  });
+
+  describe("POST /_private/auth/register", () => {
+    it("should returns 401 if missing access-token", async () => {
+      const response = await app.inject({
+        method: "POST",
+        url: "/api/_private/auth/register",
+      });
+
+      const userResponse = response.json();
+
+      expect(response.statusCode).toBe(401);
+      expect(userResponse).toEqual({
+        message: "Le lien de connexion pour accéder à cette ressource est invalide",
+        name: "Unauthorized",
+        statusCode: 401,
+      });
+    });
+
+    it("should create user", async () => {
+      const token = generateRegisterToken("user@exemple.fr");
+      const response = await app.inject({
+        method: "POST",
+        url: "/api/_private/auth/register",
+        headers: { authorization: `Bearer ${token}` },
+        body: {
+          type: "entreprise",
+          activite: "",
+          objectif: "concevoir",
+          cas_usage: "Mon cas",
+          cgu: true,
+        },
+      });
+
+      const userResponse = response.json();
+
+      expect(response.statusCode).toBe(200);
+
+      const user = await getDbCollection("users").findOne({ email: "user@exemple.fr" });
+
+      if (!user) {
+        expect(user).not.toBe(null);
+        return;
+      }
+
+      const userData = {
+        _id: user._id.toString(),
+        api_key_used_at: null,
+        created_at: user.created_at.toJSON(),
+        email: user.email,
+        has_api_key: false,
+        is_admin: false,
+        updated_at: user.updated_at.toJSON(),
+      };
+      expect(userResponse).toEqual(userData);
+
+      const cookies = response.cookies as Cookie[];
+      const sessionCookie = cookies.find((cookie) => cookie.name === config.session.cookieName) as Cookie;
+
+      const session = await getSession({ email: user.email });
+      expect(session).toEqual({
+        _id: expect.any(ObjectId),
+        email: user.email,
+        expires_at: expect.any(Date),
+        created_at: expect.any(Date),
+        updated_at: expect.any(Date),
+      });
+
+      const responseSession = await app.inject({
+        method: "GET",
+        url: "/api/_private/auth/session",
+        cookies: {
+          [sessionCookie.name]: sessionCookie.value,
+        },
+      });
+
+      expect(responseSession.statusCode).toBe(200);
+      expect(responseSession.json()).toEqual(userData);
+    });
+  });
+
+  describe("GET /_private/auth/logout", () => {
+    it("should do nothing when logged-out already", async () => {
+      const response = await app.inject({
+        method: "GET",
+        url: "/api/_private/auth/logout",
+      });
+
+      expect(response.statusCode).toBe(200);
+    });
+
+    it("should logout when connected", async () => {
+      const user = generateUserFixture({
+        email: "user@exemple.fr",
+      });
+      await getDbCollection("users").insertOne(user);
+      const token = generateMagicLinkToken("user@exemple.fr");
+      const response = await app.inject({
+        method: "POST",
+        url: "/api/_private/auth/login",
+        headers: { authorization: `Bearer ${token}` },
+      });
+
+      expect(response.statusCode).toBe(200);
+
+      const cookies = response.cookies as Cookie[];
+      const sessionCookie = cookies.find((cookie) => cookie.name === config.session.cookieName) as Cookie;
+
+      expect(await getSession({ email: user.email })).not.toBe(null);
+
+      const logOutResponse = await app.inject({
+        method: "GET",
+        url: "/api/_private/auth/logout",
+        cookies: {
+          [sessionCookie.name]: sessionCookie.value,
+        },
+      });
+
+      expect(logOutResponse.statusCode).toBe(200);
+      expect(logOutResponse.cookies).toEqual([
+        {
+          // Expired cookie
+          expires: new Date(0),
+          httpOnly: true,
+          name: "api_session",
+          path: "/",
+          sameSite: "Lax",
+          value: "",
+        },
+      ]);
+
+      expect(await getSession({ email: user.email })).toBe(null);
+
+      const responseSession = await app.inject({
+        method: "GET",
+        url: "/api/_private/auth/session",
+        cookies: {
+          [sessionCookie.name]: sessionCookie.value,
+        },
+      });
+
+      expect(responseSession.statusCode).toBe(401);
+    });
+  });
 });

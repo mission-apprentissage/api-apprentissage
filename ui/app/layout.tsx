@@ -19,6 +19,7 @@ import { AuthContextProvider } from "../context/AuthContext";
 import { defaultColorScheme } from "../theme/defaultColorScheme";
 import { ApiError, apiGet } from "../utils/api.utils";
 import { StartDsfr } from "./StartDsfr";
+import { StartIntl } from "./StartIntl";
 
 async function getSession(): Promise<IUserPublic | undefined> {
   if (process.env.NEXT_PHASE === "phase-production-build") {
@@ -54,6 +55,7 @@ export default async function RootLayout({ children }: PropsWithChildren) {
     <html {...getHtmlAttributes({ defaultColorScheme, lang })}>
       <head>
         <StartDsfr />
+        <StartIntl />
         <DsfrHead
           Link={Link}
           preloadFonts={[
@@ -72,7 +74,7 @@ export default async function RootLayout({ children }: PropsWithChildren) {
       </head>
       <body>
         <AppRouterCacheProvider>
-          <AuthContextProvider initialUser={session}>
+          <AuthContextProvider initialUser={session ?? null}>
             <DsfrProvider lang={lang}>
               <MuiDsfrThemeProvider>
                 <Header />

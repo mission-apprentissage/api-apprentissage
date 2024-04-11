@@ -5,7 +5,7 @@ import { IUserPublic } from "shared/models/user.model";
 import { NOTION_PAGES, PAGES } from "../breadcrumb/Breadcrumb";
 
 interface GetNavigationItemsProps {
-  user?: IUserPublic;
+  user: IUserPublic | null;
   pathname: string;
 }
 

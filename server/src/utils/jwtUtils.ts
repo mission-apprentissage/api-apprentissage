@@ -1,11 +1,7 @@
 import jwt, { SignOptions } from "jsonwebtoken";
-import { zRoutes } from "shared";
 import { ITemplate, zTemplate } from "shared/models/email_event/email_templates";
-import { IUser } from "shared/models/user.model";
 
 import config from "@/config";
-
-import { generateAccessToken, generateScope } from "../services/security/accessTokenService";
 
 interface ICreateTokenOptions {
   secret?: string;
@@ -30,16 +26,6 @@ const createToken = (type: TokenType, subject: string | null = null, options: IC
   }
   return jwt.sign(payload, secret, opts);
 };
-
-export function createResetPasswordToken(user: IUser) {
-  return generateAccessToken(user, [
-    generateScope({
-      schema: zRoutes.post["/_private/auth/reset-password"],
-      options: "all",
-      resources: {},
-    }),
-  ]);
-}
 
 export function serializeEmailTemplate(template: ITemplate): string {
   // We do not set expiry as the result is not used as a token but as serialized data

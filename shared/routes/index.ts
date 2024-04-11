@@ -83,6 +83,7 @@ type IRequestRaw<S extends IRouteSchema> = {
   querystring: IQuery<S>;
   headers: IHeaders<S> & IHeadersAuth<S> extends EmptyObject ? never : IHeaders<S> & IHeadersAuth<S>;
   body: S extends IRouteSchemaWrite ? IBody<S> : never;
+  signal?: AbortSignal;
 };
 
 export type IRequest<S extends IRouteSchema> =

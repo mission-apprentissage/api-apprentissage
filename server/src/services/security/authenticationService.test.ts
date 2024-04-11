@@ -1,12 +1,13 @@
 import { useMongo } from "@tests/mongo.test.utils";
 import { ObjectId } from "mongodb";
+import { generateUserFixture } from "shared/models/fixtures";
 import { IUser } from "shared/models/user.model";
 import { ISecuredRouteSchema } from "shared/routes/common.routes";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { z } from "zod";
 
 import { createSession, createSessionToken } from "../../actions/sessions.actions";
-import { createUser, generateApiKey } from "../../actions/users.actions";
+import { generateApiKey } from "../../actions/users.actions";
 import config from "../../config";
 import { getDbCollection } from "../mongodb/mongodbService";
 import { authenticationMiddleware } from "./authenticationService";
@@ -18,17 +19,17 @@ describe("authenticationMiddleware", () => {
   let otherUser: IUser;
 
   beforeEach(async () => {
-    user = await createUser({
+    user = generateUserFixture({
       email: "user@email.com",
-      password: "password",
       is_admin: false,
     });
 
-    otherUser = await createUser({
+    otherUser = generateUserFixture({
       email: "other@email.com",
-      password: "password",
       is_admin: false,
     });
+
+    await getDbCollection("users").insertMany([user, otherUser]);
   });
 
   describe("cookie-session", () => {
@@ -72,14 +73,18 @@ describe("authenticationMiddleware", () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const req: any = { cookies: {} };
 
-      await expect(authenticationMiddleware(schema, req)).rejects.toThrow("Unauthorized");
+      await expect(authenticationMiddleware(schema, req)).rejects.toThrow(
+        "Vous devez être connecté pour accéder à cette ressource"
+      );
     });
 
     it("should throw unauthorized if cookie is invalid", async () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const req: any = { cookies: { [config.session.cookieName]: "invalid" } };
 
-      await expect(authenticationMiddleware(schema, req)).rejects.toThrow("Unauthorized");
+      await expect(authenticationMiddleware(schema, req)).rejects.toThrow(
+        "Vous devez être connecté pour accéder à cette ressource"
+      );
     });
 
     it("should throw unauthorized if cookie is expired", async () => {
@@ -90,7 +95,9 @@ describe("authenticationMiddleware", () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const req: any = { cookies: { [config.session.cookieName]: token } };
 
-      await expect(authenticationMiddleware(schema, req)).rejects.toThrow("Unauthorized");
+      await expect(authenticationMiddleware(schema, req)).rejects.toThrow(
+        "Vous devez être connecté pour accéder à cette ressource"
+      );
     });
 
     it("should throw unauthorized if session is not found", async () => {
@@ -100,7 +107,9 @@ describe("authenticationMiddleware", () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const req: any = { cookies: { [config.session.cookieName]: token } };
 
-      await expect(authenticationMiddleware(schema, req)).rejects.toThrow("Unauthorized");
+      await expect(authenticationMiddleware(schema, req)).rejects.toThrow(
+        "Vous devez être connecté pour accéder à cette ressource"
+      );
     });
 
     it("should throw unauthorized if user is not found", async () => {
@@ -110,7 +119,9 @@ describe("authenticationMiddleware", () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const req: any = { cookies: { [config.session.cookieName]: token } };
 
-      await expect(authenticationMiddleware(schema, req)).rejects.toThrow("Unauthorized");
+      await expect(authenticationMiddleware(schema, req)).rejects.toThrow(
+        "Vous devez être connecté pour accéder à cette ressource"
+      );
     });
   });
 
@@ -278,7 +289,9 @@ describe("authenticationMiddleware", () => {
 
       vi.advanceTimersByTime(config.api_key.expiresIn + 1);
 
-      await expect(authenticationMiddleware(schema, req)).rejects.toThrow("Unauthorized");
+      await expect(authenticationMiddleware(schema, req)).rejects.toThrow(
+        "Vous devez fournir une clé d'API valide pour accéder à cette ressource"
+      );
     });
 
     it("should throw unauthorized if key is removed", async () => {
@@ -289,14 +302,18 @@ describe("authenticationMiddleware", () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const req: any = { headers: { authorization: `Bearer ${token}` } };
 
-      await expect(authenticationMiddleware(schema, req)).rejects.toThrow("Unauthorized");
+      await expect(authenticationMiddleware(schema, req)).rejects.toThrow(
+        "Vous devez fournir une clé d'API valide pour accéder à cette ressource"
+      );
     });
 
     it("should throw unauthorized if key is invalid", async () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const req: any = { headers: { authorization: `Bearer invalid` } };
 
-      await expect(authenticationMiddleware(schema, req)).rejects.toThrow("Unauthorized");
+      await expect(authenticationMiddleware(schema, req)).rejects.toThrow(
+        "Vous devez fournir une clé d'API valide pour accéder à cette ressource"
+      );
     });
   });
 });

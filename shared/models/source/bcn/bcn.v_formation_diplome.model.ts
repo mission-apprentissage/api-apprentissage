@@ -4,7 +4,7 @@ import { zObjectId } from "../../common";
 
 export const zBcn_V_FormationDiplomeData = z
   .object({
-    FORMATION_DIPLOME: z.string().nullable(),
+    FORMATION_DIPLOME: z.string(),
     NIVEAU_FORMATION_DIPLOME: z.string(),
     N_NIVEAU_FORMATION_DIPLOME_LIBELLE_100: z.string().nullable(),
     GROUPE_SPECIALITE: z.string(),

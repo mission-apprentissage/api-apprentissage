@@ -46,22 +46,22 @@ describe("runBcnImporter", () => {
     const coll = getDbCollection("source.bcn");
     const data = await coll.find({}).toArray();
 
-    expect(data.length).toBe(36);
+    expect(data.length).toBe(40);
     expect(
-      data.map((datum) => ({ ...datum, _id: "ObjectId" })).find((datum) => datum.source === "N_FORMATION_DIPLOME")
+      data.map((datum) => ({ ...datum, _id: "ObjectId" })).filter((datum) => datum.source === "N_FORMATION_DIPLOME")
     ).toMatchSnapshot();
     expect(
       data
         .map((datum) => ({ ...datum, _id: "ObjectId" }))
-        .find((datum) => datum.source === "N_FORMATION_DIPLOME_ENQUETE_51")
+        .filter((datum) => datum.source === "N_FORMATION_DIPLOME_ENQUETE_51")
     ).toMatchSnapshot();
     expect(
       data
         .map((datum) => ({ ...datum, _id: "ObjectId" }))
-        .find((datum) => datum.source === "N_NIVEAU_FORMATION_DIPLOME")
+        .filter((datum) => datum.source === "N_NIVEAU_FORMATION_DIPLOME")
     ).toMatchSnapshot();
     expect(
-      data.map((datum) => ({ ...datum, _id: "ObjectId" })).find((datum) => datum.source === "V_FORMATION_DIPLOME")
+      data.map((datum) => ({ ...datum, _id: "ObjectId" })).filter((datum) => datum.source === "V_FORMATION_DIPLOME")
     ).toMatchSnapshot();
 
     expect(fetchBcnData).toHaveBeenCalledTimes(4);
@@ -70,10 +70,11 @@ describe("runBcnImporter", () => {
     expect(fetchBcnData).toHaveBeenNthCalledWith(3, "N_NIVEAU_FORMATION_DIPLOME");
     expect(fetchBcnData).toHaveBeenNthCalledWith(4, "V_FORMATION_DIPLOME");
     expect(stats).toEqual({
-      N_FORMATION_DIPLOME: 9,
+      N_FORMATION_DIPLOME: 11,
       N_FORMATION_DIPLOME_ENQUETE_51: 9,
       N_NIVEAU_FORMATION_DIPLOME: 9,
-      V_FORMATION_DIPLOME: 9,
+      V_FORMATION_DIPLOME: 11,
+      CORRECTION_CONTINUITE: { anciens: 1, nouveaux: 1 },
     });
   });
 

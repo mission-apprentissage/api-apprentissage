@@ -2718,47 +2718,11 @@ exports[`zodToMongoSchema > should convert source.bcn schema 1`] = `
           "additionalProperties": false,
           "bsonType": "object",
           "properties": {
-            "ANCIEN_DIPLOME_1": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
-            },
-            "ANCIEN_DIPLOME_2": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
-            },
-            "ANCIEN_DIPLOME_3": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
-            },
-            "ANCIEN_DIPLOME_4": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
-            },
-            "ANCIEN_DIPLOME_5": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
-            },
-            "ANCIEN_DIPLOME_6": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
-            },
-            "ANCIEN_DIPLOME_7": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
+            "ANCIEN_DIPLOMES": {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "string",
+              },
             },
             "ANCIEN_RECME": {
               "bsonType": [
@@ -2893,10 +2857,7 @@ exports[`zodToMongoSchema > should convert source.bcn schema 1`] = `
               ],
             },
             "FORMATION_DIPLOME": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
+              "bsonType": "string",
             },
             "GESTIONNAIRE_FORMATION_DIPLOME": {
               "bsonType": [
@@ -2955,47 +2916,11 @@ exports[`zodToMongoSchema > should convert source.bcn schema 1`] = `
                 "null",
               ],
             },
-            "NOUVEAU_DIPLOME_1": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
-            },
-            "NOUVEAU_DIPLOME_2": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
-            },
-            "NOUVEAU_DIPLOME_3": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
-            },
-            "NOUVEAU_DIPLOME_4": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
-            },
-            "NOUVEAU_DIPLOME_5": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
-            },
-            "NOUVEAU_DIPLOME_6": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
-            },
-            "NOUVEAU_DIPLOME_7": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
+            "NOUVEAU_DIPLOMES": {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "string",
+              },
             },
             "N_CITE_2013_DOMAINE_DETAILL_LIBELLE_EDITION": {
               "bsonType": [
@@ -3097,20 +3022,8 @@ exports[`zodToMongoSchema > should convert source.bcn schema 1`] = `
             "N_CITE_DOMAINE_FORMATION_LIBELLE_EDITION",
             "NIVEAU_QUALIFICATION_RNCP",
             "N_NIVEAU_QUALIFICATION_RNCP_LIBELLE_LONG",
-            "ANCIEN_DIPLOME_1",
-            "ANCIEN_DIPLOME_2",
-            "ANCIEN_DIPLOME_3",
-            "ANCIEN_DIPLOME_4",
-            "ANCIEN_DIPLOME_5",
-            "ANCIEN_DIPLOME_6",
-            "ANCIEN_DIPLOME_7",
-            "NOUVEAU_DIPLOME_1",
-            "NOUVEAU_DIPLOME_2",
-            "NOUVEAU_DIPLOME_3",
-            "NOUVEAU_DIPLOME_4",
-            "NOUVEAU_DIPLOME_5",
-            "NOUVEAU_DIPLOME_6",
-            "NOUVEAU_DIPLOME_7",
+            "ANCIEN_DIPLOMES",
+            "NOUVEAU_DIPLOMES",
             "NB_MEF_OUVERT",
             "NB_MEF_FERME",
             "DATE_SESSION_RATTRAPAGE",
@@ -3278,10 +3191,7 @@ exports[`zodToMongoSchema > should convert source.bcn schema 1`] = `
               ],
             },
             "FORMATION_DIPLOME": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
+              "bsonType": "string",
             },
             "GESTIONNAIRE_FORMATION_DIPLOME": {
               "bsonType": [
@@ -3705,10 +3615,7 @@ exports[`zodToMongoSchema > should convert source.bcn schema 1`] = `
               ],
             },
             "FORMATION_DIPLOME": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
+              "bsonType": "string",
             },
             "GESTIONNAIRE_FORMATION_DIPLOME": {
               "bsonType": [

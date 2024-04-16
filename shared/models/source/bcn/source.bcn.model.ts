@@ -19,7 +19,7 @@ const indexes: IModelDescriptor["indexes"] = [
   [{ source: 1, "data.FORMATION_DIPLOME": 1 }, {}],
 ];
 
-export const zBcn = z.union([
+export const zBcn = z.discriminatedUnion("source", [
   zBcn_N_FormationDiplome,
   zBcn_N51_FormationDiplome,
   zBcn_N_NiveauFormationDiplome,

@@ -389,52 +389,52 @@ describe("importCertifications", () => {
     const bcnData = [
       generateSourceBcn_V_FormationDiplomeFixture({
         data: generateSourceBcn_V_FormationDiplomeDataFixture({
-          FORMATION_DIPLOME: existingCertifications.updated[0].identifiant.cfd,
+          FORMATION_DIPLOME: existingCertifications.updated[0].identifiant.cfd!,
         }),
       }),
       generateSourceBcn_N_FormationDiplomeFixture({
         data: generateSourceBcn_N_FormationDiplomeDataFixture({
-          FORMATION_DIPLOME: existingCertifications.updated[0].identifiant.cfd,
+          FORMATION_DIPLOME: existingCertifications.updated[0].identifiant.cfd!,
         }),
       }),
       generateSourceBcn_V_FormationDiplomeFixture({
         data: generateSourceBcn_V_FormationDiplomeDataFixture({
-          FORMATION_DIPLOME: existingCertifications.updated[1].identifiant.cfd,
+          FORMATION_DIPLOME: existingCertifications.updated[1].identifiant.cfd!,
         }),
       }),
       generateSourceBcn_N51_FormationDiplomeFixture({
         data: generateSourceBcn_N51_FormationDiplomeDataFixture({
-          FORMATION_DIPLOME: existingCertifications.updated[1].identifiant.cfd,
+          FORMATION_DIPLOME: existingCertifications.updated[1].identifiant.cfd!,
         }),
       }),
       generateSourceBcn_V_FormationDiplomeFixture({
         data: generateSourceBcn_V_FormationDiplomeDataFixture({
-          FORMATION_DIPLOME: existingCertifications.removed[1].identifiant.cfd,
+          FORMATION_DIPLOME: existingCertifications.removed[1].identifiant.cfd!,
         }),
       }),
       generateSourceBcn_N_FormationDiplomeFixture({
         data: generateSourceBcn_N_FormationDiplomeDataFixture({
-          FORMATION_DIPLOME: existingCertifications.removed[1].identifiant.cfd,
+          FORMATION_DIPLOME: existingCertifications.removed[1].identifiant.cfd!,
         }),
       }),
       generateSourceBcn_V_FormationDiplomeFixture({
         data: generateSourceBcn_V_FormationDiplomeDataFixture({
-          FORMATION_DIPLOME: newCertifications[0].identifiant.cfd,
+          FORMATION_DIPLOME: newCertifications[0].identifiant.cfd!,
         }),
       }),
       generateSourceBcn_N_FormationDiplomeFixture({
         data: generateSourceBcn_N_FormationDiplomeDataFixture({
-          FORMATION_DIPLOME: newCertifications[0].identifiant.cfd,
+          FORMATION_DIPLOME: newCertifications[0].identifiant.cfd!,
         }),
       }),
       generateSourceBcn_V_FormationDiplomeFixture({
         data: generateSourceBcn_V_FormationDiplomeDataFixture({
-          FORMATION_DIPLOME: newCertifications[1].identifiant.cfd,
+          FORMATION_DIPLOME: newCertifications[1].identifiant.cfd!,
         }),
       }),
       generateSourceBcn_N51_FormationDiplomeFixture({
         data: generateSourceBcn_N51_FormationDiplomeDataFixture({
-          FORMATION_DIPLOME: newCertifications[1].identifiant.cfd,
+          FORMATION_DIPLOME: newCertifications[1].identifiant.cfd!,
         }),
       }),
       ...generateSourceBcn_N_NiveauFormationDiplomeFixtureList(),
@@ -543,12 +543,12 @@ describe("importCertifications", () => {
     const bcnData = [
       generateSourceBcn_V_FormationDiplomeFixture({
         data: generateSourceBcn_V_FormationDiplomeDataFixture({
-          FORMATION_DIPLOME: existingCertification.identifiant.cfd,
+          FORMATION_DIPLOME: existingCertification.identifiant.cfd!,
         }),
       }),
       generateSourceBcn_N_FormationDiplomeFixture({
         data: generateSourceBcn_N_FormationDiplomeDataFixture({
-          FORMATION_DIPLOME: existingCertification.identifiant.cfd,
+          FORMATION_DIPLOME: existingCertification.identifiant.cfd!,
         }),
       }),
       ...generateSourceBcn_N_NiveauFormationDiplomeFixtureList(),

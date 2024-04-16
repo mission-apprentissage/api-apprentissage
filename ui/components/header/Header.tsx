@@ -25,7 +25,7 @@ export const Header = () => {
 
   const handleLogout = useCallback(async () => {
     await apiGet("/_private/auth/logout", {});
-    setUser();
+    setUser(null);
     push(PAGES.homepage().path);
   }, [setUser, push]);
 
@@ -36,7 +36,7 @@ export const Header = () => {
       {
         iconId: "fr-icon-lock-line",
         linkProps: {
-          href: PAGES.connexion().path,
+          href: PAGES.compteProfil().path,
         },
         text: "Se connecter",
       },

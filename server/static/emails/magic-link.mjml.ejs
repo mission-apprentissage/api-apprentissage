@@ -1,0 +1,31 @@
+<mjml>
+  <%- include('./common/head.ejs'); %>
+
+  <mj-body background-color="#f9fafc" width="700px">
+    <%- include('./common/header.ejs'); %>
+    <mj-wrapper padding="54px" background-color="#ffffff" >
+      <mj-section padding-top="0">
+        <mj-column>
+          <mj-text font-size="20px" line-height="32px" font-weight="700">Souhaitez-vous vous connecter à votre compte ?</mj-text>
+
+          <mj-button
+            align="left"
+            href="<%= utils.getPublicUrl(`/compte/profil?token=${template.token}`) %>"
+          >
+          Oui, je souhaite me connecter
+          </mj-button>
+
+          <mj-text>Si vous rencontrez des problèmes et/ou que vous n’êtes pas à l’origine de cette demande, vous pouvez le support : <a href="mailto:support_api@apprentissage.beta.gouv.fr">support_api@apprentissage.beta.gouv.fr</a></mj-text>
+
+          <mj-text font-size="20px" line-height="32px" font-weight="700">Si le bouton de fonctionne pas, copier le lien suivant dans votre navigateur :</mj-text>
+          <mj-wrapper padding="32px" background-color="#F6F6F6">
+            <mj-text color="#3A3A3A"><%= utils.getPublicUrl(`/compte/profil?token=${template.token}`) %></mj-text>
+          </mj-wrapper>
+
+        </mj-column>
+      </mj-section>
+      <%- include('./common/signature.ejs'); %>
+    </mj-wrapper>
+    <%- include('./common/footer.ejs'); %>
+  </mj-body>
+</mjml>

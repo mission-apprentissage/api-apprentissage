@@ -76,10 +76,14 @@ export async function sendEmail<T extends ITemplate>(template: T): Promise<void>
 
 export function getEmailSubject<T extends ITemplate>(template: T): string {
   switch (template.name) {
-    case "reset_password":
-      return "Réinitialisation du mot de passe";
+    case "register":
+      return "Vous avez demandé à recevoir un lien de connexion au service API Apprentissage.";
+    case "magic-link":
+      return "Vous avez demandé à recevoir un lien de connexion au service API Apprentissage.";
+    case "register-feedback":
+      return "Feedback: création compte utilisateur";
     default:
-      assertUnreachable(template.name);
+      assertUnreachable(template);
   }
 }
 

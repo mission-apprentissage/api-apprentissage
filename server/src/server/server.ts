@@ -1,6 +1,7 @@
 import fastifyCookie from "@fastify/cookie";
 import fastifyCors from "@fastify/cors";
 import fastifyMultipart from "@fastify/multipart";
+import fastifyRateLimit from "@fastify/rate-limit";
 import fastifySwagger, { FastifyStaticSwaggerOptions, StaticDocumentSpec } from "@fastify/swagger";
 import fastifySwaggerUi, { FastifySwaggerUiOptions } from "@fastify/swagger-ui";
 import Boom from "@hapi/boom";
@@ -49,6 +50,7 @@ export async function bind(app: Server) {
     },
   };
   await app.register(fastifySwagger, swaggerOpts);
+  await app.register(fastifyRateLimit, { global: false });
 
   const swaggerUiOptions: FastifySwaggerUiOptions = {
     routePrefix: "/api/documentation",

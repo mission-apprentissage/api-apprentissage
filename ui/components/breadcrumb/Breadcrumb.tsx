@@ -35,21 +35,13 @@ export const PAGES = {
     title: "Politique de Confidentialité",
     path: "/politique-confidentialite",
   }),
-  connexion: (): Page => ({
-    title: "Se connecter",
-    path: "/auth/connexion",
-  }),
-  motDePasseOublie: (): Page => ({
-    title: "Mot de passe oublié",
-    path: "/auth/mot-de-passe-oublie",
-  }),
-  modifierMotDePasse: (): Page => ({
-    title: "Modifier mon mot de passe",
-    path: "/modifier-mot-de-passe",
-  }),
   compteProfil: (): Page => ({
     title: "Mon profil",
     path: "/compte/profil",
+  }),
+  inscription: (token: string): Page => ({
+    title: "Mon profil",
+    path: `/auth/inscription?token=${token}`,
   }),
   adminUsers: (): Page => ({
     title: "Gestion des utilisateurs",

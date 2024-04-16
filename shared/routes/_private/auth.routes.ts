@@ -5,15 +5,6 @@ import { IRoutesDef, ZReqHeadersAuthorization, ZResOk } from "../common.routes";
 
 export const zAuthRoutes = {
   get: {
-    "/_private/auth/reset-password": {
-      method: "get",
-      path: "/_private/auth/reset-password",
-      querystring: z.object({ email: z.string().email() }).strict(),
-      response: {
-        "200": ZResOk,
-      },
-      securityScheme: null,
-    },
     "/_private/auth/logout": {
       method: "get",
       path: "/_private/auth/logout",
@@ -37,16 +28,16 @@ export const zAuthRoutes = {
     },
   },
   post: {
-    "/_private/auth/reset-password": {
+    "/_private/auth/register-feedback": {
       method: "post",
-      path: "/_private/auth/reset-password",
+      path: "/_private/auth/register-feedback",
       body: z
         .object({
-          password: zUser.shape.password,
+          comment: z.string(),
         })
         .strict(),
       response: {
-        "200": ZResOk,
+        "200": z.object({ success: z.literal(true) }),
       },
       securityScheme: {
         auth: "access-token",
@@ -54,19 +45,56 @@ export const zAuthRoutes = {
         ressources: {},
       },
     },
-    "/_private/auth/login": {
+    "/_private/auth/register": {
       method: "post",
-      path: "/_private/auth/login",
-      body: z
-        .object({
-          email: zUser.shape.email,
-          password: zUser.shape.password,
+      path: "/_private/auth/register",
+      body: zUser
+        .pick({
+          type: true,
+          activite: true,
+          objectif: true,
+          cas_usage: true,
+        })
+        .extend({
+          cgu: z.literal(true),
         })
         .strict(),
       response: {
         "200": zUserPublic,
       },
+      securityScheme: {
+        auth: "access-token",
+        access: null,
+        ressources: {},
+      },
+    },
+    "/_private/auth/login-request": {
+      method: "post",
+      path: "/_private/auth/login-request",
+      body: z
+        .object({
+          email: zUser.shape.email,
+        })
+        .strict(),
+      response: {
+        "200": z.object({
+          success: z.literal(true),
+        }),
+      },
       securityScheme: null,
+    },
+    "/_private/auth/login": {
+      method: "post",
+      path: "/_private/auth/login",
+      body: z.unknown(),
+      response: {
+        "200": zUserPublic,
+      },
+      securityScheme: {
+        auth: "access-token",
+        access: null,
+        ressources: {},
+      },
     },
   },
 } as const satisfies IRoutesDef;

@@ -19,8 +19,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     getSitemapItem(PAGES.cgu()),
     getSitemapItem(PAGES.donneesPersonnelles()),
     getSitemapItem(PAGES.politiqueConfidentialite()),
-    getSitemapItem(PAGES.connexion()),
-    getSitemapItem(PAGES.motDePasseOublie()),
-    getSitemapItem(PAGES.modifierMotDePasse()),
   ];
 }

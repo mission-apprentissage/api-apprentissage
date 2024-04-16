@@ -1,13 +1,14 @@
 import fastify from "fastify";
 import { serializerCompiler, validatorCompiler, ZodTypeProvider } from "fastify-type-provider-zod";
 import { ObjectId } from "mongodb";
+import { generateUserFixture } from "shared/models/fixtures";
 import { IUser } from "shared/models/user.model";
 import { IRouteSchema, ISecuredRouteSchema, WithSecurityScheme } from "shared/routes/common.routes";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { z } from "zod";
 
 import { useMongo } from "../../../tests/mongo.test.utils";
-import { createUser, generateApiKey } from "../../actions/users.actions";
+import { generateApiKey } from "../../actions/users.actions";
 import { getDbCollection } from "../../services/mongodb/mongodbService";
 import { Server } from "../server";
 import { apiKeyUsageMiddleware } from "./apiKeyUsageMiddleware";
@@ -79,11 +80,11 @@ describe("apiKeyUsageMiddleware", () => {
     vi.useFakeTimers({ shouldAdvanceTime: true });
     vi.setSystemTime(new Date("2024-03-21T00:00:00Z"));
 
-    user = await createUser({
+    user = generateUserFixture({
       email: "user@exemple.fr",
-      password: "my-password",
       is_admin: false,
     });
+    await getDbCollection("users").insertOne(user);
     token = await generateApiKey(user);
     user = (await getDbCollection("users").findOne({ _id: user._id }))!;
 

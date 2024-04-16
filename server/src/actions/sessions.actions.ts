@@ -6,6 +6,7 @@ import { ISession } from "shared/models/session.model";
 import { getDbCollection } from "@/services/mongodb/mongodbService";
 
 import config from "../config";
+import { authCookieSession } from "../services/security/authenticationService";
 
 async function createSession(email: string) {
   const now = new Date();
@@ -27,8 +28,8 @@ async function getSession(filter: Filter<ISession>, options?: FindOptions): Prom
   return getDbCollection("sessions").findOne(filter, options);
 }
 
-async function deleteSession(token: string) {
-  await getDbCollection("sessions").deleteMany({ token });
+async function deleteSession({ email }: { email: string }) {
+  await getDbCollection("sessions").deleteMany({ email });
 }
 
 function createSessionToken(email: string) {
@@ -46,10 +47,9 @@ async function startSession(email: string, res: FastifyReply) {
 }
 
 async function stopSession(req: FastifyRequest, res: FastifyReply) {
-  const token = req.cookies[config.session.cookieName];
-
-  if (token) {
-    await deleteSession(token);
+  const user = await authCookieSession(req);
+  if (user) {
+    await deleteSession({ email: user.value.email });
   }
 
   res.clearCookie(config.session.cookieName, config.session.cookie);

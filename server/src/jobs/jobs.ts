@@ -1,11 +1,9 @@
 import { addJob, initJobProcessor } from "job-processor";
 import { zImportMetaFranceCompetence } from "shared/models/import.meta.model";
-import { zUserCreate } from "shared/models/user.model";
 import { z } from "zod";
 
 import { create as createMigration, status as statusMigration, up as upMigration } from "@/jobs/migrations/migrations";
 
-import { createUser } from "../actions/users.actions";
 import config from "../config";
 import logger, { createJobProcessorLogger } from "../services/logger";
 import { getDatabase } from "../services/mongodb/mongodbService";
@@ -69,11 +67,6 @@ export async function setupJobProcessor() {
             },
           },
     jobs: {
-      "users:create": {
-        handler: async (job) => {
-          await createUser(zUserCreate.parse(job.payload));
-        },
-      },
       "indexes:recreate": {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         handler: async (job) => recreateIndexes(job.payload as any),

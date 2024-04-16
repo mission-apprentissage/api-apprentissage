@@ -1,10 +1,10 @@
 import { useMongo } from "@tests/mongo.test.utils";
 import { DateTime } from "luxon";
 import { ICertification } from "shared/models/certification.model";
-import { generateCertificationFixture } from "shared/models/fixtures";
+import { generateCertificationFixture, generateUserFixture } from "shared/models/fixtures";
 import { beforeAll, beforeEach, describe, expect, it } from "vitest";
 
-import { createUser, generateApiKey } from "@/actions/users.actions";
+import { generateApiKey } from "@/actions/users.actions";
 import createServer, { Server } from "@/server/server";
 
 import { getDbCollection } from "../../services/mongodb/mongodbService";
@@ -114,11 +114,11 @@ describe("Users routes", () => {
   };
 
   beforeEach(async () => {
-    const user = await createUser({
+    const user = generateUserFixture({
       email: "user@exemple.fr",
-      password: "my-password",
       is_admin: false,
     });
+    await getDbCollection("users").insertOne(user);
     token = await generateApiKey(user);
     await getDbCollection("certifications").insertMany(Object.values(certifications));
   });
@@ -133,7 +133,7 @@ describe("Users routes", () => {
     expect(response.json()).toEqual({
       statusCode: 401,
       name: "Unauthorized",
-      message: "Unauthorized",
+      message: "Vous devez fournir une clé d'API valide pour accéder à cette ressource",
     });
   });
 
@@ -149,7 +149,7 @@ describe("Users routes", () => {
     expect(response.json()).toEqual({
       statusCode: 401,
       name: "Unauthorized",
-      message: "Unauthorized",
+      message: "Vous devez fournir une clé d'API valide pour accéder à cette ressource",
     });
   });
 

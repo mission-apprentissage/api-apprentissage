@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { zObjectId } from "../../../models/common";
-import { zUserCreate, zUserPublic } from "../../../models/user.model";
+import { zUserPublic } from "../../../models/user.model";
 import { IRoutesDef, ZReqParamsSearchPagination } from "../../common.routes";
 
 export const zUserAdminRoutes = {
@@ -29,19 +29,5 @@ export const zUserAdminRoutes = {
       },
     },
   },
-  post: {
-    "/_private/admin/user": {
-      method: "post",
-      path: "/_private/admin/user",
-      body: zUserCreate,
-      response: {
-        "200": zUserPublic,
-      },
-      securityScheme: {
-        auth: "cookie-session",
-        access: "admin",
-        ressources: {},
-      },
-    },
-  },
+  post: {},
 } as const satisfies IRoutesDef;

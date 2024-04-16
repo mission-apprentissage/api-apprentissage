@@ -158,7 +158,7 @@ function CommentUtiliserApiSection() {
             </Typography>
             <Box display="grid" gap={fr.spacing("2v")}>
               <Typography>
-                <Link component={NextLink} href={PAGES.documentationTechnique().path}>
+                <Link component={NextLink} href={PAGES.compteProfil().path}>
                   Créer mon compte
                   <Box component="span" sx={{ display: "inline-block" }} mx={fr.spacing("1w")}>
                     <i className={fr.cx("fr-icon-arrow-right-line", "fr-text--lg")} />

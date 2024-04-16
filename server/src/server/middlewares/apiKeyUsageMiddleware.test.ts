@@ -85,7 +85,7 @@ describe("apiKeyUsageMiddleware", () => {
       is_admin: false,
     });
     await getDbCollection("users").insertOne(user);
-    token = await generateApiKey(user);
+    token = (await generateApiKey("", user)).value;
     user = (await getDbCollection("users").findOne({ _id: user._id }))!;
 
     return () => {

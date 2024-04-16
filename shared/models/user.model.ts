@@ -32,9 +32,17 @@ export const zApiKey = z.object({
   key: z.string(),
   last_used_at: z.date().nullable(),
   expires_at: z.date(),
+  created_at: z.date(),
 });
 
 export type IApiKey = z.output<typeof zApiKey>;
+
+export const zApiKeyPrivate = zApiKey.omit({ key: true }).extend({
+  value: z.string().nullable(),
+});
+
+export type IApiKeyPrivate = z.output<typeof zApiKeyPrivate>;
+export type IApiKeyPrivateJson = Jsonify<IApiKeyPrivate>;
 
 export const zUser = z
   .object({

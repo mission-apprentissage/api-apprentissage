@@ -6253,6 +6253,9 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
           "_id": {
             "bsonType": "objectId",
           },
+          "created_at": {
+            "bsonType": "date",
+          },
           "expires_at": {
             "bsonType": "date",
           },
@@ -6282,6 +6285,7 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
           "key",
           "last_used_at",
           "expires_at",
+          "created_at",
         ],
       },
     },

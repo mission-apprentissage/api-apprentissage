@@ -21,6 +21,7 @@ const zRoutesGet = {
 
 const zRoutesPost = {
   ...zUserAdminRoutes.post,
+  ...zUserRoutes.post,
   ...zAuthRoutes.post,
   ...zEmailRoutes.post,
   ...zSiretUaisRoutes.post,
@@ -28,7 +29,9 @@ const zRoutesPost = {
 
 const zRoutesPut = {} as const;
 
-const zRoutesDelete = {} as const;
+const zRoutesDelete = {
+  ...zUserRoutes.delete,
+} as const;
 
 export type IGetRoutes = typeof zRoutesGet;
 export type IPostRoutes = typeof zRoutesPost;

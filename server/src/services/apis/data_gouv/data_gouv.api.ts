@@ -17,14 +17,19 @@ const client = getApiClient(
 );
 
 export async function fetchDataGouvDataSet(datasetId: string): Promise<IDataGouvDataset> {
+  let data: unknown;
   try {
-    const { data } = await client.get<unknown>(`/datasets/${datasetId}`);
-
+    const result = await client.get<unknown>(`/datasets/${datasetId}`);
+    data = result.data;
     return zDataGouvDataset.parse(data);
   } catch (error) {
     if (error instanceof ZodError) {
       throw withCause(
-        internal("api.data_gouv: unable to fetchDataGouvDataSet; unexpected api data", { datasetId }),
+        internal("api.data_gouv: unable to fetchDataGouvDataSet; unexpected api data", {
+          datasetId,
+          data,
+          formattedError: error.format(),
+        }),
         error
       );
     }

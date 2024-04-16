@@ -219,7 +219,7 @@ async function pollExtraction(auth: { Cookie: string }, extractionId: string) {
       return response.data;
     } catch (error) {
       if (isAxiosError(error)) {
-        throw internal("api.acce: unable to pollExtraction", error.toJSON());
+        return null;
       }
       throw withCause(internal("api.acce: unable to pollExtraction"), error);
     }

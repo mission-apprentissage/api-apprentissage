@@ -46,7 +46,7 @@ fileignoreconfig:
 - filename: server/src/server/routes/_private/auth.route.test.ts
   checksum: edc02708b3fb771495f2a57d9a262f181a4ee71fe42d949dbab7f8bccdae8d5b
 - filename: server/src/server/routes/_private/user.route.test.ts
-  checksum: 32533880dcdb9b27e0d3e11a3f74c95c0ec18528e90fab3309878aa559b41b3e
+  checksum: 57f4fb3aa6fbe651f210a6bd15470740e7ff030a89a01293e2f4bfdb1f302d00
 - filename: server/src/server/routes/certification.route.test.ts
   checksum: fddb0ef3fa49ae00fbedf74b219642741fd55968b0e79cf2ded9bcd7b8a64956
 - filename: server/src/services/apis/data_gouv/data_gouv.api.test.ts

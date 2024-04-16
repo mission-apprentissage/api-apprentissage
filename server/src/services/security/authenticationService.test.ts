@@ -138,10 +138,10 @@ describe("authenticationMiddleware", () => {
     };
 
     const now = new Date("2024-03-21T00:00:00Z");
-    const expiresAt = new Date("2024-06-19T00:00:00Z");
+    const expiresAt = new Date("2024-09-17T00:00:00Z");
 
     beforeEach(async () => {
-      await generateApiKey(otherUser);
+      await generateApiKey("", otherUser);
       otherUser = (await getDbCollection("users").findOne({ email: otherUser.email }))!;
     });
 
@@ -155,10 +155,10 @@ describe("authenticationMiddleware", () => {
     });
 
     it("should set req.user if api key is valid", async () => {
-      const token = await generateApiKey(user);
+      const token = await generateApiKey("", user);
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const req: any = { headers: { authorization: `Bearer ${token}` } };
+      const req: any = { headers: { authorization: `Bearer ${token.value}` } };
 
       const tomorrow = new Date("2024-03-22T12:00:00Z");
       vi.setSystemTime(tomorrow);
@@ -171,7 +171,8 @@ describe("authenticationMiddleware", () => {
             key: expect.any(String),
             expires_at: expiresAt,
             last_used_at: tomorrow,
-            name: null,
+            name: expect.any(String),
+            created_at: now,
           },
         ],
         updated_at: tomorrow,
@@ -192,19 +193,19 @@ describe("authenticationMiddleware", () => {
     });
 
     it("should support multiple keys", async () => {
-      const token1 = await generateApiKey(user);
+      const token1 = await generateApiKey("", user);
 
       const tomorrow = new Date("2024-03-22T12:00:00Z");
       vi.setSystemTime(tomorrow);
 
-      const token2 = await generateApiKey(user);
-      const expiresAt2 = new Date("2024-06-20T12:00:00Z");
+      const token2 = await generateApiKey("", user);
+      const expiresAt2 = new Date("2024-09-18T12:00:00Z");
 
       const in2Days = new Date("2024-03-23T23:00:00Z");
       vi.setSystemTime(in2Days);
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const req1: any = { headers: { authorization: `Bearer ${token1}` } };
+      const req1: any = { headers: { authorization: `Bearer ${token1.value}` } };
 
       const expectedUser1 = {
         ...user,
@@ -214,14 +215,16 @@ describe("authenticationMiddleware", () => {
             key: expect.any(String),
             expires_at: expiresAt,
             last_used_at: in2Days,
-            name: null,
+            name: expect.any(String),
+            created_at: now,
           },
           {
             _id: expect.any(ObjectId),
             key: expect.any(String),
             expires_at: expiresAt2,
             last_used_at: null,
-            name: null,
+            name: expect.any(String),
+            created_at: tomorrow,
           },
         ],
         updated_at: in2Days,
@@ -244,7 +247,7 @@ describe("authenticationMiddleware", () => {
       vi.setSystemTime(in3Days);
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const req2: any = { headers: { authorization: `Bearer ${token2}` } };
+      const req2: any = { headers: { authorization: `Bearer ${token2.value}` } };
 
       const expectedUser2 = {
         ...user,
@@ -254,14 +257,16 @@ describe("authenticationMiddleware", () => {
             key: expect.any(String),
             expires_at: expiresAt,
             last_used_at: in2Days,
-            name: null,
+            name: expect.any(String),
+            created_at: now,
           },
           {
             _id: expect.any(ObjectId),
             key: expect.any(String),
             expires_at: expiresAt2,
             last_used_at: in3Days,
-            name: null,
+            name: expect.any(String),
+            created_at: tomorrow,
           },
         ],
         updated_at: in3Days,
@@ -282,10 +287,10 @@ describe("authenticationMiddleware", () => {
     });
 
     it("should throw unauthorized if key is expired", async () => {
-      const token = await generateApiKey(user);
+      const token = await generateApiKey("", user);
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const req: any = { headers: { authorization: `Bearer ${token}` } };
+      const req: any = { headers: { authorization: `Bearer ${token.value}` } };
 
       vi.advanceTimersByTime(config.api_key.expiresIn + 1);
 
@@ -295,12 +300,12 @@ describe("authenticationMiddleware", () => {
     });
 
     it("should throw unauthorized if key is removed", async () => {
-      const token = await generateApiKey(user);
+      const token = await generateApiKey("", user);
 
       await getDbCollection("users").updateOne({ email: user.email }, { $set: { api_keys: [] } });
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const req: any = { headers: { authorization: `Bearer ${token}` } };
+      const req: any = { headers: { authorization: `Bearer ${token.value}` } };
 
       await expect(authenticationMiddleware(schema, req)).rejects.toThrow(
         "Vous devez fournir une clé d'API valide pour accéder à cette ressource"

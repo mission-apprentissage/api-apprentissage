@@ -1,15 +1,14 @@
 "use client";
 
-import { Header as DSFRHeader, HeaderProps } from "@codegouvfr/react-dsfr/Header";
+import { Header as DSFRHeader } from "@codegouvfr/react-dsfr/Header";
 import { useIsDark } from "@codegouvfr/react-dsfr/useIsDark";
-import { usePathname, useRouter } from "next/navigation";
-import { useCallback, useEffect, useMemo } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 
 import { publicConfig } from "../../config.public";
 import { useAuth } from "../../context/AuthContext";
-import { apiGet } from "../../utils/api.utils";
-import { PAGES } from "../breadcrumb/Breadcrumb";
 import { useNavigationItems } from "./header.utils";
+import { MonCompteQuickAccess } from "./MonCompteQuickAccess";
 
 export const Header = () => {
   // Force light mode
@@ -19,67 +18,31 @@ export const Header = () => {
       setIsDark(false);
     }
   }, [isDark, setIsDark]);
-  const { user, setUser } = useAuth();
-  const { push } = useRouter();
+
   const pathname = usePathname();
 
-  const handleLogout = useCallback(async () => {
-    await apiGet("/_private/auth/logout", {});
-    setUser(null);
-    push(PAGES.homepage().path);
-  }, [setUser, push]);
+  const { user } = useAuth();
 
   const navigation = useNavigationItems({ user, pathname });
 
-  const loggedOut: HeaderProps.QuickAccessItem[] = useMemo(
-    () => [
-      {
-        iconId: "fr-icon-lock-line",
-        linkProps: {
-          href: PAGES.compteProfil().path,
-        },
-        text: "Se connecter",
-      },
-    ],
-    []
-  );
-
-  const loggedIn: HeaderProps.QuickAccessItem[] = useMemo(
-    () => [
-      {
-        linkProps: {
-          href: PAGES.compteProfil().path,
-        },
-        iconId: "fr-icon-account-line",
-        text: "Mon compte",
-      },
-      {
-        buttonProps: {
-          onClick: handleLogout,
-        },
-        text: "Se deconnecter",
-        iconId: "fr-icon-logout-box-r-line",
-      },
-    ],
-    [handleLogout]
-  );
-
   return (
-    <DSFRHeader
-      brandTop={
-        <>
-          République
-          <br />
-          Française
-        </>
-      }
-      homeLinkProps={{
-        href: "/",
-        title: `Accueil - ${publicConfig.productMeta.brandName}`,
-      }}
-      quickAccessItems={user ? loggedIn : loggedOut}
-      serviceTitle={publicConfig.productMeta.brandName}
-      navigation={navigation}
-    />
+    <>
+      <DSFRHeader
+        brandTop={
+          <>
+            République
+            <br />
+            Française
+          </>
+        }
+        homeLinkProps={{
+          href: "/",
+          title: `Accueil - ${publicConfig.productMeta.brandName}`,
+        }}
+        quickAccessItems={[<MonCompteQuickAccess key="mon-compte-quick-access" />]}
+        serviceTitle={publicConfig.productMeta.brandName}
+        navigation={navigation}
+      />
+    </>
   );
 };

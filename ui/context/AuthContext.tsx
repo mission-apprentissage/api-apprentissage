@@ -1,11 +1,11 @@
 "use client";
-import { createContext, FC, PropsWithChildren, useContext, useState } from "react";
+import { createContext, FC, PropsWithChildren, useContext, useMemo, useState } from "react";
 import { IUserPublic } from "shared/models/user.model";
 
-interface IAuthContext {
+type IAuthContext = Readonly<{
   user: IUserPublic | null;
   setUser: (user: IUserPublic | null) => void;
-}
+}>;
 
 export const AuthContext = createContext<IAuthContext>({
   user: null,
@@ -22,4 +22,25 @@ export const AuthContextProvider: FC<Props> = ({ initialUser, children }) => {
   return <AuthContext.Provider value={{ user, setUser }}>{children}</AuthContext.Provider>;
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = (): Readonly<IAuthContext> => {
+  return useContext(AuthContext);
+};
+
+export const useAuthRequired = (): Readonly<{
+  user: IUserPublic;
+  setUser: IAuthContext["setUser"];
+}> => {
+  const context = useAuth();
+  const result = useMemo(() => {
+    if (context.user === null) {
+      throw new Error("useAuth must be used within an AuthProvider");
+    }
+
+    return {
+      user: context.user,
+      setUser: context.setUser,
+    };
+  }, [context]);
+
+  return result;
+};

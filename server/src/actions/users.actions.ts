@@ -1,5 +1,6 @@
 import { ObjectId } from "mongodb";
-import { IUser } from "shared/models/user.model";
+import { IApiKeyPrivate, IUser } from "shared/models/user.model";
+import { adjectives, animals, colors, uniqueNamesGenerator } from "unique-names-generator";
 
 import { getDbCollection } from "@/services/mongodb/mongodbService";
 
@@ -18,24 +19,36 @@ export const updateUser = async (email: IUser["email"], data: Partial<IUser>): P
   );
 };
 
-export const generateApiKey = async (user: IUser) => {
+export const generateApiKey = async (
+  name: string,
+  user: IUser
+): Promise<IApiKeyPrivate & { value: string; key: string }> => {
+  const now = new Date();
   const generatedKey = generateKey();
   const secretHash = generateSecretHash(generatedKey);
 
+  const data = {
+    _id: new ObjectId(),
+    name:
+      name ||
+      uniqueNamesGenerator({
+        dictionaries: [adjectives, colors, animals],
+        separator: "-",
+      }),
+    key: secretHash,
+    last_used_at: null,
+    expires_at: new Date(now.getTime() + config.api_key.expiresIn),
+    created_at: now,
+  };
+
   await getDbCollection("users").findOneAndUpdate(
     {
-      email: user.email,
+      _id: user._id,
     },
     {
       $set: { updated_at: new Date() },
       $push: {
-        api_keys: {
-          _id: new ObjectId(),
-          name: null,
-          key: secretHash,
-          last_used_at: null,
-          expires_at: new Date(Date.now() + config.api_key.expiresIn),
-        },
+        api_keys: data,
       },
     }
   );
@@ -45,5 +58,22 @@ export const generateApiKey = async (user: IUser) => {
     expiresIn: config.api_key.expiresIn / 1_000,
   });
 
-  return token;
+  return {
+    ...data,
+    value: token,
+  };
 };
+
+export async function deleteApiKey(id: ObjectId, user: IUser) {
+  await getDbCollection("users").findOneAndUpdate(
+    {
+      _id: user._id,
+    },
+    {
+      $set: { updated_at: new Date() },
+      $pull: {
+        api_keys: { _id: id },
+      },
+    }
+  );
+}

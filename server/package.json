@@ -57,6 +57,7 @@
     "sax": "^1.3.0",
     "shared": "workspace:*",
     "stream-json": "^1.8.0",
+    "unique-names-generator": "^4.7.1",
     "unzipper": "^0.10.14",
     "zod": "^3.22.4",
     "zod-mongodb-schema": "^1.0.2"

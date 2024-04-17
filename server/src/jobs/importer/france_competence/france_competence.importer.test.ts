@@ -1099,7 +1099,65 @@ describe("importRncpArchive", () => {
 
     nock("https://www.data.gouv.fr/fr").get(`/datasets/r/f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6`).reply(200, s);
 
-    await importRncpArchive(importMeta);
+    expect(await importRncpArchive(importMeta)).toEqual({
+      total: 10,
+      active: 2,
+      created: 10,
+      updated: 10,
+      activated: 2,
+      corrections: {
+        continuity: { anciens: 0, nouveaux: 0 },
+      },
+    });
+
+    const fiches = await getDbCollection("source.france_competence").find({}).toArray();
+
+    fiches.forEach((fiche) => {
+      expect(fiche).toMatchSnapshot({
+        _id: expect.any(ObjectId),
+      });
+    });
+  });
+
+  it("should fix continuity issues", async () => {
+    const archiveMeta = {
+      date_publication: new Date("2024-02-21T23:00:00.000Z"),
+      last_updated: new Date("2024-02-22T03:02:07.320000+00:00"),
+      nom: "export-fiches-csv-2024-02-22.zip",
+      resource: {
+        created_at: new Date("2024-02-22T03:02:02.578000+00:00"),
+        id: "f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6",
+        last_modified: new Date("2024-02-22T03:02:07.320000+00:00"),
+        latest: "https://www.data.gouv.fr/fr/datasets/r/f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6",
+        title: "export-fiches-csv-2024-02-22.zip",
+      },
+    } as const;
+
+    const importMeta: IImportMetaFranceCompetence = {
+      _id: new ObjectId(),
+      import_date: new Date("2024-02-22T03:02:07.320000+00:00"),
+      type: "france_competence",
+      archiveMeta,
+    };
+
+    const dataFixture = join(
+      dirname(fileURLToPath(import.meta.url)),
+      "fixtures/continuity_fix/export-fiches-csv-2024-02-22.zip"
+    );
+    const s = createReadStream(dataFixture);
+
+    nock("https://www.data.gouv.fr/fr").get(`/datasets/r/f9ed431b-3a52-4ff2-b8c3-6f0a2c5cb3f6`).reply(200, s);
+
+    expect(await importRncpArchive(importMeta)).toEqual({
+      total: 10,
+      active: 2,
+      created: 10,
+      updated: 10,
+      activated: 2,
+      corrections: {
+        continuity: { anciens: 1, nouveaux: 1 },
+      },
+    });
 
     const fiches = await getDbCollection("source.france_competence").find({}).toArray();
 

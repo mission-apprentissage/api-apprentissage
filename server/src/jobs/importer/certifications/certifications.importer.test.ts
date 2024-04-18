@@ -7,12 +7,11 @@ import {
   generateSourceBcn_N_FormationDiplomeDataFixture,
   generateSourceBcn_N_FormationDiplomeFixture,
   generateSourceBcn_N_NiveauFormationDiplomeFixtureList,
-  generateSourceBcn_N51_FormationDiplomeDataFixture,
   generateSourceBcn_N51_FormationDiplomeFixture,
-  generateSourceBcn_V_FormationDiplomeDataFixture,
   generateSourceBcn_V_FormationDiplomeFixture,
   generateSourceFranceCompetenceFixture,
 } from "shared/models/fixtures";
+import { ParisDate, parseParisLocalDate } from "shared/zod/date.primitives";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { getDbCollection } from "../../../services/mongodb/mongodbService";
@@ -285,8 +284,8 @@ describe("importCertifications", () => {
           })
         );
         await getDbCollection("source.bcn").insertOne(
-          generateSourceBcn_V_FormationDiplomeFixture({
-            data: generateSourceBcn_V_FormationDiplomeDataFixture({ FORMATION_DIPLOME: "36T23301" }),
+          generateSourceBcn_N_FormationDiplomeFixture({
+            data: { FORMATION_DIPLOME: "36T23301" },
           })
         );
       });
@@ -388,54 +387,54 @@ describe("importCertifications", () => {
 
     const bcnData = [
       generateSourceBcn_V_FormationDiplomeFixture({
-        data: generateSourceBcn_V_FormationDiplomeDataFixture({
+        data: {
           FORMATION_DIPLOME: existingCertifications.updated[0].identifiant.cfd!,
-        }),
+        },
       }),
       generateSourceBcn_N_FormationDiplomeFixture({
-        data: generateSourceBcn_N_FormationDiplomeDataFixture({
+        data: {
           FORMATION_DIPLOME: existingCertifications.updated[0].identifiant.cfd!,
-        }),
+        },
       }),
       generateSourceBcn_V_FormationDiplomeFixture({
-        data: generateSourceBcn_V_FormationDiplomeDataFixture({
+        data: {
           FORMATION_DIPLOME: existingCertifications.updated[1].identifiant.cfd!,
-        }),
+        },
       }),
       generateSourceBcn_N51_FormationDiplomeFixture({
-        data: generateSourceBcn_N51_FormationDiplomeDataFixture({
+        data: {
           FORMATION_DIPLOME: existingCertifications.updated[1].identifiant.cfd!,
-        }),
+        },
       }),
       generateSourceBcn_V_FormationDiplomeFixture({
-        data: generateSourceBcn_V_FormationDiplomeDataFixture({
+        data: {
           FORMATION_DIPLOME: existingCertifications.removed[1].identifiant.cfd!,
-        }),
+        },
       }),
       generateSourceBcn_N_FormationDiplomeFixture({
-        data: generateSourceBcn_N_FormationDiplomeDataFixture({
+        data: {
           FORMATION_DIPLOME: existingCertifications.removed[1].identifiant.cfd!,
-        }),
+        },
       }),
       generateSourceBcn_V_FormationDiplomeFixture({
-        data: generateSourceBcn_V_FormationDiplomeDataFixture({
+        data: {
           FORMATION_DIPLOME: newCertifications[0].identifiant.cfd!,
-        }),
+        },
       }),
       generateSourceBcn_N_FormationDiplomeFixture({
-        data: generateSourceBcn_N_FormationDiplomeDataFixture({
+        data: {
           FORMATION_DIPLOME: newCertifications[0].identifiant.cfd!,
-        }),
+        },
       }),
       generateSourceBcn_V_FormationDiplomeFixture({
-        data: generateSourceBcn_V_FormationDiplomeDataFixture({
+        data: {
           FORMATION_DIPLOME: newCertifications[1].identifiant.cfd!,
-        }),
+        },
       }),
       generateSourceBcn_N51_FormationDiplomeFixture({
-        data: generateSourceBcn_N51_FormationDiplomeDataFixture({
+        data: {
           FORMATION_DIPLOME: newCertifications[1].identifiant.cfd!,
-        }),
+        },
       }),
       ...generateSourceBcn_N_NiveauFormationDiplomeFixtureList(),
     ];
@@ -542,9 +541,9 @@ describe("importCertifications", () => {
 
     const bcnData = [
       generateSourceBcn_V_FormationDiplomeFixture({
-        data: generateSourceBcn_V_FormationDiplomeDataFixture({
+        data: {
           FORMATION_DIPLOME: existingCertification.identifiant.cfd!,
-        }),
+        },
       }),
       generateSourceBcn_N_FormationDiplomeFixture({
         data: generateSourceBcn_N_FormationDiplomeDataFixture({
@@ -612,6 +611,230 @@ describe("importCertifications", () => {
           updated_at: now,
         },
       ]);
+    });
+  });
+
+  describe("with continuity", () => {
+    const searchmap = {
+      rncp: {
+        RNCP00100: {
+          activation: parseParisLocalDate("01/01/2019", "00:00:00"),
+          fin_enregistrement: parseParisLocalDate("31/12/2019", "23:59:59"),
+          nouvelles: ["RNCP00101"],
+          anciennes: [],
+        },
+        RNCP00101: {
+          activation: parseParisLocalDate("01/01/2020", "00:00:00"),
+          fin_enregistrement: parseParisLocalDate("31/12/2021", "23:59:59"),
+          nouvelles: ["RNCP00102", "RNCP00103"],
+          anciennes: ["RNCP00100"],
+        },
+        RNCP00102: {
+          activation: parseParisLocalDate("01/01/2020", "00:00:00"),
+          fin_enregistrement: parseParisLocalDate("31/12/2025", "23:59:59"),
+          nouvelles: [],
+          anciennes: ["RNCP00101"],
+        },
+        RNCP00103: {
+          activation: parseParisLocalDate("01/01/2020", "00:00:00"),
+          fin_enregistrement: parseParisLocalDate("31/12/2025", "23:59:59"),
+          nouvelles: [],
+          anciennes: ["RNCP00101"],
+        },
+
+        RNCP00200: {
+          activation: parseParisLocalDate("01/01/2019", "00:00:00"),
+          fin_enregistrement: parseParisLocalDate("31/12/2023", "23:59:59"),
+          nouvelles: [],
+          anciennes: [],
+        },
+
+        RNCP00300: {
+          activation: parseParisLocalDate("01/01/2019", "00:00:00"),
+          fin_enregistrement: null,
+          nouvelles: ["RNCP00301"],
+          anciennes: [],
+        },
+        RNCP00301: {
+          activation: null,
+          fin_enregistrement: parseParisLocalDate("31/12/2023", "23:59:59"),
+          nouvelles: [],
+          anciennes: ["RNCP00300"],
+        },
+      },
+
+      cfd: {
+        10000001: {
+          ouverture: null,
+          fermeture: parseParisLocalDate("31/12/2019", "23:59:59"),
+          nouvelles: ["10000002"],
+          anciennes: [],
+        },
+        10000002: {
+          ouverture: parseParisLocalDate("01/01/2019", "00:00:00"),
+          fermeture: parseParisLocalDate("31/12/2021", "23:59:59"),
+          nouvelles: [],
+          anciennes: ["10000001"],
+        },
+
+        20000001: {
+          ouverture: parseParisLocalDate("01/01/2017", "00:00:00"),
+          fermeture: parseParisLocalDate("31/12/2020", "23:59:59"),
+          nouvelles: [],
+          anciennes: [],
+        },
+
+        30000001: {
+          ouverture: parseParisLocalDate("01/01/2020", "00:00:00"),
+          fermeture: null,
+          nouvelles: ["30000002"],
+          anciennes: [],
+        },
+        30000002: {
+          ouverture: parseParisLocalDate("01/01/2022", "00:00:00"),
+          fermeture: parseParisLocalDate("31/12/2025", "23:59:59"),
+          nouvelles: [],
+          anciennes: ["30000001"],
+        },
+      },
+    } as const;
+
+    const kitApprentissageData = [
+      generateKitApprentissageFixture({
+        data: generateKitApprentissageFixtureData({
+          "Code Diplôme": "10000001",
+          FicheRNCP: "RNCP00100",
+        }),
+      }),
+      generateKitApprentissageFixture({
+        data: generateKitApprentissageFixtureData({
+          "Code Diplôme": "10000002",
+          FicheRNCP: "RNCP00102",
+        }),
+      }),
+      generateKitApprentissageFixture({
+        data: generateKitApprentissageFixtureData({
+          "Code Diplôme": "20000001",
+          FicheRNCP: "RNCP00200",
+        }),
+      }),
+    ];
+
+    const toDateString = (date: ParisDate | null | undefined) =>
+      date
+        ? `${date.getDate().toString().padStart(2, "0")}/${(date.getMonth() + 1).toString().padStart(2, "0")}/${date.getFullYear()}`
+        : null;
+
+    const generateBcnData = (code: keyof (typeof searchmap)["cfd"]) => {
+      return [
+        generateSourceBcn_V_FormationDiplomeFixture({
+          data: {
+            FORMATION_DIPLOME: `${code}`,
+            DATE_OUVERTURE: toDateString(searchmap.cfd[code]?.ouverture),
+            DATE_FERMETURE: toDateString(searchmap.cfd[code]?.fermeture),
+          },
+        }),
+        generateSourceBcn_N_FormationDiplomeFixture({
+          data: {
+            FORMATION_DIPLOME: `${code}`,
+            DATE_OUVERTURE: toDateString(searchmap.cfd[code]?.ouverture),
+            DATE_FERMETURE: toDateString(searchmap.cfd[code]?.fermeture),
+            ANCIEN_DIPLOMES: [...searchmap.cfd[code].anciennes],
+            NOUVEAU_DIPLOMES: [...searchmap.cfd[code].nouvelles],
+          },
+        }),
+      ];
+    };
+
+    const bcnData = [
+      ...generateBcnData(10000001),
+      ...generateBcnData(10000002),
+      ...generateBcnData(20000001),
+      ...generateBcnData(30000001),
+      ...generateBcnData(30000002),
+      ...generateSourceBcn_N_NiveauFormationDiplomeFixtureList(),
+    ];
+
+    const generateFcData = (code: keyof (typeof searchmap)["rncp"]) => {
+      return generateSourceFranceCompetenceFixture({
+        numero_fiche: code,
+        date_premiere_activation: searchmap.rncp[code]?.activation,
+        data: {
+          standard: {
+            Date_Fin_Enregistrement: toDateString(searchmap.rncp[code]?.fin_enregistrement),
+          },
+          ancienne_nouvelle_certification: [
+            ...searchmap.rncp[code].anciennes.map((ancienne) => ({
+              Numero_Fiche: code,
+              Ancienne_Certification: ancienne,
+              Nouvelle_Certification: null,
+            })),
+            ...searchmap.rncp[code].nouvelles.map((nouvelle) => ({
+              Numero_Fiche: code,
+              Ancienne_Certification: null,
+              Nouvelle_Certification: nouvelle,
+            })),
+          ],
+        },
+      });
+    };
+
+    const franceCompetenceData = [
+      generateFcData("RNCP00100"),
+      generateFcData("RNCP00101"),
+      generateFcData("RNCP00102"),
+      generateFcData("RNCP00103"),
+      generateFcData("RNCP00200"),
+      generateFcData("RNCP00300"),
+      generateFcData("RNCP00301"),
+    ];
+
+    beforeEach(async () => {
+      await Promise.all([
+        getDbCollection("source.bcn").insertMany(bcnData),
+        getDbCollection("source.france_competence").insertMany(franceCompetenceData),
+        getDbCollection("source.kit_apprentissage").insertMany(kitApprentissageData),
+        getDbCollection("import.meta").insertOne({
+          _id: new ObjectId(),
+          import_date: new Date("2024-03-05T09:32:27.106Z"),
+          type: "france_competence",
+          archiveMeta: {
+            date_publication: new Date("2015-12-24T02:00:00.000Z"),
+            last_updated: new Date("2021-12-24T04:00:16.005Z"),
+            nom: "export-fiches-csv-2021-12-24.zip",
+            resource: {
+              created_at: new Date("2021-12-24T04:00:15.762Z"),
+              id: "284d7bfd-1949-46b6-bf09-cdf2fe93c53b",
+              last_modified: new Date("2021-12-24T04:00:16.005Z"),
+              latest: "https://www.data.gouv.fr/fr/datasets/r/284d7bfd-1949-46b6-bf09-cdf2fe93c53b",
+              title: "export-fiches-csv-2021-12-24.zip",
+            },
+          },
+        }),
+        getDbCollection("import.meta").insertOne(todayImports.kit_apprentissage),
+        getDbCollection("import.meta").insertOne(todayImports.bcn),
+        getDbCollection("import.meta").insertOne(todayImports.france_competence),
+      ]);
+    });
+
+    it("should import certifications", async () => {
+      expect(await importCertifications()).toEqual({
+        total: { orphanCfd: 2, orphanRncp: 4, total: 9 },
+        created: { orphanCfd: 2, orphanRncp: 4, total: 9 },
+        deleted: { orphanCfd: 0, orphanRncp: 0, total: 0 },
+      });
+      // Ignore all fields, they will be tests individually
+      expect(
+        await getDbCollection("certifications")
+          .find(
+            {},
+            {
+              projection: { _id: 0, identifiant: 1, continuite: 1 },
+              sort: { "identifiant.cfd": 1, "identifiant.rncp": 1 },
+            }
+          )
+          .toArray()
+      ).toMatchSnapshot();
     });
   });
 });

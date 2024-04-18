@@ -14,6 +14,7 @@ type ICertifIntituleFixtureInput = Partial<
 >;
 type ICertifPeriodeValiditeFixtureInput = Partial<ICertification["periode_validite"]>;
 type ICertifTypeFixtureInput = Partial<ICertification["type"]>;
+type ICertifContinuiteFixtureInput = Partial<ICertification["continuite"]>;
 
 type ICertificationFixtureInput = {
   base_legale?: ICertifBaseLegaleFixtureInput;
@@ -24,6 +25,7 @@ type ICertificationFixtureInput = {
   intitule?: ICertifIntituleFixtureInput;
   periode_validite?: ICertifPeriodeValiditeFixtureInput;
   type?: ICertifTypeFixtureInput;
+  continuite?: ICertifContinuiteFixtureInput;
 } & Partial<Pick<ICertification, "_id" | "created_at" | "updated_at">>;
 
 export function generateCertifBaseLegaleFixture(data?: ICertifBaseLegaleFixtureInput): ICertification["base_legale"] {
@@ -219,17 +221,57 @@ export function generateCertifTypeFixture(data?: ICertifTypeFixtureInput): ICert
   };
 }
 
+export function generateCertifContinuiteFixture(
+  self: Pick<ICertification, "identifiant" | "periode_validite">,
+  data?: ICertifContinuiteFixtureInput
+): ICertification["continuite"] {
+  return {
+    cfd: getFixtureValue(
+      data,
+      "cfd",
+      self.identifiant.cfd === null
+        ? null
+        : [
+            {
+              code: self.identifiant.cfd,
+              ouverture: self.periode_validite.cfd?.ouverture ?? null,
+              fermeture: self.periode_validite.cfd?.fermeture ?? null,
+              courant: true,
+            },
+          ]
+    ),
+    rncp: getFixtureValue(
+      data,
+      "rncp",
+      self.identifiant.rncp === null
+        ? null
+        : [
+            {
+              code: self.identifiant.rncp,
+              activation: self.periode_validite.rncp?.activation ?? null,
+              fin_enregistrement: self.periode_validite.rncp?.fin_enregistrement ?? null,
+              courant: true,
+            },
+          ]
+    ),
+  };
+}
+
 export function generateCertificationFixture(data?: ICertificationFixtureInput): ICertification {
+  const identifiant = generateCertifIdentifiantFixture(data?.identifiant);
+  const periode_validite = generateCertificationPeriodeValiditeFixture(data?.periode_validite);
+
   return {
     _id: getFixtureValue(data, "_id", new ObjectId()),
     base_legale: generateCertifBaseLegaleFixture(data?.base_legale),
     blocs_competences: generateCertifBlocsCompetencesFixture(data?.blocs_competences),
     convention_collectives: generateCertifConventionCollectivesFixture(data?.convention_collectives),
     domaines: generateCertifDomainesFixture(data?.domaines),
-    identifiant: generateCertifIdentifiantFixture(data?.identifiant),
+    identifiant,
     intitule: generateCertifIntituleFixture(data?.intitule),
-    periode_validite: generateCertificationPeriodeValiditeFixture(data?.periode_validite),
+    periode_validite,
     type: generateCertifTypeFixture(data?.type),
+    continuite: generateCertifContinuiteFixture({ identifiant, periode_validite }, data?.continuite),
     created_at: getFixtureValue(data, "created_at", new Date("2021-08-31T22:00:00.000Z")),
     updated_at: getFixtureValue(data, "updated_at", new Date("2021-08-31T22:00:00.000Z")),
   };

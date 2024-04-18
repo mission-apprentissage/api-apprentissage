@@ -1,5 +1,5 @@
 import {
-  generateSourceBcn_V_FormationDiplomeFixture,
+  generateSourceBcn_N_FormationDiplomeFixture,
   generateSourceFranceCompetenceFixture,
 } from "shared/models/fixtures";
 import { describe, expect, it } from "vitest";
@@ -9,7 +9,7 @@ import { buildCertificationConventionCollectives } from "./certification.convent
 describe("buildCertificationConventionCollectives", () => {
   it("should returns null when france competence data is missing", () => {
     const result = buildCertificationConventionCollectives({
-      bcn: generateSourceBcn_V_FormationDiplomeFixture(),
+      bcn: generateSourceBcn_N_FormationDiplomeFixture(),
       france_competence: null,
     });
     expect(result).toEqual({ rncp: null });

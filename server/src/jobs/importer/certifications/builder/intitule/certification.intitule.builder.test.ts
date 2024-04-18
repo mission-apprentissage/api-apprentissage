@@ -1,5 +1,6 @@
 import { ObjectId } from "mongodb";
 import {
+  generateSourceBcn_N_FormationDiplomeFixture,
   generateSourceBcn_N_NiveauFormationDiplomeFixtureList,
   generateSourceBcn_N51_FormationDiplomeFixture,
   generateSourceBcn_V_FormationDiplomeFixture,
@@ -26,7 +27,7 @@ describe("buildCertificationIntitule", () => {
 
     describe("intitule.cfd.court", () => {
       it("should takes data.LIBELLE_STAT_33 value", () => {
-        const vFormation = generateSourceBcn_V_FormationDiplomeFixture({
+        const vFormation = generateSourceBcn_N_FormationDiplomeFixture({
           data: {
             LIBELLE_STAT_33: "GESTION DE L'ENVIRONNEMENT",
           },
@@ -37,7 +38,7 @@ describe("buildCertificationIntitule", () => {
     });
     describe("intitule.long", () => {
       it("should takes data.LIBELLE_LONG_200 value", () => {
-        const vFormation = generateSourceBcn_V_FormationDiplomeFixture({
+        const vFormation = generateSourceBcn_N_FormationDiplomeFixture({
           data: {
             LIBELLE_LONG_200: "METIERS DE LA BEAUTE ET DU BIEN-ETRE 2NDE COMMUNE (BAC PRO)",
           },
@@ -51,7 +52,7 @@ describe("buildCertificationIntitule", () => {
   describe("intitule.rncp", () => {
     it("should returns null when france competence data is missing", () => {
       const result = buildCertificationIntitule({
-        bcn: generateSourceBcn_V_FormationDiplomeFixture(),
+        bcn: generateSourceBcn_N51_FormationDiplomeFixture(),
         france_competence: null,
       });
       expect(result.rncp).toEqual(null);
@@ -67,7 +68,7 @@ describe("buildCertificationIntitule", () => {
   describe("intitule.niveau.rncp", () => {
     it("should returns null when france competence data is missing", () => {
       const result = buildCertificationIntitule({
-        bcn: generateSourceBcn_V_FormationDiplomeFixture(),
+        bcn: generateSourceBcn_N51_FormationDiplomeFixture(),
         france_competence: null,
       });
       expect(result.niveau.rncp).toEqual(null);
@@ -109,7 +110,7 @@ describe("buildCertificationIntitule", () => {
 
     describe("intitule.niveau.cfd.sigle", () => {
       it("should takes data.LIBELLE_COURT value", () => {
-        const vFormation = generateSourceBcn_V_FormationDiplomeFixture({
+        const vFormation = generateSourceBcn_N_FormationDiplomeFixture({
           data: {
             LIBELLE_COURT: "MC4",
           },
@@ -120,7 +121,7 @@ describe("buildCertificationIntitule", () => {
     });
     describe("intitule.niveau.cfd.europeen", () => {
       it("should takes parsed value of data.NIVEAU_QUALIFICATION_RNCP value", () => {
-        const vFormation = generateSourceBcn_V_FormationDiplomeFixture({
+        const vFormation = generateSourceBcn_N_FormationDiplomeFixture({
           data: {
             NIVEAU_QUALIFICATION_RNCP: "05",
           },
@@ -129,7 +130,7 @@ describe("buildCertificationIntitule", () => {
         expect(result.niveau.cfd?.europeen).toBe("5");
       });
       it("should takes null for 00 value", () => {
-        const vFormation = generateSourceBcn_V_FormationDiplomeFixture({
+        const vFormation = generateSourceBcn_N_FormationDiplomeFixture({
           data: {
             NIVEAU_QUALIFICATION_RNCP: "00",
           },
@@ -138,7 +139,7 @@ describe("buildCertificationIntitule", () => {
         expect(result.niveau.cfd?.europeen).toBeNull();
       });
       it("should takes null for 99 value", () => {
-        const vFormation = generateSourceBcn_V_FormationDiplomeFixture({
+        const vFormation = generateSourceBcn_N51_FormationDiplomeFixture({
           data: {
             NIVEAU_QUALIFICATION_RNCP: "99",
           },
@@ -147,7 +148,7 @@ describe("buildCertificationIntitule", () => {
         expect(result.niveau.cfd?.europeen).toBeNull();
       });
       it("should takes null for XX value", () => {
-        const vFormation = generateSourceBcn_V_FormationDiplomeFixture({
+        const vFormation = generateSourceBcn_N51_FormationDiplomeFixture({
           data: {
             NIVEAU_QUALIFICATION_RNCP: "XX",
           },
@@ -159,7 +160,7 @@ describe("buildCertificationIntitule", () => {
 
     describe("intitule.niveau.cfd.formation_diplome", () => {
       it("should takes data.NIVEAU_FORMATION_DIPLOME value", () => {
-        const vFormation = generateSourceBcn_V_FormationDiplomeFixture({
+        const vFormation = generateSourceBcn_N51_FormationDiplomeFixture({
           data: {
             NIVEAU_FORMATION_DIPLOME: "010",
           },
@@ -171,7 +172,7 @@ describe("buildCertificationIntitule", () => {
 
     describe("intitule.niveau.cfd.interministeriel", () => {
       it("should takes first character of data.NIVEAU_FORMATION_DIPLOME", () => {
-        const vFormation = generateSourceBcn_V_FormationDiplomeFixture({
+        const vFormation = generateSourceBcn_N_FormationDiplomeFixture({
           data: {
             NIVEAU_FORMATION_DIPLOME: "453",
           },

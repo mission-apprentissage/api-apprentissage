@@ -3,8 +3,8 @@ import {
   generateCertificationFixture,
   generateKitApprentissageFixture,
   generateKitApprentissageFixtureData,
-  generateSourceBcn_V_FormationDiplomeDataFixture,
-  generateSourceBcn_V_FormationDiplomeFixture,
+  generateSourceBcn_N_FormationDiplomeFixture,
+  generateSourceBcn_N51_FormationDiplomeFixture,
   generateSourceFranceCompetenceFixture,
 } from "shared/models/fixtures";
 import { describe, expect, it, vi } from "vitest";
@@ -52,7 +52,7 @@ describe("buildCertification", () => {
   describe("identifiant.rncp_anterieur_2019", () => {
     it("should be null when france_competence is missing", () => {
       const data = {
-        bcn: generateSourceBcn_V_FormationDiplomeFixture({ data: { FORMATION_DIPLOME: "20512008" } }),
+        bcn: generateSourceBcn_N_FormationDiplomeFixture({ data: { FORMATION_DIPLOME: "20512008" } }),
         france_competence: null,
       };
       const expectedCertification = generateCertificationFixture({
@@ -87,16 +87,24 @@ describe("buildCertification", () => {
       });
       mockBuildCertificationParts(expectedCertification);
 
-      const certification = buildCertification(data, new Date());
+      const oldestFranceCompetenceDatePublication = new Date();
+      const certification = buildCertification(data, oldestFranceCompetenceDatePublication);
 
       expect(certification.identifiant.rncp_anterieur_2019).toBe(expected);
+      expect.soft(buildCertificationBaseLegale).toHaveBeenCalledWith(data);
+      expect.soft(buildCertificationBlocsCompetences).toHaveBeenCalledWith(data);
+      expect.soft(buildCertificationConventionCollectives).toHaveBeenCalledWith(data);
+      expect.soft(buildCertificationDomaines).toHaveBeenCalledWith(data);
+      expect.soft(buildCertificationIntitule).toHaveBeenCalledWith(data);
+      expect.soft(buildCertificationPeriodeValidite).toHaveBeenCalledWith(data, oldestFranceCompetenceDatePublication);
+      expect.soft(buildCertificationType).toHaveBeenCalledWith(data);
     });
   });
 
-  const vFormation = generateSourceBcn_V_FormationDiplomeFixture({
-    data: generateSourceBcn_V_FormationDiplomeDataFixture({
+  const formation = generateSourceBcn_N51_FormationDiplomeFixture({
+    data: {
       FORMATION_DIPLOME: "20512008",
-    }),
+    },
   });
 
   const kitApprentissage = generateKitApprentissageFixture({
@@ -110,7 +118,7 @@ describe("buildCertification", () => {
 
   it("should build certification", () => {
     const data = {
-      bcn: vFormation,
+      bcn: formation,
       kit_apprentissage: kitApprentissage,
       france_competence: franceCompetence,
     };
@@ -126,6 +134,7 @@ describe("buildCertification", () => {
         rncp: "RNCP24420",
         rncp_anterieur_2019: true,
       },
+      continuite: { rncp: null, cfd: null },
     });
 
     mockBuildCertificationParts(expectedCertification);
@@ -134,11 +143,18 @@ describe("buildCertification", () => {
     const certification = buildCertification(data, oldestFranceCompetenceDatePublication);
 
     expect(certification).toEqual(expectedCertification);
+    expect.soft(buildCertificationBaseLegale).toHaveBeenCalledWith(data);
+    expect.soft(buildCertificationBlocsCompetences).toHaveBeenCalledWith(data);
+    expect.soft(buildCertificationConventionCollectives).toHaveBeenCalledWith(data);
+    expect.soft(buildCertificationDomaines).toHaveBeenCalledWith(data);
+    expect.soft(buildCertificationIntitule).toHaveBeenCalledWith(data);
+    expect.soft(buildCertificationPeriodeValidite).toHaveBeenCalledWith(data, oldestFranceCompetenceDatePublication);
+    expect.soft(buildCertificationType).toHaveBeenCalledWith(data);
   });
 
   it("should throw if built certification is invalid", () => {
     const data = {
-      bcn: vFormation,
+      bcn: formation,
       kit_apprentissage: kitApprentissage,
       france_competence: { ...franceCompetence, numero_fiche: "RNCP24X20" },
     };

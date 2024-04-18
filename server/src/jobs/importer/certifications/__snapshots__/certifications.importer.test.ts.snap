@@ -1,0 +1,297 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`importCertifications > with continuity > should import certifications 1`] = `
+[
+  {
+    "continuite": {
+      "cfd": null,
+      "rncp": [
+        {
+          "activation": 2018-12-31T23:00:00.000Z,
+          "code": "RNCP00100",
+          "courant": false,
+          "fin_enregistrement": 2019-12-31T22:59:59.000Z,
+        },
+        {
+          "activation": 2019-12-31T23:00:00.000Z,
+          "code": "RNCP00101",
+          "courant": true,
+          "fin_enregistrement": 2021-12-31T22:59:59.000Z,
+        },
+        {
+          "activation": 2019-12-31T23:00:00.000Z,
+          "code": "RNCP00102",
+          "courant": false,
+          "fin_enregistrement": 2025-12-31T22:59:59.000Z,
+        },
+        {
+          "activation": 2019-12-31T23:00:00.000Z,
+          "code": "RNCP00103",
+          "courant": false,
+          "fin_enregistrement": 2025-12-31T22:59:59.000Z,
+        },
+      ],
+    },
+    "identifiant": {
+      "cfd": null,
+      "rncp": "RNCP00101",
+      "rncp_anterieur_2019": true,
+    },
+  },
+  {
+    "continuite": {
+      "cfd": null,
+      "rncp": [
+        {
+          "activation": 2018-12-31T23:00:00.000Z,
+          "code": "RNCP00100",
+          "courant": false,
+          "fin_enregistrement": 2019-12-31T22:59:59.000Z,
+        },
+        {
+          "activation": 2019-12-31T23:00:00.000Z,
+          "code": "RNCP00101",
+          "courant": false,
+          "fin_enregistrement": 2021-12-31T22:59:59.000Z,
+        },
+        {
+          "activation": 2019-12-31T23:00:00.000Z,
+          "code": "RNCP00102",
+          "courant": false,
+          "fin_enregistrement": 2025-12-31T22:59:59.000Z,
+        },
+        {
+          "activation": 2019-12-31T23:00:00.000Z,
+          "code": "RNCP00103",
+          "courant": true,
+          "fin_enregistrement": 2025-12-31T22:59:59.000Z,
+        },
+      ],
+    },
+    "identifiant": {
+      "cfd": null,
+      "rncp": "RNCP00103",
+      "rncp_anterieur_2019": true,
+    },
+  },
+  {
+    "continuite": {
+      "cfd": null,
+      "rncp": [
+        {
+          "activation": 2018-12-31T23:00:00.000Z,
+          "code": "RNCP00300",
+          "courant": true,
+          "fin_enregistrement": null,
+        },
+        {
+          "activation": null,
+          "code": "RNCP00301",
+          "courant": false,
+          "fin_enregistrement": 2023-12-31T22:59:59.000Z,
+        },
+      ],
+    },
+    "identifiant": {
+      "cfd": null,
+      "rncp": "RNCP00300",
+      "rncp_anterieur_2019": true,
+    },
+  },
+  {
+    "continuite": {
+      "cfd": null,
+      "rncp": [
+        {
+          "activation": 2018-12-31T23:00:00.000Z,
+          "code": "RNCP00300",
+          "courant": false,
+          "fin_enregistrement": null,
+        },
+        {
+          "activation": null,
+          "code": "RNCP00301",
+          "courant": true,
+          "fin_enregistrement": 2023-12-31T22:59:59.000Z,
+        },
+      ],
+    },
+    "identifiant": {
+      "cfd": null,
+      "rncp": "RNCP00301",
+      "rncp_anterieur_2019": true,
+    },
+  },
+  {
+    "continuite": {
+      "cfd": [
+        {
+          "code": "10000002",
+          "courant": false,
+          "fermeture": 2021-12-31T22:59:59.000Z,
+          "ouverture": 2018-12-31T23:00:00.000Z,
+        },
+        {
+          "code": "10000001",
+          "courant": true,
+          "fermeture": 2019-12-31T22:59:59.000Z,
+          "ouverture": null,
+        },
+      ],
+      "rncp": [
+        {
+          "activation": 2018-12-31T23:00:00.000Z,
+          "code": "RNCP00100",
+          "courant": true,
+          "fin_enregistrement": 2019-12-31T22:59:59.000Z,
+        },
+        {
+          "activation": 2019-12-31T23:00:00.000Z,
+          "code": "RNCP00101",
+          "courant": false,
+          "fin_enregistrement": 2021-12-31T22:59:59.000Z,
+        },
+        {
+          "activation": 2019-12-31T23:00:00.000Z,
+          "code": "RNCP00102",
+          "courant": false,
+          "fin_enregistrement": 2025-12-31T22:59:59.000Z,
+        },
+        {
+          "activation": 2019-12-31T23:00:00.000Z,
+          "code": "RNCP00103",
+          "courant": false,
+          "fin_enregistrement": 2025-12-31T22:59:59.000Z,
+        },
+      ],
+    },
+    "identifiant": {
+      "cfd": "10000001",
+      "rncp": "RNCP00100",
+      "rncp_anterieur_2019": true,
+    },
+  },
+  {
+    "continuite": {
+      "cfd": [
+        {
+          "code": "10000002",
+          "courant": true,
+          "fermeture": 2021-12-31T22:59:59.000Z,
+          "ouverture": 2018-12-31T23:00:00.000Z,
+        },
+        {
+          "code": "10000001",
+          "courant": false,
+          "fermeture": 2019-12-31T22:59:59.000Z,
+          "ouverture": null,
+        },
+      ],
+      "rncp": [
+        {
+          "activation": 2018-12-31T23:00:00.000Z,
+          "code": "RNCP00100",
+          "courant": false,
+          "fin_enregistrement": 2019-12-31T22:59:59.000Z,
+        },
+        {
+          "activation": 2019-12-31T23:00:00.000Z,
+          "code": "RNCP00101",
+          "courant": false,
+          "fin_enregistrement": 2021-12-31T22:59:59.000Z,
+        },
+        {
+          "activation": 2019-12-31T23:00:00.000Z,
+          "code": "RNCP00102",
+          "courant": true,
+          "fin_enregistrement": 2025-12-31T22:59:59.000Z,
+        },
+        {
+          "activation": 2019-12-31T23:00:00.000Z,
+          "code": "RNCP00103",
+          "courant": false,
+          "fin_enregistrement": 2025-12-31T22:59:59.000Z,
+        },
+      ],
+    },
+    "identifiant": {
+      "cfd": "10000002",
+      "rncp": "RNCP00102",
+      "rncp_anterieur_2019": true,
+    },
+  },
+  {
+    "continuite": {
+      "cfd": [
+        {
+          "code": "20000001",
+          "courant": true,
+          "fermeture": 2020-12-31T22:59:59.000Z,
+          "ouverture": 2016-12-31T23:00:00.000Z,
+        },
+      ],
+      "rncp": [
+        {
+          "activation": 2018-12-31T23:00:00.000Z,
+          "code": "RNCP00200",
+          "courant": true,
+          "fin_enregistrement": 2023-12-31T22:59:59.000Z,
+        },
+      ],
+    },
+    "identifiant": {
+      "cfd": "20000001",
+      "rncp": "RNCP00200",
+      "rncp_anterieur_2019": true,
+    },
+  },
+  {
+    "continuite": {
+      "cfd": [
+        {
+          "code": "30000001",
+          "courant": true,
+          "fermeture": null,
+          "ouverture": 2019-12-31T23:00:00.000Z,
+        },
+        {
+          "code": "30000002",
+          "courant": false,
+          "fermeture": 2025-12-31T22:59:59.000Z,
+          "ouverture": 2021-12-31T23:00:00.000Z,
+        },
+      ],
+      "rncp": null,
+    },
+    "identifiant": {
+      "cfd": "30000001",
+      "rncp": null,
+      "rncp_anterieur_2019": null,
+    },
+  },
+  {
+    "continuite": {
+      "cfd": [
+        {
+          "code": "30000001",
+          "courant": false,
+          "fermeture": null,
+          "ouverture": 2019-12-31T23:00:00.000Z,
+        },
+        {
+          "code": "30000002",
+          "courant": true,
+          "fermeture": 2025-12-31T22:59:59.000Z,
+          "ouverture": 2021-12-31T23:00:00.000Z,
+        },
+      ],
+      "rncp": null,
+    },
+    "identifiant": {
+      "cfd": "30000002",
+      "rncp": null,
+      "rncp_anterieur_2019": null,
+    },
+  },
+]
+`;

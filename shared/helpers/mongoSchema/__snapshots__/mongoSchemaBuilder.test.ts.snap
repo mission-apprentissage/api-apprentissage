@@ -93,6 +93,142 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
         "rncp",
       ],
     },
+    "continuite": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "cfd": {
+          "anyOf": [
+            {
+              "bsonType": "array",
+              "items": {
+                "additionalProperties": false,
+                "bsonType": "object",
+                "properties": {
+                  "code": {
+                    "bsonType": "string",
+                    "pattern": "^[A-Z0-9]{3}\\d{3}[A-Z0-9]{2}$",
+                  },
+                  "courant": {
+                    "bsonType": "bool",
+                  },
+                  "fermeture": {
+                    "anyOf": [
+                      {
+                        "anyOf": [
+                          {
+                            "bsonType": "date",
+                          },
+                          {
+                            "bsonType": "null",
+                          },
+                        ],
+                      },
+                      {
+                        "bsonType": "null",
+                      },
+                    ],
+                  },
+                  "ouverture": {
+                    "anyOf": [
+                      {
+                        "anyOf": [
+                          {
+                            "bsonType": "date",
+                          },
+                          {
+                            "bsonType": "null",
+                          },
+                        ],
+                      },
+                      {
+                        "bsonType": "null",
+                      },
+                    ],
+                  },
+                },
+                "required": [
+                  "ouverture",
+                  "fermeture",
+                  "code",
+                  "courant",
+                ],
+              },
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "rncp": {
+          "anyOf": [
+            {
+              "bsonType": "array",
+              "items": {
+                "additionalProperties": false,
+                "bsonType": "object",
+                "properties": {
+                  "activation": {
+                    "anyOf": [
+                      {
+                        "anyOf": [
+                          {
+                            "bsonType": "date",
+                          },
+                          {
+                            "bsonType": "null",
+                          },
+                        ],
+                      },
+                      {
+                        "bsonType": "null",
+                      },
+                    ],
+                  },
+                  "code": {
+                    "bsonType": "string",
+                    "pattern": "^RNCP\\d{3,5}$",
+                  },
+                  "courant": {
+                    "bsonType": "bool",
+                  },
+                  "fin_enregistrement": {
+                    "anyOf": [
+                      {
+                        "anyOf": [
+                          {
+                            "bsonType": "date",
+                          },
+                          {
+                            "bsonType": "null",
+                          },
+                        ],
+                      },
+                      {
+                        "bsonType": "null",
+                      },
+                    ],
+                  },
+                },
+                "required": [
+                  "activation",
+                  "fin_enregistrement",
+                  "code",
+                  "courant",
+                ],
+              },
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+      },
+      "required": [
+        "cfd",
+        "rncp",
+      ],
+    },
     "convention_collectives": {
       "additionalProperties": false,
       "bsonType": "object",
@@ -760,6 +896,7 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
     "domaines",
     "periode_validite",
     "type",
+    "continuite",
     "created_at",
     "updated_at",
   ],

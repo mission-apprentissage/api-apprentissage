@@ -1,5 +1,6 @@
 import {
-  generateSourceBcn_V_FormationDiplomeFixture,
+  generateSourceBcn_N_FormationDiplomeFixture,
+  generateSourceBcn_N51_FormationDiplomeFixture,
   generateSourceFranceCompetenceFixture,
 } from "shared/models/fixtures";
 import { describe, expect, it } from "vitest";
@@ -20,25 +21,25 @@ describe("buildCertificationBaseLegale", () => {
       ["06/09/2022", "2022-09-05T22:00:00.000Z"],
       ["11/01/2024", "2024-01-10T23:00:00.000Z"],
     ])("should interprete data.DATE_ARRETE_CREATION value as 00:00:00 Paris timezone", (date, expected) => {
-      const vFormation = generateSourceBcn_V_FormationDiplomeFixture({
+      const formation = generateSourceBcn_N_FormationDiplomeFixture({
         data: {
           DATE_ARRETE_CREATION: date,
         },
       });
       const result = buildCertificationBaseLegale({
-        bcn: vFormation,
+        bcn: formation,
         france_competence: generateSourceFranceCompetenceFixture(),
       });
       expect(result.cfd?.creation).toEqual(new Date(expected));
     });
     it("should takes null for empty data.DATE_ARRETE_CREATION value", () => {
-      const vFormation = generateSourceBcn_V_FormationDiplomeFixture({
+      const formation = generateSourceBcn_N_FormationDiplomeFixture({
         data: {
           DATE_ARRETE_CREATION: null,
         },
       });
       const result = buildCertificationBaseLegale({
-        bcn: vFormation,
+        bcn: formation,
         france_competence: generateSourceFranceCompetenceFixture(),
       });
       expect(result.cfd?.creation).toBeNull();
@@ -49,25 +50,25 @@ describe("buildCertificationBaseLegale", () => {
       ["06/09/2022", "2022-09-06T21:59:59.000Z"],
       ["11/01/2024", "2024-01-11T22:59:59.000Z"],
     ])("should interprete data.DATE_ARRETE_ABROGATION value as 23:59:59 Paris timezone", (date, expected) => {
-      const vFormation = generateSourceBcn_V_FormationDiplomeFixture({
+      const formation = generateSourceBcn_N51_FormationDiplomeFixture({
         data: {
           DATE_ARRETE_ABROGATION: date,
         },
       });
       const result = buildCertificationBaseLegale({
-        bcn: vFormation,
+        bcn: formation,
         france_competence: generateSourceFranceCompetenceFixture(),
       });
       expect(result.cfd?.abrogation).toEqual(new Date(expected));
     });
     it("should takes null for empty data.DATE_ARRETE_ABROGATION value", () => {
-      const vFormation = generateSourceBcn_V_FormationDiplomeFixture({
+      const formation = generateSourceBcn_N51_FormationDiplomeFixture({
         data: {
           DATE_ARRETE_ABROGATION: null,
         },
       });
       const result = buildCertificationBaseLegale({
-        bcn: vFormation,
+        bcn: formation,
         france_competence: generateSourceFranceCompetenceFixture(),
       });
       expect(result.cfd?.abrogation).toBeNull();

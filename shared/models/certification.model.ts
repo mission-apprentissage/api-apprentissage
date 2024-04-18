@@ -569,6 +569,51 @@ const zCertifType = zodOpenApi
     ]),
   });
 
+export const zContinuite = zodOpenApi.object({
+  cfd: zodOpenApi
+    .array(
+      zodOpenApi.object({
+        ouverture: zCertifPeriodeValidite.shape.cfd.unwrap().shape.ouverture.nullable(),
+        fermeture: zCertifPeriodeValidite.shape.cfd.unwrap().shape.fermeture.nullable(),
+        code: zCertifIdentifiant.shape.cfd.unwrap(),
+        courant: zodOpenApi.boolean().openapi({
+          description: "Indique si le diplôme correspond au diplôme courant.",
+        }),
+      })
+    )
+    .nullable()
+    .openapi({
+      description: buildOpenApiDescription(
+        "Liste des diplômes assurant la continuité du diplôme. La liste inclus à la fois les diplômes remplacés et remplaçant. La liste est ordonnée par date d'ouverture du diplôme et inclus le diplôme courant.",
+        [
+          "- `null` lorsque le champs `identifiant.cfd` est `null`.",
+          "- Pour distinguer les diplômes remplacés des diplômes remplaçant, il faut se référer aux dates d'ouverture et de fermeture des diplômes.",
+        ]
+      ),
+    }),
+  rncp: zodOpenApi
+    .array(
+      zodOpenApi.object({
+        activation: zCertifPeriodeValidite.shape.rncp.unwrap().shape.activation.nullable(),
+        fin_enregistrement: zCertifPeriodeValidite.shape.rncp.unwrap().shape.fin_enregistrement.nullable(),
+        code: zCertifIdentifiant.shape.rncp.unwrap(),
+        courant: zodOpenApi.boolean().openapi({
+          description: "Indique si la fiche correspond à la fiche courante.",
+        }),
+      })
+    )
+    .nullable()
+    .openapi({
+      description: buildOpenApiDescription(
+        "Liste des fiches RNCP assurant la continuité de la certification. La liste inclus à la fois les fiches remplacées et remplaçantes. La liste est ordonnée par date d'activation de la fiche RNCP et inclus la fiche courante.",
+        [
+          "- `null` lorsque le champs `identifiant.rncp` est `null`.",
+          "- Pour distinguer les fiches remplacées des fiches remplaçant, il faut se référer aux dates d'activation et de fin d'enregistrement des fiches.",
+        ]
+      ),
+    }),
+});
+
 export const zCertification = z.object({
   _id: zObjectId,
   identifiant: zCertifIdentifiant,
@@ -579,6 +624,7 @@ export const zCertification = z.object({
   domaines: zCertifDomaines,
   periode_validite: zCertifPeriodeValidite,
   type: zCertifType,
+  continuite: zContinuite,
   created_at: z.date(),
   updated_at: z.date(),
 });

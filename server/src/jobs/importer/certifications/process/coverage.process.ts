@@ -96,6 +96,38 @@ export function buildMissingRncpCertification(
   });
 }
 
+function createMapperStream<C>(mapper: (c: C) => ICertification[], type: "cfd" | "rncp") {
+  return new Transform({
+    objectMode: true,
+    async transform(chunk: C, _encoding, callback) {
+      try {
+        const op = mapper(chunk);
+        callback(null, op);
+      } catch (error) {
+        callback(
+          withCause(internal("import.certifications: error processing certification coverage", { type }), error)
+        );
+      }
+    },
+  });
+}
+
+function createInsertStream(type: "cfd" | "rncp") {
+  return new Transform({
+    objectMode: true,
+    async transform(chunk: ICertification[], _encoding, callback) {
+      try {
+        if (chunk.length > 0) {
+          await getDbCollection("certifications").insertMany(chunk);
+        }
+        callback();
+      } catch (error) {
+        callback(withCause(internal("import.certifications: error inserting certification coverage", { type }), error));
+      }
+    },
+  });
+}
+
 async function processCfdCertificationCoverage(importMeta: IImportMetaCertifications) {
   await pipeline(
     getDbCollection("certifications").aggregate<ChunkCfd>([
@@ -130,30 +162,8 @@ async function processCfdCertificationCoverage(importMeta: IImportMetaCertificat
         },
       },
     ]),
-    new Transform({
-      objectMode: true,
-      async transform(chunk: ChunkCfd, _encoding, callback) {
-        try {
-          const op = buildMissingCfdCertification(chunk, importMeta);
-          callback(null, op);
-        } catch (error) {
-          callback(withCause(internal("import.certifications: error processing cfd certification coverage"), error));
-        }
-      },
-    }),
-    new Transform({
-      objectMode: true,
-      async transform(chunk, _encoding, callback) {
-        try {
-          if (chunk.length > 0) {
-            await getDbCollection("certifications").insertMany(chunk);
-          }
-          callback();
-        } catch (error) {
-          callback(withCause(internal("import.certifications: error inserting cfd certification coverage"), error));
-        }
-      },
-    })
+    createMapperStream<ChunkCfd>((chunk) => buildMissingCfdCertification(chunk, importMeta), "cfd"),
+    createInsertStream("cfd")
   );
 }
 
@@ -190,30 +200,8 @@ async function processRncpCertificationCoverage(importMeta: IImportMetaCertifica
         },
       },
     ]),
-    new Transform({
-      objectMode: true,
-      async transform(chunk: ChunkRncp, _encoding, callback) {
-        try {
-          const op = buildMissingRncpCertification(chunk, importMeta);
-          callback(null, op);
-        } catch (error) {
-          callback(withCause(internal("import.certifications: error processing rncp certification coverage"), error));
-        }
-      },
-    }),
-    new Transform({
-      objectMode: true,
-      async transform(chunk, _encoding, callback) {
-        try {
-          if (chunk.length > 0) {
-            await getDbCollection("certifications").insertMany(chunk);
-          }
-          callback();
-        } catch (error) {
-          callback(withCause(internal("import.certifications: error inserting rncp certification coverage"), error));
-        }
-      },
-    })
+    createMapperStream<ChunkRncp>((chunk) => buildMissingRncpCertification(chunk, importMeta), "rncp"),
+    createInsertStream("rncp")
   );
 }
 

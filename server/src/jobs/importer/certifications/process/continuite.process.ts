@@ -9,16 +9,41 @@ import {
   ICertificationSearchMap,
 } from "../builder/periode_validite/certification.periode_validite.builder";
 
-function addToGroupMap(groupMap: Map<string, Set<string>>, codes: string[]) {
-  for (const code of codes) {
-    if (!groupMap.has(code)) {
-      groupMap.set(code, new Set(codes));
-    } else {
-      for (const otherCode of codes) {
-        groupMap.get(code)!.add(otherCode);
-      }
+type GroupContext = {
+  groups: Map<string, Set<string>>;
+  codeToGroup: Map<string, string>;
+};
+
+function addToGroupMap(context: GroupContext, codes: string[]) {
+  const groupCodes = new Set(
+    codes.filter((code) => context.codeToGroup.has(code)).map((code) => context.codeToGroup.get(code)!)
+  );
+
+  // No groups created for any of the codes
+  if (groupCodes.size === 0) {
+    context.groups.set(codes[0], new Set(codes));
+    codes.forEach((code) => context.codeToGroup.set(code, codes[0]));
+    return;
+  }
+
+  const [mainGroupCode, ...otherGroupsCodes] = Array.from(groupCodes);
+
+  // Multiple groups created for multiple codes, we need to merge groups
+  if (otherGroupsCodes.length > 0) {
+    for (const groupCode of otherGroupsCodes) {
+      context.groups.get(groupCode)!.forEach((code) => {
+        context.groups.get(mainGroupCode)!.add(code);
+        context.codeToGroup.set(code, mainGroupCode);
+      });
+      context.groups.delete(groupCode);
     }
   }
+
+  // Only one group created for one of the codes
+  codes.forEach((code) => {
+    context.groups.get(mainGroupCode)!.add(code);
+    context.codeToGroup.set(code, mainGroupCode);
+  });
 }
 
 async function buildCfdContinuiteGroups() {
@@ -26,21 +51,20 @@ async function buildCfdContinuiteGroups() {
     source: "N_FORMATION_DIPLOME",
   });
 
-  const groupMap = new Map<string, Set<string>>();
+  const context: GroupContext = {
+    groups: new Map(),
+    codeToGroup: new Map(),
+  };
 
   for await (const doc of cursor) {
     const data = doc.data;
-    addToGroupMap(groupMap, [data.FORMATION_DIPLOME, ...data.ANCIEN_DIPLOMES, ...data.NOUVEAU_DIPLOMES]);
+    addToGroupMap(context, [data.FORMATION_DIPLOME, ...data.ANCIEN_DIPLOMES, ...data.NOUVEAU_DIPLOMES]);
   }
 
   const groups: string[][] = [];
-  const seen: Set<string> = new Set();
 
-  for (const [code, group] of groupMap) {
-    if (seen.has(code)) continue;
-
+  for (const [, group] of context.groups) {
     const codes = Array.from(group);
-    codes.forEach((c) => seen.add(c));
     groups.push(codes);
   }
 
@@ -50,7 +74,10 @@ async function buildCfdContinuiteGroups() {
 async function buildRncpContinuiteGroups() {
   const cursor = getDbCollection("source.france_competence").find();
 
-  const groupMap = new Map<string, Set<string>>();
+  const context: GroupContext = {
+    groups: new Map(),
+    codeToGroup: new Map(),
+  };
 
   for await (const doc of cursor) {
     const fiches = doc.data.ancienne_nouvelle_certification.flatMap(
@@ -68,17 +95,13 @@ async function buildRncpContinuiteGroups() {
         return result;
       }
     );
-    addToGroupMap(groupMap, [...fiches, doc.numero_fiche]);
+    addToGroupMap(context, [...fiches, doc.numero_fiche]);
   }
 
   const groups: string[][] = [];
-  const seen: Set<string> = new Set();
 
-  for (const [code, group] of groupMap) {
-    if (seen.has(code)) continue;
-
+  for (const [, group] of context.groups) {
     const codes = Array.from(group);
-    codes.forEach((c) => seen.add(c));
     groups.push(codes);
   }
 

@@ -15,8 +15,8 @@ import { IModelDescriptor, zObjectId } from "./common";
 const collectionName = "certifications" as const;
 
 const indexes: IModelDescriptor["indexes"] = [
-  [{ "identifiant.cfd": 1, "identifiant.rncp": 1 }, { unique: true }],
-  [{ "identifiant.rncp": 1, "identifiant.cfd": 1 }, { unique: true }],
+  [{ "identifiant.cfd": 1, "identifiant.rncp": 1 }, {}],
+  [{ "identifiant.rncp": 1, "identifiant.cfd": 1 }, {}],
 ];
 
 const zCertifBaseLegale = zodOpenApi

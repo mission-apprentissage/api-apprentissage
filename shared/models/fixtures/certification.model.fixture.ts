@@ -12,11 +12,16 @@ type ICertifIntituleFixtureNiveauInput = Partial<ICertification["intitule"]["niv
 type ICertifIntituleFixtureInput = Partial<
   Omit<ICertification["intitule"], "niveau"> & { niveau: ICertifIntituleFixtureNiveauInput }
 >;
-type ICertifPeriodeValiditeFixtureInput = Partial<ICertification["periode_validite"]>;
+type ICertifPeriodeValiditeCfdFixtureInput = Partial<ICertification["periode_validite"]["cfd"]>;
+type ICertifPeriodeValiditeRncpFixtureInput = Partial<ICertification["periode_validite"]["rncp"]>;
+type ICertifPeriodeValiditeFixtureInput = Omit<Partial<ICertification["periode_validite"]>, "rncp" | "cfd"> & {
+  cfd?: ICertifPeriodeValiditeCfdFixtureInput;
+  rncp?: ICertifPeriodeValiditeRncpFixtureInput;
+};
 type ICertifTypeFixtureInput = Partial<ICertification["type"]>;
 type ICertifContinuiteFixtureInput = Partial<ICertification["continuite"]>;
 
-type ICertificationFixtureInput = {
+export type ICertificationFixtureInput = {
   base_legale?: ICertifBaseLegaleFixtureInput;
   blocs_competences?: ICertifBlocsCompetencesFixtureInput;
   convention_collectives?: ICertifConventionCollectivesFixtureInput;
@@ -168,30 +173,44 @@ export function generateCertifIntituleFixture(data?: ICertifIntituleFixtureInput
   };
 }
 
+function generateCertificationPeriodeValiditeCfdFixture(
+  data?: ICertifPeriodeValiditeCfdFixtureInput
+): ICertification["periode_validite"]["cfd"] {
+  if (data === null) {
+    return null;
+  }
+
+  return {
+    ouverture: getFixtureValue(data, "ouverture", new Date("2021-08-31T22:00:00.000Z")),
+    fermeture: getFixtureValue(data, "fermeture", new Date("2024-08-31T21:59:59.000Z")),
+    premiere_session: getFixtureValue(data, "premiere_session", 2022),
+    derniere_session: getFixtureValue(data, "derniere_session", 2024),
+  };
+}
+
+function generateCertificationPeriodeValiditeRncpFixture(
+  data?: ICertifPeriodeValiditeRncpFixtureInput
+): ICertification["periode_validite"]["rncp"] {
+  if (data === null) {
+    return null;
+  }
+
+  return {
+    actif: getFixtureValue(data, "actif", true),
+    activation: getFixtureValue(data, "activation", new Date("2022-07-05T00:00:00.000Z")),
+    fin_enregistrement: getFixtureValue(data, "fin_enregistrement", new Date("2024-06-30T21:59:59.000Z")),
+    debut_parcours: getFixtureValue(data, "debut_parcours", new Date("2022-06-30T22:00:00.000Z")),
+  };
+}
+
 export function generateCertificationPeriodeValiditeFixture(
   data?: ICertifPeriodeValiditeFixtureInput
 ): ICertification["periode_validite"] {
   return {
     debut: getFixtureValue(data, "debut", new Date("2021-08-31T22:00:00.000Z")),
     fin: getFixtureValue(data, "fin", new Date("2024-08-31T21:59:59.000Z")),
-    cfd:
-      data?.cfd === null
-        ? null
-        : getFixtureValue(data, "cfd", {
-            ouverture: getFixtureValue(data?.cfd, "ouverture", new Date("2021-08-31T22:00:00.000Z")),
-            fermeture: getFixtureValue(data?.cfd, "fermeture", new Date("2024-08-31T21:59:59.000Z")),
-            premiere_session: getFixtureValue(data?.cfd, "premiere_session", 2022),
-            derniere_session: getFixtureValue(data?.cfd, "derniere_session", 2024),
-          }),
-    rncp:
-      data?.rncp === null
-        ? null
-        : getFixtureValue(data, "rncp", {
-            actif: getFixtureValue(data?.rncp, "actif", true),
-            activation: getFixtureValue(data?.rncp, "activation", new Date("2022-07-05T00:00:00.000Z")),
-            fin_enregistrement: getFixtureValue(data?.rncp, "fin_enregistrement", new Date("2024-06-30T21:59:59.000Z")),
-            debut_parcours: getFixtureValue(data?.rncp, "debut_parcours", new Date("2022-06-30T22:00:00.000Z")),
-          }),
+    cfd: generateCertificationPeriodeValiditeCfdFixture(data?.cfd),
+    rncp: generateCertificationPeriodeValiditeRncpFixture(data?.rncp),
   };
 }
 

@@ -1,4 +1,5 @@
 import { useMongo } from "@tests/mongo.test.utils";
+import { DateTime } from "luxon";
 import { ObjectId } from "mongodb";
 import {
   generateCertificationFixture,
@@ -120,6 +121,9 @@ const todayImportCert = {
     },
   },
 } as const;
+
+const toDateString = (date: ParisDate | null | undefined) =>
+  date ? DateTime.fromJSDate(date, { zone: "Europe/Paris" }).toFormat("dd/LL/yyyy") : null;
 
 describe("importCertifications", () => {
   useMongo();
@@ -791,11 +795,6 @@ describe("importCertifications", () => {
       }),
     ];
 
-    const toDateString = (date: ParisDate | null | undefined) =>
-      date
-        ? `${date.getDate().toString().padStart(2, "0")}/${(date.getMonth() + 1).toString().padStart(2, "0")}/${date.getFullYear()}`
-        : null;
-
     const generateBcnData = (code: keyof (typeof searchmap)["cfd"]) => {
       return [
         generateSourceBcn_V_FormationDiplomeFixture({
@@ -986,11 +985,6 @@ describe("importCertifications", () => {
         }),
       }),
     ];
-
-    const toDateString = (date: ParisDate | null | undefined) =>
-      date
-        ? `${date.getDate().toString().padStart(2, "0")}/${(date.getMonth() + 1).toString().padStart(2, "0")}/${date.getFullYear()}`
-        : null;
 
     const generateBcnData = (code: keyof (typeof searchmap)["cfd"]) => {
       return [

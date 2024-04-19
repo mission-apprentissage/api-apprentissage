@@ -1,8 +1,10 @@
 import { ICertification } from "shared/models/certification.model";
-import { IBcn_V_FormationDiplome } from "shared/models/source/bcn/bcn.v_formation_diplome.model";
+import { IBcn_N_FormationDiplome } from "shared/models/source/bcn/bcn.n_formation_diplome.model";
+import { IBcn_N51_FormationDiplome } from "shared/models/source/bcn/bcn.n51_formation_diplome.model";
 import { ISourceFranceCompetence } from "shared/models/source/france_competence/source.france_competence.model";
 import { parseNullableParisLocalDate } from "shared/zod/date.primitives";
 
+import { getDbCollection } from "../../../../../services/mongodb/mongodbService";
 import { ISourceAggregatedData } from "../certification.builder";
 
 export function computePeriodeValidite(
@@ -35,17 +37,17 @@ export function computePeriodeValidite(
 }
 
 function buildCertificationPeriodeValiditeCfd(
-  vFormation: IBcn_V_FormationDiplome | null | undefined
+  formation: IBcn_N_FormationDiplome | IBcn_N51_FormationDiplome | null | undefined
 ): ICertification["periode_validite"]["cfd"] {
-  if (vFormation == null) {
+  if (formation == null) {
     return null;
   }
 
   return {
-    ouverture: parseNullableParisLocalDate(vFormation.data.DATE_OUVERTURE, "00:00:00"),
-    fermeture: parseNullableParisLocalDate(vFormation.data.DATE_FERMETURE, "23:59:59"),
-    premiere_session: vFormation.data.DATE_PREMIERE_SESSION ? Number(vFormation.data.DATE_PREMIERE_SESSION) : null,
-    derniere_session: vFormation.data.DATE_DERNIERE_SESSION ? Number(vFormation.data.DATE_DERNIERE_SESSION) : null,
+    ouverture: parseNullableParisLocalDate(formation.data.DATE_OUVERTURE, "00:00:00"),
+    fermeture: parseNullableParisLocalDate(formation.data.DATE_FERMETURE, "23:59:59"),
+    premiere_session: formation.data.DATE_PREMIERE_SESSION ? Number(formation.data.DATE_PREMIERE_SESSION) : null,
+    derniere_session: formation.data.DATE_DERNIERE_SESSION ? Number(formation.data.DATE_DERNIERE_SESSION) : null,
   };
 }
 
@@ -80,6 +82,37 @@ function buildCertificationPeriodeValiditeRncp(
     debut_parcours:
       parseNullableParisLocalDate(standard.Date_Effet, "00:00:00") ??
       parseNullableParisLocalDate(standard.Date_Decision, "00:00:00"),
+  };
+}
+
+export type ICertificationSearchMap = {
+  cfd: Record<string, ICertification["periode_validite"]["cfd"]>;
+  rncp: Record<string, ICertification["periode_validite"]["rncp"]>;
+};
+
+export async function buildCertificationSearchMap(
+  oldestFranceCompetenceDatePublication: Date
+): Promise<ICertificationSearchMap> {
+  const [bcn, franceCompetence] = await Promise.all([
+    getDbCollection("source.bcn")
+      .find<IBcn_N_FormationDiplome | IBcn_N51_FormationDiplome>({
+        source: {
+          $in: ["N_FORMATION_DIPLOME", "N_FORMATION_DIPLOME_ENQUETE_51"],
+        },
+      })
+      .toArray(),
+    getDbCollection("source.france_competence").find({}).toArray(),
+  ]);
+
+  return {
+    cfd: bcn.reduce<ICertificationSearchMap["cfd"]>((acc, item) => {
+      acc[item.data.FORMATION_DIPLOME] = buildCertificationPeriodeValiditeCfd(item);
+      return acc;
+    }, {}),
+    rncp: franceCompetence.reduce<ICertificationSearchMap["rncp"]>((acc, item) => {
+      acc[item.numero_fiche] = buildCertificationPeriodeValiditeRncp(item, oldestFranceCompetenceDatePublication);
+      return acc;
+    }, {}),
   };
 }
 

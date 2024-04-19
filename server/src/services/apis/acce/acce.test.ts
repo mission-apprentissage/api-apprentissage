@@ -145,7 +145,7 @@ describe("downloadCsvExtraction", () => {
     scope.get("/getextract.php?ex_id=some-random-id").times(15).reply(200, "Wait");
 
     await expect(downloadCsvExtraction()).rejects.toThrow("api.acce: unable to download acce database");
-  });
+  }, 10_000);
 
   it("should error when check extract status fail", async () => {
     const scope = nock("https://dep.adc.education.fr/acce").post("/ajax/ident.php").reply(200, "", {

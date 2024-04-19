@@ -110,6 +110,24 @@ describe("GET /certification/v1", () => {
                 abrogation: toLocalDateString(rest.base_legale.cfd.abrogation),
               },
       },
+      continuite: {
+        cfd:
+          rest.continuite.cfd === null
+            ? null
+            : rest.continuite.cfd.map((c) => ({
+                ...c,
+                ouverture: toLocalDateString(c.ouverture),
+                fermeture: toLocalDateString(c.fermeture),
+              })),
+        rncp:
+          rest.continuite.rncp === null
+            ? null
+            : rest.continuite.rncp.map((r) => ({
+                ...r,
+                activation: toLocalDateString(r.activation),
+                fin_enregistrement: toLocalDateString(r.fin_enregistrement),
+              })),
+      },
     };
   };
 

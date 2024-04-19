@@ -12,6 +12,8 @@ import { createBatchTransformStream } from "@/utils/streamUtils";
 
 import { buildCertification, ISourceAggregatedData } from "./builder/certification.builder";
 import { validateNiveauFormationDiplomeToInterministerielRule } from "./builder/intitule/certification.intitule.builder";
+import { processContinuite } from "./process/continuite.process";
+import { processCertificationCoverage } from "./process/coverage.process";
 
 const logger = parentLogger.child({ module: "import:certifications" });
 
@@ -195,7 +197,9 @@ export function getSourceAggregatedDataFromBcn(): AggregationCursor<ISourceAggre
   return getDbCollection("source.bcn").aggregate<ISourceAggregatedData>([
     {
       $match: {
-        source: "V_FORMATION_DIPLOME",
+        source: {
+          $in: ["N_FORMATION_DIPLOME", "N_FORMATION_DIPLOME_ENQUETE_51"],
+        },
       },
     },
     {
@@ -399,6 +403,9 @@ export async function importCertifications(options: ImportCertificationsOptions 
     await importSourceAggregatedData(getSourceAggregatedDataFromBcn(), importMeta);
 
     await importSourceAggregatedData(getSourceAggregatedDataFromFranceCompetence(), importMeta);
+
+    await processCertificationCoverage(importMeta);
+    await processContinuite(importMeta);
 
     const stats = await computeImportStats(importMeta.import_date);
 

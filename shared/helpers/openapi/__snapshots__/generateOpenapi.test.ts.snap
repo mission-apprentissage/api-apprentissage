@@ -189,6 +189,145 @@ Notes:
             ],
             "type": "object",
           },
+          "continuite": {
+            "properties": {
+              "cfd": {
+                "description": "Liste des diplômes assurant la continuité du diplôme. La liste inclus à la fois les diplômes remplacés et remplaçant. La liste est ordonnée par date d'ouverture du diplôme et inclus le diplôme courant.
+
+Notes:
+
+- \`null\` lorsque le champs \`identifiant.cfd\` est \`null\`.
+
+- Pour distinguer les diplômes remplacés des diplômes remplaçant, il faut se référer aux dates d'ouverture et de fermeture des diplômes.",
+                "items": {
+                  "properties": {
+                    "code": {
+                      "pattern": "^[A-Z0-9]{3}\\d{3}[A-Z0-9]{2}$",
+                      "type": "string",
+                    },
+                    "courant": {
+                      "description": "Indique si le diplôme correspond au diplôme courant.",
+                      "type": "boolean",
+                    },
+                    "fermeture": {
+                      "description": "Date de fermeture du diplôme.
+
+Notes:
+
+- La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.",
+                      "examples": [
+                        "2022-08-31T23:59:59.000+02:00",
+                        "2022-12-31T23:59:59.000+01:00",
+                      ],
+                      "format": "date-time",
+                      "type": [
+                        "string",
+                        "null",
+                      ],
+                    },
+                    "ouverture": {
+                      "description": "Date d'ouverture du diplôme.
+
+Notes:
+
+- La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '00:00:00' sur le fuseau horaire 'Europe/Paris'.",
+                      "examples": [
+                        "2021-09-01T00:00:00.000+02:00",
+                        "2022-01-01T00:00:00.000+01:00",
+                      ],
+                      "format": "date-time",
+                      "type": [
+                        "string",
+                        "null",
+                      ],
+                    },
+                  },
+                  "required": [
+                    "ouverture",
+                    "fermeture",
+                    "code",
+                    "courant",
+                  ],
+                  "type": "object",
+                },
+                "type": [
+                  "array",
+                  "null",
+                ],
+              },
+              "rncp": {
+                "description": "Liste des fiches RNCP assurant la continuité de la certification. La liste inclus à la fois les fiches remplacées et remplaçantes. La liste est ordonnée par date d'activation de la fiche RNCP et inclus la fiche courante.
+
+Notes:
+
+- \`null\` lorsque le champs \`identifiant.rncp\` est \`null\`.
+
+- Pour distinguer les fiches remplacées des fiches remplaçant, il faut se référer aux dates d'activation et de fin d'enregistrement des fiches.",
+                "items": {
+                  "properties": {
+                    "activation": {
+                      "description": "Date à laquelle la fiche RNCP est passée au statut \`actif\`.
+
+Notes:
+
+- La couverture de ce champ est partiel car nous ne sommes pas en mesure pour le moment de récupérer les dates d'activation antérieures au 24 décembre 2021.
+
+- France Compétence ne fournie pas l'information, nous le déduisons de la date de premiere apparation de la fiche RNCP avec le statut \`actif\`.",
+                      "examples": [
+                        "2021-09-01T00:00:00.000+02:00",
+                        "2022-01-01T00:00:00.000+01:00",
+                      ],
+                      "format": "date-time",
+                      "type": [
+                        "string",
+                        "null",
+                      ],
+                    },
+                    "code": {
+                      "pattern": "^RNCP\\d{3,5}$",
+                      "type": "string",
+                    },
+                    "courant": {
+                      "description": "Indique si la fiche correspond à la fiche courante.",
+                      "type": "boolean",
+                    },
+                    "fin_enregistrement": {
+                      "description": "Date de fin d’enregistrement d’une fiche au RNCP.
+
+Notes:
+
+- France Compétence fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.",
+                      "examples": [
+                        "2021-09-01T00:00:00.000+02:00",
+                        "2022-01-01T00:00:00.000+01:00",
+                      ],
+                      "format": "date-time",
+                      "type": [
+                        "string",
+                        "null",
+                      ],
+                    },
+                  },
+                  "required": [
+                    "activation",
+                    "fin_enregistrement",
+                    "code",
+                    "courant",
+                  ],
+                  "type": "object",
+                },
+                "type": [
+                  "array",
+                  "null",
+                ],
+              },
+            },
+            "required": [
+              "cfd",
+              "rncp",
+            ],
+            "type": "object",
+          },
           "convention_collectives": {
             "description": "Liste(s) de la ou des convention(s) collective(s) rattachées à la certification.",
             "properties": {
@@ -1056,6 +1195,7 @@ Notes:
           "domaines",
           "periode_validite",
           "type",
+          "continuite",
         ],
         "type": "object",
       },
@@ -1428,6 +1568,145 @@ Notes:
                           },
                         },
                         "required": [
+                          "rncp",
+                        ],
+                        "type": "object",
+                      },
+                      "continuite": {
+                        "properties": {
+                          "cfd": {
+                            "description": "Liste des diplômes assurant la continuité du diplôme. La liste inclus à la fois les diplômes remplacés et remplaçant. La liste est ordonnée par date d'ouverture du diplôme et inclus le diplôme courant.
+
+Notes:
+
+- \`null\` lorsque le champs \`identifiant.cfd\` est \`null\`.
+
+- Pour distinguer les diplômes remplacés des diplômes remplaçant, il faut se référer aux dates d'ouverture et de fermeture des diplômes.",
+                            "items": {
+                              "properties": {
+                                "code": {
+                                  "pattern": "^[A-Z0-9]{3}\\d{3}[A-Z0-9]{2}$",
+                                  "type": "string",
+                                },
+                                "courant": {
+                                  "description": "Indique si le diplôme correspond au diplôme courant.",
+                                  "type": "boolean",
+                                },
+                                "fermeture": {
+                                  "description": "Date de fermeture du diplôme.
+
+Notes:
+
+- La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.",
+                                  "examples": [
+                                    "2022-08-31T23:59:59.000+02:00",
+                                    "2022-12-31T23:59:59.000+01:00",
+                                  ],
+                                  "format": "date-time",
+                                  "type": [
+                                    "string",
+                                    "null",
+                                  ],
+                                },
+                                "ouverture": {
+                                  "description": "Date d'ouverture du diplôme.
+
+Notes:
+
+- La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '00:00:00' sur le fuseau horaire 'Europe/Paris'.",
+                                  "examples": [
+                                    "2021-09-01T00:00:00.000+02:00",
+                                    "2022-01-01T00:00:00.000+01:00",
+                                  ],
+                                  "format": "date-time",
+                                  "type": [
+                                    "string",
+                                    "null",
+                                  ],
+                                },
+                              },
+                              "required": [
+                                "ouverture",
+                                "fermeture",
+                                "code",
+                                "courant",
+                              ],
+                              "type": "object",
+                            },
+                            "type": [
+                              "array",
+                              "null",
+                            ],
+                          },
+                          "rncp": {
+                            "description": "Liste des fiches RNCP assurant la continuité de la certification. La liste inclus à la fois les fiches remplacées et remplaçantes. La liste est ordonnée par date d'activation de la fiche RNCP et inclus la fiche courante.
+
+Notes:
+
+- \`null\` lorsque le champs \`identifiant.rncp\` est \`null\`.
+
+- Pour distinguer les fiches remplacées des fiches remplaçant, il faut se référer aux dates d'activation et de fin d'enregistrement des fiches.",
+                            "items": {
+                              "properties": {
+                                "activation": {
+                                  "description": "Date à laquelle la fiche RNCP est passée au statut \`actif\`.
+
+Notes:
+
+- La couverture de ce champ est partiel car nous ne sommes pas en mesure pour le moment de récupérer les dates d'activation antérieures au 24 décembre 2021.
+
+- France Compétence ne fournie pas l'information, nous le déduisons de la date de premiere apparation de la fiche RNCP avec le statut \`actif\`.",
+                                  "examples": [
+                                    "2021-09-01T00:00:00.000+02:00",
+                                    "2022-01-01T00:00:00.000+01:00",
+                                  ],
+                                  "format": "date-time",
+                                  "type": [
+                                    "string",
+                                    "null",
+                                  ],
+                                },
+                                "code": {
+                                  "pattern": "^RNCP\\d{3,5}$",
+                                  "type": "string",
+                                },
+                                "courant": {
+                                  "description": "Indique si la fiche correspond à la fiche courante.",
+                                  "type": "boolean",
+                                },
+                                "fin_enregistrement": {
+                                  "description": "Date de fin d’enregistrement d’une fiche au RNCP.
+
+Notes:
+
+- France Compétence fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.",
+                                  "examples": [
+                                    "2021-09-01T00:00:00.000+02:00",
+                                    "2022-01-01T00:00:00.000+01:00",
+                                  ],
+                                  "format": "date-time",
+                                  "type": [
+                                    "string",
+                                    "null",
+                                  ],
+                                },
+                              },
+                              "required": [
+                                "activation",
+                                "fin_enregistrement",
+                                "code",
+                                "courant",
+                              ],
+                              "type": "object",
+                            },
+                            "type": [
+                              "array",
+                              "null",
+                            ],
+                          },
+                        },
+                        "required": [
+                          "cfd",
                           "rncp",
                         ],
                         "type": "object",
@@ -2299,6 +2578,7 @@ Notes:
                       "domaines",
                       "periode_validite",
                       "type",
+                      "continuite",
                     ],
                     "type": "object",
                   },

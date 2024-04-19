@@ -6,6 +6,7 @@ import { ZodError } from "zod";
 
 import { downloadFileInTmpFile } from "../../../utils/apiUtils";
 import { withCause } from "../../errors/withCause";
+import logger from "../../logger";
 import getApiClient from "../client";
 
 const client = getApiClient(
@@ -24,6 +25,11 @@ export async function fetchDataGouvDataSet(datasetId: string): Promise<IDataGouv
     return zDataGouvDataset.parse(data);
   } catch (error) {
     if (error instanceof ZodError) {
+      logger.error("api.data_gouv: unable to fetchDataGouvDataSet; unexpected api data", {
+        datasetId,
+        data,
+        formattedError: error.format(),
+      });
       throw withCause(
         internal("api.data_gouv: unable to fetchDataGouvDataSet; unexpected api data", {
           datasetId,

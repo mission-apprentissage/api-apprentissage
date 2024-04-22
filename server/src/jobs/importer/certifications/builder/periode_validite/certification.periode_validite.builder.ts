@@ -101,7 +101,15 @@ export async function buildCertificationSearchMap(
         },
       })
       .toArray(),
-    getDbCollection("source.france_competence").find({}).toArray(),
+    getDbCollection("source.france_competence")
+      .find({
+        numero_fiche: /^RNCP/,
+        // On filtre les fiches eligible en apprentissage ou professionnalisation
+        "data.voies_d_acces.Si_Jury": {
+          $in: ["En contrat d’apprentissage", "En contrat de professionnalisation"],
+        },
+      })
+      .toArray(),
   ]);
 
   return {

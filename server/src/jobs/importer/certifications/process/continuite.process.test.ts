@@ -631,4 +631,27 @@ describe("RNCP continuite", () => {
         .toArray()
     ).toEqual(expectedSingleChain);
   });
+
+  it("should support ignore continuity with RS", async () => {
+    await getDbCollection("source.france_competence").insertMany([
+      generateFcData("RNCP00001", [], ["RNCP00002", "RS0001"], t1, t1Str),
+      generateFcData("RNCP00002", ["RNCP00001", "RNCP99999"], ["RNCP00003"], t2, t2Str),
+      generateFcData("RNCP00003", ["RNCP00002"], ["RNCP00004", "RNCP99999"], t3, t3Str),
+      generateFcData("RNCP00004", ["RNCP00003", "RS0001"], [], t4, t4Str),
+      generateFcData("RS0001", ["RNCP00004"], ["RNCP00001"], t1, t1Str),
+    ]);
+
+    await processContinuite(importMeta);
+    expect(
+      await getDbCollection("certifications")
+        .find(
+          {},
+          {
+            projection: { _id: 0, identifiant: 1, "continuite.rncp": 1, periode_validite: 1 },
+            sort: { "identifiant.rncp": 1 },
+          }
+        )
+        .toArray()
+    ).toEqual(expectedSingleChain);
+  });
 });

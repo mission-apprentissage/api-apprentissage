@@ -27,7 +27,6 @@ export async function fetchDataGouvDataSet(datasetId: string): Promise<IDataGouv
     if (error instanceof ZodError) {
       logger.error("api.data_gouv: unable to fetchDataGouvDataSet; unexpected api data", {
         datasetId,
-        data,
         formattedError: error.format(),
       });
       throw withCause(

@@ -128,10 +128,12 @@ async function processCfdContinuiteGroup(searchMap: ICertificationSearchMap, gro
   const ops: AnyBulkWriteOperation<ICertification>[] = [];
 
   const continuite = group
+    // Filter out not found codes)
+    .filter((code) => searchMap.cfd[code] != null)
     .map((code) => ({
       code,
-      ouverture: searchMap.cfd[code]?.ouverture ?? null,
-      fermeture: searchMap.cfd[code]?.fermeture ?? null,
+      ouverture: searchMap.cfd[code]!.ouverture ?? null,
+      fermeture: searchMap.cfd[code]!.fermeture ?? null,
       courant: false,
     }))
     .toSorted((a, b) => compareDate(a.ouverture, b.ouverture));
@@ -156,6 +158,8 @@ async function processRncpContinuiteGroup(searchMap: ICertificationSearchMap, gr
   const ops: AnyBulkWriteOperation<ICertification>[] = [];
 
   const continuite = group
+    // Filter out not found codes)
+    .filter((code) => searchMap.rncp[code] != null)
     .map((code) => ({
       code,
       activation: searchMap.rncp[code]?.activation ?? null,

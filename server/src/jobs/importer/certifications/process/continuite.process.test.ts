@@ -297,6 +297,28 @@ describe("CFD continuite", () => {
         .toArray()
     ).toEqual(expected2Chains);
   });
+
+  it("should not found cfd codes", async () => {
+    await getDbCollection("source.bcn").insertMany([
+      generateBcnData("00000001", ["99999999"], ["00000002"], t1Str),
+      generateBcnData("00000002", ["00000001"], ["00000003"], t2Str),
+      generateBcnData("00000003", ["00000002"], ["00000004"], t3Str),
+      generateBcnData("00000004", ["00000003"], ["99999999"], t4Str),
+    ]);
+
+    await processContinuite(importMeta);
+    expect(
+      await getDbCollection("certifications")
+        .find(
+          {},
+          {
+            projection: { _id: 0, identifiant: 1, "continuite.cfd": 1, periode_validite: 1 },
+            sort: { "identifiant.cfd": 1 },
+          }
+        )
+        .toArray()
+    ).toEqual(expectedSingleChain);
+  });
 });
 
 describe("RNCP continuite", () => {
@@ -586,5 +608,27 @@ describe("RNCP continuite", () => {
         )
         .toArray()
     ).toEqual(expected2Chains);
+  });
+
+  it("should support not found rncp code", async () => {
+    await getDbCollection("source.france_competence").insertMany([
+      generateFcData("RNCP00001", [], ["RNCP00002", "RNCP99999"], t1, t1Str),
+      generateFcData("RNCP00002", ["RNCP00001", "RNCP99999"], ["RNCP00003"], t2, t2Str),
+      generateFcData("RNCP00003", ["RNCP00002"], ["RNCP00004", "RNCP99999"], t3, t3Str),
+      generateFcData("RNCP00004", ["RNCP00003", "RNCP99999"], [], t4, t4Str),
+    ]);
+
+    await processContinuite(importMeta);
+    expect(
+      await getDbCollection("certifications")
+        .find(
+          {},
+          {
+            projection: { _id: 0, identifiant: 1, "continuite.rncp": 1, periode_validite: 1 },
+            sort: { "identifiant.rncp": 1 },
+          }
+        )
+        .toArray()
+    ).toEqual(expectedSingleChain);
   });
 });

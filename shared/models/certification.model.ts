@@ -577,7 +577,7 @@ export const zContinuite = zodOpenApi.object({
         fermeture: zCertifPeriodeValidite.shape.cfd.unwrap().shape.fermeture.nullable(),
         code: zCertifIdentifiant.shape.cfd.unwrap(),
         courant: zodOpenApi.boolean().openapi({
-          description: "Indique si le diplôme correspond au diplôme courant.",
+          description: "Indique si le diplôme correspond au diplôme courant, i.e `identifiant.cfd` est égal au `code`.",
         }),
       })
     )
@@ -598,8 +598,9 @@ export const zContinuite = zodOpenApi.object({
         fin_enregistrement: zCertifPeriodeValidite.shape.rncp.unwrap().shape.fin_enregistrement.nullable(),
         code: zCertifIdentifiant.shape.rncp.unwrap(),
         courant: zodOpenApi.boolean().openapi({
-          description: "Indique si la fiche correspond à la fiche courante.",
+          description: "Indique si la fiche correspond à la fiche courante, i.e `identifiant.rncp` est égal au `code`.",
         }),
+        actif: zCertifPeriodeValidite.shape.rncp.unwrap().shape.actif,
       })
     )
     .nullable()

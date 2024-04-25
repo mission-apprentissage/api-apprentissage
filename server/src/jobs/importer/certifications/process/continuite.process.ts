@@ -165,6 +165,7 @@ async function processRncpContinuiteGroup(searchMap: ICertificationSearchMap, gr
       activation: searchMap.rncp[code]?.activation ?? null,
       fin_enregistrement: searchMap.rncp[code]?.fin_enregistrement ?? null,
       courant: false,
+      actif: searchMap.rncp[code]?.actif ?? false,
     }))
     .toSorted((a, b) => compareDate(a.activation, b.activation));
 

@@ -341,32 +341,44 @@ describe("RNCP continuite", () => {
     },
   } as const;
 
-  const generateCert = (code: string, activation: Date, fin_enregistrement: Date) =>
+  const generateCert = (code: string, activation: Date, fin_enregistrement: Date, actif: boolean) =>
     generateCertificationFixture({
       identifiant: { rncp: code, cfd: null },
       periode_validite: {
-        rncp: { activation, fin_enregistrement },
+        rncp: {
+          activation,
+          fin_enregistrement,
+          actif,
+        },
         cfd: null,
         debut: activation,
         fin: fin_enregistrement,
       },
     });
 
-  const c1 = generateCert("RNCP00001", t1, t1End);
-  const c2 = generateCert("RNCP00002", t2, t2End);
-  const c3 = generateCert("RNCP00003", t3, t3End);
-  const c4 = generateCert("RNCP00004", t4, t4End);
+  const c1 = generateCert("RNCP00001", t1, t1End, false);
+  const c2 = generateCert("RNCP00002", t2, t2End, false);
+  const c3 = generateCert("RNCP00003", t3, t3End, true);
+  const c4 = generateCert("RNCP00004", t4, t4End, false);
 
   beforeEach(async () => {
     await getDbCollection("certifications").insertMany([c1, c2, c3, c4]);
   });
 
-  const generateFcData = (rncp: string, anciens: string[], nouveaux: string[], activation: Date, date: string) =>
+  const generateFcData = (
+    rncp: string,
+    anciens: string[],
+    nouveaux: string[],
+    activation: Date,
+    date: string,
+    actif: boolean
+  ) =>
     generateSourceFranceCompetenceFixture({
       numero_fiche: rncp,
       date_premiere_activation: activation,
       data: {
         standard: {
+          Actif: actif ? "ACTIVE" : "INACTIVE",
           Date_Fin_Enregistrement: date,
         },
         ancienne_nouvelle_certification: [
@@ -390,10 +402,10 @@ describe("RNCP continuite", () => {
       periode_validite: c1.periode_validite,
       continuite: {
         rncp: [
-          { code: "RNCP00001", activation: t1, fin_enregistrement: t1End, courant: true },
-          { code: "RNCP00002", activation: t2, fin_enregistrement: t2End, courant: false },
-          { code: "RNCP00003", activation: t3, fin_enregistrement: t3End, courant: false },
-          { code: "RNCP00004", activation: t4, fin_enregistrement: t4End, courant: false },
+          { code: "RNCP00001", activation: t1, fin_enregistrement: t1End, courant: true, actif: false },
+          { code: "RNCP00002", activation: t2, fin_enregistrement: t2End, courant: false, actif: false },
+          { code: "RNCP00003", activation: t3, fin_enregistrement: t3End, courant: false, actif: true },
+          { code: "RNCP00004", activation: t4, fin_enregistrement: t4End, courant: false, actif: false },
         ],
       },
     },
@@ -402,10 +414,10 @@ describe("RNCP continuite", () => {
       periode_validite: c2.periode_validite,
       continuite: {
         rncp: [
-          { code: "RNCP00001", activation: t1, fin_enregistrement: t1End, courant: false },
-          { code: "RNCP00002", activation: t2, fin_enregistrement: t2End, courant: true },
-          { code: "RNCP00003", activation: t3, fin_enregistrement: t3End, courant: false },
-          { code: "RNCP00004", activation: t4, fin_enregistrement: t4End, courant: false },
+          { code: "RNCP00001", activation: t1, fin_enregistrement: t1End, courant: false, actif: false },
+          { code: "RNCP00002", activation: t2, fin_enregistrement: t2End, courant: true, actif: false },
+          { code: "RNCP00003", activation: t3, fin_enregistrement: t3End, courant: false, actif: true },
+          { code: "RNCP00004", activation: t4, fin_enregistrement: t4End, courant: false, actif: false },
         ],
       },
     },
@@ -414,10 +426,10 @@ describe("RNCP continuite", () => {
       periode_validite: c3.periode_validite,
       continuite: {
         rncp: [
-          { code: "RNCP00001", activation: t1, fin_enregistrement: t1End, courant: false },
-          { code: "RNCP00002", activation: t2, fin_enregistrement: t2End, courant: false },
-          { code: "RNCP00003", activation: t3, fin_enregistrement: t3End, courant: true },
-          { code: "RNCP00004", activation: t4, fin_enregistrement: t4End, courant: false },
+          { code: "RNCP00001", activation: t1, fin_enregistrement: t1End, courant: false, actif: false },
+          { code: "RNCP00002", activation: t2, fin_enregistrement: t2End, courant: false, actif: false },
+          { code: "RNCP00003", activation: t3, fin_enregistrement: t3End, courant: true, actif: true },
+          { code: "RNCP00004", activation: t4, fin_enregistrement: t4End, courant: false, actif: false },
         ],
       },
     },
@@ -426,10 +438,10 @@ describe("RNCP continuite", () => {
       periode_validite: c4.periode_validite,
       continuite: {
         rncp: [
-          { code: "RNCP00001", activation: t1, fin_enregistrement: t1End, courant: false },
-          { code: "RNCP00002", activation: t2, fin_enregistrement: t2End, courant: false },
-          { code: "RNCP00003", activation: t3, fin_enregistrement: t3End, courant: false },
-          { code: "RNCP00004", activation: t4, fin_enregistrement: t4End, courant: true },
+          { code: "RNCP00001", activation: t1, fin_enregistrement: t1End, courant: false, actif: false },
+          { code: "RNCP00002", activation: t2, fin_enregistrement: t2End, courant: false, actif: false },
+          { code: "RNCP00003", activation: t3, fin_enregistrement: t3End, courant: false, actif: true },
+          { code: "RNCP00004", activation: t4, fin_enregistrement: t4End, courant: true, actif: false },
         ],
       },
     },
@@ -441,8 +453,8 @@ describe("RNCP continuite", () => {
       periode_validite: c1.periode_validite,
       continuite: {
         rncp: [
-          { code: "RNCP00001", activation: t1, fin_enregistrement: t1End, courant: true },
-          { code: "RNCP00002", activation: t2, fin_enregistrement: t2End, courant: false },
+          { code: "RNCP00001", activation: t1, fin_enregistrement: t1End, courant: true, actif: false },
+          { code: "RNCP00002", activation: t2, fin_enregistrement: t2End, courant: false, actif: false },
         ],
       },
     },
@@ -451,8 +463,8 @@ describe("RNCP continuite", () => {
       periode_validite: c2.periode_validite,
       continuite: {
         rncp: [
-          { code: "RNCP00001", activation: t1, fin_enregistrement: t1End, courant: false },
-          { code: "RNCP00002", activation: t2, fin_enregistrement: t2End, courant: true },
+          { code: "RNCP00001", activation: t1, fin_enregistrement: t1End, courant: false, actif: false },
+          { code: "RNCP00002", activation: t2, fin_enregistrement: t2End, courant: true, actif: false },
         ],
       },
     },
@@ -461,8 +473,8 @@ describe("RNCP continuite", () => {
       periode_validite: c3.periode_validite,
       continuite: {
         rncp: [
-          { code: "RNCP00003", activation: t3, fin_enregistrement: t3End, courant: true },
-          { code: "RNCP00004", activation: t4, fin_enregistrement: t4End, courant: false },
+          { code: "RNCP00003", activation: t3, fin_enregistrement: t3End, courant: true, actif: true },
+          { code: "RNCP00004", activation: t4, fin_enregistrement: t4End, courant: false, actif: false },
         ],
       },
     },
@@ -471,8 +483,8 @@ describe("RNCP continuite", () => {
       periode_validite: c4.periode_validite,
       continuite: {
         rncp: [
-          { code: "RNCP00003", activation: t3, fin_enregistrement: t3End, courant: false },
-          { code: "RNCP00004", activation: t4, fin_enregistrement: t4End, courant: true },
+          { code: "RNCP00003", activation: t3, fin_enregistrement: t3End, courant: false, actif: true },
+          { code: "RNCP00004", activation: t4, fin_enregistrement: t4End, courant: true, actif: false },
         ],
       },
     },
@@ -480,10 +492,10 @@ describe("RNCP continuite", () => {
 
   it("should support biredirectionnal chain", async () => {
     await getDbCollection("source.france_competence").insertMany([
-      generateFcData("RNCP00001", [], ["RNCP00002"], t1, t1Str),
-      generateFcData("RNCP00002", ["RNCP00001"], ["RNCP00003"], t2, t2Str),
-      generateFcData("RNCP00003", ["RNCP00002"], ["RNCP00004"], t3, t3Str),
-      generateFcData("RNCP00004", ["RNCP00003"], [], t4, t4Str),
+      generateFcData("RNCP00001", [], ["RNCP00002"], t1, t1Str, false),
+      generateFcData("RNCP00002", ["RNCP00001"], ["RNCP00003"], t2, t2Str, false),
+      generateFcData("RNCP00003", ["RNCP00002"], ["RNCP00004"], t3, t3Str, true),
+      generateFcData("RNCP00004", ["RNCP00003"], [], t4, t4Str, false),
     ]);
 
     await processContinuite(importMeta);
@@ -502,10 +514,10 @@ describe("RNCP continuite", () => {
 
   it("should support chronological mono-directionnal chain", async () => {
     await getDbCollection("source.france_competence").insertMany([
-      generateFcData("RNCP00001", [], ["RNCP00002"], t1, t1Str),
-      generateFcData("RNCP00002", [], ["RNCP00003"], t2, t2Str),
-      generateFcData("RNCP00003", [], ["RNCP00004"], t3, t3Str),
-      generateFcData("RNCP00004", [], [], t4, t4Str),
+      generateFcData("RNCP00001", [], ["RNCP00002"], t1, t1Str, false),
+      generateFcData("RNCP00002", [], ["RNCP00003"], t2, t2Str, false),
+      generateFcData("RNCP00003", [], ["RNCP00004"], t3, t3Str, true),
+      generateFcData("RNCP00004", [], [], t4, t4Str, false),
     ]);
 
     await processContinuite(importMeta);
@@ -524,10 +536,10 @@ describe("RNCP continuite", () => {
 
   it("should support anti-chronological mono-directionnal chain", async () => {
     await getDbCollection("source.france_competence").insertMany([
-      generateFcData("RNCP00001", [], [], t1, t1Str),
-      generateFcData("RNCP00002", ["RNCP00001"], [], t2, t2Str),
-      generateFcData("RNCP00003", ["RNCP00002"], [], t3, t3Str),
-      generateFcData("RNCP00004", ["RNCP00003"], [], t4, t4Str),
+      generateFcData("RNCP00001", [], [], t1, t1Str, false),
+      generateFcData("RNCP00002", ["RNCP00001"], [], t2, t2Str, false),
+      generateFcData("RNCP00003", ["RNCP00002"], [], t3, t3Str, true),
+      generateFcData("RNCP00004", ["RNCP00003"], [], t4, t4Str, false),
     ]);
 
     await processContinuite(importMeta);
@@ -546,10 +558,10 @@ describe("RNCP continuite", () => {
 
   it("should support bifurcation", async () => {
     await getDbCollection("source.france_competence").insertMany([
-      generateFcData("RNCP00001", [], [], t1, t1Str),
-      generateFcData("RNCP00002", ["RNCP00001"], ["RNCP00003", "RNCP00004"], t2, t2Str),
-      generateFcData("RNCP00003", ["RNCP00002"], [], t3, t3Str),
-      generateFcData("RNCP00004", ["RNCP00002"], [], t4, t4Str),
+      generateFcData("RNCP00001", [], [], t1, t1Str, false),
+      generateFcData("RNCP00002", ["RNCP00001"], ["RNCP00003", "RNCP00004"], t2, t2Str, false),
+      generateFcData("RNCP00003", ["RNCP00002"], [], t3, t3Str, true),
+      generateFcData("RNCP00004", ["RNCP00002"], [], t4, t4Str, false),
     ]);
 
     await processContinuite(importMeta);
@@ -568,10 +580,10 @@ describe("RNCP continuite", () => {
 
   it("should support merge", async () => {
     await getDbCollection("source.france_competence").insertMany([
-      generateFcData("RNCP00001", [], ["RNCP00003"], t1, t1Str),
-      generateFcData("RNCP00002", [], ["RNCP00003"], t2, t2Str),
-      generateFcData("RNCP00003", ["RNCP00001", "RNCP00002"], ["RNCP00004"], t3, t3Str),
-      generateFcData("RNCP00004", ["RNCP00003"], [], t4, t4Str),
+      generateFcData("RNCP00001", [], ["RNCP00003"], t1, t1Str, false),
+      generateFcData("RNCP00002", [], ["RNCP00003"], t2, t2Str, false),
+      generateFcData("RNCP00003", ["RNCP00001", "RNCP00002"], ["RNCP00004"], t3, t3Str, true),
+      generateFcData("RNCP00004", ["RNCP00003"], [], t4, t4Str, false),
     ]);
 
     await processContinuite(importMeta);
@@ -590,10 +602,10 @@ describe("RNCP continuite", () => {
 
   it("should support separate chain", async () => {
     await getDbCollection("source.france_competence").insertMany([
-      generateFcData("RNCP00001", [], ["RNCP00002"], t1, t1Str),
-      generateFcData("RNCP00002", ["RNCP00001"], [], t2, t2Str),
-      generateFcData("RNCP00003", [], ["RNCP00004"], t3, t3Str),
-      generateFcData("RNCP00004", ["RNCP00003"], [], t4, t4Str),
+      generateFcData("RNCP00001", [], ["RNCP00002"], t1, t1Str, false),
+      generateFcData("RNCP00002", ["RNCP00001"], [], t2, t2Str, false),
+      generateFcData("RNCP00003", [], ["RNCP00004"], t3, t3Str, true),
+      generateFcData("RNCP00004", ["RNCP00003"], [], t4, t4Str, false),
     ]);
 
     await processContinuite(importMeta);
@@ -612,10 +624,10 @@ describe("RNCP continuite", () => {
 
   it("should support not found rncp code", async () => {
     await getDbCollection("source.france_competence").insertMany([
-      generateFcData("RNCP00001", [], ["RNCP00002", "RNCP99999"], t1, t1Str),
-      generateFcData("RNCP00002", ["RNCP00001", "RNCP99999"], ["RNCP00003"], t2, t2Str),
-      generateFcData("RNCP00003", ["RNCP00002"], ["RNCP00004", "RNCP99999"], t3, t3Str),
-      generateFcData("RNCP00004", ["RNCP00003", "RNCP99999"], [], t4, t4Str),
+      generateFcData("RNCP00001", [], ["RNCP00002", "RNCP99999"], t1, t1Str, false),
+      generateFcData("RNCP00002", ["RNCP00001", "RNCP99999"], ["RNCP00003"], t2, t2Str, false),
+      generateFcData("RNCP00003", ["RNCP00002"], ["RNCP00004", "RNCP99999"], t3, t3Str, true),
+      generateFcData("RNCP00004", ["RNCP00003", "RNCP99999"], [], t4, t4Str, false),
     ]);
 
     await processContinuite(importMeta);
@@ -634,11 +646,11 @@ describe("RNCP continuite", () => {
 
   it("should support ignore continuity with RS", async () => {
     await getDbCollection("source.france_competence").insertMany([
-      generateFcData("RNCP00001", [], ["RNCP00002", "RS0001"], t1, t1Str),
-      generateFcData("RNCP00002", ["RNCP00001", "RNCP99999"], ["RNCP00003"], t2, t2Str),
-      generateFcData("RNCP00003", ["RNCP00002"], ["RNCP00004", "RNCP99999"], t3, t3Str),
-      generateFcData("RNCP00004", ["RNCP00003", "RS0001"], [], t4, t4Str),
-      generateFcData("RS0001", ["RNCP00004"], ["RNCP00001"], t1, t1Str),
+      generateFcData("RNCP00001", [], ["RNCP00002", "RS0001"], t1, t1Str, false),
+      generateFcData("RNCP00002", ["RNCP00001", "RNCP99999"], ["RNCP00003"], t2, t2Str, false),
+      generateFcData("RNCP00003", ["RNCP00002"], ["RNCP00004", "RNCP99999"], t3, t3Str, true),
+      generateFcData("RNCP00004", ["RNCP00003", "RS0001"], [], t4, t4Str, false),
+      generateFcData("RS0001", ["RNCP00004"], ["RNCP00001"], t1, t1Str, false),
     ]);
 
     await processContinuite(importMeta);

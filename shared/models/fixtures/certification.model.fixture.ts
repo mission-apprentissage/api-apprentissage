@@ -270,6 +270,7 @@ export function generateCertifContinuiteFixture(
               activation: self.periode_validite.rncp?.activation ?? null,
               fin_enregistrement: self.periode_validite.rncp?.fin_enregistrement ?? null,
               courant: true,
+              actif: self.periode_validite.rncp?.actif ?? false,
             },
           ]
     ),

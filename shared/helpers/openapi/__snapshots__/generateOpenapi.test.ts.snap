@@ -206,7 +206,7 @@ Notes:
                       "type": "string",
                     },
                     "courant": {
-                      "description": "Indique si le diplôme correspond au diplôme courant.",
+                      "description": "Indique si le diplôme correspond au diplôme courant, i.e \`identifiant.cfd\` est égal au \`code\`.",
                       "type": "boolean",
                     },
                     "fermeture": {
@@ -265,6 +265,10 @@ Notes:
 - Pour distinguer les fiches remplacées des fiches remplaçant, il faut se référer aux dates d'activation et de fin d'enregistrement des fiches.",
                 "items": {
                   "properties": {
+                    "actif": {
+                      "description": "Lorsque la fiche est active, les inscriptions à la formation sont ouvertes, à l’inverse, lorsque la fiche est inactive, les inscriptions sont fermées.",
+                      "type": "boolean",
+                    },
                     "activation": {
                       "description": "Date à laquelle la fiche RNCP est passée au statut \`actif\`.
 
@@ -288,7 +292,7 @@ Notes:
                       "type": "string",
                     },
                     "courant": {
-                      "description": "Indique si la fiche correspond à la fiche courante.",
+                      "description": "Indique si la fiche correspond à la fiche courante, i.e \`identifiant.rncp\` est égal au \`code\`.",
                       "type": "boolean",
                     },
                     "fin_enregistrement": {
@@ -313,6 +317,7 @@ Notes:
                     "fin_enregistrement",
                     "code",
                     "courant",
+                    "actif",
                   ],
                   "type": "object",
                 },
@@ -1589,7 +1594,7 @@ Notes:
                                   "type": "string",
                                 },
                                 "courant": {
-                                  "description": "Indique si le diplôme correspond au diplôme courant.",
+                                  "description": "Indique si le diplôme correspond au diplôme courant, i.e \`identifiant.cfd\` est égal au \`code\`.",
                                   "type": "boolean",
                                 },
                                 "fermeture": {
@@ -1648,6 +1653,10 @@ Notes:
 - Pour distinguer les fiches remplacées des fiches remplaçant, il faut se référer aux dates d'activation et de fin d'enregistrement des fiches.",
                             "items": {
                               "properties": {
+                                "actif": {
+                                  "description": "Lorsque la fiche est active, les inscriptions à la formation sont ouvertes, à l’inverse, lorsque la fiche est inactive, les inscriptions sont fermées.",
+                                  "type": "boolean",
+                                },
                                 "activation": {
                                   "description": "Date à laquelle la fiche RNCP est passée au statut \`actif\`.
 
@@ -1671,7 +1680,7 @@ Notes:
                                   "type": "string",
                                 },
                                 "courant": {
-                                  "description": "Indique si la fiche correspond à la fiche courante.",
+                                  "description": "Indique si la fiche correspond à la fiche courante, i.e \`identifiant.rncp\` est égal au \`code\`.",
                                   "type": "boolean",
                                 },
                                 "fin_enregistrement": {
@@ -1696,6 +1705,7 @@ Notes:
                                 "fin_enregistrement",
                                 "code",
                                 "courant",
+                                "actif",
                               ],
                               "type": "object",
                             },

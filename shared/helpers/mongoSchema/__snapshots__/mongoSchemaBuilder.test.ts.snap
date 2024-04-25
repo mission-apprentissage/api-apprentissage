@@ -168,6 +168,9 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
                 "additionalProperties": false,
                 "bsonType": "object",
                 "properties": {
+                  "actif": {
+                    "bsonType": "bool",
+                  },
                   "activation": {
                     "anyOf": [
                       {
@@ -215,6 +218,7 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
                   "fin_enregistrement",
                   "code",
                   "courant",
+                  "actif",
                 ],
               },
             },

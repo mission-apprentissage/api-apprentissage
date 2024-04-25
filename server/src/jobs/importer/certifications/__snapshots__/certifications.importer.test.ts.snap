@@ -7,24 +7,28 @@ exports[`importCertifications > with continuity > should import certifications 1
       "cfd": null,
       "rncp": [
         {
+          "actif": true,
           "activation": 2018-12-31T23:00:00.000Z,
           "code": "RNCP00100",
           "courant": false,
           "fin_enregistrement": 2019-12-31T22:59:59.000Z,
         },
         {
+          "actif": true,
           "activation": 2019-12-31T23:00:00.000Z,
           "code": "RNCP00101",
           "courant": true,
           "fin_enregistrement": 2021-12-31T22:59:59.000Z,
         },
         {
+          "actif": true,
           "activation": 2019-12-31T23:00:00.000Z,
           "code": "RNCP00102",
           "courant": false,
           "fin_enregistrement": 2025-12-31T22:59:59.000Z,
         },
         {
+          "actif": true,
           "activation": 2019-12-31T23:00:00.000Z,
           "code": "RNCP00103",
           "courant": false,
@@ -43,24 +47,28 @@ exports[`importCertifications > with continuity > should import certifications 1
       "cfd": null,
       "rncp": [
         {
+          "actif": true,
           "activation": 2018-12-31T23:00:00.000Z,
           "code": "RNCP00100",
           "courant": false,
           "fin_enregistrement": 2019-12-31T22:59:59.000Z,
         },
         {
+          "actif": true,
           "activation": 2019-12-31T23:00:00.000Z,
           "code": "RNCP00101",
           "courant": false,
           "fin_enregistrement": 2021-12-31T22:59:59.000Z,
         },
         {
+          "actif": true,
           "activation": 2019-12-31T23:00:00.000Z,
           "code": "RNCP00102",
           "courant": false,
           "fin_enregistrement": 2025-12-31T22:59:59.000Z,
         },
         {
+          "actif": true,
           "activation": 2019-12-31T23:00:00.000Z,
           "code": "RNCP00103",
           "courant": true,
@@ -79,12 +87,14 @@ exports[`importCertifications > with continuity > should import certifications 1
       "cfd": null,
       "rncp": [
         {
+          "actif": true,
           "activation": 2018-12-31T23:00:00.000Z,
           "code": "RNCP00300",
           "courant": true,
           "fin_enregistrement": null,
         },
         {
+          "actif": true,
           "activation": null,
           "code": "RNCP00301",
           "courant": false,
@@ -103,12 +113,14 @@ exports[`importCertifications > with continuity > should import certifications 1
       "cfd": null,
       "rncp": [
         {
+          "actif": true,
           "activation": 2018-12-31T23:00:00.000Z,
           "code": "RNCP00300",
           "courant": false,
           "fin_enregistrement": null,
         },
         {
+          "actif": true,
           "activation": null,
           "code": "RNCP00301",
           "courant": true,
@@ -164,24 +176,28 @@ exports[`importCertifications > with continuity > should import certifications 1
       ],
       "rncp": [
         {
+          "actif": true,
           "activation": 2018-12-31T23:00:00.000Z,
           "code": "RNCP00100",
           "courant": true,
           "fin_enregistrement": 2019-12-31T22:59:59.000Z,
         },
         {
+          "actif": true,
           "activation": 2019-12-31T23:00:00.000Z,
           "code": "RNCP00101",
           "courant": false,
           "fin_enregistrement": 2021-12-31T22:59:59.000Z,
         },
         {
+          "actif": true,
           "activation": 2019-12-31T23:00:00.000Z,
           "code": "RNCP00102",
           "courant": false,
           "fin_enregistrement": 2025-12-31T22:59:59.000Z,
         },
         {
+          "actif": true,
           "activation": 2019-12-31T23:00:00.000Z,
           "code": "RNCP00103",
           "courant": false,
@@ -237,24 +253,28 @@ exports[`importCertifications > with continuity > should import certifications 1
       ],
       "rncp": [
         {
+          "actif": true,
           "activation": 2018-12-31T23:00:00.000Z,
           "code": "RNCP00100",
           "courant": false,
           "fin_enregistrement": 2019-12-31T22:59:59.000Z,
         },
         {
+          "actif": true,
           "activation": 2019-12-31T23:00:00.000Z,
           "code": "RNCP00101",
           "courant": false,
           "fin_enregistrement": 2021-12-31T22:59:59.000Z,
         },
         {
+          "actif": true,
           "activation": 2019-12-31T23:00:00.000Z,
           "code": "RNCP00102",
           "courant": true,
           "fin_enregistrement": 2025-12-31T22:59:59.000Z,
         },
         {
+          "actif": true,
           "activation": 2019-12-31T23:00:00.000Z,
           "code": "RNCP00103",
           "courant": false,
@@ -280,6 +300,7 @@ exports[`importCertifications > with continuity > should import certifications 1
       ],
       "rncp": [
         {
+          "actif": true,
           "activation": 2018-12-31T23:00:00.000Z,
           "code": "RNCP00200",
           "courant": true,

@@ -10,6 +10,8 @@ export async function sleep(durationMs: number, signal?: AbortSignal): Promise<v
   await new Promise<void>((resolve, reject) => {
     let timeout: NodeJS.Timeout | null = null;
 
+    if (signal?.aborted) return reject(signal?.reason);
+
     const listener = () => {
       if (timeout) clearTimeout(timeout);
       reject(signal?.reason);

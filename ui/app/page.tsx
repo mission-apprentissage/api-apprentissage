@@ -87,12 +87,14 @@ function VousEtesSection() {
             </Typography>
           </Box>
 
-          <Button size="large" variant="contained" disabled>
-            <Typography className={fr.cx("fr-text--lg")}>Consulter le catalogue des données</Typography>
-            <Box component="span" sx={{ display: "inline-block" }} mx={fr.spacing("1w")}>
-              <i className={fr.cx("fr-icon-arrow-right-line", "fr-text--lg")} />
-            </Box>
-          </Button>
+          <Link component={NextLink} href={PAGES.catalogueDesDonnees().path}>
+            <Button size="large" variant="contained">
+              Consulter le catalogue des données
+              <Box component="span" sx={{ display: "inline-block" }} mx={fr.spacing("1w")}>
+                <i className={fr.cx("fr-icon-arrow-right-line", "fr-text--lg")} />
+              </Box>
+            </Button>
+          </Link>
         </Box>
         <Box position="relative">
           <Hidden mdDown>

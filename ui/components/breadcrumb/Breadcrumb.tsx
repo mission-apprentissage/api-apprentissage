@@ -15,6 +15,10 @@ export const PAGES = {
     title: "Documentation technique",
     path: "/documentation-technique",
   }),
+  catalogueDesDonnees: (): Page => ({
+    title: "Données disponibles",
+    path: "/catalogue-des-donnees",
+  }),
   mentionsLegales: (): Page => ({
     title: "Mentions Légales",
     path: "/mentions-legales",

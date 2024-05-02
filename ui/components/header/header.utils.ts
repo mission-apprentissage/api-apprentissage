@@ -19,6 +19,13 @@ const getNavigationItems = ({ user, pathname }: GetNavigationItemsProps): MainNa
       },
     },
     {
+      isActive: pathname === PAGES.catalogueDesDonnees().path,
+      text: PAGES.catalogueDesDonnees().title,
+      linkProps: {
+        href: PAGES.catalogueDesDonnees().path,
+      },
+    },
+    {
       isActive: pathname === PAGES.documentationTechnique().path,
       text: PAGES.documentationTechnique().title,
       linkProps: {

@@ -12,6 +12,7 @@ function getSitemapItem(page: Page): MetadataRoute.Sitemap[number] {
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     getSitemapItem(PAGES.homepage()),
+    getSitemapItem(PAGES.catalogueDesDonnees()),
     getSitemapItem(PAGES.documentationTechnique()),
     ...Object.values(NOTION_PAGES).map(getSitemapItem),
     getSitemapItem(PAGES.mentionsLegales()),

@@ -73,6 +73,7 @@ describe("processRecord", () => {
     type: "france_competence",
     _id: new ObjectId(),
     archiveMeta,
+    status: "pending",
   } as const;
 
   const numeroFiche = "RNCP123";
@@ -364,6 +365,7 @@ describe("importRncpFile", () => {
       type: "france_competence",
       _id: new ObjectId(),
       archiveMeta,
+      status: "pending",
     } as const;
 
     describe("when fiche does not exist", () => {
@@ -831,6 +833,7 @@ describe("importRncpFile", () => {
       type: "france_competence",
       _id: new ObjectId(),
       archiveMeta,
+      status: "pending",
     } as const;
 
     const data = [
@@ -1089,6 +1092,7 @@ describe("importRncpArchive", () => {
       import_date: new Date("2024-02-22T03:02:07.320000+00:00"),
       type: "france_competence",
       archiveMeta,
+      status: "pending",
     };
 
     const dataFixture = join(
@@ -1138,6 +1142,7 @@ describe("importRncpArchive", () => {
       import_date: new Date("2024-02-22T03:02:07.320000+00:00"),
       type: "france_competence",
       archiveMeta,
+      status: "pending",
     };
 
     const dataFixture = join(
@@ -1246,6 +1251,7 @@ describe("runRncpImporter", () => {
           nom: "export-fiches-csv-2024-02-21.zip",
           resource: existingResource,
         },
+        status: "done",
       },
       {
         _id: new ObjectId(),
@@ -1257,6 +1263,7 @@ describe("runRncpImporter", () => {
           nom: "export-fiches-csv-2024-02-20.zip",
           resource: { ...updatedResource, last_modified: new Date("2024-02-20T03:00:00.000Z") },
         },
+        status: "done",
       },
     ];
     await getDbCollection("import.meta").insertMany(initialImports);
@@ -1279,6 +1286,7 @@ describe("runRncpImporter", () => {
         nom: newResource.title,
         resource: newResource,
       },
+      status: "pending",
     };
 
     const updatedImportMeta = {
@@ -1291,6 +1299,7 @@ describe("runRncpImporter", () => {
         nom: "export-fiches-csv-2024-02-20.zip",
         resource: updatedResource,
       },
+      status: "pending",
     };
 
     await expect(getDbCollection("import.meta").find({}).toArray()).resolves.toEqual([
@@ -1343,6 +1352,7 @@ describe("onImportRncpArchiveFailure", () => {
           nom: "export-fiches-csv-2024-02-21.zip",
           resource: existingResource,
         },
+        status: "done",
       },
       {
         _id: new ObjectId(),
@@ -1354,6 +1364,7 @@ describe("onImportRncpArchiveFailure", () => {
           nom: "export-fiches-csv-2024-02-20.zip",
           resource: failedResource,
         },
+        status: "pending",
       },
     ];
 

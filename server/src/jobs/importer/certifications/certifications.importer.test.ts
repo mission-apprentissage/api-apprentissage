@@ -38,6 +38,7 @@ const oldestImportFc = {
       title: "export-fiches-csv-2021-12-24.zip",
     },
   },
+  status: "done",
 } as const;
 
 const yesterdayImports = {
@@ -59,6 +60,7 @@ const yesterdayImports = {
         title: "export-fiches-csv-2024-03-06.zip",
       },
     },
+    status: "done",
   },
 } as const;
 
@@ -100,6 +102,7 @@ const todayImports = {
         title: "export-fiches-csv-2024-03-07.zip",
       },
     },
+    status: "done",
   },
 } as const;
 
@@ -214,6 +217,20 @@ describe("importCertifications", () => {
             },
           ]);
         });
+      });
+    });
+
+    describe("when import france_competence is pending", () => {
+      beforeEach(async () => {
+        await getDbCollection("import.meta").insertOne(yesterdayImportCert);
+        await getDbCollection("import.meta").insertOne({ ...todayImports.france_competence, status: "pending" });
+      });
+
+      it("should skip import", async () => {
+        expect(await importCertifications()).toBe(null);
+        expect(await getDbCollection("import.meta").find({ type: "certifications" }).toArray()).toEqual([
+          yesterdayImportCert,
+        ]);
       });
     });
 
@@ -880,6 +897,7 @@ describe("importCertifications", () => {
               title: "export-fiches-csv-2021-12-24.zip",
             },
           },
+          status: "done",
         }),
         getDbCollection("import.meta").insertOne(todayImports.kit_apprentissage),
         getDbCollection("import.meta").insertOne(todayImports.bcn),
@@ -1053,6 +1071,7 @@ describe("importCertifications", () => {
               title: "export-fiches-csv-2021-12-24.zip",
             },
           },
+          status: "done",
         }),
         getDbCollection("import.meta").insertOne(todayImports.kit_apprentissage),
         getDbCollection("import.meta").insertOne(todayImports.bcn),

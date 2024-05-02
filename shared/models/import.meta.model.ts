@@ -7,6 +7,7 @@ const collectionName = "import.meta" as const;
 
 const indexes: IModelDescriptor["indexes"] = [
   [{ type: 1, import_date: 1 }, {}],
+  [{ type: 1, status: 1, import_date: 1 }, {}],
   [{ type: 1, "archiveMeta.date_publication": 1 }, {}],
 ];
 
@@ -28,6 +29,7 @@ export const zImportMetaFranceCompetence = z
     import_date: z.date(),
     type: z.literal("france_competence"),
     archiveMeta: zArchiveMeta,
+    status: z.enum(["pending", "done"]),
   })
   .strict();
 

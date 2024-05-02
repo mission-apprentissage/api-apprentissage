@@ -448,6 +448,15 @@ export async function importRncpArchive(importMeta: IImportMetaFranceCompetence,
       }),
     ]);
 
+    await getDbCollection("import.meta").updateOne(
+      { _id: importMeta._id },
+      {
+        $set: {
+          status: "done",
+        },
+      }
+    );
+
     return {
       total,
       active,
@@ -502,6 +511,7 @@ async function getUnprocessedImportMeta(dataset: IDataGouvDataset): Promise<IImp
           import_date: new Date(),
           type: "france_competence",
           archiveMeta,
+          status: "pending",
         });
       }
 

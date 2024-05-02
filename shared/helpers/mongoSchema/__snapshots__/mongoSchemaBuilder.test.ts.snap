@@ -1156,6 +1156,13 @@ exports[`zodToMongoSchema > should convert import.meta schema 1`] = `
         "import_date": {
           "bsonType": "date",
         },
+        "status": {
+          "bsonType": "string",
+          "enum": [
+            "pending",
+            "done",
+          ],
+        },
         "type": {
           "bsonType": "string",
         },
@@ -1165,6 +1172,7 @@ exports[`zodToMongoSchema > should convert import.meta schema 1`] = `
         "import_date",
         "type",
         "archiveMeta",
+        "status",
       ],
     },
     {

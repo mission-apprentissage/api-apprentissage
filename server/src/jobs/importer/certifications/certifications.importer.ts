@@ -105,7 +105,7 @@ async function getSourceImportMeta(): Promise<IImportMetaCertifications["source"
     getDbCollection("import.meta").findOne({ type: "kit_apprentissage" }, { sort: { import_date: -1 } }),
     getDbCollection("import.meta").findOne({ type: "bcn" }, { sort: { import_date: -1 } }),
     getDbCollection("import.meta").findOne<IImportMetaFranceCompetence>(
-      { type: "france_competence" },
+      { type: "france_competence", status: "done" },
       { sort: { import_date: -1, "archiveMeta.nom": -1 } }
     ),
     getDbCollection("import.meta").findOne<IImportMetaFranceCompetence>(

@@ -1,6 +1,6 @@
 import { fr } from "@codegouvfr/react-dsfr";
 import { Badge } from "@codegouvfr/react-dsfr/Badge";
-import { Alert, Box, Button, Container, Hidden, Link, Typography } from "@mui/material";
+import { Box, Button, Container, Hidden, Link, Typography } from "@mui/material";
 import Image from "next/image";
 import NextLink from "next/link";
 import { PropsWithChildren } from "react";
@@ -235,16 +235,6 @@ function ProtectionDesDonneeSection() {
 export default function Home() {
   return (
     <>
-      <Container maxWidth="xl" disableGutters>
-        <Box marginY={fr.spacing("6w")}>
-          <Alert severity="warning">
-            Le site est en cours de construction, mais il est possible de consulter{" "}
-            <Link component={NextLink} href={PAGES.documentationTechnique().path}>
-              la documentation technique
-            </Link>
-          </Alert>
-        </Box>
-      </Container>
       <VousEtesSection />
       <CommentUtiliserApiSection />
       <ProtectionDesDonneeSection />

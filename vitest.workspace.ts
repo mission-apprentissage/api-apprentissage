@@ -5,6 +5,7 @@ import { defineWorkspace } from "vitest/config";
 export default defineWorkspace([
   {
     plugins: [tsconfigPaths()],
+    assetsInclude: ["./shared/doc/**/*.md"],
     test: {
       name: "server",
       root: "./server",
@@ -26,6 +27,7 @@ export default defineWorkspace([
   },
   {
     plugins: [tsconfigPaths()],
+    assetsInclude: ["./shared/doc/**/*.md"],
     test: {
       name: "ui",
       root: "./ui",
@@ -35,6 +37,7 @@ export default defineWorkspace([
     },
   },
   {
+    assetsInclude: ["./shared/doc/**/*.md"],
     test: {
       name: "shared",
       root: "./shared",

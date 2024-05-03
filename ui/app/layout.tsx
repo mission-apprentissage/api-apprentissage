@@ -1,6 +1,7 @@
-import "./globals.css";
+// import "./globals.css";
 import "react-notion-x/src/styles.css";
 
+import { fr } from "@codegouvfr/react-dsfr";
 import MuiDsfrThemeProvider from "@codegouvfr/react-dsfr/mui";
 import { DsfrHead } from "@codegouvfr/react-dsfr/next-appdir/DsfrHead";
 import { DsfrProvider } from "@codegouvfr/react-dsfr/next-appdir/DsfrProvider";
@@ -78,7 +79,7 @@ export default async function RootLayout({ children }: PropsWithChildren) {
             <DsfrProvider lang={lang}>
               <MuiDsfrThemeProvider>
                 <Header />
-                <Box minHeight="60vh">{children}</Box>
+                <Box sx={{ minHeight: "60vh", color: fr.colors.decisions.text.default.grey.default }}>{children}</Box>
                 <Footer />
               </MuiDsfrThemeProvider>
             </DsfrProvider>

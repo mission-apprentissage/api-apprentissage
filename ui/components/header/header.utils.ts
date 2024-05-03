@@ -19,7 +19,7 @@ const getNavigationItems = ({ user, pathname }: GetNavigationItemsProps): MainNa
       },
     },
     {
-      isActive: pathname === PAGES.catalogueDesDonnees().path,
+      isActive: pathname.startsWith(PAGES.catalogueDesDonnees().path),
       text: PAGES.catalogueDesDonnees().title,
       linkProps: {
         href: PAGES.catalogueDesDonnees().path,

@@ -1,0 +1,1 @@
+Liste des fiches RNCP assurant la continuité de la certification. La liste inclus à la fois les fiches remplacées et remplaçantes. La liste est ordonnée par date d'activation de la fiche RNCP et inclus la fiche courante.

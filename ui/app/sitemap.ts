@@ -13,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     getSitemapItem(PAGES.homepage()),
     getSitemapItem(PAGES.catalogueDesDonnees()),
+    getSitemapItem(PAGES.catalogueDesDonneesCertification()),
     getSitemapItem(PAGES.documentationTechnique()),
     ...Object.values(NOTION_PAGES).map(getSitemapItem),
     getSitemapItem(PAGES.mentionsLegales()),

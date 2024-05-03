@@ -1,6 +1,7 @@
 {
-  "include": ["**/*.ts"],
-  "exclude": ["**/node_modules"],
+  "include": ["**/*.ts", "**/*.md"],
+  "exclude": ["**/node_modules", "dist"],
+  "typeRoots": ["./types", "./node_modules/@types/", "../node_modules/@types/"],
   "compilerOptions": {
     "incremental": true,
     "strictPropertyInitialization": false,

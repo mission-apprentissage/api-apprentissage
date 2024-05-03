@@ -6,6 +6,8 @@ import Image from "next/image";
 import NextLink from "next/link";
 import { PropsWithChildren } from "react";
 
+import { PAGES } from "../../components/breadcrumb/Breadcrumb";
+
 type DonneeCardProps = PropsWithChildren<{
   title: string;
   path: string | null;
@@ -63,7 +65,13 @@ function DonneeCard(props: DonneeCardProps) {
           <Typography color={fr.colors.decisions.text.mention.grey.default} className={fr.cx("fr-text--sm")}>
             Sources
           </Typography>
-          <Box display="flex" gap={fr.spacing("1w")}>
+          <Box
+            sx={{
+              flexWrap: "wrap",
+              gap: fr.spacing("1w"),
+              display: "flex",
+            }}
+          >
             {props.sources.map((source) => (
               <Badge
                 key={source}
@@ -125,7 +133,11 @@ export default function CatalogueDesDonneesPage() {
         gridTemplateColumns={["1fr", "1fr 1fr", "1fr 1fr 1fr"]}
         gap={fr.spacing("2w")}
       >
-        <DonneeCard title="Liste des certifications réalisables en apprentissage" path={null} sources={[]}>
+        <DonneeCard
+          title="Liste des certifications réalisables en apprentissage"
+          path={PAGES.catalogueDesDonneesCertification().path}
+          sources={["BCN", "FRANCE COMPÉTENCES", "CERTIF-INFO"]}
+        >
           <Image src="/asset/artwork/book.svg" alt="Illustration d'un livre ouvert" width={80} height={80} />
         </DonneeCard>
         <DonneeCard title="Opportunités d’emplois et de formations en alternance" path={null} sources={[]}>
@@ -147,7 +159,7 @@ export default function CatalogueDesDonneesPage() {
       </Box>
       <Box sx={{ background: fr.colors.decisions.background.alt.beigeGrisGalet.default }}>
         <Container maxWidth="xl" disableGutters>
-          <Box display="grid" gridTemplateColumns={{ sm: "1fr", md: "1fr 1fr" }} padding={{ md: fr.spacing("6w") }}>
+          <Box display="grid" gridTemplateColumns={["1fr", "1fr", "1fr 1fr 1fr"]} padding={{ md: fr.spacing("6w") }}>
             <Box display="flex" alignItems="center" justifyContent="center" position="relative">
               <Hidden mdDown>
                 <Image
@@ -157,11 +169,15 @@ export default function CatalogueDesDonneesPage() {
                 />
               </Hidden>
             </Box>
-            <Box display="grid" gap={fr.spacing("3w")} padding={fr.spacing("3w")}>
-              <Typography variant="h2" sx={{ color: fr.colors.decisions.text.label.blueEcume.default }}>
-                Comment utiliser l’API ?
+            <Box
+              display="grid"
+              gap={fr.spacing("3w")}
+              padding={fr.spacing("3w")}
+              gridColumn={["span 1", "span 1", "span 2"]}
+            >
+              <Typography variant="h3" sx={{ color: fr.colors.decisions.text.label.blueEcume.default }}>
+                Il vous manque un ou des jeu(x) de données pour répondre à vos besoins ?
               </Typography>
-              <Typography>Il vous manque un ou des jeu(x) de données pour répondre à vos besoins ?</Typography>
               <Box display="grid" gap={fr.spacing("2v")}>
                 <Typography>
                   <Link component={NextLink} href="mailto:support_api@apprentissage.beta.gouv.fr">

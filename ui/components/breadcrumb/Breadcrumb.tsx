@@ -19,6 +19,10 @@ export const PAGES = {
     title: "Données disponibles",
     path: "/catalogue-des-donnees",
   }),
+  catalogueDesDonneesCertification: (): Page => ({
+    title: "Liste des certifications réalisables en apprentissage",
+    path: "/catalogue-des-donnees/certifications",
+  }),
   mentionsLegales: (): Page => ({
     title: "Mentions Légales",
     path: "/mentions-legales",

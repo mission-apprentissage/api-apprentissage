@@ -35,6 +35,9 @@ export default defineConfig((options) => {
     env: {
       ...options.env,
     },
+    loader: {
+      ".md": "text",
+    },
     esbuildOptions(options) {
       options.define = {
         ...options.define,

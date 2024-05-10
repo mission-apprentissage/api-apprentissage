@@ -5,7 +5,6 @@ import { Input } from "@codegouvfr/react-dsfr/Input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Button, Dialog, DialogContent, Typography } from "@mui/material";
 import { captureException } from "@sentry/nextjs";
-import Image from "next/image";
 import NextLink from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -13,6 +12,7 @@ import { FieldError, SubmitHandler, useForm } from "react-hook-form";
 import { IBody, IPostRoutes, zRoutes } from "shared";
 import { Jsonify } from "type-fest";
 
+import { Artwork } from "@/components/artwork/Artwork";
 import { useJwtToken } from "@/hooks/useJwtToken";
 import { ApiError, apiPost } from "@/utils/api.utils";
 import { PAGES } from "@/utils/routes.utils";
@@ -123,12 +123,7 @@ export default function RegisterFeedbackPage() {
           }}
         >
           <Box>
-            <Image
-              src="/asset/artwork/thinking-woman-2.svg"
-              alt="Illustration d'une femme qui a une idée"
-              width={125}
-              height={144}
-            />
+            <Artwork name="thinking-woman-2" />
           </Box>
           <Box>
             <Typography

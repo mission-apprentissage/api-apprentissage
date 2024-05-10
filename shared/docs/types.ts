@@ -4,6 +4,10 @@ export type DocField = Readonly<{
   information: string;
   sample: string | null;
   tags: ReadonlyArray<string>;
+  tip?: {
+    title: string;
+    content: string;
+  };
 }>;
 
 export type DocTopologie = {

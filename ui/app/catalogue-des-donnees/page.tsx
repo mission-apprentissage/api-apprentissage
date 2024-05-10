@@ -2,9 +2,9 @@ import { fr } from "@codegouvfr/react-dsfr";
 import { Badge } from "@codegouvfr/react-dsfr/Badge";
 import { Breadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
 import { Box, Container, Hidden, Typography } from "@mui/material";
-import Image from "next/image";
 import { PropsWithChildren } from "react";
 
+import { Artwork } from "@/components/artwork/Artwork";
 import { DsfrLink } from "@/components/link/DsfrLink";
 import { PAGES } from "@/utils/routes.utils";
 
@@ -128,23 +128,13 @@ export default function CatalogueDesDonneesPage() {
           path={PAGES.static.catalogueDesDonneesCertification.path}
           sources={["BCN", "FRANCE COMPÉTENCES", "CERTIF-INFO"]}
         >
-          <Image src="/asset/artwork/book.svg" alt="Illustration d'un livre ouvert" width={80} height={80} />
+          <Artwork name="book" />
         </DonneeCard>
         <DonneeCard title="Opportunités d’emplois et de formations en alternance" path={null} sources={[]}>
-          <Image
-            src="/asset/artwork/human-cooperation.svg"
-            alt="Illustration de 3 mains posées les unes sur les autres"
-            width={80}
-            height={80}
-          />
+          <Artwork name="human-cooperation" />
         </DonneeCard>
         <DonneeCard title="Liste des organismes de formation en apprentissage" path={null} sources={[]}>
-          <Image
-            src="/asset/artwork/school.svg"
-            alt="Illustration d'un établissement scolaire"
-            width={80}
-            height={80}
-          />
+          <Artwork name="school" />
         </DonneeCard>
       </Box>
       <Box sx={{ background: fr.colors.decisions.background.alt.beigeGrisGalet.default }}>
@@ -152,11 +142,7 @@ export default function CatalogueDesDonneesPage() {
           <Box display="grid" gridTemplateColumns={["1fr", "1fr", "1fr 1fr 1fr"]} padding={{ md: fr.spacing("6w") }}>
             <Box display="flex" alignItems="center" justifyContent="center" position="relative">
               <Hidden mdDown>
-                <Image
-                  fill
-                  src="/asset/artwork/not-found-solid-iii-0.svg"
-                  alt="Illustration d'un homme qui hausse les épaules"
-                />
+                <Artwork name="not-found-solid-iii-0" />
               </Hidden>
             </Box>
             <Box
@@ -170,12 +156,7 @@ export default function CatalogueDesDonneesPage() {
               </Typography>
               <Box display="grid" gap={fr.spacing("2v")}>
                 <Typography>
-                  <DsfrLink href="mailto:support_api@apprentissage.beta.gouv.fr">
-                    Dites le nous
-                    <Box component="span" sx={{ display: "inline-block" }} mx={fr.spacing("1w")}>
-                      <i className={fr.cx("fr-icon-arrow-right-line", "fr-text--lg")} />
-                    </Box>
-                  </DsfrLink>
+                  <DsfrLink href="mailto:support_api@apprentissage.beta.gouv.fr">Dites le nous</DsfrLink>
                 </Typography>
               </Box>
             </Box>

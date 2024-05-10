@@ -5,12 +5,12 @@ import { Input } from "@codegouvfr/react-dsfr/Input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Button, Dialog, DialogContent, Typography } from "@mui/material";
 import { captureException } from "@sentry/nextjs";
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { FieldError, SubmitHandler, useForm } from "react-hook-form";
 import { IBody, IPostRoutes, zRoutes } from "shared";
 
+import { Artwork } from "@/components/artwork/Artwork";
 import { ApiError, apiPost } from "@/utils/api.utils";
 import { PAGES } from "@/utils/routes.utils";
 
@@ -102,12 +102,7 @@ export function LoginModal() {
             background: "var(--light-background-default-grey, #FFF)",
           }}
         >
-          <Image
-            src="/asset/artwork/designer.svg"
-            alt="Illustration d'une designeuse qui présente un projet sur un écran"
-            width={124}
-            height={126}
-          />
+          <Artwork name="designer" />
           <Box>
             <Typography
               variant="h1"

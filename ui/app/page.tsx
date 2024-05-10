@@ -5,6 +5,7 @@ import Image from "next/image";
 import NextLink from "next/link";
 import { PropsWithChildren } from "react";
 
+import { Artwork } from "@/components/artwork/Artwork";
 import { DsfrLink } from "@/components/link/DsfrLink";
 import { PAGES } from "@/utils/routes.utils";
 
@@ -32,12 +33,7 @@ function VousEtesSection() {
         <Box position="relative">
           <Hidden mdDown>
             <Box position="absolute" right="35px" top="35px">
-              <Image
-                src="/asset/artwork/thinking-woman-2.svg"
-                alt="Illustration d'une femme qui a une idée"
-                width={125}
-                height={144}
-              />
+              <Artwork name="thinking-woman-2" />
             </Box>
           </Hidden>
         </Box>
@@ -98,12 +94,7 @@ function VousEtesSection() {
         <Box position="relative">
           <Hidden mdDown>
             <Box position="absolute" top="-35px">
-              <Image
-                src="/asset/artwork/process/solide_II.svg"
-                alt="Illustration d'un développeur qui travaille sur un ordinateur"
-                width={177}
-                height={129}
-              />
+              <Artwork name="solide_II" />
             </Box>
           </Hidden>
         </Box>
@@ -111,22 +102,12 @@ function VousEtesSection() {
         <Box gridColumn="span 3" display="grid" gridTemplateColumns="1fr 1fr" height="98px">
           <Box position="relative">
             <Box position="absolute" right="280px" top="-70px">
-              <Image
-                src="/asset/artwork/designer.svg"
-                alt="Illustration d'une designeuse qui présente un projet sur un écran"
-                width={124}
-                height={126}
-              />
+              <Artwork name="designer" />
             </Box>
           </Box>
           <Box position="relative">
             <Box position="absolute" left="240px" top="-30px">
-              <Image
-                src="/asset/artwork/man.svg"
-                alt="Illustration d'un homme qui travaille sur un ordinateur"
-                width={132}
-                height={128}
-              />
+              <Artwork name="man" />
             </Box>
           </Box>
         </Box>
@@ -204,11 +185,7 @@ function ProtectionDesDonneeSection() {
           </Box>
           <Box display="flex" alignItems="center" justifyContent="center" position="relative">
             <Hidden mdDown>
-              <Image
-                fill
-                src="/asset/artwork/data-security.svg"
-                alt="Illustration d'une page web avec des graphiques et sécurisée avec un cadenas"
-              />
+              <Artwork name="data-security" />
             </Hidden>
           </Box>
         </Box>

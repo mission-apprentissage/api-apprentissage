@@ -1,9 +1,9 @@
 "use client";
 import { fr } from "@codegouvfr/react-dsfr";
 import { Box, Button, Dialog, DialogContent, Typography } from "@mui/material";
-import Image from "next/image";
 import Link from "next/link";
 
+import { Artwork } from "@/components/artwork/Artwork";
 import { PAGES } from "@/utils/routes.utils";
 
 export function LoginEmailSentModal({ email }: { email: string }) {
@@ -67,12 +67,7 @@ export function LoginEmailSentModal({ email }: { email: string }) {
               vérifier vos indésirables)
             </Typography>
           </Box>
-          <Image
-            src="/asset/artwork/mail-sent.svg"
-            alt="Illustration d'une enveloppe avec un mail envoyé"
-            width={278}
-            height={156}
-          />
+          <Artwork name="mail-sent" />
           <Typography textAlign="center" color={fr.colors.decisions.text.default.grey.default}>
             Si vous n’avez pas reçu le lien d’ici 10 min, contactez-nous :{" "}
             <Box

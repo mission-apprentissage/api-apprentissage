@@ -2,10 +2,10 @@ import { fr } from "@codegouvfr/react-dsfr";
 import Button from "@codegouvfr/react-dsfr/Button";
 import { Notice } from "@codegouvfr/react-dsfr/Notice";
 import { Box, Typography } from "@mui/material";
-import Image from "next/image";
 import { useMemo } from "react";
 
 import { useApiKeys, useApiKeysStatut } from "@/app/compte/profil/hooks/useApiKeys";
+import { Artwork } from "@/components/artwork/Artwork";
 
 import { generateApiKeyModal } from "./GenerateApiKey";
 
@@ -74,12 +74,7 @@ export function ManageApiKeysBanner() {
           border: `1px solid ${fr.colors.decisions.border.default.grey.default}`,
         }}
       >
-        <Image
-          src="/asset/artwork/product_launch/outline_III.svg"
-          alt="Illustration d'une personne qui fait décoller une fusée"
-          width={240}
-          height={108}
-        />
+        <Artwork name="outline_III" />
         <Typography textAlign="center">{description}</Typography>
         <Button size="large" nativeButtonProps={generateApiKeyModal.buttonProps}>
           {buttonLabel}

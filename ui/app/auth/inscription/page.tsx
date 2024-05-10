@@ -8,7 +8,6 @@ import { Select } from "@codegouvfr/react-dsfr/Select";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Button, Dialog, DialogContent, Typography } from "@mui/material";
 import { captureException } from "@sentry/nextjs";
-import Image from "next/image";
 import NextLink from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -16,6 +15,7 @@ import { FieldError, SubmitHandler, useController, useForm } from "react-hook-fo
 import { IBody, IPostRoutes, zRoutes } from "shared";
 import { Jsonify } from "type-fest";
 
+import { Artwork } from "@/components/artwork/Artwork";
 import { useAuth } from "@/context/AuthContext";
 import { useJwtToken } from "@/hooks/useJwtToken";
 import { ApiError, apiPost } from "@/utils/api.utils";
@@ -143,12 +143,7 @@ export default function RegisterPage() {
           }}
         >
           <Box>
-            <Image
-              src="/asset/artwork/man.svg"
-              alt="Illustration d'un développeur qui travaille sur un ordinateur"
-              width={128}
-              height={131}
-            />
+            <Artwork name="man" />
           </Box>
           <Box>
             <Typography

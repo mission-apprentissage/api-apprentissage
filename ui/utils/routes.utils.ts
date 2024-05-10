@@ -8,7 +8,7 @@ export interface INotionPage extends IPage {
   notionId: string;
 }
 
-export interface PAGES_MAP {
+export interface IPages {
   static: Record<string, IPage>;
   dynamic: Record<string, (id: string) => IPage>;
   notion: Record<string, INotionPage>;
@@ -85,4 +85,4 @@ export const PAGES = {
     }),
   },
   notion: {},
-} as const satisfies PAGES_MAP;
+} as const satisfies IPages;

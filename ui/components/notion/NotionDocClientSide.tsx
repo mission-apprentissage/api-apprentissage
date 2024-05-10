@@ -7,7 +7,7 @@ import { ExtendedRecordMap } from "notion-types";
 import { ReactNode, Suspense } from "react";
 import { NotionRenderer } from "react-notion-x";
 
-import { PAGES, PAGES_MAP } from "@/utils/routes.utils";
+import { IPages, PAGES } from "@/utils/routes.utils";
 
 const Code = dynamic(() => import("react-notion-x/build/third-party/code").then((m) => m.Code));
 const Collection = dynamic(() => import("react-notion-x/build/third-party/collection").then((m) => m.Collection));
@@ -16,7 +16,7 @@ const Modal = dynamic(() => import("react-notion-x/build/third-party/modal").the
 
 function resolveNotionLink(id: string) {
   const normalisedId = id.replaceAll("-", "");
-  const page = Object.values((PAGES as PAGES_MAP).notion).find(({ notionId }) => notionId === normalisedId);
+  const page = Object.values((PAGES as IPages).notion).find(({ notionId }) => notionId === normalisedId);
 
   if (page) {
     return page.path;

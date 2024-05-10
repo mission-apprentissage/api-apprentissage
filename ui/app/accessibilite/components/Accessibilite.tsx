@@ -2,15 +2,15 @@ import { getLink } from "@codegouvfr/react-dsfr/link";
 import { Typography } from "@mui/material";
 import React from "react";
 
-import { PAGES } from "../../../components/breadcrumb/Breadcrumb";
-import Section from "../../../components/section/Section";
+import Section from "@/components/section/Section";
+import { PAGES } from "@/utils/routes.utils";
 
 const Accessibilite = () => {
   const { Link } = getLink();
   return (
     <>
       <Typography variant="h2" gutterBottom>
-        {PAGES.accessibilite().title}
+        {PAGES.static.accessibilite.title}
       </Typography>
       <Section>
         <Typography>

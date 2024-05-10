@@ -3,7 +3,7 @@ import { ReadStream } from "node:fs";
 import nock from "nock";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
-import { downloadDataGouvResource, fetchDataGouvDataSet } from "@/services/apis/data_gouv/data_gouv.api";
+import { downloadDataGouvResource, fetchDataGouvDataSet } from "./data_gouv.api";
 
 describe("fetchDataGouvDataSet", () => {
   beforeEach(() => {

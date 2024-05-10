@@ -2,7 +2,7 @@ import { MainNavigationProps } from "@codegouvfr/react-dsfr/MainNavigation";
 import { useMemo } from "react";
 import { IUserPublic } from "shared/models/user.model";
 
-import { NOTION_PAGES, PAGES } from "../breadcrumb/Breadcrumb";
+import { PAGES } from "@/utils/routes.utils";
 
 interface GetNavigationItemsProps {
   user: IUserPublic | null;
@@ -12,43 +12,45 @@ interface GetNavigationItemsProps {
 const getNavigationItems = ({ user, pathname }: GetNavigationItemsProps): MainNavigationProps.Item[] => {
   let navigation: MainNavigationProps.Item[] = [
     {
-      isActive: pathname === NOTION_PAGES.homepage.path,
-      text: NOTION_PAGES.homepage.title,
+      isActive: pathname === PAGES.static.home.path,
+      text: PAGES.static.home.title,
       linkProps: {
-        href: NOTION_PAGES.homepage.path,
+        href: PAGES.static.home.path,
       },
     },
     {
-      isActive: pathname.startsWith(PAGES.catalogueDesDonnees().path),
-      text: PAGES.catalogueDesDonnees().title,
+      isActive: pathname.startsWith(PAGES.static.catalogueDesDonnees.path),
+      text: PAGES.static.catalogueDesDonnees.title,
       linkProps: {
-        href: PAGES.catalogueDesDonnees().path,
+        href: PAGES.static.catalogueDesDonnees.path,
       },
     },
     {
-      isActive: pathname === PAGES.documentationTechnique().path,
-      text: PAGES.documentationTechnique().title,
+      isActive: pathname.startsWith(PAGES.static.documentationTechnique.path),
+      text: PAGES.static.documentationTechnique.title,
       linkProps: {
-        href: PAGES.documentationTechnique().path,
+        href: PAGES.static.documentationTechnique.path,
       },
     },
   ];
 
   if (user?.is_admin) {
+    const adminMenuLinks = [
+      {
+        text: PAGES.static.adminUsers.title,
+        isActive: pathname.startsWith(PAGES.static.adminUsers.path),
+        linkProps: {
+          href: PAGES.static.adminUsers.path,
+        },
+      },
+    ];
+
     navigation = [
       ...navigation,
       {
         text: "Administration",
-        isActive: [PAGES.adminUsers().path].includes(pathname),
-        menuLinks: [
-          {
-            text: PAGES.adminUsers().title,
-            isActive: pathname === PAGES.adminUsers().path,
-            linkProps: {
-              href: PAGES.adminUsers().path,
-            },
-          },
-        ],
+        isActive: adminMenuLinks.some((link) => link.isActive),
+        menuLinks: adminMenuLinks,
       },
     ];
   }

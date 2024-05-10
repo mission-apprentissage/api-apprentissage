@@ -5,10 +5,8 @@ import Image from "next/image";
 import NextLink from "next/link";
 import { PropsWithChildren } from "react";
 
-import { PAGES } from "../components/breadcrumb/Breadcrumb";
-import { DsfrLink } from "../components/link/DsfrLink";
-
-export const revalidate = 3_600;
+import { DsfrLink } from "@/components/link/DsfrLink";
+import { PAGES } from "@/utils/routes.utils";
 
 function ActeurBadge({ children }: PropsWithChildren) {
   if (!children) return null;
@@ -88,7 +86,7 @@ function VousEtesSection() {
             </Typography>
           </Box>
 
-          <Link component={NextLink} href={PAGES.catalogueDesDonnees().path}>
+          <Link component={NextLink} href={PAGES.static.catalogueDesDonnees.path}>
             <Button size="large" variant="contained">
               Consulter le catalogue des données
               <Box component="span" sx={{ display: "inline-block" }} mx={fr.spacing("1w")}>
@@ -161,11 +159,13 @@ function CommentUtiliserApiSection() {
             </Typography>
             <Box display="grid" gap={fr.spacing("2v")}>
               <Typography>
-                <DsfrLink href={PAGES.compteProfil().path}>Créer mon compte</DsfrLink>
+                <DsfrLink href={PAGES.static.compteProfil.path}>Créer mon compte</DsfrLink>
               </Typography>
 
               <Typography>
-                <DsfrLink href={PAGES.documentationTechnique().path}>Consulter la documentation technique</DsfrLink>
+                <DsfrLink href={PAGES.static.documentationTechnique.path}>
+                  Consulter la documentation technique
+                </DsfrLink>
               </Typography>
             </Box>
           </Box>
@@ -190,11 +190,13 @@ function ProtectionDesDonneeSection() {
             </Typography>
             <Box display="grid" gap={fr.spacing("2v")}>
               <Typography>
-                <DsfrLink href={PAGES.politiqueConfidentialite().path}>Notre politique de confidentialité</DsfrLink>
+                <DsfrLink href={PAGES.static.politiqueConfidentialite.path}>
+                  Notre politique de confidentialité
+                </DsfrLink>
               </Typography>
 
               <Typography>
-                <DsfrLink href={PAGES.donneesPersonnelles().path}>
+                <DsfrLink href={PAGES.static.donneesPersonnelles.path}>
                   Protection des données à caractère personnel
                 </DsfrLink>
               </Typography>

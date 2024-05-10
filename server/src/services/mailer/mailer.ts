@@ -13,11 +13,10 @@ import { assertUnreachable } from "shared/utils/assertUnreachable";
 
 import { addEmailError, createEmailEvent, isUnsubscribed, setEmailMessageId } from "@/actions/emails.actions";
 import config from "@/config";
+import logger from "@/services/logger";
+import { generateAccessToken, generateScope } from "@/services/security/accessTokenService";
 import { getStaticFilePath } from "@/utils/getStaticFilePath";
 import { serializeEmailTemplate } from "@/utils/jwtUtils";
-
-import logger from "../logger";
-import { generateAccessToken, generateScope } from "../security/accessTokenService";
 
 let transporter: nodemailer.Transporter<SMTPTransport.SentMessageInfo> | null = null;
 

@@ -1,6 +1,6 @@
 import { ICertification } from "shared/models/certification.model";
 
-import { ISourceAggregatedData } from "../certification.builder";
+import { ISourceAggregatedData } from "@/jobs/importer/certifications/builder/certification.builder";
 
 export function buildCertificationBlocsCompetences(data: ISourceAggregatedData): ICertification["blocs_competences"] {
   return {

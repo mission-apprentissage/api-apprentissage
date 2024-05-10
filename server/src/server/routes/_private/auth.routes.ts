@@ -4,10 +4,9 @@ import { toPublicUser } from "shared/models/user.model";
 
 import { registerUser, sendRegisterFeedbackEmail, sendRequestLoginEmail } from "@/actions/auth.actions";
 import { startSession, stopSession } from "@/actions/sessions.actions";
+import { Server } from "@/server/server";
+import { getDbCollection } from "@/services/mongodb/mongodbService";
 import { getUserFromRequest } from "@/services/security/authenticationService";
-
-import { getDbCollection } from "../../../services/mongodb/mongodbService";
-import { Server } from "../../server";
 
 export const authRoutes = ({ server }: { server: Server }) => {
   server.get(

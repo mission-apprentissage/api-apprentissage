@@ -4,9 +4,8 @@ import { IBody, IPostRoutes, zRoutes } from "shared";
 import { IUser } from "shared/models/user.model";
 
 import { sendEmail } from "@/services/mailer/mailer";
-
-import { getDbCollection } from "../services/mongodb/mongodbService";
-import { generateAccessToken, generateScope } from "../services/security/accessTokenService";
+import { getDbCollection } from "@/services/mongodb/mongodbService";
+import { generateAccessToken, generateScope } from "@/services/security/accessTokenService";
 
 export function generateRegisterToken(email: string): string {
   return generateAccessToken(

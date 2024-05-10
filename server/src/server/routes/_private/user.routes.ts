@@ -1,8 +1,8 @@
 import { zRoutes } from "shared";
 
-import { deleteApiKey, generateApiKey } from "../../../actions/users.actions";
-import { getUserFromRequest } from "../../../services/security/authenticationService";
-import { Server } from "../../server";
+import { deleteApiKey, generateApiKey } from "@/actions/users.actions";
+import { Server } from "@/server/server";
+import { getUserFromRequest } from "@/services/security/authenticationService";
 
 export const userRoutes = ({ server }: { server: Server }) => {
   server.post(

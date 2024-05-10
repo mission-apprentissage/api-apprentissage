@@ -16,8 +16,9 @@ import { serializerCompiler, validatorCompiler, ZodTypeProvider } from "fastify-
 import { generateOpenApiSchema } from "shared/helpers/openapi/generateOpenapi";
 import { IRouteSchema, WithSecurityScheme } from "shared/routes/common.routes";
 
-import config from "../config";
-import { initSentryFastify } from "../services/sentry/sentry";
+import config from "@/config";
+import { initSentryFastify } from "@/services/sentry/sentry";
+
 import { apiKeyUsageMiddleware } from "./middlewares/apiKeyUsageMiddleware";
 import { auth } from "./middlewares/authMiddleware";
 import { errorMiddleware } from "./middlewares/errorMiddleware";

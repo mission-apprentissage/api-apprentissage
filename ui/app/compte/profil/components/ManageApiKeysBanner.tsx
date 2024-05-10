@@ -5,7 +5,8 @@ import { Box, Typography } from "@mui/material";
 import Image from "next/image";
 import { useMemo } from "react";
 
-import { useApiKeys, useApiKeysStatut } from "../hooks/useApiKeys";
+import { useApiKeys, useApiKeysStatut } from "@/app/compte/profil/hooks/useApiKeys";
+
 import { generateApiKeyModal } from "./GenerateApiKey";
 
 export function ManageApiKeysBanner() {

@@ -9,12 +9,12 @@ import { IAccessToken, ISecuredRouteSchema, WithSecurityScheme } from "shared/ro
 import { UserWithType } from "shared/security/permissions";
 import { assertUnreachable } from "shared/utils/assertUnreachable";
 
+import { getSession } from "@/actions/sessions.actions";
 import config from "@/config";
+import { getDbCollection } from "@/services/mongodb/mongodbService";
+import { compareKeys } from "@/utils/cryptoUtils";
+import { decodeToken } from "@/utils/jwtUtils";
 
-import { getSession } from "../../actions/sessions.actions";
-import { compareKeys } from "../../utils/cryptoUtils";
-import { decodeToken } from "../../utils/jwtUtils";
-import { getDbCollection } from "../mongodb/mongodbService";
 import { parseAccessToken } from "./accessTokenService";
 
 export type IUserWithType = UserWithType<"token", IAccessToken> | UserWithType<"user", IUser>;

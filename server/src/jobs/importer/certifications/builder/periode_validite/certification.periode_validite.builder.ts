@@ -4,8 +4,8 @@ import { IBcn_N51_FormationDiplome } from "shared/models/source/bcn/bcn.n51_form
 import { ISourceFranceCompetence } from "shared/models/source/france_competence/source.france_competence.model";
 import { parseNullableParisLocalDate } from "shared/zod/date.primitives";
 
-import { getDbCollection } from "../../../../../services/mongodb/mongodbService";
-import { ISourceAggregatedData } from "../certification.builder";
+import { ISourceAggregatedData } from "@/jobs/importer/certifications/builder/certification.builder";
+import { getDbCollection } from "@/services/mongodb/mongodbService";
 
 export function computePeriodeValidite(
   cfd: ICertification["periode_validite"]["cfd"],

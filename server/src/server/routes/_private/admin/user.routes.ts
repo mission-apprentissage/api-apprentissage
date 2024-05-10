@@ -3,9 +3,8 @@ import { RootFilterOperators } from "mongodb";
 import { zRoutes } from "shared";
 import { IUser, toPublicUser } from "shared/models/user.model";
 
+import { Server } from "@/server/server";
 import { getDbCollection } from "@/services/mongodb/mongodbService";
-
-import { Server } from "../../../server";
 
 export const userAdminRoutes = ({ server }: { server: Server }) => {
   server.get(

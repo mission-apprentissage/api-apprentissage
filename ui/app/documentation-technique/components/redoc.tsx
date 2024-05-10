@@ -3,9 +3,7 @@ import "./hide-sidebar.css";
 
 import { RedocStandalone } from "redoc";
 
-import { publicConfig } from "../../../config.public";
-
-export const revalidate = 3_600;
+import { publicConfig } from "@/config.public";
 
 export default function RedocPageClient({ nonce }: { nonce: string }) {
   return (

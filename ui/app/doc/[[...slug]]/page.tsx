@@ -1,8 +1,8 @@
 import { Container } from "@mui/material";
 
-import { NOTION_PAGES } from "../../../components/breadcrumb/Breadcrumb";
-import NotionPage from "../../../components/notion/NotionPage";
-import NotFoundPage from "../../not-found";
+import NotFoundPage from "@/app/not-found";
+import NotionPage from "@/components/notion/NotionPage";
+import { INotionPage, PAGES, PAGES_MAP } from "@/utils/routes.utils";
 
 export const revalidate = 3_600;
 
@@ -14,9 +14,10 @@ type DocPageProps = {
 
 export default async function DocPage(props: DocPageProps) {
   const path = `/doc/${props.params.slug.join("/")}`;
-  const page = Object.values(NOTION_PAGES).find((p) => {
-    return p.path === path;
-  });
+  const page: INotionPage | null =
+    Object.values((PAGES as PAGES_MAP).notion).find((p: INotionPage) => {
+      return p.path === path;
+    }) ?? null;
 
   if (!page) {
     return <NotFoundPage />;

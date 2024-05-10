@@ -4,11 +4,10 @@ import { compose } from "oleoduc";
 import { zFormationCatalogue } from "shared/models/source/catalogue/source.catalogue.model";
 
 import config from "@/config";
+import getApiClient from "@/services/apis/client";
 import logger from "@/services/logger";
-
-import { downloadFileInTmpFile } from "../../../utils/apiUtils";
-import { createJsonLineTransformStream } from "../../../utils/streamUtils";
-import getApiClient from "../client";
+import { downloadFileInTmpFile } from "@/utils/apiUtils";
+import { createJsonLineTransformStream } from "@/utils/streamUtils";
 
 const catalogueClient = getApiClient(
   {

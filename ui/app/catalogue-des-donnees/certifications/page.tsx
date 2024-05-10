@@ -8,9 +8,9 @@ import Markdown from "react-markdown";
 import { certificationDoc } from "shared/docs/certification/certification.doc";
 import { DocDictionary, DocField, DocTopologie } from "shared/docs/types";
 
-import { PAGES } from "@/components/breadcrumb/Breadcrumb";
 import { DsfrLink } from "@/components/link/DsfrLink";
 import { Tag } from "@/components/tag/Tag";
+import { PAGES } from "@/utils/routes.utils";
 
 const threeColumns = {
   md: "1fr",
@@ -107,10 +107,10 @@ function HeaderSection() {
             <strong>Besoin de ces données pour votre projet ?</strong>
           </Typography>
           <Typography>
-            <DsfrLink href={PAGES.documentationTechnique().path}>Consulter le swagger</DsfrLink>
+            <DsfrLink href={PAGES.static.documentationTechnique.path}>Consulter le swagger</DsfrLink>
           </Typography>
           <Typography>
-            <DsfrLink href={PAGES.compteProfil().path}>Obtenir un jeton d’accès</DsfrLink>
+            <DsfrLink href={PAGES.static.compteProfil.path}>Obtenir un jeton d’accès</DsfrLink>
           </Typography>
         </Box>
       </Box>
@@ -215,7 +215,7 @@ function DataSection({ dictionnaire }: { dictionnaire: DocDictionary }) {
           <Box sx={{ display: "flex", alignItems: "center", gridColumn: { sm: "span 1", md: "span 3" } }}>
             <Typography sx={{ textWrap: "balance" }}>
               <strong>Besoin de ces données pour votre projet ? </strong>
-              <DsfrLink href={PAGES.documentationTechnique().path}>Consulter le swagger</DsfrLink>
+              <DsfrLink href={PAGES.static.documentationTechnique.path}>Consulter le swagger</DsfrLink>
             </Typography>
           </Box>
         </Box>
@@ -273,7 +273,7 @@ export default function DocMetierCertificationPage() {
           homeLinkProps={{
             href: "/",
           }}
-          segments={[{ label: "Catalogue des données", linkProps: { href: PAGES.catalogueDesDonnees().path } }]}
+          segments={[{ label: "Catalogue des données", linkProps: { href: PAGES.static.catalogueDesDonnees.path } }]}
         />
       </Box>
 

@@ -5,8 +5,8 @@ import { Box, Container, Hidden, Typography } from "@mui/material";
 import Image from "next/image";
 import { PropsWithChildren } from "react";
 
-import { PAGES } from "../../components/breadcrumb/Breadcrumb";
-import { DsfrLink } from "../../components/link/DsfrLink";
+import { DsfrLink } from "@/components/link/DsfrLink";
+import { PAGES } from "@/utils/routes.utils";
 
 type DonneeCardProps = PropsWithChildren<{
   title: string;
@@ -125,7 +125,7 @@ export default function CatalogueDesDonneesPage() {
       >
         <DonneeCard
           title="Liste des certifications réalisables en apprentissage"
-          path={PAGES.catalogueDesDonneesCertification().path}
+          path={PAGES.static.catalogueDesDonneesCertification.path}
           sources={["BCN", "FRANCE COMPÉTENCES", "CERTIF-INFO"]}
         >
           <Image src="/asset/artwork/book.svg" alt="Illustration d'un livre ouvert" width={80} height={80} />

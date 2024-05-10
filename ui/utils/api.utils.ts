@@ -4,7 +4,7 @@ import { IResErrorJson, IRouteSchema, IRouteSchemaWrite } from "shared/routes/co
 import { EmptyObject } from "type-fest";
 import z, { ZodType } from "zod";
 
-import { publicConfig } from "../config.public";
+import { publicConfig } from "@/config.public";
 
 type OptionsGet = {
   [Prop in keyof Pick<IRouteSchema, "params" | "querystring" | "headers">]: IRouteSchema[Prop] extends ZodType

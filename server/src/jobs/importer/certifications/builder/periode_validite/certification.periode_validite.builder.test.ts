@@ -7,7 +7,8 @@ import {
 import { IBcn_V_FormationDiplome } from "shared/models/source/bcn/bcn.v_formation_diplome.model";
 import { describe, expect, it } from "vitest";
 
-import { ISourceAggregatedData } from "../certification.builder";
+import { ISourceAggregatedData } from "@/jobs/importer/certifications/builder/certification.builder";
+
 import { buildCertificationPeriodeValidite } from "./certification.periode_validite.builder";
 
 type IGenerateSourceAggregatedDataFixture = {

@@ -2,11 +2,10 @@ import { ObjectId } from "mongodb";
 import { IApiKeyPrivate, IUser } from "shared/models/user.model";
 import { adjectives, animals, colors, uniqueNamesGenerator } from "unique-names-generator";
 
+import config from "@/config";
 import { getDbCollection } from "@/services/mongodb/mongodbService";
-
-import config from "../config";
-import { generateKey, generateSecretHash } from "../utils/cryptoUtils";
-import { createUserTokenSimple } from "../utils/jwtUtils";
+import { generateKey, generateSecretHash } from "@/utils/cryptoUtils";
+import { createUserTokenSimple } from "@/utils/jwtUtils";
 
 export const updateUser = async (email: IUser["email"], data: Partial<IUser>): Promise<void> => {
   await getDbCollection("users").findOneAndUpdate(

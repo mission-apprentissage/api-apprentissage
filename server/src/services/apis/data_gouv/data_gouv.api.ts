@@ -4,10 +4,10 @@ import { internal } from "@hapi/boom";
 import { IDataGouvDataset, IDataGouvDatasetResource, zDataGouvDataset } from "shared";
 import { ZodError } from "zod";
 
-import { downloadFileInTmpFile } from "../../../utils/apiUtils";
-import { withCause } from "../../errors/withCause";
-import logger from "../../logger";
-import getApiClient from "../client";
+import getApiClient from "@/services/apis/client";
+import { withCause } from "@/services/errors/withCause";
+import logger from "@/services/logger";
+import { downloadFileInTmpFile } from "@/utils/apiUtils";
 
 const client = getApiClient(
   {

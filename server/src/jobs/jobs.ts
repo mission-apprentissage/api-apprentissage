@@ -2,11 +2,10 @@ import { addJob, initJobProcessor } from "job-processor";
 import { zImportMetaFranceCompetence } from "shared/models/import.meta.model";
 import { z } from "zod";
 
-import { create as createMigration, status as statusMigration, up as upMigration } from "@/jobs/migrations/migrations";
+import config from "@/config";
+import logger, { createJobProcessorLogger } from "@/services/logger";
+import { getDatabase } from "@/services/mongodb/mongodbService";
 
-import config from "../config";
-import logger, { createJobProcessorLogger } from "../services/logger";
-import { getDatabase } from "../services/mongodb/mongodbService";
 import { recreateIndexes } from "./db/recreateIndexes";
 import { validateModels } from "./db/schemaValidation";
 import { runExperiementalRedressementUaiSiret } from "./experimental/redressement/uai.siret";
@@ -21,6 +20,7 @@ import {
 } from "./importer/france_competence/france_competence.importer";
 import { runKitApprentissageImporter } from "./importer/kit/kitApprentissage.importer";
 import { runReferentielImporter } from "./importer/referentiel/referentiel";
+import { create as createMigration, status as statusMigration, up as upMigration } from "./migrations/migrations";
 
 export async function setupJobProcessor() {
   return initJobProcessor({

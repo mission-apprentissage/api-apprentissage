@@ -3,7 +3,7 @@ import Table from "@codegouvfr/react-dsfr/Table";
 import { Grid, Typography } from "@mui/material";
 import React from "react";
 
-import Section from "../../../components/section/Section";
+import Section from "@/components/section/Section";
 
 const anchors = {
   QuiEstResponsable: "qui-est-responsable",

@@ -1,9 +1,9 @@
 import { Box, Container, Typography } from "@mui/material";
 import { Metadata } from "next";
 
-import { PAGES } from "../components/breadcrumb/Breadcrumb";
-import { DsfrLink } from "../components/link/DsfrLink";
-import { NotFound } from "../icons/NotFound";
+import { DsfrLink } from "@/components/link/DsfrLink";
+import { NotFound } from "@/icons/NotFound";
+import { PAGES } from "@/utils/routes.utils";
 
 export const metadata: Metadata = {
   title: "404",
@@ -32,7 +32,7 @@ export default function NotFoundPage() {
             <Typography>La page que vous recherchez n'existe pas ou a été déplacée</Typography>
 
             <Box mt={2}>
-              <DsfrLink href={PAGES.homepage().path}>Retourner à la page d'accueil</DsfrLink>
+              <DsfrLink href={PAGES.static.home.path}>Retourner à la page d'accueil</DsfrLink>
             </Box>
           </Box>
         </Box>

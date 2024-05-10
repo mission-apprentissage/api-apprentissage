@@ -1,3 +1,4 @@
+import { useMongo } from "@tests/mongo.test.utils";
 import { ObjectId } from "mongodb";
 import {
   generateSourceBcn_N_FormationDiplomeFixture,
@@ -8,8 +9,8 @@ import {
 } from "shared/models/fixtures";
 import { beforeEach, describe, expect, it } from "vitest";
 
-import { useMongo } from "../../../../../../tests/mongo.test.utils";
-import { getDbCollection } from "../../../../../services/mongodb/mongodbService";
+import { getDbCollection } from "@/services/mongodb/mongodbService";
+
 import {
   buildCertificationIntitule,
   validateNiveauFormationDiplomeToInterministerielRule,

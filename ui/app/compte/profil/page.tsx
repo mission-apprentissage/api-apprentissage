@@ -7,9 +7,9 @@ import { styled } from "@mui/material/styles";
 import Tooltip, { tooltipClasses, TooltipProps } from "@mui/material/Tooltip";
 import { useMemo } from "react";
 
-import { PAGES } from "@/components/breadcrumb/Breadcrumb";
+import { DsfrLink } from "@/components/link/DsfrLink";
+import { PAGES } from "@/utils/routes.utils";
 
-import { DsfrLink } from "../../../components/link/DsfrLink";
 import { ApiKeyAction } from "./components/ApiKeyAction";
 import { GenerateApiKey } from "./components/GenerateApiKey";
 import { ManageApiKeysBanner } from "./components/ManageApiKeysBanner";
@@ -110,7 +110,7 @@ const ProfilPage = () => {
           Jetons d’accès API
         </Typography>
         <Typography textAlign="right">
-          <DsfrLink href={PAGES.documentationTechnique().path}>Consulter la documentation technique</DsfrLink>
+          <DsfrLink href={PAGES.static.documentationTechnique.path}>Consulter la documentation technique</DsfrLink>
         </Typography>
       </Box>
 

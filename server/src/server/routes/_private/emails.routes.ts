@@ -4,10 +4,9 @@ import { IEmailError } from "shared/models/email_event.model";
 
 import { markEmailAsDelivered, markEmailAsFailed, markEmailAsOpened, unsubscribe } from "@/actions/emails.actions";
 import config from "@/config";
+import { Server } from "@/server/server";
 import { renderEmail } from "@/services/mailer/mailer";
 import { deserializeEmailTemplate } from "@/utils/jwtUtils";
-
-import { Server } from "../../server";
 
 export const emailsRoutes = ({ server }: { server: Server }) => {
   server.get(

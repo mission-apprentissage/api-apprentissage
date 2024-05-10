@@ -3,8 +3,8 @@ import { Summary } from "@codegouvfr/react-dsfr/Summary";
 import { Grid, Typography } from "@mui/material";
 import React from "react";
 
-import Section from "../../../components/section/Section";
-import { publicConfig } from "../../../config.public";
+import Section from "@/components/section/Section";
+import { publicConfig } from "@/config.public";
 
 const anchors = {
   mission: "mission",

@@ -3,7 +3,7 @@ import { Summary } from "@codegouvfr/react-dsfr/Summary";
 import { Grid, Typography } from "@mui/material";
 import React, { FC, useEffect } from "react";
 
-import Section from "../../../components/section/Section";
+import Section from "@/components/section/Section";
 
 export const cguVersion = "v1.0";
 

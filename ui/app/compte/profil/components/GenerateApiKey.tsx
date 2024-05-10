@@ -10,10 +10,9 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zRoutes } from "shared";
 
+import { useApiKeysStatut } from "@/app/compte/profil/hooks/useApiKeys";
+import { ICreateApiKeyInput, useCreateApiKeyMutation } from "@/app/compte/profil/hooks/useCreateApiKeyMutation";
 import { ApiError } from "@/utils/api.utils";
-
-import { useApiKeysStatut } from "../hooks/useApiKeys";
-import { ICreateApiKeyInput, useCreateApiKeyMutation } from "../hooks/useCreateApiKeyMutation";
 
 const defaultErrorMessage = "Une erreur est survenue lors de la création du jeton. Veuillez réessayer ultérieurement.";
 

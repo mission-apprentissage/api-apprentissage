@@ -11,8 +11,9 @@ import { useState } from "react";
 import { FieldError, SubmitHandler, useForm } from "react-hook-form";
 import { IBody, IPostRoutes, zRoutes } from "shared";
 
-import { ApiError, apiPost } from "../../utils/api.utils";
-import { PAGES } from "../breadcrumb/Breadcrumb";
+import { ApiError, apiPost } from "@/utils/api.utils";
+import { PAGES } from "@/utils/routes.utils";
+
 import { LoginEmailSentModal } from "./LoginEmailSent";
 
 type Inputs = IBody<IPostRoutes["/_private/auth/login-request"]>;
@@ -83,7 +84,7 @@ export function LoginModal() {
       >
         <Box sx={{ textAlign: "right", marginBottom: fr.spacing("2w") }}>
           <Button variant="outlined">
-            <Box component={Link} href={PAGES.homepage().path} sx={{ backgroundImage: "none" }}>
+            <Box component={Link} href={PAGES.static.home.path} sx={{ backgroundImage: "none" }}>
               Fermer
             </Box>
           </Button>

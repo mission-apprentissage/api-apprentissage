@@ -14,11 +14,12 @@ import Link from "next/link";
 import { PropsWithChildren } from "react";
 import { IUserPublic } from "shared/models/user.model";
 
-import Footer from "../components/Footer";
-import { Header } from "../components/header/Header";
-import { AuthContextProvider } from "../context/AuthContext";
-import { defaultColorScheme } from "../theme/defaultColorScheme";
-import { ApiError, apiGet } from "../utils/api.utils";
+import Footer from "@/components/Footer";
+import { Header } from "@/components/header/Header";
+import { AuthContextProvider } from "@/context/AuthContext";
+import { defaultColorScheme } from "@/theme/defaultColorScheme";
+import { ApiError, apiGet } from "@/utils/api.utils";
+
 import { StartDsfr } from "./StartDsfr";
 import { StartIntl } from "./StartIntl";
 

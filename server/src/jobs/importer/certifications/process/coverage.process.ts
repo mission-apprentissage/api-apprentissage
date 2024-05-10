@@ -9,9 +9,9 @@ import { ISourceFranceCompetence } from "shared/models/source/france_competence/
 import { Transform } from "stream";
 import { pipeline } from "stream/promises";
 
-import { withCause } from "../../../../services/errors/withCause";
-import { getDbCollection } from "../../../../services/mongodb/mongodbService";
-import { buildCertification } from "../builder/certification.builder";
+import { buildCertification } from "@/jobs/importer/certifications/builder/certification.builder";
+import { withCause } from "@/services/errors/withCause";
+import { getDbCollection } from "@/services/mongodb/mongodbService";
 
 type ChunkCfd = {
   _id: string;

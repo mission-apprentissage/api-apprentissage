@@ -4,7 +4,7 @@ import { Box, Button, Dialog, DialogContent, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 
-import { PAGES } from "../breadcrumb/Breadcrumb";
+import { PAGES } from "@/utils/routes.utils";
 
 export function LoginEmailSentModal({ email }: { email: string }) {
   return (
@@ -31,7 +31,7 @@ export function LoginEmailSentModal({ email }: { email: string }) {
       >
         <Box sx={{ textAlign: "right", marginBottom: fr.spacing("2w") }}>
           <Button variant="outlined">
-            <Box component={Link} href={PAGES.homepage().path} sx={{ backgroundImage: "none" }}>
+            <Box component={Link} href={PAGES.static.home.path} sx={{ backgroundImage: "none" }}>
               Fermer
             </Box>
           </Button>

@@ -2,9 +2,10 @@ import { Typography } from "@mui/material";
 import { FC } from "react";
 import { IUserPublic } from "shared/models/user.model";
 
-import Breadcrumb, { PAGES } from "../../../../../components/breadcrumb/Breadcrumb";
-import InfoDetails from "../../../../../components/infoDetails/InfoDetails";
-import { formatDate } from "../../../../../utils/date.utils";
+import Breadcrumb from "@/components/breadcrumb/Breadcrumb";
+import InfoDetails from "@/components/infoDetails/InfoDetails";
+import { formatDate } from "@/utils/date.utils";
+import { PAGES } from "@/utils/routes.utils";
 
 interface Props {
   user: IUserPublic;
@@ -13,7 +14,7 @@ interface Props {
 const UserView: FC<Props> = ({ user }) => {
   return (
     <>
-      <Breadcrumb pages={[PAGES.adminUsers(), PAGES.adminUserView(user._id)]} />
+      <Breadcrumb pages={[PAGES.static.adminUsers, PAGES.dynamic.adminUserView(user._id)]} />
       <Typography variant="h2" gutterBottom>
         Fiche utilisateur
       </Typography>

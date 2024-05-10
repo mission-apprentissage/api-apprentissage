@@ -1,3 +1,4 @@
+import { useMongo } from "@tests/mongo.test.utils";
 import { ObjectId } from "mongodb";
 import { ICertification } from "shared/models/certification.model";
 import {
@@ -9,8 +10,8 @@ import { IImportMetaCertifications } from "shared/models/import.meta.model";
 import { parseParisLocalDate } from "shared/zod/date.primitives";
 import { describe, expect, it } from "vitest";
 
-import { useMongo } from "../../../../../tests/mongo.test.utils";
-import { getDbCollection } from "../../../../services/mongodb/mongodbService";
+import { getDbCollection } from "@/services/mongodb/mongodbService";
+
 import { processCertificationCoverage } from "./coverage.process";
 
 const today = new Date("2023-12-25T02:00:00.000Z");

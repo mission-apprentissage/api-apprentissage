@@ -2,8 +2,7 @@ import { zRoutes } from "shared";
 
 import type { Server } from "@/server/server";
 import { getDbCollection } from "@/services/mongodb/mongodbService";
-
-import { createResponseStream } from "../../utils/streamUtils";
+import { createResponseStream } from "@/utils/streamUtils";
 
 export const certificationsRoutes = ({ server }: { server: Server }) => {
   server.get(

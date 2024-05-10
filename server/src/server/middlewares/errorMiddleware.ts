@@ -6,8 +6,7 @@ import { IResError } from "shared/routes/common.routes";
 import { ZodError } from "zod";
 
 import config from "@/config";
-
-import { Server } from "../server";
+import { Server } from "@/server/server";
 
 export function boomify(rawError: FastifyError | Boom.Boom<unknown> | Error | ZodError): Boom.Boom<unknown> {
   if (Boom.isBoom(rawError)) {

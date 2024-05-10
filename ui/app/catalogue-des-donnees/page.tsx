@@ -1,12 +1,12 @@
 import { fr } from "@codegouvfr/react-dsfr";
 import { Badge } from "@codegouvfr/react-dsfr/Badge";
 import { Breadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
-import { Box, Container, Hidden, Link, Typography } from "@mui/material";
+import { Box, Container, Hidden, Typography } from "@mui/material";
 import Image from "next/image";
-import NextLink from "next/link";
 import { PropsWithChildren } from "react";
 
 import { PAGES } from "../../components/breadcrumb/Breadcrumb";
+import { DsfrLink } from "../../components/link/DsfrLink";
 
 type DonneeCardProps = PropsWithChildren<{
   title: string;
@@ -33,7 +33,7 @@ function DonneeCard(props: DonneeCardProps) {
         <Typography variant="h6" style={{ textWrap: "balance" }} color={fr.colors.decisions.text.default.grey.default}>
           {props.title}
         </Typography>
-        <Typography>
+        <Typography className={fr.cx("fr-text--lg")}>
           {props.path === null ? (
             <Typography
               color={fr.colors.decisions.text.disabled.grey.default}
@@ -46,17 +46,7 @@ function DonneeCard(props: DonneeCardProps) {
               Bientôt disponible !
             </Typography>
           ) : (
-            <Link
-              component={NextLink}
-              href={props.path}
-              style={{ textUnderlinePosition: "under" }}
-              className={fr.cx("fr-text--lg")}
-            >
-              Documentation
-              <Box component="span" sx={{ display: "inline-block" }} mx={fr.spacing("1w")}>
-                <i className={fr.cx("fr-icon-arrow-right-line", "fr-text--lg")} />
-              </Box>
-            </Link>
+            <DsfrLink href={props.path}>Documentation</DsfrLink>
           )}
         </Typography>
       </Box>
@@ -180,12 +170,12 @@ export default function CatalogueDesDonneesPage() {
               </Typography>
               <Box display="grid" gap={fr.spacing("2v")}>
                 <Typography>
-                  <Link component={NextLink} href="mailto:support_api@apprentissage.beta.gouv.fr">
+                  <DsfrLink href="mailto:support_api@apprentissage.beta.gouv.fr">
                     Dites le nous
                     <Box component="span" sx={{ display: "inline-block" }} mx={fr.spacing("1w")}>
                       <i className={fr.cx("fr-icon-arrow-right-line", "fr-text--lg")} />
                     </Box>
-                  </Link>
+                  </DsfrLink>
                 </Typography>
               </Box>
             </Box>

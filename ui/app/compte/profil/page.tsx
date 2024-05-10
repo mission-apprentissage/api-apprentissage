@@ -2,14 +2,14 @@
 
 import { fr } from "@codegouvfr/react-dsfr";
 import Table from "@codegouvfr/react-dsfr/Table";
-import { Box, Link, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Tooltip, { tooltipClasses, TooltipProps } from "@mui/material/Tooltip";
-import NextLink from "next/link";
 import { useMemo } from "react";
 
 import { PAGES } from "@/components/breadcrumb/Breadcrumb";
 
+import { DsfrLink } from "../../../components/link/DsfrLink";
 import { ApiKeyAction } from "./components/ApiKeyAction";
 import { GenerateApiKey } from "./components/GenerateApiKey";
 import { ManageApiKeysBanner } from "./components/ManageApiKeysBanner";
@@ -110,12 +110,7 @@ const ProfilPage = () => {
           Jetons d’accès API
         </Typography>
         <Typography textAlign="right">
-          <Link component={NextLink} href={PAGES.documentationTechnique().path}>
-            Consulter la documentation technique
-            <Box component="span" sx={{ display: "inline-block" }} mx={fr.spacing("1w")}>
-              <i className={fr.cx("fr-icon-arrow-right-line", "fr-text--lg")} />
-            </Box>
-          </Link>
+          <DsfrLink href={PAGES.documentationTechnique().path}>Consulter la documentation technique</DsfrLink>
         </Typography>
       </Box>
 

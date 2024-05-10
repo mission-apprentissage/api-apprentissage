@@ -6,6 +6,7 @@ import NextLink from "next/link";
 import { PropsWithChildren } from "react";
 
 import { PAGES } from "../components/breadcrumb/Breadcrumb";
+import { DsfrLink } from "../components/link/DsfrLink";
 
 export const revalidate = 3_600;
 
@@ -160,21 +161,11 @@ function CommentUtiliserApiSection() {
             </Typography>
             <Box display="grid" gap={fr.spacing("2v")}>
               <Typography>
-                <Link component={NextLink} href={PAGES.compteProfil().path}>
-                  Créer mon compte
-                  <Box component="span" sx={{ display: "inline-block" }} mx={fr.spacing("1w")}>
-                    <i className={fr.cx("fr-icon-arrow-right-line", "fr-text--lg")} />
-                  </Box>
-                </Link>
+                <DsfrLink href={PAGES.compteProfil().path}>Créer mon compte</DsfrLink>
               </Typography>
 
               <Typography>
-                <Link component={NextLink} href={PAGES.documentationTechnique().path}>
-                  Consulter la documentation technique
-                  <Box component="span" sx={{ display: "inline-block" }} mx={fr.spacing("1w")}>
-                    <i className={fr.cx("fr-icon-arrow-right-line", "fr-text--lg")} />
-                  </Box>
-                </Link>
+                <DsfrLink href={PAGES.documentationTechnique().path}>Consulter la documentation technique</DsfrLink>
               </Typography>
             </Box>
           </Box>
@@ -199,21 +190,13 @@ function ProtectionDesDonneeSection() {
             </Typography>
             <Box display="grid" gap={fr.spacing("2v")}>
               <Typography>
-                <Link component={NextLink} href={PAGES.politiqueConfidentialite().path}>
-                  Notre politique de confidentialité
-                  <Box component="span" sx={{ display: "inline-block" }} mx={fr.spacing("1w")}>
-                    <i className={fr.cx("fr-icon-arrow-right-line", "fr-text--lg")} />
-                  </Box>
-                </Link>
+                <DsfrLink href={PAGES.politiqueConfidentialite().path}>Notre politique de confidentialité</DsfrLink>
               </Typography>
 
               <Typography>
-                <Link component={NextLink} href={PAGES.donneesPersonnelles().path}>
+                <DsfrLink href={PAGES.donneesPersonnelles().path}>
                   Protection des données à caractère personnel
-                  <Box component="span" sx={{ display: "inline-block" }} mx={fr.spacing("1w")}>
-                    <i className={fr.cx("fr-icon-arrow-right-line", "fr-text--lg")} />
-                  </Box>
-                </Link>
+                </DsfrLink>
               </Typography>
             </Box>
           </Box>

@@ -1,8 +1,7 @@
 import { zRoutes } from "shared";
 
+import { runExperiementalRedressementUaiSiret } from "@/jobs/experimental/redressement/uai.siret";
 import type { Server } from "@/server/server";
-
-import { runExperiementalRedressementUaiSiret } from "../../../jobs/experimental/redressement/uai.siret";
 
 export const siretUaiRoutes = ({ server }: { server: Server }) => {
   server.post(

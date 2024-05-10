@@ -5,9 +5,8 @@ import Image from "next/image";
 import NextLink from "next/link";
 import { PropsWithChildren } from "react";
 
-import { PAGES } from "../components/breadcrumb/Breadcrumb";
-
-export const revalidate = 3_600;
+import { DsfrLink } from "@/components/link/DsfrLink";
+import { PAGES } from "@/utils/routes.utils";
 
 function ActeurBadge({ children }: PropsWithChildren) {
   if (!children) return null;
@@ -87,7 +86,7 @@ function VousEtesSection() {
             </Typography>
           </Box>
 
-          <Link component={NextLink} href={PAGES.catalogueDesDonnees().path}>
+          <Link component={NextLink} href={PAGES.static.catalogueDesDonnees.path}>
             <Button size="large" variant="contained">
               Consulter le catalogue des données
               <Box component="span" sx={{ display: "inline-block" }} mx={fr.spacing("1w")}>
@@ -160,21 +159,13 @@ function CommentUtiliserApiSection() {
             </Typography>
             <Box display="grid" gap={fr.spacing("2v")}>
               <Typography>
-                <Link component={NextLink} href={PAGES.compteProfil().path}>
-                  Créer mon compte
-                  <Box component="span" sx={{ display: "inline-block" }} mx={fr.spacing("1w")}>
-                    <i className={fr.cx("fr-icon-arrow-right-line", "fr-text--lg")} />
-                  </Box>
-                </Link>
+                <DsfrLink href={PAGES.static.compteProfil.path}>Créer mon compte</DsfrLink>
               </Typography>
 
               <Typography>
-                <Link component={NextLink} href={PAGES.documentationTechnique().path}>
+                <DsfrLink href={PAGES.static.documentationTechnique.path}>
                   Consulter la documentation technique
-                  <Box component="span" sx={{ display: "inline-block" }} mx={fr.spacing("1w")}>
-                    <i className={fr.cx("fr-icon-arrow-right-line", "fr-text--lg")} />
-                  </Box>
-                </Link>
+                </DsfrLink>
               </Typography>
             </Box>
           </Box>
@@ -199,21 +190,15 @@ function ProtectionDesDonneeSection() {
             </Typography>
             <Box display="grid" gap={fr.spacing("2v")}>
               <Typography>
-                <Link component={NextLink} href={PAGES.politiqueConfidentialite().path}>
+                <DsfrLink href={PAGES.static.politiqueConfidentialite.path}>
                   Notre politique de confidentialité
-                  <Box component="span" sx={{ display: "inline-block" }} mx={fr.spacing("1w")}>
-                    <i className={fr.cx("fr-icon-arrow-right-line", "fr-text--lg")} />
-                  </Box>
-                </Link>
+                </DsfrLink>
               </Typography>
 
               <Typography>
-                <Link component={NextLink} href={PAGES.donneesPersonnelles().path}>
+                <DsfrLink href={PAGES.static.donneesPersonnelles.path}>
                   Protection des données à caractère personnel
-                  <Box component="span" sx={{ display: "inline-block" }} mx={fr.spacing("1w")}>
-                    <i className={fr.cx("fr-icon-arrow-right-line", "fr-text--lg")} />
-                  </Box>
-                </Link>
+                </DsfrLink>
               </Typography>
             </Box>
           </Box>

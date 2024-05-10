@@ -9,7 +9,8 @@ import { assertUnreachable } from "shared/utils/assertUnreachable";
 import { Primitive } from "zod";
 import { zObjectId } from "zod-mongodb-schema";
 
-import { getDbCollection } from "../mongodb/mongodbService";
+import { getDbCollection } from "@/services/mongodb/mongodbService";
+
 import { getAccessTokenScope } from "./accessTokenService";
 import { getUserFromRequest } from "./authenticationService";
 

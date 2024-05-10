@@ -13,9 +13,9 @@ import { FieldError, SubmitHandler, useForm } from "react-hook-form";
 import { IBody, IPostRoutes, zRoutes } from "shared";
 import { Jsonify } from "type-fest";
 
-import { PAGES } from "@/components/breadcrumb/Breadcrumb";
 import { useJwtToken } from "@/hooks/useJwtToken";
 import { ApiError, apiPost } from "@/utils/api.utils";
+import { PAGES } from "@/utils/routes.utils";
 
 type Inputs = Jsonify<IBody<IPostRoutes["/_private/auth/register-feedback"]>>;
 
@@ -60,7 +60,7 @@ export default function RegisterFeedbackPage() {
         },
         body: data,
       });
-      push(PAGES.homepage().path);
+      push(PAGES.static.home.path);
     } catch (error) {
       console.error(error);
       if (error instanceof ApiError && error.context.statusCode < 500) {
@@ -74,9 +74,9 @@ export default function RegisterFeedbackPage() {
 
   const onCreateAccountClicked = () => {
     if (token.valid) {
-      push(PAGES.inscription(token.value).path);
+      push(PAGES.dynamic.inscription(token.value).path);
     } else {
-      push(PAGES.compteProfil().path);
+      push(PAGES.static.compteProfil.path);
     }
   };
 
@@ -104,7 +104,7 @@ export default function RegisterFeedbackPage() {
       >
         <Box sx={{ textAlign: "right", marginBottom: fr.spacing("2w") }}>
           <Button variant="outlined">
-            <Box component={NextLink} href={PAGES.homepage().path} sx={{ backgroundImage: "none" }}>
+            <Box component={NextLink} href={PAGES.static.home.path} sx={{ backgroundImage: "none" }}>
               Retourner sur le site API Apprentissage
             </Box>
           </Button>

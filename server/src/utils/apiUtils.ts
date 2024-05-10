@@ -9,8 +9,9 @@ import { AxiosInstance } from "axios";
 import { AxiosCacheInstance } from "axios-cache-interceptor";
 import { RateLimiterMemory, RateLimiterQueue } from "rate-limiter-flexible";
 
-import config from "../config";
-import { withCause } from "../services/errors/withCause";
+import config from "@/config";
+import { withCause } from "@/services/errors/withCause";
+
 import { timeout } from "./asyncUtils";
 
 interface ApiRateLimiterOptions {

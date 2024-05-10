@@ -5,8 +5,9 @@ import { useIsDark } from "@codegouvfr/react-dsfr/useIsDark";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
-import { publicConfig } from "../../config.public";
-import { useAuth } from "../../context/AuthContext";
+import { publicConfig } from "@/config.public";
+import { useAuth } from "@/context/AuthContext";
+
 import { useNavigationItems } from "./header.utils";
 import { MonCompteQuickAccess } from "./MonCompteQuickAccess";
 

@@ -9,8 +9,9 @@ import { assertUnreachable } from "shared";
 import { IUserPublic } from "shared/models/user.model";
 import { IAccessToken } from "shared/routes/common.routes";
 
-import { useAuth } from "../../context/AuthContext";
-import { ApiError, apiPost } from "../../utils/api.utils";
+import { useAuth } from "@/context/AuthContext";
+import { ApiError, apiPost } from "@/utils/api.utils";
+
 import { LoginModal } from "./LoginModal";
 
 type UseLoginToken =

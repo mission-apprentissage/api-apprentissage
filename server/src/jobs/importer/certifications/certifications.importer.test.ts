@@ -15,7 +15,8 @@ import {
 import { ParisDate, parseParisLocalDate } from "shared/zod/date.primitives";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { getDbCollection } from "../../../services/mongodb/mongodbService";
+import { getDbCollection } from "@/services/mongodb/mongodbService";
+
 import { importCertifications } from "./certifications.importer";
 
 const now = new Date("2024-03-07T10:00:00Z");

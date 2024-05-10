@@ -3,8 +3,8 @@ import { captureConsoleIntegration, extraErrorDataIntegration } from "@sentry/in
 import * as Sentry from "@sentry/node";
 import { FastifyRequest } from "fastify";
 
-import config from "../../config";
-import { Server } from "../../server/server";
+import config from "@/config";
+import { Server } from "@/server/server";
 
 function getOptions(): Sentry.NodeOptions {
   return {

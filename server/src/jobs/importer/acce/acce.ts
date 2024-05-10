@@ -8,12 +8,11 @@ import { ObjectId } from "mongodb";
 import { ISourceAcce, ZAcceByType } from "shared/models/source/acce/source.acce.model";
 import unzipper from "unzipper";
 
+import { downloadCsvExtraction } from "@/services/apis/acce/acce";
+import { withCause } from "@/services/errors/withCause";
 import parentLogger from "@/services/logger";
-
-import { downloadCsvExtraction } from "../../../services/apis/acce/acce";
-import { withCause } from "../../../services/errors/withCause";
-import { getDbCollection } from "../../../services/mongodb/mongodbService";
-import { createBatchTransformStream } from "../../../utils/streamUtils";
+import { getDbCollection } from "@/services/mongodb/mongodbService";
+import { createBatchTransformStream } from "@/utils/streamUtils";
 
 const logger = parentLogger.child({ module: "import:acce" });
 

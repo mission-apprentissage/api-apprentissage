@@ -6,10 +6,11 @@ import { ISecuredRouteSchema } from "shared/routes/common.routes";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { z } from "zod";
 
-import { createSession, createSessionToken } from "../../actions/sessions.actions";
-import { generateApiKey } from "../../actions/users.actions";
-import config from "../../config";
-import { getDbCollection } from "../mongodb/mongodbService";
+import { createSession, createSessionToken } from "@/actions/sessions.actions";
+import { generateApiKey } from "@/actions/users.actions";
+import config from "@/config";
+import { getDbCollection } from "@/services/mongodb/mongodbService";
+
 import { authenticationMiddleware } from "./authenticationService";
 
 useMongo();

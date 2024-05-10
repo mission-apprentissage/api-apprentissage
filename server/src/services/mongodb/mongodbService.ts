@@ -5,10 +5,9 @@ import { CollectionName, IModelDescriptor } from "shared/models/common";
 import { IDocumentMap, modelDescriptors } from "shared/models/models";
 import { zodToMongoSchema } from "zod-mongodb-schema";
 
+import config from "@/config";
 import logger from "@/services/logger";
-
-import config from "../../config";
-import { sleep } from "../../utils/asyncUtils";
+import { sleep } from "@/utils/asyncUtils";
 
 let mongodbClient: MongoClient | null = null;
 

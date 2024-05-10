@@ -1,6 +1,6 @@
 import { Container } from "@mui/material";
 
-import NotionPage from "../../../components/notion/NotionPage";
+import NotionPage from "@/components/notion/NotionPage";
 
 export const revalidate = 300;
 

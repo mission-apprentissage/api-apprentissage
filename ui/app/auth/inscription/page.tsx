@@ -16,11 +16,10 @@ import { FieldError, SubmitHandler, useController, useForm } from "react-hook-fo
 import { IBody, IPostRoutes, zRoutes } from "shared";
 import { Jsonify } from "type-fest";
 
-import { PAGES } from "@/components/breadcrumb/Breadcrumb";
+import { useAuth } from "@/context/AuthContext";
 import { useJwtToken } from "@/hooks/useJwtToken";
 import { ApiError, apiPost } from "@/utils/api.utils";
-
-import { useAuth } from "../../../context/AuthContext";
+import { PAGES } from "@/utils/routes.utils";
 
 type Inputs = Jsonify<IBody<IPostRoutes["/_private/auth/register"]>>;
 
@@ -83,7 +82,7 @@ export default function RegisterPage() {
         body: data,
       });
       setUser(user);
-      push(PAGES.compteProfil().path);
+      push(PAGES.static.compteProfil.path);
     } catch (error) {
       console.error(error);
       if (error instanceof ApiError && error.context.statusCode < 500) {
@@ -97,7 +96,7 @@ export default function RegisterPage() {
 
   useEffect(() => {
     if (user) {
-      push(PAGES.compteProfil().path);
+      push(PAGES.static.compteProfil.path);
     }
   }, [user]);
 
@@ -125,7 +124,7 @@ export default function RegisterPage() {
       >
         <Box sx={{ textAlign: "right", marginBottom: fr.spacing("2w") }}>
           <Button variant="outlined">
-            <Box component={NextLink} href={PAGES.homepage().path} sx={{ backgroundImage: "none" }}>
+            <Box component={NextLink} href={PAGES.static.home.path} sx={{ backgroundImage: "none" }}>
               Retourner sur le site API Apprentissage
             </Box>
           </Button>
@@ -242,7 +241,7 @@ export default function RegisterPage() {
                   label: (
                     <Typography>
                       J’ai lu et j’accepte les{" "}
-                      <NextLink href={PAGES.cgu().path} target="_blank">
+                      <NextLink href={PAGES.static.cgu.path} target="_blank">
                         Conditions Générales d’Utilisation du service
                       </NextLink>
                     </Typography>

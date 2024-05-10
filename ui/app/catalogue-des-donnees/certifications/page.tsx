@@ -1,15 +1,16 @@
 import { fr } from "@codegouvfr/react-dsfr";
 import { Badge } from "@codegouvfr/react-dsfr/Badge";
 import { Breadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
-import { Box, Container, Hidden, Link, Typography } from "@mui/material";
+import { Box, Container, Hidden, Typography } from "@mui/material";
 import Image from "next/image";
-import NextLink from "next/link";
 import { Fragment } from "react";
 import Markdown from "react-markdown";
 import { certificationDoc } from "shared/docs/certification/certification.doc";
 import { DocDictionary, DocField, DocTopologie } from "shared/docs/types";
 
-import { PAGES } from "../../../components/breadcrumb/Breadcrumb";
+import { DsfrLink } from "@/components/link/DsfrLink";
+import { Tag } from "@/components/tag/Tag";
+import { PAGES } from "@/utils/routes.utils";
 
 const threeColumns = {
   md: "1fr",
@@ -106,42 +107,14 @@ function HeaderSection() {
             <strong>Besoin de ces données pour votre projet ?</strong>
           </Typography>
           <Typography>
-            <Link
-              component={NextLink}
-              href={PAGES.documentationTechnique().path}
-              sx={{ textUnderlinePosition: "under" }}
-            >
-              Consulter le swagger
-              <Box component="span" sx={{ display: "inline-block" }} mx={fr.spacing("1w")}>
-                <i className={fr.cx("fr-icon-arrow-right-line", "fr-text--lg")} />
-              </Box>
-            </Link>
+            <DsfrLink href={PAGES.static.documentationTechnique.path}>Consulter le swagger</DsfrLink>
           </Typography>
           <Typography>
-            <Link component={NextLink} href={PAGES.compteProfil().path} sx={{ textUnderlinePosition: "under" }}>
-              Obtenir un jeton d’accès
-              <Box component="span" sx={{ display: "inline-block" }} mx={fr.spacing("1w")}>
-                <i className={fr.cx("fr-icon-arrow-right-line", "fr-text--lg")} />
-              </Box>
-            </Link>
+            <DsfrLink href={PAGES.static.compteProfil.path}>Obtenir un jeton d’accès</DsfrLink>
           </Typography>
         </Box>
       </Box>
     </Box>
-  );
-}
-
-function Tag({ children }: { children: string }) {
-  return (
-    <Badge
-      small
-      style={{
-        color: fr.colors.decisions.background.flat.beigeGrisGalet.default,
-        backgroundColor: fr.colors.decisions.background.contrast.beigeGrisGalet.default,
-      }}
-    >
-      {children}
-    </Badge>
   );
 }
 
@@ -242,16 +215,7 @@ function DataSection({ dictionnaire }: { dictionnaire: DocDictionary }) {
           <Box sx={{ display: "flex", alignItems: "center", gridColumn: { sm: "span 1", md: "span 3" } }}>
             <Typography sx={{ textWrap: "balance" }}>
               <strong>Besoin de ces données pour votre projet ? </strong>
-              <Link
-                component={NextLink}
-                href={PAGES.documentationTechnique().path}
-                sx={{ textUnderlinePosition: "under" }}
-              >
-                Consulter le swagger
-                <Box component="span" sx={{ display: "inline-block" }} mx={fr.spacing("1w")}>
-                  <i className={fr.cx("fr-icon-arrow-right-line", "fr-text--lg")} />
-                </Box>
-              </Link>
+              <DsfrLink href={PAGES.static.documentationTechnique.path}>Consulter le swagger</DsfrLink>
             </Typography>
           </Box>
         </Box>
@@ -281,18 +245,7 @@ function ContactSection() {
             </Typography>
             <Box display="grid" gap={fr.spacing("2v")}>
               <Typography>
-                <Link
-                  component={NextLink}
-                  href="mailto:support_api@apprentissage.beta.gouv.fr"
-                  style={{
-                    textUnderlinePosition: "under",
-                  }}
-                >
-                  Dites le nous
-                  <Box component="span" sx={{ display: "inline-block" }} mx={fr.spacing("1w")}>
-                    <i className={fr.cx("fr-icon-arrow-right-line", "fr-text--lg")} />
-                  </Box>
-                </Link>
+                <DsfrLink href="mailto:support_api@apprentissage.beta.gouv.fr">Dites le nous</DsfrLink>
               </Typography>
             </Box>
           </Box>
@@ -320,7 +273,7 @@ export default function DocMetierCertificationPage() {
           homeLinkProps={{
             href: "/",
           }}
-          segments={[{ label: "Catalogue des données", linkProps: { href: PAGES.catalogueDesDonnees().path } }]}
+          segments={[{ label: "Catalogue des données", linkProps: { href: PAGES.static.catalogueDesDonnees.path } }]}
         />
       </Box>
 

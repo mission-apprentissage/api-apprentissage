@@ -1,3 +1,4 @@
+import { useMongo } from "@tests/mongo.test.utils";
 import { ObjectId } from "mongodb";
 import {
   generateCertificationFixture,
@@ -7,8 +8,8 @@ import {
 import { parseParisLocalDate } from "shared/zod/date.primitives";
 import { beforeEach, describe, expect, it } from "vitest";
 
-import { useMongo } from "../../../../../tests/mongo.test.utils";
-import { getDbCollection } from "../../../../services/mongodb/mongodbService";
+import { getDbCollection } from "@/services/mongodb/mongodbService";
+
 import { processContinuite } from "./continuite.process";
 
 useMongo();

@@ -1,7 +1,7 @@
 import { ICertification } from "shared/models/certification.model";
 import { parseNullableParisLocalDate } from "shared/zod/date.primitives";
 
-import { ISourceAggregatedData } from "../certification.builder";
+import { ISourceAggregatedData } from "@/jobs/importer/certifications/builder/certification.builder";
 
 export function buildCertificationBaseLegale(data: ISourceAggregatedData): ICertification["base_legale"] {
   return {

@@ -5,13 +5,12 @@ import { internal } from "@hapi/boom";
 import { AnyBulkWriteOperation, ObjectId } from "mongodb";
 import { ISourceCatalogue, zSourceCatalogue } from "shared/models/source/catalogue/source.catalogue.model";
 
+import { fetchCatalogueData } from "@/services/apis/catalogue/catalogue";
+import { fetchCatalogueEducatifData } from "@/services/apis/catalogue/catalogueEducatif";
+import { withCause } from "@/services/errors/withCause";
 import parentLogger from "@/services/logger";
-
-import { fetchCatalogueData } from "../../../services/apis/catalogue/catalogue";
-import { fetchCatalogueEducatifData } from "../../../services/apis/catalogue/catalogueEducatif";
-import { withCause } from "../../../services/errors/withCause";
-import { getDbCollection } from "../../../services/mongodb/mongodbService";
-import { createBatchTransformStream } from "../../../utils/streamUtils";
+import { getDbCollection } from "@/services/mongodb/mongodbService";
+import { createBatchTransformStream } from "@/utils/streamUtils";
 
 const logger = parentLogger.child({ module: "import:catalogue" });
 

@@ -3,11 +3,11 @@ import { ICertification } from "shared/models/certification.model";
 import { IImportMetaCertifications } from "shared/models/import.meta.model";
 import { IBcn_N_FormationDiplome } from "shared/models/source/bcn/bcn.n_formation_diplome.model";
 
-import { getDbCollection } from "../../../../services/mongodb/mongodbService";
 import {
   buildCertificationSearchMap,
   ICertificationSearchMap,
-} from "../builder/periode_validite/certification.periode_validite.builder";
+} from "@/jobs/importer/certifications/builder/periode_validite/certification.periode_validite.builder";
+import { getDbCollection } from "@/services/mongodb/mongodbService";
 
 type GroupContext = {
   groups: Map<string, Set<string>>;

@@ -4,8 +4,8 @@ import Link from "next/link";
 // import { usePlausible } from "next-plausible";
 import React from "react";
 
-import { publicConfig } from "../config.public";
-import { PAGES } from "./breadcrumb/Breadcrumb";
+import { publicConfig } from "@/config.public";
+import { PAGES } from "@/utils/routes.utils";
 
 const Footer = () => {
   return (
@@ -29,27 +29,27 @@ const Footer = () => {
         href: "/sitemap.xml",
       }}
       termsLinkProps={{
-        href: PAGES.mentionsLegales().path,
+        href: PAGES.static.mentionsLegales.path,
       }}
       accessibilityLinkProps={{
-        href: PAGES.accessibilite().path,
+        href: PAGES.static.accessibilite.path,
       }}
       bottomItems={[
         <FooterBottomItem
           key="cgu"
           bottomItem={{
-            text: PAGES.cgu().title,
+            text: PAGES.static.cgu.title,
             linkProps: {
-              href: PAGES.cgu().path,
+              href: PAGES.static.cgu.path,
             },
           }}
         />,
         <FooterBottomItem
           key="donnees-personnelles"
           bottomItem={{
-            text: PAGES.donneesPersonnelles().title,
+            text: PAGES.static.donneesPersonnelles.title,
             linkProps: {
-              href: PAGES.donneesPersonnelles().path,
+              href: PAGES.static.donneesPersonnelles.path,
             },
           }}
         />,
@@ -67,9 +67,9 @@ const Footer = () => {
         <FooterBottomItem
           key="politique-confidentialite"
           bottomItem={{
-            text: PAGES.politiqueConfidentialite().title,
+            text: PAGES.static.politiqueConfidentialite.title,
             linkProps: {
-              href: PAGES.politiqueConfidentialite().path,
+              href: PAGES.static.politiqueConfidentialite.path,
             },
           }}
         />,

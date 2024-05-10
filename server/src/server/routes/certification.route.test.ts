@@ -6,8 +6,7 @@ import { beforeAll, beforeEach, describe, expect, it } from "vitest";
 
 import { generateApiKey } from "@/actions/users.actions";
 import createServer, { Server } from "@/server/server";
-
-import { getDbCollection } from "../../services/mongodb/mongodbService";
+import { getDbCollection } from "@/services/mongodb/mongodbService";
 
 useMongo();
 

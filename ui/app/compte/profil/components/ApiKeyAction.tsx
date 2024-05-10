@@ -7,8 +7,8 @@ import { captureException } from "@sentry/nextjs";
 import { useCallback, useMemo, useState } from "react";
 import { IApiKeyPrivateJson } from "shared/models/user.model";
 
-import { ApiError } from "../../../../utils/api.utils";
-import { useDeleteApiKeyMutation } from "../hooks/useDeleteApiKeyMutation";
+import { useDeleteApiKeyMutation } from "@/app/compte/profil/hooks/useDeleteApiKeyMutation";
+import { ApiError } from "@/utils/api.utils";
 
 export const confirmDeleteModal = createModal({
   id: "confirm-delete-modal",

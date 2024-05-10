@@ -4,12 +4,12 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 import { IUserPublic } from "shared/models/user.model";
 
-import { PAGES } from "../../../../components/breadcrumb/Breadcrumb";
-import SearchBar from "../../../../components/SearchBar";
-import Table from "../../../../components/table/Table";
-import { apiGet } from "../../../../utils/api.utils";
-import { formatDate } from "../../../../utils/date.utils";
-import { formatUrlWithNewParams, getSearchParamsForQuery } from "../../../../utils/query.utils";
+import SearchBar from "@/components/SearchBar";
+import Table from "@/components/table/Table";
+import { apiGet } from "@/utils/api.utils";
+import { formatDate } from "@/utils/date.utils";
+import { formatUrlWithNewParams, getSearchParamsForQuery } from "@/utils/query.utils";
+import { PAGES } from "@/utils/routes.utils";
 
 const UserList = () => {
   const searchParams = useSearchParams();
@@ -29,7 +29,7 @@ const UserList = () => {
   });
 
   const onSearch = (q: string) => {
-    const url = formatUrlWithNewParams(PAGES.adminUsers().path, searchParams, {
+    const url = formatUrlWithNewParams(PAGES.static.adminUsers.path, searchParams, {
       q,
       page,
       limit,
@@ -73,7 +73,7 @@ const UserList = () => {
                 key="view"
                 iconId="fr-icon-arrow-right-line"
                 linkProps={{
-                  href: PAGES.adminUserView(_id).path,
+                  href: PAGES.dynamic.adminUserView(_id).path,
                 }}
                 priority="tertiary no outline"
                 title="Voir l'utilisateur"

@@ -3,14 +3,13 @@ import { ObjectId } from "mongodb";
 import { generateUserFixture } from "shared/models/fixtures";
 import { beforeAll, describe, expect, it, vi } from "vitest";
 
+import { generateMagicLinkToken, generateRegisterToken } from "@/actions/auth.actions";
 import { createSession, createSessionToken, getSession } from "@/actions/sessions.actions";
 import config from "@/config";
 import createServer, { Server } from "@/server/server";
 import { sendEmail } from "@/services/mailer/mailer";
 import { getDbCollection } from "@/services/mongodb/mongodbService";
 import { parseAccessToken } from "@/services/security/accessTokenService";
-
-import { generateMagicLinkToken, generateRegisterToken } from "../../../actions/auth.actions";
 
 type Cookie = {
   name: string;

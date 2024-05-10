@@ -1,3 +1,4 @@
+import { useMongo } from "@tests/mongo.test.utils";
 import fastify from "fastify";
 import { serializerCompiler, validatorCompiler, ZodTypeProvider } from "fastify-type-provider-zod";
 import { ObjectId } from "mongodb";
@@ -7,10 +8,10 @@ import { IRouteSchema, ISecuredRouteSchema, WithSecurityScheme } from "shared/ro
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { z } from "zod";
 
-import { useMongo } from "../../../tests/mongo.test.utils";
-import { generateApiKey } from "../../actions/users.actions";
-import { getDbCollection } from "../../services/mongodb/mongodbService";
-import { Server } from "../server";
+import { generateApiKey } from "@/actions/users.actions";
+import { Server } from "@/server/server";
+import { getDbCollection } from "@/services/mongodb/mongodbService";
+
 import { apiKeyUsageMiddleware } from "./apiKeyUsageMiddleware";
 import { auth } from "./authMiddleware";
 import { errorMiddleware } from "./errorMiddleware";

@@ -1,6 +1,7 @@
 import { Container } from "@mui/material";
 
-import Breadcrumb, { PAGES } from "@/components/breadcrumb/Breadcrumb";
+import Breadcrumb from "@/components/breadcrumb/Breadcrumb";
+import { PAGES } from "@/utils/routes.utils";
 
 import MentionsLegales from "./components/MentionLegales";
 

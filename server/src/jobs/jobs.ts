@@ -31,12 +31,12 @@ export async function setupJobProcessor() {
         ? {}
         : {
             "Mise à jour acce": {
-              cron_string: "0 1 * * *",
+              cron_string: config.env === "production" ? `0 1 * * *` : "0 2 * * *",
               handler: runAcceImporter,
               resumable: true,
             },
             "Import des données BCN": {
-              cron_string: "0 4 * * *",
+              cron_string: config.env === "production" ? "0 4 * * *" : "0 5 * * *",
               handler: runBcnImporter,
               resumable: true,
             },
@@ -46,17 +46,17 @@ export async function setupJobProcessor() {
               resumable: true,
             },
             "Import des données Referentiel": {
-              cron_string: "0 4 * * *",
+              cron_string: config.env === "production" ? "0 4 * * *" : "0 5 * * *",
               handler: runReferentielImporter,
               resumable: true,
             },
             "Import des données Catalogue": {
-              cron_string: "0 4 * * *",
+              cron_string: config.env === "production" ? "0 4 * * *" : "0 5 * * *",
               handler: runCatalogueImporter,
               resumable: true,
             },
             "Import des données France Compétences": {
-              cron_string: "0 */2 * * *",
+              cron_string: config.env === "production" ? "0 2 * * *" : "0 3 * * *",
               handler: runRncpImporter,
               resumable: true,
             },

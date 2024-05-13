@@ -120,7 +120,7 @@ const zCertifPeriodeValidite = zodOpenApi
         }),
         debut_parcours: zLocalDate.nullable().openapi({
           description: buildOpenApiDescription(
-            "Date de début des parcours certifiants. Anciennement appelé 'date d'effet' pour les enregistrements de droit et correspondant à la date de décision pour les enregistrements sur demande.",
+            "Date de début des parcours certifiants. Anciennement appelée 'date d'effet' pour les enregistrements de droit et correspondant à la date de décision pour les enregistrements sur demande.",
             ["La date est retournée au format ISO 8601 avec le fuseau horaire Europe/Paris."]
           ),
         }),
@@ -315,7 +315,7 @@ const zCertifDomaines = zodOpenApi
         .openapi({
           description: buildOpenApiDescription("NSF issue de la base centrale des nomenclatures (BCN).", [
             "- `null` lorsque le champs `identifiant.cfd` est `null`.",
-            "- Le code NSF est déduis du code formation diplôme (CFD), il n'inclus donc pas la lettre de spécialité et le tableau ne contient qu'un seul élément.",
+            "- Le code NSF est déduis du code formation diplôme (CFD), il n'inclut donc pas la lettre de spécialité et le tableau ne contient qu'un seul élément.",
           ]),
         }),
       rncp: zodOpenApi
@@ -536,7 +536,7 @@ export const zContinuite = zodOpenApi.object({
     .nullable()
     .openapi({
       description: buildOpenApiDescription(
-        "Liste des diplômes assurant la continuité du diplôme. La liste inclus à la fois les diplômes remplacés et remplaçant. La liste est ordonnée par date d'ouverture du diplôme et inclus le diplôme courant.",
+        "Liste des diplômes assurant la continuité du diplôme. La liste inclut à la fois les diplômes remplacés et remplaçant. La liste est ordonnée par date d'ouverture du diplôme et inclut le diplôme courant.",
         [
           "- `null` lorsque le champs `identifiant.cfd` est `null`.",
           "- Pour distinguer les diplômes remplacés des diplômes remplaçant, il faut se référer aux dates d'ouverture et de fermeture des diplômes.",

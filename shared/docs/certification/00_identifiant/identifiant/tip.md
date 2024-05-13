@@ -1,4 +1,4 @@
-Le code CFD est constitué de 3 parties construite de la manuière suivante: _50022427_
+Le code CFD est constitué de 3 parties construite de la manière suivante: _50022427_
 
 |     | Signification                                                                                           |
 | --- | ------------------------------------------------------------------------------------------------------- |

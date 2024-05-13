@@ -194,7 +194,7 @@ Notes:
           "continuite": {
             "properties": {
               "cfd": {
-                "description": "Liste des diplômes assurant la continuité du diplôme. La liste inclus à la fois les diplômes remplacés et remplaçant. La liste est ordonnée par date d'ouverture du diplôme et inclus le diplôme courant.
+                "description": "Liste des diplômes assurant la continuité du diplôme. La liste inclut à la fois les diplômes remplacés et remplaçant. La liste est ordonnée par date d'ouverture du diplôme et inclut le diplôme courant.
 
 Notes:
 
@@ -258,7 +258,7 @@ Notes:
                 ],
               },
               "rncp": {
-                "description": "Liste des fiches RNCP assurant la continuité de la certification. La liste inclus à la fois les fiches remplacées et remplaçantes. La liste est ordonnée par date d'activation de la fiche RNCP et inclus la fiche courante.
+                "description": "Liste des fiches RNCP assurant la continuité de la certification. La liste inclut à la fois les fiches remplacées et remplaçantes. La liste est ordonnée par date d'activation de la fiche RNCP et inclut la fiche courante.
 
 
 Notes:
@@ -428,7 +428,7 @@ Notes:
 
 - \`null\` lorsque le champs \`identifiant.cfd\` est \`null\`.
 
-- Le code NSF est déduis du code formation diplôme (CFD), il n'inclus donc pas la lettre de spécialité et le tableau ne contient qu'un seul élément.",
+- Le code NSF est déduis du code formation diplôme (CFD), il n'inclut donc pas la lettre de spécialité et le tableau ne contient qu'un seul élément.",
                     "properties": {
                       "code": {
                         "examples": [
@@ -923,7 +923,7 @@ Notes:
                 "description": "La période de validité d’une fiche RNCP est décrite par :
 
 - **La date d’activation** correspond à la date laquelle la fiche RNCP est passée au **statut actif : les inscriptions à la formation sont ouvertes** jusqu'à la date limite de délivrance de la certification.
-- La **date de début des parcours certifiants** (anciennement appelé “**date d’effet**” pour les enregistrements de droits, et “**date de décision**” pour les enregistrement sur demande)
+- La **date de début des parcours certifiants** (anciennement appelée “**date d’effet**” pour les enregistrements de droits, et “**date de décision**” pour les enregistrement sur demande)
 - La **date de fin d’enregistrement** : le lendemain, la fiche RNCP passe du statut “**actif**” à “**inactif**”. Pour les enregistrement de droit, cette date est renseignée par le certificateur, et pour les enregistrements sur demande, elle est déterminée par commission au moment de la décision d’enregistrement. A cette date, l'accès à la certification n'est plus possible (les inscriptions sont fermées) mais elle peut continuer à être délivrée pour les parcours en cours (formation ou VAE) ou pour la signature d'un contrat d'apprentissage suite à un nouveau contrat consécutif à une rupture du contrat.
 
 
@@ -954,7 +954,7 @@ Notes:
                     ],
                   },
                   "debut_parcours": {
-                    "description": "Date de début des parcours certifiants. Anciennement appelé 'date d'effet' pour les enregistrements de droit et correspondant à la date de décision pour les enregistrements sur demande.
+                    "description": "Date de début des parcours certifiants. Anciennement appelée 'date d'effet' pour les enregistrements de droit et correspondant à la date de décision pour les enregistrements sur demande.
 
 Notes:
 
@@ -1572,7 +1572,7 @@ Notes:
                       "continuite": {
                         "properties": {
                           "cfd": {
-                            "description": "Liste des diplômes assurant la continuité du diplôme. La liste inclus à la fois les diplômes remplacés et remplaçant. La liste est ordonnée par date d'ouverture du diplôme et inclus le diplôme courant.
+                            "description": "Liste des diplômes assurant la continuité du diplôme. La liste inclut à la fois les diplômes remplacés et remplaçant. La liste est ordonnée par date d'ouverture du diplôme et inclut le diplôme courant.
 
 Notes:
 
@@ -1636,7 +1636,7 @@ Notes:
                             ],
                           },
                           "rncp": {
-                            "description": "Liste des fiches RNCP assurant la continuité de la certification. La liste inclus à la fois les fiches remplacées et remplaçantes. La liste est ordonnée par date d'activation de la fiche RNCP et inclus la fiche courante.
+                            "description": "Liste des fiches RNCP assurant la continuité de la certification. La liste inclut à la fois les fiches remplacées et remplaçantes. La liste est ordonnée par date d'activation de la fiche RNCP et inclut la fiche courante.
 
 
 Notes:
@@ -1806,7 +1806,7 @@ Notes:
 
 - \`null\` lorsque le champs \`identifiant.cfd\` est \`null\`.
 
-- Le code NSF est déduis du code formation diplôme (CFD), il n'inclus donc pas la lettre de spécialité et le tableau ne contient qu'un seul élément.",
+- Le code NSF est déduis du code formation diplôme (CFD), il n'inclut donc pas la lettre de spécialité et le tableau ne contient qu'un seul élément.",
                                 "properties": {
                                   "code": {
                                     "examples": [
@@ -2301,7 +2301,7 @@ Notes:
                             "description": "La période de validité d’une fiche RNCP est décrite par :
 
 - **La date d’activation** correspond à la date laquelle la fiche RNCP est passée au **statut actif : les inscriptions à la formation sont ouvertes** jusqu'à la date limite de délivrance de la certification.
-- La **date de début des parcours certifiants** (anciennement appelé “**date d’effet**” pour les enregistrements de droits, et “**date de décision**” pour les enregistrement sur demande)
+- La **date de début des parcours certifiants** (anciennement appelée “**date d’effet**” pour les enregistrements de droits, et “**date de décision**” pour les enregistrement sur demande)
 - La **date de fin d’enregistrement** : le lendemain, la fiche RNCP passe du statut “**actif**” à “**inactif**”. Pour les enregistrement de droit, cette date est renseignée par le certificateur, et pour les enregistrements sur demande, elle est déterminée par commission au moment de la décision d’enregistrement. A cette date, l'accès à la certification n'est plus possible (les inscriptions sont fermées) mais elle peut continuer à être délivrée pour les parcours en cours (formation ou VAE) ou pour la signature d'un contrat d'apprentissage suite à un nouveau contrat consécutif à une rupture du contrat.
 
 
@@ -2332,7 +2332,7 @@ Notes:
                                 ],
                               },
                               "debut_parcours": {
-                                "description": "Date de début des parcours certifiants. Anciennement appelé 'date d'effet' pour les enregistrements de droit et correspondant à la date de décision pour les enregistrements sur demande.
+                                "description": "Date de début des parcours certifiants. Anciennement appelée 'date d'effet' pour les enregistrements de droit et correspondant à la date de décision pour les enregistrements sur demande.
 
 Notes:
 

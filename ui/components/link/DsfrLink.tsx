@@ -1,5 +1,5 @@
 import { fr } from "@codegouvfr/react-dsfr";
-import { Box, Link } from "@mui/material";
+import { Link } from "@mui/material";
 import NextLink, { LinkProps } from "next/link";
 import { ReactNode, useMemo } from "react";
 
@@ -7,9 +7,10 @@ import { publicConfig } from "@/config.public";
 
 export function DsfrLink({
   children,
-  noArrow = false,
+  arrow = "right",
+  size = "md",
   ...props
-}: { children: ReactNode; noArrow?: boolean } & LinkProps) {
+}: { children: ReactNode; arrow?: "right" | "left" | "none"; size?: "lg" | "sm" | "md" } & LinkProps) {
   const { href, ...rest } = props;
 
   const isExternal = useMemo(() => {
@@ -28,14 +29,17 @@ export function DsfrLink({
       href={href}
       rel={isExternal ? "noopener noreferrer" : undefined}
       target={isExternal ? "_blank" : undefined}
+      className={fr.cx(`fr-text--${size}`, {
+        "fr-link--sm": size === "sm",
+        "fr-link--lg": size === "lg",
+        "fr-link--icon-left": arrow === "left",
+        "fr-icon-arrow-left-s-line": arrow === "left",
+        "fr-icon-arrow-right-line": arrow === "right",
+        "fr-link--icon-right": arrow === "right",
+      })}
       {...rest}
     >
       {children}
-      {!noArrow && (
-        <Box component="span" sx={{ display: "inline-block" }} mx={fr.spacing("1w")}>
-          <i className={fr.cx("fr-icon-arrow-right-line", "fr-text--lg")} />
-        </Box>
-      )}
     </Link>
   );
 }

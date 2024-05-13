@@ -55,7 +55,7 @@ function InformationBox({ information }: Pick<DocField, "information">) {
           components={{
             p: ({ children }) => <Typography>{children}</Typography>,
             a: ({ children, href }) => (
-              <DsfrLink href={href ?? ""} noArrow>
+              <DsfrLink href={href ?? ""} arrow="none">
                 {children}
               </DsfrLink>
             ),
@@ -95,7 +95,7 @@ function DataField({ field }: { field: DocField }) {
           components={{
             p: ({ children }) => <Typography>{children}</Typography>,
             a: ({ children, href }) => (
-              <DsfrLink href={href ?? ""} noArrow>
+              <DsfrLink href={href ?? ""} arrow="none">
                 {children}
               </DsfrLink>
             ),

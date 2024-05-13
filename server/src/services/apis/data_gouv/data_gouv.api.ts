@@ -12,7 +12,7 @@ import { downloadFileInTmpFile } from "@/utils/apiUtils";
 const client = getApiClient(
   {
     baseURL: "https://www.data.gouv.fr/api/1",
-    timeout: 120_000,
+    timeout: 300_000,
   },
   { cache: false }
 );

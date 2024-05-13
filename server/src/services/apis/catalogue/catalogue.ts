@@ -12,11 +12,14 @@ import { createJsonLineTransformStream } from "@/utils/streamUtils";
 const catalogueClient = getApiClient(
   {
     baseURL: config.api.catalogue.baseurl,
+    timeout: 60_000,
   },
   { cache: false }
 );
 
-const neededFieldsFromCatalogue = Object.keys(zFormationCatalogue.shape).reduce<Record<string, number>>((acc, key) => {
+const neededFieldsFromCatalogue: Record<string, number> = Object.keys(zFormationCatalogue.shape).reduce<
+  Record<string, number>
+>((acc, key) => {
   acc[key] = 1;
   return acc;
 }, {});

@@ -13,11 +13,16 @@ export default function CatalogueCertificationPage() {
     <Container maxWidth="xl" sx={{ marginTop: fr.spacing("2w"), marginBottom: fr.spacing("9w") }}>
       <Box>
         <Breadcrumb
-          currentPageLabel="Liste des certifications réalisables en apprentissage"
+          currentPageLabel={PAGES.static.catalogueDesDonneesCertification.title}
           homeLinkProps={{
             href: "/",
           }}
-          segments={[{ label: "Catalogue des données", linkProps: { href: PAGES.static.catalogueDesDonnees.path } }]}
+          segments={[
+            {
+              label: PAGES.static.catalogueDesDonnees.title,
+              linkProps: { href: PAGES.static.catalogueDesDonnees.path },
+            },
+          ]}
         />
       </Box>
 

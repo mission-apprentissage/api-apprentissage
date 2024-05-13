@@ -8,9 +8,7 @@ Le code CFD est constitué de 3 parties construite de la manuière suivante: _50
 
 &nbsp;
 
-Le code RNCP est constitué de 2 parties construites de la manière suivante :
-
-**RNCP521**
+Le code RNCP est constitué de 2 parties construites de la manière suivante : **RNCP521**
 
 |            | Signification                                          |
 | ---------- | ------------------------------------------------------ |

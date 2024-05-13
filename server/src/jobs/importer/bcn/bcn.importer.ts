@@ -5,6 +5,7 @@ import { internal } from "@hapi/boom";
 import { parse } from "csv-parse";
 import { ObjectId } from "mongodb";
 import { IBcn_N_FormationDiplome, ISourceBcn, zBcnBySource } from "shared/models/source/bcn/source.bcn.model";
+import { ZodError } from "zod";
 
 import { fetchBcnData } from "@/services/apis/bcn/bcn";
 import { withCause } from "@/services/errors/withCause";
@@ -77,12 +78,26 @@ async function importBcnSource(source: ISourceBcn["source"], date: Date): Promis
             data["NOUVEAU_DIPLOMES"] = getNouveauDiplomes(record);
           }
 
-          return zod.parse({
-            _id: new ObjectId(),
-            source,
-            date,
-            data,
-          });
+          try {
+            return zod.parse({
+              _id: new ObjectId(),
+              source,
+              date,
+              data,
+            });
+          } catch (error) {
+            if (error instanceof ZodError) {
+              throw internal("import.bcn: error when parsing", {
+                source,
+                error: error.format(),
+                record,
+                data,
+                columns,
+              });
+            }
+
+            throw error;
+          }
         },
       }),
       createBatchTransformStream({ size: 100 }),

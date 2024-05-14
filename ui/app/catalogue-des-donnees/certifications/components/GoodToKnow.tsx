@@ -47,7 +47,7 @@ export function GoodToKnow({ tip }: Pick<DocField, "tip">) {
           components={{
             p: ({ children }) => <Typography>{children}</Typography>,
             a: ({ children, href }) => (
-              <DsfrLink href={href ?? ""} noArrow>
+              <DsfrLink href={href ?? ""} arrow="none" size="lg">
                 {children}
               </DsfrLink>
             ),

@@ -7,5 +7,5 @@ export const periodeValiditeField: DocField = {
   description,
   information,
   sample: "exemple : du 01.09.2021 au 31.08.2026",
-  tags: ["periode_validite.debut", "periode_validite.fin"],
+  tags: [".debut", ".fin"],
 };

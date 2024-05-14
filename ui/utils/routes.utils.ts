@@ -27,7 +27,7 @@ export const PAGES = {
       index: true,
     },
     catalogueDesDonnees: {
-      title: "Données disponibles",
+      title: "Catalogue des données",
       path: "/catalogue-des-donnees",
       index: true,
     },

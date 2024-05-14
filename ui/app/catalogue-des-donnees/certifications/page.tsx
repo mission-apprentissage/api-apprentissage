@@ -1,13 +1,14 @@
 import { fr } from "@codegouvfr/react-dsfr";
 import { Breadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
 import { Box, Container } from "@mui/material";
-import { certificationDoc } from "shared/docs/certification/certification.doc";
+import { certificationDoc, certificationSources } from "shared/docs/certification/certification.doc";
 
 import { DsfrLink } from "@/components/link/DsfrLink";
 import { PAGES } from "@/utils/routes.utils";
 
 import { CatalogueData } from "./components/CatalogueData";
 import { CatalogueHeadline } from "./components/CatalogueDonneeHeadline";
+import { DataSources } from "./components/DataSources";
 
 export default function CatalogueCertificationPage() {
   return (
@@ -34,6 +35,7 @@ export default function CatalogueCertificationPage() {
 
       <CatalogueHeadline />
       <CatalogueData dictionnaire={certificationDoc} />
+      <DataSources sources={certificationSources} />
     </Container>
   );
 }

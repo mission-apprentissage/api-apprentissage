@@ -231,11 +231,6 @@ exports[`importRncpArchive > should fix continuity issues 4`] = `
         "Nouvelle_Certification": "RNCP22094",
         "Numero_Fiche": "RNCP4049",
       },
-      {
-        "Ancienne_Certification": null,
-        "Nouvelle_Certification": "RNCP22094",
-        "Numero_Fiche": "RNCP4049",
-      },
     ],
     "blocs_de_competences": [],
     "ccn": [],
@@ -323,11 +318,6 @@ exports[`importRncpArchive > should fix continuity issues 5`] = `
       {
         "Ancienne_Certification": "RNCP22094",
         "Nouvelle_Certification": "RNCP30271",
-        "Numero_Fiche": "RNCP28155",
-      },
-      {
-        "Ancienne_Certification": "RNCP22094",
-        "Nouvelle_Certification": null,
         "Numero_Fiche": "RNCP28155",
       },
     ],

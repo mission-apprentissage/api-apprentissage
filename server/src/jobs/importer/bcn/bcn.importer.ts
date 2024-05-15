@@ -126,9 +126,10 @@ async function importBcnSource(source: ISourceBcn["source"], date: Date): Promis
   }
 }
 
-export async function fixDiplomeContinuity(importDate: Date): Promise<{ anciens: number; nouveaux: number }> {
+export async function indicateurDiplomeContinuity(importDate: Date): Promise<{ anciens: number; nouveaux: number }> {
   const cursor = getDbCollection("source.bcn").find<IBcn_N_FormationDiplome>({
     source: "N_FORMATION_DIPLOME",
+    date: importDate,
   });
 
   const continuity = new Map<string, Map<string, { fromAncien: boolean; fromNouveau: boolean }>>();
@@ -156,47 +157,19 @@ export async function fixDiplomeContinuity(importDate: Date): Promise<{ anciens:
     }
   }
 
-  const corrections = { anciens: 0, nouveaux: 0 };
-  for (const [ancienDiplome, map] of continuity) {
-    for (const [nouveauDiplome, { fromAncien, fromNouveau }] of map) {
+  const indicateur = { anciens: 0, nouveaux: 0 };
+  for (const [, map] of continuity) {
+    for (const [, { fromAncien, fromNouveau }] of map) {
       if (!fromAncien) {
-        corrections.anciens++;
-        await getDbCollection("source.bcn").updateOne(
-          {
-            source: "N_FORMATION_DIPLOME",
-            date: importDate,
-            data: {
-              FORMATION_DIPLOME: nouveauDiplome,
-            },
-          },
-          {
-            $set: {
-              ANCIEN_DIPLOMES: { $push: ancienDiplome },
-            },
-          }
-        );
+        indicateur.anciens++;
       }
       if (!fromNouveau) {
-        corrections.nouveaux++;
-        await getDbCollection("source.bcn").updateOne(
-          {
-            source: "N_FORMATION_DIPLOME",
-            date: importDate,
-            data: {
-              FORMATION_DIPLOME: ancienDiplome,
-            },
-          },
-          {
-            $set: {
-              NOUVEAU_DIPLOMES: { $push: nouveauDiplome },
-            },
-          }
-        );
+        indicateur.nouveaux++;
       }
     }
   }
 
-  return corrections;
+  return indicateur;
 }
 
 export async function runBcnImporter(): Promise<Record<string, unknown>> {
@@ -213,7 +186,7 @@ export async function runBcnImporter(): Promise<Record<string, unknown>> {
     statsBySource["N_NIVEAU_FORMATION_DIPLOME"] = await importBcnSource("N_NIVEAU_FORMATION_DIPLOME", importDate);
     statsBySource["V_FORMATION_DIPLOME"] = await importBcnSource("V_FORMATION_DIPLOME", importDate);
 
-    statsBySource["CORRECTION_CONTINUITE"] = await fixDiplomeContinuity(importDate);
+    statsBySource["INDICATEUR_CONTINUITE"] = await indicateurDiplomeContinuity(importDate);
 
     await getDbCollection("import.meta").insertOne({
       _id: new ObjectId(),

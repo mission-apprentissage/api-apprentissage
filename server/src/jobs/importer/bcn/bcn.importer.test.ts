@@ -74,7 +74,7 @@ describe("runBcnImporter", () => {
       N_FORMATION_DIPLOME_ENQUETE_51: 9,
       N_NIVEAU_FORMATION_DIPLOME: 9,
       V_FORMATION_DIPLOME: 11,
-      CORRECTION_CONTINUITE: { anciens: 1, nouveaux: 1 },
+      INDICATEUR_CONTINUITE: { anciens: 1, nouveaux: 1 },
     });
   });
 

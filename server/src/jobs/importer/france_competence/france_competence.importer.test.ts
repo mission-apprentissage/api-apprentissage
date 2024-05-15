@@ -1109,7 +1109,7 @@ describe("importRncpArchive", () => {
       created: 10,
       updated: 10,
       activated: 2,
-      corrections: {
+      indicateurs: {
         continuity: { anciens: 0, nouveaux: 0 },
       },
     });
@@ -1159,7 +1159,7 @@ describe("importRncpArchive", () => {
       created: 10,
       updated: 10,
       activated: 2,
-      corrections: {
+      indicateurs: {
         continuity: { anciens: 1, nouveaux: 1 },
       },
     });

@@ -373,55 +373,25 @@ async function buildContinuityMap(
   return continuity;
 }
 
-async function fixContinuity(importMeta: IImportMetaFranceCompetence): Promise<{ anciens: number; nouveaux: number }> {
+async function indicateurContinuity(
+  importMeta: IImportMetaFranceCompetence
+): Promise<{ anciens: number; nouveaux: number }> {
   const continuity = await buildContinuityMap(importMeta);
 
-  const corrections = { anciens: 0, nouveaux: 0 };
-  for (const [ancienneFiche, map] of continuity) {
-    for (const [nouvelleFiche, { fromAncien, fromNouveau }] of map) {
+  const indicateur = { anciens: 0, nouveaux: 0 };
+  for (const [_ancienneFiche, map] of continuity) {
+    for (const [_nouvelleFiche, { fromAncien, fromNouveau }] of map) {
       if (!fromAncien) {
-        corrections.anciens++;
-        await getDbCollection("source.france_competence").updateOne(
-          {
-            // Prevent concurrency issues, make sure we are not updating a document that has been updated since the import
-            updated_at: { $lte: importMeta.import_date },
-            numero_fiche: nouvelleFiche,
-          },
-          {
-            $push: {
-              "data.ancienne_nouvelle_certification": {
-                Numero_Fiche: nouvelleFiche,
-                Ancienne_Certification: ancienneFiche,
-                Nouvelle_Certification: null,
-              },
-            },
-          }
-        );
+        indicateur.anciens++;
       }
 
       if (!fromNouveau) {
-        corrections.nouveaux++;
-        await getDbCollection("source.france_competence").updateOne(
-          {
-            // Prevent concurrency issues, make sure we are not updating a document that has been updated since the import
-            updated_at: { $lte: importMeta.import_date },
-            numero_fiche: ancienneFiche,
-          },
-          {
-            $push: {
-              "data.ancienne_nouvelle_certification": {
-                Numero_Fiche: ancienneFiche,
-                Ancienne_Certification: null,
-                Nouvelle_Certification: nouvelleFiche,
-              },
-            },
-          }
-        );
+        indicateur.nouveaux++;
       }
     }
   }
 
-  return corrections;
+  return indicateur;
 }
 
 export async function importRncpArchive(importMeta: IImportMetaFranceCompetence, signal?: AbortSignal) {
@@ -436,7 +406,7 @@ export async function importRncpArchive(importMeta: IImportMetaFranceCompetence,
       entry.autodrain();
     }
 
-    const corrections = { continuity: await fixContinuity(importMeta) };
+    const indicateurs = { continuity: await indicateurContinuity(importMeta) };
 
     const [total, active, created, updated, activated] = await Promise.all([
       getDbCollection("source.france_competence").countDocuments(),
@@ -463,7 +433,7 @@ export async function importRncpArchive(importMeta: IImportMetaFranceCompetence,
       created,
       updated,
       activated,
-      corrections,
+      indicateurs,
     };
   } catch (error) {
     if (signal && error.name === signal?.reason?.name) {

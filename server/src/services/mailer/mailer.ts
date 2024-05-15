@@ -80,7 +80,7 @@ export function getEmailSubject<T extends ITemplate>(template: T): string {
     case "magic-link":
       return "Vous avez demandé à recevoir un lien de connexion au service API Apprentissage.";
     case "register-feedback":
-      return "Feedback: création compte utilisateur";
+      return "Feedback de refus de création de compte";
     default:
       assertUnreachable(template);
   }

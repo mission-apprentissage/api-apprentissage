@@ -79,7 +79,6 @@ export const zUser = z
 export const zUserCreate = zUser
   .pick({
     email: true,
-    password: true,
     is_admin: true,
   })
   .strict();

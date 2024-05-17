@@ -163,7 +163,7 @@ Notes:
                   "properties": {
                     "code": {
                       "example": "RNCP37537BC01",
-                      "pattern": "^RNCP\\d{3,5}BC\\d{1,2}$",
+                      "pattern": "^(RNCP\\d{3,5}BC)?\\d{1,2}$",
                       "type": "string",
                     },
                     "intitule": {
@@ -1541,7 +1541,7 @@ Notes:
                               "properties": {
                                 "code": {
                                   "example": "RNCP37537BC01",
-                                  "pattern": "^RNCP\\d{3,5}BC\\d{1,2}$",
+                                  "pattern": "^(RNCP\\d{3,5}BC)?\\d{1,2}$",
                                   "type": "string",
                                 },
                                 "intitule": {

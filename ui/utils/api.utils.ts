@@ -99,8 +99,8 @@ export class ApiError extends Error {
   constructor(context: ApiErrorContext) {
     super();
     this.context = context;
-    this.name = context.name;
-    this.message = context.message;
+    this.name = context.name ?? "ApiError";
+    this.message = context.message ?? `code ${context.statusCode}`;
   }
 
   toJSON(): ApiErrorContext {

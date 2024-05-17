@@ -10,7 +10,8 @@ export interface INotionPage extends IPage {
 
 export interface IPages {
   static: Record<string, IPage>;
-  dynamic: Record<string, (id: string) => IPage>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  dynamic: Record<string, (params: any) => IPage>;
   notion: Record<string, INotionPage>;
 }
 
@@ -71,6 +72,11 @@ export const PAGES = {
       path: "/admin/utilisateurs",
       index: false,
     },
+    adminProcessor: {
+      title: "Administration du processeur",
+      path: "/admin/processeur",
+      index: false,
+    },
   },
   dynamic: {
     inscription: (token: string): IPage => ({
@@ -81,6 +87,26 @@ export const PAGES = {
     adminUserView: (id: string): IPage => ({
       title: "Fiche utilisateur",
       path: `/admin/utilisateurs/${id}`,
+      index: false,
+    }),
+    adminProcessorJob: (name: string): IPage => ({
+      title: `Job ${name}`,
+      path: `/admin/processeur/job/${name}`,
+      index: false,
+    }),
+    adminProcessorJobInstance: (params: { name: string; id: string }): IPage => ({
+      title: `Tâche ${params.id}`,
+      path: `/admin/processeur/job/${params.name}/${params.id}`,
+      index: false,
+    }),
+    adminProcessorCron: (name: string): IPage => ({
+      title: `CRON ${name}`,
+      path: `/admin/processeur/cron/${name}`,
+      index: false,
+    }),
+    adminProcessorCronTask: (params: { name: string; id: string }): IPage => ({
+      title: `Tâche ${params.id}`,
+      path: `/admin/processeur/cron/${params.name}/${params.id}`,
       index: false,
     }),
   },

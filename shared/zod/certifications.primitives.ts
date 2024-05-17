@@ -31,7 +31,7 @@ export const zCfdNatureCode = zodOpenApi.string().regex(/^[0-9A-Z]$/);
 
 export const zRncpBlocCompetenceCode = zodOpenApi
   .string()
-  .regex(/^RNCP\d{3,5}BC\d{1,2}$/)
+  .regex(/^(RNCP\d{3,5}BC)?\d{1,2}$/)
   .openapi({
     example: "RNCP37537BC01",
   });

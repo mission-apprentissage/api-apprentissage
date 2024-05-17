@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { DataGrid, DataGridProps, frFR, GridValidRowModel } from "@mui/x-data-grid";
+import { DataGrid, DataGridProps, GridValidRowModel } from "@mui/x-data-grid";
+import { frFR } from "@mui/x-data-grid/locales";
 
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
   "& .MuiTablePagination-selectLabel": {

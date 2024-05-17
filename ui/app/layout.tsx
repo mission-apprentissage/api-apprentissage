@@ -80,7 +80,14 @@ export default async function RootLayout({ children }: PropsWithChildren) {
             <DsfrProvider lang={lang}>
               <MuiDsfrThemeProvider>
                 <Header />
-                <Box sx={{ minHeight: "60vh", color: fr.colors.decisions.text.default.grey.default }}>{children}</Box>
+                <Box
+                  sx={{
+                    minHeight: "60vh",
+                    color: fr.colors.decisions.text.default.grey.default,
+                  }}
+                >
+                  {children}
+                </Box>
                 <Footer />
               </MuiDsfrThemeProvider>
             </DsfrProvider>

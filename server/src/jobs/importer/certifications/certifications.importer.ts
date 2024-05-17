@@ -296,7 +296,12 @@ export async function importSourceAggregatedData(
           const op = buildCertificationUpdateOperation(chunk, importMeta);
           callback(null, op);
         } catch (error) {
-          callback(withCause(internal("import.certifications: error when building certification"), error));
+          callback(
+            withCause(
+              internal("import.certifications: error when building certification", { chunk, importMeta }),
+              error
+            )
+          );
         }
       },
     }),

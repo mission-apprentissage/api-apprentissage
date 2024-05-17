@@ -10,7 +10,7 @@ const AdminUsersPage = () => {
     <>
       <Breadcrumb pages={[PAGES.static.adminUsers]} />
       <Typography variant="h2" gutterBottom>
-        Gestion des utilisateurs
+        {PAGES.static.adminUsers.title}
       </Typography>
       <UserList />
     </>

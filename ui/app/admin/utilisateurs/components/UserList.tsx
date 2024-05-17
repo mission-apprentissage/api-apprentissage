@@ -17,8 +17,8 @@ const UserList = () => {
 
   const { page: page, limit: limit, q: searchValue } = getSearchParamsForQuery(searchParams);
 
-  const { data: users } = useQuery<IUserPublic[]>({
-    queryKey: ["users", { searchValue, page, limit }],
+  const result = useQuery<IUserPublic[]>({
+    queryKey: ["/_private/admin/users", { searchValue, page, limit }],
     queryFn: async () => {
       const data = await apiGet("/_private/admin/users", {
         querystring: { q: searchValue, page, limit },
@@ -27,6 +27,12 @@ const UserList = () => {
       return data;
     },
   });
+
+  if (result.isError) {
+    throw result.error;
+  }
+
+  const { data: users } = result;
 
   const onSearch = (q: string) => {
     const url = formatUrlWithNewParams(PAGES.static.adminUsers.path, searchParams, {
@@ -53,13 +59,13 @@ const UserList = () => {
           {
             field: "is_admin",
             headerName: "Administrateur",
-            valueGetter: ({ value }) => (value ? "Oui" : "Non"),
+            valueGetter: (value) => (value ? "Oui" : "Non"),
             minWidth: 150,
           },
           {
             field: "api_key_used_at",
             headerName: "Dernière utilisation API",
-            valueGetter: ({ value }) => {
+            valueGetter: (value) => {
               return value ? formatDate(value as unknown as string, "PPP à p") : "Jamais";
             },
             minWidth: 180,

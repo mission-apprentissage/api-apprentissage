@@ -68,7 +68,7 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
                 "properties": {
                   "code": {
                     "bsonType": "string",
-                    "pattern": "^RNCP\\d{3,5}BC\\d{1,2}$",
+                    "pattern": "^(RNCP\\d{3,5}BC)?\\d{1,2}$",
                   },
                   "intitule": {
                     "bsonType": [

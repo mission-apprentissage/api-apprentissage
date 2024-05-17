@@ -10,7 +10,7 @@ interface GetNavigationItemsProps {
 }
 
 const getNavigationItems = ({ user, pathname }: GetNavigationItemsProps): MainNavigationProps.Item[] => {
-  let navigation: MainNavigationProps.Item[] = [
+  const navigation: MainNavigationProps.Item[] = [
     {
       isActive: pathname === PAGES.static.home.path,
       text: PAGES.static.home.title,
@@ -43,16 +43,20 @@ const getNavigationItems = ({ user, pathname }: GetNavigationItemsProps): MainNa
           href: PAGES.static.adminUsers.path,
         },
       },
-    ];
-
-    navigation = [
-      ...navigation,
       {
-        text: "Administration",
-        isActive: adminMenuLinks.some((link) => link.isActive),
-        menuLinks: adminMenuLinks,
+        text: PAGES.static.adminProcessor.title,
+        isActive: pathname.startsWith(PAGES.static.adminProcessor.path),
+        linkProps: {
+          href: PAGES.static.adminProcessor.path,
+        },
       },
     ];
+
+    navigation.push({
+      text: "Administration",
+      isActive: adminMenuLinks.some((link) => link.isActive),
+      menuLinks: adminMenuLinks,
+    });
   }
 
   return navigation.map((item) => {

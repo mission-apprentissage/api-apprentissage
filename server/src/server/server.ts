@@ -59,7 +59,7 @@ export async function bind(app: Server) {
       displayOperationId: true,
       operationsSorter: "method",
       tagsSorter: "alpha",
-      docExpansion: "list",
+      docExpansion: "none",
       filter: true,
       deepLinking: true,
     },

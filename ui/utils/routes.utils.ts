@@ -27,6 +27,11 @@ export const PAGES = {
       path: "/documentation-technique",
       index: true,
     },
+    documentationTechniqueEssayer: {
+      title: "Essayer l'API",
+      path: "/documentation-technique/try",
+      index: true,
+    },
     catalogueDesDonnees: {
       title: "Catalogue des données",
       path: "/catalogue-des-donnees",

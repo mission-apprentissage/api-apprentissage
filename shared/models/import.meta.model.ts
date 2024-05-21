@@ -37,7 +37,7 @@ export const zImportMetaSimple = z
   .object({
     _id: zObjectId,
     import_date: z.date(),
-    type: z.enum(["bcn", "kit_apprentissage"]),
+    type: z.enum(["bcn", "kit_apprentissage", "acce"]),
   })
   .strict();
 

@@ -1190,6 +1190,7 @@ exports[`zodToMongoSchema > should convert import.meta schema 1`] = `
           "enum": [
             "bcn",
             "kit_apprentissage",
+            "acce",
           ],
         },
       },
@@ -1462,6 +1463,7 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
                 "!!",
                 "40",
                 "41",
+                "60",
               ],
             },
             "contrat_etablissement_libe": {
@@ -1477,6 +1479,7 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
                 "Inconnu du gestionnaire",
                 "Contrats simple et d'association pour toutes les classes",
                 "Contrats simple et d'association pour une partie des classes",
+                "Sous contrat établissement agricole",
               ],
             },
             "coordonnee_x": {
@@ -2033,6 +2036,7 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
                 "!!",
                 "40",
                 "41",
+                "60",
               ],
             },
             "contrat_etablissement_libe": {
@@ -2048,6 +2052,7 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
                 "Inconnu du gestionnaire",
                 "Contrats simple et d'association pour toutes les classes",
                 "Contrats simple et d'association pour une partie des classes",
+                "Sous contrat établissement agricole",
               ],
             },
             "coordonnee_x": {
@@ -2493,6 +2498,7 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
                 "!!",
                 "40",
                 "41",
+                "60",
               ],
             },
             "contrat_etablissement_libe": {
@@ -2508,6 +2514,7 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
                 "Inconnu du gestionnaire",
                 "Contrats simple et d'association pour toutes les classes",
                 "Contrats simple et d'association pour une partie des classes",
+                "Sous contrat établissement agricole",
               ],
             },
             "coordonnee_x": {

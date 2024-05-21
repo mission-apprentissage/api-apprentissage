@@ -1,4 +1,5 @@
 export * from "./certification.model.fixture";
+export * from "./source.acce.model.fixture";
 
 export * from "./source.bcn.model.fixture";
 export * from "./source.france_competence.model.fixture";

@@ -79,6 +79,12 @@ export async function importAcceData(readStream: ReadStream) {
     await parseAcceFile(entry, entry.path, importDate);
     entry.autodrain();
   }
+
+  await getDbCollection("import.meta").insertOne({
+    _id: new ObjectId(),
+    import_date: importDate,
+    type: "acce",
+  });
 }
 
 export async function runAcceImporter() {

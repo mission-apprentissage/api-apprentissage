@@ -7,6 +7,7 @@ import { emailsRoutes } from "./_private/emails.routes";
 import { userRoutes } from "./_private/user.routes";
 import { certificationsRoutes } from "./certification.routes";
 import { siretUaiRoutes } from "./experimental/siret.uai.routes";
+import { sourceAcceRoutes } from "./experimental/sources/acce.routes";
 import { healthcheckRoutes } from "./healthcheck.routes";
 
 type RegisterRoutes = (opts: { server: Server }) => void;
@@ -20,4 +21,5 @@ export const registerRoutes: RegisterRoutes = ({ server }) => {
   processorAdminRoutes({ server });
   certificationsRoutes({ server });
   siretUaiRoutes({ server });
+  sourceAcceRoutes({ server });
 };

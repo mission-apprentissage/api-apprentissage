@@ -13,7 +13,7 @@ export default function RedocPageClient({ nonce }: { nonce: string }) {
         sortEnumValuesAlphabetically: true,
         sortOperationsAlphabetically: true,
         sortTagsAlphabetically: false,
-        menuToggle: false,
+        menuToggle: true,
         hideSchemaTitles: false,
         pathInMiddlePanel: true,
         theme: {
@@ -44,6 +44,9 @@ export default function RedocPageClient({ nonce }: { nonce: string }) {
           responseSamples: "Exemples de réponses",
         },
         nonce,
+      }}
+      onLoaded={(...args) => {
+        console.log(args);
       }}
     />
   );

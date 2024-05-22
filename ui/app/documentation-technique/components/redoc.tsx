@@ -1,5 +1,4 @@
 "use client";
-import "./hide-sidebar.css";
 
 import { RedocStandalone } from "redoc";
 
@@ -13,9 +12,17 @@ export default function RedocPageClient({ nonce }: { nonce: string }) {
         sortPropsAlphabetically: false,
         sortEnumValuesAlphabetically: true,
         sortOperationsAlphabetically: true,
-        sortTagsAlphabetically: true,
-        menuToggle: true,
+        sortTagsAlphabetically: false,
+        menuToggle: false,
         hideSchemaTitles: false,
+        pathInMiddlePanel: true,
+        theme: {
+          typography: {
+            links: {
+              textDecoration: "none",
+            },
+          },
+        },
         labels: {
           enum: "Enum",
           enumSingleValue: "Valeur",

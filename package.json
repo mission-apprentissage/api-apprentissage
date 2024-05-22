@@ -107,6 +107,9 @@
     ],
     "*": [
       "prettier --write -u"
+    ],
+    "yarn.lock": [
+      "yarn dedupe"
     ]
   }
 }

@@ -73,6 +73,10 @@ fileignoreconfig:
   checksum: 7a6ccfe2e38e8edc675fcbd9379845a14bee1dc8784a32e2ffa87261b4c76ac1
 - filename: shared/helpers/generateUri.ts
   checksum: ef7bcbc2c76441fdafda7dc51d1e3455a59d2de3fec9e0b70ff610e6011fb097
+- filename: shared/helpers/openapi/__snapshots__/generateOpenapi.test.ts.snap
+  checksum: 5620655ccdb29c0e1c80bfce5a46a49f53bfbaba8b2a41483537499251e0514f
+- filename: shared/helpers/openapi/generateOpenapi.ts
+  checksum: 5ff5b00cd810ead2336871d44be285fa689b6f6ac76f9f5d3af8110f1a954bf1
 - filename: shared/models/fixtures/source.acce.model.fixture.ts
   checksum: 3106c428c0cecf532a646537dde9169b60ebf0a7db62ee1ce213d5782167c92c
 - filename: shared/models/fixtures/user.model.fixture.ts

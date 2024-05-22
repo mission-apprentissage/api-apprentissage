@@ -36,6 +36,7 @@ export const zSourceAcceRoutes = {
       },
       openapi: {
         tags: ["Expérimental"] as string[],
+        summary: "Source Base ACCE: Établissements",
         description: "Liste des établissements importés depuis la base ACCE. Attention: cette route est expérimentale.",
       },
     },
@@ -53,6 +54,7 @@ export const zSourceAcceRoutes = {
       },
       openapi: {
         tags: ["Expérimental"] as string[],
+        summary: "Source Base ACCE: Zones d'établissements",
         description:
           "Liste des zones d'établissements importées depuis la base ACCE. Attention: cette route est expérimentale.",
       },
@@ -71,6 +73,7 @@ export const zSourceAcceRoutes = {
       },
       openapi: {
         tags: ["Expérimental"] as string[],
+        summary: "Source Base ACCE: Spécialités d'établissements",
         description:
           "Liste des spécialités d'établissements importées depuis la base ACCE. Attention: cette route est expérimentale.",
       },
@@ -89,6 +92,7 @@ export const zSourceAcceRoutes = {
       },
       openapi: {
         tags: ["Expérimental"] as string[],
+        summary: "Source Base ACCE: Établissements mères",
         description:
           "Liste des relations fille-mère d'établissements importées depuis la base ACCE. Attention: cette route est expérimentale.",
       },
@@ -107,6 +111,7 @@ export const zSourceAcceRoutes = {
       },
       openapi: {
         tags: ["Expérimental"] as string[],
+        summary: "Source Base ACCE: Établissements filles",
         description:
           "Liste des relations mère-fille d'établissements importées depuis la base ACCE. Attention: cette route est expérimentale.",
       },

@@ -55,11 +55,13 @@
     "shared": "workspace:*",
     "sharp": "^0.33.4",
     "styled-components": "^6.1.11",
+    "swagger-ui-react": "^5.17.12",
     "typescript": "^5.4.5",
     "zod": "^3.23.8",
     "zod-i18n-map": "^2.27.0"
   },
   "devDependencies": {
+    "@types/swagger-ui-react": "^4.18.3",
     "notion-types": "^6.16.0",
     "type-fest": "^4.18.2"
   }

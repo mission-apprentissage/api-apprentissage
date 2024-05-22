@@ -1397,10 +1397,15 @@ Notes:
     },
   },
   "info": {
+    "contact": {
+      "email": "support_api@apprentissage.beta.gouv.fr",
+      "name": "Équipe API Apprentissage",
+    },
     "license": {
       "name": "Etalab-2.0",
       "url": "https://github.com/etalab/licence-ouverte/blob/master/LO.md",
     },
+    "termsOfService": "https://api.apprentissage.beta.gouv.fr/cgu",
     "title": "Documentation technique de l'API Apprentissage",
     "version": "V1.0",
   },
@@ -3728,6 +3733,7 @@ Notes:
             "api-key": [],
           },
         ],
+        "summary": "Source Base ACCE: Établissements",
         "tags": [
           "Expérimental",
         ],
@@ -4552,6 +4558,7 @@ Notes:
             "api-key": [],
           },
         ],
+        "summary": "Source Base ACCE: Établissements filles",
         "tags": [
           "Expérimental",
         ],
@@ -5376,6 +5383,7 @@ Notes:
             "api-key": [],
           },
         ],
+        "summary": "Source Base ACCE: Établissements mères",
         "tags": [
           "Expérimental",
         ],
@@ -5795,6 +5803,7 @@ Notes:
             "api-key": [],
           },
         ],
+        "summary": "Source Base ACCE: Spécialités d'établissements",
         "tags": [
           "Expérimental",
         ],
@@ -6229,6 +6238,7 @@ Notes:
             "api-key": [],
           },
         ],
+        "summary": "Source Base ACCE: Zones d'établissements",
         "tags": [
           "Expérimental",
         ],
@@ -6617,8 +6627,16 @@ Notes:
   ],
   "tags": [
     {
+      "description": "Pour essayer l'API [vous pouvez utiliser le swagger UI](/documentation-technique/try)",
+      "name": "Essayer l'API",
+    },
+    {
       "description": "Liste des opérations sur les certifications.",
       "name": "Certifications",
+    },
+    {
+      "description": "Liste des routes expérimentales. Attention: ces routes peuvent changer sans préavis.",
+      "name": "Expérimental",
     },
   ],
   "webhooks": {},

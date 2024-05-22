@@ -50,7 +50,6 @@ export const Header = () => {
                 href: "https://mission-apprentissage.github.io/upptime/history/api-apprentissage-api",
                 target: "_blank",
                 rel: "noopener noreferrer",
-                noIcon: true,
               },
             }}
           />,

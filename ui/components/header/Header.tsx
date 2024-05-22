@@ -1,6 +1,6 @@
 "use client";
 
-import { Header as DSFRHeader } from "@codegouvfr/react-dsfr/Header";
+import { Header as DSFRHeader, HeaderQuickAccessItem } from "@codegouvfr/react-dsfr/Header";
 import { useIsDark } from "@codegouvfr/react-dsfr/useIsDark";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
@@ -40,7 +40,22 @@ export const Header = () => {
           href: "/",
           title: `Accueil - ${publicConfig.productMeta.brandName}`,
         }}
-        quickAccessItems={[<MonCompteQuickAccess key="mon-compte-quick-access" />]}
+        quickAccessItems={[
+          <HeaderQuickAccessItem
+            key="status-page"
+            quickAccessItem={{
+              iconId: "fr-icon-sun-fill",
+              text: "Status",
+              linkProps: {
+                href: "https://mission-apprentissage.github.io/upptime/history/api-apprentissage-api",
+                target: "_blank",
+                rel: "noopener noreferrer",
+                noIcon: true,
+              },
+            }}
+          />,
+          <MonCompteQuickAccess key="mon-compte-quick-access" />,
+        ]}
         serviceTitle={publicConfig.productMeta.brandName}
         navigation={navigation}
       />

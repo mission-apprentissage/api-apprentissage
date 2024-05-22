@@ -1,3 +1,5 @@
+import "./overwride.css";
+
 import { headers } from "next/headers";
 
 import RedocPageClient from "./components/redoc";

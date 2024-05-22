@@ -24,12 +24,8 @@ import { StartDsfr } from "./StartDsfr";
 import { StartIntl } from "./StartIntl";
 
 async function getSession(): Promise<IUserPublic | undefined> {
-  if (process.env.NEXT_PHASE === "phase-production-build") {
-    return;
-  }
-
   try {
-    const session: IUserPublic = await apiGet(`/_private/auth/session`, {});
+    const session: IUserPublic = await apiGet(`/_private/auth/session`, {}, { cache: "no-store" });
     return session;
   } catch (error) {
     if ((error as ApiError).context?.statusCode !== 401) {

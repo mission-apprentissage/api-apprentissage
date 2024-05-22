@@ -21,7 +21,11 @@ type OptionsWrite = {
 
 type IRequestOptions = OptionsGet | OptionsWrite | EmptyObject;
 
-async function optionsToFetchParams(method: RequestInit["method"], options: IRequestOptions) {
+async function optionsToFetchParams(
+  method: RequestInit["method"],
+  options: IRequestOptions,
+  rawOptions?: Pick<RequestInit, "cache">
+) {
   const headers = await getHeaders(options);
 
   let body: BodyInit | undefined = undefined;
@@ -42,6 +46,11 @@ async function optionsToFetchParams(method: RequestInit["method"], options: IReq
     method,
     headers,
   };
+
+  if (rawOptions) {
+    Object.assign(requestInit, rawOptions);
+  }
+
   return { requestInit, headers };
 }
 
@@ -161,9 +170,10 @@ export async function apiPost<P extends keyof IPostRoutes, S extends IPostRoutes
 
 export async function apiGet<P extends keyof IGetRoutes, S extends IGetRoutes[P] = IGetRoutes[P]>(
   path: P,
-  options: IRequest<S>
+  options: IRequest<S>,
+  rawOptions?: Pick<RequestInit, "cache">
 ): Promise<IResponse<S>> {
-  const { requestInit, headers } = await optionsToFetchParams("GET", options);
+  const { requestInit, headers } = await optionsToFetchParams("GET", options, rawOptions);
 
   const res = await fetch(generateUrl(path, options), requestInit);
 

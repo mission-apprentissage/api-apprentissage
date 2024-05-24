@@ -1,0 +1,95 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`parseExcelFileStream > should parse the excel file stream 1`] = `
+[
+  {
+    "data": {
+      "certificateur": "MINISTERE DE L'EDUCATION NATIONALE ET DE LA JEUNESSE",
+      "cpne_code": 2,
+      "cpne_libelle": "CNPE des sociétés financières",
+      "diplome_libelle": "BP",
+      "formation_libelle": "Mise en oeuvre caoutchoucs élastomères thermoplastiques",
+      "npec": 9497,
+      "rncp": "RNCP1002",
+    },
+    "sheet": "npec",
+  },
+  {
+    "data": {
+      "certificateur": "MINISTERE DE L'EDUCATION NATIONALE ET DE LA JEUNESSE",
+      "cpne_code": 4,
+      "cpne_libelle": "CNPEFP des sociétés d’assistance",
+      "diplome_libelle": "BP",
+      "formation_libelle": "Mise en oeuvre caoutchoucs élastomères thermoplastiques",
+      "npec": 9497,
+      "rncp": "RNCP1002",
+    },
+    "sheet": "npec",
+  },
+  {
+    "data": {
+      "certificateur": "MINISTERE DE L'EDUCATION NATIONALE ET DE LA JEUNESSE",
+      "cpne_code": 5,
+      "cpne_libelle": "CPNE du notariat",
+      "diplome_libelle": "BP",
+      "formation_libelle": "Mise en oeuvre caoutchoucs élastomères thermoplastiques",
+      "npec": 9497,
+      "rncp": "RNCP1002",
+    },
+    "sheet": "npec",
+  },
+  {
+    "data": {
+      "cpne_code": 2,
+      "cpne_libelle": "CNPE des sociétés financières",
+      "idcc": 478,
+    },
+    "sheet": "cpne-idcc",
+  },
+  {
+    "data": {
+      "cpne_code": 4,
+      "cpne_libelle": "CNPEFP des sociétés d’assistance",
+      "idcc": 1801,
+    },
+    "sheet": "cpne-idcc",
+  },
+  {
+    "data": {
+      "cpne_code": 5,
+      "cpne_libelle": "CPNE du notariat",
+      "idcc": 2205,
+    },
+    "sheet": "cpne-idcc",
+  },
+]
+`;
+
+exports[`parseExcelFileStream > should skip parsing if spec is null 1`] = `
+[
+  {
+    "data": {
+      "cpne_code": 2,
+      "cpne_libelle": "CNPE des sociétés financières",
+      "idcc": 478,
+    },
+    "sheet": "cpne-idcc",
+  },
+  {
+    "data": {
+      "cpne_code": 4,
+      "cpne_libelle": "CNPEFP des sociétés d’assistance",
+      "idcc": 1801,
+    },
+    "sheet": "cpne-idcc",
+  },
+  {
+    "data": {
+      "cpne_code": 5,
+      "cpne_libelle": "CPNE du notariat",
+      "idcc": 2205,
+    },
+    "sheet": "cpne-idcc",
+  },
+]
+`;

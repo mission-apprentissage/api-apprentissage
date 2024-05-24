@@ -59,8 +59,6 @@ function getFichierMetaFromFilename(entry: Entry): FichierMeta {
     return { source: "standard" };
   }
 
-  console.log(filename);
-
   throw internal("import.france_competence: unexpected filename", { filename });
 }
 

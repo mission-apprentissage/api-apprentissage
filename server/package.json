@@ -79,6 +79,7 @@
     "@types/sax": "^1.2.7",
     "@types/stream-json": "^1.7.7",
     "@types/unzipper": "^0.10.9",
+    "archiver": "^7.0.1",
     "csv-stringify": "^6.5.0",
     "dotenv": "^16.4.5",
     "luxon": "^3.4.4",

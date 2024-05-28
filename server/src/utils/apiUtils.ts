@@ -1,8 +1,10 @@
+import { createHash } from "node:crypto";
 import { createReadStream, ReadStream } from "node:fs";
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { Readable } from "node:stream";
+import { pipeline } from "node:stream/promises";
 
 import { internal } from "@hapi/boom";
 import { AxiosInstance } from "axios";
@@ -44,7 +46,7 @@ export const apiRateLimiter = (name: string, options: ApiRateLimiterOptions): Ap
   };
 };
 
-export async function downloadFileInTmpFile(stream: Readable, filename: string): Promise<ReadStream> {
+export async function downloadFileAsTmp(stream: Readable, filename: string): Promise<string> {
   const tmpDir = await mkdtemp(join(tmpdir(), `api-download-${config.env}-`));
 
   try {
@@ -52,14 +54,40 @@ export async function downloadFileInTmpFile(stream: Readable, filename: string):
 
     await writeFile(destFile, stream);
 
-    const readStream = createReadStream(destFile);
+    return destFile;
+  } catch (error) {
+    await rm(tmpDir, { force: true, recursive: true });
+    throw withCause(internal("api.utils.downloadFileAsTmp: unable to download file"), error);
+  }
+}
+
+export async function readTmpAsStreamAndCleanup(filePath: string): Promise<ReadStream> {
+  try {
+    const readStream = createReadStream(filePath);
     readStream.once("close", async () => {
-      await rm(tmpDir, { force: true, recursive: true });
+      await cleanupTmp(filePath);
     });
 
     return readStream;
   } catch (error) {
-    await rm(tmpDir, { force: true, recursive: true });
-    throw withCause(internal("api.utils: unable to download file"), error);
+    await cleanupTmp(filePath);
+    throw withCause(internal("api.utils: unable to read downloaded file"), error);
   }
+}
+
+export async function cleanupTmp(filePath: string): Promise<void> {
+  await rm(dirname(filePath), { force: true, recursive: true });
+}
+
+export async function downloadFileAsStream(stream: Readable, filename: string): Promise<ReadStream> {
+  const destFile = await downloadFileAsTmp(stream, filename);
+  return readTmpAsStreamAndCleanup(destFile);
+}
+
+export async function computeFileHash(stream: Readable): Promise<string> {
+  const hash = createHash("sha256");
+
+  await pipeline(stream, hash);
+
+  return hash.digest("hex");
 }

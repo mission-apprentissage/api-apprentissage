@@ -16,6 +16,7 @@ import {
   ISourceKitApprentissage,
   sourceKitApprentissageModelDescriptor,
 } from "./source/kitApprentissage/source.kit_apprentissage.model";
+import { ISourceNpec, sourceNpecModelDescriptor } from "./source/npec/source.npec.model";
 import sourcReferentielModelDescriptor, { ISourceReferentiel } from "./source/referentiel/source.referentiel.model";
 import usersModelDescriptor, { IUser } from "./user.model";
 
@@ -33,6 +34,7 @@ export const modelDescriptors: IModelDescriptor[] = [
   sourceKitApprentissageModelDescriptor,
   sourceCatalogueModelDescriptor,
   sourceFranceCompetenceModelDescriptor,
+  sourceNpecModelDescriptor,
 ];
 
 export type IDocumentMap = {
@@ -49,4 +51,5 @@ export type IDocumentMap = {
   "source.kit_apprentissage": ISourceKitApprentissage;
   "source.catalogue": ISourceCatalogue;
   "source.france_competence": ISourceFranceCompetence;
+  "source.npec": ISourceNpec;
 };

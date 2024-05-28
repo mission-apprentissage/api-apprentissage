@@ -6,7 +6,7 @@ import { ISourceBcn } from "shared/models/source/bcn/source.bcn.model";
 
 import getApiClient from "@/services/apis/client";
 import { withCause } from "@/services/errors/withCause";
-import { downloadFileInTmpFile } from "@/utils/apiUtils";
+import { downloadFileAsStream } from "@/utils/apiUtils";
 
 const bcnClient = getApiClient(
   {
@@ -29,7 +29,7 @@ export async function fetchBcnData(table: ISourceBcn["source"]): Promise<ReadStr
       responseType: "stream",
     });
 
-    return await downloadFileInTmpFile(response.data, `bcn_${table}.zip`);
+    return await downloadFileAsStream(response.data, `bcn_${table}.zip`);
   } catch (error) {
     if (isAxiosError(error)) {
       throw internal("api.bcn: unable to fetchBcnData", { data: error.toJSON() });

@@ -7,7 +7,7 @@ import { ZodError } from "zod";
 import getApiClient from "@/services/apis/client";
 import { withCause } from "@/services/errors/withCause";
 import logger from "@/services/logger";
-import { downloadFileInTmpFile } from "@/utils/apiUtils";
+import { downloadFileAsStream } from "@/utils/apiUtils";
 
 const client = getApiClient(
   {
@@ -49,7 +49,7 @@ export async function downloadDataGouvResource(resource: IDataGouvDatasetResourc
       responseType: "stream",
     });
 
-    return await downloadFileInTmpFile(response.data, resource.title);
+    return await downloadFileAsStream(response.data, resource.title);
   } catch (error) {
     throw withCause(internal("api.data_gouv: unable to downloadDataGouvResource", { resource }), error);
   }

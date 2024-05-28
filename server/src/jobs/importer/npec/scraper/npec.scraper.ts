@@ -1,11 +1,14 @@
 import { internal } from "@hapi/boom";
-import { createReadStream, ReadStream } from "fs";
+import { createReadStream, createWriteStream, ReadStream } from "fs";
 import { parse } from "node-html-parser";
-import unzipper, { Entry } from "unzipper";
+import { basename, dirname, extname, join } from "path";
+import { Stream } from "stream";
+import { pipeline } from "stream/promises";
+import unzipper from "unzipper";
 
 import getApiClient from "@/services/apis/client";
 import { withCause } from "@/services/errors/withCause";
-import { downloadFileInTmpFile } from "@/utils/apiUtils";
+import { cleanupTmp, downloadFileAsTmp, readTmpAsStreamAndCleanup } from "@/utils/apiUtils";
 import { getStaticFilePath } from "@/utils/getStaticFilePath";
 
 const client = getApiClient(
@@ -44,24 +47,75 @@ export async function scrapeRessourceNPEC(): Promise<string[]> {
   throw internal("npec.importer: unexpected number of pages", { maxPage, result });
 }
 
-async function downloadResourceFile(url: string) {
+async function downloadResourceFile(url: string): Promise<string> {
   try {
     const response = await client.get<ReadStream>(url, {
       responseType: "stream",
     });
 
-    return await downloadFileInTmpFile(response.data, new URL(url).pathname.split("/").pop() ?? "");
+    return await downloadFileAsTmp(response.data, new URL(url).pathname.split("/").pop() ?? "");
   } catch (error) {
     throw withCause(internal("npec.scraper: unable to downloadResourceNPEC", { url }), error);
   }
 }
 
-export async function downloadXlsxNPECFile(url: string): Promise<NodeJS.ReadableStream> {
-  let filename = new URL(url).pathname.split("/").at(-1);
+export function getNpecFilename(url: string): string {
+  const filename = new URL(url).pathname.split("/").at(-1);
   if (!filename) {
     throw internal("npec.scraper.downloadXlsxNPECFile: cannot find filename", { url });
   }
-  filename = decodeURIComponent(filename);
+  return decodeURIComponent(filename);
+}
+
+async function extractNpecZipFile(filepath: string): Promise<ReadStream> {
+  const readStream = createReadStream(filepath);
+  const name = basename(filepath, extname(filepath));
+  const destFile = join(dirname(filepath), `${name}-output.xlsx`);
+
+  try {
+    const zip = readStream.pipe(unzipper.Parse({ forceStream: true }));
+
+    let isFileFound = false;
+
+    for await (const entry of zip) {
+      if (entry.type !== "File") {
+        throw internal("npec.scraper.downloadXlsxNPECFile: unexpected entry type", {
+          type: entry.type,
+          path: entry.path,
+        });
+      }
+
+      if (!entry.path.endsWith(".xlsx")) {
+        throw internal("npec.scraper.downloadXlsxNPECFile: unexpected file type", {
+          type: entry.type,
+          path: entry.path,
+        });
+      }
+
+      if (isFileFound) {
+        entry.autodrain();
+        throw internal("npec.scraper.downloadXlsxNPECFile: too many entries found in zip");
+      }
+
+      isFileFound = true;
+      await pipeline(entry, createWriteStream(destFile));
+    }
+
+    if (!isFileFound) {
+      throw internal("npec.scraper.downloadXlsxNPECFile: no entry found in zip");
+    }
+
+    return await readTmpAsStreamAndCleanup(destFile);
+  } catch (error) {
+    // This will remove the tmp directory
+    await cleanupTmp(filepath);
+    readStream.destroy();
+    throw error;
+  }
+}
+
+export async function downloadXlsxNPECFile(url: string): Promise<Stream> {
+  const filename = getNpecFilename(url);
 
   // We are unable to parse xlsb files without blowing up memory
   // This is only present in 2 old files, hence we will use manually converted xlsx files
@@ -74,42 +128,13 @@ export async function downloadXlsxNPECFile(url: string): Promise<NodeJS.Readable
   }
 
   if (filename.endsWith(".xlsx")) {
-    return await downloadResourceFile(url);
+    const filepath = await downloadResourceFile(url);
+    return readTmpAsStreamAndCleanup(filepath);
   }
 
   if (filename.endsWith(".zip")) {
-    const readStream = await downloadResourceFile(url);
-    const zip = readStream.pipe(unzipper.Parse({ forceStream: true }));
-
-    const entries: Entry[] = [];
-    for await (const entry of zip) {
-      entries.push(entry);
-    }
-
-    if (entries.length === 0) {
-      throw internal("npec.scraper.downloadXlsxNPECFile: no entry found in zip", { url });
-    }
-
-    if (entries.length > 1) {
-      throw internal("npec.scraper.downloadXlsxNPECFile: too many entries found in zip", { url });
-    }
-
-    const entry = entries[0];
-    if (entry.type !== "File") {
-      throw internal("npec.scraper.downloadXlsxNPECFile: unexpected entry type", {
-        type: entry.type,
-        path: entry.path,
-      });
-    }
-
-    if (!entry.path.endsWith(".xlsx")) {
-      throw internal("npec.scraper.downloadXlsxNPECFile: unexpected file type", {
-        type: entry.type,
-        path: entry.path,
-      });
-    }
-
-    return entry;
+    const filepath = await downloadResourceFile(url);
+    return await extractNpecZipFile(filepath);
   }
 
   throw internal("npec.scraper.downloadXlsxNPECFile: unexpected file extension", { filename });

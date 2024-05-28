@@ -8,7 +8,7 @@ import config from "@/config";
 import getApiClient from "@/services/apis/client";
 import { withCause } from "@/services/errors/withCause";
 import logger from "@/services/logger";
-import { apiRateLimiter, downloadFileInTmpFile } from "@/utils/apiUtils";
+import { apiRateLimiter, downloadFileAsStream } from "@/utils/apiUtils";
 import { sleep } from "@/utils/asyncUtils";
 
 const CHROME_USER_AGENT =
@@ -238,7 +238,7 @@ export async function downloadCsvExtraction(): Promise<ReadStream> {
       await sleep(config.env === "test" ? 10 : 5_000, timeoutSignal);
     }
 
-    return await downloadFileInTmpFile(stream, "data.zip");
+    return await downloadFileAsStream(stream, "data.zip");
   } catch (error) {
     throw withCause(internal("api.acce: unable to download acce database"), error);
   }

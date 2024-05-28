@@ -1,6 +1,7 @@
 import archiver from "archiver";
 import nock from "nock";
 import { dirname, join } from "path";
+import { Stream } from "stream";
 import { fileURLToPath } from "url";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -12,7 +13,7 @@ vi.mock("@/utils/getStaticFilePath", () => ({
   getStaticFilePath: vi.fn(),
 }));
 
-describe.skip("scrapeRessourceNPEC", () => {
+describe("scrapeRessourceNPEC", () => {
   beforeEach(() => {
     nock.disableNetConnect();
   });
@@ -104,14 +105,20 @@ describe.skip("scrapeRessourceNPEC", () => {
   });
 });
 
-async function readStreamData(stream: NodeJS.ReadableStream) {
-  let data: string = "";
+async function readStreamData(stream: Stream) {
+  return new Promise<string>((resolve, reject) => {
+    let data = "";
 
-  for await (const chunk of stream) {
-    data += chunk.toString();
-  }
+    stream.on("data", (chunk) => {
+      data += chunk;
+    });
 
-  return data;
+    stream.on("end", () => {
+      resolve(data);
+    });
+
+    stream.on("error", reject);
+  });
 }
 
 describe("downloadXlsxNPECFile", () => {

@@ -1,7 +1,7 @@
 import { internal } from "@hapi/boom";
 import ExcelJs from "exceljs";
-import { ReadStream } from "fs";
 import { assertUnreachable } from "shared";
+import { Stream } from "stream";
 
 declare module "exceljs" {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -15,22 +15,22 @@ declare module "exceljs" {
   }
 }
 
-type ColumnSpec = {
+type ColumnSpec = Readonly<{
   name: string;
   regex: RegExp;
-};
+}>;
 
 type Value = null | number | string | boolean | Date | undefined;
 
-export type ParseSheetSpec = {
+export type ExcelParseSheetSpec = Readonly<{
   key: string;
   skipRows: number;
-  columns: ColumnSpec[];
-};
+  columns: ReadonlyArray<ColumnSpec>;
+}>;
 
-export type ParseSpec = Record<string, ParseSheetSpec | null>;
+export type ExcelParseSpec = Readonly<Record<string, ExcelParseSheetSpec | null>>;
 
-export type ParsedRow = {
+export type ExcelParsedRow = {
   sheet: string;
   data: Record<string, Value>;
 };
@@ -67,8 +67,8 @@ function parseCell(cell: ExcelJs.Cell): Value {
   }
 }
 
-function parseRow(row: ExcelJs.Row, spec: ParseSheetSpec): ParsedRow {
-  return spec.columns.reduce<ParsedRow>(
+function parseRow(row: ExcelJs.Row, spec: ExcelParseSheetSpec): ExcelParsedRow {
+  return spec.columns.reduce<ExcelParsedRow>(
     (acc, column, i) => {
       acc.data[column.name] = parseCell(row.getCell(i + 1)) ?? null;
       return acc;
@@ -77,7 +77,7 @@ function parseRow(row: ExcelJs.Row, spec: ParseSheetSpec): ParsedRow {
   );
 }
 
-function isValidHeader(values: Value[], columns: ColumnSpec[]) {
+function isValidHeader(values: Value[], columns: ReadonlyArray<ColumnSpec>) {
   return (
     values.length === columns.length &&
     columns.every((value, i) => {
@@ -88,9 +88,9 @@ function isValidHeader(values: Value[], columns: ColumnSpec[]) {
 }
 
 async function* parseSheet(
-  sheetSpec: ParseSheetSpec,
+  sheetSpec: ExcelParseSheetSpec,
   worksheetReader: ExcelJs.stream.xlsx.WorksheetReader
-): AsyncGenerator<ParsedRow, void, void> {
+): AsyncGenerator<ExcelParsedRow, void, void> {
   let skipped = 0;
   let hasData = false;
   let hasHeader = false;
@@ -126,9 +126,9 @@ async function* parseSheet(
 }
 
 async function* parseWorkbook(
-  parseSpec: ParseSpec,
+  parseSpec: ExcelParseSpec,
   workbookReader: ExcelJs.stream.xlsx.WorkbookReader
-): AsyncGenerator<ParsedRow, void, void> {
+): AsyncGenerator<ExcelParsedRow, void, void> {
   const expectedWorksheets = new Set(Object.keys(parseSpec));
 
   for await (const worksheetReader of workbookReader) {
@@ -154,9 +154,15 @@ async function* parseWorkbook(
 }
 
 export function parseExcelFileStream(
-  readStream: ReadStream,
-  parseSpec: ParseSpec
-): AsyncGenerator<ParsedRow, void, void> {
-  const workbookReader = new ExcelJs.stream.xlsx.WorkbookReader(readStream, {});
+  readStream: Stream,
+  parseSpec: ExcelParseSpec
+): AsyncGenerator<ExcelParsedRow, void, void> {
+  const workbookReader = new ExcelJs.stream.xlsx.WorkbookReader(readStream, {
+    worksheets: "emit",
+    sharedStrings: "cache",
+    hyperlinks: "ignore",
+    styles: "cache",
+    entries: "emit",
+  });
   return parseWorkbook(parseSpec, workbookReader);
 }

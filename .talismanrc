@@ -12,7 +12,7 @@ fileignoreconfig:
 - filename: .infra/files/configs/mailpit/auth
   checksum: 0b0a9c7bad5e1ec13d14c563d22c56c2cbcb2572fa40a4b2c5a11d6ca60eb8d1
 - filename: .infra/files/configs/mongodb/seed.gpg
-  checksum: 650b42b67974866500ad143309d47562f02f2cf4cebde0b6ef482f6536c6ec72
+  checksum: c3a1218cfc6214a79a05f1ca416f286e765e0adc140999bf180a07897a843142
 - filename: .infra/files/scripts/seed.sh
   checksum: a673a8f706cb90f2f5c9f98981b06ce95c566e67e2bb4a6323d6b1bdb8ef0233
 - filename: .infra/vault/vault.yml
@@ -59,6 +59,10 @@ fileignoreconfig:
   checksum: 0bf068be562d95ed0ec51a77e007533d400155baca1b1aaf88ca627d9b1d719b
 - filename: server/src/services/security/authorisationService.test.ts
   checksum: 84d542a5677d300167c60c497be430d106a9a74166f1db81f826cef62d378f9f
+- filename: server/src/utils/apiUtils.test.ts
+  checksum: b8d91c28a4d118718271203d30336e6d5ce29b8cd2757ac81b8f7e527e7d1b82
+- filename: server/src/utils/apiUtils.ts
+  checksum: f41fdac6d30098e9be43df5b9c1c0fc24668a39ec914eeb128ee63fea55168a9
 - filename: server/static/emails/magic-link.mjml.ejs
   checksum: 7f4ee1bed50dda3668f4ef47619d401d5638337dceba13346071dc65bca39707
 - filename: server/static/emails/register.mjml copy.ejs

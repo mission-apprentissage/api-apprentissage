@@ -6,7 +6,7 @@ import { zFormationCatalogue } from "shared/models/source/catalogue/source.catal
 import config from "@/config";
 import getApiClient from "@/services/apis/client";
 import logger from "@/services/logger";
-import { downloadFileInTmpFile } from "@/utils/apiUtils";
+import { downloadFileAsStream } from "@/utils/apiUtils";
 import { createJsonLineTransformStream } from "@/utils/streamUtils";
 
 const catalogueClient = getApiClient(
@@ -40,5 +40,5 @@ export async function fetchCatalogueData(): Promise<Readable> {
     },
   });
 
-  return compose(await downloadFileInTmpFile(response.data, "catalogue.zip"), createJsonLineTransformStream());
+  return compose(await downloadFileAsStream(response.data, "catalogue.zip"), createJsonLineTransformStream());
 }

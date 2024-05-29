@@ -1276,6 +1276,39 @@ exports[`zodToMongoSchema > should convert import.meta schema 1`] = `
         "source",
       ],
     },
+    {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "_id": {
+          "bsonType": "objectId",
+        },
+        "import_date": {
+          "bsonType": "date",
+        },
+        "resource": {
+          "bsonType": "string",
+        },
+        "status": {
+          "bsonType": "string",
+          "enum": [
+            "pending",
+            "done",
+            "failed",
+          ],
+        },
+        "type": {
+          "bsonType": "string",
+        },
+      },
+      "required": [
+        "_id",
+        "import_date",
+        "type",
+        "status",
+        "resource",
+      ],
+    },
   ],
 }
 `;
@@ -5624,6 +5657,155 @@ exports[`zodToMongoSchema > should convert source.kit_apprentissage schema 1`] =
     "date",
     "data",
     "version",
+  ],
+}
+`;
+
+exports[`zodToMongoSchema > should convert source.npec schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "data": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "certificateur": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "cpne_code": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "cpne_libelle": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "date_applicabilite": {
+              "anyOf": [
+                {
+                  "bsonType": "date",
+                },
+                {
+                  "bsonType": "null",
+                },
+              ],
+            },
+            "diplome_code": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "diplome_libelle": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "formation_libelle": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "idcc": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "npec": {
+              "bsonType": [
+                "number",
+                "null",
+              ],
+            },
+            "procedure": {
+              "bsonType": [
+                "number",
+                "null",
+              ],
+            },
+            "rncp": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "statut": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "type": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "type",
+            "npec",
+            "date_applicabilite",
+            "procedure",
+          ],
+        },
+        {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "cpne_code": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "cpne_libelle": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "idcc": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "type": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "type",
+          ],
+        },
+      ],
+    },
+    "date": {
+      "bsonType": "date",
+    },
+    "filename": {
+      "bsonType": "string",
+    },
+  },
+  "required": [
+    "_id",
+    "filename",
+    "date",
+    "data",
   ],
 }
 `;

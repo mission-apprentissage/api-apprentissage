@@ -1,5 +1,5 @@
 import { addJob, initJobProcessor } from "job-processor";
-import { zImportMetaFranceCompetence } from "shared/models/import.meta.model";
+import { zImportMetaFranceCompetence, zImportMetaNpec } from "shared/models/import.meta.model";
 import { z } from "zod";
 
 import config from "@/config";
@@ -19,6 +19,7 @@ import {
   runRncpImporter,
 } from "./importer/france_competence/france_competence.importer";
 import { runKitApprentissageImporter } from "./importer/kit/kitApprentissage.importer";
+import { importNpecResource, onImportNpecResourceFailure, runNpecImporter } from "./importer/npec/npec.importer";
 import { runReferentielImporter } from "./importer/referentiel/referentiel";
 import { create as createMigration, status as statusMigration, up as upMigration } from "./migrations/migrations";
 
@@ -116,6 +117,18 @@ export async function setupJobProcessor() {
         onJobExited: async (job) => {
           if (job.status === "errored") {
             await onImportRncpArchiveFailure(zImportMetaFranceCompetence.parse(job.payload));
+          }
+        },
+        resumable: true,
+      },
+      "import:npec": {
+        handler: async () => runNpecImporter(),
+      },
+      "import:npec:resource": {
+        handler: async (job, signal) => importNpecResource(zImportMetaNpec.parse(job.payload), signal),
+        onJobExited: async (job) => {
+          if (job.status === "errored") {
+            await onImportNpecResourceFailure(zImportMetaNpec.parse(job.payload));
           }
         },
         resumable: true,

@@ -3698,6 +3698,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/archiver@npm:^6.0.2":
+  version: 6.0.2
+  resolution: "@types/archiver@npm:6.0.2"
+  dependencies:
+    "@types/readdir-glob": "*"
+  checksum: 4bef71e5b95863be9880339275ad92c2513dd78d56587653614dc5a74af1d078f5f5926ec996de06e7071a1003e0c2764d0e9d2bb0893a2ffb14ab1718eaf5ca
+  languageName: node
+  linkType: hard
+
 "@types/cacheable-request@npm:^6.0.1":
   version: 6.0.3
   resolution: "@types/cacheable-request@npm:6.0.3"
@@ -4029,6 +4038,15 @@ __metadata:
     "@types/prop-types": "*"
     csstype: ^3.0.2
   checksum: d0b8b9d0ede6cd28dbbe34106d914b5e3652d9d7aa9d0f32fe6171506b6fc7c826d9d6571642976a5422bd29c5022fd893a710ed59a1177a0c1df8e02cf17ffe
+  languageName: node
+  linkType: hard
+
+"@types/readdir-glob@npm:*":
+  version: 1.1.5
+  resolution: "@types/readdir-glob@npm:1.1.5"
+  dependencies:
+    "@types/node": "*"
+  checksum: 58625586589a2cbcf19d7bff5a9b61e961b42e438e5a4f537633785efdcacfad15d3b32df3d27926696b36b43eb86eeb790fce9373fa357ab87720c64f86618b
   languageName: node
   linkType: hard
 
@@ -17464,6 +17482,7 @@ __metadata:
     "@sentry/integrations": ^7.114.0
     "@sentry/node": ^7.116.0
     "@sentry/tracing": ^7.114.0
+    "@types/archiver": ^6.0.2
     "@types/ejs": ^3.1.5
     "@types/jsonwebtoken": ^9.0.6
     "@types/lodash-es": ^4.17.12

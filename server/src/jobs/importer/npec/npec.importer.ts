@@ -277,6 +277,17 @@ function getValue(value: unknown) {
   return value === "NC" ? null : value;
 }
 
+function castNpecValue(value: unknown) {
+  if (typeof value === "string") {
+    if (value === "NC") {
+      return null;
+    }
+    return value.replaceAll(/(\s|€)/gi, "");
+  }
+
+  return value;
+}
+
 export async function importNpecResource(importMeta: IImportMetaNpec, signal?: AbortSignal) {
   const filename = getNpecFilename(importMeta.resource);
 
@@ -296,7 +307,8 @@ export async function importNpecResource(importMeta: IImportMetaNpec, signal?: A
             const data = zSourceNpecIdcc.parse({
               _id: new ObjectId(),
               filename,
-              date: importMeta.import_date,
+              date_import: importMeta.import_date,
+              date_file: importMeta.file_date,
               data:
                 row.sheet === "npec"
                   ? {
@@ -308,7 +320,7 @@ export async function importNpecResource(importMeta: IImportMetaNpec, signal?: A
                       diplome_libelle: getValue(row.data.diplome_libelle),
                       cpne_code: getValue(row.data.cpne_code),
                       cpne_libelle: getValue(row.data.cpne_libelle),
-                      npec: getValue(row.data.npec),
+                      npec: castNpecValue(row.data.npec),
                       statut: getValue(row.data.statut),
                       date_applicabilite: getValue(row.data.date_applicabilite),
                       procedure: getValue(row.data.procedure),
@@ -324,7 +336,7 @@ export async function importNpecResource(importMeta: IImportMetaNpec, signal?: A
 
             callback(null, { insertOne: { document: data } } as AnyBulkWriteOperation<ISourceNpec>);
           } catch (error) {
-            callback(withCause(internal("import.npec: error when inserting"), error));
+            callback(withCause(internal("import.npec: error when inserting", { row }), error));
           }
         },
       }),
@@ -344,12 +356,12 @@ export async function importNpecResource(importMeta: IImportMetaNpec, signal?: A
     );
 
     const [npecCount, cpneIdccCount] = await Promise.all([
-      getDbCollection("source.npec").countDocuments({ date: importMeta.import_date, "data.type": "npec" }),
-      getDbCollection("source.npec").countDocuments({ date: importMeta.import_date, "data.type": "cpne-idcc" }),
+      getDbCollection("source.npec").countDocuments({ date_import: importMeta.import_date, "data.type": "npec" }),
+      getDbCollection("source.npec").countDocuments({ date_import: importMeta.import_date, "data.type": "cpne-idcc" }),
     ]);
 
     await getDbCollection("source.npec").deleteMany({
-      date: { $ne: importMeta.import_date },
+      date_import: { $ne: importMeta.import_date },
       filename,
     });
 
@@ -368,7 +380,7 @@ export async function importNpecResource(importMeta: IImportMetaNpec, signal?: A
       throw signal.reason;
     }
     await getDbCollection("source.npec").deleteMany({
-      date: importMeta.import_date,
+      date_import: importMeta.import_date,
       filename,
     });
     throw withCause(internal("npec.import: unable to importNpecResource", { importMeta }), error);
@@ -383,17 +395,14 @@ export async function onImportNpecResourceFailure(importMeta: IImportMetaNpec) {
   }
 }
 
-async function getUnprocessedImportMeta(resources: string[]): Promise<{
+async function getUnprocessedImportMeta(resources: { url: string; date: Date }[]): Promise<{
   added: IImportMetaNpec[];
   retry: IImportMetaNpec[];
 }> {
   try {
-    const todo = new Set(resources);
+    const todo = new Map(resources.map((r) => [r.url, r.date]));
 
     const existingMeta = await getDbCollection("import.meta").find<IImportMetaNpec>({ type: "npec" }).toArray();
-
-    // We consider errored resources as processed resources
-    // Error handling is done separately, via retry mechanism
 
     const retry: IImportMetaNpec[] = [];
 
@@ -411,13 +420,14 @@ async function getUnprocessedImportMeta(resources: string[]): Promise<{
       }
     }
 
-    const added = Array.from(todo).map((resource): IImportMetaNpec => {
+    const added = Array.from(todo.entries()).map(([resource, date]): IImportMetaNpec => {
       return {
         _id: new ObjectId(),
         import_date: new Date(),
         type: "npec",
         status: "pending",
         resource,
+        file_date: date,
       };
     }, []);
 
@@ -432,9 +442,9 @@ async function getUnprocessedImportMeta(resources: string[]): Promise<{
 
 export async function runNpecImporter() {
   try {
-    const urls = await scrapeRessourceNPEC();
+    const resources = await scrapeRessourceNPEC();
 
-    const importMetas = await getUnprocessedImportMeta(urls);
+    const importMetas = await getUnprocessedImportMeta(resources);
 
     for (const importMeta of importMetas.added) {
       await addJob({ name: "import:npec:resource", payload: importMeta, queued: true });

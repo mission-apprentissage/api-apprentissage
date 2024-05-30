@@ -1283,6 +1283,9 @@ exports[`zodToMongoSchema > should convert import.meta schema 1`] = `
         "_id": {
           "bsonType": "objectId",
         },
+        "file_date": {
+          "bsonType": "date",
+        },
         "import_date": {
           "bsonType": "date",
         },
@@ -1307,6 +1310,7 @@ exports[`zodToMongoSchema > should convert import.meta schema 1`] = `
         "type",
         "status",
         "resource",
+        "file_date",
       ],
     },
   ],
@@ -5794,7 +5798,10 @@ exports[`zodToMongoSchema > should convert source.npec schema 1`] = `
         },
       ],
     },
-    "date": {
+    "date_file": {
+      "bsonType": "date",
+    },
+    "date_import": {
       "bsonType": "date",
     },
     "filename": {
@@ -5804,7 +5811,8 @@ exports[`zodToMongoSchema > should convert source.npec schema 1`] = `
   "required": [
     "_id",
     "filename",
-    "date",
+    "date_import",
+    "date_file",
     "data",
   ],
 }

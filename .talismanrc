@@ -12,7 +12,7 @@ fileignoreconfig:
 - filename: .infra/files/configs/mailpit/auth
   checksum: 0b0a9c7bad5e1ec13d14c563d22c56c2cbcb2572fa40a4b2c5a11d6ca60eb8d1
 - filename: .infra/files/configs/mongodb/seed.gpg
-  checksum: 131a8642345d3a788671f94c0ad55e8e948c6b082b0d30e7961e247aeaa2b0b3
+  checksum: 2e0e03466ddc152b34d7ba56fa5ffce405053457c4f0420f6e85598d03919e5b
 - filename: .infra/files/scripts/seed.sh
   checksum: a673a8f706cb90f2f5c9f98981b06ce95c566e67e2bb4a6323d6b1bdb8ef0233
 - filename: .infra/vault/vault.yml

@@ -16,7 +16,7 @@ export const zSourceNpecReferentielData = z
     diplome_libelle: z.coerce.string().nullable(),
     cpne_code: z.coerce.string().nullable(),
     cpne_libelle: z.coerce.string().nullable(),
-    npec: z.number().nullable(),
+    npec: z.coerce.number().nullable(),
     statut: z.coerce.string().nullable(),
     date_applicabilite: z.date().nullable(),
     procedure: z.coerce.number().nullable(),
@@ -39,7 +39,8 @@ export const zSourceNpecIdcc = z
   .object({
     _id: zObjectId,
     filename: z.string(),
-    date: z.date(),
+    date_import: z.date(),
+    date_file: z.date(),
     data: zSourceNpecData,
   })
   .strict();

@@ -1,5 +1,6 @@
 import { internal } from "@hapi/boom";
 import { createReadStream, createWriteStream, ReadStream } from "fs";
+import { DateTime } from "luxon";
 import { parse } from "node-html-parser";
 import { basename, dirname, extname, join } from "path";
 import { Stream } from "stream";
@@ -19,8 +20,8 @@ const client = getApiClient(
   { cache: false }
 );
 
-export async function scrapeRessourceNPEC(): Promise<string[]> {
-  const result: string[] = [];
+export async function scrapeRessourceNPEC(): Promise<{ url: string; date: Date }[]> {
+  const result: { url: string; date: Date }[] = [];
 
   let page = 1;
   const maxPage = 10;
@@ -38,7 +39,19 @@ export async function scrapeRessourceNPEC(): Promise<string[]> {
     }
 
     links.forEach((a) => {
-      result.push(a.getAttribute("href") ?? "");
+      const url = a.getAttribute("href");
+
+      if (!url) {
+        throw internal("npec.importer: unexpected missing url", { a });
+      }
+      const dateString = a.querySelector(".card--documents-list__container__date")?.text.trim() ?? "";
+      if (!dateString) {
+        throw internal("npec.importer: unexpected missing date", { a });
+      }
+      const date = DateTime.fromFormat(`${dateString} 00:00:00`, "dd.MM.yy HH:mm:ss", {
+        zone: "Europe/Paris",
+      }).toJSDate();
+      result.push({ url, date });
     });
 
     page++;

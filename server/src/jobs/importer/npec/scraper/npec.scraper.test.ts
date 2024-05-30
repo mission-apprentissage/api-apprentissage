@@ -38,9 +38,27 @@ describe("scrapeRessourceNPEC", () => {
       <html>
       <body>
       <div class="block--documents-list__results">
-        <a href="https://example.com/file1.xlsx" download></a>
-        <a href="https://example.com/file2.xlsx" download></a>
-        <a href="https://example.com/file3.xlsx" download></a>
+        <a href="https://example.com/file1.xlsx" download>
+          <div class="card--documents-list__container">
+            <p class="card--documents-list__container__date">03.04.24</p>
+            <p class="card--documents-list__container__title">File 1</p>
+            <p class="card--documents-list__container__description">Fichier zip 19.7Mo (Version du 14/10/2023-Maj 02/04/2024) </p>
+          </div>
+        </a>
+        <a href="https://example.com/file2.xlsx" download>
+          <div class="card--documents-list__container">
+            <p class="card--documents-list__container__date">31.01.24</p>
+            <p class="card--documents-list__container__title">File 2</p>
+            <p class="card--documents-list__container__description">Fichier zip 19.7Mo (Version du 14/10/2023-Maj 31/01/2024) </p>
+          </div>
+        </a>
+        <a href="https://example.com/file3.xlsx" download>
+          <div class="card--documents-list__container">
+            <p class="card--documents-list__container__date">14.10.23</p>
+            <p class="card--documents-list__container__title">File 3</p>
+            <p class="card--documents-list__container__description">Fichier zip 19.7Mo (Version du 14/10/2023-Maj 06/11/2023) </p>
+          </div>
+        </a>
       </div>
       </body>
       </html>
@@ -68,9 +86,9 @@ describe("scrapeRessourceNPEC", () => {
     const result = await scrapeRessourceNPEC();
 
     expect(result).toEqual([
-      "https://example.com/file1.xlsx",
-      "https://example.com/file2.xlsx",
-      "https://example.com/file3.xlsx",
+      { url: "https://example.com/file1.xlsx", date: new Date("2024-04-02T22:00:00.000Z") },
+      { url: "https://example.com/file2.xlsx", date: new Date("2024-01-30T23:00:00.000Z") },
+      { url: "https://example.com/file3.xlsx", date: new Date("2023-10-13T22:00:00.000Z") },
     ]);
 
     expect(nock.isDone()).toBe(true);
@@ -81,9 +99,27 @@ describe("scrapeRessourceNPEC", () => {
   <html>
   <body>
   <div class="block--documents-list__results">
-    <a href="https://example.com/file1.xlsx" download></a>
-    <a href="https://example.com/file2.xlsx" download></a>
-    <a href="https://example.com/file3.xlsx" download></a>
+  <a href="https://example.com/file1.xlsx" download>
+    <div class="card--documents-list__container">
+      <p class="card--documents-list__container__date">03.04.24</p>
+      <p class="card--documents-list__container__title">File 1</p>
+      <p class="card--documents-list__container__description">Fichier zip 19.7Mo (Version du 14/10/2023-Maj 02/04/2024) </p>
+    </div>
+  </a>
+  <a href="https://example.com/file2.xlsx" download>
+    <div class="card--documents-list__container">
+      <p class="card--documents-list__container__date">31.01.24</p>
+      <p class="card--documents-list__container__title">File 2</p>
+      <p class="card--documents-list__container__description">Fichier zip 19.7Mo (Version du 14/10/2023-Maj 31/01/2024) </p>
+    </div>
+  </a>
+  <a href="https://example.com/file3.xlsx" download>
+    <div class="card--documents-list__container">
+      <p class="card--documents-list__container__date">14.10.23</p>
+      <p class="card--documents-list__container__title">File 3</p>
+      <p class="card--documents-list__container__description">Fichier zip 19.7Mo (Version du 14/10/2023-Maj 06/11/2023) </p>
+    </div>
+  </a>
   </div>
   </body>
   </html>

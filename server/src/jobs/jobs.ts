@@ -32,7 +32,7 @@ export async function setupJobProcessor() {
         ? {}
         : {
             "Mise à jour acce": {
-              cron_string: config.env === "production" ? `0 1 * * *` : "0 2 * * *",
+              cron_string: config.env === "production" ? `0 4 * * *` : "0 5 * * *",
               handler: runAcceImporter,
               resumable: true,
             },
@@ -57,13 +57,18 @@ export async function setupJobProcessor() {
               resumable: true,
             },
             "Import des données France Compétences": {
-              cron_string: config.env === "production" ? "0 2 * * *" : "0 3 * * *",
+              cron_string: config.env === "production" ? "0 4 * * *" : "0 5 * * *",
               handler: runRncpImporter,
               resumable: true,
             },
             "Import des certifications": {
               cron_string: "0 */2 * * *",
               handler: () => importCertifications(),
+              resumable: true,
+            },
+            "Import des NPEC": {
+              cron_string: config.env === "production" ? "0 4 * * *" : "0 5 * * *",
+              handler: () => runNpecImporter(),
               resumable: true,
             },
           },

@@ -43,12 +43,27 @@ describe("runRncpImporter", () => {
   });
 
   it("should schedule properly", async () => {
-    const newResource = "https://www.francecompetences.fr/upload/new.xlsx";
+    const newResource = {
+      url: "https://www.francecompetences.fr/upload/new.xlsx",
+      date: new Date("2024-01-01T00:00:00.000Z"),
+    };
 
-    const existingResource = "https://www.francecompetences.fr/upload/existing.xlsx";
-    const failedResource = "https://www.francecompetences.fr/upload/failed.xlsx";
-    const pendingResource = "https://www.francecompetences.fr/upload/pending.xlsx";
-    const removedResource = "https://www.francecompetences.fr/upload/removed.xlsx";
+    const existingResource = {
+      url: "https://www.francecompetences.fr/upload/existing.xlsx",
+      date: new Date("2023-09-01T00:00:00.000Z"),
+    };
+    const failedResource = {
+      url: "https://www.francecompetences.fr/upload/failed.xlsx",
+      date: new Date("2023-10-01T00:00:00.000Z"),
+    };
+    const pendingResource = {
+      url: "https://www.francecompetences.fr/upload/pending.xlsx",
+      date: new Date("2023-11-01T00:00:00.000Z"),
+    };
+    const removedResource = {
+      url: "https://www.francecompetences.fr/upload/removed.xlsx",
+      date: new Date("2023-12-01T00:00:00.000Z"),
+    };
 
     vi.mocked(scrapeRessourceNPEC).mockResolvedValue([existingResource, failedResource, pendingResource, newResource]);
 
@@ -58,28 +73,32 @@ describe("runRncpImporter", () => {
         import_date: new Date("2024-02-21T09:00:00.000Z"),
         type: "npec",
         status: "done",
-        resource: existingResource,
+        resource: existingResource.url,
+        file_date: existingResource.date,
       },
       {
         _id: new ObjectId(),
         import_date: new Date("2024-02-20T09:00:00.000Z"),
         type: "npec",
         status: "failed",
-        resource: failedResource,
+        resource: failedResource.url,
+        file_date: failedResource.date,
       },
       {
         _id: new ObjectId(),
         import_date: new Date("2024-02-22T09:00:00.000Z"),
         type: "npec",
         status: "pending",
-        resource: pendingResource,
+        resource: pendingResource.url,
+        file_date: pendingResource.date,
       },
       {
         _id: new ObjectId(),
         import_date: new Date("2024-02-23T09:00:00.000Z"),
         type: "npec",
         status: "done",
-        resource: removedResource,
+        resource: removedResource.url,
+        file_date: removedResource.date,
       },
     ];
     await getDbCollection("import.meta").insertMany(initialImports);
@@ -92,7 +111,8 @@ describe("runRncpImporter", () => {
       _id: expect.any(ObjectId),
       import_date: now,
       type: "npec",
-      resource: newResource,
+      resource: newResource.url,
+      file_date: newResource.date,
       status: "pending",
     };
 
@@ -133,22 +153,30 @@ describe("onImportRncpArchiveFailure", () => {
   useMongo();
 
   it("should remove failed import meta", async () => {
-    const existingResource = "https://www.francecompetences.fr/upload/existing.xlsx";
-    const failedResource = "https://www.francecompetences.fr/upload/failed.xlsx";
+    const existingResource = {
+      url: "https://www.francecompetences.fr/upload/existing.xlsx",
+      date: new Date("2023-09-01T00:00:00.000Z"),
+    };
+    const failedResource = {
+      url: "https://www.francecompetences.fr/upload/failed.xlsx",
+      date: new Date("2023-10-01T00:00:00.000Z"),
+    };
 
     const initialImports: IImportMetaNpec[] = [
       {
         _id: new ObjectId(),
         import_date: new Date("2024-02-21T09:00:00.000Z"),
         type: "npec",
-        resource: existingResource,
+        resource: existingResource.url,
+        file_date: existingResource.date,
         status: "done",
       },
       {
         _id: new ObjectId(),
         import_date: new Date("2024-02-20T09:00:00.000Z"),
         type: "npec",
-        resource: failedResource,
+        resource: failedResource.url,
+        file_date: failedResource.date,
         status: "pending",
       },
     ];
@@ -393,6 +421,7 @@ describe("importNpecResource", () => {
       type: "npec",
       status: "pending",
       resource: `https://www.francecompetences.fr/upload/${filename}`,
+      file_date: new Date("2023-09-01T00:00:00.000Z"),
     };
 
     await getDbCollection("import.meta").insertOne(importMeta);
@@ -403,7 +432,8 @@ describe("importNpecResource", () => {
       _id: expect.any(ObjectId),
       filename,
       data,
-      date: now,
+      date_import: now,
+      date_file: importMeta.file_date,
     }));
 
     const result = await importNpecResource(importMeta);

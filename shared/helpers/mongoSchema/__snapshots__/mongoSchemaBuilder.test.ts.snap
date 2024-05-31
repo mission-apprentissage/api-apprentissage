@@ -5818,6 +5818,61 @@ exports[`zodToMongoSchema > should convert source.npec schema 1`] = `
 }
 `;
 
+exports[`zodToMongoSchema > should convert source.npec.normalized schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "cpne_code": {
+      "bsonType": "string",
+    },
+    "cpne_libelle": {
+      "bsonType": "string",
+    },
+    "date_applicabilite": {
+      "bsonType": "date",
+    },
+    "date_file": {
+      "bsonType": "date",
+    },
+    "date_import": {
+      "bsonType": "date",
+    },
+    "filename": {
+      "bsonType": "string",
+    },
+    "idcc": {
+      "bsonType": "array",
+      "items": {
+        "bsonType": "string",
+      },
+    },
+    "npec": {
+      "bsonType": "number",
+    },
+    "rncp": {
+      "bsonType": "string",
+      "pattern": "^RNCP\\d{3,5}$",
+    },
+  },
+  "required": [
+    "_id",
+    "rncp",
+    "cpne_code",
+    "cpne_libelle",
+    "npec",
+    "date_applicabilite",
+    "idcc",
+    "filename",
+    "date_file",
+    "date_import",
+  ],
+}
+`;
+
 exports[`zodToMongoSchema > should convert source.referentiel schema 1`] = `
 {
   "additionalProperties": false,

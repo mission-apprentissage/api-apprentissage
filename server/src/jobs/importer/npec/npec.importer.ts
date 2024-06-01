@@ -12,6 +12,7 @@ import { ExcelParsedRow, ExcelParseSpec, parseExcelFileStream } from "@/services
 import { getDbCollection } from "@/services/mongodb/mongodbService";
 import { createBatchTransformStream } from "@/utils/streamUtils";
 
+import { runNpecNormalizer } from "./normalizer/npec.normalizer";
 import { downloadXlsxNPECFile, getNpecFilename, scrapeRessourceNPEC } from "./scraper/npec.scraper";
 
 function getWorkbookParseSpec(name: string): ExcelParseSpec {
@@ -167,7 +168,22 @@ function getWorkbookParseSpec(name: string): ExcelParseSpec {
             { name: "procedure", regex: /^Procédure$/i },
           ],
         },
-        "Onglet 3b - NPEC historisées": null,
+        "Onglet 3b - NPEC historisées": {
+          key: "npec",
+          skipRows: 2,
+          columns: [
+            { name: "historique", regex: /^NPEC historisée \("H"\)$/i },
+            { name: "diplome_code", regex: /^Code diplôme$/ },
+            { name: "rncp", regex: /^Code RNCP$/i },
+            { name: "formation_libelle", regex: /^Libellé de la certification$/i },
+            { name: "cpne_code", regex: /^Code CPNE$/i },
+            { name: "cpne_libelle", regex: /^Libellé CPNE$/i },
+            { name: "idcc", regex: /^IDCC$/i },
+            { name: "npec", regex: /^Valeur finale$/i },
+            { name: "statut", regex: /^Statut$/i },
+            { name: "procedure", regex: /^Procédure$/i },
+          ],
+        },
         "Onglet 4-CPNE-IDCC": null,
         "Onglet 5-IDCC-CPNE": {
           key: "cpne-idcc",
@@ -274,12 +290,12 @@ function getWorkbookParseSpec(name: string): ExcelParseSpec {
 
 function getValue(value: unknown) {
   if (value == null) return null;
-  return value === "NC" ? null : value;
+  return value === "NC" || value === "NR" ? null : value;
 }
 
 function castNpecValue(value: unknown) {
   if (typeof value === "string") {
-    if (value === "NC") {
+    if (value === "NC" || value === "NR") {
       return null;
     }
     return value.replaceAll(/(\s|€)/gi, "");
@@ -297,6 +313,11 @@ export async function importNpecResource(importMeta: IImportMetaNpec, signal?: A
     const readStream = await downloadXlsxNPECFile(importMeta.resource);
 
     if (signal) addAbortSignal(signal, readStream);
+
+    await getDbCollection("source.npec").deleteMany({
+      date_import: importMeta.import_date,
+      filename,
+    });
 
     await pipeline(
       Duplex.from(parseExcelFileStream(readStream, spec)),
@@ -355,9 +376,12 @@ export async function importNpecResource(importMeta: IImportMetaNpec, signal?: A
       { signal }
     );
 
-    const [npecCount, cpneIdccCount] = await Promise.all([
+    await runNpecNormalizer(importMeta);
+
+    const [npecCount, cpneIdccCount, npecNormalizedCount] = await Promise.all([
       getDbCollection("source.npec").countDocuments({ date_import: importMeta.import_date, "data.type": "npec" }),
       getDbCollection("source.npec").countDocuments({ date_import: importMeta.import_date, "data.type": "cpne-idcc" }),
+      getDbCollection("source.npec.normalized").countDocuments({ date_import: importMeta.import_date }),
     ]);
 
     await getDbCollection("source.npec").deleteMany({
@@ -374,7 +398,7 @@ export async function importNpecResource(importMeta: IImportMetaNpec, signal?: A
       }
     );
 
-    return { npecCount, cpneIdccCount };
+    return { npecCount, cpneIdccCount, npecNormalizedCount };
   } catch (error) {
     if (signal && error.name === signal?.reason?.name) {
       throw signal.reason;

@@ -15,7 +15,8 @@ export type CollectionName =
   | "source.catalogue"
   | "source.kit_apprentissage"
   | "source.france_competence"
-  | "source.npec";
+  | "source.npec"
+  | "source.npec.normalized";
 
 export interface IModelDescriptor {
   zod: ZodType;

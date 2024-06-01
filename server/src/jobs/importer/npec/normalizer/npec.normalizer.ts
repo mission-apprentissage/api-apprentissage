@@ -39,7 +39,9 @@ export async function buildCpneIdccMap(filename: string): Promise<Map<string, Se
 
 function normaliseDateApplicabilite(data: ISourceNpecReferentielData): Date | null {
   if (data.date_applicabilite) {
-    return DateTime.fromJSDate(data.date_applicabilite).setZone("Europe/Paris", { keepLocalTime: true }).toJSDate();
+    return DateTime.fromJSDate(data.date_applicabilite, { zone: "UTC" })
+      .setZone("Europe/Paris", { keepLocalTime: true })
+      .toJSDate();
   }
 
   if (typeof data.procedure === "number") {

@@ -5,7 +5,8 @@ import { IImportMetaNpec } from "shared/models/import.meta.model";
 import { ISourceNpec, ISourceNpecReferentielData } from "shared/models/source/npec/source.npec.model";
 import {
   ISourceNpecNormalized,
-  zSourceNpecNormalizedData,
+  ISourceNpecNormalizedFlat,
+  zSourceNpecNormalizedFlatData,
 } from "shared/models/source/npec/source.npec.normalized.model";
 import { Transform } from "stream";
 import { pipeline } from "stream/promises";
@@ -70,7 +71,7 @@ function normaliseRncpCode(rncp: string): string {
 function normalizeNpecDocument(
   cpneIdccMap: Map<string, Set<string>>,
   doc: ISourceNpec
-): Array<Omit<ISourceNpecNormalized, "_id">> {
+): Array<Omit<ISourceNpecNormalizedFlat, "_id">> {
   if (doc.data.type === "cpne-idcc") {
     throw internal("Unexpected cpne-idcc document in npec collection", { doc });
   }
@@ -102,7 +103,7 @@ function normalizeNpecDocument(
 
   try {
     const normalizedDocs = rncp.split("/").map((rncp) => {
-      return zSourceNpecNormalizedData.omit({ _id: true }).parse({
+      return zSourceNpecNormalizedFlatData.omit({ _id: true }).parse({
         rncp: normaliseRncpCode(rncp),
         cpne_code,
         cpne_libelle,
@@ -126,12 +127,25 @@ function getNormalizeNpecDocumentOp(
   doc: ISourceNpec
 ): AnyBulkWriteOperation<ISourceNpecNormalized>[] {
   return normalizeNpecDocument(cpneIdccMap, doc).map((normalizedDoc) => {
+    const { date_import, filename, rncp, cpne_code, npec, ...rest } = normalizedDoc;
+
     return {
-      insertOne: {
-        document: {
-          _id: new ObjectId(),
-          ...normalizedDoc,
+      updateOne: {
+        filter: { date_import, filename, rncp, cpne_code },
+        update: {
+          $set: rest,
+          $setOnInsert: {
+            _id: new ObjectId(),
+            date_import,
+            filename,
+            rncp,
+            cpne_code,
+          },
+          $addToSet: {
+            npec,
+          },
         },
+        upsert: true,
       },
     };
   });
@@ -145,6 +159,11 @@ export async function runNpecNormalizer(importMeta: IImportMetaNpec) {
   const filename = getNpecFilename(importMeta.resource);
 
   try {
+    await getDbCollection("source.npec.normalized").deleteMany({
+      date_import: importMeta.import_date,
+      filename,
+    });
+
     const cpneIdccMap = await buildCpneIdccMap(filename);
     const cursor = getDbCollection("source.npec").find({ filename, "data.type": "npec" });
 

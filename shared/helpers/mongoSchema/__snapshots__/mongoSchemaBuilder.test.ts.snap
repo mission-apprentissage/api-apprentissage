@@ -5851,7 +5851,10 @@ exports[`zodToMongoSchema > should convert source.npec.normalized schema 1`] = `
       },
     },
     "npec": {
-      "bsonType": "number",
+      "bsonType": "array",
+      "items": {
+        "bsonType": "number",
+      },
     },
     "rncp": {
       "bsonType": "string",

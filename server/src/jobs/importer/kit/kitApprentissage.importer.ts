@@ -60,8 +60,16 @@ async function listKitApprentissageFiles(): Promise<string[]> {
 
 export async function runKitApprentissageImporter(): Promise<number> {
   const importDate = new Date();
+  const importId = new ObjectId();
 
   try {
+    await getDbCollection("import.meta").insertOne({
+      _id: new ObjectId(),
+      import_date: importDate,
+      type: "kit_apprentissage",
+      status: "pending",
+    });
+
     const files = await listKitApprentissageFiles();
     for (const file of files) {
       await importKitApprentissageSource(importDate, file);
@@ -70,15 +78,11 @@ export async function runKitApprentissageImporter(): Promise<number> {
     await getDbCollection("source.kit_apprentissage").deleteMany({
       date: { $ne: importDate },
     });
-
-    await getDbCollection("import.meta").insertOne({
-      _id: new ObjectId(),
-      import_date: importDate,
-      type: "kit_apprentissage",
-    });
+    await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "done" } });
 
     return await getDbCollection("source.kit_apprentissage").countDocuments({ date: importDate });
   } catch (error) {
+    await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "failed" } });
     await getDbCollection("source.kit_apprentissage").deleteMany({ date: importDate });
     throw withCause(internal("import.kit_apprentissage: unable to runKitApprentissageImporter"), error);
   }

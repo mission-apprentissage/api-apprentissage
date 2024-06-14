@@ -1,11 +1,11 @@
 import { z } from "zod";
 
 import { zRncp } from "../../../zod/certifications.primitives";
-import { IModelDescriptor, zObjectId } from "../../common";
+import { IModelDescriptorGeneric, zObjectId } from "../../common";
 
 const collectionName = "source.npec.normalized" as const;
 
-const indexes: IModelDescriptor["indexes"] = [
+const indexes: IModelDescriptorGeneric["indexes"] = [
   [{ date_import: 1, filename: 1 }, {}],
   [{ date_import: 1, filename: 1, rncp: 1, cpne_code: 1 }, { unique: true }],
 ];
@@ -36,7 +36,7 @@ export const sourceNpecNormalizedModelDescriptor = {
   zod: zSourceNpecNormalizedData,
   indexes,
   collectionName,
-} as const satisfies IModelDescriptor;
+};
 
 export type ISourceNpecNormalized = z.output<typeof zSourceNpecNormalizedData>;
 export type ISourceNpecNormalizedFlat = z.output<typeof zSourceNpecNormalizedFlatData>;

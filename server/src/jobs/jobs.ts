@@ -18,6 +18,7 @@ import {
   onImportRncpArchiveFailure,
   runRncpImporter,
 } from "./importer/france_competence/france_competence.importer";
+import { runConventionCollectivesImporter } from "./importer/kali/kali.ccn.importer";
 import { runKitApprentissageImporter } from "./importer/kit/kitApprentissage.importer";
 import { importNpecResource, onImportNpecResourceFailure, runNpecImporter } from "./importer/npec/npec.importer";
 import { runReferentielImporter } from "./importer/referentiel/referentiel";
@@ -71,6 +72,11 @@ export async function setupJobProcessor() {
               handler: () => runNpecImporter(),
               resumable: true,
             },
+            "Import des Conventions Collective": {
+              cron_string: config.env === "production" ? "0 4 * * *" : "0 5 * * *",
+              handler: runConventionCollectivesImporter,
+              resumable: true,
+            },
           },
     jobs: {
       "indexes:recreate": {
@@ -116,6 +122,10 @@ export async function setupJobProcessor() {
       },
       "import:france_competence": {
         handler: async () => runRncpImporter(),
+      },
+      "import:kali_ccn": {
+        handler: async (job, signal) => runConventionCollectivesImporter(signal),
+        resumable: true,
       },
       "import:france_competence:resource": {
         handler: async (job, signal) => importRncpArchive(zImportMetaFranceCompetence.parse(job.payload), signal),

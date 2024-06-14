@@ -25,7 +25,7 @@ type Value = null | number | string | boolean | Date | undefined;
 export type ExcelParseSheetSpec = Readonly<{
   key: string;
   skipRows: number;
-  columns: ReadonlyArray<ColumnSpec>;
+  columns: ReadonlyArray<ColumnSpec | null>;
 }>;
 
 export type ExcelParseSpec = Readonly<Record<string, ExcelParseSheetSpec | null>>;
@@ -37,7 +37,7 @@ export type ExcelParsedRow = {
 
 function getCells(row: ExcelJs.Row): Array<ExcelJs.Cell> {
   const data: Array<ExcelJs.Cell> = [];
-  row.eachCell((cell) => {
+  row.eachCell({ includeEmpty: true }, (cell) => {
     data.push(cell);
   });
   return data;
@@ -70,6 +70,8 @@ function parseCell(cell: ExcelJs.Cell): Value {
 function parseRow(row: ExcelJs.Row, spec: ExcelParseSheetSpec): ExcelParsedRow {
   return spec.columns.reduce<ExcelParsedRow>(
     (acc, column, i) => {
+      if (column === null) return acc;
+
       acc.data[column.name] = parseCell(row.getCell(i + 1)) ?? null;
       return acc;
     },
@@ -77,12 +79,15 @@ function parseRow(row: ExcelJs.Row, spec: ExcelParseSheetSpec): ExcelParsedRow {
   );
 }
 
-function isValidHeader(values: Value[], columns: ReadonlyArray<ColumnSpec>) {
+function isValidHeader(values: Value[], columns: ReadonlyArray<ColumnSpec | null>) {
   return (
     values.length === columns.length &&
-    columns.every((value, i) => {
+    columns.every((column, i) => {
       const v = values[i];
-      return typeof v === "string" && value.regex.test(v);
+
+      if (column === null) return v === null;
+
+      return typeof v === "string" && column.regex.test(v);
     })
   );
 }
@@ -91,14 +96,12 @@ async function* parseSheet(
   sheetSpec: ExcelParseSheetSpec,
   worksheetReader: ExcelJs.stream.xlsx.WorksheetReader
 ): AsyncGenerator<ExcelParsedRow, void, void> {
-  let skipped = 0;
   let hasData = false;
   let hasHeader = false;
   const skippedRows = [];
 
   for await (const row of worksheetReader) {
-    if (skipped < sheetSpec.skipRows) {
-      skipped++;
+    if (row.number <= sheetSpec.skipRows) {
       skippedRows.push(getCells(row).map(parseCell));
       continue;
     }

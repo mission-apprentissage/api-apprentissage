@@ -1,10 +1,10 @@
 import { z } from "zod";
 
-import { IModelDescriptor, zObjectId } from "../../common";
+import { IModelDescriptorGeneric, zObjectId } from "../../common";
 
 const collectionName = "source.npec" as const;
 
-const indexes: IModelDescriptor["indexes"] = [
+const indexes: IModelDescriptorGeneric["indexes"] = [
   [{ date_import: 1, filename: 1 }, {}],
   [{ filename: 1, "data.type": 1 }, {}],
 ];
@@ -52,7 +52,7 @@ export const sourceNpecModelDescriptor = {
   zod: zSourceNpecIdcc,
   indexes,
   collectionName,
-} as const satisfies IModelDescriptor;
+};
 
 export type ISourceNpec = z.output<typeof zSourceNpecIdcc>;
 export type ISourceNpecReferentielData = z.output<typeof zSourceNpecReferentielData>;

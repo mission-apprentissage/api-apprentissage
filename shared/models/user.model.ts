@@ -1,11 +1,11 @@
 import { Jsonify } from "type-fest";
 import { z } from "zod";
 
-import { IModelDescriptor, zObjectId } from "./common";
+import { IModelDescriptorGeneric, zObjectId } from "./common";
 
 const collectionName = "users" as const;
 
-const indexes: IModelDescriptor["indexes"] = [
+const indexes: IModelDescriptorGeneric["indexes"] = [
   [{ email: 1 }, { unique: true }],
   [
     {

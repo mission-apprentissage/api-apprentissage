@@ -1,10 +1,10 @@
 import { z } from "zod";
 
-import { IModelDescriptor, zObjectId } from "../../common";
+import { IModelDescriptorGeneric, zObjectId } from "../../common";
 
 const collectionName = "source.kit_apprentissage" as const;
 
-const indexes: IModelDescriptor["indexes"] = [
+const indexes: IModelDescriptorGeneric["indexes"] = [
   [{ date: 1, source: 1 }, {}],
   [{ "data.Code Diplôme": 1, "data.FicheRNCP": 1 }, {}],
   [{ "data.FicheRNCP": 1, "data.Code Diplôme": 1 }, {}],
@@ -49,6 +49,6 @@ export const sourceKitApprentissageModelDescriptor = {
   zod: zKitApprentissage,
   indexes,
   collectionName,
-} as const satisfies IModelDescriptor;
+};
 
 export type ISourceKitApprentissage = z.output<typeof zKitApprentissage>;

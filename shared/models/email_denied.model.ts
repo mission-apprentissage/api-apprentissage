@@ -1,10 +1,10 @@
 import { z } from "zod";
 
-import { IModelDescriptor, zObjectId } from "./common";
+import { IModelDescriptorGeneric, zObjectId } from "./common";
 
 const collectionName = "email_denied" as const;
 
-const indexes: IModelDescriptor["indexes"] = [[{ email: 1 }, {}]];
+const indexes: IModelDescriptorGeneric["indexes"] = [[{ email: 1 }, {}]];
 
 export const ZEmailDenied = z
   .object({

@@ -1,12 +1,12 @@
 import { Jsonify } from "type-fest";
 import { z } from "zod";
 
-import { IModelDescriptor, zObjectId } from "./common";
+import { IModelDescriptorGeneric, zObjectId } from "./common";
 import { zTemplate } from "./email_event/email_templates";
 
 const collectionName = "email_events" as const;
 
-const indexes: IModelDescriptor["indexes"] = [[{ type: 1, messageId: 1 }, {}]];
+const indexes: IModelDescriptorGeneric["indexes"] = [[{ type: 1, messageId: 1 }, {}]];
 
 const zEmailError = z
   .object({

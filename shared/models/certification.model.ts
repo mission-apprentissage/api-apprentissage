@@ -11,11 +11,11 @@ import {
 } from "../zod/certifications.primitives";
 import { zLocalDate } from "../zod/date.primitives";
 import { buildOpenApiDescription, zodOpenApi } from "../zod/zodWithOpenApi";
-import { IModelDescriptor, zObjectId } from "./common";
+import { IModelDescriptorGeneric, zObjectId } from "./common";
 
 const collectionName = "certifications" as const;
 
-const indexes: IModelDescriptor["indexes"] = [
+const indexes: IModelDescriptorGeneric["indexes"] = [
   [{ "identifiant.cfd": 1, "identifiant.rncp": 1 }, {}],
   [{ "identifiant.rncp": 1, "identifiant.cfd": 1 }, {}],
 ];
@@ -592,4 +592,4 @@ export const certificationsModelDescriptor = {
   zod: zCertification,
   indexes,
   collectionName,
-} as const satisfies IModelDescriptor;
+};

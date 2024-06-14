@@ -1,8 +1,7 @@
 import { captureException } from "@sentry/node";
 import { isEqual } from "lodash-es";
 import { Collection, CollectionInfo, MongoClient, MongoServerError } from "mongodb";
-import { CollectionName, IModelDescriptor } from "shared/models/common";
-import { IDocumentMap, modelDescriptors } from "shared/models/models";
+import { CollectionName, IDocument, IModelDescriptor, modelDescriptors } from "shared/models/models";
 import { zodToMongoSchema } from "zod-mongodb-schema";
 
 import config from "@/config";
@@ -72,7 +71,7 @@ export const getDatabase = () => {
   return ensureInitialization().db();
 };
 
-export const getDbCollection = <K extends CollectionName>(name: K): Collection<IDocumentMap[K]> => {
+export const getDbCollection = <K extends CollectionName>(name: K): Collection<IDocument<K>> => {
   return ensureInitialization().db().collection(name);
 };
 

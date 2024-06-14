@@ -31,7 +31,7 @@ describe("importAcceData", () => {
       return data.map((datum) => ({ ...datum, _id: "ObjectId" }));
     };
 
-    await importAcceData(s);
+    await importAcceData(s, date);
     expect(await getData("ACCE_UAI.csv")).toMatchSnapshot();
     expect(await getData("ACCE_UAI_ZONE.csv")).toMatchSnapshot();
     expect(await getData("ACCE_UAI_SPEC.csv")).toMatchSnapshot();
@@ -46,7 +46,7 @@ describe("importAcceData", () => {
     vi.setSystemTime(date1);
 
     const s1 = createReadStream(dataFixture);
-    await importAcceData(s1);
+    await importAcceData(s1, date1);
     const data1 = await getDbCollection("source.acce").find({}).toArray();
     expect(data1).toHaveLength(25);
     expect(data1[0].date).toEqual(date1);
@@ -55,7 +55,7 @@ describe("importAcceData", () => {
     vi.setSystemTime(date2);
 
     const s2 = createReadStream(dataFixture);
-    await importAcceData(s2);
+    await importAcceData(s2, date2);
     const data2 = await getDbCollection("source.acce").find({}).toArray();
     expect(data2).toHaveLength(25);
     expect(data2[0].date).toEqual(date2);

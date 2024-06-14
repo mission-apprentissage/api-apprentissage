@@ -71,28 +71,36 @@ async function parseAcceFile(stream: ReadStream, source: string, date: Date) {
   }
 }
 
-export async function importAcceData(readStream: ReadStream) {
-  const importDate = new Date();
-
+export async function importAcceData(readStream: ReadStream, importDate: Date) {
   const zip = readStream.pipe(unzipper.Parse({ forceStream: true }));
   for await (const entry of zip) {
     await parseAcceFile(entry, entry.path, importDate);
     entry.autodrain();
   }
-
-  await getDbCollection("import.meta").insertOne({
-    _id: new ObjectId(),
-    import_date: importDate,
-    type: "acce",
-  });
 }
 
 export async function runAcceImporter() {
-  logger.info("Geting ACCE file...");
+  const importDate = new Date();
+  const importId = new ObjectId();
 
-  const stream = await downloadCsvExtraction();
+  try {
+    await getDbCollection("import.meta").insertOne({
+      _id: importId,
+      import_date: importDate,
+      type: "acce",
+      status: "pending",
+    });
 
-  logger.info("Import ACCE data starting...");
+    logger.info("Geting ACCE file...");
 
-  await importAcceData(stream);
+    const stream = await downloadCsvExtraction();
+
+    logger.info("Import ACCE data starting...");
+
+    await importAcceData(stream, importDate);
+    await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "done" } });
+  } catch (error) {
+    await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "failed" } });
+    throw withCause(internal("import.acce: unable to runAcceImporter"), error);
+  }
 }

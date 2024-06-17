@@ -175,7 +175,16 @@ export async function indicateurDiplomeContinuity(importDate: Date): Promise<{ a
 export async function runBcnImporter(): Promise<Record<string, unknown>> {
   const importDate = new Date();
 
+  const importId = new ObjectId();
+
   try {
+    await getDbCollection("import.meta").insertOne({
+      _id: importId,
+      import_date: importDate,
+      type: "bcn",
+      status: "pending",
+    });
+
     const statsBySource: Record<string, unknown> = {};
 
     statsBySource["N_FORMATION_DIPLOME"] = await importBcnSource("N_FORMATION_DIPLOME", importDate);
@@ -188,14 +197,11 @@ export async function runBcnImporter(): Promise<Record<string, unknown>> {
 
     statsBySource["INDICATEUR_CONTINUITE"] = await indicateurDiplomeContinuity(importDate);
 
-    await getDbCollection("import.meta").insertOne({
-      _id: new ObjectId(),
-      import_date: importDate,
-      type: "bcn",
-    });
+    await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "done" } });
 
     return statsBySource;
   } catch (error) {
+    await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "failed" } });
     throw withCause(internal("import.bcn: unable to runBcnImporter"), error);
   }
 }

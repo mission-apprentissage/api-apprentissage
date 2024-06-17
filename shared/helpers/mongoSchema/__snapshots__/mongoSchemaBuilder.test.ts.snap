@@ -1185,12 +1185,21 @@ exports[`zodToMongoSchema > should convert import.meta schema 1`] = `
         "import_date": {
           "bsonType": "date",
         },
+        "status": {
+          "bsonType": "string",
+          "enum": [
+            "pending",
+            "done",
+            "failed",
+          ],
+        },
         "type": {
           "bsonType": "string",
           "enum": [
             "bcn",
             "kit_apprentissage",
             "acce",
+            "kali_ccn",
           ],
         },
       },
@@ -1198,6 +1207,7 @@ exports[`zodToMongoSchema > should convert import.meta schema 1`] = `
         "_id",
         "import_date",
         "type",
+        "status",
       ],
     },
     {
@@ -5514,6 +5524,198 @@ exports[`zodToMongoSchema > should convert source.france_competence schema 1`] =
 }
 `;
 
+exports[`zodToMongoSchema > should convert source.kali.ccn schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "data": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "debut": {
+              "bsonType": "date",
+            },
+            "etat": {
+              "bsonType": "string",
+              "enum": [
+                "ABROGE",
+                "DENONCE",
+                "MODIFIE",
+                "PERIME",
+                "REMPLACE",
+                "VIGUEUR",
+                "VIGUEUR_ETEN",
+                "VIGUEUR_NON_ETEN",
+              ],
+            },
+            "fin": {
+              "anyOf": [
+                {
+                  "bsonType": "date",
+                },
+                {
+                  "bsonType": "null",
+                },
+              ],
+            },
+            "id": {
+              "bsonType": "string",
+            },
+            "idcc": {
+              "bsonType": "number",
+            },
+            "nature": {
+              "bsonType": "string",
+              "enum": [
+                "ACCORD COLLECTIF NATIONAL",
+                "AVENANT",
+                "CONVENTION",
+                "CONVENTION COLLECTIVE",
+                "CONVENTION COLLECTIVE DEPARTEMENTALE",
+                "CONVENTION COLLECTIVE NATIONALE",
+                "CONVENTION COLLECTIVE INTERREGIONALE",
+                "CONVENTION COLLECTIVE REGIONALE",
+              ],
+            },
+            "titre": {
+              "bsonType": "string",
+            },
+            "type": {
+              "bsonType": "string",
+            },
+            "url": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "type",
+            "id",
+            "idcc",
+            "titre",
+            "nature",
+            "etat",
+            "debut",
+            "fin",
+            "url",
+          ],
+        },
+        {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "debut": {
+              "bsonType": "date",
+            },
+            "etat": {
+              "bsonType": "string",
+              "enum": [
+                "ABROGE",
+                "DENONCE",
+                "MODIFIE",
+                "PERIME",
+                "REMPLACE",
+                "VIGUEUR",
+                "VIGUEUR_ETEN",
+                "VIGUEUR_NON_ETEN",
+              ],
+            },
+            "fin": {
+              "anyOf": [
+                {
+                  "bsonType": "date",
+                },
+                {
+                  "bsonType": "null",
+                },
+              ],
+            },
+            "id": {
+              "bsonType": "string",
+            },
+            "nature": {
+              "bsonType": "string",
+              "enum": [
+                "ACCORD INTERBRANCHE",
+                "ACCORD COLLECTIF NATIONAL",
+                "ACCORD DE BRANCHE",
+                "AVENANT",
+                "ACCORD NATIONAL INTERPROFESSIONNEL",
+                "ACCORD DE METHODE",
+                "ACCORD PARITAIRE",
+                "ACCORD CADRE INTERSECTEURS",
+                "ACCORD REGIONAL",
+                "ACCORD PROFESSIONNEL",
+                "ANNEXE",
+                "ACCORD NATIONAL INTERBRANCHES",
+                "PROCES-VERBAL",
+                "CONVENTION COLLECTIVE NATIONALE",
+                "ACCORD-CADRE",
+                "ACCORD COLLECTIF",
+                "ACCORD NATIONAL PLURIPROFESSIONNEL",
+                "PROTOCOLE D'ACCORD INTERBRANCHE",
+                "ACCORD MULTIBRANCHES",
+                "PROTOCOLE D'ACCORD",
+                "ACCORD PARITAIRE NATIONAL",
+                "ACCORD PROFESSIONNEL INTER-SECTEURS",
+                "CONVENTION COLLECTIVE DEPARTEMENTALE",
+                "CONVENTION COLLECTIVE INTERREGIONALE",
+                "CONVENTION",
+                "CONVENTION COLLECTIVE REGIONALE",
+                "ACCORD NATIONAL PROFESSIONNEL",
+                "CONVENTION COLLECTIVE",
+                "ACCORD INTERPROFESSIONNEL",
+                "ACCORD INTERSECTEURS",
+                "ACCORD INTERBRANCHES",
+                "ACCORD PLURIPROFESSIONNEL",
+                "ACCORD NATIONAL",
+                "ACCORD NATIONAL COLLECTIF",
+                "PROTOCOLE D'ACCORD NATIONAL",
+                "ACCORD",
+                "DECISION",
+                "ACCORD DE SUBSTITUTION",
+              ],
+            },
+            "titre": {
+              "bsonType": "string",
+            },
+            "type": {
+              "bsonType": "string",
+            },
+            "url": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "type",
+            "id",
+            "titre",
+            "nature",
+            "etat",
+            "debut",
+            "fin",
+            "url",
+          ],
+        },
+      ],
+    },
+    "date_import": {
+      "bsonType": "date",
+    },
+  },
+  "required": [
+    "_id",
+    "date_import",
+    "data",
+  ],
+}
+`;
+
 exports[`zodToMongoSchema > should convert source.kit_apprentissage schema 1`] = `
 {
   "additionalProperties": false,
@@ -5851,7 +6053,10 @@ exports[`zodToMongoSchema > should convert source.npec.normalized schema 1`] = `
       },
     },
     "npec": {
-      "bsonType": "number",
+      "bsonType": "array",
+      "items": {
+        "bsonType": "number",
+      },
     },
     "rncp": {
       "bsonType": "string",

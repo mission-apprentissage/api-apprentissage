@@ -1,11 +1,11 @@
 import { z } from "zod";
 
 import { zDataGouvDatasetResource } from "../apis";
-import { IModelDescriptor, zObjectId } from "./common";
+import { IModelDescriptorGeneric, zObjectId } from "./common";
 
 const collectionName = "import.meta" as const;
 
-const indexes: IModelDescriptor["indexes"] = [
+const indexes: IModelDescriptorGeneric["indexes"] = [
   [{ type: 1, import_date: 1 }, {}],
   [{ type: 1, status: 1, import_date: 1 }, {}],
   [{ type: 1, "archiveMeta.date_publication": 1 }, {}],
@@ -46,7 +46,8 @@ export const zImportMetaSimple = z
   .object({
     _id: zObjectId,
     import_date: z.date(),
-    type: z.enum(["bcn", "kit_apprentissage", "acce"]),
+    type: z.enum(["bcn", "kit_apprentissage", "acce", "kali_ccn"]),
+    status: z.enum(["pending", "done", "failed"]),
   })
   .strict();
 
@@ -78,7 +79,7 @@ export const importMetaModelDescriptor = {
   zod: zImportMeta,
   indexes,
   collectionName,
-} as const satisfies IModelDescriptor;
+};
 
 export type IImportMeta = z.output<typeof zImportMeta>;
 export type IImportMetaFranceCompetence = z.output<typeof zImportMetaFranceCompetence>;

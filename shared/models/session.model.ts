@@ -1,11 +1,11 @@
 import { Jsonify } from "type-fest";
 import { z } from "zod";
 
-import { IModelDescriptor, zObjectId } from "./common";
+import { IModelDescriptorGeneric, zObjectId } from "./common";
 
 const collectionName = "sessions" as const;
 
-const indexes: IModelDescriptor["indexes"] = [[{ expires_at: 1 }, { expireAfterSeconds: 0 }]];
+const indexes: IModelDescriptorGeneric["indexes"] = [[{ expires_at: 1 }, { expireAfterSeconds: 0 }]];
 
 export const ZSession = z
   .object({

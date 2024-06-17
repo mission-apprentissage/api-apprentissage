@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { IModelDescriptor } from "../../common";
+import { IModelDescriptorGeneric } from "../../common";
 import { zBcn_N_FormationDiplome } from "./bcn.n_formation_diplome.model";
 import { zBcn_N_NiveauFormationDiplome } from "./bcn.n_niveau_formation_diplome.model";
 import { zBcn_N51_FormationDiplome } from "./bcn.n51_formation_diplome.model";
@@ -13,7 +13,7 @@ export * from "./bcn.v_formation_diplome.model";
 
 const collectionName = "source.bcn" as const;
 
-const indexes: IModelDescriptor["indexes"] = [
+const indexes: IModelDescriptorGeneric["indexes"] = [
   [{ date: 1, source: 1 }, {}],
   [{ "data.FORMATION_DIPLOME": 1, source: 1 }, {}],
   [{ source: 1, "data.FORMATION_DIPLOME": 1 }, {}],
@@ -30,7 +30,7 @@ export const sourceBcnModelDescriptor = {
   zod: zBcn,
   indexes,
   collectionName,
-} as const satisfies IModelDescriptor;
+};
 
 export const zBcnBySource = {
   N_FORMATION_DIPLOME: zBcn_N_FormationDiplome,

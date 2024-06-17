@@ -43,8 +43,8 @@ const oldestImportFc = {
 } as const;
 
 const yesterdayImports = {
-  kit_apprentissage: { _id: new ObjectId(), type: "kit_apprentissage", import_date: yesterday },
-  bcn: { _id: new ObjectId(), type: "bcn", import_date: yesterday },
+  kit_apprentissage: { _id: new ObjectId(), type: "kit_apprentissage", import_date: yesterday, status: "done" },
+  bcn: { _id: new ObjectId(), type: "bcn", import_date: yesterday, status: "done" },
   france_competence: {
     _id: new ObjectId(),
     type: "france_competence",
@@ -85,8 +85,8 @@ const yesterdayImportCert = {
 } as const;
 
 const todayImports = {
-  kit_apprentissage: { _id: new ObjectId(), type: "kit_apprentissage", import_date: twoHoursAgo },
-  bcn: { _id: new ObjectId(), type: "bcn", import_date: twoHoursAgo },
+  kit_apprentissage: { _id: new ObjectId(), type: "kit_apprentissage", import_date: twoHoursAgo, status: "done" },
+  bcn: { _id: new ObjectId(), type: "bcn", import_date: twoHoursAgo, status: "done" },
   france_competence: {
     _id: new ObjectId(),
     type: "france_competence",

@@ -274,6 +274,7 @@ describe("acce.routes", () => {
       _id: new ObjectId(),
       type: "acce",
       import_date: importDate,
+      status: "done",
     });
   });
 

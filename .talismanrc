@@ -12,11 +12,11 @@ fileignoreconfig:
 - filename: .infra/files/configs/mailpit/auth
   checksum: 0b0a9c7bad5e1ec13d14c563d22c56c2cbcb2572fa40a4b2c5a11d6ca60eb8d1
 - filename: .infra/files/configs/mongodb/seed.gpg
-  checksum: 2e0e03466ddc152b34d7ba56fa5ffce405053457c4f0420f6e85598d03919e5b
+  checksum: 077c70bf5bfb5c5ebd4e32d5b81efbc678c32ded7a66f41daf11fad42041643c
 - filename: .infra/files/scripts/seed.sh
   checksum: a673a8f706cb90f2f5c9f98981b06ce95c566e67e2bb4a6323d6b1bdb8ef0233
 - filename: .infra/vault/vault.yml
-  checksum: 118ff02e203df8ced34464abc7fc5272fda705987d5f7a646c9f4d25600a2c05
+  checksum: 226c358d84907a4a2a535c89489f6b031087c19fa38291b0ec6a17b95feb9878
 - filename: docs/developpement/1password.md
   checksum: f4eb70beab8d37ca9a1867b7d57d01f541b99372bbcccfb04301b81ad6331bcd
 - filename: docs/developpement/gpg.md
@@ -33,6 +33,10 @@ fileignoreconfig:
   checksum: 3e755cd8fd314acae130c73c40349a3118fe23ec854175df6c7ef43c6dfb0144
 - filename: server/src/jobs/importer/france_competence/france_competence.importer.ts
   checksum: 1cd3034dfc731e1751f2fcc4308bc9d6fcfbb836665c85955a29f22c84805df3
+- filename: server/src/jobs/importer/kali/kali.ccn.importer.test.ts
+  checksum: 852549be53c907299f4625aac708fa6f84b8bee11558a3974dfb30662835beac
+- filename: server/src/jobs/importer/kali/kali.ccn.importer.ts
+  checksum: 3b014e16389f1c4115be6d43548db69b4bf33f29e0fa986e228d59f933e46a88
 - filename: server/src/modules/jobs/importer/france_competence/france_competence.importer.test.ts
   checksum: 696f52a8c9fad933dd78f8590f8c111380cfe8bb8da6cd21e1b7d671a5ed5256
 - filename: server/src/modules/jobs/importer/france_competence/france_competence.importer.ts

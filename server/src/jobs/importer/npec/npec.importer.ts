@@ -330,6 +330,7 @@ export async function importNpecResource(importMeta: IImportMetaNpec, signal?: A
               filename,
               date_import: importMeta.import_date,
               date_file: importMeta.file_date,
+              import_id: importMeta._id,
               data:
                 row.sheet === "npec"
                   ? {
@@ -419,12 +420,14 @@ export async function onImportNpecResourceFailure(importMeta: IImportMetaNpec) {
   }
 }
 
-async function getUnprocessedImportMeta(resources: { url: string; date: Date }[]): Promise<{
+async function getUnprocessedImportMeta(
+  resources: { url: string; date: Date; title: string; description: string }[]
+): Promise<{
   added: IImportMetaNpec[];
   retry: IImportMetaNpec[];
 }> {
   try {
-    const todo = new Map(resources.map((r) => [r.url, r.date]));
+    const todo = new Map(resources.map((r) => [r.url, r]));
 
     const existingMeta = await getDbCollection("import.meta").find<IImportMetaNpec>({ type: "npec" }).toArray();
 
@@ -444,14 +447,16 @@ async function getUnprocessedImportMeta(resources: { url: string; date: Date }[]
       }
     }
 
-    const added = Array.from(todo.entries()).map(([resource, date]): IImportMetaNpec => {
+    const added = Array.from(todo.entries()).map(([resource, r]): IImportMetaNpec => {
       return {
         _id: new ObjectId(),
         import_date: new Date(),
         type: "npec",
         status: "pending",
+        title: r.title,
+        description: r.description,
         resource,
-        file_date: date,
+        file_date: r.date,
       };
     }, []);
 

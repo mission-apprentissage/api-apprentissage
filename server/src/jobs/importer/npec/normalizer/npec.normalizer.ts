@@ -16,8 +16,8 @@ import { withCause } from "@/services/errors/withCause";
 import { getDbCollection } from "@/services/mongodb/mongodbService";
 import { createChangeBatchCardinalityTransformStream } from "@/utils/streamUtils";
 
-export async function buildCpneIdccMap(filename: string): Promise<Map<string, Set<string>>> {
-  const cpneIdccMap = new Map<string, Set<string>>();
+export async function buildCpneIdccMap(filename: string): Promise<Map<string, Set<number>>> {
+  const cpneIdccMap = new Map<string, Set<number>>();
   const cursor = getDbCollection("source.npec").find({ filename, "data.type": "cpne-idcc" });
 
   for await (const doc of cursor) {
@@ -28,11 +28,14 @@ export async function buildCpneIdccMap(filename: string): Promise<Map<string, Se
     if (!cpneIdccMap.has(doc.data.cpne_code)) {
       cpneIdccMap.set(doc.data.cpne_code, new Set());
     }
-    if (cpneIdccMap.get(doc.data.cpne_code)!.has(doc.data.idcc)) {
+
+    const idcc = parseInt(doc.data.idcc, 10);
+
+    if (cpneIdccMap.get(doc.data.cpne_code)!.has(idcc)) {
       throw internal("Duplicate idcc in cpne-idcc documents", { doc });
     }
 
-    cpneIdccMap.get(doc.data.cpne_code)!.add(doc.data.idcc);
+    cpneIdccMap.get(doc.data.cpne_code)!.add(idcc);
   }
 
   return cpneIdccMap;
@@ -69,7 +72,7 @@ function normaliseRncpCode(rncp: string): string {
 }
 
 function normalizeNpecDocument(
-  cpneIdccMap: Map<string, Set<string>>,
+  cpneIdccMap: Map<string, Set<number>>,
   doc: ISourceNpec
 ): Array<Omit<ISourceNpecNormalizedFlat, "_id">> {
   if (doc.data.type === "cpne-idcc") {
@@ -112,6 +115,7 @@ function normalizeNpecDocument(
         idcc: Array.from(idcc.values()),
         filename: doc.filename,
         date_file: doc.date_file,
+        import_id: doc.import_id,
         date_import: doc.date_import,
       });
     });
@@ -123,7 +127,7 @@ function normalizeNpecDocument(
 }
 
 function getNormalizeNpecDocumentOp(
-  cpneIdccMap: Map<string, Set<string>>,
+  cpneIdccMap: Map<string, Set<number>>,
   doc: ISourceNpec
 ): AnyBulkWriteOperation<ISourceNpecNormalized>[] {
   return normalizeNpecDocument(cpneIdccMap, doc).map((normalizedDoc) => {

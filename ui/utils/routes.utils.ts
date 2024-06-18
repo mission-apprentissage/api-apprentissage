@@ -32,14 +32,19 @@ export const PAGES = {
       path: "/documentation-technique/try",
       index: true,
     },
-    catalogueDesDonnees: {
-      title: "Catalogue des données",
-      path: "/catalogue-des-donnees",
+    explorerApi: {
+      title: "Explorer l’API",
+      path: "/explorer",
       index: true,
     },
     catalogueDesDonneesCertification: {
       title: "Liste des certifications réalisables en apprentissage",
-      path: "/catalogue-des-donnees/certifications",
+      path: "/explorer/certifications",
+      index: true,
+    },
+    simulateurNpec: {
+      title: "Simulateur des Niveaux de Prise en Charge (NPEC)",
+      path: "/explorer/simulateur-npec",
       index: true,
     },
     mentionsLegales: {

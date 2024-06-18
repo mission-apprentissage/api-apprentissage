@@ -75,6 +75,12 @@ const artworkData = {
     width: 40,
     height: 40,
   },
+  money: {
+    src: "/asset/artwork/theme-clair-money.svg",
+    alt: "Illustration d'une pile de pièces de monnaie",
+    width: 80,
+    height: 80,
+  },
 } as const satisfies IArtworkData;
 
 type ArtworkName = keyof typeof artworkData;

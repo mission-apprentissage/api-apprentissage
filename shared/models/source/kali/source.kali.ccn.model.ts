@@ -5,7 +5,10 @@ import { IModelDescriptorGeneric, zObjectId } from "../../common";
 
 const collectionName = "source.kali.ccn" as const;
 
-const indexes: IModelDescriptorGeneric["indexes"] = [[{ date_import: 1 }, {}]];
+const indexes: IModelDescriptorGeneric["indexes"] = [
+  [{ date_import: 1 }, {}],
+  [{ "data.type": 1, "data.idcc": 1, "data.titre": 1 }, {}],
+];
 
 const zEtat = z.enum([
   "ABROGE",

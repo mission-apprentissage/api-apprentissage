@@ -56,3 +56,12 @@ export const zLocalDate = zodOpenApi
   .openapi({
     format: "date-time",
   });
+
+export const zParisLocalDateParam = zodOpenApi
+  .union([zodOpenApi.string().datetime({ offset: true }), zodOpenApi.string().date()])
+  .transform((val) => {
+    return ParisDate.fromDate(DateTime.fromISO(val, { zone: "Europe/Paris" }).toJSDate());
+  })
+  .openapi({
+    format: "date-time",
+  });

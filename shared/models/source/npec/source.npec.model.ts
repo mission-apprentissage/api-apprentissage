@@ -44,6 +44,7 @@ export const zSourceNpecIdcc = z
     filename: z.string(),
     date_import: z.date(),
     date_file: z.date(),
+    import_id: zObjectId,
     data: zSourceNpecData,
   })
   .strict();

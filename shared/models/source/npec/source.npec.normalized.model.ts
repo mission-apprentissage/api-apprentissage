@@ -8,6 +8,7 @@ const collectionName = "source.npec.normalized" as const;
 const indexes: IModelDescriptorGeneric["indexes"] = [
   [{ date_import: 1, filename: 1 }, {}],
   [{ date_import: 1, filename: 1, rncp: 1, cpne_code: 1 }, { unique: true }],
+  [{ rncp: 1, idcc: 1, date_file: -1, date_applicabilite: 1 }, {}],
 ];
 
 export const zSourceNpecNormalizedData = z
@@ -18,9 +19,10 @@ export const zSourceNpecNormalizedData = z
     cpne_libelle: z.string(),
     npec: z.array(z.number()),
     date_applicabilite: z.date(),
-    idcc: z.array(z.string()),
+    idcc: z.array(z.number()),
     filename: z.string(),
     date_file: z.date(),
+    import_id: zObjectId,
     date_import: z.date(),
   })
   .strict();

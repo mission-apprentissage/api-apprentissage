@@ -20,8 +20,10 @@ const client = getApiClient(
   { cache: false }
 );
 
-export async function scrapeRessourceNPEC(): Promise<{ url: string; date: Date }[]> {
-  const result: { url: string; date: Date }[] = [];
+export async function scrapeRessourceNPEC(): Promise<
+  { url: string; date: Date; title: string; description: string }[]
+> {
+  const result: { url: string; date: Date; title: string; description: string }[] = [];
 
   let page = 1;
   const maxPage = 10;
@@ -48,10 +50,18 @@ export async function scrapeRessourceNPEC(): Promise<{ url: string; date: Date }
       if (!dateString) {
         throw internal("npec.importer: unexpected missing date", { a });
       }
+      const title = a.querySelector(".card--documents-list__container__title")?.text.trim() ?? "";
+      if (!title) {
+        throw internal("npec.importer: unexpected missing title", { a });
+      }
+      const description = a.querySelector(".card--documents-list__container__description")?.text.trim() ?? "";
+      if (!description) {
+        throw internal("npec.importer: unexpected missing description", { a });
+      }
       const date = DateTime.fromFormat(`${dateString} 00:00:00`, "dd.MM.yy HH:mm:ss", {
         zone: "Europe/Paris",
       }).toJSDate();
-      result.push({ url, date });
+      result.push({ url, date, title, description });
     });
 
     page++;

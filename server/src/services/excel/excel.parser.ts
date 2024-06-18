@@ -80,15 +80,15 @@ function parseRow(row: ExcelJs.Row, spec: ExcelParseSheetSpec): ExcelParsedRow {
 }
 
 function isValidHeader(values: Value[], columns: ReadonlyArray<ColumnSpec | null>) {
+  const extraValues = values.slice(columns.length);
   return (
-    values.length === columns.length &&
     columns.every((column, i) => {
       const v = values[i];
 
       if (column === null) return v === null;
 
       return typeof v === "string" && column.regex.test(v);
-    })
+    }) && extraValues.every((v) => v === null)
   );
 }
 

@@ -7,10 +7,8 @@ export const zCfdParam = zodOpenApi
   .regex(/^([A-Z0-9]{3}\d{3}[A-Z0-9]{2}|null)?$/)
   .transform((val) => (val === "null" || !val ? null : val));
 
-export const zRncp = zodOpenApi
-  .string()
-  .regex(/^RNCP\d{3,5}$/)
-  .transform((val) => (val === "null" || !val ? null : val));
+export const zRncpCode = zodOpenApi.string().regex(/^RNCP\d{3,5}$/);
+export const zRncp = zRncpCode.transform((val) => (val === "null" || !val ? null : val));
 export const zRncpParam = zodOpenApi
   .string()
   .regex(/^(RNCP\d{3,5}|null)?$/)

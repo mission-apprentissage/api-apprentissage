@@ -86,9 +86,24 @@ describe("scrapeRessourceNPEC", () => {
     const result = await scrapeRessourceNPEC();
 
     expect(result).toEqual([
-      { url: "https://example.com/file1.xlsx", date: new Date("2024-04-02T22:00:00.000Z") },
-      { url: "https://example.com/file2.xlsx", date: new Date("2024-01-30T23:00:00.000Z") },
-      { url: "https://example.com/file3.xlsx", date: new Date("2023-10-13T22:00:00.000Z") },
+      {
+        url: "https://example.com/file1.xlsx",
+        date: new Date("2024-04-02T22:00:00.000Z"),
+        description: "Fichier zip 19.7Mo (Version du 14/10/2023-Maj 02/04/2024)",
+        title: "File 1",
+      },
+      {
+        url: "https://example.com/file2.xlsx",
+        date: new Date("2024-01-30T23:00:00.000Z"),
+        description: "Fichier zip 19.7Mo (Version du 14/10/2023-Maj 31/01/2024)",
+        title: "File 2",
+      },
+      {
+        url: "https://example.com/file3.xlsx",
+        date: new Date("2023-10-13T22:00:00.000Z"),
+        description: "Fichier zip 19.7Mo (Version du 14/10/2023-Maj 06/11/2023)",
+        title: "File 3",
+      },
     ]);
 
     expect(nock.isDone()).toBe(true);

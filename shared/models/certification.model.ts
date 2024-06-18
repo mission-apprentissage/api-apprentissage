@@ -1,3 +1,4 @@
+import { Jsonify } from "type-fest";
 import { z } from "zod";
 
 import { certificationDoc } from "../docs/certification/certification.doc";
@@ -586,6 +587,7 @@ export const zPublicCertification = zCertification.omit({
 });
 
 export type ICertification = z.output<typeof zCertification>;
+export type ICertificationJson = Jsonify<ICertification>;
 export type ICertificationInput = z.input<typeof zCertification>;
 
 export const certificationsModelDescriptor = {

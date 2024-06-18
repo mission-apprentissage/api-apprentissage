@@ -46,23 +46,33 @@ describe("runRncpImporter", () => {
     const newResource = {
       url: "https://www.francecompetences.fr/upload/new.xlsx",
       date: new Date("2024-01-01T00:00:00.000Z"),
+      title: "New resource",
+      description: "New resource description",
     };
 
     const existingResource = {
       url: "https://www.francecompetences.fr/upload/existing.xlsx",
       date: new Date("2023-09-01T00:00:00.000Z"),
+      title: "Existing resource",
+      description: "Existing resource description",
     };
     const failedResource = {
       url: "https://www.francecompetences.fr/upload/failed.xlsx",
       date: new Date("2023-10-01T00:00:00.000Z"),
+      title: "Failed resource",
+      description: "Failed resource description",
     };
     const pendingResource = {
       url: "https://www.francecompetences.fr/upload/pending.xlsx",
       date: new Date("2023-11-01T00:00:00.000Z"),
+      title: "Pending resource",
+      description: "Pending resource description",
     };
     const removedResource = {
       url: "https://www.francecompetences.fr/upload/removed.xlsx",
       date: new Date("2023-12-01T00:00:00.000Z"),
+      title: "Removed resource",
+      description: "Removed resource description",
     };
 
     vi.mocked(scrapeRessourceNPEC).mockResolvedValue([existingResource, failedResource, pendingResource, newResource]);
@@ -75,6 +85,8 @@ describe("runRncpImporter", () => {
         status: "done",
         resource: existingResource.url,
         file_date: existingResource.date,
+        title: existingResource.title,
+        description: existingResource.description,
       },
       {
         _id: new ObjectId(),
@@ -83,6 +95,8 @@ describe("runRncpImporter", () => {
         status: "failed",
         resource: failedResource.url,
         file_date: failedResource.date,
+        title: failedResource.title,
+        description: failedResource.description,
       },
       {
         _id: new ObjectId(),
@@ -91,6 +105,8 @@ describe("runRncpImporter", () => {
         status: "pending",
         resource: pendingResource.url,
         file_date: pendingResource.date,
+        title: pendingResource.title,
+        description: pendingResource.description,
       },
       {
         _id: new ObjectId(),
@@ -99,6 +115,8 @@ describe("runRncpImporter", () => {
         status: "done",
         resource: removedResource.url,
         file_date: removedResource.date,
+        title: removedResource.title,
+        description: removedResource.description,
       },
     ];
     await getDbCollection("import.meta").insertMany(initialImports);
@@ -113,6 +131,8 @@ describe("runRncpImporter", () => {
       type: "npec",
       resource: newResource.url,
       file_date: newResource.date,
+      title: newResource.title,
+      description: newResource.description,
       status: "pending",
     };
 
@@ -156,10 +176,14 @@ describe("onImportRncpArchiveFailure", () => {
     const existingResource = {
       url: "https://www.francecompetences.fr/upload/existing.xlsx",
       date: new Date("2023-09-01T00:00:00.000Z"),
+      title: "Existing resource",
+      description: "Existing resource description",
     };
     const failedResource = {
       url: "https://www.francecompetences.fr/upload/failed.xlsx",
       date: new Date("2023-10-01T00:00:00.000Z"),
+      title: "Failed resource",
+      description: "Failed resource description",
     };
 
     const initialImports: IImportMetaNpec[] = [
@@ -169,6 +193,8 @@ describe("onImportRncpArchiveFailure", () => {
         type: "npec",
         resource: existingResource.url,
         file_date: existingResource.date,
+        title: existingResource.title,
+        description: existingResource.description,
         status: "done",
       },
       {
@@ -177,6 +203,8 @@ describe("onImportRncpArchiveFailure", () => {
         type: "npec",
         resource: failedResource.url,
         file_date: failedResource.date,
+        title: failedResource.title,
+        description: failedResource.description,
         status: "pending",
       },
     ];
@@ -453,7 +481,7 @@ describe("importNpecResource", () => {
           cpne_code: "2",
           cpne_libelle: "CNPE des sociétés financières",
           date_applicabilite: new Date("2023-10-15T00:00:00.000+02:00"),
-          idcc: ["478"],
+          idcc: [478],
           npec: [9497],
           rncp: "RNCP1002",
           filename: "Referentiel-des-NPEC_vMAJ-09.04.2024.xlsx",
@@ -465,7 +493,7 @@ describe("importNpecResource", () => {
           cpne_code: "2",
           cpne_libelle: "CNPE des sociétés financières",
           date_applicabilite: new Date("2023-10-15T00:00:00.000+02:00"),
-          idcc: ["478"],
+          idcc: [478],
           npec: [7750],
           rncp: "RNCP31946",
           filename: "Referentiel-des-NPEC_vMAJ-09.04.2024.xlsx",
@@ -477,7 +505,7 @@ describe("importNpecResource", () => {
           cpne_code: "2",
           cpne_libelle: "CNPE des sociétés financières",
           date_applicabilite: new Date("2023-10-15T00:00:00.000+02:00"),
-          idcc: ["478"],
+          idcc: [478],
           npec: [7750, 8502],
           rncp: "RNCP36989",
           filename: "Referentiel-des-NPEC_vMAJ-09.04.2024.xlsx",
@@ -504,6 +532,8 @@ describe("importNpecResource", () => {
       type: "npec",
       status: "pending",
       resource: `https://www.francecompetences.fr/upload/${filename}`,
+      title: "Title",
+      description: "Description",
       file_date: expectedDataMap[filename].date,
     };
 
@@ -517,6 +547,7 @@ describe("importNpecResource", () => {
       data,
       date_import: now,
       date_file: importMeta.file_date,
+      import_id: importMeta._id,
     }));
 
     const result = await importNpecResource(importMeta);
@@ -535,6 +566,11 @@ describe("importNpecResource", () => {
       npecNormalizedCount: expectedDataMap[filename].normalized.length,
     });
     const dataNormalized = await getDbCollection("source.npec.normalized").find({}).toArray();
-    expect(dataNormalized).toEqual(expectedDataMap[filename].normalized);
+    expect(dataNormalized).toEqual(
+      expectedDataMap[filename].normalized.map((data) => ({
+        ...data,
+        import_id: importMeta._id,
+      }))
+    );
   });
 });

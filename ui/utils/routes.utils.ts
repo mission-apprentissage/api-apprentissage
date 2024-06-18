@@ -42,6 +42,11 @@ export const PAGES = {
       path: "/catalogue-des-donnees/certifications",
       index: true,
     },
+    simulateurNpec: {
+      title: "Simulateur NPEC",
+      path: "/cas-usages/simulateur-npec",
+      index: true,
+    },
     mentionsLegales: {
       title: "Mentions Légales",
       path: "/mentions-legales",

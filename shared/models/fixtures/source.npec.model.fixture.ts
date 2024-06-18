@@ -39,6 +39,7 @@ export function generateNpecFixture(data?: IGenerateNpecFixtureInput): ISourceNp
     _id: getFixtureValue(data, "_id", new ObjectId()),
     filename: getFixtureValue(data, "filename", "Referentiel-des-NPEC_vMAJ-09.04.2024.xlsx"),
     date_file: getFixtureValue(data, "date_file", new Date("2024-04-02T22:00:00.000Z")),
+    import_id: getFixtureValue(data, "import_id", new ObjectId()),
     date_import: getFixtureValue(data, "date_import", new Date("2024-04-19T00:00:00Z")),
     data: generateNpecFixtureData(data?.data),
   };

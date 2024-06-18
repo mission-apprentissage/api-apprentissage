@@ -39,6 +39,8 @@ export const zImportMetaNpec = z.object({
   type: z.literal("npec"),
   status: z.enum(["pending", "done", "failed"]),
   resource: z.string().url(),
+  title: z.string(),
+  description: z.string(),
   file_date: z.date(),
 });
 

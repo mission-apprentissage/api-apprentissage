@@ -23,9 +23,9 @@ describe("buildCpneIdccMap", () => {
 
     expect(result).toEqual(
       new Map([
-        ["2", new Set(["478"])],
-        ["4", new Set(["1801", "1802"])],
-        ["5", new Set(["2205"])],
+        ["2", new Set([478])],
+        ["4", new Set([1801, 1802])],
+        ["5", new Set([2205])],
       ])
     );
   });

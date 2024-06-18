@@ -1293,6 +1293,9 @@ exports[`zodToMongoSchema > should convert import.meta schema 1`] = `
         "_id": {
           "bsonType": "objectId",
         },
+        "description": {
+          "bsonType": "string",
+        },
         "file_date": {
           "bsonType": "date",
         },
@@ -1310,6 +1313,9 @@ exports[`zodToMongoSchema > should convert import.meta schema 1`] = `
             "failed",
           ],
         },
+        "title": {
+          "bsonType": "string",
+        },
         "type": {
           "bsonType": "string",
         },
@@ -1320,6 +1326,8 @@ exports[`zodToMongoSchema > should convert import.meta schema 1`] = `
         "type",
         "status",
         "resource",
+        "title",
+        "description",
         "file_date",
       ],
     },
@@ -6009,12 +6017,16 @@ exports[`zodToMongoSchema > should convert source.npec schema 1`] = `
     "filename": {
       "bsonType": "string",
     },
+    "import_id": {
+      "bsonType": "objectId",
+    },
   },
   "required": [
     "_id",
     "filename",
     "date_import",
     "date_file",
+    "import_id",
     "data",
   ],
 }
@@ -6049,8 +6061,11 @@ exports[`zodToMongoSchema > should convert source.npec.normalized schema 1`] = `
     "idcc": {
       "bsonType": "array",
       "items": {
-        "bsonType": "string",
+        "bsonType": "number",
       },
+    },
+    "import_id": {
+      "bsonType": "objectId",
     },
     "npec": {
       "bsonType": "array",
@@ -6073,6 +6088,7 @@ exports[`zodToMongoSchema > should convert source.npec.normalized schema 1`] = `
     "idcc",
     "filename",
     "date_file",
+    "import_id",
     "date_import",
   ],
 }

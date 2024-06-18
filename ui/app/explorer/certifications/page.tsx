@@ -20,15 +20,15 @@ export default function CatalogueCertificationPage() {
         }}
         segments={[
           {
-            label: PAGES.static.catalogueDesDonnees.title,
-            linkProps: { href: PAGES.static.catalogueDesDonnees.path },
+            label: PAGES.static.explorerApi.title,
+            linkProps: { href: PAGES.static.explorerApi.path },
           },
         ]}
         style={{ marginBottom: fr.spacing("3w") }}
       />
 
       <Box sx={{ mb: fr.spacing("6w") }}>
-        <DsfrLink href={PAGES.static.catalogueDesDonnees.path} arrow="left" size="lg">
+        <DsfrLink href={PAGES.static.explorerApi.path} arrow="left" size="lg">
           Revenir à la liste
         </DsfrLink>
       </Box>

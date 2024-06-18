@@ -82,7 +82,7 @@ function VousEtesSection() {
             </Typography>
           </Box>
 
-          <Link component={NextLink} href={PAGES.static.catalogueDesDonnees.path}>
+          <Link component={NextLink} href={PAGES.static.explorerApi.path}>
             <Button size="large" variant="contained">
               Consulter le catalogue des données
               <Box component="span" sx={{ display: "inline-block" }} mx={fr.spacing("1w")}>

@@ -19,10 +19,10 @@ const getNavigationItems = ({ user, pathname }: GetNavigationItemsProps): MainNa
       },
     },
     {
-      isActive: pathname.startsWith(PAGES.static.catalogueDesDonnees.path),
-      text: PAGES.static.catalogueDesDonnees.title,
+      isActive: pathname.startsWith(PAGES.static.explorerApi.path),
+      text: PAGES.static.explorerApi.title,
       linkProps: {
-        href: PAGES.static.catalogueDesDonnees.path,
+        href: PAGES.static.explorerApi.path,
       },
     },
     {

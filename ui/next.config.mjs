@@ -14,6 +14,16 @@ const nextConfig = {
     outputFileTracingRoot: path.join(path.dirname(fileURLToPath(import.meta.url)), "../"),
     typedRoutes: true,
   },
+
+  async redirects() {
+    return [
+      {
+        source: "/catalogue-des-donnees/:slug*",
+        destination: "/explorer/:slug*", // Matched parameters can be used in the destination
+        permanent: true,
+      },
+    ];
+  },
   output: "standalone",
   sentry: {
     disableServerWebpackPlugin: true,

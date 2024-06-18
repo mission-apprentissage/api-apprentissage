@@ -81,12 +81,12 @@ function DonneeCard(props: DonneeCardProps) {
   );
 }
 
-export default function CatalogueDesDonneesPage() {
+export default function ExplorerApiPage() {
   return (
     <Container maxWidth="xl" style={{ marginTop: fr.spacing("2w"), marginBottom: fr.spacing("9w") }}>
       <Box>
         <Breadcrumb
-          currentPageLabel="Catalogue des données"
+          currentPageLabel={PAGES.static.explorerApi.title}
           homeLinkProps={{
             href: "/",
           }}
@@ -103,7 +103,7 @@ export default function CatalogueDesDonneesPage() {
           gap={fr.spacing("3w")}
         >
           <Typography variant="h1" align="center" sx={{ color: fr.colors.decisions.text.label.blueEcume.default }}>
-            Catalogue des données
+            {PAGES.static.explorerApi.title}
           </Typography>
           <Typography
             component="span"
@@ -112,8 +112,8 @@ export default function CatalogueDesDonneesPage() {
             textAlign="center"
             style={{ textWrap: "balance" }}
           >
-            <strong>L’API Apprentissage centralise, enrichit</strong> et<strong> met à disposition</strong> les données
-            relatives à l’ensemble de l’offre de formation en apprentissage
+            <strong>L’API Apprentissage centralise, enrichit</strong> et<strong> met à disposition</strong> des jeux de
+            données et des outils relatifs à l’ensemble de l’offre de formation en apprentissage
           </Typography>
         </Box>
       </Box>
@@ -130,11 +130,15 @@ export default function CatalogueDesDonneesPage() {
         >
           <Artwork name="book" />
         </DonneeCard>
+        <DonneeCard
+          title="Simulateur des Niveaux de Prise En Charge (NPEC)"
+          path={PAGES.static.simulateurNpec.path}
+          sources={["FRANCE COMPÉTENCES"]}
+        >
+          <Artwork name="money" />
+        </DonneeCard>
         <DonneeCard title="Opportunités d’emplois et de formations en alternance" path={null} sources={[]}>
           <Artwork name="human-cooperation" />
-        </DonneeCard>
-        <DonneeCard title="Liste des organismes de formation en apprentissage" path={null} sources={[]}>
-          <Artwork name="school" />
         </DonneeCard>
       </Box>
       <Box sx={{ background: fr.colors.decisions.background.alt.beigeGrisGalet.default }}>
@@ -152,7 +156,7 @@ export default function CatalogueDesDonneesPage() {
               gridColumn={["span 1", "span 1", "span 2"]}
             >
               <Typography variant="h3" sx={{ color: fr.colors.decisions.text.label.blueEcume.default }}>
-                Il vous manque un ou des jeu(x) de données pour répondre à vos besoins ?
+                Il vous manque des données, outils, etc. pour répondre à vos besoins ?
               </Typography>
               <Box display="grid" gap={fr.spacing("2v")}>
                 <Typography>

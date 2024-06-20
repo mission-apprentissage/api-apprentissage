@@ -57,7 +57,7 @@ export function PeriodeSection(props: PeriodeSectionProps) {
       </Typography>
       <Input
         label="Date de signature"
-        nativeInputProps={{ type: "date", onBlur: onChange }}
+        nativeInputProps={{ type: "date", onBlur: onChange, onChange }}
         state={error ? "error" : "default"}
         stateRelatedMessage={error}
       />

@@ -27,6 +27,12 @@ export function SimulateurNpecContrat() {
     date_signature: null,
   });
 
+  const onDateSignatureChanged = (date_signature: Date | null) =>
+    setData((d) => {
+      if (date_signature?.getTime() === d.date_signature?.getTime()) return d;
+      return { ...d, date_signature };
+    });
+
   if (result.isError) {
     throw result.error;
   }
@@ -52,18 +58,8 @@ export function SimulateurNpecContrat() {
         onIdccChanged={(idcc) => setData((d) => ({ ...d, idcc }))}
         conventions_collectives={result.data.conventions_collectives}
       />
-      <PeriodeSection onDateSignatureChanged={(date_signature) => setData((d) => ({ ...d, date_signature }))} />
+      <PeriodeSection onDateSignatureChanged={onDateSignatureChanged} />
       <ResultSection {...data} />
-      {/* {npecMutation.isSuccess && (
-        <Badge severity={npecMutation.data === null ? "error" : "success"} noIcon className={fr.cx("fr-text--lead")}>
-          <strong>{npecMutation.data ?? "-"} €</strong>
-        </Badge>
-      )}
-      {!npecMutation.isSuccess && !npecMutation.isPending && (
-        <Badge className={fr.cx("fr-text--lead")}>
-          <strong>- €</strong>
-        </Badge>
-      )} */}
     </Box>
   );
 }

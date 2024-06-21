@@ -1,13 +1,16 @@
 import env from "env-var";
+const publicUrl = env.get("PUBLIC_URL").required().asString();
+const environement = env.get("ENV").required().asEnum(["local", "recette", "production", "preview", "test"]);
 
 const config = {
   productName: env.get("PUBLIC_PRODUCT_NAME").required().asString(),
   port: env.get("SERVER_PORT").required().asPortNumber(),
   version: env.get("PUBLIC_VERSION").required().asString(),
-  env: env.get("ENV").required().asEnum(["local", "recette", "production", "preview", "test"]),
-  publicUrl: env.get("PUBLIC_URL").required().asString(),
+  env: environement,
+  publicUrl,
   email: env.get("EMAIL").required().asString(),
   email_from: "Mission Apprentissage",
+  apiPublicUrl: environement === "local" ? "http://localhost:5001/api" : `${publicUrl}/api`,
   mongodb: {
     uri: env.get("MONGODB_URI").required().asString(),
   },

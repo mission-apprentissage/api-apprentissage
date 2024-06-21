@@ -29,7 +29,7 @@ const summaryData = [
 
 const DonneesPersonnelles = () => {
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={8}>
       <Grid item xs={12} lg={3}>
         <Summary
           links={summaryData.map((item) => ({
@@ -41,7 +41,7 @@ const DonneesPersonnelles = () => {
         />
       </Grid>
       <Grid item xs={12} lg={9}>
-        <Typography variant="h2" gutterBottom>
+        <Typography variant="h1" gutterBottom color={fr.colors.decisions.text.actionHigh.blueEcume.default}>
           Protection des données à caractère personnel
         </Typography>
         <Typography>
@@ -53,10 +53,15 @@ const DonneesPersonnelles = () => {
         </Typography>
 
         <Section>
-          <Typography variant="h4" color={fr.colors.decisions.text.actionHigh.blueFrance.default} id={anchors.mission}>
+          <Typography
+            variant="h2"
+            gutterBottom
+            color={fr.colors.decisions.artwork.minor.blueEcume.default}
+            id={anchors.mission}
+          >
             Base légale
           </Typography>
-          <Typography variant="h3" gutterBottom color={fr.colors.decisions.text.actionHigh.blueFrance.default}>
+          <Typography variant="h3" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default}>
             La mission d&apos;intérêt public
           </Typography>
 
@@ -86,10 +91,15 @@ const DonneesPersonnelles = () => {
 
         {/* Block Faciliter le pilotage */}
         <Section>
-          <Typography variant="h4" color={fr.colors.decisions.text.actionHigh.blueFrance.default} id={anchors.finalite}>
+          <Typography
+            variant="h2"
+            gutterBottom
+            color={fr.colors.decisions.artwork.minor.blueEcume.default}
+            id={anchors.finalite}
+          >
             Finalité
           </Typography>
-          <Typography variant="h3" gutterBottom color={fr.colors.decisions.text.actionHigh.blueFrance.default}>
+          <Typography variant="h3" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default}>
             Faciliter le pilotage opérationnel de l&apos;apprentissage
           </Typography>
 
@@ -118,13 +128,14 @@ const DonneesPersonnelles = () => {
         {/* Block Minimisation des données */}
         <Section>
           <Typography
-            variant="h4"
-            color={fr.colors.decisions.text.actionHigh.blueFrance.default}
+            variant="h2"
+            gutterBottom
+            color={fr.colors.decisions.artwork.minor.blueEcume.default}
             id={anchors.minimisation}
           >
             Données collectées
           </Typography>
-          <Typography variant="h3" gutterBottom color={fr.colors.decisions.text.actionHigh.blueFrance.default}>
+          <Typography variant="h3" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default}>
             Minimisation des données
           </Typography>
 

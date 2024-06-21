@@ -121,12 +121,17 @@ function extractBearerTokenFromHeader(req: FastifyRequest): null | string {
   return matches === null ? null : matches[1];
 }
 
+function extractTokenFromQuery(req: FastifyRequest): null | string {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return (req.query as any)?.token ?? null;
+}
+
 async function authAccessToken<S extends ISecuredRouteSchema>(
   req: FastifyRequest,
   schema: S
 ): Promise<UserWithType<"token", IAccessToken> | null> {
   const token = parseAccessToken(
-    extractBearerTokenFromHeader(req),
+    extractBearerTokenFromHeader(req) ?? extractTokenFromQuery(req),
     schema,
     req.params as PathParam,
     req.query as QueryString

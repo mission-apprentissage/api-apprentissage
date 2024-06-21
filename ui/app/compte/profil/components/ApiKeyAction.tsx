@@ -14,9 +14,10 @@ export const confirmDeleteModal = createModal({
   id: "confirm-delete-modal",
   isOpenedByDefault: false,
 });
+
 export function ApiKeyAction({ apiKey }: { apiKey: IApiKeyPrivateJson }) {
   const deleteMutation = useDeleteApiKeyMutation();
-  const [copyState, setCopyState] = useState<boolean | null>(null);
+  const [copyState, setCopyState] = useState<boolean | null>(false);
 
   const onClick = useCallback(() => {
     if (!apiKey.value) {
@@ -63,7 +64,7 @@ export function ApiKeyAction({ apiKey }: { apiKey: IApiKeyPrivateJson }) {
 
   return (
     <>
-      <Button key="action" onClick={onClick}>
+      <Button key="action" onClick={onClick} size="small" priority={apiKey.value ? "primary" : "tertiary"}>
         {apiKey.value ? "Copier le jeton" : "Supprimer le jeton"}
       </Button>
       <confirmDeleteModal.Component
@@ -98,13 +99,21 @@ export function ApiKeyAction({ apiKey }: { apiKey: IApiKeyPrivateJson }) {
           textWrap: "wrap",
           overflowWrap: "anywhere",
           maxWidth: fr.breakpoints.values.sm,
+          backgroundColor: fr.colors.decisions.background.default.grey.default,
         }}
-        message={
-          copyState === false
-            ? `Une erreur est survenue lors de la copie du jeton. Veuillez copier manuellement le jeton: ${apiKey.value}`
-            : "Le jeton a été copié dans le presse papier"
-        }
-      />
+      >
+        <Alert
+          onClose={() => setCopyState(null)}
+          description={
+            copyState === false
+              ? `Une erreur est survenue lors de la copie du jeton. Veuillez copier manuellement le jeton: ${apiKey.value}`
+              : "Le jeton a été copié dans le presse papier"
+          }
+          closable
+          severity={copyState === false ? "error" : "info"}
+          small
+        />
+      </Snackbar>
     </>
   );
 }

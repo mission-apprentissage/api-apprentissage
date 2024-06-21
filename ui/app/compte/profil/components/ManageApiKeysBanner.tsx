@@ -61,7 +61,17 @@ export function ManageApiKeysBanner() {
   return (
     <>
       {statut === "actif-ready" && (
-        <Notice title="Votre jeton a bien été crée. Il sera crypté une fois que vous aurez quitté cette page, vous n’aurez donc plus la possibilité de le copier." />
+        <Notice
+          title={
+            <>
+              Votre jeton a bien été crée. &nbsp;
+              <Box component="span" sx={{ fontWeight: "normal" }}>
+                Il sera crypté une fois que vous aurez quitté cette page, vous n’aurez donc plus la possibilité de le
+                copier.
+              </Box>
+            </>
+          }
+        />
       )}
       <Box
         sx={{

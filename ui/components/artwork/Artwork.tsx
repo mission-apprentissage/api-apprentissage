@@ -85,7 +85,14 @@ const artworkData = {
 
 type ArtworkName = keyof typeof artworkData;
 
-export function Artwork({ name }: { name: ArtworkName }) {
-  // eslint-disable-next-line jsx-a11y/alt-text
-  return <Image {...artworkData[name]} />;
+export function Artwork({ name, height }: { name: ArtworkName; height?: number }) {
+  const { alt, src, width: origW, height: origH } = artworkData[name];
+  const h = height ?? origH;
+  const width = (h / origH) * origW;
+
+  return <Image src={src} alt={alt} width={width} height={h} />;
+}
+
+export function getArtworkUrl(name: ArtworkName) {
+  return artworkData[name].src;
 }

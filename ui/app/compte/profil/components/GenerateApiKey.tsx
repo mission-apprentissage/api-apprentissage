@@ -84,7 +84,7 @@ export function GenerateApiKey() {
       >
         <Input
           label="Nom du jeton"
-          hintText="Vous avez la possibilité de modifier le nom du jeton"
+          hintText="Nommer votre jeton"
           state={errors?.name ? "error" : "default"}
           stateRelatedMessage={errors?.name?.message ?? "Erreur de validation"}
           nativeInputProps={register("name", { required: false })}

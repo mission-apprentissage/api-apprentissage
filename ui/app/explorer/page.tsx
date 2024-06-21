@@ -1,85 +1,11 @@
 import { fr } from "@codegouvfr/react-dsfr";
-import { Badge } from "@codegouvfr/react-dsfr/Badge";
 import { Breadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
+import { Tile } from "@codegouvfr/react-dsfr/Tile";
 import { Box, Container, Hidden, Typography } from "@mui/material";
-import { PropsWithChildren } from "react";
 
-import { Artwork } from "@/components/artwork/Artwork";
+import { Artwork, getArtworkUrl } from "@/components/artwork/Artwork";
 import { DsfrLink } from "@/components/link/DsfrLink";
 import { PAGES } from "@/utils/routes.utils";
-
-type DonneeCardProps = PropsWithChildren<{
-  title: string;
-  path: string | null;
-  sources: string[];
-}>;
-
-function DonneeCard(props: DonneeCardProps) {
-  return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      maxWidth="lg"
-      border="1px solid"
-      borderColor={fr.colors.decisions.border.default.grey.default}
-      py={fr.spacing("3w")}
-      px={fr.spacing("3w")}
-      gap={fr.spacing("3w")}
-    >
-      <Box display="flex" gap={fr.spacing("1w")} flexDirection="column">
-        <Hidden smDown>
-          <Box>{props.children}</Box>
-        </Hidden>
-        <Typography variant="h6" style={{ textWrap: "balance" }} color={fr.colors.decisions.text.default.grey.default}>
-          {props.title}
-        </Typography>
-        <Typography className={fr.cx("fr-text--lg")}>
-          {props.path === null ? (
-            <Typography
-              color={fr.colors.decisions.text.disabled.grey.default}
-              style={{
-                textUnderlinePosition: "under",
-                textDecoration: "underline",
-                textDecorationColor: fr.colors.decisions.border.disabled.grey.default,
-              }}
-            >
-              Bientôt disponible !
-            </Typography>
-          ) : (
-            <DsfrLink href={props.path}>Documentation</DsfrLink>
-          )}
-        </Typography>
-      </Box>
-      {props.path !== null ? (
-        <Box>
-          <Typography color={fr.colors.decisions.text.mention.grey.default} className={fr.cx("fr-text--sm")}>
-            Sources
-          </Typography>
-          <Box
-            sx={{
-              flexWrap: "wrap",
-              gap: fr.spacing("1w"),
-              display: "flex",
-            }}
-          >
-            {props.sources.map((source) => (
-              <Badge
-                key={source}
-                small
-                style={{
-                  backgroundColor: fr.colors.decisions.background.contrast.purpleGlycine.default,
-                  color: fr.colors.decisions.text.actionHigh.purpleGlycine.default,
-                }}
-              >
-                {source}
-              </Badge>
-            ))}
-          </Box>
-        </Box>
-      ) : null}
-    </Box>
-  );
-}
 
 export default function ExplorerApiPage() {
   return (
@@ -105,16 +31,18 @@ export default function ExplorerApiPage() {
           <Typography variant="h1" align="center" sx={{ color: fr.colors.decisions.text.label.blueEcume.default }}>
             {PAGES.static.explorerApi.title}
           </Typography>
-          <Typography
-            component="span"
-            variant="body1"
-            sx={{ color: "var(--artwork-minor-blue-ecume)", fontSize: "24px" }}
-            textAlign="center"
-            style={{ textWrap: "balance" }}
+          <Box
+            component="h4"
+            sx={{
+              color: fr.colors.decisions.artwork.minor.blueEcume.default,
+              fontWeight: "normal",
+              textWrap: "balance",
+              textAlign: "center",
+            }}
           >
             <strong>L’API Apprentissage centralise, enrichit</strong> et<strong> met à disposition</strong> des jeux de
             données et des outils relatifs à l’ensemble de l’offre de formation en apprentissage
-          </Typography>
+          </Box>
         </Box>
       </Box>
       <Box
@@ -123,23 +51,29 @@ export default function ExplorerApiPage() {
         gridTemplateColumns={["1fr", "1fr 1fr", "1fr 1fr 1fr"]}
         gap={fr.spacing("2w")}
       >
-        <DonneeCard
-          title="Liste des certifications réalisables en apprentissage"
-          path={PAGES.static.catalogueDesDonneesCertification.path}
-          sources={["BCN", "FRANCE COMPÉTENCES", "CERTIF-INFO"]}
-        >
-          <Artwork name="book" />
-        </DonneeCard>
-        <DonneeCard
-          title="Simulateur des Niveaux de Prise En Charge (NPEC)"
-          path={PAGES.static.simulateurNpec.path}
-          sources={["FRANCE COMPÉTENCES"]}
-        >
-          <Artwork name="money" />
-        </DonneeCard>
-        <DonneeCard title="Opportunités d’emplois et de formations en alternance" path={null} sources={[]}>
-          <Artwork name="human-cooperation" />
-        </DonneeCard>
+        <Tile
+          title={PAGES.static.catalogueDesDonneesCertification.title}
+          desc="Consulter le modèle de données et effectuer une recherche dans la liste des certifications"
+          imageUrl={getArtworkUrl("book")}
+          enlargeLink
+          linkProps={{ href: PAGES.static.catalogueDesDonneesCertification.path }}
+          style={{
+            color: fr.colors.decisions.text.title.grey.default,
+          }}
+        />
+        <Tile
+          title={PAGES.static.simulateurNpec.title}
+          desc="Calculer le niveau de prise en charge d’un contrat, réaliser un budget prévisionnel"
+          imageUrl={getArtworkUrl("money")}
+          enlargeLink
+          linkProps={{ href: PAGES.static.simulateurNpec.path }}
+        />
+        <Tile
+          title="Opportunités d’emplois et de formations en alternance"
+          desc="Bientôt disponible !"
+          imageUrl={getArtworkUrl("human-cooperation")}
+          linkProps={{ href: "#" }}
+        />
       </Box>
       <Box sx={{ background: fr.colors.decisions.background.alt.beigeGrisGalet.default }}>
         <Container maxWidth="xl" disableGutters>
@@ -160,7 +94,7 @@ export default function ExplorerApiPage() {
               </Typography>
               <Box display="grid" gap={fr.spacing("2v")}>
                 <Typography>
-                  <DsfrLink href="mailto:support_api@apprentissage.beta.gouv.fr">Dites le nous</DsfrLink>
+                  <DsfrLink href="mailto:support_api@apprentissage.beta.gouv.fr">Dites-le nous</DsfrLink>
                 </Typography>
               </Box>
             </Box>

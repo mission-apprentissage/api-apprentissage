@@ -1,3 +1,4 @@
+import { fr } from "@codegouvfr/react-dsfr";
 import { Summary } from "@codegouvfr/react-dsfr/Summary";
 import { Grid, Typography } from "@mui/material";
 
@@ -40,7 +41,7 @@ const summaryData = [
 
 const MentionsLegales = () => {
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={8}>
       <Grid item xs={12} lg={3}>
         <Summary
           links={summaryData.map((item) => ({
@@ -52,7 +53,7 @@ const MentionsLegales = () => {
         />
       </Grid>
       <Grid item xs={12} lg={9}>
-        <Typography variant="h2" gutterBottom>
+        <Typography variant="h1" gutterBottom color={fr.colors.decisions.text.actionHigh.blueEcume.default}>
           Mentions légales
         </Typography>
 
@@ -60,14 +61,14 @@ const MentionsLegales = () => {
         <Typography>Dernière mise à jour le : 23 mars 2024 - {mentionLegalesVersion}</Typography>
 
         <Section id={anchors.DateMaj}>
-          <Typography variant="h3" gutterBottom>
+          <Typography variant="h2" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default}>
             Date de la dernière mise à jour
           </Typography>
           <Typography>Ces mentions légales ont été mise à jour le 27/03/2024.</Typography>
         </Section>
 
         <Section id={anchors.EditeurPlateforme}>
-          <Typography variant="h3" gutterBottom>
+          <Typography variant="h2" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default}>
             Éditeur de la plateforme
           </Typography>
           <Typography>
@@ -82,7 +83,7 @@ const MentionsLegales = () => {
         </Section>
 
         <Section id={anchors.DirecteurDeLaPublication}>
-          <Typography variant="h3" gutterBottom>
+          <Typography variant="h2" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default}>
             Directeur de la publication
           </Typography>
           <Typography gutterBottom>
@@ -92,7 +93,7 @@ const MentionsLegales = () => {
         </Section>
 
         <Section id={anchors.HebergementPlateforme}>
-          <Typography variant="h3" gutterBottom>
+          <Typography variant="h2" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default}>
             Hébergement de la plateforme
           </Typography>
           <Typography>
@@ -117,7 +118,12 @@ const MentionsLegales = () => {
         </Section>
 
         <Section id={anchors.Accessibilite}>
-          <Typography variant="h3" gutterBottom id={anchors.Accessibilite}>
+          <Typography
+            variant="h2"
+            gutterBottom
+            id={anchors.Accessibilite}
+            color={fr.colors.decisions.artwork.minor.blueEcume.default}
+          >
             Accessibilité
           </Typography>
           <Typography>
@@ -131,7 +137,7 @@ const MentionsLegales = () => {
         </Section>
 
         <Section id={anchors.Securite}>
-          <Typography variant="h3" gutterBottom>
+          <Typography variant="h2" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default}>
             Signaler un dysfonctionnement
           </Typography>
           <Typography>

@@ -173,19 +173,19 @@ function DataSection({ dictionnaire }: { dictionnaire: DocDictionary }) {
       >
         <Box
           sx={{
-            display: "grid",
+            display: "flex",
             gridColumn: spanTwoColumns,
-            gridTemplateColumns: { sm: "1fr", md: "repeat(4, 1fr)" },
             gap: fr.spacing("2w"),
+            alignItems: "center",
           }}
         >
-          <Artwork name="designer" />
-          <Box sx={{ display: "flex", alignItems: "center", gridColumn: { sm: "span 1", md: "span 3" } }}>
-            <Typography sx={{ textWrap: "balance" }}>
-              <strong>Besoin de ces données pour votre projet ? </strong>
-              <DsfrLink href={PAGES.static.documentationTechnique.path}>Consulter le swagger</DsfrLink>
-            </Typography>
-          </Box>
+          <Artwork name="designer" height={80} />
+          <Typography sx={{ textWrap: "balance" }} className={fr.cx("fr-text--lead")}>
+            <strong>Besoin de ces données pour votre projet ? </strong>
+          </Typography>
+          <DsfrLink href={PAGES.static.documentationTechnique.path} size="lg">
+            Consulter le swagger
+          </DsfrLink>
         </Box>
       </Box>
     </Box>
@@ -213,7 +213,7 @@ function ContactSection() {
             </Typography>
             <Box display="grid" gap={fr.spacing("2v")}>
               <Typography>
-                <DsfrLink href="mailto:support_api@apprentissage.beta.gouv.fr">Dites le nous</DsfrLink>
+                <DsfrLink href="mailto:support_api@apprentissage.beta.gouv.fr">Dites-le nous</DsfrLink>
               </Typography>
             </Box>
           </Box>

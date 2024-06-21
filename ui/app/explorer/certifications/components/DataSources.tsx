@@ -13,21 +13,11 @@ function SourceCard(props: DataSource) {
         display: "flex",
         flexDirection: "column",
         maxWidth: "lg",
-        border: "1px solid",
-        borderColor: fr.colors.decisions.border.default.grey.default,
         pt: fr.spacing("3w"),
         pb: fr.spacing("4w"),
         px: fr.spacing("3w"),
         gap: fr.spacing("1w"),
       }}
-      display="flex"
-      flexDirection="column"
-      maxWidth="lg"
-      border="1px solid"
-      borderColor={fr.colors.decisions.border.default.grey.default}
-      pt={fr.spacing("3w")}
-      px={fr.spacing("3w")}
-      gap={fr.spacing("1w")}
     >
       <Box
         sx={{

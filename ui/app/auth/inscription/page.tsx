@@ -1,12 +1,13 @@
 "use client";
 import { fr } from "@codegouvfr/react-dsfr";
 import Alert from "@codegouvfr/react-dsfr/Alert";
+import Button from "@codegouvfr/react-dsfr/Button";
 import { Checkbox } from "@codegouvfr/react-dsfr/Checkbox";
 import { Input } from "@codegouvfr/react-dsfr/Input";
 import { RadioButtons } from "@codegouvfr/react-dsfr/RadioButtons";
 import { Select } from "@codegouvfr/react-dsfr/Select";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Button, Dialog, DialogContent, Typography } from "@mui/material";
+import { Box, Dialog, DialogContent, Typography } from "@mui/material";
 import { captureException } from "@sentry/nextjs";
 import NextLink from "next/link";
 import { useRouter } from "next/navigation";
@@ -43,6 +44,7 @@ export default function RegisterPage() {
     control,
     formState: { errors, isSubmitting },
   } = useForm<Inputs>({
+    mode: "all",
     resolver: zodResolver(zRoutes.post["/_private/auth/register"].body),
   });
   const { user, setUser } = useAuth();
@@ -123,7 +125,7 @@ export default function RegisterPage() {
         }}
       >
         <Box sx={{ textAlign: "right", marginBottom: fr.spacing("2w") }}>
-          <Button variant="outlined">
+          <Button priority="tertiary">
             <Box component={NextLink} href={PAGES.static.home.path} sx={{ backgroundImage: "none" }}>
               Retourner sur le site API Apprentissage
             </Box>
@@ -246,11 +248,14 @@ export default function RegisterPage() {
               ]}
             />
             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <Button size="large" variant="contained" type="submit" disabled={isSubmitting || !token.valid}>
-                <Typography className={fr.cx("fr-text--lg")}>Continuer</Typography>
-                <Box component="span" sx={{ display: "inline-block" }} mx={fr.spacing("1w")}>
-                  <i className={fr.cx("fr-icon-arrow-right-line", "fr-text--lg")} />
-                </Box>
+              <Button
+                size="large"
+                type="submit"
+                disabled={isSubmitting || !token.valid}
+                iconId="fr-icon-arrow-right-line"
+                iconPosition="right"
+              >
+                Continuer
               </Button>
             </Box>
           </Box>

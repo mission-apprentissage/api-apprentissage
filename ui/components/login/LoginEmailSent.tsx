@@ -1,6 +1,7 @@
 "use client";
 import { fr } from "@codegouvfr/react-dsfr";
-import { Box, Button, Dialog, DialogContent, Typography } from "@mui/material";
+import Button from "@codegouvfr/react-dsfr/Button";
+import { Box, Dialog, DialogContent, Typography } from "@mui/material";
 import Link from "next/link";
 
 import { Artwork } from "@/components/artwork/Artwork";
@@ -30,7 +31,7 @@ export function LoginEmailSentModal({ email }: { email: string }) {
         }}
       >
         <Box sx={{ textAlign: "right", marginBottom: fr.spacing("2w") }}>
-          <Button variant="outlined">
+          <Button priority="tertiary">
             <Box component={Link} href={PAGES.static.home.path} sx={{ backgroundImage: "none" }}>
               Fermer
             </Box>

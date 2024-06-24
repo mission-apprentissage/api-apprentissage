@@ -10,6 +10,7 @@ import sessionsModelDescriptor from "./session.model";
 import sourceAcceModelDescriptor from "./source/acce/source.acce.model";
 import { sourceBcnModelDescriptor } from "./source/bcn/source.bcn.model";
 import sourceCatalogueModelDescriptor from "./source/catalogue/source.catalogue.model";
+import { sourceDaresCcnModelDescriptor } from "./source/dares/source.dares.ccn.model";
 import { sourceFranceCompetenceModelDescriptor } from "./source/france_competence/source.france_competence.model";
 import { sourceKaliCcnModelDescriptor } from "./source/kali/source.kali.ccn.model";
 import { sourceKitApprentissageModelDescriptor } from "./source/kitApprentissage/source.kit_apprentissage.model";
@@ -35,6 +36,7 @@ export const modelDescriptorMap = {
   [sourceNpecModelDescriptor.collectionName]: sourceNpecModelDescriptor,
   [sourceNpecNormalizedModelDescriptor.collectionName]: sourceNpecNormalizedModelDescriptor,
   [sourceKaliCcnModelDescriptor.collectionName]: sourceKaliCcnModelDescriptor,
+  [sourceDaresCcnModelDescriptor.collectionName]: sourceDaresCcnModelDescriptor,
 };
 
 export type IModelDescriptorMap = typeof modelDescriptorMap;

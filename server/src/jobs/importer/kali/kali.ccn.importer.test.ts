@@ -11,7 +11,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { fetchDataGouvDataSet } from "@/services/apis/data_gouv/data_gouv.api";
 import { getDbCollection } from "@/services/mongodb/mongodbService";
 
-import { runConventionCollectivesImporter } from "./kali.ccn.importer";
+import { runKaliConventionCollectivesImporter } from "./kali.ccn.importer";
 
 vi.mock("@/services/apis/data_gouv/data_gouv.api", async (importOriginal) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -114,7 +114,7 @@ describe("runConventionCollectivesImporter", () => {
       },
     ]);
 
-    await runConventionCollectivesImporter();
+    await runKaliConventionCollectivesImporter();
 
     await expect(getDbCollection("import.meta").find({}).toArray()).resolves.toEqual([
       ...initialImports,

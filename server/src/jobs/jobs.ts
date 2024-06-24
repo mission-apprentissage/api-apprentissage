@@ -13,12 +13,13 @@ import { runAcceImporter } from "./importer/acce/acce";
 import { runBcnImporter } from "./importer/bcn/bcn.importer";
 import { runCatalogueImporter } from "./importer/catalogue/catalogue.importer";
 import { importCertifications } from "./importer/certifications/certifications.importer";
+import { runDaresConventionCollectivesImporter } from "./importer/dares/dares.ccn.importer";
 import {
   importRncpArchive,
   onImportRncpArchiveFailure,
   runRncpImporter,
 } from "./importer/france_competence/france_competence.importer";
-import { runConventionCollectivesImporter } from "./importer/kali/kali.ccn.importer";
+import { runKaliConventionCollectivesImporter } from "./importer/kali/kali.ccn.importer";
 import { runKitApprentissageImporter } from "./importer/kit/kitApprentissage.importer";
 import { importNpecResource, onImportNpecResourceFailure, runNpecImporter } from "./importer/npec/npec.importer";
 import { runReferentielImporter } from "./importer/referentiel/referentiel";
@@ -72,9 +73,14 @@ export async function setupJobProcessor() {
               handler: () => runNpecImporter(),
               resumable: true,
             },
-            "Import des Conventions Collective": {
+            "Import des Conventions Collective Kali": {
               cron_string: config.env === "production" ? "0 4 * * *" : "0 5 * * *",
-              handler: runConventionCollectivesImporter,
+              handler: runKaliConventionCollectivesImporter,
+              resumable: true,
+            },
+            "Import des Conventions Collective Dares": {
+              cron_string: config.env === "production" ? "0 4 * * *" : "0 5 * * *",
+              handler: runDaresConventionCollectivesImporter,
               resumable: true,
             },
           },
@@ -124,7 +130,11 @@ export async function setupJobProcessor() {
         handler: async () => runRncpImporter(),
       },
       "import:kali_ccn": {
-        handler: async (job, signal) => runConventionCollectivesImporter(signal),
+        handler: async (job, signal) => runKaliConventionCollectivesImporter(signal),
+        resumable: true,
+      },
+      "import:dares_ccn": {
+        handler: async (job, signal) => runDaresConventionCollectivesImporter(signal),
         resumable: true,
       },
       "import:france_competence:resource": {

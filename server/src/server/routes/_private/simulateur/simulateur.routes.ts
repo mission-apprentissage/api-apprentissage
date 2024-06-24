@@ -13,7 +13,7 @@ export const simulateurRoutes = ({ server }: { server: Server }) => {
       schema: zRoutes.get["/_private/simulateur/context"],
     },
     async (request, response) => {
-      const [rncps, conventions_collectives] = await Promise.all([
+      const [rncps, conventions_collectives_kali, conventions_collectives_dares] = await Promise.all([
         getDbCollection("certifications")
           .aggregate<{ code: string; intitule: string }>([
             { $match: { "identifiant.rncp": { $ne: null } } },
@@ -36,11 +36,37 @@ export const simulateurRoutes = ({ server }: { server: Server }) => {
             { $project: { _id: 0, idcc: "$_id", titre: 1 } },
           ])
           .toArray(),
+        getDbCollection("source.dares.ccn")
+          .aggregate<{ idcc: number; titre: string }>([
+            {
+              $sort: { "data.idcc": 1, "data.titre": 1 },
+            },
+            {
+              $group: { _id: "$data.idcc", titre: { $first: "$data.titre" } },
+            },
+            { $project: { _id: 0, idcc: "$_id", titre: 1 } },
+          ])
+          .toArray(),
       ]);
+
+      const seen = new Set();
+      const conventions_collectives = [];
+
+      // Merge conventions collectives from KALI and DARES
+      // Kali is the reference source, DARES is a fallback
+      for (const list of [conventions_collectives_kali, conventions_collectives_dares]) {
+        for (const item of list) {
+          if (seen.has(item.idcc)) {
+            continue;
+          }
+          conventions_collectives.push(item);
+          seen.add(item.idcc);
+        }
+      }
 
       return response.status(200).send({
         rncps,
-        conventions_collectives,
+        conventions_collectives: conventions_collectives.toSorted((a, b) => a.idcc - b.idcc),
       });
     }
   );

@@ -89,7 +89,7 @@ async function importResource(
     );
 
     await getDbCollection("source.kali.ccn").deleteMany({
-      "data.date_import": { $lt: importMeta.import_date },
+      date_import: { $lt: importMeta.import_date },
     });
 
     await getDbCollection("import.meta").updateOne(
@@ -102,17 +102,17 @@ async function importResource(
     );
   } catch (error) {
     await getDbCollection("source.kali.ccn").deleteMany({
-      "data.date_import": importMeta.import_date,
+      date_import: importMeta.import_date,
     });
 
     if (signal && error.name === signal?.reason?.name) {
       throw signal.reason;
     }
-    throw withCause(internal("import.kali_ccn: unable to importRncpArchive", { importMeta }), error);
+    throw withCause(internal("import.kali_ccn: unable to importResource", { importMeta }), error);
   }
 }
 
-export async function runConventionCollectivesImporter(signal?: AbortSignal) {
+export async function runKaliConventionCollectivesImporter(signal?: AbortSignal) {
   const importId = new ObjectId();
   const importDate = new Date();
 
@@ -136,6 +136,6 @@ export async function runConventionCollectivesImporter(signal?: AbortSignal) {
     await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "done" } });
   } catch (error) {
     await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "failed" } });
-    throw withCause(internal("import.kali_ccn: unable to runRncpImporter"), error);
+    throw withCause(internal("import.kali_ccn: unable to runKaliConventionCollectivesImporter"), error);
   }
 }

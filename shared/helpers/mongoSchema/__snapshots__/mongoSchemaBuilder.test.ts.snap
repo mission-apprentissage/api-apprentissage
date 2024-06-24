@@ -1331,6 +1331,56 @@ exports[`zodToMongoSchema > should convert import.meta schema 1`] = `
         "file_date",
       ],
     },
+    {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "_id": {
+          "bsonType": "objectId",
+        },
+        "import_date": {
+          "bsonType": "date",
+        },
+        "resource": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "date": {
+              "bsonType": "date",
+            },
+            "title": {
+              "bsonType": "string",
+            },
+            "url": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "title",
+            "url",
+            "date",
+          ],
+        },
+        "status": {
+          "bsonType": "string",
+          "enum": [
+            "pending",
+            "done",
+            "failed",
+          ],
+        },
+        "type": {
+          "bsonType": "string",
+        },
+      },
+      "required": [
+        "_id",
+        "import_date",
+        "type",
+        "status",
+        "resource",
+      ],
+    },
   ],
 }
 `;
@@ -5033,6 +5083,46 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
   "required": [
     "_id",
     "date",
+    "data",
+  ],
+}
+`;
+
+exports[`zodToMongoSchema > should convert source.dares.ccn schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "data": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "idcc": {
+          "bsonType": "number",
+        },
+        "titre": {
+          "bsonType": "string",
+        },
+      },
+      "required": [
+        "idcc",
+        "titre",
+      ],
+    },
+    "date_import": {
+      "bsonType": "date",
+    },
+    "import_id": {
+      "bsonType": "objectId",
+    },
+  },
+  "required": [
+    "_id",
+    "import_id",
+    "date_import",
     "data",
   ],
 }

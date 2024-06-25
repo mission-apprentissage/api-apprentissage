@@ -6,7 +6,7 @@ const collectionName = "source.dares.ccn" as const;
 
 const indexes: IModelDescriptorGeneric["indexes"] = [
   [{ date_import: 1 }, {}],
-  [{ "data.idcc": 1, "data.titre": 1 }, {}],
+  [{ "data.idcc": 1, date_import: -1, "data.titre": 1 }, {}],
 ];
 
 export const zSourceDaresConventionCollectionData = z.object({
@@ -18,10 +18,7 @@ export const zSourceDaresCcn = z.object({
   _id: zObjectId,
   import_id: zObjectId,
   date_import: z.date(),
-  data: z.object({
-    idcc: z.coerce.number(),
-    titre: z.string(),
-  }),
+  data: zSourceDaresConventionCollectionData,
 });
 
 export const sourceDaresCcnModelDescriptor = {

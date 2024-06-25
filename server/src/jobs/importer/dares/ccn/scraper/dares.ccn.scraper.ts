@@ -1,7 +1,7 @@
 import { internal } from "@hapi/boom";
 import { ReadStream } from "fs";
 import { parse } from "node-html-parser";
-import { IImportMetaDaresCcn } from "shared/models/import.meta.model";
+import { IImportMetaDares } from "shared/models/import.meta.model";
 
 import getApiClient from "@/services/apis/client";
 import { withCause } from "@/services/errors/withCause";
@@ -15,7 +15,7 @@ const client = getApiClient(
   { cache: false }
 );
 
-export async function scrapeRessourceCcn(): Promise<IImportMetaDaresCcn["resource"]> {
+export async function scrapeRessourceCcn(): Promise<IImportMetaDares["resource"]> {
   const raw = await client.get<string>(
     "/dialogue-social/negociation-collective/article/conventions-collectives-nomenclatures",
     { responseType: "document" }
@@ -56,7 +56,7 @@ export async function scrapeRessourceCcn(): Promise<IImportMetaDaresCcn["resourc
   };
 }
 
-export async function downloadResourceCcnFile(resource: IImportMetaDaresCcn["resource"]): Promise<ReadStream> {
+export async function downloadResourceCcnFile(resource: IImportMetaDares["resource"]): Promise<ReadStream> {
   try {
     const response = await client.get<ReadStream>(resource.url, {
       responseType: "stream",

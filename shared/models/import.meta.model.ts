@@ -53,11 +53,11 @@ export const zImportMetaSimple = z
   })
   .strict();
 
-export const zImportMetaDaresCcn = z
+export const zImportMetaDares = z
   .object({
     _id: zObjectId,
     import_date: z.date(),
-    type: z.literal("dares_ccn"),
+    type: z.enum(["dares_ccn", "dares_ape_idcc"]),
     status: z.enum(["pending", "done", "failed"]),
     resource: z.object({
       title: z.string(),
@@ -89,7 +89,7 @@ export const zImportMeta = z.discriminatedUnion("type", [
   zImportMetaSimple,
   zImportMetaCertifications,
   zImportMetaNpec,
-  zImportMetaDaresCcn,
+  zImportMetaDares,
 ]);
 
 export const importMetaModelDescriptor = {
@@ -102,4 +102,4 @@ export type IImportMeta = z.output<typeof zImportMeta>;
 export type IImportMetaFranceCompetence = z.output<typeof zImportMetaFranceCompetence>;
 export type IImportMetaNpec = z.output<typeof zImportMetaNpec>;
 export type IImportMetaCertifications = z.output<typeof zImportMetaCertifications>;
-export type IImportMetaDaresCcn = z.output<typeof zImportMetaDaresCcn>;
+export type IImportMetaDares = z.output<typeof zImportMetaDares>;

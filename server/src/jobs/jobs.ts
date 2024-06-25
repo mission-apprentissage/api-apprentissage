@@ -13,7 +13,8 @@ import { runAcceImporter } from "./importer/acce/acce";
 import { runBcnImporter } from "./importer/bcn/bcn.importer";
 import { runCatalogueImporter } from "./importer/catalogue/catalogue.importer";
 import { importCertifications } from "./importer/certifications/certifications.importer";
-import { runDaresConventionCollectivesImporter } from "./importer/dares/dares.ccn.importer";
+import { runDaresApeIdccImporter } from "./importer/dares/ape_idcc/dares.ape_idcc.importer";
+import { runDaresConventionCollectivesImporter } from "./importer/dares/ccn/dares.ccn.importer";
 import {
   importRncpArchive,
   onImportRncpArchiveFailure,
@@ -83,6 +84,11 @@ export async function setupJobProcessor() {
               handler: runDaresConventionCollectivesImporter,
               resumable: true,
             },
+            "Import des APE-IDCC Dares": {
+              cron_string: config.env === "production" ? "0 4 * * *" : "0 5 * * *",
+              handler: runDaresApeIdccImporter,
+              resumable: true,
+            },
           },
     jobs: {
       "indexes:recreate": {
@@ -135,6 +141,10 @@ export async function setupJobProcessor() {
       },
       "import:dares_ccn": {
         handler: async (job, signal) => runDaresConventionCollectivesImporter(signal),
+        resumable: true,
+      },
+      "import:dares_cape_idcc": {
+        handler: async (job, signal) => runDaresApeIdccImporter(signal),
         resumable: true,
       },
       "import:france_competence:resource": {

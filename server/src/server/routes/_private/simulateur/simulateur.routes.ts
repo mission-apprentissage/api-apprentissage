@@ -13,7 +13,12 @@ export const simulateurRoutes = ({ server }: { server: Server }) => {
       schema: zRoutes.get["/_private/simulateur/context"],
     },
     async (request, response) => {
-      const [rncps, conventions_collectives_kali, conventions_collectives_dares] = await Promise.all([
+      const [
+        rncps,
+        conventions_collectives_kali,
+        conventions_collectives_dares,
+        conventions_collectives_dares_ape_idcc,
+      ] = await Promise.all([
         getDbCollection("certifications")
           .aggregate<{ code: string; intitule: string }>([
             { $match: { "identifiant.rncp": { $ne: null } } },
@@ -39,10 +44,27 @@ export const simulateurRoutes = ({ server }: { server: Server }) => {
         getDbCollection("source.dares.ccn")
           .aggregate<{ idcc: number; titre: string }>([
             {
-              $sort: { "data.idcc": 1, "data.titre": 1 },
+              $sort: { "data.idcc": 1, date_import: -1, "data.titre": 1 },
             },
             {
               $group: { _id: "$data.idcc", titre: { $first: "$data.titre" } },
+            },
+            { $project: { _id: 0, idcc: "$_id", titre: 1 } },
+          ])
+          .toArray(),
+        getDbCollection("source.dares.ape_idcc")
+          .aggregate<{ idcc: number; titre: string }>([
+            {
+              $match: { "data.convention_collective.idcc": { $ne: null } },
+            },
+            {
+              $sort: { "data.convention_collective.idcc": 1, date_import: -1, "data.convention_collective.titre": 1 },
+            },
+            {
+              $group: {
+                _id: "$data.convention_collective.idcc",
+                titre: { $first: "$data.convention_collective.titre" },
+              },
             },
             { $project: { _id: 0, idcc: "$_id", titre: 1 } },
           ])
@@ -54,7 +76,11 @@ export const simulateurRoutes = ({ server }: { server: Server }) => {
 
       // Merge conventions collectives from KALI and DARES
       // Kali is the reference source, DARES is a fallback
-      for (const list of [conventions_collectives_kali, conventions_collectives_dares]) {
+      for (const list of [
+        conventions_collectives_kali,
+        conventions_collectives_dares,
+        conventions_collectives_dares_ape_idcc,
+      ]) {
         for (const item of list) {
           if (seen.has(item.idcc)) {
             continue;

@@ -29,6 +29,12 @@ fileignoreconfig:
   checksum: 093762c8f38688b8c8d3f50a872f1457e2d5c538c06f524418fc13d33145db72
 - filename: server/src/common/apis/data_gouv/data_gouv.api.test.ts
   checksum: 8f9baf3df9017a6eebd740861296c4a5eec9d2aec90f571d24d5390a3f37c2a9
+- filename: server/src/jobs/importer/dares/ape_idcc/dares.ape_idcc.importer.test.ts
+  checksum: abab0590ce8e6f3bbffa6d77d9839389a0d7a4c9c39f40aad028e2b09214bc79
+- filename: server/src/jobs/importer/dares/ape_idcc/fixtures/article.html
+  checksum: 9846632752349e2c59fc769251222f69fb89fa9f5cb9699b0e87edfe42567d98
+- filename: server/src/jobs/importer/dares/ape_idcc/scraper/dares.ape_idcc.scraper.test.ts
+  checksum: 29068ad3965c9222643a240533d95190b8e5d03b87baee0afc5b771a24e26b71
 - filename: server/src/jobs/importer/france_competence/france_competence.importer.test.ts
   checksum: 3e755cd8fd314acae130c73c40349a3118fe23ec854175df6c7ef43c6dfb0144
 - filename: server/src/jobs/importer/france_competence/france_competence.importer.ts

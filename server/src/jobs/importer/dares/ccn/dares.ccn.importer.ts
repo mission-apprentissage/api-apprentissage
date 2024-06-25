@@ -2,7 +2,7 @@ import { addAbortSignal, Duplex, Transform } from "node:stream";
 
 import { internal } from "@hapi/boom";
 import { AnyBulkWriteOperation, ObjectId } from "mongodb";
-import { IImportMetaDaresCcn } from "shared/models/import.meta.model";
+import { IImportMetaDares } from "shared/models/import.meta.model";
 import { ISourceDaresCcn, zSourceDaresCcn } from "shared/models/source/dares/source.dares.ccn.model";
 import { pipeline } from "stream/promises";
 
@@ -13,7 +13,7 @@ import { createBatchTransformStream } from "@/utils/streamUtils";
 
 import { downloadResourceCcnFile, scrapeRessourceCcn } from "./scraper/dares.ccn.scraper";
 
-async function importResource(importMeta: IImportMetaDaresCcn, signal?: AbortSignal) {
+async function importResource(importMeta: IImportMetaDares, signal?: AbortSignal) {
   const readStream = await downloadResourceCcnFile(importMeta.resource);
 
   if (signal) addAbortSignal(signal, readStream);
@@ -83,7 +83,7 @@ export async function runDaresConventionCollectivesImporter(signal?: AbortSignal
       return;
     }
 
-    const importMeta: IImportMetaDaresCcn = {
+    const importMeta: IImportMetaDares = {
       _id: importId,
       import_date: importDate,
       type: "dares_ccn",

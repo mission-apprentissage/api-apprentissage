@@ -4,7 +4,7 @@ import { readFile } from "fs/promises";
 import { ObjectId } from "mongodb";
 import nock from "nock";
 import { dirname, join } from "path";
-import { IImportMetaDaresCcn } from "shared/models/import.meta.model";
+import { IImportMetaDares } from "shared/models/import.meta.model";
 import { fileURLToPath } from "url";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -111,7 +111,7 @@ describe("runConventionCollectivesImporter", () => {
     //     "last-modified": lastMonth.toString()
     //   });
 
-    const initialImport: IImportMetaDaresCcn = {
+    const initialImport: IImportMetaDares = {
       _id: new ObjectId(),
       import_date: yesterday,
       type: "dares_ccn",
@@ -173,7 +173,7 @@ describe("runConventionCollectivesImporter", () => {
         "last-modified": yesterday.toString(),
       });
 
-    const initialImport: IImportMetaDaresCcn = {
+    const initialImport: IImportMetaDares = {
       _id: new ObjectId(),
       import_date: twoDaysAgo,
       type: "dares_ccn",

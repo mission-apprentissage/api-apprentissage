@@ -21,6 +21,26 @@ const spanTwoColumns = {
   lg: "span 2",
 };
 
+function DsfrMarkdown({ children }: { children: string | null | undefined }) {
+  return (
+    <Markdown
+      components={{
+        p: ({ children }) => <Typography>{children}</Typography>,
+        a: ({ children, href }) => (
+          <DsfrLink href={href ?? ""} arrow="none">
+            {children}
+          </DsfrLink>
+        ),
+        code: ({ children }) => {
+          return children ? <Tag color="beigeGrisGalet">{children}</Tag> : null;
+        },
+      }}
+    >
+      {children}
+    </Markdown>
+  );
+}
+
 function InformationBox({ information }: Pick<DocField, "information">) {
   if (!information) return null;
 
@@ -51,18 +71,7 @@ function InformationBox({ information }: Pick<DocField, "information">) {
             <strong>Information</strong>
           </Typography>
         </Box>
-        <Markdown
-          components={{
-            p: ({ children }) => <Typography>{children}</Typography>,
-            a: ({ children, href }) => (
-              <DsfrLink href={href ?? ""} arrow="none">
-                {children}
-              </DsfrLink>
-            ),
-          }}
-        >
-          {information}
-        </Markdown>
+        <DsfrMarkdown>{information}</DsfrMarkdown>
       </Box>
     </Box>
   );
@@ -91,18 +100,7 @@ function DataField({ field }: { field: DocField }) {
             {field.sample}
           </Typography>
         )}
-        <Markdown
-          components={{
-            p: ({ children }) => <Typography>{children}</Typography>,
-            a: ({ children, href }) => (
-              <DsfrLink href={href ?? ""} arrow="none">
-                {children}
-              </DsfrLink>
-            ),
-          }}
-        >
-          {field.description}
-        </Markdown>
+        <DsfrMarkdown>{field.description}</DsfrMarkdown>
         <Box sx={{ display: "flex", gap: fr.spacing("1w"), flexWrap: "wrap" }}>
           {field.tags.map((tag) => (
             <Tag color="beigeGrisGalet" key={tag}>

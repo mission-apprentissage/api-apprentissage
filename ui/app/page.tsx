@@ -80,7 +80,7 @@ function VousEtesSection() {
 
           <Link component={NextLink} href={PAGES.static.explorerApi.path}>
             <Button iconId="fr-icon-arrow-right-line" iconPosition="right" priority="primary" size="large">
-              Consulter le catalogue des données
+              Explorer l'API
             </Button>
           </Link>
         </Box>

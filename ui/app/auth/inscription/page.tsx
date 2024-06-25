@@ -46,6 +46,9 @@ export default function RegisterPage() {
   } = useForm<Inputs>({
     mode: "all",
     resolver: zodResolver(zRoutes.post["/_private/auth/register"].body),
+    defaultValues: {
+      objectif: null,
+    },
   });
   const { user, setUser } = useAuth();
 
@@ -60,7 +63,7 @@ export default function RegisterPage() {
   const objectifController = useController({
     name: "objectif",
     control,
-    rules: { required: true },
+    rules: { required: false },
   });
   const cguController = useController({
     name: "cgu",
@@ -175,7 +178,14 @@ export default function RegisterPage() {
             }}
           >
             <Select
-              label="Vous êtes ?"
+              label={
+                <Typography>
+                  Vous êtes ? &nbsp;
+                  <Box component="span" sx={{ color: fr.colors.decisions.artwork.minor.redMarianne.default }}>
+                    *
+                  </Box>
+                </Typography>
+              }
               nativeSelectProps={{
                 onChange: (event) => typeController.field.onChange(event.target.value),
                 value: typeController.field.value,
@@ -239,8 +249,12 @@ export default function RegisterPage() {
                     <Typography>
                       J’ai lu et j’accepte les{" "}
                       <NextLink href={PAGES.static.cgu.path} target="_blank">
-                        Conditions Générales d’Utilisation du service
+                        Conditions Générales d’Utilisation
                       </NextLink>
+                      &nbsp;du service&nbsp;
+                      <Box component="span" sx={{ color: fr.colors.decisions.artwork.minor.redMarianne.default }}>
+                        *
+                      </Box>
                     </Typography>
                   ),
                   nativeInputProps: register("cgu", { required: true }),

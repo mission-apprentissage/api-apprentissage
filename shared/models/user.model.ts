@@ -62,7 +62,7 @@ export const zUser = z
       .trim()
       .nullable()
       .transform((v) => v || null),
-    objectif: z.enum(["fiabiliser", "concevoir"]),
+    objectif: z.enum(["fiabiliser", "concevoir"]).nullable(),
     cas_usage: z
       .string()
       .trim()

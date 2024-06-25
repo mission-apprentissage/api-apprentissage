@@ -6843,10 +6843,17 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
       "bsonType": "bool",
     },
     "objectif": {
-      "bsonType": "string",
-      "enum": [
-        "fiabiliser",
-        "concevoir",
+      "anyOf": [
+        {
+          "bsonType": "string",
+          "enum": [
+            "fiabiliser",
+            "concevoir",
+          ],
+        },
+        {
+          "bsonType": "null",
+        },
       ],
     },
     "type": {

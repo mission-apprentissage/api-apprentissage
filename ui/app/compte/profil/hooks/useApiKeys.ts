@@ -17,6 +17,7 @@ export function useApiKeys(): UseApiKeys {
     queryFn: async () => {
       return apiGet("/_private/user/api-keys", {});
     },
+    staleTime: Infinity,
   });
 
   return useMemo(() => {

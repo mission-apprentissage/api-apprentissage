@@ -1,5 +1,6 @@
 import { fr } from "@codegouvfr/react-dsfr";
 import { Badge } from "@codegouvfr/react-dsfr/Badge";
+import { ReactNode } from "react";
 
 const colorMap = {
   beigeGrisGalet: {
@@ -14,7 +15,7 @@ const colorMap = {
 
 type TagColor = keyof typeof colorMap;
 
-export function Tag({ children, color }: { children: string; color: TagColor }) {
+export function Tag({ children, color }: { children: NonNullable<ReactNode>; color: TagColor }) {
   return (
     <Badge small style={colorMap[color]}>
       {children}

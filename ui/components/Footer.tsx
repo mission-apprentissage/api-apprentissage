@@ -54,17 +54,6 @@ const Footer = () => {
           }}
         />,
         <FooterBottomItem
-          key="page-aide"
-          bottomItem={{
-            text: "Page d'aide",
-            linkProps: {
-              target: "_blank",
-              rel: "noopener noreferrer",
-              href: "https://www.notion.so/mission-apprentissage/Documentation-dbb1eddc954441eaa0ba7f5c6404bdc0",
-            },
-          }}
-        />,
-        <FooterBottomItem
           key="politique-confidentialite"
           bottomItem={{
             text: PAGES.static.politiqueConfidentialite.title,
@@ -74,38 +63,11 @@ const Footer = () => {
           }}
         />,
         <FooterBottomItem
-          key="a-propos"
-          bottomItem={{
-            text: "À propos",
-            linkProps: {
-              href: "https://beta.gouv.fr/startups",
-            },
-          }}
-        />,
-        <FooterBottomItem
-          key="journal-evolution"
-          bottomItem={{
-            text: "Journal des évolutions",
-            linkProps: {
-              href: `https://github.com/mission-apprentissage/${publicConfig.productMeta.repoName}/releases`,
-            },
-          }}
-        />,
-        <FooterBottomItem
           key="code-source"
           bottomItem={{
             text: "Code source",
             linkProps: {
               href: `https://github.com/mission-apprentissage/${publicConfig.productMeta.repoName}`,
-            },
-          }}
-        />,
-        <FooterBottomItem
-          key="version"
-          bottomItem={{
-            text: `v.${publicConfig.version} © République française ${new Date().getFullYear()}`,
-            linkProps: {
-              href: `https://github.com/mission-apprentissage/${publicConfig.productMeta.repoName}/releases/tag/v${publicConfig.version}`,
             },
           }}
         />,

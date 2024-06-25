@@ -101,6 +101,10 @@ fileignoreconfig:
   checksum: 542e1d58bdd72fffc5122738e5de50767222b667fb018f5e061063cc8060bef3
 - filename: ui/app/components/breadcrumb/Breadcrumb.tsx
   checksum: 91e0291afc862997f8a0ae24174ddb53371d580d333548849b5f60af96c6207b
+- filename: ui/app/explorer/certifications/components/CatalogueData.tsx
+  checksum: 667e54b8220dd1b3496ddbc43c3201d5ea20f2fa2091b89a7ea8a064082106fd
+- filename: ui/app/explorer/page.tsx
+  checksum: 97ff42a8acd9126795d83ec48c8abc99b07e73ead091ee6246c614bece1e5c3d
 - filename: ui/app/page.tsx
   checksum: 0e679ae2b1910da52bb834ef5820998aa822947cca00cb54e23ea5da91586898
 - filename: ui/app/politique-confidentialite/components/PolitiqueConfidentialite.tsx

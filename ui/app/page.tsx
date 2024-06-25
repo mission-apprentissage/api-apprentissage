@@ -1,6 +1,7 @@
 import { fr } from "@codegouvfr/react-dsfr";
 import { Badge } from "@codegouvfr/react-dsfr/Badge";
-import { Box, Button, Container, Hidden, Link, Typography } from "@mui/material";
+import Button from "@codegouvfr/react-dsfr/Button";
+import { Box, Container, Hidden, Link, Typography } from "@mui/material";
 import Image from "next/image";
 import NextLink from "next/link";
 import { PropsWithChildren } from "react";
@@ -66,28 +67,20 @@ function VousEtesSection() {
           </Box>
           <Box textAlign="center">
             <Typography
-              component="span"
-              variant="body1"
-              sx={{ color: fr.colors.decisions.text.label.blueEcume.default, fontSize: "24px" }}
+              variant="h4"
+              sx={{ color: fr.colors.decisions.artwork.minor.blueEcume.default, fontWeight: "normal" }}
             >
-              L’<strong>API Apprentissage</strong>
-            </Typography>
-            <Typography
-              component="span"
-              variant="body1"
-              sx={{ color: "var(--artwork-minor-blue-ecume)", fontSize: "24px" }}
-            >
+              <Box component="span" sx={{ color: fr.colors.decisions.text.label.blueEcume.default }}>
+                L’<strong>API Apprentissage</strong>
+              </Box>
               &nbsp;est le <strong>point d’entrée unique</strong> et documenté pour <strong>faciliter l’accès</strong> à
               toutes les <strong>données relatives à l’apprentissage</strong>
             </Typography>
           </Box>
 
           <Link component={NextLink} href={PAGES.static.explorerApi.path}>
-            <Button size="large" variant="contained">
-              Consulter le catalogue des données
-              <Box component="span" sx={{ display: "inline-block" }} mx={fr.spacing("1w")}>
-                <i className={fr.cx("fr-icon-arrow-right-line", "fr-text--lg")} />
-              </Box>
+            <Button iconId="fr-icon-arrow-right-line" iconPosition="right" priority="primary" size="large">
+              Explorer l'API
             </Button>
           </Link>
         </Box>
@@ -165,7 +158,7 @@ function ProtectionDesDonneeSection() {
             <Typography variant="h2" sx={{ color: fr.colors.decisions.text.label.blueEcume.default }}>
               Protection des données
             </Typography>
-            <Typography>
+            <Typography variant="h4">
               L’API apprentissage est construite dans le <strong>respect strict de la vie privée des personnes</strong>{" "}
               et <strong>applique les standards de sécurité de l'État.</strong>
             </Typography>

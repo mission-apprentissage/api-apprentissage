@@ -38,7 +38,7 @@ export const PAGES = {
       index: true,
     },
     catalogueDesDonneesCertification: {
-      title: "Liste des certifications réalisables en apprentissage",
+      title: "Liste des certifications professionnelles",
       path: "/explorer/certifications",
       index: true,
     },

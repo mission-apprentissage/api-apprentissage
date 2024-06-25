@@ -1,6 +1,7 @@
 "use client";
 import { fr } from "@codegouvfr/react-dsfr";
-import { Box, Button, Collapse, Typography } from "@mui/material";
+import Button from "@codegouvfr/react-dsfr/Button";
+import { Box, Collapse, Typography } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -29,15 +30,12 @@ export function GoodToKnow({ tip }: Pick<DocField, "tip">) {
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center" }}>
-        <Typography>
-          <strong>💡Bon à savoir :</strong>
-        </Typography>
+        <Typography className={fr.cx("fr-text--bold")}>💡Bon à savoir :</Typography>
         <Button
-          variant="text"
-          endIcon={<i className={fr.cx(isOpen ? "fr-icon-arrow-up-s-line" : "fr-icon-arrow-down-s-line")}></i>}
+          priority="tertiary no outline"
+          iconId={isOpen ? "fr-icon-arrow-up-s-line" : "fr-icon-arrow-down-s-line"}
+          iconPosition="right"
           onClick={toggle}
-          sx={{ color: fr.colors.decisions.text.actionHigh.blueFrance.default }}
-          className={fr.cx("fr-text--md", "fr-text--regular")}
         >
           {tip.title}
         </Button>

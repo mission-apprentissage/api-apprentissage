@@ -1,9 +1,10 @@
 "use client";
 import { fr } from "@codegouvfr/react-dsfr";
 import Alert from "@codegouvfr/react-dsfr/Alert";
+import Button from "@codegouvfr/react-dsfr/Button";
 import { Input } from "@codegouvfr/react-dsfr/Input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Button, Dialog, DialogContent, Typography } from "@mui/material";
+import { Box, Dialog, DialogContent, Typography } from "@mui/material";
 import { captureException } from "@sentry/nextjs";
 import NextLink from "next/link";
 import { useRouter } from "next/navigation";
@@ -103,7 +104,7 @@ export default function RegisterFeedbackPage() {
         }}
       >
         <Box sx={{ textAlign: "right", marginBottom: fr.spacing("2w") }}>
-          <Button variant="outlined">
+          <Button priority="tertiary">
             <Box component={NextLink} href={PAGES.static.home.path} sx={{ backgroundImage: "none" }}>
               Retourner sur le site API Apprentissage
             </Box>
@@ -159,24 +160,26 @@ export default function RegisterFeedbackPage() {
               textArea
             />
             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <Button size="large" variant="contained" type="submit" disabled={isSubmitting || !token.valid}>
-                <Typography className={fr.cx("fr-text--lg")}>Envoyer</Typography>
-                <Box component="span" sx={{ display: "inline-block" }} mx={fr.spacing("1w")}>
-                  <i className={fr.cx("fr-icon-arrow-right-line", "fr-text--lg")} />
-                </Box>
+              <Button
+                size="large"
+                type="submit"
+                disabled={isSubmitting || !token.valid}
+                priority="primary"
+                iconId="fr-icon-arrow-right-line"
+                iconPosition="right"
+              >
+                Envoyer
               </Button>
             </Box>
 
             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: fr.spacing("5w") }}>
               <Button
                 size="large"
-                variant="outlined"
+                priority="tertiary"
                 disabled={isSubmitting || !token.valid}
                 onClick={onCreateAccountClicked}
               >
-                <Typography className={fr.cx("fr-text--lg")}>
-                  Il s’agit d’une erreur, je souhaite créer mon compte
-                </Typography>
+                Il s’agit d’une erreur, je souhaite créer mon compte
               </Button>
             </Box>
           </Box>

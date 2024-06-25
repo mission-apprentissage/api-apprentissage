@@ -36,7 +36,7 @@ export function CatalogueHeadline() {
         }}
       >
         <Typography variant="h1" sx={{ color: fr.colors.decisions.text.label.blueEcume.default }}>
-          Liste des certifications réalisables en apprentissage
+          {PAGES.static.catalogueDesDonneesCertification.title}
         </Typography>
 
         <Box
@@ -50,12 +50,6 @@ export function CatalogueHeadline() {
           <Typography component="span" variant="body1">
             <strong>Fréquence de mise à jour :</strong> <Tag color="blueEcume">TOUS LES JOURS</Tag>
           </Typography>
-          {/* <Typography component="span" variant="body1">
-              <strong>Dernière mise à jour :</strong>{" "}
-               <Tag color="blueEcume">
-                le Date du jour
-              </Tag>
-            </Typography> */}
         </Box>
 
         <Typography
@@ -75,17 +69,23 @@ export function CatalogueHeadline() {
           justifyContent: "center",
         }}
       >
-        <Box sx={{ display: "flex", flexDirection: "column", gap: fr.spacing("1w") }}>
+        <Box sx={{}}>
           <Artwork name="designer" />
-          <Typography sx={{ textWrap: "balance" }}>
-            <strong>Besoin de ces données pour votre projet ?</strong>
-          </Typography>
-          <Typography>
-            <DsfrLink href={PAGES.static.documentationTechnique.path}>Consulter le swagger</DsfrLink>
-          </Typography>
-          <Typography>
-            <DsfrLink href={PAGES.static.compteProfil.path}>Obtenir un jeton d’accès</DsfrLink>
-          </Typography>
+          <Box sx={{ mx: fr.spacing("3w"), display: "flex", flexDirection: "column", gap: fr.spacing("1w") }}>
+            <Typography sx={{ textWrap: "balance" }} className={fr.cx("fr-text--lead", "fr-text--bold")}>
+              Besoin de ces données pour votre projet ?
+            </Typography>
+            <Typography>
+              <DsfrLink href={PAGES.static.documentationTechnique.path} size="lg">
+                Consulter le swagger
+              </DsfrLink>
+            </Typography>
+            <Typography>
+              <DsfrLink href={PAGES.static.compteProfil.path} size="lg">
+                Obtenir un jeton d’accès
+              </DsfrLink>
+            </Typography>
+          </Box>
         </Box>
       </Box>
     </Box>

@@ -21,6 +21,26 @@ const spanTwoColumns = {
   lg: "span 2",
 };
 
+function DsfrMarkdown({ children }: { children: string | null | undefined }) {
+  return (
+    <Markdown
+      components={{
+        p: ({ children }) => <Typography>{children}</Typography>,
+        a: ({ children, href }) => (
+          <DsfrLink href={href ?? ""} arrow="none">
+            {children}
+          </DsfrLink>
+        ),
+        code: ({ children }) => {
+          return children ? <Tag color="beigeGrisGalet">{children}</Tag> : null;
+        },
+      }}
+    >
+      {children}
+    </Markdown>
+  );
+}
+
 function InformationBox({ information }: Pick<DocField, "information">) {
   if (!information) return null;
 
@@ -51,18 +71,7 @@ function InformationBox({ information }: Pick<DocField, "information">) {
             <strong>Information</strong>
           </Typography>
         </Box>
-        <Markdown
-          components={{
-            p: ({ children }) => <Typography>{children}</Typography>,
-            a: ({ children, href }) => (
-              <DsfrLink href={href ?? ""} arrow="none">
-                {children}
-              </DsfrLink>
-            ),
-          }}
-        >
-          {information}
-        </Markdown>
+        <DsfrMarkdown>{information}</DsfrMarkdown>
       </Box>
     </Box>
   );
@@ -91,18 +100,7 @@ function DataField({ field }: { field: DocField }) {
             {field.sample}
           </Typography>
         )}
-        <Markdown
-          components={{
-            p: ({ children }) => <Typography>{children}</Typography>,
-            a: ({ children, href }) => (
-              <DsfrLink href={href ?? ""} arrow="none">
-                {children}
-              </DsfrLink>
-            ),
-          }}
-        >
-          {field.description}
-        </Markdown>
+        <DsfrMarkdown>{field.description}</DsfrMarkdown>
         <Box sx={{ display: "flex", gap: fr.spacing("1w"), flexWrap: "wrap" }}>
           {field.tags.map((tag) => (
             <Tag color="beigeGrisGalet" key={tag}>
@@ -173,19 +171,19 @@ function DataSection({ dictionnaire }: { dictionnaire: DocDictionary }) {
       >
         <Box
           sx={{
-            display: "grid",
+            display: "flex",
             gridColumn: spanTwoColumns,
-            gridTemplateColumns: { sm: "1fr", md: "repeat(4, 1fr)" },
             gap: fr.spacing("2w"),
+            alignItems: "center",
           }}
         >
-          <Artwork name="designer" />
-          <Box sx={{ display: "flex", alignItems: "center", gridColumn: { sm: "span 1", md: "span 3" } }}>
-            <Typography sx={{ textWrap: "balance" }}>
-              <strong>Besoin de ces données pour votre projet ? </strong>
-              <DsfrLink href={PAGES.static.documentationTechnique.path}>Consulter le swagger</DsfrLink>
-            </Typography>
-          </Box>
+          <Artwork name="designer" height={80} />
+          <Typography sx={{ textWrap: "balance" }} className={fr.cx("fr-text--lead")}>
+            <strong>Besoin de ces données pour votre projet ? </strong>
+          </Typography>
+          <DsfrLink href={PAGES.static.documentationTechnique.path} size="lg">
+            Consulter le swagger
+          </DsfrLink>
         </Box>
       </Box>
     </Box>
@@ -213,7 +211,7 @@ function ContactSection() {
             </Typography>
             <Box display="grid" gap={fr.spacing("2v")}>
               <Typography>
-                <DsfrLink href="mailto:support_api@apprentissage.beta.gouv.fr">Dites le nous</DsfrLink>
+                <DsfrLink href="mailto:support_api@apprentissage.beta.gouv.fr">Dites-le nous</DsfrLink>
               </Typography>
             </Box>
           </Box>

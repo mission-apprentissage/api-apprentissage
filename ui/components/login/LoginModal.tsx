@@ -1,9 +1,10 @@
 "use client";
 import { fr } from "@codegouvfr/react-dsfr";
 import Alert from "@codegouvfr/react-dsfr/Alert";
+import Button from "@codegouvfr/react-dsfr/Button";
 import { Input } from "@codegouvfr/react-dsfr/Input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Button, Dialog, DialogContent, Typography } from "@mui/material";
+import { Box, Dialog, DialogContent, Typography } from "@mui/material";
 import { captureException } from "@sentry/nextjs";
 import Link from "next/link";
 import { useState } from "react";
@@ -83,11 +84,11 @@ export function LoginModal() {
         }}
       >
         <Box sx={{ textAlign: "right", marginBottom: fr.spacing("2w") }}>
-          <Button variant="outlined">
-            <Box component={Link} href={PAGES.static.home.path} sx={{ backgroundImage: "none" }}>
+          <Box component={Link} href={PAGES.static.home.path} sx={{ backgroundImage: "none" }}>
+            <Button priority="tertiary" iconId="fr-icon-close-line" iconPosition="right">
               Fermer
-            </Box>
-          </Button>
+            </Button>
+          </Box>
         </Box>
         <Box
           sx={{
@@ -115,7 +116,7 @@ export function LoginModal() {
             >
               Se connecter / S’inscrire
             </Typography>
-            <Typography id="login-modal-description">
+            <Typography id="login-modal-description" className={fr.cx("fr-text--lead")}>
               <strong>Obtenez et gérez vos jetons d’accès</strong> à l’API Apprentissage
             </Typography>
           </Box>
@@ -136,11 +137,15 @@ export function LoginModal() {
             />
 
             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <Button size="large" variant="contained" type="submit" disabled={isSubmitting}>
-                <Typography className={fr.cx("fr-text--lg")}>Continuer</Typography>
-                <Box component="span" sx={{ display: "inline-block" }} mx={fr.spacing("1w")}>
-                  <i className={fr.cx("fr-icon-arrow-right-line", "fr-text--lg")} />
-                </Box>
+              <Button
+                size="large"
+                priority="primary"
+                type="submit"
+                disabled={isSubmitting}
+                iconId="fr-icon-arrow-right-line"
+                iconPosition="right"
+              >
+                Continuer
               </Button>
             </Box>
           </Box>

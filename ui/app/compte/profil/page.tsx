@@ -1,5 +1,7 @@
 "use client";
 
+import "./profil.css";
+
 import { fr } from "@codegouvfr/react-dsfr";
 import Table from "@codegouvfr/react-dsfr/Table";
 import { Box, Typography } from "@mui/material";
@@ -13,7 +15,7 @@ import { PAGES } from "@/utils/routes.utils";
 import { ApiKeyAction } from "./components/ApiKeyAction";
 import { GenerateApiKey } from "./components/GenerateApiKey";
 import { ManageApiKeysBanner } from "./components/ManageApiKeysBanner";
-import { useApiKeys } from "./hooks/useApiKeys";
+import { useApiKeys, useApiKeysStatut } from "./hooks/useApiKeys";
 
 const CustomWidthTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -25,6 +27,7 @@ const CustomWidthTooltip = styled(({ className, ...props }: TooltipProps) => (
 
 const ProfilPage = () => {
   const apiKeys = useApiKeys();
+  const statut = useApiKeysStatut();
 
   const tableData = useMemo(() => {
     if (apiKeys.isLoading) {
@@ -34,30 +37,27 @@ const ProfilPage = () => {
     return apiKeys.apiKeys.map((apiKey) => {
       const statut = new Date(apiKey.expires_at) < new Date() ? "expiré" : "actif";
       return [
-        <Typography variant="body1" key="name">
+        <Typography variant="body1" key="name" className="fr-text--sm">
           {apiKey.name}
         </Typography>,
         <Typography
           variant="body1"
           key="statut"
+          className="fr-text--bold"
           color={
             statut === "actif"
-              ? fr.colors.decisions.text.label.greenBourgeon.default
+              ? fr.colors.decisions.artwork.minor.greenBourgeon.default
               : fr.colors.decisions.text.label.pinkTuile.default
           }
         >
-          <strong>
-            <i
-              className={fr.cx(statut === "actif" ? "fr-icon-checkbox-circle-fill" : "fr-icon-error-warning-fill")}
-            ></i>
-            &nbsp;
-            {statut}
-          </strong>
+          <i className={fr.cx(statut === "actif" ? "fr-icon-checkbox-circle-fill" : "fr-icon-error-warning-fill")}></i>
+          &nbsp;
+          {statut}
         </Typography>,
-        <Typography variant="body1" key="created_at">
+        <Typography variant="body1" key="created_at" className="fr-text--sm">
           {new Date(apiKey.created_at).toLocaleDateString()}
         </Typography>,
-        <Typography variant="body1" key="expires_at">
+        <Typography variant="body1" key="expires_at" className="fr-text--sm">
           {new Date(apiKey.expires_at).toLocaleDateString()}
           <CustomWidthTooltip
             title={
@@ -83,7 +83,7 @@ const ProfilPage = () => {
             ></Box>
           </CustomWidthTooltip>
         </Typography>,
-        <Typography variant="body1" key="last_used_at">
+        <Typography variant="body1" key="last_used_at" className="fr-text--sm">
           {apiKey.last_used_at ? new Date(apiKey.last_used_at).toLocaleDateString() : "Jamais"}
         </Typography>,
         <ApiKeyAction key="action" apiKey={apiKey} />,
@@ -114,17 +114,25 @@ const ProfilPage = () => {
         </Typography>
       </Box>
 
-      <ManageApiKeysBanner />
+      {statut !== "actif-ready" && <GenerateApiKey />}
 
-      {tableData.length > 0 && (
-        <Table
-          data={tableData}
-          fixed
-          headers={["Nom", "Statut", "Date de création", "Date d'expiration", "Dernière utilisation", "Action"]}
-        />
-      )}
+      <Box>
+        <ManageApiKeysBanner key="api-key-banner" />
+        {tableData.length > 0 && (
+          <Table
+            data={tableData}
+            fixed
+            headers={["Nom", "Statut", "Date de création", "Date d'expiration", "Dernière utilisation", "Action"]}
+            style={{
+              minWidth: "100%",
+              marginBottom: fr.spacing("2w"),
+            }}
+            className="api-key-table"
+          />
+        )}
+      </Box>
 
-      <GenerateApiKey />
+      {statut === "actif-ready" && <GenerateApiKey />}
     </Box>
   );
 };

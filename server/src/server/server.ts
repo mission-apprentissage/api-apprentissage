@@ -46,7 +46,7 @@ export async function bind(app: Server) {
       document: generateOpenApiSchema(
         config.version,
         config.env,
-        config.env === "local" ? "http://localhost:5001/api" : `${config.publicUrl}/api`
+        config.apiPublicUrl
       ) as StaticDocumentSpec["document"],
     },
   };

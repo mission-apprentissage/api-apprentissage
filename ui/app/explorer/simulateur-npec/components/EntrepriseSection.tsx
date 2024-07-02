@@ -1,9 +1,9 @@
 "use client";
 import { fr } from "@codegouvfr/react-dsfr";
-import { Input } from "@codegouvfr/react-dsfr/Input";
 import { Box, Typography } from "@mui/material";
-import Autocomplete, { AutocompleteRenderInputParams } from "@mui/material/Autocomplete";
-import Popper, { PopperProps } from "@mui/material/Popper";
+import { useMemo } from "react";
+
+import { AutocompleteSelect } from "@/components/select/AutocompleteSelect";
 
 import { Pastille } from "./Pastille";
 
@@ -18,25 +18,16 @@ function getOptionLabel(option: Item) {
   return `${option.idcc} - ${option.titre}`;
 }
 
-function getOptionKey(option: Item) {
-  return option.idcc;
-}
-
-function InputOption(params: AutocompleteRenderInputParams) {
-  return (
-    <Input
-      label="Renseigner le code IDCC et/ou le nom de la convention collective"
-      ref={params.InputProps.ref}
-      nativeInputProps={params.inputProps}
-    ></Input>
-  );
-}
-
-function PopperComponent(props: PopperProps) {
-  return <Popper placement="bottom" modifiers={[{ name: "flip", enabled: false }]} {...props} />;
-}
-
 export function EntrepriseSection(props: EntrepriseSectionProps) {
+  const options = useMemo(
+    () =>
+      props.conventions_collectives.map((convention) => ({
+        key: convention.idcc,
+        label: getOptionLabel(convention),
+      })),
+    [props.conventions_collectives]
+  );
+
   return (
     <Box sx={{ display: "flex", gap: fr.spacing("2w"), flexDirection: "column" }}>
       <Pastille>2</Pastille>
@@ -46,20 +37,11 @@ export function EntrepriseSection(props: EntrepriseSectionProps) {
       >
         Entreprise qui embauche l’apprenti
       </Typography>
-      <Autocomplete
+      <AutocompleteSelect
         id="idcc-quick-search"
-        disablePortal
-        openOnFocus
-        options={props.conventions_collectives}
-        getOptionLabel={getOptionLabel}
-        getOptionKey={getOptionKey}
-        renderInput={InputOption}
-        PopperComponent={PopperComponent}
-        onChange={(event, value) => {
-          props.onIdccChanged(value?.idcc ?? null);
-        }}
+        options={options}
+        onChange={(option) => props.onIdccChanged(option?.key ?? null)}
         noOptionsText="Nous ne trouvons pas de résultats pour la convention collective renseignée"
-        size="small"
       />
     </Box>
   );

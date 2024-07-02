@@ -52,7 +52,7 @@ function Title() {
         sx={{ color: fr.colors.decisions.artwork.minor.blueEcume.default }}
         aria-describedby="tooltip-npec-step-4"
       >
-        <strong>Montant de la prise en charge</strong>
+        <strong>Montant annuel de prise en charge</strong>
         <button className="fr-btn--tooltip fr-btn" aria-describedby="tooltip-npec-step-4" />
         <span
           className={fr.cx("fr-tooltip", "fr-placement")}
@@ -87,7 +87,10 @@ function NpecBadge(props: { isLoading: boolean; value: Jsonify<ISourceNpecNormal
       noIcon
       style={{
         backgroundColor: fr.colors.decisions.background.alt.blueFrance.default,
-        padding: fr.spacing("1w"),
+        paddingTop: fr.spacing("1w"),
+        paddingBottom: fr.spacing("1w"),
+        paddingLeft: fr.spacing("2w"),
+        paddingRight: 0,
         display: "flex",
         gap: fr.spacing("1w"),
       }}
@@ -160,6 +163,10 @@ function ResultNotice(props: { value: Jsonify<ISourceNpecNormalized> | null | un
   return null;
 }
 
+function removeFirstLetterUpperCase(str: string) {
+  return str.charAt(0).toLowerCase() + str.slice(1);
+}
+
 export function ResultSection({ rncp, idcc, date_signature }: ResultSectionProps) {
   const queryKey: [string, ResultSectionProps] = ["/_private/simulateur/npec/contrat", { rncp, idcc, date_signature }];
   const enabled = rncp != null && idcc != null && date_signature != null;
@@ -200,7 +207,7 @@ export function ResultSection({ rncp, idcc, date_signature }: ResultSectionProps
               href={result.data.metadata.resource}
               className={fr.cx("fr-link", "fr-link--download", "fr-link--sm", "fr-text--sm")}
               download
-            >{`Télécharger ${result.data.metadata.description}`}</a>
+            >{`Télécharger le ${removeFirstLetterUpperCase(result.data.metadata.description)}`}</a>
           </Typography>
         </>
       )}

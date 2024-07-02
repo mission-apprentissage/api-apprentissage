@@ -2,8 +2,11 @@
 import { fr } from "@codegouvfr/react-dsfr";
 import { Input } from "@codegouvfr/react-dsfr/Input";
 import { Box, Typography } from "@mui/material";
-import Autocomplete, { AutocompleteRenderInputParams } from "@mui/material/Autocomplete";
+import Autocomplete, { AutocompleteRenderInputParams, AutocompleteRenderOptionState } from "@mui/material/Autocomplete";
 import Popper, { PopperProps } from "@mui/material/Popper";
+import match from "autosuggest-highlight/match";
+import parse from "autosuggest-highlight/parse";
+import { matchSorter } from "match-sorter";
 
 import { Pastille } from "./Pastille";
 
@@ -30,8 +33,41 @@ function InputOption(params: AutocompleteRenderInputParams) {
   );
 }
 
+function renderOption(
+  props: React.HTMLAttributes<HTMLLIElement>,
+  option: { intitule: string; code: string },
+  { inputValue }: AutocompleteRenderOptionState
+) {
+  const key = getOptionKey(option);
+  const label = getOptionLabel(option);
+  const matches = match(label, inputValue, { insideWords: true, findAllOccurrences: true });
+  const parts = parse(label, matches);
+
+  return (
+    <li key={key} {...props}>
+      <div>
+        {parts.map((part, index) => (
+          <span
+            key={index}
+            style={{
+              fontWeight: part.highlight ? 700 : 400,
+            }}
+          >
+            {part.text}
+          </span>
+        ))}
+      </div>
+    </li>
+  );
+}
+
 function PopperComponent(props: PopperProps) {
   return <Popper placement="bottom" modifiers={[{ name: "flip", enabled: false }]} {...props} />;
+}
+
+function filterOptions(options: { intitule: string; code: string }[], { inputValue }: { inputValue: string }) {
+  const allResults = matchSorter(options, inputValue, { keys: ["code", "intitule"] });
+  return allResults.slice(0, 200);
 }
 
 export function CertificationSection(props: CertificationSectionProps) {
@@ -58,8 +94,10 @@ export function CertificationSection(props: CertificationSectionProps) {
         onChange={(event, value) => {
           props.onRncpChanged(value?.code ?? null);
         }}
+        filterOptions={filterOptions}
         noOptionsText="Nous ne trouvons pas de résultats pour la certification renseignée"
         size="small"
+        renderOption={renderOption}
       />
     </Box>
   );

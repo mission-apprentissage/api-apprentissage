@@ -28,7 +28,8 @@ export function SimulateurNpecHeadline() {
         }}
         variant="h4"
       >
-        Calculer le Niveau de Prise En Charge (NPEC) d’un contrat d’apprentissage en fonction de l’OPCO
+        Calculer le Niveau de Prise En Charge (NPEC) d’un contrat d’apprentissage en fonction d'une convention
+        collective
       </Typography>
     </Box>
   );

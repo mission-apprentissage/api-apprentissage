@@ -1,0 +1,11 @@
+.swagger-ui .information-container {
+  display: none !important;
+}
+
+.swagger-ui .opblock-tag-section:has(.operation-tag-content:empty) {
+  display: none !important;
+}
+
+.swagger-ui .models {
+  display: none !important;
+}

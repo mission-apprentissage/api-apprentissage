@@ -1,5 +1,6 @@
 import {
-  generateSourceBcn_V_FormationDiplomeFixture,
+  generateSourceBcn_N_FormationDiplomeFixture,
+  generateSourceBcn_N51_FormationDiplomeFixture,
   generateSourceFranceCompetenceFixture,
 } from "shared/models/fixtures";
 import { describe, expect, it } from "vitest";
@@ -10,7 +11,7 @@ describe("buildCertificationDomaines", () => {
   describe("domaines.formacodes", () => {
     it("should returns null when france competence data is missing", () => {
       const result = buildCertificationDomaines({
-        bcn: generateSourceBcn_V_FormationDiplomeFixture(),
+        bcn: generateSourceBcn_N_FormationDiplomeFixture(),
         france_competence: null,
       });
       expect(result.formacodes).toEqual({ rncp: null });
@@ -56,7 +57,7 @@ describe("buildCertificationDomaines", () => {
   describe("domaines.rome", () => {
     it("should returns null when france competence data is missing", () => {
       const result = buildCertificationDomaines({
-        bcn: generateSourceBcn_V_FormationDiplomeFixture(),
+        bcn: generateSourceBcn_N51_FormationDiplomeFixture(),
         france_competence: null,
       });
       expect(result.rome).toEqual({ rncp: null });
@@ -92,7 +93,7 @@ describe("buildCertificationDomaines", () => {
     describe("domaines.nsf.rncp", () => {
       it("should returns null when france competence data is missing", () => {
         const result = buildCertificationDomaines({
-          bcn: generateSourceBcn_V_FormationDiplomeFixture(),
+          bcn: generateSourceBcn_N51_FormationDiplomeFixture(),
           france_competence: null,
         });
         expect(result.nsf.rncp).toEqual(null);
@@ -146,7 +147,7 @@ describe("buildCertificationDomaines", () => {
 
       describe("when nsf is not empty", () => {
         it("should returns Codes_Rome_Code and Codes_Rome_Libelle for each blocs_de_competences", () => {
-          const vFormation = generateSourceBcn_V_FormationDiplomeFixture({
+          const vFormation = generateSourceBcn_N_FormationDiplomeFixture({
             data: {
               GROUPE_SPECIALITE: "323",
               N_GROUPE_SPECIALITE_LIBELLE_LONG: "INFORMATIQUE, TRAITEMT DE L'INFORMATION",
@@ -165,7 +166,7 @@ describe("buildCertificationDomaines", () => {
 
       describe("when libelle is empty", () => {
         it("should returns empty array", () => {
-          const vFormation = generateSourceBcn_V_FormationDiplomeFixture({
+          const vFormation = generateSourceBcn_N_FormationDiplomeFixture({
             data: {
               GROUPE_SPECIALITE: "323",
               N_GROUPE_SPECIALITE_LIBELLE_LONG: null,

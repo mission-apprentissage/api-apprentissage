@@ -1,6 +1,6 @@
 import { oas31 } from "openapi3-ts";
 import { Jsonify } from "type-fest";
-import { AnyZodObject, ZodType } from "zod";
+import { AnyZodObject, z, ZodType } from "zod";
 
 import { AccessPermission, AccessRessouces } from "../security/permissions";
 import { zodOpenApi } from "../zod/zodWithOpenApi";
@@ -296,4 +296,34 @@ export type IRoutesDef = {
   put?: Record<string, IRouteSchemaWrite>;
   delete?: Record<string, IRouteSchemaWrite>;
   patch?: Record<string, IRouteSchemaWrite>;
+};
+
+export type SchemaWithSecurity = Pick<IRouteSchema, "method" | "path" | "params" | "querystring"> & WithSecurityScheme;
+
+export type IAccessTokenScope<S extends SchemaWithSecurity> = {
+  path: S["path"];
+  method: S["method"];
+  options:
+    | "all"
+    | {
+        params: S["params"] extends AnyZodObject ? Partial<Jsonify<z.input<S["params"]>>> : undefined;
+        querystring: S["querystring"] extends AnyZodObject ? Partial<Jsonify<z.input<S["querystring"]>>> : undefined;
+      };
+  resources: {
+    [key in keyof S["securityScheme"]["ressources"]]: ReadonlyArray<string>;
+  };
+};
+
+export type IAccessTokenScopeParam<S extends SchemaWithSecurity> = Pick<
+  IAccessTokenScope<S>,
+  "options" | "resources"
+> & {
+  schema: S;
+};
+
+export type IAccessToken<S extends SchemaWithSecurity = SchemaWithSecurity> = {
+  identity: {
+    email: string;
+  };
+  scopes: ReadonlyArray<IAccessTokenScope<S>>;
 };

@@ -68,7 +68,7 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
                 "properties": {
                   "code": {
                     "bsonType": "string",
-                    "pattern": "^RNCP\\d{3,5}BC\\d{1,2}$",
+                    "pattern": "^(RNCP\\d{3,5}BC)?\\d{1,2}$",
                   },
                   "intitule": {
                     "bsonType": [
@@ -90,6 +90,146 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
         },
       },
       "required": [
+        "rncp",
+      ],
+    },
+    "continuite": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "cfd": {
+          "anyOf": [
+            {
+              "bsonType": "array",
+              "items": {
+                "additionalProperties": false,
+                "bsonType": "object",
+                "properties": {
+                  "code": {
+                    "bsonType": "string",
+                    "pattern": "^[A-Z0-9]{3}\\d{3}[A-Z0-9]{2}$",
+                  },
+                  "courant": {
+                    "bsonType": "bool",
+                  },
+                  "fermeture": {
+                    "anyOf": [
+                      {
+                        "anyOf": [
+                          {
+                            "bsonType": "date",
+                          },
+                          {
+                            "bsonType": "null",
+                          },
+                        ],
+                      },
+                      {
+                        "bsonType": "null",
+                      },
+                    ],
+                  },
+                  "ouverture": {
+                    "anyOf": [
+                      {
+                        "anyOf": [
+                          {
+                            "bsonType": "date",
+                          },
+                          {
+                            "bsonType": "null",
+                          },
+                        ],
+                      },
+                      {
+                        "bsonType": "null",
+                      },
+                    ],
+                  },
+                },
+                "required": [
+                  "ouverture",
+                  "fermeture",
+                  "code",
+                  "courant",
+                ],
+              },
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "rncp": {
+          "anyOf": [
+            {
+              "bsonType": "array",
+              "items": {
+                "additionalProperties": false,
+                "bsonType": "object",
+                "properties": {
+                  "actif": {
+                    "bsonType": "bool",
+                  },
+                  "activation": {
+                    "anyOf": [
+                      {
+                        "anyOf": [
+                          {
+                            "bsonType": "date",
+                          },
+                          {
+                            "bsonType": "null",
+                          },
+                        ],
+                      },
+                      {
+                        "bsonType": "null",
+                      },
+                    ],
+                  },
+                  "code": {
+                    "bsonType": "string",
+                    "pattern": "^RNCP\\d{3,5}$",
+                  },
+                  "courant": {
+                    "bsonType": "bool",
+                  },
+                  "fin_enregistrement": {
+                    "anyOf": [
+                      {
+                        "anyOf": [
+                          {
+                            "bsonType": "date",
+                          },
+                          {
+                            "bsonType": "null",
+                          },
+                        ],
+                      },
+                      {
+                        "bsonType": "null",
+                      },
+                    ],
+                  },
+                },
+                "required": [
+                  "activation",
+                  "fin_enregistrement",
+                  "code",
+                  "courant",
+                  "actif",
+                ],
+              },
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+      },
+      "required": [
+        "cfd",
         "rncp",
       ],
     },
@@ -760,6 +900,7 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
     "domaines",
     "periode_validite",
     "type",
+    "continuite",
     "created_at",
     "updated_at",
   ],
@@ -876,7 +1017,50 @@ exports[`zodToMongoSchema > should convert email_events schema 1`] = `
             "name": {
               "bsonType": "string",
             },
-            "resetPasswordToken": {
+            "to": {
+              "bsonType": "string",
+            },
+            "token": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "name",
+            "to",
+            "token",
+          ],
+        },
+        {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "name": {
+              "bsonType": "string",
+            },
+            "to": {
+              "bsonType": "string",
+            },
+            "token": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "name",
+            "to",
+            "token",
+          ],
+        },
+        {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "comment": {
+              "bsonType": "string",
+            },
+            "from": {
+              "bsonType": "string",
+            },
+            "name": {
               "bsonType": "string",
             },
             "to": {
@@ -886,7 +1070,8 @@ exports[`zodToMongoSchema > should convert email_events schema 1`] = `
           "required": [
             "name",
             "to",
-            "resetPasswordToken",
+            "from",
+            "comment",
           ],
         },
       ],
@@ -971,6 +1156,13 @@ exports[`zodToMongoSchema > should convert import.meta schema 1`] = `
         "import_date": {
           "bsonType": "date",
         },
+        "status": {
+          "bsonType": "string",
+          "enum": [
+            "pending",
+            "done",
+          ],
+        },
         "type": {
           "bsonType": "string",
         },
@@ -980,6 +1172,7 @@ exports[`zodToMongoSchema > should convert import.meta schema 1`] = `
         "import_date",
         "type",
         "archiveMeta",
+        "status",
       ],
     },
     {
@@ -992,11 +1185,21 @@ exports[`zodToMongoSchema > should convert import.meta schema 1`] = `
         "import_date": {
           "bsonType": "date",
         },
+        "status": {
+          "bsonType": "string",
+          "enum": [
+            "pending",
+            "done",
+            "failed",
+          ],
+        },
         "type": {
           "bsonType": "string",
           "enum": [
             "bcn",
             "kit_apprentissage",
+            "acce",
+            "kali_ccn",
           ],
         },
       },
@@ -1004,6 +1207,7 @@ exports[`zodToMongoSchema > should convert import.meta schema 1`] = `
         "_id",
         "import_date",
         "type",
+        "status",
       ],
     },
     {
@@ -1080,6 +1284,105 @@ exports[`zodToMongoSchema > should convert import.meta schema 1`] = `
         "import_date",
         "type",
         "source",
+      ],
+    },
+    {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "_id": {
+          "bsonType": "objectId",
+        },
+        "description": {
+          "bsonType": "string",
+        },
+        "file_date": {
+          "bsonType": "date",
+        },
+        "import_date": {
+          "bsonType": "date",
+        },
+        "resource": {
+          "bsonType": "string",
+        },
+        "status": {
+          "bsonType": "string",
+          "enum": [
+            "pending",
+            "done",
+            "failed",
+          ],
+        },
+        "title": {
+          "bsonType": "string",
+        },
+        "type": {
+          "bsonType": "string",
+        },
+      },
+      "required": [
+        "_id",
+        "import_date",
+        "type",
+        "status",
+        "resource",
+        "title",
+        "description",
+        "file_date",
+      ],
+    },
+    {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "_id": {
+          "bsonType": "objectId",
+        },
+        "import_date": {
+          "bsonType": "date",
+        },
+        "resource": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "date": {
+              "bsonType": "date",
+            },
+            "title": {
+              "bsonType": "string",
+            },
+            "url": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "title",
+            "url",
+            "date",
+          ],
+        },
+        "status": {
+          "bsonType": "string",
+          "enum": [
+            "pending",
+            "done",
+            "failed",
+          ],
+        },
+        "type": {
+          "bsonType": "string",
+          "enum": [
+            "dares_ccn",
+            "dares_ape_idcc",
+          ],
+        },
+      },
+      "required": [
+        "_id",
+        "import_date",
+        "type",
+        "status",
+        "resource",
       ],
     },
   ],
@@ -1269,6 +1572,7 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
                 "!!",
                 "40",
                 "41",
+                "60",
               ],
             },
             "contrat_etablissement_libe": {
@@ -1284,6 +1588,7 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
                 "Inconnu du gestionnaire",
                 "Contrats simple et d'association pour toutes les classes",
                 "Contrats simple et d'association pour une partie des classes",
+                "Sous contrat établissement agricole",
               ],
             },
             "coordonnee_x": {
@@ -1840,6 +2145,7 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
                 "!!",
                 "40",
                 "41",
+                "60",
               ],
             },
             "contrat_etablissement_libe": {
@@ -1855,6 +2161,7 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
                 "Inconnu du gestionnaire",
                 "Contrats simple et d'association pour toutes les classes",
                 "Contrats simple et d'association pour une partie des classes",
+                "Sous contrat établissement agricole",
               ],
             },
             "coordonnee_x": {
@@ -2300,6 +2607,7 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
                 "!!",
                 "40",
                 "41",
+                "60",
               ],
             },
             "contrat_etablissement_libe": {
@@ -2315,6 +2623,7 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
                 "Inconnu du gestionnaire",
                 "Contrats simple et d'association pour toutes les classes",
                 "Contrats simple et d'association pour une partie des classes",
+                "Sous contrat établissement agricole",
               ],
             },
             "coordonnee_x": {
@@ -2674,47 +2983,11 @@ exports[`zodToMongoSchema > should convert source.bcn schema 1`] = `
           "additionalProperties": false,
           "bsonType": "object",
           "properties": {
-            "ANCIEN_DIPLOME_1": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
-            },
-            "ANCIEN_DIPLOME_2": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
-            },
-            "ANCIEN_DIPLOME_3": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
-            },
-            "ANCIEN_DIPLOME_4": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
-            },
-            "ANCIEN_DIPLOME_5": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
-            },
-            "ANCIEN_DIPLOME_6": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
-            },
-            "ANCIEN_DIPLOME_7": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
+            "ANCIEN_DIPLOMES": {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "string",
+              },
             },
             "ANCIEN_RECME": {
               "bsonType": [
@@ -2849,10 +3122,7 @@ exports[`zodToMongoSchema > should convert source.bcn schema 1`] = `
               ],
             },
             "FORMATION_DIPLOME": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
+              "bsonType": "string",
             },
             "GESTIONNAIRE_FORMATION_DIPLOME": {
               "bsonType": [
@@ -2911,47 +3181,11 @@ exports[`zodToMongoSchema > should convert source.bcn schema 1`] = `
                 "null",
               ],
             },
-            "NOUVEAU_DIPLOME_1": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
-            },
-            "NOUVEAU_DIPLOME_2": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
-            },
-            "NOUVEAU_DIPLOME_3": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
-            },
-            "NOUVEAU_DIPLOME_4": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
-            },
-            "NOUVEAU_DIPLOME_5": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
-            },
-            "NOUVEAU_DIPLOME_6": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
-            },
-            "NOUVEAU_DIPLOME_7": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
+            "NOUVEAU_DIPLOMES": {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "string",
+              },
             },
             "N_CITE_2013_DOMAINE_DETAILL_LIBELLE_EDITION": {
               "bsonType": [
@@ -3053,20 +3287,8 @@ exports[`zodToMongoSchema > should convert source.bcn schema 1`] = `
             "N_CITE_DOMAINE_FORMATION_LIBELLE_EDITION",
             "NIVEAU_QUALIFICATION_RNCP",
             "N_NIVEAU_QUALIFICATION_RNCP_LIBELLE_LONG",
-            "ANCIEN_DIPLOME_1",
-            "ANCIEN_DIPLOME_2",
-            "ANCIEN_DIPLOME_3",
-            "ANCIEN_DIPLOME_4",
-            "ANCIEN_DIPLOME_5",
-            "ANCIEN_DIPLOME_6",
-            "ANCIEN_DIPLOME_7",
-            "NOUVEAU_DIPLOME_1",
-            "NOUVEAU_DIPLOME_2",
-            "NOUVEAU_DIPLOME_3",
-            "NOUVEAU_DIPLOME_4",
-            "NOUVEAU_DIPLOME_5",
-            "NOUVEAU_DIPLOME_6",
-            "NOUVEAU_DIPLOME_7",
+            "ANCIEN_DIPLOMES",
+            "NOUVEAU_DIPLOMES",
             "NB_MEF_OUVERT",
             "NB_MEF_FERME",
             "DATE_SESSION_RATTRAPAGE",
@@ -3234,10 +3456,7 @@ exports[`zodToMongoSchema > should convert source.bcn schema 1`] = `
               ],
             },
             "FORMATION_DIPLOME": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
+              "bsonType": "string",
             },
             "GESTIONNAIRE_FORMATION_DIPLOME": {
               "bsonType": [
@@ -3661,10 +3880,7 @@ exports[`zodToMongoSchema > should convert source.bcn schema 1`] = `
               ],
             },
             "FORMATION_DIPLOME": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
+              "bsonType": "string",
             },
             "GESTIONNAIRE_FORMATION_DIPLOME": {
               "bsonType": [
@@ -4876,6 +5092,119 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
 }
 `;
 
+exports[`zodToMongoSchema > should convert source.dares.ape_idcc schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "data": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "convention_collective": {
+          "anyOf": [
+            {
+              "additionalProperties": false,
+              "bsonType": "object",
+              "properties": {
+                "idcc": {
+                  "bsonType": "number",
+                },
+                "titre": {
+                  "bsonType": "string",
+                },
+              },
+              "required": [
+                "idcc",
+                "titre",
+              ],
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "naf": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "code": {
+              "bsonType": "string",
+            },
+            "intitule": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "code",
+            "intitule",
+          ],
+        },
+      },
+      "required": [
+        "naf",
+        "convention_collective",
+      ],
+    },
+    "date_import": {
+      "bsonType": "date",
+    },
+    "import_id": {
+      "bsonType": "objectId",
+    },
+  },
+  "required": [
+    "_id",
+    "import_id",
+    "date_import",
+    "data",
+  ],
+}
+`;
+
+exports[`zodToMongoSchema > should convert source.dares.ccn schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "data": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "idcc": {
+          "bsonType": "number",
+        },
+        "titre": {
+          "bsonType": "string",
+        },
+      },
+      "required": [
+        "idcc",
+        "titre",
+      ],
+    },
+    "date_import": {
+      "bsonType": "date",
+    },
+    "import_id": {
+      "bsonType": "objectId",
+    },
+  },
+  "required": [
+    "_id",
+    "import_id",
+    "date_import",
+    "data",
+  ],
+}
+`;
+
 exports[`zodToMongoSchema > should convert source.france_competence schema 1`] = `
 {
   "additionalProperties": false,
@@ -5370,6 +5699,198 @@ exports[`zodToMongoSchema > should convert source.france_competence schema 1`] =
 }
 `;
 
+exports[`zodToMongoSchema > should convert source.kali.ccn schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "data": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "debut": {
+              "bsonType": "date",
+            },
+            "etat": {
+              "bsonType": "string",
+              "enum": [
+                "ABROGE",
+                "DENONCE",
+                "MODIFIE",
+                "PERIME",
+                "REMPLACE",
+                "VIGUEUR",
+                "VIGUEUR_ETEN",
+                "VIGUEUR_NON_ETEN",
+              ],
+            },
+            "fin": {
+              "anyOf": [
+                {
+                  "bsonType": "date",
+                },
+                {
+                  "bsonType": "null",
+                },
+              ],
+            },
+            "id": {
+              "bsonType": "string",
+            },
+            "idcc": {
+              "bsonType": "number",
+            },
+            "nature": {
+              "bsonType": "string",
+              "enum": [
+                "ACCORD COLLECTIF NATIONAL",
+                "AVENANT",
+                "CONVENTION",
+                "CONVENTION COLLECTIVE",
+                "CONVENTION COLLECTIVE DEPARTEMENTALE",
+                "CONVENTION COLLECTIVE NATIONALE",
+                "CONVENTION COLLECTIVE INTERREGIONALE",
+                "CONVENTION COLLECTIVE REGIONALE",
+              ],
+            },
+            "titre": {
+              "bsonType": "string",
+            },
+            "type": {
+              "bsonType": "string",
+            },
+            "url": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "type",
+            "id",
+            "idcc",
+            "titre",
+            "nature",
+            "etat",
+            "debut",
+            "fin",
+            "url",
+          ],
+        },
+        {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "debut": {
+              "bsonType": "date",
+            },
+            "etat": {
+              "bsonType": "string",
+              "enum": [
+                "ABROGE",
+                "DENONCE",
+                "MODIFIE",
+                "PERIME",
+                "REMPLACE",
+                "VIGUEUR",
+                "VIGUEUR_ETEN",
+                "VIGUEUR_NON_ETEN",
+              ],
+            },
+            "fin": {
+              "anyOf": [
+                {
+                  "bsonType": "date",
+                },
+                {
+                  "bsonType": "null",
+                },
+              ],
+            },
+            "id": {
+              "bsonType": "string",
+            },
+            "nature": {
+              "bsonType": "string",
+              "enum": [
+                "ACCORD INTERBRANCHE",
+                "ACCORD COLLECTIF NATIONAL",
+                "ACCORD DE BRANCHE",
+                "AVENANT",
+                "ACCORD NATIONAL INTERPROFESSIONNEL",
+                "ACCORD DE METHODE",
+                "ACCORD PARITAIRE",
+                "ACCORD CADRE INTERSECTEURS",
+                "ACCORD REGIONAL",
+                "ACCORD PROFESSIONNEL",
+                "ANNEXE",
+                "ACCORD NATIONAL INTERBRANCHES",
+                "PROCES-VERBAL",
+                "CONVENTION COLLECTIVE NATIONALE",
+                "ACCORD-CADRE",
+                "ACCORD COLLECTIF",
+                "ACCORD NATIONAL PLURIPROFESSIONNEL",
+                "PROTOCOLE D'ACCORD INTERBRANCHE",
+                "ACCORD MULTIBRANCHES",
+                "PROTOCOLE D'ACCORD",
+                "ACCORD PARITAIRE NATIONAL",
+                "ACCORD PROFESSIONNEL INTER-SECTEURS",
+                "CONVENTION COLLECTIVE DEPARTEMENTALE",
+                "CONVENTION COLLECTIVE INTERREGIONALE",
+                "CONVENTION",
+                "CONVENTION COLLECTIVE REGIONALE",
+                "ACCORD NATIONAL PROFESSIONNEL",
+                "CONVENTION COLLECTIVE",
+                "ACCORD INTERPROFESSIONNEL",
+                "ACCORD INTERSECTEURS",
+                "ACCORD INTERBRANCHES",
+                "ACCORD PLURIPROFESSIONNEL",
+                "ACCORD NATIONAL",
+                "ACCORD NATIONAL COLLECTIF",
+                "PROTOCOLE D'ACCORD NATIONAL",
+                "ACCORD",
+                "DECISION",
+                "ACCORD DE SUBSTITUTION",
+              ],
+            },
+            "titre": {
+              "bsonType": "string",
+            },
+            "type": {
+              "bsonType": "string",
+            },
+            "url": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "type",
+            "id",
+            "titre",
+            "nature",
+            "etat",
+            "debut",
+            "fin",
+            "url",
+          ],
+        },
+      ],
+    },
+    "date_import": {
+      "bsonType": "date",
+    },
+  },
+  "required": [
+    "_id",
+    "date_import",
+    "data",
+  ],
+}
+`;
+
 exports[`zodToMongoSchema > should convert source.kit_apprentissage schema 1`] = `
 {
   "additionalProperties": false,
@@ -5394,13 +5915,40 @@ exports[`zodToMongoSchema > should convert source.kit_apprentissage schema 1`] =
             "null",
           ],
         },
-        "Code Diplôme": {
+        "Ancienne Certification (RNCP)": {
           "bsonType": [
             "string",
             "null",
           ],
         },
+        "Code Diplôme": {
+          "bsonType": "string",
+        },
         "Date d'échéance de la fiche RNCP": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "Date de début des parcours certifiants": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "Date de décision": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "Date de publication de la fiche": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "Date limite de la délivrance": {
           "bsonType": [
             "string",
             "null",
@@ -5419,6 +5967,9 @@ exports[`zodToMongoSchema > should convert source.kit_apprentissage schema 1`] =
           ],
         },
         "FicheRNCP": {
+          "bsonType": "string",
+        },
+        "Intitulé certification (RNCP)": {
           "bsonType": [
             "string",
             "null",
@@ -5436,6 +5987,18 @@ exports[`zodToMongoSchema > should convert source.kit_apprentissage schema 1`] =
             "null",
           ],
         },
+        "Nouvelle Certification rempla (RNCP)": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "Type d'enregistrement": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
       },
       "required": [
         "Code Diplôme",
@@ -5447,6 +6010,14 @@ exports[`zodToMongoSchema > should convert source.kit_apprentissage schema 1`] =
         "Accès à l'apprentissage de la fiche RNCP (oui/non)",
         "Date d'échéance de la fiche RNCP",
         "Fiche ACTIVE/INACTIVE",
+        "Intitulé certification (RNCP)",
+        "Type d'enregistrement",
+        "Date de publication de la fiche",
+        "Date de décision",
+        "Date de début des parcours certifiants",
+        "Date limite de la délivrance",
+        "Nouvelle Certification rempla (RNCP)",
+        "Ancienne Certification (RNCP)",
       ],
     },
     "date": {
@@ -5454,6 +6025,11 @@ exports[`zodToMongoSchema > should convert source.kit_apprentissage schema 1`] =
     },
     "source": {
       "bsonType": "string",
+      "pattern": "^((Kit_apprentissage_\\d{8})|(Kit apprentissage et RNCP v\\d\\.\\d))\\.csv$",
+    },
+    "version": {
+      "bsonType": "string",
+      "pattern": "^\\d{8}$",
     },
   },
   "required": [
@@ -5461,6 +6037,226 @@ exports[`zodToMongoSchema > should convert source.kit_apprentissage schema 1`] =
     "source",
     "date",
     "data",
+    "version",
+  ],
+}
+`;
+
+exports[`zodToMongoSchema > should convert source.npec schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "data": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "certificateur": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "cpne_code": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "cpne_libelle": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "date_applicabilite": {
+              "anyOf": [
+                {
+                  "bsonType": "date",
+                },
+                {
+                  "bsonType": "null",
+                },
+              ],
+            },
+            "diplome_code": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "diplome_libelle": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "formation_libelle": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "idcc": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "npec": {
+              "bsonType": [
+                "number",
+                "null",
+              ],
+            },
+            "procedure": {
+              "bsonType": [
+                "number",
+                "null",
+              ],
+            },
+            "rncp": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "statut": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "type": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "type",
+            "npec",
+            "date_applicabilite",
+            "procedure",
+          ],
+        },
+        {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "cpne_code": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "cpne_libelle": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "idcc": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "type": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "type",
+          ],
+        },
+      ],
+    },
+    "date_file": {
+      "bsonType": "date",
+    },
+    "date_import": {
+      "bsonType": "date",
+    },
+    "filename": {
+      "bsonType": "string",
+    },
+    "import_id": {
+      "bsonType": "objectId",
+    },
+  },
+  "required": [
+    "_id",
+    "filename",
+    "date_import",
+    "date_file",
+    "import_id",
+    "data",
+  ],
+}
+`;
+
+exports[`zodToMongoSchema > should convert source.npec.normalized schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "cpne_code": {
+      "bsonType": "string",
+    },
+    "cpne_libelle": {
+      "bsonType": "string",
+    },
+    "date_applicabilite": {
+      "bsonType": "date",
+    },
+    "date_file": {
+      "bsonType": "date",
+    },
+    "date_import": {
+      "bsonType": "date",
+    },
+    "filename": {
+      "bsonType": "string",
+    },
+    "idcc": {
+      "bsonType": "array",
+      "items": {
+        "bsonType": "number",
+      },
+    },
+    "import_id": {
+      "bsonType": "objectId",
+    },
+    "npec": {
+      "bsonType": "array",
+      "items": {
+        "bsonType": "number",
+      },
+    },
+    "rncp": {
+      "bsonType": "string",
+      "pattern": "^RNCP\\d{3,5}$",
+    },
+  },
+  "required": [
+    "_id",
+    "rncp",
+    "cpne_code",
+    "cpne_libelle",
+    "npec",
+    "date_applicabilite",
+    "idcc",
+    "filename",
+    "date_file",
+    "import_id",
+    "date_import",
   ],
 }
 `;
@@ -6134,6 +6930,16 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
     "_id": {
       "bsonType": "objectId",
     },
+    "activite": {
+      "anyOf": [
+        {
+          "bsonType": "string",
+        },
+        {
+          "bsonType": "null",
+        },
+      ],
+    },
     "api_keys": {
       "bsonType": "array",
       "items": {
@@ -6142,6 +6948,9 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
         "properties": {
           "_id": {
             "bsonType": "objectId",
+          },
+          "created_at": {
+            "bsonType": "date",
           },
           "expires_at": {
             "bsonType": "date",
@@ -6172,8 +6981,22 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
           "key",
           "last_used_at",
           "expires_at",
+          "created_at",
         ],
       },
+    },
+    "cas_usage": {
+      "anyOf": [
+        {
+          "bsonType": "string",
+        },
+        {
+          "bsonType": "null",
+        },
+      ],
+    },
+    "cgu_accepted_at": {
+      "bsonType": "date",
     },
     "created_at": {
       "bsonType": "date",
@@ -6186,9 +7009,31 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
     "is_admin": {
       "bsonType": "bool",
     },
-    "password": {
+    "objectif": {
+      "anyOf": [
+        {
+          "bsonType": "string",
+          "enum": [
+            "fiabiliser",
+            "concevoir",
+          ],
+        },
+        {
+          "bsonType": "null",
+        },
+      ],
+    },
+    "type": {
       "bsonType": "string",
-      "description": "Mot de passe de l'utilisateur",
+      "enum": [
+        "operateur_public",
+        "organisme_formation",
+        "entreprise",
+        "editeur_logiciel",
+        "organisme_financeur",
+        "apprenant",
+        "autre",
+      ],
     },
     "updated_at": {
       "bsonType": "date",
@@ -6198,7 +7043,11 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
   "required": [
     "_id",
     "email",
-    "password",
+    "type",
+    "activite",
+    "objectif",
+    "cas_usage",
+    "cgu_accepted_at",
     "is_admin",
     "api_keys",
     "updated_at",

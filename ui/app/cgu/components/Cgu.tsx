@@ -1,9 +1,10 @@
 "use client";
+import { fr } from "@codegouvfr/react-dsfr";
 import { Summary } from "@codegouvfr/react-dsfr/Summary";
 import { Grid, Typography } from "@mui/material";
 import React, { FC, useEffect } from "react";
 
-import Section from "../../components/section/Section";
+import Section from "@/components/section/Section";
 
 export const cguVersion = "v1.0";
 
@@ -50,7 +51,7 @@ const Cgu: FC<Props> = ({ onLoad }) => {
   }, [onLoad]);
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={8}>
       <Grid item xs={12} lg={3}>
         <Summary
           links={summaryData.map((item) => ({
@@ -62,8 +63,8 @@ const Cgu: FC<Props> = ({ onLoad }) => {
         />
       </Grid>
       <Grid item xs={12} lg={9}>
-        <Typography variant="h2" gutterBottom>
-          CONDITIONS GÉNÉRALES D&apos;UTILISATION
+        <Typography variant="h1" gutterBottom color={fr.colors.decisions.text.actionHigh.blueEcume.default}>
+          Conditions générales d&apos;utilisation
         </Typography>
         <Typography>Dernière mise à jour le : 23 mars 2024 - {cguVersion} </Typography>
         <Typography>
@@ -72,7 +73,7 @@ const Cgu: FC<Props> = ({ onLoad }) => {
         </Typography>
 
         <Section id={anchors.ChampApplication}>
-          <Typography variant="h3" gutterBottom>
+          <Typography variant="h2" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default}>
             Article 1 – Champ d'application
           </Typography>
           <Typography>
@@ -83,7 +84,7 @@ const Cgu: FC<Props> = ({ onLoad }) => {
           </Typography>
         </Section>
         <Section id={anchors.Objet}>
-          <Typography variant="h3" gutterBottom>
+          <Typography variant="h2" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default}>
             Article 2 – Objet
           </Typography>
           <Typography>
@@ -94,7 +95,7 @@ const Cgu: FC<Props> = ({ onLoad }) => {
           </Typography>
         </Section>
         <Section id={anchors.Definition}>
-          <Typography variant="h3" gutterBottom>
+          <Typography variant="h2" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default}>
             Article 3 – Définitions
           </Typography>
           <Typography>
@@ -114,7 +115,7 @@ const Cgu: FC<Props> = ({ onLoad }) => {
           </Typography>
         </Section>
         <Section id={anchors.FonctionnaliteLieesAuxComptesDesUtilisateurs}>
-          <Typography variant="h3" gutterBottom>
+          <Typography variant="h2" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default}>
             Article 4 – Fonctionnalités liées aux comptes des utilisateurs
           </Typography>
           <Typography>
@@ -130,10 +131,10 @@ const Cgu: FC<Props> = ({ onLoad }) => {
           </Typography>
         </Section>
         <Section id={anchors.Responsabilites}>
-          <Typography variant="h3" gutterBottom>
+          <Typography variant="h2" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default}>
             Article 5 – Responsabilités
           </Typography>
-          <Typography variant="h4" gutterBottom>
+          <Typography variant="h3" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default}>
             5.1. L'éditeur de la Plateforme
           </Typography>
           <Typography>
@@ -151,7 +152,7 @@ const Cgu: FC<Props> = ({ onLoad }) => {
             respectant pas les présentes conditions générales d’utilisation.
           </Typography>
           <br />
-          <Typography variant="h4" gutterBottom>
+          <Typography variant="h3" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default}>
             5.2. L'utilisateur
           </Typography>
           <Typography>
@@ -168,7 +169,7 @@ const Cgu: FC<Props> = ({ onLoad }) => {
           </Typography>
         </Section>
         <Section id={anchors.MiseAjourDesConditionsUtilisation}>
-          <Typography variant="h3" gutterBottom>
+          <Typography variant="h2" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default}>
             Article 6 – Mise à jour des conditions d'utilisation
           </Typography>
           <Typography>

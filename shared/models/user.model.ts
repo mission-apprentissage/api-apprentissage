@@ -1,11 +1,11 @@
 import { Jsonify } from "type-fest";
 import { z } from "zod";
 
-import { IModelDescriptor, zObjectId } from "./common";
+import { IModelDescriptorGeneric, zObjectId } from "./common";
 
 const collectionName = "users" as const;
 
-const indexes: IModelDescriptor["indexes"] = [
+const indexes: IModelDescriptorGeneric["indexes"] = [
   [{ email: 1 }, { unique: true }],
   [
     {
@@ -32,15 +32,43 @@ export const zApiKey = z.object({
   key: z.string(),
   last_used_at: z.date().nullable(),
   expires_at: z.date(),
+  created_at: z.date(),
 });
 
 export type IApiKey = z.output<typeof zApiKey>;
 
+export const zApiKeyPrivate = zApiKey.omit({ key: true }).extend({
+  value: z.string().nullable(),
+});
+
+export type IApiKeyPrivate = z.output<typeof zApiKeyPrivate>;
+export type IApiKeyPrivateJson = Jsonify<IApiKeyPrivate>;
+
 export const zUser = z
   .object({
     _id: zObjectId,
-    email: z.string().email().describe("Email de l'utilisateur"),
-    password: z.string().describe("Mot de passe de l'utilisateur"),
+    email: z.string().email().describe("Email de l'utilisateur").toLowerCase(),
+    type: z.enum([
+      "operateur_public",
+      "organisme_formation",
+      "entreprise",
+      "editeur_logiciel",
+      "organisme_financeur",
+      "apprenant",
+      "autre",
+    ]),
+    activite: z
+      .string()
+      .trim()
+      .nullable()
+      .transform((v) => v || null),
+    objectif: z.enum(["fiabiliser", "concevoir"]).nullable(),
+    cas_usage: z
+      .string()
+      .trim()
+      .nullable()
+      .transform((v) => v || null),
+    cgu_accepted_at: z.date(),
     is_admin: z.boolean(),
     api_keys: z.array(zApiKey),
     updated_at: z.date().describe("Date de mise à jour en base de données"),
@@ -51,7 +79,6 @@ export const zUser = z
 export const zUserCreate = zUser
   .pick({
     email: true,
-    password: true,
     is_admin: true,
   })
   .strict();

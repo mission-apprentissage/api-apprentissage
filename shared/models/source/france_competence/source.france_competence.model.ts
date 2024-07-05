@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { IModelDescriptor, zObjectId } from "../../common";
+import { IModelDescriptorGeneric, zObjectId } from "../../common";
 import {
   ISourceFcAncienneNouvelle,
   zSourceFcAncienneNouvelle,
@@ -20,7 +20,7 @@ import { ISourceFcVoixAcces, zSourceFcVoixAcces } from "./parts/source.france_co
 
 const collectionName = "source.france_competence" as const;
 
-const indexes: IModelDescriptor["indexes"] = [
+const indexes: IModelDescriptorGeneric["indexes"] = [
   [{ numero_fiche: 1 }, { unique: true }],
   [{ created_at: 1 }, {}],
   [{ updated_at: 1 }, {}],
@@ -91,6 +91,6 @@ export const sourceFranceCompetenceModelDescriptor = {
   zod: zFranceCompetence,
   indexes,
   collectionName,
-} as const satisfies IModelDescriptor;
+};
 
 export type ISourceFranceCompetence = z.output<typeof zFranceCompetence>;

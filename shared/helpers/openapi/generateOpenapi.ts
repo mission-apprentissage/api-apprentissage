@@ -159,6 +159,11 @@ export function generateOpenApiSchema(version: string, env: string, publicUrl: s
         name: "Etalab-2.0",
         url: "https://github.com/etalab/licence-ouverte/blob/master/LO.md",
       },
+      termsOfService: "https://api.apprentissage.beta.gouv.fr/cgu",
+      contact: {
+        name: "Équipe API Apprentissage",
+        email: "support_api@apprentissage.beta.gouv.fr",
+      },
     },
     openapi: "3.1.0",
     servers: [
@@ -167,6 +172,16 @@ export function generateOpenApiSchema(version: string, env: string, publicUrl: s
         description: env,
       },
     ],
-    tags: [{ name: "Certifications", description: "Liste des opérations sur les certifications." }],
+    tags: [
+      {
+        name: "Essayer l'API",
+        description: "Pour essayer l'API [vous pouvez utiliser le swagger UI](/documentation-technique/try)",
+      },
+      { name: "Certifications", description: "Liste des opérations sur les certifications." },
+      {
+        name: "Expérimental",
+        description: "Liste des routes expérimentales. Attention: ces routes peuvent changer sans préavis.",
+      },
+    ],
   });
 }

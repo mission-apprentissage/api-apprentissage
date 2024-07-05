@@ -26,38 +26,40 @@ type FichierMeta = {
 };
 
 function getFichierMetaFromFilename(entry: Entry): FichierMeta {
-  if (/^export_fiches_CSV_Blocs_De_Compétences_\d{4}_\d{2}_\d{2}\.csv/.test(entry.path)) {
+  // Normalise to prevent diacritics issues
+  const filename = entry.path.normalize();
+  if (/^export_fiches_CSV_Blocs_De_Compétences_\d{4}_\d{2}_\d{2}\.csv/.test(filename)) {
     return { source: "blocs_de_competences" };
   }
-  if (/^export_fiches_CSV_CCN_\d{4}_\d{2}_\d{2}\.csv/.test(entry.path)) {
+  if (/^export_fiches_CSV_CCN_\d{4}_\d{2}_\d{2}\.csv/.test(filename)) {
     return { source: "ccn" };
   }
-  if (/^export_fiches_CSV_Partenaires_\d{4}_\d{2}_\d{2}\.csv/.test(entry.path)) {
+  if (/^export_fiches_CSV_Partenaires_\d{4}_\d{2}_\d{2}\.csv/.test(filename)) {
     return { source: "partenaires" };
   }
-  if (/^export_fiches_CSV_Nsf_\d{4}_\d{2}_\d{2}\.csv/.test(entry.path)) {
+  if (/^export_fiches_CSV_Nsf_\d{4}_\d{2}_\d{2}\.csv/.test(filename)) {
     return { source: "nsf" };
   }
-  if (/^export_fiches_CSV_Formacode_\d{4}_\d{2}_\d{2}\.csv/.test(entry.path)) {
+  if (/^export_fiches_CSV_Formacode_\d{4}_\d{2}_\d{2}\.csv/.test(filename)) {
     return { source: "formacode" };
   }
-  if (/^export_fiches_CSV_Ancienne_Nouvelle_Certification_\d{4}_\d{2}_\d{2}\.csv/.test(entry.path)) {
+  if (/^export_fiches_CSV_Ancienne_Nouvelle_Certification_\d{4}_\d{2}_\d{2}\.csv/.test(filename)) {
     return { source: "ancienne_nouvelle_certification" };
   }
-  if (/^export_fiches_CSV_VoixdAccès_\d{4}_\d{2}_\d{2}\.csv/.test(entry.path)) {
+  if (/^export_fiches_CSV_VoixdAccès_\d{4}_\d{2}_\d{2}\.csv/.test(filename)) {
     return { source: "voies_d_acces" };
   }
-  if (/^export_fiches_CSV_Rome_\d{4}_\d{2}_\d{2}\.csv/.test(entry.path)) {
+  if (/^export_fiches_CSV_Rome_\d{4}_\d{2}_\d{2}\.csv/.test(filename)) {
     return { source: "rome" };
   }
-  if (/^export_fiches_CSV_Certificateurs_\d{4}_\d{2}_\d{2}\.csv/.test(entry.path)) {
+  if (/^export_fiches_CSV_Certificateurs_\d{4}_\d{2}_\d{2}\.csv/.test(filename)) {
     return { source: "certificateurs" };
   }
-  if (/^export_fiches_CSV_Standard_\d{4}_\d{2}_\d{2}\.csv/.test(entry.path)) {
+  if (/^export_fiches_CSV_Standard_\d{4}_\d{2}_\d{2}\.csv/.test(filename)) {
     return { source: "standard" };
   }
 
-  throw internal("import.france_competence: unexpected filename", { filename: entry.path });
+  throw internal("import.france_competence: unexpected filename", { filename });
 }
 
 function getArchiveMeta(resource: IDataGouvDatasetResource): IArchiveMeta | null {
@@ -308,6 +310,88 @@ export async function importRncpFile(entry: Entry, importMeta: IImportMetaFrance
   }
 }
 
+function getAnciennesFiches(doc: ISourceFranceCompetence): string[] {
+  const result: Set<string> = new Set();
+
+  for (const { Ancienne_Certification } of doc.data.ancienne_nouvelle_certification) {
+    if (Ancienne_Certification) result.add(Ancienne_Certification);
+  }
+
+  return Array.from(result);
+}
+
+function getNouvellesFiches(doc: ISourceFranceCompetence): string[] {
+  const result: Set<string> = new Set();
+
+  for (const { Nouvelle_Certification } of doc.data.ancienne_nouvelle_certification) {
+    if (Nouvelle_Certification) result.add(Nouvelle_Certification);
+  }
+
+  return Array.from(result);
+}
+
+async function buildContinuityMap(
+  importMeta: IImportMetaFranceCompetence
+): Promise<Map<string, Map<string, { fromAncien: boolean; fromNouveau: boolean }>>> {
+  const cursor = getDbCollection("source.france_competence").find<ISourceFranceCompetence>({
+    // Prevent concurrency issues, make sure we are not updating a document that has been updated since the import
+    updated_at: { $lte: importMeta.import_date },
+    "data.ancienne_nouvelle_certification.0": { $exists: true },
+  });
+
+  const continuity = new Map<string, Map<string, { fromAncien: boolean; fromNouveau: boolean }>>();
+
+  for await (const doc of cursor) {
+    const anciennesFiches = getAnciennesFiches(doc);
+    const nouvellesFiches = getNouvellesFiches(doc);
+
+    for (const ancienneFiche of anciennesFiches) {
+      const nouvelleFiche = doc.numero_fiche;
+      if (!continuity.has(ancienneFiche)) {
+        continuity.set(ancienneFiche, new Map());
+      }
+      if (!continuity.get(ancienneFiche)?.has(nouvelleFiche)) {
+        continuity.get(ancienneFiche)!.set(nouvelleFiche, { fromAncien: false, fromNouveau: false });
+      }
+      continuity.get(ancienneFiche)!.get(nouvelleFiche)!.fromNouveau = true;
+    }
+
+    for (const nouvelleFiche of nouvellesFiches) {
+      const ancienneFiche = doc.numero_fiche;
+      if (!continuity.has(ancienneFiche)) {
+        continuity.set(ancienneFiche, new Map());
+      }
+      if (!continuity.get(ancienneFiche)?.has(nouvelleFiche)) {
+        continuity.get(ancienneFiche)!.set(nouvelleFiche, { fromAncien: false, fromNouveau: false });
+      }
+      continuity.get(ancienneFiche)!.get(nouvelleFiche)!.fromAncien = true;
+    }
+  }
+
+  return continuity;
+}
+
+async function indicateurContinuity(
+  importMeta: IImportMetaFranceCompetence
+): Promise<{ anciens: number; nouveaux: number }> {
+  const continuity = await buildContinuityMap(importMeta);
+
+  const indicateur = { anciens: 0, nouveaux: 0 };
+  for (const [_ancienneFiche, map] of continuity) {
+    for (const [_nouvelleFiche, { fromAncien, fromNouveau }] of map) {
+      if (!fromAncien) {
+        indicateur.anciens++;
+      }
+
+      if (!fromNouveau) {
+        indicateur.nouveaux++;
+      }
+    }
+  }
+
+  return indicateur;
+}
+
 export async function importRncpArchive(importMeta: IImportMetaFranceCompetence, signal?: AbortSignal) {
   try {
     const readStream = await downloadDataGouvResource(importMeta.archiveMeta.resource);
@@ -320,6 +404,8 @@ export async function importRncpArchive(importMeta: IImportMetaFranceCompetence,
       entry.autodrain();
     }
 
+    const indicateurs = { continuity: await indicateurContinuity(importMeta) };
+
     const [total, active, created, updated, activated] = await Promise.all([
       getDbCollection("source.france_competence").countDocuments(),
       getDbCollection("source.france_competence").countDocuments({ active: true }),
@@ -330,12 +416,22 @@ export async function importRncpArchive(importMeta: IImportMetaFranceCompetence,
       }),
     ]);
 
+    await getDbCollection("import.meta").updateOne(
+      { _id: importMeta._id },
+      {
+        $set: {
+          status: "done",
+        },
+      }
+    );
+
     return {
       total,
       active,
       created,
       updated,
       activated,
+      indicateurs,
     };
   } catch (error) {
     if (signal && error.name === signal?.reason?.name) {
@@ -383,6 +479,7 @@ async function getUnprocessedImportMeta(dataset: IDataGouvDataset): Promise<IImp
           import_date: new Date(),
           type: "france_competence",
           archiveMeta,
+          status: "pending",
         });
       }
 

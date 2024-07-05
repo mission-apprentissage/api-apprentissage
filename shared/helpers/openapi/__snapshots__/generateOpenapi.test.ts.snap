@@ -87,7 +87,8 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
       "Certification": {
         "properties": {
           "base_legale": {
-            "description": "Dates de création et d’abrogation des diplômes crées par arrêtés",
+            "description": "Dates de création et d’abrogation des diplômes crées par arrêtés
+",
             "properties": {
               "cfd": {
                 "description": "Informations légales issue de la base centrale des nomenclatures (BCN) relatives au diplôme.
@@ -149,7 +150,8 @@ Notes:
             "type": "object",
           },
           "blocs_competences": {
-            "description": "Liste du (ou des) code (s) et intitulé(s) des blocs de compétences validées par la certification",
+            "description": "Liste du (ou des) code (s) et intitulé(s) des blocs de compétences validées par la certification
+",
             "properties": {
               "rncp": {
                 "description": "Liste des blocs de compétences issue de France Compétences.
@@ -161,7 +163,7 @@ Notes:
                   "properties": {
                     "code": {
                       "example": "RNCP37537BC01",
-                      "pattern": "^RNCP\\d{3,5}BC\\d{1,2}$",
+                      "pattern": "^(RNCP\\d{3,5}BC)?\\d{1,2}$",
                       "type": "string",
                     },
                     "intitule": {
@@ -189,8 +191,154 @@ Notes:
             ],
             "type": "object",
           },
+          "continuite": {
+            "properties": {
+              "cfd": {
+                "description": "Liste des diplômes assurant la continuité du diplôme. La liste inclut à la fois les diplômes remplacés et remplaçant. La liste est ordonnée par date d'ouverture du diplôme et inclut le diplôme courant.
+
+Notes:
+
+- \`null\` lorsque le champs \`identifiant.cfd\` est \`null\`.
+
+- Pour distinguer les diplômes remplacés des diplômes remplaçant, il faut se référer aux dates d'ouverture et de fermeture des diplômes.",
+                "items": {
+                  "properties": {
+                    "code": {
+                      "pattern": "^[A-Z0-9]{3}\\d{3}[A-Z0-9]{2}$",
+                      "type": "string",
+                    },
+                    "courant": {
+                      "description": "Indique si le diplôme correspond au diplôme courant, i.e \`identifiant.cfd\` est égal au \`code\`.",
+                      "type": "boolean",
+                    },
+                    "fermeture": {
+                      "description": "Date de fermeture du diplôme.
+
+Notes:
+
+- La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.",
+                      "examples": [
+                        "2022-08-31T23:59:59.000+02:00",
+                        "2022-12-31T23:59:59.000+01:00",
+                      ],
+                      "format": "date-time",
+                      "type": [
+                        "string",
+                        "null",
+                      ],
+                    },
+                    "ouverture": {
+                      "description": "Date d'ouverture du diplôme.
+
+Notes:
+
+- La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '00:00:00' sur le fuseau horaire 'Europe/Paris'.",
+                      "examples": [
+                        "2021-09-01T00:00:00.000+02:00",
+                        "2022-01-01T00:00:00.000+01:00",
+                      ],
+                      "format": "date-time",
+                      "type": [
+                        "string",
+                        "null",
+                      ],
+                    },
+                  },
+                  "required": [
+                    "ouverture",
+                    "fermeture",
+                    "code",
+                    "courant",
+                  ],
+                  "type": "object",
+                },
+                "type": [
+                  "array",
+                  "null",
+                ],
+              },
+              "rncp": {
+                "description": "Liste des fiches RNCP assurant la continuité de la certification. La liste inclut à la fois les fiches remplacées et remplaçantes. La liste est ordonnée par date d'activation de la fiche RNCP et inclut la fiche courante.
+
+
+Notes:
+
+- \`null\` lorsque le champs \`identifiant.rncp\` est \`null\`.
+
+- Pour distinguer les fiches remplacées des fiches remplaçant, il faut se référer aux dates d'activation et de fin d'enregistrement des fiches.",
+                "items": {
+                  "properties": {
+                    "actif": {
+                      "description": "Lorsque la fiche est active, les inscriptions à la formation sont ouvertes, à l’inverse, lorsque la fiche est inactive, les inscriptions sont fermées.",
+                      "type": "boolean",
+                    },
+                    "activation": {
+                      "description": "Date à laquelle la fiche RNCP est passée au statut \`actif\`.
+
+Notes:
+
+- La couverture de ce champ est partiel car nous ne sommes pas en mesure pour le moment de récupérer les dates d'activation antérieures au 24 décembre 2021.
+
+- France Compétence ne fournie pas l'information, nous le déduisons de la date de premiere apparation de la fiche RNCP avec le statut \`actif\`.",
+                      "examples": [
+                        "2021-09-01T00:00:00.000+02:00",
+                        "2022-01-01T00:00:00.000+01:00",
+                      ],
+                      "format": "date-time",
+                      "type": [
+                        "string",
+                        "null",
+                      ],
+                    },
+                    "code": {
+                      "pattern": "^RNCP\\d{3,5}$",
+                      "type": "string",
+                    },
+                    "courant": {
+                      "description": "Indique si la fiche correspond à la fiche courante, i.e \`identifiant.rncp\` est égal au \`code\`.",
+                      "type": "boolean",
+                    },
+                    "fin_enregistrement": {
+                      "description": "Date de fin d’enregistrement d’une fiche au RNCP.
+
+Notes:
+
+- France Compétence fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.",
+                      "examples": [
+                        "2021-09-01T00:00:00.000+02:00",
+                        "2022-01-01T00:00:00.000+01:00",
+                      ],
+                      "format": "date-time",
+                      "type": [
+                        "string",
+                        "null",
+                      ],
+                    },
+                  },
+                  "required": [
+                    "activation",
+                    "fin_enregistrement",
+                    "code",
+                    "courant",
+                    "actif",
+                  ],
+                  "type": "object",
+                },
+                "type": [
+                  "array",
+                  "null",
+                ],
+              },
+            },
+            "required": [
+              "cfd",
+              "rncp",
+            ],
+            "type": "object",
+          },
           "convention_collectives": {
-            "description": "Liste(s) de la ou des convention(s) collective(s) rattachées à la certification.",
+            "description": "Liste(s) de la ou des convention(s) collective(s) rattachées à la certification
+",
             "properties": {
               "rncp": {
                 "description": "Liste des conventions collectives issue de France Compétences.
@@ -230,10 +378,9 @@ Notes:
             "description": "Cet élément contient des listes de codes et d’intitulés qui décrivent le domaine de la formation à travers différentes nomenclatures :
 
 - la **Nomenclature des Spécialités de Formation (NSF).** Produite par l’INSEE, elle a pour objectif de couvrir l'ensemble des formations professionnelles ou non, de tout niveau, et sert à déterminer les domaines de formation.
-
 - le **Répertoire Opérationnel des Métiers et des Emplois (ROME).** Conçu par France Travail (anciennement Pôle Emploi), ce référentiel présente l'ensemble des métiers regroupés par fiches, organisées par domaines professionnels.
-
-- le **Formacode®, thésaurus de l’offre de formation** du Centre Inffo est un outil pour aider à l’indexation et la recherche d’informations sur l’offre de formation.",
+- le **Formacode®, thésaurus de l’offre de formation** du Centre Inffo est un outil pour aider à l’indexation et la recherche d’informations sur l’offre de formation.
+",
             "properties": {
               "formacodes": {
                 "description": "Formacode®, thésaurus de l’offre de formation du Centre Inffo.",
@@ -281,7 +428,7 @@ Notes:
 
 - \`null\` lorsque le champs \`identifiant.cfd\` est \`null\`.
 
-- Le code NSF est déduis du code formation diplôme (CFD), il n'inclus donc pas la lettre de spécialité et le tableau ne contient qu'un seul élément.",
+- Le code NSF est déduis du code formation diplôme (CFD), il n'inclut donc pas la lettre de spécialité et le tableau ne contient qu'un seul élément.",
                     "properties": {
                       "code": {
                         "examples": [
@@ -395,7 +542,8 @@ Notes:
             "type": "object",
           },
           "identifiant": {
-            "description": "Une certification correspond à un couple CFD-RNCP sur une période donnée. Le Code Formation Diplôme (CFD) ou code scolarité référence la certification dans la Base Centrale des Nomenclature. Le code RNCP référence la certification dans le Répertoire National des Certifications Professionnelle.
+            "description": "**Une certification correspond à un couple CFD-RNCP sur une période donnée.** Le Code Formation Diplôme (CFD) ou code scolarité référence la certification dans la Base Centrale des Nomenclature. Le code RNCP référence la certification dans le Répertoire National des Certifications Professionnelle.
+
 
 Notes:
 
@@ -457,11 +605,12 @@ Notes:
           "intitule": {
             "description": "Intitulé de la certification professionnelle.
 
-Si la formation a comme résultat l’obtention d’un diplôme, le contenu de cet élément devrait utiliser une dénomination conforme aux tables de l’Éducation Nationale - soit les champs \`intitule.cfd.court\` ou \`intitule.cfd.long\`
+Si la formation a comme résultat l’obtention d’un diplôme, le contenu de cet élément devrait utiliser une dénomination conforme aux tables de l’Éducation Nationale - soit les champs \`.cfd.court\` ou \`.cfd.long\`
 
-Si la formation a comme résultat un titre ou une certification, le contenu devrait utiliser une dénomination conforme au contenu du Répertoire National des Certifications Professionnelles (RNCP) - soit le champ \`intitulé.rncp\`
+Si la formation a comme résultat un titre ou une certification, le contenu devrait utiliser une dénomination conforme au contenu du Répertoire National des Certifications Professionnelles (RNCP) - soit le champ \`.rncp\`
 
-source : [Lhéo](http://lheo.gouv.fr/2.3/lheo/intitule-formation.html)",
+source : [Lhéo](http://lheo.gouv.fr/2.3/lheo/intitule-formation.html)
+",
             "properties": {
               "cfd": {
                 "description": "Intitulés de la certification issue de la base centrale des nomenclatures (BCN).
@@ -498,23 +647,7 @@ Notes:
               },
               "niveau": {
                 "description": "Niveau de qualification de la certification professionnelle
-
-| Niveau Européen (nomenclature utilisée dans les référentiels nationaux européens) | Niveau CFD (Nomenclature spécifique à l’Education Nationale) |
-| --- | --- |
-| Niveau 1. Maîtrise des savoirs de base |  |
-| Niveau 2. Capacité à effectuer des activités simples et résoudre des problèmes courants à l’aide de règles et d’outils simples en mobilisant des savoir-faire professionnels dans un contexte structuré | Niveau VI (illettrisme, analphabétisme)
-Niveau V bis (préqualification) |
-| Niveau 3. Exemple : CAP, BEP. Capacité à effectuer des activités et résoudre des problèmes en sélectionnant et appliquant des méthodes, des outils, des matériels et des informations de base, dans un contexte connu, ainsi que la capacité à adapter les moyens d’exécution et son comportement aux circonstances | Niveau V (CAP, BEP, CFPA du premier degré)
-Niveau 0 (Mentions Complémentaires) |
-| Niveau 4. Exemple : BAC, BAC PRO. Capacité à effectuer des activités nécessitant de mobiliser un éventail large d’aptitudes, d’adapter des solutions existantes pour résoudre des problèmes précis, à organiser son travail de manière autonome dans des contextes généralement prévisibles mais susceptibles de changer, ainsi qu’à participer à l’évaluation des activités.  | Niveau IV (BAC, BP, BT, baccalauréat professionnel ou technologique)
-Niveau 0 (Mentions Complémentaires) |
-| Niveau 5. Exemple : BTS, DUT. Capacité à maitriser des savoir-faire dans un champ d’activité, à élaborer des solutions à des problèmes nouveaux, à analyser et interpréter des informations, en mobilisant des concepts, à transmettre le savoir-faire et des méthodes | Niveau III (BTS, DUT) Niveau 0 (Mentions Complémentaires) |
-| Niveau 6. Exemple : grade de licence. Capacité à analyser et résoudre des problèmes complexes imprévus dans un domaine spécifique, à formaliser des savoir-faire et des méthodes et à les capitaliser. | Niveau II (Licence ou maîtrise universitaire) |
-| Niveau 7. Exemple : grade de master. Capacité à élaborer et mettre en œuvre des stratégies alternatives pour le développement de l’activité professionnelle dans des contextes professionnels complexes, ainsi qu’à évaluer les risques et les conséquences de son activité. | Niveau I (Supérieur à la maîtrise) |
-| Niveau 8. Exemple: diplôme national de doctorat. Capacité à identifier et résoudre des problèmes complexes et nouveaux impliquant une pluralité de domaines, en mobilisant les connaissances et les savoir-faire les plus avancés, à concevoir et piloter des projets et des processus de recherche et d’innovation.  | Niveau I (Supérieur à la maîtrise) |
-|  | Niveau IX (niveaux indéterminés) |
-
-source : [Lhéo](http://lheo.gouv.fr/2.3/lheo/dict-niveaux.html?highlight=niveau)",
+",
                 "properties": {
                   "cfd": {
                     "description": "Niveau de la certification issue de la base centrale des nomenclatures (BCN).
@@ -672,7 +805,8 @@ Notes:
             "type": "object",
           },
           "periode_validite": {
-            "description": "Un couple CFD-RNCP a une période de validité qui correspond à l’intersection de la période d’ouverture du diplôme et de la période d’activité de la fiche RNCP.
+            "description": "**Un couple CFD-RNCP a une période de validité** qui correspond à l’intersection de la période d’ouverture du diplôme et de la période d’activité de la fiche RNCP.
+
 
 Notes:
 
@@ -682,12 +816,10 @@ Les dates sont retournées au format ISO 8601 avec le fuseau horaire Europe/Pari
                 "description": "La période de validité d’un CFD est décrite par :
 
 - **La date d’ouverture** : moment où il est possible de s’inscrire pour l’obtention de la certification (ou du diplôme)
-
 - **La première session** : année de sortie des premiers diplômés
-
 - **La dernière session** : année de sortie des derniers diplômés
-
 - **La date de fermeture** : moment où il n’est plus possible d’émettre le diplôme.
+
 
 Notes:
 
@@ -784,11 +916,10 @@ Notes:
               "rncp": {
                 "description": "La période de validité d’une fiche RNCP est décrite par :
 
-**La date d’activation** correspond à la date laquelle la fiche RNCP est passée au **statut actif : les inscriptions à la formation sont ouvertes** jusqu'à la date limite de délivrance de la certification.
+- **La date d’activation** correspond à la date laquelle la fiche RNCP est passée au **statut actif : les inscriptions à la formation sont ouvertes** jusqu'à la date limite de délivrance de la certification.
+- La **date de début des parcours certifiants** (anciennement appelée “**date d’effet**” pour les enregistrements de droits, et “**date de décision**” pour les enregistrement sur demande)
+- La **date de fin d’enregistrement** : le lendemain, la fiche RNCP passe du statut “**actif**” à “**inactif**”. Pour les enregistrement de droit, cette date est renseignée par le certificateur, et pour les enregistrements sur demande, elle est déterminée par commission au moment de la décision d’enregistrement. A cette date, l'accès à la certification n'est plus possible (les inscriptions sont fermées) mais elle peut continuer à être délivrée pour les parcours en cours (formation ou VAE) ou pour la signature d'un contrat d'apprentissage suite à un nouveau contrat consécutif à une rupture du contrat.
 
-La **date de début des parcours certifiants** (anciennement appelé “**date d’effet**” pour les enregistrements de droits, et “**date de décision**” pour les enregistrement sur demande)
-
-La **date de fin d’enregistrement** : le lendemain, la fiche RNCP passe du statut “**actif**” à “**inactif**”. Pour les enregistrement de droit, cette date est renseignée par le certificateur, et pour les enregistrements sur demande, elle est déterminée par commission au moment de la décision d’enregistrement. A cette date, l'accès à la certification n'est plus possible (les inscriptions sont fermées) mais elle peut continuer à être délivrée pour les parcours en cours (formation ou VAE) ou pour la signature d'un contrat d'apprentissage suite à un nouveau contrat consécutif à une rupture du contrat.
 
 Notes:
 
@@ -817,7 +948,7 @@ Notes:
                     ],
                   },
                   "debut_parcours": {
-                    "description": "Date de début des parcours certifiants. Anciennement appelé 'date d'effet' pour les enregistrements de droit et correspondant à la date de décision pour les enregistrements sur demande.
+                    "description": "Date de début des parcours certifiants. Anciennement appelée 'date d'effet' pour les enregistrements de droit et correspondant à la date de décision pour les enregistrements sur demande.
 
 Notes:
 
@@ -869,14 +1000,11 @@ Notes:
             "description": "Le type de certification renseigne sur
 
 - la nature du diplôme
-
 - le service responsable de la définition du diplôme
-
 - le(s) nom(s) et numéro(s) SIRET du ou des certificateur(s) renseigné(s) dans le RNCP
-
 - le type d’enregistrement au RNCP (de droit ou sur demande)
-
-- la voie d’accès à la formation (apprentissage, expérience, candidature individuelle, contrat de professionnalisation, formation continue et formation statut élève).",
+- la voie d’accès à la formation (apprentissage, expérience, candidature individuelle, contrat de professionnalisation, formation continue et formation statut élève).
+",
             "properties": {
               "certificateurs_rncp": {
                 "description": "Liste des certificateurs de la fiche RNCP.
@@ -1056,6 +1184,7 @@ Notes:
           "domaines",
           "periode_validite",
           "type",
+          "continuite",
         ],
         "type": "object",
       },
@@ -1262,10 +1391,15 @@ Notes:
     },
   },
   "info": {
+    "contact": {
+      "email": "support_api@apprentissage.beta.gouv.fr",
+      "name": "Équipe API Apprentissage",
+    },
     "license": {
       "name": "Etalab-2.0",
       "url": "https://github.com/etalab/licence-ouverte/blob/master/LO.md",
     },
+    "termsOfService": "https://api.apprentissage.beta.gouv.fr/cgu",
     "title": "Documentation technique de l'API Apprentissage",
     "version": "V1.0",
   },
@@ -1330,7 +1464,8 @@ Notes:
                   "items": {
                     "properties": {
                       "base_legale": {
-                        "description": "Dates de création et d’abrogation des diplômes crées par arrêtés",
+                        "description": "Dates de création et d’abrogation des diplômes crées par arrêtés
+",
                         "properties": {
                           "cfd": {
                             "description": "Informations légales issue de la base centrale des nomenclatures (BCN) relatives au diplôme.
@@ -1392,7 +1527,8 @@ Notes:
                         "type": "object",
                       },
                       "blocs_competences": {
-                        "description": "Liste du (ou des) code (s) et intitulé(s) des blocs de compétences validées par la certification",
+                        "description": "Liste du (ou des) code (s) et intitulé(s) des blocs de compétences validées par la certification
+",
                         "properties": {
                           "rncp": {
                             "description": "Liste des blocs de compétences issue de France Compétences.
@@ -1404,7 +1540,7 @@ Notes:
                               "properties": {
                                 "code": {
                                   "example": "RNCP37537BC01",
-                                  "pattern": "^RNCP\\d{3,5}BC\\d{1,2}$",
+                                  "pattern": "^(RNCP\\d{3,5}BC)?\\d{1,2}$",
                                   "type": "string",
                                 },
                                 "intitule": {
@@ -1432,8 +1568,154 @@ Notes:
                         ],
                         "type": "object",
                       },
+                      "continuite": {
+                        "properties": {
+                          "cfd": {
+                            "description": "Liste des diplômes assurant la continuité du diplôme. La liste inclut à la fois les diplômes remplacés et remplaçant. La liste est ordonnée par date d'ouverture du diplôme et inclut le diplôme courant.
+
+Notes:
+
+- \`null\` lorsque le champs \`identifiant.cfd\` est \`null\`.
+
+- Pour distinguer les diplômes remplacés des diplômes remplaçant, il faut se référer aux dates d'ouverture et de fermeture des diplômes.",
+                            "items": {
+                              "properties": {
+                                "code": {
+                                  "pattern": "^[A-Z0-9]{3}\\d{3}[A-Z0-9]{2}$",
+                                  "type": "string",
+                                },
+                                "courant": {
+                                  "description": "Indique si le diplôme correspond au diplôme courant, i.e \`identifiant.cfd\` est égal au \`code\`.",
+                                  "type": "boolean",
+                                },
+                                "fermeture": {
+                                  "description": "Date de fermeture du diplôme.
+
+Notes:
+
+- La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.",
+                                  "examples": [
+                                    "2022-08-31T23:59:59.000+02:00",
+                                    "2022-12-31T23:59:59.000+01:00",
+                                  ],
+                                  "format": "date-time",
+                                  "type": [
+                                    "string",
+                                    "null",
+                                  ],
+                                },
+                                "ouverture": {
+                                  "description": "Date d'ouverture du diplôme.
+
+Notes:
+
+- La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '00:00:00' sur le fuseau horaire 'Europe/Paris'.",
+                                  "examples": [
+                                    "2021-09-01T00:00:00.000+02:00",
+                                    "2022-01-01T00:00:00.000+01:00",
+                                  ],
+                                  "format": "date-time",
+                                  "type": [
+                                    "string",
+                                    "null",
+                                  ],
+                                },
+                              },
+                              "required": [
+                                "ouverture",
+                                "fermeture",
+                                "code",
+                                "courant",
+                              ],
+                              "type": "object",
+                            },
+                            "type": [
+                              "array",
+                              "null",
+                            ],
+                          },
+                          "rncp": {
+                            "description": "Liste des fiches RNCP assurant la continuité de la certification. La liste inclut à la fois les fiches remplacées et remplaçantes. La liste est ordonnée par date d'activation de la fiche RNCP et inclut la fiche courante.
+
+
+Notes:
+
+- \`null\` lorsque le champs \`identifiant.rncp\` est \`null\`.
+
+- Pour distinguer les fiches remplacées des fiches remplaçant, il faut se référer aux dates d'activation et de fin d'enregistrement des fiches.",
+                            "items": {
+                              "properties": {
+                                "actif": {
+                                  "description": "Lorsque la fiche est active, les inscriptions à la formation sont ouvertes, à l’inverse, lorsque la fiche est inactive, les inscriptions sont fermées.",
+                                  "type": "boolean",
+                                },
+                                "activation": {
+                                  "description": "Date à laquelle la fiche RNCP est passée au statut \`actif\`.
+
+Notes:
+
+- La couverture de ce champ est partiel car nous ne sommes pas en mesure pour le moment de récupérer les dates d'activation antérieures au 24 décembre 2021.
+
+- France Compétence ne fournie pas l'information, nous le déduisons de la date de premiere apparation de la fiche RNCP avec le statut \`actif\`.",
+                                  "examples": [
+                                    "2021-09-01T00:00:00.000+02:00",
+                                    "2022-01-01T00:00:00.000+01:00",
+                                  ],
+                                  "format": "date-time",
+                                  "type": [
+                                    "string",
+                                    "null",
+                                  ],
+                                },
+                                "code": {
+                                  "pattern": "^RNCP\\d{3,5}$",
+                                  "type": "string",
+                                },
+                                "courant": {
+                                  "description": "Indique si la fiche correspond à la fiche courante, i.e \`identifiant.rncp\` est égal au \`code\`.",
+                                  "type": "boolean",
+                                },
+                                "fin_enregistrement": {
+                                  "description": "Date de fin d’enregistrement d’une fiche au RNCP.
+
+Notes:
+
+- France Compétence fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.",
+                                  "examples": [
+                                    "2021-09-01T00:00:00.000+02:00",
+                                    "2022-01-01T00:00:00.000+01:00",
+                                  ],
+                                  "format": "date-time",
+                                  "type": [
+                                    "string",
+                                    "null",
+                                  ],
+                                },
+                              },
+                              "required": [
+                                "activation",
+                                "fin_enregistrement",
+                                "code",
+                                "courant",
+                                "actif",
+                              ],
+                              "type": "object",
+                            },
+                            "type": [
+                              "array",
+                              "null",
+                            ],
+                          },
+                        },
+                        "required": [
+                          "cfd",
+                          "rncp",
+                        ],
+                        "type": "object",
+                      },
                       "convention_collectives": {
-                        "description": "Liste(s) de la ou des convention(s) collective(s) rattachées à la certification.",
+                        "description": "Liste(s) de la ou des convention(s) collective(s) rattachées à la certification
+",
                         "properties": {
                           "rncp": {
                             "description": "Liste des conventions collectives issue de France Compétences.
@@ -1473,10 +1755,9 @@ Notes:
                         "description": "Cet élément contient des listes de codes et d’intitulés qui décrivent le domaine de la formation à travers différentes nomenclatures :
 
 - la **Nomenclature des Spécialités de Formation (NSF).** Produite par l’INSEE, elle a pour objectif de couvrir l'ensemble des formations professionnelles ou non, de tout niveau, et sert à déterminer les domaines de formation.
-
 - le **Répertoire Opérationnel des Métiers et des Emplois (ROME).** Conçu par France Travail (anciennement Pôle Emploi), ce référentiel présente l'ensemble des métiers regroupés par fiches, organisées par domaines professionnels.
-
-- le **Formacode®, thésaurus de l’offre de formation** du Centre Inffo est un outil pour aider à l’indexation et la recherche d’informations sur l’offre de formation.",
+- le **Formacode®, thésaurus de l’offre de formation** du Centre Inffo est un outil pour aider à l’indexation et la recherche d’informations sur l’offre de formation.
+",
                         "properties": {
                           "formacodes": {
                             "description": "Formacode®, thésaurus de l’offre de formation du Centre Inffo.",
@@ -1524,7 +1805,7 @@ Notes:
 
 - \`null\` lorsque le champs \`identifiant.cfd\` est \`null\`.
 
-- Le code NSF est déduis du code formation diplôme (CFD), il n'inclus donc pas la lettre de spécialité et le tableau ne contient qu'un seul élément.",
+- Le code NSF est déduis du code formation diplôme (CFD), il n'inclut donc pas la lettre de spécialité et le tableau ne contient qu'un seul élément.",
                                 "properties": {
                                   "code": {
                                     "examples": [
@@ -1638,7 +1919,8 @@ Notes:
                         "type": "object",
                       },
                       "identifiant": {
-                        "description": "Une certification correspond à un couple CFD-RNCP sur une période donnée. Le Code Formation Diplôme (CFD) ou code scolarité référence la certification dans la Base Centrale des Nomenclature. Le code RNCP référence la certification dans le Répertoire National des Certifications Professionnelle.
+                        "description": "**Une certification correspond à un couple CFD-RNCP sur une période donnée.** Le Code Formation Diplôme (CFD) ou code scolarité référence la certification dans la Base Centrale des Nomenclature. Le code RNCP référence la certification dans le Répertoire National des Certifications Professionnelle.
+
 
 Notes:
 
@@ -1700,11 +1982,12 @@ Notes:
                       "intitule": {
                         "description": "Intitulé de la certification professionnelle.
 
-Si la formation a comme résultat l’obtention d’un diplôme, le contenu de cet élément devrait utiliser une dénomination conforme aux tables de l’Éducation Nationale - soit les champs \`intitule.cfd.court\` ou \`intitule.cfd.long\`
+Si la formation a comme résultat l’obtention d’un diplôme, le contenu de cet élément devrait utiliser une dénomination conforme aux tables de l’Éducation Nationale - soit les champs \`.cfd.court\` ou \`.cfd.long\`
 
-Si la formation a comme résultat un titre ou une certification, le contenu devrait utiliser une dénomination conforme au contenu du Répertoire National des Certifications Professionnelles (RNCP) - soit le champ \`intitulé.rncp\`
+Si la formation a comme résultat un titre ou une certification, le contenu devrait utiliser une dénomination conforme au contenu du Répertoire National des Certifications Professionnelles (RNCP) - soit le champ \`.rncp\`
 
-source : [Lhéo](http://lheo.gouv.fr/2.3/lheo/intitule-formation.html)",
+source : [Lhéo](http://lheo.gouv.fr/2.3/lheo/intitule-formation.html)
+",
                         "properties": {
                           "cfd": {
                             "description": "Intitulés de la certification issue de la base centrale des nomenclatures (BCN).
@@ -1741,23 +2024,7 @@ Notes:
                           },
                           "niveau": {
                             "description": "Niveau de qualification de la certification professionnelle
-
-| Niveau Européen (nomenclature utilisée dans les référentiels nationaux européens) | Niveau CFD (Nomenclature spécifique à l’Education Nationale) |
-| --- | --- |
-| Niveau 1. Maîtrise des savoirs de base |  |
-| Niveau 2. Capacité à effectuer des activités simples et résoudre des problèmes courants à l’aide de règles et d’outils simples en mobilisant des savoir-faire professionnels dans un contexte structuré | Niveau VI (illettrisme, analphabétisme)
-Niveau V bis (préqualification) |
-| Niveau 3. Exemple : CAP, BEP. Capacité à effectuer des activités et résoudre des problèmes en sélectionnant et appliquant des méthodes, des outils, des matériels et des informations de base, dans un contexte connu, ainsi que la capacité à adapter les moyens d’exécution et son comportement aux circonstances | Niveau V (CAP, BEP, CFPA du premier degré)
-Niveau 0 (Mentions Complémentaires) |
-| Niveau 4. Exemple : BAC, BAC PRO. Capacité à effectuer des activités nécessitant de mobiliser un éventail large d’aptitudes, d’adapter des solutions existantes pour résoudre des problèmes précis, à organiser son travail de manière autonome dans des contextes généralement prévisibles mais susceptibles de changer, ainsi qu’à participer à l’évaluation des activités.  | Niveau IV (BAC, BP, BT, baccalauréat professionnel ou technologique)
-Niveau 0 (Mentions Complémentaires) |
-| Niveau 5. Exemple : BTS, DUT. Capacité à maitriser des savoir-faire dans un champ d’activité, à élaborer des solutions à des problèmes nouveaux, à analyser et interpréter des informations, en mobilisant des concepts, à transmettre le savoir-faire et des méthodes | Niveau III (BTS, DUT) Niveau 0 (Mentions Complémentaires) |
-| Niveau 6. Exemple : grade de licence. Capacité à analyser et résoudre des problèmes complexes imprévus dans un domaine spécifique, à formaliser des savoir-faire et des méthodes et à les capitaliser. | Niveau II (Licence ou maîtrise universitaire) |
-| Niveau 7. Exemple : grade de master. Capacité à élaborer et mettre en œuvre des stratégies alternatives pour le développement de l’activité professionnelle dans des contextes professionnels complexes, ainsi qu’à évaluer les risques et les conséquences de son activité. | Niveau I (Supérieur à la maîtrise) |
-| Niveau 8. Exemple: diplôme national de doctorat. Capacité à identifier et résoudre des problèmes complexes et nouveaux impliquant une pluralité de domaines, en mobilisant les connaissances et les savoir-faire les plus avancés, à concevoir et piloter des projets et des processus de recherche et d’innovation.  | Niveau I (Supérieur à la maîtrise) |
-|  | Niveau IX (niveaux indéterminés) |
-
-source : [Lhéo](http://lheo.gouv.fr/2.3/lheo/dict-niveaux.html?highlight=niveau)",
+",
                             "properties": {
                               "cfd": {
                                 "description": "Niveau de la certification issue de la base centrale des nomenclatures (BCN).
@@ -1915,7 +2182,8 @@ Notes:
                         "type": "object",
                       },
                       "periode_validite": {
-                        "description": "Un couple CFD-RNCP a une période de validité qui correspond à l’intersection de la période d’ouverture du diplôme et de la période d’activité de la fiche RNCP.
+                        "description": "**Un couple CFD-RNCP a une période de validité** qui correspond à l’intersection de la période d’ouverture du diplôme et de la période d’activité de la fiche RNCP.
+
 
 Notes:
 
@@ -1925,12 +2193,10 @@ Les dates sont retournées au format ISO 8601 avec le fuseau horaire Europe/Pari
                             "description": "La période de validité d’un CFD est décrite par :
 
 - **La date d’ouverture** : moment où il est possible de s’inscrire pour l’obtention de la certification (ou du diplôme)
-
 - **La première session** : année de sortie des premiers diplômés
-
 - **La dernière session** : année de sortie des derniers diplômés
-
 - **La date de fermeture** : moment où il n’est plus possible d’émettre le diplôme.
+
 
 Notes:
 
@@ -2027,11 +2293,10 @@ Notes:
                           "rncp": {
                             "description": "La période de validité d’une fiche RNCP est décrite par :
 
-**La date d’activation** correspond à la date laquelle la fiche RNCP est passée au **statut actif : les inscriptions à la formation sont ouvertes** jusqu'à la date limite de délivrance de la certification.
+- **La date d’activation** correspond à la date laquelle la fiche RNCP est passée au **statut actif : les inscriptions à la formation sont ouvertes** jusqu'à la date limite de délivrance de la certification.
+- La **date de début des parcours certifiants** (anciennement appelée “**date d’effet**” pour les enregistrements de droits, et “**date de décision**” pour les enregistrement sur demande)
+- La **date de fin d’enregistrement** : le lendemain, la fiche RNCP passe du statut “**actif**” à “**inactif**”. Pour les enregistrement de droit, cette date est renseignée par le certificateur, et pour les enregistrements sur demande, elle est déterminée par commission au moment de la décision d’enregistrement. A cette date, l'accès à la certification n'est plus possible (les inscriptions sont fermées) mais elle peut continuer à être délivrée pour les parcours en cours (formation ou VAE) ou pour la signature d'un contrat d'apprentissage suite à un nouveau contrat consécutif à une rupture du contrat.
 
-La **date de début des parcours certifiants** (anciennement appelé “**date d’effet**” pour les enregistrements de droits, et “**date de décision**” pour les enregistrement sur demande)
-
-La **date de fin d’enregistrement** : le lendemain, la fiche RNCP passe du statut “**actif**” à “**inactif**”. Pour les enregistrement de droit, cette date est renseignée par le certificateur, et pour les enregistrements sur demande, elle est déterminée par commission au moment de la décision d’enregistrement. A cette date, l'accès à la certification n'est plus possible (les inscriptions sont fermées) mais elle peut continuer à être délivrée pour les parcours en cours (formation ou VAE) ou pour la signature d'un contrat d'apprentissage suite à un nouveau contrat consécutif à une rupture du contrat.
 
 Notes:
 
@@ -2060,7 +2325,7 @@ Notes:
                                 ],
                               },
                               "debut_parcours": {
-                                "description": "Date de début des parcours certifiants. Anciennement appelé 'date d'effet' pour les enregistrements de droit et correspondant à la date de décision pour les enregistrements sur demande.
+                                "description": "Date de début des parcours certifiants. Anciennement appelée 'date d'effet' pour les enregistrements de droit et correspondant à la date de décision pour les enregistrements sur demande.
 
 Notes:
 
@@ -2112,14 +2377,11 @@ Notes:
                         "description": "Le type de certification renseigne sur
 
 - la nature du diplôme
-
 - le service responsable de la définition du diplôme
-
 - le(s) nom(s) et numéro(s) SIRET du ou des certificateur(s) renseigné(s) dans le RNCP
-
 - le type d’enregistrement au RNCP (de droit ou sur demande)
-
-- la voie d’accès à la formation (apprentissage, expérience, candidature individuelle, contrat de professionnalisation, formation continue et formation statut élève).",
+- la voie d’accès à la formation (apprentissage, expérience, candidature individuelle, contrat de professionnalisation, formation continue et formation statut élève).
+",
                         "properties": {
                           "certificateurs_rncp": {
                             "description": "Liste des certificateurs de la fiche RNCP.
@@ -2299,6 +2561,7 @@ Notes:
                       "domaines",
                       "periode_validite",
                       "type",
+                      "continuite",
                     ],
                     "type": "object",
                   },
@@ -2644,6 +2907,3328 @@ Notes:
         "summary": "Récupération des certifications",
         "tags": [
           "Certifications",
+        ],
+      },
+    },
+    "/experimental/source/acce": {
+      "get": {
+        "description": "Liste des établissements importés depuis la base ACCE. Attention: cette route est expérimentale.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "uai",
+            "required": false,
+            "schema": {
+              "type": "string",
+            },
+          },
+          {
+            "description": "Si renseigné, limite le nombre de résultats retournés. Sinon retourne tous les résultats.",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "description": "Si renseigné, limite le nombre de résultats retournés. Sinon retourne tous les résultats.",
+              "type": [
+                "number",
+                "null",
+              ],
+            },
+          },
+          {
+            "description": "Si renseigné, ignore les N premiers résultats.",
+            "in": "query",
+            "name": "skip",
+            "required": false,
+            "schema": {
+              "description": "Si renseigné, ignore les N premiers résultats.",
+              "type": [
+                "number",
+                "null",
+              ],
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "academie": {
+                        "pattern": "^\\d{2}$",
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "academie_libe": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "adresse_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "appariement": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "appariement_complement": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "appellation_officielle": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "boite_postale_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "categorie_financiere": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "categorie_financiere_libe": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "categorie_juridique": {
+                        "type": "string",
+                      },
+                      "categorie_juridique_libe": {
+                        "type": "string",
+                      },
+                      "code_postal_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "commune": {
+                        "type": "string",
+                      },
+                      "commune_libe": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "contrat_etablissement": {
+                        "enum": [
+                          "99",
+                          "10",
+                          "30",
+                          "20",
+                          "50",
+                          "31",
+                          "21",
+                          "!!",
+                          "40",
+                          "41",
+                          "60",
+                        ],
+                        "type": "string",
+                      },
+                      "contrat_etablissement_libe": {
+                        "enum": [
+                          "Sans objet",
+                          "Hors contrat",
+                          "Contrat d'association pour toutes les classes",
+                          "Contrat simple pour toutes les classes",
+                          "Reconnu par l'Etat",
+                          "Contrat d'association pour une partie des classes",
+                          "Contrat simple pour une partie des classes",
+                          "Inconnu du gestionnaire",
+                          "Contrats simple et d'association pour toutes les classes",
+                          "Contrats simple et d'association pour une partie des classes",
+                          "Sous contrat établissement agricole",
+                        ],
+                        "type": "string",
+                      },
+                      "coordonnee_x": {
+                        "type": [
+                          "number",
+                          "null",
+                        ],
+                      },
+                      "coordonnee_y": {
+                        "type": [
+                          "number",
+                          "null",
+                        ],
+                      },
+                      "date_derniere_mise_a_jour": {
+                        "type": "string",
+                      },
+                      "date_fermeture": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "date_geolocalisation": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "date_ouverture": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "denomination_principale": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "departement_insee_3": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "departement_insee_3_libe": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "etat_etablissement": {
+                        "enum": [
+                          "1",
+                          "2",
+                          "3",
+                          "4",
+                        ],
+                        "type": "string",
+                      },
+                      "etat_etablissement_libe": {
+                        "enum": [
+                          "Ouvert",
+                          "À fermer",
+                          "À ouvrir",
+                          "Fermé",
+                        ],
+                        "type": "string",
+                      },
+                      "etat_sirad_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "hebergement_etablissement": {
+                        "type": "string",
+                      },
+                      "hebergement_etablissement_libe": {
+                        "type": "string",
+                      },
+                      "lieu_dit_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "localisation": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "localisation_complement": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "localite_acheminement_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "mel_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "mention_distribution": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "ministere_tutelle": {
+                        "pattern": "^\\d{2}$",
+                        "type": "string",
+                      },
+                      "ministere_tutelle_libe": {
+                        "type": "string",
+                      },
+                      "nature_uai": {
+                        "pattern": "^\\d{3}$",
+                        "type": "string",
+                      },
+                      "nature_uai_libe": {
+                        "type": "string",
+                      },
+                      "niveau_uai": {
+                        "enum": [
+                          "1",
+                          "3",
+                          "2",
+                          "4",
+                        ],
+                        "type": "string",
+                      },
+                      "niveau_uai_libe": {
+                        "enum": [
+                          "UAI célibataire",
+                          "UAI fille",
+                          "UAI mère",
+                          "UAI mère et fille",
+                        ],
+                        "type": "string",
+                      },
+                      "numero_finess_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "numero_siren_siret_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "numero_telecopieur_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "numero_telephone_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "numero_uai": {
+                        "type": "string",
+                      },
+                      "patronyme_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "pays": {
+                        "type": "string",
+                      },
+                      "pays_etranger_acheminement": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "pays_libe": {
+                        "type": "string",
+                      },
+                      "secteur_public_prive": {
+                        "enum": [
+                          "PR",
+                          "PU",
+                        ],
+                        "type": "string",
+                      },
+                      "secteur_public_prive_libe": {
+                        "enum": [
+                          "Privé",
+                          "Public",
+                        ],
+                        "type": "string",
+                      },
+                      "sigle_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "site_web": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "situation_comptable": {
+                        "type": "string",
+                      },
+                      "situation_comptable_libe": {
+                        "type": "string",
+                      },
+                      "source": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "tutelle_2": {
+                        "pattern": "^\\d{2}$",
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "tutelle_2_libe": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "type_uai": {
+                        "type": "string",
+                      },
+                      "type_uai_libe": {
+                        "type": "string",
+                      },
+                    },
+                    "required": [
+                      "nature_uai",
+                      "nature_uai_libe",
+                      "type_uai",
+                      "type_uai_libe",
+                      "etat_etablissement",
+                      "etat_etablissement_libe",
+                      "ministere_tutelle",
+                      "ministere_tutelle_libe",
+                      "tutelle_2",
+                      "tutelle_2_libe",
+                      "secteur_public_prive",
+                      "secteur_public_prive_libe",
+                      "sigle_uai",
+                      "categorie_juridique",
+                      "categorie_juridique_libe",
+                      "contrat_etablissement",
+                      "contrat_etablissement_libe",
+                      "categorie_financiere",
+                      "categorie_financiere_libe",
+                      "situation_comptable",
+                      "situation_comptable_libe",
+                      "niveau_uai",
+                      "niveau_uai_libe",
+                      "commune",
+                      "commune_libe",
+                      "academie",
+                      "academie_libe",
+                      "pays",
+                      "pays_libe",
+                      "departement_insee_3",
+                      "departement_insee_3_libe",
+                      "denomination_principale",
+                      "appellation_officielle",
+                      "patronyme_uai",
+                      "hebergement_etablissement",
+                      "hebergement_etablissement_libe",
+                      "numero_siren_siret_uai",
+                      "numero_finess_uai",
+                      "date_fermeture",
+                      "date_derniere_mise_a_jour",
+                      "lieu_dit_uai",
+                      "adresse_uai",
+                      "boite_postale_uai",
+                      "code_postal_uai",
+                      "etat_sirad_uai",
+                      "localite_acheminement_uai",
+                      "pays_etranger_acheminement",
+                      "numero_telephone_uai",
+                      "numero_telecopieur_uai",
+                      "mention_distribution",
+                      "mel_uai",
+                      "site_web",
+                      "coordonnee_x",
+                      "coordonnee_y",
+                      "appariement",
+                      "appariement_complement",
+                      "localisation",
+                      "localisation_complement",
+                      "date_geolocalisation",
+                      "source",
+                      "numero_uai",
+                    ],
+                    "type": "object",
+                  },
+                  "type": "array",
+                },
+              },
+            },
+            "description": "",
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Paramètre de requête non valide.",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                      "example": {
+                        "validationError": {
+                          "_errors": [],
+                          "code.cfd": {
+                            "_errors": [
+                              "Invalid",
+                            ],
+                          },
+                          "code.rncp": {
+                            "_errors": [
+                              "Invalid",
+                            ],
+                          },
+                        },
+                      },
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Request validation failed",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Bad Request",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        400,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Paramètre de requête non valide.",
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Clé d’API manquante ou invalide",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Unauthorized",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Unauthorized",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        401,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Clé d’API manquante ou invalide",
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Habilitations insuffisantes pour accéder à la ressource",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Forbidden",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Forbidden",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        403,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Habilitations insuffisantes pour accéder à la ressource",
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Resource non trouvée",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Not Found",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Not Found",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        404,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Resource non trouvée",
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Limite de volumétrie atteinte pour la clé d’API",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Too Many Requests",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Too Many Requests",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        419,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Limite de volumétrie atteinte pour la clé d’API",
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Une erreur inattendue s'est produite sur le serveur.",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Internal Server Error",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Internal Server Error",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        500,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Une erreur inattendue s'est produite sur le serveur.",
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Le service est indisponible.",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Bad Gateway",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Bad Gateway",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        502,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Le service est indisponible.",
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Le service est en maintenance",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Service Unavailable",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Service Unavailable",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        502,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Le service est en maintenance",
+          },
+        },
+        "security": [
+          {
+            "api-key": [],
+          },
+        ],
+        "summary": "Source Base ACCE: Établissements",
+        "tags": [
+          "Expérimental",
+        ],
+      },
+    },
+    "/experimental/source/acce/fille": {
+      "get": {
+        "description": "Liste des relations mère-fille d'établissements importées depuis la base ACCE. Attention: cette route est expérimentale.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "uai",
+            "required": false,
+            "schema": {
+              "type": "string",
+            },
+          },
+          {
+            "description": "Si renseigné, limite le nombre de résultats retournés. Sinon retourne tous les résultats.",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "description": "Si renseigné, limite le nombre de résultats retournés. Sinon retourne tous les résultats.",
+              "type": [
+                "number",
+                "null",
+              ],
+            },
+          },
+          {
+            "description": "Si renseigné, ignore les N premiers résultats.",
+            "in": "query",
+            "name": "skip",
+            "required": false,
+            "schema": {
+              "description": "Si renseigné, ignore les N premiers résultats.",
+              "type": [
+                "number",
+                "null",
+              ],
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "academie": {
+                        "pattern": "^\\d{2}$",
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "academie_libe": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "adresse_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "appariement": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "appariement_complement": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "appellation_officielle": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "boite_postale_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "categorie_financiere": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "categorie_financiere_libe": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "categorie_juridique": {
+                        "type": "string",
+                      },
+                      "categorie_juridique_libe": {
+                        "type": "string",
+                      },
+                      "code_postal_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "commune": {
+                        "type": "string",
+                      },
+                      "commune_libe": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "contrat_etablissement": {
+                        "enum": [
+                          "99",
+                          "10",
+                          "30",
+                          "20",
+                          "50",
+                          "31",
+                          "21",
+                          "!!",
+                          "40",
+                          "41",
+                          "60",
+                        ],
+                        "type": "string",
+                      },
+                      "contrat_etablissement_libe": {
+                        "enum": [
+                          "Sans objet",
+                          "Hors contrat",
+                          "Contrat d'association pour toutes les classes",
+                          "Contrat simple pour toutes les classes",
+                          "Reconnu par l'Etat",
+                          "Contrat d'association pour une partie des classes",
+                          "Contrat simple pour une partie des classes",
+                          "Inconnu du gestionnaire",
+                          "Contrats simple et d'association pour toutes les classes",
+                          "Contrats simple et d'association pour une partie des classes",
+                          "Sous contrat établissement agricole",
+                        ],
+                        "type": "string",
+                      },
+                      "coordonnee_x": {
+                        "type": [
+                          "number",
+                          "null",
+                        ],
+                      },
+                      "coordonnee_y": {
+                        "type": [
+                          "number",
+                          "null",
+                        ],
+                      },
+                      "date_derniere_mise_a_jour": {
+                        "type": "string",
+                      },
+                      "date_fermeture": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "date_geolocalisation": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "date_ouverture": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "denomination_principale": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "departement_insee_3": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "departement_insee_3_libe": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "etat_etablissement": {
+                        "enum": [
+                          "1",
+                          "2",
+                          "3",
+                          "4",
+                        ],
+                        "type": "string",
+                      },
+                      "etat_etablissement_libe": {
+                        "enum": [
+                          "Ouvert",
+                          "À fermer",
+                          "À ouvrir",
+                          "Fermé",
+                        ],
+                        "type": "string",
+                      },
+                      "etat_sirad_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "hebergement_etablissement": {
+                        "type": "string",
+                      },
+                      "hebergement_etablissement_libe": {
+                        "type": "string",
+                      },
+                      "lieu_dit_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "localisation": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "localisation_complement": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "localite_acheminement_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "mel_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "mention_distribution": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "ministere_tutelle": {
+                        "pattern": "^\\d{2}$",
+                        "type": "string",
+                      },
+                      "ministere_tutelle_libe": {
+                        "type": "string",
+                      },
+                      "nature_uai": {
+                        "pattern": "^\\d{3}$",
+                        "type": "string",
+                      },
+                      "nature_uai_libe": {
+                        "type": "string",
+                      },
+                      "niveau_uai": {
+                        "enum": [
+                          "1",
+                          "3",
+                          "2",
+                          "4",
+                        ],
+                        "type": "string",
+                      },
+                      "niveau_uai_libe": {
+                        "enum": [
+                          "UAI célibataire",
+                          "UAI fille",
+                          "UAI mère",
+                          "UAI mère et fille",
+                        ],
+                        "type": "string",
+                      },
+                      "numero_finess_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "numero_siren_siret_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "numero_telecopieur_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "numero_telephone_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "numero_uai_fille": {
+                        "type": "string",
+                      },
+                      "numero_uai_trouve": {
+                        "type": "string",
+                      },
+                      "patronyme_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "pays": {
+                        "type": "string",
+                      },
+                      "pays_etranger_acheminement": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "pays_libe": {
+                        "type": "string",
+                      },
+                      "secteur_public_prive": {
+                        "enum": [
+                          "PR",
+                          "PU",
+                        ],
+                        "type": "string",
+                      },
+                      "secteur_public_prive_libe": {
+                        "enum": [
+                          "Privé",
+                          "Public",
+                        ],
+                        "type": "string",
+                      },
+                      "sigle_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "site_web": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "situation_comptable": {
+                        "type": "string",
+                      },
+                      "situation_comptable_libe": {
+                        "type": "string",
+                      },
+                      "source": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "tutelle_2": {
+                        "pattern": "^\\d{2}$",
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "tutelle_2_libe": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "type_rattachement": {
+                        "type": "string",
+                      },
+                      "type_uai": {
+                        "type": "string",
+                      },
+                      "type_uai_libe": {
+                        "type": "string",
+                      },
+                    },
+                    "required": [
+                      "nature_uai",
+                      "nature_uai_libe",
+                      "type_uai",
+                      "type_uai_libe",
+                      "etat_etablissement",
+                      "etat_etablissement_libe",
+                      "ministere_tutelle",
+                      "ministere_tutelle_libe",
+                      "tutelle_2",
+                      "tutelle_2_libe",
+                      "secteur_public_prive",
+                      "secteur_public_prive_libe",
+                      "sigle_uai",
+                      "categorie_juridique",
+                      "categorie_juridique_libe",
+                      "contrat_etablissement",
+                      "contrat_etablissement_libe",
+                      "categorie_financiere",
+                      "categorie_financiere_libe",
+                      "situation_comptable",
+                      "situation_comptable_libe",
+                      "niveau_uai",
+                      "niveau_uai_libe",
+                      "commune",
+                      "commune_libe",
+                      "academie",
+                      "academie_libe",
+                      "pays",
+                      "pays_libe",
+                      "departement_insee_3",
+                      "departement_insee_3_libe",
+                      "denomination_principale",
+                      "appellation_officielle",
+                      "patronyme_uai",
+                      "hebergement_etablissement",
+                      "hebergement_etablissement_libe",
+                      "numero_siren_siret_uai",
+                      "numero_finess_uai",
+                      "date_fermeture",
+                      "date_derniere_mise_a_jour",
+                      "lieu_dit_uai",
+                      "adresse_uai",
+                      "boite_postale_uai",
+                      "code_postal_uai",
+                      "etat_sirad_uai",
+                      "localite_acheminement_uai",
+                      "pays_etranger_acheminement",
+                      "numero_telephone_uai",
+                      "numero_telecopieur_uai",
+                      "mention_distribution",
+                      "mel_uai",
+                      "site_web",
+                      "coordonnee_x",
+                      "coordonnee_y",
+                      "appariement",
+                      "appariement_complement",
+                      "localisation",
+                      "localisation_complement",
+                      "date_geolocalisation",
+                      "source",
+                      "numero_uai_trouve",
+                      "numero_uai_fille",
+                      "type_rattachement",
+                    ],
+                    "type": "object",
+                  },
+                  "type": "array",
+                },
+              },
+            },
+            "description": "",
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Paramètre de requête non valide.",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                      "example": {
+                        "validationError": {
+                          "_errors": [],
+                          "code.cfd": {
+                            "_errors": [
+                              "Invalid",
+                            ],
+                          },
+                          "code.rncp": {
+                            "_errors": [
+                              "Invalid",
+                            ],
+                          },
+                        },
+                      },
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Request validation failed",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Bad Request",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        400,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Paramètre de requête non valide.",
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Clé d’API manquante ou invalide",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Unauthorized",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Unauthorized",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        401,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Clé d’API manquante ou invalide",
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Habilitations insuffisantes pour accéder à la ressource",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Forbidden",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Forbidden",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        403,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Habilitations insuffisantes pour accéder à la ressource",
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Resource non trouvée",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Not Found",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Not Found",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        404,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Resource non trouvée",
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Limite de volumétrie atteinte pour la clé d’API",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Too Many Requests",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Too Many Requests",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        419,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Limite de volumétrie atteinte pour la clé d’API",
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Une erreur inattendue s'est produite sur le serveur.",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Internal Server Error",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Internal Server Error",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        500,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Une erreur inattendue s'est produite sur le serveur.",
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Le service est indisponible.",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Bad Gateway",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Bad Gateway",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        502,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Le service est indisponible.",
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Le service est en maintenance",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Service Unavailable",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Service Unavailable",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        502,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Le service est en maintenance",
+          },
+        },
+        "security": [
+          {
+            "api-key": [],
+          },
+        ],
+        "summary": "Source Base ACCE: Établissements filles",
+        "tags": [
+          "Expérimental",
+        ],
+      },
+    },
+    "/experimental/source/acce/mere": {
+      "get": {
+        "description": "Liste des relations fille-mère d'établissements importées depuis la base ACCE. Attention: cette route est expérimentale.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "uai",
+            "required": false,
+            "schema": {
+              "type": "string",
+            },
+          },
+          {
+            "description": "Si renseigné, limite le nombre de résultats retournés. Sinon retourne tous les résultats.",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "description": "Si renseigné, limite le nombre de résultats retournés. Sinon retourne tous les résultats.",
+              "type": [
+                "number",
+                "null",
+              ],
+            },
+          },
+          {
+            "description": "Si renseigné, ignore les N premiers résultats.",
+            "in": "query",
+            "name": "skip",
+            "required": false,
+            "schema": {
+              "description": "Si renseigné, ignore les N premiers résultats.",
+              "type": [
+                "number",
+                "null",
+              ],
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "academie": {
+                        "pattern": "^\\d{2}$",
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "academie_libe": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "adresse_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "appariement": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "appariement_complement": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "appellation_officielle": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "boite_postale_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "categorie_financiere": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "categorie_financiere_libe": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "categorie_juridique": {
+                        "type": "string",
+                      },
+                      "categorie_juridique_libe": {
+                        "type": "string",
+                      },
+                      "code_postal_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "commune": {
+                        "type": "string",
+                      },
+                      "commune_libe": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "contrat_etablissement": {
+                        "enum": [
+                          "99",
+                          "10",
+                          "30",
+                          "20",
+                          "50",
+                          "31",
+                          "21",
+                          "!!",
+                          "40",
+                          "41",
+                          "60",
+                        ],
+                        "type": "string",
+                      },
+                      "contrat_etablissement_libe": {
+                        "enum": [
+                          "Sans objet",
+                          "Hors contrat",
+                          "Contrat d'association pour toutes les classes",
+                          "Contrat simple pour toutes les classes",
+                          "Reconnu par l'Etat",
+                          "Contrat d'association pour une partie des classes",
+                          "Contrat simple pour une partie des classes",
+                          "Inconnu du gestionnaire",
+                          "Contrats simple et d'association pour toutes les classes",
+                          "Contrats simple et d'association pour une partie des classes",
+                          "Sous contrat établissement agricole",
+                        ],
+                        "type": "string",
+                      },
+                      "coordonnee_x": {
+                        "type": [
+                          "number",
+                          "null",
+                        ],
+                      },
+                      "coordonnee_y": {
+                        "type": [
+                          "number",
+                          "null",
+                        ],
+                      },
+                      "date_derniere_mise_a_jour": {
+                        "type": "string",
+                      },
+                      "date_fermeture": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "date_geolocalisation": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "date_ouverture": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "denomination_principale": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "departement_insee_3": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "departement_insee_3_libe": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "etat_etablissement": {
+                        "enum": [
+                          "1",
+                          "2",
+                          "3",
+                          "4",
+                        ],
+                        "type": "string",
+                      },
+                      "etat_etablissement_libe": {
+                        "enum": [
+                          "Ouvert",
+                          "À fermer",
+                          "À ouvrir",
+                          "Fermé",
+                        ],
+                        "type": "string",
+                      },
+                      "etat_sirad_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "hebergement_etablissement": {
+                        "type": "string",
+                      },
+                      "hebergement_etablissement_libe": {
+                        "type": "string",
+                      },
+                      "lieu_dit_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "localisation": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "localisation_complement": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "localite_acheminement_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "mel_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "mention_distribution": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "ministere_tutelle": {
+                        "pattern": "^\\d{2}$",
+                        "type": "string",
+                      },
+                      "ministere_tutelle_libe": {
+                        "type": "string",
+                      },
+                      "nature_uai": {
+                        "pattern": "^\\d{3}$",
+                        "type": "string",
+                      },
+                      "nature_uai_libe": {
+                        "type": "string",
+                      },
+                      "niveau_uai": {
+                        "enum": [
+                          "1",
+                          "3",
+                          "2",
+                          "4",
+                        ],
+                        "type": "string",
+                      },
+                      "niveau_uai_libe": {
+                        "enum": [
+                          "UAI célibataire",
+                          "UAI fille",
+                          "UAI mère",
+                          "UAI mère et fille",
+                        ],
+                        "type": "string",
+                      },
+                      "numero_finess_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "numero_siren_siret_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "numero_telecopieur_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "numero_telephone_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "numero_uai_mere": {
+                        "type": "string",
+                      },
+                      "numero_uai_trouve": {
+                        "type": "string",
+                      },
+                      "patronyme_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "pays": {
+                        "type": "string",
+                      },
+                      "pays_etranger_acheminement": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "pays_libe": {
+                        "type": "string",
+                      },
+                      "secteur_public_prive": {
+                        "enum": [
+                          "PR",
+                          "PU",
+                        ],
+                        "type": "string",
+                      },
+                      "secteur_public_prive_libe": {
+                        "enum": [
+                          "Privé",
+                          "Public",
+                        ],
+                        "type": "string",
+                      },
+                      "sigle_uai": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "site_web": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "situation_comptable": {
+                        "type": "string",
+                      },
+                      "situation_comptable_libe": {
+                        "type": "string",
+                      },
+                      "source": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "tutelle_2": {
+                        "pattern": "^\\d{2}$",
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "tutelle_2_libe": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "type_rattachement": {
+                        "type": "string",
+                      },
+                      "type_uai": {
+                        "type": "string",
+                      },
+                      "type_uai_libe": {
+                        "type": "string",
+                      },
+                    },
+                    "required": [
+                      "nature_uai",
+                      "nature_uai_libe",
+                      "type_uai",
+                      "type_uai_libe",
+                      "etat_etablissement",
+                      "etat_etablissement_libe",
+                      "ministere_tutelle",
+                      "ministere_tutelle_libe",
+                      "tutelle_2",
+                      "tutelle_2_libe",
+                      "secteur_public_prive",
+                      "secteur_public_prive_libe",
+                      "sigle_uai",
+                      "categorie_juridique",
+                      "categorie_juridique_libe",
+                      "contrat_etablissement",
+                      "contrat_etablissement_libe",
+                      "categorie_financiere",
+                      "categorie_financiere_libe",
+                      "situation_comptable",
+                      "situation_comptable_libe",
+                      "niveau_uai",
+                      "niveau_uai_libe",
+                      "commune",
+                      "commune_libe",
+                      "academie",
+                      "academie_libe",
+                      "pays",
+                      "pays_libe",
+                      "departement_insee_3",
+                      "departement_insee_3_libe",
+                      "denomination_principale",
+                      "appellation_officielle",
+                      "patronyme_uai",
+                      "hebergement_etablissement",
+                      "hebergement_etablissement_libe",
+                      "numero_siren_siret_uai",
+                      "numero_finess_uai",
+                      "date_fermeture",
+                      "date_derniere_mise_a_jour",
+                      "lieu_dit_uai",
+                      "adresse_uai",
+                      "boite_postale_uai",
+                      "code_postal_uai",
+                      "etat_sirad_uai",
+                      "localite_acheminement_uai",
+                      "pays_etranger_acheminement",
+                      "numero_telephone_uai",
+                      "numero_telecopieur_uai",
+                      "mention_distribution",
+                      "mel_uai",
+                      "site_web",
+                      "coordonnee_x",
+                      "coordonnee_y",
+                      "appariement",
+                      "appariement_complement",
+                      "localisation",
+                      "localisation_complement",
+                      "date_geolocalisation",
+                      "source",
+                      "numero_uai_trouve",
+                      "numero_uai_mere",
+                      "type_rattachement",
+                    ],
+                    "type": "object",
+                  },
+                  "type": "array",
+                },
+              },
+            },
+            "description": "",
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Paramètre de requête non valide.",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                      "example": {
+                        "validationError": {
+                          "_errors": [],
+                          "code.cfd": {
+                            "_errors": [
+                              "Invalid",
+                            ],
+                          },
+                          "code.rncp": {
+                            "_errors": [
+                              "Invalid",
+                            ],
+                          },
+                        },
+                      },
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Request validation failed",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Bad Request",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        400,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Paramètre de requête non valide.",
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Clé d’API manquante ou invalide",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Unauthorized",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Unauthorized",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        401,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Clé d’API manquante ou invalide",
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Habilitations insuffisantes pour accéder à la ressource",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Forbidden",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Forbidden",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        403,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Habilitations insuffisantes pour accéder à la ressource",
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Resource non trouvée",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Not Found",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Not Found",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        404,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Resource non trouvée",
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Limite de volumétrie atteinte pour la clé d’API",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Too Many Requests",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Too Many Requests",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        419,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Limite de volumétrie atteinte pour la clé d’API",
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Une erreur inattendue s'est produite sur le serveur.",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Internal Server Error",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Internal Server Error",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        500,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Une erreur inattendue s'est produite sur le serveur.",
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Le service est indisponible.",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Bad Gateway",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Bad Gateway",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        502,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Le service est indisponible.",
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Le service est en maintenance",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Service Unavailable",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Service Unavailable",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        502,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Le service est en maintenance",
+          },
+        },
+        "security": [
+          {
+            "api-key": [],
+          },
+        ],
+        "summary": "Source Base ACCE: Établissements mères",
+        "tags": [
+          "Expérimental",
+        ],
+      },
+    },
+    "/experimental/source/acce/specialite": {
+      "get": {
+        "description": "Liste des spécialités d'établissements importées depuis la base ACCE. Attention: cette route est expérimentale.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "uai",
+            "required": false,
+            "schema": {
+              "type": "string",
+            },
+          },
+          {
+            "description": "Si renseigné, limite le nombre de résultats retournés. Sinon retourne tous les résultats.",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "description": "Si renseigné, limite le nombre de résultats retournés. Sinon retourne tous les résultats.",
+              "type": [
+                "number",
+                "null",
+              ],
+            },
+          },
+          {
+            "description": "Si renseigné, ignore les N premiers résultats.",
+            "in": "query",
+            "name": "skip",
+            "required": false,
+            "schema": {
+              "description": "Si renseigné, ignore les N premiers résultats.",
+              "type": [
+                "number",
+                "null",
+              ],
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "date_fermeture": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "date_ouverture": {
+                        "type": "string",
+                      },
+                      "numero_uai": {
+                        "type": "string",
+                      },
+                      "specificite_uai": {
+                        "type": "string",
+                      },
+                      "specificite_uai_libe": {
+                        "type": "string",
+                      },
+                    },
+                    "required": [
+                      "numero_uai",
+                      "specificite_uai",
+                      "specificite_uai_libe",
+                      "date_ouverture",
+                      "date_fermeture",
+                    ],
+                    "type": "object",
+                  },
+                  "type": "array",
+                },
+              },
+            },
+            "description": "",
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Paramètre de requête non valide.",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                      "example": {
+                        "validationError": {
+                          "_errors": [],
+                          "code.cfd": {
+                            "_errors": [
+                              "Invalid",
+                            ],
+                          },
+                          "code.rncp": {
+                            "_errors": [
+                              "Invalid",
+                            ],
+                          },
+                        },
+                      },
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Request validation failed",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Bad Request",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        400,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Paramètre de requête non valide.",
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Clé d’API manquante ou invalide",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Unauthorized",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Unauthorized",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        401,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Clé d’API manquante ou invalide",
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Habilitations insuffisantes pour accéder à la ressource",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Forbidden",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Forbidden",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        403,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Habilitations insuffisantes pour accéder à la ressource",
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Resource non trouvée",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Not Found",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Not Found",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        404,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Resource non trouvée",
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Limite de volumétrie atteinte pour la clé d’API",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Too Many Requests",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Too Many Requests",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        419,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Limite de volumétrie atteinte pour la clé d’API",
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Une erreur inattendue s'est produite sur le serveur.",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Internal Server Error",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Internal Server Error",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        500,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Une erreur inattendue s'est produite sur le serveur.",
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Le service est indisponible.",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Bad Gateway",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Bad Gateway",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        502,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Le service est indisponible.",
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Le service est en maintenance",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Service Unavailable",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Service Unavailable",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        502,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Le service est en maintenance",
+          },
+        },
+        "security": [
+          {
+            "api-key": [],
+          },
+        ],
+        "summary": "Source Base ACCE: Spécialités d'établissements",
+        "tags": [
+          "Expérimental",
+        ],
+      },
+    },
+    "/experimental/source/acce/zone": {
+      "get": {
+        "description": "Liste des zones d'établissements importées depuis la base ACCE. Attention: cette route est expérimentale.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "uai",
+            "required": false,
+            "schema": {
+              "type": "string",
+            },
+          },
+          {
+            "description": "Si renseigné, limite le nombre de résultats retournés. Sinon retourne tous les résultats.",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "description": "Si renseigné, limite le nombre de résultats retournés. Sinon retourne tous les résultats.",
+              "type": [
+                "number",
+                "null",
+              ],
+            },
+          },
+          {
+            "description": "Si renseigné, ignore les N premiers résultats.",
+            "in": "query",
+            "name": "skip",
+            "required": false,
+            "schema": {
+              "description": "Si renseigné, ignore les N premiers résultats.",
+              "type": [
+                "number",
+                "null",
+              ],
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "date_derniere_mise_a_jour": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "date_fermeture": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "date_ouverture": {
+                        "type": "string",
+                      },
+                      "numero_uai": {
+                        "type": "string",
+                      },
+                      "type_zone_uai": {
+                        "type": "string",
+                      },
+                      "type_zone_uai_libe": {
+                        "type": "string",
+                      },
+                      "zone": {
+                        "type": "string",
+                      },
+                      "zone_libe": {
+                        "type": "string",
+                      },
+                    },
+                    "required": [
+                      "numero_uai",
+                      "type_zone_uai",
+                      "type_zone_uai_libe",
+                      "zone",
+                      "zone_libe",
+                      "date_ouverture",
+                      "date_fermeture",
+                      "date_derniere_mise_a_jour",
+                    ],
+                    "type": "object",
+                  },
+                  "type": "array",
+                },
+              },
+            },
+            "description": "",
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Paramètre de requête non valide.",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                      "example": {
+                        "validationError": {
+                          "_errors": [],
+                          "code.cfd": {
+                            "_errors": [
+                              "Invalid",
+                            ],
+                          },
+                          "code.rncp": {
+                            "_errors": [
+                              "Invalid",
+                            ],
+                          },
+                        },
+                      },
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Request validation failed",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Bad Request",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        400,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Paramètre de requête non valide.",
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Clé d’API manquante ou invalide",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Unauthorized",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Unauthorized",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        401,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Clé d’API manquante ou invalide",
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Habilitations insuffisantes pour accéder à la ressource",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Forbidden",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Forbidden",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        403,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Habilitations insuffisantes pour accéder à la ressource",
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Resource non trouvée",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Not Found",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Not Found",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        404,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Resource non trouvée",
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Limite de volumétrie atteinte pour la clé d’API",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Too Many Requests",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Too Many Requests",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        419,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Limite de volumétrie atteinte pour la clé d’API",
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Une erreur inattendue s'est produite sur le serveur.",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Internal Server Error",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Internal Server Error",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        500,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Une erreur inattendue s'est produite sur le serveur.",
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Le service est indisponible.",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Bad Gateway",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Bad Gateway",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        502,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Le service est indisponible.",
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Le service est en maintenance",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Service Unavailable",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Service Unavailable",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        502,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Le service est en maintenance",
+          },
+        },
+        "security": [
+          {
+            "api-key": [],
+          },
+        ],
+        "summary": "Source Base ACCE: Zones d'établissements",
+        "tags": [
+          "Expérimental",
         ],
       },
     },
@@ -3030,8 +6615,16 @@ Notes:
   ],
   "tags": [
     {
+      "description": "Pour essayer l'API [vous pouvez utiliser le swagger UI](/documentation-technique/try)",
+      "name": "Essayer l'API",
+    },
+    {
       "description": "Liste des opérations sur les certifications.",
       "name": "Certifications",
+    },
+    {
+      "description": "Liste des routes expérimentales. Attention: ces routes peuvent changer sans préavis.",
+      "name": "Expérimental",
     },
   ],
   "webhooks": {},

@@ -1,7 +1,7 @@
 import { ICertification, zCertification } from "shared/models/certification.model";
-import { IBcn_V_FormationDiplome } from "shared/models/source/bcn/bcn.v_formation_diplome.model";
+import { IBcn_N_FormationDiplome } from "shared/models/source/bcn/bcn.n_formation_diplome.model";
+import { IBcn_N51_FormationDiplome } from "shared/models/source/bcn/bcn.n51_formation_diplome.model";
 import { ISourceFranceCompetence } from "shared/models/source/france_competence/source.france_competence.model";
-import { ISourceKitApprentissage } from "shared/models/source/kitApprentissage/source.kit_apprentissage.model";
 
 import { buildCertificationBaseLegale } from "./base_legale/certification.base_legale.builder";
 import { buildCertificationBlocsCompetences } from "./blocs_competences/certification.blocs_competences.builder";
@@ -12,8 +12,7 @@ import { buildCertificationPeriodeValidite } from "./periode_validite/certificat
 import { buildCertificationType } from "./type/certification.type.builder";
 
 export type ISourceAggregatedData = {
-  bcn?: IBcn_V_FormationDiplome | null;
-  kit_apprentissage?: ISourceKitApprentissage | null;
+  bcn?: IBcn_N51_FormationDiplome | IBcn_N_FormationDiplome | null;
   france_competence?: ISourceFranceCompetence | null;
 };
 
@@ -52,5 +51,6 @@ export function buildCertification(
       domaines: buildCertificationDomaines(data),
       periode_validite: buildCertificationPeriodeValidite(data, oldestFranceCompetenceDatePublication),
       type: buildCertificationType(data),
+      continuite: { rncp: null, cfd: null },
     });
 }

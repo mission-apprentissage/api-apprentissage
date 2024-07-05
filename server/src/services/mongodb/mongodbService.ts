@@ -1,14 +1,12 @@
 import { captureException } from "@sentry/node";
 import { isEqual } from "lodash-es";
 import { Collection, CollectionInfo, MongoClient, MongoServerError } from "mongodb";
-import { CollectionName, IModelDescriptor } from "shared/models/common";
-import { IDocumentMap, modelDescriptors } from "shared/models/models";
+import { CollectionName, IDocument, IModelDescriptor, modelDescriptors } from "shared/models/models";
 import { zodToMongoSchema } from "zod-mongodb-schema";
 
+import config from "@/config";
 import logger from "@/services/logger";
-
-import config from "../../config";
-import { sleep } from "../../utils/asyncUtils";
+import { sleep } from "@/utils/asyncUtils";
 
 let mongodbClient: MongoClient | null = null;
 
@@ -34,6 +32,7 @@ export const connectToMongodb = async (uri: string) => {
     retryWrites: true,
     retryReads: true,
     minPoolSize: config.env === "test" ? 0 : 5,
+    serverSelectionTimeoutMS: 300_000,
   });
 
   client.on("connectionPoolReady", () => {
@@ -57,8 +56,10 @@ export const getMongodbClient = () => mongodbClient;
 
 export const closeMongodbConnection = async () => {
   logger.warn("Closing MongoDB");
-  // Let 100ms for possible callback cleanup to register tasks in mongodb queue
-  await sleep(200);
+  if (process.env.NODE_ENV !== "test") {
+    // Let 100ms for possible callback cleanup to register tasks in mongodb queue
+    await sleep(200);
+  }
   return mongodbClient?.close();
 };
 
@@ -70,7 +71,7 @@ export const getDatabase = () => {
   return ensureInitialization().db();
 };
 
-export const getDbCollection = <K extends CollectionName>(name: K): Collection<IDocumentMap[K]> => {
+export const getDbCollection = <K extends CollectionName>(name: K): Collection<IDocument<K>> => {
   return ensureInitialization().db().collection(name);
 };
 

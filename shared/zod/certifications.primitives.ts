@@ -7,10 +7,8 @@ export const zCfdParam = zodOpenApi
   .regex(/^([A-Z0-9]{3}\d{3}[A-Z0-9]{2}|null)?$/)
   .transform((val) => (val === "null" || !val ? null : val));
 
-export const zRncp = zodOpenApi
-  .string()
-  .regex(/^RNCP\d{3,5}$/)
-  .transform((val) => (val === "null" || !val ? null : val));
+export const zRncpCode = zodOpenApi.string().regex(/^RNCP\d{3,5}$/);
+export const zRncp = zRncpCode.transform((val) => (val === "null" || !val ? null : val));
 export const zRncpParam = zodOpenApi
   .string()
   .regex(/^(RNCP\d{3,5}|null)?$/)
@@ -31,7 +29,7 @@ export const zCfdNatureCode = zodOpenApi.string().regex(/^[0-9A-Z]$/);
 
 export const zRncpBlocCompetenceCode = zodOpenApi
   .string()
-  .regex(/^RNCP\d{3,5}BC\d{1,2}$/)
+  .regex(/^(RNCP\d{3,5}BC)?\d{1,2}$/)
   .openapi({
     example: "RNCP37537BC01",
   });

@@ -17,7 +17,7 @@
       "shared/*": ["../shared/*"]
     },
     "resolveJsonModule": true,
-    "typeRoots": ["./types", "./node_modules/@types/"],
+    "typeRoots": ["./types", "./node_modules/@types/", "../node_modules/@types/"],
     /* JavaScript Support */
     "allowJs": false,
     /* Emit */
@@ -39,7 +39,7 @@
     /* Output Formatting */
     "pretty": true
   },
-  "include": ["./**/*.ts", "./**/*.js"],
+  "include": ["./**/*.ts", "./**/*.js", "**/*.md"],
   "exclude": ["**/node_modules", "coverage", "dist"],
   "typeAcquisition": {
     "enable": true,

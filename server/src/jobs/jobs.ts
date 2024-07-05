@@ -1,14 +1,11 @@
 import { addJob, initJobProcessor } from "job-processor";
-import { zImportMetaFranceCompetence } from "shared/models/import.meta.model";
-import { zUserCreate } from "shared/models/user.model";
+import { zImportMetaFranceCompetence, zImportMetaNpec } from "shared/models/import.meta.model";
 import { z } from "zod";
 
-import { create as createMigration, status as statusMigration, up as upMigration } from "@/jobs/migrations/migrations";
+import config from "@/config";
+import logger, { createJobProcessorLogger } from "@/services/logger";
+import { getDatabase } from "@/services/mongodb/mongodbService";
 
-import { createUser } from "../actions/users.actions";
-import config from "../config";
-import logger, { createJobProcessorLogger } from "../services/logger";
-import { getDatabase } from "../services/mongodb/mongodbService";
 import { recreateIndexes } from "./db/recreateIndexes";
 import { validateModels } from "./db/schemaValidation";
 import { runExperiementalRedressementUaiSiret } from "./experimental/redressement/uai.siret";
@@ -17,13 +14,18 @@ import { runAcceImporter } from "./importer/acce/acce";
 import { runBcnImporter } from "./importer/bcn/bcn.importer";
 import { runCatalogueImporter } from "./importer/catalogue/catalogue.importer";
 import { importCertifications } from "./importer/certifications/certifications.importer";
+import { runDaresApeIdccImporter } from "./importer/dares/ape_idcc/dares.ape_idcc.importer";
+import { runDaresConventionCollectivesImporter } from "./importer/dares/ccn/dares.ccn.importer";
 import {
   importRncpArchive,
   onImportRncpArchiveFailure,
   runRncpImporter,
 } from "./importer/france_competence/france_competence.importer";
+import { runKaliConventionCollectivesImporter } from "./importer/kali/kali.ccn.importer";
 import { runKitApprentissageImporter } from "./importer/kit/kitApprentissage.importer";
+import { importNpecResource, onImportNpecResourceFailure, runNpecImporter } from "./importer/npec/npec.importer";
 import { runReferentielImporter } from "./importer/referentiel/referentiel";
+import { create as createMigration, status as statusMigration, up as upMigration } from "./migrations/migrations";
 
 export async function setupJobProcessor() {
   return initJobProcessor({
@@ -34,12 +36,12 @@ export async function setupJobProcessor() {
         ? {}
         : {
             "Mise à jour acce": {
-              cron_string: "0 1 * * *",
+              cron_string: config.env === "production" ? `0 4 * * *` : "0 5 * * *",
               handler: runAcceImporter,
               resumable: true,
             },
             "Import des données BCN": {
-              cron_string: "0 4 * * *",
+              cron_string: config.env === "production" ? "0 4 * * *" : "0 5 * * *",
               handler: runBcnImporter,
               resumable: true,
             },
@@ -49,17 +51,17 @@ export async function setupJobProcessor() {
               resumable: true,
             },
             "Import des données Referentiel": {
-              cron_string: "0 4 * * *",
+              cron_string: config.env === "production" ? "0 4 * * *" : "0 5 * * *",
               handler: runReferentielImporter,
               resumable: true,
             },
             "Import des données Catalogue": {
-              cron_string: "0 4 * * *",
+              cron_string: config.env === "production" ? "0 4 * * *" : "0 5 * * *",
               handler: runCatalogueImporter,
               resumable: true,
             },
             "Import des données France Compétences": {
-              cron_string: "0 */2 * * *",
+              cron_string: config.env === "production" ? "0 4 * * *" : "0 5 * * *",
               handler: runRncpImporter,
               resumable: true,
             },
@@ -68,13 +70,28 @@ export async function setupJobProcessor() {
               handler: () => importCertifications(),
               resumable: true,
             },
+            "Import des NPEC": {
+              cron_string: config.env === "production" ? "0 4 * * *" : "0 5 * * *",
+              handler: () => runNpecImporter(),
+              resumable: true,
+            },
+            "Import des Conventions Collective Kali": {
+              cron_string: config.env === "production" ? "0 4 * * *" : "0 5 * * *",
+              handler: runKaliConventionCollectivesImporter,
+              resumable: true,
+            },
+            "Import des Conventions Collective Dares": {
+              cron_string: config.env === "production" ? "0 4 * * *" : "0 5 * * *",
+              handler: runDaresConventionCollectivesImporter,
+              resumable: true,
+            },
+            "Import des APE-IDCC Dares": {
+              cron_string: config.env === "production" ? "0 4 * * *" : "0 5 * * *",
+              handler: runDaresApeIdccImporter,
+              resumable: true,
+            },
           },
     jobs: {
-      "users:create": {
-        handler: async (job) => {
-          await createUser(zUserCreate.parse(job.payload));
-        },
-      },
       "indexes:recreate": {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         handler: async (job) => recreateIndexes(job.payload as any),
@@ -119,11 +136,35 @@ export async function setupJobProcessor() {
       "import:france_competence": {
         handler: async () => runRncpImporter(),
       },
+      "import:kali_ccn": {
+        handler: async (job, signal) => runKaliConventionCollectivesImporter(signal),
+        resumable: true,
+      },
+      "import:dares_ccn": {
+        handler: async (job, signal) => runDaresConventionCollectivesImporter(signal),
+        resumable: true,
+      },
+      "import:dares_cape_idcc": {
+        handler: async (job, signal) => runDaresApeIdccImporter(signal),
+        resumable: true,
+      },
       "import:france_competence:resource": {
         handler: async (job, signal) => importRncpArchive(zImportMetaFranceCompetence.parse(job.payload), signal),
         onJobExited: async (job) => {
           if (job.status === "errored") {
             await onImportRncpArchiveFailure(zImportMetaFranceCompetence.parse(job.payload));
+          }
+        },
+        resumable: true,
+      },
+      "import:npec": {
+        handler: async () => runNpecImporter(),
+      },
+      "import:npec:resource": {
+        handler: async (job, signal) => importNpecResource(zImportMetaNpec.parse(job.payload), signal),
+        onJobExited: async (job) => {
+          if (job.status === "errored") {
+            await onImportNpecResourceFailure(zImportMetaNpec.parse(job.payload));
           }
         },
         resumable: true,

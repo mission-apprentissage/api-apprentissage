@@ -1,8 +1,7 @@
 import { ISourceAcceUai } from "shared/models/source/acce/source.acce.model";
 
+import { findDataFromSiret } from "@/services/apis/entreprise/tmp/infoSiret.actions";
 import { getDbCollection } from "@/services/mongodb/mongodbService";
-
-import { findDataFromSiret } from "../../../services/apis/entreprise/tmp/infoSiret.actions";
 
 type PrerequisiteUaiResult = {
   uai: string;

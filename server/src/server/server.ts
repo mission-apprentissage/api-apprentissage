@@ -1,6 +1,7 @@
 import fastifyCookie from "@fastify/cookie";
 import fastifyCors from "@fastify/cors";
 import fastifyMultipart from "@fastify/multipart";
+import fastifyRateLimit from "@fastify/rate-limit";
 import fastifySwagger, { FastifyStaticSwaggerOptions, StaticDocumentSpec } from "@fastify/swagger";
 import fastifySwaggerUi, { FastifySwaggerUiOptions } from "@fastify/swagger-ui";
 import Boom from "@hapi/boom";
@@ -15,8 +16,9 @@ import { serializerCompiler, validatorCompiler, ZodTypeProvider } from "fastify-
 import { generateOpenApiSchema } from "shared/helpers/openapi/generateOpenapi";
 import { IRouteSchema, WithSecurityScheme } from "shared/routes/common.routes";
 
-import config from "../config";
-import { initSentryFastify } from "../services/sentry/sentry";
+import config from "@/config";
+import { initSentryFastify } from "@/services/sentry/sentry";
+
 import { apiKeyUsageMiddleware } from "./middlewares/apiKeyUsageMiddleware";
 import { auth } from "./middlewares/authMiddleware";
 import { errorMiddleware } from "./middlewares/errorMiddleware";
@@ -44,11 +46,12 @@ export async function bind(app: Server) {
       document: generateOpenApiSchema(
         config.version,
         config.env,
-        config.env === "local" ? "http://localhost:5001/api" : `${config.publicUrl}/api`
+        config.apiPublicUrl
       ) as StaticDocumentSpec["document"],
     },
   };
   await app.register(fastifySwagger, swaggerOpts);
+  await app.register(fastifyRateLimit, { global: false });
 
   const swaggerUiOptions: FastifySwaggerUiOptions = {
     routePrefix: "/api/documentation",
@@ -56,7 +59,7 @@ export async function bind(app: Server) {
       displayOperationId: true,
       operationsSorter: "method",
       tagsSorter: "alpha",
-      docExpansion: "list",
+      docExpansion: "none",
       filter: true,
       deepLinking: true,
     },

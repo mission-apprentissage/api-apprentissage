@@ -1,4 +1,4 @@
-import { ApiEntEtablissement } from "../entreprise";
+import { ApiEntEtablissement } from "@/services/apis/entreprise/entreprise";
 interface result extends ApiEntEtablissement {
   siret?: string;
   naf_code?: string;

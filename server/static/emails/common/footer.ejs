@@ -8,10 +8,12 @@
       <mj-text align="left" font-size="12px" line-height="20px">
         Cet email a été envoyé à <%= template.to %>
         <br />
-        Vous avez reçu cet email suite à une action sur le tableau de bord de l'apprentissage.
-        <br />
+        <% if (actions.unsubscribe) { %>
         Pour vous désinscrire,
         <a href="<%= actions.unsubscribe %>" class="link-nostyle">cliquez ici</a>
+        <% } else { %>
+          Vous avez reçu cet email suite à une action sur l'api apprentissage.
+        <% } %>
       </mj-text>
       <% if (actions.markAsOpened) { %>
       <mj-image width="1px" alt="Pixel" src="<%= actions.markAsOpened %>" />

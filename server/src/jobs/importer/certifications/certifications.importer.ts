@@ -12,6 +12,8 @@ import { createBatchTransformStream } from "@/utils/streamUtils";
 
 import { buildCertification, ISourceAggregatedData } from "./builder/certification.builder";
 import { validateNiveauFormationDiplomeToInterministerielRule } from "./builder/intitule/certification.intitule.builder";
+import { processContinuite } from "./process/continuite.process";
+import { processCertificationCoverage } from "./process/coverage.process";
 
 const logger = parentLogger.child({ module: "import:certifications" });
 
@@ -35,9 +37,17 @@ export async function controlKitApprentissageCoverage() {
   const missingBcnEntries = await getDbCollection("source.kit_apprentissage")
     .aggregate([
       {
+        $match: { "data.Code Diplôme": { $ne: "NR" } },
+      },
+      {
+        $group: {
+          _id: "$data.Code Diplôme",
+        },
+      },
+      {
         $lookup: {
           from: "source.bcn",
-          localField: "data.Code Diplôme",
+          localField: "_id",
           foreignField: "data.FORMATION_DIPLOME",
           as: "bcn",
         },
@@ -47,6 +57,7 @@ export async function controlKitApprentissageCoverage() {
           bcn: { $size: 0 },
         },
       },
+      { $project: { _id: 1 } },
     ])
     .toArray();
 
@@ -63,15 +74,23 @@ export async function controlKitApprentissageCoverage() {
         $match: { "data.FicheRNCP": { $ne: "NR" } },
       },
       {
+        $group: {
+          _id: "$data.FicheRNCP",
+        },
+      },
+      {
         $lookup: {
           from: "source.france_competence",
-          localField: "data.FicheRNCP",
+          localField: "_id",
           foreignField: "numero_fiche",
           as: "france_competence",
         },
       },
       {
         $match: { france_competence: { $size: 0 } },
+      },
+      {
+        $project: { _id: 1 },
       },
     ])
     .toArray();
@@ -86,7 +105,7 @@ async function getSourceImportMeta(): Promise<IImportMetaCertifications["source"
     getDbCollection("import.meta").findOne({ type: "kit_apprentissage" }, { sort: { import_date: -1 } }),
     getDbCollection("import.meta").findOne({ type: "bcn" }, { sort: { import_date: -1 } }),
     getDbCollection("import.meta").findOne<IImportMetaFranceCompetence>(
-      { type: "france_competence" },
+      { type: "france_competence", status: "done" },
       { sort: { import_date: -1, "archiveMeta.nom": -1 } }
     ),
     getDbCollection("import.meta").findOne<IImportMetaFranceCompetence>(
@@ -178,7 +197,9 @@ export function getSourceAggregatedDataFromBcn(): AggregationCursor<ISourceAggre
   return getDbCollection("source.bcn").aggregate<ISourceAggregatedData>([
     {
       $match: {
-        source: "V_FORMATION_DIPLOME",
+        source: {
+          $in: ["N_FORMATION_DIPLOME", "N_FORMATION_DIPLOME_ENQUETE_51"],
+        },
       },
     },
     {
@@ -221,6 +242,12 @@ export function getSourceAggregatedDataFromBcn(): AggregationCursor<ISourceAggre
       $unwind: {
         path: "$france_competence",
         preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
+      $project: {
+        bcn: "$bcn",
+        france_competence: "$france_competence",
       },
     },
   ]);
@@ -269,7 +296,12 @@ export async function importSourceAggregatedData(
           const op = buildCertificationUpdateOperation(chunk, importMeta);
           callback(null, op);
         } catch (error) {
-          callback(withCause(internal("import.certifications: error when building certification"), error));
+          callback(
+            withCause(
+              internal("import.certifications: error when building certification", { chunk, importMeta }),
+              error
+            )
+          );
         }
       },
     }),
@@ -376,6 +408,9 @@ export async function importCertifications(options: ImportCertificationsOptions 
     await importSourceAggregatedData(getSourceAggregatedDataFromBcn(), importMeta);
 
     await importSourceAggregatedData(getSourceAggregatedDataFromFranceCompetence(), importMeta);
+
+    await processCertificationCoverage(importMeta);
+    await processContinuite(importMeta);
 
     const stats = await computeImportStats(importMeta.import_date);
 

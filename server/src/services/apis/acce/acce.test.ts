@@ -1,7 +1,7 @@
 import { ReadStream } from "node:fs";
 
 import nock from "nock";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
 import { downloadCsvExtraction, login } from "./acce";
 
@@ -53,6 +53,9 @@ describe("login", () => {
 });
 
 describe("downloadCsvExtraction", () => {
+  beforeEach(() => {
+    nock.cleanAll();
+  });
   afterEach(() => {
     nock.cleanAll();
   });

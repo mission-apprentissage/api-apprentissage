@@ -3,10 +3,9 @@ import type { Readable } from "node:stream";
 import { compose } from "oleoduc";
 
 import config from "@/config";
-
-import { downloadFileInTmpFile } from "../../../utils/apiUtils";
-import { createJsonLineTransformStream } from "../../../utils/streamUtils";
-import getApiClient from "../client";
+import getApiClient from "@/services/apis/client";
+import { downloadFileAsStream } from "@/utils/apiUtils";
+import { createJsonLineTransformStream } from "@/utils/streamUtils";
 
 const catalogueEducatifClient = getApiClient(
   {
@@ -77,5 +76,5 @@ export async function fetchCatalogueEducatifData(): Promise<Readable> {
     },
   });
 
-  return compose(await downloadFileInTmpFile(response.data, "catalogueEducatif.zip"), createJsonLineTransformStream());
+  return compose(await downloadFileAsStream(response.data, "catalogueEducatif.zip"), createJsonLineTransformStream());
 }

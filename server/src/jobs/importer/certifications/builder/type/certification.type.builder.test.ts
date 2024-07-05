@@ -1,5 +1,6 @@
 import {
-  generateSourceBcn_V_FormationDiplomeFixture,
+  generateSourceBcn_N_FormationDiplomeFixture,
+  generateSourceBcn_N51_FormationDiplomeFixture,
   generateSourceFranceCompetenceFixture,
 } from "shared/models/fixtures";
 import { describe, expect, it } from "vitest";
@@ -10,7 +11,7 @@ describe("buildCertificationType", () => {
   describe("type.certificateurs_rncp", () => {
     it("should returns null when france competence data is missing", () => {
       const result = buildCertificationType({
-        bcn: generateSourceBcn_V_FormationDiplomeFixture(),
+        bcn: generateSourceBcn_N_FormationDiplomeFixture(),
         france_competence: null,
       });
       expect(result.certificateurs_rncp).toEqual(null);
@@ -43,7 +44,7 @@ describe("buildCertificationType", () => {
   describe("type.enregistrement_rncp", () => {
     it("should returns null when france competence data is missing", () => {
       const result = buildCertificationType({
-        bcn: generateSourceBcn_V_FormationDiplomeFixture(),
+        bcn: generateSourceBcn_N51_FormationDiplomeFixture(),
         france_competence: null,
       });
       expect(result.enregistrement_rncp).toEqual(null);
@@ -66,7 +67,7 @@ describe("buildCertificationType", () => {
       expect(result.gestionnaire_diplome).toEqual(null);
     });
     it("should takes data.GESTIONNAIRE_FORMATION_DIPLOME value", () => {
-      const vFormation = generateSourceBcn_V_FormationDiplomeFixture({
+      const vFormation = generateSourceBcn_N_FormationDiplomeFixture({
         data: {
           GESTIONNAIRE_FORMATION_DIPLOME: "SPN DEP B4",
         },
@@ -87,7 +88,7 @@ describe("buildCertificationType", () => {
 
     describe("type.nature.cfd.code", () => {
       it("should takes data.NATURE_FORMATION_DIPLOME value", () => {
-        const vFormation = generateSourceBcn_V_FormationDiplomeFixture({
+        const vFormation = generateSourceBcn_N51_FormationDiplomeFixture({
           data: {
             NATURE_FORMATION_DIPLOME: "2",
           },
@@ -98,7 +99,7 @@ describe("buildCertificationType", () => {
     });
     describe("type.nature.cfd.libelle", () => {
       it("should takes data.N_NATURE_FORMATION_DIPLOME_LIBELLE_100 value", () => {
-        const vFormation = generateSourceBcn_V_FormationDiplomeFixture({
+        const vFormation = generateSourceBcn_N_FormationDiplomeFixture({
           data: {
             N_NATURE_FORMATION_DIPLOME_LIBELLE_100: "DIPLOME NATIONAL / DIPLOME D'ETAT",
           },
@@ -112,7 +113,7 @@ describe("buildCertificationType", () => {
   describe("type.voie_acces", () => {
     it("should returns null when france competence data is missing", () => {
       const result = buildCertificationType({
-        bcn: generateSourceBcn_V_FormationDiplomeFixture(),
+        bcn: generateSourceBcn_N51_FormationDiplomeFixture(),
         france_competence: null,
       });
       expect(result.voie_acces).toEqual({ rncp: null });

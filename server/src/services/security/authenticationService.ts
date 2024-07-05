@@ -5,17 +5,17 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import { ObjectId } from "mongodb";
 import { PathParam, QueryString } from "shared/helpers/generateUri";
 import { IApiKey, IUser } from "shared/models/user.model";
-import { ISecuredRouteSchema, WithSecurityScheme } from "shared/routes/common.routes";
+import { IAccessToken, ISecuredRouteSchema, WithSecurityScheme } from "shared/routes/common.routes";
 import { UserWithType } from "shared/security/permissions";
 import { assertUnreachable } from "shared/utils/assertUnreachable";
 
+import { getSession } from "@/actions/sessions.actions";
 import config from "@/config";
+import { getDbCollection } from "@/services/mongodb/mongodbService";
+import { compareKeys } from "@/utils/cryptoUtils";
+import { decodeToken } from "@/utils/jwtUtils";
 
-import { getSession } from "../../actions/sessions.actions";
-import { compareKeys } from "../../utils/cryptoUtils";
-import { decodeToken } from "../../utils/jwtUtils";
-import { getDbCollection } from "../mongodb/mongodbService";
-import { IAccessToken, parseAccessToken } from "./accessTokenService";
+import { parseAccessToken } from "./accessTokenService";
 
 export type IUserWithType = UserWithType<"token", IAccessToken> | UserWithType<"user", IUser>;
 
@@ -44,7 +44,7 @@ export const getUserFromRequest = <S extends WithSecurityScheme>(
   return req.user.value as AuthenticatedUser<S["securityScheme"]["auth"]>["value"];
 };
 
-async function authCookieSession(req: FastifyRequest): Promise<UserWithType<"user", IUser> | null> {
+export async function authCookieSession(req: FastifyRequest): Promise<UserWithType<"user", IUser> | null> {
   const token = req.cookies?.[config.session.cookieName];
 
   if (!token) {
@@ -121,12 +121,17 @@ function extractBearerTokenFromHeader(req: FastifyRequest): null | string {
   return matches === null ? null : matches[1];
 }
 
+function extractTokenFromQuery(req: FastifyRequest): null | string {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return (req.query as any)?.token ?? null;
+}
+
 async function authAccessToken<S extends ISecuredRouteSchema>(
   req: FastifyRequest,
   schema: S
 ): Promise<UserWithType<"token", IAccessToken> | null> {
   const token = parseAccessToken(
-    extractBearerTokenFromHeader(req),
+    extractBearerTokenFromHeader(req) ?? extractTokenFromQuery(req),
     schema,
     req.params as PathParam,
     req.query as QueryString
@@ -149,18 +154,27 @@ export async function authenticationMiddleware<S extends ISecuredRouteSchema>(sc
   switch (securityScheme.auth) {
     case "cookie-session":
       req.user = await authCookieSession(req);
+      if (!req.user) {
+        throw Boom.unauthorized("Vous devez être connecté pour accéder à cette ressource");
+      }
       break;
     case "api-key":
       req.user = await authApiKey(req);
+      if (!req.user) {
+        throw Boom.unauthorized("Vous devez fournir une clé d'API valide pour accéder à cette ressource");
+      }
       break;
     case "access-token":
       req.user = await authAccessToken(req, schema);
+      if (!req.user) {
+        throw Boom.unauthorized("Le lien de connexion pour accéder à cette ressource est invalide");
+      }
       break;
     default:
       assertUnreachable(securityScheme.auth);
   }
 
   if (!req.user) {
-    throw Boom.unauthorized();
+    throw Boom.unauthorized("Vous devez être connecté pour accéder à cette ressource");
   }
 }

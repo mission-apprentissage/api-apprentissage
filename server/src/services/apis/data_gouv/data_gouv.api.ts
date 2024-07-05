@@ -4,27 +4,37 @@ import { internal } from "@hapi/boom";
 import { IDataGouvDataset, IDataGouvDatasetResource, zDataGouvDataset } from "shared";
 import { ZodError } from "zod";
 
-import { downloadFileInTmpFile } from "../../../utils/apiUtils";
-import { withCause } from "../../errors/withCause";
-import getApiClient from "../client";
+import getApiClient from "@/services/apis/client";
+import { withCause } from "@/services/errors/withCause";
+import logger from "@/services/logger";
+import { downloadFileAsStream } from "@/utils/apiUtils";
 
 const client = getApiClient(
   {
     baseURL: "https://www.data.gouv.fr/api/1",
-    timeout: 120_000,
+    timeout: 300_000,
   },
   { cache: false }
 );
 
 export async function fetchDataGouvDataSet(datasetId: string): Promise<IDataGouvDataset> {
+  let data: unknown;
   try {
-    const { data } = await client.get<unknown>(`/datasets/${datasetId}`);
-
+    const result = await client.get<unknown>(`/datasets/${datasetId}`);
+    data = result.data;
     return zDataGouvDataset.parse(data);
   } catch (error) {
     if (error instanceof ZodError) {
+      logger.error("api.data_gouv: unable to fetchDataGouvDataSet; unexpected api data", {
+        datasetId,
+        formattedError: error.format(),
+      });
       throw withCause(
-        internal("api.data_gouv: unable to fetchDataGouvDataSet; unexpected api data", { datasetId }),
+        internal("api.data_gouv: unable to fetchDataGouvDataSet; unexpected api data", {
+          datasetId,
+          data,
+          formattedError: error.format(),
+        }),
         error
       );
     }
@@ -39,7 +49,7 @@ export async function downloadDataGouvResource(resource: IDataGouvDatasetResourc
       responseType: "stream",
     });
 
-    return await downloadFileInTmpFile(response.data, resource.title);
+    return await downloadFileAsStream(response.data, resource.title);
   } catch (error) {
     throw withCause(internal("api.data_gouv: unable to downloadDataGouvResource", { resource }), error);
   }

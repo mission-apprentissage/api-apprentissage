@@ -4,12 +4,12 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 import { IUserPublic } from "shared/models/user.model";
 
-import SearchBar from "../../../../components/SearchBar";
-import Table from "../../../../components/table/Table";
-import { apiGet } from "../../../../utils/api.utils";
-import { formatDate } from "../../../../utils/date.utils";
-import { formatUrlWithNewParams, getSearchParamsForQuery } from "../../../../utils/query.utils";
-import { PAGES } from "../../../components/breadcrumb/Breadcrumb";
+import SearchBar from "@/components/SearchBar";
+import Table from "@/components/table/Table";
+import { apiGet } from "@/utils/api.utils";
+import { formatDate } from "@/utils/date.utils";
+import { formatUrlWithNewParams, getSearchParamsForQuery } from "@/utils/query.utils";
+import { PAGES } from "@/utils/routes.utils";
 
 const UserList = () => {
   const searchParams = useSearchParams();
@@ -17,8 +17,8 @@ const UserList = () => {
 
   const { page: page, limit: limit, q: searchValue } = getSearchParamsForQuery(searchParams);
 
-  const { data: users } = useQuery<IUserPublic[]>({
-    queryKey: ["users", { searchValue, page, limit }],
+  const result = useQuery<IUserPublic[]>({
+    queryKey: ["/_private/admin/users", { searchValue, page, limit }],
     queryFn: async () => {
       const data = await apiGet("/_private/admin/users", {
         querystring: { q: searchValue, page, limit },
@@ -28,8 +28,14 @@ const UserList = () => {
     },
   });
 
+  if (result.isError) {
+    throw result.error;
+  }
+
+  const { data: users } = result;
+
   const onSearch = (q: string) => {
-    const url = formatUrlWithNewParams(PAGES.adminUsers().path, searchParams, {
+    const url = formatUrlWithNewParams(PAGES.static.adminUsers.path, searchParams, {
       q,
       page,
       limit,
@@ -53,13 +59,13 @@ const UserList = () => {
           {
             field: "is_admin",
             headerName: "Administrateur",
-            valueGetter: ({ value }) => (value ? "Oui" : "Non"),
+            valueGetter: (value) => (value ? "Oui" : "Non"),
             minWidth: 150,
           },
           {
             field: "api_key_used_at",
             headerName: "Dernière utilisation API",
-            valueGetter: ({ value }) => {
+            valueGetter: (value) => {
               return value ? formatDate(value as unknown as string, "PPP à p") : "Jamais";
             },
             minWidth: 180,
@@ -73,7 +79,7 @@ const UserList = () => {
                 key="view"
                 iconId="fr-icon-arrow-right-line"
                 linkProps={{
-                  href: PAGES.adminUserView(_id).path,
+                  href: PAGES.dynamic.adminUserView(_id).path,
                 }}
                 priority="tertiary no outline"
                 title="Voir l'utilisateur"

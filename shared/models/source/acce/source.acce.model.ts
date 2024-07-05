@@ -1,10 +1,10 @@
 import { z } from "zod";
 
-import { IModelDescriptor, zObjectId } from "../../common";
+import { IModelDescriptorGeneric, zObjectId } from "../../common";
 
 const collectionName = "source.acce" as const;
 
-const indexes: IModelDescriptor["indexes"] = [
+const indexes: IModelDescriptorGeneric["indexes"] = [
   [{ date: 1, source: 1 }, {}],
   [{ source: 1, "data.numero_uai": 1 }, {}],
 ];
@@ -29,7 +29,7 @@ const zUaiBaseFields = z
     sigle_uai: z.string().nullable(),
     categorie_juridique: z.string(),
     categorie_juridique_libe: z.string(),
-    contrat_etablissement: z.enum(["99", "10", "30", "20", "50", "31", "21", "!!", "40", "41"]),
+    contrat_etablissement: z.enum(["99", "10", "30", "20", "50", "31", "21", "!!", "40", "41", "60"]),
     contrat_etablissement_libe: z.enum([
       "Sans objet",
       "Hors contrat",
@@ -41,6 +41,7 @@ const zUaiBaseFields = z
       "Inconnu du gestionnaire",
       "Contrats simple et d'association pour toutes les classes",
       "Contrats simple et d'association pour une partie des classes",
+      "Sous contrat établissement agricole",
     ]),
     categorie_financiere: z.string().nullable(),
     categorie_financiere_libe: z.string().nullable(),
@@ -92,7 +93,7 @@ const zUaiBaseFields = z
   })
   .strict();
 
-const zAcceUai = z
+export const zAcceUai = z
   .object({
     _id: zObjectId,
     source: z.literal("ACCE_UAI.csv"),
@@ -105,7 +106,7 @@ const zAcceUai = z
   })
   .strict();
 
-const zAcceUaiZone = z
+export const zAcceUaiZone = z
   .object({
     _id: zObjectId,
     source: z.literal("ACCE_UAI_ZONE.csv"),
@@ -125,7 +126,7 @@ const zAcceUaiZone = z
   })
   .strict();
 
-const zAcceUaiSpec = z
+export const zAcceUaiSpec = z
   .object({
     _id: zObjectId,
     source: z.literal("ACCE_UAI_SPEC.csv"),
@@ -142,7 +143,7 @@ const zAcceUaiSpec = z
   })
   .strict();
 
-const zAcceUaiMere = z
+export const zAcceUaiMere = z
   .object({
     _id: zObjectId,
     source: z.literal("ACCE_UAI_MERE.csv"),
@@ -157,7 +158,7 @@ const zAcceUaiMere = z
   })
   .strict();
 
-const zAcceUaiFille = z
+export const zAcceUaiFille = z
   .object({
     _id: zObjectId,
     source: z.literal("ACCE_UAI_FILLE.csv"),
@@ -189,6 +190,10 @@ export const ZSourceAcce = z.discriminatedUnion("source", [
 ]);
 
 export type ISourceAcceUai = z.output<typeof zAcceUai>;
+export type ISourceAcceUaiZone = z.output<typeof zAcceUaiZone>;
+export type ISourceAcceUaiSpec = z.output<typeof zAcceUaiSpec>;
+export type ISourceAcceUaiMere = z.output<typeof zAcceUaiMere>;
+export type ISourceAcceUaiFille = z.output<typeof zAcceUaiFille>;
 export type ISourceAcce = z.output<typeof ZSourceAcce>;
 
 export default {

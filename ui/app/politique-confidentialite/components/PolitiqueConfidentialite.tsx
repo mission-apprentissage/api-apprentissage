@@ -1,9 +1,10 @@
+import { fr } from "@codegouvfr/react-dsfr";
 import Summary from "@codegouvfr/react-dsfr/Summary";
 import Table from "@codegouvfr/react-dsfr/Table";
 import { Grid, Typography } from "@mui/material";
 import React from "react";
 
-import Section from "../../components/section/Section";
+import Section from "@/components/section/Section";
 
 const anchors = {
   QuiEstResponsable: "qui-est-responsable",
@@ -50,7 +51,7 @@ const summaryData = [
 
 const PolitiqueDeConfidentialite = () => {
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={8}>
       <Grid item xs={12} lg={3}>
         <Summary
           links={summaryData.map((item) => ({
@@ -62,12 +63,12 @@ const PolitiqueDeConfidentialite = () => {
         />
       </Grid>
       <Grid item xs={12} lg={9}>
-        <Typography variant="h2" gutterBottom>
+        <Typography variant="h1" gutterBottom color={fr.colors.decisions.text.actionHigh.blueEcume.default}>
           Politique de confidentialité
         </Typography>
 
         <Section mt={4} id={anchors.QuiEstResponsable}>
-          <Typography variant="h3" gutterBottom>
+          <Typography variant="h2" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default}>
             Qui est responsable ?
           </Typography>
           <Typography>
@@ -80,7 +81,7 @@ const PolitiqueDeConfidentialite = () => {
         </Section>
 
         <Section mt={4} id={anchors.PourquoiTraitonsNousDesDonnees}>
-          <Typography variant="h3" gutterBottom>
+          <Typography variant="h2" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default}>
             Pourquoi traitons-nous des données ?
           </Typography>
           <Typography>
@@ -93,7 +94,7 @@ const PolitiqueDeConfidentialite = () => {
         </Section>
 
         <Section id={anchors.QuellesSontLesDonneesACaracterePersonnel}>
-          <Typography variant="h3" gutterBottom>
+          <Typography variant="h2" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default}>
             Quelles sont les données à caractère personnel que nous traitons ?
           </Typography>
           <Typography>Les données à caractère personnel concernées sont les suivantes :</Typography>
@@ -103,7 +104,7 @@ const PolitiqueDeConfidentialite = () => {
         </Section>
 
         <Section mt={4} id={anchors.QuEstCeQuiNousAutoriseATraiterDonneesCaracterePersonnel}>
-          <Typography variant="h3" gutterBottom>
+          <Typography variant="h2" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default}>
             Qu’est-ce qui nous autorise à traiter des données à caractère personnel ?
           </Typography>
           <Typography>
@@ -114,7 +115,7 @@ const PolitiqueDeConfidentialite = () => {
         </Section>
 
         <Section mt={4} id={anchors.PendantCombienTpsConservonsNousDonnees}>
-          <Typography variant="h3" gutterBottom>
+          <Typography variant="h2" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default}>
             Pendant combien de temps conservons-nous ces données ?
           </Typography>
           <Table
@@ -129,7 +130,7 @@ const PolitiqueDeConfidentialite = () => {
         </Section>
 
         <Section mt={4} id={anchors.VosDroitsSurDonneesVousConcernant}>
-          <Typography variant="h3" gutterBottom>
+          <Typography variant="h2" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default}>
             Vos droits sur les données vous concernant
           </Typography>
           <Typography>Vous disposez des droits suivants concernant vos données à caractère personnel :</Typography>
@@ -165,7 +166,7 @@ const PolitiqueDeConfidentialite = () => {
         </Section>
 
         <Section mt={4} id={anchors.QuiVaAvoirAccessDonnees}>
-          <Typography variant="h3" gutterBottom>
+          <Typography variant="h2" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default}>
             Qui va avoir accès à ces données ?
           </Typography>
           <Typography>
@@ -181,7 +182,7 @@ const PolitiqueDeConfidentialite = () => {
         </Section>
 
         <Section mt={4} id={anchors.QuiNousAideTraiterDonnees}>
-          <Typography variant="h3" gutterBottom>
+          <Typography variant="h2" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default}>
             Qui nous aide à traiter vos données ?
           </Typography>
           <Typography>

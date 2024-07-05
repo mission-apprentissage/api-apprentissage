@@ -1,23 +1,13 @@
 import { ObjectId } from "mongodb";
-import { IUser } from "shared/models/user.model";
+import { generateUserFixture } from "shared/models/fixtures";
 import { zRoutes } from "shared/routes";
+import { SchemaWithSecurity } from "shared/routes/common.routes";
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
 import { zObjectId } from "zod-mongodb-schema";
 
-import { generateAccessToken, generateScope, parseAccessToken, SchemaWithSecurity } from "./accessTokenService";
+import { generateAccessToken, generateScope, parseAccessToken } from "./accessTokenService";
 
-const mockUser = (email: string): IUser => {
-  return {
-    _id: new ObjectId(),
-    email,
-    password: "",
-    is_admin: false,
-    api_keys: [],
-    updated_at: new Date(),
-    created_at: new Date(),
-  };
-};
 const ids = [new ObjectId().toString(), new ObjectId().toString(), new ObjectId().toString()];
 
 describe("generateScope", () => {
@@ -89,7 +79,7 @@ describe("generateScope", () => {
 });
 
 describe("accessTokenService", () => {
-  const user = mockUser("self@mail.com");
+  const user = generateUserFixture({ email: "self@mail.com" });
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const schema: any = {
@@ -166,7 +156,7 @@ describe("accessTokenService", () => {
     it("should detect an invalid token that is for a different route", () => {
       const token = generateAccessToken(user, [
         generateScope({
-          schema: zRoutes.post["/_private/admin/user"],
+          schema: zRoutes.get["/_private/admin/users"],
           resources: {},
           options: "all",
         }),

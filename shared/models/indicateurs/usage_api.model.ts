@@ -1,10 +1,10 @@
 import { z } from "zod";
 
-import { IModelDescriptor, zObjectId } from "../common";
+import { IModelDescriptorGeneric, zObjectId } from "../common";
 
 const collectionName = "indicateurs.usage_api" as const;
 
-const indexes: IModelDescriptor["indexes"] = [
+const indexes: IModelDescriptorGeneric["indexes"] = [
   [{ method: 1, path: 1, date: 1, user_id: 1, api_key_id: 1 }, { unique: true }],
 ];
 
@@ -24,4 +24,4 @@ export const indicateurUsageApiModelDescriptor = {
   zod: zIndicateurUsageApi,
   indexes,
   collectionName,
-} as const satisfies IModelDescriptor;
+};

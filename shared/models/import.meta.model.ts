@@ -1,12 +1,13 @@
 import { z } from "zod";
 
 import { zDataGouvDatasetResource } from "../apis";
-import { IModelDescriptor, zObjectId } from "./common";
+import { IModelDescriptorGeneric, zObjectId } from "./common";
 
 const collectionName = "import.meta" as const;
 
-const indexes: IModelDescriptor["indexes"] = [
+const indexes: IModelDescriptorGeneric["indexes"] = [
   [{ type: 1, import_date: 1 }, {}],
+  [{ type: 1, status: 1, import_date: 1 }, {}],
   [{ type: 1, "archiveMeta.date_publication": 1 }, {}],
 ];
 
@@ -28,14 +29,41 @@ export const zImportMetaFranceCompetence = z
     import_date: z.date(),
     type: z.literal("france_competence"),
     archiveMeta: zArchiveMeta,
+    status: z.enum(["pending", "done"]),
   })
   .strict();
+
+export const zImportMetaNpec = z.object({
+  _id: zObjectId,
+  import_date: z.date(),
+  type: z.literal("npec"),
+  status: z.enum(["pending", "done", "failed"]),
+  resource: z.string().url(),
+  title: z.string(),
+  description: z.string(),
+  file_date: z.date(),
+});
 
 export const zImportMetaSimple = z
   .object({
     _id: zObjectId,
     import_date: z.date(),
-    type: z.enum(["bcn", "kit_apprentissage"]),
+    type: z.enum(["bcn", "kit_apprentissage", "acce", "kali_ccn"]),
+    status: z.enum(["pending", "done", "failed"]),
+  })
+  .strict();
+
+export const zImportMetaDares = z
+  .object({
+    _id: zObjectId,
+    import_date: z.date(),
+    type: z.enum(["dares_ccn", "dares_ape_idcc"]),
+    status: z.enum(["pending", "done", "failed"]),
+    resource: z.object({
+      title: z.string(),
+      url: z.string().url(),
+      date: z.date(),
+    }),
   })
   .strict();
 
@@ -60,14 +88,18 @@ export const zImportMeta = z.discriminatedUnion("type", [
   zImportMetaFranceCompetence,
   zImportMetaSimple,
   zImportMetaCertifications,
+  zImportMetaNpec,
+  zImportMetaDares,
 ]);
 
 export const importMetaModelDescriptor = {
   zod: zImportMeta,
   indexes,
   collectionName,
-} as const satisfies IModelDescriptor;
+};
 
 export type IImportMeta = z.output<typeof zImportMeta>;
 export type IImportMetaFranceCompetence = z.output<typeof zImportMetaFranceCompetence>;
+export type IImportMetaNpec = z.output<typeof zImportMetaNpec>;
 export type IImportMetaCertifications = z.output<typeof zImportMetaCertifications>;
+export type IImportMetaDares = z.output<typeof zImportMetaDares>;

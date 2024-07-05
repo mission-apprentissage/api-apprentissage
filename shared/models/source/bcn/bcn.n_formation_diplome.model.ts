@@ -5,20 +5,8 @@ import { zBcn_V_FormationDiplomeData } from "./bcn.v_formation_diplome.model";
 
 export const zBcn_N_FormationDiplomeData = zBcn_V_FormationDiplomeData
   .extend({
-    ANCIEN_DIPLOME_1: z.string().nullable(),
-    ANCIEN_DIPLOME_2: z.string().nullable(),
-    ANCIEN_DIPLOME_3: z.string().nullable(),
-    ANCIEN_DIPLOME_4: z.string().nullable(),
-    ANCIEN_DIPLOME_5: z.string().nullable(),
-    ANCIEN_DIPLOME_6: z.string().nullable(),
-    ANCIEN_DIPLOME_7: z.string().nullable(),
-    NOUVEAU_DIPLOME_1: z.string().nullable(),
-    NOUVEAU_DIPLOME_2: z.string().nullable(),
-    NOUVEAU_DIPLOME_3: z.string().nullable(),
-    NOUVEAU_DIPLOME_4: z.string().nullable(),
-    NOUVEAU_DIPLOME_5: z.string().nullable(),
-    NOUVEAU_DIPLOME_6: z.string().nullable(),
-    NOUVEAU_DIPLOME_7: z.string().nullable(),
+    ANCIEN_DIPLOMES: z.array(z.string()),
+    NOUVEAU_DIPLOMES: z.array(z.string()),
     NB_MEF_OUVERT: z.string().nullable(),
     NB_MEF_FERME: z.string().nullable(),
     DATE_SESSION_RATTRAPAGE: z.string().nullable(),

@@ -1,26 +1,33 @@
 import { ConditionalExcept, EmptyObject, Jsonify } from "type-fest";
 import z, { ZodType } from "zod";
 
-import { zUserAdminRoutes } from "./_private/admin/admin.routes";
+import { zProcessorAdminRoutes } from "./_private/admin/processor.admin.routes";
+import { zUserAdminRoutes } from "./_private/admin/users.admin.routes";
 import { zAuthRoutes } from "./_private/auth.routes";
 import { zEmailRoutes } from "./_private/emails.routes";
+import { zSimulateurRoutes } from "./_private/simulateur/simulateur.routes";
 import { zUserRoutes } from "./_private/user.routes";
 import { zCertificationsRoutes } from "./certification.routes";
 import { IRouteSchema, IRouteSchemaWrite } from "./common.routes";
 import { zSiretUaisRoutes } from "./experimental/siret.uai.routes";
+import { zSourceAcceRoutes } from "./experimental/source/acce.routes";
 import { zCoreRoutes } from "./healthcheck.routes";
 
 const zRoutesGet = {
   ...zUserAdminRoutes.get,
+  ...zProcessorAdminRoutes.get,
   ...zUserRoutes.get,
   ...zAuthRoutes.get,
   ...zCoreRoutes.get,
   ...zEmailRoutes.get,
   ...zCertificationsRoutes.get,
+  ...zSourceAcceRoutes.get,
+  ...zSimulateurRoutes.get,
 } as const;
 
 const zRoutesPost = {
   ...zUserAdminRoutes.post,
+  ...zUserRoutes.post,
   ...zAuthRoutes.post,
   ...zEmailRoutes.post,
   ...zSiretUaisRoutes.post,
@@ -28,7 +35,9 @@ const zRoutesPost = {
 
 const zRoutesPut = {} as const;
 
-const zRoutesDelete = {} as const;
+const zRoutesDelete = {
+  ...zUserRoutes.delete,
+} as const;
 
 export type IGetRoutes = typeof zRoutesGet;
 export type IPostRoutes = typeof zRoutesPost;
@@ -83,6 +92,7 @@ type IRequestRaw<S extends IRouteSchema> = {
   querystring: IQuery<S>;
   headers: IHeaders<S> & IHeadersAuth<S> extends EmptyObject ? never : IHeaders<S> & IHeadersAuth<S>;
   body: S extends IRouteSchemaWrite ? IBody<S> : never;
+  signal?: AbortSignal;
 };
 
 export type IRequest<S extends IRouteSchema> =

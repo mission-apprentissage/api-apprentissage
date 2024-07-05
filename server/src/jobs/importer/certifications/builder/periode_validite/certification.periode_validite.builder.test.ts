@@ -1,13 +1,14 @@
 import { DateTime } from "luxon";
 import {
-  generateSourceBcn_V_FormationDiplomeFixture,
+  generateSourceBcn_N_FormationDiplomeFixture,
   generateSourceFranceCompetenceFixture,
   ISourceFranceCompetenceFixtureInput,
 } from "shared/models/fixtures";
 import { IBcn_V_FormationDiplome } from "shared/models/source/bcn/bcn.v_formation_diplome.model";
 import { describe, expect, it } from "vitest";
 
-import { ISourceAggregatedData } from "../certification.builder";
+import { ISourceAggregatedData } from "@/jobs/importer/certifications/builder/certification.builder";
+
 import { buildCertificationPeriodeValidite } from "./certification.periode_validite.builder";
 
 type IGenerateSourceAggregatedDataFixture = {
@@ -71,7 +72,7 @@ function generateSourceAggregatedDataFixture(data: IGenerateSourceAggregatedData
   }
 
   return {
-    bcn: bcnData === null ? null : generateSourceBcn_V_FormationDiplomeFixture({ data: bcnData }),
+    bcn: bcnData === null ? null : generateSourceBcn_N_FormationDiplomeFixture({ data: bcnData }),
     france_competence: fcData === null ? null : generateSourceFranceCompetenceFixture(fcData),
   };
 }

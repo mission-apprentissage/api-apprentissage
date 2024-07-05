@@ -1,12 +1,16 @@
-import Breadcrumb, { PAGES } from "../components/breadcrumb/Breadcrumb";
+import { Container } from "@mui/material";
+
+import Breadcrumb from "@/components/breadcrumb/Breadcrumb";
+import { PAGES } from "@/utils/routes.utils";
+
 import Cgu from "./components/Cgu";
 
 const CGUPage = () => {
   return (
-    <>
-      <Breadcrumb pages={[PAGES.cgu()]} />
+    <Container maxWidth="xl">
+      <Breadcrumb pages={[PAGES.static.cgu]} />
       <Cgu />
-    </>
+    </Container>
   );
 };
 export default CGUPage;

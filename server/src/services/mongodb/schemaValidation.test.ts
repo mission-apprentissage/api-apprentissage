@@ -1,7 +1,8 @@
+import { startAndConnectMongodb, stopMongodb } from "@tests/mongo.test.utils";
 import { beforeAll, beforeEach, describe, expect, it } from "vitest";
 
-import { startAndConnectMongodb, stopMongodb } from "../../../tests/mongo.test.utils";
-import { countInvalidDocuments, validateDocuments } from "../../jobs/db/schemaValidation";
+import { countInvalidDocuments, validateDocuments } from "@/jobs/db/schemaValidation";
+
 import { clearAllCollections, getDatabase } from "./mongodbService";
 
 describe("schemaValidation", () => {

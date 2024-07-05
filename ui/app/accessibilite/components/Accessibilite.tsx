@@ -1,16 +1,17 @@
+import { fr } from "@codegouvfr/react-dsfr";
 import { getLink } from "@codegouvfr/react-dsfr/link";
 import { Typography } from "@mui/material";
 import React from "react";
 
-import { PAGES } from "../../components/breadcrumb/Breadcrumb";
-import Section from "../../components/section/Section";
+import Section from "@/components/section/Section";
+import { PAGES } from "@/utils/routes.utils";
 
 const Accessibilite = () => {
   const { Link } = getLink();
   return (
     <>
-      <Typography variant="h2" gutterBottom>
-        {PAGES.accessibilite().title}
+      <Typography variant="h1" gutterBottom color={fr.colors.decisions.text.actionHigh.blueEcume.default}>
+        {PAGES.static.accessibilite.title}
       </Typography>
       <Section>
         <Typography>
@@ -44,7 +45,7 @@ const Accessibilite = () => {
         </Typography>
       </Section>
       <Section>
-        <Typography variant="h3" gutterBottom>
+        <Typography variant="h2" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default}>
           Nos engagements
         </Typography>
         <Typography>
@@ -69,7 +70,7 @@ const Accessibilite = () => {
         </Typography>
       </Section>
       <Section>
-        <Typography variant="h3" gutterBottom>
+        <Typography variant="h2" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default}>
           Voie de recours
         </Typography>
         <Typography>

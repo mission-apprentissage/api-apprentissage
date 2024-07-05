@@ -1,7 +1,7 @@
 import { IIndicateurUsageApi } from "shared/models/indicateurs/usage_api.model";
 
-import { getDbCollection } from "../../services/mongodb/mongodbService";
-import { Server } from "../server";
+import { Server } from "@/server/server";
+import { getDbCollection } from "@/services/mongodb/mongodbService";
 
 export function apiKeyUsageMiddleware(server: Server) {
   server.addHook("onSend", async (request, reply) => {

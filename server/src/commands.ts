@@ -5,13 +5,12 @@ import { program } from "commander";
 import { addJob, startJobProcessor } from "job-processor";
 import HttpTerminator from "lil-http-terminator";
 
-import createServer from "@/server/server";
-import logger from "@/services/logger";
-import { closeMongodbConnection } from "@/services/mongodb/mongodbService";
-
 import config from "./config";
+import createServer from "./server/server";
 import { closeMemoryCache } from "./services/apis/client";
+import logger from "./services/logger";
 import { closeMailer } from "./services/mailer/mailer";
+import { closeMongodbConnection } from "./services/mongodb/mongodbService";
 import { closeSentry, initSentryProcessor } from "./services/sentry/sentry";
 import { sleep } from "./utils/asyncUtils";
 

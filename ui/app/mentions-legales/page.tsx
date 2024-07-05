@@ -1,12 +1,16 @@
-import Breadcrumb, { PAGES } from "../components/breadcrumb/Breadcrumb";
+import { Container } from "@mui/material";
+
+import Breadcrumb from "@/components/breadcrumb/Breadcrumb";
+import { PAGES } from "@/utils/routes.utils";
+
 import MentionsLegales from "./components/MentionLegales";
 
 const MentionsLegalesPage = () => {
   return (
-    <>
-      <Breadcrumb pages={[PAGES.mentionsLegales()]} />
+    <Container maxWidth="xl">
+      <Breadcrumb pages={[PAGES.static.mentionsLegales]} />
       <MentionsLegales />
-    </>
+    </Container>
   );
 };
 export default MentionsLegalesPage;

@@ -4,20 +4,22 @@ import { compose } from "oleoduc";
 import { zFormationCatalogue } from "shared/models/source/catalogue/source.catalogue.model";
 
 import config from "@/config";
+import getApiClient from "@/services/apis/client";
 import logger from "@/services/logger";
-
-import { downloadFileInTmpFile } from "../../../utils/apiUtils";
-import { createJsonLineTransformStream } from "../../../utils/streamUtils";
-import getApiClient from "../client";
+import { downloadFileAsStream } from "@/utils/apiUtils";
+import { createJsonLineTransformStream } from "@/utils/streamUtils";
 
 const catalogueClient = getApiClient(
   {
     baseURL: config.api.catalogue.baseurl,
+    timeout: 60_000,
   },
   { cache: false }
 );
 
-const neededFieldsFromCatalogue = Object.keys(zFormationCatalogue.shape).reduce<Record<string, number>>((acc, key) => {
+const neededFieldsFromCatalogue: Record<string, number> = Object.keys(zFormationCatalogue.shape).reduce<
+  Record<string, number>
+>((acc, key) => {
   acc[key] = 1;
   return acc;
 }, {});
@@ -38,5 +40,5 @@ export async function fetchCatalogueData(): Promise<Readable> {
     },
   });
 
-  return compose(await downloadFileInTmpFile(response.data, "catalogue.zip"), createJsonLineTransformStream());
+  return compose(await downloadFileAsStream(response.data, "catalogue.zip"), createJsonLineTransformStream());
 }

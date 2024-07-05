@@ -87,7 +87,7 @@
       shell:
         chdir: "/opt/app"
         cmd: "flock --verbose --close /tmp/deployment_seed.lock /opt/app/scripts/seed.sh preview_{{ pr_number | default('00') }}"
-      async: 900 # max 15 minutes
+      async: 1800 # max 30 minutes
       poll: 15 # check every 15s
 
     - name: "[{{ pr_number }}] Execute MongoDB migrations"

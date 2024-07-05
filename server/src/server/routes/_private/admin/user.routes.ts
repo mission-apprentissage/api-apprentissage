@@ -3,29 +3,10 @@ import { RootFilterOperators } from "mongodb";
 import { zRoutes } from "shared";
 import { IUser, toPublicUser } from "shared/models/user.model";
 
-import { createUser } from "@/actions/users.actions";
+import { Server } from "@/server/server";
 import { getDbCollection } from "@/services/mongodb/mongodbService";
 
-import { Server } from "../../../server";
-
 export const userAdminRoutes = ({ server }: { server: Server }) => {
-  server.post(
-    "/_private/admin/user",
-    {
-      schema: zRoutes.post["/_private/admin/user"],
-      onRequest: [server.auth(zRoutes.post["/_private/admin/user"])],
-    },
-    async (request, response) => {
-      const user = await createUser(request.body);
-
-      if (!user) {
-        throw Boom.badImplementation("Impossible de créer l'utilisateur");
-      }
-
-      return response.status(200).send(toPublicUser(user));
-    }
-  );
-
   server.get(
     "/_private/admin/users",
     {

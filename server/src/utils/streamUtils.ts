@@ -1,6 +1,6 @@
 import { Transform } from "node:stream";
 
-import { FindCursor } from "mongodb";
+import { AbstractCursor } from "mongodb";
 import { compose } from "oleoduc";
 import streamJson from "stream-json";
 import streamers from "stream-json/streamers/StreamArray.js";
@@ -107,7 +107,7 @@ function createToJsonTransformStream<T extends ZodTypeAny>(schema: ZodArray<T, "
 }
 
 export function createResponseStream<Z extends ZodType>(
-  cursor: FindCursor<z.input<Z>>,
+  cursor: AbstractCursor<z.output<Z>>,
   schema: ZodArray<Z>
 ): z.output<Z>[] {
   const transformStream = createToJsonTransformStream(schema);

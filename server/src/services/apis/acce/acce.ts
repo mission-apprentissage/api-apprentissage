@@ -5,12 +5,11 @@ import { internal } from "@hapi/boom";
 import { AxiosInstance, isAxiosError } from "axios";
 
 import config from "@/config";
+import getApiClient from "@/services/apis/client";
+import { withCause } from "@/services/errors/withCause";
 import logger from "@/services/logger";
-
-import { apiRateLimiter, downloadFileInTmpFile } from "../../../utils/apiUtils";
-import { sleep } from "../../../utils/asyncUtils";
-import { withCause } from "../../errors/withCause";
-import getApiClient from "../client";
+import { apiRateLimiter, downloadFileAsStream } from "@/utils/apiUtils";
+import { sleep } from "@/utils/asyncUtils";
 
 const CHROME_USER_AGENT =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.128 Safari/537.36";
@@ -219,7 +218,7 @@ async function pollExtraction(auth: { Cookie: string }, extractionId: string) {
       return response.data;
     } catch (error) {
       if (isAxiosError(error)) {
-        throw internal("api.acce: unable to pollExtraction", error.toJSON());
+        return null;
       }
       throw withCause(internal("api.acce: unable to pollExtraction"), error);
     }
@@ -239,7 +238,7 @@ export async function downloadCsvExtraction(): Promise<ReadStream> {
       await sleep(config.env === "test" ? 10 : 5_000, timeoutSignal);
     }
 
-    return await downloadFileInTmpFile(stream, "data.zip");
+    return await downloadFileAsStream(stream, "data.zip");
   } catch (error) {
     throw withCause(internal("api.acce: unable to download acce database"), error);
   }

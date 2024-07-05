@@ -4,6 +4,7 @@ import ejs from "ejs";
 import { omit } from "lodash-es";
 import mjml from "mjml";
 import nodemailer from "nodemailer";
+import Mail from "nodemailer/lib/mailer";
 import SMTPTransport from "nodemailer/lib/smtp-transport";
 import { htmlToText } from "nodemailer-html-to-text";
 import { zRoutes } from "shared";
@@ -13,11 +14,10 @@ import { assertUnreachable } from "shared/utils/assertUnreachable";
 
 import { addEmailError, createEmailEvent, isUnsubscribed, setEmailMessageId } from "@/actions/emails.actions";
 import config from "@/config";
+import logger from "@/services/logger";
+import { generateAccessToken, generateScope } from "@/services/security/accessTokenService";
 import { getStaticFilePath } from "@/utils/getStaticFilePath";
 import { serializeEmailTemplate } from "@/utils/jwtUtils";
-
-import logger from "../logger";
-import { generateAccessToken, generateScope } from "../security/accessTokenService";
 
 let transporter: nodemailer.Transporter<SMTPTransport.SentMessageInfo> | null = null;
 
@@ -34,12 +34,33 @@ export function initMailer() {
   transporter.use("compile", htmlToText());
 }
 
+function isTransactionalTemplate(template: ITemplate): boolean {
+  switch (template.name) {
+    case "register":
+    case "magic-link":
+    case "register-feedback":
+      return true;
+    default:
+      assertUnreachable(template);
+  }
+}
+
 async function sendEmailMessage(template: ITemplate, emailEvent: IEmailEvent | null): Promise<string | null> {
-  if (await isUnsubscribed(template.to)) {
+  const isTransactional = isTransactionalTemplate(template);
+  if (!isTransactional && (await isUnsubscribed(template.to))) {
     return null;
   }
+
   if (!transporter) {
     throw internal("mailer is not initialised");
+  }
+
+  const list: Mail.Options["list"] = {
+    help: "https://mission-apprentissage.gitbook.io/general/les-services-en-devenir/accompagner-les-futurs-apprentis",
+  };
+
+  if (!isTransactional) {
+    list.unsubscribe = getUnsubscribeActionLink(template);
   }
 
   const { messageId } = await transporter.sendMail({
@@ -47,10 +68,7 @@ async function sendEmailMessage(template: ITemplate, emailEvent: IEmailEvent | n
     to: template.to,
     subject: getEmailSubject(template),
     html: await renderEmail(template, emailEvent),
-    list: {
-      help: "https://mission-apprentissage.gitbook.io/general/les-services-en-devenir/accompagner-les-futurs-apprentis", // TODO [metier/tech]
-      unsubscribe: getUnsubscribeActionLink(template),
-    },
+    list,
   });
 
   return messageId;
@@ -76,10 +94,14 @@ export async function sendEmail<T extends ITemplate>(template: T): Promise<void>
 
 export function getEmailSubject<T extends ITemplate>(template: T): string {
   switch (template.name) {
-    case "reset_password":
-      return "Réinitialisation du mot de passe";
+    case "register":
+      return "Vous avez demandé à recevoir un lien de connexion au service API Apprentissage.";
+    case "magic-link":
+      return "Vous avez demandé à recevoir un lien de connexion au service API Apprentissage.";
+    case "register-feedback":
+      return "Feedback de refus de création de compte";
     default:
-      assertUnreachable(template.name);
+      assertUnreachable(template);
   }
 }
 
@@ -87,12 +109,18 @@ export function getPublicUrl(path: string) {
   return `${config.publicUrl}${path}`;
 }
 
+export function getApiPublicUrl(path: string) {
+  return `${config.apiPublicUrl}${path}`;
+}
+
 function getPreviewActionLink(template: ITemplate) {
-  return getPublicUrl(`/api/emails/preview?data=${serializeEmailTemplate(template)}`);
+  return getApiPublicUrl(zRoutes.get["/_private/emails/preview"].path + `?data=${serializeEmailTemplate(template)}`);
 }
 
 function getUnsubscribeActionLink(template: ITemplate) {
-  return getPublicUrl(`/api/emails/unsubscribe?data=${serializeEmailTemplate(template)}`);
+  return getApiPublicUrl(
+    zRoutes.get["/_private/emails/unsubscribe"].path + `?data=${serializeEmailTemplate(template)}`
+  );
 }
 
 function getMarkAsOpenedActionLink(emailEvent: IEmailEvent | null) {
@@ -108,16 +136,19 @@ function getMarkAsOpenedActionLink(emailEvent: IEmailEvent | null) {
     }),
   ]);
 
-  return getPublicUrl(`/api/emails/${emailEvent._id.toString()}/markAsOpened?token=${token}`);
+  return getApiPublicUrl(
+    zRoutes.get["/_private/emails/:id/markAsOpened"].path.replace(":id", emailEvent._id.toString()) + `?token=${token}`
+  );
 }
 
 export async function renderEmail(template: ITemplate, emailEvent: IEmailEvent | null) {
+  const isTransactional = isTransactionalTemplate(template);
   const templateFile = getStaticFilePath(`./emails/${template.name}.mjml.ejs`);
 
   const buffer = await ejs.renderFile(templateFile, {
     template,
     actions: {
-      unsubscribe: getUnsubscribeActionLink(template),
+      unsubscribe: isTransactional ? null : getUnsubscribeActionLink(template),
       preview: getPreviewActionLink(template),
       markAsOpened: getMarkAsOpenedActionLink(emailEvent),
     },

@@ -1,8 +1,10 @@
 fileignoreconfig:
 - filename: .bin/scripts/setup-local-env.sh
   checksum: c9d412b132f3a7b8b6bde35f5acac94d1fffb87ce5ac718b6abc54b214899be2
+- filename: .github/workflows/_deploy.yml
+  checksum: 460bac97e9efe6751dded2445bc0d508d9733ca845f154847fd52b31e97212b9
 - filename: .github/workflows/release.yml
-  checksum: 7933dd58c1c8a28721771b508d50e634ea96a56121b4e955d1f66af913b71222
+  checksum: 213bdbcaa6a206bb57affdbdec0353115e0d6857eadeb3bb2b2e0ae240b2eb1b
 - filename: .infra/.env_server
   checksum: e4cee673fbdde25c398a5f5b4166bf95c5220a478caabd8d56a6c0b4ec28184c
 - filename: .infra/env.ini
@@ -10,25 +12,37 @@ fileignoreconfig:
 - filename: .infra/files/configs/mailpit/auth
   checksum: 0b0a9c7bad5e1ec13d14c563d22c56c2cbcb2572fa40a4b2c5a11d6ca60eb8d1
 - filename: .infra/files/configs/mongodb/seed.gpg
-  checksum: f16cd6bbaf0ba498f3618c26cabcfe4a1337f9cc1ea669d9bcec5f61d60fe5ec
+  checksum: de5f5415a850647823c9685d743921d0121eca5913b1cbe8cea0414845ec2e37
 - filename: .infra/files/scripts/seed.sh
   checksum: a673a8f706cb90f2f5c9f98981b06ce95c566e67e2bb4a6323d6b1bdb8ef0233
 - filename: .infra/vault/vault.yml
-  checksum: 2432e3516aa586a231a4c0ce4e14e6beaa1c302b042db0895f80f3cbbe5e63e5
+  checksum: 226c358d84907a4a2a535c89489f6b031087c19fa38291b0ec6a17b95feb9878
 - filename: docs/developpement/1password.md
   checksum: f4eb70beab8d37ca9a1867b7d57d01f541b99372bbcccfb04301b81ad6331bcd
 - filename: docs/developpement/gpg.md
   checksum: 137f146297aedce399926c6ddebe9bbfb22b0e924bbdbd30be2b4654f6b248ad
 - filename: server/.env.test
-  checksum: 3a393aed0e58498de58ec50c81698747b824589603caaa9ecc31ad2d4437afc3
+  checksum: 3400b883be2f2a45ca0fbfd0bb6c675ef0a04e3379aef216016b0f8f213bfcad
 - filename: server/package.json
   checksum: 6f5fe90e17e058af25218e57be4aa9f77ceabab896de515a736d34f455acf5a6
+- filename: server/src/actions/auth.actions.ts
+  checksum: 093762c8f38688b8c8d3f50a872f1457e2d5c538c06f524418fc13d33145db72
 - filename: server/src/common/apis/data_gouv/data_gouv.api.test.ts
   checksum: 8f9baf3df9017a6eebd740861296c4a5eec9d2aec90f571d24d5390a3f37c2a9
+- filename: server/src/jobs/importer/dares/ape_idcc/dares.ape_idcc.importer.test.ts
+  checksum: abab0590ce8e6f3bbffa6d77d9839389a0d7a4c9c39f40aad028e2b09214bc79
+- filename: server/src/jobs/importer/dares/ape_idcc/fixtures/article.html
+  checksum: 9846632752349e2c59fc769251222f69fb89fa9f5cb9699b0e87edfe42567d98
+- filename: server/src/jobs/importer/dares/ape_idcc/scraper/dares.ape_idcc.scraper.test.ts
+  checksum: 29068ad3965c9222643a240533d95190b8e5d03b87baee0afc5b771a24e26b71
 - filename: server/src/jobs/importer/france_competence/france_competence.importer.test.ts
   checksum: 3e755cd8fd314acae130c73c40349a3118fe23ec854175df6c7ef43c6dfb0144
 - filename: server/src/jobs/importer/france_competence/france_competence.importer.ts
   checksum: 1cd3034dfc731e1751f2fcc4308bc9d6fcfbb836665c85955a29f22c84805df3
+- filename: server/src/jobs/importer/kali/kali.ccn.importer.test.ts
+  checksum: 852549be53c907299f4625aac708fa6f84b8bee11558a3974dfb30662835beac
+- filename: server/src/jobs/importer/kali/kali.ccn.importer.ts
+  checksum: 3b014e16389f1c4115be6d43548db69b4bf33f29e0fa986e228d59f933e46a88
 - filename: server/src/modules/jobs/importer/france_competence/france_competence.importer.test.ts
   checksum: 696f52a8c9fad933dd78f8590f8c111380cfe8bb8da6cd21e1b7d671a5ed5256
 - filename: server/src/modules/jobs/importer/france_competence/france_competence.importer.ts
@@ -40,15 +54,31 @@ fileignoreconfig:
 - filename: server/src/server/middlewares/apiKeyUsageMiddleware.ts
   checksum: 7feb85c66f8d008908b7a897e01ae369c57892e66e78c7124c74f200587da51a
 - filename: server/src/server/routes/_private/auth.route.test.ts
-  checksum: 966f7dc81af2a38577f3cf365e63afb941ba5ea59bf33f96fff5ea2a066222c3
+  checksum: edc02708b3fb771495f2a57d9a262f181a4ee71fe42d949dbab7f8bccdae8d5b
 - filename: server/src/server/routes/_private/user.route.test.ts
-  checksum: 32533880dcdb9b27e0d3e11a3f74c95c0ec18528e90fab3309878aa559b41b3e
+  checksum: 57f4fb3aa6fbe651f210a6bd15470740e7ff030a89a01293e2f4bfdb1f302d00
 - filename: server/src/server/routes/certification.route.test.ts
   checksum: fddb0ef3fa49ae00fbedf74b219642741fd55968b0e79cf2ded9bcd7b8a64956
+- filename: server/src/server/routes/experimental/sources/acce.routes.test.ts
+  checksum: 88e0f6ea12375ce41da1d66ffc17198492db93fc1738710febdcd4aa7b9d1cba
 - filename: server/src/services/apis/data_gouv/data_gouv.api.test.ts
   checksum: b3bf0da3f21bf6aad5909230e54d24072bf9b3b025eadae988b5c36e47c08994
+- filename: server/src/services/security/accessTokenService.test.ts
+  checksum: 83136a186a44ac0976e068aa76ba03648fcab81b41e206ac4a39e0985fdddd3b
 - filename: server/src/services/security/authenticationService.test.ts
   checksum: 0bf068be562d95ed0ec51a77e007533d400155baca1b1aaf88ca627d9b1d719b
+- filename: server/src/services/security/authorisationService.test.ts
+  checksum: 84d542a5677d300167c60c497be430d106a9a74166f1db81f826cef62d378f9f
+- filename: server/src/utils/apiUtils.test.ts
+  checksum: b8d91c28a4d118718271203d30336e6d5ce29b8cd2757ac81b8f7e527e7d1b82
+- filename: server/src/utils/apiUtils.ts
+  checksum: f41fdac6d30098e9be43df5b9c1c0fc24668a39ec914eeb128ee63fea55168a9
+- filename: server/static/emails/magic-link.mjml.ejs
+  checksum: 7f4ee1bed50dda3668f4ef47619d401d5638337dceba13346071dc65bca39707
+- filename: server/static/emails/register.mjml copy.ejs
+  checksum: 9388c8020659b5e48b9ebca8bfd17b817aa8a43c20cad718956285207000f21f
+- filename: server/static/emails/register.mjml.ejs
+  checksum: a9fe1ae54ad3fff8c4afcd419f4164fa416e37d546a50521e2f2d737b487d33e
 - filename: server/tests/utils/security/accessTokenService.test.ts
   checksum: 017acd9d128165e6edcfd2c33a0f218c53b0ba2b4a77f3da3fe7b58f11d6fa90
 - filename: server/tests/utils/security/authorisationService.test.ts
@@ -57,14 +87,38 @@ fileignoreconfig:
   checksum: 7a6ccfe2e38e8edc675fcbd9379845a14bee1dc8784a32e2ffa87261b4c76ac1
 - filename: shared/helpers/generateUri.ts
   checksum: ef7bcbc2c76441fdafda7dc51d1e3455a59d2de3fec9e0b70ff610e6011fb097
+- filename: shared/helpers/openapi/__snapshots__/generateOpenapi.test.ts.snap
+  checksum: 5620655ccdb29c0e1c80bfce5a46a49f53bfbaba8b2a41483537499251e0514f
+- filename: shared/helpers/openapi/generateOpenapi.ts
+  checksum: 5ff5b00cd810ead2336871d44be285fa689b6f6ac76f9f5d3af8110f1a954bf1
+- filename: shared/models/fixtures/source.acce.model.fixture.ts
+  checksum: 3106c428c0cecf532a646537dde9169b60ebf0a7db62ee1ce213d5782167c92c
+- filename: shared/models/fixtures/user.model.fixture.ts
+  checksum: 9a27003838928afea1a0ed353621e63c3e3c2ed9aa50e851a3f0394d610f15f7
 - filename: ui/.env.test
   checksum: f50055f6763fd45b159672e9cc465cd024cf3d5f9aacd22fad4c1a1c77114923
+- filename: ui/app/auth/inscription/page.tsx
+  checksum: a3b6068d5d2a83bcfa505a1515956819edfb14d197ec7209b31d59dc93403272
+- filename: ui/app/catalogue-des-donnees/certifications/components/CatalogueData.tsx
+  checksum: 68940f69ea7db62520b7de92f7a00429e18b6434395e88b0977853b24e135a20
+- filename: ui/app/catalogue-des-donnees/certifications/page.tsx
+  checksum: 3897463d354bead76c312c6c92125605a4af7643dcad565187d3d5cdc138b690
+- filename: ui/app/catalogue-des-donnees/page.tsx
+  checksum: 542e1d58bdd72fffc5122738e5de50767222b667fb018f5e061063cc8060bef3
 - filename: ui/app/components/breadcrumb/Breadcrumb.tsx
   checksum: 91e0291afc862997f8a0ae24174ddb53371d580d333548849b5f60af96c6207b
+- filename: ui/app/explorer/certifications/components/CatalogueData.tsx
+  checksum: 667e54b8220dd1b3496ddbc43c3201d5ea20f2fa2091b89a7ea8a064082106fd
+- filename: ui/app/explorer/page.tsx
+  checksum: 97ff42a8acd9126795d83ec48c8abc99b07e73ead091ee6246c614bece1e5c3d
 - filename: ui/app/page.tsx
   checksum: 0e679ae2b1910da52bb834ef5820998aa822947cca00cb54e23ea5da91586898
 - filename: ui/app/politique-confidentialite/components/PolitiqueConfidentialite.tsx
   checksum: ea957c848c1e0757cf538204cc3f5316405bfea31f49f230f0ffa5019ee2e70d
+- filename: ui/components/login/LoginEmailSent.tsx
+  checksum: 8d982cb75d7175b53a442a08b7c7d22c6b28018ebf1e0f6822b9700650bf983d
+- filename: ui/components/login/LoginModal.tsx
+  checksum: cf012a900755f8999856297b50ec3013d8c4ac1c7a44cbeee92191f9b0779248
 - filename: ui/config.public.ts
   checksum: 881a79c87aabfb04bd101bc82504f66146f5b0abf322234ce1d3fcc26685caf2
 scopeconfig:

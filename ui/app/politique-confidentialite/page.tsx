@@ -1,12 +1,16 @@
-import Breadcrumb, { PAGES } from "../components/breadcrumb/Breadcrumb";
+import { Container } from "@mui/material";
+
+import Breadcrumb from "@/components/breadcrumb/Breadcrumb";
+import { PAGES } from "@/utils/routes.utils";
+
 import PolitiqueConfidentialite from "./components/PolitiqueConfidentialite";
 
 const PolitiqueConfidentialitePage = () => {
   return (
-    <>
-      <Breadcrumb pages={[PAGES.homepage(), PAGES.politiqueConfidentialite()]} />
+    <Container maxWidth="xl">
+      <Breadcrumb pages={[PAGES.static.politiqueConfidentialite]} />
       <PolitiqueConfidentialite />
-    </>
+    </Container>
   );
 };
 export default PolitiqueConfidentialitePage;

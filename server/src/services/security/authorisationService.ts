@@ -3,14 +3,15 @@ import { FastifyRequest } from "fastify";
 import { ObjectId } from "mongodb";
 import { PathParam, QueryString } from "shared/helpers/generateUri";
 import { IUser } from "shared/models/user.model";
-import { IRouteSchema, WithSecurityScheme } from "shared/routes/common.routes";
+import { IAccessToken, IRouteSchema, SchemaWithSecurity, WithSecurityScheme } from "shared/routes/common.routes";
 import { AccessPermission, AccessResourcePath, AdminRole, NoneRole, Role } from "shared/security/permissions";
 import { assertUnreachable } from "shared/utils/assertUnreachable";
 import { Primitive } from "zod";
 import { zObjectId } from "zod-mongodb-schema";
 
-import { getDbCollection } from "../mongodb/mongodbService";
-import { getAccessTokenScope, IAccessToken, SchemaWithSecurity } from "./accessTokenService";
+import { getDbCollection } from "@/services/mongodb/mongodbService";
+
+import { getAccessTokenScope } from "./accessTokenService";
 import { getUserFromRequest } from "./authenticationService";
 
 export type Ressources = {
@@ -148,6 +149,6 @@ export async function authorizationnMiddleware<S extends Pick<IRouteSchema, "met
       : isAuthorizedUser(schema.securityScheme.access, userOrToken, resources);
 
   if (!isAuthorized) {
-    throw Boom.forbidden();
+    throw Boom.forbidden("Vous n'êtes pas autorisé à accéder à cette ressource");
   }
 }

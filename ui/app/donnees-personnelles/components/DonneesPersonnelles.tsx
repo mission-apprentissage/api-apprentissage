@@ -3,8 +3,8 @@ import { Summary } from "@codegouvfr/react-dsfr/Summary";
 import { Grid, Typography } from "@mui/material";
 import React from "react";
 
-import { publicConfig } from "../../../config.public";
-import Section from "../../components/section/Section";
+import Section from "@/components/section/Section";
+import { publicConfig } from "@/config.public";
 
 const anchors = {
   mission: "mission",
@@ -29,7 +29,7 @@ const summaryData = [
 
 const DonneesPersonnelles = () => {
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={8}>
       <Grid item xs={12} lg={3}>
         <Summary
           links={summaryData.map((item) => ({
@@ -41,11 +41,11 @@ const DonneesPersonnelles = () => {
         />
       </Grid>
       <Grid item xs={12} lg={9}>
-        <Typography variant="h2" gutterBottom>
+        <Typography variant="h1" gutterBottom color={fr.colors.decisions.text.actionHigh.blueEcume.default}>
           Protection des données à caractère personnel
         </Typography>
         <Typography>
-          Le service {publicConfig.productMeta.productName} est{" "}
+          Le service {publicConfig.productMeta.brandName} est{" "}
           <strong>
             construit dans le respect de la vie privée des personnes et applique les standards de sécurité de
             l&apos;État.
@@ -53,10 +53,15 @@ const DonneesPersonnelles = () => {
         </Typography>
 
         <Section>
-          <Typography variant="h4" color={fr.colors.decisions.text.actionHigh.blueFrance.default} id={anchors.mission}>
+          <Typography
+            variant="h2"
+            gutterBottom
+            color={fr.colors.decisions.artwork.minor.blueEcume.default}
+            id={anchors.mission}
+          >
             Base légale
           </Typography>
-          <Typography variant="h3" gutterBottom color={fr.colors.decisions.text.actionHigh.blueFrance.default}>
+          <Typography variant="h3" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default}>
             La mission d&apos;intérêt public
           </Typography>
 
@@ -86,17 +91,22 @@ const DonneesPersonnelles = () => {
 
         {/* Block Faciliter le pilotage */}
         <Section>
-          <Typography variant="h4" color={fr.colors.decisions.text.actionHigh.blueFrance.default} id={anchors.finalite}>
+          <Typography
+            variant="h2"
+            gutterBottom
+            color={fr.colors.decisions.artwork.minor.blueEcume.default}
+            id={anchors.finalite}
+          >
             Finalité
           </Typography>
-          <Typography variant="h3" gutterBottom color={fr.colors.decisions.text.actionHigh.blueFrance.default}>
+          <Typography variant="h3" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default}>
             Faciliter le pilotage opérationnel de l&apos;apprentissage
           </Typography>
 
           <Typography gutterBottom>
-            Le service {publicConfig.productMeta.productName} vise à mettre à disposition de toutes les parties
-            prenantes de la formation en apprentissage les données clés, de manière dynamique, afin de permettre un
-            pilotage opérationnel réactif dans les territoires.
+            Le service {publicConfig.productMeta.brandName} vise à mettre à disposition de toutes les parties prenantes
+            de la formation en apprentissage les données clés, de manière dynamique, afin de permettre un pilotage
+            opérationnel réactif dans les territoires.
           </Typography>
           <Typography>
             L'affichage des données en temps réel auprès des acteurs institutionnels leur permet :
@@ -118,19 +128,20 @@ const DonneesPersonnelles = () => {
         {/* Block Minimisation des données */}
         <Section>
           <Typography
-            variant="h4"
-            color={fr.colors.decisions.text.actionHigh.blueFrance.default}
+            variant="h2"
+            gutterBottom
+            color={fr.colors.decisions.artwork.minor.blueEcume.default}
             id={anchors.minimisation}
           >
             Données collectées
           </Typography>
-          <Typography variant="h3" gutterBottom color={fr.colors.decisions.text.actionHigh.blueFrance.default}>
+          <Typography variant="h3" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default}>
             Minimisation des données
           </Typography>
 
           <Typography>
             Dans le respect du RGPD, seules les données utiles à la construction du service{" "}
-            {publicConfig.productMeta.productName} sont collectées.
+            {publicConfig.productMeta.brandName} sont collectées.
           </Typography>
           <Typography>Données concernant l'apprenant :</Typography>
           <ul>

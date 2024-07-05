@@ -1,6 +1,6 @@
+import { countOrganismeContrats } from "@/services/apis/bal/bal.service";
 import { getDbCollection } from "@/services/mongodb/mongodbService";
 
-import { countOrganismeContrats } from "../../../services/apis/bal/bal.service";
 import { PrerequisiteResult } from "./1.prerequisite";
 
 export async function rechercheOrganismesReferentiel(

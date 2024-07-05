@@ -4,19 +4,39 @@
 import { z } from "zod";
 
 // Ignore any extra props added by jwt parsing (iat, iss, ...)
-const zTemplateResetPassword = z.object({
-  name: z.literal("reset_password"),
+const zTemplateRegister = z.object({
+  name: z.literal("register"),
   to: z.string().email(),
-  resetPasswordToken: z.string(),
+  token: z.string(),
+});
+const zTemplateMagicLink = z.object({
+  name: z.literal("magic-link"),
+  to: z.string().email(),
+  token: z.string(),
+});
+const zTemplateRegisterFeedback = z.object({
+  name: z.literal("register-feedback"),
+  to: z.string().email(),
+  from: z.string().email(),
+  comment: z.string(),
 });
 
-type ITemplateResetPassword = z.output<typeof zTemplateResetPassword>;
+type ITemplateRegister = z.output<typeof zTemplateRegister>;
+type ITemplateMagicLink = z.output<typeof zTemplateMagicLink>;
+type ITemplateRegisterFeedback = z.output<typeof zTemplateRegisterFeedback>;
 
-export const zTemplate = z.discriminatedUnion("name", [zTemplateResetPassword]);
+export const zTemplate = z.discriminatedUnion("name", [
+  zTemplateRegister,
+  zTemplateMagicLink,
+  zTemplateRegisterFeedback,
+]);
 
 export type ITemplate = z.output<typeof zTemplate>;
 
 export type TemplatePayloads = {
-  reset_password: ITemplateResetPassword;
+  register: ITemplateRegister;
+  "magic-link": ITemplateMagicLink;
+  "register-feedback": ITemplateRegisterFeedback;
 };
+
 export type TemplateName = keyof TemplatePayloads;

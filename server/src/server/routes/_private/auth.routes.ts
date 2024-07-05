@@ -1,17 +1,14 @@
-import Boom from "@hapi/boom";
+import { internal } from "@hapi/boom";
 import { zRoutes } from "shared";
-import { IUser, toPublicUser } from "shared/models/user.model";
+import { toPublicUser } from "shared/models/user.model";
 
-import { resetPassword, sendResetPasswordEmail, verifyEmailPassword } from "@/actions/auth.actions";
+import { registerUser, sendRegisterFeedbackEmail, sendRequestLoginEmail } from "@/actions/auth.actions";
 import { startSession, stopSession } from "@/actions/sessions.actions";
+import { Server } from "@/server/server";
+import { getDbCollection } from "@/services/mongodb/mongodbService";
 import { getUserFromRequest } from "@/services/security/authenticationService";
 
-import { Server } from "../../server";
-
 export const authRoutes = ({ server }: { server: Server }) => {
-  /**
-   * Récupérer l'utilisateur connecté
-   */
   server.get(
     "/_private/auth/session",
     {
@@ -24,26 +21,95 @@ export const authRoutes = ({ server }: { server: Server }) => {
     }
   );
 
-  /**
-   * Login
-   */
+  server.post(
+    "/_private/auth/login-request",
+    {
+      schema: zRoutes.post["/_private/auth/login-request"],
+      config: {
+        rateLimit: {
+          max: 5,
+          timeWindow: "10 minute",
+        },
+      },
+    },
+    async (request, response) => {
+      const { email } = request.body;
+      await sendRequestLoginEmail(email);
+
+      return response.status(200).send({ success: true });
+    }
+  );
+
   server.post(
     "/_private/auth/login",
     {
       schema: zRoutes.post["/_private/auth/login"],
+      onRequest: [server.auth(zRoutes.post["/_private/auth/login"])],
+      config: {
+        rateLimit: {
+          max: 5,
+          timeWindow: "10 minute",
+        },
+      },
     },
     async (request, response) => {
-      const { email, password } = request.body;
+      const {
+        identity: { email },
+      } = getUserFromRequest(request, zRoutes.post["/_private/auth/login"]);
 
-      const user: IUser | undefined = await verifyEmailPassword(email, password);
+      const user = await getDbCollection("users").findOne({ email });
 
-      if (!user || !user._id) {
-        throw Boom.forbidden("Identifiants incorrects");
+      if (!user) {
+        throw internal("User not found");
       }
 
       await startSession(user.email, response);
 
       return response.status(200).send(toPublicUser(user));
+    }
+  );
+
+  server.post(
+    "/_private/auth/register",
+    {
+      schema: zRoutes.post["/_private/auth/register"],
+      onRequest: [server.auth(zRoutes.post["/_private/auth/register"])],
+      config: {
+        rateLimit: {
+          max: 5,
+          timeWindow: "10 minute",
+        },
+      },
+    },
+    async (request, response) => {
+      const { identity } = getUserFromRequest(request, zRoutes.post["/_private/auth/register"]);
+
+      const user = await registerUser(identity.email, request.body);
+
+      await startSession(user.email, response);
+
+      return response.status(200).send(toPublicUser(user));
+    }
+  );
+
+  server.post(
+    "/_private/auth/register-feedback",
+    {
+      schema: zRoutes.post["/_private/auth/register-feedback"],
+      onRequest: [server.auth(zRoutes.post["/_private/auth/register-feedback"])],
+      config: {
+        rateLimit: {
+          max: 5,
+          timeWindow: "10 minute",
+        },
+      },
+    },
+    async (request, response) => {
+      const { identity } = getUserFromRequest(request, zRoutes.post["/_private/auth/register-feedback"]);
+
+      await sendRegisterFeedbackEmail(identity.email, request.body);
+
+      return response.status(200).send({ success: true });
     }
   );
 
@@ -56,37 +122,6 @@ export const authRoutes = ({ server }: { server: Server }) => {
       await stopSession(request, response);
 
       return response.status(200).send({});
-    }
-  );
-
-  server.get(
-    "/_private/auth/reset-password",
-    {
-      schema: zRoutes.get["/_private/auth/reset-password"],
-    },
-    async (request, response) => {
-      await sendResetPasswordEmail(request.query.email);
-      return response.status(200).send({});
-    }
-  );
-
-  server.post(
-    "/_private/auth/reset-password",
-    {
-      schema: zRoutes.post["/_private/auth/reset-password"],
-      onRequest: [server.auth(zRoutes.post["/_private/auth/reset-password"])],
-    },
-    async (request, response) => {
-      const { password } = request.body;
-      const user = getUserFromRequest(request, zRoutes.post["/_private/auth/reset-password"]);
-
-      try {
-        await resetPassword(user, password);
-
-        return response.status(200).send({});
-      } catch (error) {
-        throw Boom.badData("Jeton invalide");
-      }
     }
   );
 };

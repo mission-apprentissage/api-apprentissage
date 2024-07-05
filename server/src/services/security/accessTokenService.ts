@@ -3,9 +3,13 @@ import { captureException } from "@sentry/node";
 import jwt from "jsonwebtoken";
 import { PathParam, QueryString } from "shared/helpers/generateUri";
 import { IUser } from "shared/models/user.model";
-import { IRouteSchema, ISecuredRouteSchema, WithSecurityScheme } from "shared/routes/common.routes";
-import { Jsonify } from "type-fest";
-import { AnyZodObject, z } from "zod";
+import {
+  IAccessToken,
+  IAccessTokenScope,
+  IAccessTokenScopeParam,
+  ISecuredRouteSchema,
+  SchemaWithSecurity,
+} from "shared/routes/common.routes";
 
 import config from "@/config";
 
@@ -16,27 +20,9 @@ const NGINX_URL_MAX_LENGTH = 4096;
 const URL_MAX_LENGTH = Math.min(INTERNET_EXPLORER_V10_MAX_LENGTH, OUTLOOK_URL_MAX_LENGTH, NGINX_URL_MAX_LENGTH);
 const TOKEN_MAX_LENGTH = URL_MAX_LENGTH - config.publicUrl.length;
 
-export type SchemaWithSecurity = Pick<IRouteSchema, "method" | "path" | "params" | "querystring"> & WithSecurityScheme;
-
-type IScope<S extends SchemaWithSecurity> = {
-  path: S["path"];
-  method: S["method"];
-  options:
-    | "all"
-    | {
-        params: S["params"] extends AnyZodObject ? Partial<Jsonify<z.input<S["params"]>>> : undefined;
-        querystring: S["querystring"] extends AnyZodObject ? Partial<Jsonify<z.input<S["querystring"]>>> : undefined;
-      };
-  resources: {
-    [key in keyof S["securityScheme"]["ressources"]]: ReadonlyArray<string>;
-  };
-};
-
-type IScopeParam<S extends SchemaWithSecurity> = Pick<IScope<S>, "options" | "resources"> & {
-  schema: S;
-};
-
-export const generateScope = <Schema extends SchemaWithSecurity>(scope: IScopeParam<Schema>): IScope<Schema> => {
+export const generateScope = <Schema extends SchemaWithSecurity>(
+  scope: IAccessTokenScopeParam<Schema>
+): IAccessTokenScope<Schema> => {
   const { schema, options, resources } = scope;
 
   const requiredResources = Object.keys(schema.securityScheme.ressources);
@@ -55,21 +41,14 @@ export const generateScope = <Schema extends SchemaWithSecurity>(scope: IScopePa
   return { options, resources, path: schema.path, method: schema.method };
 };
 
-export type IAccessToken<S extends SchemaWithSecurity = SchemaWithSecurity> = {
-  identity: {
-    email: string;
-  };
-  scopes: ReadonlyArray<IScope<S>>;
-};
-
-export function generateAccessToken<S extends ISecuredRouteSchema>(
+export function generateAccessToken<S extends ReadonlyArray<IAccessTokenScope<ISecuredRouteSchema>>>(
   user: IUser | IAccessToken["identity"],
-  scopes: ReadonlyArray<IScope<S>>,
+  scopes: S,
   options: { expiresIn?: string } = {}
 ): string {
   const identity: IAccessToken["identity"] = { email: user.email.toLowerCase() };
 
-  const data: IAccessToken<S> = { identity, scopes };
+  const data: IAccessToken<ISecuredRouteSchema> = { identity, scopes };
 
   const token = jwt.sign(data, config.auth.user.jwtSecret, {
     expiresIn: options.expiresIn ?? config.auth.user.expiresIn,
@@ -87,7 +66,7 @@ export function getAccessTokenScope<S extends SchemaWithSecurity>(
   schema: Pick<S, "method" | "path">,
   params: PathParam | undefined,
   querystring: QueryString | undefined
-): IScope<S> | null {
+): IAccessTokenScope<S> | null {
   return (
     token?.scopes.find((s) => {
       if (s.path !== schema.path || s.method !== schema.method) {
@@ -153,12 +132,12 @@ export function parseAccessToken<S extends SchemaWithSecurity>(
     const scope = getAccessTokenScope(token, schema, params, querystring);
 
     if (!scope) {
-      throw forbidden("Scope does not match");
+      throw forbidden("Le jeton d'accès ne permet pas d'accéder à cette ressource");
     }
 
     return token;
   } catch (err) {
-    const error = forbidden("Invalid Access Token");
+    const error = forbidden("Le jeton d'accès est invalide");
     error.cause = err;
     throw error;
   }

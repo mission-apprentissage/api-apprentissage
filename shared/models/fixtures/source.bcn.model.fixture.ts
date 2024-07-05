@@ -77,6 +77,18 @@ type IBcn_V_FormationDiplomeInput = Partial<
   }
 >;
 
+type IBcn_N_FormationDiplomeInput = Partial<
+  Omit<IBcn_N_FormationDiplome, "data"> & {
+    data?: Partial<IBcn_N_FormationDiplome["data"]>;
+  }
+>;
+
+type IBcn_N51_FormationDiplomeInput = Partial<
+  Omit<IBcn_N51_FormationDiplome, "data"> & {
+    data?: Partial<IBcn_N51_FormationDiplome["data"]>;
+  }
+>;
+
 export function generateSourceBcn_V_FormationDiplomeFixture(
   data?: IBcn_V_FormationDiplomeInput
 ): IBcn_V_FormationDiplome {
@@ -93,38 +105,30 @@ export function generateSourceBcn_N_FormationDiplomeDataFixture(
 ): IBcn_N_FormationDiplome["data"] {
   return {
     ...generateSourceBcn_V_FormationDiplomeDataFixture(data),
-    ANCIEN_DIPLOME_1: null,
-    ANCIEN_DIPLOME_2: null,
-    ANCIEN_DIPLOME_3: null,
-    ANCIEN_DIPLOME_4: null,
-    ANCIEN_DIPLOME_5: null,
-    ANCIEN_DIPLOME_6: null,
-    ANCIEN_DIPLOME_7: null,
-    NOUVEAU_DIPLOME_1: null,
-    NOUVEAU_DIPLOME_2: null,
-    NOUVEAU_DIPLOME_3: null,
-    NOUVEAU_DIPLOME_4: null,
-    NOUVEAU_DIPLOME_5: null,
-    NOUVEAU_DIPLOME_6: null,
-    NOUVEAU_DIPLOME_7: null,
-    NB_MEF_OUVERT: null,
-    NB_MEF_FERME: null,
-    DATE_SESSION_RATTRAPAGE: null,
-    OBSERVATION: null,
-    N_COMMENTAIRE: null,
-    CITE_DOMAINE_DETAILLE: null,
-    N_CITE_2013_DOMAINE_DETAILL_LIBELLE_EDITION: null,
+    ANCIEN_DIPLOMES: getFixtureValue(data, "ANCIEN_DIPLOMES", []),
+    NOUVEAU_DIPLOMES: getFixtureValue(data, "NOUVEAU_DIPLOMES", []),
+    NB_MEF_OUVERT: getFixtureValue(data, "NB_MEF_OUVERT", null),
+    NB_MEF_FERME: getFixtureValue(data, "NB_MEF_FERME", null),
+    DATE_SESSION_RATTRAPAGE: getFixtureValue(data, "DATE_SESSION_RATTRAPAGE", null),
+    OBSERVATION: getFixtureValue(data, "OBSERVATION", null),
+    N_COMMENTAIRE: getFixtureValue(data, "N_COMMENTAIRE", null),
+    CITE_DOMAINE_DETAILLE: getFixtureValue(data, "CITE_DOMAINE_DETAILLE", null),
+    N_CITE_2013_DOMAINE_DETAILL_LIBELLE_EDITION: getFixtureValue(
+      data,
+      "N_CITE_2013_DOMAINE_DETAILL_LIBELLE_EDITION",
+      null
+    ),
   };
 }
 
 export function generateSourceBcn_N_FormationDiplomeFixture(
-  data?: Partial<IBcn_N_FormationDiplome>
+  data?: IBcn_N_FormationDiplomeInput
 ): IBcn_N_FormationDiplome {
   return {
     _id: getFixtureValue(data, "_id", new ObjectId()),
     source: "N_FORMATION_DIPLOME",
     date: getFixtureValue(data, "date", new Date("2024-03-07T00:00:00Z")),
-    data: getFixtureValue(data, "data", generateSourceBcn_N_FormationDiplomeDataFixture()),
+    data: generateSourceBcn_N_FormationDiplomeDataFixture(data?.data),
   };
 }
 
@@ -144,13 +148,13 @@ export function generateSourceBcn_N51_FormationDiplomeDataFixture(
 }
 
 export function generateSourceBcn_N51_FormationDiplomeFixture(
-  data?: Partial<IBcn_N51_FormationDiplome>
+  data?: IBcn_N51_FormationDiplomeInput
 ): IBcn_N51_FormationDiplome {
   return {
     _id: getFixtureValue(data, "_id", new ObjectId()),
     source: "N_FORMATION_DIPLOME_ENQUETE_51",
     date: getFixtureValue(data, "date", new Date("2024-03-07T00:00:00Z")),
-    data: getFixtureValue(data, "data", generateSourceBcn_N51_FormationDiplomeDataFixture()),
+    data: generateSourceBcn_N51_FormationDiplomeDataFixture(data?.data),
   };
 }
 

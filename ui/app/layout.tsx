@@ -1,28 +1,31 @@
-import "./globals.css";
+// import "./globals.css";
 import "react-notion-x/src/styles.css";
 
+import { fr } from "@codegouvfr/react-dsfr";
+import MuiDsfrThemeProvider from "@codegouvfr/react-dsfr/mui";
 import { DsfrHead } from "@codegouvfr/react-dsfr/next-appdir/DsfrHead";
 import { DsfrProvider } from "@codegouvfr/react-dsfr/next-appdir/DsfrProvider";
 import { getHtmlAttributes } from "@codegouvfr/react-dsfr/next-appdir/getHtmlAttributes";
+import { Box } from "@mui/material";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import { captureException } from "@sentry/nextjs";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PropsWithChildren } from "react";
 import { IUserPublic } from "shared/models/user.model";
 
-import { publicConfig } from "../config.public";
-import { AuthContextProvider } from "../context/AuthContext";
-import { defaultColorScheme } from "../theme/defaultColorScheme";
-import { ApiError, apiGet } from "../utils/api.utils";
+import Footer from "@/components/Footer";
+import { Header } from "@/components/header/Header";
+import { AuthContextProvider } from "@/context/AuthContext";
+import { defaultColorScheme } from "@/theme/defaultColorScheme";
+import { ApiError, apiGet } from "@/utils/api.utils";
+
 import { StartDsfr } from "./StartDsfr";
+import { StartIntl } from "./StartIntl";
 
 async function getSession(): Promise<IUserPublic | undefined> {
-  if (process.env.NEXT_PHASE === "phase-production-build") {
-    return;
-  }
-
   try {
-    const session: IUserPublic = await apiGet(`/_private/auth/session`, {});
+    const session: IUserPublic = await apiGet(`/_private/auth/session`, {}, { cache: "no-store" });
     return session;
   } catch (error) {
     if ((error as ApiError).context?.statusCode !== 401) {
@@ -39,7 +42,7 @@ export const metadata: Metadata = {
     icon: [{ url: "/favicon.ico" }, { url: "/favicon.svg" }],
     apple: [{ url: "/apple-touch-icon.png" }],
   },
-  title: publicConfig.productMeta.productName,
+  title: "API Apprentissage",
   description: "Un service de la Mission Apprentissage",
 };
 
@@ -50,6 +53,7 @@ export default async function RootLayout({ children }: PropsWithChildren) {
     <html {...getHtmlAttributes({ defaultColorScheme, lang })}>
       <head>
         <StartDsfr />
+        <StartIntl />
         <DsfrHead
           Link={Link}
           preloadFonts={[
@@ -67,9 +71,24 @@ export default async function RootLayout({ children }: PropsWithChildren) {
         />
       </head>
       <body>
-        <AuthContextProvider initialUser={session}>
-          <DsfrProvider lang={lang}>{children}</DsfrProvider>
-        </AuthContextProvider>
+        <AppRouterCacheProvider>
+          <AuthContextProvider initialUser={session ?? null}>
+            <DsfrProvider lang={lang}>
+              <MuiDsfrThemeProvider>
+                <Header />
+                <Box
+                  sx={{
+                    minHeight: "60vh",
+                    color: fr.colors.decisions.text.default.grey.default,
+                  }}
+                >
+                  {children}
+                </Box>
+                <Footer />
+              </MuiDsfrThemeProvider>
+            </DsfrProvider>
+          </AuthContextProvider>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );

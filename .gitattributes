@@ -71,6 +71,7 @@
 *.rar       binary
 *.tar       binary
 *.zip       binary
+*.xlsx      binary
 # Fonts
 *.ttf       binary
 *.eot       binary

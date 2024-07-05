@@ -1,25 +1,16 @@
 import { MetadataRoute } from "next";
 
-import { publicConfig } from "../config.public";
-import { NOTION_PAGES, Page, PAGES } from "./components/breadcrumb/Breadcrumb";
+import { publicConfig } from "@/config.public";
+import { IPage, PAGES } from "@/utils/routes.utils";
 
-function getSitemapItem(page: Page): MetadataRoute.Sitemap[number] {
+function getSitemapItem(page: IPage): MetadataRoute.Sitemap[number] {
   return {
     url: `${publicConfig.baseUrl}${page.path}`,
   };
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    getSitemapItem(PAGES.homepage()),
-    ...Object.values(NOTION_PAGES).map(getSitemapItem),
-    getSitemapItem(PAGES.mentionsLegales()),
-    getSitemapItem(PAGES.accessibilite()),
-    getSitemapItem(PAGES.cgu()),
-    getSitemapItem(PAGES.donneesPersonnelles()),
-    getSitemapItem(PAGES.politiqueConfidentialite()),
-    getSitemapItem(PAGES.connexion()),
-    getSitemapItem(PAGES.motDePasseOublie()),
-    getSitemapItem(PAGES.modifierMotDePasse()),
-  ];
+  return Object.values(PAGES.static)
+    .filter((page) => page.index)
+    .map(getSitemapItem);
 }

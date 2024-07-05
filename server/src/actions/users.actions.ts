@@ -1,30 +1,11 @@
 import { ObjectId } from "mongodb";
-import { IUser, IUserCreate } from "shared/models/user.model";
+import { IApiKeyPrivate, IUser } from "shared/models/user.model";
+import { adjectives, animals, colors, uniqueNamesGenerator } from "unique-names-generator";
 
+import config from "@/config";
 import { getDbCollection } from "@/services/mongodb/mongodbService";
-
-import config from "../config";
-import { generateKey, generateSecretHash, hashPassword } from "../utils/cryptoUtils";
-import { createUserTokenSimple } from "../utils/jwtUtils";
-
-export const createUser = async (data: IUserCreate): Promise<IUser> => {
-  const _id = new ObjectId();
-
-  const password = hashPassword(data.password);
-  const now = new Date();
-  const user: IUser = {
-    ...data,
-    _id,
-    password,
-    api_keys: [] as IUser["api_keys"],
-    updated_at: now,
-    created_at: now,
-  };
-
-  await getDbCollection("users").insertOne(user);
-
-  return user;
-};
+import { generateKey, generateSecretHash } from "@/utils/cryptoUtils";
+import { createUserTokenSimple } from "@/utils/jwtUtils";
 
 export const updateUser = async (email: IUser["email"], data: Partial<IUser>): Promise<void> => {
   await getDbCollection("users").findOneAndUpdate(
@@ -37,24 +18,36 @@ export const updateUser = async (email: IUser["email"], data: Partial<IUser>): P
   );
 };
 
-export const generateApiKey = async (user: IUser) => {
+export const generateApiKey = async (
+  name: string,
+  user: IUser
+): Promise<IApiKeyPrivate & { value: string; key: string }> => {
+  const now = new Date();
   const generatedKey = generateKey();
   const secretHash = generateSecretHash(generatedKey);
 
+  const data = {
+    _id: new ObjectId(),
+    name:
+      name ||
+      uniqueNamesGenerator({
+        dictionaries: [adjectives, colors, animals],
+        separator: "-",
+      }),
+    key: secretHash,
+    last_used_at: null,
+    expires_at: new Date(now.getTime() + config.api_key.expiresIn),
+    created_at: now,
+  };
+
   await getDbCollection("users").findOneAndUpdate(
     {
-      email: user.email,
+      _id: user._id,
     },
     {
       $set: { updated_at: new Date() },
       $push: {
-        api_keys: {
-          _id: new ObjectId(),
-          name: null,
-          key: secretHash,
-          last_used_at: null,
-          expires_at: new Date(Date.now() + config.api_key.expiresIn),
-        },
+        api_keys: data,
       },
     }
   );
@@ -64,5 +57,22 @@ export const generateApiKey = async (user: IUser) => {
     expiresIn: config.api_key.expiresIn / 1_000,
   });
 
-  return token;
+  return {
+    ...data,
+    value: token,
+  };
 };
+
+export async function deleteApiKey(id: ObjectId, user: IUser) {
+  await getDbCollection("users").findOneAndUpdate(
+    {
+      _id: user._id,
+    },
+    {
+      $set: { updated_at: new Date() },
+      $pull: {
+        api_keys: { _id: id },
+      },
+    }
+  );
+}

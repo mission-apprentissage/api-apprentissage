@@ -11,7 +11,7 @@ services:
     volumes:
       - tpml_mongodb_data:/data
       - ./.infra/local/mongo_keyfile:/tmp/mongo_keyfile
-      - ./.infra/local/mongod.conf:/etc/mongod.conf
+      - ./.infra/local/mongod.conf:/etc/mongod.conf:ro
     healthcheck:
       test: ["CMD", "mongosh", "--eval", '''db.runCommand("ping").ok''', "--quiet"]
       interval: 10s

@@ -864,46 +864,6 @@ exports[`searchOrganisme > tdb retro-compatibility > should be backward compatib
 {
   "inconsistency": [
     {
-      "expectedSiret": "89307491400027",
-      "expectedUai": "0694566N",
-      "isExpectedLieu": false,
-      "motifs": [
-        {
-          "organisme": {
-            "nature": "responsable_formateur",
-            "siret": "89307491400019",
-            "uai": "0694566N",
-          },
-          "organismes": [],
-          "state": "referentiel-org-ferme",
-        },
-        {
-          "organisme": null,
-          "organismes": [],
-          "state": "referentiel-fraterie-siret-aucun",
-        },
-        {
-          "organisme": null,
-          "organismes": [],
-          "state": "referentiel-fraterie-uai-aucun",
-        },
-        {
-          "organisme": {
-            "nature": "responsable_formateur",
-            "siret": "89307491400027",
-            "uai": undefined,
-          },
-          "organismes": [],
-          "state": "referentiel-par-lieu-org-incompatible-unique",
-        },
-      ],
-      "resultSiret": "89307491400027",
-      "resultUai": undefined,
-      "rule_id": 8,
-      "siret": "89307491400019",
-      "uai": "0694566N",
-    },
-    {
       "expectedSiret": "19240007500011",
       "expectedUai": "0240007C",
       "isExpectedLieu": false,
@@ -1285,6 +1245,51 @@ exports[`searchOrganisme > tdb retro-compatibility > should be backward compatib
       "siret": "18800864300028",
       "type": "A_FIABILISER",
       "uai": "0600015R",
+    },
+    {
+      "candidats": [],
+      "expectedSiret": "89307491400027",
+      "expectedUai": "0694566N",
+      "isExpectedLieu": false,
+      "motifs": [
+        {
+          "organisme": {
+            "nature": "responsable_formateur",
+            "siret": "89307491400019",
+            "uai": "0694566N",
+          },
+          "organismes": [],
+          "state": "referentiel-org-ferme",
+        },
+        {
+          "organisme": null,
+          "organismes": [],
+          "state": "referentiel-fraterie-siret-aucun",
+        },
+        {
+          "organisme": null,
+          "organismes": [],
+          "state": "referentiel-fraterie-uai-aucun",
+        },
+        {
+          "organisme": {
+            "nature": "responsable_formateur",
+            "siret": "89307491400027",
+            "uai": undefined,
+          },
+          "organismes": [],
+          "state": "referentiel-par-lieu-org-incompatible-unique",
+        },
+        {
+          "organisme": null,
+          "organismes": [],
+          "state": "controle-uai-inconnu",
+        },
+      ],
+      "rule_id": 8,
+      "siret": "89307491400019",
+      "type": "A_FIABILISER",
+      "uai": "0694566N",
     },
     {
       "candidats": [
@@ -1917,21 +1922,4 @@ exports[`searchOrganisme > tdb retro-compatibility > should be backward compatib
     },
   ],
 }
-`;
-
-exports[`searchOrganisme > tdb retro-compatibility > should be backward compatible 4`] = `
-"18800864300028,0600015R
-19190012500011,0190770J
-19230000200016,0230581G
-51781333300047,0134343A
-77570084200013,0271282X
-13002170200076,0422302Z
-18130002100225,0133527N
-48927001700010,0180982V
-19870999000016,0871008Y
-19730813300010,0731364L
-48927001700010,0281165P
-82175021300034,0134337U
-77623409800015,0070115M
-40112310400010,0763153P"
 `;

@@ -58,11 +58,20 @@ export type IRechercheSimpleResult =
     }
   | { state: "referentiel-org-introuvable" };
 
+export type IControleNatureInconnue =
+  | {
+      state: "controle-nature-inconnue";
+    }
+  | {
+      state: "controle-uai-inconnu";
+    };
+
 type ISeachResultMotif =
   | IRechercheParLieuResult
   | IRechercheParSiretResult
   | IRechercheParUaiResult
-  | IRechercheSimpleResult;
+  | IRechercheSimpleResult
+  | IControleNatureInconnue;
 
 export type SearchResult =
   | {

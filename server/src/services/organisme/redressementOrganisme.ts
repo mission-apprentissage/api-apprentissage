@@ -123,9 +123,28 @@ async function controleOrganisme(result: SearchResult): Promise<SearchResult> {
   //     status: "failure",
   //     organisme: null,
   //     candidats: [],
-  //     motifs: [...result.motifs, SEARCH_RESULT_REASONS.nature_inconnue],
+  //     motifs: [
+  //       ...result.motifs,
+  //       {
+  //         state: "controle-nature-inconnue",
+  //       },
+  //     ],
   //   };
   // }
+
+  if (!result.organisme.uai) {
+    return {
+      status: "failure",
+      organisme: null,
+      candidats: [],
+      motifs: [
+        ...result.motifs,
+        {
+          state: "controle-uai-inconnu",
+        },
+      ],
+    };
+  }
 
   return result;
 }

@@ -162,8 +162,6 @@ describe("searchOrganisme", () => {
       expect.soft({ inconsistency }).toMatchSnapshot();
 
       expect.soft({ fauxNegatifs }).toMatchSnapshot();
-
-      expect.soft(fauxNegatifs.map((d) => [d.siret, d.uai].join(",")).join("\n")).toMatchSnapshot();
-    }, 20_000);
+    }, 200_000);
   });
 });

@@ -21,14 +21,15 @@ export const stopMongodb = async () => {
   await closeMongodbConnection();
 };
 
-export const useMongo = () => {
+export const useMongo = (clearStep: "beforeEach" | "beforeAll" = "beforeEach") => {
   beforeAll(async () => {
     await startAndConnectMongodb();
+    if (clearStep === "beforeAll") await clearAllCollections();
 
     return () => stopMongodb();
   });
 
   beforeEach(async () => {
-    await clearAllCollections();
+    if (clearStep === "beforeEach") await clearAllCollections();
   });
 };

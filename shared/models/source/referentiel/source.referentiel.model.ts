@@ -6,10 +6,12 @@ const collectionName = "source.referentiel" as const;
 
 const indexes: IModelDescriptorGeneric["indexes"] = [
   [{ date: 1 }, {}],
+  [{ "data.uai": 1, "data.siret": 1 }, {}],
+  [{ "data.siret": 1, "data.uai": 1 }, {}],
   [{ "data.lieux_de_formation.uai": 1 }, {}],
 ];
 
-export const zReferentiel = z
+export const zOrganismeReferentiel = z
   .object({
     siret: z.string(),
     uai: z.string().optional(),
@@ -115,7 +117,7 @@ export const zReferentiel = z
         z
           .object({
             type: z.enum(["formateur->responsable", "responsable->formateur", "entreprise"]).optional(),
-            siret: z.string().optional(),
+            siret: z.string(),
             // uai?: string | null;
             referentiel: z.boolean().optional(),
             label: z.string().optional(),
@@ -123,7 +125,6 @@ export const zReferentiel = z
             date_collecte: z.string().optional(),
           })
           .strict()
-          .optional()
       )
       .optional(),
     reseaux: z.array(
@@ -232,11 +233,13 @@ export const zSourceReferentiel = z
   .object({
     _id: zObjectId,
     date: z.date(),
-    data: zReferentiel.strict(),
+    data: zOrganismeReferentiel.strict(),
   })
   .strict();
 
 export type ISourceReferentiel = z.output<typeof zSourceReferentiel>;
+
+export type IOrganismeReferentiel = z.output<typeof zOrganismeReferentiel>;
 
 export default {
   zod: zSourceReferentiel,

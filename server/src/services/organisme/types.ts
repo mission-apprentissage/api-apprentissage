@@ -12,12 +12,15 @@ export type IRechercheParLieuResult =
   | {
       state:
         | "referentiel-par-lieu-incompatible"
-        | "referentiel-par-lieu-responsable-unique"
+        | "referentiel-par-lieu-responsable-unique-ferme"
         | "referentiel-par-lieu-responsable-multiple";
       organismes: IOrganismeReferentiel[];
     }
   | {
-      state: "referentiel-par-lieu-org-unique" | "referentiel-par-lieu-org-incompatible-unique";
+      state:
+        | "referentiel-par-lieu-org-unique"
+        | "referentiel-par-lieu-org-incompatible-unique"
+        | "referentiel-par-lieu-responsable-unique";
       organisme: IOrganismeReferentiel;
     }
   | {
@@ -47,8 +50,13 @@ export type IRechercheParUaiResult =
       organismes: IOrganismeReferentiel[];
     }
   | {
-      state: "referentiel-fraterie-uai-unique";
+      state: "referentiel-fraterie-uai-unique" | "referentiel-fraterie-uai-unique-ferme";
       organisme: IOrganismeReferentiel;
+    }
+  | {
+      state: "referentiel-fraterie-uai-multiple-ouvert-unique";
+      organisme: IOrganismeReferentiel;
+      organismes: IOrganismeReferentiel[];
     };
 
 export type IRechercheSimpleResult =
@@ -60,7 +68,7 @@ export type IRechercheSimpleResult =
 
 export type IControleNatureInconnue =
   | {
-      state: "controle-nature-inconnue";
+      state: "controle-siret-fermé";
     }
   | {
       state: "controle-uai-inconnu";
@@ -77,12 +85,10 @@ export type SearchResult =
   | {
       status: "success";
       organisme: IOrganismeReferentiel;
-      candidats: IOrganismeReferentiel[];
       motifs: ISeachResultMotif[];
     }
   | {
       status: "failure";
       organisme: null;
-      candidats: IOrganismeReferentiel[];
       motifs: ISeachResultMotif[];
     };

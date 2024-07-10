@@ -11,10 +11,6 @@ export async function rechercheOrganismeSimple(criteria: SearchCriteria): Promis
     return { state: "referentiel-org-introuvable" };
   }
 
-  // if (organisme.data.nature === "inconnue") {
-  //   return { state: "referentiel-org-nature-inconnue" };
-  // }
-
   return {
     state: organisme.data.etat_administratif === "actif" ? "referentiel-org-ouvert" : "referentiel-org-ferme",
     organisme: organisme.data,

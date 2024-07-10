@@ -1,7 +1,11 @@
 import { useMongo } from "@tests/mongo.test.utils";
 import { ObjectId } from "mongodb";
 import { generateOrganismeReferentielFixture, IOrganismeReferentielDataInput } from "shared/models/fixtures";
-import { ISourceReferentiel, zSourceReferentiel } from "shared/models/source/referentiel/source.referentiel.model";
+import {
+  IOrganismeReferentiel,
+  ISourceReferentiel,
+  zSourceReferentiel,
+} from "shared/models/source/referentiel/source.referentiel.model";
 import { beforeAll, describe, expect, it } from "vitest";
 import { z } from "zod";
 
@@ -76,6 +80,13 @@ describe("searchOrganisme", () => {
         }
       }
 
+      const getOrganismeData = (o: IOrganismeReferentiel) => ({
+        siret: o.siret,
+        uai: o.uai,
+        nature: o.nature,
+        etat_administratif: o.etat_administratif,
+      });
+
       for (const tdbResult of tdbFiabResults) {
         const { siret, uai, rule_id } = tdbResult;
         const result = await redressementOrganisme({ siret, uai });
@@ -83,10 +94,8 @@ describe("searchOrganisme", () => {
         const motifs = result.motifs.map((m) => {
           return {
             ...m,
-            organisme:
-              "organisme" in m ? { siret: m.organisme.siret, uai: m.organisme.uai, nature: m.organisme.nature } : null,
-            organismes:
-              "organismes" in m ? m.organismes.map((o) => ({ siret: o.siret, uai: o.uai, nature: o.nature })) : [],
+            organisme: "organisme" in m ? getOrganismeData(m.organisme) : null,
+            organismes: "organismes" in m ? m.organismes.map(getOrganismeData) : [],
           };
         });
         let expectedSiret: string | null = null;
@@ -143,7 +152,6 @@ describe("searchOrganisme", () => {
               motifs,
               isExpectedLieu,
               rule_id,
-              candidats: result.candidats.map((c) => ({ siret: c.siret, uai: c.uai, nature: c.nature })),
             });
           }
         }
@@ -155,7 +163,7 @@ describe("searchOrganisme", () => {
           fauxPositifs: fauxPositifs.length,
           inconsistency: inconsistency.length,
         })
-        .toEqual({ fauxNegatifs: 14, fauxPositifs: 21, inconsistency: 9 });
+        .toEqual({ fauxNegatifs: 15, fauxPositifs: 19, inconsistency: 8 });
 
       expect.soft({ fauxPositifs }).toMatchSnapshot();
 

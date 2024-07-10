@@ -18,7 +18,6 @@ async function rechercheOrganisme(criteria: SearchCriteria): Promise<SearchResul
     return {
       status: "success",
       organisme: simple.organisme,
-      candidats: [],
       motifs,
     };
   }
@@ -27,7 +26,6 @@ async function rechercheOrganisme(criteria: SearchCriteria): Promise<SearchResul
     return {
       status: "success",
       organisme: parUai.organisme,
-      candidats: [],
       motifs,
     };
   }
@@ -36,7 +34,6 @@ async function rechercheOrganisme(criteria: SearchCriteria): Promise<SearchResul
     return {
       status: "success",
       organisme: parLieu.organisme,
-      candidats: [],
       motifs,
     };
   }
@@ -48,59 +45,17 @@ async function rechercheOrganisme(criteria: SearchCriteria): Promise<SearchResul
     return {
       status: "success",
       organisme: parLieu.organisme,
-      candidats: [],
-      motifs,
-    };
-  }
-
-  // if (simple.state === "referentiel-org-ferme") {
-  //   return {
-  //     status: "success",
-  //     organisme: simple.organisme,
-  //     candidats: [],
-  //     motifs,
-  //   };
-  // }
-
-  if (parLieu.state === "referentiel-par-lieu-org-multiple") {
-    return {
-      status: "failure",
-      organisme: null,
-      candidats: parLieu.organismes,
-      motifs,
-    };
-  }
-
-  // if (
-  //   parLieu.state === "referentiel-par-lieu-org-introuvable" &&
-  //   parUai.state === "referentiel-fraterie-uai-aucun" &&
-  //   parSiret.state === "referentiel-fraterie-siret-unique"
-  // ) {
-  //   return {
-  //     status: "success",
-  //     organisme: parSiret.organisme,
-  //     candidats: [],
-  //     motifs,
-  //   };
-  // }
-
-  if (parLieu.state === "referentiel-par-lieu-incompatible" && parSiret.state === "referentiel-fraterie-siret-unique") {
-    return {
-      status: "failure",
-      organisme: null,
-      candidats: [...parLieu.organismes, parSiret.organisme],
       motifs,
     };
   }
 
   if (
-    parLieu.state === "referentiel-par-lieu-org-incompatible-unique" &&
-    parSiret.state === "referentiel-fraterie-siret-unique"
+    parLieu.state === "referentiel-par-lieu-responsable-unique" &&
+    parUai.state === "referentiel-fraterie-uai-aucun"
   ) {
     return {
-      status: "failure",
-      organisme: null,
-      candidats: [parLieu.organisme, parSiret.organisme],
+      status: "success",
+      organisme: parLieu.organisme,
       motifs,
     };
   }
@@ -108,7 +63,6 @@ async function rechercheOrganisme(criteria: SearchCriteria): Promise<SearchResul
   return {
     status: "failure",
     organisme: null,
-    candidats: [],
     motifs,
   };
 }
@@ -118,25 +72,10 @@ async function controleOrganisme(result: SearchResult): Promise<SearchResult> {
     return result;
   }
 
-  // if (result.organisme.nature === "inconnue") {
-  //   return {
-  //     status: "failure",
-  //     organisme: null,
-  //     candidats: [],
-  //     motifs: [
-  //       ...result.motifs,
-  //       {
-  //         state: "controle-nature-inconnue",
-  //       },
-  //     ],
-  //   };
-  // }
-
   if (!result.organisme.uai) {
     return {
       status: "failure",
       organisme: null,
-      candidats: [],
       motifs: [
         ...result.motifs,
         {

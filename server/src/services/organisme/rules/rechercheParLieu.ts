@@ -45,11 +45,12 @@ export async function rechercheOrganismeParLieu(criteria: SearchCriteria): Promi
     })
     .toArray();
 
+  if (responsables.length === 1) {
+    return { state: "referentiel-par-lieu-responsable-unique", organisme: responsables[0].data };
+  }
+
   return {
-    state:
-      responsables.length === 1
-        ? "referentiel-par-lieu-responsable-unique"
-        : "referentiel-par-lieu-responsable-multiple",
-    organismes: [...responsables.map((r) => r.data), ...organismes],
+    state: "referentiel-par-lieu-responsable-multiple",
+    organismes: responsables.map((r) => r.data),
   };
 }

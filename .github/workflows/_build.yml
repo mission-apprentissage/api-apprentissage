@@ -6,6 +6,10 @@ on:
         description: The environment to build the image for
         type: string
         required: true
+      skip:
+        description: Skip the build
+        type: boolean
+        required: false
     secrets:
       SLACK_WEBHOOK:
         description: Slack webhook URL
@@ -13,6 +17,7 @@ on:
 
 jobs:
   build:
+    if: ${{ github.event.inputs.skip != true }}
     concurrency:
       group: "build-${{ github.workflow }}-${{ github.ref }}"
     permissions: write-all

@@ -11,6 +11,7 @@ jobs:
     uses: "./.github/workflows/_build.yml"
     with:
       environment: "recette"
+      skip: false
     secrets:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 

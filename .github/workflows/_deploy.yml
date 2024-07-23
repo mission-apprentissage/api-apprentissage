@@ -39,22 +39,19 @@ on:
 
 jobs:
   build:
-    if: ${{ github.event.inputs.build == true }}
     uses: "./.github/workflows/_build.yml"
     with:
       environment: ${{ inputs.environment }}
+      skip: ${{ !inputs.build }}
     secrets:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
   deploy:
-    if: always() && (${{ needs.build.result == 'success' }} || ${{ needs.build.result == 'skipped' }})
-    needs: ["build"]
     name: Deploy ${{ github.ref_name }} on ${{ inputs.environment }}
     runs-on: ubuntu-latest
     steps:
       - name: Notify new deployment on Slack
         uses: ravsamhq/notify-slack-action@v2
-        if: always()
         with:
           status: ${{ job.status }}
           notification_title: "Déploiement ${{ github.ref_name }}(${{ github.sha}}) en ${{ inputs.environment }} initié..."

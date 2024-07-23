@@ -1,9 +1,6 @@
 #!/bin/bash
 set -euo pipefail
 
-export VERSION="${1:?"Veuillez préciser la version"}"
-shift 1
-
 export ENVIRONMENT="${1:?"Veuillez préciser l'environement"}";
 shift;
 
@@ -18,6 +15,8 @@ readonly VAULT_FILE="${ROOT_DIR}/.infra/vault/vault.yml"
 SENTRY_DSN=$(ansible-vault view "${ansible_extra_opts[@]}" "$VAULT_FILE" | yq '.vault.SERVER_SENTRY_DSN')
 SENTRY_AUTH_TOKEN=$(ansible-vault view "${ansible_extra_opts[@]}" "$VAULT_FILE" | yq '.vault.SENTRY_AUTH_TOKEN')
 
+COMMIT_ID=$(git rev-parse HEAD)
+
 docker run \
   --platform=linux/amd64 \
   --rm \
@@ -25,5 +24,5 @@ docker run \
   --entrypoint /bin/sh \
   -e SENTRY_AUTH_TOKEN="${SENTRY_AUTH_TOKEN}" \
   -e SENTRY_DSN="${SENTRY_DSN}" \
-  ghcr.io/mission-apprentissage/mna_${PRODUCT_NAME}_server:${VERSION} \
+  ghcr.io/mission-apprentissage/mna_${PRODUCT_NAME}_server:${COMMIT_ID} \
   /app/server/sentry-deploy-server.sh "${ENVIRONMENT}" 

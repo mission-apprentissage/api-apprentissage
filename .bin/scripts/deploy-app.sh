@@ -7,6 +7,8 @@ shift
 function deploy() {
   echo "Déploiement sur l'environnement ${ENV_FILTER}..."
 
+  local COMMIT_ID=$(git rev-parse HEAD)
+
   if [[ "$ENV_FILTER" == "preview" ]]; then
     readonly PR_NUMBER=${1:?"Merci de préciser le numéro de la Pull Request (ex. 33)"};
     shift;
@@ -19,7 +21,7 @@ function deploy() {
 
     "${ROOT_DIR}/.bin/scripts/run-playbook.sh" "preview.yml" "$ENV_FILTER" --extra-var "pr_number=$PR_NUMBER"
   else
-    "${ROOT_DIR}/.bin/scripts/run-playbook.sh" "deploy.yml" "$ENV_FILTER" "$@"
+    "${ROOT_DIR}/.bin/scripts/run-playbook.sh" "deploy.yml" "$ENV_FILTER" --extra-var "app_version=$COMMIT_ID" "$@"
   fi
 }
 

@@ -27,6 +27,6 @@ else
 fi
 
 # "$@" is the list of environements
-docker buildx bake --builder "mna-${PRODUCT_NAME}" --${mode} "$@"
+docker buildx bake --builder "mna-${PRODUCT_NAME}" --file "$ROOT_DIR/docker-bake.json" --${mode} "$environement"
 docker builder prune --builder "mna-${PRODUCT_NAME}" --keep-storage 20GB --force
 docker buildx stop --builder "mna-${PRODUCT_NAME}"

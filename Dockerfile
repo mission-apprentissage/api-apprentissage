@@ -1,4 +1,4 @@
-FROM node:20-alpine as builder_root
+FROM node:20-alpine AS builder_root
 WORKDIR /app
 RUN yarn set version 3.3.1
 COPY .yarn /app/.yarn
@@ -11,7 +11,7 @@ COPY shared/package.json shared/package.json
 
 RUN --mount=type=cache,target=/app/.yarn/cache yarn install --immutable
 
-FROM builder_root as root
+FROM builder_root AS root
 WORKDIR /app
 
 ##############################################################

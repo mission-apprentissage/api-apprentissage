@@ -48,7 +48,6 @@ jobs:
           image: ghcr.io/mission-apprentissage/mna_api_server:${{ github.sha }}
           to: ghcr.io/mission-apprentissage/mna_api_server:latest
           only-fixed: true
-          to-latest: true
           sarif-file: sarif-server.output.json
 
       - name: Server Docker Upload SARIF result
@@ -63,6 +62,7 @@ jobs:
           command: quickview,cves,recommendations,compare
           image: ghcr.io/mission-apprentissage/mna_api_ui:${{ github.sha }}-recette
           to: ghcr.io/mission-apprentissage/mna_api_ui:latest-production
+          only-fixed: true
           sarif-file: sarif-ui.output.json
 
       - name: UI Docker Upload SARIF result

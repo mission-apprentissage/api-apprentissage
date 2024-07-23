@@ -47,6 +47,7 @@ jobs:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
   deploy:
+    if: always() && (${{ needs.build.result == 'success' }} || ${{ needs.build.result == 'skipped' }})
     needs: ["build"]
     name: Deploy ${{ github.ref_name }} on ${{ inputs.environment }}
     runs-on: ubuntu-latest

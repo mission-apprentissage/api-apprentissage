@@ -24,7 +24,7 @@ Cette clé devra etre ajoutée sur [votre profile Github](https://github.com/set
 
 ### GPG
 
-[Suivre la documentation dédiée](../developpement/gpg.md)
+[Suivre la documentation dédié sur le repo infra](https://github.com/mission-apprentissage/infra/blob/main/docs/gpg.md)
 
 ### Provision du server
 
@@ -58,14 +58,6 @@ Vous pouvez maintenant poursuivre avec le [Deploiement de l'application](#deploi
 La création de release dépend de l'etat local de votre environnement, il est recommandé d'utiliser les releases créés automatiquement pour tout commit sur `main` via la Github Action `Release version`.
 
 Si vous souhaitez effectuer une release manuelle veuillez vous référé à la section suivante.
-
-### Release Manuellement
-
-Pour créer une nouvelle version stable veuillez utiliser la commande suivante:
-
-```bash
-yarn release:interactive
-```
 
 ## Deploiement de l'application
 

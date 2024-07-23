@@ -4,7 +4,7 @@ Afin de lancer le projet, il est nécessaire de s'assurer que tous les pré-requ
 
 ## GPG
 
-[Suivre la documentation dédié](./gpg.md)
+[Suivre la documentation dédié sur le repo infra](https://github.com/mission-apprentissage/infra/blob/main/docs/gpg.md)
 
 ## Docker
 

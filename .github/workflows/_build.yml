@@ -1,14 +1,15 @@
 name: Build Docker Images
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       environment:
         description: The environment to build the image for
-        type: choice
+        type: string
         required: true
-        options:
-          - production
-          - recette
+    secrets:
+      SLACK_WEBHOOK:
+        description: Slack webhook URL
+        required: true
 
 jobs:
   build:

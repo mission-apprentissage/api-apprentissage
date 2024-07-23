@@ -7,10 +7,9 @@ function Help() {
    echo "Commands"
    echo "  bin:setup                                               Installs ${PRODUCT_NAME} binary with zsh completion on system"
    echo "  init:env                                                Update local env files using values from vault file"
-   echo "  release:interactive                                                                Build & Push Docker image releases"
-   echo "  release:app                                                                Build & Push Docker image releases"
+   echo "  build:image                                             Build Ui & Server Docker images"
+   echo "  docker:login                                            Login to ghcr.io"
    echo "  deploy <env> --user <your_username>                                           Deploy application to <env>"
-   echo "  preview:build                                                                Build preview"
    echo "  preview:cleanup --user <your_username>                                        Remove preview from close pull-requests"
    echo "  vault:init                                                                    Fetch initial vault-password from template-apprentissage"
    echo "  vault:edit                                                                    Edit vault file"
@@ -37,12 +36,12 @@ function init:env() {
   "${SCRIPT_DIR}/setup-local-env.sh" "$@"
 }
 
-function release:interactive() {
-  "${SCRIPT_DIR}/release-interactive.sh" "$@"
+function build:image() {
+  "${SCRIPT_DIR}/build-images.sh" "$@"
 }
 
-function release:app() {
-  "${SCRIPT_DIR}/release-app.sh" "$@"
+function docker:login() {
+  "${SCRIPT_DIR}/docker-login.sh" "$@"
 }
 
 function sentry:release() {
@@ -55,10 +54,6 @@ function sentry:deploy() {
 
 function deploy() {
   "${SCRIPT_DIR}/deploy-app.sh" "$@"
-}
-
-function preview:build() {
-  "${SCRIPT_DIR}/build-images.sh" "$@"
 }
 
 function preview:cleanup() {

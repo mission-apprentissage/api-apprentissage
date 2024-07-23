@@ -1,27 +1,14 @@
 #!/bin/bash
 set -euo pipefail
 
-export VERSION="${1:?"Veuillez préciser la version"}"
-mode=${2:?"Veuillez préciser le mode <push|load>"}
-shift 2
+export VERSION=${1:?"Veuillez préciser la version à build"}
+shift 1
 
-get_channel() {
-  local version="$1"
-  channel=$(echo "$version" | cut -d '-' -f 2)
+mode=${1:?"Veuillez préciser le mode <push|load>"}
+shift 1
 
-  if [ "$channel" == "$version" ]; then
-    channel="latest"
-  else
-    channel=$(echo $channel | cut -d '.' -f 1 )
-  fi
-
-  echo $channel
-}
-
-if [[ $# == "0" ]]; then
-  echo "Veuillez spécifier les environnements à build (production, recette, preview, local)"
-  exit 1;
-fi;
+environement=${1:?"Veuillez spécifier l'environnement à build (production, recette, preview, local)"}
+shift 1
 
 set +e
 docker buildx create --name "mna-${PRODUCT_NAME}" --driver docker-container --config "$SCRIPT_DIR/buildkitd.toml" 2> /dev/null
@@ -33,7 +20,11 @@ else
   export DEPS_ID=""
 fi
 
-export CHANNEL=$(get_channel $VERSION)
+if [ "$environement" == "production" ]; then
+  export CHANNEL="latest"
+else
+  export CHANNEL=$environement
+fi
 
 # "$@" is the list of environements
 docker buildx bake --builder "mna-${PRODUCT_NAME}" --${mode} "$@"

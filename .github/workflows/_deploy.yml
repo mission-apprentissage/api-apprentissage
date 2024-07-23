@@ -36,6 +36,9 @@ on:
       VAULT_PWD:
         description: Vault Password
         required: true
+      GITHUB_TOKEN:
+        description: GitHub token
+        required: true
 
 jobs:
   build:

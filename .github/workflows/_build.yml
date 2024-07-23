@@ -10,9 +10,6 @@ on:
       SLACK_WEBHOOK:
         description: Slack webhook URL
         required: true
-      GITHUB_TOKEN:
-        description: GitHub token
-        required: true
 
 jobs:
   build:

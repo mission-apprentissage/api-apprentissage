@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-COMMIT_ID=$(git rev-parse HEAD)
+VERSION=$(git rev-parse --short HEAD)
 
 if [[ -z "${ANSIBLE_VAULT_PASSWORD_FILE:-}" ]]; then
   ansible_extra_opts+=("--vault-password-file" "${SCRIPT_DIR}/get-vault-password-client.sh")
@@ -21,5 +21,5 @@ docker run \
   --entrypoint /bin/sh \
   -e SENTRY_AUTH_TOKEN="${SENTRY_AUTH_TOKEN}" \
   -e SENTRY_DSN="${SENTRY_DSN}" \
-  ghcr.io/mission-apprentissage/mna_${PRODUCT_NAME}_server:${COMMIT_ID} \
-  /app/server/sentry-release-server.sh "mission-apprentissage/${REPO_NAME}" "${COMMIT_ID}" 
+  ghcr.io/mission-apprentissage/mna_${PRODUCT_NAME}_server:${VERSION} \
+  /app/server/sentry-release-server.sh "mission-apprentissage/${REPO_NAME}" "${VERSION}" 

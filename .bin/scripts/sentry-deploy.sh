@@ -15,7 +15,7 @@ readonly VAULT_FILE="${ROOT_DIR}/.infra/vault/vault.yml"
 SENTRY_DSN=$(ansible-vault view "${ansible_extra_opts[@]}" "$VAULT_FILE" | yq '.vault.SERVER_SENTRY_DSN')
 SENTRY_AUTH_TOKEN=$(ansible-vault view "${ansible_extra_opts[@]}" "$VAULT_FILE" | yq '.vault.SENTRY_AUTH_TOKEN')
 
-COMMIT_ID=$(git rev-parse HEAD)
+VERSION=$(git rev-parse --short HEAD)
 
 docker run \
   --platform=linux/amd64 \
@@ -24,5 +24,5 @@ docker run \
   --entrypoint /bin/sh \
   -e SENTRY_AUTH_TOKEN="${SENTRY_AUTH_TOKEN}" \
   -e SENTRY_DSN="${SENTRY_DSN}" \
-  ghcr.io/mission-apprentissage/mna_${PRODUCT_NAME}_server:${COMMIT_ID} \
+  ghcr.io/mission-apprentissage/mna_${PRODUCT_NAME}_server:${VERSION} \
   /app/server/sentry-deploy-server.sh "${ENVIRONMENT}" 

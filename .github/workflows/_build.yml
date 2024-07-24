@@ -62,8 +62,13 @@ jobs:
       - name: Expose GitHub Runtime
         uses: crazy-max/ghaction-github-runtime@v3
 
+      - name: Set short git commit SHA
+        run: |
+          version=$(git rev-parse --short ${{ github.sha }})
+          echo "VERSION=$version" >> $GITHUB_ENV
+
       - name: bump and release
-        run: .bin/mna build:image "${{ github.sha }}" push "${{ inputs.environment }}"
+        run: .bin/mna build:image "${{ env.VERSION }}" push "${{ inputs.environment }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}

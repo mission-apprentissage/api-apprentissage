@@ -1,8 +1,10 @@
 #!/bin/bash
 set -euo pipefail
 
-export VERSION=${1:?"Veuillez préciser la version à build"}
+commit_id=${1:?"Veuillez préciser la version à build"}
 shift 1
+
+export VERSION=$(git rev-parse --short $commit_id)
 
 mode=${1:?"Veuillez préciser le mode <push|load>"}
 shift 1

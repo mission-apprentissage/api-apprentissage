@@ -24,7 +24,7 @@ fileignoreconfig:
 - filename: docs/developpement/gpg.md
   checksum: 137f146297aedce399926c6ddebe9bbfb22b0e924bbdbd30be2b4654f6b248ad
 - filename: server/.env.test
-  checksum: cc3eb0ca2ad357aab49e28f1df4fa3461b9646f49de637b6dce37cb09c9bb64b
+  checksum: ea290ae84ae3acfdced68836908985f63dc70e58865bd64b2e351f742e6a5ec1
 - filename: server/package.json
   checksum: 6f5fe90e17e058af25218e57be4aa9f77ceabab896de515a736d34f455acf5a6
 - filename: server/src/actions/auth.actions.ts

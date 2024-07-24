@@ -42,11 +42,16 @@ jobs:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PAT }}
 
+      - name: Set short git commit SHA
+        run: |
+          version=$(git rev-parse --short ${{ github.sha }})
+          echo "COMMIT_SHORT_SHA=$version" >> $GITHUB_ENV
+
       - name: Server Docker Scout
         uses: docker/scout-action@v1
         with:
           command: quickview,cves,recommendations,compare
-          image: ghcr.io/mission-apprentissage/mna_api_server:${{ github.sha }}
+          image: ghcr.io/mission-apprentissage/mna_api_server:${{ env.VERSION }}
           to: ghcr.io/mission-apprentissage/mna_api_server:latest
           only-fixed: true
           sarif-file: sarif-server.output.json
@@ -61,7 +66,7 @@ jobs:
         uses: docker/scout-action@v1
         with:
           command: quickview,cves,recommendations,compare
-          image: ghcr.io/mission-apprentissage/mna_api_ui:${{ github.sha }}-recette
+          image: ghcr.io/mission-apprentissage/mna_api_ui:${{ env.VERSION }}-recette
           to: ghcr.io/mission-apprentissage/mna_api_ui:latest-production
           only-fixed: true
           sarif-file: sarif-ui.output.json

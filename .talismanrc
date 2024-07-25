@@ -1,6 +1,8 @@
 fileignoreconfig:
 - filename: .bin/scripts/setup-local-env.sh
   checksum: de3e56b5834fa84c7fdea10c078a6df1b4f555bfb15c00b00b53be2e48732045
+- filename: .github/workflows/_build.yml
+  checksum: b12393e72d4aa9e2802fd9aa6a2a710b207670bff1a3f406a70f1fa72694ea45
 - filename: .github/workflows/_deploy.yml
   checksum: 460bac97e9efe6751dded2445bc0d508d9733ca845f154847fd52b31e97212b9
 - filename: .github/workflows/recette.yml

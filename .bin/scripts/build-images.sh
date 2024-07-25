@@ -1,11 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
-commit_id=${1:?"Veuillez préciser la version à build"}
+export VERSION=${1:?"Veuillez préciser la version à build"}
 shift 1
-
-# Get the short version of COMMIT ID
-export VERSION=${COMMIT_ID::7}
 
 mode=${1:?"Veuillez préciser le mode <push|load>"}
 shift 1

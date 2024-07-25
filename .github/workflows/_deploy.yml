@@ -10,9 +10,10 @@ on:
           - production
           - recette
       build:
-        description: The build to deploy
+        description: Build the project before deploying
         type: boolean
         required: true
+        default: true
   workflow_call:
     inputs:
       environment:
@@ -48,6 +49,7 @@ jobs:
       VAULT_PWD: ${{ secrets.VAULT_PWD }}
 
   deploy:
+    needs: ["build"]
     name: Deploy ${{ github.ref_name }} on ${{ inputs.environment }}
     runs-on: ubuntu-latest
     steps:

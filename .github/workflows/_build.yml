@@ -64,11 +64,19 @@ jobs:
 
       - name: Set short git commit SHA
         run: |
-          version=$(git rev-parse --short ${{ github.sha }})
-          echo "VERSION=$version" >> $GITHUB_ENV
+          export COMMIT_ID=${{ github.sha }}
+          echo "VERSION=${COMMIT_ID::7}" >> $GITHUB_ENV
 
       - name: bump and release
         run: .bin/mna build:image "${{ env.VERSION }}" push "${{ inputs.environment }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+      - name: Create vault pwd file
+        run: echo ${{ secrets.VAULT_PWD }} > .infra/.vault_pwd.txt
+
+      - name: Create sentry release
+        run: .bin/mna sentry:release
+        env:
+          ANSIBLE_VAULT_PASSWORD_FILE: .infra/.vault_pwd.txt

@@ -14,6 +14,7 @@ jobs:
       skip: false
     secrets:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      VAULT_PWD: ${{ secrets.VAULT_PWD }}
 
   docker-scout:
     concurrency:

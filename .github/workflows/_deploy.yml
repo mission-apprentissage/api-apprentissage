@@ -45,6 +45,7 @@ jobs:
       skip: ${{ !inputs.build }}
     secrets:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      VAULT_PWD: ${{ secrets.VAULT_PWD }}
 
   deploy:
     name: Deploy ${{ github.ref_name }} on ${{ inputs.environment }}

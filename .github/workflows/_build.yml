@@ -14,6 +14,8 @@ on:
       SLACK_WEBHOOK:
         description: Slack webhook URL
         required: true
+      VAULT_PWD:
+        required: true
 
 jobs:
   build:
@@ -77,6 +79,6 @@ jobs:
         run: echo ${{ secrets.VAULT_PWD }} > .infra/.vault_pwd.txt
 
       - name: Create sentry release
-        run: .bin/mna sentry:release
+        run: .bin/mna sentry:release "${{ env.VERSION }}"
         env:
           ANSIBLE_VAULT_PASSWORD_FILE: .infra/.vault_pwd.txt

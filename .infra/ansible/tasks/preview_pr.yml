@@ -66,9 +66,9 @@
       with_items:
         - "/opt/app/projects/{{ pr_number }}/repository"
 
-    - name: "[{{ pr_number }}] Build local images 0.0.0-{{ pr_number }}"
+    - name: "[{{ pr_number }}] Build local images {{ pr_commit_id }}-{{ pr_number }}"
       shell:
-        cmd: "flock --verbose --close /tmp/deployment_build.lock .bin/mna preview:build 0.0.0-{{ pr_number }} load preview"
+        cmd: "flock --verbose --close /tmp/deployment_build.lock .bin/mna build:image {{ pr_commit_id }}-{{ pr_number }} load preview"
         chdir: "/opt/app/projects/{{ pr_number }}/repository"
       async: 900 # max 15 minutes
       poll: 15 # check every 15s
@@ -114,9 +114,9 @@
       when: check_stat.stat.exists
       ignore_errors: true
 
-    - name: "[{{ pr_number }}] Removing {{ item }}:0.0.0-{{ pr_number }} image"
+    - name: "[{{ pr_number }}] Removing unused images"
       shell:
-        cmd: "docker image rm -f ghcr.io/mission-apprentissage/{{ item }}:0.0.0-{{ pr_number }}"
+        cmd: "docker image prune -af"
       when: check_stat.stat.exists
       loop: "{{ docker_images }}"
 

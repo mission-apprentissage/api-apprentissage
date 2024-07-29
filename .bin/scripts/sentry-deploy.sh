@@ -1,9 +1,6 @@
 #!/bin/bash
 set -euo pipefail
 
-export VERSION="${1:?"Veuillez préciser la version"}"
-shift 1
-
 export ENVIRONMENT="${1:?"Veuillez préciser l'environement"}";
 shift;
 
@@ -17,6 +14,8 @@ readonly VAULT_FILE="${ROOT_DIR}/.infra/vault/vault.yml"
 
 SENTRY_DSN=$(ansible-vault view "${ansible_extra_opts[@]}" "$VAULT_FILE" | yq '.vault.SERVER_SENTRY_DSN')
 SENTRY_AUTH_TOKEN=$(ansible-vault view "${ansible_extra_opts[@]}" "$VAULT_FILE" | yq '.vault.SENTRY_AUTH_TOKEN')
+
+VERSION=$(git rev-parse --short HEAD)
 
 docker run \
   --platform=linux/amd64 \

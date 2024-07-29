@@ -1,0 +1,84 @@
+name: Build Docker Images
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: The environment to build the image for
+        type: string
+        required: true
+      skip:
+        description: Skip the build
+        type: boolean
+        required: false
+    secrets:
+      SLACK_WEBHOOK:
+        description: Slack webhook URL
+        required: true
+      VAULT_PWD:
+        required: true
+
+jobs:
+  build:
+    if: ${{ github.event.inputs.skip != true }}
+    concurrency:
+      group: "build-${{ github.workflow }}-${{ github.ref }}"
+    permissions: write-all
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: actions/cache@v4
+        with:
+          path: |
+            **/node_modules
+            .yarn/install-state.gz
+            .yarn/cache
+          key: yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: yarn-
+          save-always: true
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          platforms: linux/amd64
+          install: true
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Expose GitHub Runtime
+        uses: crazy-max/ghaction-github-runtime@v3
+
+      - name: Set short git commit SHA
+        run: |
+          export COMMIT_ID=${{ github.sha }}
+          echo "VERSION=${COMMIT_ID::7}" >> $GITHUB_ENV
+
+      - name: bump and release
+        run: .bin/mna build:image "${{ env.VERSION }}" push "${{ inputs.environment }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+      - name: Create vault pwd file
+        run: echo ${{ secrets.VAULT_PWD }} > .infra/.vault_pwd.txt
+
+      - name: Create sentry release
+        run: .bin/mna sentry:release "${{ env.VERSION }}"
+        env:
+          ANSIBLE_VAULT_PASSWORD_FILE: .infra/.vault_pwd.txt

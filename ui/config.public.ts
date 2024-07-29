@@ -48,9 +48,9 @@ function getRecettePublicConfig(): PublicConfig {
 
 function getPreviewPublicConfig(): PublicConfig {
   const version = getVersion();
-  const matches = version.match(/^0\.0\.0-(\d+)$/);
+  const matches = version.split("-");
 
-  if (!matches) {
+  if (matches.length !== 2) {
     throw new Error(`getPreviewPublicConfig: invalid preview version ${version}`);
   }
 

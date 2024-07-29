@@ -12,8 +12,5 @@ Utiliser la Github action deployement puis renseigner les informations demandée
 ### Déploiement Manuel
 
 ```bash
-yarn deploy <nom-de-lenvironnement> --user <nom_utilisateur> --extra-vars=app_version=<app_image_version>
+yarn deploy <nom-de-lenvironnement>
 ```
-
-- `app_image_version`: Optionel, `latest` par défaut
-- `nom_utilisateur`: Optionel si vous avez configuré [1password](./developpement/1password.md#automatisation-de-ansible)

@@ -1,0 +1,79 @@
+name: Build & Deploy to Recette
+on:
+  push:
+    branches: [main]
+
+jobs:
+  tests:
+    uses: "./.github/workflows/ci.yml"
+
+  build:
+    uses: "./.github/workflows/_build.yml"
+    with:
+      environment: "recette"
+      skip: false
+    secrets:
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      VAULT_PWD: ${{ secrets.VAULT_PWD }}
+
+  docker-scout:
+    concurrency:
+      group: "scout-${{ github.workflow }}-${{ github.ref }}"
+    needs: ["build"]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Authenticate to Docker
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PAT }}
+
+      - name: Set short git commit SHA
+        run: |
+          export COMMIT_ID=${{ github.sha }}
+          echo "VERSION=${COMMIT_ID::7}" >> $GITHUB_ENV
+
+      - name: Server Docker Scout
+        uses: docker/scout-action@v1
+        with:
+          command: quickview,cves,recommendations,compare
+          image: ghcr.io/mission-apprentissage/mna_api_server:${{ env.VERSION }}
+          to: ghcr.io/mission-apprentissage/mna_api_server:latest
+          only-fixed: true
+          sarif-file: sarif-server.output.json
+
+      - name: Server Docker Upload SARIF result
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: sarif-server.output.json
+          category: Docker Server
+
+      - name: UI Docker Scout
+        uses: docker/scout-action@v1
+        with:
+          command: quickview,cves,recommendations,compare
+          image: ghcr.io/mission-apprentissage/mna_api_ui:${{ env.VERSION }}-recette
+          to: ghcr.io/mission-apprentissage/mna_api_ui:latest-production
+          only-fixed: true
+          sarif-file: sarif-ui.output.json
+
+      - name: UI Docker Upload SARIF result
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: sarif-ui.output.json
+          category: Docker UI
+
+  deploy:
+    concurrency:
+      group: "deploy-${{ github.workflow }}-${{ github.ref }}"
+    needs: ["build"]
+    name: Deploy ${{ github.ref_name }} on recette
+    uses: "./.github/workflows/_deploy.yml"
+    with:
+      environment: "recette"
+      build: false
+    secrets:
+      DEPLOY_SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}
+      DEPLOY_PASS: ${{ secrets.DEPLOY_PASS }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      VAULT_PWD: ${{ secrets.VAULT_PWD }}

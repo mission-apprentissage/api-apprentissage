@@ -43,8 +43,6 @@
     "lint:fix": "yarn lint --fix",
     "prettier:fix": "prettier --write -u .",
     "prettier:check": "prettier --check -u .",
-    "release": "semantic-release",
-    "release:interactive": ".bin/mna release:interactive",
     "postinstall": "husky",
     "talisman:add-exception": "yarn node-talisman --githook pre-commit -i",
     "e2e": "cypress open",
@@ -62,12 +60,8 @@
     "foreach:ci": "yarn foreach:seq -p"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.3.0",
-    "@commitlint/config-conventional": "^19.2.2",
     "@cypress/chrome-recorder": "^2.3.1",
     "@dword-design/eslint-plugin-import-alias": "^5.0.0",
-    "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/exec": "^6.0.3",
     "@types/node": "^20.12.12",
     "@typescript-eslint/eslint-plugin": "^7.9.0",
     "@typescript-eslint/parser": "^7.9.0",
@@ -88,8 +82,6 @@
     "lint-staged": "^15.2.2",
     "node-talisman": "^1.29.11",
     "prettier": "^3.2.5",
-    "semantic-release": "^23.1.1",
-    "semantic-release-slack-bot": "^4.0.2",
     "typescript": "^5.4.5",
     "vite-tsconfig-paths": "^4.3.2",
     "vitest": "^1.6.0"

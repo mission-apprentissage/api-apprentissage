@@ -6776,49 +6776,51 @@ exports[`zodToMongoSchema > should convert source.referentiel schema 1`] = `
         "relations": {
           "bsonType": "array",
           "items": {
-            "anyOf": [
-              {
-                "not": {},
+            "additionalProperties": false,
+            "bsonType": "object",
+            "properties": {
+              "date_collecte": {
+                "bsonType": "string",
               },
-              {
-                "additionalProperties": false,
-                "bsonType": "object",
-                "properties": {
-                  "date_collecte": {
-                    "bsonType": "string",
-                  },
-                  "label": {
-                    "bsonType": "string",
-                  },
-                  "referentiel": {
-                    "bsonType": "bool",
-                  },
-                  "siret": {
-                    "bsonType": "string",
-                  },
-                  "sources": {
-                    "bsonType": "array",
-                    "items": {
-                      "anyOf": [
-                        {
-                          "not": {},
-                        },
-                        {
-                          "bsonType": "string",
-                        },
-                      ],
+              "label": {
+                "bsonType": "string",
+              },
+              "referentiel": {
+                "bsonType": "bool",
+              },
+              "siret": {
+                "bsonType": "string",
+              },
+              "sources": {
+                "bsonType": "array",
+                "items": {
+                  "anyOf": [
+                    {
+                      "not": {},
                     },
-                  },
-                  "type": {
-                    "bsonType": "string",
-                    "enum": [
-                      "formateur->responsable",
-                      "responsable->formateur",
-                      "entreprise",
-                    ],
-                  },
+                    {
+                      "bsonType": "string",
+                    },
+                  ],
                 },
               },
+              "type": {
+                "bsonType": "string",
+                "enum": [
+                  "formateur->responsable",
+                  "responsable->formateur",
+                  "entreprise",
+                ],
+              },
+              "uai": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+            },
+            "required": [
+              "siret",
             ],
           },
         },

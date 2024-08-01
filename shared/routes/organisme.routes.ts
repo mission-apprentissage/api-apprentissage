@@ -1,0 +1,80 @@
+import { z } from "zod";
+
+import { zOrganisme } from "../models/organisme.model";
+import { zSiret, zUai } from "../zod/organismes.primitives";
+import { zodOpenApi } from "../zod/zodWithOpenApi";
+import { IRoutesDef } from "./common.routes";
+
+const zRechercheOrganismeResultat = zodOpenApi.object({
+  status: zodOpenApi.object({
+    ouvert: zodOpenApi.boolean(),
+    declaration_catalogue: zodOpenApi.boolean(),
+    validation_uai: zodOpenApi.boolean(),
+  }),
+  correspondances: zodOpenApi.object({
+    uai: zodOpenApi.object({
+      lui_meme: zodOpenApi.boolean(),
+      son_lieu: zodOpenApi.boolean(),
+      // Following cannot be checked with referentiel only
+      // We need to check through catalogue
+      // son_formateur: zodOpenApi.boolean(),
+      // son_responsable: zodOpenApi.boolean(),
+      // lieu_de_son_responsable: zodOpenApi.boolean(),
+      // lieu_de_son_formateur: zodOpenApi.boolean(),
+    }),
+    siret: zodOpenApi.object({
+      son_formateur: zodOpenApi.boolean(),
+      son_responsable: zodOpenApi.boolean(),
+      lui_meme: zodOpenApi.boolean(),
+    }),
+  }),
+  organisme: zOrganisme,
+});
+
+const zRechercheOrganismeResponse = zodOpenApi.object({
+  // metadata: zodOpenApi.object({
+  //   uai: zodOpenApi
+  //     .object({
+  //       status: zodOpenApi.enum(["inconnu", "ok"]),
+  //     })
+  //     .nullable(),
+  //   siret: zodOpenApi
+  //     .object({
+  //       status: zodOpenApi.enum(["inconnu", "fermé", "ok"]),
+  //     })
+  //     .nullable(),
+  // }),
+  resultat: zRechercheOrganismeResultat.nullable(),
+  candidats: zodOpenApi.array(zRechercheOrganismeResultat),
+});
+
+export type IRechercheOrganismeResultat = zodOpenApi.output<typeof zRechercheOrganismeResultat>;
+
+export type IRechercheOrganismeResponse = zodOpenApi.output<typeof zRechercheOrganismeResponse>;
+
+export const zOrganismesRoutes = {
+  get: {
+    "/organismes/v1/recherche": {
+      method: "get",
+      path: "/organismes/v1/recherche",
+      querystring: z.object({
+        uai: zUai.optional(),
+        siret: zSiret.optional(),
+      }),
+      response: {
+        "200": zRechercheOrganismeResponse,
+      },
+      securityScheme: {
+        auth: "api-key",
+        access: null,
+        ressources: {},
+      },
+      openapi: {
+        tags: ["Certifications"] as string[],
+        summary: "Récupération des certifications",
+        description: "Récupère la liste des certifications, filtrée par `identifiant.cfd` et `identifiant.rncp`",
+        operationId: "getCertifications",
+      },
+    },
+  },
+} as const satisfies IRoutesDef;

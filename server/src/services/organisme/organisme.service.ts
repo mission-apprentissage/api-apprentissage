@@ -1,0 +1,166 @@
+import { Filter } from "mongodb";
+import { ISourceReferentiel } from "shared/models/source/referentiel/source.referentiel.model";
+import { IRechercheOrganismeResponse, IRechercheOrganismeResultat } from "shared/routes/organisme.routes";
+
+import { getDbCollection } from "@/services/mongodb/mongodbService";
+
+type SearchQuery = {
+  uai: string | null;
+  siret: string | null;
+};
+
+async function findReferentielOrganismes({ uai, siret }: SearchQuery): Promise<ISourceReferentiel[]> {
+  const criteria: Filter<ISourceReferentiel>[] = [];
+
+  if (siret) {
+    criteria.push({ "data.siret": siret });
+    criteria.push({ "data.relations.siret": siret });
+  }
+
+  if (uai) {
+    criteria.push({ "data.uai": uai });
+    criteria.push({ "data.lieux_de_formation.uai": uai });
+  }
+
+  return await getDbCollection("source.referentiel").find({ $or: criteria }).toArray();
+}
+
+function applySearch(
+  { uai, siret }: SearchQuery,
+  organismeReferentiel: ISourceReferentiel
+): IRechercheOrganismeResultat {
+  return {
+    status: {
+      ouvert: organismeReferentiel.data.etat_administratif === "actif",
+      declaration_catalogue: organismeReferentiel.data.nature !== "inconnue",
+      validation_uai: organismeReferentiel.data.uai != null,
+    },
+    correspondances: {
+      uai: {
+        lui_meme: organismeReferentiel.data.uai === uai && uai !== null,
+        son_lieu: uai !== null && organismeReferentiel.data.lieux_de_formation.some((lieu) => lieu.uai === uai),
+      },
+      siret: {
+        lui_meme: organismeReferentiel.data.siret === siret && siret !== null,
+        son_formateur:
+          siret === null
+            ? false
+            : organismeReferentiel.data.relations?.some(
+                (relation) => relation.siret === siret && relation.type === "responsable->formateur"
+              ) ?? false,
+        son_responsable:
+          siret === null
+            ? false
+            : organismeReferentiel.data.relations?.some(
+                (relation) => relation.siret === siret && relation.type === "formateur->responsable"
+              ) ?? false,
+      },
+    },
+    organisme: {
+      identifiant: {
+        uai: organismeReferentiel.data.uai ?? null,
+        siret: organismeReferentiel.data.siret,
+      },
+    },
+  };
+}
+
+export async function searchOrganisme({ uai, siret }: SearchQuery): Promise<IRechercheOrganismeResponse> {
+  if (!uai && !siret) {
+    return {
+      resultat: null,
+      candidats: [],
+    };
+  }
+
+  const organismeReferentiels = await findReferentielOrganismes({ uai, siret });
+
+  const organismes = organismeReferentiels.map((organismeReferentiel) =>
+    applySearch({ uai, siret }, organismeReferentiel)
+  );
+
+  const candidats: Set<IRechercheOrganismeResultat> = new Set();
+
+  const buildResponse = (resultat: IRechercheOrganismeResultat | null) => {
+    if (resultat) {
+      candidats.delete(resultat);
+    }
+    return { resultat, candidats: Array.from(candidats) };
+  };
+
+  const bySiretAndUai =
+    organismes.find((o) => o.correspondances.uai.lui_meme && o.correspondances.siret.lui_meme) ?? null;
+  const exists = bySiretAndUai !== null;
+
+  if (exists && bySiretAndUai.status.ouvert) {
+    return {
+      resultat: bySiretAndUai,
+      candidats: Array.from(candidats),
+    };
+  } else if (bySiretAndUai) {
+    if (bySiretAndUai.correspondances.uai.son_lieu) {
+      return buildResponse(bySiretAndUai);
+    }
+    candidats.add(bySiretAndUai);
+  }
+
+  const bySiret = organismes.filter((o) => o.correspondances.siret.lui_meme && !o.correspondances.uai.lui_meme);
+  const byUai = organismes.filter((o) => o.correspondances.uai.lui_meme && !o.correspondances.siret.lui_meme);
+  const byUaiLieu = organismes.filter(
+    (o) => o.correspondances.uai.son_lieu && o.status.ouvert && o.status.validation_uai
+  );
+
+  if (bySiret.length === 0) {
+    if (byUai.length > 0) {
+      byUai.forEach((c) => candidats.add(c));
+
+      const byUaiOuvert = byUai.filter((o) => o.status.ouvert && o.status.declaration_catalogue);
+
+      if (byUaiOuvert.length === 0) {
+        return buildResponse(null);
+      }
+
+      if (byUaiOuvert.length === 1) {
+        return buildResponse(byUaiOuvert[0]);
+      }
+
+      const byUaiAndUaiLieu = byUaiOuvert.filter((o) => o.correspondances.uai.son_lieu);
+      if (byUaiAndUaiLieu.length === 1) {
+        return buildResponse(byUaiAndUaiLieu[0]);
+      }
+
+      return buildResponse(null);
+    }
+
+    if (byUaiLieu.length === 1) {
+      return buildResponse(byUaiLieu[0]);
+    }
+
+    byUaiLieu.forEach((c) => candidats.add(c));
+
+    return buildResponse(null);
+  }
+
+  bySiret.forEach((c) => candidats.add(c));
+  byUai.forEach((c) => candidats.add(c));
+
+  if (bySiret.length > 1) {
+    return buildResponse(null);
+  }
+
+  if (bySiret[0].correspondances.uai.son_lieu) {
+    return buildResponse(bySiret[0]);
+  }
+
+  if (byUaiLieu.length === 1) {
+    return buildResponse(
+      byUaiLieu[0].correspondances.uai.lui_meme || !byUaiLieu[0].correspondances.siret.son_responsable
+        ? byUaiLieu[0]
+        : bySiret[0]
+    );
+  }
+
+  byUaiLieu.forEach((c) => candidats.add(c));
+
+  return buildResponse(null);
+}

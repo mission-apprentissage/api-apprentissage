@@ -9,9 +9,9 @@ import { zSimulateurRoutes } from "./_private/simulateur/simulateur.routes";
 import { zUserRoutes } from "./_private/user.routes";
 import { zCertificationsRoutes } from "./certification.routes";
 import { IRouteSchema, IRouteSchemaWrite } from "./common.routes";
-import { zSiretUaisRoutes } from "./experimental/siret.uai.routes";
 import { zSourceAcceRoutes } from "./experimental/source/acce.routes";
 import { zCoreRoutes } from "./healthcheck.routes";
+import { zOrganismesRoutes } from "./organisme.routes";
 
 const zRoutesGet = {
   ...zUserAdminRoutes.get,
@@ -23,6 +23,7 @@ const zRoutesGet = {
   ...zCertificationsRoutes.get,
   ...zSourceAcceRoutes.get,
   ...zSimulateurRoutes.get,
+  ...zOrganismesRoutes.get,
 } as const;
 
 const zRoutesPost = {
@@ -30,7 +31,6 @@ const zRoutesPost = {
   ...zUserRoutes.post,
   ...zAuthRoutes.post,
   ...zEmailRoutes.post,
-  ...zSiretUaisRoutes.post,
 } as const;
 
 const zRoutesPut = {} as const;

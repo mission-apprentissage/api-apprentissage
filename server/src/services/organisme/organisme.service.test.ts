@@ -1,19 +1,15 @@
 import { useMongo } from "@tests/mongo.test.utils";
 import { ObjectId } from "mongodb";
 import { generateOrganismeReferentielFixture, IOrganismeReferentielDataInput } from "shared/models/fixtures";
-import {
-  IOrganismeReferentiel,
-  ISourceReferentiel,
-  zSourceReferentiel,
-} from "shared/models/source/referentiel/source.referentiel.model";
+import { ISourceReferentiel, zSourceReferentiel } from "shared/models/source/referentiel/source.referentiel.model";
 import { beforeAll, describe, expect, it } from "vitest";
 import { z } from "zod";
 
-import { getDbCollection } from "@/services/mongodb/mongodbService";
+import { clearAllCollections, getDbCollection } from "@/services/mongodb/mongodbService";
 
 import tdbFiabResultData from "./fixtures/tdb/fiabilisation.fixture.json?raw" assert { type: "json" };
 import tdbReferentielFixtureData from "./fixtures/tdb/referentiel.fixture.json?raw" assert { type: "json" };
-import { redressementOrganisme } from "./redressementOrganisme";
+import { searchOrganisme } from "./organisme.service";
 
 const zTdbFiabResult = z.discriminatedUnion("type", [
   z.object({
@@ -49,20 +45,23 @@ type ITdbFiabResult = z.infer<typeof zTdbFiabResult>;
 describe("searchOrganisme", () => {
   useMongo("beforeAll");
 
+  const date = new Date("2024-04-19T00:00:00Z");
+  const organismesReferentiels: ISourceReferentiel[] = JSON.parse(tdbReferentielFixtureData).map(
+    (data: IOrganismeReferentielDataInput) =>
+      zSourceReferentiel.parse({
+        _id: new ObjectId(),
+        date,
+        data: generateOrganismeReferentielFixture(data),
+      })
+  );
+
   describe("tdb retro-compatibility", () => {
     const tdbFiabResults: ITdbFiabResult[] = JSON.parse(tdbFiabResultData);
-    const date = new Date("2024-04-19T00:00:00Z");
-    const organismesReferentiels: ISourceReferentiel[] = JSON.parse(tdbReferentielFixtureData).map(
-      (data: IOrganismeReferentielDataInput) =>
-        zSourceReferentiel.parse({
-          _id: new ObjectId(),
-          date,
-          data: generateOrganismeReferentielFixture(data),
-        })
-    );
 
     beforeAll(async () => {
       await getDbCollection("source.referentiel").insertMany(organismesReferentiels);
+
+      return () => clearAllCollections();
     });
 
     it("should be backward compatible", async () => {
@@ -80,24 +79,10 @@ describe("searchOrganisme", () => {
         }
       }
 
-      const getOrganismeData = (o: IOrganismeReferentiel) => ({
-        siret: o.siret,
-        uai: o.uai,
-        nature: o.nature,
-        etat_administratif: o.etat_administratif,
-      });
-
       for (const tdbResult of tdbFiabResults) {
         const { siret, uai, rule_id } = tdbResult;
-        const result = await redressementOrganisme({ siret, uai });
+        const result = await searchOrganisme({ siret, uai });
 
-        const motifs = result.motifs.map((m) => {
-          return {
-            ...m,
-            organisme: "organisme" in m ? getOrganismeData(m.organisme) : null,
-            organismes: "organismes" in m ? m.organismes.map(getOrganismeData) : [],
-          };
-        });
         let expectedSiret: string | null = null;
         let expectedUai: string | null = null;
         let isExpectedLieu: boolean = false;
@@ -111,9 +96,9 @@ describe("searchOrganisme", () => {
           expectedUai = uaiLieuToUaiFormateur.get(tdbResult.uai_fiable) ?? tdbResult.uai_fiable;
         }
 
-        if (result.status === "success") {
-          const resultSiret = result.organisme.siret;
-          const resultUai = result.organisme.uai;
+        if (result.resultat) {
+          const resultSiret = result.resultat.organisme.identifiant.siret;
+          const resultUai = result.resultat.organisme.identifiant.uai;
 
           if (tdbResult.type === "FIABLE" || tdbResult.type === "A_FIABILISER") {
             if (resultSiret !== expectedSiret || resultUai !== expectedUai) {
@@ -124,7 +109,6 @@ describe("searchOrganisme", () => {
                 resultUai,
                 expectedSiret,
                 expectedUai,
-                motifs,
                 isExpectedLieu,
                 rule_id,
               });
@@ -136,7 +120,6 @@ describe("searchOrganisme", () => {
               resultSiret,
               resultUai,
               type: tdbResult.type,
-              motifs,
               isExpectedLieu,
               rule_id,
             });
@@ -149,7 +132,6 @@ describe("searchOrganisme", () => {
               type: tdbResult.type,
               expectedSiret,
               expectedUai,
-              motifs,
               isExpectedLieu,
               rule_id,
             });
@@ -163,7 +145,7 @@ describe("searchOrganisme", () => {
           fauxPositifs: fauxPositifs.length,
           inconsistency: inconsistency.length,
         })
-        .toEqual({ fauxNegatifs: 15, fauxPositifs: 19, inconsistency: 8 });
+        .toEqual({ fauxNegatifs: 9, fauxPositifs: 17, inconsistency: 6 });
 
       expect.soft({ fauxPositifs }).toMatchSnapshot();
 

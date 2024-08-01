@@ -6606,6 +6606,639 @@ Notes:
         ],
       },
     },
+    "/organismes/v1/recherche": {
+      "get": {
+        "description": "Récupère la liste des certifications, filtrée par \`identifiant.cfd\` et \`identifiant.rncp\`",
+        "operationId": "getCertifications",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "uai",
+            "required": false,
+            "schema": {
+              "pattern": "^\\d{1,7}[A-Z]$",
+              "type": "string",
+            },
+          },
+          {
+            "in": "query",
+            "name": "siret",
+            "required": false,
+            "schema": {
+              "pattern": "^\\d{9,14}$",
+              "type": "string",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "candidats": {
+                      "items": {
+                        "properties": {
+                          "correspondances": {
+                            "properties": {
+                              "siret": {
+                                "properties": {
+                                  "lui_meme": {
+                                    "type": "boolean",
+                                  },
+                                  "son_formateur": {
+                                    "type": "boolean",
+                                  },
+                                  "son_responsable": {
+                                    "type": "boolean",
+                                  },
+                                },
+                                "required": [
+                                  "son_formateur",
+                                  "son_responsable",
+                                  "lui_meme",
+                                ],
+                                "type": "object",
+                              },
+                              "uai": {
+                                "properties": {
+                                  "lui_meme": {
+                                    "type": "boolean",
+                                  },
+                                  "son_lieu": {
+                                    "type": "boolean",
+                                  },
+                                },
+                                "required": [
+                                  "lui_meme",
+                                  "son_lieu",
+                                ],
+                                "type": "object",
+                              },
+                            },
+                            "required": [
+                              "uai",
+                              "siret",
+                            ],
+                            "type": "object",
+                          },
+                          "organisme": {
+                            "properties": {
+                              "identifiant": {
+                                "properties": {
+                                  "siret": {
+                                    "pattern": "^\\d{9,14}$",
+                                    "type": "string",
+                                  },
+                                  "uai": {
+                                    "pattern": "^\\d{1,7}[A-Z]$",
+                                    "type": [
+                                      "string",
+                                      "null",
+                                    ],
+                                  },
+                                },
+                                "required": [
+                                  "uai",
+                                  "siret",
+                                ],
+                                "type": "object",
+                              },
+                            },
+                            "required": [
+                              "identifiant",
+                            ],
+                            "type": "object",
+                          },
+                          "status": {
+                            "properties": {
+                              "declaration_catalogue": {
+                                "type": "boolean",
+                              },
+                              "ouvert": {
+                                "type": "boolean",
+                              },
+                              "validation_uai": {
+                                "type": "boolean",
+                              },
+                            },
+                            "required": [
+                              "ouvert",
+                              "declaration_catalogue",
+                              "validation_uai",
+                            ],
+                            "type": "object",
+                          },
+                        },
+                        "required": [
+                          "status",
+                          "correspondances",
+                          "organisme",
+                        ],
+                        "type": "object",
+                      },
+                      "type": "array",
+                    },
+                    "metadata": {
+                      "properties": {
+                        "siret": {
+                          "properties": {
+                            "status": {
+                              "enum": [
+                                "inconnu",
+                                "fermé",
+                                "ok",
+                              ],
+                              "type": "string",
+                            },
+                          },
+                          "required": [
+                            "status",
+                          ],
+                          "type": [
+                            "object",
+                            "null",
+                          ],
+                        },
+                        "uai": {
+                          "properties": {
+                            "status": {
+                              "enum": [
+                                "inconnu",
+                                "ok",
+                              ],
+                              "type": "string",
+                            },
+                          },
+                          "required": [
+                            "status",
+                          ],
+                          "type": [
+                            "object",
+                            "null",
+                          ],
+                        },
+                      },
+                      "required": [
+                        "uai",
+                        "siret",
+                      ],
+                      "type": "object",
+                    },
+                    "resultat": {
+                      "properties": {
+                        "correspondances": {
+                          "properties": {
+                            "siret": {
+                              "properties": {
+                                "lui_meme": {
+                                  "type": "boolean",
+                                },
+                                "son_formateur": {
+                                  "type": "boolean",
+                                },
+                                "son_responsable": {
+                                  "type": "boolean",
+                                },
+                              },
+                              "required": [
+                                "son_formateur",
+                                "son_responsable",
+                                "lui_meme",
+                              ],
+                              "type": "object",
+                            },
+                            "uai": {
+                              "properties": {
+                                "lui_meme": {
+                                  "type": "boolean",
+                                },
+                                "son_lieu": {
+                                  "type": "boolean",
+                                },
+                              },
+                              "required": [
+                                "lui_meme",
+                                "son_lieu",
+                              ],
+                              "type": "object",
+                            },
+                          },
+                          "required": [
+                            "uai",
+                            "siret",
+                          ],
+                          "type": "object",
+                        },
+                        "organisme": {
+                          "properties": {
+                            "identifiant": {
+                              "properties": {
+                                "siret": {
+                                  "pattern": "^\\d{9,14}$",
+                                  "type": "string",
+                                },
+                                "uai": {
+                                  "pattern": "^\\d{1,7}[A-Z]$",
+                                  "type": [
+                                    "string",
+                                    "null",
+                                  ],
+                                },
+                              },
+                              "required": [
+                                "uai",
+                                "siret",
+                              ],
+                              "type": "object",
+                            },
+                          },
+                          "required": [
+                            "identifiant",
+                          ],
+                          "type": "object",
+                        },
+                        "status": {
+                          "properties": {
+                            "declaration_catalogue": {
+                              "type": "boolean",
+                            },
+                            "ouvert": {
+                              "type": "boolean",
+                            },
+                            "validation_uai": {
+                              "type": "boolean",
+                            },
+                          },
+                          "required": [
+                            "ouvert",
+                            "declaration_catalogue",
+                            "validation_uai",
+                          ],
+                          "type": "object",
+                        },
+                      },
+                      "required": [
+                        "status",
+                        "correspondances",
+                        "organisme",
+                      ],
+                      "type": [
+                        "object",
+                        "null",
+                      ],
+                    },
+                  },
+                  "required": [
+                    "metadata",
+                    "resultat",
+                    "candidats",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "",
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Paramètre de requête non valide.",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                      "example": {
+                        "validationError": {
+                          "_errors": [],
+                          "code.cfd": {
+                            "_errors": [
+                              "Invalid",
+                            ],
+                          },
+                          "code.rncp": {
+                            "_errors": [
+                              "Invalid",
+                            ],
+                          },
+                        },
+                      },
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Request validation failed",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Bad Request",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        400,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Paramètre de requête non valide.",
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Clé d’API manquante ou invalide",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Unauthorized",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Unauthorized",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        401,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Clé d’API manquante ou invalide",
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Habilitations insuffisantes pour accéder à la ressource",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Forbidden",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Forbidden",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        403,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Habilitations insuffisantes pour accéder à la ressource",
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Resource non trouvée",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Not Found",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Not Found",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        404,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Resource non trouvée",
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Limite de volumétrie atteinte pour la clé d’API",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Too Many Requests",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Too Many Requests",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        419,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Limite de volumétrie atteinte pour la clé d’API",
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Une erreur inattendue s'est produite sur le serveur.",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Internal Server Error",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Internal Server Error",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        500,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Une erreur inattendue s'est produite sur le serveur.",
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Le service est indisponible.",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Bad Gateway",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Bad Gateway",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        502,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Le service est indisponible.",
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Le service est en maintenance",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Service Unavailable",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Service Unavailable",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        502,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Le service est en maintenance",
+          },
+        },
+        "security": [
+          {
+            "api-key": [],
+          },
+        ],
+        "summary": "Récupération des certifications",
+        "tags": [
+          "Certifications",
+        ],
+      },
+    },
   },
   "servers": [
     {

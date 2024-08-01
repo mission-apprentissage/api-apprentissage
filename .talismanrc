@@ -67,6 +67,8 @@ fileignoreconfig:
   checksum: 88e0f6ea12375ce41da1d66ffc17198492db93fc1738710febdcd4aa7b9d1cba
 - filename: server/src/services/apis/data_gouv/data_gouv.api.test.ts
   checksum: b3bf0da3f21bf6aad5909230e54d24072bf9b3b025eadae988b5c36e47c08994
+- filename: server/src/services/organisme/fixtures/tdb/referentiel.fixture.json
+  checksum: d2040fa5314b9e3b1b344af308301fc0083f7bd564b0c0b6f0055564f23cf985
 - filename: server/src/services/security/accessTokenService.test.ts
   checksum: 83136a186a44ac0976e068aa76ba03648fcab81b41e206ac4a39e0985fdddd3b
 - filename: server/src/services/security/authenticationService.test.ts

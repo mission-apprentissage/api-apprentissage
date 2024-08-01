@@ -9,6 +9,7 @@ const indexes: IModelDescriptorGeneric["indexes"] = [
   [{ "data.uai": 1, "data.siret": 1 }, {}],
   [{ "data.siret": 1, "data.uai": 1 }, {}],
   [{ "data.lieux_de_formation.uai": 1 }, {}],
+  [{ "data.relations.siret": 1 }, {}],
 ];
 
 export const zOrganismeReferentiel = z
@@ -118,7 +119,7 @@ export const zOrganismeReferentiel = z
           .object({
             type: z.enum(["formateur->responsable", "responsable->formateur", "entreprise"]).optional(),
             siret: z.string(),
-            // uai?: string | null;
+            uai: z.string().nullish(),
             referentiel: z.boolean().optional(),
             label: z.string().optional(),
             sources: z.array(z.string().optional()).optional(),

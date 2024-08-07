@@ -4,12 +4,12 @@ import { IRechercheOrganismeResponse, IRechercheOrganismeResultat } from "shared
 
 import { getDbCollection } from "@/services/mongodb/mongodbService";
 
-type SearchQuery = {
+export type OrganismeSearchQuery = {
   uai: string | null;
   siret: string | null;
 };
 
-async function findReferentielOrganismes({ uai, siret }: SearchQuery): Promise<ISourceReferentiel[]> {
+async function findReferentielOrganismes({ uai, siret }: OrganismeSearchQuery): Promise<ISourceReferentiel[]> {
   const criteria: Filter<ISourceReferentiel>[] = [];
 
   if (siret) {
@@ -22,11 +22,13 @@ async function findReferentielOrganismes({ uai, siret }: SearchQuery): Promise<I
     criteria.push({ "data.lieux_de_formation.uai": uai });
   }
 
-  return await getDbCollection("source.referentiel").find({ $or: criteria }).toArray();
+  return await getDbCollection("source.referentiel")
+    .find({ $or: criteria }, { sort: { "data.siret": 1, "data.uai": 1 } })
+    .toArray();
 }
 
 function applySearch(
-  { uai, siret }: SearchQuery,
+  { uai, siret }: OrganismeSearchQuery,
   organismeReferentiel: ISourceReferentiel
 ): IRechercheOrganismeResultat {
   return {
@@ -65,7 +67,7 @@ function applySearch(
   };
 }
 
-export async function searchOrganisme({ uai, siret }: SearchQuery): Promise<IRechercheOrganismeResponse> {
+export async function searchOrganisme({ uai, siret }: OrganismeSearchQuery): Promise<IRechercheOrganismeResponse> {
   if (!uai && !siret) {
     return {
       resultat: null,

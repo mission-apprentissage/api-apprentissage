@@ -1,7 +1,13 @@
-import { IOrganismeReferentiel } from "../source/referentiel/source.referentiel.model";
+import { ObjectId } from "bson";
+
+import { IOrganismeReferentiel, ISourceReferentiel } from "../source/referentiel/source.referentiel.model";
 import { getFixtureValue } from "./fixture_helper";
 
 export type IOrganismeReferentielDataInput = Partial<IOrganismeReferentiel>;
+
+export type ISourceReferentielInput = Partial<Omit<ISourceReferentiel, "data">> & {
+  data: IOrganismeReferentielDataInput;
+};
 
 export function generateOrganismeReferentielFixture(data: IOrganismeReferentielDataInput): IOrganismeReferentiel {
   return {
@@ -15,5 +21,13 @@ export function generateOrganismeReferentielFixture(data: IOrganismeReferentielD
     reseaux: getFixtureValue(data, "reseaux", []),
     uai_potentiels: getFixtureValue(data, "uai_potentiels", []),
     ...data,
+  };
+}
+
+export function generateSourceReferentiel(data: ISourceReferentielInput): ISourceReferentiel {
+  return {
+    _id: getFixtureValue(data, "_id", new ObjectId()),
+    date: getFixtureValue(data, "date", new Date("2024-04-19T00:00:00Z")),
+    data: generateOrganismeReferentielFixture(data?.data),
   };
 }

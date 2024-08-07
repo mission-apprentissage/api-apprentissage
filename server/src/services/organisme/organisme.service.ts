@@ -38,25 +38,27 @@ function applySearch(
       validation_uai: organismeReferentiel.data.uai != null,
     },
     correspondances: {
-      uai: {
-        lui_meme: organismeReferentiel.data.uai === uai && uai !== null,
-        son_lieu: uai !== null && organismeReferentiel.data.lieux_de_formation.some((lieu) => lieu.uai === uai),
-      },
-      siret: {
-        lui_meme: organismeReferentiel.data.siret === siret && siret !== null,
-        son_formateur:
-          siret === null
-            ? false
-            : organismeReferentiel.data.relations?.some(
-                (relation) => relation.siret === siret && relation.type === "responsable->formateur"
-              ) ?? false,
-        son_responsable:
-          siret === null
-            ? false
-            : organismeReferentiel.data.relations?.some(
-                (relation) => relation.siret === siret && relation.type === "formateur->responsable"
-              ) ?? false,
-      },
+      uai:
+        uai === null
+          ? null
+          : {
+              lui_meme: organismeReferentiel.data.uai === uai,
+              son_lieu: organismeReferentiel.data.lieux_de_formation.some((lieu) => lieu.uai === uai),
+            },
+      siret:
+        siret === null
+          ? null
+          : {
+              lui_meme: organismeReferentiel.data.siret === siret,
+              son_formateur:
+                organismeReferentiel.data.relations?.some(
+                  (relation) => relation.siret === siret && relation.type === "responsable->formateur"
+                ) ?? false,
+              son_responsable:
+                organismeReferentiel.data.relations?.some(
+                  (relation) => relation.siret === siret && relation.type === "formateur->responsable"
+                ) ?? false,
+            },
     },
     organisme: {
       identifiant: {
@@ -91,7 +93,7 @@ export async function searchOrganisme({ uai, siret }: OrganismeSearchQuery): Pro
   };
 
   const bySiretAndUai =
-    organismes.find((o) => o.correspondances.uai.lui_meme && o.correspondances.siret.lui_meme) ?? null;
+    organismes.find((o) => o.correspondances.uai?.lui_meme && o.correspondances.siret?.lui_meme) ?? null;
   const exists = bySiretAndUai !== null;
 
   if (exists && bySiretAndUai.status.ouvert) {
@@ -100,16 +102,16 @@ export async function searchOrganisme({ uai, siret }: OrganismeSearchQuery): Pro
       candidats: Array.from(candidats),
     };
   } else if (bySiretAndUai) {
-    if (bySiretAndUai.correspondances.uai.son_lieu) {
+    if (bySiretAndUai.correspondances.uai?.son_lieu) {
       return buildResponse(bySiretAndUai);
     }
     candidats.add(bySiretAndUai);
   }
 
-  const bySiret = organismes.filter((o) => o.correspondances.siret.lui_meme && !o.correspondances.uai.lui_meme);
-  const byUai = organismes.filter((o) => o.correspondances.uai.lui_meme && !o.correspondances.siret.lui_meme);
+  const bySiret = organismes.filter((o) => o.correspondances.siret?.lui_meme && !o.correspondances.uai?.lui_meme);
+  const byUai = organismes.filter((o) => o.correspondances.uai?.lui_meme && !o.correspondances.siret?.lui_meme);
   const byUaiLieu = organismes.filter(
-    (o) => o.correspondances.uai.son_lieu && o.status.ouvert && o.status.validation_uai
+    (o) => o.correspondances.uai?.son_lieu && o.status.ouvert && o.status.validation_uai
   );
 
   if (bySiret.length === 0) {
@@ -126,7 +128,7 @@ export async function searchOrganisme({ uai, siret }: OrganismeSearchQuery): Pro
         return buildResponse(byUaiOuvert[0]);
       }
 
-      const byUaiAndUaiLieu = byUaiOuvert.filter((o) => o.correspondances.uai.son_lieu);
+      const byUaiAndUaiLieu = byUaiOuvert.filter((o) => o.correspondances.uai?.son_lieu);
       if (byUaiAndUaiLieu.length === 1) {
         return buildResponse(byUaiAndUaiLieu[0]);
       }
@@ -150,13 +152,13 @@ export async function searchOrganisme({ uai, siret }: OrganismeSearchQuery): Pro
     return buildResponse(null);
   }
 
-  if (bySiret[0].correspondances.uai.son_lieu) {
+  if (bySiret[0].correspondances.uai === null || bySiret[0].correspondances.uai.son_lieu) {
     return buildResponse(bySiret[0]);
   }
 
   if (byUaiLieu.length === 1) {
     return buildResponse(
-      byUaiLieu[0].correspondances.uai.lui_meme || !byUaiLieu[0].correspondances.siret.son_responsable
+      byUaiLieu[0].correspondances.uai?.lui_meme || !byUaiLieu[0].correspondances.siret?.son_responsable
         ? byUaiLieu[0]
         : bySiret[0]
     );

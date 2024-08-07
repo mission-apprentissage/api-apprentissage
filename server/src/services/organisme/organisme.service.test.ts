@@ -833,4 +833,436 @@ describe("searchOrganisme", () => {
       });
     });
   });
+
+  describe("recherche par SIRET uniquement", () => {
+    const query = {
+      uai: null,
+      siret: "77562556900014",
+    } as const satisfies OrganismeSearchQuery;
+
+    const uai1 = "0491801S";
+    const uai2 = "0594899E";
+    const siret1 = "19850144700025";
+
+    describe("Si un UNIQUE organisme est trouvé par SIRET", () => {
+      it("alors l'organisme est trouvé", async () => {
+        const organismes = [
+          generateOrganismeReferentielFixture({
+            uai: uai1,
+            siret: query.siret,
+            etat_administratif: "actif",
+          }),
+          generateOrganismeReferentielFixture({
+            uai: uai2,
+            siret: siret1,
+            etat_administratif: "actif",
+          }),
+        ];
+
+        await getDbCollection("source.referentiel").insertMany(
+          organismes.map((data) => generateSourceReferentiel({ data }))
+        );
+
+        const result = await searchOrganisme(query);
+        expect(result).toEqual({
+          candidats: [],
+          resultat: {
+            status: { ouvert: true, declaration_catalogue: true, validation_uai: true },
+            correspondances: {
+              uai: null,
+              siret: { lui_meme: true, son_formateur: false, son_responsable: false },
+            },
+            organisme: { identifiant: { uai: organismes[0].uai, siret: organismes[0].siret } },
+          },
+        });
+      });
+
+      describe("Si un AUCUN organisme est trouvé par SIRET", () => {
+        it("alors l'organisme n'est pas trouvé", async () => {
+          const organismes = [
+            generateOrganismeReferentielFixture({
+              uai: uai2,
+              siret: siret1,
+              etat_administratif: "actif",
+            }),
+          ];
+
+          await getDbCollection("source.referentiel").insertMany(
+            organismes.map((data) => generateSourceReferentiel({ data }))
+          );
+
+          const result = await searchOrganisme(query);
+          expect(result).toEqual({
+            candidats: [],
+            resultat: null,
+          });
+        });
+      });
+
+      describe("sinon les organismes trouvés par SIRET sont ajoutés à la liste de candidats", () => {
+        it("alors l'organisme n'est pas trouvé", async () => {
+          const organismes = [
+            generateOrganismeReferentielFixture({
+              uai: uai1,
+              siret: query.siret,
+              etat_administratif: "actif",
+            }),
+            generateOrganismeReferentielFixture({
+              uai: uai2,
+              siret: siret1,
+              etat_administratif: "actif",
+            }),
+            generateOrganismeReferentielFixture({
+              uai: uai2,
+              siret: query.siret,
+              etat_administratif: "actif",
+            }),
+          ];
+
+          await getDbCollection("source.referentiel").insertMany(
+            organismes.map((data) => generateSourceReferentiel({ data }))
+          );
+
+          const result = await searchOrganisme(query);
+          expect(result).toEqual({
+            candidats: [
+              {
+                status: { ouvert: true, declaration_catalogue: true, validation_uai: true },
+                correspondances: {
+                  uai: null,
+                  siret: { lui_meme: true, son_formateur: false, son_responsable: false },
+                },
+                organisme: { identifiant: { uai: organismes[0].uai, siret: organismes[0].siret } },
+              },
+              {
+                status: { ouvert: true, declaration_catalogue: true, validation_uai: true },
+                correspondances: {
+                  uai: null,
+                  siret: { lui_meme: true, son_formateur: false, son_responsable: false },
+                },
+                organisme: { identifiant: { uai: organismes[2].uai, siret: organismes[2].siret } },
+              },
+            ],
+            resultat: null,
+          });
+        });
+      });
+    });
+  });
+
+  describe("recherche par UAI uniquement", () => {
+    const query = {
+      uai: "0596776V",
+      siret: null,
+    } as const satisfies OrganismeSearchQuery;
+
+    const uai1 = "0491801S";
+    const uai2 = "0594899E";
+    const uai3 = "0631408N";
+    const uai4 = "0851372E";
+    const siret1 = "19850144700025";
+    const siret2 = "26590673500120";
+    const siret3 = "81002887800017";
+    const siret4 = "91849224000026";
+    const siret5 = "91812606100038";
+
+    describe("Si AU MOINS UN organisme est trouvé par UAI avec SIRET différent", () => {
+      describe("Les organismes trouvé par UAI sont ajoutés à la liste des candidats", () => {
+        const candidats = [
+          {
+            status: { ouvert: false, declaration_catalogue: true, validation_uai: true },
+            correspondances: {
+              uai: { lui_meme: true, son_lieu: false },
+              siret: null,
+            },
+            organisme: { identifiant: { uai: query.uai, siret: siret1 } },
+          },
+          {
+            status: { ouvert: true, declaration_catalogue: false, validation_uai: true },
+            correspondances: {
+              uai: { lui_meme: true, son_lieu: false },
+              siret: null,
+            },
+            organisme: { identifiant: { uai: query.uai, siret: siret2 } },
+          },
+        ];
+
+        beforeEach(async () => {
+          await getDbCollection("source.referentiel").insertMany([
+            generateSourceReferentiel({
+              data: generateOrganismeReferentielFixture({
+                uai: candidats[0].organisme.identifiant.uai,
+                siret: candidats[0].organisme.identifiant.siret,
+                etat_administratif: "fermé",
+              }),
+            }),
+            generateSourceReferentiel({
+              data: generateOrganismeReferentielFixture({
+                uai: candidats[1].organisme.identifiant.uai,
+                siret: candidats[1].organisme.identifiant.siret,
+                etat_administratif: "actif",
+                nature: "inconnue",
+              }),
+            }),
+          ]);
+        });
+
+        describe("Si AUCUN organisme n’est à la fois: trouvé par UAI; ouvert et présent dans le catalogue", async () => {
+          it("alors l'organisme n'est pas trouvé", async () => {
+            const result = await searchOrganisme(query);
+
+            expect(result).toEqual({
+              candidats,
+              resultat: null,
+            });
+          });
+        });
+
+        describe("Si un UNIQUE organisme trouvé parmis la liste précédente", () => {
+          beforeEach(async () => {
+            await getDbCollection("source.referentiel").insertOne(
+              generateSourceReferentiel({
+                data: generateOrganismeReferentielFixture({
+                  uai: query.uai,
+                  siret: siret3,
+                  etat_administratif: "actif",
+                  nature: "responsable_formateur",
+                }),
+              })
+            );
+          });
+
+          it("alors l'organisme est trouvé", async () => {
+            const result = await searchOrganisme(query);
+
+            expect(result).toEqual({
+              candidats,
+              resultat: {
+                status: { ouvert: true, declaration_catalogue: true, validation_uai: true },
+                correspondances: {
+                  uai: { lui_meme: true, son_lieu: false },
+                  siret: null,
+                },
+                organisme: { identifiant: { uai: query.uai, siret: siret3 } },
+              },
+            });
+          });
+        });
+
+        describe("Si un UNIQUE organisme parmis la liste précédente est trouvé par UAI lieu", () => {
+          beforeEach(async () => {
+            await getDbCollection("source.referentiel").insertMany([
+              generateSourceReferentiel({
+                data: generateOrganismeReferentielFixture({
+                  uai: query.uai,
+                  siret: siret3,
+                  etat_administratif: "actif",
+                  nature: "responsable_formateur",
+                  lieux_de_formation: [{ uai: uai1 }],
+                }),
+              }),
+              generateSourceReferentiel({
+                data: generateOrganismeReferentielFixture({
+                  uai: query.uai,
+                  siret: siret4,
+                  etat_administratif: "actif",
+                  nature: "responsable_formateur",
+                  lieux_de_formation: [{ uai: query.uai }],
+                }),
+              }),
+            ]);
+          });
+
+          it("alors l'organisme est trouvé", async () => {
+            const result = await searchOrganisme(query);
+
+            expect(result).toEqual({
+              candidats: [
+                ...candidats,
+                {
+                  status: { ouvert: true, declaration_catalogue: true, validation_uai: true },
+                  correspondances: {
+                    uai: { lui_meme: true, son_lieu: false },
+                    siret: null,
+                  },
+                  organisme: { identifiant: { uai: query.uai, siret: siret3 } },
+                },
+              ],
+              resultat: {
+                status: { ouvert: true, declaration_catalogue: true, validation_uai: true },
+                correspondances: {
+                  uai: { lui_meme: true, son_lieu: true },
+                  siret: null,
+                },
+                organisme: { identifiant: { uai: query.uai, siret: siret4 } },
+              },
+            });
+          });
+        });
+
+        describe("sinon", () => {
+          beforeEach(async () => {
+            await getDbCollection("source.referentiel").insertOne(
+              generateSourceReferentiel({
+                data: generateOrganismeReferentielFixture({
+                  uai: query.uai,
+                  siret: siret3,
+                  etat_administratif: "actif",
+                  nature: "responsable_formateur",
+                  lieux_de_formation: [{ uai: query.uai }],
+                }),
+              })
+            );
+            await getDbCollection("source.referentiel").insertOne(
+              generateSourceReferentiel({
+                data: generateOrganismeReferentielFixture({
+                  uai: query.uai,
+                  siret: siret4,
+                  etat_administratif: "actif",
+                  nature: "responsable_formateur",
+                  lieux_de_formation: [{ uai: query.uai }],
+                }),
+              })
+            );
+          });
+
+          it("alors l'organisme n'est pas trouvé", async () => {
+            const result = await searchOrganisme(query);
+
+            expect(result).toEqual({
+              candidats: [
+                ...candidats,
+                {
+                  status: { ouvert: true, declaration_catalogue: true, validation_uai: true },
+                  correspondances: {
+                    uai: { lui_meme: true, son_lieu: true },
+                    siret: null,
+                  },
+                  organisme: { identifiant: { uai: query.uai, siret: siret3 } },
+                },
+                {
+                  status: { ouvert: true, declaration_catalogue: true, validation_uai: true },
+                  correspondances: {
+                    uai: { lui_meme: true, son_lieu: true },
+                    siret: null,
+                  },
+                  organisme: { identifiant: { uai: query.uai, siret: siret4 } },
+                },
+              ],
+              resultat: null,
+            });
+          });
+        });
+      });
+    });
+
+    describe("Si un UNIQUE organisme est à la fois: trouvé par UAI lieu; ouvert et validé par le référentiel (UAI non null)", () => {
+      it("alors l'organisme est trouvé", async () => {
+        await getDbCollection("source.referentiel").insertMany([
+          generateSourceReferentiel({
+            data: generateOrganismeReferentielFixture({
+              uai: uai2,
+              siret: siret1,
+              etat_administratif: "actif",
+              lieux_de_formation: [{ uai: query.uai }],
+            }),
+          }),
+          generateSourceReferentiel({
+            data: generateOrganismeReferentielFixture({
+              uai: uai3,
+              siret: siret2,
+              etat_administratif: "fermé",
+              lieux_de_formation: [{ uai: query.uai }],
+            }),
+          }),
+        ]);
+
+        const result = await searchOrganisme(query);
+
+        expect(result).toEqual({
+          candidats: [],
+          resultat: {
+            status: { ouvert: true, declaration_catalogue: true, validation_uai: true },
+            correspondances: {
+              uai: { lui_meme: false, son_lieu: true },
+              siret: null,
+            },
+            organisme: { identifiant: { uai: uai2, siret: siret1 } },
+          },
+        });
+      });
+
+      describe("sinon Les organismes trouvés par UAI lieux sont ajoutés à la liste des candidats", () => {
+        it("alors l'organisme n'est pas trouvé", async () => {
+          await getDbCollection("source.referentiel").insertMany([
+            generateSourceReferentiel({
+              data: generateOrganismeReferentielFixture({
+                uai: uai2,
+                siret: siret1,
+                etat_administratif: "actif",
+                lieux_de_formation: [{ uai: query.uai }],
+              }),
+            }),
+            generateSourceReferentiel({
+              data: generateOrganismeReferentielFixture({
+                uai: uai3,
+                siret: siret2,
+                etat_administratif: "fermé",
+                lieux_de_formation: [{ uai: query.uai }],
+              }),
+            }),
+            generateSourceReferentiel({
+              data: generateOrganismeReferentielFixture({
+                uai: uai4,
+                siret: siret5,
+                etat_administratif: "actif",
+                lieux_de_formation: [{ uai: query.uai }],
+              }),
+            }),
+          ]);
+
+          const result = await searchOrganisme(query);
+
+          expect(result).toEqual({
+            candidats: [
+              {
+                status: { ouvert: true, declaration_catalogue: true, validation_uai: true },
+                correspondances: {
+                  uai: { lui_meme: false, son_lieu: true },
+                  siret: null,
+                },
+                organisme: { identifiant: { uai: uai2, siret: siret1 } },
+              },
+              {
+                status: { ouvert: true, declaration_catalogue: true, validation_uai: true },
+                correspondances: {
+                  uai: { lui_meme: false, son_lieu: true },
+                  siret: null,
+                },
+                organisme: { identifiant: { uai: uai4, siret: siret5 } },
+              },
+            ],
+            resultat: null,
+          });
+        });
+      });
+    });
+  });
+
+  describe('recherche par "uai" et "siret" null', () => {
+    const query = {
+      uai: null,
+      siret: null,
+    } as const satisfies OrganismeSearchQuery;
+
+    it("alors l'organisme n'est pas trouvé", async () => {
+      await getDbCollection("source.referentiel").insertOne(generateSourceReferentiel());
+      const result = await searchOrganisme(query);
+
+      expect(result).toEqual({
+        candidats: [],
+        resultat: null,
+      });
+    });
+  });
 });

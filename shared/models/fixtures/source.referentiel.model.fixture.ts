@@ -5,11 +5,13 @@ import { getFixtureValue } from "./fixture_helper";
 
 export type IOrganismeReferentielDataInput = Partial<IOrganismeReferentiel>;
 
-export type ISourceReferentielInput = Partial<Omit<ISourceReferentiel, "data">> & {
-  data: IOrganismeReferentielDataInput;
-};
+export type ISourceReferentielInput = Partial<
+  Omit<ISourceReferentiel, "data"> & {
+    data: IOrganismeReferentielDataInput;
+  }
+>;
 
-export function generateOrganismeReferentielFixture(data: IOrganismeReferentielDataInput): IOrganismeReferentiel {
+export function generateOrganismeReferentielFixture(data?: IOrganismeReferentielDataInput): IOrganismeReferentiel {
   return {
     siret: getFixtureValue(data, "siret", "11000007200014"),
     certifications: getFixtureValue(data, "certifications", []),
@@ -24,7 +26,7 @@ export function generateOrganismeReferentielFixture(data: IOrganismeReferentielD
   };
 }
 
-export function generateSourceReferentiel(data: ISourceReferentielInput): ISourceReferentiel {
+export function generateSourceReferentiel(data?: ISourceReferentielInput): ISourceReferentiel {
   return {
     _id: getFixtureValue(data, "_id", new ObjectId()),
     date: getFixtureValue(data, "date", new Date("2024-04-19T00:00:00Z")),

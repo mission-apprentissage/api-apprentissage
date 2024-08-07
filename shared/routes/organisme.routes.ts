@@ -12,21 +12,25 @@ const zRechercheOrganismeResultat = zodOpenApi.object({
     validation_uai: zodOpenApi.boolean(),
   }),
   correspondances: zodOpenApi.object({
-    uai: zodOpenApi.object({
-      lui_meme: zodOpenApi.boolean(),
-      son_lieu: zodOpenApi.boolean(),
-      // Following cannot be checked with referentiel only
-      // We need to check through catalogue
-      // son_formateur: zodOpenApi.boolean(),
-      // son_responsable: zodOpenApi.boolean(),
-      // lieu_de_son_responsable: zodOpenApi.boolean(),
-      // lieu_de_son_formateur: zodOpenApi.boolean(),
-    }),
-    siret: zodOpenApi.object({
-      son_formateur: zodOpenApi.boolean(),
-      son_responsable: zodOpenApi.boolean(),
-      lui_meme: zodOpenApi.boolean(),
-    }),
+    uai: zodOpenApi
+      .object({
+        lui_meme: zodOpenApi.boolean(),
+        son_lieu: zodOpenApi.boolean(),
+        // Following cannot be checked with referentiel only
+        // We need to check through catalogue
+        // son_formateur: zodOpenApi.boolean(),
+        // son_responsable: zodOpenApi.boolean(),
+        // lieu_de_son_responsable: zodOpenApi.boolean(),
+        // lieu_de_son_formateur: zodOpenApi.boolean(),
+      })
+      .nullable(),
+    siret: zodOpenApi
+      .object({
+        son_formateur: zodOpenApi.boolean(),
+        son_responsable: zodOpenApi.boolean(),
+        lui_meme: zodOpenApi.boolean(),
+      })
+      .nullable(),
   }),
   organisme: zOrganisme,
 });

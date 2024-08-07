@@ -36,18 +36,18 @@ const zRechercheOrganismeResultat = zodOpenApi.object({
 });
 
 const zRechercheOrganismeResponse = zodOpenApi.object({
-  // metadata: zodOpenApi.object({
-  //   uai: zodOpenApi
-  //     .object({
-  //       status: zodOpenApi.enum(["inconnu", "ok"]),
-  //     })
-  //     .nullable(),
-  //   siret: zodOpenApi
-  //     .object({
-  //       status: zodOpenApi.enum(["inconnu", "fermé", "ok"]),
-  //     })
-  //     .nullable(),
-  // }),
+  metadata: zodOpenApi.object({
+    uai: zodOpenApi
+      .object({
+        status: zodOpenApi.enum(["inconnu", "ok"]),
+      })
+      .nullable(),
+    siret: zodOpenApi
+      .object({
+        status: zodOpenApi.enum(["inconnu", "fermé", "ok"]),
+      })
+      .nullable(),
+  }),
   resultat: zRechercheOrganismeResultat.nullable(),
   candidats: zodOpenApi.array(zRechercheOrganismeResultat),
 });
@@ -62,8 +62,8 @@ export const zOrganismesRoutes = {
       method: "get",
       path: "/organismes/v1/recherche",
       querystring: z.object({
-        uai: zUai.optional(),
-        siret: zSiret.optional(),
+        uai: zUai.nullable().default(null),
+        siret: zSiret.nullable().default(null),
       }),
       response: {
         "200": zRechercheOrganismeResponse,
@@ -74,10 +74,10 @@ export const zOrganismesRoutes = {
         ressources: {},
       },
       openapi: {
-        tags: ["Certifications"] as string[],
-        summary: "Récupération des certifications",
-        description: "Récupère la liste des certifications, filtrée par `identifiant.cfd` et `identifiant.rncp`",
-        operationId: "getCertifications",
+        tags: ["Organismes"] as string[],
+        summary: "Recherche d'organismes par UAI et/ou SIRET",
+        description: "Récupère la liste des organismes, filtrée par UAI et/ou SIRET fournis",
+        operationId: "searchOrganismes",
       },
     },
   },

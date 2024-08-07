@@ -65,6 +65,8 @@ fileignoreconfig:
   checksum: fddb0ef3fa49ae00fbedf74b219642741fd55968b0e79cf2ded9bcd7b8a64956
 - filename: server/src/server/routes/experimental/sources/acce.routes.test.ts
   checksum: 88e0f6ea12375ce41da1d66ffc17198492db93fc1738710febdcd4aa7b9d1cba
+- filename: server/src/server/routes/organismes.routes.test.ts
+  checksum: 52a707d35a335c6049125e628c374c70f632312048b5a1570037a88ec2d26c15
 - filename: server/src/services/apis/data_gouv/data_gouv.api.test.ts
   checksum: b3bf0da3f21bf6aad5909230e54d24072bf9b3b025eadae988b5c36e47c08994
 - filename: server/src/services/organisme/fixtures/tdb/referentiel.fixture.json

@@ -6608,8 +6608,8 @@ Notes:
     },
     "/organismes/v1/recherche": {
       "get": {
-        "description": "Récupère la liste des certifications, filtrée par \`identifiant.cfd\` et \`identifiant.rncp\`",
-        "operationId": "getCertifications",
+        "description": "Récupère la liste des organismes, filtrée par UAI et/ou SIRET fournis",
+        "operationId": "searchOrganismes",
         "parameters": [
           {
             "in": "query",
@@ -6617,7 +6617,10 @@ Notes:
             "required": false,
             "schema": {
               "pattern": "^\\d{1,7}[A-Z]$",
-              "type": "string",
+              "type": [
+                "string",
+                "null",
+              ],
             },
           },
           {
@@ -6626,7 +6629,10 @@ Notes:
             "required": false,
             "schema": {
               "pattern": "^\\d{9,14}$",
-              "type": "string",
+              "type": [
+                "string",
+                "null",
+              ],
             },
           },
         ],
@@ -6658,7 +6664,10 @@ Notes:
                                   "son_responsable",
                                   "lui_meme",
                                 ],
-                                "type": "object",
+                                "type": [
+                                  "object",
+                                  "null",
+                                ],
                               },
                               "uai": {
                                 "properties": {
@@ -6673,7 +6682,10 @@ Notes:
                                   "lui_meme",
                                   "son_lieu",
                                 ],
-                                "type": "object",
+                                "type": [
+                                  "object",
+                                  "null",
+                                ],
                               },
                             },
                             "required": [
@@ -6806,7 +6818,10 @@ Notes:
                                 "son_responsable",
                                 "lui_meme",
                               ],
-                              "type": "object",
+                              "type": [
+                                "object",
+                                "null",
+                              ],
                             },
                             "uai": {
                               "properties": {
@@ -6821,7 +6836,10 @@ Notes:
                                 "lui_meme",
                                 "son_lieu",
                               ],
-                              "type": "object",
+                              "type": [
+                                "object",
+                                "null",
+                              ],
                             },
                           },
                           "required": [
@@ -7233,9 +7251,9 @@ Notes:
             "api-key": [],
           },
         ],
-        "summary": "Récupération des certifications",
+        "summary": "Recherche d'organismes par UAI et/ou SIRET",
         "tags": [
-          "Certifications",
+          "Organismes",
         ],
       },
     },

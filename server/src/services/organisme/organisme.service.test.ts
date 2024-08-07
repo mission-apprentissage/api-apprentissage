@@ -1,5 +1,6 @@
 import { useMongo } from "@tests/mongo.test.utils";
 import { ObjectId } from "mongodb";
+import nock from "nock";
 import {
   generateOrganismeReferentielFixture,
   generateSourceReferentiel,
@@ -13,8 +14,7 @@ import { getDbCollection } from "@/services/mongodb/mongodbService";
 
 import tdbFiabResultData from "./fixtures/tdb/fiabilisation.fixture.json?raw" assert { type: "json" };
 import tdbReferentielFixtureData from "./fixtures/tdb/referentiel.fixture.json?raw" assert { type: "json" };
-import { OrganismeSearchQuery, searchOrganisme } from "./organisme.service";
-
+import { OrganismeSearchQuery, searchOrganisme, searchOrganismeMetadata } from "./organisme.service";
 const zTdbFiabResult = z.discriminatedUnion("type", [
   z.object({
     siret: z.string(),
@@ -1262,6 +1262,408 @@ describe("searchOrganisme", () => {
       expect(result).toEqual({
         candidats: [],
         resultat: null,
+      });
+    });
+  });
+});
+
+describe("searchOrganismeMetadata", () => {
+  const uai1 = "0491801S";
+  const uai2 = "0594899E";
+  const uai3 = "0631408N";
+  const uai4 = "0851372E";
+  const siret1 = "19850144700025";
+  const siret2 = "26590673500120";
+  const siret3 = "98222438800016";
+  const siret4 = "88951250500013";
+
+  beforeEach(async () => {
+    nock.disableNetConnect();
+
+    await getDbCollection("source.referentiel").insertMany([
+      generateSourceReferentiel({
+        data: generateOrganismeReferentielFixture({
+          uai: uai1,
+          siret: siret1,
+          etat_administratif: "actif",
+        }),
+      }),
+      generateSourceReferentiel({
+        data: generateOrganismeReferentielFixture({
+          uai: uai2,
+          siret: siret2,
+          etat_administratif: "fermé",
+          lieux_de_formation: [{ uai: uai3 }],
+        }),
+      }),
+    ]);
+
+    return () => {
+      nock.cleanAll();
+      nock.enableNetConnect();
+    };
+  });
+
+  describe('recherche par "uai" et "siret" null', () => {
+    it("alors les metadata sont vides", async () => {
+      const query = {
+        uai: null,
+        siret: null,
+      } as const satisfies OrganismeSearchQuery;
+
+      const result = await searchOrganismeMetadata(query);
+
+      expect(result).toEqual({ uai: null, siret: null });
+    });
+  });
+
+  describe("si l'UAI est un UAI organisme", () => {
+    it("alors le status de l'UAI est ok", async () => {
+      const query = {
+        uai: uai1,
+        siret: null,
+      } as const satisfies OrganismeSearchQuery;
+
+      const result = await searchOrganismeMetadata(query);
+
+      expect(result).toEqual({ uai: { status: "ok" }, siret: null });
+    });
+  });
+
+  describe("si l'UAI est trouvé dans un UAI lieu", () => {
+    it("alors le status de l'UAI est ok", async () => {
+      const query = {
+        uai: uai3,
+        siret: null,
+      } as const satisfies OrganismeSearchQuery;
+
+      const result = await searchOrganismeMetadata(query);
+
+      expect(result).toEqual({ uai: { status: "ok" }, siret: null });
+    });
+  });
+
+  describe("si l'UAI n'est pas trouvé", () => {
+    it('alors le status de l"UAI est "inconnu"', async () => {
+      const query = {
+        uai: uai4,
+        siret: null,
+      } as const satisfies OrganismeSearchQuery;
+
+      const result = await searchOrganismeMetadata(query);
+
+      expect(result).toEqual({ uai: { status: "inconnu" }, siret: null });
+    });
+  });
+
+  describe("si le SIRET correspond à un organisme ouvert", () => {
+    it('alors le status du "siret" est "ok"', async () => {
+      const query = {
+        uai: null,
+        siret: siret1,
+      } as const satisfies OrganismeSearchQuery;
+
+      const result = await searchOrganismeMetadata(query);
+
+      expect(result).toEqual({ uai: null, siret: { status: "ok" } });
+    });
+  });
+
+  describe("si le SIRET correspond à un organisme fermé", () => {
+    it('alors le status du "siret" est "fermé"', async () => {
+      const query = {
+        uai: null,
+        siret: siret2,
+      } as const satisfies OrganismeSearchQuery;
+
+      const result = await searchOrganismeMetadata(query);
+
+      expect(result).toEqual({ uai: null, siret: { status: "fermé" } });
+    });
+  });
+
+  describe("si le SIRET n'est pas trouvé", () => {
+    describe("si le SIRET est trouvé dans l'API entreprise", () => {
+      describe('si l\'etat_administratif est "actif"', () => {
+        it('alors le status du "siret" est "ok"', async () => {
+          const query = {
+            uai: null,
+            siret: siret3,
+          } as const satisfies OrganismeSearchQuery;
+
+          const scope = nock("https://entreprise.api.gouv.fr/v3");
+          scope
+            .get(`/insee/sirene/etablissements/diffusibles/${siret3}`)
+            .query({
+              token: "key",
+              context: "MNA",
+              recipient: "13002526500013",
+              object: "Consolidation des données",
+            })
+            .reply(200, {
+              data: {
+                siret: siret3,
+                siege_social: true,
+                etat_administratif: "A",
+                date_fermeture: null,
+                enseigne: null,
+                activite_principale: {
+                  code: "62.09Z",
+                  nomenclature: "NAFRev2",
+                  libelle: "Autres activités informatiques",
+                },
+                tranche_effectif_salarie: {
+                  de: null,
+                  a: null,
+                  code: null,
+                  date_reference: null,
+                  intitule: null,
+                },
+                diffusable_commercialement: true,
+                status_diffusion: "diffusible",
+                date_creation: 1704150000,
+                unite_legale: {
+                  siren: "982224388",
+                  rna: null,
+                  siret_siege_social: "98222438800016",
+                  type: "personne_morale",
+                  personne_morale_attributs: {
+                    raison_sociale: "UPSCALE2I",
+                    sigle: null,
+                  },
+                  personne_physique_attributs: {
+                    pseudonyme: null,
+                    prenom_usuel: null,
+                    prenom_1: null,
+                    prenom_2: null,
+                    prenom_3: null,
+                    prenom_4: null,
+                    nom_usage: null,
+                    nom_naissance: null,
+                    sexe: null,
+                  },
+                  categorie_entreprise: null,
+                  status_diffusion: "diffusible",
+                  diffusable_commercialement: true,
+                  forme_juridique: {
+                    code: "5710",
+                    libelle: "SAS, société par actions simplifiée",
+                  },
+                  activite_principale: {
+                    code: "62.09Z",
+                    nomenclature: "NAFRev2",
+                    libelle: "Autres activités informatiques",
+                  },
+                  tranche_effectif_salarie: {
+                    de: null,
+                    a: null,
+                    code: null,
+                    date_reference: null,
+                    intitule: null,
+                  },
+                  economie_sociale_et_solidaire: false,
+                  date_creation: 1704150000,
+                  etat_administratif: "A",
+                },
+                adresse: {
+                  status_diffusion: "diffusible",
+                  complement_adresse: null,
+                  numero_voie: "5",
+                  indice_repetition_voie: null,
+                  type_voie: "ALLÉE",
+                  libelle_voie: "LOUIS CLOART",
+                  code_postal: "59290",
+                  libelle_commune: "WASQUEHAL",
+                  libelle_commune_etranger: null,
+                  distribution_speciale: null,
+                  code_commune: "59646",
+                  code_cedex: null,
+                  libelle_cedex: null,
+                  code_pays_etranger: null,
+                  libelle_pays_etranger: null,
+                  acheminement_postal: {
+                    l1: "UPSCALE2I",
+                    l2: "",
+                    l3: "",
+                    l4: "5 ALLÉE LOUIS CLOART",
+                    l5: "",
+                    l6: "59290 WASQUEHAL",
+                    l7: "FRANCE",
+                  },
+                },
+              },
+              links: {
+                unite_legale: "https://entreprise.api.gouv.fr/v3/insee/sirene/unites_legales/982224388",
+              },
+              meta: {
+                date_derniere_mise_a_jour: 1712700000,
+                redirect_from_siret: null,
+              },
+            });
+
+          const result = await searchOrganismeMetadata(query);
+
+          expect(result).toEqual({ uai: null, siret: { status: "ok" } });
+        });
+      });
+
+      describe('si l\'etat_administratif est "fermé"', () => {
+        it('alors le status du "siret" est "fermé"', async () => {
+          const query = {
+            uai: null,
+            siret: siret4,
+          } as const satisfies OrganismeSearchQuery;
+
+          const scope = nock("https://entreprise.api.gouv.fr/v3");
+          scope
+            .get(`/insee/sirene/etablissements/diffusibles/${siret4}`)
+            .query({
+              token: "key",
+              context: "MNA",
+              recipient: "13002526500013",
+              object: "Consolidation des données",
+            })
+            .reply(200, {
+              data: {
+                siret: "88951250500013",
+                siege_social: true,
+                etat_administratif: "F",
+                date_fermeture: 1640905200,
+                enseigne: null,
+                activite_principale: {
+                  code: "62.02A",
+                  nomenclature: "NAFRev2",
+                  libelle: "Conseil en systèmes et logiciels informatiques",
+                },
+                tranche_effectif_salarie: {
+                  de: null,
+                  a: null,
+                  code: null,
+                  date_reference: null,
+                  intitule: null,
+                },
+                diffusable_commercialement: true,
+                status_diffusion: "diffusible",
+                date_creation: 1593554400,
+                unite_legale: {
+                  siren: "889512505",
+                  rna: null,
+                  siret_siege_social: "88951250500013",
+                  type: "personne_morale",
+                  personne_morale_attributs: {
+                    raison_sociale: "SIDE BY SIDE",
+                    sigle: null,
+                  },
+                  personne_physique_attributs: {
+                    pseudonyme: null,
+                    prenom_usuel: null,
+                    prenom_1: null,
+                    prenom_2: null,
+                    prenom_3: null,
+                    prenom_4: null,
+                    nom_usage: null,
+                    nom_naissance: null,
+                    sexe: null,
+                  },
+                  categorie_entreprise: "PME",
+                  status_diffusion: "diffusible",
+                  diffusable_commercialement: true,
+                  forme_juridique: {
+                    code: "5710",
+                    libelle: "SAS, société par actions simplifiée",
+                  },
+                  activite_principale: {
+                    code: "62.02A",
+                    nomenclature: "NAFRev2",
+                    libelle: "Conseil en systèmes et logiciels informatiques",
+                  },
+                  tranche_effectif_salarie: {
+                    de: null,
+                    a: null,
+                    code: null,
+                    date_reference: null,
+                    intitule: null,
+                  },
+                  economie_sociale_et_solidaire: false,
+                  date_creation: 1593554400,
+                  etat_administratif: "C",
+                },
+                adresse: {
+                  status_diffusion: "diffusible",
+                  complement_adresse: "APPARTEMENT 21",
+                  numero_voie: "1",
+                  indice_repetition_voie: "ter",
+                  type_voie: "IMPASSE",
+                  libelle_voie: "PASSOIR",
+                  code_postal: "92110",
+                  libelle_commune: "CLICHY",
+                  libelle_commune_etranger: null,
+                  distribution_speciale: null,
+                  code_commune: "92024",
+                  code_cedex: null,
+                  libelle_cedex: null,
+                  code_pays_etranger: null,
+                  libelle_pays_etranger: null,
+                  acheminement_postal: {
+                    l1: "SIDE BY SIDE",
+                    l2: "",
+                    l3: "APPARTEMENT 21",
+                    l4: "1 TER IMPASSE PASSOIR",
+                    l5: "",
+                    l6: "92110 CLICHY",
+                    l7: "FRANCE",
+                  },
+                },
+              },
+              links: {
+                unite_legale: "https://entreprise.api.gouv.fr/v3/insee/sirene/unites_legales/889512505",
+              },
+              meta: {
+                date_derniere_mise_a_jour: 1711062000,
+                redirect_from_siret: null,
+              },
+            });
+
+          const result = await searchOrganismeMetadata(query);
+
+          expect(result).toEqual({ uai: null, siret: { status: "fermé" } });
+        });
+      });
+
+      describe("si une erreur est retournée par l'API entreprise", () => {
+        it('alors le status du "siret" est "inconnu"', async () => {
+          const query = {
+            uai: null,
+            siret: "8030051560004",
+          } as const satisfies OrganismeSearchQuery;
+
+          const scope = nock("https://entreprise.api.gouv.fr/v3");
+          scope
+            .get(`/insee/sirene/etablissements/diffusibles/8030051560004`)
+            .query({
+              token: "key",
+              context: "MNA",
+              recipient: "13002526500013",
+              object: "Consolidation des données",
+            })
+            .reply(422, {
+              errors: [
+                {
+                  code: "00302",
+                  title: "Entité non traitable",
+                  detail: "Le numéro de siret n'est pas correctement formatté",
+                  source: {
+                    parameter: "siret",
+                  },
+                  meta: {},
+                },
+              ],
+            });
+
+          const result = await searchOrganismeMetadata(query);
+
+          expect(result).toEqual({ uai: null, siret: { status: "inconnu" } });
+        });
       });
     });
   });

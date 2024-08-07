@@ -1,10 +1,9 @@
 import { zRoutes } from "shared";
 
 import type { Server } from "@/server/server";
-import { getDbCollection } from "@/services/mongodb/mongodbService";
-import { createResponseStream } from "@/utils/streamUtils";
+import { searchOrganisme, searchOrganismeMetadata } from "@/services/organisme/organisme.service";
 
-export const certificationsRoutes = ({ server }: { server: Server }) => {
+export const organismeRoutes = ({ server }: { server: Server }) => {
   server.get(
     "/organismes/v1/recherche",
     {
@@ -12,12 +11,12 @@ export const certificationsRoutes = ({ server }: { server: Server }) => {
       onRequest: [server.auth(zRoutes.get["/organismes/v1/recherche"])],
     },
     async (request, response) => {
-      const cursor = getDbCollection("certifications").find(request.query);
+      const [metadata, { candidats, resultat }] = await Promise.all([
+        searchOrganismeMetadata(request.query),
+        searchOrganisme(request.query),
+      ]);
 
-      return response
-        .status(200)
-        .header("Content-Type", "application/json")
-        .send(createResponseStream(cursor, zRoutes.get["/certification/v1"].response["200"]));
+      return response.status(200).send({ metadata, resultat, candidats });
     }
   );
 };

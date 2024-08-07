@@ -1,7 +1,10 @@
+import { captureException } from "@sentry/node";
 import { Filter } from "mongodb";
 import { ISourceReferentiel } from "shared/models/source/referentiel/source.referentiel.model";
 import { IRechercheOrganismeResponse, IRechercheOrganismeResultat } from "shared/routes/organisme.routes";
 
+import { getEtablissementDiffusible } from "@/services/apis/entreprise/entreprise";
+import logger from "@/services/logger";
 import { getDbCollection } from "@/services/mongodb/mongodbService";
 
 export type OrganismeSearchQuery = {
@@ -69,7 +72,53 @@ function applySearch(
   };
 }
 
-export async function searchOrganisme({ uai, siret }: OrganismeSearchQuery): Promise<IRechercheOrganismeResponse> {
+export async function searchOrganismeMetadata({
+  uai,
+  siret,
+}: OrganismeSearchQuery): Promise<IRechercheOrganismeResponse["metadata"]> {
+  const metadata: IRechercheOrganismeResponse["metadata"] = {
+    uai: null,
+    siret: null,
+  };
+
+  const [uaiReferentiel, siretReferentiel] = await Promise.all([
+    uai === null
+      ? null
+      : getDbCollection("source.referentiel").findOne({
+          $or: [{ "data.uai": uai }, { "data.lieux_de_formation.uai": uai }],
+        }),
+    siret === null ? null : getDbCollection("source.referentiel").findOne({ "data.siret": siret }),
+  ]);
+
+  if (uai) {
+    metadata.uai = { status: uaiReferentiel ? "ok" : "inconnu" };
+  }
+
+  if (siret) {
+    if (siretReferentiel) {
+      metadata.siret = { status: siretReferentiel.data.etat_administratif === "actif" ? "ok" : "fermé" };
+    } else {
+      const etablissement = await getEtablissementDiffusible(siret).catch((e) => {
+        logger.error(e);
+        captureException(e);
+        return null;
+      });
+
+      if (etablissement) {
+        metadata.siret = { status: etablissement.etat_administratif === "A" ? "ok" : "fermé" };
+      } else {
+        metadata.siret = { status: "inconnu" };
+      }
+    }
+  }
+
+  return metadata;
+}
+
+export async function searchOrganisme({
+  uai,
+  siret,
+}: OrganismeSearchQuery): Promise<Omit<IRechercheOrganismeResponse, "metadata">> {
   if (!uai && !siret) {
     return {
       resultat: null,

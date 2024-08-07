@@ -47,8 +47,8 @@ export type ApiEntEtablissement = {
 
 // Cf Documentation : https://doc.entreprise.api.gouv.fr/#param-tres-obligatoires
 const apiEntrepriseClient = apiRateLimiter("apiEntreprise", {
-  nbRequests: 2,
-  durationInSeconds: 1,
+  nbRequests: 100,
+  durationInSeconds: 60,
   client: getApiClient({
     baseURL: config.api.entreprise.baseurl,
   }),

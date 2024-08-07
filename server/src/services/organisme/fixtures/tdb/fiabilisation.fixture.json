@@ -1,0 +1,3484 @@
+[
+  {
+    "siret": "30282378600025",
+    "uai": "0370074E",
+    "siret_fiable": "30282378600025",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0370074E",
+    "rule_id": 8
+  },
+  {
+    "siret": "18061919900011",
+    "uai": "0830053G",
+    "siret_fiable": "18061919900011",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0062176H",
+    "rule_id": 3
+  },
+  {
+    "siret": "18800864300028",
+    "uai": "0600015R",
+    "siret_fiable": "18800864300028",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0802084F",
+    "rule_id": 3
+  },
+  {
+    "siret": "51872913200135",
+    "uai": "9720947X",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19921935300018",
+    "uai": "0921935D",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "13002948100103",
+    "uai": "0711958T",
+    "siret_fiable": "13002948100012",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0711958T",
+    "rule_id": 8
+  },
+  {
+    "siret": "18061919900011",
+    "uai": "0060020P",
+    "siret_fiable": "18061919900011",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0062176H",
+    "rule_id": 3
+  },
+  {
+    "siret": "49342866800021",
+    "uai": "0061426T",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "19840042600021",
+    "uai": "0840042P",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "89307491400019",
+    "uai": "0694566N",
+    "siret_fiable": "89307491400027",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0694566N",
+    "rule_id": 8
+  },
+  {
+    "siret": "19640028700013",
+    "uai": "0640028H",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19190012500011",
+    "uai": "0190770J",
+    "siret_fiable": "18873703500025",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0190770J",
+    "rule_id": 8
+  },
+  {
+    "uai": "9720695Y",
+    "siret": "18972905600011",
+    "type": "NON_FIABILISABLE_UAI_NON_VALIDEE",
+    "rule_id": 9
+  },
+  {
+    "siret": "30870853600054",
+    "uai": "0681817F",
+    "siret_fiable": "30870853600054",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0693640G",
+    "rule_id": 3
+  },
+  {
+    "siret": "13001550600301",
+    "uai": "0540113E",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "13000604200019",
+    "uai": "0212198A",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "uai": "0562038L",
+    "siret": "19561718800485",
+    "type": "NON_FIABILISABLE_UAI_NON_VALIDEE",
+    "rule_id": 9
+  },
+  {
+    "siret": "20002939500015",
+    "uai": "9760338N",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "13001533200161",
+    "uai": "0132138D",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "34347943200043",
+    "uai": "0601807N",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "19230000200016",
+    "uai": "0230581G",
+    "siret_fiable": "18873703500025",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0230581G",
+    "rule_id": 8
+  },
+  {
+    "siret": "19972468300016",
+    "uai": "9720468B",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19670058700021",
+    "uai": "0672056W",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "40877891800065",
+    "uai": "0292341M",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19940171200013",
+    "uai": "0940171A",
+    "siret_fiable": "18940910500013",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0940171A",
+    "rule_id": 8
+  },
+  {
+    "siret": "19190027300019",
+    "uai": "0195058V",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "uai": "0880064S",
+    "siret": "19880064100014",
+    "type": "NON_FIABILISABLE_UAI_NON_VALIDEE",
+    "rule_id": 9
+  },
+  {
+    "siret": "19570124800021",
+    "uai": "0570124A",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "81980627400026",
+    "uai": "0772924K",
+    "siret_fiable": "81980627400034",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0772924K",
+    "rule_id": 2
+  },
+  {
+    "siret": "19400047700019",
+    "uai": "0400047J",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "18061919900011",
+    "uai": "0831563Y",
+    "siret_fiable": "18061919900011",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0062176H",
+    "rule_id": 3
+  },
+  {
+    "siret": "19640009700016",
+    "uai": "0641844G",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "82114293200010",
+    "uai": "6342293Z",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19681809000017",
+    "uai": "0681809X",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "82409268800053",
+    "uai": "0134149P",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "13001533200013",
+    "uai": "0134118F",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "13002948100012",
+    "uai": "0212237T",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "18671553800044",
+    "uai": "0680073K",
+    "siret_fiable": "18671553800044",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0673147G",
+    "rule_id": 3
+  },
+  {
+    "siret": "19550002000027",
+    "uai": "0550004F",
+    "siret_fiable": "19550002000027",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0550939X",
+    "rule_id": 3
+  },
+  {
+    "siret": "19540042900021",
+    "uai": "0541270M",
+    "siret_fiable": "19540042900021",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0542035U",
+    "rule_id": 3
+  },
+  {
+    "siret": "18671553800044",
+    "uai": "0670084C",
+    "siret_fiable": "18671553800044",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0673147G",
+    "rule_id": 3
+  },
+  {
+    "siret": "18671553800044",
+    "uai": "0670071N",
+    "siret_fiable": "18671553800044",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0673147G",
+    "rule_id": 3
+  },
+  {
+    "siret": "49342866800013",
+    "uai": "0061426T",
+    "siret_fiable": "49342866800021",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0061426T",
+    "rule_id": 2
+  },
+  {
+    "siret": "19590015400020",
+    "uai": "0590015W",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "19880153200047",
+    "uai": "0881140L",
+    "siret_fiable": "19880153200047",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0881529J",
+    "rule_id": 3
+  },
+  {
+    "siret": "32500211100012",
+    "uai": "0942340H",
+    "siret_fiable": "32500211100012",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0942340H",
+    "rule_id": 8
+  },
+  {
+    "siret": "19501219000029",
+    "uai": "0501720Y",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "51781333300047",
+    "uai": "0134343A",
+    "siret_fiable": "84005616200018",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0134343A",
+    "rule_id": 2
+  },
+  {
+    "siret": "78574029100253",
+    "uai": "0942217Z",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "78835426400111",
+    "uai": "0851592U",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "33345298500034",
+    "uai": "0754566F",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19170078000015",
+    "uai": "0170078T",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "19330114000029",
+    "uai": "0330114V",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19640098000013",
+    "uai": "0640098J",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "53329492200042",
+    "uai": "0000000N",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "18061919900011",
+    "uai": "0830059N",
+    "siret_fiable": "18061919900011",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0062176H",
+    "rule_id": 3
+  },
+  {
+    "siret": "88420142700017",
+    "uai": "0772906R",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19932120900017",
+    "uai": "0932120Z",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19570057000037",
+    "uai": "0541286E",
+    "siret_fiable": "19570057000037",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0573003E",
+    "rule_id": 3
+  },
+  {
+    "siret": "34182077700033",
+    "uai": "0754458N",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "19640080800016",
+    "uai": "0640080P",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "18061919900011",
+    "uai": "0060023T",
+    "siret_fiable": "18061919900011",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0062176H",
+    "rule_id": 3
+  },
+  {
+    "siret": "77570084200013",
+    "uai": "0762312A",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "19570077800010",
+    "uai": "0570077Z",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "50013802900037",
+    "uai": "0597090L",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "18671553800044",
+    "uai": "0671832C",
+    "siret_fiable": "18671553800044",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0673147G",
+    "rule_id": 3
+  },
+  {
+    "siret": "19770926400018",
+    "uai": "0770926N",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "77566202600415",
+    "uai": "0721648A",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "13002054800017",
+    "uai": "0342321N",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "18940910500013",
+    "uai": "0770920G",
+    "siret_fiable": "18940910500013",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0942202H",
+    "rule_id": 3
+  },
+  {
+    "siret": "19330137100012",
+    "uai": "0332781U",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "21120096900288",
+    "uai": "0120000X",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "45019707400039",
+    "uai": "0330089T",
+    "siret_fiable": "45019707400039",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0333123R",
+    "rule_id": 3
+  },
+  {
+    "siret": "20004851000016",
+    "uai": "0492430A",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "35308765300062",
+    "uai": "0342462S",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19490054400017",
+    "uai": "0490054T",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "34182077700033",
+    "uai": "0754016H",
+    "siret_fiable": "34182077700033",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0754458N",
+    "rule_id": 3
+  },
+  {
+    "siret": "19211237300803",
+    "uai": "0711709X",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19570099200074",
+    "uai": "0572998Z",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "18671553800044",
+    "uai": "0672806L",
+    "siret_fiable": "18671553800044",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0673147G",
+    "rule_id": 3
+  },
+  {
+    "siret": "18061919900011",
+    "uai": "0831243A",
+    "siret_fiable": "18061919900011",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0062176H",
+    "rule_id": 3
+  },
+  {
+    "siret": "18780913200041",
+    "uai": "0783544D",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "19570057000037",
+    "uai": "0573227Y",
+    "siret_fiable": "19570057000037",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0573003E",
+    "rule_id": 3
+  },
+  {
+    "siret": "81893333500023",
+    "uai": "0596711Z",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19810032300015",
+    "uai": "0810033W",
+    "siret_fiable": "19810032300015",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0811324Z",
+    "rule_id": 3
+  },
+  {
+    "siret": "41244043000020",
+    "uai": "0763150L",
+    "siret_fiable": "41244043000020",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0763545R",
+    "rule_id": 3
+  },
+  {
+    "siret": "19850028200035",
+    "uai": "0851313R",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19440036200019",
+    "uai": "0440036A",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19972424600012",
+    "uai": "9720424D",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "39324819000026",
+    "uai": "0782539L",
+    "siret_fiable": "39324819000026",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0782093B",
+    "rule_id": 3
+  },
+  {
+    "uai": "9720091S",
+    "siret": "18972905600011",
+    "type": "NON_FIABILISABLE_UAI_NON_VALIDEE",
+    "rule_id": 9
+  },
+  {
+    "siret": "18840001400042",
+    "uai": "0840985P",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19880153200047",
+    "uai": "0880023X",
+    "siret_fiable": "19880153200047",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0881529J",
+    "rule_id": 3
+  },
+  {
+    "siret": "38915648000011",
+    "uai": "0312353P",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "18780913200041",
+    "uai": "0920130S",
+    "siret_fiable": "18780913200041",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0783544D",
+    "rule_id": 3
+  },
+  {
+    "siret": "80919961500018",
+    "uai": "0352938D",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "79963796200066",
+    "uai": "0134340X",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "39391439500057",
+    "uai": "0133876T",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19880153200047",
+    "uai": "0880019T",
+    "siret_fiable": "19880153200047",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0881529J",
+    "rule_id": 3
+  },
+  {
+    "siret": "19400020400017",
+    "uai": "0400020E",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "77568562101125",
+    "uai": "0682024F",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "78574029100337",
+    "uai": "0642134X",
+    "siret_fiable": "78574029101046",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0642134X",
+    "rule_id": 8
+  },
+  {
+    "siret": "83116871100016",
+    "uai": "0512191E",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "84005616200018",
+    "uai": "0134343A",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "77570084200013",
+    "uai": "0271282X",
+    "siret_fiable": "77570084200013",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0762312A",
+    "rule_id": 3
+  },
+  {
+    "siret": "38855948600070",
+    "uai": "0673018S",
+    "siret_fiable": "38855948600070",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0681832X",
+    "rule_id": 3
+  },
+  {
+    "siret": "19440541100019",
+    "uai": "0440541Z",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "26060015000080",
+    "uai": "0061849C",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "82304134800017",
+    "uai": "0542507G",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "77694419100043",
+    "uai": "0312065B",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "13002170200076",
+    "uai": "0422302Z",
+    "siret_fiable": "13002170200076",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0694380L",
+    "rule_id": 3
+  },
+  {
+    "siret": "20000446300028",
+    "uai": "9760165A",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "19720013200011",
+    "uai": "0720013Y",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "20004034300010",
+    "uai": "0442765S",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "49288729400022",
+    "uai": "0624334Z",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "40955435900052",
+    "uai": "0596989B",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19330023300031",
+    "uai": "0640010N",
+    "siret_fiable": "19330023300031",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0332820L",
+    "rule_id": 3
+  },
+  {
+    "siret": "80799301900072",
+    "uai": "0561860T",
+    "siret_fiable": "80799301900114",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0561860T",
+    "rule_id": 2
+  },
+  {
+    "siret": "77566202601165",
+    "uai": "0492518W",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "48927001700010",
+    "uai": "0451690T",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "50013802900030",
+    "uai": "0597090X",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19760114900010",
+    "uai": "0763071A",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "19840096200017",
+    "uai": "0840096Y",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "uai": "0511951U",
+    "siret": "19510067200029",
+    "type": "NON_FIABILISABLE_UAI_NON_VALIDEE",
+    "rule_id": 9
+  },
+  {
+    "siret": "31065487600062",
+    "uai": "0313057E",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "88783332500012",
+    "uai": "0062031A",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19490020500015",
+    "uai": "0490054T",
+    "siret_fiable": "19490054400017",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0490054T",
+    "rule_id": 8
+  },
+  {
+    "siret": "44984201200014",
+    "uai": "0660913J",
+    "siret_fiable": "44984201200022",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0660913J",
+    "rule_id": 2
+  },
+  {
+    "siret": "34812741600058",
+    "uai": "0442393M",
+    "siret_fiable": "34812741600066",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0442393M",
+    "rule_id": 8
+  },
+  {
+    "siret": "19940112600016",
+    "uai": "0940112L",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19330023300031",
+    "uai": "0332820L",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "19601363500012",
+    "uai": "0602156T",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "uai": "0020012C",
+    "siret": "34896746400028",
+    "type": "NON_FIABILISABLE_UAI_NON_VALIDEE",
+    "rule_id": 9
+  },
+  {
+    "siret": "77916460700029",
+    "uai": "0430842G",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "30870853600054",
+    "uai": "0693640G",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "uai": "0190722G",
+    "siret": "19190701300012",
+    "type": "NON_FIABILISABLE_UAI_VALIDEE",
+    "rule_id": 9
+  },
+  {
+    "siret": "77694419100035",
+    "uai": "0311145B",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "19311240600015",
+    "uai": "0311240E",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19570057000037",
+    "uai": "0540030P",
+    "siret_fiable": "19570057000037",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0573003E",
+    "rule_id": 3
+  },
+  {
+    "siret": "19880152400010",
+    "uai": "0880056H",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "uai": "0010016M",
+    "siret": "19010017200013",
+    "type": "NON_FIABILISABLE_UAI_VALIDEE",
+    "rule_id": 9
+  },
+  {
+    "siret": "19492148200015",
+    "uai": "0492148U",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "79207386800038",
+    "uai": "0693872J",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "80863414100358",
+    "uai": "0731588E",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19640050100017",
+    "uai": "0640050G",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "18130002100225",
+    "uai": "0133527N",
+    "siret_fiable": "18130002100225",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0133836Z",
+    "rule_id": 3
+  },
+  {
+    "uai": "0501219D",
+    "siret": "19500066600014",
+    "type": "NON_FIABILISABLE_UAI_VALIDEE",
+    "rule_id": 9
+  },
+  {
+    "siret": "13001533200013",
+    "uai": "0134117E",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19850027400040",
+    "uai": "0851313R",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "41947593400032",
+    "uai": "0371713L",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "19330023300031",
+    "uai": "0240007C",
+    "siret_fiable": "19240007500011",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0240007C",
+    "rule_id": 2
+  },
+  {
+    "siret": "19840016000026",
+    "uai": "0841241T",
+    "siret_fiable": "19840005300023",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0841241T",
+    "rule_id": 8
+  },
+  {
+    "siret": "20001620200018",
+    "uai": "0610021S",
+    "siret_fiable": "19610021800011",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0610021S",
+    "rule_id": 8
+  },
+  {
+    "siret": "19781944400013",
+    "uai": "0782104N",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19501219000029",
+    "uai": "0501219D",
+    "siret_fiable": "19501219000029",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0501720Y",
+    "rule_id": 3
+  },
+  {
+    "siret": "77566202601207",
+    "uai": "0841239R",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19400017000010",
+    "uai": "0400017B",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19720065200018",
+    "uai": "0720065E",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "uai": "0391172M",
+    "siret": "37932670500033",
+    "type": "NON_FIABILISABLE_UAI_VALIDEE",
+    "rule_id": 9
+  },
+  {
+    "siret": "91453482100014",
+    "uai": "9741865J",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "42339754600031",
+    "uai": "0251888S",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "13002144700011",
+    "uai": "0755581J",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "81156490500016",
+    "uai": "0602205W",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19310091400020",
+    "uai": "0310091F",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "19540042900021",
+    "uai": "0540041B",
+    "siret_fiable": "19540042900021",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0542035U",
+    "rule_id": 3
+  },
+  {
+    "siret": "79993303100020",
+    "uai": "0342333B",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "19800065500011",
+    "uai": "0802152E",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19310091400012",
+    "uai": "0310091F",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "38855948600070",
+    "uai": "0681832X",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "50013802900029",
+    "uai": "0597090L",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "44984201200022",
+    "uai": "0660913J",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "uai": "0780424M",
+    "siret": "13002797200160",
+    "type": "NON_FIABILISABLE_UAI_VALIDEE",
+    "rule_id": 9
+  },
+  {
+    "siret": "18061919900011",
+    "uai": "0830050D",
+    "siret_fiable": "18061919900011",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0062176H",
+    "rule_id": 3
+  },
+  {
+    "siret": "19772312500013",
+    "uai": "0772312V",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19540032000014",
+    "uai": "0540032S",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "13001533200013",
+    "uai": "0133869K",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19590037800025",
+    "uai": "0590037V",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "39974132100018",
+    "uai": "0791171U",
+    "siret_fiable": "39974132100018",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0791098P",
+    "rule_id": 3
+  },
+  {
+    "siret": "19972501100019",
+    "uai": "9720501M",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19251202800023",
+    "uai": "0251853D",
+    "siret_fiable": "19251202800015",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0251853D",
+    "rule_id": 8
+  },
+  {
+    "siret": "19541338000013",
+    "uai": "0541338L",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19540042900021",
+    "uai": "0540034U",
+    "siret_fiable": "19540042900021",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0542035U",
+    "rule_id": 3
+  },
+  {
+    "siret": "19972526800015",
+    "uai": "9720888H",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19880153200013",
+    "uai": "0881529J",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "13002282500124",
+    "uai": "0301829A",
+    "siret_fiable": "13002282500223",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0301829A",
+    "rule_id": 2
+  },
+  {
+    "siret": "18061919900011",
+    "uai": "0062176H",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "19541286100013",
+    "uai": "0541286E",
+    "siret_fiable": "19570057000037",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0541286E",
+    "rule_id": 8
+  },
+  {
+    "siret": "19753472000077",
+    "uai": "0510083N",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "84989709500014",
+    "uai": "0942340H",
+    "siret_fiable": "32500211100012",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0942340H",
+    "rule_id": 8
+  },
+  {
+    "siret": "77871521900177",
+    "uai": "0391210D",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "37932670500041",
+    "uai": "0391210D",
+    "siret_fiable": "77871521900177",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0391210D",
+    "rule_id": 2
+  },
+  {
+    "siret": "34812741600066",
+    "uai": "0442393M",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "19753472000010",
+    "uai": "0753472S",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19941974800025",
+    "uai": "0941974K",
+    "siret_fiable": "18940910500013",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0941974K",
+    "rule_id": 8
+  },
+  {
+    "siret": "13002948100053",
+    "uai": "0711246U",
+    "siret_fiable": "13002948100012",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0711246U",
+    "rule_id": 8
+  },
+  {
+    "siret": "38855948600070",
+    "uai": "0673020U",
+    "siret_fiable": "38855948600070",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0681832X",
+    "rule_id": 3
+  },
+  {
+    "siret": "19030060800014",
+    "uai": "0030060Z",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19620162800050",
+    "uai": "0620162P",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "uai": "0690651H",
+    "siret": "30023071100016",
+    "type": "NON_FIABILISABLE_UAI_VALIDEE",
+    "rule_id": 9
+  },
+  {
+    "siret": "19630001600025",
+    "uai": "0631728L",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19801628900011",
+    "uai": "0802171A",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "31402460500052",
+    "uai": "0754016H",
+    "siret_fiable": "34182077700033",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0754016H",
+    "rule_id": 8
+  },
+  {
+    "siret": "13002792300320",
+    "uai": "0790924A",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "19270042500023",
+    "uai": "0270042Z",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "19810032300015",
+    "uai": "0811324Z",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "19880055900017",
+    "uai": "0880055G",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "80919961500018",
+    "uai": "0352446U",
+    "siret_fiable": "80919961500018",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0352938D",
+    "rule_id": 3
+  },
+  {
+    "siret": "19501219000029",
+    "uai": "0140019V",
+    "siret_fiable": "19501219000029",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0501720Y",
+    "rule_id": 3
+  },
+  {
+    "siret": "13000545700093",
+    "uai": "0672504H",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "77568501900587",
+    "uai": "0133868J",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19760036400016",
+    "uai": "0760035A",
+    "siret_fiable": "19760036400016",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0760035A",
+    "rule_id": 8
+  },
+  {
+    "siret": "90289074800012",
+    "uai": "0333592D",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "18940910500013",
+    "uai": "0770934X",
+    "siret_fiable": "18940910500013",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0942202H",
+    "rule_id": 3
+  },
+  {
+    "siret": "51835395800011",
+    "uai": "0451713T",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "uai": "0540044E",
+    "siret": "19540044500019",
+    "type": "NON_FIABILISABLE_UAI_NON_VALIDEE",
+    "rule_id": 9
+  },
+  {
+    "siret": "39974132100018",
+    "uai": "0791098P",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "19240007500011",
+    "uai": "0240007C",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "13001533200013",
+    "uai": "0134115C",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "13002282500025",
+    "uai": "0300112J",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "uai": "0542262R",
+    "siret": "19540027000011",
+    "type": "NON_FIABILISABLE_UAI_NON_VALIDEE",
+    "rule_id": 9
+  },
+  {
+    "siret": "78078395700050",
+    "uai": "0271282X",
+    "siret_fiable": "78078395700050",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0271282X",
+    "rule_id": 8
+  },
+  {
+    "uai": "0251750S",
+    "siret": "37932670500066",
+    "type": "NON_FIABILISABLE_UAI_VALIDEE",
+    "rule_id": 9
+  },
+  {
+    "siret": "19770923100033",
+    "uai": "0771658J",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "uai": "0333357V",
+    "siret": "13001835100010",
+    "type": "NON_FIABILISABLE_UAI_VALIDEE",
+    "rule_id": 9
+  },
+  {
+    "siret": "83859262400020",
+    "uai": "0711949H",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "13001278400026",
+    "uai": "0811358L",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19720920800010",
+    "uai": "0720920J",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "13002247800239",
+    "uai": "0811182V",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "82409268800053",
+    "uai": "0932749H",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "13002975400012",
+    "uai": "0597239Y",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "19540042900021",
+    "uai": "0540058V",
+    "siret_fiable": "19540042900021",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0542035U",
+    "rule_id": 3
+  },
+  {
+    "siret": "13002793100372",
+    "uai": "1810791V",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "13001533200013",
+    "uai": "0040582L",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "18671553800044",
+    "uai": "0680008P",
+    "siret_fiable": "18671553800044",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0673147G",
+    "rule_id": 3
+  },
+  {
+    "siret": "18940910500013",
+    "uai": "0941974K",
+    "siret_fiable": "18940910500013",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0942202H",
+    "rule_id": 3
+  },
+  {
+    "siret": "19340088400014",
+    "uai": "0340088L",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19201063500014",
+    "uai": "6200063Z",
+    "siret_fiable": "19201002300021",
+    "type": "A_FIABILISER",
+    "uai_fiable": "6200063Z",
+    "rule_id": 8
+  },
+  {
+    "siret": "19440329100017",
+    "uai": "0440329U",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "18940910500013",
+    "uai": "0932229T",
+    "siret_fiable": "18940910500013",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0942202H",
+    "rule_id": 3
+  },
+  {
+    "siret": "13000545700085",
+    "uai": "0672380Y",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "78354364800027",
+    "uai": "0595120V",
+    "siret_fiable": "78362626000013",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0595120V",
+    "rule_id": 8
+  },
+  {
+    "siret": "19201002300021",
+    "uai": "6200004K",
+    "siret_fiable": "19201002300021",
+    "type": "A_FIABILISER",
+    "uai_fiable": "6200059V",
+    "rule_id": 3
+  },
+  {
+    "siret": "19972004600010",
+    "uai": "9720004X",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "18061919900011",
+    "uai": "0830007G",
+    "siret_fiable": "18061919900011",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0062176H",
+    "rule_id": 3
+  },
+  {
+    "siret": "50298503900028",
+    "uai": "0755411Z",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19020051900014",
+    "uai": "0021885S",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19570330100018",
+    "uai": "0573227Y",
+    "siret_fiable": "19570057000037",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0573227Y",
+    "rule_id": 8
+  },
+  {
+    "siret": "19470019100019",
+    "uai": "4470851F",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "89079142900255",
+    "uai": "0342327V",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "19670189000010",
+    "uai": "0670189S",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19760114900010",
+    "uai": "0760114L",
+    "siret_fiable": "19760114900010",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0763071A",
+    "rule_id": 3
+  },
+  {
+    "siret": "00000000000000",
+    "uai": "0352423U",
+    "siret_fiable": "81253204200056",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0352423U",
+    "rule_id": 2
+  },
+  {
+    "siret": "78362626000013",
+    "uai": "0595689N",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "19201002300021",
+    "uai": "6200059V",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "80799301900114",
+    "uai": "0561860T",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "82304134800017",
+    "uai": "0672734H",
+    "siret_fiable": "82304134800017",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0542507G",
+    "rule_id": 3
+  },
+  {
+    "siret": "13002948100012",
+    "uai": "0711958T",
+    "siret_fiable": "13002948100012",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0212237T",
+    "rule_id": 3
+  },
+  {
+    "siret": "19450782800045",
+    "uai": "0451344S",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "20001661600019",
+    "uai": "9760316P",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19830923900038",
+    "uai": "0831494Y",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "42196749800062",
+    "uai": "0755213J",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19390056000015",
+    "uai": "0390786T",
+    "siret_fiable": "19390056000015",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0390786T",
+    "rule_id": 8
+  },
+  {
+    "siret": "53226832300039",
+    "uai": "9342239Z",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "48927001700010",
+    "uai": "0180982V",
+    "siret_fiable": "48927001700010",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0451690T",
+    "rule_id": 3
+  },
+  {
+    "siret": "13000809700060",
+    "uai": "0121481V",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "13001533200013",
+    "uai": "0134146L",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19570144600013",
+    "uai": "0570144X",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "38174464800027",
+    "uai": "0597179H",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "26590671900017",
+    "uai": "0596481Z",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19880031000015",
+    "uai": "0880031F",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "43961207800022",
+    "uai": "0150791D",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19201003100016",
+    "uai": "6200003J",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19670006600018",
+    "uai": "0670006T",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "39324819000026",
+    "uai": "0782093B",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "18671553800044",
+    "uai": "0681801N",
+    "siret_fiable": "18671553800044",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0673147G",
+    "rule_id": 3
+  },
+  {
+    "siret": "13001533200013",
+    "uai": "0134264P",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "31047085100026",
+    "uai": "0312241T",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "13002282500223",
+    "uai": "0301829A",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "19470019100019",
+    "uai": "5470851S",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "18061919900011",
+    "uai": "0060026W",
+    "siret_fiable": "18061919900011",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0062176H",
+    "rule_id": 3
+  },
+  {
+    "siret": "19680068400017",
+    "uai": "0680068E",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "20000446300028",
+    "uai": "9760182U",
+    "siret_fiable": "20000446300028",
+    "type": "A_FIABILISER",
+    "uai_fiable": "9760165A",
+    "rule_id": 3
+  },
+  {
+    "siret": "19311381800036",
+    "uai": "0310120M",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19201002300021",
+    "uai": "6200063Z",
+    "siret_fiable": "19201002300021",
+    "type": "A_FIABILISER",
+    "uai_fiable": "6200059V",
+    "rule_id": 3
+  },
+  {
+    "siret": "19310055900031",
+    "uai": "0312746S",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19330089400022",
+    "uai": "0330089T",
+    "siret_fiable": "45019707400039",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0330089T",
+    "rule_id": 8
+  },
+  {
+    "siret": "18671553800044",
+    "uai": "0681768C",
+    "siret_fiable": "18671553800044",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0673147G",
+    "rule_id": 3
+  },
+  {
+    "siret": "19540042900021",
+    "uai": "0540082W",
+    "siret_fiable": "19540042900021",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0542035U",
+    "rule_id": 3
+  },
+  {
+    "siret": "81199225400011",
+    "uai": "0011452Y",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "uai": "0861437V",
+    "siret": "53292801700013",
+    "type": "NON_FIABILISABLE_UAI_VALIDEE",
+    "rule_id": 9
+  },
+  {
+    "siret": "77551105800056",
+    "uai": "0450805F",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "19270051600011",
+    "uai": "0270017X",
+    "siret_fiable": "19270051600011",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0270051J",
+    "rule_id": 3
+  },
+  {
+    "siret": "18940910500013",
+    "uai": "0771027Y",
+    "siret_fiable": "18940910500013",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0942202H",
+    "rule_id": 3
+  },
+  {
+    "siret": "19650035900019",
+    "uai": "0650035K",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "19941952400012",
+    "uai": "0941952L",
+    "siret_fiable": "18940910500013",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0941952L",
+    "rule_id": 8
+  },
+  {
+    "siret": "18940910500013",
+    "uai": "0941355M",
+    "siret_fiable": "18940910500013",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0942202H",
+    "rule_id": 3
+  },
+  {
+    "siret": "19650035900019",
+    "uai": "0650038N",
+    "siret_fiable": "19650035900019",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0650035K",
+    "rule_id": 3
+  },
+  {
+    "siret": "20003019500123",
+    "uai": "0062080D",
+    "siret_fiable": "20003019500123",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0061909T",
+    "rule_id": 3
+  },
+  {
+    "siret": "19211237300837",
+    "uai": "0212222B",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "77566202600944",
+    "uai": "0062029Y",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19870999000016",
+    "uai": "0871008Y",
+    "siret_fiable": "18873703500025",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0871008Y",
+    "rule_id": 8
+  },
+  {
+    "siret": "40112310400069",
+    "uai": "0763153P",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "39324819000026",
+    "uai": "0781951X",
+    "siret_fiable": "39324819000026",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0782093B",
+    "rule_id": 3
+  },
+  {
+    "siret": "19390014900017",
+    "uai": "0390013C",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19730813300010",
+    "uai": "0731364L",
+    "siret_fiable": "19730813300028",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0731364L",
+    "rule_id": 2
+  },
+  {
+    "siret": "13000809700037",
+    "uai": "0121367W",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "18061919900011",
+    "uai": "0060029Z",
+    "siret_fiable": "18061919900011",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0062176H",
+    "rule_id": 3
+  },
+  {
+    "siret": "19550002000027",
+    "uai": "0550026E",
+    "siret_fiable": "19550002000027",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0550939X",
+    "rule_id": 3
+  },
+  {
+    "siret": "19721548600014",
+    "uai": "0721548S",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "82753614500010",
+    "uai": "0561975T",
+    "siret_fiable": "82753614500010",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0561975T",
+    "rule_id": 8
+  },
+  {
+    "siret": "77574152300010",
+    "uai": "0940821G",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19620162800050",
+    "uai": "0624275K",
+    "siret_fiable": "19620162800050",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0620162P",
+    "rule_id": 3
+  },
+  {
+    "siret": "18780913200041",
+    "uai": "0911493D",
+    "siret_fiable": "18780913200041",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0783544D",
+    "rule_id": 3
+  },
+  {
+    "siret": "19530011600017",
+    "uai": "0530011Z",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19400027900019",
+    "uai": "0400027M",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "89411205100012",
+    "uai": "0353041R",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "uai": "0391146J",
+    "siret": "77838286100012",
+    "type": "NON_FIABILISABLE_UAI_VALIDEE",
+    "rule_id": 9
+  },
+  {
+    "siret": "19941604100010",
+    "uai": "0941604H",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "18671553800044",
+    "uai": "0670041F",
+    "siret_fiable": "18671553800044",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0673147G",
+    "rule_id": 3
+  },
+  {
+    "siret": "40112310400069",
+    "uai": "0761735Y",
+    "siret_fiable": "40112310400069",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0763153P",
+    "rule_id": 3
+  },
+  {
+    "siret": "19972532600045",
+    "uai": "9720907D",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "39324819000026",
+    "uai": "0922398G",
+    "siret_fiable": "39324819000026",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0782093B",
+    "rule_id": 3
+  },
+  {
+    "siret": "13002979600294",
+    "uai": "0341153U",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "48927001700010",
+    "uai": "0450848C",
+    "siret_fiable": "48927001700010",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0451690T",
+    "rule_id": 3
+  },
+  {
+    "siret": "19330031600026",
+    "uai": "0330031E",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "52919549700068",
+    "uai": "0442721U",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "18873703500025",
+    "uai": "0875084D",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "19330023300031",
+    "uai": "0640026F",
+    "siret_fiable": "19330023300031",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0332820L",
+    "rule_id": 3
+  },
+  {
+    "siret": "53864396600020",
+    "uai": "0031137V",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19311382600013",
+    "uai": "0311382J",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "13002622200104",
+    "uai": "0756246G",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19211237300472",
+    "uai": "0211961T",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "uai": "0871055Z",
+    "siret": "19870730900011",
+    "type": "NON_FIABILISABLE_UAI_VALIDEE",
+    "rule_id": 9
+  },
+  {
+    "siret": "78574029101046",
+    "uai": "0642134X",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "42924994900216",
+    "uai": "0062266F",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "30540504500298",
+    "uai": "0783804L",
+    "siret_fiable": "30540504500298",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0783804L",
+    "rule_id": 8
+  },
+  {
+    "siret": "19570057000037",
+    "uai": "0570146Z",
+    "siret_fiable": "19570057000037",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0573003E",
+    "rule_id": 3
+  },
+  {
+    "siret": "41154197200013",
+    "uai": "0763153P",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "19540085800013",
+    "uai": "0540085Z",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19570057000037",
+    "uai": "0573003E",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "19550002000027",
+    "uai": "0550939X",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "34949456700044",
+    "uai": "0693497B",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19672198900040",
+    "uai": "0672375T",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "48819452300053",
+    "uai": "0561990J",
+    "siret_fiable": "48819452300053",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0561990J",
+    "rule_id": 8
+  },
+  {
+    "siret": "77551105800056",
+    "uai": "0281191T",
+    "siret_fiable": "77551105800056",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0450805F",
+    "rule_id": 3
+  },
+  {
+    "siret": "84172358800015",
+    "uai": "0511952V",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19570057000037",
+    "uai": "0572590F",
+    "siret_fiable": "19570057000037",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0573003E",
+    "rule_id": 3
+  },
+  {
+    "siret": "19880001300023",
+    "uai": "0881719R",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19672534500017",
+    "uai": "0672534R",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19311381800127",
+    "uai": "0312390E",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "78362626000013",
+    "uai": "0595120V",
+    "siret_fiable": "78362626000013",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0595689N",
+    "rule_id": 3
+  },
+  {
+    "siret": "38767911100022",
+    "uai": "0941939X",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "77566202600100",
+    "uai": "0492376S",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19840005300023",
+    "uai": "0840866K",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "19590015400020",
+    "uai": "0596705T",
+    "siret_fiable": "19590015400020",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0590015W",
+    "rule_id": 3
+  },
+  {
+    "siret": "18800864300028",
+    "uai": "0802084F",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "43868938200010",
+    "uai": "0741286W",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19440033900025",
+    "uai": "0440033X",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "18061919900011",
+    "uai": "0830960T",
+    "siret_fiable": "18061919900011",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0062176H",
+    "rule_id": 3
+  },
+  {
+    "siret": "19540042900021",
+    "uai": "0540067E",
+    "siret_fiable": "19540042900021",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0542035U",
+    "rule_id": 3
+  },
+  {
+    "siret": "18940910500013",
+    "uai": "0941952L",
+    "siret_fiable": "18940910500013",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0942202H",
+    "rule_id": 3
+  },
+  {
+    "siret": "18061919900011",
+    "uai": "0831646N",
+    "siret_fiable": "18061919900011",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0062176H",
+    "rule_id": 3
+  },
+  {
+    "siret": "50923283100115",
+    "uai": "0022220C",
+    "siret_fiable": "50923283100172",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0022220C",
+    "rule_id": 2
+  },
+  {
+    "siret": "13002170200076",
+    "uai": "0694380L",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "48009014100023",
+    "uai": "0342499G",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "78063239400018",
+    "uai": "0802154G",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19331668400011",
+    "uai": "0331668J",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19530010800014",
+    "uai": "0530010Y",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19730813300028",
+    "uai": "0731364L",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "34347943200035",
+    "uai": "0601807N",
+    "siret_fiable": "34347943200043",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0601807N",
+    "rule_id": 8
+  },
+  {
+    "siret": "84017027800013",
+    "uai": "0763501T",
+    "siret_fiable": "84017027800021",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0763501T",
+    "rule_id": 8
+  },
+  {
+    "siret": "13001533200013",
+    "uai": "0133870L",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19680010600037",
+    "uai": "0681702F",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "18671553800044",
+    "uai": "0680066C",
+    "siret_fiable": "18671553800044",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0673147G",
+    "rule_id": 3
+  },
+  {
+    "siret": "19540042900021",
+    "uai": "0542208G",
+    "siret_fiable": "19540042900021",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0542035U",
+    "rule_id": 3
+  },
+  {
+    "siret": "19170078000015",
+    "uai": "0170060Y",
+    "siret_fiable": "19170078000015",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0170078T",
+    "rule_id": 3
+  },
+  {
+    "siret": "52919549700019",
+    "uai": "0442721U",
+    "siret_fiable": "52919549700068",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0442721U",
+    "rule_id": 8
+  },
+  {
+    "siret": "77694419100043",
+    "uai": "0311145B",
+    "siret_fiable": "77694419100035",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0311145B",
+    "rule_id": 2
+  },
+  {
+    "siret": "19840005300023",
+    "uai": "0841241T",
+    "siret_fiable": "19840016000026",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0841241T",
+    "rule_id": 2
+  },
+  {
+    "siret": "18940910500013",
+    "uai": "0940171A",
+    "siret_fiable": "18940910500013",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0942202H",
+    "rule_id": 3
+  },
+  {
+    "siret": "19770342400014",
+    "uai": "0770342D",
+    "siret_fiable": "18940910500013",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0770342D",
+    "rule_id": 8
+  },
+  {
+    "siret": "77567227237423",
+    "uai": "0133862C",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "40112310400069",
+    "uai": "0271070S",
+    "siret_fiable": "40112310400069",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0763153P",
+    "rule_id": 3
+  },
+  {
+    "siret": "48927001700010",
+    "uai": "0281165P",
+    "siret_fiable": "48927001700010",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0451690T",
+    "rule_id": 3
+  },
+  {
+    "siret": "13002975400012",
+    "uai": "0593499H",
+    "siret_fiable": "13002975400012",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0597239Y",
+    "rule_id": 3
+  },
+  {
+    "siret": "19240150300011",
+    "uai": "0241137F",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "78574029100154",
+    "uai": "0631982M",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "20000527000018",
+    "uai": "9760125G",
+    "siret_fiable": "20000446300028",
+    "type": "A_FIABILISER",
+    "uai_fiable": "9760125G",
+    "rule_id": 8
+  },
+  {
+    "siret": "19680016300012",
+    "uai": "0680016Y",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19330135500015",
+    "uai": "0330135T",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "uai": "0332882D",
+    "siret": "77566202600167",
+    "type": "NON_FIABILISABLE_UAI_VALIDEE",
+    "rule_id": 9
+  },
+  {
+    "siret": "19920804200010",
+    "uai": "0922398G",
+    "siret_fiable": "39324819000026",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0922398G",
+    "rule_id": 8
+  },
+  {
+    "siret": "19020032900018",
+    "uai": "0022181K",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "34896746400028",
+    "uai": "0801907N",
+    "siret_fiable": "34896746400028",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0801907N",
+    "rule_id": 8
+  },
+  {
+    "siret": "18671553800044",
+    "uai": "0672615D",
+    "siret_fiable": "18671553800044",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0673147G",
+    "rule_id": 3
+  },
+  {
+    "siret": "38855948600070",
+    "uai": "0682022D",
+    "siret_fiable": "38855948600070",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0681832X",
+    "rule_id": 3
+  },
+  {
+    "siret": "82175021300034",
+    "uai": "0134337U",
+    "siret_fiable": "51781333300047",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0134337U",
+    "rule_id": 8
+  },
+  {
+    "siret": "18671553800044",
+    "uai": "0681839E",
+    "siret_fiable": "18671553800044",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0673147G",
+    "rule_id": 3
+  },
+  {
+    "siret": "19570095000023",
+    "uai": "0572761S",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "81456842400026",
+    "uai": "0597237W",
+    "siret_fiable": "81456842400034",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0597237W",
+    "rule_id": 2
+  },
+  {
+    "siret": "81508724200021",
+    "uai": "0132972K",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "35386977900036",
+    "uai": "0932411R",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "19270042500023",
+    "uai": "0271319M",
+    "siret_fiable": "19270042500023",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0270042Z",
+    "rule_id": 3
+  },
+  {
+    "siret": "13002792300338",
+    "uai": "0790924A",
+    "siret_fiable": "13002792300338",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0791217U",
+    "rule_id": 3
+  },
+  {
+    "siret": "41947593400032",
+    "uai": "0371514V",
+    "siret_fiable": "41947593400032",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0371713L",
+    "rule_id": 3
+  },
+  {
+    "siret": "19020048500018",
+    "uai": "0022163R",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "26130002400013",
+    "uai": "0133857X",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "13002948100012",
+    "uai": "0711246U",
+    "siret_fiable": "13002948100012",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0212237T",
+    "rule_id": 3
+  },
+  {
+    "siret": "18671553800044",
+    "uai": "0682003H",
+    "siret_fiable": "18671553800044",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0673147G",
+    "rule_id": 3
+  },
+  {
+    "siret": "43230816100038",
+    "uai": "0673027B",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "77623409800015",
+    "uai": "0070064G",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "81253204200056",
+    "uai": "0352423U",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "18671553800044",
+    "uai": "0670005S",
+    "siret_fiable": "18671553800044",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0673147G",
+    "rule_id": 3
+  },
+  {
+    "siret": "19880153200047",
+    "uai": "0880013L",
+    "siret_fiable": "19880153200047",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0881529J",
+    "rule_id": 3
+  },
+  {
+    "siret": "42339754600064",
+    "uai": "0212270D",
+    "siret_fiable": "42339754600031",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0212270D",
+    "rule_id": 8
+  },
+  {
+    "siret": "18061919900011",
+    "uai": "0830016S",
+    "siret_fiable": "18061919900011",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0062176H",
+    "rule_id": 3
+  },
+  {
+    "siret": "18940910500013",
+    "uai": "0940129E",
+    "siret_fiable": "18940910500013",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0942202H",
+    "rule_id": 3
+  },
+  {
+    "siret": "19202583100020",
+    "uai": "7200093N",
+    "siret_fiable": "19202583100020",
+    "type": "A_FIABILISER",
+    "uai_fiable": "7200101X",
+    "rule_id": 3
+  },
+  {
+    "siret": "19540042900021",
+    "uai": "0542035U",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "50923283100172",
+    "uai": "0022220C",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "81456842400034",
+    "uai": "0597237W",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "78601876200108",
+    "uai": "0442756G",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19800007700018",
+    "uai": "0802170Z",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19251002200010",
+    "uai": "0250010A",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "38855948600070",
+    "uai": "0670085D",
+    "siret_fiable": "38855948600070",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0681832X",
+    "rule_id": 3
+  },
+  {
+    "siret": "13002792300288",
+    "uai": "0790924A",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "19490801800014",
+    "uai": "0490801E",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19400878500017",
+    "uai": "0401016M",
+    "siret_fiable": "19400878500017",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0401016M",
+    "rule_id": 8
+  },
+  {
+    "siret": "78574029100220",
+    "uai": "0342457L",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19510075500014",
+    "uai": "0510075E",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "13001533200013",
+    "uai": "0134113A",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "50264547600016",
+    "uai": "0741253K",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19932026800014",
+    "uai": "0932026X",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19831283700018",
+    "uai": "0831440P",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19330023300031",
+    "uai": "0240012H",
+    "siret_fiable": "19330023300031",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0332820L",
+    "rule_id": 3
+  },
+  {
+    "siret": "19332081900017",
+    "uai": "0332081H",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19540042900021",
+    "uai": "0540061Y",
+    "siret_fiable": "19540042900021",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0542035U",
+    "rule_id": 3
+  },
+  {
+    "siret": "19840015200015",
+    "uai": "0840015K",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "20000446300028",
+    "uai": "9760125G",
+    "siret_fiable": "20000446300028",
+    "type": "A_FIABILISER",
+    "uai_fiable": "9760165A",
+    "rule_id": 3
+  },
+  {
+    "siret": "41273026900211",
+    "uai": "0791213P",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "20003019500123",
+    "uai": "0061909T",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "19570057000037",
+    "uai": "0540086A",
+    "siret_fiable": "19570057000037",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0573003E",
+    "rule_id": 3
+  },
+  {
+    "siret": "43261313100023",
+    "uai": "0694089V",
+    "siret_fiable": "43261313100049",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0694089V",
+    "rule_id": 8
+  },
+  {
+    "siret": "13002792300338",
+    "uai": "0791217U",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "77566202600738",
+    "uai": "0161190G",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19630041200034",
+    "uai": "0631723F",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "82445767500018",
+    "uai": "0641923T",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19880153200047",
+    "uai": "0880001Y",
+    "siret_fiable": "19880153200047",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0881529J",
+    "rule_id": 3
+  },
+  {
+    "siret": "30540504502666",
+    "uai": "0682112B",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19330119900025",
+    "uai": "0330119A",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "18671553800044",
+    "uai": "0680039Y",
+    "siret_fiable": "18671553800044",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0673147G",
+    "rule_id": 3
+  },
+  {
+    "siret": "77534145600017",
+    "uai": "0371074S",
+    "siret_fiable": "77534145600017",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0371074S",
+    "rule_id": 8
+  },
+  {
+    "siret": "19941111700849",
+    "uai": "0942389L",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19201636800016",
+    "uai": "6200636X",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19330023300031",
+    "uai": "0240006B",
+    "siret_fiable": "19330023300031",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0332820L",
+    "rule_id": 3
+  },
+  {
+    "siret": "19931950000013",
+    "uai": "0932123C",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "26130005700013",
+    "uai": "0133634E",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "41273026900153",
+    "uai": "0791213P",
+    "siret_fiable": "41273026900211",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0791213P",
+    "rule_id": 2
+  },
+  {
+    "siret": "77563330801544",
+    "uai": "0062032B",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "78022773200010",
+    "uai": "0022149A",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "18061919900011",
+    "uai": "0060043P",
+    "siret_fiable": "18061919900011",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0062176H",
+    "rule_id": 3
+  },
+  {
+    "siret": "18940910500013",
+    "uai": "0942202H",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "18671553800044",
+    "uai": "0680010S",
+    "siret_fiable": "18671553800044",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0673147G",
+    "rule_id": 3
+  },
+  {
+    "siret": "19840685200204",
+    "uai": "0841154Y",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19610021800011",
+    "uai": "0610021S",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "18671553800044",
+    "uai": "0673147G",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "39942123900068",
+    "uai": "0751909T",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "40112310400044",
+    "uai": "0761735Y",
+    "siret_fiable": "40112310400069",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0761735Y",
+    "rule_id": 8
+  },
+  {
+    "siret": "81222593600044",
+    "uai": "0731597P",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "77623409800015",
+    "uai": "0070115M",
+    "siret_fiable": "77623409800015",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0070064G",
+    "rule_id": 3
+  },
+  {
+    "siret": "42156674600010",
+    "uai": "0382435R",
+    "siret_fiable": "42156674600010",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0382435R",
+    "rule_id": 8
+  },
+  {
+    "siret": "89079142900057",
+    "uai": "0342327V",
+    "siret_fiable": "89079142900255",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0342327V",
+    "rule_id": 8
+  },
+  {
+    "siret": "41244043000020",
+    "uai": "0763545R",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "85192986900010",
+    "uai": "0134339W",
+    "siret_fiable": "85192986900010",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0134339W",
+    "rule_id": 8
+  },
+  {
+    "siret": "18650001300054",
+    "uai": "0650948C",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "81980627400034",
+    "uai": "0772924K",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "88476370700012",
+    "uai": "0134381S",
+    "siret_fiable": "88476370700020",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0134381S",
+    "rule_id": 8
+  },
+  {
+    "siret": "19202583100020",
+    "uai": "7200101X",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "19720028000018",
+    "uai": "0720027N",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19600077200018",
+    "uai": "0602177R",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "42339754600031",
+    "uai": "0212270D",
+    "siret_fiable": "42339754600031",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0251888S",
+    "rule_id": 3
+  },
+  {
+    "siret": "79993303100012",
+    "uai": "0342333B",
+    "siret_fiable": "79993303100020",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0342333B",
+    "rule_id": 8
+  },
+  {
+    "siret": "19470093600017",
+    "uai": "0470020S",
+    "siret_fiable": "19470020900019",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0470020S",
+    "rule_id": 8
+  },
+  {
+    "siret": "19330033200023",
+    "uai": "0330033G",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "51835395800011",
+    "uai": "0371714M",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19880021100015",
+    "uai": "0880072A",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "35386977900036",
+    "uai": "0932331D",
+    "siret_fiable": "35386977900036",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0932411R",
+    "rule_id": 3
+  },
+  {
+    "siret": "19030061600033",
+    "uai": "0030061A",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19270051600011",
+    "uai": "0270051J",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "20000446300028",
+    "uai": "9760229V",
+    "siret_fiable": "20000446300028",
+    "type": "A_FIABILISER",
+    "uai_fiable": "9760165A",
+    "rule_id": 3
+  },
+  {
+    "siret": "45019707400039",
+    "uai": "0333123R",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "81242537900011",
+    "uai": "0442792W",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19540042900021",
+    "uai": "0540015Y",
+    "siret_fiable": "19540042900021",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0542035U",
+    "rule_id": 3
+  },
+  {
+    "siret": "31395564300025",
+    "uai": "0673071Z",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "18130002100225",
+    "uai": "0133836Z",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "18061919900011",
+    "uai": "0831453D",
+    "siret_fiable": "18061919900011",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0062176H",
+    "rule_id": 3
+  },
+  {
+    "siret": "26690023200080",
+    "uai": "0693816Y",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19540042900021",
+    "uai": "0540040A",
+    "siret_fiable": "19540042900021",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0542035U",
+    "rule_id": 3
+  },
+  {
+    "siret": "19310091400012",
+    "uai": "0311902Z",
+    "siret_fiable": "19310091400012",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0310091F",
+    "rule_id": 3
+  },
+  {
+    "siret": "88476370700020",
+    "uai": "0134381S",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "19570057000037",
+    "uai": "0541605B",
+    "siret_fiable": "19570057000037",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0573003E",
+    "rule_id": 3
+  },
+  {
+    "siret": "18061919900011",
+    "uai": "0830015R",
+    "siret_fiable": "18061919900011",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0062176H",
+    "rule_id": 3
+  },
+  {
+    "siret": "78835426400020",
+    "uai": "0851592U",
+    "siret_fiable": "78835426400111",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0851592U",
+    "rule_id": 2
+  },
+  {
+    "siret": "78285945800013",
+    "uai": "0131599T",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19600061600017",
+    "uai": "0600002B",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "19880153200047",
+    "uai": "0881529J",
+    "type": "FIABLE",
+    "rule_id": 1
+  },
+  {
+    "siret": "39942123900043",
+    "uai": "0751909T",
+    "siret_fiable": "39942123900068",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0751909T",
+    "rule_id": 2
+  },
+  {
+    "siret": "8930749140027",
+    "uai": "0694566N",
+    "siret_fiable": "89307491400019",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0694566N",
+    "rule_id": 2
+  },
+  {
+    "siret": "43906604400033",
+    "uai": "0371821D",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "77569338501853",
+    "uai": "0512217H",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "3820459800018",
+    "uai": "0754226L",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "97880057100017",
+    "uai": "9741907E",
+    "type": "NON_FIABILISABLE_PB_COLLECTE",
+    "rule_id": 7
+  },
+  {
+    "siret": "83859262400012",
+    "uai": "0711949H",
+    "siret_fiable": "83859262400020",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0711949H",
+    "rule_id": 8
+  },
+  {
+    "siret": "19570099200041",
+    "uai": "0572998Z",
+    "siret_fiable": "19570099200074",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0572998Z",
+    "rule_id": 0
+  },
+  {
+    "siret": "40112310400010",
+    "uai": "0763153P",
+    "siret_fiable": "40112310400069",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0763153P",
+    "rule_id": 0
+  },
+  {
+    "siret": "77572257200036",
+    "uai": "0691696U",
+    "siret_fiable": "77572257201190",
+    "type": "A_FIABILISER",
+    "uai_fiable": "0691696U",
+    "rule_id": 0
+  }
+]

@@ -7,9 +7,9 @@ import { emailsRoutes } from "./_private/emails.routes";
 import { simulateurRoutes } from "./_private/simulateur/simulateur.routes";
 import { userRoutes } from "./_private/user.routes";
 import { certificationsRoutes } from "./certification.routes";
-import { siretUaiRoutes } from "./experimental/siret.uai.routes";
 import { sourceAcceRoutes } from "./experimental/sources/acce.routes";
 import { healthcheckRoutes } from "./healthcheck.routes";
+import { organismeRoutes } from "./organisme.routes";
 
 type RegisterRoutes = (opts: { server: Server }) => void;
 
@@ -21,7 +21,7 @@ export const registerRoutes: RegisterRoutes = ({ server }) => {
   userAdminRoutes({ server });
   processorAdminRoutes({ server });
   certificationsRoutes({ server });
-  siretUaiRoutes({ server });
+  organismeRoutes({ server });
   sourceAcceRoutes({ server });
   simulateurRoutes({ server });
 };

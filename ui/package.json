@@ -54,7 +54,6 @@
     "redoc": "^2.1.4",
     "remark-gfm": "^4.0.0",
     "sass": "^1.77.2",
-    "shared": "workspace:*",
     "sharp": "^0.33.4",
     "styled-components": "^6.1.11",
     "swagger-ui-react": "^5.17.12",

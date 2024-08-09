@@ -63,6 +63,7 @@
     "zod-i18n-map": "^2.27.0"
   },
   "devDependencies": {
+    "@tsconfig/next": "^2.0.3",
     "@types/autosuggest-highlight": "^3.2.3",
     "@types/swagger-ui-react": "^4.18.3",
     "notion-types": "^6.16.0",

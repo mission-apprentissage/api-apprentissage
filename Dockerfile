@@ -8,6 +8,7 @@ COPY .yarnrc.yml .yarnrc.yml
 COPY ui/package.json ui/package.json
 COPY server/package.json server/package.json
 COPY shared/package.json shared/package.json
+COPY sdk/package.json sdk/package.json
 
 RUN --mount=type=cache,target=/app/.yarn/cache yarn install --immutable
 
@@ -24,6 +25,7 @@ WORKDIR /app
 
 COPY ./server ./server
 COPY ./shared ./shared
+COPY ./sdk ./sdk
 
 RUN yarn --cwd server build
 # Removing dev dependencies
@@ -46,6 +48,7 @@ ENV PUBLIC_VERSION=$PUBLIC_VERSION
 
 COPY --from=builder_server /app/server ./server
 COPY --from=builder_server /app/shared ./shared
+COPY --from=builder_server /app/sdk ./sdk
 COPY --from=builder_server /app/node_modules ./node_modules
 COPY ./server/static /app/server/static
 
@@ -64,6 +67,7 @@ FROM root AS builder_ui
 WORKDIR /app
 COPY ./ui ./ui
 COPY ./shared ./shared
+COPY ./sdk ./sdk
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry

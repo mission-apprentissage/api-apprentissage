@@ -37,10 +37,19 @@ export default defineWorkspace([
     },
   },
   {
+    plugins: [tsconfigPaths()],
     assetsInclude: ["./shared/doc/**/*.md"],
     test: {
       name: "shared",
       root: "./shared",
+      include: ["**/*.test.ts"],
+      clearMocks: true,
+    },
+  },
+  {
+    test: {
+      name: "sdk",
+      root: "./sdk",
       include: ["**/*.test.ts"],
       clearMocks: true,
     },

@@ -18,9 +18,8 @@ export default defineConfig((options) => {
 
   return {
     entry,
-    watch: isWatched ? ["./src", "../shared"] : false,
+    watch: isWatched ? ["./src", "../shared", "../sdk"] : false,
     onSuccess: isWatched ? "yarn cli start --withProcessor" : "",
-    ignoreWatch: ["../shared/node_modules/**"],
     // In watch mode doesn't exit cleanly as it causes EADDRINUSE error
     killSignal: "SIGKILL",
     target: "es2022",
@@ -30,7 +29,7 @@ export default defineConfig((options) => {
     shims: false,
     minify: false,
     sourcemap: true,
-    noExternal: ["shared"],
+    noExternal: ["shared", "api-alternance-sdk"],
     clean: true,
     env: {
       ...options.env,

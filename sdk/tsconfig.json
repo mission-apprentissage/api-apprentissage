@@ -1,0 +1,41 @@
+{
+  "extends": "@tsconfig/node20/tsconfig.json",
+  "compilerOptions": {
+    "declaration": true,
+    "sourceMap": true,
+    "declarationMap": true,
+    "composite": true,
+
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "resolveJsonModule": true,
+    /* JavaScript Support */
+    "allowJs": false,
+    /* Emit */
+    "outDir": "./dist",
+    /* Interop Constraints */
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "forceConsistentCasingInFileNames": true,
+    /* Type Checking */
+    "strict": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "exactOptionalPropertyTypes": false,
+    "noImplicitReturns": true,
+    "useUnknownInCatchVariables": false,
+    "noUncheckedIndexedAccess": false,
+    /* Completeness */
+    "skipLibCheck": true,
+    /* Output Formatting */
+    "pretty": true,
+    "tsBuildInfoFile": "tsconfig.tsbuildinfo"
+  },
+  "include": ["./src/**/*.ts"],
+  "exclude": ["**/node_modules"],
+  "typeAcquisition": {
+    "enable": true,
+    "include": ["@types/node"]
+  }
+}

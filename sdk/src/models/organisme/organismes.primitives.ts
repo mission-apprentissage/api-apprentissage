@@ -1,5 +1,32 @@
-import { validateSIRET } from "../helpers/zodHelpers/siretValidator";
-import { zodOpenApi } from "./zodWithOpenApi";
+import luhn from "luhn";
+import { z } from "zod";
+
+export const validateSIRET = (siret: string): boolean => {
+  if (!siret) {
+    return false;
+  }
+  if (siret.length !== 14) {
+    return false;
+  }
+  const isLuhnValid = luhn.validate(siret);
+  // cas La poste
+  if (!isLuhnValid && siret.startsWith("356000000")) {
+    return validationLaPoste(siret);
+  }
+  return isLuhnValid;
+};
+
+const getDigits = (input: string) => {
+  if (!input) {
+    return [];
+  }
+  return input.split("").flatMap((char) => (new RegExp("[0-9]").test(char) ? [parseInt(char)] : []));
+};
+
+const validationLaPoste = (input: string) => {
+  const digits = getDigits(input);
+  return digits.reduce((acc, digit) => acc + digit, 0) % 5 === 0;
+};
 const ALPHABET_23_LETTERS = [
   "A",
   "B",
@@ -27,7 +54,7 @@ const ALPHABET_23_LETTERS = [
 ];
 
 // https://blog.juliendelmas.fr/?qu-est-ce-que-le-code-rne-ou-uai
-export const zUai = zodOpenApi
+export const zUai = z
   .string()
   .regex(/^\d{1,7}[A-Z]$/, "UAI does not match the format /^\\d{1,7}[A-Z]$/")
   .transform((value) => value.padStart(8, "0"))
@@ -47,7 +74,7 @@ export const zUai = zodOpenApi
     { message: "UAI checksum is invalid" }
   );
 
-export const zSiret = zodOpenApi
+export const zSiret = z
   .string()
   .regex(/^\d{9,14}$/, "SIRET does not match the format /^\\d{14}$/")
   .transform((value) => value.padStart(14, "0"))

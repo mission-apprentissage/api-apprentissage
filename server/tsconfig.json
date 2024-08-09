@@ -14,7 +14,8 @@
     "paths": {
       "@/*": ["./src/*"],
       "@tests/*": ["./tests/*"],
-      "shared/*": ["../shared/*"]
+      "shared/*": ["../shared/*"],
+      "api-alternance-sdk": ["../sdk/src/index.ts"]
     },
     "resolveJsonModule": true,
     "typeRoots": ["./types", "./node_modules/@types/", "../node_modules/@types/"],

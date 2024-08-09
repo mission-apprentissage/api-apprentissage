@@ -1,7 +1,6 @@
+import { zOrganisme, zSiret, zUai } from "api-alternance-sdk";
 import { z } from "zod";
 
-import { zOrganisme } from "../models/organisme.model";
-import { zSiret, zUai } from "../zod/organismes.primitives";
 import { zodOpenApi } from "../zod/zodWithOpenApi";
 import { IRoutesDef } from "./common.routes";
 

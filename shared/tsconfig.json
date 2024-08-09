@@ -23,6 +23,10 @@
     "noEmit": true,
     "forceConsistentCasingInFileNames": true,
     "allowJs": false,
-    "jsx": "react"
-  }
+    "jsx": "react",
+    "paths": {
+      "api-alternance-sdk": ["../sdk/src/index.ts"]
+    }
+  },
+  "references": [{ "path": "../sdk" }]
 }

@@ -1,0 +1,29 @@
+{
+  "name": "api-alternance-sdk",
+  "version": "0.0.0",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "author": "Mission interministérielle pour l’apprentissage",
+  "license": "MIT",
+  "sideEffects": [],
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "yarn build:clean && tsc -b tsconfig.prod.json",
+    "build:clean": "rm -rf ./dist"
+  },
+  "devDependencies": {
+    "@tsconfig/node20": "^20.1.4",
+    "@types/node": "^20.12.12",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "zod": "^3.23.8"
+  }
+}

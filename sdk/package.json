@@ -15,8 +15,8 @@
   ],
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "build": "yarn build:clean && tsc -b tsconfig.prod.json",
-    "build:clean": "rm -rf ./dist"
+    "build": "rm -rf ./dist && tsc -b tsconfig.prod.json",
+    "prepack": "npm run build"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.4",

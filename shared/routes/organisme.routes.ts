@@ -1,5 +1,4 @@
-import { zOrganisme, zSiret, zUai } from "api-alternance-sdk";
-import { z } from "zod";
+import { zApiOrganismesRoutes, zOrganisme } from "api-alternance-sdk";
 
 import { zodOpenApi } from "../zod/zodWithOpenApi";
 import { IRoutesDef } from "./common.routes";
@@ -58,15 +57,7 @@ export type IRechercheOrganismeResponse = zodOpenApi.output<typeof zRechercheOrg
 export const zOrganismesRoutes = {
   get: {
     "/organismes/v1/recherche": {
-      method: "get",
-      path: "/organismes/v1/recherche",
-      querystring: z.object({
-        uai: zUai.nullable().default(null),
-        siret: zSiret.nullable().default(null),
-      }),
-      response: {
-        "200": zRechercheOrganismeResponse,
-      },
+      ...zApiOrganismesRoutes.get["/organismes/v1/recherche"],
       securityScheme: {
         auth: "api-key",
         access: null,

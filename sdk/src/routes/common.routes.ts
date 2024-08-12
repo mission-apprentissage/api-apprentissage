@@ -17,6 +17,8 @@ export interface IApiRouteSchemaWrite extends IApiRouteSchemaCommon {
   body?: ZodType;
 }
 
+export type IApiRouteSchema = IApiRouteSchemaGet | IApiRouteSchemaWrite;
+
 export type IApiRoutesDef = {
   get?: Record<string, IApiRouteSchemaGet>;
   post?: Record<string, IApiRouteSchemaWrite>;

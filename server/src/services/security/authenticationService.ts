@@ -1,9 +1,9 @@
 import Boom from "@hapi/boom";
 import { captureException } from "@sentry/node";
+import { PathParam, QueryString } from "api-alternance-sdk";
 import { FastifyRequest } from "fastify";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { ObjectId } from "mongodb";
-import { PathParam, QueryString } from "shared/helpers/generateUri";
 import { IApiKey, IUser } from "shared/models/user.model";
 import { IAccessToken, ISecuredRouteSchema, WithSecurityScheme } from "shared/routes/common.routes";
 import { UserWithType } from "shared/security/permissions";

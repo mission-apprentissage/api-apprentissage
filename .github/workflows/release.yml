@@ -7,7 +7,7 @@ jobs:
     uses: "./.github/workflows/ci.yml"
 
   release:
-    # needs: ["tests"]
+    needs: ["tests"]
     permissions: write-all
     runs-on: ubuntu-latest
     steps:

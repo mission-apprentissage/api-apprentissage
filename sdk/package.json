@@ -1,6 +1,6 @@
 {
   "name": "api-alternance-sdk",
-  "version": "0.0.1-rc.1",
+  "version": "0.0.0",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "author": "Mission interministérielle pour l’apprentissage",
@@ -14,13 +14,14 @@
     "dist"
   ],
   "scripts": {
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc -b",
     "build": "rm -rf ./dist && tsc -b tsconfig.prod.json",
     "prepack": "yarn build"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.4",
     "@types/node": "^20.12.12",
+    "nock": "beta",
     "typescript": "^5.4.5"
   },
   "dependencies": {

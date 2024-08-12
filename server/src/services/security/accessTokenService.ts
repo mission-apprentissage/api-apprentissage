@@ -1,7 +1,7 @@
 import { forbidden, internal } from "@hapi/boom";
 import { captureException } from "@sentry/node";
+import { PathParam, QueryString } from "api-alternance-sdk";
 import jwt from "jsonwebtoken";
-import { PathParam, QueryString } from "shared/helpers/generateUri";
 import { IUser } from "shared/models/user.model";
 import {
   IAccessToken,

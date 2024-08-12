@@ -1,7 +1,7 @@
 import Boom from "@hapi/boom";
+import { PathParam, QueryString } from "api-alternance-sdk";
 import { FastifyRequest } from "fastify";
 import { ObjectId } from "mongodb";
-import { PathParam, QueryString } from "shared/helpers/generateUri";
 import { IUser } from "shared/models/user.model";
 import { IAccessToken, IRouteSchema, SchemaWithSecurity, WithSecurityScheme } from "shared/routes/common.routes";
 import { AccessPermission, AccessResourcePath, AdminRole, NoneRole, Role } from "shared/security/permissions";

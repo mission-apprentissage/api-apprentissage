@@ -30,7 +30,7 @@
     "skipLibCheck": true,
     /* Output Formatting */
     "pretty": true,
-    "tsBuildInfoFile": "tsconfig.tsbuildinfo"
+    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
   },
   "include": ["./src/**/*.ts"],
   "exclude": ["**/node_modules"],

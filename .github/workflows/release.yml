@@ -34,7 +34,7 @@ jobs:
       - name: Build & publish NPM release
         run: .bin/mna sdk:release "${{ github.event.release.tag_name }}"
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Notify failure on Slack
         uses: ravsamhq/notify-slack-action@v2

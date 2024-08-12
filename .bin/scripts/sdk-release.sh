@@ -26,5 +26,7 @@ if [[ -n "${CI:-}" ]]; then
   export NPM_CONFIG_PROVENANCE=1
 fi
 
-(cd "$ROOT_DIR/sdk" && npm version $VERSION --no-git-tag-version --workspace=sdk --no-workspaces-updateyarn)
+echo publihing "$VERSION" to "$CHANNEL"
+
+(cd "$ROOT_DIR/sdk" && npm version $VERSION --no-git-tag-version --workspace=sdk --no-workspaces-update)
 (cd "$ROOT_DIR/sdk" && npm publish --access public --tag $CHANNEL)

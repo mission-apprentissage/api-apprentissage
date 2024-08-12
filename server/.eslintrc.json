@@ -25,6 +25,9 @@
       "typescript": {
         "project": "server/tsconfig.json"
       }
+    },
+    "node": {
+      "allowModules": ["shared"]
     }
   }
 }

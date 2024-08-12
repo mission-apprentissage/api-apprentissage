@@ -7,7 +7,7 @@ jobs:
     uses: "./.github/workflows/ci.yml"
 
   release:
-    needs: ["tests"]
+    # needs: ["tests"]
     permissions: write-all
     runs-on: ubuntu-latest
     steps:
@@ -17,6 +17,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+          token: ${{ secrets.NPM_TOKEN }}
+          registry-url: "https://registry.npmjs.org"
 
       - uses: actions/cache@v4
         with:

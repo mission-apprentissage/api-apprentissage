@@ -33,7 +33,7 @@ const zRechercheOrganismeResultat = z.object({
   organisme: zOrganisme,
 });
 
-const zRechercheOrganismeResponse = z.object({
+export const zRechercheOrganismeResponse = z.object({
   metadata: z.object({
     uai: z
       .object({

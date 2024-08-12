@@ -12,6 +12,7 @@ import {
 } from "../routes/index.js";
 import { ApiError } from "./apiError.js";
 import { generateUri, WithQueryStringAndPathParam } from "./generateUri/generateUri.js";
+import { buildOrganismeModule, OrganismeModule } from "./organisme/organisme.module.js";
 
 type OptionsGet = {
   [Prop in keyof Pick<IApiRouteSchema, "params" | "querystring" | "headers">]: IApiRouteSchema[Prop] extends ZodType
@@ -44,12 +45,15 @@ export type ApiClientConfig = {
 
 export class ApiClient {
   endpoint: string;
-
   key: string;
+
+  organisme: OrganismeModule;
 
   constructor(config: ApiClientConfig) {
     this.endpoint = removeAtEnd(config.endpoint ?? "https://api.apprentissage.beta.gouv.fr/api", "/");
     this.key = config.key ?? throwError("api-alternance-sdk: api key is required");
+
+    this.organisme = buildOrganismeModule(this);
   }
 
   private buildRequestInit(

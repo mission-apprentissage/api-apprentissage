@@ -28,5 +28,5 @@ fi
 
 echo publihing "$VERSION" to "$CHANNEL"
 
-(cd "$ROOT_DIR/sdk" && npm version $VERSION --no-git-tag-version --workspace=sdk --no-workspaces-update)
+npm version $VERSION --no-git-tag-version --workspace=sdk --no-workspaces-update
 (cd "$ROOT_DIR/sdk" && npm publish --access public --tag $CHANNEL)

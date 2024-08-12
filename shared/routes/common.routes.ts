@@ -1,6 +1,7 @@
+import { IApiRouteSchemaGet, IApiRouteSchemaWrite } from "api-alternance-sdk";
 import { oas31 } from "openapi3-ts";
 import { Jsonify } from "type-fest";
-import { AnyZodObject, z, ZodType } from "zod";
+import { AnyZodObject, z } from "zod";
 
 import { AccessPermission, AccessRessouces } from "../security/permissions";
 import { zodOpenApi } from "../zod/zodWithOpenApi";
@@ -265,23 +266,13 @@ export type SecuritySchemeNoAcl = {
 export type SecurityScheme = SecuritySchemeWithAcl | SecuritySchemeNoAcl;
 
 interface IRouteSchemaCommon {
-  path: string;
-  querystring?: AnyZodObject;
-  headers?: AnyZodObject;
-  params?: AnyZodObject;
-  response: { [statuscode: `${1 | 2 | 3 | 4 | 5}${string}`]: ZodType };
   openapi?: null | Omit<oas31.OperationObject, "parameters" | "requestBody" | "requestParams" | "responses">;
   securityScheme: SecurityScheme | null;
 }
 
-export interface IRouteSchemaGet extends IRouteSchemaCommon {
-  method: "get";
-}
+export interface IRouteSchemaGet extends IApiRouteSchemaGet, IRouteSchemaCommon {}
 
-export interface IRouteSchemaWrite extends IRouteSchemaCommon {
-  method: "post" | "put" | "patch" | "delete";
-  body?: ZodType;
-}
+export interface IRouteSchemaWrite extends IApiRouteSchemaWrite, IRouteSchemaCommon {}
 
 export type WithSecurityScheme = {
   securityScheme: SecurityScheme;

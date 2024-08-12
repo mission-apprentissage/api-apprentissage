@@ -1,5 +1,5 @@
 import { captureException } from "@sentry/node";
-import { validateSIRET } from "shared/helpers/zodHelpers/siretValidator";
+import { validateSIRET } from "api-alternance-sdk";
 
 import { ApiEntEtablissement, getEtablissementDiffusible } from "@/services/apis/entreprise/entreprise";
 import logger from "@/services/logger";

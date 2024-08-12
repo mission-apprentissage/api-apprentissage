@@ -20,6 +20,7 @@ function Help() {
    echo "  deploy:log:dencrypt                        Decrypt Github ansible logs"
    echo "  sentry:release                             Create sentry release for existing docker image"
    echo "  sentry:deploy                              Notify deployment to sentry for existing sentry release"
+   echo "  sdk:release <version>                      Release SDK version"
    echo 
    echo
 }
@@ -89,4 +90,8 @@ function deploy:log:encrypt() {
 
 function deploy:log:decrypt() {
   (cd "$ROOT_DIR" && "${SCRIPT_DIR}/deploy-log-decrypt.sh" "$@")
+}
+
+function sdk:release() {
+  "${SCRIPT_DIR}/sdk-release.sh" "$@"
 }

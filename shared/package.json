@@ -15,7 +15,7 @@
     "npm": "please-use-yarn"
   },
   "scripts": {
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc -b"
   },
   "dependencies": {
     "@asteasolutions/zod-to-openapi": "^6.4.0",

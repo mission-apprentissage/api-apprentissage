@@ -7,7 +7,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 const nextConfig = {
-  transpilePackages: ["shared"],
+  transpilePackages: ["shared", "api-alternance-sdk"],
   poweredByHeader: false,
   swcMinify: true,
   experimental: {
@@ -43,6 +43,12 @@ const nextConfig = {
     // Bson is using top-level await, which is not supported by default in Next.js in client side
     // Probably related to https://github.com/vercel/next.js/issues/54282
     config.resolve.alias.bson = path.join(path.dirname(fileURLToPath(import.meta.resolve("bson"))), "bson.cjs");
+
+    config.resolve.extensionAlias = {
+      ".js": [".ts", ".tsx", ".js", ".jsx"],
+      ".mjs": [".mts", ".mjs"],
+      ".cjs": [".cts", ".cjs"],
+    };
     return config;
   },
 };

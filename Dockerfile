@@ -1,4 +1,4 @@
-FROM node:22-slim AS builder_root
+FROM node:22 AS builder_root
 WORKDIR /app
 RUN yarn set version 3.3.1
 COPY .yarn /app/.yarn
@@ -34,11 +34,8 @@ RUN --mount=type=cache,target=/app/.yarn/cache yarn workspaces focus --all --pro
 RUN mkdir -p /app/shared/node_modules && mkdir -p /app/sdk/node_modules && mkdir -p /app/server/node_modules
 
 # Production image, copy all the files and run next
-FROM node:22-slim AS server
+FROM node:22 AS server
 WORKDIR /app
-# RUN --mount=type=cache,target=/var/cache/apk apk add --update \
-#   curl \
-#   && rm -rf /var/cache/apk/*
 
 ENV NODE_ENV production
 
@@ -92,7 +89,7 @@ RUN yarn workspace ui build
 # RUN --mount=type=cache,target=/app/ui/.next/cache yarn --cwd ui build
 
 # Production image, copy all the files and run next
-FROM node:22-slim AS ui
+FROM node:22 AS ui
 WORKDIR /app
 
 ENV NODE_ENV production

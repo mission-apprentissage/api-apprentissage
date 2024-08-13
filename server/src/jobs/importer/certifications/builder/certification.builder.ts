@@ -3,13 +3,13 @@ import { IBcn_N_FormationDiplome } from "shared/models/source/bcn/bcn.n_formatio
 import { IBcn_N51_FormationDiplome } from "shared/models/source/bcn/bcn.n51_formation_diplome.model";
 import { ISourceFranceCompetence } from "shared/models/source/france_competence/source.france_competence.model";
 
-import { buildCertificationBaseLegale } from './base_legale/certification.base_legale.builder.js';
-import { buildCertificationBlocsCompetences } from './blocs_competences/certification.blocs_competences.builder.js';
-import { buildCertificationConventionCollectives } from './convention_collectives/certification.convention_collectives.builder.js';
-import { buildCertificationDomaines } from './domaines/certification.domaines.builder.js';
-import { buildCertificationIntitule } from './intitule/certification.intitule.builder.js';
-import { buildCertificationPeriodeValidite } from './periode_validite/certification.periode_validite.builder.js';
-import { buildCertificationType } from './type/certification.type.builder.js';
+import { buildCertificationBaseLegale } from "./base_legale/certification.base_legale.builder.js";
+import { buildCertificationBlocsCompetences } from "./blocs_competences/certification.blocs_competences.builder.js";
+import { buildCertificationConventionCollectives } from "./convention_collectives/certification.convention_collectives.builder.js";
+import { buildCertificationDomaines } from "./domaines/certification.domaines.builder.js";
+import { buildCertificationIntitule } from "./intitule/certification.intitule.builder.js";
+import { buildCertificationPeriodeValidite } from "./periode_validite/certification.periode_validite.builder.js";
+import { buildCertificationType } from "./type/certification.type.builder.js";
 
 export type ISourceAggregatedData = {
   bcn?: IBcn_N51_FormationDiplome | IBcn_N_FormationDiplome | null;

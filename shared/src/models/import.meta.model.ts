@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-import { zDataGouvDatasetResource } from '../apis/index.js';
-import { IModelDescriptorGeneric, zObjectId } from './common.js';
+import { zDataGouvDatasetResource } from "../apis/index.js";
+import { IModelDescriptorGeneric, zObjectId } from "./common.js";
 
 const collectionName = "import.meta" as const;
 

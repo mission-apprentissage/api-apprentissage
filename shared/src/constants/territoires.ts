@@ -1,4 +1,4 @@
-import { sortAlphabeticallyBy } from '../utils/sortAlphabetically.js';
+import { sortAlphabeticallyBy } from "../utils/sortAlphabetically.js";
 
 /**
  * Liste des régions du territoire national

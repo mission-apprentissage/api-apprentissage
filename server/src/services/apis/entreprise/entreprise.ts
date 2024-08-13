@@ -3,10 +3,10 @@ import { AxiosInstance, isAxiosError } from "axios";
 import axiosRetry from "axios-retry";
 
 import config from "@/config.js";
-import getApiClient from '@/services/apis/client.js';
-import { withCause } from '@/services/errors/withCause.js';
-import logger from '@/services/logger.js';
-import { apiRateLimiter } from '@/utils/apiUtils.js';
+import getApiClient from "@/services/apis/client.js";
+import { withCause } from "@/services/errors/withCause.js";
+import logger from "@/services/logger.js";
+import { apiRateLimiter } from "@/utils/apiUtils.js";
 
 export type ApiEntEtablissement = {
   siret: string;

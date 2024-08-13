@@ -1,8 +1,8 @@
 import { zRoutes } from "shared";
 
-import type { Server } from '@/server/server.js';
-import { getDbCollection } from '@/services/mongodb/mongodbService.js';
-import { createResponseStream } from '@/utils/streamUtils.js';
+import type { Server } from "@/server/server.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import { createResponseStream } from "@/utils/streamUtils.js";
 
 export const certificationsRoutes = ({ server }: { server: Server }) => {
   server.get(

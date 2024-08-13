@@ -1,9 +1,9 @@
 import { ObjectId } from "mongodb";
 import { zSourceReferentiel } from "shared/models/source/referentiel/source.referentiel.model";
 
-import { fetchReferentielOrganismes } from '@/services/apis/referentiel/referentiel.js';
-import parentLogger from '@/services/logger.js';
-import { getDbCollection } from '@/services/mongodb/mongodbService.js';
+import { fetchReferentielOrganismes } from "@/services/apis/referentiel/referentiel.js";
+import parentLogger from "@/services/logger.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
 const logger = parentLogger.child({ module: "import:referentiel" });
 

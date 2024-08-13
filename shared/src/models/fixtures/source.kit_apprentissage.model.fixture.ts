@@ -1,7 +1,7 @@
 import { ObjectId } from "bson";
 
-import { ISourceKitApprentissage } from '../source/kitApprentissage/source.kit_apprentissage.model.js';
-import { getFixtureValue } from './fixture_helper.js';
+import { ISourceKitApprentissage } from "../source/kitApprentissage/source.kit_apprentissage.model.js";
+import { getFixtureValue } from "./fixture_helper.js";
 
 export function generateKitApprentissageFixtureData(
   data?: Partial<ISourceKitApprentissage["data"]>

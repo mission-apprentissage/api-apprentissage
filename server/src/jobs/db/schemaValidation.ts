@@ -1,7 +1,7 @@
 import { captureException } from "@sentry/node";
 import { modelDescriptors } from "shared/models/models";
 
-import { getDatabase } from '@/services/mongodb/mongodbService.js';
+import { getDatabase } from "@/services/mongodb/mongodbService.js";
 
 export async function countInvalidDocuments(collectionName: string): Promise<number> {
   const collection = getDatabase().collection(collectionName);

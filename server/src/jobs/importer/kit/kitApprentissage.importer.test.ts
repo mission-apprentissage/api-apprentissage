@@ -3,8 +3,8 @@ import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { getDbCollection } from '@/services/mongodb/mongodbService.js';
-import { getStaticFilePath } from '@/utils/getStaticFilePath.js';
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import { getStaticFilePath } from "@/utils/getStaticFilePath.js";
 
 import { runKitApprentissageImporter } from "./kitApprentissage.importer.js";
 

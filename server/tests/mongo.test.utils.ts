@@ -1,14 +1,14 @@
 import { modelDescriptors } from "shared/models/models";
 import { beforeAll, beforeEach } from "vitest";
 
-import config from '@/config.js';
+import config from "@/config.js";
 import {
   clearAllCollections,
   closeMongodbConnection,
   configureDbSchemaValidation,
   connectToMongodb,
   createIndexes,
-} from '@/services/mongodb/mongodbService.js';
+} from "@/services/mongodb/mongodbService.js";
 
 export const startAndConnectMongodb = async () => {
   const workerId = `${process.env.VITEST_POOL_ID}-${process.env.VITEST_WORKER_ID}`;

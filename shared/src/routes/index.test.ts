@@ -2,8 +2,8 @@ import assert from "node:assert";
 
 import { describe, it } from "vitest";
 
-import { IRouteSchema, IRouteSchemaGet, IRouteSchemaWrite, IRoutesDef, ZResError } from './common.routes.js';
-import { zRoutes } from './index.js';
+import { IRouteSchema, IRouteSchemaGet, IRouteSchemaWrite, IRoutesDef, ZResError } from "./common.routes.js";
+import { zRoutes } from "./index.js";
 
 describe("zRoutes", () => {
   it("should define error schema compatible with default one from error middleware", () => {

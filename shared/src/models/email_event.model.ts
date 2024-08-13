@@ -1,8 +1,8 @@
 import { Jsonify } from "type-fest";
 import { z } from "zod";
 
-import { IModelDescriptorGeneric, zObjectId } from './common.js';
-import { zTemplate } from './email_event/email_templates.js';
+import { IModelDescriptorGeneric, zObjectId } from "./common.js";
+import { zTemplate } from "./email_event/email_templates.js";
 
 const collectionName = "email_events" as const;
 

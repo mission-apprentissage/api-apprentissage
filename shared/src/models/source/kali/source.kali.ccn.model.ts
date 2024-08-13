@@ -1,7 +1,7 @@
 import { DateTime } from "luxon";
 import { z } from "zod";
 
-import { IModelDescriptorGeneric, zObjectId } from '../../common.js';
+import { IModelDescriptorGeneric, zObjectId } from "../../common.js";
 
 const collectionName = "source.kali.ccn" as const;
 

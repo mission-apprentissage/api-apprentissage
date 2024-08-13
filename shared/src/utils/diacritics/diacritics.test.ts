@@ -1,6 +1,6 @@
 import { expect, it } from "vitest";
 
-import { removeDiacritics } from './diacritics.js';
+import { removeDiacritics } from "./diacritics.js";
 
 it("should remove diacritics from a string", () => {
   const input = "Café";

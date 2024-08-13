@@ -6,12 +6,12 @@ import { IImportMetaDares } from "shared/models/import.meta.model";
 import { ISourceDaresApeIdcc, zSourceDaresApeIdcc } from "shared/models/source/dares/source.dares.ape_idcc.model";
 import { pipeline } from "stream/promises";
 
-import { withCause } from '@/services/errors/withCause.js';
-import { ExcelParsedRow, parseExcelFileStream } from '@/services/excel/excel.parser.js';
-import { getDbCollection } from '@/services/mongodb/mongodbService.js';
-import { createBatchTransformStream } from '@/utils/streamUtils.js';
+import { withCause } from "@/services/errors/withCause.js";
+import { ExcelParsedRow, parseExcelFileStream } from "@/services/excel/excel.parser.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import { createBatchTransformStream } from "@/utils/streamUtils.js";
 
-import { downloadResourceApeIdccFile, scrapeRessourceApeIdcc } from './scraper/dares.ape_idcc.scraper.js';
+import { downloadResourceApeIdccFile, scrapeRessourceApeIdcc } from "./scraper/dares.ape_idcc.scraper.js";
 
 async function importResource(importMeta: IImportMetaDares, signal?: AbortSignal) {
   const readStream = await downloadResourceApeIdccFile(importMeta.resource);

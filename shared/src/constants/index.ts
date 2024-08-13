@@ -1,2 +1,2 @@
-export * from './pays.js';
-export * from './territoires.js';
+export * from "./pays.js";
+export * from "./territoires.js";

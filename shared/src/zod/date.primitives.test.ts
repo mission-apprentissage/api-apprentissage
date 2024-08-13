@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { ParisDate, parisTimezoneDate, parseParisLocalDate, zParisLocalDateString } from './date.primitives.js';
+import { ParisDate, parisTimezoneDate, parseParisLocalDate, zParisLocalDateString } from "./date.primitives.js";
 
 describe("parisTimezoneDate", () => {
   it.each([

@@ -1,6 +1,6 @@
 import { zProcessorStatus } from "job-processor/dist/core.js";
 
-import { IRoutesDef } from '../../common.routes.js';
+import { IRoutesDef } from "../../common.routes.js";
 
 export const zProcessorAdminRoutes = {
   get: {

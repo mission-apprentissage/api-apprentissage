@@ -1,15 +1,15 @@
 import { z } from "zod";
 
-import { IModelDescriptorGeneric } from '../../common.js';
-import { zBcn_N_FormationDiplome } from './bcn.n_formation_diplome.model.js';
-import { zBcn_N_NiveauFormationDiplome } from './bcn.n_niveau_formation_diplome.model.js';
-import { zBcn_N51_FormationDiplome } from './bcn.n51_formation_diplome.model.js';
-import { zBcn_V_FormationDiplome } from './bcn.v_formation_diplome.model.js';
+import { IModelDescriptorGeneric } from "../../common.js";
+import { zBcn_N_FormationDiplome } from "./bcn.n_formation_diplome.model.js";
+import { zBcn_N_NiveauFormationDiplome } from "./bcn.n_niveau_formation_diplome.model.js";
+import { zBcn_N51_FormationDiplome } from "./bcn.n51_formation_diplome.model.js";
+import { zBcn_V_FormationDiplome } from "./bcn.v_formation_diplome.model.js";
 
-export * from './bcn.n51_formation_diplome.model.js';
-export * from './bcn.n_formation_diplome.model.js';
-export * from './bcn.n_niveau_formation_diplome.model.js';
-export * from './bcn.v_formation_diplome.model.js';
+export * from "./bcn.n51_formation_diplome.model.js";
+export * from "./bcn.n_formation_diplome.model.js";
+export * from "./bcn.n_niveau_formation_diplome.model.js";
+export * from "./bcn.v_formation_diplome.model.js";
 
 const collectionName = "source.bcn" as const;
 

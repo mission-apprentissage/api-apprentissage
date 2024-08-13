@@ -1,7 +1,7 @@
 import { ObjectId } from "bson";
 
-import { ISourceFranceCompetence } from '../source/france_competence/source.france_competence.model.js';
-import { getFixtureValue } from './fixture_helper.js';
+import { ISourceFranceCompetence } from "../source/france_competence/source.france_competence.model.js";
+import { getFixtureValue } from "./fixture_helper.js";
 
 type ISourceFranceCompetenceDataInput = Partial<
   Omit<ISourceFranceCompetence["data"], "standard"> & {

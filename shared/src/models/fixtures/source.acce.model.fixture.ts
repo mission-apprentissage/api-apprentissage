@@ -6,8 +6,8 @@ import {
   ISourceAcceUaiMere,
   ISourceAcceUaiSpec,
   ISourceAcceUaiZone,
-} from '../source/acce/source.acce.model.js';
-import { getFixtureValue } from './fixture_helper.js';
+} from "../source/acce/source.acce.model.js";
+import { getFixtureValue } from "./fixture_helper.js";
 
 type ISourceAcceUaiInput = Partial<
   Omit<ISourceAcceUai, "data"> & {

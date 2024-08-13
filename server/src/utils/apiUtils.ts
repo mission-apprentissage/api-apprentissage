@@ -12,7 +12,7 @@ import { AxiosCacheInstance } from "axios-cache-interceptor";
 import { RateLimiterMemory, RateLimiterQueue } from "rate-limiter-flexible";
 
 import config from "@/config.js";
-import { withCause } from '@/services/errors/withCause.js';
+import { withCause } from "@/services/errors/withCause.js";
 
 import { timeout } from "./asyncUtils.js";
 

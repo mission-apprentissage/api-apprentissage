@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { sortAlphabeticallyBy } from './sortAlphabetically.js';
+import { sortAlphabeticallyBy } from "./sortAlphabetically.js";
 
 describe("sortAlphabeticallyBy()", () => {
   it("sorts array by numeric item fields", () => {

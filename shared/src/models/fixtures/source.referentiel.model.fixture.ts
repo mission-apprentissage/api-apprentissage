@@ -1,7 +1,7 @@
 import { ObjectId } from "bson";
 
-import { IOrganismeReferentiel, ISourceReferentiel } from '../source/referentiel/source.referentiel.model.js';
-import { getFixtureValue } from './fixture_helper.js';
+import { IOrganismeReferentiel, ISourceReferentiel } from "../source/referentiel/source.referentiel.model.js";
+import { getFixtureValue } from "./fixture_helper.js";
 
 export type IOrganismeReferentielDataInput = Partial<IOrganismeReferentiel>;
 

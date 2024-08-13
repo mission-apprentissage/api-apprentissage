@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-import { zObjectId } from '../../common.js';
-import { zBcn_V_FormationDiplomeData } from './bcn.v_formation_diplome.model.js';
+import { zObjectId } from "../../common.js";
+import { zBcn_V_FormationDiplomeData } from "./bcn.v_formation_diplome.model.js";
 
 export const zBcn_N_FormationDiplomeData = zBcn_V_FormationDiplomeData
   .extend({

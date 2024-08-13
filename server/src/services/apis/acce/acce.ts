@@ -5,11 +5,11 @@ import { internal } from "@hapi/boom";
 import { AxiosInstance, isAxiosError } from "axios";
 
 import config from "@/config.js";
-import getApiClient from '@/services/apis/client.js';
-import { withCause } from '@/services/errors/withCause.js';
-import logger from '@/services/logger.js';
-import { apiRateLimiter, downloadFileAsStream } from '@/utils/apiUtils.js';
-import { sleep } from '@/utils/asyncUtils.js';
+import getApiClient from "@/services/apis/client.js";
+import { withCause } from "@/services/errors/withCause.js";
+import logger from "@/services/logger.js";
+import { apiRateLimiter, downloadFileAsStream } from "@/utils/apiUtils.js";
+import { sleep } from "@/utils/asyncUtils.js";
 
 const CHROME_USER_AGENT =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.128 Safari/537.36";

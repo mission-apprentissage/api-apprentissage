@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { zodToMongoSchema } from "zod-mongodb-schema";
 
-import { modelDescriptors } from '../../models/models.js';
+import { modelDescriptors } from "../../models/models.js";
 
 describe("zodToMongoSchema", () => {
   modelDescriptors.forEach((descriptor) => {

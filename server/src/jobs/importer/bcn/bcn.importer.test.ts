@@ -5,8 +5,8 @@ import { ISourceBcn } from "shared/models/source/bcn/source.bcn.model";
 import { fileURLToPath } from "url";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { fetchBcnData } from '@/services/apis/bcn/bcn.js';
-import { getDbCollection } from '@/services/mongodb/mongodbService.js';
+import { fetchBcnData } from "@/services/apis/bcn/bcn.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
 import { runBcnImporter } from "./bcn.importer.js";
 

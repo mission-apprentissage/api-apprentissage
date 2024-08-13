@@ -1,7 +1,7 @@
 import { Jsonify } from "type-fest";
 import { z } from "zod";
 
-import { IModelDescriptorGeneric, zObjectId } from './common.js';
+import { IModelDescriptorGeneric, zObjectId } from "./common.js";
 
 const collectionName = "sessions" as const;
 

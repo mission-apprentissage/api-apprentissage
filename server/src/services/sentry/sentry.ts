@@ -4,7 +4,7 @@ import * as Sentry from "@sentry/node";
 import { FastifyRequest } from "fastify";
 
 import config from "@/config.js";
-import { Server } from '@/server/server.js';
+import { Server } from "@/server/server.js";
 
 function getOptions(): Sentry.NodeOptions {
   return {

@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { zObjectId } from '../../common.js';
+import { zObjectId } from "../../common.js";
 
 export const zBcn_N_NiveauFormationDiplomeData = z
   .object({

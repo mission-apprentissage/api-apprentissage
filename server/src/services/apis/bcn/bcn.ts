@@ -4,9 +4,9 @@ import { internal } from "@hapi/boom";
 import { isAxiosError } from "axios";
 import { ISourceBcn } from "shared/models/source/bcn/source.bcn.model";
 
-import getApiClient from '@/services/apis/client.js';
-import { withCause } from '@/services/errors/withCause.js';
-import { downloadFileAsStream } from '@/utils/apiUtils.js';
+import getApiClient from "@/services/apis/client.js";
+import { withCause } from "@/services/errors/withCause.js";
+import { downloadFileAsStream } from "@/utils/apiUtils.js";
 
 const bcnClient = getApiClient(
   {

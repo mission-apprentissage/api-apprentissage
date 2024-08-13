@@ -2,9 +2,9 @@ import { internal } from "@hapi/boom";
 import { isAxiosError } from "axios";
 
 import config from "@/config.js";
-import getApiClient from '@/services/apis/client.js';
-import { withCause } from '@/services/errors/withCause.js';
-import { apiRateLimiter } from '@/utils/apiUtils.js';
+import getApiClient from "@/services/apis/client.js";
+import { withCause } from "@/services/errors/withCause.js";
+import { apiRateLimiter } from "@/utils/apiUtils.js";
 
 /**
  * Documentation https://bal.apprentissage.beta.gouv.fr/api/documentation/static/index.html

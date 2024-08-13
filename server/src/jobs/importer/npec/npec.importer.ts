@@ -7,13 +7,13 @@ import { ISourceNpec, zSourceNpecIdcc } from "shared/models/source/npec/source.n
 import { addAbortSignal, Duplex, Transform } from "stream";
 import { pipeline } from "stream/promises";
 
-import { withCause } from '@/services/errors/withCause.js';
-import { ExcelParsedRow, ExcelParseSpec, parseExcelFileStream } from '@/services/excel/excel.parser.js';
-import { getDbCollection } from '@/services/mongodb/mongodbService.js';
-import { createBatchTransformStream } from '@/utils/streamUtils.js';
+import { withCause } from "@/services/errors/withCause.js";
+import { ExcelParsedRow, ExcelParseSpec, parseExcelFileStream } from "@/services/excel/excel.parser.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import { createBatchTransformStream } from "@/utils/streamUtils.js";
 
-import { runNpecNormalizer } from './normalizer/npec.normalizer.js';
-import { downloadXlsxNPECFile, getNpecFilename, scrapeRessourceNPEC } from './scraper/npec.scraper.js';
+import { runNpecNormalizer } from "./normalizer/npec.normalizer.js";
+import { downloadXlsxNPECFile, getNpecFilename, scrapeRessourceNPEC } from "./scraper/npec.scraper.js";
 
 function getWorkbookParseSpec(name: string): ExcelParseSpec {
   switch (name) {

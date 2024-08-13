@@ -11,10 +11,10 @@ import {
 import { Transform } from "stream";
 import { pipeline } from "stream/promises";
 
-import { getNpecFilename } from '@/jobs/importer/npec/scraper/npec.scraper.js';
-import { withCause } from '@/services/errors/withCause.js';
-import { getDbCollection } from '@/services/mongodb/mongodbService.js';
-import { createChangeBatchCardinalityTransformStream } from '@/utils/streamUtils.js';
+import { getNpecFilename } from "@/jobs/importer/npec/scraper/npec.scraper.js";
+import { withCause } from "@/services/errors/withCause.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import { createChangeBatchCardinalityTransformStream } from "@/utils/streamUtils.js";
 
 export async function buildCpneIdccMap(filename: string): Promise<Map<string, Set<number>>> {
   const cpneIdccMap = new Map<string, Set<number>>();

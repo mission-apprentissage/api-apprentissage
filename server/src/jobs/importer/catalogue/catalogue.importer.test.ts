@@ -4,9 +4,9 @@ import { useMongo } from "@tests/mongo.test.utils.js";
 import { ObjectId } from "mongodb";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { fetchCatalogueData } from '@/services/apis/catalogue/catalogue.js';
-import { fetchCatalogueEducatifData } from '@/services/apis/catalogue/catalogueEducatif.js';
-import { getDbCollection } from '@/services/mongodb/mongodbService.js';
+import { fetchCatalogueData } from "@/services/apis/catalogue/catalogue.js";
+import { fetchCatalogueEducatifData } from "@/services/apis/catalogue/catalogueEducatif.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
 import { runCatalogueImporter } from "./catalogue.importer.js";
 import {

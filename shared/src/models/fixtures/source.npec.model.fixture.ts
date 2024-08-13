@@ -1,7 +1,7 @@
 import { ObjectId } from "bson";
 
-import { ISourceNpec } from '../source/npec/source.npec.model.js';
-import { getFixtureValue } from './fixture_helper.js';
+import { ISourceNpec } from "../source/npec/source.npec.model.js";
+import { getFixtureValue } from "./fixture_helper.js";
 
 type IGenerateNpecFixtureDataInput = Partial<ISourceNpec["data"]> & Pick<ISourceNpec["data"], "type">;
 

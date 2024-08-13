@@ -3,8 +3,8 @@ import { isAxiosError } from "axios";
 import { ISourceReferentiel } from "shared/models/source/referentiel/source.referentiel.model";
 
 import config from "@/config.js";
-import getApiClient from '@/services/apis/client.js';
-import { withCause } from '@/services/errors/withCause.js';
+import getApiClient from "@/services/apis/client.js";
+import { withCause } from "@/services/errors/withCause.js";
 
 // Cf Documentation : https://referentiel.apprentissage.onisep.fr/api/v1/doc/#/
 

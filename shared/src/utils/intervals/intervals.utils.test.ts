@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { substractInterval, substractIntervals } from './intervals.utils.js';
+import { substractInterval, substractIntervals } from "./intervals.utils.js";
 
 const t1 = new Date("2021-01-01T00:00:00.000Z");
 const t1End = new Date("2021-01-01T23:59:59.000Z");

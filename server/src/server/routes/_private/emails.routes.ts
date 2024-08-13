@@ -18,10 +18,7 @@ export const emailsRoutes = ({ server }: { server: Server }) => {
       const template = deserializeEmailTemplate(request.query.data);
       // No need to set markAsOpenedActionLink as the email as already be openned
       const html = await renderEmail(template, null);
-      return response
-        .header("Content-Type", "text/html")
-        .status(200)
-        .send(Buffer.from(html));
+      return response.header("Content-Type", "text/html").status(200).send(Buffer.from(html));
     }
   );
 

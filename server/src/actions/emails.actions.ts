@@ -1,7 +1,7 @@
 import { ObjectId } from "mongodb";
 import { IEmailError, IEmailEvent } from "shared/models/email_event.model";
 
-import { getDbCollection } from '@/services/mongodb/mongodbService.js';
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
 export async function createEmailEvent(template: IEmailEvent["template"]) {
   const now = new Date();

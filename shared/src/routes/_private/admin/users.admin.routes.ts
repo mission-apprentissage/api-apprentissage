@@ -1,8 +1,8 @@
 import { z } from "zod";
 
-import { zObjectId } from '../../../models/common.js';
-import { zUserPublic } from '../../../models/user.model.js';
-import { IRoutesDef, ZReqParamsSearchPagination } from '../../common.routes.js';
+import { zObjectId } from "../../../models/common.js";
+import { zUserPublic } from "../../../models/user.model.js";
+import { IRoutesDef, ZReqParamsSearchPagination } from "../../common.routes.js";
 
 export const zUserAdminRoutes = {
   get: {

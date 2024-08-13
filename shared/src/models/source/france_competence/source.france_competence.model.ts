@@ -1,22 +1,25 @@
 import { z } from "zod";
 
-import { IModelDescriptorGeneric, zObjectId } from '../../common.js';
+import { IModelDescriptorGeneric, zObjectId } from "../../common.js";
 import {
   ISourceFcAncienneNouvelle,
   zSourceFcAncienneNouvelle,
-} from './parts/source.france_competence.ancienne_nouvelle.model.js';
+} from "./parts/source.france_competence.ancienne_nouvelle.model.js";
 import {
   ISourceFcBlocDeCompetences,
   zSourceFcBlocDeCompetences,
-} from './parts/source.france_competence.bloc_de_competences.model.js';
-import { ISourceFcCcn, zSourceFcCcn } from './parts/source.france_competence.ccn.model.js';
-import { ISourceFcCertificateur, zSourceFcCertificateur } from './parts/source.france_competence.certificateurs.model.js';
-import { ISourceFcFormacode, zSourceFcFormacode } from './parts/source.france_competence.formacode.model.js';
-import { ISourceFcNsf, zSourceFcNsf } from './parts/source.france_competence.nsf.model.js';
-import { ISourceFcPartenaires, zSourceFcPartenaires } from './parts/source.france_competence.partenaires.model.js';
-import { ISourceFcRome, zSourceFcRome } from './parts/source.france_competence.rome.model.js';
-import { ISourceFcStandard, zSourceFcStandard } from './parts/source.france_competence.standard.model.js';
-import { ISourceFcVoixAcces, zSourceFcVoixAcces } from './parts/source.france_competence.voix_acces.model.js';
+} from "./parts/source.france_competence.bloc_de_competences.model.js";
+import { ISourceFcCcn, zSourceFcCcn } from "./parts/source.france_competence.ccn.model.js";
+import {
+  ISourceFcCertificateur,
+  zSourceFcCertificateur,
+} from "./parts/source.france_competence.certificateurs.model.js";
+import { ISourceFcFormacode, zSourceFcFormacode } from "./parts/source.france_competence.formacode.model.js";
+import { ISourceFcNsf, zSourceFcNsf } from "./parts/source.france_competence.nsf.model.js";
+import { ISourceFcPartenaires, zSourceFcPartenaires } from "./parts/source.france_competence.partenaires.model.js";
+import { ISourceFcRome, zSourceFcRome } from "./parts/source.france_competence.rome.model.js";
+import { ISourceFcStandard, zSourceFcStandard } from "./parts/source.france_competence.standard.model.js";
+import { ISourceFcVoixAcces, zSourceFcVoixAcces } from "./parts/source.france_competence.voix_acces.model.js";
 
 const collectionName = "source.france_competence" as const;
 

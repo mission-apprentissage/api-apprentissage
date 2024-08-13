@@ -7,11 +7,11 @@ import { ObjectId } from "mongodb";
 import { IBcn_N_FormationDiplome, ISourceBcn, zBcnBySource } from "shared/models/source/bcn/source.bcn.model";
 import { ZodError } from "zod";
 
-import { fetchBcnData } from '@/services/apis/bcn/bcn.js';
-import { withCause } from '@/services/errors/withCause.js';
-import parentLogger from '@/services/logger.js';
-import { getDbCollection } from '@/services/mongodb/mongodbService.js';
-import { createBatchTransformStream } from '@/utils/streamUtils.js';
+import { fetchBcnData } from "@/services/apis/bcn/bcn.js";
+import { withCause } from "@/services/errors/withCause.js";
+import parentLogger from "@/services/logger.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import { createBatchTransformStream } from "@/utils/streamUtils.js";
 
 const logger = parentLogger.child({ module: "import:bcn" });
 

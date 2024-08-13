@@ -1,10 +1,10 @@
 import { internal } from "@hapi/boom";
 import { isAxiosError } from "axios";
 
-import getApiClient from '@/services/apis/client.js';
-import { withCause } from '@/services/errors/withCause.js';
-import logger from '@/services/logger.js';
-import { apiRateLimiter } from '@/utils/apiUtils.js';
+import getApiClient from "@/services/apis/client.js";
+import { withCause } from "@/services/errors/withCause.js";
+import logger from "@/services/logger.js";
+import { apiRateLimiter } from "@/utils/apiUtils.js";
 
 interface Result {
   siren: string;

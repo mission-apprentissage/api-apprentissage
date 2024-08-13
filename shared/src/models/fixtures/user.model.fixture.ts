@@ -1,7 +1,7 @@
 import { ObjectId } from "bson";
 
-import { IUser } from '../user.model.js';
-import { getFixtureValue } from './fixture_helper.js';
+import { IUser } from "../user.model.js";
+import { getFixtureValue } from "./fixture_helper.js";
 
 type IUserFixtureInput = Partial<IUser>;
 

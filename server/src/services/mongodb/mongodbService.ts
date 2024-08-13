@@ -5,8 +5,8 @@ import { CollectionName, IDocument, IModelDescriptor, modelDescriptors } from "s
 import { zodToMongoSchema } from "zod-mongodb-schema";
 
 import config from "@/config.js";
-import logger from '@/services/logger.js';
-import { sleep } from '@/utils/asyncUtils.js';
+import logger from "@/services/logger.js";
+import { sleep } from "@/utils/asyncUtils.js";
 
 let mongodbClient: MongoClient | null = null;
 

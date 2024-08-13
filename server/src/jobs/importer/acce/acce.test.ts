@@ -5,7 +5,7 @@ import { ISourceAcce } from "shared/models/source/acce/source.acce.model";
 import { fileURLToPath } from "url";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { getDbCollection } from '@/services/mongodb/mongodbService.js';
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
 import { importAcceData } from "./acce.js";
 

@@ -2,6 +2,7 @@
 
 !/server/src
 !/server/static
+!/server/types
 !/server/package.json
 !/server/tsconfig.json
 !/server/tsup.config.ts
@@ -33,3 +34,5 @@
 **/node_modules
 */tests
 **/logs
+**/*.test.ts
+!**/tsconfig.json

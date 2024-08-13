@@ -23,7 +23,7 @@
   ],
   "scripts": {
     "typecheck": "tsc -b",
-    "build": "rm -rf ./dist && tsc -b tsconfig.prod.json",
+    "build": "tsc -b tsconfig.prod.json",
     "prepack": "yarn build",
     "dev": "tsc -b -w",
     "markdown:transpile": "node ./scripts/transpile-markdown.mjs"

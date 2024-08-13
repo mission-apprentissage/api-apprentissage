@@ -12,6 +12,10 @@ COPY sdk/package.json sdk/package.json
 
 RUN --mount=type=cache,target=/app/.yarn/cache yarn install --immutable
 
+COPY . .
+
+RUN yarn typecheck
+
 FROM builder_root AS root
 WORKDIR /app
 
@@ -23,20 +27,18 @@ WORKDIR /app
 FROM root AS builder_server
 WORKDIR /app
 
-COPY ./server ./server
-COPY ./shared ./shared
-COPY ./sdk ./sdk
-
-RUN yarn --cwd server build
+RUN yarn workspace server build
 # Removing dev dependencies
 RUN --mount=type=cache,target=/app/.yarn/cache yarn workspaces focus --all --production
+
+RUN mkdir -p /app/shared/node_modules && mkdir -p /app/sdk/node_modules && mkdir -p /app/server/node_modules
 
 # Production image, copy all the files and run next
 FROM node:22-slim AS server
 WORKDIR /app
-RUN --mount=type=cache,target=/var/cache/apk apk add --update \
-  curl \
-  && rm -rf /var/cache/apk/*
+# RUN --mount=type=cache,target=/var/cache/apk apk add --update \
+#   curl \
+#   && rm -rf /var/cache/apk/*
 
 ENV NODE_ENV production
 
@@ -50,6 +52,9 @@ COPY --from=builder_server /app/server ./server
 COPY --from=builder_server /app/shared ./shared
 COPY --from=builder_server /app/sdk ./sdk
 COPY --from=builder_server /app/node_modules ./node_modules
+COPY --from=builder_server /app/server/node_modules ./server/node_modules
+COPY --from=builder_server /app/sdk/node_modules ./sdk/node_modules
+COPY --from=builder_server /app/shared/node_modules ./shared/node_modules
 COPY ./server/static /app/server/static
 
 EXPOSE 5000
@@ -65,9 +70,6 @@ CMD ["node", "dist/index.js", "start"]
 # Rebuild the source code only when needed
 FROM root AS builder_ui
 WORKDIR /app
-COPY ./ui ./ui
-COPY ./shared ./shared
-COPY ./sdk ./sdk
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
@@ -86,7 +88,7 @@ ENV NEXT_PUBLIC_VERSION=$PUBLIC_VERSION
 ARG PUBLIC_ENV
 ENV NEXT_PUBLIC_ENV=$PUBLIC_ENV
 
-RUN yarn --cwd ui build
+RUN yarn workspace ui build
 # RUN --mount=type=cache,target=/app/ui/.next/cache yarn --cwd ui build
 
 # Production image, copy all the files and run next

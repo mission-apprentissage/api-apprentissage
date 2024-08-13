@@ -21,7 +21,7 @@ docker run \
   --platform=linux/amd64 \
   --rm \
   -i \
-  --entrypoint /bin/sh \
+  --entrypoint /bin/bash \
   -e SENTRY_AUTH_TOKEN="${SENTRY_AUTH_TOKEN}" \
   -e SENTRY_DSN="${SENTRY_DSN}" \
   ghcr.io/mission-apprentissage/mna_${PRODUCT_NAME}_server:${VERSION} \

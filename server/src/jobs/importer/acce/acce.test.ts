@@ -1,13 +1,13 @@
-import { useMongo } from "@tests/mongo.test.utils";
+import { useMongo } from "@tests/mongo.test.utils.js";
 import { createReadStream } from "fs";
 import { dirname, join } from "path";
 import { ISourceAcce } from "shared/models/source/acce/source.acce.model";
 import { fileURLToPath } from "url";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { getDbCollection } from "@/services/mongodb/mongodbService";
+import { getDbCollection } from '@/services/mongodb/mongodbService.js';
 
-import { importAcceData } from "./acce";
+import { importAcceData } from "./acce.js";
 
 describe("importAcceData", () => {
   useMongo();

@@ -1,5 +1,5 @@
-import Boom from "@hapi/boom";
-import { PathParam, QueryString } from "api-alternance-sdk";
+import { forbidden, internal } from "@hapi/boom";
+import { PathParam, QueryString } from "api-alternance-sdk/internal";
 import { FastifyRequest } from "fastify";
 import { ObjectId } from "mongodb";
 import { IUser } from "shared/models/user.model";
@@ -9,10 +9,10 @@ import { assertUnreachable } from "shared/utils/assertUnreachable";
 import { Primitive } from "zod";
 import { zObjectId } from "zod-mongodb-schema";
 
-import { getDbCollection } from "@/services/mongodb/mongodbService";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
-import { getAccessTokenScope } from "./accessTokenService";
-import { getUserFromRequest } from "./authenticationService";
+import { getAccessTokenScope } from "./accessTokenService.js";
+import { getUserFromRequest } from "./authenticationService.js";
 
 export type Ressources = {
   users: Array<IUser>;
@@ -129,7 +129,7 @@ export async function authorizationnMiddleware<S extends Pick<IRouteSchema, "met
   req: IRequest
 ) {
   if (!schema.securityScheme) {
-    throw Boom.internal(`authorizationnMiddleware: route doesn't have security scheme`, {
+    throw internal(`authorizationnMiddleware: route doesn't have security scheme`, {
       method: schema.method,
       path: schema.path,
     });
@@ -149,6 +149,6 @@ export async function authorizationnMiddleware<S extends Pick<IRouteSchema, "met
       : isAuthorizedUser(schema.securityScheme.access, userOrToken, resources);
 
   if (!isAuthorized) {
-    throw Boom.forbidden("Vous n'êtes pas autorisé à accéder à cette ressource");
+    throw forbidden("Vous n'êtes pas autorisé à accéder à cette ressource");
   }
 }

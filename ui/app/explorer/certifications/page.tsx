@@ -1,7 +1,7 @@
 import { fr } from "@codegouvfr/react-dsfr";
 import { Breadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
 import { Box, Container } from "@mui/material";
-import { certificationDoc, certificationSources } from "shared/docs/certification/certification.doc";
+import { certificationDoc, certificationSources } from "api-alternance-sdk/internal";
 
 import { DsfrLink } from "@/components/link/DsfrLink";
 import { PAGES } from "@/utils/routes.utils";

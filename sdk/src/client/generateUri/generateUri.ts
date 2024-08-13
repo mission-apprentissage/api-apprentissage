@@ -3,10 +3,10 @@ import type { EmptyObject } from "type-fest";
 export type PathParam = Record<string, string>;
 export type QueryString = Record<string, string | string[]>;
 export type WithQueryStringAndPathParam =
-  | {
-      params?: PathParam;
-      querystring?: QueryString;
-    }
+  | Readonly<{
+      params?: Readonly<PathParam>;
+      querystring?: Readonly<QueryString>;
+    }>
   | EmptyObject;
 
 /*

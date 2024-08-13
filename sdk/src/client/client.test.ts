@@ -1,4 +1,4 @@
-import nock from "nock";
+import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
 import { beforeEach, describe, expect, expectTypeOf, it } from "vitest";
 
 import { IRechercheOrganismeResponse } from "../routes/organisme.routes.js";
@@ -6,11 +6,11 @@ import { ApiError } from "./apiError.js";
 import { ApiClient } from "./client.js";
 
 beforeEach(() => {
-  nock.disableNetConnect();
+  disableNetConnect();
 
   return () => {
-    nock.cleanAll();
-    nock.enableNetConnect();
+    cleanAll();
+    enableNetConnect();
   };
 });
 
@@ -76,13 +76,13 @@ describe("get", () => {
     const scope = nock("https://api.apprentissage.beta.gouv.fr/api", {
       reqheaders: { authorization: "Bearer api-key" },
     })
-      .get("/organismes/v1/recherche")
+      .get("/organisme/v1/recherche")
       .query({ uai: "0594899E" })
       .reply(200, response);
 
     const apiClient = new ApiClient({ key: "api-key" });
 
-    const data = await apiClient.get("/organismes/v1/recherche", {
+    const data = await apiClient.get("/organisme/v1/recherche", {
       querystring: { uai: "0594899E" },
     });
 
@@ -114,7 +114,6 @@ describe("get", () => {
 
     const apiClient = new ApiClient({ key: "api-key" });
     const err = await apiClient
-      // @ts-expect-error routes is not defined is SDK yet
       .get("/certification/v1", {
         querystring: { "identifiant.rncp": "RNP28704" },
       })

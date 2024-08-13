@@ -1,10 +1,10 @@
-import Boom from "@hapi/boom";
+import { notFound } from "@hapi/boom";
 import { RootFilterOperators } from "mongodb";
 import { zRoutes } from "shared";
 import { IUser, toPublicUser } from "shared/models/user.model";
 
-import { Server } from "@/server/server";
-import { getDbCollection } from "@/services/mongodb/mongodbService";
+import { Server } from "@/server/server.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
 export const userAdminRoutes = ({ server }: { server: Server }) => {
   server.get(
@@ -38,7 +38,7 @@ export const userAdminRoutes = ({ server }: { server: Server }) => {
       const user = await getDbCollection("users").findOne({ _id: request.params.id });
 
       if (!user) {
-        throw Boom.notFound();
+        throw notFound();
       }
 
       return response.status(200).send(toPublicUser(user));

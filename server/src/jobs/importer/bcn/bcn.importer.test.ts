@@ -1,14 +1,14 @@
-import { useMongo } from "@tests/mongo.test.utils";
+import { useMongo } from "@tests/mongo.test.utils.js";
 import { createReadStream } from "fs";
 import { dirname, join } from "path";
 import { ISourceBcn } from "shared/models/source/bcn/source.bcn.model";
 import { fileURLToPath } from "url";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { fetchBcnData } from "@/services/apis/bcn/bcn";
-import { getDbCollection } from "@/services/mongodb/mongodbService";
+import { fetchBcnData } from '@/services/apis/bcn/bcn.js';
+import { getDbCollection } from '@/services/mongodb/mongodbService.js';
 
-import { runBcnImporter } from "./bcn.importer";
+import { runBcnImporter } from "./bcn.importer.js";
 
 vi.mock("@/services/apis/bcn/bcn", async (importOriginal) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

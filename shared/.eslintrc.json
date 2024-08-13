@@ -1,20 +1,23 @@
 {
+  "extends": [
+    "plugin:n/recommended-module",
+    "plugin:esm-import/recommended",
+    "plugin:import/recommended",
+    "plugin:import/typescript"
+  ],
   "env": {
     "es2022": true,
     "node": true
   },
   "plugins": ["zod"],
   "rules": {
-    "zod/prefer-enum": "error"
-  },
-  "parserOptions": {
-    "project": "shared/tsconfig.json"
-  },
-  "settings": {
-    "import/resolver": {
-      "typescript": {
-        "project": "shared/tsconfig.json"
+    "zod/prefer-enum": "error",
+    "n/no-missing-import": 0,
+    "n/no-extraneous-import": [
+      "error",
+      {
+        "allowModules": ["api-alternance-sdk"]
       }
-    }
+    ]
   }
 }

@@ -1,12 +1,12 @@
-import { useMongo } from "@tests/mongo.test.utils";
+import { useMongo } from "@tests/mongo.test.utils.js";
 import { DateTime } from "luxon";
-import { ICertification } from "shared/models/certification.model";
-import { generateCertificationFixture, generateUserFixture } from "shared/models/fixtures";
+import { ICertificationInternal } from "shared/models/certification.model";
+import { generateCertificationFixture, generateUserFixture } from "shared/models/fixtures/index";
 import { beforeAll, beforeEach, describe, expect, it } from "vitest";
 
-import { generateApiKey } from "@/actions/users.actions";
-import createServer, { Server } from "@/server/server";
-import { getDbCollection } from "@/services/mongodb/mongodbService";
+import { generateApiKey } from "@/actions/users.actions.js";
+import createServer, { Server } from "@/server/server.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
 useMongo();
 
@@ -68,12 +68,12 @@ describe("GET /certification/v1", () => {
     "13512840_null": generateCertificationFixture({
       identifiant: { cfd: "13512840", rncp: null },
     }),
-  } satisfies Record<string, ICertification>;
+  } satisfies Record<string, ICertificationInternal>;
 
   const toLocalDateString = (date: Date | null) =>
     date === null ? null : DateTime.fromJSDate(date, { zone: "Europe/Paris" }).toISO();
 
-  const toExpectedJson = ({ _id, updated_at: _u, created_at: _c, ...rest }: ICertification) => {
+  const toExpectedJson = ({ _id, updated_at: _u, created_at: _c, ...rest }: ICertificationInternal) => {
     return {
       ...rest,
       periode_validite: {

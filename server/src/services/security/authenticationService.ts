@@ -1,21 +1,21 @@
-import Boom from "@hapi/boom";
+import { internal, unauthorized } from "@hapi/boom";
 import { captureException } from "@sentry/node";
-import { PathParam, QueryString } from "api-alternance-sdk";
+import { PathParam, QueryString } from "api-alternance-sdk/internal";
 import { FastifyRequest } from "fastify";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt, { type JwtPayload } from "jsonwebtoken";
 import { ObjectId } from "mongodb";
 import { IApiKey, IUser } from "shared/models/user.model";
 import { IAccessToken, ISecuredRouteSchema, WithSecurityScheme } from "shared/routes/common.routes";
 import { UserWithType } from "shared/security/permissions";
 import { assertUnreachable } from "shared/utils/assertUnreachable";
 
-import { getSession } from "@/actions/sessions.actions";
-import config from "@/config";
-import { getDbCollection } from "@/services/mongodb/mongodbService";
-import { compareKeys } from "@/utils/cryptoUtils";
-import { decodeToken } from "@/utils/jwtUtils";
+import { getSession } from "@/actions/sessions.actions.js";
+import config from "@/config.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import { compareKeys } from "@/utils/cryptoUtils.js";
+import { decodeToken } from "@/utils/jwtUtils.js";
 
-import { parseAccessToken } from "./accessTokenService";
+import { parseAccessToken } from "./accessTokenService.js";
 
 export type IUserWithType = UserWithType<"token", IAccessToken> | UserWithType<"user", IUser>;
 
@@ -38,7 +38,7 @@ export const getUserFromRequest = <S extends WithSecurityScheme>(
   _schema: S
 ): AuthenticatedUser<S["securityScheme"]["auth"]>["value"] => {
   if (!req.user) {
-    throw Boom.internal("User should be authenticated");
+    throw internal("User should be authenticated");
   }
 
   return req.user.value as AuthenticatedUser<S["securityScheme"]["auth"]>["value"];
@@ -146,7 +146,7 @@ async function authAccessToken<S extends ISecuredRouteSchema>(
 
 export async function authenticationMiddleware<S extends ISecuredRouteSchema>(schema: S, req: FastifyRequest) {
   if (!schema.securityScheme) {
-    throw Boom.internal("Missing securityScheme");
+    throw internal("Missing securityScheme");
   }
 
   const securityScheme = schema.securityScheme;
@@ -155,19 +155,19 @@ export async function authenticationMiddleware<S extends ISecuredRouteSchema>(sc
     case "cookie-session":
       req.user = await authCookieSession(req);
       if (!req.user) {
-        throw Boom.unauthorized("Vous devez être connecté pour accéder à cette ressource");
+        throw unauthorized("Vous devez être connecté pour accéder à cette ressource");
       }
       break;
     case "api-key":
       req.user = await authApiKey(req);
       if (!req.user) {
-        throw Boom.unauthorized("Vous devez fournir une clé d'API valide pour accéder à cette ressource");
+        throw unauthorized("Vous devez fournir une clé d'API valide pour accéder à cette ressource");
       }
       break;
     case "access-token":
       req.user = await authAccessToken(req, schema);
       if (!req.user) {
-        throw Boom.unauthorized("Le lien de connexion pour accéder à cette ressource est invalide");
+        throw unauthorized("Le lien de connexion pour accéder à cette ressource est invalide");
       }
       break;
     default:
@@ -175,6 +175,6 @@ export async function authenticationMiddleware<S extends ISecuredRouteSchema>(sc
   }
 
   if (!req.user) {
-    throw Boom.unauthorized("Vous devez être connecté pour accéder à cette ressource");
+    throw unauthorized("Vous devez être connecté pour accéder à cette ressource");
   }
 }

@@ -1,13 +1,12 @@
 import type { Readable } from "node:stream";
 
-import { compose } from "oleoduc";
 import { zFormationCatalogue } from "shared/models/source/catalogue/source.catalogue.model";
 
-import config from "@/config";
-import getApiClient from "@/services/apis/client";
-import logger from "@/services/logger";
-import { downloadFileAsStream } from "@/utils/apiUtils";
-import { createJsonLineTransformStream } from "@/utils/streamUtils";
+import config from "@/config.js";
+import getApiClient from "@/services/apis/client.js";
+import logger from "@/services/logger.js";
+import { downloadFileAsStream } from "@/utils/apiUtils.js";
+import { compose, createJsonLineTransformStream } from "@/utils/streamUtils.js";
 
 const catalogueClient = getApiClient(
   {

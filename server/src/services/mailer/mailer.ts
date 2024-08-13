@@ -1,9 +1,9 @@
 import { internal } from "@hapi/boom";
 import { captureException } from "@sentry/node";
-import ejs from "ejs";
+import { renderFile } from "ejs";
 import { omit } from "lodash-es";
 import mjml from "mjml";
-import nodemailer from "nodemailer";
+import { createTransport, type Transporter } from "nodemailer";
 import Mail from "nodemailer/lib/mailer";
 import SMTPTransport from "nodemailer/lib/smtp-transport";
 import { htmlToText } from "nodemailer-html-to-text";
@@ -12,14 +12,14 @@ import { IEmailEvent } from "shared/models/email_event.model";
 import { ITemplate } from "shared/models/email_event/email_templates";
 import { assertUnreachable } from "shared/utils/assertUnreachable";
 
-import { addEmailError, createEmailEvent, isUnsubscribed, setEmailMessageId } from "@/actions/emails.actions";
-import config from "@/config";
-import logger from "@/services/logger";
-import { generateAccessToken, generateScope } from "@/services/security/accessTokenService";
-import { getStaticFilePath } from "@/utils/getStaticFilePath";
-import { serializeEmailTemplate } from "@/utils/jwtUtils";
+import { addEmailError, createEmailEvent, isUnsubscribed, setEmailMessageId } from "@/actions/emails.actions.js";
+import config from "@/config.js";
+import logger from "@/services/logger.js";
+import { generateAccessToken, generateScope } from "@/services/security/accessTokenService.js";
+import { getStaticFilePath } from "@/utils/getStaticFilePath.js";
+import { serializeEmailTemplate } from "@/utils/jwtUtils.js";
 
-let transporter: nodemailer.Transporter<SMTPTransport.SentMessageInfo> | null = null;
+let transporter: Transporter<SMTPTransport.SentMessageInfo> | null = null;
 
 export function closeMailer() {
   transporter?.close?.();
@@ -30,7 +30,7 @@ export function initMailer() {
   const settings = { ...config.smtp, secure: false };
   const needsAuthentication = !!settings.auth.user;
   // @ts-expect-error
-  transporter = nodemailer.createTransport(needsAuthentication ? settings : omit(settings, ["auth"]));
+  transporter = createTransport(needsAuthentication ? settings : omit(settings, ["auth"]));
   transporter.use("compile", htmlToText());
 }
 
@@ -145,7 +145,7 @@ export async function renderEmail(template: ITemplate, emailEvent: IEmailEvent |
   const isTransactional = isTransactionalTemplate(template);
   const templateFile = getStaticFilePath(`./emails/${template.name}.mjml.ejs`);
 
-  const buffer = await ejs.renderFile(templateFile, {
+  const buffer = await renderFile(templateFile, {
     template,
     actions: {
       unsubscribe: isTransactional ? null : getUnsubscribeActionLink(template),

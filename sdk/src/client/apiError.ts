@@ -40,12 +40,14 @@ export class ApiError extends Error {
     if (res.status > 0) {
       try {
         if (res.headers.get("Content-Type")?.startsWith("application/json")) {
-          const data: IResErrorJson = await res.json();
-          name = data.name;
-          message = data.message;
-          errorData = data.data;
+          const data = await res.json();
+          if (typeof data === "object" && data !== null) {
+            name = "name" in data && typeof data.name === "string" ? data.name : "Api Error";
+            message = "message" in data && typeof data.message === "string" ? data.message : `code ${res.status}`;
+            errorData = "data" in data ? data.data : null;
+          }
         }
-      } catch (error) {
+      } catch (_error) {
         // ignore
       }
     }

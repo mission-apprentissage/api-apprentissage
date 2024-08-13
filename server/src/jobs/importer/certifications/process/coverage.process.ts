@@ -1,7 +1,7 @@
 import { internal } from "@hapi/boom";
 import { ObjectId } from "mongodb";
 import { substractIntervals } from "shared";
-import { ICertification } from "shared/models/certification.model";
+import { ICertificationInternal } from "shared/models/certification.model";
 import { IImportMetaCertifications } from "shared/models/import.meta.model";
 import { IBcn_N_FormationDiplome } from "shared/models/source/bcn/bcn.n_formation_diplome.model";
 import { IBcn_N51_FormationDiplome } from "shared/models/source/bcn/bcn.n51_formation_diplome.model";
@@ -9,23 +9,26 @@ import { ISourceFranceCompetence } from "shared/models/source/france_competence/
 import { Transform } from "stream";
 import { pipeline } from "stream/promises";
 
-import { buildCertification } from "@/jobs/importer/certifications/builder/certification.builder";
-import { withCause } from "@/services/errors/withCause";
-import { getDbCollection } from "@/services/mongodb/mongodbService";
+import { buildCertification } from "@/jobs/importer/certifications/builder/certification.builder.js";
+import { withCause } from "@/services/errors/withCause.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
 type ChunkCfd = {
   _id: string;
-  certifications: ICertification[];
+  certifications: ICertificationInternal[];
   bcn: IBcn_N51_FormationDiplome | IBcn_N_FormationDiplome;
 };
 
 type ChunkRncp = {
   _id: string;
-  certifications: ICertification[];
+  certifications: ICertificationInternal[];
   france_competence: ISourceFranceCompetence;
 };
 
-export function buildMissingCfdCertification(chunk: ChunkCfd, importMeta: IImportMetaCertifications): ICertification[] {
+export function buildMissingCfdCertification(
+  chunk: ChunkCfd,
+  importMeta: IImportMetaCertifications
+): ICertificationInternal[] {
   const missingIntervals = substractIntervals(
     [
       {
@@ -39,7 +42,7 @@ export function buildMissingCfdCertification(chunk: ChunkCfd, importMeta: IImpor
     }))
   );
 
-  return missingIntervals.map((interval): ICertification => {
+  return missingIntervals.map((interval): ICertificationInternal => {
     const c = buildCertification(
       { bcn: chunk.bcn, france_competence: null },
       importMeta.source.france_competence.oldest_date_publication
@@ -62,7 +65,7 @@ export function buildMissingCfdCertification(chunk: ChunkCfd, importMeta: IImpor
 export function buildMissingRncpCertification(
   chunk: ChunkRncp,
   importMeta: IImportMetaCertifications
-): ICertification[] {
+): ICertificationInternal[] {
   const missingIntervals = substractIntervals(
     [
       {
@@ -76,7 +79,7 @@ export function buildMissingRncpCertification(
     }))
   );
 
-  return missingIntervals.map((interval): ICertification => {
+  return missingIntervals.map((interval): ICertificationInternal => {
     const c = buildCertification(
       { bcn: null, france_competence: chunk.france_competence },
       importMeta.source.france_competence.oldest_date_publication
@@ -96,7 +99,7 @@ export function buildMissingRncpCertification(
   });
 }
 
-function createMapperStream<C>(mapper: (c: C) => ICertification[], type: "cfd" | "rncp") {
+function createMapperStream<C>(mapper: (c: C) => ICertificationInternal[], type: "cfd" | "rncp") {
   return new Transform({
     objectMode: true,
     async transform(chunk: C, _encoding, callback) {
@@ -115,7 +118,7 @@ function createMapperStream<C>(mapper: (c: C) => ICertification[], type: "cfd" |
 function createInsertStream(type: "cfd" | "rncp") {
   return new Transform({
     objectMode: true,
-    async transform(chunk: ICertification[], _encoding, callback) {
+    async transform(chunk: ICertificationInternal[], _encoding, callback) {
       try {
         if (chunk.length > 0) {
           await getDbCollection("certifications").insertMany(chunk);

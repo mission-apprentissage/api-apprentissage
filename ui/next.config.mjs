@@ -36,10 +36,6 @@ const nextConfig = {
       test: /\.woff2$/,
       type: "asset/resource",
     });
-    config.module.rules.push({
-      test: /\.md$/,
-      type: "asset/source",
-    });
     // Bson is using top-level await, which is not supported by default in Next.js in client side
     // Probably related to https://github.com/vercel/next.js/issues/54282
     config.resolve.alias.bson = path.join(path.dirname(fileURLToPath(import.meta.resolve("bson"))), "bson.cjs");

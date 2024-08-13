@@ -1,5 +1,5 @@
 "use client";
-import Alert from "@codegouvfr/react-dsfr/Alert";
+import { Alert } from "@codegouvfr/react-dsfr/Alert";
 import { Snackbar } from "@mui/material";
 import { captureException } from "@sentry/nextjs";
 import { jwtDecode } from "jwt-decode";

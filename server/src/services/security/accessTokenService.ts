@@ -1,6 +1,6 @@
 import { forbidden, internal } from "@hapi/boom";
 import { captureException } from "@sentry/node";
-import { PathParam, QueryString } from "api-alternance-sdk";
+import { PathParam, QueryString } from "api-alternance-sdk/internal";
 import jwt from "jsonwebtoken";
 import { IUser } from "shared/models/user.model";
 import {
@@ -11,7 +11,7 @@ import {
   SchemaWithSecurity,
 } from "shared/routes/common.routes";
 
-import config from "@/config";
+import config from "@/config.js";
 
 // cf https://www.sistrix.com/ask-sistrix/technical-seo/site-structure/url-length-how-long-can-a-url-be
 const INTERNET_EXPLORER_V10_MAX_LENGTH = 2083;

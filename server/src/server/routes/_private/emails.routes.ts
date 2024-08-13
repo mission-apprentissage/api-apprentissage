@@ -1,12 +1,12 @@
-import Boom from "@hapi/boom";
+import { forbidden } from "@hapi/boom";
 import { zRoutes } from "shared";
 import { IEmailError } from "shared/models/email_event.model";
 
-import { markEmailAsDelivered, markEmailAsFailed, markEmailAsOpened, unsubscribe } from "@/actions/emails.actions";
-import config from "@/config";
-import { Server } from "@/server/server";
-import { renderEmail } from "@/services/mailer/mailer";
-import { deserializeEmailTemplate } from "@/utils/jwtUtils";
+import { markEmailAsDelivered, markEmailAsFailed, markEmailAsOpened, unsubscribe } from "@/actions/emails.actions.js";
+import config from "@/config.js";
+import { Server } from "@/server/server.js";
+import { renderEmail } from "@/services/mailer/mailer.js";
+import { deserializeEmailTemplate } from "@/utils/jwtUtils.js";
 
 export const emailsRoutes = ({ server }: { server: Server }) => {
   server.get(
@@ -21,7 +21,7 @@ export const emailsRoutes = ({ server }: { server: Server }) => {
       return response
         .header("Content-Type", "text/html")
         .status(200)
-        .send(Buffer.from(html as string));
+        .send(Buffer.from(html));
     }
   );
 
@@ -89,7 +89,7 @@ export const emailsRoutes = ({ server }: { server: Server }) => {
       const { webhookKey } = request.query;
 
       if (config.smtp.webhookKey !== webhookKey) {
-        throw Boom.forbidden("Non autorisé");
+        throw forbidden("Non autorisé");
       }
 
       const { event, "message-id": messageId } = request.body;

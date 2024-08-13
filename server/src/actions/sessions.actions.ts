@@ -3,9 +3,9 @@ import jwt from "jsonwebtoken";
 import { Filter, FindOptions, ObjectId } from "mongodb";
 import { ISession } from "shared/models/session.model";
 
-import config from "@/config";
-import { getDbCollection } from "@/services/mongodb/mongodbService";
-import { authCookieSession } from "@/services/security/authenticationService";
+import config from "@/config.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import { authCookieSession } from "@/services/security/authenticationService.js";
 
 async function createSession(email: string) {
   const now = new Date();

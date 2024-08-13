@@ -1,5 +1,5 @@
 import { EmptyObject } from "type-fest";
-import z, { ZodType } from "zod";
+import { z, ZodType } from "zod";
 
 import { IApiRouteSchema, IApiRouteSchemaWrite } from "../routes/common.routes.js";
 import {
@@ -11,6 +11,7 @@ import {
   IApiResponse,
 } from "../routes/index.js";
 import { ApiError } from "./apiError.js";
+import { buildCertificationModule, CertificationModule } from "./certification/certification.module.js";
 import { generateUri, WithQueryStringAndPathParam } from "./generateUri/generateUri.js";
 import { buildOrganismeModule, OrganismeModule } from "./organisme/organisme.module.js";
 
@@ -47,12 +48,14 @@ export class ApiClient {
   endpoint: string;
   key: string;
 
+  certification: CertificationModule;
   organisme: OrganismeModule;
 
   constructor(config: ApiClientConfig) {
     this.endpoint = removeAtEnd(config.endpoint ?? "https://api.apprentissage.beta.gouv.fr/api", "/");
     this.key = config.key ?? throwError("api-alternance-sdk: api key is required");
 
+    this.certification = buildCertificationModule(this);
     this.organisme = buildOrganismeModule(this);
   }
 
@@ -62,23 +65,23 @@ export class ApiClient {
     rawOptions?: FetchOptions
   ): RequestInit {
     const headers = new Headers();
-    headers.append("Authorization", `Bearer ${this.key}`);
+    headers.set("authorization", `Bearer ${this.key}`);
 
     if ("headers" in options && options.headers) {
       const h = options.headers;
       Object.keys(h).forEach((name) => {
-        headers.append(name, h[name]);
+        headers.set(name, h[name]);
       });
     }
 
-    let body: BodyInit | undefined = undefined;
+    let body: RequestInit["body"] | undefined = undefined;
     if ("body" in options && method !== "GET") {
       // @ts-expect-error
       if (options.body instanceof FormData) {
         body = options.body;
       } else {
         body = JSON.stringify(options.body);
-        headers.append("Content-Type", "application/json");
+        headers.set("content-Type", "application/json");
       }
     }
 
@@ -97,10 +100,11 @@ export class ApiClient {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private async exec(path: string, requestInit: RequestInit, options: WithQueryStringAndPathParam): Promise<any> {
+    const reqHeaders = Array.from((requestInit.headers as Headers)?.entries() ?? []);
     const res = await fetch(this.endpoint + generateUri(path, options), requestInit);
 
     if (!res.ok) {
-      throw await ApiError.build(path, new Headers(requestInit.headers), options, res);
+      throw await ApiError.build(path, new Headers(reqHeaders), options, res);
     }
 
     return res.json();

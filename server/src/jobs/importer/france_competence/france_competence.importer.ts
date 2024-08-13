@@ -14,12 +14,12 @@ import {
 } from "shared/models/source/france_competence/source.france_competence.model";
 import { parisTimezoneDate } from "shared/zod/date.primitives";
 import { pipeline } from "stream/promises";
-import unzipper, { Entry } from "unzipper";
+import { Entry, Parse } from "unzipper";
 
-import { downloadDataGouvResource, fetchDataGouvDataSet } from "@/services/apis/data_gouv/data_gouv.api";
-import { withCause } from "@/services/errors/withCause";
-import { getDbCollection } from "@/services/mongodb/mongodbService";
-import { createChangeBatchCardinalityTransformStream } from "@/utils/streamUtils";
+import { downloadDataGouvResource, fetchDataGouvDataSet } from "@/services/apis/data_gouv/data_gouv.api.js";
+import { withCause } from "@/services/errors/withCause.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import { createChangeBatchCardinalityTransformStream } from "@/utils/streamUtils.js";
 
 type FichierMeta = {
   source: keyof ISourceFranceCompetence["data"];
@@ -398,7 +398,7 @@ export async function importRncpArchive(importMeta: IImportMetaFranceCompetence,
 
     if (signal) addAbortSignal(signal, readStream);
 
-    const zip = readStream.pipe(unzipper.Parse({ forceStream: true }));
+    const zip = readStream.pipe(Parse({ forceStream: true }));
     for await (const entry of zip) {
       await importRncpFile(entry, importMeta, signal);
       entry.autodrain();

@@ -1,13 +1,13 @@
 import archiver from "archiver";
-import nock from "nock";
+import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
 import { dirname, join } from "path";
 import { Stream } from "stream";
 import { fileURLToPath } from "url";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { getStaticFilePath } from "@/utils/getStaticFilePath";
+import { getStaticFilePath } from "@/utils/getStaticFilePath.js";
 
-import { downloadXlsxNPECFile, scrapeRessourceNPEC } from "./npec.scraper";
+import { downloadXlsxNPECFile, scrapeRessourceNPEC } from "./npec.scraper.js";
 
 vi.mock("@/utils/getStaticFilePath", () => ({
   getStaticFilePath: vi.fn(),
@@ -15,12 +15,12 @@ vi.mock("@/utils/getStaticFilePath", () => ({
 
 describe("scrapeRessourceNPEC", () => {
   beforeEach(() => {
-    nock.disableNetConnect();
+    disableNetConnect();
   });
 
   afterEach(() => {
-    nock.cleanAll();
-    nock.enableNetConnect();
+    cleanAll();
+    enableNetConnect();
   });
 
   it("should scrape the download links", async () => {
@@ -174,12 +174,12 @@ async function readStreamData(stream: Stream) {
 
 describe("downloadXlsxNPECFile", () => {
   beforeEach(() => {
-    nock.disableNetConnect();
+    disableNetConnect();
   });
 
   afterEach(() => {
-    nock.cleanAll();
-    nock.enableNetConnect();
+    cleanAll();
+    enableNetConnect();
   });
 
   it("should download plain XLSX file", async () => {

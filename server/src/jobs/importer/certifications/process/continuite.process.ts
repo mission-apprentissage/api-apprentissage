@@ -1,13 +1,13 @@
 import { AnyBulkWriteOperation } from "mongodb";
-import { ICertification } from "shared/models/certification.model";
+import { ICertificationInternal } from "shared/models/certification.model";
 import { IImportMetaCertifications } from "shared/models/import.meta.model";
 import { IBcn_N_FormationDiplome } from "shared/models/source/bcn/bcn.n_formation_diplome.model";
 
 import {
   buildCertificationSearchMap,
   ICertificationSearchMap,
-} from "@/jobs/importer/certifications/builder/periode_validite/certification.periode_validite.builder";
-import { getDbCollection } from "@/services/mongodb/mongodbService";
+} from "@/jobs/importer/certifications/builder/periode_validite/certification.periode_validite.builder.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
 type GroupContext = {
   groups: Map<string, Set<string>>;
@@ -125,7 +125,7 @@ function compareDate(a: Date | null, b: Date | null) {
 }
 
 async function processCfdContinuiteGroup(searchMap: ICertificationSearchMap, group: string[]) {
-  const ops: AnyBulkWriteOperation<ICertification>[] = [];
+  const ops: AnyBulkWriteOperation<ICertificationInternal>[] = [];
 
   const continuite = group
     // Filter out not found codes)
@@ -155,7 +155,7 @@ async function processCfdContinuiteGroup(searchMap: ICertificationSearchMap, gro
 }
 
 async function processRncpContinuiteGroup(searchMap: ICertificationSearchMap, group: string[]) {
-  const ops: AnyBulkWriteOperation<ICertification>[] = [];
+  const ops: AnyBulkWriteOperation<ICertificationInternal>[] = [];
 
   const continuite = group
     // Filter out not found codes)

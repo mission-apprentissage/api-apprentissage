@@ -1,8 +1,9 @@
-export * from "./client/index.js";
-export type * from "./client/index.js";
+export { ApiClient } from "./client/index.js";
+export type { ApiClientConfig } from "./client/index.js";
+
+export { ApiError } from "./client/apiError.js";
+export type { ApiErrorContext } from "./client/apiError.js";
 
 export * from "./models/index.js";
-export type * from "./models/index.js";
 
 export * from "./routes/index.js";
-export type * from "./routes/index.js";

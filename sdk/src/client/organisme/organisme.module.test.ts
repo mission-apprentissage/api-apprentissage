@@ -1,4 +1,4 @@
-import nock from "nock";
+import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
 import { beforeEach, describe, expect, expectTypeOf, it } from "vitest";
 
 import { IRechercheOrganismeResponse } from "../../routes/organisme.routes.js";
@@ -6,11 +6,11 @@ import { ApiError } from "../apiError.js";
 import { ApiClient } from "../client.js";
 
 beforeEach(() => {
-  nock.disableNetConnect();
+  disableNetConnect();
 
   return () => {
-    nock.cleanAll();
-    nock.enableNetConnect();
+    cleanAll();
+    enableNetConnect();
   };
 });
 
@@ -50,7 +50,7 @@ describe("recherche", () => {
     const scope = nock("https://api.apprentissage.beta.gouv.fr/api", {
       reqheaders: { authorization: "Bearer api-key" },
     })
-      .get("/organismes/v1/recherche")
+      .get("/organisme/v1/recherche")
       .query({ uai })
       .reply(200, response);
 
@@ -68,7 +68,7 @@ describe("recherche", () => {
     const scope = nock("https://api.apprentissage.beta.gouv.fr/api", {
       reqheaders: { authorization: "Bearer api-key" },
     })
-      .get("/organismes/v1/recherche")
+      .get("/organisme/v1/recherche")
       .query({ uai })
       .reply(401, {
         statusCode: 401,
@@ -96,7 +96,7 @@ describe("recherche", () => {
     const scope = nock("https://api.apprentissage.beta.gouv.fr/api", {
       reqheaders: { authorization: "Bearer api-key" },
     })
-      .get("/organismes/v1/recherche")
+      .get("/organisme/v1/recherche")
       .query({ uai })
       .reply(200, { breaking: "schema" });
 
@@ -121,7 +121,7 @@ describe("recherche", () => {
     const scope = nock("https://api.apprentissage.beta.gouv.fr/api", {
       reqheaders: { authorization: "Bearer api-key" },
     })
-      .get("/organismes/v1/recherche")
+      .get("/organisme/v1/recherche")
       .query({ uai })
       .reply(200, {
         ...response,

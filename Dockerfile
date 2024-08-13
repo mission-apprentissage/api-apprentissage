@@ -1,4 +1,4 @@
-FROM node:20-alpine AS builder_root
+FROM node:22-slim AS builder_root
 WORKDIR /app
 RUN yarn set version 3.3.1
 COPY .yarn /app/.yarn
@@ -32,7 +32,7 @@ RUN yarn --cwd server build
 RUN --mount=type=cache,target=/app/.yarn/cache yarn workspaces focus --all --production
 
 # Production image, copy all the files and run next
-FROM node:20-alpine AS server
+FROM node:22-slim AS server
 WORKDIR /app
 RUN --mount=type=cache,target=/var/cache/apk apk add --update \
   curl \
@@ -90,7 +90,7 @@ RUN yarn --cwd ui build
 # RUN --mount=type=cache,target=/app/ui/.next/cache yarn --cwd ui build
 
 # Production image, copy all the files and run next
-FROM node:20-alpine AS ui
+FROM node:22-slim AS ui
 WORKDIR /app
 
 ENV NODE_ENV production

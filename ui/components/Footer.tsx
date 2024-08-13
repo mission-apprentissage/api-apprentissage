@@ -1,9 +1,8 @@
 "use client";
 import { Footer as DSFRFooter, FooterBottomItem } from "@codegouvfr/react-dsfr/Footer";
 import Link from "next/link";
-// import { usePlausible } from "next-plausible";
-import React from "react";
 
+// import { usePlausible } from "next-plausible";
 import { publicConfig } from "@/config.public";
 import { PAGES } from "@/utils/routes.utils";
 

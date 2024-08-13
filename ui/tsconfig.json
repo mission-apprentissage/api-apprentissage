@@ -3,13 +3,11 @@
   "compilerOptions": {
     "baseUrl": ".",
     "forceConsistentCasingInFileNames": true,
-    "typeRoots": ["./types", "./node_modules/@types/", "../node_modules/@types/"],
     "paths": {
-      "@/*": ["./*"],
-      "shared": ["../shared"],
-      "api-alternance-sdk": ["../sdk/src/index.ts"]
+      "@/*": ["./*"]
     }
   },
+  "references": [{ "path": "../sdk" }, { "path": "../shared" }],
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules", "public", ".next"]
 }

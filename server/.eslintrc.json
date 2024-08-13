@@ -1,5 +1,11 @@
 {
-  "extends": ["plugin:n/recommended-module"],
+  "extends": [
+    "plugin:n/recommended-module",
+    "plugin:esm-import/recommended",
+    "plugin:import/recommended",
+    "plugin:import/typescript"
+  ],
+  "plugins": ["zod"],
   "rules": {
     "n/no-missing-import": 0,
     "@dword-design/import-alias/prefer-alias": [
@@ -7,9 +13,14 @@
       {
         "alias": {
           "@": "./server/src",
-          "@tests": "./server/tests",
-          "shared": "./shared"
+          "@tests": "./server/tests"
         }
+      }
+    ],
+    "n/no-extraneous-import": [
+      "error",
+      {
+        "allowModules": ["shared", "api-alternance-sdk"]
       }
     ]
   },
@@ -17,17 +28,9 @@
     "es2022": true,
     "node": true
   },
-  "parserOptions": {
-    "project": "server/tsconfig.json"
-  },
   "settings": {
-    "import/resolver": {
-      "typescript": {
-        "project": "server/tsconfig.json"
-      }
-    },
     "node": {
-      "allowModules": ["shared"]
+      "allowModules": []
     }
   }
 }

@@ -1,14 +1,12 @@
 {
-  "extends": "@tsconfig/node20/tsconfig.json",
+  "extends": "@tsconfig/node22/tsconfig.json",
   "compilerOptions": {
     "declaration": true,
     "sourceMap": true,
     "declarationMap": true,
     "composite": true,
+    "incremental": true,
 
-    "paths": {
-      "@/*": ["./src/*"]
-    },
     "resolveJsonModule": true,
     /* JavaScript Support */
     "allowJs": false,

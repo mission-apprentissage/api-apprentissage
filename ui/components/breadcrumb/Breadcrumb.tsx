@@ -1,5 +1,5 @@
 import { Breadcrumb as DSFRBreadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
-import React, { FC } from "react";
+import { FC } from "react";
 
 import { IPage, PAGES } from "@/utils/routes.utils";
 

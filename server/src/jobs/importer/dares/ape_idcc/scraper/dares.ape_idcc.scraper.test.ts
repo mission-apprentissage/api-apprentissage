@@ -1,19 +1,19 @@
 import { readFile } from "fs/promises";
-import nock from "nock";
+import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
-import { scrapeRessourceApeIdcc } from "./dares.ape_idcc.scraper";
+import { scrapeRessourceApeIdcc } from "./dares.ape_idcc.scraper.js";
 
 describe("scrapeRessourceApeIdcc", () => {
   beforeEach(() => {
-    nock.disableNetConnect();
+    disableNetConnect();
   });
 
   afterEach(() => {
-    nock.cleanAll();
-    nock.enableNetConnect();
+    cleanAll();
+    enableNetConnect();
   });
 
   it("should scrape the download links", async () => {

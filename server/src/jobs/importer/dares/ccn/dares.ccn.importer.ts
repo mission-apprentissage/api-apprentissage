@@ -6,12 +6,12 @@ import { IImportMetaDares } from "shared/models/import.meta.model";
 import { ISourceDaresCcn, zSourceDaresCcn } from "shared/models/source/dares/source.dares.ccn.model";
 import { pipeline } from "stream/promises";
 
-import { withCause } from "@/services/errors/withCause";
-import { ExcelParsedRow, parseExcelFileStream } from "@/services/excel/excel.parser";
-import { getDbCollection } from "@/services/mongodb/mongodbService";
-import { createBatchTransformStream } from "@/utils/streamUtils";
+import { withCause } from '@/services/errors/withCause.js';
+import { ExcelParsedRow, parseExcelFileStream } from '@/services/excel/excel.parser.js';
+import { getDbCollection } from '@/services/mongodb/mongodbService.js';
+import { createBatchTransformStream } from '@/utils/streamUtils.js';
 
-import { downloadResourceCcnFile, scrapeRessourceCcn } from "./scraper/dares.ccn.scraper";
+import { downloadResourceCcnFile, scrapeRessourceCcn } from './scraper/dares.ccn.scraper.js';
 
 async function importResource(importMeta: IImportMetaDares, signal?: AbortSignal) {
   const readStream = await downloadResourceCcnFile(importMeta.resource);

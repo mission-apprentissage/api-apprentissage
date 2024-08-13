@@ -1,12 +1,12 @@
 import { ObjectId } from "mongodb";
-import { generateUserFixture } from "shared/models/fixtures";
-import { zRoutes } from "shared/routes";
+import { zRoutes } from "shared";
+import { generateUserFixture } from "shared/models/fixtures/index";
 import { SchemaWithSecurity } from "shared/routes/common.routes";
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
 import { zObjectId } from "zod-mongodb-schema";
 
-import { generateAccessToken, generateScope, parseAccessToken } from "./accessTokenService";
+import { generateAccessToken, generateScope, parseAccessToken } from "./accessTokenService.js";
 
 const ids = [new ObjectId().toString(), new ObjectId().toString(), new ObjectId().toString()];
 

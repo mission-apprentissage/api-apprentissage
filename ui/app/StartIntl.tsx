@@ -1,11 +1,11 @@
 "use client";
 
-import i18next from "i18next";
-import { zodOpenApi } from "shared/zod/zodWithOpenApi";
+import { zodOpenApi } from "api-alternance-sdk/internal";
+import { init } from "i18next";
 import { zodI18nMap } from "zod-i18n-map";
 import zodTranslation from "zod-i18n-map/locales/fr/zod.json";
 
-i18next.init({
+init({
   lng: "fr",
   resources: { fr: { zod: zodTranslation } },
 });

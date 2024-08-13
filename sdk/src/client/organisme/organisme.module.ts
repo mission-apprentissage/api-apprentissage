@@ -8,15 +8,15 @@ import { ApiClient } from "../client.js";
 import { parseApiResponse } from "../parser/response.parser.js";
 
 export type OrganismeModule = {
-  recherche(querystring: IApiQuery<IApiGetRoutes["/organismes/v1/recherche"]>): Promise<IRechercheOrganismeResponse>;
+  recherche(querystring: IApiQuery<IApiGetRoutes["/organisme/v1/recherche"]>): Promise<IRechercheOrganismeResponse>;
 };
 
 export function buildOrganismeModule(apiClient: ApiClient): OrganismeModule {
   return {
     recherche: async (
-      querystring: IApiQuery<IApiGetRoutes["/organismes/v1/recherche"]>
+      querystring: IApiQuery<IApiGetRoutes["/organisme/v1/recherche"]>
     ): Promise<IRechercheOrganismeResponse> => {
-      const data = await apiClient.get("/organismes/v1/recherche", { querystring });
+      const data = await apiClient.get("/organisme/v1/recherche", { querystring });
 
       return parseApiResponse(data, zRechercheOrganismeResponse);
     },

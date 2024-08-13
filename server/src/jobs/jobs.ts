@@ -2,28 +2,28 @@ import { addJob, initJobProcessor } from "job-processor";
 import { zImportMetaFranceCompetence, zImportMetaNpec } from "shared/models/import.meta.model";
 import { z } from "zod";
 
-import config from "@/config";
-import logger, { createJobProcessorLogger } from "@/services/logger";
-import { getDatabase } from "@/services/mongodb/mongodbService";
+import config from "@/config.js";
+import logger, { createJobProcessorLogger } from "@/services/logger.js";
+import { getDatabase } from "@/services/mongodb/mongodbService.js";
 
-import { recreateIndexes } from "./db/recreateIndexes";
-import { validateModels } from "./db/schemaValidation";
-import { runAcceImporter } from "./importer/acce/acce";
-import { runBcnImporter } from "./importer/bcn/bcn.importer";
-import { runCatalogueImporter } from "./importer/catalogue/catalogue.importer";
-import { importCertifications } from "./importer/certifications/certifications.importer";
-import { runDaresApeIdccImporter } from "./importer/dares/ape_idcc/dares.ape_idcc.importer";
-import { runDaresConventionCollectivesImporter } from "./importer/dares/ccn/dares.ccn.importer";
+import { recreateIndexes } from "./db/recreateIndexes.js";
+import { validateModels } from "./db/schemaValidation.js";
+import { runAcceImporter } from "./importer/acce/acce.js";
+import { runBcnImporter } from "./importer/bcn/bcn.importer.js";
+import { runCatalogueImporter } from "./importer/catalogue/catalogue.importer.js";
+import { importCertifications } from "./importer/certifications/certifications.importer.js";
+import { runDaresApeIdccImporter } from "./importer/dares/ape_idcc/dares.ape_idcc.importer.js";
+import { runDaresConventionCollectivesImporter } from "./importer/dares/ccn/dares.ccn.importer.js";
 import {
   importRncpArchive,
   onImportRncpArchiveFailure,
   runRncpImporter,
-} from "./importer/france_competence/france_competence.importer";
-import { runKaliConventionCollectivesImporter } from "./importer/kali/kali.ccn.importer";
-import { runKitApprentissageImporter } from "./importer/kit/kitApprentissage.importer";
-import { importNpecResource, onImportNpecResourceFailure, runNpecImporter } from "./importer/npec/npec.importer";
-import { runReferentielImporter } from "./importer/referentiel/referentiel";
-import { create as createMigration, status as statusMigration, up as upMigration } from "./migrations/migrations";
+} from "./importer/france_competence/france_competence.importer.js";
+import { runKaliConventionCollectivesImporter } from "./importer/kali/kali.ccn.importer.js";
+import { runKitApprentissageImporter } from "./importer/kit/kitApprentissage.importer.js";
+import { importNpecResource, onImportNpecResourceFailure, runNpecImporter } from "./importer/npec/npec.importer.js";
+import { runReferentielImporter } from "./importer/referentiel/referentiel.js";
+import { create as createMigration, status as statusMigration, up as upMigration } from "./migrations/migrations.js";
 
 export async function setupJobProcessor() {
   return initJobProcessor({
@@ -135,15 +135,15 @@ export async function setupJobProcessor() {
         handler: async () => runRncpImporter(),
       },
       "import:kali_ccn": {
-        handler: async (job, signal) => runKaliConventionCollectivesImporter(signal),
+        handler: async (_job, signal) => runKaliConventionCollectivesImporter(signal),
         resumable: true,
       },
       "import:dares_ccn": {
-        handler: async (job, signal) => runDaresConventionCollectivesImporter(signal),
+        handler: async (_job, signal) => runDaresConventionCollectivesImporter(signal),
         resumable: true,
       },
       "import:dares_cape_idcc": {
-        handler: async (job, signal) => runDaresApeIdccImporter(signal),
+        handler: async (_job, signal) => runDaresApeIdccImporter(signal),
         resumable: true,
       },
       "import:france_competence:resource": {

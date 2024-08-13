@@ -1,32 +1,32 @@
 import type { ConditionalExcept, EmptyObject, Jsonify } from "type-fest";
 import { z, ZodType } from "zod";
 
+import { zApiCertificationsRoutes } from "./certification.routes.js";
 import { IApiRouteSchema, IApiRouteSchemaWrite } from "./common.routes.js";
 import { zApiOrganismesRoutes } from "./organisme.routes.js";
 
 export * from "./common.routes.js";
-export type * from "./common.routes.js";
 
 export * from "./errors.routes.js";
-export type * from "./errors.routes.js";
 
+export * from "./certification.routes.js";
 export * from "./organisme.routes.js";
-export type * from "./organisme.routes.js";
 
-const zApiRoutesGet = {
+const _zApiRoutesGet = {
   ...zApiOrganismesRoutes.get,
+  ...zApiCertificationsRoutes.get,
 } as const;
 
-const zApiRoutesPost = {} as const;
+const _zApiRoutesPost = {} as const;
 
-const zApiRoutesPut = {} as const;
+const _zApiRoutesPut = {} as const;
 
-const zApiRoutesDelete = {} as const;
+const _zApiRoutesDelete = {} as const;
 
-export type IApiGetRoutes = typeof zApiRoutesGet;
-export type IApiPostRoutes = typeof zApiRoutesPost;
-export type IApiPutRoutes = typeof zApiRoutesPut;
-export type IApiDeleteRoutes = typeof zApiRoutesDelete;
+export type IApiGetRoutes = typeof _zApiRoutesGet;
+export type IApiPostRoutes = typeof _zApiRoutesPost;
+export type IApiPutRoutes = typeof _zApiRoutesPut;
+export type IApiDeleteRoutes = typeof _zApiRoutesDelete;
 
 export type IApiResponse<S extends IApiRouteSchema> = S["response"][`200`] extends ZodType
   ? Jsonify<z.output<S["response"][`200`]>>
@@ -53,6 +53,4 @@ type IRequestRaw<S extends IApiRouteSchema> = {
 };
 
 export type IApiRequest<S extends IApiRouteSchema> =
-  ConditionalExcept<IRequestRaw<S>, never | EmptyObject> extends EmptyObject
-    ? EmptyObject
-    : ConditionalExcept<IRequestRaw<S>, never | EmptyObject>;
+  ConditionalExcept<IRequestRaw<S>, never> extends EmptyObject ? EmptyObject : ConditionalExcept<IRequestRaw<S>, never>;

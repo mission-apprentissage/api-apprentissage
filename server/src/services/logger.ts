@@ -7,10 +7,10 @@ import {
   MongoWriteConcernError,
   ObjectId,
 } from "mongodb";
-import pino, { Logger as PinoLogger } from "pino";
+import { Logger as PinoLogger, pino } from "pino";
 import { ZodError } from "zod";
 
-import config from "@/config";
+import config from "@/config.js";
 
 function logFormatter(obj: unknown, seen: Set<unknown>): unknown {
   if (obj === null || typeof obj !== "object") {

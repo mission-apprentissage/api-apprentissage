@@ -1,17 +1,17 @@
-import nock from "nock";
+import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
 import { ISourceBcn } from "shared/models/source/bcn/source.bcn.model";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
-import { fetchBcnData } from "./bcn";
+import { fetchBcnData } from "./bcn.js";
 
 describe("bcn", () => {
   beforeEach(() => {
-    nock.disableNetConnect();
+    disableNetConnect();
   });
 
   afterEach(() => {
-    nock.cleanAll();
-    nock.enableNetConnect();
+    cleanAll();
+    enableNetConnect();
   });
 
   it.each<[ISourceBcn["source"]]>([

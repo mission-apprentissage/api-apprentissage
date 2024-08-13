@@ -1,9 +1,8 @@
 import { addJob } from "job-processor";
-import { Db, MongoClient } from "mongodb";
 
-import { getDbCollection } from "@/services/mongodb/mongodbService";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
-export const up = async (_db: Db, _client: MongoClient) => {
+export const up = async () => {
   // Resest certifications collection
   await getDbCollection("certifications").deleteMany({});
   await addJob({ name: "indexes:recreate", queued: false });

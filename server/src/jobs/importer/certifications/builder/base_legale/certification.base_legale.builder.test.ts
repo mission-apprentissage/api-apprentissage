@@ -2,10 +2,10 @@ import {
   generateSourceBcn_N_FormationDiplomeFixture,
   generateSourceBcn_N51_FormationDiplomeFixture,
   generateSourceFranceCompetenceFixture,
-} from "shared/models/fixtures";
+} from "shared/models/fixtures/index";
 import { describe, expect, it } from "vitest";
 
-import { buildCertificationBaseLegale } from "./certification.base_legale.builder";
+import { buildCertificationBaseLegale } from "./certification.base_legale.builder.js";
 
 describe("buildCertificationBaseLegale", () => {
   it("should returns null when bcn data is missing", () => {

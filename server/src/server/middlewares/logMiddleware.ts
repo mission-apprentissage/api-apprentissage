@@ -1,7 +1,7 @@
 import { FastifyError, FastifyLoggerOptions, FastifyReply, FastifyRequest, RawServerDefault } from "fastify";
-import { PinoLoggerOptions, ResSerializerReply } from "fastify/types/logger";
+import { PinoLoggerOptions, ResSerializerReply } from "fastify/types/logger.js";
 
-import config from "@/config";
+import config from "@/config.js";
 
 const withoutSensibleFields = (obj: unknown, seen: Set<unknown>): unknown => {
   if (obj == null) return obj;

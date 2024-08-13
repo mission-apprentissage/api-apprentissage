@@ -1,18 +1,18 @@
-import { useMongo } from "@tests/mongo.test.utils";
+import { useMongo } from "@tests/mongo.test.utils.js";
 import {
   generateOrganismeReferentielFixture,
   generateSourceReferentiel,
   generateUserFixture,
-} from "shared/models/fixtures";
+} from "shared/models/fixtures/index";
 import { beforeAll, beforeEach, describe, expect, it } from "vitest";
 
-import { generateApiKey } from "@/actions/users.actions";
-import createServer, { Server } from "@/server/server";
-import { getDbCollection } from "@/services/mongodb/mongodbService";
+import { generateApiKey } from "@/actions/users.actions.js";
+import createServer, { Server } from "@/server/server.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
 useMongo();
 
-describe("GET /api/organismes/v1/recherche", () => {
+describe("GET /api/organisme/v1/recherche", () => {
   let app: Server;
 
   beforeAll(async () => {
@@ -60,7 +60,7 @@ describe("GET /api/organismes/v1/recherche", () => {
   it("should returns 401 if api key is not provided", async () => {
     const response = await app.inject({
       method: "GET",
-      url: "/api/organismes/v1/recherche",
+      url: "/api/organisme/v1/recherche",
     });
 
     expect(response.statusCode).toBe(401);
@@ -74,7 +74,7 @@ describe("GET /api/organismes/v1/recherche", () => {
   it("should returns 401 if api key is invalid", async () => {
     const response = await app.inject({
       method: "GET",
-      url: "/api/organismes/v1/recherche",
+      url: "/api/organisme/v1/recherche",
       headers: {
         Authorization: `Bearer ${token}invalid`,
       },
@@ -199,7 +199,7 @@ describe("GET /api/organismes/v1/recherche", () => {
   ])('should perform search "%s" correctly', async (search, expected) => {
     const response = await app.inject({
       method: "GET",
-      url: `/api/organismes/v1/recherche${search}`,
+      url: `/api/organisme/v1/recherche${search}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },

@@ -1,20 +1,20 @@
 import { Readable } from "node:stream";
 
-import { useMongo } from "@tests/mongo.test.utils";
+import { useMongo } from "@tests/mongo.test.utils.js";
 import { ObjectId } from "mongodb";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { fetchCatalogueData } from "@/services/apis/catalogue/catalogue";
-import { fetchCatalogueEducatifData } from "@/services/apis/catalogue/catalogueEducatif";
-import { getDbCollection } from "@/services/mongodb/mongodbService";
+import { fetchCatalogueData } from '@/services/apis/catalogue/catalogue.js';
+import { fetchCatalogueEducatifData } from '@/services/apis/catalogue/catalogueEducatif.js';
+import { getDbCollection } from '@/services/mongodb/mongodbService.js';
 
-import { runCatalogueImporter } from "./catalogue.importer";
+import { runCatalogueImporter } from "./catalogue.importer.js";
 import {
   catalogueDataFixture,
   exceptedUaiFormation,
   generateCatalogueData,
   generateCatalogueEducatifData,
-} from "./fixtures/sample";
+} from "./fixtures/sample.js";
 
 vi.mock("@/services/apis/catalogue/catalogue", async (importOriginal) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

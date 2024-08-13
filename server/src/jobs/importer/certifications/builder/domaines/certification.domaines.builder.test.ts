@@ -2,10 +2,10 @@ import {
   generateSourceBcn_N_FormationDiplomeFixture,
   generateSourceBcn_N51_FormationDiplomeFixture,
   generateSourceFranceCompetenceFixture,
-} from "shared/models/fixtures";
+} from "shared/models/fixtures/index";
 import { describe, expect, it } from "vitest";
 
-import { buildCertificationDomaines } from "./certification.domaines.builder";
+import { buildCertificationDomaines } from "./certification.domaines.builder.js";
 
 describe("buildCertificationDomaines", () => {
   describe("domaines.formacodes", () => {

@@ -12,8 +12,8 @@ import {
   downloadFileAsStream,
   downloadFileAsTmp,
   readTmpAsStreamAndCleanup,
-} from "./apiUtils";
-import { sleep } from "./asyncUtils";
+} from './apiUtils.js';
+import { sleep } from './asyncUtils.js';
 
 describe("downloadFileAsStream", () => {
   it("should download response and return a readStream", async () => {

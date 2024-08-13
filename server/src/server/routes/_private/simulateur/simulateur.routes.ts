@@ -3,8 +3,8 @@ import { zRoutes } from "shared";
 import { IImportMetaNpec } from "shared/models/import.meta.model";
 import { ISourceNpecNormalized } from "shared/models/source/npec/source.npec.normalized.model";
 
-import { Server } from "@/server/server";
-import { getDbCollection } from "@/services/mongodb/mongodbService";
+import { Server } from "@/server/server.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
 export const simulateurRoutes = ({ server }: { server: Server }) => {
   server.get(
@@ -12,7 +12,7 @@ export const simulateurRoutes = ({ server }: { server: Server }) => {
     {
       schema: zRoutes.get["/_private/simulateur/context"],
     },
-    async (request, response) => {
+    async (_request, response) => {
       const [
         rncps,
         conventions_collectives_kali,

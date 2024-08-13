@@ -3,9 +3,9 @@ import { ReadStream } from "fs";
 import { parse } from "node-html-parser";
 import { IImportMetaDares } from "shared/models/import.meta.model";
 
-import getApiClient from "@/services/apis/client";
-import { withCause } from "@/services/errors/withCause";
-import { downloadFileAsStream } from "@/utils/apiUtils";
+import getApiClient from "@/services/apis/client.js";
+import { withCause } from "@/services/errors/withCause.js";
+import { downloadFileAsStream } from "@/utils/apiUtils.js";
 
 const client = getApiClient(
   {

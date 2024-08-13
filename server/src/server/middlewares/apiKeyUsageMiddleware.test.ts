@@ -1,20 +1,20 @@
-import { useMongo } from "@tests/mongo.test.utils";
-import fastify from "fastify";
+import { useMongo } from "@tests/mongo.test.utils.js";
+import { fastify } from "fastify";
 import { serializerCompiler, validatorCompiler, ZodTypeProvider } from "fastify-type-provider-zod";
 import { ObjectId } from "mongodb";
-import { generateUserFixture } from "shared/models/fixtures";
+import { generateUserFixture } from "shared/models/fixtures/index";
 import { IUser } from "shared/models/user.model";
 import { IRouteSchema, ISecuredRouteSchema, WithSecurityScheme } from "shared/routes/common.routes";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { z } from "zod";
 
-import { generateApiKey } from "@/actions/users.actions";
-import { Server } from "@/server/server";
-import { getDbCollection } from "@/services/mongodb/mongodbService";
+import { generateApiKey } from "@/actions/users.actions.js";
+import { Server } from "@/server/server.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
-import { apiKeyUsageMiddleware } from "./apiKeyUsageMiddleware";
-import { auth } from "./authMiddleware";
-import { errorMiddleware } from "./errorMiddleware";
+import { apiKeyUsageMiddleware } from "./apiKeyUsageMiddleware.js";
+import { auth } from "./authMiddleware.js";
+import { errorMiddleware } from "./errorMiddleware.js";
 
 useMongo();
 
@@ -56,13 +56,13 @@ describe("apiKeyUsageMiddleware", () => {
   app.post("/:name", { schema: postSchema, onRequest: [app.auth(postSchema)] }, async (request, response) => {
     return response.status(request.body.code).send({ ok: true });
   });
-  app.get("/public", { schema: getSchemaPublic }, async (request, response) => {
+  app.get("/public", { schema: getSchemaPublic }, async (_request, response) => {
     return response.status(200).send({ ok: true });
   });
-  app.get("/", { schema: getSchema, onRequest: [app.auth(getSchema)] }, async (request, response) => {
+  app.get("/", { schema: getSchema, onRequest: [app.auth(getSchema)] }, async (_request, response) => {
     return response.status(200).send({ ok: true });
   });
-  app.setNotFoundHandler((request, response) => {
+  app.setNotFoundHandler((_request, response) => {
     response.status(404).send({ ok: false });
   });
 

@@ -33,7 +33,7 @@ const zRechercheOrganismeResultat = z.object({
   organisme: zOrganisme,
 });
 
-const zRechercheOrganismeResponse = z.object({
+export const zRechercheOrganismeResponse = z.object({
   metadata: z.object({
     uai: z
       .object({
@@ -56,15 +56,21 @@ export type IRechercheOrganismeResponse = z.output<typeof zRechercheOrganismeRes
 
 export const zApiOrganismesRoutes = {
   get: {
-    "/organismes/v1/recherche": {
+    "/organisme/v1/recherche": {
       method: "get",
-      path: "/organismes/v1/recherche",
+      path: "/organisme/v1/recherche",
       querystring: z.object({
         uai: zUai.nullable().default(null),
         siret: zSiret.nullable().default(null),
       }),
       response: {
         "200": zRechercheOrganismeResponse,
+      },
+      openapi: {
+        tags: ["Organismes"] as string[],
+        summary: "Recherche d'organismes par UAI et/ou SIRET",
+        description: "Récupère la liste des organismes, filtrée par UAI et/ou SIRET fournis",
+        operationId: "searchOrganismes",
       },
     },
   },

@@ -1,21 +1,22 @@
-import { useMongo } from "@tests/mongo.test.utils";
+import { useMongo } from "@tests/mongo.test.utils.js";
 import { ObjectId } from "mongodb";
-import nock from "nock";
+import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
 import {
   generateOrganismeReferentielFixture,
   generateSourceReferentiel,
   IOrganismeReferentielDataInput,
-} from "shared/models/fixtures";
+} from "shared/models/fixtures/index";
 import { ISourceReferentiel, zSourceReferentiel } from "shared/models/source/referentiel/source.referentiel.model";
 import { beforeEach, describe, expect, it } from "vitest";
 import { z } from "zod";
 
-import { getDbCollection } from "@/services/mongodb/mongodbService";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
-import tdbFiabResultData from "./fixtures/tdb/fiabilisation.fixture.json?raw" assert { type: "json" };
-import tdbReferentielFixtureData from "./fixtures/tdb/referentiel.fixture.json?raw" assert { type: "json" };
-import { OrganismeSearchQuery, searchOrganisme, searchOrganismeMetadata } from "./organisme.service";
-const zTdbFiabResult = z.discriminatedUnion("type", [
+import tdbFiabResultData from "./fixtures/tdb/fiabilisation.fixture.json";
+import tdbReferentielFixtureData from "./fixtures/tdb/referentiel.fixture.json";
+import { OrganismeSearchQuery, searchOrganisme, searchOrganismeMetadata } from "./organisme.service.js";
+
+const _zTdbFiabResult = z.discriminatedUnion("type", [
   z.object({
     siret: z.string(),
     uai: z.string(),
@@ -44,23 +45,25 @@ const zTdbFiabResult = z.discriminatedUnion("type", [
   }),
 ]);
 
-type ITdbFiabResult = z.infer<typeof zTdbFiabResult>;
+type ITdbFiabResult = z.infer<typeof _zTdbFiabResult>;
 
 useMongo("beforeEach");
 
 describe("searchOrganisme", () => {
   describe("tdb retro-compatibility", () => {
     const date = new Date("2024-04-19T00:00:00Z");
-    const organismesReferentiels: ISourceReferentiel[] = JSON.parse(tdbReferentielFixtureData).map(
-      (data: IOrganismeReferentielDataInput) =>
-        zSourceReferentiel.parse({
-          _id: new ObjectId(),
-          date,
-          data: generateOrganismeReferentielFixture(data),
-        })
+    const organismesReferentiels: ISourceReferentiel[] = (
+      tdbReferentielFixtureData as IOrganismeReferentielDataInput[]
+    ).map((data: IOrganismeReferentielDataInput) =>
+      zSourceReferentiel.parse({
+        _id: new ObjectId(),
+        date,
+        data: generateOrganismeReferentielFixture(data),
+      })
     );
 
-    const tdbFiabResults: ITdbFiabResult[] = JSON.parse(tdbFiabResultData);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const tdbFiabResults: ITdbFiabResult[] = tdbFiabResultData as any;
 
     beforeEach(async () => {
       await getDbCollection("source.referentiel").insertMany(organismesReferentiels);
@@ -1278,7 +1281,7 @@ describe("searchOrganismeMetadata", () => {
   const siret4 = "88951250500013";
 
   beforeEach(async () => {
-    nock.disableNetConnect();
+    disableNetConnect();
 
     await getDbCollection("source.referentiel").insertMany([
       generateSourceReferentiel({
@@ -1299,8 +1302,8 @@ describe("searchOrganismeMetadata", () => {
     ]);
 
     return () => {
-      nock.cleanAll();
-      nock.enableNetConnect();
+      cleanAll();
+      enableNetConnect();
     };
   });
 

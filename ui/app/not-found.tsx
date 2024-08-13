@@ -31,9 +31,7 @@ export default function NotFoundPage() {
 
             <Typography>La page que vous recherchez n'existe pas ou a été déplacée</Typography>
 
-            <Box mt={2}>
-              <DsfrLink href={PAGES.static.home.path}>Retourner à la page d'accueil</DsfrLink>
-            </Box>
+            <Box mt={2}>{/* <DsfrLink href={PAGES.static.home.path}>Retourner à la page d'accueil</DsfrLink> */}</Box>
           </Box>
         </Box>
       </Box>

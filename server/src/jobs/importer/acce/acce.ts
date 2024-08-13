@@ -6,13 +6,13 @@ import { internal } from "@hapi/boom";
 import { parse } from "csv-parse";
 import { ObjectId } from "mongodb";
 import { ISourceAcce, ZAcceByType } from "shared/models/source/acce/source.acce.model";
-import unzipper from "unzipper";
+import { Parse } from "unzipper";
 
-import { downloadCsvExtraction } from "@/services/apis/acce/acce";
-import { withCause } from "@/services/errors/withCause";
-import parentLogger from "@/services/logger";
-import { getDbCollection } from "@/services/mongodb/mongodbService";
-import { createBatchTransformStream } from "@/utils/streamUtils";
+import { downloadCsvExtraction } from "@/services/apis/acce/acce.js";
+import { withCause } from "@/services/errors/withCause.js";
+import parentLogger from "@/services/logger.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import { createBatchTransformStream } from "@/utils/streamUtils.js";
 
 const logger = parentLogger.child({ module: "import:acce" });
 
@@ -72,7 +72,7 @@ async function parseAcceFile(stream: ReadStream, source: string, date: Date) {
 }
 
 export async function importAcceData(readStream: ReadStream, importDate: Date) {
-  const zip = readStream.pipe(unzipper.Parse({ forceStream: true }));
+  const zip = readStream.pipe(Parse({ forceStream: true }));
   for await (const entry of zip) {
     await parseAcceFile(entry, entry.path, importDate);
     entry.autodrain();

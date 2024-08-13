@@ -5,12 +5,12 @@ import { parse } from "node-html-parser";
 import { basename, dirname, extname, join } from "path";
 import { Stream } from "stream";
 import { pipeline } from "stream/promises";
-import unzipper from "unzipper";
+import { Parse } from "unzipper";
 
-import getApiClient from "@/services/apis/client";
-import { withCause } from "@/services/errors/withCause";
-import { cleanupTmp, downloadFileAsTmp, readTmpAsStreamAndCleanup } from "@/utils/apiUtils";
-import { getStaticFilePath } from "@/utils/getStaticFilePath";
+import getApiClient from "@/services/apis/client.js";
+import { withCause } from "@/services/errors/withCause.js";
+import { cleanupTmp, downloadFileAsTmp, readTmpAsStreamAndCleanup } from "@/utils/apiUtils.js";
+import { getStaticFilePath } from "@/utils/getStaticFilePath.js";
 
 const client = getApiClient(
   {
@@ -96,7 +96,7 @@ async function extractNpecZipFile(filepath: string): Promise<ReadStream> {
   const destFile = join(dirname(filepath), `${name}-output.xlsx`);
 
   try {
-    const zip = readStream.pipe(unzipper.Parse({ forceStream: true }));
+    const zip = readStream.pipe(Parse({ forceStream: true }));
 
     let isFileFound = false;
 

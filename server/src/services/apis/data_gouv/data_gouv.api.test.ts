@@ -1,18 +1,18 @@
 import { ReadStream } from "node:fs";
 
-import nock from "nock";
+import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
-import { downloadDataGouvResource, fetchDataGouvDataSet } from "./data_gouv.api";
+import { downloadDataGouvResource, fetchDataGouvDataSet } from "./data_gouv.api.js";
 
 describe("fetchDataGouvDataSet", () => {
   beforeEach(() => {
-    nock.disableNetConnect();
+    disableNetConnect();
   });
 
   afterEach(() => {
-    nock.cleanAll();
-    nock.enableNetConnect();
+    cleanAll();
+    enableNetConnect();
   });
 
   const datasetId = "5eebbc067a14b6fecc9c9976";
@@ -84,7 +84,7 @@ describe("fetchDataGouvDataSet", () => {
 
 describe("downloadDataGouvResource", () => {
   afterEach(() => {
-    nock.cleanAll();
+    cleanAll();
   });
 
   it("should download response and return a readStream", async () => {

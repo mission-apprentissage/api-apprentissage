@@ -2,6 +2,7 @@
 import "react-notion-x/src/styles.css";
 
 import { fr } from "@codegouvfr/react-dsfr";
+// eslint-disable-next-line import/no-named-as-default
 import MuiDsfrThemeProvider from "@codegouvfr/react-dsfr/mui";
 import { DsfrHead } from "@codegouvfr/react-dsfr/next-appdir/DsfrHead";
 import { DsfrProvider } from "@codegouvfr/react-dsfr/next-appdir/DsfrProvider";

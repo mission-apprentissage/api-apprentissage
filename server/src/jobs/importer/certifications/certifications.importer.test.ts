@@ -1,4 +1,4 @@
-import { useMongo } from "@tests/mongo.test.utils";
+import { useMongo } from "@tests/mongo.test.utils.js";
 import { DateTime } from "luxon";
 import { ObjectId } from "mongodb";
 import {
@@ -11,13 +11,13 @@ import {
   generateSourceBcn_N51_FormationDiplomeFixture,
   generateSourceBcn_V_FormationDiplomeFixture,
   generateSourceFranceCompetenceFixture,
-} from "shared/models/fixtures";
+} from "shared/models/fixtures/index";
 import { ParisDate, parseParisLocalDate } from "shared/zod/date.primitives";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { getDbCollection } from "@/services/mongodb/mongodbService";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
-import { importCertifications } from "./certifications.importer";
+import { importCertifications } from "./certifications.importer.js";
 
 const now = new Date("2024-03-07T10:00:00Z");
 const twoHoursAgo = new Date(now.getTime() - 2 * 3600 * 1000);

@@ -4,16 +4,16 @@ import { fileURLToPath } from "node:url";
 
 import { internal } from "@hapi/boom";
 import { captureException } from "@sentry/node";
-import { useMongo } from "@tests/mongo.test.utils";
+import { useMongo } from "@tests/mongo.test.utils.js";
 import { addJob } from "job-processor";
 import { ObjectId } from "mongodb";
 import { IImportMetaNpec } from "shared/models/import.meta.model";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { getDbCollection } from "@/services/mongodb/mongodbService";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
-import { importNpecResource, onImportNpecResourceFailure, runNpecImporter } from "./npec.importer";
-import { downloadXlsxNPECFile, getNpecFilename, scrapeRessourceNPEC } from "./scraper/npec.scraper";
+import { importNpecResource, onImportNpecResourceFailure, runNpecImporter } from "./npec.importer.js";
+import { downloadXlsxNPECFile, getNpecFilename, scrapeRessourceNPEC } from "./scraper/npec.scraper.js";
 
 vi.mock("./scraper/npec.scraper");
 

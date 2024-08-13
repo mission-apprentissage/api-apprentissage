@@ -55,7 +55,7 @@ export default function ExplorerApiPage() {
           title={PAGES.static.catalogueDesDonneesCertification.title}
           desc="Consulter le modèle de données et effectuer une recherche dans la liste des certifications"
           imageUrl={getArtworkUrl("book")}
-          enlargeLink
+          enlargeLinkOrButton
           linkProps={{ href: PAGES.static.catalogueDesDonneesCertification.path }}
           style={{
             color: fr.colors.decisions.text.title.grey.default,
@@ -65,14 +65,14 @@ export default function ExplorerApiPage() {
           title={PAGES.static.simulateurNpec.title}
           desc="Calculer le niveau de prise en charge d’un contrat, réaliser un budget prévisionnel"
           imageUrl={getArtworkUrl("money")}
-          enlargeLink
+          enlargeLinkOrButton
           linkProps={{ href: PAGES.static.simulateurNpec.path }}
         />
         <Tile
           title="Opportunités d’emplois et de formations en alternance"
           desc="Bientôt disponible !"
           imageUrl={getArtworkUrl("human-cooperation")}
-          linkProps={{ href: "#" }}
+          disabled
         />
       </Box>
       <Box sx={{ background: fr.colors.decisions.background.alt.beigeGrisGalet.default }}>

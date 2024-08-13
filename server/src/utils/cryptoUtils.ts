@@ -1,7 +1,7 @@
 import { internal } from "@hapi/boom";
 import crypto from "crypto";
 
-import config from "@/config";
+import config from "@/config.js";
 
 export const generateSalt = () => {
   return crypto.randomBytes(16).toString("hex");

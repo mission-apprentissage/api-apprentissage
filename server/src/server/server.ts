@@ -1,11 +1,12 @@
-import fastifyCookie from "@fastify/cookie";
-import fastifyCors from "@fastify/cors";
-import fastifyMultipart from "@fastify/multipart";
-import fastifyRateLimit from "@fastify/rate-limit";
-import fastifySwagger, { FastifyStaticSwaggerOptions, StaticDocumentSpec } from "@fastify/swagger";
-import fastifySwaggerUi, { FastifySwaggerUiOptions } from "@fastify/swagger-ui";
-import Boom from "@hapi/boom";
-import fastify, {
+import { fastifyCookie } from "@fastify/cookie";
+import { fastifyCors } from "@fastify/cors";
+import { fastifyMultipart } from "@fastify/multipart";
+import { fastifyRateLimit } from "@fastify/rate-limit";
+import { FastifyStaticSwaggerOptions, fastifySwagger, StaticDocumentSpec } from "@fastify/swagger";
+import { fastifySwaggerUi, FastifySwaggerUiOptions } from "@fastify/swagger-ui";
+import { notFound } from "@hapi/boom";
+import {
+  fastify,
   FastifyBaseLogger,
   FastifyInstance,
   RawReplyDefaultExpression,
@@ -16,23 +17,22 @@ import { serializerCompiler, validatorCompiler, ZodTypeProvider } from "fastify-
 import { generateOpenApiSchema } from "shared/helpers/openapi/generateOpenapi";
 import { IRouteSchema, WithSecurityScheme } from "shared/routes/common.routes";
 
-import config from "@/config";
-import { initSentryFastify } from "@/services/sentry/sentry";
+import config from "@/config.js";
+import { initSentryFastify } from "@/services/sentry/sentry.js";
 
-import { apiKeyUsageMiddleware } from "./middlewares/apiKeyUsageMiddleware";
-import { auth } from "./middlewares/authMiddleware";
-import { errorMiddleware } from "./middlewares/errorMiddleware";
-import { logMiddleware } from "./middlewares/logMiddleware";
-import { registerRoutes } from "./routes/routes";
+import { apiKeyUsageMiddleware } from "./middlewares/apiKeyUsageMiddleware.js";
+import { auth } from "./middlewares/authMiddleware.js";
+import { errorMiddleware } from "./middlewares/errorMiddleware.js";
+import { logMiddleware } from "./middlewares/logMiddleware.js";
+import { registerRoutes } from "./routes/routes.js";
 
-export interface Server
-  extends FastifyInstance<
-    RawServerDefault,
-    RawRequestDefaultExpression<RawServerDefault>,
-    RawReplyDefaultExpression<RawServerDefault>,
-    FastifyBaseLogger,
-    ZodTypeProvider
-  > {}
+export type Server = FastifyInstance<
+  RawServerDefault,
+  RawRequestDefaultExpression<RawServerDefault>,
+  RawReplyDefaultExpression<RawServerDefault>,
+  FastifyBaseLogger,
+  ZodTypeProvider
+>;
 
 export async function bind(app: Server) {
   initSentryFastify(app);
@@ -86,8 +86,8 @@ export async function bind(app: Server) {
     { prefix: "/api" }
   );
 
-  app.setNotFoundHandler((req, res) => {
-    res.status(404).send(Boom.notFound("Path does not exists").output);
+  app.setNotFoundHandler((_req, res) => {
+    res.status(404).send(notFound("Path does not exists").output);
   });
 
   apiKeyUsageMiddleware(app);

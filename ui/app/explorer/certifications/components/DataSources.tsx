@@ -1,9 +1,9 @@
 import { fr } from "@codegouvfr/react-dsfr";
-import Badge from "@codegouvfr/react-dsfr/Badge";
+import { Badge } from "@codegouvfr/react-dsfr/Badge";
 import { Box, Link, Typography } from "@mui/material";
+import { DataSource } from "api-alternance-sdk/internal";
 import Image from "next/image";
 import NextLink from "next/link";
-import { DataSource } from "shared/docs/types";
 
 function SourceCard(props: DataSource) {
   return (

@@ -1,10 +1,10 @@
 import { readFile, writeFile } from "node:fs/promises";
 
+import { __dirname } from "api-alternance-sdk/internal";
 import { config, create as mcreate, status as mstatus, up as mup } from "migrate-mongo";
 import path from "path";
 
-import { getMongodbClient } from "@/services/mongodb/mongodbService";
-import { __dirname } from "@/utils/esmUtils";
+import { getMongodbClient } from "@/services/mongodb/mongodbService.js";
 
 const myConfig = {
   mongodb: {
@@ -22,7 +22,7 @@ const myConfig = {
   },
 
   // The migrations dir, can be an relative or absolute path. Only edit this when really necessary.
-  migrationsDir: path.join(__dirname(import.meta.url), "./migrations"),
+  migrationsDir: path.join(__dirname(import.meta), "./migrations"),
 
   // The mongodb collection where the applied changes are stored. Only edit this when really necessary.
   changelogCollectionName: "migrations",
@@ -75,8 +75,7 @@ export async function create({ description }: { description: string }) {
     encoding: "utf-8",
   });
   const newContent =
-    'import { Db, MongoClient } from "mongodb";\n\n' +
-    content.replaceAll("async (db, client)", "async (_db: Db, _client: MongoClient)");
+    'import { Db, MongoClient } from "mongodb";\n\n' + content.replaceAll("async (db, client)", "async ()");
 
   await writeFile(file, newContent, { encoding: "utf-8" });
   console.log("Created:", fileName);

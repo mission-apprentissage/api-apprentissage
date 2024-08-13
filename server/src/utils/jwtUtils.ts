@@ -1,7 +1,7 @@
-import jwt, { SignOptions } from "jsonwebtoken";
+import jwt, { type SignOptions } from "jsonwebtoken";
 import { ITemplate, zTemplate } from "shared/models/email_event/email_templates";
 
-import config from "@/config";
+import config from "@/config.js";
 
 interface ICreateTokenOptions {
   secret?: string;

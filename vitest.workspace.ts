@@ -5,19 +5,13 @@ import { defineWorkspace } from "vitest/config";
 export default defineWorkspace([
   {
     plugins: [tsconfigPaths()],
-    assetsInclude: ["./shared/doc/**/*.md"],
     test: {
       name: "server",
       root: "./server",
       include: ["./tests/**/*.test.ts", "./src/**/*.test.ts"],
       setupFiles: ["./tests/setup.ts"],
       globalSetup: ["./server/tests/globalSetup.ts"],
-      // threads: true,
       clearMocks: true,
-      sequence: {
-        // Important for useMongo to be sequential
-        hooks: "stack",
-      },
     },
     resolve: {
       alias: {
@@ -27,7 +21,6 @@ export default defineWorkspace([
   },
   {
     plugins: [tsconfigPaths()],
-    assetsInclude: ["./shared/doc/**/*.md"],
     test: {
       name: "ui",
       root: "./ui",
@@ -38,7 +31,6 @@ export default defineWorkspace([
   },
   {
     plugins: [tsconfigPaths()],
-    assetsInclude: ["./shared/doc/**/*.md"],
     test: {
       name: "shared",
       root: "./shared",
@@ -47,6 +39,7 @@ export default defineWorkspace([
     },
   },
   {
+    plugins: [tsconfigPaths()],
     test: {
       name: "sdk",
       root: "./sdk",

@@ -1,11 +1,11 @@
 import { captureException } from "@sentry/node";
+import { IRechercheOrganismeResponse, IRechercheOrganismeResultat } from "api-alternance-sdk";
 import { Filter } from "mongodb";
 import { ISourceReferentiel } from "shared/models/source/referentiel/source.referentiel.model";
-import { IRechercheOrganismeResponse, IRechercheOrganismeResultat } from "shared/routes/organisme.routes";
 
-import { getEtablissementDiffusible } from "@/services/apis/entreprise/entreprise";
-import logger from "@/services/logger";
-import { getDbCollection } from "@/services/mongodb/mongodbService";
+import { getEtablissementDiffusible } from "@/services/apis/entreprise/entreprise.js";
+import logger from "@/services/logger.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
 export type OrganismeSearchQuery = {
   uai: string | null;

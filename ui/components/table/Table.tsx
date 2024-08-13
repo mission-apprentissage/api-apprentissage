@@ -22,5 +22,3 @@ export const Table = <R extends GridValidRowModel>(props: DataGridProps<R>) => {
     </Box>
   );
 };
-
-export default Table;

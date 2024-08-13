@@ -1,7 +1,7 @@
-import { Transform } from "node:stream";
+import { Readable, Transform, Writable } from "node:stream";
 
 import { AbstractCursor } from "mongodb";
-import { compose } from "oleoduc";
+import { compose as _compose } from "oleoduc";
 import streamJson from "stream-json";
 import streamers from "stream-json/streamers/StreamArray.js";
 import { z, ZodArray, ZodType, ZodTypeAny } from "zod";
@@ -9,6 +9,12 @@ import { z, ZodArray, ZodType, ZodTypeAny } from "zod";
 type Options = {
   size: number;
 };
+
+export function compose<I extends Readable | Transform, O extends Writable | Transform>(
+  ...streams: [I, ...Transform[], O]
+): I & O {
+  return _compose(...streams);
+}
 
 export function createBatchTransformStream(opts: Options): Transform {
   let currentBatch: unknown[] = [];
@@ -82,7 +88,7 @@ function createToJsonTransformStream<T extends ZodTypeAny>(schema: ZodArray<T, "
   return new Transform({
     writableObjectMode: true,
     readableObjectMode: false,
-    transform(chunk, encoding, callback) {
+    transform(chunk, _encoding, callback) {
       try {
         if (!inited) {
           this.push("[");

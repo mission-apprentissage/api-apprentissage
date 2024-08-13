@@ -4,9 +4,9 @@ import { Collection, CollectionInfo, MongoClient, MongoServerError } from "mongo
 import { CollectionName, IDocument, IModelDescriptor, modelDescriptors } from "shared/models/models";
 import { zodToMongoSchema } from "zod-mongodb-schema";
 
-import config from "@/config";
-import logger from "@/services/logger";
-import { sleep } from "@/utils/asyncUtils";
+import config from "@/config.js";
+import logger from "@/services/logger.js";
+import { sleep } from "@/utils/asyncUtils.js";
 
 let mongodbClient: MongoClient | null = null;
 

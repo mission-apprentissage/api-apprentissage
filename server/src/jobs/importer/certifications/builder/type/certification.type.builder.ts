@@ -1,7 +1,7 @@
 import { internal } from "@hapi/boom";
-import { ICertification } from "shared/models/certification.model";
+import { ICertification } from "api-alternance-sdk";
 
-import { ISourceAggregatedData } from "@/jobs/importer/certifications/builder/certification.builder";
+import { ISourceAggregatedData } from "@/jobs/importer/certifications/builder/certification.builder.js";
 
 export function buildCertificationType(data: ISourceAggregatedData): ICertification["type"] {
   const cfdData = data.bcn?.data ?? null;

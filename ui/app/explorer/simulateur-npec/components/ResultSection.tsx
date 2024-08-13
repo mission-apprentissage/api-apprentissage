@@ -1,8 +1,8 @@
 "use client";
 import { fr } from "@codegouvfr/react-dsfr";
-import Alert from "@codegouvfr/react-dsfr/Alert";
+import { Alert } from "@codegouvfr/react-dsfr/Alert";
 import { Badge } from "@codegouvfr/react-dsfr/Badge";
-import Button from "@codegouvfr/react-dsfr/Button";
+import { Button } from "@codegouvfr/react-dsfr/Button";
 import { Box, Snackbar, Typography } from "@mui/material";
 import { captureException } from "@sentry/nextjs";
 import { useQuery } from "@tanstack/react-query";

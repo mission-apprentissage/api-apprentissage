@@ -2,7 +2,7 @@ import { Db, MongoClient } from "mongodb";
 import { IImportMetaFranceCompetence } from "shared/models/import.meta.model";
 import { parisTimezoneDate } from "shared/zod/date.primitives";
 
-import { getDbCollection, setMongodbClient } from "@/services/mongodb/mongodbService";
+import { getDbCollection, setMongodbClient } from "@/services/mongodb/mongodbService.js";
 
 export const up = async (_db: Db, client: MongoClient) => {
   setMongodbClient(client);

@@ -1,4 +1,4 @@
-import { ICertification } from "shared/models/certification.model";
+import { ICertification } from "api-alternance-sdk";
 import {
   generateCertificationFixture,
   generateKitApprentissageFixture,
@@ -6,18 +6,18 @@ import {
   generateSourceBcn_N_FormationDiplomeFixture,
   generateSourceBcn_N51_FormationDiplomeFixture,
   generateSourceFranceCompetenceFixture,
-} from "shared/models/fixtures";
+} from "shared/models/fixtures/index";
 import { describe, expect, it, vi } from "vitest";
 import { ZodError } from "zod";
 
-import { buildCertificationBaseLegale } from "./base_legale/certification.base_legale.builder";
-import { buildCertificationBlocsCompetences } from "./blocs_competences/certification.blocs_competences.builder";
-import { buildCertification } from "./certification.builder";
-import { buildCertificationConventionCollectives } from "./convention_collectives/certification.convention_collectives.builder";
-import { buildCertificationDomaines } from "./domaines/certification.domaines.builder";
-import { buildCertificationIntitule } from "./intitule/certification.intitule.builder";
-import { buildCertificationPeriodeValidite } from "./periode_validite/certification.periode_validite.builder";
-import { buildCertificationType } from "./type/certification.type.builder";
+import { buildCertificationBaseLegale } from "./base_legale/certification.base_legale.builder.js";
+import { buildCertificationBlocsCompetences } from "./blocs_competences/certification.blocs_competences.builder.js";
+import { buildCertification } from "./certification.builder.js";
+import { buildCertificationConventionCollectives } from "./convention_collectives/certification.convention_collectives.builder.js";
+import { buildCertificationDomaines } from "./domaines/certification.domaines.builder.js";
+import { buildCertificationIntitule } from "./intitule/certification.intitule.builder.js";
+import { buildCertificationPeriodeValidite } from "./periode_validite/certification.periode_validite.builder.js";
+import { buildCertificationType } from "./type/certification.type.builder.js";
 
 vi.mock("./base_legale/certification.base_legale.builder");
 vi.mock("./blocs_competences/certification.blocs_competences.builder");

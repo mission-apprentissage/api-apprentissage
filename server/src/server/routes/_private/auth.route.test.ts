@@ -1,15 +1,15 @@
-import { useMongo } from "@tests/mongo.test.utils";
+import { useMongo } from "@tests/mongo.test.utils.js";
 import { ObjectId } from "mongodb";
-import { generateUserFixture } from "shared/models/fixtures";
+import { generateUserFixture } from "shared/models/fixtures/index";
 import { beforeAll, describe, expect, it, vi } from "vitest";
 
-import { generateMagicLinkToken, generateRegisterToken } from "@/actions/auth.actions";
-import { createSession, createSessionToken, getSession } from "@/actions/sessions.actions";
-import config from "@/config";
-import createServer, { Server } from "@/server/server";
-import { sendEmail } from "@/services/mailer/mailer";
-import { getDbCollection } from "@/services/mongodb/mongodbService";
-import { parseAccessToken } from "@/services/security/accessTokenService";
+import { generateMagicLinkToken, generateRegisterToken } from "@/actions/auth.actions.js";
+import { createSession, createSessionToken, getSession } from "@/actions/sessions.actions.js";
+import config from "@/config.js";
+import createServer, { Server } from "@/server/server.js";
+import { sendEmail } from "@/services/mailer/mailer.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import { parseAccessToken } from "@/services/security/accessTokenService.js";
 
 type Cookie = {
   name: string;

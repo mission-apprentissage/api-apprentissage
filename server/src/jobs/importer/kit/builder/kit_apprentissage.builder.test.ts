@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { buildKitApprentissageEntry, getVersionNumber } from "./kit_apprentissage.builder";
+import { buildKitApprentissageEntry, getVersionNumber } from "./kit_apprentissage.builder.js";
 
 const kitApprentissageSourceMap = {
   v1_0: "Kit apprentissage et RNCP v1.0.csv",

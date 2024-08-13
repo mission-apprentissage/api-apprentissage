@@ -1,6 +1,6 @@
-import { ICertification } from "shared/models/certification.model";
+import { ICertification } from "api-alternance-sdk";
 
-import { ISourceAggregatedData } from "@/jobs/importer/certifications/builder/certification.builder";
+import { ISourceAggregatedData } from "@/jobs/importer/certifications/builder/certification.builder.js";
 
 export function buildCertificationDomaines(data: ISourceAggregatedData): ICertification["domaines"] {
   return {

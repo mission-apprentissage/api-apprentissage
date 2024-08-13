@@ -2,11 +2,11 @@ import { internal } from "@hapi/boom";
 import { AxiosInstance, isAxiosError } from "axios";
 import axiosRetry from "axios-retry";
 
-import config from "@/config";
-import getApiClient from "@/services/apis/client";
-import { withCause } from "@/services/errors/withCause";
-import logger from "@/services/logger";
-import { apiRateLimiter } from "@/utils/apiUtils";
+import config from "@/config.js";
+import getApiClient from "@/services/apis/client.js";
+import { withCause } from "@/services/errors/withCause.js";
+import logger from "@/services/logger.js";
+import { apiRateLimiter } from "@/utils/apiUtils.js";
 
 export type ApiEntEtablissement = {
   siret: string;

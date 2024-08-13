@@ -1,0 +1,7059 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`zodToMongoSchema > should convert certifications schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "base_legale": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "cfd": {
+          "anyOf": [
+            {
+              "additionalProperties": false,
+              "bsonType": "object",
+              "properties": {
+                "abrogation": {
+                  "anyOf": [
+                    {
+                      "bsonType": "date",
+                    },
+                    {
+                      "bsonType": "null",
+                    },
+                  ],
+                },
+                "creation": {
+                  "anyOf": [
+                    {
+                      "bsonType": "date",
+                    },
+                    {
+                      "bsonType": "null",
+                    },
+                  ],
+                },
+              },
+              "required": [
+                "creation",
+                "abrogation",
+              ],
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+      },
+      "required": [
+        "cfd",
+      ],
+    },
+    "blocs_competences": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "rncp": {
+          "anyOf": [
+            {
+              "bsonType": "array",
+              "items": {
+                "additionalProperties": false,
+                "bsonType": "object",
+                "properties": {
+                  "code": {
+                    "bsonType": "string",
+                    "pattern": "^(RNCP\\d{3,5}BC)?\\d{1,2}$",
+                  },
+                  "intitule": {
+                    "bsonType": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                },
+                "required": [
+                  "code",
+                  "intitule",
+                ],
+              },
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+      },
+      "required": [
+        "rncp",
+      ],
+    },
+    "continuite": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "cfd": {
+          "anyOf": [
+            {
+              "bsonType": "array",
+              "items": {
+                "additionalProperties": false,
+                "bsonType": "object",
+                "properties": {
+                  "code": {
+                    "bsonType": "string",
+                    "pattern": "^[A-Z0-9]{3}\\d{3}[A-Z0-9]{2}$",
+                  },
+                  "courant": {
+                    "bsonType": "bool",
+                  },
+                  "fermeture": {
+                    "anyOf": [
+                      {
+                        "anyOf": [
+                          {
+                            "bsonType": "date",
+                          },
+                          {
+                            "bsonType": "null",
+                          },
+                        ],
+                      },
+                      {
+                        "bsonType": "null",
+                      },
+                    ],
+                  },
+                  "ouverture": {
+                    "anyOf": [
+                      {
+                        "anyOf": [
+                          {
+                            "bsonType": "date",
+                          },
+                          {
+                            "bsonType": "null",
+                          },
+                        ],
+                      },
+                      {
+                        "bsonType": "null",
+                      },
+                    ],
+                  },
+                },
+                "required": [
+                  "ouverture",
+                  "fermeture",
+                  "code",
+                  "courant",
+                ],
+              },
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "rncp": {
+          "anyOf": [
+            {
+              "bsonType": "array",
+              "items": {
+                "additionalProperties": false,
+                "bsonType": "object",
+                "properties": {
+                  "actif": {
+                    "bsonType": "bool",
+                  },
+                  "activation": {
+                    "anyOf": [
+                      {
+                        "anyOf": [
+                          {
+                            "bsonType": "date",
+                          },
+                          {
+                            "bsonType": "null",
+                          },
+                        ],
+                      },
+                      {
+                        "bsonType": "null",
+                      },
+                    ],
+                  },
+                  "code": {
+                    "bsonType": "string",
+                    "pattern": "^RNCP\\d{3,5}$",
+                  },
+                  "courant": {
+                    "bsonType": "bool",
+                  },
+                  "fin_enregistrement": {
+                    "anyOf": [
+                      {
+                        "anyOf": [
+                          {
+                            "bsonType": "date",
+                          },
+                          {
+                            "bsonType": "null",
+                          },
+                        ],
+                      },
+                      {
+                        "bsonType": "null",
+                      },
+                    ],
+                  },
+                },
+                "required": [
+                  "activation",
+                  "fin_enregistrement",
+                  "code",
+                  "courant",
+                  "actif",
+                ],
+              },
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+      },
+      "required": [
+        "cfd",
+        "rncp",
+      ],
+    },
+    "convention_collectives": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "rncp": {
+          "anyOf": [
+            {
+              "bsonType": "array",
+              "items": {
+                "additionalProperties": false,
+                "bsonType": "object",
+                "properties": {
+                  "intitule": {
+                    "bsonType": "string",
+                  },
+                  "numero": {
+                    "bsonType": "string",
+                  },
+                },
+                "required": [
+                  "numero",
+                  "intitule",
+                ],
+              },
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+      },
+      "required": [
+        "rncp",
+      ],
+    },
+    "created_at": {
+      "bsonType": "date",
+    },
+    "domaines": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "formacodes": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "rncp": {
+              "anyOf": [
+                {
+                  "bsonType": "array",
+                  "items": {
+                    "additionalProperties": false,
+                    "bsonType": "object",
+                    "properties": {
+                      "code": {
+                        "bsonType": "string",
+                      },
+                      "intitule": {
+                        "bsonType": "string",
+                      },
+                    },
+                    "required": [
+                      "code",
+                      "intitule",
+                    ],
+                  },
+                },
+                {
+                  "bsonType": "null",
+                },
+              ],
+            },
+          },
+          "required": [
+            "rncp",
+          ],
+        },
+        "nsf": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "cfd": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "bsonType": "object",
+                  "properties": {
+                    "code": {
+                      "bsonType": "string",
+                    },
+                    "intitule": {
+                      "bsonType": [
+                        "string",
+                        "null",
+                      ],
+                    },
+                  },
+                  "required": [
+                    "code",
+                    "intitule",
+                  ],
+                },
+                {
+                  "bsonType": "null",
+                },
+              ],
+            },
+            "rncp": {
+              "anyOf": [
+                {
+                  "bsonType": "array",
+                  "items": {
+                    "additionalProperties": false,
+                    "bsonType": "object",
+                    "properties": {
+                      "code": {
+                        "bsonType": "string",
+                        "pattern": "^\\d{2,3}[a-z]?$",
+                      },
+                      "intitule": {
+                        "bsonType": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                    },
+                    "required": [
+                      "code",
+                      "intitule",
+                    ],
+                  },
+                },
+                {
+                  "bsonType": "null",
+                },
+              ],
+            },
+          },
+          "required": [
+            "cfd",
+            "rncp",
+          ],
+        },
+        "rome": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "rncp": {
+              "anyOf": [
+                {
+                  "bsonType": "array",
+                  "items": {
+                    "additionalProperties": false,
+                    "bsonType": "object",
+                    "properties": {
+                      "code": {
+                        "bsonType": "string",
+                      },
+                      "intitule": {
+                        "bsonType": "string",
+                      },
+                    },
+                    "required": [
+                      "code",
+                      "intitule",
+                    ],
+                  },
+                },
+                {
+                  "bsonType": "null",
+                },
+              ],
+            },
+          },
+          "required": [
+            "rncp",
+          ],
+        },
+      },
+      "required": [
+        "formacodes",
+        "nsf",
+        "rome",
+      ],
+    },
+    "identifiant": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "cfd": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^[A-Z0-9]{3}\\d{3}[A-Z0-9]{2}$",
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "rncp": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^RNCP\\d{3,5}$",
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "rncp_anterieur_2019": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+      },
+      "required": [
+        "cfd",
+        "rncp",
+        "rncp_anterieur_2019",
+      ],
+    },
+    "intitule": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "cfd": {
+          "anyOf": [
+            {
+              "additionalProperties": false,
+              "bsonType": "object",
+              "properties": {
+                "court": {
+                  "bsonType": "string",
+                },
+                "long": {
+                  "bsonType": "string",
+                },
+              },
+              "required": [
+                "long",
+                "court",
+              ],
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "niveau": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "cfd": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "bsonType": "object",
+                  "properties": {
+                    "europeen": {
+                      "anyOf": [
+                        {
+                          "bsonType": "string",
+                          "enum": [
+                            "1",
+                            "2",
+                            "3",
+                            "4",
+                            "5",
+                            "6",
+                            "7",
+                            "8",
+                          ],
+                        },
+                        {
+                          "bsonType": "null",
+                        },
+                      ],
+                    },
+                    "formation_diplome": {
+                      "bsonType": "string",
+                    },
+                    "interministeriel": {
+                      "bsonType": "string",
+                    },
+                    "libelle": {
+                      "bsonType": [
+                        "string",
+                        "null",
+                      ],
+                    },
+                    "sigle": {
+                      "bsonType": "string",
+                    },
+                  },
+                  "required": [
+                    "europeen",
+                    "formation_diplome",
+                    "interministeriel",
+                    "libelle",
+                    "sigle",
+                  ],
+                },
+                {
+                  "bsonType": "null",
+                },
+              ],
+            },
+            "rncp": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "bsonType": "object",
+                  "properties": {
+                    "europeen": {
+                      "anyOf": [
+                        {
+                          "bsonType": "string",
+                          "enum": [
+                            "1",
+                            "2",
+                            "3",
+                            "4",
+                            "5",
+                            "6",
+                            "7",
+                            "8",
+                          ],
+                        },
+                        {
+                          "bsonType": "null",
+                        },
+                      ],
+                    },
+                  },
+                  "required": [
+                    "europeen",
+                  ],
+                },
+                {
+                  "bsonType": "null",
+                },
+              ],
+            },
+          },
+          "required": [
+            "cfd",
+            "rncp",
+          ],
+        },
+        "rncp": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+      },
+      "required": [
+        "cfd",
+        "niveau",
+        "rncp",
+      ],
+    },
+    "periode_validite": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "cfd": {
+          "anyOf": [
+            {
+              "additionalProperties": false,
+              "bsonType": "object",
+              "properties": {
+                "derniere_session": {
+                  "anyOf": [
+                    {
+                      "bsonType": "int",
+                    },
+                    {
+                      "bsonType": "null",
+                    },
+                  ],
+                },
+                "fermeture": {
+                  "anyOf": [
+                    {
+                      "bsonType": "date",
+                    },
+                    {
+                      "bsonType": "null",
+                    },
+                  ],
+                },
+                "ouverture": {
+                  "anyOf": [
+                    {
+                      "bsonType": "date",
+                    },
+                    {
+                      "bsonType": "null",
+                    },
+                  ],
+                },
+                "premiere_session": {
+                  "anyOf": [
+                    {
+                      "bsonType": "int",
+                    },
+                    {
+                      "bsonType": "null",
+                    },
+                  ],
+                },
+              },
+              "required": [
+                "ouverture",
+                "fermeture",
+                "premiere_session",
+                "derniere_session",
+              ],
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "debut": {
+          "anyOf": [
+            {
+              "bsonType": "date",
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "fin": {
+          "anyOf": [
+            {
+              "bsonType": "date",
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "rncp": {
+          "anyOf": [
+            {
+              "additionalProperties": false,
+              "bsonType": "object",
+              "properties": {
+                "actif": {
+                  "bsonType": "bool",
+                },
+                "activation": {
+                  "anyOf": [
+                    {
+                      "bsonType": "date",
+                    },
+                    {
+                      "bsonType": "null",
+                    },
+                  ],
+                },
+                "debut_parcours": {
+                  "anyOf": [
+                    {
+                      "bsonType": "date",
+                    },
+                    {
+                      "bsonType": "null",
+                    },
+                  ],
+                },
+                "fin_enregistrement": {
+                  "anyOf": [
+                    {
+                      "bsonType": "date",
+                    },
+                    {
+                      "bsonType": "null",
+                    },
+                  ],
+                },
+              },
+              "required": [
+                "actif",
+                "activation",
+                "debut_parcours",
+                "fin_enregistrement",
+              ],
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+      },
+      "required": [
+        "debut",
+        "fin",
+        "cfd",
+        "rncp",
+      ],
+    },
+    "type": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "certificateurs_rncp": {
+          "anyOf": [
+            {
+              "bsonType": "array",
+              "items": {
+                "additionalProperties": false,
+                "bsonType": "object",
+                "properties": {
+                  "nom": {
+                    "bsonType": "string",
+                  },
+                  "siret": {
+                    "bsonType": "string",
+                  },
+                },
+                "required": [
+                  "siret",
+                  "nom",
+                ],
+              },
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "enregistrement_rncp": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "enum": [
+                "Enregistrement de droit",
+                "Enregistrement sur demande",
+              ],
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "gestionnaire_diplome": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "nature": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "cfd": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "bsonType": "object",
+                  "properties": {
+                    "code": {
+                      "bsonType": [
+                        "string",
+                        "null",
+                      ],
+                    },
+                    "libelle": {
+                      "bsonType": [
+                        "string",
+                        "null",
+                      ],
+                    },
+                  },
+                  "required": [
+                    "code",
+                    "libelle",
+                  ],
+                },
+                {
+                  "bsonType": "null",
+                },
+              ],
+            },
+          },
+          "required": [
+            "cfd",
+          ],
+        },
+        "voie_acces": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "rncp": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "bsonType": "object",
+                  "properties": {
+                    "apprentissage": {
+                      "bsonType": "bool",
+                    },
+                    "candidature_individuelle": {
+                      "bsonType": "bool",
+                    },
+                    "contrat_professionnalisation": {
+                      "bsonType": "bool",
+                    },
+                    "experience": {
+                      "bsonType": "bool",
+                    },
+                    "formation_continue": {
+                      "bsonType": "bool",
+                    },
+                    "formation_statut_eleve": {
+                      "bsonType": "bool",
+                    },
+                  },
+                  "required": [
+                    "apprentissage",
+                    "experience",
+                    "candidature_individuelle",
+                    "contrat_professionnalisation",
+                    "formation_continue",
+                    "formation_statut_eleve",
+                  ],
+                },
+                {
+                  "bsonType": "null",
+                },
+              ],
+            },
+          },
+          "required": [
+            "rncp",
+          ],
+        },
+      },
+      "required": [
+        "nature",
+        "gestionnaire_diplome",
+        "enregistrement_rncp",
+        "voie_acces",
+        "certificateurs_rncp",
+      ],
+    },
+    "updated_at": {
+      "bsonType": "date",
+    },
+  },
+  "required": [
+    "identifiant",
+    "intitule",
+    "base_legale",
+    "blocs_competences",
+    "convention_collectives",
+    "domaines",
+    "periode_validite",
+    "type",
+    "continuite",
+    "_id",
+    "created_at",
+    "updated_at",
+  ],
+}
+`;
+
+exports[`zodToMongoSchema > should convert email_denied schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "created_at": {
+      "bsonType": "date",
+      "description": "Date d'ajout en base de données",
+    },
+    "email": {
+      "bsonType": "string",
+      "description": "L'email rejetée",
+    },
+    "reason": {
+      "bsonType": "string",
+      "enum": [
+        "unsubscribe",
+      ],
+    },
+    "updated_at": {
+      "bsonType": "date",
+      "description": "Date de mise à jour en base de données",
+    },
+  },
+  "required": [
+    "_id",
+    "email",
+    "reason",
+    "created_at",
+  ],
+}
+`;
+
+exports[`zodToMongoSchema > should convert email_events schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "created_at": {
+      "bsonType": "date",
+    },
+    "delivered_at": {
+      "anyOf": [
+        {
+          "bsonType": "date",
+        },
+        {
+          "bsonType": "null",
+        },
+      ],
+    },
+    "email": {
+      "bsonType": "string",
+      "description": "Addresse email",
+    },
+    "errors": {
+      "bsonType": "array",
+      "items": {
+        "additionalProperties": false,
+        "bsonType": "object",
+        "properties": {
+          "message": {
+            "bsonType": "string",
+          },
+          "type": {
+            "bsonType": "string",
+            "enum": [
+              "fatal",
+              "soft_bounce",
+              "hard_bounce",
+              "complaint",
+              "invalid_email",
+              "blocked",
+              "error",
+            ],
+          },
+        },
+      },
+    },
+    "messageId": {
+      "bsonType": [
+        "string",
+        "null",
+      ],
+    },
+    "opened_at": {
+      "anyOf": [
+        {
+          "bsonType": "date",
+        },
+        {
+          "bsonType": "null",
+        },
+      ],
+    },
+    "template": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "name": {
+              "bsonType": "string",
+            },
+            "to": {
+              "bsonType": "string",
+            },
+            "token": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "name",
+            "to",
+            "token",
+          ],
+        },
+        {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "name": {
+              "bsonType": "string",
+            },
+            "to": {
+              "bsonType": "string",
+            },
+            "token": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "name",
+            "to",
+            "token",
+          ],
+        },
+        {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "comment": {
+              "bsonType": "string",
+            },
+            "from": {
+              "bsonType": "string",
+            },
+            "name": {
+              "bsonType": "string",
+            },
+            "to": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "name",
+            "to",
+            "from",
+            "comment",
+          ],
+        },
+      ],
+    },
+    "updated_at": {
+      "bsonType": "date",
+    },
+  },
+  "required": [
+    "_id",
+    "email",
+    "template",
+    "created_at",
+    "updated_at",
+    "opened_at",
+    "delivered_at",
+    "messageId",
+    "errors",
+  ],
+}
+`;
+
+exports[`zodToMongoSchema > should convert import.meta schema 1`] = `
+{
+  "anyOf": [
+    {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "_id": {
+          "bsonType": "objectId",
+        },
+        "archiveMeta": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "date_publication": {
+              "bsonType": "date",
+            },
+            "last_updated": {
+              "bsonType": "date",
+            },
+            "nom": {
+              "bsonType": "string",
+            },
+            "resource": {
+              "additionalProperties": false,
+              "bsonType": "object",
+              "properties": {
+                "created_at": {
+                  "bsonType": "date",
+                },
+                "id": {
+                  "bsonType": "string",
+                },
+                "last_modified": {
+                  "bsonType": "date",
+                },
+                "latest": {
+                  "bsonType": "string",
+                },
+                "title": {
+                  "bsonType": "string",
+                },
+              },
+              "required": [
+                "created_at",
+                "id",
+                "last_modified",
+                "latest",
+                "title",
+              ],
+            },
+          },
+          "required": [
+            "date_publication",
+            "last_updated",
+            "nom",
+            "resource",
+          ],
+        },
+        "import_date": {
+          "bsonType": "date",
+        },
+        "status": {
+          "bsonType": "string",
+          "enum": [
+            "pending",
+            "done",
+          ],
+        },
+        "type": {
+          "bsonType": "string",
+        },
+      },
+      "required": [
+        "_id",
+        "import_date",
+        "type",
+        "archiveMeta",
+        "status",
+      ],
+    },
+    {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "_id": {
+          "bsonType": "objectId",
+        },
+        "import_date": {
+          "bsonType": "date",
+        },
+        "status": {
+          "bsonType": "string",
+          "enum": [
+            "pending",
+            "done",
+            "failed",
+          ],
+        },
+        "type": {
+          "bsonType": "string",
+          "enum": [
+            "bcn",
+            "kit_apprentissage",
+            "acce",
+            "kali_ccn",
+          ],
+        },
+      },
+      "required": [
+        "_id",
+        "import_date",
+        "type",
+        "status",
+      ],
+    },
+    {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "_id": {
+          "bsonType": "objectId",
+        },
+        "import_date": {
+          "bsonType": "date",
+        },
+        "source": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "bcn": {
+              "additionalProperties": false,
+              "bsonType": "object",
+              "properties": {
+                "import_date": {
+                  "bsonType": "date",
+                },
+              },
+              "required": [
+                "import_date",
+              ],
+            },
+            "france_competence": {
+              "additionalProperties": false,
+              "bsonType": "object",
+              "properties": {
+                "import_date": {
+                  "bsonType": "date",
+                },
+                "nom": {
+                  "bsonType": "string",
+                },
+                "oldest_date_publication": {
+                  "bsonType": "date",
+                },
+              },
+              "required": [
+                "import_date",
+                "nom",
+                "oldest_date_publication",
+              ],
+            },
+            "kit_apprentissage": {
+              "additionalProperties": false,
+              "bsonType": "object",
+              "properties": {
+                "import_date": {
+                  "bsonType": "date",
+                },
+              },
+              "required": [
+                "import_date",
+              ],
+            },
+          },
+          "required": [
+            "bcn",
+            "france_competence",
+            "kit_apprentissage",
+          ],
+        },
+        "type": {
+          "bsonType": "string",
+        },
+      },
+      "required": [
+        "_id",
+        "import_date",
+        "type",
+        "source",
+      ],
+    },
+    {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "_id": {
+          "bsonType": "objectId",
+        },
+        "description": {
+          "bsonType": "string",
+        },
+        "file_date": {
+          "bsonType": "date",
+        },
+        "import_date": {
+          "bsonType": "date",
+        },
+        "resource": {
+          "bsonType": "string",
+        },
+        "status": {
+          "bsonType": "string",
+          "enum": [
+            "pending",
+            "done",
+            "failed",
+          ],
+        },
+        "title": {
+          "bsonType": "string",
+        },
+        "type": {
+          "bsonType": "string",
+        },
+      },
+      "required": [
+        "_id",
+        "import_date",
+        "type",
+        "status",
+        "resource",
+        "title",
+        "description",
+        "file_date",
+      ],
+    },
+    {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "_id": {
+          "bsonType": "objectId",
+        },
+        "import_date": {
+          "bsonType": "date",
+        },
+        "resource": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "date": {
+              "bsonType": "date",
+            },
+            "title": {
+              "bsonType": "string",
+            },
+            "url": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "title",
+            "url",
+            "date",
+          ],
+        },
+        "status": {
+          "bsonType": "string",
+          "enum": [
+            "pending",
+            "done",
+            "failed",
+          ],
+        },
+        "type": {
+          "bsonType": "string",
+          "enum": [
+            "dares_ccn",
+            "dares_ape_idcc",
+          ],
+        },
+      },
+      "required": [
+        "_id",
+        "import_date",
+        "type",
+        "status",
+        "resource",
+      ],
+    },
+  ],
+}
+`;
+
+exports[`zodToMongoSchema > should convert indicateurs.usage_api schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "api_key_id": {
+      "bsonType": "objectId",
+    },
+    "date": {
+      "bsonType": "date",
+    },
+    "method": {
+      "bsonType": "string",
+    },
+    "path": {
+      "bsonType": "string",
+    },
+    "usage": {
+      "additionalProperties": {
+        "bsonType": "number",
+      },
+      "bsonType": "object",
+    },
+    "user_id": {
+      "bsonType": "objectId",
+    },
+  },
+  "required": [
+    "_id",
+    "method",
+    "path",
+    "date",
+    "user_id",
+    "api_key_id",
+    "usage",
+  ],
+}
+`;
+
+exports[`zodToMongoSchema > should convert sessions schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "created_at": {
+      "bsonType": "date",
+      "description": "Date d'ajout en base de données",
+    },
+    "email": {
+      "bsonType": "string",
+    },
+    "expires_at": {
+      "bsonType": "date",
+      "description": "Date d'expiration",
+    },
+    "updated_at": {
+      "bsonType": "date",
+      "description": "Date de mise à jour en base de données",
+    },
+  },
+  "required": [
+    "_id",
+    "email",
+    "updated_at",
+    "created_at",
+    "expires_at",
+  ],
+}
+`;
+
+exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
+{
+  "anyOf": [
+    {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "_id": {
+          "bsonType": "objectId",
+        },
+        "data": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "academie": {
+              "anyOf": [
+                {
+                  "bsonType": "string",
+                  "pattern": "^\\d{2}$",
+                },
+                {
+                  "bsonType": "null",
+                },
+              ],
+            },
+            "academie_libe": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "adresse_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "appariement": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "appariement_complement": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "appellation_officielle": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "boite_postale_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "categorie_financiere": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "categorie_financiere_libe": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "categorie_juridique": {
+              "bsonType": "string",
+            },
+            "categorie_juridique_libe": {
+              "bsonType": "string",
+            },
+            "code_postal_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "commune": {
+              "bsonType": "string",
+            },
+            "commune_libe": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "contrat_etablissement": {
+              "bsonType": "string",
+              "enum": [
+                "99",
+                "10",
+                "30",
+                "20",
+                "50",
+                "31",
+                "21",
+                "!!",
+                "40",
+                "41",
+                "60",
+              ],
+            },
+            "contrat_etablissement_libe": {
+              "bsonType": "string",
+              "enum": [
+                "Sans objet",
+                "Hors contrat",
+                "Contrat d'association pour toutes les classes",
+                "Contrat simple pour toutes les classes",
+                "Reconnu par l'Etat",
+                "Contrat d'association pour une partie des classes",
+                "Contrat simple pour une partie des classes",
+                "Inconnu du gestionnaire",
+                "Contrats simple et d'association pour toutes les classes",
+                "Contrats simple et d'association pour une partie des classes",
+                "Sous contrat établissement agricole",
+              ],
+            },
+            "coordonnee_x": {
+              "bsonType": [
+                "number",
+                "null",
+              ],
+            },
+            "coordonnee_y": {
+              "bsonType": [
+                "number",
+                "null",
+              ],
+            },
+            "date_derniere_mise_a_jour": {
+              "bsonType": "string",
+            },
+            "date_fermeture": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "date_geolocalisation": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "date_ouverture": {
+              "bsonType": "string",
+            },
+            "denomination_principale": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "departement_insee_3": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "departement_insee_3_libe": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "etat_etablissement": {
+              "bsonType": "string",
+              "enum": [
+                "1",
+                "2",
+                "3",
+                "4",
+              ],
+            },
+            "etat_etablissement_libe": {
+              "bsonType": "string",
+              "enum": [
+                "Ouvert",
+                "À fermer",
+                "À ouvrir",
+                "Fermé",
+              ],
+            },
+            "etat_sirad_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "hebergement_etablissement": {
+              "bsonType": "string",
+            },
+            "hebergement_etablissement_libe": {
+              "bsonType": "string",
+            },
+            "lieu_dit_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "localisation": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "localisation_complement": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "localite_acheminement_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "mel_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "mention_distribution": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "ministere_tutelle": {
+              "bsonType": "string",
+              "pattern": "^\\d{2}$",
+            },
+            "ministere_tutelle_libe": {
+              "bsonType": "string",
+            },
+            "nature_uai": {
+              "bsonType": "string",
+              "pattern": "^\\d{3}$",
+            },
+            "nature_uai_libe": {
+              "bsonType": "string",
+            },
+            "niveau_uai": {
+              "bsonType": "string",
+              "enum": [
+                "1",
+                "3",
+                "2",
+                "4",
+              ],
+            },
+            "niveau_uai_libe": {
+              "bsonType": "string",
+              "enum": [
+                "UAI célibataire",
+                "UAI fille",
+                "UAI mère",
+                "UAI mère et fille",
+              ],
+            },
+            "numero_finess_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "numero_siren_siret_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "numero_telecopieur_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "numero_telephone_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "numero_uai": {
+              "bsonType": "string",
+            },
+            "patronyme_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "pays": {
+              "bsonType": "string",
+            },
+            "pays_etranger_acheminement": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "pays_libe": {
+              "bsonType": "string",
+            },
+            "secteur_public_prive": {
+              "bsonType": "string",
+              "enum": [
+                "PR",
+                "PU",
+              ],
+            },
+            "secteur_public_prive_libe": {
+              "bsonType": "string",
+              "enum": [
+                "Privé",
+                "Public",
+              ],
+            },
+            "sigle_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "site_web": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "situation_comptable": {
+              "bsonType": "string",
+            },
+            "situation_comptable_libe": {
+              "bsonType": "string",
+            },
+            "source": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "tutelle_2": {
+              "anyOf": [
+                {
+                  "bsonType": "string",
+                  "pattern": "^\\d{2}$",
+                },
+                {
+                  "bsonType": "null",
+                },
+              ],
+            },
+            "tutelle_2_libe": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "type_uai": {
+              "bsonType": "string",
+            },
+            "type_uai_libe": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "nature_uai",
+            "nature_uai_libe",
+            "type_uai",
+            "type_uai_libe",
+            "etat_etablissement",
+            "etat_etablissement_libe",
+            "ministere_tutelle",
+            "ministere_tutelle_libe",
+            "tutelle_2",
+            "tutelle_2_libe",
+            "secteur_public_prive",
+            "secteur_public_prive_libe",
+            "sigle_uai",
+            "categorie_juridique",
+            "categorie_juridique_libe",
+            "contrat_etablissement",
+            "contrat_etablissement_libe",
+            "categorie_financiere",
+            "categorie_financiere_libe",
+            "situation_comptable",
+            "situation_comptable_libe",
+            "niveau_uai",
+            "niveau_uai_libe",
+            "commune",
+            "commune_libe",
+            "academie",
+            "academie_libe",
+            "pays",
+            "pays_libe",
+            "departement_insee_3",
+            "departement_insee_3_libe",
+            "denomination_principale",
+            "appellation_officielle",
+            "patronyme_uai",
+            "hebergement_etablissement",
+            "hebergement_etablissement_libe",
+            "numero_siren_siret_uai",
+            "numero_finess_uai",
+            "date_fermeture",
+            "date_derniere_mise_a_jour",
+            "lieu_dit_uai",
+            "adresse_uai",
+            "boite_postale_uai",
+            "code_postal_uai",
+            "etat_sirad_uai",
+            "localite_acheminement_uai",
+            "pays_etranger_acheminement",
+            "numero_telephone_uai",
+            "numero_telecopieur_uai",
+            "mention_distribution",
+            "mel_uai",
+            "site_web",
+            "coordonnee_x",
+            "coordonnee_y",
+            "appariement",
+            "appariement_complement",
+            "localisation",
+            "localisation_complement",
+            "date_geolocalisation",
+            "source",
+            "numero_uai",
+          ],
+        },
+        "date": {
+          "bsonType": "date",
+        },
+        "source": {
+          "bsonType": "string",
+        },
+      },
+      "required": [
+        "_id",
+        "source",
+        "date",
+        "data",
+      ],
+    },
+    {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "_id": {
+          "bsonType": "objectId",
+        },
+        "data": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "date_derniere_mise_a_jour": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "date_fermeture": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "date_ouverture": {
+              "bsonType": "string",
+            },
+            "numero_uai": {
+              "bsonType": "string",
+            },
+            "type_zone_uai": {
+              "bsonType": "string",
+            },
+            "type_zone_uai_libe": {
+              "bsonType": "string",
+            },
+            "zone": {
+              "bsonType": "string",
+            },
+            "zone_libe": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "numero_uai",
+            "type_zone_uai",
+            "type_zone_uai_libe",
+            "zone",
+            "zone_libe",
+            "date_ouverture",
+            "date_fermeture",
+            "date_derniere_mise_a_jour",
+          ],
+        },
+        "date": {
+          "bsonType": "date",
+        },
+        "source": {
+          "bsonType": "string",
+        },
+      },
+      "required": [
+        "_id",
+        "source",
+        "date",
+        "data",
+      ],
+    },
+    {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "_id": {
+          "bsonType": "objectId",
+        },
+        "data": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "date_fermeture": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "date_ouverture": {
+              "bsonType": "string",
+            },
+            "numero_uai": {
+              "bsonType": "string",
+            },
+            "specificite_uai": {
+              "bsonType": "string",
+            },
+            "specificite_uai_libe": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "numero_uai",
+            "specificite_uai",
+            "specificite_uai_libe",
+            "date_ouverture",
+            "date_fermeture",
+          ],
+        },
+        "date": {
+          "bsonType": "date",
+        },
+        "source": {
+          "bsonType": "string",
+        },
+      },
+      "required": [
+        "_id",
+        "source",
+        "date",
+        "data",
+      ],
+    },
+    {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "_id": {
+          "bsonType": "objectId",
+        },
+        "data": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "academie": {
+              "anyOf": [
+                {
+                  "bsonType": "string",
+                  "pattern": "^\\d{2}$",
+                },
+                {
+                  "bsonType": "null",
+                },
+              ],
+            },
+            "academie_libe": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "adresse_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "appariement": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "appariement_complement": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "appellation_officielle": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "boite_postale_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "categorie_financiere": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "categorie_financiere_libe": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "categorie_juridique": {
+              "bsonType": "string",
+            },
+            "categorie_juridique_libe": {
+              "bsonType": "string",
+            },
+            "code_postal_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "commune": {
+              "bsonType": "string",
+            },
+            "commune_libe": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "contrat_etablissement": {
+              "bsonType": "string",
+              "enum": [
+                "99",
+                "10",
+                "30",
+                "20",
+                "50",
+                "31",
+                "21",
+                "!!",
+                "40",
+                "41",
+                "60",
+              ],
+            },
+            "contrat_etablissement_libe": {
+              "bsonType": "string",
+              "enum": [
+                "Sans objet",
+                "Hors contrat",
+                "Contrat d'association pour toutes les classes",
+                "Contrat simple pour toutes les classes",
+                "Reconnu par l'Etat",
+                "Contrat d'association pour une partie des classes",
+                "Contrat simple pour une partie des classes",
+                "Inconnu du gestionnaire",
+                "Contrats simple et d'association pour toutes les classes",
+                "Contrats simple et d'association pour une partie des classes",
+                "Sous contrat établissement agricole",
+              ],
+            },
+            "coordonnee_x": {
+              "bsonType": [
+                "number",
+                "null",
+              ],
+            },
+            "coordonnee_y": {
+              "bsonType": [
+                "number",
+                "null",
+              ],
+            },
+            "date_derniere_mise_a_jour": {
+              "bsonType": "string",
+            },
+            "date_fermeture": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "date_geolocalisation": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "date_ouverture": {
+              "bsonType": "string",
+            },
+            "denomination_principale": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "departement_insee_3": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "departement_insee_3_libe": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "etat_etablissement": {
+              "bsonType": "string",
+              "enum": [
+                "1",
+                "2",
+                "3",
+                "4",
+              ],
+            },
+            "etat_etablissement_libe": {
+              "bsonType": "string",
+              "enum": [
+                "Ouvert",
+                "À fermer",
+                "À ouvrir",
+                "Fermé",
+              ],
+            },
+            "etat_sirad_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "hebergement_etablissement": {
+              "bsonType": "string",
+            },
+            "hebergement_etablissement_libe": {
+              "bsonType": "string",
+            },
+            "lieu_dit_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "localisation": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "localisation_complement": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "localite_acheminement_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "mel_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "mention_distribution": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "ministere_tutelle": {
+              "bsonType": "string",
+              "pattern": "^\\d{2}$",
+            },
+            "ministere_tutelle_libe": {
+              "bsonType": "string",
+            },
+            "nature_uai": {
+              "bsonType": "string",
+              "pattern": "^\\d{3}$",
+            },
+            "nature_uai_libe": {
+              "bsonType": "string",
+            },
+            "niveau_uai": {
+              "bsonType": "string",
+              "enum": [
+                "1",
+                "3",
+                "2",
+                "4",
+              ],
+            },
+            "niveau_uai_libe": {
+              "bsonType": "string",
+              "enum": [
+                "UAI célibataire",
+                "UAI fille",
+                "UAI mère",
+                "UAI mère et fille",
+              ],
+            },
+            "numero_finess_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "numero_siren_siret_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "numero_telecopieur_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "numero_telephone_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "numero_uai_mere": {
+              "bsonType": "string",
+            },
+            "numero_uai_trouve": {
+              "bsonType": "string",
+            },
+            "patronyme_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "pays": {
+              "bsonType": "string",
+            },
+            "pays_etranger_acheminement": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "pays_libe": {
+              "bsonType": "string",
+            },
+            "secteur_public_prive": {
+              "bsonType": "string",
+              "enum": [
+                "PR",
+                "PU",
+              ],
+            },
+            "secteur_public_prive_libe": {
+              "bsonType": "string",
+              "enum": [
+                "Privé",
+                "Public",
+              ],
+            },
+            "sigle_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "site_web": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "situation_comptable": {
+              "bsonType": "string",
+            },
+            "situation_comptable_libe": {
+              "bsonType": "string",
+            },
+            "source": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "tutelle_2": {
+              "anyOf": [
+                {
+                  "bsonType": "string",
+                  "pattern": "^\\d{2}$",
+                },
+                {
+                  "bsonType": "null",
+                },
+              ],
+            },
+            "tutelle_2_libe": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "type_rattachement": {
+              "bsonType": "string",
+            },
+            "type_uai": {
+              "bsonType": "string",
+            },
+            "type_uai_libe": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "nature_uai",
+            "nature_uai_libe",
+            "type_uai",
+            "type_uai_libe",
+            "etat_etablissement",
+            "etat_etablissement_libe",
+            "ministere_tutelle",
+            "ministere_tutelle_libe",
+            "tutelle_2",
+            "tutelle_2_libe",
+            "secteur_public_prive",
+            "secteur_public_prive_libe",
+            "sigle_uai",
+            "categorie_juridique",
+            "categorie_juridique_libe",
+            "contrat_etablissement",
+            "contrat_etablissement_libe",
+            "categorie_financiere",
+            "categorie_financiere_libe",
+            "situation_comptable",
+            "situation_comptable_libe",
+            "niveau_uai",
+            "niveau_uai_libe",
+            "commune",
+            "commune_libe",
+            "academie",
+            "academie_libe",
+            "pays",
+            "pays_libe",
+            "departement_insee_3",
+            "departement_insee_3_libe",
+            "denomination_principale",
+            "appellation_officielle",
+            "patronyme_uai",
+            "hebergement_etablissement",
+            "hebergement_etablissement_libe",
+            "numero_siren_siret_uai",
+            "numero_finess_uai",
+            "date_fermeture",
+            "date_derniere_mise_a_jour",
+            "lieu_dit_uai",
+            "adresse_uai",
+            "boite_postale_uai",
+            "code_postal_uai",
+            "etat_sirad_uai",
+            "localite_acheminement_uai",
+            "pays_etranger_acheminement",
+            "numero_telephone_uai",
+            "numero_telecopieur_uai",
+            "mention_distribution",
+            "mel_uai",
+            "site_web",
+            "coordonnee_x",
+            "coordonnee_y",
+            "appariement",
+            "appariement_complement",
+            "localisation",
+            "localisation_complement",
+            "date_geolocalisation",
+            "source",
+            "numero_uai_trouve",
+            "numero_uai_mere",
+            "type_rattachement",
+          ],
+        },
+        "date": {
+          "bsonType": "date",
+        },
+        "source": {
+          "bsonType": "string",
+        },
+      },
+      "required": [
+        "_id",
+        "source",
+        "date",
+        "data",
+      ],
+    },
+    {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "_id": {
+          "bsonType": "objectId",
+        },
+        "data": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "academie": {
+              "anyOf": [
+                {
+                  "bsonType": "string",
+                  "pattern": "^\\d{2}$",
+                },
+                {
+                  "bsonType": "null",
+                },
+              ],
+            },
+            "academie_libe": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "adresse_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "appariement": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "appariement_complement": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "appellation_officielle": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "boite_postale_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "categorie_financiere": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "categorie_financiere_libe": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "categorie_juridique": {
+              "bsonType": "string",
+            },
+            "categorie_juridique_libe": {
+              "bsonType": "string",
+            },
+            "code_postal_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "commune": {
+              "bsonType": "string",
+            },
+            "commune_libe": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "contrat_etablissement": {
+              "bsonType": "string",
+              "enum": [
+                "99",
+                "10",
+                "30",
+                "20",
+                "50",
+                "31",
+                "21",
+                "!!",
+                "40",
+                "41",
+                "60",
+              ],
+            },
+            "contrat_etablissement_libe": {
+              "bsonType": "string",
+              "enum": [
+                "Sans objet",
+                "Hors contrat",
+                "Contrat d'association pour toutes les classes",
+                "Contrat simple pour toutes les classes",
+                "Reconnu par l'Etat",
+                "Contrat d'association pour une partie des classes",
+                "Contrat simple pour une partie des classes",
+                "Inconnu du gestionnaire",
+                "Contrats simple et d'association pour toutes les classes",
+                "Contrats simple et d'association pour une partie des classes",
+                "Sous contrat établissement agricole",
+              ],
+            },
+            "coordonnee_x": {
+              "bsonType": [
+                "number",
+                "null",
+              ],
+            },
+            "coordonnee_y": {
+              "bsonType": [
+                "number",
+                "null",
+              ],
+            },
+            "date_derniere_mise_a_jour": {
+              "bsonType": "string",
+            },
+            "date_fermeture": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "date_geolocalisation": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "date_ouverture": {
+              "bsonType": "string",
+            },
+            "denomination_principale": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "departement_insee_3": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "departement_insee_3_libe": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "etat_etablissement": {
+              "bsonType": "string",
+              "enum": [
+                "1",
+                "2",
+                "3",
+                "4",
+              ],
+            },
+            "etat_etablissement_libe": {
+              "bsonType": "string",
+              "enum": [
+                "Ouvert",
+                "À fermer",
+                "À ouvrir",
+                "Fermé",
+              ],
+            },
+            "etat_sirad_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "hebergement_etablissement": {
+              "bsonType": "string",
+            },
+            "hebergement_etablissement_libe": {
+              "bsonType": "string",
+            },
+            "lieu_dit_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "localisation": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "localisation_complement": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "localite_acheminement_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "mel_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "mention_distribution": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "ministere_tutelle": {
+              "bsonType": "string",
+              "pattern": "^\\d{2}$",
+            },
+            "ministere_tutelle_libe": {
+              "bsonType": "string",
+            },
+            "nature_uai": {
+              "bsonType": "string",
+              "pattern": "^\\d{3}$",
+            },
+            "nature_uai_libe": {
+              "bsonType": "string",
+            },
+            "niveau_uai": {
+              "bsonType": "string",
+              "enum": [
+                "1",
+                "3",
+                "2",
+                "4",
+              ],
+            },
+            "niveau_uai_libe": {
+              "bsonType": "string",
+              "enum": [
+                "UAI célibataire",
+                "UAI fille",
+                "UAI mère",
+                "UAI mère et fille",
+              ],
+            },
+            "numero_finess_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "numero_siren_siret_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "numero_telecopieur_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "numero_telephone_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "numero_uai_fille": {
+              "bsonType": "string",
+            },
+            "numero_uai_trouve": {
+              "bsonType": "string",
+            },
+            "patronyme_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "pays": {
+              "bsonType": "string",
+            },
+            "pays_etranger_acheminement": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "pays_libe": {
+              "bsonType": "string",
+            },
+            "secteur_public_prive": {
+              "bsonType": "string",
+              "enum": [
+                "PR",
+                "PU",
+              ],
+            },
+            "secteur_public_prive_libe": {
+              "bsonType": "string",
+              "enum": [
+                "Privé",
+                "Public",
+              ],
+            },
+            "sigle_uai": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "site_web": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "situation_comptable": {
+              "bsonType": "string",
+            },
+            "situation_comptable_libe": {
+              "bsonType": "string",
+            },
+            "source": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "tutelle_2": {
+              "anyOf": [
+                {
+                  "bsonType": "string",
+                  "pattern": "^\\d{2}$",
+                },
+                {
+                  "bsonType": "null",
+                },
+              ],
+            },
+            "tutelle_2_libe": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "type_rattachement": {
+              "bsonType": "string",
+            },
+            "type_uai": {
+              "bsonType": "string",
+            },
+            "type_uai_libe": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "nature_uai",
+            "nature_uai_libe",
+            "type_uai",
+            "type_uai_libe",
+            "etat_etablissement",
+            "etat_etablissement_libe",
+            "ministere_tutelle",
+            "ministere_tutelle_libe",
+            "tutelle_2",
+            "tutelle_2_libe",
+            "secteur_public_prive",
+            "secteur_public_prive_libe",
+            "sigle_uai",
+            "categorie_juridique",
+            "categorie_juridique_libe",
+            "contrat_etablissement",
+            "contrat_etablissement_libe",
+            "categorie_financiere",
+            "categorie_financiere_libe",
+            "situation_comptable",
+            "situation_comptable_libe",
+            "niveau_uai",
+            "niveau_uai_libe",
+            "commune",
+            "commune_libe",
+            "academie",
+            "academie_libe",
+            "pays",
+            "pays_libe",
+            "departement_insee_3",
+            "departement_insee_3_libe",
+            "denomination_principale",
+            "appellation_officielle",
+            "patronyme_uai",
+            "hebergement_etablissement",
+            "hebergement_etablissement_libe",
+            "numero_siren_siret_uai",
+            "numero_finess_uai",
+            "date_fermeture",
+            "date_derniere_mise_a_jour",
+            "lieu_dit_uai",
+            "adresse_uai",
+            "boite_postale_uai",
+            "code_postal_uai",
+            "etat_sirad_uai",
+            "localite_acheminement_uai",
+            "pays_etranger_acheminement",
+            "numero_telephone_uai",
+            "numero_telecopieur_uai",
+            "mention_distribution",
+            "mel_uai",
+            "site_web",
+            "coordonnee_x",
+            "coordonnee_y",
+            "appariement",
+            "appariement_complement",
+            "localisation",
+            "localisation_complement",
+            "date_geolocalisation",
+            "source",
+            "numero_uai_trouve",
+            "numero_uai_fille",
+            "type_rattachement",
+          ],
+        },
+        "date": {
+          "bsonType": "date",
+        },
+        "source": {
+          "bsonType": "string",
+        },
+      },
+      "required": [
+        "_id",
+        "source",
+        "date",
+        "data",
+      ],
+    },
+  ],
+}
+`;
+
+exports[`zodToMongoSchema > should convert source.bcn schema 1`] = `
+{
+  "anyOf": [
+    {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "_id": {
+          "bsonType": "objectId",
+        },
+        "data": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "ANCIEN_DIPLOMES": {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "string",
+              },
+            },
+            "ANCIEN_RECME": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "CITE_DOMAINE_DETAILLE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "CITE_DOMAINE_FORMATION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "COMMENTAIRE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_ABROGATION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_CREATION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_1": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_10": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_2": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_3": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_4": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_5": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_6": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_7": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_8": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_9": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_DERNIERE_SESSION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_FERMETURE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_INTERVENTION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_OUVERTURE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_PREMIERE_SESSION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_SESSION_RATTRAPAGE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "FORMATION_DIPLOME": {
+              "bsonType": "string",
+            },
+            "GESTIONNAIRE_FORMATION_DIPLOME": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "GROUPE_SPECIALITE": {
+              "bsonType": "string",
+            },
+            "ID_DOCUMENT": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "LETTRE_SPECIALITE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "LIBELLE_COURT": {
+              "bsonType": "string",
+            },
+            "LIBELLE_LONG_200": {
+              "bsonType": "string",
+            },
+            "LIBELLE_STAT_33": {
+              "bsonType": "string",
+            },
+            "NATURE_FORMATION_DIPLOME": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "NB_MEF_FERME": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "NB_MEF_OUVERT": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "NIVEAU_FORMATION_DIPLOME": {
+              "bsonType": "string",
+            },
+            "NIVEAU_QUALIFICATION_RNCP": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "NOUVEAU_DIPLOMES": {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "string",
+              },
+            },
+            "N_CITE_2013_DOMAINE_DETAILL_LIBELLE_EDITION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_CITE_DOMAINE_FORMATION_LIBELLE_EDITION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_COMMENTAIRE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_GROUPE_SPECIALITE_LIBELLE_LONG": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_LETTRE_SPECIALITE_LIBELLE_LONG": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_NATURE_FORMATION_DIPLOME_LIBELLE_100": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_NIVEAU_FORMATION_DIPLOME_LIBELLE_100": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_NIVEAU_QUALIFICATION_RNCP_LIBELLE_LONG": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "OBSERVATION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "UNITE_CAPITALISABLE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+          },
+          "required": [
+            "FORMATION_DIPLOME",
+            "NIVEAU_FORMATION_DIPLOME",
+            "N_NIVEAU_FORMATION_DIPLOME_LIBELLE_100",
+            "GROUPE_SPECIALITE",
+            "N_GROUPE_SPECIALITE_LIBELLE_LONG",
+            "LETTRE_SPECIALITE",
+            "N_LETTRE_SPECIALITE_LIBELLE_LONG",
+            "ANCIEN_RECME",
+            "LIBELLE_COURT",
+            "LIBELLE_STAT_33",
+            "LIBELLE_LONG_200",
+            "DATE_OUVERTURE",
+            "DATE_FERMETURE",
+            "UNITE_CAPITALISABLE",
+            "DATE_PREMIERE_SESSION",
+            "DATE_DERNIERE_SESSION",
+            "DATE_ARRETE_CREATION",
+            "DATE_ARRETE_ABROGATION",
+            "DATE_ARRETE_MODIFICATION_1",
+            "DATE_ARRETE_MODIFICATION_2",
+            "DATE_ARRETE_MODIFICATION_3",
+            "DATE_ARRETE_MODIFICATION_4",
+            "DATE_ARRETE_MODIFICATION_5",
+            "DATE_ARRETE_MODIFICATION_6",
+            "DATE_ARRETE_MODIFICATION_7",
+            "DATE_ARRETE_MODIFICATION_8",
+            "DATE_ARRETE_MODIFICATION_9",
+            "DATE_ARRETE_MODIFICATION_10",
+            "COMMENTAIRE",
+            "NATURE_FORMATION_DIPLOME",
+            "N_NATURE_FORMATION_DIPLOME_LIBELLE_100",
+            "GESTIONNAIRE_FORMATION_DIPLOME",
+            "DATE_INTERVENTION",
+            "ID_DOCUMENT",
+            "CITE_DOMAINE_FORMATION",
+            "N_CITE_DOMAINE_FORMATION_LIBELLE_EDITION",
+            "NIVEAU_QUALIFICATION_RNCP",
+            "N_NIVEAU_QUALIFICATION_RNCP_LIBELLE_LONG",
+            "ANCIEN_DIPLOMES",
+            "NOUVEAU_DIPLOMES",
+            "NB_MEF_OUVERT",
+            "NB_MEF_FERME",
+            "DATE_SESSION_RATTRAPAGE",
+            "OBSERVATION",
+            "N_COMMENTAIRE",
+            "CITE_DOMAINE_DETAILLE",
+            "N_CITE_2013_DOMAINE_DETAILL_LIBELLE_EDITION",
+          ],
+        },
+        "date": {
+          "bsonType": "date",
+        },
+        "source": {
+          "bsonType": "string",
+        },
+      },
+      "required": [
+        "_id",
+        "source",
+        "date",
+        "data",
+      ],
+    },
+    {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "_id": {
+          "bsonType": "objectId",
+        },
+        "data": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "ANCIEN_RECME": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "CITE_DOMAINE_DETAILLE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "CITE_DOMAINE_FORMATION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "COMMENTAIRE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_ABROGATION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_CREATION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_1": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_10": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_2": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_3": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_4": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_5": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_6": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_7": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_8": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_9": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_DERNIERE_SESSION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_FERMETURE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_INTERVENTION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_OUVERTURE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_PREMIERE_SESSION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DIPLOME_SISE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "FORMATION_DIPLOME": {
+              "bsonType": "string",
+            },
+            "GESTIONNAIRE_FORMATION_DIPLOME": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "GROUPE_SPECIALITE": {
+              "bsonType": "string",
+            },
+            "HABILITATION_ORIGINE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "ID_DOCUMENT": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "LETTRE_SPECIALITE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "LIBELLE_COURT": {
+              "bsonType": "string",
+            },
+            "LIBELLE_LONG_200": {
+              "bsonType": "string",
+            },
+            "LIBELLE_STAT_33": {
+              "bsonType": "string",
+            },
+            "NATURE_FORMATION_DIPLOME": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "NIVEAU_FORMATION_DIPLOME": {
+              "bsonType": "string",
+            },
+            "NIVEAU_QUALIFICATION_RNCP": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "NUMERO_UAI": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_CITE_2013_DOMAINE_DETAILL_LIBELLE_EDITION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_CITE_DOMAINE_FORMATION_LIBELLE_EDITION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_COMMENTAIRE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_DIPLOME_SISE_LIBELLE_INTITULE_1": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_GROUPE_SPECIALITE_LIBELLE_LONG": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_LETTRE_SPECIALITE_LIBELLE_LONG": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_NATURE_FORMATION_DIPLOME_LIBELLE_100": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_NIVEAU_FORMATION_DIPLOME_LIBELLE_100": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_NIVEAU_QUALIFICATION_RNCP_LIBELLE_LONG": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "UNITE_CAPITALISABLE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+          },
+          "required": [
+            "FORMATION_DIPLOME",
+            "NIVEAU_FORMATION_DIPLOME",
+            "N_NIVEAU_FORMATION_DIPLOME_LIBELLE_100",
+            "GROUPE_SPECIALITE",
+            "N_GROUPE_SPECIALITE_LIBELLE_LONG",
+            "LETTRE_SPECIALITE",
+            "N_LETTRE_SPECIALITE_LIBELLE_LONG",
+            "ANCIEN_RECME",
+            "LIBELLE_COURT",
+            "LIBELLE_STAT_33",
+            "LIBELLE_LONG_200",
+            "DATE_OUVERTURE",
+            "DATE_FERMETURE",
+            "UNITE_CAPITALISABLE",
+            "DATE_PREMIERE_SESSION",
+            "DATE_DERNIERE_SESSION",
+            "DATE_ARRETE_CREATION",
+            "DATE_ARRETE_ABROGATION",
+            "DATE_ARRETE_MODIFICATION_1",
+            "DATE_ARRETE_MODIFICATION_2",
+            "DATE_ARRETE_MODIFICATION_3",
+            "DATE_ARRETE_MODIFICATION_4",
+            "DATE_ARRETE_MODIFICATION_5",
+            "DATE_ARRETE_MODIFICATION_6",
+            "DATE_ARRETE_MODIFICATION_7",
+            "DATE_ARRETE_MODIFICATION_8",
+            "DATE_ARRETE_MODIFICATION_9",
+            "DATE_ARRETE_MODIFICATION_10",
+            "COMMENTAIRE",
+            "NATURE_FORMATION_DIPLOME",
+            "N_NATURE_FORMATION_DIPLOME_LIBELLE_100",
+            "GESTIONNAIRE_FORMATION_DIPLOME",
+            "DATE_INTERVENTION",
+            "ID_DOCUMENT",
+            "CITE_DOMAINE_FORMATION",
+            "N_CITE_DOMAINE_FORMATION_LIBELLE_EDITION",
+            "NIVEAU_QUALIFICATION_RNCP",
+            "N_NIVEAU_QUALIFICATION_RNCP_LIBELLE_LONG",
+            "N_COMMENTAIRE",
+            "CITE_DOMAINE_DETAILLE",
+            "N_CITE_2013_DOMAINE_DETAILL_LIBELLE_EDITION",
+            "DIPLOME_SISE",
+            "N_DIPLOME_SISE_LIBELLE_INTITULE_1",
+            "HABILITATION_ORIGINE",
+            "NUMERO_UAI",
+          ],
+        },
+        "date": {
+          "bsonType": "date",
+        },
+        "source": {
+          "bsonType": "string",
+        },
+      },
+      "required": [
+        "_id",
+        "source",
+        "date",
+        "data",
+      ],
+    },
+    {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "_id": {
+          "bsonType": "objectId",
+        },
+        "data": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "ANCIEN_NIVEAU": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_FERMETURE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_INTERVENTION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_OUVERTURE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "LIBELLE_100": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "LIBELLE_COURT": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "NIVEAU_FORMATION_DIPLOME": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "NIVEAU_INTERMINISTERIEL": {
+              "bsonType": "string",
+            },
+            "NIVEAU_QUALIFICATION_RNCP": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_COMMENTAIRE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_NIVEAU_INTERMINISTERIEL_LIBELLE_LONG": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_NIVEAU_QUALIFICATION_RNCP_LIBELLE_LONG": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+          },
+          "required": [
+            "NIVEAU_FORMATION_DIPLOME",
+            "LIBELLE_COURT",
+            "DATE_OUVERTURE",
+            "DATE_FERMETURE",
+            "DATE_INTERVENTION",
+            "NIVEAU_QUALIFICATION_RNCP",
+            "N_NIVEAU_QUALIFICATION_RNCP_LIBELLE_LONG",
+            "N_COMMENTAIRE",
+            "NIVEAU_INTERMINISTERIEL",
+            "N_NIVEAU_INTERMINISTERIEL_LIBELLE_LONG",
+            "LIBELLE_100",
+            "ANCIEN_NIVEAU",
+          ],
+        },
+        "date": {
+          "bsonType": "date",
+        },
+        "source": {
+          "bsonType": "string",
+        },
+      },
+      "required": [
+        "_id",
+        "source",
+        "date",
+        "data",
+      ],
+    },
+    {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "_id": {
+          "bsonType": "objectId",
+        },
+        "data": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "ANCIEN_RECME": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "CITE_DOMAINE_FORMATION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "COMMENTAIRE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_ABROGATION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_CREATION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_1": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_10": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_2": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_3": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_4": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_5": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_6": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_7": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_8": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_ARRETE_MODIFICATION_9": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_DERNIERE_SESSION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_FERMETURE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_INTERVENTION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_OUVERTURE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "DATE_PREMIERE_SESSION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "FORMATION_DIPLOME": {
+              "bsonType": "string",
+            },
+            "GESTIONNAIRE_FORMATION_DIPLOME": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "GROUPE_SPECIALITE": {
+              "bsonType": "string",
+            },
+            "ID_DOCUMENT": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "LETTRE_SPECIALITE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "LIBELLE_COURT": {
+              "bsonType": "string",
+            },
+            "LIBELLE_LONG_200": {
+              "bsonType": "string",
+            },
+            "LIBELLE_STAT_33": {
+              "bsonType": "string",
+            },
+            "NATURE_FORMATION_DIPLOME": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "NIVEAU_FORMATION_DIPLOME": {
+              "bsonType": "string",
+            },
+            "NIVEAU_QUALIFICATION_RNCP": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_CITE_DOMAINE_FORMATION_LIBELLE_EDITION": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_GROUPE_SPECIALITE_LIBELLE_LONG": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_LETTRE_SPECIALITE_LIBELLE_LONG": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_NATURE_FORMATION_DIPLOME_LIBELLE_100": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_NIVEAU_FORMATION_DIPLOME_LIBELLE_100": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "N_NIVEAU_QUALIFICATION_RNCP_LIBELLE_LONG": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "UNITE_CAPITALISABLE": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+          },
+          "required": [
+            "FORMATION_DIPLOME",
+            "NIVEAU_FORMATION_DIPLOME",
+            "N_NIVEAU_FORMATION_DIPLOME_LIBELLE_100",
+            "GROUPE_SPECIALITE",
+            "N_GROUPE_SPECIALITE_LIBELLE_LONG",
+            "LETTRE_SPECIALITE",
+            "N_LETTRE_SPECIALITE_LIBELLE_LONG",
+            "ANCIEN_RECME",
+            "LIBELLE_COURT",
+            "LIBELLE_STAT_33",
+            "LIBELLE_LONG_200",
+            "DATE_OUVERTURE",
+            "DATE_FERMETURE",
+            "UNITE_CAPITALISABLE",
+            "DATE_PREMIERE_SESSION",
+            "DATE_DERNIERE_SESSION",
+            "DATE_ARRETE_CREATION",
+            "DATE_ARRETE_ABROGATION",
+            "DATE_ARRETE_MODIFICATION_1",
+            "DATE_ARRETE_MODIFICATION_2",
+            "DATE_ARRETE_MODIFICATION_3",
+            "DATE_ARRETE_MODIFICATION_4",
+            "DATE_ARRETE_MODIFICATION_5",
+            "DATE_ARRETE_MODIFICATION_6",
+            "DATE_ARRETE_MODIFICATION_7",
+            "DATE_ARRETE_MODIFICATION_8",
+            "DATE_ARRETE_MODIFICATION_9",
+            "DATE_ARRETE_MODIFICATION_10",
+            "COMMENTAIRE",
+            "NATURE_FORMATION_DIPLOME",
+            "N_NATURE_FORMATION_DIPLOME_LIBELLE_100",
+            "GESTIONNAIRE_FORMATION_DIPLOME",
+            "DATE_INTERVENTION",
+            "ID_DOCUMENT",
+            "CITE_DOMAINE_FORMATION",
+            "N_CITE_DOMAINE_FORMATION_LIBELLE_EDITION",
+            "NIVEAU_QUALIFICATION_RNCP",
+            "N_NIVEAU_QUALIFICATION_RNCP_LIBELLE_LONG",
+          ],
+        },
+        "date": {
+          "bsonType": "date",
+        },
+        "source": {
+          "bsonType": "string",
+        },
+      },
+      "required": [
+        "_id",
+        "source",
+        "date",
+        "data",
+      ],
+    },
+  ],
+}
+`;
+
+exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "data": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "_id": {
+          "bsonType": "string",
+        },
+        "affelnet_a_charger": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "affelnet_code_nature": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "affelnet_infos_offre": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "affelnet_raison_depublication": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "affelnet_reference": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "affelnet_secteur": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "affelnet_statut": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "affelnet_statut_history": {
+          "anyOf": [
+            {
+              "bsonType": "array",
+              "items": {
+                "additionalProperties": true,
+                "bsonType": "object",
+              },
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "annee": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "bcn_mefs_10": {
+          "anyOf": [
+            {
+              "bsonType": "array",
+              "items": {
+                "additionalProperties": true,
+                "bsonType": "object",
+              },
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "capacite": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "catalogue_published": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "cfa_outdated": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "cfd": {
+          "bsonType": "string",
+        },
+        "cfd_date_fermeture": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "cfd_entree": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "cfd_specialite": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "cle_ministere_educatif": {
+          "bsonType": "string",
+        },
+        "code_commune_insee": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "code_postal": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "commentaires": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "contenu": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "created_at": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "date_debut": {
+          "anyOf": [
+            {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "string",
+              },
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "date_fin": {
+          "anyOf": [
+            {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "string",
+              },
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "diplome": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "distance": {
+          "bsonType": [
+            "number",
+            "null",
+          ],
+        },
+        "distance_lieu_formation_etablissement_formateur": {
+          "bsonType": [
+            "number",
+            "null",
+          ],
+        },
+        "draft": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "duree": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "editedFields": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "bsonType": "object",
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "email": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "entierement_a_distance": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "etablissement_formateur_adresse": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_catalogue_published": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "etablissement_formateur_cedex": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_code_commune_insee": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_code_postal": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_complement_adresse": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_conventionne": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_courriel": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_datadock": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_date_creation": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_declare_prefecture": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_enseigne": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_entreprise_raison_sociale": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_id": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_localite": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_nom_academie": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_nom_departement": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_num_academie": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_num_departement": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_published": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "etablissement_formateur_region": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_siren": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_siret": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_type": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_formateur_uai": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_adresse": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_catalogue_published": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_cedex": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_code_commune_insee": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_code_postal": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_complement_adresse": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_conventionne": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_courriel": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_datadock": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_date_creation": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_declare_prefecture": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_enseigne": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_entreprise_raison_sociale": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_id": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_localite": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_nom_academie": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_nom_departement": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_num_academie": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_num_departement": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_published": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_region": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_siren": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_siret": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_type": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_gestionnaire_uai": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_reference": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_reference_certifie_qualite": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "etablissement_reference_date_creation": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_reference_habilite_rncp": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "etablissement_reference_published": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "geo_coordonnees_etablissement_formateur": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "geo_coordonnees_etablissement_gestionnaire": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "id_action": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "id_certifinfo": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "id_formation": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "id_rco_formation": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "ids_action": {
+          "anyOf": [
+            {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "string",
+              },
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "info_opcos": {
+          "bsonType": [
+            "number",
+            "null",
+          ],
+        },
+        "info_opcos_intitule": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "intitule_court": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "intitule_long": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "last_update_at": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "last_update_who": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "libelle_court": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "bsonType": "string",
+                },
+                {
+                  "bsonType": "array",
+                  "items": {
+                    "bsonType": "string",
+                  },
+                },
+              ],
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "lieu_formation_adresse": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "lieu_formation_adresse_computed": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "lieu_formation_geo_coordonnees": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "lieu_formation_geopoint": {
+          "anyOf": [
+            {},
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "lieu_formation_siret": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "localite": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "mef_10_code": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "mefs_10": {
+          "anyOf": [
+            {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "string",
+              },
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "modalites_entrees_sorties": {
+          "anyOf": [
+            {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "bool",
+              },
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "niveau": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "niveau_entree_obligatoire": {
+          "bsonType": [
+            "number",
+            "null",
+          ],
+        },
+        "niveau_formation_diplome": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "nom": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "nom_academie": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "nom_departement": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "num_academie": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "num_departement": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "num_tel": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+          "description": "Numéro de téléphone de contact",
+        },
+        "objectif": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "onisep_discipline": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "onisep_domaine_sousdomaine": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "onisep_intitule": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "onisep_libelle_poursuite": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "onisep_lien_site_onisepfr": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "onisep_url": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "opcos": {
+          "anyOf": [
+            {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "string",
+              },
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "parcoursup_a_charger": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "parcoursup_error": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "parcoursup_id": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "parcoursup_raison_depublication": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "parcoursup_reference": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "parcoursup_statut": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "parcoursup_statut_history": {
+          "anyOf": [
+            {
+              "bsonType": "array",
+              "items": {
+                "additionalProperties": true,
+                "bsonType": "object",
+              },
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "published": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "rco_published": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "region": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "rncp_code": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "rncp_details": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "bsonType": "object",
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "rncp_eligible_apprentissage": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "not": {},
+                },
+                {
+                  "bsonType": [
+                    "bool",
+                    "null",
+                  ],
+                },
+              ],
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "rncp_etablissement_formateur_habilite": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "rncp_etablissement_gestionnaire_habilite": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "rncp_intitule": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "rome_codes": {
+          "anyOf": [
+            {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "string",
+              },
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "source": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "tags": {
+          "anyOf": [
+            {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "string",
+              },
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "to_update": {
+          "bsonType": [
+            "bool",
+            "null",
+          ],
+        },
+        "uai_formation": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "update_error": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "updates_history": {
+          "anyOf": [
+            {
+              "bsonType": "array",
+              "items": {
+                "additionalProperties": true,
+                "bsonType": "object",
+              },
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+      },
+      "required": [
+        "_id",
+        "cle_ministere_educatif",
+        "cfd",
+      ],
+    },
+    "date": {
+      "bsonType": "date",
+    },
+  },
+  "required": [
+    "_id",
+    "date",
+    "data",
+  ],
+}
+`;
+
+exports[`zodToMongoSchema > should convert source.dares.ape_idcc schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "data": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "convention_collective": {
+          "anyOf": [
+            {
+              "additionalProperties": false,
+              "bsonType": "object",
+              "properties": {
+                "idcc": {
+                  "bsonType": "number",
+                },
+                "titre": {
+                  "bsonType": "string",
+                },
+              },
+              "required": [
+                "idcc",
+                "titre",
+              ],
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "naf": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "code": {
+              "bsonType": "string",
+            },
+            "intitule": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "code",
+            "intitule",
+          ],
+        },
+      },
+      "required": [
+        "naf",
+        "convention_collective",
+      ],
+    },
+    "date_import": {
+      "bsonType": "date",
+    },
+    "import_id": {
+      "bsonType": "objectId",
+    },
+  },
+  "required": [
+    "_id",
+    "import_id",
+    "date_import",
+    "data",
+  ],
+}
+`;
+
+exports[`zodToMongoSchema > should convert source.dares.ccn schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "data": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "idcc": {
+          "bsonType": "number",
+        },
+        "titre": {
+          "bsonType": "string",
+        },
+      },
+      "required": [
+        "idcc",
+        "titre",
+      ],
+    },
+    "date_import": {
+      "bsonType": "date",
+    },
+    "import_id": {
+      "bsonType": "objectId",
+    },
+  },
+  "required": [
+    "_id",
+    "import_id",
+    "date_import",
+    "data",
+  ],
+}
+`;
+
+exports[`zodToMongoSchema > should convert source.france_competence schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "active": {
+      "bsonType": [
+        "bool",
+        "null",
+      ],
+    },
+    "created_at": {
+      "bsonType": "date",
+    },
+    "data": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "ancienne_nouvelle_certification": {
+          "bsonType": "array",
+          "items": {
+            "additionalProperties": false,
+            "bsonType": "object",
+            "properties": {
+              "Ancienne_Certification": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+              "Nouvelle_Certification": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+              "Numero_Fiche": {
+                "bsonType": "string",
+              },
+            },
+            "required": [
+              "Numero_Fiche",
+              "Ancienne_Certification",
+              "Nouvelle_Certification",
+            ],
+          },
+        },
+        "blocs_de_competences": {
+          "bsonType": "array",
+          "items": {
+            "additionalProperties": false,
+            "bsonType": "object",
+            "properties": {
+              "Bloc_Competences_Code": {
+                "bsonType": "string",
+              },
+              "Bloc_Competences_Libelle": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+              "Numero_Fiche": {
+                "bsonType": "string",
+              },
+            },
+            "required": [
+              "Numero_Fiche",
+              "Bloc_Competences_Code",
+              "Bloc_Competences_Libelle",
+            ],
+          },
+        },
+        "ccn": {
+          "bsonType": "array",
+          "items": {
+            "additionalProperties": false,
+            "bsonType": "object",
+            "properties": {
+              "Ccn_1_Libelle": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+              "Ccn_1_Numero": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+              "Ccn_2_Libelle": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+              "Ccn_2_Numero": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+              "Ccn_3_Libelle": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+              "Ccn_3_Numero": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+              "Numero_Fiche": {
+                "bsonType": "string",
+              },
+            },
+            "required": [
+              "Numero_Fiche",
+              "Ccn_1_Numero",
+              "Ccn_1_Libelle",
+              "Ccn_2_Numero",
+              "Ccn_2_Libelle",
+              "Ccn_3_Numero",
+              "Ccn_3_Libelle",
+            ],
+          },
+        },
+        "certificateurs": {
+          "bsonType": "array",
+          "items": {
+            "additionalProperties": false,
+            "bsonType": "object",
+            "properties": {
+              "Nom_Certificateur": {
+                "bsonType": "string",
+              },
+              "Numero_Fiche": {
+                "bsonType": "string",
+              },
+              "Siret_Certificateur": {
+                "bsonType": "string",
+              },
+            },
+            "required": [
+              "Numero_Fiche",
+              "Siret_Certificateur",
+              "Nom_Certificateur",
+            ],
+          },
+        },
+        "formacode": {
+          "bsonType": "array",
+          "items": {
+            "additionalProperties": false,
+            "bsonType": "object",
+            "properties": {
+              "Formacode_Code": {
+                "bsonType": "string",
+              },
+              "Formacode_Libelle": {
+                "bsonType": "string",
+              },
+              "Numero_Fiche": {
+                "bsonType": "string",
+              },
+            },
+            "required": [
+              "Numero_Fiche",
+              "Formacode_Code",
+              "Formacode_Libelle",
+            ],
+          },
+        },
+        "nsf": {
+          "bsonType": "array",
+          "items": {
+            "additionalProperties": false,
+            "bsonType": "object",
+            "properties": {
+              "Nsf_Code": {
+                "bsonType": "string",
+              },
+              "Nsf_Intitule": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+              "Numero_Fiche": {
+                "bsonType": "string",
+              },
+            },
+            "required": [
+              "Numero_Fiche",
+              "Nsf_Code",
+              "Nsf_Intitule",
+            ],
+          },
+        },
+        "partenaires": {
+          "bsonType": "array",
+          "items": {
+            "additionalProperties": false,
+            "bsonType": "object",
+            "properties": {
+              "Habilitation_Partenaire": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+              "Nom_Partenaire": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+              "Numero_Fiche": {
+                "bsonType": "string",
+              },
+              "Siret_Partenaire": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+            },
+            "required": [
+              "Numero_Fiche",
+              "Nom_Partenaire",
+              "Siret_Partenaire",
+              "Habilitation_Partenaire",
+            ],
+          },
+        },
+        "rome": {
+          "bsonType": "array",
+          "items": {
+            "additionalProperties": false,
+            "bsonType": "object",
+            "properties": {
+              "Codes_Rome_Code": {
+                "bsonType": "string",
+              },
+              "Codes_Rome_Libelle": {
+                "bsonType": "string",
+              },
+              "Numero_Fiche": {
+                "bsonType": "string",
+              },
+            },
+            "required": [
+              "Numero_Fiche",
+              "Codes_Rome_Code",
+              "Codes_Rome_Libelle",
+            ],
+          },
+        },
+        "standard": {
+          "anyOf": [
+            {
+              "additionalProperties": false,
+              "bsonType": "object",
+              "properties": {
+                "Abrege_Intitule": {
+                  "bsonType": [
+                    "string",
+                    "null",
+                  ],
+                },
+                "Abrege_Libelle": {
+                  "bsonType": [
+                    "string",
+                    "null",
+                  ],
+                },
+                "Accessible_Nouvelle_Caledonie": {
+                  "bsonType": [
+                    "string",
+                    "null",
+                  ],
+                },
+                "Accessible_Polynesie_Francaise": {
+                  "bsonType": [
+                    "string",
+                    "null",
+                  ],
+                },
+                "Actif": {
+                  "anyOf": [
+                    {
+                      "bsonType": "string",
+                      "enum": [
+                        "ACTIVE",
+                        "INACTIVE",
+                      ],
+                    },
+                    {
+                      "bsonType": "null",
+                    },
+                  ],
+                },
+                "Date_Decision": {
+                  "bsonType": [
+                    "string",
+                    "null",
+                  ],
+                },
+                "Date_Effet": {
+                  "bsonType": [
+                    "string",
+                    "null",
+                  ],
+                },
+                "Date_Fin_Enregistrement": {
+                  "bsonType": [
+                    "string",
+                    "null",
+                  ],
+                },
+                "Date_dernier_jo": {
+                  "bsonType": [
+                    "string",
+                    "null",
+                  ],
+                },
+                "Id_Fiche": {
+                  "bsonType": "string",
+                },
+                "Intitule": {
+                  "bsonType": "string",
+                },
+                "Nomenclature_Europe_Intitule": {
+                  "bsonType": [
+                    "string",
+                    "null",
+                  ],
+                },
+                "Nomenclature_Europe_Niveau": {
+                  "bsonType": [
+                    "string",
+                    "null",
+                  ],
+                },
+                "Numero_Fiche": {
+                  "bsonType": "string",
+                },
+                "Type_Enregistrement": {
+                  "bsonType": "string",
+                  "enum": [
+                    "Enregistrement de droit",
+                    "Enregistrement sur demande",
+                  ],
+                },
+                "Validation_Partielle": {
+                  "bsonType": [
+                    "string",
+                    "null",
+                  ],
+                },
+              },
+              "required": [
+                "Id_Fiche",
+                "Numero_Fiche",
+                "Intitule",
+                "Abrege_Libelle",
+                "Abrege_Intitule",
+                "Nomenclature_Europe_Niveau",
+                "Nomenclature_Europe_Intitule",
+                "Accessible_Nouvelle_Caledonie",
+                "Accessible_Polynesie_Francaise",
+                "Date_dernier_jo",
+                "Date_Decision",
+                "Date_Fin_Enregistrement",
+                "Date_Effet",
+                "Type_Enregistrement",
+                "Validation_Partielle",
+                "Actif",
+              ],
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "voies_d_acces": {
+          "bsonType": "array",
+          "items": {
+            "additionalProperties": false,
+            "bsonType": "object",
+            "properties": {
+              "Numero_Fiche": {
+                "bsonType": "string",
+              },
+              "Si_Jury": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+            },
+            "required": [
+              "Numero_Fiche",
+              "Si_Jury",
+            ],
+          },
+        },
+      },
+      "required": [
+        "ccn",
+        "partenaires",
+        "blocs_de_competences",
+        "nsf",
+        "formacode",
+        "ancienne_nouvelle_certification",
+        "voies_d_acces",
+        "rome",
+        "certificateurs",
+        "standard",
+      ],
+    },
+    "date_derniere_activation": {
+      "anyOf": [
+        {
+          "bsonType": "date",
+        },
+        {
+          "bsonType": "null",
+        },
+      ],
+    },
+    "date_derniere_publication": {
+      "anyOf": [
+        {
+          "bsonType": "date",
+        },
+        {
+          "bsonType": "null",
+        },
+      ],
+    },
+    "date_premiere_activation": {
+      "anyOf": [
+        {
+          "bsonType": "date",
+        },
+        {
+          "bsonType": "null",
+        },
+      ],
+    },
+    "date_premiere_publication": {
+      "anyOf": [
+        {
+          "bsonType": "date",
+        },
+        {
+          "bsonType": "null",
+        },
+      ],
+    },
+    "numero_fiche": {
+      "bsonType": "string",
+      "pattern": "^(RNCP|RS)\\d+$",
+    },
+    "source": {
+      "bsonType": "string",
+    },
+    "updated_at": {
+      "bsonType": "date",
+    },
+  },
+  "required": [
+    "_id",
+    "created_at",
+    "updated_at",
+    "numero_fiche",
+    "active",
+    "date_premiere_publication",
+    "date_derniere_publication",
+    "date_premiere_activation",
+    "date_derniere_activation",
+    "source",
+    "data",
+  ],
+}
+`;
+
+exports[`zodToMongoSchema > should convert source.kali.ccn schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "data": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "debut": {
+              "bsonType": "date",
+            },
+            "etat": {
+              "bsonType": "string",
+              "enum": [
+                "ABROGE",
+                "DENONCE",
+                "MODIFIE",
+                "PERIME",
+                "REMPLACE",
+                "VIGUEUR",
+                "VIGUEUR_ETEN",
+                "VIGUEUR_NON_ETEN",
+              ],
+            },
+            "fin": {
+              "anyOf": [
+                {
+                  "bsonType": "date",
+                },
+                {
+                  "bsonType": "null",
+                },
+              ],
+            },
+            "id": {
+              "bsonType": "string",
+            },
+            "idcc": {
+              "bsonType": "number",
+            },
+            "nature": {
+              "bsonType": "string",
+              "enum": [
+                "ACCORD COLLECTIF NATIONAL",
+                "AVENANT",
+                "CONVENTION",
+                "CONVENTION COLLECTIVE",
+                "CONVENTION COLLECTIVE DEPARTEMENTALE",
+                "CONVENTION COLLECTIVE NATIONALE",
+                "CONVENTION COLLECTIVE INTERREGIONALE",
+                "CONVENTION COLLECTIVE REGIONALE",
+              ],
+            },
+            "titre": {
+              "bsonType": "string",
+            },
+            "type": {
+              "bsonType": "string",
+            },
+            "url": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "type",
+            "id",
+            "idcc",
+            "titre",
+            "nature",
+            "etat",
+            "debut",
+            "fin",
+            "url",
+          ],
+        },
+        {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "debut": {
+              "bsonType": "date",
+            },
+            "etat": {
+              "bsonType": "string",
+              "enum": [
+                "ABROGE",
+                "DENONCE",
+                "MODIFIE",
+                "PERIME",
+                "REMPLACE",
+                "VIGUEUR",
+                "VIGUEUR_ETEN",
+                "VIGUEUR_NON_ETEN",
+              ],
+            },
+            "fin": {
+              "anyOf": [
+                {
+                  "bsonType": "date",
+                },
+                {
+                  "bsonType": "null",
+                },
+              ],
+            },
+            "id": {
+              "bsonType": "string",
+            },
+            "nature": {
+              "bsonType": "string",
+              "enum": [
+                "ACCORD INTERBRANCHE",
+                "ACCORD COLLECTIF NATIONAL",
+                "ACCORD DE BRANCHE",
+                "AVENANT",
+                "ACCORD NATIONAL INTERPROFESSIONNEL",
+                "ACCORD DE METHODE",
+                "ACCORD PARITAIRE",
+                "ACCORD CADRE INTERSECTEURS",
+                "ACCORD REGIONAL",
+                "ACCORD PROFESSIONNEL",
+                "ANNEXE",
+                "ACCORD NATIONAL INTERBRANCHES",
+                "PROCES-VERBAL",
+                "CONVENTION COLLECTIVE NATIONALE",
+                "ACCORD-CADRE",
+                "ACCORD COLLECTIF",
+                "ACCORD NATIONAL PLURIPROFESSIONNEL",
+                "PROTOCOLE D'ACCORD INTERBRANCHE",
+                "ACCORD MULTIBRANCHES",
+                "PROTOCOLE D'ACCORD",
+                "ACCORD PARITAIRE NATIONAL",
+                "ACCORD PROFESSIONNEL INTER-SECTEURS",
+                "CONVENTION COLLECTIVE DEPARTEMENTALE",
+                "CONVENTION COLLECTIVE INTERREGIONALE",
+                "CONVENTION",
+                "CONVENTION COLLECTIVE REGIONALE",
+                "ACCORD NATIONAL PROFESSIONNEL",
+                "CONVENTION COLLECTIVE",
+                "ACCORD INTERPROFESSIONNEL",
+                "ACCORD INTERSECTEURS",
+                "ACCORD INTERBRANCHES",
+                "ACCORD PLURIPROFESSIONNEL",
+                "ACCORD NATIONAL",
+                "ACCORD NATIONAL COLLECTIF",
+                "PROTOCOLE D'ACCORD NATIONAL",
+                "ACCORD",
+                "DECISION",
+                "ACCORD DE SUBSTITUTION",
+              ],
+            },
+            "titre": {
+              "bsonType": "string",
+            },
+            "type": {
+              "bsonType": "string",
+            },
+            "url": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "type",
+            "id",
+            "titre",
+            "nature",
+            "etat",
+            "debut",
+            "fin",
+            "url",
+          ],
+        },
+      ],
+    },
+    "date_import": {
+      "bsonType": "date",
+    },
+  },
+  "required": [
+    "_id",
+    "date_import",
+    "data",
+  ],
+}
+`;
+
+exports[`zodToMongoSchema > should convert source.kit_apprentissage schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "data": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "Abrégé de diplôme (RNCP)": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "Accès à l'apprentissage de la fiche RNCP (oui/non)": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "Ancienne Certification (RNCP)": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "Code Diplôme": {
+          "bsonType": "string",
+        },
+        "Date d'échéance de la fiche RNCP": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "Date de début des parcours certifiants": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "Date de décision": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "Date de publication de la fiche": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "Date limite de la délivrance": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "Dernière MaJ": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "Fiche ACTIVE/INACTIVE": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "FicheRNCP": {
+          "bsonType": "string",
+        },
+        "Intitulé certification (RNCP)": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "Intitulé diplôme (DEPP)": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "Niveau fiche RNCP": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "Nouvelle Certification rempla (RNCP)": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "Type d'enregistrement": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+      },
+      "required": [
+        "Code Diplôme",
+        "Intitulé diplôme (DEPP)",
+        "FicheRNCP",
+        "Niveau fiche RNCP",
+        "Abrégé de diplôme (RNCP)",
+        "Dernière MaJ",
+        "Accès à l'apprentissage de la fiche RNCP (oui/non)",
+        "Date d'échéance de la fiche RNCP",
+        "Fiche ACTIVE/INACTIVE",
+        "Intitulé certification (RNCP)",
+        "Type d'enregistrement",
+        "Date de publication de la fiche",
+        "Date de décision",
+        "Date de début des parcours certifiants",
+        "Date limite de la délivrance",
+        "Nouvelle Certification rempla (RNCP)",
+        "Ancienne Certification (RNCP)",
+      ],
+    },
+    "date": {
+      "bsonType": "date",
+    },
+    "source": {
+      "bsonType": "string",
+      "pattern": "^((Kit_apprentissage_\\d{8})|(Kit apprentissage et RNCP v\\d\\.\\d))\\.csv$",
+    },
+    "version": {
+      "bsonType": "string",
+      "pattern": "^\\d{8}$",
+    },
+  },
+  "required": [
+    "_id",
+    "source",
+    "date",
+    "data",
+    "version",
+  ],
+}
+`;
+
+exports[`zodToMongoSchema > should convert source.npec schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "data": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "certificateur": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "cpne_code": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "cpne_libelle": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "date_applicabilite": {
+              "anyOf": [
+                {
+                  "bsonType": "date",
+                },
+                {
+                  "bsonType": "null",
+                },
+              ],
+            },
+            "diplome_code": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "diplome_libelle": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "formation_libelle": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "idcc": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "npec": {
+              "bsonType": [
+                "number",
+                "null",
+              ],
+            },
+            "procedure": {
+              "bsonType": [
+                "number",
+                "null",
+              ],
+            },
+            "rncp": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "statut": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "type": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "type",
+            "npec",
+            "date_applicabilite",
+            "procedure",
+          ],
+        },
+        {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "cpne_code": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "cpne_libelle": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "idcc": {
+              "bsonType": [
+                "string",
+                "null",
+              ],
+            },
+            "type": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "type",
+          ],
+        },
+      ],
+    },
+    "date_file": {
+      "bsonType": "date",
+    },
+    "date_import": {
+      "bsonType": "date",
+    },
+    "filename": {
+      "bsonType": "string",
+    },
+    "import_id": {
+      "bsonType": "objectId",
+    },
+  },
+  "required": [
+    "_id",
+    "filename",
+    "date_import",
+    "date_file",
+    "import_id",
+    "data",
+  ],
+}
+`;
+
+exports[`zodToMongoSchema > should convert source.npec.normalized schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "cpne_code": {
+      "bsonType": "string",
+    },
+    "cpne_libelle": {
+      "bsonType": "string",
+    },
+    "date_applicabilite": {
+      "bsonType": "date",
+    },
+    "date_file": {
+      "bsonType": "date",
+    },
+    "date_import": {
+      "bsonType": "date",
+    },
+    "filename": {
+      "bsonType": "string",
+    },
+    "idcc": {
+      "bsonType": "array",
+      "items": {
+        "bsonType": "number",
+      },
+    },
+    "import_id": {
+      "bsonType": "objectId",
+    },
+    "npec": {
+      "bsonType": "array",
+      "items": {
+        "bsonType": "number",
+      },
+    },
+    "rncp": {
+      "bsonType": "string",
+      "pattern": "^RNCP\\d{3,5}$",
+    },
+  },
+  "required": [
+    "_id",
+    "rncp",
+    "cpne_code",
+    "cpne_libelle",
+    "npec",
+    "date_applicabilite",
+    "idcc",
+    "filename",
+    "date_file",
+    "import_id",
+    "date_import",
+  ],
+}
+`;
+
+exports[`zodToMongoSchema > should convert source.referentiel schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "data": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "_meta": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "anomalies": {
+              "bsonType": "array",
+              "items": {
+                "additionalProperties": false,
+                "bsonType": "object",
+                "properties": {
+                  "code": {
+                    "bsonType": "string",
+                  },
+                  "date": {
+                    "bsonType": "string",
+                  },
+                  "date_collecte": {
+                    "bsonType": "string",
+                  },
+                  "details": {
+                    "bsonType": "string",
+                  },
+                  "job": {
+                    "bsonType": "string",
+                  },
+                  "key": {
+                    "bsonType": "string",
+                  },
+                  "sources": {
+                    "bsonType": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "not": {},
+                        },
+                        {
+                          "bsonType": "string",
+                        },
+                      ],
+                    },
+                  },
+                  "type": {
+                    "bsonType": "string",
+                  },
+                },
+                "required": [
+                  "key",
+                  "type",
+                  "job",
+                  "details",
+                ],
+              },
+            },
+            "date_collecte": {
+              "bsonType": "string",
+            },
+            "date_dernier_import": {
+              "bsonType": "string",
+            },
+            "date_import": {
+              "bsonType": "string",
+            },
+            "nouveau": {
+              "bsonType": "bool",
+            },
+            "uai_probable": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "nouveau",
+            "anomalies",
+          ],
+        },
+        "adresse": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "academie": {
+              "additionalProperties": false,
+              "bsonType": "object",
+              "properties": {
+                "code": {
+                  "bsonType": "string",
+                },
+                "nom": {
+                  "bsonType": "string",
+                },
+              },
+              "required": [
+                "code",
+                "nom",
+              ],
+            },
+            "code_insee": {
+              "bsonType": "string",
+            },
+            "code_postal": {
+              "bsonType": "string",
+            },
+            "departement": {
+              "additionalProperties": false,
+              "bsonType": "object",
+              "properties": {
+                "code": {
+                  "bsonType": "string",
+                },
+                "nom": {
+                  "bsonType": "string",
+                },
+              },
+              "required": [
+                "code",
+                "nom",
+              ],
+            },
+            "geojson": {
+              "additionalProperties": false,
+              "bsonType": "object",
+              "properties": {
+                "geometry": {
+                  "additionalProperties": false,
+                  "bsonType": "object",
+                  "properties": {
+                    "coordinates": {},
+                    "type": {
+                      "bsonType": "string",
+                    },
+                  },
+                  "required": [
+                    "type",
+                  ],
+                },
+                "properties": {
+                  "additionalProperties": false,
+                  "bsonType": "object",
+                  "properties": {
+                    "score": {
+                      "bsonType": "number",
+                    },
+                    "source": {
+                      "bsonType": "string",
+                    },
+                  },
+                },
+                "type": {
+                  "bsonType": "string",
+                },
+              },
+              "required": [
+                "type",
+                "geometry",
+                "properties",
+              ],
+            },
+            "label": {
+              "bsonType": "string",
+            },
+            "localite": {
+              "bsonType": "string",
+            },
+            "region": {
+              "additionalProperties": false,
+              "bsonType": "object",
+              "properties": {
+                "code": {
+                  "bsonType": "string",
+                },
+                "nom": {
+                  "bsonType": "string",
+                },
+              },
+              "required": [
+                "code",
+                "nom",
+              ],
+            },
+          },
+          "required": [
+            "code_postal",
+            "code_insee",
+            "localite",
+            "region",
+            "academie",
+          ],
+        },
+        "certifications": {
+          "bsonType": "array",
+          "items": {
+            "additionalProperties": false,
+            "bsonType": "object",
+            "properties": {
+              "code": {
+                "bsonType": "string",
+              },
+              "date_collecte": {
+                "bsonType": "string",
+              },
+              "label": {
+                "bsonType": "string",
+              },
+              "sources": {
+                "bsonType": "array",
+                "items": {
+                  "anyOf": [
+                    {
+                      "not": {},
+                    },
+                    {
+                      "bsonType": "string",
+                    },
+                  ],
+                },
+              },
+              "type": {
+                "bsonType": "string",
+              },
+            },
+            "required": [
+              "type",
+            ],
+          },
+        },
+        "contacts": {
+          "bsonType": "array",
+          "items": {
+            "additionalProperties": false,
+            "bsonType": "object",
+            "properties": {
+              "confirmé": {
+                "bsonType": "bool",
+              },
+              "date_collecte": {
+                "bsonType": "string",
+              },
+              "email": {
+                "bsonType": "string",
+              },
+              "sources": {
+                "bsonType": "array",
+                "items": {
+                  "anyOf": [
+                    {
+                      "not": {},
+                    },
+                    {
+                      "bsonType": "string",
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        },
+        "diplomes": {
+          "bsonType": "array",
+          "items": {
+            "additionalProperties": false,
+            "bsonType": "object",
+            "properties": {
+              "code": {
+                "bsonType": "string",
+              },
+              "date_collecte": {
+                "bsonType": "string",
+              },
+              "label": {
+                "bsonType": "string",
+              },
+              "niveau": {
+                "bsonType": "string",
+              },
+              "sources": {
+                "bsonType": "array",
+                "items": {
+                  "anyOf": [
+                    {
+                      "not": {},
+                    },
+                    {
+                      "bsonType": "string",
+                    },
+                  ],
+                },
+              },
+              "type": {
+                "bsonType": "string",
+              },
+            },
+            "required": [
+              "type",
+            ],
+          },
+        },
+        "enseigne": {
+          "bsonType": "string",
+        },
+        "etat_administratif": {
+          "bsonType": "string",
+          "enum": [
+            "actif",
+            "fermé",
+          ],
+        },
+        "forme_juridique": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "code": {
+              "bsonType": "string",
+            },
+            "label": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "code",
+            "label",
+          ],
+        },
+        "lieux_de_formation": {
+          "bsonType": "array",
+          "items": {
+            "additionalProperties": false,
+            "bsonType": "object",
+            "properties": {
+              "adresse": {
+                "additionalProperties": false,
+                "bsonType": "object",
+                "properties": {
+                  "academie": {
+                    "additionalProperties": false,
+                    "bsonType": "object",
+                    "properties": {
+                      "code": {
+                        "bsonType": "string",
+                      },
+                      "nom": {
+                        "bsonType": "string",
+                      },
+                    },
+                    "required": [
+                      "code",
+                      "nom",
+                    ],
+                  },
+                  "code_insee": {
+                    "bsonType": "string",
+                  },
+                  "code_postal": {
+                    "bsonType": "string",
+                  },
+                  "departement": {
+                    "additionalProperties": false,
+                    "bsonType": "object",
+                    "properties": {
+                      "code": {
+                        "bsonType": "string",
+                      },
+                      "nom": {
+                        "bsonType": "string",
+                      },
+                    },
+                    "required": [
+                      "code",
+                      "nom",
+                    ],
+                  },
+                  "geojson": {
+                    "additionalProperties": false,
+                    "bsonType": "object",
+                    "properties": {
+                      "geometry": {
+                        "additionalProperties": false,
+                        "bsonType": "object",
+                        "properties": {
+                          "coordinates": {},
+                          "type": {
+                            "bsonType": "string",
+                          },
+                        },
+                        "required": [
+                          "type",
+                        ],
+                      },
+                      "properties": {
+                        "additionalProperties": false,
+                        "bsonType": "object",
+                        "properties": {
+                          "score": {
+                            "bsonType": "number",
+                          },
+                          "source": {
+                            "bsonType": "string",
+                          },
+                        },
+                      },
+                      "type": {
+                        "bsonType": "string",
+                      },
+                    },
+                    "required": [
+                      "type",
+                      "geometry",
+                      "properties",
+                    ],
+                  },
+                  "label": {
+                    "bsonType": "string",
+                  },
+                  "localite": {
+                    "bsonType": "string",
+                  },
+                  "region": {
+                    "additionalProperties": false,
+                    "bsonType": "object",
+                    "properties": {
+                      "code": {
+                        "bsonType": "string",
+                      },
+                      "nom": {
+                        "bsonType": "string",
+                      },
+                    },
+                    "required": [
+                      "code",
+                      "nom",
+                    ],
+                  },
+                },
+                "required": [
+                  "code_postal",
+                  "code_insee",
+                  "localite",
+                  "region",
+                  "academie",
+                ],
+              },
+              "code": {
+                "bsonType": "string",
+              },
+              "date_collecte": {
+                "bsonType": "string",
+              },
+              "siret": {
+                "bsonType": "string",
+              },
+              "sources": {
+                "bsonType": "array",
+                "items": {
+                  "anyOf": [
+                    {
+                      "not": {},
+                    },
+                    {
+                      "bsonType": "string",
+                    },
+                  ],
+                },
+              },
+              "uai": {
+                "bsonType": "string",
+              },
+              "uai_fiable": {
+                "bsonType": "bool",
+              },
+            },
+          },
+        },
+        "nature": {
+          "bsonType": "string",
+          "enum": [
+            "responsable",
+            "formateur",
+            "responsable_formateur",
+            "inconnue",
+          ],
+        },
+        "numero_declaration_activite": {
+          "bsonType": "string",
+        },
+        "qualiopi": {
+          "bsonType": "bool",
+        },
+        "raison_sociale": {
+          "bsonType": "string",
+        },
+        "referentiels": {
+          "bsonType": "array",
+          "items": {
+            "anyOf": [
+              {
+                "not": {},
+              },
+              {
+                "bsonType": "string",
+              },
+            ],
+          },
+        },
+        "relations": {
+          "bsonType": "array",
+          "items": {
+            "additionalProperties": false,
+            "bsonType": "object",
+            "properties": {
+              "date_collecte": {
+                "bsonType": "string",
+              },
+              "label": {
+                "bsonType": "string",
+              },
+              "referentiel": {
+                "bsonType": "bool",
+              },
+              "siret": {
+                "bsonType": "string",
+              },
+              "sources": {
+                "bsonType": "array",
+                "items": {
+                  "anyOf": [
+                    {
+                      "not": {},
+                    },
+                    {
+                      "bsonType": "string",
+                    },
+                  ],
+                },
+              },
+              "type": {
+                "bsonType": "string",
+                "enum": [
+                  "formateur->responsable",
+                  "responsable->formateur",
+                  "entreprise",
+                ],
+              },
+              "uai": {
+                "bsonType": [
+                  "string",
+                  "null",
+                ],
+              },
+            },
+            "required": [
+              "siret",
+            ],
+          },
+        },
+        "reseaux": {
+          "bsonType": "array",
+          "items": {
+            "additionalProperties": false,
+            "bsonType": "object",
+            "properties": {
+              "code": {
+                "bsonType": "string",
+              },
+              "date_collecte": {
+                "bsonType": "string",
+              },
+              "label": {
+                "bsonType": "string",
+              },
+              "sources": {
+                "bsonType": "array",
+                "items": {
+                  "anyOf": [
+                    {
+                      "not": {},
+                    },
+                    {
+                      "bsonType": "string",
+                    },
+                  ],
+                },
+              },
+            },
+            "required": [
+              "code",
+              "label",
+            ],
+          },
+        },
+        "siege_social": {
+          "bsonType": "bool",
+        },
+        "siret": {
+          "bsonType": "string",
+        },
+        "uai": {
+          "bsonType": "string",
+        },
+        "uai_potentiels": {
+          "bsonType": "array",
+          "items": {
+            "additionalProperties": false,
+            "bsonType": "object",
+            "properties": {
+              "date_collecte": {
+                "bsonType": "string",
+              },
+              "sources": {
+                "bsonType": "array",
+                "items": {
+                  "anyOf": [
+                    {
+                      "not": {},
+                    },
+                    {
+                      "bsonType": "string",
+                    },
+                  ],
+                },
+              },
+              "uai": {
+                "bsonType": "string",
+              },
+            },
+            "required": [
+              "uai",
+            ],
+          },
+        },
+      },
+      "required": [
+        "siret",
+        "certifications",
+        "contacts",
+        "diplomes",
+        "lieux_de_formation",
+        "nature",
+        "referentiels",
+        "reseaux",
+        "uai_potentiels",
+      ],
+    },
+    "date": {
+      "bsonType": "date",
+    },
+  },
+  "required": [
+    "_id",
+    "date",
+    "data",
+  ],
+}
+`;
+
+exports[`zodToMongoSchema > should convert users schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "activite": {
+      "anyOf": [
+        {
+          "bsonType": "string",
+        },
+        {
+          "bsonType": "null",
+        },
+      ],
+    },
+    "api_keys": {
+      "bsonType": "array",
+      "items": {
+        "additionalProperties": false,
+        "bsonType": "object",
+        "properties": {
+          "_id": {
+            "bsonType": "objectId",
+          },
+          "created_at": {
+            "bsonType": "date",
+          },
+          "expires_at": {
+            "bsonType": "date",
+          },
+          "key": {
+            "bsonType": "string",
+          },
+          "last_used_at": {
+            "anyOf": [
+              {
+                "bsonType": "date",
+              },
+              {
+                "bsonType": "null",
+              },
+            ],
+          },
+          "name": {
+            "bsonType": [
+              "string",
+              "null",
+            ],
+          },
+        },
+        "required": [
+          "_id",
+          "name",
+          "key",
+          "last_used_at",
+          "expires_at",
+          "created_at",
+        ],
+      },
+    },
+    "cas_usage": {
+      "anyOf": [
+        {
+          "bsonType": "string",
+        },
+        {
+          "bsonType": "null",
+        },
+      ],
+    },
+    "cgu_accepted_at": {
+      "bsonType": "date",
+    },
+    "created_at": {
+      "bsonType": "date",
+      "description": "Date d'ajout en base de données",
+    },
+    "email": {
+      "bsonType": "string",
+      "description": "Email de l'utilisateur",
+    },
+    "is_admin": {
+      "bsonType": "bool",
+    },
+    "objectif": {
+      "anyOf": [
+        {
+          "bsonType": "string",
+          "enum": [
+            "fiabiliser",
+            "concevoir",
+          ],
+        },
+        {
+          "bsonType": "null",
+        },
+      ],
+    },
+    "type": {
+      "bsonType": "string",
+      "enum": [
+        "operateur_public",
+        "organisme_formation",
+        "entreprise",
+        "editeur_logiciel",
+        "organisme_financeur",
+        "apprenant",
+        "autre",
+      ],
+    },
+    "updated_at": {
+      "bsonType": "date",
+      "description": "Date de mise à jour en base de données",
+    },
+  },
+  "required": [
+    "_id",
+    "email",
+    "type",
+    "activite",
+    "objectif",
+    "cas_usage",
+    "cgu_accepted_at",
+    "is_admin",
+    "api_keys",
+    "updated_at",
+    "created_at",
+  ],
+}
+`;

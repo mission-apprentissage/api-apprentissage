@@ -3,7 +3,7 @@ import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 import { describe, expect, it } from "vitest";
 
-import { parseExcelFileStream } from "./excel.parser";
+import { parseExcelFileStream } from "./excel.parser.js";
 
 async function getRows<T>(generator: AsyncGenerator<T>): Promise<T[]> {
   const data: T[] = [];

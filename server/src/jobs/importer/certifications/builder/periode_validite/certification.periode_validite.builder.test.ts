@@ -3,13 +3,13 @@ import {
   generateSourceBcn_N_FormationDiplomeFixture,
   generateSourceFranceCompetenceFixture,
   ISourceFranceCompetenceFixtureInput,
-} from "shared/models/fixtures";
+} from "shared/models/fixtures/index";
 import { IBcn_V_FormationDiplome } from "shared/models/source/bcn/bcn.v_formation_diplome.model";
 import { describe, expect, it } from "vitest";
 
-import { ISourceAggregatedData } from "@/jobs/importer/certifications/builder/certification.builder";
+import { ISourceAggregatedData } from "@/jobs/importer/certifications/builder/certification.builder.js";
 
-import { buildCertificationPeriodeValidite } from "./certification.periode_validite.builder";
+import { buildCertificationPeriodeValidite } from "./certification.periode_validite.builder.js";
 
 type IGenerateSourceAggregatedDataFixture = {
   cfd: {

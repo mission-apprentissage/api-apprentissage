@@ -1,49 +1,49 @@
-import Boom from "@hapi/boom";
+import { badRequest, Boom, internal, isBoom } from "@hapi/boom";
 import { captureException } from "@sentry/node";
 import { FastifyError } from "fastify";
-import { ResponseValidationError } from "fastify-type-provider-zod";
+import { ResponseValidationError } from "fastify-type-provider-zod/dist/ResponseValidationError.js";
 import { IResError } from "shared/routes/common.routes";
 import { ZodError } from "zod";
 
-import config from "@/config";
-import { Server } from "@/server/server";
+import config from "@/config.js";
+import { Server } from "@/server/server.js";
 
-export function boomify(rawError: FastifyError | Boom.Boom<unknown> | Error | ZodError): Boom.Boom<unknown> {
-  if (Boom.isBoom(rawError)) {
+export function boomify(rawError: FastifyError | Boom<unknown> | Error | ZodError): Boom<unknown> {
+  if (isBoom(rawError)) {
     return rawError;
   }
 
-  if (rawError.name === "ResponseValidationError") {
+  if (rawError instanceof ResponseValidationError) {
     if (config.env === "local") {
-      const zodError = (rawError as ResponseValidationError).details as ZodError;
-      return Boom.internal(rawError.message, {
+      const zodError = new ZodError(rawError.details.error);
+      return internal(rawError.message, {
         validationError: zodError.format(),
       });
     }
 
-    return Boom.internal();
+    return internal();
   }
 
   if (rawError instanceof ZodError) {
-    return Boom.badRequest("Request validation failed", { validationError: rawError.format() });
+    return badRequest("Request validation failed", { validationError: rawError.format() });
   }
 
   if ((rawError as FastifyError).statusCode) {
-    return new Boom.Boom(rawError.message, {
+    return new Boom(rawError.message, {
       statusCode: (rawError as FastifyError).statusCode ?? 500,
       data: { rawError },
     });
   }
 
   if (config.env === "local") {
-    return Boom.internal(rawError.message, { rawError, cause: rawError });
+    return internal(rawError.message, { rawError, cause: rawError });
   }
 
-  return Boom.internal();
+  return internal();
 }
 
 export function errorMiddleware(server: Server) {
-  server.setErrorHandler<FastifyError | Boom.Boom<unknown> | Error | ZodError, { Reply: IResError }>(
+  server.setErrorHandler<FastifyError | Boom<unknown> | Error | ZodError, { Reply: IResError }>(
     (rawError, _request, reply) => {
       const error = boomify(rawError);
 

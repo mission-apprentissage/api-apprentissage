@@ -5,14 +5,14 @@ import { program } from "commander";
 import { addJob, startJobProcessor } from "job-processor";
 import HttpTerminator from "lil-http-terminator";
 
-import config from "./config";
-import createServer from "./server/server";
-import { closeMemoryCache } from "./services/apis/client";
-import logger from "./services/logger";
-import { closeMailer } from "./services/mailer/mailer";
-import { closeMongodbConnection } from "./services/mongodb/mongodbService";
-import { closeSentry, initSentryProcessor } from "./services/sentry/sentry";
-import { sleep } from "./utils/asyncUtils";
+import config from "./config.js";
+import createServer from "./server/server.js";
+import { closeMemoryCache } from "./services/apis/client.js";
+import logger from "./services/logger.js";
+import { closeMailer } from "./services/mailer/mailer.js";
+import { closeMongodbConnection } from "./services/mongodb/mongodbService.js";
+import { closeSentry, initSentryProcessor } from "./services/sentry/sentry.js";
+import { sleep } from "./utils/asyncUtils.js";
 
 program
   .configureHelp({

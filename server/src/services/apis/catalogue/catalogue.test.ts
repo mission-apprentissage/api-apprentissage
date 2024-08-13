@@ -1,12 +1,12 @@
-import nock from "nock";
+import nock, { cleanAll } from "nock";
 import { Readable } from "stream";
 import { afterEach, describe, expect, it } from "vitest";
 
-import { fetchCatalogueData } from "./catalogue";
+import { fetchCatalogueData } from "./catalogue.js";
 
 describe("getAllFormationsFromCatalogue", () => {
   afterEach(() => {
-    nock.cleanAll();
+    cleanAll();
   });
 
   it("should return a Readable stream", async () => {

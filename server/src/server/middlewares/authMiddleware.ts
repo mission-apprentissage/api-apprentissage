@@ -13,8 +13,8 @@ import {
 } from "fastify";
 import { IRouteSchema, SecurityScheme, WithSecurityScheme } from "shared/routes/common.routes";
 
-import { authenticationMiddleware } from "@/services/security/authenticationService";
-import { authorizationnMiddleware } from "@/services/security/authorisationService";
+import { authenticationMiddleware } from "@/services/security/authenticationService.js";
+import { authorizationnMiddleware } from "@/services/security/authorisationService.js";
 
 const symbol: unique symbol = Symbol("authStrategy");
 

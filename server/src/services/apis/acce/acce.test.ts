@@ -1,9 +1,9 @@
 import { ReadStream } from "node:fs";
 
-import nock from "nock";
+import nock, { cleanAll } from "nock";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
-import { downloadCsvExtraction, login } from "./acce";
+import { downloadCsvExtraction, login } from "./acce.js";
 
 describe("login", () => {
   it("should login correctly", async () => {
@@ -54,10 +54,10 @@ describe("login", () => {
 
 describe("downloadCsvExtraction", () => {
   beforeEach(() => {
-    nock.cleanAll();
+    cleanAll();
   });
   afterEach(() => {
-    nock.cleanAll();
+    cleanAll();
   });
 
   it("should download response and return a readStream", async () => {

@@ -1,17 +1,17 @@
-import { useMongo } from "@tests/mongo.test.utils";
+import { useMongo } from "@tests/mongo.test.utils.js";
 import { ObjectId } from "mongodb";
-import { generateUserFixture } from "shared/models/fixtures";
+import { generateUserFixture } from "shared/models/fixtures/index";
 import { IUser } from "shared/models/user.model";
 import { ISecuredRouteSchema } from "shared/routes/common.routes";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { z } from "zod";
 
-import { createSession, createSessionToken } from "@/actions/sessions.actions";
-import { generateApiKey } from "@/actions/users.actions";
-import config from "@/config";
-import { getDbCollection } from "@/services/mongodb/mongodbService";
+import { createSession, createSessionToken } from "@/actions/sessions.actions.js";
+import { generateApiKey } from "@/actions/users.actions.js";
+import config from "@/config.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
-import { authenticationMiddleware } from "./authenticationService";
+import { authenticationMiddleware } from "./authenticationService.js";
 
 useMongo();
 

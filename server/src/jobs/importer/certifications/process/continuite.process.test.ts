@@ -1,16 +1,16 @@
-import { useMongo } from "@tests/mongo.test.utils";
+import { useMongo } from "@tests/mongo.test.utils.js";
 import { ObjectId } from "mongodb";
 import {
   generateCertificationFixture,
   generateSourceBcn_N_FormationDiplomeFixture,
   generateSourceFranceCompetenceFixture,
-} from "shared/models/fixtures";
+} from "shared/models/fixtures/index";
 import { parseParisLocalDate } from "shared/zod/date.primitives";
 import { beforeEach, describe, expect, it } from "vitest";
 
-import { getDbCollection } from "@/services/mongodb/mongodbService";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
-import { processContinuite } from "./continuite.process";
+import { processContinuite } from "./continuite.process.js";
 
 useMongo();
 

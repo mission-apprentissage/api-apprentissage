@@ -1,5 +1,5 @@
 import { Box, Grid, Typography } from "@mui/material";
-import React, { Fragment } from "react";
+import { Fragment } from "react";
 
 interface Props<TData> {
   title?: string;

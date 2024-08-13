@@ -1,14 +1,14 @@
-import { useMongo } from "@tests/mongo.test.utils";
+import { useMongo } from "@tests/mongo.test.utils.js";
 import jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
-import { generateUserFixture } from "shared/models/fixtures";
+import { generateUserFixture } from "shared/models/fixtures/index";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { createSession, createSessionToken } from "@/actions/sessions.actions";
-import { generateApiKey } from "@/actions/users.actions";
-import createServer, { Server } from "@/server/server";
-import { getDbCollection } from "@/services/mongodb/mongodbService";
-import { compareKeys } from "@/utils/cryptoUtils";
+import { createSession, createSessionToken } from "@/actions/sessions.actions.js";
+import { generateApiKey } from "@/actions/users.actions.js";
+import createServer, { Server } from "@/server/server.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import { compareKeys } from "@/utils/cryptoUtils.js";
 
 vi.mock("@/services/mailer/mailer", () => {
   return {

@@ -1,16 +1,16 @@
-import { useMongo } from "@tests/mongo.test.utils";
+import { useMongo } from "@tests/mongo.test.utils.js";
 import { createReadStream } from "fs";
 import { readFile } from "fs/promises";
 import { ObjectId } from "mongodb";
-import nock from "nock";
+import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
 import { dirname, join } from "path";
 import { IImportMetaDares } from "shared/models/import.meta.model";
 import { fileURLToPath } from "url";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { getDbCollection } from "@/services/mongodb/mongodbService";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
-import { runDaresApeIdccImporter } from "./dares.ape_idcc.importer";
+import { runDaresApeIdccImporter } from "./dares.ape_idcc.importer.js";
 
 describe("runDaresApeIdccImporter", () => {
   useMongo();
@@ -23,12 +23,12 @@ describe("runDaresApeIdccImporter", () => {
   beforeEach(() => {
     vi.useFakeTimers();
     vi.setSystemTime(now);
-    nock.disableNetConnect();
+    disableNetConnect();
 
     return () => {
       vi.useRealTimers();
-      nock.cleanAll();
-      nock.enableNetConnect();
+      cleanAll();
+      enableNetConnect();
     };
   });
 

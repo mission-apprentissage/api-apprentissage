@@ -4,7 +4,7 @@ import { Readable } from "stream";
 import { fileURLToPath } from "url";
 import { describe, expect, it } from "vitest";
 
-import { parseXmlFileStream } from "./xmlUtils";
+import { parseXmlFileStream } from "./xmlUtils.js";
 
 describe("parseXmlFileStream", () => {
   it("should parse XML file stream and emit open tags", async () => {

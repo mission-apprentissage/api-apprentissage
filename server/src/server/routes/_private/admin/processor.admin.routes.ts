@@ -1,7 +1,7 @@
 import { getProcessorStatus } from "job-processor";
 import { zRoutes } from "shared";
 
-import { Server } from "@/server/server";
+import { Server } from "@/server/server.js";
 
 export const processorAdminRoutes = ({ server }: { server: Server }) => {
   server.get(
@@ -10,7 +10,7 @@ export const processorAdminRoutes = ({ server }: { server: Server }) => {
       schema: zRoutes.get["/_private/admin/processor"],
       onRequest: [server.auth(zRoutes.get["/_private/admin/processor"])],
     },
-    async (request, response) => {
+    async (_request, response) => {
       return response.status(200).send(await getProcessorStatus());
     }
   );

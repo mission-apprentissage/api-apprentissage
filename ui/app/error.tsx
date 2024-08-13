@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@codegouvfr/react-dsfr/Button";
+import { Button } from "@codegouvfr/react-dsfr/Button";
 import { Box, Container, Typography } from "@mui/material";
 import * as Sentry from "@sentry/nextjs";
 import { useEffect } from "react";

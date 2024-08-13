@@ -8,12 +8,12 @@ import { ObjectId } from "mongodb";
 import { ISourceKitApprentissage } from "shared/models/source/kitApprentissage/source.kit_apprentissage.model";
 import { pipeline } from "stream/promises";
 
-import { withCause } from "@/services/errors/withCause";
-import { getDbCollection } from "@/services/mongodb/mongodbService";
-import { getStaticFilePath } from "@/utils/getStaticFilePath";
-import { createBatchTransformStream } from "@/utils/streamUtils";
+import { withCause } from "@/services/errors/withCause.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import { getStaticFilePath } from "@/utils/getStaticFilePath.js";
+import { createBatchTransformStream } from "@/utils/streamUtils.js";
 
-import { buildKitApprentissageEntry, getVersionNumber } from "./builder/kit_apprentissage.builder";
+import { buildKitApprentissageEntry, getVersionNumber } from "./builder/kit_apprentissage.builder.js";
 
 async function importKitApprentissageSource(
   importDate: Date,

@@ -1,10 +1,9 @@
 import { internal } from "@hapi/boom";
-import { ICertification } from "shared/models/certification.model";
+import { ICertification, INiveauDiplomeEuropeen } from "api-alternance-sdk";
 import { IBcn_N_NiveauFormationDiplome } from "shared/models/source/bcn/bcn.n_niveau_formation_diplome.model";
-import { INiveauDiplomeEuropeen } from "shared/zod/certifications.primitives";
 
-import { ISourceAggregatedData } from "@/jobs/importer/certifications/builder/certification.builder";
-import { getDbCollection } from "@/services/mongodb/mongodbService";
+import { ISourceAggregatedData } from "@/jobs/importer/certifications/builder/certification.builder.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
 function parseRncpNiveauEuropeen(value: string | null): INiveauDiplomeEuropeen | null {
   if (value === null) {

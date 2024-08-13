@@ -1,11 +1,11 @@
 "use client";
-import Button from "@codegouvfr/react-dsfr/Button";
+import { Button } from "@codegouvfr/react-dsfr/Button";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 import { IUserPublic } from "shared/models/user.model";
 
 import SearchBar from "@/components/SearchBar";
-import Table from "@/components/table/Table";
+import { Table } from "@/components/table/Table";
 import { apiGet } from "@/utils/api.utils";
 import { formatDate } from "@/utils/date.utils";
 import { formatUrlWithNewParams, getSearchParamsForQuery } from "@/utils/query.utils";

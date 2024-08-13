@@ -1,10 +1,10 @@
 import {
   generateSourceBcn_N_FormationDiplomeFixture,
   generateSourceFranceCompetenceFixture,
-} from "shared/models/fixtures";
+} from "shared/models/fixtures/index";
 import { describe, expect, it } from "vitest";
 
-import { buildCertificationConventionCollectives } from "./certification.convention_collectives.builder";
+import { buildCertificationConventionCollectives } from "./certification.convention_collectives.builder.js";
 
 describe("buildCertificationConventionCollectives", () => {
   it("should returns null when france competence data is missing", () => {

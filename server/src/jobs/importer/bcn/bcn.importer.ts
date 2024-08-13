@@ -7,11 +7,11 @@ import { ObjectId } from "mongodb";
 import { IBcn_N_FormationDiplome, ISourceBcn, zBcnBySource } from "shared/models/source/bcn/source.bcn.model";
 import { ZodError } from "zod";
 
-import { fetchBcnData } from "@/services/apis/bcn/bcn";
-import { withCause } from "@/services/errors/withCause";
-import parentLogger from "@/services/logger";
-import { getDbCollection } from "@/services/mongodb/mongodbService";
-import { createBatchTransformStream } from "@/utils/streamUtils";
+import { fetchBcnData } from "@/services/apis/bcn/bcn.js";
+import { withCause } from "@/services/errors/withCause.js";
+import parentLogger from "@/services/logger.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import { createBatchTransformStream } from "@/utils/streamUtils.js";
 
 const logger = parentLogger.child({ module: "import:bcn" });
 
@@ -41,7 +41,7 @@ async function importBcnSource(source: ISourceBcn["source"], date: Date): Promis
   logger.info({ source }, "fetching BCN data");
 
   try {
-    const zod = zBcnBySource[source as keyof typeof zBcnBySource] ?? null;
+    const zod = zBcnBySource[source] ?? null;
 
     if (zod === null) {
       throw internal("import.bcn: unexpected source", { source });

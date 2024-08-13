@@ -1,4 +1,5 @@
 import env from "env-var";
+
 const publicUrl = env.get("PUBLIC_URL").required().asString();
 const environement = env.get("ENV").required().asEnum(["local", "recette", "production", "preview", "test"]);
 

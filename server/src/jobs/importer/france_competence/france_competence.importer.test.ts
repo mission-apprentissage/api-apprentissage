@@ -1,10 +1,10 @@
 import { generateMock } from "@anatine/zod-mock";
-import { useMongo } from "@tests/mongo.test.utils";
+import { useMongo } from "@tests/mongo.test.utils.js";
 import { stringify } from "csv-stringify";
 import { createReadStream } from "fs";
 import { addJob } from "job-processor";
 import { ObjectId } from "mongodb";
-import nock from "nock";
+import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
 import { dirname, join } from "path";
 import { IDataGouvDataset } from "shared";
 import { IImportMetaFranceCompetence } from "shared/models/import.meta.model";
@@ -22,8 +22,8 @@ import { Entry } from "unzipper";
 import { fileURLToPath } from "url";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { fetchDataGouvDataSet } from "@/services/apis/data_gouv/data_gouv.api";
-import { getDbCollection } from "@/services/mongodb/mongodbService";
+import { fetchDataGouvDataSet } from "@/services/apis/data_gouv/data_gouv.api.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
 import {
   importRncpArchive,
@@ -31,7 +31,7 @@ import {
   onImportRncpArchiveFailure,
   processRecord,
   runRncpImporter,
-} from "./france_competence.importer";
+} from "./france_competence.importer.js";
 
 vi.mock("job-processor", async (importOriginal) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -1065,12 +1065,12 @@ describe("importRncpArchive", () => {
   useMongo();
 
   beforeEach(() => {
-    nock.disableNetConnect();
+    disableNetConnect();
   });
 
   afterEach(() => {
-    nock.cleanAll();
-    nock.enableNetConnect();
+    cleanAll();
+    enableNetConnect();
   });
 
   it("should import all files", async () => {
@@ -1182,13 +1182,13 @@ describe("runRncpImporter", () => {
   beforeEach(() => {
     vi.useFakeTimers();
     vi.setSystemTime(now);
-    nock.disableNetConnect();
+    disableNetConnect();
 
     return () => {
       vi.mocked(fetchDataGouvDataSet).mockReset();
       vi.useRealTimers();
-      nock.cleanAll();
-      nock.enableNetConnect();
+      cleanAll();
+      enableNetConnect();
     };
   });
 

@@ -1,4 +1,4 @@
-import { useMongo } from "@tests/mongo.test.utils";
+import { useMongo } from "@tests/mongo.test.utils.js";
 import { ObjectId } from "mongodb";
 import {
   generateSourceAcceFilleFixture,
@@ -7,7 +7,7 @@ import {
   generateSourceAcceUaiFixture,
   generateSourceAcceZoneFixture,
   generateUserFixture,
-} from "shared/models/fixtures";
+} from "shared/models/fixtures/index";
 import {
   ISourceAcceUai,
   ISourceAcceUaiFille,
@@ -17,9 +17,9 @@ import {
 } from "shared/models/source/acce/source.acce.model";
 import { beforeAll, beforeEach, describe, expect, it } from "vitest";
 
-import { generateApiKey } from "@/actions/users.actions";
-import createServer, { Server } from "@/server/server";
-import { getDbCollection } from "@/services/mongodb/mongodbService";
+import { generateApiKey } from "@/actions/users.actions.js";
+import createServer, { Server } from "@/server/server.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
 useMongo();
 

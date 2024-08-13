@@ -1,7 +1,6 @@
 import { fr } from "@codegouvfr/react-dsfr/fr";
 import { Summary } from "@codegouvfr/react-dsfr/Summary";
 import { Grid, Typography } from "@mui/material";
-import React from "react";
 
 import Section from "@/components/section/Section";
 import { publicConfig } from "@/config.public";

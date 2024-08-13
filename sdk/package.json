@@ -1,29 +1,46 @@
 {
   "name": "api-alternance-sdk",
-  "version": "0.0.1-rc.1",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "version": "0.0.0",
   "author": "Mission interministérielle pour l’apprentissage",
   "license": "MIT",
   "sideEffects": [],
   "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/src/index.js",
+      "types": "./dist/src/index.d.ts"
+    },
+    "./internal": {
+      "import": "./dist/src/internal.js",
+      "types": "./dist/src/internal.d.ts"
+    }
+  },
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc -b",
     "build": "rm -rf ./dist && tsc -b tsconfig.prod.json",
-    "prepack": "yarn build"
+    "prepack": "yarn build",
+    "dev": "tsc -b -w",
+    "markdown:transpile": "node ./scripts/transpile-markdown.mjs"
   },
   "devDependencies": {
-    "@tsconfig/node20": "^20.1.4",
-    "@types/node": "^20.12.12",
-    "typescript": "^5.4.5"
+    "@tsconfig/node22": "^22.0.0",
+    "@types/node": "^22.2.0",
+    "luhn": "^2.4.1",
+    "nock": "beta",
+    "type-fest": "^4.24.0",
+    "typescript": "^5.5.4",
+    "vitest": "^2.0.5"
   },
   "dependencies": {
+    "@asteasolutions/zod-to-openapi": "^7.1.1",
+    "luxon": "^3.5.0",
+    "openapi3-ts": "^4.3.3",
     "zod": "^3.23.8"
   }
 }

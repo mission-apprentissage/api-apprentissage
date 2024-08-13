@@ -1,17 +1,17 @@
-import { useMongo } from "@tests/mongo.test.utils";
+import { useMongo } from "@tests/mongo.test.utils.js";
 import { createReadStream } from "fs";
 import { ObjectId } from "mongodb";
-import nock from "nock";
+import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
 import { dirname, join } from "path";
 import { IDataGouvDataset } from "shared";
 import { IImportMeta } from "shared/models/import.meta.model";
 import { fileURLToPath } from "url";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { fetchDataGouvDataSet } from "@/services/apis/data_gouv/data_gouv.api";
-import { getDbCollection } from "@/services/mongodb/mongodbService";
+import { fetchDataGouvDataSet } from "@/services/apis/data_gouv/data_gouv.api.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
-import { runKaliConventionCollectivesImporter } from "./kali.ccn.importer";
+import { runKaliConventionCollectivesImporter } from "./kali.ccn.importer.js";
 
 vi.mock("@/services/apis/data_gouv/data_gouv.api", async (importOriginal) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -30,13 +30,13 @@ describe("runConventionCollectivesImporter", () => {
   beforeEach(() => {
     vi.useFakeTimers();
     vi.setSystemTime(now);
-    nock.disableNetConnect();
+    disableNetConnect();
 
     return () => {
       vi.mocked(fetchDataGouvDataSet).mockReset();
       vi.useRealTimers();
-      nock.cleanAll();
-      nock.enableNetConnect();
+      cleanAll();
+      enableNetConnect();
     };
   });
 

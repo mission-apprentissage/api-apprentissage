@@ -1,18 +1,18 @@
-import { useMongo } from "@tests/mongo.test.utils";
+import { useMongo } from "@tests/mongo.test.utils.js";
 import { ObjectId } from "mongodb";
-import { ICertification } from "shared/models/certification.model";
+import { ICertificationInternal } from "shared/models/certification.model";
 import {
   generateCertificationFixture,
   generateSourceBcn_N_FormationDiplomeFixture,
   generateSourceFranceCompetenceFixture,
-} from "shared/models/fixtures";
+} from "shared/models/fixtures/index";
 import { IImportMetaCertifications } from "shared/models/import.meta.model";
 import { parseParisLocalDate } from "shared/zod/date.primitives";
 import { describe, expect, it } from "vitest";
 
-import { getDbCollection } from "@/services/mongodb/mongodbService";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
-import { processCertificationCoverage } from "./coverage.process";
+import { processCertificationCoverage } from "./coverage.process.js";
 
 const today = new Date("2023-12-25T02:00:00.000Z");
 const yesterday = new Date("2023-12-24T02:00:00.000Z");
@@ -135,7 +135,7 @@ describe("cfd coverage", () => {
     return f;
   };
 
-  const expectCertifs = async (expected: ICertification[]) => {
+  const expectCertifs = async (expected: ICertificationInternal[]) => {
     const data = await getDbCollection("certifications")
       .find(
         {},
@@ -326,7 +326,7 @@ describe("rncp coverage", () => {
     return f;
   };
 
-  const expectCertifs = async (expected: ICertification[]) => {
+  const expectCertifs = async (expected: ICertificationInternal[]) => {
     const data = await getDbCollection("certifications")
       .find(
         {},

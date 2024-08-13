@@ -37,6 +37,8 @@ RUN mkdir -p /app/shared/node_modules && mkdir -p /app/sdk/node_modules && mkdir
 FROM node:22-slim AS server
 WORKDIR /app
 
+RUN apt-get update && apt-get install -y ca-certificates && update-ca-certificates && apt-get clean
+
 ENV NODE_ENV production
 
 ARG PUBLIC_PRODUCT_NAME
@@ -91,6 +93,8 @@ RUN yarn workspace ui build
 # Production image, copy all the files and run next
 FROM node:22-slim AS ui
 WORKDIR /app
+
+RUN apt-get update && apt-get install -y ca-certificates && update-ca-certificates && apt-get clean
 
 ENV NODE_ENV production
 # Uncomment the following line in case you want to disable telemetry during runtime.

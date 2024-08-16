@@ -8,6 +8,8 @@ const indexes: IModelDescriptorGeneric["indexes"] = [
   [{ date: 1, source: 1 }, {}],
   [{ "data.Code Diplôme": 1, "data.FicheRNCP": 1 }, {}],
   [{ "data.FicheRNCP": 1, "data.Code Diplôme": 1 }, {}],
+  [{ "data.FicheRNCP": 1, version: 1 }, {}],
+  [{ "data.Code Diplôme": 1, version: 1 }, {}],
 ];
 
 export const zKitApprentissageData = z

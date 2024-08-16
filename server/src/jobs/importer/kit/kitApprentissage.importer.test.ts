@@ -1,4 +1,5 @@
 import { useMongo } from "@tests/mongo.test.utils.js";
+import { addJob } from "job-processor";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -11,6 +12,15 @@ import { runKitApprentissageImporter } from "./kitApprentissage.importer.js";
 vi.mock("@/utils/getStaticFilePath", () => ({
   getStaticFilePath: vi.fn(),
 }));
+
+vi.mock("job-processor", async (importOriginal) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const mod = (await importOriginal()) as any;
+  return {
+    ...mod,
+    addJob: vi.fn().mockResolvedValue(undefined),
+  };
+});
 
 describe("runKitApprentissageImporter", () => {
   useMongo();
@@ -36,6 +46,9 @@ describe("runKitApprentissageImporter", () => {
     const coll = getDbCollection("source.kit_apprentissage");
     const data = await coll.find({}).toArray();
     expect(data.map((datum) => ({ ...datum, _id: "ObjectId" }))).toMatchSnapshot();
+
+    expect(addJob).toHaveBeenCalledTimes(1);
+    expect(addJob).toHaveBeenCalledWith({ name: "indicateurs:source_kit_apprentissage:update" });
   });
 
   it("should support consecutive import", async () => {
@@ -67,6 +80,8 @@ describe("runKitApprentissageImporter", () => {
     await expect(runKitApprentissageImporter()).rejects.toThrowError(
       "import.kit_apprentissage: unable to runKitApprentissageImporter"
     );
+
+    expect(addJob).toHaveBeenCalledTimes(0);
   });
 
   it("should import Kit Apprentissage multiple_files source", async () => {
@@ -215,5 +230,8 @@ describe("runKitApprentissageImporter", () => {
 
     const data = await coll.find({}).toArray();
     expect(data.map((datum) => ({ ...datum, _id: "ObjectId" }))).toMatchSnapshot();
+
+    expect(addJob).toHaveBeenCalledTimes(1);
+    expect(addJob).toHaveBeenCalledWith({ name: "indicateurs:source_kit_apprentissage:update" });
   });
 });

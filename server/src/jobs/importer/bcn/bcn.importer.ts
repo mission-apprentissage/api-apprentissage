@@ -3,6 +3,7 @@ import { pipeline } from "node:stream/promises";
 
 import { internal } from "@hapi/boom";
 import { parse } from "csv-parse";
+import { addJob } from "job-processor";
 import { ObjectId } from "mongodb";
 import { IBcn_N_FormationDiplome, ISourceBcn, zBcnBySource } from "shared/models/source/bcn/source.bcn.model";
 import { ZodError } from "zod";
@@ -198,6 +199,8 @@ export async function runBcnImporter(): Promise<Record<string, unknown>> {
     statsBySource["INDICATEUR_CONTINUITE"] = await indicateurDiplomeContinuity(importDate);
 
     await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "done" } });
+
+    await addJob({ name: "indicateurs:source_kit_apprentissage:update" });
 
     return statsBySource;
   } catch (error) {

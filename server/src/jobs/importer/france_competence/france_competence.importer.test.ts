@@ -1121,6 +1121,9 @@ describe("importRncpArchive", () => {
         _id: expect.any(ObjectId),
       });
     });
+
+    expect(addJob).toHaveBeenCalledTimes(1);
+    expect(addJob).toHaveBeenCalledWith({ name: "indicateurs:source_kit_apprentissage:update" });
   });
 
   it("should fix continuity issues", async () => {
@@ -1171,6 +1174,9 @@ describe("importRncpArchive", () => {
         _id: expect.any(ObjectId),
       });
     });
+
+    expect(addJob).toHaveBeenCalledTimes(1);
+    expect(addJob).toHaveBeenCalledWith({ name: "indicateurs:source_kit_apprentissage:update" });
   });
 });
 

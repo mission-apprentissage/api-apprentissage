@@ -5,6 +5,7 @@ import { IModelDescriptorGeneric } from "./common.js";
 import emailDeniedModelDescriptor from "./email_denied.model.js";
 import emailEventsModelDescriptor from "./email_event.model.js";
 import { importMetaModelDescriptor } from "./import.meta.model.js";
+import { indicateurSourceKitApprentissageModelDescriptor } from "./indicateurs/source_kit_apprentissage.model.js";
 import { indicateurUsageApiModelDescriptor } from "./indicateurs/usage_api.model.js";
 import sessionsModelDescriptor from "./session.model.js";
 import sourceAcceModelDescriptor from "./source/acce/source.acce.model.js";
@@ -28,6 +29,7 @@ export const modelDescriptorMap = {
   [usersModelDescriptor.collectionName]: usersModelDescriptor,
   [sessionsModelDescriptor.collectionName]: sessionsModelDescriptor,
   [indicateurUsageApiModelDescriptor.collectionName]: indicateurUsageApiModelDescriptor,
+  [indicateurSourceKitApprentissageModelDescriptor.collectionName]: indicateurSourceKitApprentissageModelDescriptor,
   [sourceAcceModelDescriptor.collectionName]: sourceAcceModelDescriptor,
   [sourcReferentielModelDescriptor.collectionName]: sourcReferentielModelDescriptor,
   [sourceBcnModelDescriptor.collectionName]: sourceBcnModelDescriptor,

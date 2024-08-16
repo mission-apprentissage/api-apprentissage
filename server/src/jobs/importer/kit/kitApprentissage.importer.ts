@@ -4,6 +4,7 @@ import { Transform } from "node:stream";
 import { internal } from "@hapi/boom";
 import { parse } from "csv-parse";
 import { createReadStream } from "fs";
+import { addJob } from "job-processor";
 import { ObjectId } from "mongodb";
 import { ISourceKitApprentissage } from "shared/models/source/kitApprentissage/source.kit_apprentissage.model";
 import { pipeline } from "stream/promises";
@@ -79,6 +80,8 @@ export async function runKitApprentissageImporter(): Promise<number> {
       date: { $ne: importDate },
     });
     await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "done" } });
+
+    await addJob({ name: "indicateurs:source_kit_apprentissage:update" });
 
     return await getDbCollection("source.kit_apprentissage").countDocuments({ date: importDate });
   } catch (error) {

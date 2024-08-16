@@ -164,7 +164,12 @@ export async function clearCollection(name: string) {
   await getDatabase().collection(name).deleteMany({});
 }
 
-export const createIndexes = async () => {
+export const createIndexes = async ({ drop } = { drop: false }) => {
+  if (drop) {
+    logger.info("Drop all existing indexes...");
+    await dropIndexes();
+  }
+
   for (const descriptor of modelDescriptors) {
     if (!descriptor.indexes) {
       return;

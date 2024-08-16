@@ -288,10 +288,17 @@ describe("importCertifications", () => {
         );
       });
 
-      it("should throw an error", async () => {
-        await expect(importCertifications()).rejects.toThrowError(
-          "import.certifications: unable to importCertifications"
-        );
+      it("should import certifications", async () => {
+        expect(await importCertifications()).toEqual({
+          total: { orphanCfd: 0, orphanRncp: 1, total: 1 },
+          created: { orphanCfd: 0, orphanRncp: 1, total: 1 },
+          deleted: { orphanCfd: 0, orphanRncp: 0, total: 0 },
+        });
+        expect(await getDbCollection("certifications").find({}).toArray()).toEqual([
+          expect.objectContaining({
+            identifiant: { cfd: null, rncp: "RNCP1796", rncp_anterieur_2019: true },
+          }),
+        ]);
       });
     });
 
@@ -312,10 +319,17 @@ describe("importCertifications", () => {
         );
       });
 
-      it("should throw an error", async () => {
-        await expect(importCertifications()).rejects.toThrowError(
-          "import.certifications: unable to importCertifications"
-        );
+      it("should import certifications", async () => {
+        expect(await importCertifications()).toEqual({
+          total: { orphanCfd: 1, orphanRncp: 0, total: 1 },
+          created: { orphanCfd: 1, orphanRncp: 0, total: 1 },
+          deleted: { orphanCfd: 0, orphanRncp: 0, total: 0 },
+        });
+        expect(await getDbCollection("certifications").find({}).toArray()).toEqual([
+          expect.objectContaining({
+            identifiant: { cfd: "36T23301", rncp: null, rncp_anterieur_2019: null },
+          }),
+        ]);
       });
     });
   });

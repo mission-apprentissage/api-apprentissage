@@ -65,7 +65,7 @@ export async function runKitApprentissageImporter(): Promise<number> {
 
   try {
     await getDbCollection("import.meta").insertOne({
-      _id: new ObjectId(),
+      _id: importId,
       import_date: importDate,
       type: "kit_apprentissage",
       status: "pending",

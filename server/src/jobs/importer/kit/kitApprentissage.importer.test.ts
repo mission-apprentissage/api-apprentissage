@@ -49,6 +49,15 @@ describe("runKitApprentissageImporter", () => {
 
     expect(addJob).toHaveBeenCalledTimes(1);
     expect(addJob).toHaveBeenCalledWith({ name: "indicateurs:source_kit_apprentissage:update" });
+
+    expect(await getDbCollection("import.meta").find({}).toArray()).toEqual([
+      {
+        _id: expect.any(Object),
+        import_date: date,
+        status: "done",
+        type: "kit_apprentissage",
+      },
+    ]);
   });
 
   it("should support consecutive import", async () => {
@@ -71,9 +80,27 @@ describe("runKitApprentissageImporter", () => {
     const coll = getDbCollection("source.kit_apprentissage");
     const data = await coll.find({ date: date1 }).toArray();
     expect(data).toEqual([]);
+
+    expect(await getDbCollection("import.meta").find({}).toArray()).toEqual([
+      {
+        _id: expect.any(Object),
+        import_date: date1,
+        status: "done",
+        type: "kit_apprentissage",
+      },
+      {
+        _id: expect.any(Object),
+        import_date: date2,
+        status: "done",
+        type: "kit_apprentissage",
+      },
+    ]);
   });
 
   it("should throw an error if importKitApprentissageSource fails", async () => {
+    const now = new Date("2023-04-08T22:00:00.000Z");
+    vi.setSystemTime(now);
+
     const dataFixture = join(dirname(fileURLToPath(import.meta.url)), `fixtures/non-existing-file.csv`);
     vi.mocked(getStaticFilePath).mockReturnValue(dataFixture);
 
@@ -82,6 +109,14 @@ describe("runKitApprentissageImporter", () => {
     );
 
     expect(addJob).toHaveBeenCalledTimes(0);
+    expect(await getDbCollection("import.meta").find({}).toArray()).toEqual([
+      {
+        _id: expect.any(Object),
+        import_date: now,
+        status: "failed",
+        type: "kit_apprentissage",
+      },
+    ]);
   });
 
   it("should import Kit Apprentissage multiple_files source", async () => {
@@ -233,5 +268,14 @@ describe("runKitApprentissageImporter", () => {
 
     expect(addJob).toHaveBeenCalledTimes(1);
     expect(addJob).toHaveBeenCalledWith({ name: "indicateurs:source_kit_apprentissage:update" });
+
+    expect(await getDbCollection("import.meta").find({}).toArray()).toEqual([
+      {
+        _id: expect.any(Object),
+        import_date: date,
+        status: "done",
+        type: "kit_apprentissage",
+      },
+    ]);
   });
 });

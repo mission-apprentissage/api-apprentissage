@@ -97,78 +97,6 @@ export function normalizeKitApprentissageColumnName(column: string): string {
   }
 }
 
-function assertUnreacheableVersion(version: string): never {
-  throw internal(`import.kit_apprentissage: unexpected version ${version}`);
-}
-
-function correctionErreursDeSaisie(
-  source: ISourceKitApprentissage["source"],
-  version: ISourceKitApprentissage["version"],
-  data: Record<string, string | null>
-): Record<string, string | null> {
-  if (data["Code Diplôme"] === "SQWQ") {
-    switch (source) {
-      case "Kit apprentissage et RNCP v2.3.csv":
-      case "Kit apprentissage et RNCP v2.4.csv":
-      case "Kit apprentissage et RNCP v2.5.csv":
-        data["Code Diplôme"] = "NR";
-        break;
-      default:
-        throw internal(`import.kit_apprentissage: SQWQ value in unexpected file ${source}`);
-    }
-  }
-
-  switch (data["FicheRNCP"]) {
-    case "RNCP12803?":
-      data["FicheRNCP"] =
-        version >= "20200414" && version <= "20201116" ? "RNCP12803" : assertUnreacheableVersion(version);
-      break;
-    case "RNCP187485":
-    case "RNCP24544":
-      data["FicheRNCP"] = version >= "20200414" && version <= "20201116" ? "NR" : assertUnreacheableVersion(version);
-      break;
-    case "RNCP28378":
-      data["FicheRNCP"] =
-        version >= "20200414" && version <= "20201116" ? "RNCP29378" : assertUnreacheableVersion(version);
-      break;
-    case "RNCP29839":
-      data["FicheRNCP"] =
-        version >= "20200414" && version <= "20201116" ? "RNCP26839" : assertUnreacheableVersion(version);
-      break;
-    case "RNCP30348":
-      data["FicheRNCP"] = version >= "20200525" && version <= "20200525" ? "NR" : assertUnreacheableVersion(version);
-      break;
-    case "RNCP30387?":
-      data["FicheRNCP"] =
-        version >= "20200414" && version <= "20200414" ? "RNCP30387" : assertUnreacheableVersion(version);
-      break;
-    case "RNCP35136":
-      data["FicheRNCP"] =
-        version >= "20201218" && version <= "20201218" ? "RNCP35135" : assertUnreacheableVersion(version);
-      break;
-    case "RNCP35418":
-      data["FicheRNCP"] =
-        version >= "20210330" && version <= "20210330" ? "RNCP35417" : assertUnreacheableVersion(version);
-      break;
-    case "RNCP35434":
-      data["FicheRNCP"] =
-        version >= "20210330" && version <= "20210330" ? "RNCP35433" : assertUnreacheableVersion(version);
-      break;
-    case "RNCP432":
-      data["FicheRNCP"] =
-        version >= "20200414" && version <= "20200414" ? "RNCP34432" : assertUnreacheableVersion(version);
-      break;
-    case "RNCP813":
-      data["FicheRNCP"] =
-        version >= "20200414" && version <= "20201116" ? "RNCP1813" : assertUnreacheableVersion(version);
-      break;
-    default:
-    // no-op
-  }
-
-  return data;
-}
-
 export function getVersionNumber(source: string): string {
   const matchVersion = /^Kit_apprentissage_(\d{8})\.csv$/.exec(source);
   if (matchVersion) {
@@ -256,7 +184,7 @@ export function buildKitApprentissageEntry(
     _id: new ObjectId(),
     source,
     date: importDate,
-    data: correctionErreursDeSaisie(source, version, data),
+    data,
     version,
   });
 }

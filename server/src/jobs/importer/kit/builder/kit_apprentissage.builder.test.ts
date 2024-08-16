@@ -31,95 +31,34 @@ const kitApprentissageSourceMap = {
 
 describe("Kit Apprentissage Builder", () => {
   it.each([
-    [
-      "RNCP12803?",
-      "RNCP12803",
-      [
-        kitApprentissageSourceMap.v1_0,
-        kitApprentissageSourceMap.v1_1,
-        kitApprentissageSourceMap.v1_2,
-        kitApprentissageSourceMap.v1_3,
-      ],
-    ],
-    [
-      "RNCP187485",
-      "NR",
-      [
-        kitApprentissageSourceMap.v1_0,
-        kitApprentissageSourceMap.v1_1,
-        kitApprentissageSourceMap.v1_2,
-        kitApprentissageSourceMap.v1_3,
-      ],
-    ],
-    [
-      "RNCP24544",
-      "NR",
-      [
-        kitApprentissageSourceMap.v1_0,
-        kitApprentissageSourceMap.v1_1,
-        kitApprentissageSourceMap.v1_2,
-        kitApprentissageSourceMap.v1_3,
-      ],
-    ],
-    [
-      "RNCP28378",
-      "RNCP29378",
-      [
-        kitApprentissageSourceMap.v1_0,
-        kitApprentissageSourceMap.v1_1,
-        kitApprentissageSourceMap.v1_2,
-        kitApprentissageSourceMap.v1_3,
-      ],
-    ],
-    [
-      "RNCP29839",
-      "RNCP26839",
-      [
-        kitApprentissageSourceMap.v1_0,
-        kitApprentissageSourceMap.v1_1,
-        kitApprentissageSourceMap.v1_2,
-        kitApprentissageSourceMap.v1_3,
-      ],
-    ],
-    ["RNCP30348", "NR", [kitApprentissageSourceMap.v1_2]],
-    ["RNCP30387?", "RNCP30387", [kitApprentissageSourceMap.v1_0]],
-    ["RNCP35136", "RNCP35135", [kitApprentissageSourceMap.v1_4]],
-    ["RNCP35418", "RNCP35417", [kitApprentissageSourceMap.v1_6]],
-    ["RNCP35434", "RNCP35433", [kitApprentissageSourceMap.v1_6]],
-    ["RNCP432", "RNCP34432", [kitApprentissageSourceMap.v1_0]],
-    [
-      "RNCP813",
-      "RNCP1813",
-      [
-        kitApprentissageSourceMap.v1_0,
-        kitApprentissageSourceMap.v1_1,
-        kitApprentissageSourceMap.v1_2,
-        kitApprentissageSourceMap.v1_3,
-      ],
-    ],
-  ])(
-    "should fix RNCP writting errors from %s to %s for sources %s",
-    async (inputValue, expectedValue, affectedSources) => {
-      for (const source of Object.values(kitApprentissageSourceMap)) {
-        const record = {
-          FicheRNCP: inputValue,
-          "Code Diplôme": "00000000",
-          "Intitulé diplôme (DEPP)": "",
-          "Niveau fiche RNCP": "",
-          "Abrégé de diplôme (RNCP)": "",
-        };
-        const columns = Object.keys(record).map((k) => ({ name: k }));
-        const version = getVersionNumber(source);
-        const getResult = () =>
-          buildKitApprentissageEntry(columns, record, source, new Date("2024-04-04T00:00:00.000Z"), version);
-        if (affectedSources.includes(source)) {
-          expect.soft(getResult().data["FicheRNCP"]).toBe(expectedValue);
-        } else {
-          expect.soft(getResult).toThrowError(`import.kit_apprentissage: unexpected version ${version}`);
-        }
-      }
+    ["RNCP12803?"],
+    ["RNCP187485"],
+    ["RNCP24544"],
+    ["RNCP28378"],
+    ["RNCP29839"],
+    ["RNCP30348"],
+    ["RNCP30387?"],
+    ["RNCP35136"],
+    ["RNCP35418"],
+    ["RNCP35434"],
+    ["RNCP432"],
+    ["RNCP813"],
+  ])("should keep RNCP writting errors", async (inputValue) => {
+    for (const source of Object.values(kitApprentissageSourceMap)) {
+      const record = {
+        FicheRNCP: inputValue,
+        "Code Diplôme": "00000000",
+        "Intitulé diplôme (DEPP)": "",
+        "Niveau fiche RNCP": "",
+        "Abrégé de diplôme (RNCP)": "",
+      };
+      const columns = Object.keys(record).map((k) => ({ name: k }));
+      const version = getVersionNumber(source);
+      const getResult = () =>
+        buildKitApprentissageEntry(columns, record, source, new Date("2024-04-04T00:00:00.000Z"), version);
+      expect.soft(getResult().data["FicheRNCP"]).toBe(inputValue);
     }
-  );
+  });
 
   it('should fix missing leading zeros in "Code Diplôme" field', async () => {
     const record = {
@@ -154,15 +93,7 @@ describe("Kit Apprentissage Builder", () => {
       const getResult = () =>
         buildKitApprentissageEntry(columns, record, source, new Date("2024-04-04T00:00:00.000Z"), version);
 
-      if (
-        [kitApprentissageSourceMap.v2_3, kitApprentissageSourceMap.v2_4, kitApprentissageSourceMap.v2_5].includes(
-          source
-        )
-      ) {
-        expect.soft(getResult().data["Code Diplôme"]).toBe("NR");
-      } else {
-        expect.soft(getResult).toThrowError(`import.kit_apprentissage: SQWQ value in unexpected file ${source}`);
-      }
+      expect.soft(getResult().data["Code Diplôme"]).toBe("NR");
     }
     const record = {
       FicheRNCP: "RNCP12803",

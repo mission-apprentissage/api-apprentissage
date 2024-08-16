@@ -1161,6 +1161,7 @@ exports[`zodToMongoSchema > should convert import.meta schema 1`] = `
           "enum": [
             "pending",
             "done",
+            "failed",
           ],
         },
         "type": {

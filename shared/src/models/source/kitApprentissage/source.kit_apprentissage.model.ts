@@ -15,7 +15,7 @@ const indexes: IModelDescriptorGeneric["indexes"] = [
 export const zKitApprentissageData = z
   .object({
     "Code Diplôme": z.string().transform((value) => {
-      if (value.trim() === "NR") return "NR";
+      if (["SQWQ", "NR"].includes(value.trim())) return "NR";
       return value.trim().padStart(8, "0");
     }),
     "Intitulé diplôme (DEPP)": z.string().nullable(),

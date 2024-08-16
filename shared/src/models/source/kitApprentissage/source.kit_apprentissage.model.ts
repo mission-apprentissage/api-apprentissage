@@ -40,7 +40,7 @@ export const zKitApprentissageData = z
 export const zKitApprentissage = z
   .object({
     _id: zObjectId,
-    source: z.string().regex(/^((Kit_apprentissage_\d{8})|(Kit apprentissage et RNCP v\d\.\d))\.csv$/),
+    source: z.string().regex(/^((Kit_apprentissage_\d{8})|(Kit apprentissage et RNCP v\d\.\d))\.(csv|xlsx)$/),
     date: z.date(),
     data: zKitApprentissageData,
     version: z.string().regex(/^\d{8}$/),

@@ -19,8 +19,10 @@ describe("parseExcelFileStream", () => {
     const dataFixture = join(dirname(fileURLToPath(import.meta.url)), "fixtures/file.xlsx");
     const s = createReadStream(dataFixture);
 
-    const spec = {
-      "Onglet 3 - référentiel NPEC": {
+    const spec = [
+      {
+        type: "required",
+        nameMatchers: [/Onglet 3 - référentiel NPEC/i],
         key: "npec",
         skipRows: 3,
         columns: [
@@ -33,7 +35,9 @@ describe("parseExcelFileStream", () => {
           { name: "npec", regex: /^NPEC final$/i },
         ],
       },
-      "Onglet 4 - CPNE-IDCC": {
+      {
+        type: "required",
+        nameMatchers: [/Onglet 4 - CPNE-IDCC/i],
         key: "cpne-idcc",
         skipRows: 1,
         columns: [
@@ -42,7 +46,7 @@ describe("parseExcelFileStream", () => {
           { name: "idcc", regex: /^IDCC/i },
         ],
       },
-    };
+    ] as const;
 
     const data = await getRows(parseExcelFileStream(s, spec));
 
@@ -53,9 +57,14 @@ describe("parseExcelFileStream", () => {
     const dataFixture = join(dirname(fileURLToPath(import.meta.url)), "fixtures/file.xlsx");
     const s = createReadStream(dataFixture);
 
-    const spec = {
-      "Onglet 3 - référentiel NPEC": null,
-      "Onglet 4 - CPNE-IDCC": {
+    const spec = [
+      {
+        type: "ignore",
+        nameMatchers: [/Onglet 3 - référentiel NPEC/i],
+      },
+      {
+        type: "required",
+        nameMatchers: [/Onglet 4 - CPNE-IDCC/i],
         key: "cpne-idcc",
         skipRows: 1,
         columns: [
@@ -64,7 +73,7 @@ describe("parseExcelFileStream", () => {
           { name: "idcc", regex: /^IDCC/i },
         ],
       },
-    };
+    ] as const;
 
     const data = await getRows(parseExcelFileStream(s, spec));
 
@@ -75,9 +84,14 @@ describe("parseExcelFileStream", () => {
     const dataFixture = join(dirname(fileURLToPath(import.meta.url)), "fixtures/file.xlsx");
     const s = createReadStream(dataFixture);
 
-    const spec = {
-      "Onglet 3 - référentiel NPEC": null,
-      "Onglet 4 - CPNE-IDCC": {
+    const spec = [
+      {
+        type: "ignore",
+        nameMatchers: [/Onglet 3 - référentiel NPEC/i],
+      },
+      {
+        type: "required",
+        nameMatchers: [/Onglet 4 - CPNE-IDCC/i],
         key: "cpne-idcc",
         skipRows: 1,
         columns: [
@@ -86,24 +100,84 @@ describe("parseExcelFileStream", () => {
           { name: "idcc", regex: /^IDCC/i },
         ],
       },
-      missing: {
+      {
+        type: "required",
         key: "missing",
+        nameMatchers: [/missing/i],
         skipRows: 1,
         columns: [],
       },
-    };
+    ] as const;
 
     await expect(getRows(parseExcelFileStream(s, spec))).rejects.toThrow("Missing worksheets");
+  });
+
+  it("should not require optional sheets", async () => {
+    const dataFixture = join(dirname(fileURLToPath(import.meta.url)), "fixtures/file.xlsx");
+    const s = createReadStream(dataFixture);
+
+    const spec = [
+      {
+        type: "ignore",
+        nameMatchers: [/Onglet 3 - référentiel NPEC/i],
+      },
+      {
+        type: "required",
+        nameMatchers: [/Onglet 4 - CPNE-IDCC/i],
+        key: "cpne-idcc",
+        skipRows: 1,
+        columns: [
+          { name: "cpne_code", regex: /^Code CPNE/i },
+          { name: "cpne_libelle", regex: /^CPNE/i },
+          { name: "idcc", regex: /^IDCC/i },
+        ],
+      },
+      {
+        type: "optional",
+        key: "missing",
+        nameMatchers: [/missing/i],
+        skipRows: 1,
+        columns: [],
+      },
+    ] as const;
+
+    await expect(getRows(parseExcelFileStream(s, spec))).resolves.toBeDefined();
   });
 
   it("should throw if extra sheet is found", async () => {
     const dataFixture = join(dirname(fileURLToPath(import.meta.url)), "fixtures/file.xlsx");
     const s = createReadStream(dataFixture);
 
-    const spec = {
-      "Onglet 3 - référentiel NPEC": null,
-    };
+    const spec = [
+      {
+        type: "ignore",
+        nameMatchers: [/Onglet 3 - référentiel NPEC/i],
+      },
+    ] as const;
 
     await expect(getRows(parseExcelFileStream(s, spec))).rejects.toThrow("Unexpected worksheet");
+  });
+
+  it("should be able to detect headers when column is set to auto", async () => {
+    const dataFixture = join(dirname(fileURLToPath(import.meta.url)), "fixtures/file.xlsx");
+    const s = createReadStream(dataFixture);
+
+    const spec = [
+      {
+        type: "required",
+        nameMatchers: [/Onglet 3 - référentiel NPEC/i],
+        key: "npec",
+        skipRows: 3,
+        columns: "auto",
+      },
+      {
+        type: "ignore",
+        nameMatchers: [/Onglet 4 - CPNE-IDCC/i],
+      },
+    ] as const;
+
+    const data = await getRows(parseExcelFileStream(s, spec));
+
+    expect(data).toMatchSnapshot();
   });
 });

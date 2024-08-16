@@ -6057,7 +6057,7 @@ exports[`zodToMongoSchema > should convert source.kit_apprentissage schema 1`] =
     },
     "source": {
       "bsonType": "string",
-      "pattern": "^((Kit_apprentissage_\\d{8})|(Kit apprentissage et RNCP v\\d\\.\\d))\\.csv$",
+      "pattern": "^((Kit_apprentissage_\\d{8})|(Kit apprentissage et RNCP v\\d\\.\\d))\\.(csv|xlsx)$",
     },
     "version": {
       "bsonType": "string",

@@ -425,6 +425,8 @@ export async function importRncpArchive(importMeta: IImportMetaFranceCompetence,
       }
     );
 
+    await addJob({ name: "indicateurs:source_kit_apprentissage:update" });
+
     return {
       total,
       active,

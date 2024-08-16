@@ -22,6 +22,7 @@ import { runKaliConventionCollectivesImporter } from "./importer/kali/kali.ccn.i
 import { runKitApprentissageImporter } from "./importer/kit/kitApprentissage.importer.js";
 import { importNpecResource, onImportNpecResourceFailure, runNpecImporter } from "./importer/npec/npec.importer.js";
 import { runReferentielImporter } from "./importer/referentiel/referentiel.js";
+import { updateKitApprentissageIndicateurSource } from "./indicateurs/source/kitApprentissage.source.indicateur.js";
 import { create as createMigration, status as statusMigration, up as upMigration } from "./migrations/migrations.js";
 
 const timings = {
@@ -181,6 +182,10 @@ export async function setupJobProcessor() {
               .nullish()
               .parse(job.payload)
           ),
+        resumable: true,
+      },
+      "indicateurs:source_kit_apprentissage:update": {
+        handler: updateKitApprentissageIndicateurSource,
         resumable: true,
       },
     },

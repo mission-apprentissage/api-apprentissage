@@ -1389,6 +1389,37 @@ exports[`zodToMongoSchema > should convert import.meta schema 1`] = `
 }
 `;
 
+exports[`zodToMongoSchema > should convert indicateurs.source_kit_apprentissage schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "date": {
+      "bsonType": "date",
+    },
+    "missingCfd": {
+      "bsonType": "number",
+    },
+    "missingRncp": {
+      "bsonType": "number",
+    },
+    "version": {
+      "bsonType": "string",
+    },
+  },
+  "required": [
+    "_id",
+    "version",
+    "date",
+    "missingRncp",
+    "missingCfd",
+  ],
+}
+`;
+
 exports[`zodToMongoSchema > should convert indicateurs.usage_api schema 1`] = `
 {
   "additionalProperties": false,

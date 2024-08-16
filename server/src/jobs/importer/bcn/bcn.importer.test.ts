@@ -1,5 +1,6 @@
 import { useMongo } from "@tests/mongo.test.utils.js";
 import { createReadStream } from "fs";
+import { addJob } from "job-processor";
 import { dirname, join } from "path";
 import { ISourceBcn } from "shared/models/source/bcn/source.bcn.model";
 import { fileURLToPath } from "url";
@@ -16,6 +17,15 @@ vi.mock("@/services/apis/bcn/bcn", async (importOriginal) => {
   return {
     ...mod,
     fetchBcnData: vi.fn(),
+  };
+});
+
+vi.mock("job-processor", async (importOriginal) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const mod = (await importOriginal()) as any;
+  return {
+    ...mod,
+    addJob: vi.fn().mockResolvedValue(undefined),
   };
 });
 
@@ -76,6 +86,8 @@ describe("runBcnImporter", () => {
       V_FORMATION_DIPLOME: 11,
       INDICATEUR_CONTINUITE: { anciens: 1, nouveaux: 1 },
     });
+    expect(addJob).toHaveBeenCalledTimes(1);
+    expect(addJob).toHaveBeenCalledWith({ name: "indicateurs:source_kit_apprentissage:update" });
   });
 
   it("should throw an error if importBcnSource fails", async () => {
@@ -88,5 +100,6 @@ describe("runBcnImporter", () => {
     await expect(runBcnImporter()).rejects.toThrowError("import.bcn: unable to runBcnImporter");
     expect(fetchBcnData).toHaveBeenCalledTimes(1);
     expect(fetchBcnData).toHaveBeenNthCalledWith(1, "N_FORMATION_DIPLOME");
+    expect(addJob).toHaveBeenCalledTimes(0);
   });
 });

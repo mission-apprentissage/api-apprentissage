@@ -33,73 +33,6 @@ type ImportCertificationsOptions = {
   force?: boolean | undefined;
 };
 
-export async function controlKitApprentissageCoverage() {
-  const missingBcnEntries = await getDbCollection("source.kit_apprentissage")
-    .aggregate([
-      {
-        $match: { "data.Code Diplôme": { $ne: "NR" } },
-      },
-      {
-        $group: {
-          _id: "$data.Code Diplôme",
-        },
-      },
-      {
-        $lookup: {
-          from: "source.bcn",
-          localField: "_id",
-          foreignField: "data.FORMATION_DIPLOME",
-          as: "bcn",
-        },
-      },
-      {
-        $match: {
-          bcn: { $size: 0 },
-        },
-      },
-      { $project: { _id: 1 } },
-    ])
-    .toArray();
-
-  if (missingBcnEntries.length > 0) {
-    throw internal(`Missing bcn entries in source.kit_apprentissage`, {
-      count: missingBcnEntries.length,
-      missingBcnEntries,
-    });
-  }
-
-  const missingEntries = await getDbCollection("source.kit_apprentissage")
-    .aggregate([
-      {
-        $match: { "data.FicheRNCP": { $ne: "NR" } },
-      },
-      {
-        $group: {
-          _id: "$data.FicheRNCP",
-        },
-      },
-      {
-        $lookup: {
-          from: "source.france_competence",
-          localField: "_id",
-          foreignField: "numero_fiche",
-          as: "france_competence",
-        },
-      },
-      {
-        $match: { france_competence: { $size: 0 } },
-      },
-      {
-        $project: { _id: 1 },
-      },
-    ])
-    .toArray();
-
-  if (missingEntries.length > 0) {
-    throw internal(`Missing entries in source.kit_apprentissage`, { count: missingEntries.length, missingEntries });
-  }
-}
-
 async function getSourceImportMeta(): Promise<IImportMetaCertifications["source"] | null> {
   const [kitApprentissage, bcn, franceCompetenceLatest, oldestFranceCompetence] = await Promise.all([
     getDbCollection("import.meta").findOne({ type: "kit_apprentissage" }, { sort: { import_date: -1 } }),
@@ -273,7 +206,32 @@ export function getSourceAggregatedDataFromFranceCompetence(): AggregationCursor
       },
     },
     {
-      $match: { kit_apprentissage: { $size: 0 } },
+      $unwind: {
+        path: "$kit_apprentissage",
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
+      $lookup: {
+        from: "source.bcn",
+        let: { cfd: "$kit_apprentissage.data.Code Diplôme" },
+        as: "bcn",
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  { $ne: ["$source", "N_NIVEAU_FORMATION_DIPLOME"] },
+                  { $eq: ["$data.FORMATION_DIPLOME", "$$cfd"] },
+                ],
+              },
+            },
+          },
+        ],
+      },
+    },
+    {
+      $match: { bcn: { $size: 0 } },
     },
     {
       $project: {
@@ -400,8 +358,6 @@ export async function importCertifications(options: ImportCertificationsOptions 
       logger.info("import.certifications: skipping import");
       return null;
     }
-
-    await controlKitApprentissageCoverage();
 
     await validateNiveauFormationDiplomeToInterministerielRule();
 

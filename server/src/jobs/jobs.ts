@@ -4,9 +4,8 @@ import { z } from "zod";
 
 import config from "@/config.js";
 import logger, { createJobProcessorLogger } from "@/services/logger.js";
-import { getDatabase } from "@/services/mongodb/mongodbService.js";
+import { createIndexes, getDatabase } from "@/services/mongodb/mongodbService.js";
 
-import { recreateIndexes } from "./db/recreateIndexes.js";
 import { validateModels } from "./db/schemaValidation.js";
 import { runAcceImporter } from "./importer/acce/acce.js";
 import { runBcnImporter } from "./importer/bcn/bcn.importer.js";
@@ -25,6 +24,11 @@ import { importNpecResource, onImportNpecResourceFailure, runNpecImporter } from
 import { runReferentielImporter } from "./importer/referentiel/referentiel.js";
 import { create as createMigration, status as statusMigration, up as upMigration } from "./migrations/migrations.js";
 
+const timings = {
+  import_source: config.env === "production" ? "0 4 * * *" : "0 5 * * *",
+  certif: "0 */2 * * *",
+};
+
 export async function setupJobProcessor() {
   return initJobProcessor({
     db: getDatabase(),
@@ -34,57 +38,57 @@ export async function setupJobProcessor() {
         ? {}
         : {
             "Mise à jour acce": {
-              cron_string: config.env === "production" ? `0 4 * * *` : "0 5 * * *",
+              cron_string: timings.import_source,
               handler: runAcceImporter,
               resumable: true,
             },
             "Import des données BCN": {
-              cron_string: config.env === "production" ? "0 4 * * *" : "0 5 * * *",
+              cron_string: timings.import_source,
               handler: runBcnImporter,
               resumable: true,
             },
             "Import des données Kit Apprentissage": {
-              cron_string: "0 4 * * *",
+              cron_string: timings.import_source,
               handler: runKitApprentissageImporter,
               resumable: true,
             },
             "Import des données Referentiel": {
-              cron_string: config.env === "production" ? "0 4 * * *" : "0 5 * * *",
+              cron_string: timings.import_source,
               handler: runReferentielImporter,
               resumable: true,
             },
             "Import des données Catalogue": {
-              cron_string: config.env === "production" ? "0 4 * * *" : "0 5 * * *",
+              cron_string: timings.import_source,
               handler: runCatalogueImporter,
               resumable: true,
             },
             "Import des données France Compétences": {
-              cron_string: config.env === "production" ? "0 4 * * *" : "0 5 * * *",
+              cron_string: timings.import_source,
               handler: runRncpImporter,
               resumable: true,
             },
             "Import des certifications": {
-              cron_string: "0 */2 * * *",
+              cron_string: timings.certif,
               handler: () => importCertifications(),
               resumable: true,
             },
             "Import des NPEC": {
-              cron_string: config.env === "production" ? "0 4 * * *" : "0 5 * * *",
+              cron_string: timings.import_source,
               handler: () => runNpecImporter(),
               resumable: true,
             },
             "Import des Conventions Collective Kali": {
-              cron_string: config.env === "production" ? "0 4 * * *" : "0 5 * * *",
+              cron_string: timings.import_source,
               handler: runKaliConventionCollectivesImporter,
               resumable: true,
             },
             "Import des Conventions Collective Dares": {
-              cron_string: config.env === "production" ? "0 4 * * *" : "0 5 * * *",
+              cron_string: timings.import_source,
               handler: runDaresConventionCollectivesImporter,
               resumable: true,
             },
             "Import des APE-IDCC Dares": {
-              cron_string: config.env === "production" ? "0 4 * * *" : "0 5 * * *",
+              cron_string: timings.import_source,
               handler: runDaresApeIdccImporter,
               resumable: true,
             },
@@ -92,7 +96,7 @@ export async function setupJobProcessor() {
     jobs: {
       "indexes:recreate": {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        handler: async (job) => recreateIndexes(job.payload as any),
+        handler: async (job) => createIndexes(job.payload as any),
       },
       "db:validate": {
         handler: async () => validateModels(),

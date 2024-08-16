@@ -1,5 +1,79 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`parseExcelFileStream > should be able to detect headers when column is set to auto 1`] = `
+[
+  {
+    "data": {
+      "CPNE": "CNPE des sociétés financières",
+      "Certificateur* 
+(*liste non exhaustive - premier dans la fiche RNCP)": "MINISTERE DE L'EDUCATION NATIONALE ET DE LA JEUNESSE",
+      "Code CPNE": 2,
+      "Code RNCP": "RNCP1002",
+      "Libellé de la formation": "Mise en oeuvre caoutchoucs élastomères thermoplastiques",
+      "Libellé du Diplôme": "BP",
+      "NPEC final": 9497,
+    },
+    "headers": [
+      "Code RNCP",
+      "Libellé de la formation",
+      "Certificateur* 
+(*liste non exhaustive - premier dans la fiche RNCP)",
+      "Libellé du Diplôme",
+      "Code CPNE",
+      "CPNE",
+      "NPEC final",
+    ],
+    "sheet": "npec",
+  },
+  {
+    "data": {
+      "CPNE": "CNPEFP des sociétés d’assistance",
+      "Certificateur* 
+(*liste non exhaustive - premier dans la fiche RNCP)": "MINISTERE DE L'EDUCATION NATIONALE ET DE LA JEUNESSE",
+      "Code CPNE": 4,
+      "Code RNCP": "RNCP1002",
+      "Libellé de la formation": "Mise en oeuvre caoutchoucs élastomères thermoplastiques",
+      "Libellé du Diplôme": "BP",
+      "NPEC final": 9497,
+    },
+    "headers": [
+      "Code RNCP",
+      "Libellé de la formation",
+      "Certificateur* 
+(*liste non exhaustive - premier dans la fiche RNCP)",
+      "Libellé du Diplôme",
+      "Code CPNE",
+      "CPNE",
+      "NPEC final",
+    ],
+    "sheet": "npec",
+  },
+  {
+    "data": {
+      "CPNE": "CPNE du notariat",
+      "Certificateur* 
+(*liste non exhaustive - premier dans la fiche RNCP)": "MINISTERE DE L'EDUCATION NATIONALE ET DE LA JEUNESSE",
+      "Code CPNE": 5,
+      "Code RNCP": "RNCP1002",
+      "Libellé de la formation": "Mise en oeuvre caoutchoucs élastomères thermoplastiques",
+      "Libellé du Diplôme": "BP",
+      "NPEC final": 9497,
+    },
+    "headers": [
+      "Code RNCP",
+      "Libellé de la formation",
+      "Certificateur* 
+(*liste non exhaustive - premier dans la fiche RNCP)",
+      "Libellé du Diplôme",
+      "Code CPNE",
+      "CPNE",
+      "NPEC final",
+    ],
+    "sheet": "npec",
+  },
+]
+`;
+
 exports[`parseExcelFileStream > should parse the excel file stream 1`] = `
 [
   {
@@ -12,6 +86,15 @@ exports[`parseExcelFileStream > should parse the excel file stream 1`] = `
       "npec": 9497,
       "rncp": "RNCP1002",
     },
+    "headers": [
+      "rncp",
+      "formation_libelle",
+      "certificateur",
+      "diplome_libelle",
+      "cpne_code",
+      "cpne_libelle",
+      "npec",
+    ],
     "sheet": "npec",
   },
   {
@@ -24,6 +107,15 @@ exports[`parseExcelFileStream > should parse the excel file stream 1`] = `
       "npec": 9497,
       "rncp": "RNCP1002",
     },
+    "headers": [
+      "rncp",
+      "formation_libelle",
+      "certificateur",
+      "diplome_libelle",
+      "cpne_code",
+      "cpne_libelle",
+      "npec",
+    ],
     "sheet": "npec",
   },
   {
@@ -36,6 +128,15 @@ exports[`parseExcelFileStream > should parse the excel file stream 1`] = `
       "npec": 9497,
       "rncp": "RNCP1002",
     },
+    "headers": [
+      "rncp",
+      "formation_libelle",
+      "certificateur",
+      "diplome_libelle",
+      "cpne_code",
+      "cpne_libelle",
+      "npec",
+    ],
     "sheet": "npec",
   },
   {
@@ -44,6 +145,11 @@ exports[`parseExcelFileStream > should parse the excel file stream 1`] = `
       "cpne_libelle": "CNPE des sociétés financières",
       "idcc": 478,
     },
+    "headers": [
+      "cpne_code",
+      "cpne_libelle",
+      "idcc",
+    ],
     "sheet": "cpne-idcc",
   },
   {
@@ -52,6 +158,11 @@ exports[`parseExcelFileStream > should parse the excel file stream 1`] = `
       "cpne_libelle": "CNPEFP des sociétés d’assistance",
       "idcc": 1801,
     },
+    "headers": [
+      "cpne_code",
+      "cpne_libelle",
+      "idcc",
+    ],
     "sheet": "cpne-idcc",
   },
   {
@@ -60,6 +171,11 @@ exports[`parseExcelFileStream > should parse the excel file stream 1`] = `
       "cpne_libelle": "CPNE du notariat",
       "idcc": 2205,
     },
+    "headers": [
+      "cpne_code",
+      "cpne_libelle",
+      "idcc",
+    ],
     "sheet": "cpne-idcc",
   },
 ]
@@ -73,6 +189,11 @@ exports[`parseExcelFileStream > should skip parsing if spec is null 1`] = `
       "cpne_libelle": "CNPE des sociétés financières",
       "idcc": 478,
     },
+    "headers": [
+      "cpne_code",
+      "cpne_libelle",
+      "idcc",
+    ],
     "sheet": "cpne-idcc",
   },
   {
@@ -81,6 +202,11 @@ exports[`parseExcelFileStream > should skip parsing if spec is null 1`] = `
       "cpne_libelle": "CNPEFP des sociétés d’assistance",
       "idcc": 1801,
     },
+    "headers": [
+      "cpne_code",
+      "cpne_libelle",
+      "idcc",
+    ],
     "sheet": "cpne-idcc",
   },
   {
@@ -89,6 +215,11 @@ exports[`parseExcelFileStream > should skip parsing if spec is null 1`] = `
       "cpne_libelle": "CPNE du notariat",
       "idcc": 2205,
     },
+    "headers": [
+      "cpne_code",
+      "cpne_libelle",
+      "idcc",
+    ],
     "sheet": "cpne-idcc",
   },
 ]

@@ -32,8 +32,10 @@ async function importResource(
 
     await pipeline(
       Duplex.from(
-        parseExcelFileStream(readStream, {
-          Feuil1: {
+        parseExcelFileStream(readStream, [
+          {
+            type: "required",
+            nameMatchers: [/^Feuil1$/],
             key: "data",
             skipRows: 3,
             columns: [
@@ -49,7 +51,7 @@ async function importResource(
               { name: "url", regex: /^URL$/i },
             ],
           },
-        })
+        ])
       ),
       new Transform({
         objectMode: true,

@@ -20,8 +20,10 @@ async function importResource(importMeta: IImportMetaDares, signal?: AbortSignal
 
   await pipeline(
     Duplex.from(
-      parseExcelFileStream(readStream, {
-        "Liste IDCC-Publication": {
+      parseExcelFileStream(readStream, [
+        {
+          type: "required",
+          nameMatchers: [/^Liste IDCC-Publication$/i],
           key: "data",
           skipRows: 3,
           columns: [
@@ -29,8 +31,11 @@ async function importResource(importMeta: IImportMetaDares, signal?: AbortSignal
             { name: "titre", regex: /^TITRE DE LA CONVENTION$/i },
           ],
         },
-        Feuil2: null,
-      })
+        {
+          type: "ignore",
+          nameMatchers: [/^Feuil2$/i],
+        },
+      ])
     ),
     new Transform({
       objectMode: true,

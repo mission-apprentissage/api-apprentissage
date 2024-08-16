@@ -16,14 +16,19 @@ import { runNpecNormalizer } from "./normalizer/npec.normalizer.js";
 import { downloadXlsxNPECFile, getNpecFilename, scrapeRessourceNPEC } from "./scraper/npec.scraper.js";
 
 function getWorkbookParseSpec(name: string): ExcelParseSpec {
+  const ignoredSheets = {
+    type: "ignore",
+    nameMatchers: [/^Lisez-moi$/i, /^Me lire$/i, /^Onglet\s*2\s*-\s*global$/i, /^Onglet\s*\d+\s*-\s*CPNE-IDCC$/i],
+  } as const;
+
   switch (name) {
     case "referentiel_des_npec-2-1.xlsx":
-      return {
-        "Lisez-moi": null,
-        "Onglet 2 - global": null,
-        "Onglet 3 - par formation-CPNE": {
+      return [
+        {
+          type: "required",
           key: "npec",
           skipRows: 1,
+          nameMatchers: [/^Onglet 3 - par formation-CPNE$/i],
           columns: [
             { name: "diplome_code", regex: /^Code la formation$/ },
             { name: "diplome_libelle", regex: /^Libellé de la formation$/i },
@@ -32,15 +37,16 @@ function getWorkbookParseSpec(name: string): ExcelParseSpec {
             { name: "statut", regex: /^Statut$/i },
           ],
         },
-      };
+        ignoredSheets,
+      ];
     case "vf_referentiel_avec_idcc_oct_2019.xlsx":
     case "VF_Référentiel_avec_idcc_avril2020.xlsx":
-      return {
-        "Lisez-moi": null,
-        "Onglet 2 - global": null,
-        "Onglet 3 - par formation-CPNE": {
+      return [
+        {
+          type: "required",
           key: "npec",
           skipRows: 1,
+          nameMatchers: [/^Onglet 3 - par formation-CPNE$/i],
           columns: [
             { name: "diplome_code", regex: /^Code la formation$/ },
             { name: "diplome_libelle", regex: /^Libellé de la formation$/i },
@@ -51,8 +57,9 @@ function getWorkbookParseSpec(name: string): ExcelParseSpec {
             { name: "statut", regex: /^Statut$/i },
           ],
         },
-        "Onglet 4 - CPNE-IDCC": null,
-        "Onglet 5 - IDCC-CPNE": {
+        {
+          type: "required",
+          nameMatchers: [/^Onglet 5 - IDCC-CPNE$/i],
           key: "cpne-idcc",
           skipRows: 1,
           columns: [
@@ -61,12 +68,13 @@ function getWorkbookParseSpec(name: string): ExcelParseSpec {
             { name: "cpne_libelle", regex: /^Intitulé CPNE$/i },
           ],
         },
-      };
+        ignoredSheets,
+      ];
     case "VF_Référentiel_avec_idcc_août2020.xlsx":
-      return {
-        "Lisez-moi": null,
-        "Onglet 2 - global": null,
-        "Onglet 3 - par formation-CPNE": {
+      return [
+        {
+          type: "required",
+          nameMatchers: [/^Onglet 3 - par formation-CPNE$/i],
           key: "npec",
           skipRows: 1,
           columns: [
@@ -79,8 +87,9 @@ function getWorkbookParseSpec(name: string): ExcelParseSpec {
             { name: "statut", regex: /^Statut$/i },
           ],
         },
-        "Onglet 4 - CPNE-IDCC": null,
-        "Onglet 5 - IDCC-CPNE": {
+        {
+          type: "required",
+          nameMatchers: [/^Onglet 5 - IDCC-CPNE$/i],
           key: "cpne-idcc",
           skipRows: 1,
           columns: [
@@ -89,12 +98,14 @@ function getWorkbookParseSpec(name: string): ExcelParseSpec {
             { name: "cpne_libelle", regex: /^Intitulé CPNE$/i },
           ],
         },
-      };
+        ignoredSheets,
+      ];
+
     case "VF_Référentiel_avec_idcc_octobre2020.xlsx":
-      return {
-        "Lisez-moi": null,
-        "Onglet 2 - global": null,
-        "Onglet 3 - par formation-CPNE": {
+      return [
+        {
+          type: "required",
+          nameMatchers: [/^Onglet 3 - par formation-CPNE$/i],
           key: "npec",
           skipRows: 1,
           columns: [
@@ -107,8 +118,9 @@ function getWorkbookParseSpec(name: string): ExcelParseSpec {
             { name: "statut", regex: /^Statut$/i },
           ],
         },
-        "Onglet 4 - CPNE-IDCC": null,
-        "Onglet 5 - IDCC-CPNE": {
+        {
+          type: "required",
+          nameMatchers: [/^Onglet 5 - IDCC-CPNE$/i],
           key: "cpne-idcc",
           skipRows: 1,
           columns: [
@@ -117,11 +129,14 @@ function getWorkbookParseSpec(name: string): ExcelParseSpec {
             { name: "cpne_libelle", regex: /^Intitulé CPNE$/i },
           ],
         },
-      };
+        ignoredSheets,
+      ];
+
     case "VF_11.02.2021_Référentiel-NPEC-20192020_avec_idcc.xlsx":
-      return {
-        "Lisez-moi": null,
-        "Onglet 2 - par formation-CPNE": {
+      return [
+        {
+          type: "required",
+          nameMatchers: [/^Onglet 2 - par formation-CPNE$/i],
           key: "npec",
           skipRows: 1,
           columns: [
@@ -135,8 +150,9 @@ function getWorkbookParseSpec(name: string): ExcelParseSpec {
             { name: "statut", regex: /^Statut$/i },
           ],
         },
-        "Onglet 3 - CPNE-IDCC": null,
-        "Onglet 4 - IDCC-CPNE": {
+        {
+          type: "required",
+          nameMatchers: [/^Onglet 4 - IDCC-CPNE$/i],
           key: "cpne-idcc",
           skipRows: 1,
           columns: [
@@ -145,15 +161,16 @@ function getWorkbookParseSpec(name: string): ExcelParseSpec {
             { name: "cpne_libelle", regex: /^Intitulé CPNE$/i },
           ],
         },
-      };
+        ignoredSheets,
+      ];
     case "V05.10.2021_Référentiel-NPEC-201920202021.xlsx-2.zip":
     case "V14.01.2022_Référentiel-NPEC-201920202021.xlsx.zip":
     case "V03.05.2022_Référentiel-NPEC-201920202021-2.xlsx":
     case "V27.07.2022_Référentiel-NPEC-201920202021-1.xlsx.zip":
-      return {
-        "Lisez-moi": null,
-        "Onglet 2 - global": null,
-        "Onglet 3a - référentiel NPEC": {
+      return [
+        {
+          type: "required",
+          nameMatchers: [/^Onglet 3a - référentiel NPEC$/i],
           key: "npec",
           skipRows: 2,
           columns: [
@@ -168,7 +185,9 @@ function getWorkbookParseSpec(name: string): ExcelParseSpec {
             { name: "procedure", regex: /^Procédure$/i },
           ],
         },
-        "Onglet 3b - NPEC historisées": {
+        {
+          type: "required",
+          nameMatchers: [/^Onglet 3b - NPEC historisées$/i],
           key: "npec",
           skipRows: 2,
           columns: [
@@ -184,8 +203,9 @@ function getWorkbookParseSpec(name: string): ExcelParseSpec {
             { name: "procedure", regex: /^Procédure$/i },
           ],
         },
-        "Onglet 4-CPNE-IDCC": null,
-        "Onglet 5-IDCC-CPNE": {
+        {
+          type: "required",
+          nameMatchers: [/^Onglet 5-IDCC-CPNE$/i],
           key: "cpne-idcc",
           skipRows: 2,
           columns: [
@@ -194,13 +214,14 @@ function getWorkbookParseSpec(name: string): ExcelParseSpec {
             { name: "cpne_libelle", regex: /^Intitulé CPNE$/i },
           ],
         },
-      };
+        ignoredSheets,
+      ];
 
     case "VF_17.03.2021_Référentiel-NPEC-20192020_avec_idcc.xlsb.zip":
-      return {
-        "Lisez-moi": null,
-        "Onglet 2-global": null,
-        "Onglet 3-par formation-CPNE": {
+      return [
+        {
+          type: "required",
+          nameMatchers: [/^Onglet 3-par formation-CPNE$/i],
           key: "npec",
           skipRows: 2,
           columns: [
@@ -215,8 +236,9 @@ function getWorkbookParseSpec(name: string): ExcelParseSpec {
             { name: "statut", regex: /^Statut$/i },
           ],
         },
-        "Onglet 4-CPNE-IDCC": null,
-        "Onglet 5-IDCC-CPNE": {
+        {
+          type: "required",
+          nameMatchers: [/^Onglet 5-IDCC-CPNE$/i],
           key: "cpne-idcc",
           skipRows: 2,
           columns: [
@@ -225,13 +247,14 @@ function getWorkbookParseSpec(name: string): ExcelParseSpec {
             { name: "cpne_libelle", regex: /^Intitulé CPNE$/i },
           ],
         },
-      };
+        ignoredSheets,
+      ];
 
     case "Référentiel-NPEC-_01092022-1.zip":
-      return {
-        "Me lire": null,
-        "Onglet 2 - global": null,
-        "Onglet 3 - référentiel NPEC": {
+      return [
+        {
+          type: "required",
+          nameMatchers: [/^Onglet 3 - référentiel NPEC$/i],
           key: "npec",
           skipRows: 3,
           columns: [
@@ -246,7 +269,9 @@ function getWorkbookParseSpec(name: string): ExcelParseSpec {
             { name: "procedure", regex: /^procédure$/i },
           ],
         },
-        "Onglet 4 - CPNE-IDCC": {
+        {
+          type: "required",
+          nameMatchers: [/^Onglet 4 - CPNE-IDCC$/i],
           key: "cpne-idcc",
           skipRows: 2,
           columns: [
@@ -255,12 +280,13 @@ function getWorkbookParseSpec(name: string): ExcelParseSpec {
             { name: "idcc", regex: /^IDCC/i },
           ],
         },
-      };
+        ignoredSheets,
+      ];
     default:
-      return {
-        "Me lire": null,
-        "Onglet 2 - global": null,
-        "Onglet 3 - référentiel NPEC": {
+      return [
+        {
+          type: "required",
+          nameMatchers: [/^Onglet 3 - référentiel NPEC$/i],
           key: "npec",
           skipRows: 3,
           columns: [
@@ -275,7 +301,9 @@ function getWorkbookParseSpec(name: string): ExcelParseSpec {
             { name: "date_applicabilite", regex: /^Date d'applicabilité des NPEC\*\*\s+/i },
           ],
         },
-        "Onglet 4 - CPNE-IDCC": {
+        {
+          type: "required",
+          nameMatchers: [/^Onglet 4 - CPNE-IDCC$/i],
           key: "cpne-idcc",
           skipRows: 2,
           columns: [
@@ -284,7 +312,8 @@ function getWorkbookParseSpec(name: string): ExcelParseSpec {
             { name: "idcc", regex: /^IDCC/i },
           ],
         },
-      };
+        ignoredSheets,
+      ];
   }
 }
 

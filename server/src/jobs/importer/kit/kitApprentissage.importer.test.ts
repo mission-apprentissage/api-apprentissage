@@ -60,6 +60,35 @@ describe("runKitApprentissageImporter", () => {
     ]);
   });
 
+  it("should import XLSX file", async () => {
+    const date = new Date("2023-04-08T22:00:00.000Z");
+    vi.setSystemTime(date);
+
+    vi.mocked(getStaticFilePath).mockImplementation((path) =>
+      join(dirname(fileURLToPath(import.meta.url)), `fixtures/xlsx`, path)
+    );
+
+    const result = await runKitApprentissageImporter();
+
+    expect(result).toBe(10);
+
+    const coll = getDbCollection("source.kit_apprentissage");
+    const data = await coll.find({}).toArray();
+    expect(data.map((datum) => ({ ...datum, _id: "ObjectId" }))).toMatchSnapshot();
+
+    expect(addJob).toHaveBeenCalledTimes(1);
+    expect(addJob).toHaveBeenCalledWith({ name: "indicateurs:source_kit_apprentissage:update" });
+
+    expect(await getDbCollection("import.meta").find({}).toArray()).toEqual([
+      {
+        _id: expect.any(Object),
+        import_date: date,
+        status: "done",
+        type: "kit_apprentissage",
+      },
+    ]);
+  });
+
   it("should support consecutive import", async () => {
     const date1 = new Date("2023-04-08T22:00:00.000Z");
     vi.setSystemTime(date1);
@@ -263,6 +292,35 @@ describe("runKitApprentissageImporter", () => {
       },
     ]);
 
+    const data = await coll.find({}).toArray();
+    expect(data.map((datum) => ({ ...datum, _id: "ObjectId" }))).toMatchSnapshot();
+
+    expect(addJob).toHaveBeenCalledTimes(1);
+    expect(addJob).toHaveBeenCalledWith({ name: "indicateurs:source_kit_apprentissage:update" });
+
+    expect(await getDbCollection("import.meta").find({}).toArray()).toEqual([
+      {
+        _id: expect.any(Object),
+        import_date: date,
+        status: "done",
+        type: "kit_apprentissage",
+      },
+    ]);
+  });
+
+  it("should support june 2024 new sheets", async () => {
+    const date = new Date("2023-04-08T22:00:00.000Z");
+    vi.setSystemTime(date);
+
+    vi.mocked(getStaticFilePath).mockImplementation((path) =>
+      join(dirname(fileURLToPath(import.meta.url)), `fixtures/juin_2024`, path)
+    );
+
+    const result = await runKitApprentissageImporter();
+
+    expect(result).toBe(1);
+
+    const coll = getDbCollection("source.kit_apprentissage");
     const data = await coll.find({}).toArray();
     expect(data.map((datum) => ({ ...datum, _id: "ObjectId" }))).toMatchSnapshot();
 

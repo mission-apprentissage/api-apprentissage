@@ -20,9 +20,10 @@ async function importResource(importMeta: IImportMetaDares, signal?: AbortSignal
 
   await pipeline(
     Duplex.from(
-      parseExcelFileStream(readStream, {
-        "Lisez-moi": null,
-        IDCC2021_passageAPEIDCC_diff: {
+      parseExcelFileStream(readStream, [
+        {
+          type: "required",
+          nameMatchers: [/^IDCC2021_passageAPEIDCC_diff$/i],
           key: "data",
           skipRows: 6,
           columns: [
@@ -34,7 +35,11 @@ async function importResource(importMeta: IImportMetaDares, signal?: AbortSignal
             { name: "effectif_pct", regex: /^pctdiff$/i },
           ],
         },
-      })
+        {
+          type: "ignore",
+          nameMatchers: [/^Lisez-moi$/i],
+        },
+      ])
     ),
     new Transform({
       objectMode: true,

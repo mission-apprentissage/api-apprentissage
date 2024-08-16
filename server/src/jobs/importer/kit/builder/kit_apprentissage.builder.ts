@@ -5,6 +5,8 @@ import {
   zKitApprentissage,
 } from "shared/models/source/kitApprentissage/source.kit_apprentissage.model";
 
+import { ExcelParsedRow } from "@/services/excel/excel.parser.js";
+
 export function normalizeKitApprentissageColumnName(column: string): string {
   switch (column) {
     // v1.0+: CodeDiplome
@@ -98,7 +100,7 @@ export function normalizeKitApprentissageColumnName(column: string): string {
 }
 
 export function getVersionNumber(source: string): string {
-  const matchVersion = /^Kit_apprentissage_(\d{8})\.csv$/.exec(source);
+  const matchVersion = /^Kit_apprentissage_(\d{8})\.(csv|xlsx)$/.exec(source);
   if (matchVersion) {
     return matchVersion[1];
   }
@@ -162,6 +164,47 @@ export function buildKitApprentissageEntry(
     (acc: Record<string, string | null>, column: { name: string }) => {
       // Replace all mongodb dot special character with underscore
       acc[normalizeKitApprentissageColumnName(column.name)] = record[column.name]?.trim() || null;
+      return acc;
+    },
+    {
+      "Dernière MaJ": "v1.0",
+      "Accès à l'apprentissage de la fiche RNCP (oui/non)": null,
+      "Date d'échéance de la fiche RNCP": null,
+      "Fiche ACTIVE/INACTIVE": null,
+      "Intitulé certification (RNCP)": null,
+      "Type d'enregistrement": null,
+      "Date de publication de la fiche": null,
+      "Date de décision": null,
+      "Date de début des parcours certifiants": null,
+      "Date limite de la délivrance": null,
+      "Nouvelle Certification rempla (RNCP)": null,
+      "Ancienne Certification (RNCP)": null,
+    }
+  );
+
+  return zKitApprentissage.parse({
+    _id: new ObjectId(),
+    source,
+    date: importDate,
+    data,
+    version,
+  });
+}
+
+export function buildKitApprentissageFromExcelParsedRow(
+  row: ExcelParsedRow,
+  source: string,
+  importDate: Date,
+  version: string
+): ISourceKitApprentissage {
+  const data = row.headers.reduce(
+    (acc: Record<string, string | null>, header: string | null) => {
+      if (header) {
+        const value = row.data[header] == null ? null : String(row.data[header]).trim();
+        // Replace all mongodb dot special character with underscore
+        acc[normalizeKitApprentissageColumnName(header)] = value || null;
+      }
+
       return acc;
     },
     {

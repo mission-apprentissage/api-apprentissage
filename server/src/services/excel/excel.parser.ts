@@ -22,16 +22,26 @@ type ColumnSpec = Readonly<{
 
 type Value = null | number | string | boolean | Date | undefined;
 
-export type ExcelParseSheetSpec = Readonly<{
-  key: string;
-  skipRows: number;
-  columns: ReadonlyArray<ColumnSpec | null>;
+type ExcelParseSheetSpecIgnore = Readonly<{
+  type: "ignore";
+  nameMatchers: ReadonlyArray<RegExp>;
 }>;
 
-export type ExcelParseSpec = Readonly<Record<string, ExcelParseSheetSpec | null>>;
+type ExcelParseSheetSpecRequiredOrOptional = Readonly<{
+  type: "required" | "optional";
+  key: string;
+  nameMatchers: ReadonlyArray<RegExp>;
+  skipRows: number;
+  columns: ReadonlyArray<ColumnSpec | null> | "auto";
+}>;
+
+export type ExcelParseSheetSpec = ExcelParseSheetSpecIgnore | ExcelParseSheetSpecRequiredOrOptional;
+
+export type ExcelParseSpec = ReadonlyArray<ExcelParseSheetSpec>;
 
 export type ExcelParsedRow = {
   sheet: string;
+  headers: Array<string | null>;
   data: Record<string, Value>;
 };
 
@@ -67,38 +77,57 @@ function parseCell(cell: ExcelJs.Cell): Value {
   }
 }
 
-function parseRow(row: ExcelJs.Row, spec: ExcelParseSheetSpec): ExcelParsedRow {
-  return spec.columns.reduce<ExcelParsedRow>(
-    (acc, column, i) => {
-      if (column === null) return acc;
+function parseRow(row: ExcelJs.Row, sheet: string, headers: Array<string | null>): ExcelParsedRow {
+  return headers.reduce<ExcelParsedRow>(
+    (acc, header, i) => {
+      if (header === null) return acc;
 
-      acc.data[column.name] = parseCell(row.getCell(i + 1)) ?? null;
+      acc.data[header] = parseCell(row.getCell(i + 1)) ?? null;
       return acc;
     },
-    { data: {}, sheet: spec.key }
+    { data: {}, sheet, headers }
   );
 }
 
-function isValidHeader(values: Value[], columns: ReadonlyArray<ColumnSpec | null>) {
+function getHeaders(
+  values: Value[],
+  columns: ReadonlyArray<ColumnSpec | null> | "auto",
+  throwInvalid: () => never
+): Array<string | null> {
+  if (columns === "auto") {
+    return values.map((value, i) => {
+      if (value == null) return `__excel_parsed_column_${i}`;
+      return String(value);
+    });
+  }
+
   const extraValues = values.slice(columns.length);
-  return (
-    columns.every((column, i) => {
-      const v = values[i];
 
-      if (column === null) return v === null;
+  const everyColumnFound = columns.every((column, i) => {
+    const v = values[i];
 
-      return typeof v === "string" && column.regex.test(v);
-    }) && extraValues.every((v) => v === null)
-  );
+    if (column === null) return v === null;
+
+    return typeof v === "string" && column.regex.test(v);
+  });
+
+  const validSpec = everyColumnFound && extraValues.every((v) => v === null);
+
+  if (!validSpec) {
+    throwInvalid();
+  }
+
+  return columns.map((column) => (column === null ? null : column.name));
 }
 
 async function* parseSheet(
-  sheetSpec: ExcelParseSheetSpec,
+  sheetSpec: ExcelParseSheetSpecRequiredOrOptional,
   worksheetReader: ExcelJs.stream.xlsx.WorksheetReader
 ): AsyncGenerator<ExcelParsedRow, void, void> {
   let hasData = false;
-  let hasHeader = false;
-  const skippedRows = [];
+  let headers: null | Array<string | null> = null;
+
+  const skippedRows: Value[][] = [];
 
   for await (const row of worksheetReader) {
     if (row.number <= sheetSpec.skipRows) {
@@ -106,43 +135,55 @@ async function* parseSheet(
       continue;
     }
 
-    if (!hasHeader) {
+    if (headers === null) {
       const values = getCells(row).map(parseCell);
 
-      if (!isValidHeader(values, sheetSpec.columns)) {
+      headers = getHeaders(getCells(row).map(parseCell), sheetSpec.columns, () => {
         throw internal("Header not found", { sheetSpec, sheet: worksheetReader.name, values, skippedRows });
-      }
-
-      hasHeader = true;
+      });
       continue;
     }
 
-    if (row.hasValues) {
+    if (headers !== null && row.hasValues) {
       hasData = true;
-      yield parseRow(row, sheetSpec);
+      yield parseRow(row, sheetSpec.key, headers);
     }
   }
 
-  if (!hasData || !hasHeader) {
-    throw internal("No data found", { sheetSpec, sheet: worksheetReader.name, hasHeader, hasData });
+  if (!hasData || headers === null) {
+    throw internal("No data found", { sheetSpec, sheet: worksheetReader.name, headers, hasData });
   }
+}
+
+function getParseSheetSpec(
+  unprocessedSpecs: Set<ExcelParseSheetSpec>,
+  worksheetReader: ExcelJs.stream.xlsx.WorksheetReader
+): ExcelParseSheetSpec {
+  for (const sheetSpec of unprocessedSpecs) {
+    if (sheetSpec.nameMatchers.some((matcher) => matcher.test(worksheetReader.name))) {
+      if (sheetSpec.type !== "ignore") {
+        unprocessedSpecs.delete(sheetSpec);
+      }
+      return sheetSpec;
+    }
+  }
+
+  throw internal("Unexpected worksheet", {
+    name: worksheetReader.name,
+    unprocessedSpecs: Array.from(unprocessedSpecs),
+  });
 }
 
 async function* parseWorkbook(
   parseSpec: ExcelParseSpec,
   workbookReader: ExcelJs.stream.xlsx.WorkbookReader
 ): AsyncGenerator<ExcelParsedRow, void, void> {
-  const expectedWorksheets = new Set(Object.keys(parseSpec));
+  const unusedSpecs = new Set(parseSpec);
 
   for await (const worksheetReader of workbookReader) {
-    if (!expectedWorksheets.has(worksheetReader.name)) {
-      throw internal("Unexpected worksheet", { name: worksheetReader.name });
-    }
+    const spec = getParseSheetSpec(unusedSpecs, worksheetReader);
 
-    expectedWorksheets.delete(worksheetReader.name);
-    const spec = parseSpec[worksheetReader.name];
-
-    if (spec === null) {
+    if (spec.type === "ignore") {
       continue;
     }
 
@@ -151,8 +192,9 @@ async function* parseWorkbook(
     }
   }
 
-  if (expectedWorksheets.size > 0) {
-    throw internal("Missing worksheets", { missing: Array.from(expectedWorksheets.values()) });
+  const missingSpecs = Array.from(unusedSpecs).filter((s) => s.type === "required");
+  if (missingSpecs.length > 0) {
+    throw internal("Missing worksheets", { missingSpecs });
   }
 }
 

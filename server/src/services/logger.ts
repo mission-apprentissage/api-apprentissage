@@ -25,6 +25,10 @@ function logFormatter(obj: unknown, seen: Set<unknown>): unknown {
     return obj.toISOString();
   }
 
+  if (obj instanceof RegExp) {
+    return obj.toString();
+  }
+
   if (seen.has(obj)) {
     return "[Circular]";
   }

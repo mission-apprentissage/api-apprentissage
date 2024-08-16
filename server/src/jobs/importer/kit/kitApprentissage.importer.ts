@@ -1,5 +1,5 @@
 import { readdir } from "node:fs/promises";
-import { Transform } from "node:stream";
+import { Duplex, Transform } from "node:stream";
 
 import { internal } from "@hapi/boom";
 import { parse } from "csv-parse";
@@ -10,13 +10,18 @@ import { ISourceKitApprentissage } from "shared/models/source/kitApprentissage/s
 import { pipeline } from "stream/promises";
 
 import { withCause } from "@/services/errors/withCause.js";
+import { ExcelParsedRow, ExcelParseSpec, parseExcelFileStream } from "@/services/excel/excel.parser.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 import { getStaticFilePath } from "@/utils/getStaticFilePath.js";
 import { createBatchTransformStream } from "@/utils/streamUtils.js";
 
-import { buildKitApprentissageEntry, getVersionNumber } from "./builder/kit_apprentissage.builder.js";
+import {
+  buildKitApprentissageEntry,
+  buildKitApprentissageFromExcelParsedRow,
+  getVersionNumber,
+} from "./builder/kit_apprentissage.builder.js";
 
-async function importKitApprentissageSource(
+async function importKitApprentissageSourceCsv(
   importDate: Date,
   filename: ISourceKitApprentissage["source"]
 ): Promise<void> {
@@ -51,7 +56,78 @@ async function importKitApprentissageSource(
       })
     );
   } catch (error) {
-    throw withCause(internal("import.kit_apprentissage: unable to importKitApprentissageSource", { filename }), error);
+    throw withCause(
+      internal("import.kit_apprentissage: unable to importKitApprentissageSourceCsv", { filename }),
+      error
+    );
+  }
+}
+
+function getExcelParserSpec(): ExcelParseSpec {
+  return [
+    {
+      key: "kit",
+      skipRows: 1,
+      columns: "auto",
+      nameMatchers: [/Kit Apprentissage/i],
+      type: "required",
+    },
+    {
+      type: "ignore",
+      nameMatchers: [
+        /Présentation Kit/i,
+        /Corrections Kit/i,
+        /Alerte CFD CS/i,
+        /Évolutions Kit/i,
+        /Evolutions Kit/i,
+        /^Feuil1$/i,
+      ],
+    },
+  ];
+}
+
+async function importKitApprentissageSourceXlsx(
+  importDate: Date,
+  filename: ISourceKitApprentissage["source"]
+): Promise<void> {
+  try {
+    const version = getVersionNumber(filename);
+
+    await pipeline(
+      Duplex.from(
+        parseExcelFileStream(createReadStream(getStaticFilePath(`kit_apprentissage/${filename}`)), getExcelParserSpec())
+      ),
+      new Transform({
+        objectMode: true,
+        async transform(row: ExcelParsedRow, _encoding, callback) {
+          try {
+            callback(null, buildKitApprentissageFromExcelParsedRow(row, filename, importDate, version));
+          } catch (error) {
+            callback(
+              withCause(internal("import.kit_apprentissage: error when parsing row", { row, filename, version }), error)
+            );
+          }
+        },
+      }),
+      createBatchTransformStream({ size: 100 }),
+      new Transform({
+        objectMode: true,
+        async transform(chunk, _encoding, callback) {
+          try {
+            await getDbCollection("source.kit_apprentissage").insertMany(chunk);
+            callback();
+          } catch (error) {
+            callback(withCause(internal("import.kit_apprentissage: error when inserting"), error));
+          }
+        },
+      })
+    );
+  } catch (error) {
+    console.error(error);
+    throw withCause(
+      internal("import.kit_apprentissage: unable to importKitApprentissageSourceXlsx", { filename }),
+      error
+    );
   }
 }
 
@@ -73,7 +149,13 @@ export async function runKitApprentissageImporter(): Promise<number> {
 
     const files = await listKitApprentissageFiles();
     for (const file of files) {
-      await importKitApprentissageSource(importDate, file);
+      if (file.endsWith(".csv")) {
+        await importKitApprentissageSourceCsv(importDate, file);
+      } else if (file.endsWith(".xlsx")) {
+        await importKitApprentissageSourceXlsx(importDate, file);
+      } else {
+        throw internal("import.kit_apprentissage: unsupported source file format", { file });
+      }
     }
 
     await getDbCollection("source.kit_apprentissage").deleteMany({

@@ -1330,7 +1330,7 @@ describe("runRncpImporter", () => {
 describe("onImportRncpArchiveFailure", () => {
   useMongo();
 
-  it("should remove failed import meta", async () => {
+  it("should update failed import meta", async () => {
     const existingResource = {
       created_at: new Date("2024-02-21T03:02:04.366000+00:00"),
       id: "bc7f5072-c22f-4754-933f-cd8b91ebe81b",
@@ -1378,6 +1378,12 @@ describe("onImportRncpArchiveFailure", () => {
 
     await onImportRncpArchiveFailure(initialImports[1]);
 
-    await expect(getDbCollection("import.meta").find({}).toArray()).resolves.toEqual([initialImports[0]]);
+    await expect(getDbCollection("import.meta").find({}).toArray()).resolves.toEqual([
+      initialImports[0],
+      {
+        ...initialImports[1],
+        status: "failed",
+      },
+    ]);
   });
 });

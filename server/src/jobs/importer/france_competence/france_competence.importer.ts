@@ -445,7 +445,7 @@ export async function importRncpArchive(importMeta: IImportMetaFranceCompetence,
 
 export async function onImportRncpArchiveFailure(importMeta: IImportMetaFranceCompetence) {
   try {
-    await getDbCollection("import.meta").deleteOne({ _id: importMeta._id });
+    await getDbCollection("import.meta").updateOne({ _id: importMeta._id }, { $set: { status: "failed" } });
   } catch (error) {
     throw withCause(internal("import.france_competence: unable to onImportRncpArchiveFailure"), error);
   }
@@ -453,17 +453,19 @@ export async function onImportRncpArchiveFailure(importMeta: IImportMetaFranceCo
 
 async function getUnprocessedImportMeta(dataset: IDataGouvDataset): Promise<IImportMetaFranceCompetence[]> {
   try {
-    const successfullyImported = await getDbCollection("import.meta")
-      .find<IImportMetaFranceCompetence>({ type: "france_competence" }, { sort: { import_date: -1 } })
+    const successfullyOrPendingImported = await getDbCollection("import.meta")
+      .find<IImportMetaFranceCompetence>(
+        { type: "france_competence", status: { $ne: "failed" } },
+        { sort: { import_date: -1 } }
+      )
       .toArray();
 
-    const successfullyImportedByResourceId = successfullyImported.reduce<Map<string, IImportMetaFranceCompetence>>(
-      (acc, meta) => {
-        acc.set(meta.archiveMeta.resource.id, meta);
-        return acc;
-      },
-      new Map()
-    );
+    const successfullyOrPendingByResourceId = successfullyOrPendingImported.reduce<
+      Map<string, IImportMetaFranceCompetence>
+    >((acc, meta) => {
+      acc.set(meta.archiveMeta.resource.id, meta);
+      return acc;
+    }, new Map());
 
     return dataset.resources.reduce<IImportMetaFranceCompetence[]>((acc, resource) => {
       const archiveMeta = getArchiveMeta(resource);
@@ -472,10 +474,10 @@ async function getUnprocessedImportMeta(dataset: IDataGouvDataset): Promise<IImp
         return acc;
       }
 
-      const lastSuccessfullyImportedTime =
-        successfullyImportedByResourceId.get(resource.id)?.archiveMeta.last_updated.getTime() ?? 0;
+      const lastSuccessfullyOrPendingTime =
+        successfullyOrPendingByResourceId.get(resource.id)?.archiveMeta.last_updated.getTime() ?? 0;
 
-      if (archiveMeta.last_updated.getTime() > lastSuccessfullyImportedTime) {
+      if (archiveMeta.last_updated.getTime() > lastSuccessfullyOrPendingTime) {
         acc.push({
           _id: new ObjectId(),
           import_date: new Date(),

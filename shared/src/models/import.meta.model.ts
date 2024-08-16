@@ -29,7 +29,7 @@ export const zImportMetaFranceCompetence = z
     import_date: z.date(),
     type: z.literal("france_competence"),
     archiveMeta: zArchiveMeta,
-    status: z.enum(["pending", "done"]),
+    status: z.enum(["pending", "done", "failed"]),
   })
   .strict();
 

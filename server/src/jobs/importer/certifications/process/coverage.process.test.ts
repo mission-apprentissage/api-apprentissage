@@ -20,6 +20,7 @@ const activationStart = new Date("2019-12-25T02:00:00.000Z");
 
 const yesterdayImportMeta: IImportMetaCertifications = {
   _id: new ObjectId(),
+  status: "done",
   type: "certifications",
   import_date: yesterday,
   source: {
@@ -38,6 +39,7 @@ const yesterdayImportMeta: IImportMetaCertifications = {
 };
 const todayImportMeta: IImportMetaCertifications = {
   _id: new ObjectId(),
+  status: "pending",
   type: "certifications",
   import_date: today,
   source: {

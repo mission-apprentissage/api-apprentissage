@@ -82,6 +82,7 @@ const yesterdayImportCert = {
       import_date: yesterdayImports.kit_apprentissage.import_date,
     },
   },
+  status: "done",
 } as const;
 
 const todayImports = {
@@ -183,6 +184,7 @@ describe("importCertifications", () => {
             import_date: now,
             source: yesterdayImportCert.source,
             type: "certifications",
+            status: "done",
           },
         ]);
       });
@@ -201,6 +203,7 @@ describe("importCertifications", () => {
           ]);
         });
       });
+
       describe("when force=true", () => {
         it("should import", async () => {
           expect(await importCertifications({ force: true })).toEqual({
@@ -215,9 +218,38 @@ describe("importCertifications", () => {
               import_date: now,
               source: yesterdayImportCert.source,
               type: "certifications",
+              status: "done",
             },
           ]);
         });
+      });
+    });
+
+    describe("when previous import failed", () => {
+      beforeEach(async () => {
+        await getDbCollection("import.meta").insertOne({ ...yesterdayImportCert, status: "failed" });
+      });
+
+      it("should import", async () => {
+        expect(await importCertifications()).toEqual({
+          total: { orphanCfd: 0, orphanRncp: 0, total: 0 },
+          created: { orphanCfd: 0, orphanRncp: 0, total: 0 },
+          deleted: { orphanCfd: 0, orphanRncp: 0, total: 0 },
+        });
+        expect(
+          await getDbCollection("import.meta")
+            .find({ type: "certifications" }, { sort: { import_date: 1 } })
+            .toArray()
+        ).toEqual([
+          { ...yesterdayImportCert, status: "failed" },
+          {
+            _id: expect.any(ObjectId),
+            import_date: now,
+            source: yesterdayImportCert.source,
+            type: "certifications",
+            status: "done",
+          },
+        ]);
       });
     });
 
@@ -264,6 +296,7 @@ describe("importCertifications", () => {
                     ? todayImportCert.source.kit_apprentissage
                     : yesterdayImportCert.source.kit_apprentissage,
               },
+              status: "done",
               type: "certifications",
             },
           ]);
@@ -567,6 +600,7 @@ describe("importCertifications", () => {
             france_competence: todayImportCert.source.france_competence,
             kit_apprentissage: todayImportCert.source.kit_apprentissage,
           },
+          status: "done",
           type: "certifications",
         },
       ]);
@@ -695,6 +729,7 @@ describe("importCertifications", () => {
             kit_apprentissage: todayImportCert.source.kit_apprentissage,
           },
           type: "certifications",
+          status: "done",
         },
       ]);
 

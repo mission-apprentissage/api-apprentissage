@@ -71,6 +71,7 @@ export const zImportMetaCertifications = z
   .object({
     _id: zObjectId,
     import_date: z.date(),
+    status: z.enum(["pending", "done", "failed"]),
     type: z.literal("certifications"),
     source: z.object({
       bcn: z.object({ import_date: z.date() }),

@@ -1276,6 +1276,14 @@ exports[`zodToMongoSchema > should convert import.meta schema 1`] = `
             "kit_apprentissage",
           ],
         },
+        "status": {
+          "bsonType": "string",
+          "enum": [
+            "pending",
+            "done",
+            "failed",
+          ],
+        },
         "type": {
           "bsonType": "string",
         },
@@ -1283,6 +1291,7 @@ exports[`zodToMongoSchema > should convert import.meta schema 1`] = `
       "required": [
         "_id",
         "import_date",
+        "status",
         "type",
         "source",
       ],

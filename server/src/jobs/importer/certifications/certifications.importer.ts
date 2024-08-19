@@ -64,7 +64,7 @@ async function getSourceImportMeta(): Promise<IImportMetaCertifications["source"
 
 async function getLatestImportMeta(): Promise<IImportMetaCertifications | null> {
   const importMeta = await getDbCollection("import.meta").findOne<IImportMetaCertifications>(
-    { type: "certifications" },
+    { type: "certifications", status: "done" },
     { sort: { import_date: -1 } }
   );
 
@@ -82,6 +82,7 @@ async function getImportMeta(options: ImportCertificationsOptions | null): Promi
   const importMeta: IImportMetaCertifications = {
     _id: new ObjectId(),
     import_date: new Date(),
+    status: "pending",
     type: "certifications",
     source: sourceImportMeta,
   };
@@ -351,13 +352,15 @@ async function computeImportStats(importDate: Date): Promise<IImportStat> {
 }
 
 export async function importCertifications(options: ImportCertificationsOptions | null = null) {
-  try {
-    const importMeta = await getImportMeta(options);
+  const importMeta = await getImportMeta(options);
 
-    if (importMeta === null) {
-      logger.info("import.certifications: skipping import");
-      return null;
-    }
+  if (importMeta === null) {
+    logger.info("import.certifications: skipping import");
+    return null;
+  }
+
+  try {
+    await getDbCollection("import.meta").insertOne(importMeta);
 
     await validateNiveauFormationDiplomeToInterministerielRule();
 
@@ -372,10 +375,13 @@ export async function importCertifications(options: ImportCertificationsOptions 
 
     await getDbCollection("certifications").deleteMany({ updated_at: { $ne: importMeta.import_date } });
 
-    await getDbCollection("import.meta").insertOne(importMeta);
+    await getDbCollection("import.meta").updateOne({ _id: importMeta._id }, { $set: { status: "done" } });
 
     return stats;
   } catch (error) {
+    await getDbCollection("import.meta").updateOne({ _id: importMeta._id }, { $set: { status: "failed" } });
+    await getDbCollection("certifications").deleteMany({ updated_at: importMeta.import_date });
+
     throw withCause(internal("import.certifications: unable to importCertifications"), error);
   }
 }

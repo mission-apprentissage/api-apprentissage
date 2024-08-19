@@ -31,6 +31,7 @@ describe("CFD continuite", () => {
   const importMeta = {
     _id: new ObjectId(),
     type: "certifications",
+    status: "pending",
     import_date: new Date("2023-12-25T02:00:00.000Z"),
     source: {
       bcn: {
@@ -327,6 +328,7 @@ describe("RNCP continuite", () => {
     _id: new ObjectId(),
     type: "certifications",
     import_date: new Date("2023-12-25T02:00:00.000Z"),
+    status: "pending",
     source: {
       bcn: {
         import_date: new Date("2023-12-24T02:00:00.000Z"),

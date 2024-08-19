@@ -30,7 +30,7 @@ describe("scrapeRessourceApeIdcc", () => {
     expect(result).toEqual({
       url: "https://dares.travail-emploi.gouv.fr/sites/default/files/2034d039cf1e7fed7eac52c2cae984b9/IDCC2021_passageAPEIDCC_diff_version_web.xlsx",
       date: new Date("2024-06-06T22:00:00.000Z"),
-      title: "Table de passage entre la convention collective (code IDCC) et le secteur d’activité (code APE)",
+      title: "Table de passage entre la convention collective (code IDCC) et le secteur d'activité (code APE)",
     });
 
     expect(nock.isDone()).toBe(true);

@@ -19,9 +19,9 @@ export async function scrapeRessourceApeIdcc(): Promise<IImportMetaDares["resour
   const raw = await client.get<string>("/donnees/les-portraits-statistiques-de-branches-professionnelles", {
     responseType: "document",
   });
-  const title = "Table de passage entre la convention collective (code IDCC) et le secteur d’activité (code APE)";
+  const title = "Table de passage entre la convention collective (code IDCC) et le secteur d'activité (code APE)";
   const root = parse(raw.data);
-  const links = root.querySelectorAll(`a.xlsx[data-title='${title}']`);
+  const links = root.querySelectorAll(`a.xlsx[data-title^="${title}"]`);
 
   const linkNode = links.at(0);
 

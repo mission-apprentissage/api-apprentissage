@@ -395,7 +395,9 @@ async function getUnprocessedImportMeta(
           captureException(internal("npec.importer: found an import meta for a resource that is still pending"));
         }
       } else {
-        captureException(internal("npec.importer: found an import meta for a resource that is not in the dataset"));
+        captureException(
+          internal("npec.importer: found an import meta for a resource that is not in the dataset", { meta })
+        );
       }
     }
 

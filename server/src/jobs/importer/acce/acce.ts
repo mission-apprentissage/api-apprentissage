@@ -40,12 +40,16 @@ async function parseAcceFile(stream: ReadStream, source: string, date: Date) {
             return acc;
           }, {});
 
-          return zod.parse({
-            _id: new ObjectId(),
-            source,
-            date,
-            data,
-          });
+          try {
+            return zod.parse({
+              _id: new ObjectId(),
+              source,
+              date,
+              data,
+            });
+          } catch (error) {
+            throw withCause(internal("import.acce: error when parsing", { record }), error);
+          }
         },
       }),
       createBatchTransformStream({ size: 100 }),

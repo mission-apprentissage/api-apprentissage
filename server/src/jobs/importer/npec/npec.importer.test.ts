@@ -515,6 +515,46 @@ describe("importNpecResource", () => {
       ],
       date: new Date("2024-04-03T00:00:00.000+02:00"),
     },
+    "Referentiel-des-NPEC-15.07.2024_vMAJ-18.07.2024.xlsx": {
+      source: [
+        {
+          certificateur: "MINISTERE DE L'EDUCATION NATIONALE ET DE LA JEUNESSE",
+          cpne_code: "2",
+          cpne_libelle: "CNPE des sociétés financières",
+          date_applicabilite: new Date("2024-07-15T00:00:00.000Z"),
+          diplome_code: null,
+          diplome_libelle: "BP",
+          formation_libelle: "Mise en oeuvre caoutchoucs élastomères thermoplastiques",
+          idcc: null,
+          npec: 9497,
+          procedure: null,
+          rncp: "RNCP1002",
+          statut: "A",
+          type: "npec",
+        },
+        {
+          cpne_code: "2",
+          cpne_libelle: "CNPE des sociétés financières",
+          idcc: "478",
+          type: "cpne-idcc",
+        },
+      ],
+      normalized: [
+        {
+          _id: expect.any(ObjectId),
+          cpne_code: "2",
+          cpne_libelle: "CNPE des sociétés financières",
+          date_applicabilite: new Date("2024-07-15T00:00:00.000+02:00"),
+          idcc: [478],
+          npec: [9497],
+          rncp: "RNCP1002",
+          filename: "Referentiel-des-NPEC-15.07.2024_vMAJ-18.07.2024.xlsx",
+          date_file: new Date("2024-07-18T00:00:00.000+02:00"),
+          date_import: now,
+        },
+      ],
+      date: new Date("2024-07-18T00:00:00.000+02:00"),
+    },
   } as const;
 
   it.each<[keyof typeof expectedDataMap]>([
@@ -522,6 +562,7 @@ describe("importNpecResource", () => {
     ["vf_referentiel_avec_idcc_oct_2019.xlsx"],
     ["VF_11.02.2021_Référentiel-NPEC-20192020_avec_idcc.xlsx"],
     ["Referentiel-des-NPEC_vMAJ-09.04.2024.xlsx"],
+    ["Referentiel-des-NPEC-15.07.2024_vMAJ-18.07.2024.xlsx"],
   ])("should import correctly %s", async (filename) => {
     const dataFixture = join(dirname(fileURLToPath(import.meta.url)), `fixtures/${filename}`);
     const s = createReadStream(dataFixture);

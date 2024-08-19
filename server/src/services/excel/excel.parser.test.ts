@@ -26,13 +26,13 @@ describe("parseExcelFileStream", () => {
         key: "npec",
         skipRows: 3,
         columns: [
-          { name: "rncp", regex: /^Code RNCP$/i },
-          { name: "formation_libelle", regex: /^Libellé de la formation$/i },
-          { name: "certificateur", regex: /^Certificateur\*\s+/i },
-          { name: "diplome_libelle", regex: /^Libellé du Diplôme$/i },
-          { name: "cpne_code", regex: /^Code CPNE$/i },
-          { name: "cpne_libelle", regex: /^CPNE$/i },
-          { name: "npec", regex: /^NPEC final$/i },
+          { type: "required", name: "rncp", regex: [/^Code RNCP$/i] },
+          { type: "required", name: "formation_libelle", regex: [/^Libellé de la formation$/i] },
+          { type: "required", name: "certificateur", regex: [/^Certificateur\*\s+/i] },
+          { type: "required", name: "diplome_libelle", regex: [/^Libellé du Diplôme$/i] },
+          { type: "required", name: "cpne_code", regex: [/^Code CPNE$/i] },
+          { type: "required", name: "cpne_libelle", regex: [/^CPNE$/i] },
+          { type: "required", name: "npec", regex: [/^NPEC final$/i] },
         ],
       },
       {
@@ -41,9 +41,9 @@ describe("parseExcelFileStream", () => {
         key: "cpne-idcc",
         skipRows: 1,
         columns: [
-          { name: "cpne_code", regex: /^Code CPNE/i },
-          { name: "cpne_libelle", regex: /^CPNE/i },
-          { name: "idcc", regex: /^IDCC/i },
+          { type: "required", name: "cpne_code", regex: [/^Code CPNE/i] },
+          { type: "required", name: "cpne_libelle", regex: [/^CPNE/i] },
+          { type: "required", name: "idcc", regex: [/^IDCC/i] },
         ],
       },
     ] as const;
@@ -68,9 +68,9 @@ describe("parseExcelFileStream", () => {
         key: "cpne-idcc",
         skipRows: 1,
         columns: [
-          { name: "cpne_code", regex: /^Code CPNE/i },
-          { name: "cpne_libelle", regex: /^CPNE/i },
-          { name: "idcc", regex: /^IDCC/i },
+          { type: "required", name: "cpne_code", regex: [/^Code CPNE/i] },
+          { type: "required", name: "cpne_libelle", regex: [/^CPNE/i] },
+          { type: "required", name: "idcc", regex: [/^IDCC/i] },
         ],
       },
     ] as const;
@@ -95,9 +95,9 @@ describe("parseExcelFileStream", () => {
         key: "cpne-idcc",
         skipRows: 1,
         columns: [
-          { name: "cpne_code", regex: /^Code CPNE/i },
-          { name: "cpne_libelle", regex: /^CPNE/i },
-          { name: "idcc", regex: /^IDCC/i },
+          { type: "required", name: "cpne_code", regex: [/^Code CPNE/i] },
+          { type: "required", name: "cpne_libelle", regex: [/^CPNE/i] },
+          { type: "required", name: "idcc", regex: [/^IDCC/i] },
         ],
       },
       {
@@ -127,9 +127,9 @@ describe("parseExcelFileStream", () => {
         key: "cpne-idcc",
         skipRows: 1,
         columns: [
-          { name: "cpne_code", regex: /^Code CPNE/i },
-          { name: "cpne_libelle", regex: /^CPNE/i },
-          { name: "idcc", regex: /^IDCC/i },
+          { type: "required", name: "cpne_code", regex: [/^Code CPNE/i] },
+          { type: "required", name: "cpne_libelle", regex: [/^CPNE/i] },
+          { type: "required", name: "idcc", regex: [/^IDCC/i] },
         ],
       },
       {

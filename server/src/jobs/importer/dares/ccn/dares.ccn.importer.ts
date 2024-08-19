@@ -27,8 +27,8 @@ async function importResource(importMeta: IImportMetaDares, signal?: AbortSignal
           key: "data",
           skipRows: 3,
           columns: [
-            { name: "idcc", regex: /^IDCC$/i },
-            { name: "titre", regex: /^TITRE DE LA CONVENTION$/i },
+            { type: "required", name: "idcc", regex: [/^IDCC$/i] },
+            { type: "required", name: "titre", regex: [/^TITRE DE LA CONVENTION$/i] },
           ],
         },
         {

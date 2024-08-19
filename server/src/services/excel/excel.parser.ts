@@ -15,10 +15,18 @@ declare module "exceljs" {
   }
 }
 
-type ColumnSpec = Readonly<{
-  name: string;
-  regex: RegExp;
+type ColumnSpecIgnore = Readonly<{
+  regex: ReadonlyArray<RegExp>;
+  type: "ignore";
 }>;
+
+type ColumnSpecRequiredOrOptional = Readonly<{
+  name: string;
+  regex: ReadonlyArray<RegExp>;
+  type: "required" | "optional";
+}>;
+
+type ColumnSpec = ColumnSpecIgnore | ColumnSpecRequiredOrOptional;
 
 type Value = null | number | string | boolean | Date | undefined;
 
@@ -32,7 +40,7 @@ type ExcelParseSheetSpecRequiredOrOptional = Readonly<{
   key: string;
   nameMatchers: ReadonlyArray<RegExp>;
   skipRows: number;
-  columns: ReadonlyArray<ColumnSpec | null> | "auto";
+  columns: ReadonlyArray<ColumnSpec> | "auto";
 }>;
 
 export type ExcelParseSheetSpec = ExcelParseSheetSpecIgnore | ExcelParseSheetSpecRequiredOrOptional;
@@ -89,10 +97,30 @@ function parseRow(row: ExcelJs.Row, sheet: string, headers: Array<string | null>
   );
 }
 
+function isColumnSpecMatch(spec: ColumnSpec, value: Value): boolean {
+  if (typeof value === "string") return spec.regex.some((regex) => regex.test(value));
+
+  return value === null && spec.regex.some((regex) => regex.test(""));
+}
+
+function findColumnSpec(columns: Set<ColumnSpec>, value: Value): ColumnSpec | null {
+  for (const column of columns) {
+    if (isColumnSpecMatch(column, value)) {
+      if (column.type !== "ignore") {
+        columns.delete(column);
+      }
+
+      return column;
+    }
+  }
+
+  return null;
+}
+
 function getHeaders(
   values: Value[],
-  columns: ReadonlyArray<ColumnSpec | null> | "auto",
-  throwInvalid: () => never
+  columns: ReadonlyArray<ColumnSpec> | "auto",
+  throwInvalid: (d: { extra: string[]; missing: string[] }) => never
 ): Array<string | null> {
   if (columns === "auto") {
     return values.map((value, i) => {
@@ -101,23 +129,33 @@ function getHeaders(
     });
   }
 
-  const extraValues = values.slice(columns.length);
+  const headers: Array<string | null> = [];
+  const unprocessedSpecs: Set<ColumnSpec> = new Set(columns);
 
-  const everyColumnFound = columns.every((column, i) => {
-    const v = values[i];
+  const extraColumns: Value[] = [];
 
-    if (column === null) return v === null;
-
-    return typeof v === "string" && column.regex.test(v);
-  });
-
-  const validSpec = everyColumnFound && extraValues.every((v) => v === null);
-
-  if (!validSpec) {
-    throwInvalid();
+  for (const value of values) {
+    const column = findColumnSpec(unprocessedSpecs, value);
+    if (column === null) {
+      extraColumns.push(value);
+    } else if (column.type === "ignore") {
+      headers.push(null);
+    } else {
+      headers.push(column.name);
+    }
   }
 
-  return columns.map((column) => (column === null ? null : column.name));
+  const missingColumns = Array.from(unprocessedSpecs)
+    .filter((c) => c.type === "required")
+    .map((c) => (c as ColumnSpecRequiredOrOptional).name);
+
+  const validSpec = missingColumns.length === 0 && extraColumns.length === 0;
+
+  if (!validSpec) {
+    throwInvalid({ extra: extraColumns.map(String), missing: missingColumns });
+  }
+
+  return headers;
 }
 
 async function* parseSheet(
@@ -138,9 +176,20 @@ async function* parseSheet(
     if (headers === null) {
       const values = getCells(row).map(parseCell);
 
-      headers = getHeaders(getCells(row).map(parseCell), sheetSpec.columns, () => {
-        throw internal("Header not found", { sheetSpec, sheet: worksheetReader.name, values, skippedRows });
-      });
+      headers = getHeaders(
+        getCells(row).map(parseCell),
+        sheetSpec.columns,
+        ({ extra, missing }: { extra: string[]; missing: string[] }) => {
+          throw internal("Invalid header found", {
+            extra,
+            missing,
+            sheetSpec,
+            sheet: worksheetReader.name,
+            values,
+            skippedRows,
+          });
+        }
+      );
       continue;
     }
 

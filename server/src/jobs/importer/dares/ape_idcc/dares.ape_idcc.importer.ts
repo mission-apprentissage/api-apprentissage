@@ -27,12 +27,12 @@ async function importResource(importMeta: IImportMetaDares, signal?: AbortSignal
           key: "data",
           skipRows: 6,
           columns: [
-            { name: "ape_code", regex: /^apen$/i },
-            { name: "ape_intitule", regex: /^intape$/i },
-            { name: "effectif", regex: /^effarrdiff$/i },
-            { name: "idcc", regex: /^idcc$/i },
-            { name: "titre", regex: /^intidcc$/i },
-            { name: "effectif_pct", regex: /^pctdiff$/i },
+            { type: "required", name: "ape_code", regex: [/^apen$/i] },
+            { type: "required", name: "ape_intitule", regex: [/^intape$/i] },
+            { type: "required", name: "effectif", regex: [/^effarrdiff$/i] },
+            { type: "required", name: "idcc", regex: [/^idcc$/i] },
+            { type: "required", name: "titre", regex: [/^intidcc$/i] },
+            { type: "required", name: "effectif_pct", regex: [/^pctdiff$/i] },
           ],
         },
         {

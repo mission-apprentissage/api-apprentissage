@@ -40,6 +40,7 @@ export function EntrepriseSection(props: EntrepriseSectionProps) {
       <AutocompleteSelect
         id="idcc-quick-search"
         options={options}
+        label="Renseigner le code IDCC et/ou le nom de la convention collective"
         onChange={(option) => props.onIdccChanged(option?.key ?? null)}
         noOptionsText="Nous ne trouvons pas de résultats pour la convention collective renseignée"
       />

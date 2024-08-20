@@ -39,6 +39,7 @@ export function CertificationSection(props: CertificationSectionProps) {
       </Typography>
       <AutocompleteSelect
         id="rncp-quick-search"
+        label="Renseigner le code RNCP et/ou l’intitulé de la certification"
         options={options}
         onChange={(option) => props.onRncpChanged(option?.key ?? null)}
         noOptionsText="Nous ne trouvons pas de résultats pour la certification renseignée"

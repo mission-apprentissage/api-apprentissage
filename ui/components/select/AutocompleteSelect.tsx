@@ -4,6 +4,7 @@ import Popper, { PopperProps } from "@mui/material/Popper";
 import match from "autosuggest-highlight/match";
 import parse from "autosuggest-highlight/parse";
 import { matchSorter } from "match-sorter";
+import { useCallback } from "react";
 
 interface AutocompleteSelectOption<T extends string | number> {
   key: T;
@@ -15,16 +16,7 @@ interface AutocompleteSelectProps<T extends string | number> {
   onChange: (value: AutocompleteSelectOption<T> | null) => void;
   noOptionsText: string;
   id: string;
-}
-
-function InputOption(params: AutocompleteRenderInputParams) {
-  return (
-    <Input
-      label="Renseigner le code RNCP ou l’intitulé de la certification"
-      ref={params.InputProps.ref}
-      nativeInputProps={params.inputProps}
-    ></Input>
-  );
+  label: string;
 }
 
 function renderOption<T extends string | number>(
@@ -75,6 +67,13 @@ function getOptionLabel<T extends string | number>(option: AutocompleteSelectOpt
 }
 
 export function AutocompleteSelect<T extends string | number>(props: AutocompleteSelectProps<T>) {
+  const renderInput = useCallback(
+    (params: AutocompleteRenderInputParams) => (
+      <Input label={props.label} ref={params.InputProps.ref} nativeInputProps={params.inputProps}></Input>
+    ),
+    []
+  );
+
   return (
     <Autocomplete
       id={props.id}
@@ -83,7 +82,7 @@ export function AutocompleteSelect<T extends string | number>(props: Autocomplet
       options={props.options}
       getOptionLabel={getOptionLabel}
       getOptionKey={getOptionKey}
-      renderInput={InputOption}
+      renderInput={renderInput}
       PopperComponent={PopperComponent}
       onChange={(_event, value) => {
         props.onChange(value);

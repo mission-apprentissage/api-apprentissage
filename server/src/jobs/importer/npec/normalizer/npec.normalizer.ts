@@ -105,20 +105,23 @@ function normalizeNpecDocument(
   const date_applicabilite = normaliseDateApplicabilite(doc.data);
 
   try {
-    const normalizedDocs = rncp.split("/").map((rncp) => {
-      return zSourceNpecNormalizedFlatData.omit({ _id: true }).parse({
-        rncp: normaliseRncpCode(rncp),
-        cpne_code,
-        cpne_libelle,
-        npec,
-        date_applicabilite,
-        idcc: Array.from(idcc.values()),
-        filename: doc.filename,
-        date_file: doc.date_file,
-        import_id: doc.import_id,
-        date_import: doc.date_import,
+    const normalizedDocs = rncp
+      .split("/")
+      .filter(Boolean)
+      .map((rncp) => {
+        return zSourceNpecNormalizedFlatData.omit({ _id: true }).parse({
+          rncp: normaliseRncpCode(rncp),
+          cpne_code,
+          cpne_libelle,
+          npec,
+          date_applicabilite,
+          idcc: Array.from(idcc.values()),
+          filename: doc.filename,
+          date_file: doc.date_file,
+          import_id: doc.import_id,
+          date_import: doc.date_import,
+        });
       });
-    });
 
     return normalizedDocs;
   } catch (error) {

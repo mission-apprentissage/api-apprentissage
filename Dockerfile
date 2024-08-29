@@ -1,4 +1,6 @@
-FROM node:22-slim AS builder_root
+# Temporary solution freeze NodeJs version https://github.com/vercel/next.js/discussions/69326
+# https://github.com/vercel/next.js/issues/69150
+FROM node:22.6-slim AS builder_root
 WORKDIR /app
 RUN yarn set version 3.3.1
 COPY .yarn /app/.yarn
@@ -39,7 +41,7 @@ WORKDIR /app
 
 RUN apt-get update && apt-get install -y ca-certificates curl && update-ca-certificates && apt-get clean
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
 
 ARG PUBLIC_PRODUCT_NAME
 ENV PUBLIC_PRODUCT_NAME=$PUBLIC_PRODUCT_NAME
@@ -96,7 +98,7 @@ WORKDIR /app
 
 RUN apt-get update && apt-get install -y ca-certificates curl && update-ca-certificates && apt-get clean
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
 # Uncomment the following line in case you want to disable telemetry during runtime.
 ENV NEXT_TELEMETRY_DISABLED 1
 
@@ -129,6 +131,6 @@ USER nextjs
 
 EXPOSE 3000
 
-ENV PORT 3000
+ENV PORT=3000
 
 CMD ["node", "ui/server"]

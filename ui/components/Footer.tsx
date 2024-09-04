@@ -70,6 +70,15 @@ const Footer = () => {
             },
           }}
         />,
+        <FooterBottomItem
+          key="statistiques"
+          bottomItem={{
+            text: "Statistiques",
+            linkProps: {
+              href: `http://api.apprentissage.beta.gouv.fr/metabase/public/dashboard/240019b1-0f17-4e7c-bf52-a297476d486f`,
+            },
+          }}
+        />,
       ]}
     />
   );

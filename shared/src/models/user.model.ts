@@ -55,6 +55,7 @@ export const zUser = z
       "editeur_logiciel",
       "organisme_financeur",
       "apprenant",
+      "mission_apprentissage",
       "autre",
     ]),
     activite: z

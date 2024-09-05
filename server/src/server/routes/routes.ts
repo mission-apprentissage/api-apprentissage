@@ -1,5 +1,6 @@
 import type { Server } from "@/server/server.js";
 
+import { organisationAdminRoutes } from "./_private/admin/organisations.routes.js";
 import { processorAdminRoutes } from "./_private/admin/processor.admin.routes.js";
 import { userAdminRoutes } from "./_private/admin/user.routes.js";
 import { authRoutes } from "./_private/auth.routes.js";
@@ -19,6 +20,7 @@ export const registerRoutes: RegisterRoutes = ({ server }) => {
   userRoutes({ server });
   emailsRoutes({ server });
   userAdminRoutes({ server });
+  organisationAdminRoutes({ server });
   processorAdminRoutes({ server });
   certificationsRoutes({ server });
   organismeRoutes({ server });

@@ -37,6 +37,13 @@ const getNavigationItems = ({ user, pathname }: GetNavigationItemsProps): MainNa
   if (user?.is_admin) {
     const adminMenuLinks = [
       {
+        text: PAGES.static.adminOrganisations.title,
+        isActive: pathname.startsWith(PAGES.static.adminOrganisations.path),
+        linkProps: {
+          href: PAGES.static.adminOrganisations.path,
+        },
+      },
+      {
         text: PAGES.static.adminUsers.title,
         isActive: pathname.startsWith(PAGES.static.adminUsers.path),
         linkProps: {

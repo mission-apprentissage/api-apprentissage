@@ -24,6 +24,7 @@ const indexes: IModelDescriptorGeneric["indexes"] = [
     },
   ],
   [{ "api_keys._id": 1 }, {}],
+  [{ organisation: 1 }, {}],
 ];
 
 export const zApiKey = z.object({
@@ -44,65 +45,91 @@ export const zApiKeyPrivate = zApiKey.omit({ key: true }).extend({
 export type IApiKeyPrivate = z.output<typeof zApiKeyPrivate>;
 export type IApiKeyPrivateJson = Jsonify<IApiKeyPrivate>;
 
-export const zUser = z
-  .object({
-    _id: zObjectId,
-    email: z.string().email().describe("Email de l'utilisateur").toLowerCase(),
-    type: z.enum([
-      "operateur_public",
-      "organisme_formation",
-      "entreprise",
-      "editeur_logiciel",
-      "organisme_financeur",
-      "apprenant",
-      "autre",
-    ]),
-    activite: z
-      .string()
-      .trim()
-      .nullable()
-      .transform((v) => v || null),
-    objectif: z.enum(["fiabiliser", "concevoir"]).nullable(),
-    cas_usage: z
-      .string()
-      .trim()
-      .nullable()
-      .transform((v) => v || null),
-    cgu_accepted_at: z.date(),
-    is_admin: z.boolean(),
-    api_keys: z.array(zApiKey),
-    updated_at: z.date().describe("Date de mise à jour en base de données"),
-    created_at: z.date().describe("Date d'ajout en base de données"),
-  })
-  .strict();
+export const zUser = z.object({
+  _id: zObjectId,
+  organisation: z.string().nullable(),
+  email: z.string().email().describe("Email de l'utilisateur").toLowerCase(),
+  type: z.enum([
+    "operateur_public",
+    "organisme_formation",
+    "entreprise",
+    "editeur_logiciel",
+    "organisme_financeur",
+    "apprenant",
+    "autre",
+  ]),
+  activite: z
+    .string()
+    .trim()
+    .nullable()
+    .transform((v) => v || null),
+  objectif: z.enum(["fiabiliser", "concevoir"]).nullable(),
+  cas_usage: z
+    .string()
+    .trim()
+    .nullable()
+    .transform((v) => v || null),
+  cgu_accepted_at: z.date(),
+  is_admin: z.boolean(),
+  api_keys: z.array(zApiKey),
+  updated_at: z.date().describe("Date de mise à jour en base de données"),
+  created_at: z.date().describe("Date d'ajout en base de données"),
+});
 
-export const zUserCreate = zUser
+export const zUserCreate = zUser.pick({
+  email: true,
+  is_admin: true,
+});
+
+export const zUserPublic = z.object({
+  _id: zObjectId,
+  email: zUser.shape.email,
+  organisation: z.string().nullable(),
+  is_admin: zUser.shape.is_admin,
+  has_api_key: z.boolean(),
+  api_key_used_at: z.date().nullable(),
+  updated_at: zUser.shape.updated_at,
+  created_at: zUser.shape.created_at,
+});
+
+export const zUserAdminView = zUser
+  .pick({
+    _id: true,
+    email: true,
+    organisation: true,
+    is_admin: true,
+    type: true,
+    activite: true,
+    objectif: true,
+    cas_usage: true,
+    cgu_accepted_at: true,
+    updated_at: true,
+    created_at: true,
+  })
+  .extend({
+    api_keys: z.array(zApiKey.omit({ key: true })),
+  });
+
+export const zUserAdminUpdate = zUserAdminView
   .pick({
     email: true,
     is_admin: true,
+    organisation: true,
+    type: true,
   })
-  .strict();
-
-export const zUserPublic = z
-  .object({
-    _id: zObjectId,
-    email: zUser.shape.email,
-    is_admin: zUser.shape.is_admin,
-    has_api_key: z.boolean(),
-    api_key_used_at: z.date().nullable(),
-    updated_at: zUser.shape.updated_at,
-    created_at: zUser.shape.created_at,
-  })
-  .strict();
+  .partial();
 
 export type IUser = z.output<typeof zUser>;
 export type IUserPublic = Jsonify<z.output<typeof zUserPublic>>;
 export type IUserCreate = Jsonify<z.output<typeof zUserCreate>>;
+export type IUserAdminView = z.output<typeof zUserAdminView>;
+export type IUserAdminUpdate = z.output<typeof zUserAdminUpdate>;
 
 export function toPublicUser(user: IUser): z.output<typeof zUserPublic> {
   return zUserPublic.parse({
     _id: user._id,
     email: user.email,
+    organisation: user.organisation,
     is_admin: user.is_admin,
     has_api_key: user.api_keys.length > 0,
     api_key_used_at: user.api_keys.reduce<Date | null>((acc, key) => {

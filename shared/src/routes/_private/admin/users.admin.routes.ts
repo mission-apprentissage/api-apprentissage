@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { zObjectId } from "../../../models/common.js";
-import { zUserPublic } from "../../../models/user.model.js";
+import { zUserAdminUpdate, zUserAdminView } from "../../../models/user.model.js";
 import { IRoutesDef, ZReqParamsSearchPagination } from "../../common.routes.js";
 
 export const zUserAdminRoutes = {
@@ -10,7 +10,7 @@ export const zUserAdminRoutes = {
       method: "get",
       path: "/_private/admin/users",
       querystring: ZReqParamsSearchPagination,
-      response: { "200": z.array(zUserPublic) },
+      response: { "200": z.array(zUserAdminView) },
       securityScheme: {
         auth: "cookie-session",
         access: "admin",
@@ -21,7 +21,7 @@ export const zUserAdminRoutes = {
       method: "get",
       path: "/_private/admin/users/:id",
       params: z.object({ id: zObjectId }).strict(),
-      response: { "200": zUserPublic },
+      response: { "200": zUserAdminView },
       securityScheme: {
         auth: "cookie-session",
         access: "admin",
@@ -30,4 +30,18 @@ export const zUserAdminRoutes = {
     },
   },
   post: {},
+  put: {
+    "/_private/admin/users/:id": {
+      method: "put",
+      path: "/_private/admin/users/:id",
+      params: z.object({ id: zObjectId }).strict(),
+      body: zUserAdminUpdate,
+      response: { "200": zUserAdminView },
+      securityScheme: {
+        auth: "cookie-session",
+        access: "admin",
+        ressources: {},
+      },
+    },
+  },
 } as const satisfies IRoutesDef;

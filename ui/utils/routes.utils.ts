@@ -82,6 +82,11 @@ export const PAGES = {
       path: "/admin/utilisateurs",
       index: false,
     },
+    adminOrganisations: {
+      title: "Gestion des organisations",
+      path: "/admin/organisations",
+      index: false,
+    },
     adminProcessor: {
       title: "Administration du processeur",
       path: "/admin/processeur",

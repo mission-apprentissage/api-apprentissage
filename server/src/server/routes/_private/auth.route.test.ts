@@ -64,6 +64,7 @@ describe("Authentication", () => {
       expect(userResponse).toEqual({
         _id: user._id.toString(),
         email: "connected@exemple.fr",
+        organisation: null,
         is_admin: false,
         has_api_key: false,
         api_key_used_at: null,
@@ -254,6 +255,7 @@ describe("Authentication", () => {
         _id: user._id.toString(),
         api_key_used_at: null,
         created_at: user.created_at.toJSON(),
+        organisation: null,
         email: user.email,
         has_api_key: false,
         is_admin: false,
@@ -334,6 +336,7 @@ describe("Authentication", () => {
         api_key_used_at: null,
         created_at: user.created_at.toJSON(),
         email: user.email,
+        organisation: null,
         has_api_key: false,
         is_admin: false,
         updated_at: user.updated_at.toJSON(),

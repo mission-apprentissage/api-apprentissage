@@ -92,6 +92,7 @@ export async function registerUser(email: string, data: IBody<IPostRoutes["/_pri
   const user = {
     _id: new ObjectId(),
     email,
+    organisation: null,
     type: data.type,
     activite: data.activite,
     objectif: data.objectif,

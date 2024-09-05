@@ -14,8 +14,12 @@ export const prettyPrintDate = (date: string) => {
   return event.toLocaleDateString("fr-FR", options);
 };
 
-export const formatDate = (date: string, dateFormat = "dd/MM/yyyy") => {
+export const formatDate = (date: string | Date, dateFormat = "dd/MM/yyyy") => {
   return format(date, dateFormat, {
     locale: fr,
   });
+};
+
+export const formatNullableDate = (date: string | null | Date, dateFormat = "dd/MM/yyyy", nullLabel = "Jamais") => {
+  return date ? formatDate(date, dateFormat) : nullLabel;
 };

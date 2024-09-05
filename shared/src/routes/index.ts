@@ -1,6 +1,7 @@
 import type { ConditionalExcept, EmptyObject, Jsonify } from "type-fest";
 import { z, ZodType } from "zod";
 
+import { zOrganisationAdminRoutes } from "./_private/admin/organisation.admin.routes.js";
 import { zProcessorAdminRoutes } from "./_private/admin/processor.admin.routes.js";
 import { zUserAdminRoutes } from "./_private/admin/users.admin.routes.js";
 import { zAuthRoutes } from "./_private/auth.routes.js";
@@ -24,6 +25,7 @@ const zRoutesGet = {
   ...zSourceAcceRoutes.get,
   ...zSimulateurRoutes.get,
   ...zOrganismesRoutes.get,
+  ...zOrganisationAdminRoutes.get,
 } as const;
 
 const zRoutesPost = {
@@ -31,9 +33,12 @@ const zRoutesPost = {
   ...zUserRoutes.post,
   ...zAuthRoutes.post,
   ...zEmailRoutes.post,
+  ...zOrganisationAdminRoutes.post,
 } as const;
 
-const zRoutesPut = {} as const;
+const zRoutesPut = {
+  ...zUserAdminRoutes.put,
+} as const;
 
 const zRoutesDelete = {
   ...zUserRoutes.delete,

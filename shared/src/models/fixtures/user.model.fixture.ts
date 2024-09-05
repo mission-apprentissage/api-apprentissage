@@ -9,6 +9,7 @@ export function generateUserFixture(data?: IUserFixtureInput): IUser {
   return {
     _id: getFixtureValue(data, "_id", new ObjectId()),
     email: getFixtureValue(data, "email", "user@exemple.fr"),
+    organisation: getFixtureValue(data, "organisation", null),
     is_admin: getFixtureValue(data, "is_admin", false),
     api_keys: getFixtureValue(data, "api_keys", []),
     updated_at: getFixtureValue(data, "updated_at", new Date("2024-03-21T00:00:00Z")),

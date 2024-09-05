@@ -1,7 +1,7 @@
 import { notFound } from "@hapi/boom";
 import { RootFilterOperators } from "mongodb";
 import { zRoutes } from "shared";
-import { IUser, toPublicUser } from "shared/models/user.model";
+import { IUser } from "shared/models/user.model";
 
 import { Server } from "@/server/server.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
@@ -24,7 +24,7 @@ export const userAdminRoutes = ({ server }: { server: Server }) => {
 
       const users = await getDbCollection("users").find(filter).toArray();
 
-      return response.status(200).send(users.map(toPublicUser));
+      return response.status(200).send(users);
     }
   );
 
@@ -41,7 +41,28 @@ export const userAdminRoutes = ({ server }: { server: Server }) => {
         throw notFound();
       }
 
-      return response.status(200).send(toPublicUser(user));
+      return response.status(200).send(user);
+    }
+  );
+
+  server.put(
+    "/_private/admin/users/:id",
+    {
+      schema: zRoutes.put["/_private/admin/users/:id"],
+      onRequest: [server.auth(zRoutes.put["/_private/admin/users/:id"])],
+    },
+    async (request, response) => {
+      const user = await getDbCollection("users").findOneAndUpdate(
+        { _id: request.params.id },
+        { $set: request.body },
+        { returnDocument: "after" }
+      );
+
+      if (!user) {
+        throw notFound();
+      }
+
+      return response.status(200).send(user);
     }
   );
 };

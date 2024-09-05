@@ -1472,6 +1472,45 @@ exports[`zodToMongoSchema > should convert indicateurs.usage_api schema 1`] = `
 }
 `;
 
+exports[`zodToMongoSchema > should convert organisations schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "created_at": {
+      "bsonType": "date",
+      "description": "Date d'ajout en base de données",
+    },
+    "nom": {
+      "bsonType": "string",
+      "description": "Nom de l'organisation",
+      "maxLength": 100,
+      "minLength": 2,
+    },
+    "slug": {
+      "bsonType": "string",
+      "description": "Slug de l'organisation",
+      "maxLength": 100,
+      "minLength": 2,
+    },
+    "updated_at": {
+      "bsonType": "date",
+      "description": "Date de mise à jour en base de données",
+    },
+  },
+  "required": [
+    "_id",
+    "nom",
+    "slug",
+    "updated_at",
+    "created_at",
+  ],
+}
+`;
+
 exports[`zodToMongoSchema > should convert sessions schema 1`] = `
 {
   "additionalProperties": false,
@@ -7066,6 +7105,12 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
         },
       ],
     },
+    "organisation": {
+      "bsonType": [
+        "string",
+        "null",
+      ],
+    },
     "type": {
       "bsonType": "string",
       "enum": [
@@ -7085,6 +7130,7 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
   },
   "required": [
     "_id",
+    "organisation",
     "email",
     "type",
     "activite",

@@ -7,6 +7,7 @@ import emailEventsModelDescriptor from "./email_event.model.js";
 import { importMetaModelDescriptor } from "./import.meta.model.js";
 import { indicateurSourceKitApprentissageModelDescriptor } from "./indicateurs/source_kit_apprentissage.model.js";
 import { indicateurUsageApiModelDescriptor } from "./indicateurs/usage_api.model.js";
+import { organisationModelDescriptor } from "./organisation.model.js";
 import sessionsModelDescriptor from "./session.model.js";
 import sourceAcceModelDescriptor from "./source/acce/source.acce.model.js";
 import { sourceBcnModelDescriptor } from "./source/bcn/source.bcn.model.js";
@@ -41,6 +42,7 @@ export const modelDescriptorMap = {
   [sourceKaliCcnModelDescriptor.collectionName]: sourceKaliCcnModelDescriptor,
   [sourceDaresCcnModelDescriptor.collectionName]: sourceDaresCcnModelDescriptor,
   [sourceDaresApeIdccModelDescriptor.collectionName]: sourceDaresApeIdccModelDescriptor,
+  [organisationModelDescriptor.collectionName]: organisationModelDescriptor,
 };
 
 export type IModelDescriptorMap = typeof modelDescriptorMap;

@@ -58,6 +58,10 @@ const config = {
   },
   disable_processors: env.get("DISABLE_PROCESSORS").default("false").asBool(),
   api: {
+    alternance: {
+      public_cert: env.get("API_TOKEN_PUBLIC_KEY").required().asString(),
+      private_key: env.get("API_TOKEN_PRIVATE_KEY").required().asString(),
+    },
     acce: {
       username: env.get("API_ACCE_USERNAME").required().asString(),
       password: env.get("API_ACCE_PASSWORD").required().asString(),
@@ -83,6 +87,9 @@ const config = {
     bal: {
       baseurl: env.get("API_BAL_URL").required().asString(),
       apiKey: env.get("API_BAL_API_KEY").required().asString(),
+    },
+    lba: {
+      endpoint: env.get("LBA_API_ENDPOINT").required().asString(),
     },
   },
 };

@@ -2,11 +2,11 @@ version: "3.8"
 
 services:
   mongodb:
-    image: mongo:6.0.2-focal
+    image: mongo:7
     restart: unless-stopped
     hostname: mongodb
     ports:
-      - "127.0.0.1:27017:27017"
+      - "127.0.0.1:27018:27017"
     command: ["-f", "/etc/mongod.conf"]
     volumes:
       - tpml_mongodb_data:/data
@@ -20,11 +20,11 @@ services:
       start_period: 10s
 
   smtp:
-    image: axllent/mailpit:v1.5.5
+    image: axllent/mailpit:latest
     restart: unless-stopped
     ports:
-      - 1025:1025
-      - 8025:8025
+      - 1026:1025
+      - 8026:8025
     environment:
       - MP_DATA_FILE=/data/mailpit.db
     volumes:

@@ -1,6 +1,9 @@
-threshold: medium
+fileignoreconfig:
+- filename: .infra/vault/vault.yml
+  checksum: 4877e85f6584402f51877f06f7f48b84a6c717c6b90f7343afbcbe63a232d928
 scopeconfig:
 - scope: node
 custom_patterns:
 - (?s)[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}
+threshold: medium
 version: "1.0"

@@ -1,6 +1,8 @@
 fileignoreconfig:
 - filename: .infra/vault/vault.yml
   checksum: 4877e85f6584402f51877f06f7f48b84a6c717c6b90f7343afbcbe63a232d928
+- filename: server/.env.test
+  checksum: 923d791c61c353997f3a51480acb301ed4de57b709a14bd4f35d5f04b64ad930
 scopeconfig:
 - scope: node
 custom_patterns:

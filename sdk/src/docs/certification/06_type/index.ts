@@ -1,4 +1,4 @@
-import { DocTopologie } from "../../types.js";
+import type { DocTopologie } from "../../types.js";
 import { typeField } from "./type/index.js";
 
 export const typeTypologie = {

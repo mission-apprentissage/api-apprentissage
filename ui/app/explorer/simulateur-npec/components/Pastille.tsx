@@ -1,6 +1,7 @@
-import { fr, SpacingToken } from "@codegouvfr/react-dsfr";
+import type { SpacingToken } from "@codegouvfr/react-dsfr";
+import { fr } from "@codegouvfr/react-dsfr";
 import { Typography } from "@mui/material";
-import { PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
 
 export function Pastille({ children, size }: PropsWithChildren<{ size?: SpacingToken }>) {
   return (

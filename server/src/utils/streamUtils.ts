@@ -1,10 +1,11 @@
-import { Readable, Transform, Writable } from "node:stream";
+import type { Readable, Writable } from "node:stream";
+import { Transform } from "node:stream";
 
-import { AbstractCursor } from "mongodb";
+import type { AbstractCursor } from "mongodb";
 import { compose as _compose } from "oleoduc";
 import streamJson from "stream-json";
 import streamers from "stream-json/streamers/StreamArray.js";
-import { z, ZodArray, ZodType, ZodTypeAny } from "zod";
+import type { z, ZodArray, ZodType, ZodTypeAny } from "zod";
 
 type Options = {
   size: number;

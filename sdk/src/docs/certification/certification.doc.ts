@@ -1,4 +1,4 @@
-import { DataSource, DocDictionary } from "../types.js";
+import type { DataSource, DocDictionary } from "../types.js";
 import { identifiantTopologie } from "./00_identifiant/index.js";
 import { periodeValiditeTopologie } from "./01_periode_validite/index.js";
 import { intituleTopologie } from "./02_intitule/index.js";

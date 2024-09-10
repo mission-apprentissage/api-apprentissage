@@ -1,7 +1,7 @@
-import { z } from "zod";
+import type { z } from "zod";
 
 import { certificationsModelDescriptor } from "./certification.model.js";
-import { IModelDescriptorGeneric } from "./common.js";
+import type { IModelDescriptorGeneric } from "./common.js";
 import emailDeniedModelDescriptor from "./email_denied.model.js";
 import emailEventsModelDescriptor from "./email_event.model.js";
 import { importMetaModelDescriptor } from "./import.meta.model.js";

@@ -1,6 +1,6 @@
 import { internal } from "@hapi/boom";
 import { isAxiosError } from "axios";
-import { ISourceReferentiel } from "shared/models/source/referentiel/source.referentiel.model";
+import type { ISourceReferentiel } from "shared/models/source/referentiel/source.referentiel.model";
 
 import config from "@/config.js";
 import getApiClient from "@/services/apis/client.js";

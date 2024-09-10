@@ -1,6 +1,6 @@
 import { ObjectId } from "bson";
 
-import { ICertificationInternal } from "../certification.model.js";
+import type { ICertificationInternal } from "../certification.model.js";
 import { getFixtureValue } from "./fixture_helper.js";
 
 type ICertifBaseLegaleFixtureInput = Partial<ICertificationInternal["base_legale"]>;

@@ -5,7 +5,8 @@ import { internal } from "@hapi/boom";
 import { parse } from "csv-parse";
 import { addJob } from "job-processor";
 import { ObjectId } from "mongodb";
-import { IBcn_N_FormationDiplome, ISourceBcn, zBcnBySource } from "shared/models/source/bcn/source.bcn.model";
+import type { IBcn_N_FormationDiplome, ISourceBcn } from "shared/models/source/bcn/source.bcn.model";
+import { zBcnBySource } from "shared/models/source/bcn/source.bcn.model";
 import { ZodError } from "zod";
 
 import { fetchBcnData } from "@/services/apis/bcn/bcn.js";

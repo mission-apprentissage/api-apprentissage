@@ -1,8 +1,9 @@
-import { generateUri, PathParam, QueryString, WithQueryStringAndPathParam } from "api-alternance-sdk/internal";
-import { IDeleteRoutes, IGetRoutes, IPostRoutes, IPutRoutes, IRequest, IResponse } from "shared";
-import { IResErrorJson, IRouteSchema, IRouteSchemaWrite } from "shared/routes/common.routes";
+import type { PathParam, QueryString, WithQueryStringAndPathParam } from "api-alternance-sdk/internal";
+import { generateUri } from "api-alternance-sdk/internal";
+import type { IDeleteRoutes, IGetRoutes, IPostRoutes, IPutRoutes, IRequest, IResponse } from "shared";
+import type { IResErrorJson, IRouteSchema, IRouteSchemaWrite } from "shared/routes/common.routes";
 import type { EmptyObject } from "type-fest";
-import { z, ZodType } from "zod";
+import type { z, ZodType } from "zod";
 
 import { publicConfig } from "@/config.public";
 

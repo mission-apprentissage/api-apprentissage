@@ -1,5 +1,6 @@
 import { internal } from "@hapi/boom";
-import { AxiosInstance, isAxiosError } from "axios";
+import type { AxiosInstance } from "axios";
+import { isAxiosError } from "axios";
 import axiosRetry from "axios-retry";
 
 import config from "@/config.js";

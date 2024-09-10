@@ -1,8 +1,8 @@
 import { ObjectId } from "mongodb";
 import { zRoutes } from "shared";
-import { IOrganisation } from "shared/models/organisation.model";
+import type { IOrganisation } from "shared/models/organisation.model";
 
-import { Server } from "@/server/server.js";
+import type { Server } from "@/server/server.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
 export const organisationAdminRoutes = ({ server }: { server: Server }) => {

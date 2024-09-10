@@ -1,5 +1,5 @@
-import { oas31 } from "openapi3-ts";
-import { AnyZodObject, ZodType } from "zod";
+import type { oas31 } from "openapi3-ts";
+import type { AnyZodObject, ZodType } from "zod";
 
 export interface IApiRouteSchemaCommon {
   path: string;

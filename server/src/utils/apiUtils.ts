@@ -1,14 +1,15 @@
 import { createHash } from "node:crypto";
-import { createReadStream, ReadStream } from "node:fs";
+import type { ReadStream } from "node:fs";
+import { createReadStream } from "node:fs";
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
-import { Readable } from "node:stream";
+import type { Readable } from "node:stream";
 import { pipeline } from "node:stream/promises";
 
 import { internal } from "@hapi/boom";
-import { AxiosInstance } from "axios";
-import { AxiosCacheInstance } from "axios-cache-interceptor";
+import type { AxiosInstance } from "axios";
+import type { AxiosCacheInstance } from "axios-cache-interceptor";
 import { RateLimiterMemory, RateLimiterQueue } from "rate-limiter-flexible";
 
 import config from "@/config.js";

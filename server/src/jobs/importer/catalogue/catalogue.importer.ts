@@ -2,8 +2,10 @@ import { Transform } from "node:stream";
 import { pipeline } from "node:stream/promises";
 
 import { internal } from "@hapi/boom";
-import { AnyBulkWriteOperation, ObjectId } from "mongodb";
-import { ISourceCatalogue, zSourceCatalogue } from "shared/models/source/catalogue/source.catalogue.model";
+import type { AnyBulkWriteOperation } from "mongodb";
+import { ObjectId } from "mongodb";
+import type { ISourceCatalogue } from "shared/models/source/catalogue/source.catalogue.model";
+import { zSourceCatalogue } from "shared/models/source/catalogue/source.catalogue.model";
 
 import { fetchCatalogueData } from "@/services/apis/catalogue/catalogue.js";
 import { fetchCatalogueEducatifData } from "@/services/apis/catalogue/catalogueEducatif.js";

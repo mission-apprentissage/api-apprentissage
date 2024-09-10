@@ -1,12 +1,12 @@
 import { badRequest, Boom, internal, isBoom } from "@hapi/boom";
 import { captureException } from "@sentry/node";
-import { FastifyError } from "fastify";
+import type { FastifyError } from "fastify";
 import { ResponseValidationError } from "fastify-type-provider-zod/dist/ResponseValidationError.js";
-import { IResError } from "shared/routes/common.routes";
+import type { IResError } from "shared/routes/common.routes";
 import { ZodError } from "zod";
 
 import config from "@/config.js";
-import { Server } from "@/server/server.js";
+import type { Server } from "@/server/server.js";
 
 export function boomify(rawError: FastifyError | Boom<unknown> | Error | ZodError): Boom<unknown> {
   if (isBoom(rawError)) {

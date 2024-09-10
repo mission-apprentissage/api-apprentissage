@@ -1,11 +1,11 @@
 import { internal } from "@hapi/boom";
 import { ObjectId } from "mongodb";
 import { substractIntervals } from "shared";
-import { ICertificationInternal } from "shared/models/certification.model";
-import { IImportMetaCertifications } from "shared/models/import.meta.model";
-import { IBcn_N_FormationDiplome } from "shared/models/source/bcn/bcn.n_formation_diplome.model";
-import { IBcn_N51_FormationDiplome } from "shared/models/source/bcn/bcn.n51_formation_diplome.model";
-import { ISourceFranceCompetence } from "shared/models/source/france_competence/source.france_competence.model";
+import type { ICertificationInternal } from "shared/models/certification.model";
+import type { IImportMetaCertifications } from "shared/models/import.meta.model";
+import type { IBcn_N_FormationDiplome } from "shared/models/source/bcn/bcn.n_formation_diplome.model";
+import type { IBcn_N51_FormationDiplome } from "shared/models/source/bcn/bcn.n51_formation_diplome.model";
+import type { ISourceFranceCompetence } from "shared/models/source/france_competence/source.france_competence.model";
 import { Transform } from "stream";
 import { pipeline } from "stream/promises";
 

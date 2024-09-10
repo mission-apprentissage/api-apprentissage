@@ -1,4 +1,4 @@
-import { IFormationCatalogue } from "shared/models/source/catalogue/source.catalogue.model";
+import type { IFormationCatalogue } from "shared/models/source/catalogue/source.catalogue.model";
 
 export const catalogueDataFixture: IFormationCatalogue[] = [
   {

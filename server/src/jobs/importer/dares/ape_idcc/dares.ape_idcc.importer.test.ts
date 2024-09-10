@@ -4,7 +4,7 @@ import { readFile } from "fs/promises";
 import { ObjectId } from "mongodb";
 import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
 import { dirname, join } from "path";
-import { IImportMetaDares } from "shared/models/import.meta.model";
+import type { IImportMetaDares } from "shared/models/import.meta.model";
 import { fileURLToPath } from "url";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 

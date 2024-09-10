@@ -1,11 +1,9 @@
 import { internal } from "@hapi/boom";
 import { ObjectId } from "mongodb";
-import {
-  ISourceKitApprentissage,
-  zKitApprentissage,
-} from "shared/models/source/kitApprentissage/source.kit_apprentissage.model";
+import type { ISourceKitApprentissage } from "shared/models/source/kitApprentissage/source.kit_apprentissage.model";
+import { zKitApprentissage } from "shared/models/source/kitApprentissage/source.kit_apprentissage.model";
 
-import { ExcelParsedRow } from "@/services/excel/excel.parser.js";
+import type { ExcelParsedRow } from "@/services/excel/excel.parser.js";
 
 export function normalizeKitApprentissageColumnName(column: string): string {
   switch (column) {

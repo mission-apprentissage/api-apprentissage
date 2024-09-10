@@ -1,13 +1,14 @@
 import { internal } from "@hapi/boom";
 import { DateTime } from "luxon";
-import { AnyBulkWriteOperation, ObjectId } from "mongodb";
-import { IImportMetaNpec } from "shared/models/import.meta.model";
-import { ISourceNpec, ISourceNpecReferentielData } from "shared/models/source/npec/source.npec.model";
-import {
+import type { AnyBulkWriteOperation } from "mongodb";
+import { ObjectId } from "mongodb";
+import type { IImportMetaNpec } from "shared/models/import.meta.model";
+import type { ISourceNpec, ISourceNpecReferentielData } from "shared/models/source/npec/source.npec.model";
+import type {
   ISourceNpecNormalized,
   ISourceNpecNormalizedFlat,
-  zSourceNpecNormalizedFlatData,
 } from "shared/models/source/npec/source.npec.normalized.model";
+import { zSourceNpecNormalizedFlatData } from "shared/models/source/npec/source.npec.normalized.model";
 import { Transform } from "stream";
 import { pipeline } from "stream/promises";
 

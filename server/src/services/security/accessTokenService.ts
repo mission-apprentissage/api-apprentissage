@@ -1,9 +1,9 @@
 import { forbidden, internal } from "@hapi/boom";
 import { captureException } from "@sentry/node";
-import { PathParam, QueryString } from "api-alternance-sdk/internal";
+import type { PathParam, QueryString } from "api-alternance-sdk/internal";
 import jwt from "jsonwebtoken";
-import { IUser } from "shared/models/user.model";
-import {
+import type { IUser } from "shared/models/user.model";
+import type {
   IAccessToken,
   IAccessTokenScope,
   IAccessTokenScopeParam,

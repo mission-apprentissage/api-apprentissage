@@ -1,7 +1,8 @@
-import { ReadStream } from "node:fs";
+import type { ReadStream } from "node:fs";
 
 import { internal } from "@hapi/boom";
-import { IDataGouvDataset, IDataGouvDatasetResource, zDataGouvDataset } from "shared";
+import type { IDataGouvDataset, IDataGouvDatasetResource } from "shared";
+import { zDataGouvDataset } from "shared";
 import { ZodError } from "zod";
 
 import getApiClient from "@/services/apis/client.js";

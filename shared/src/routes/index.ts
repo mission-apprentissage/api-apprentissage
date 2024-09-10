@@ -1,5 +1,5 @@
 import type { ConditionalExcept, EmptyObject, Jsonify } from "type-fest";
-import { z, ZodType } from "zod";
+import type { z, ZodType } from "zod";
 
 import { zOrganisationAdminRoutes } from "./_private/admin/organisation.admin.routes.js";
 import { zProcessorAdminRoutes } from "./_private/admin/processor.admin.routes.js";
@@ -9,7 +9,7 @@ import { zEmailRoutes } from "./_private/emails.routes.js";
 import { zSimulateurRoutes } from "./_private/simulateur/simulateur.routes.js";
 import { zUserRoutes } from "./_private/user.routes.js";
 import { zCertificationsRoutes } from "./certification.routes.js";
-import { IRouteSchema, IRouteSchemaWrite } from "./common.routes.js";
+import type { IRouteSchema, IRouteSchemaWrite } from "./common.routes.js";
 import { zSourceAcceRoutes } from "./experimental/source/acce.routes.js";
 import { zCoreRoutes } from "./healthcheck.routes.js";
 import { zOrganismesRoutes } from "./organisme.routes.js";

@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import { IEmailError, IEmailEvent } from "shared/models/email_event.model";
+import type { IEmailError, IEmailEvent } from "shared/models/email_event.model";
 
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 

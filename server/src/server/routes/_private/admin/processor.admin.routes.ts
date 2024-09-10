@@ -1,7 +1,7 @@
 import { getProcessorStatus } from "job-processor";
 import { zRoutes } from "shared";
 
-import { Server } from "@/server/server.js";
+import type { Server } from "@/server/server.js";
 
 export const processorAdminRoutes = ({ server }: { server: Server }) => {
   server.get(

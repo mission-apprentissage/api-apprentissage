@@ -1,9 +1,9 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { IOrganisation } from "shared/models/organisation.model";
-import { IUserAdminView } from "shared/models/user.model";
-import { Jsonify } from "type-fest";
+import type { IOrganisation } from "shared/models/organisation.model";
+import type { IUserAdminView } from "shared/models/user.model";
+import type { Jsonify } from "type-fest";
 
 import Loading from "@/app/loading";
 import { apiGet } from "@/utils/api.utils";

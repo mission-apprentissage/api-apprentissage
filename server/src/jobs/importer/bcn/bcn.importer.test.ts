@@ -2,7 +2,7 @@ import { useMongo } from "@tests/mongo.test.utils.js";
 import { createReadStream } from "fs";
 import { addJob } from "job-processor";
 import { dirname, join } from "path";
-import { ISourceBcn } from "shared/models/source/bcn/source.bcn.model";
+import type { ISourceBcn } from "shared/models/source/bcn/source.bcn.model";
 import { fileURLToPath } from "url";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 

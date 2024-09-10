@@ -1,15 +1,16 @@
 import { useMongo } from "@tests/mongo.test.utils.js";
 import { fastify } from "fastify";
-import { serializerCompiler, validatorCompiler, ZodTypeProvider } from "fastify-type-provider-zod";
+import type { ZodTypeProvider } from "fastify-type-provider-zod";
+import { serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
 import { ObjectId } from "mongodb";
 import { generateUserFixture } from "shared/models/fixtures/index";
-import { IUser } from "shared/models/user.model";
-import { IRouteSchema, ISecuredRouteSchema, WithSecurityScheme } from "shared/routes/common.routes";
+import type { IUser } from "shared/models/user.model";
+import type { IRouteSchema, ISecuredRouteSchema, WithSecurityScheme } from "shared/routes/common.routes";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { z } from "zod";
 
 import { generateApiKey } from "@/actions/users.actions.js";
-import { Server } from "@/server/server.js";
+import type { Server } from "@/server/server.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
 import { apiKeyUsageMiddleware } from "./apiKeyUsageMiddleware.js";

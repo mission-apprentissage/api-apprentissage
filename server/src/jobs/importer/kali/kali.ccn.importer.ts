@@ -1,15 +1,19 @@
 import { addAbortSignal, Duplex, Transform } from "node:stream";
 
 import { internal } from "@hapi/boom";
-import { AnyBulkWriteOperation, ObjectId } from "mongodb";
-import { IDataGouvDataset, removeDiacritics } from "shared";
-import { IImportMeta } from "shared/models/import.meta.model";
-import { ISourceKaliCcn, zSourceKaliCcn } from "shared/models/source/kali/source.kali.ccn.model";
+import type { AnyBulkWriteOperation } from "mongodb";
+import { ObjectId } from "mongodb";
+import type { IDataGouvDataset } from "shared";
+import { removeDiacritics } from "shared";
+import type { IImportMeta } from "shared/models/import.meta.model";
+import type { ISourceKaliCcn } from "shared/models/source/kali/source.kali.ccn.model";
+import { zSourceKaliCcn } from "shared/models/source/kali/source.kali.ccn.model";
 import { pipeline } from "stream/promises";
 
 import { downloadDataGouvResource, fetchDataGouvDataSet } from "@/services/apis/data_gouv/data_gouv.api.js";
 import { withCause } from "@/services/errors/withCause.js";
-import { ExcelParsedRow, parseExcelFileStream } from "@/services/excel/excel.parser.js";
+import type { ExcelParsedRow } from "@/services/excel/excel.parser.js";
+import { parseExcelFileStream } from "@/services/excel/excel.parser.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 import { createBatchTransformStream } from "@/utils/streamUtils.js";
 

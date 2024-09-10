@@ -1,6 +1,6 @@
 import { fr } from "@codegouvfr/react-dsfr";
 import { Box, Container, Hidden, Typography } from "@mui/material";
-import { DocDictionary, DocField, DocTopologie } from "api-alternance-sdk/internal";
+import type { DocDictionary, DocField, DocTopologie } from "api-alternance-sdk/internal";
 import Markdown from "react-markdown";
 
 import { Artwork } from "@/components/artwork/Artwork";

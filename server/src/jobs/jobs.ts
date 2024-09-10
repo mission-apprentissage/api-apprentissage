@@ -70,12 +70,12 @@ export async function setupJobProcessor() {
             },
             "Import des certifications": {
               cron_string: timings.certif,
-              handler: () => importCertifications(),
+              handler: async () => importCertifications(),
               resumable: true,
             },
             "Import des NPEC": {
               cron_string: timings.import_source,
-              handler: () => runNpecImporter(),
+              handler: async () => runNpecImporter(),
               resumable: true,
             },
             "Import des Conventions Collective Kali": {

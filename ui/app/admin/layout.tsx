@@ -1,7 +1,7 @@
 "use client";
 import { fr } from "@codegouvfr/react-dsfr";
 import { Container } from "@mui/material";
-import { FC, PropsWithChildren } from "react";
+import type { FC, PropsWithChildren } from "react";
 
 import { withAuth } from "@/components/login/withAuth";
 

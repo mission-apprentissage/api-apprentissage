@@ -4,10 +4,11 @@ import { Snackbar } from "@mui/material";
 import { captureException } from "@sentry/nextjs";
 import { jwtDecode } from "jwt-decode";
 import { useSearchParams } from "next/navigation";
-import { ComponentType, useEffect, useMemo, useState } from "react";
+import type { ComponentType } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { assertUnreachable } from "shared";
-import { IUserPublic } from "shared/models/user.model";
-import { IAccessToken } from "shared/routes/common.routes";
+import type { IUserPublic } from "shared/models/user.model";
+import type { IAccessToken } from "shared/routes/common.routes";
 
 import { useAuth } from "@/context/AuthContext";
 import { ApiError, apiPost } from "@/utils/api.utils";

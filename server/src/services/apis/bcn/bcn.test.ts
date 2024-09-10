@@ -1,5 +1,5 @@
 import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
-import { ISourceBcn } from "shared/models/source/bcn/source.bcn.model";
+import type { ISourceBcn } from "shared/models/source/bcn/source.bcn.model";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
 import { fetchBcnData } from "./bcn.js";

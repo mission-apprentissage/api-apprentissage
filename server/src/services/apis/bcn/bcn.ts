@@ -1,8 +1,8 @@
-import { ReadStream } from "node:fs";
+import type { ReadStream } from "node:fs";
 
 import { internal } from "@hapi/boom";
 import { isAxiosError } from "axios";
-import { ISourceBcn } from "shared/models/source/bcn/source.bcn.model";
+import type { ISourceBcn } from "shared/models/source/bcn/source.bcn.model";
 
 import getApiClient from "@/services/apis/client.js";
 import { withCause } from "@/services/errors/withCause.js";

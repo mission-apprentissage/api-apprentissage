@@ -2,8 +2,8 @@
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
-import { IUserAdminView } from "shared/models/user.model";
-import { Jsonify } from "type-fest";
+import type { IUserAdminView } from "shared/models/user.model";
+import type { Jsonify } from "type-fest";
 
 import SearchBar from "@/components/SearchBar";
 import { Table } from "@/components/table/Table";

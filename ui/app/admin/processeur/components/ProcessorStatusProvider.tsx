@@ -11,7 +11,7 @@ type ProcessorStatusProviderProps = {
   children: (status: ProcessorStatusJson) => React.ReactNode;
 };
 
-export function ProcessorStatusProvider(props: ProcessorStatusProviderProps) {
+export function ProcessorStatusProvider(props: ProcessorStatusProviderProps): React.ReactNode {
   const result = useQuery({
     queryKey: ["/_private/admin/processor"],
     queryFn: async () => {

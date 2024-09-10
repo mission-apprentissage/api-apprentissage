@@ -1,6 +1,6 @@
-import { IIndicateurUsageApi } from "shared/models/indicateurs/usage_api.model";
+import type { IIndicateurUsageApi } from "shared/models/indicateurs/usage_api.model";
 
-import { Server } from "@/server/server.js";
+import type { Server } from "@/server/server.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
 export function apiKeyUsageMiddleware(server: Server) {

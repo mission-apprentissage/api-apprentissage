@@ -12,14 +12,15 @@ import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import { captureException } from "@sentry/nextjs";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PropsWithChildren } from "react";
-import { IUserPublic } from "shared/models/user.model";
+import type { PropsWithChildren } from "react";
+import type { IUserPublic } from "shared/models/user.model";
 
 import Footer from "@/components/Footer";
 import { Header } from "@/components/header/Header";
 import { AuthContextProvider } from "@/context/AuthContext";
 import { defaultColorScheme } from "@/theme/defaultColorScheme";
-import { ApiError, apiGet } from "@/utils/api.utils";
+import type { ApiError } from "@/utils/api.utils";
+import { apiGet } from "@/utils/api.utils";
 
 import { StartDsfr } from "./StartDsfr";
 import { StartIntl } from "./StartIntl";

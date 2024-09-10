@@ -1,8 +1,8 @@
 import type { ConditionalExcept, EmptyObject, Jsonify } from "type-fest";
-import { z, ZodType } from "zod";
+import type { z, ZodType } from "zod";
 
 import { zApiCertificationsRoutes } from "./certification.routes.js";
-import { IApiRouteSchema, IApiRouteSchemaWrite } from "./common.routes.js";
+import type { IApiRouteSchema, IApiRouteSchemaWrite } from "./common.routes.js";
 import { zApiOrganismesRoutes } from "./organisme.routes.js";
 
 export * from "./common.routes.js";

@@ -2,20 +2,23 @@ import { fastifyCookie } from "@fastify/cookie";
 import { fastifyCors } from "@fastify/cors";
 import { fastifyMultipart } from "@fastify/multipart";
 import { fastifyRateLimit } from "@fastify/rate-limit";
-import { FastifyStaticSwaggerOptions, fastifySwagger, StaticDocumentSpec } from "@fastify/swagger";
-import { fastifySwaggerUi, FastifySwaggerUiOptions } from "@fastify/swagger-ui";
+import type { FastifyStaticSwaggerOptions, StaticDocumentSpec } from "@fastify/swagger";
+import { fastifySwagger } from "@fastify/swagger";
+import type { FastifySwaggerUiOptions } from "@fastify/swagger-ui";
+import { fastifySwaggerUi } from "@fastify/swagger-ui";
 import { notFound } from "@hapi/boom";
-import {
-  fastify,
+import type {
   FastifyBaseLogger,
   FastifyInstance,
   RawReplyDefaultExpression,
   RawRequestDefaultExpression,
   RawServerDefault,
 } from "fastify";
-import { serializerCompiler, validatorCompiler, ZodTypeProvider } from "fastify-type-provider-zod";
+import { fastify } from "fastify";
+import type { ZodTypeProvider } from "fastify-type-provider-zod";
+import { serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
 import { generateOpenApiSchema } from "shared/helpers/openapi/generateOpenapi";
-import { IRouteSchema, WithSecurityScheme } from "shared/routes/common.routes";
+import type { IRouteSchema, WithSecurityScheme } from "shared/routes/common.routes";
 
 import config from "@/config.js";
 import { initSentryFastify } from "@/services/sentry/sentry.js";

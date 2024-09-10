@@ -5,7 +5,8 @@ import { pipeline } from "node:stream/promises";
 import { internal } from "@hapi/boom";
 import { parse } from "csv-parse";
 import { ObjectId } from "mongodb";
-import { ISourceAcce, ZAcceByType } from "shared/models/source/acce/source.acce.model";
+import type { ISourceAcce } from "shared/models/source/acce/source.acce.model";
+import { ZAcceByType } from "shared/models/source/acce/source.acce.model";
 import { Parse } from "unzipper";
 
 import { downloadCsvExtraction } from "@/services/apis/acce/acce.js";

@@ -1,4 +1,5 @@
-import { z, ZodError, ZodType } from "zod";
+import type { z, ZodType } from "zod";
+import { ZodError } from "zod";
 
 export class ApiParseError extends Error {
   constructor(zodError: ZodError) {

@@ -1,12 +1,13 @@
 import { forbidden, internal } from "@hapi/boom";
-import { PathParam, QueryString } from "api-alternance-sdk/internal";
-import { FastifyRequest } from "fastify";
-import { ObjectId } from "mongodb";
-import { IUser } from "shared/models/user.model";
-import { IAccessToken, IRouteSchema, SchemaWithSecurity, WithSecurityScheme } from "shared/routes/common.routes";
-import { AccessPermission, AccessResourcePath, AdminRole, NoneRole, Role } from "shared/security/permissions";
+import type { PathParam, QueryString } from "api-alternance-sdk/internal";
+import type { FastifyRequest } from "fastify";
+import type { ObjectId } from "mongodb";
+import type { IUser } from "shared/models/user.model";
+import type { IAccessToken, IRouteSchema, SchemaWithSecurity, WithSecurityScheme } from "shared/routes/common.routes";
+import type { AccessPermission, AccessResourcePath, Role } from "shared/security/permissions";
+import { AdminRole, NoneRole } from "shared/security/permissions";
 import { assertUnreachable } from "shared/utils/assertUnreachable";
-import { Primitive } from "zod";
+import type { Primitive } from "zod";
 import { zObjectId } from "zod-mongodb-schema";
 
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";

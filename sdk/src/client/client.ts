@@ -1,8 +1,8 @@
-import { EmptyObject } from "type-fest";
-import { z, ZodType } from "zod";
+import type { EmptyObject } from "type-fest";
+import type { z, ZodType } from "zod";
 
-import { IApiRouteSchema, IApiRouteSchemaWrite } from "../routes/common.routes.js";
-import {
+import type { IApiRouteSchema, IApiRouteSchemaWrite } from "../routes/common.routes.js";
+import type {
   IApiDeleteRoutes,
   IApiGetRoutes,
   IApiPostRoutes,
@@ -11,9 +11,12 @@ import {
   IApiResponse,
 } from "../routes/index.js";
 import { ApiError } from "./apiError.js";
-import { buildCertificationModule, CertificationModule } from "./certification/certification.module.js";
-import { generateUri, WithQueryStringAndPathParam } from "./generateUri/generateUri.js";
-import { buildOrganismeModule, OrganismeModule } from "./organisme/organisme.module.js";
+import type { CertificationModule } from "./certification/certification.module.js";
+import { buildCertificationModule } from "./certification/certification.module.js";
+import type { WithQueryStringAndPathParam } from "./generateUri/generateUri.js";
+import { generateUri } from "./generateUri/generateUri.js";
+import type { OrganismeModule } from "./organisme/organisme.module.js";
+import { buildOrganismeModule } from "./organisme/organisme.module.js";
 
 type OptionsGet = {
   [Prop in keyof Pick<IApiRouteSchema, "params" | "querystring" | "headers">]: IApiRouteSchema[Prop] extends ZodType

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 
 export const NotFound: FC = () => (
   <svg viewBox="0 0 191 113">

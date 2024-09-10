@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { zCertification, zCfdParam, zRncpParam } from "../models/index.js";
-import { IApiRoutesDef } from "./common.routes.js";
+import type { IApiRoutesDef } from "./common.routes.js";
 
 export const zApiCertificationsRoutes = {
   get: {

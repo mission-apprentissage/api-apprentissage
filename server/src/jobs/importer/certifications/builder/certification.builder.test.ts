@@ -1,4 +1,4 @@
-import { ICertification } from "api-alternance-sdk";
+import type { ICertification } from "api-alternance-sdk";
 import {
   generateCertificationFixture,
   generateKitApprentissageFixture,

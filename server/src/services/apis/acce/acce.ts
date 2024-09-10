@@ -1,8 +1,9 @@
-import { type ReadStream } from "node:fs";
+import type { ReadStream } from "node:fs";
 import querystring from "node:querystring";
 
 import { internal } from "@hapi/boom";
-import { AxiosInstance, isAxiosError } from "axios";
+import type { AxiosInstance } from "axios";
+import { isAxiosError } from "axios";
 
 import config from "@/config.js";
 import getApiClient from "@/services/apis/client.js";

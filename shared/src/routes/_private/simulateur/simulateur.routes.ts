@@ -3,7 +3,7 @@ import { z } from "zod";
 
 import { zSourceNpecNormalizedData } from "../../../models/source/npec/source.npec.normalized.model.js";
 import { zParisLocalDateParam } from "../../../zod/date.primitives.js";
-import { IRoutesDef } from "../../common.routes.js";
+import type { IRoutesDef } from "../../common.routes.js";
 
 const zSimulateurContext = z.object({
   rncps: z.array(z.object({ intitule: z.string(), code: zRncpCode })),

@@ -1,7 +1,9 @@
 import { captureException } from "@sentry/node";
 import { isEqual } from "lodash-es";
-import { Collection, CollectionInfo, MongoClient, MongoServerError } from "mongodb";
-import { CollectionName, IDocument, IModelDescriptor, modelDescriptors } from "shared/models/models";
+import type { Collection, CollectionInfo, MongoServerError } from "mongodb";
+import { MongoClient } from "mongodb";
+import type { CollectionName, IDocument, IModelDescriptor } from "shared/models/models";
+import { modelDescriptors } from "shared/models/models";
 import { zodToMongoSchema } from "zod-mongodb-schema";
 
 import config from "@/config.js";
@@ -75,7 +77,7 @@ export const getDbCollection = <K extends CollectionName>(name: K): Collection<I
   return ensureInitialization().db().collection(name);
 };
 
-export const getCollectionList = () => {
+export const getCollectionList = async () => {
   return ensureInitialization().db().listCollections().toArray();
 };
 
@@ -151,7 +153,7 @@ export const configureDbSchemaValidation = async (modelDescriptors: IModelDescri
  */
 export const clearAllCollections = async () => {
   const collections = await getDatabase().collections();
-  return Promise.all(collections.map((c) => c.deleteMany({})));
+  return Promise.all(collections.map(async (c) => c.deleteMany({})));
 };
 
 /**
@@ -220,7 +222,9 @@ export const createIndexes = async ({ drop } = { drop: false }) => {
     if (indexesToRemove.size > 0) {
       logger.warn(`Dropping extra indexes for collection ${descriptor.collectionName}`, indexesToRemove);
       await Promise.all(
-        Array.from(indexesToRemove).map((index) => getDbCollection(descriptor.collectionName).dropIndex(index.name))
+        Array.from(indexesToRemove).map(async (index) =>
+          getDbCollection(descriptor.collectionName).dropIndex(index.name)
+        )
       );
     }
   }

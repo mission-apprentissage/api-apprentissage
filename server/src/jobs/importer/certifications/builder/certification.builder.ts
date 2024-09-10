@@ -1,7 +1,8 @@
-import { ICertification, zCertification } from "api-alternance-sdk";
-import { IBcn_N_FormationDiplome } from "shared/models/source/bcn/bcn.n_formation_diplome.model";
-import { IBcn_N51_FormationDiplome } from "shared/models/source/bcn/bcn.n51_formation_diplome.model";
-import { ISourceFranceCompetence } from "shared/models/source/france_competence/source.france_competence.model";
+import type { ICertification } from "api-alternance-sdk";
+import { zCertification } from "api-alternance-sdk";
+import type { IBcn_N_FormationDiplome } from "shared/models/source/bcn/bcn.n_formation_diplome.model";
+import type { IBcn_N51_FormationDiplome } from "shared/models/source/bcn/bcn.n51_formation_diplome.model";
+import type { ISourceFranceCompetence } from "shared/models/source/france_competence/source.france_competence.model";
 
 import { buildCertificationBaseLegale } from "./base_legale/certification.base_legale.builder.js";
 import { buildCertificationBlocsCompetences } from "./blocs_competences/certification.blocs_competences.builder.js";

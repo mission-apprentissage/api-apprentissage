@@ -1,7 +1,7 @@
 import { internal } from "@hapi/boom";
-import { ReadStream } from "fs";
+import type { ReadStream } from "fs";
 import { parse } from "node-html-parser";
-import { IImportMetaDares } from "shared/models/import.meta.model";
+import type { IImportMetaDares } from "shared/models/import.meta.model";
 
 import getApiClient from "@/services/apis/client.js";
 import { withCause } from "@/services/errors/withCause.js";

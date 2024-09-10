@@ -1,7 +1,5 @@
+import type { IApiRouteSchemaCommon, IApiRouteSchemaGet, IApiRouteSchemaWrite } from "api-alternance-sdk";
 import {
-  IApiRouteSchemaCommon,
-  IApiRouteSchemaGet,
-  IApiRouteSchemaWrite,
   zResBadGateway as _zResBadGateway,
   zResBadRequest as _zResBadRequest,
   ZResError as _ZResError,
@@ -13,10 +11,10 @@ import {
   zResUnauthorized as _zResUnauthorized,
 } from "api-alternance-sdk";
 import { zodOpenApi } from "api-alternance-sdk/internal";
-import { Jsonify } from "type-fest";
-import { AnyZodObject, z } from "zod";
+import type { Jsonify } from "type-fest";
+import type { AnyZodObject, z } from "zod";
 
-import { AccessPermission, AccessRessouces } from "../security/permissions.js";
+import type { AccessPermission, AccessRessouces } from "../security/permissions.js";
 
 const zResBadRequest = _zResBadRequest.openapi({ description: "Paramètre de requête non valide." });
 const zResUnauthorized = _zResUnauthorized.openapi({ description: "Clé d’API manquante ou invalide" });

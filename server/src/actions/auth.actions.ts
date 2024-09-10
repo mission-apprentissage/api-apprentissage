@@ -1,7 +1,8 @@
 import { conflict } from "@hapi/boom";
 import { ObjectId } from "mongodb";
-import { IBody, IPostRoutes, zRoutes } from "shared";
-import { IUser } from "shared/models/user.model";
+import type { IBody, IPostRoutes } from "shared";
+import { zRoutes } from "shared";
+import type { IUser } from "shared/models/user.model";
 
 import { sendEmail } from "@/services/mailer/mailer.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";

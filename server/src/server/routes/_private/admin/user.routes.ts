@@ -1,9 +1,9 @@
 import { notFound } from "@hapi/boom";
-import { RootFilterOperators } from "mongodb";
+import type { RootFilterOperators } from "mongodb";
 import { zRoutes } from "shared";
-import { IUser } from "shared/models/user.model";
+import type { IUser } from "shared/models/user.model";
 
-import { Server } from "@/server/server.js";
+import type { Server } from "@/server/server.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
 export const userAdminRoutes = ({ server }: { server: Server }) => {

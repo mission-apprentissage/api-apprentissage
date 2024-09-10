@@ -1,13 +1,14 @@
-import { OpenApiGeneratorV31, OpenAPIRegistry, ResponseConfig, RouteConfig } from "@asteasolutions/zod-to-openapi";
+import type { ResponseConfig, RouteConfig } from "@asteasolutions/zod-to-openapi";
+import { OpenApiGeneratorV31, OpenAPIRegistry } from "@asteasolutions/zod-to-openapi";
 import { formatParamUrl } from "@fastify/swagger";
 import { zCertification } from "api-alternance-sdk";
 import { zodOpenApi } from "api-alternance-sdk/internal";
 import type { SecurityRequirementObject } from "openapi3-ts/oas30";
-import { ZodType } from "zod";
+import type { ZodType } from "zod";
 
 import { zRoutes } from "../../index.js";
+import type { IRouteSchema } from "../../routes/common.routes.js";
 import {
-  IRouteSchema,
   zResBadGateway,
   zResBadRequest,
   zResForbidden,

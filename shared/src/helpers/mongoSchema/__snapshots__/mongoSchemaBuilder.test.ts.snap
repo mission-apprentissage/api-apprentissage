@@ -21,7 +21,17 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
                 "abrogation": {
                   "anyOf": [
                     {
-                      "bsonType": "date",
+                      "anyOf": [
+                        {
+                          "bsonType": "date",
+                        },
+                        {
+                          "bsonType": "string",
+                        },
+                        {
+                          "bsonType": "date",
+                        },
+                      ],
                     },
                     {
                       "bsonType": "null",
@@ -31,7 +41,17 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
                 "creation": {
                   "anyOf": [
                     {
-                      "bsonType": "date",
+                      "anyOf": [
+                        {
+                          "bsonType": "date",
+                        },
+                        {
+                          "bsonType": "string",
+                        },
+                        {
+                          "bsonType": "date",
+                        },
+                      ],
                     },
                     {
                       "bsonType": "null",
@@ -117,7 +137,17 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
                       {
                         "anyOf": [
                           {
-                            "bsonType": "date",
+                            "anyOf": [
+                              {
+                                "bsonType": "date",
+                              },
+                              {
+                                "bsonType": "string",
+                              },
+                              {
+                                "bsonType": "date",
+                              },
+                            ],
                           },
                           {
                             "bsonType": "null",
@@ -134,7 +164,17 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
                       {
                         "anyOf": [
                           {
-                            "bsonType": "date",
+                            "anyOf": [
+                              {
+                                "bsonType": "date",
+                              },
+                              {
+                                "bsonType": "string",
+                              },
+                              {
+                                "bsonType": "date",
+                              },
+                            ],
                           },
                           {
                             "bsonType": "null",
@@ -176,7 +216,17 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
                       {
                         "anyOf": [
                           {
-                            "bsonType": "date",
+                            "anyOf": [
+                              {
+                                "bsonType": "date",
+                              },
+                              {
+                                "bsonType": "string",
+                              },
+                              {
+                                "bsonType": "date",
+                              },
+                            ],
                           },
                           {
                             "bsonType": "null",
@@ -200,7 +250,17 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
                       {
                         "anyOf": [
                           {
-                            "bsonType": "date",
+                            "anyOf": [
+                              {
+                                "bsonType": "date",
+                              },
+                              {
+                                "bsonType": "string",
+                              },
+                              {
+                                "bsonType": "date",
+                              },
+                            ],
                           },
                           {
                             "bsonType": "null",
@@ -389,7 +449,16 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
                     "bsonType": "object",
                     "properties": {
                       "code": {
-                        "bsonType": "string",
+                        "anyOf": [
+                          {
+                            "bsonType": "string",
+                            "pattern": "^[A-Z]{1}\\d{4}$",
+                          },
+                          {
+                            "bsonType": "string",
+                            "pattern": "^[A-Z]\\d{2}$",
+                          },
+                        ],
                       },
                       "intitule": {
                         "bsonType": "string",
@@ -621,7 +690,17 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
                 "fermeture": {
                   "anyOf": [
                     {
-                      "bsonType": "date",
+                      "anyOf": [
+                        {
+                          "bsonType": "date",
+                        },
+                        {
+                          "bsonType": "string",
+                        },
+                        {
+                          "bsonType": "date",
+                        },
+                      ],
                     },
                     {
                       "bsonType": "null",
@@ -631,7 +710,17 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
                 "ouverture": {
                   "anyOf": [
                     {
-                      "bsonType": "date",
+                      "anyOf": [
+                        {
+                          "bsonType": "date",
+                        },
+                        {
+                          "bsonType": "string",
+                        },
+                        {
+                          "bsonType": "date",
+                        },
+                      ],
                     },
                     {
                       "bsonType": "null",
@@ -664,7 +753,17 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
         "debut": {
           "anyOf": [
             {
-              "bsonType": "date",
+              "anyOf": [
+                {
+                  "bsonType": "date",
+                },
+                {
+                  "bsonType": "string",
+                },
+                {
+                  "bsonType": "date",
+                },
+              ],
             },
             {
               "bsonType": "null",
@@ -674,7 +773,17 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
         "fin": {
           "anyOf": [
             {
-              "bsonType": "date",
+              "anyOf": [
+                {
+                  "bsonType": "date",
+                },
+                {
+                  "bsonType": "string",
+                },
+                {
+                  "bsonType": "date",
+                },
+              ],
             },
             {
               "bsonType": "null",
@@ -693,7 +802,17 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
                 "activation": {
                   "anyOf": [
                     {
-                      "bsonType": "date",
+                      "anyOf": [
+                        {
+                          "bsonType": "date",
+                        },
+                        {
+                          "bsonType": "string",
+                        },
+                        {
+                          "bsonType": "date",
+                        },
+                      ],
                     },
                     {
                       "bsonType": "null",
@@ -703,7 +822,17 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
                 "debut_parcours": {
                   "anyOf": [
                     {
-                      "bsonType": "date",
+                      "anyOf": [
+                        {
+                          "bsonType": "date",
+                        },
+                        {
+                          "bsonType": "string",
+                        },
+                        {
+                          "bsonType": "date",
+                        },
+                      ],
                     },
                     {
                       "bsonType": "null",
@@ -713,7 +842,17 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
                 "fin_enregistrement": {
                   "anyOf": [
                     {
-                      "bsonType": "date",
+                      "anyOf": [
+                        {
+                          "bsonType": "date",
+                        },
+                        {
+                          "bsonType": "string",
+                        },
+                        {
+                          "bsonType": "date",
+                        },
+                      ],
                     },
                     {
                       "bsonType": "null",

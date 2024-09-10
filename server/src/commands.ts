@@ -1,6 +1,7 @@
 import { setMaxListeners } from "node:events";
 
 import { captureException } from "@sentry/node";
+import { parseApiAlternanceToken } from "api-alternance-sdk";
 import { program } from "commander";
 import { addJob, startJobProcessor } from "job-processor";
 import HttpTerminator from "lil-http-terminator";
@@ -8,9 +9,10 @@ import HttpTerminator from "lil-http-terminator";
 import config from "./config.js";
 import createServer from "./server/server.js";
 import { closeMemoryCache } from "./services/apis/client.js";
+import { createAuthToken } from "./services/apis/lba/lba.api.js";
 import logger from "./services/logger.js";
 import { closeMailer } from "./services/mailer/mailer.js";
-import { closeMongodbConnection } from "./services/mongodb/mongodbService.js";
+import { closeMongodbConnection, getDbCollection } from "./services/mongodb/mongodbService.js";
 import { closeSentry, initSentryProcessor } from "./services/sentry/sentry.js";
 import { sleep } from "./utils/asyncUtils.js";
 
@@ -223,6 +225,23 @@ program
   .option("-q, --queued", "Run job asynchronously", false)
   .action(async ({ uai, siret, certification }) => {
     return createJobAction("experimental:redressement:uai-siret")({ couple: { uai, siret }, certification });
+  });
+
+program
+  .command("debug:auth:token")
+  .description("Create a LBA API token")
+  .requiredOption("-e, --email <string>", "User email to create the token for")
+  .action(async ({ email }) => {
+    const user = await getDbCollection("users").findOne({ email });
+
+    if (!user) {
+      program.error(`User with email ${email} not found`);
+    }
+
+    const token = createAuthToken(user);
+    logger.info({ token });
+
+    logger.info(parseApiAlternanceToken({ token, publicKey: config.api.alternance.public_cert }));
   });
 
 export async function startCLI() {

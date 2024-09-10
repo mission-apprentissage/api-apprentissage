@@ -10,6 +10,7 @@ import { userRoutes } from "./_private/user.routes.js";
 import { certificationsRoutes } from "./certification.routes.js";
 import { sourceAcceRoutes } from "./experimental/sources/acce.routes.js";
 import { healthcheckRoutes } from "./healthcheck.routes.js";
+import { jobRoutes } from "./job/job.routes.js";
 import { organismeRoutes } from "./organisme.routes.js";
 
 type RegisterRoutes = (opts: { server: Server }) => void;
@@ -26,4 +27,5 @@ export const registerRoutes: RegisterRoutes = ({ server }) => {
   organismeRoutes({ server });
   sourceAcceRoutes({ server });
   simulateurRoutes({ server });
+  jobRoutes({ server });
 };

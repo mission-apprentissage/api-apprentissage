@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "@asteasolutions/zod-to-openapi": "^7.1.1",
+    "jsonwebtoken": "^9.0.2",
     "luxon": "^3.5.0",
     "openapi3-ts": "^4.3.3",
     "zod": "^3.23.8"

@@ -12,6 +12,7 @@ import { zCertificationsRoutes } from "./certification.routes.js";
 import type { IRouteSchema, IRouteSchemaWrite } from "./common.routes.js";
 import { zSourceAcceRoutes } from "./experimental/source/acce.routes.js";
 import { zCoreRoutes } from "./healthcheck.routes.js";
+import { zJobRoutes } from "./job.routes.js";
 import { zOrganismesRoutes } from "./organisme.routes.js";
 
 const zRoutesGet = {
@@ -26,6 +27,7 @@ const zRoutesGet = {
   ...zSimulateurRoutes.get,
   ...zOrganismesRoutes.get,
   ...zOrganisationAdminRoutes.get,
+  ...zJobRoutes.get,
 } as const;
 
 const zRoutesPost = {

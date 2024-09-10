@@ -1,5 +1,5 @@
 import type { Jsonify } from "type-fest";
-import { z } from "zod";
+import type { z } from "zod";
 
 import { certificationDoc } from "../../docs/certification/certification.doc.js";
 import { zParisLocalDate } from "../../utils/date.primitives.js";
@@ -10,6 +10,7 @@ import {
   zNsfCode,
   zRncp,
   zRncpBlocCompetenceCode,
+  zRomeCode,
   zTypeEnregistrement,
 } from "./certification.primitives.js";
 
@@ -82,11 +83,11 @@ const zCertifPeriodeValidite = zodOpenApi
           ]),
           examples: ["2022-08-31T23:59:59.000+02:00", "2022-12-31T23:59:59.000+01:00"],
         }),
-        premiere_session: z.number().int().nullable().openapi({
+        premiere_session: zodOpenApi.number().int().nullable().openapi({
           description: "Année de sortie des premiers diplômés.",
           example: 2022,
         }),
-        derniere_session: z.number().int().nullable().openapi({
+        derniere_session: zodOpenApi.number().int().nullable().openapi({
           description: "Année de sortie des derniers diplômés.",
           example: 2025,
         }),
@@ -313,7 +314,7 @@ const zCertifDomaines = zodOpenApi
         }),
       rncp: zodOpenApi
         .array(
-          z.object({
+          zodOpenApi.object({
             code: zNsfCode,
             intitule: zodOpenApi.string().nullable().openapi({
               example: "221 : Agro-alimentaire, alimentation, cuisine",
@@ -332,9 +333,13 @@ const zCertifDomaines = zodOpenApi
         rncp: zodOpenApi
           .array(
             zodOpenApi.object({
-              code: zodOpenApi.string().openapi({
-                example: "D1102",
-              }),
+              code: zodOpenApi.union([
+                zRomeCode,
+                zodOpenApi
+                  .string()
+                  .regex(/^[A-Z]\d{2}$/)
+                  .openapi({ example: "H24" }),
+              ]),
               intitule: zodOpenApi.string().openapi({
                 example: "Boulangerie - viennoiserie",
               }),
@@ -557,7 +562,7 @@ export const zContinuite = zodOpenApi.object({
     }),
 });
 
-export const zCertification = z.object({
+export const zCertification = zodOpenApi.object({
   identifiant: zCertifIdentifiant,
   intitule: zCertifIntitule,
   base_legale: zCertifBaseLegale,

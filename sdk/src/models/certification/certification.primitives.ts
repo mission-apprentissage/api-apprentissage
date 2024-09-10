@@ -27,6 +27,13 @@ export const zNsfCode = zodOpenApi
     example: "221",
   });
 
+export const zRomeCode = zodOpenApi
+  .string()
+  .regex(/^[A-Z]{1}\d{4}$/)
+  .openapi({
+    example: "D1102",
+  });
+
 export const zCfdNatureCode = zodOpenApi.string().regex(/^[0-9A-Z]$/);
 
 export const zRncpBlocCompetenceCode = zodOpenApi

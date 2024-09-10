@@ -42,19 +42,34 @@ export function boomify(rawError: FastifyError | Boom<unknown> | Error | ZodErro
   return internal();
 }
 
+export function formatResponseError(rawError: FastifyError | Boom<unknown> | Error | ZodError): IResError {
+  const error = boomify(rawError);
+
+  const result: IResError = {
+    statusCode: error.output.statusCode,
+    name: error.output.payload.error,
+    message: "The server was unable to complete your request",
+  };
+
+  if (error.output.statusCode >= 500) {
+    return result;
+  }
+
+  result.message = error.message;
+
+  if (error.data) {
+    result.data = error.data;
+  }
+
+  return result;
+}
+
 export function errorMiddleware(server: Server) {
   server.setErrorHandler<FastifyError | Boom<unknown> | Error | ZodError, { Reply: IResError }>(
     (rawError, _request, reply) => {
-      const error = boomify(rawError);
+      const payload: IResError = formatResponseError(rawError);
 
-      const payload: IResError = {
-        statusCode: error.output.statusCode,
-        name: error.output.payload.error,
-        message: error.message,
-        ...(error.data ? { data: error.data } : {}),
-      };
-
-      if (error.output.statusCode >= 500) {
+      if (payload.statusCode >= 500) {
         server.log.error(rawError instanceof ZodError ? rawError.format() : rawError);
         captureException(rawError);
       }

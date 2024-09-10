@@ -2,7 +2,7 @@ import { zRncp, zRncpCode } from "api-alternance-sdk";
 import { z } from "zod";
 
 import { zSourceNpecNormalizedData } from "../../../models/source/npec/source.npec.normalized.model.js";
-import { zParisLocalDateParam } from "../../../zod/date.primitives.js";
+import { zParisLocalDate } from "../../../zod/date.primitives.js";
 import type { IRoutesDef } from "../../common.routes.js";
 
 const zSimulateurContext = z.object({
@@ -26,7 +26,7 @@ export const zSimulateurRoutes = {
       querystring: z.object({
         rncp: zRncp,
         idcc: z.coerce.number(),
-        date_signature: zParisLocalDateParam,
+        date_signature: zParisLocalDate,
       }),
       response: {
         200: z

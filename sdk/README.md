@@ -56,6 +56,34 @@ Le module certification fournit des méthodes pour interagir avec les endpoints 
 
 `index(filter: FindFilter): Promise<ICertification[]>`: Récupère une liste de certifications en fonction du filtre fourni.
 
+### Module Job
+
+Le module job fournit des méthodes pour interagir avec les endpoints liés aux opportunitées d'emploi sur La bonne alternance.
+
+#### search
+
+`search(querystring: IJobSearchQuery): Promise<IJobSearchResponse>`: Recherche des opportunitées d'emplois en fonction de requête fournie.
+
+```javascript
+const querystring = {
+  latitude: 48.84823,
+  longitude: 2.397416,
+  radius: 10,
+  target_diploma_level: "3",
+  romes: ["F1603", "F1602"],
+  rncp: "RNCP37442",
+};
+
+apiClient.job
+  .search(querystring)
+  .then((response) => {
+    console.log(response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+```
+
 ### Gestion des erreurs
 
 Les erreurs sont levées sous forme d'instances de `ApiError`. Vous pouvez les capturer et les gérer comme suit :

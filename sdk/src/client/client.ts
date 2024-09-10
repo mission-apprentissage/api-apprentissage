@@ -15,6 +15,8 @@ import type { CertificationModule } from "./certification/certification.module.j
 import { buildCertificationModule } from "./certification/certification.module.js";
 import type { WithQueryStringAndPathParam } from "./generateUri/generateUri.js";
 import { generateUri } from "./generateUri/generateUri.js";
+import type { JobModule } from "./job/job.module.js";
+import { buildJobModule } from "./job/job.module.js";
 import type { OrganismeModule } from "./organisme/organisme.module.js";
 import { buildOrganismeModule } from "./organisme/organisme.module.js";
 
@@ -52,6 +54,7 @@ export class ApiClient {
   key: string;
 
   certification: CertificationModule;
+  job: JobModule;
   organisme: OrganismeModule;
 
   constructor(config: ApiClientConfig) {
@@ -59,6 +62,7 @@ export class ApiClient {
     this.key = config.key ?? throwError("api-alternance-sdk: api key is required");
 
     this.certification = buildCertificationModule(this);
+    this.job = buildJobModule(this);
     this.organisme = buildOrganismeModule(this);
   }
 

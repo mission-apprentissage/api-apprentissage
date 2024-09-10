@@ -1,25 +1,27 @@
 import { z } from "zod";
 
-import { IModelDescriptorGeneric, zObjectId } from "../../common.js";
-import {
-  ISourceFcAncienneNouvelle,
-  zSourceFcAncienneNouvelle,
-} from "./parts/source.france_competence.ancienne_nouvelle.model.js";
-import {
-  ISourceFcBlocDeCompetences,
-  zSourceFcBlocDeCompetences,
-} from "./parts/source.france_competence.bloc_de_competences.model.js";
-import { ISourceFcCcn, zSourceFcCcn } from "./parts/source.france_competence.ccn.model.js";
-import {
-  ISourceFcCertificateur,
-  zSourceFcCertificateur,
-} from "./parts/source.france_competence.certificateurs.model.js";
-import { ISourceFcFormacode, zSourceFcFormacode } from "./parts/source.france_competence.formacode.model.js";
-import { ISourceFcNsf, zSourceFcNsf } from "./parts/source.france_competence.nsf.model.js";
-import { ISourceFcPartenaires, zSourceFcPartenaires } from "./parts/source.france_competence.partenaires.model.js";
-import { ISourceFcRome, zSourceFcRome } from "./parts/source.france_competence.rome.model.js";
-import { ISourceFcStandard, zSourceFcStandard } from "./parts/source.france_competence.standard.model.js";
-import { ISourceFcVoixAcces, zSourceFcVoixAcces } from "./parts/source.france_competence.voix_acces.model.js";
+import type { IModelDescriptorGeneric } from "../../common.js";
+import { zObjectId } from "../../common.js";
+import type { ISourceFcAncienneNouvelle } from "./parts/source.france_competence.ancienne_nouvelle.model.js";
+import { zSourceFcAncienneNouvelle } from "./parts/source.france_competence.ancienne_nouvelle.model.js";
+import type { ISourceFcBlocDeCompetences } from "./parts/source.france_competence.bloc_de_competences.model.js";
+import { zSourceFcBlocDeCompetences } from "./parts/source.france_competence.bloc_de_competences.model.js";
+import type { ISourceFcCcn } from "./parts/source.france_competence.ccn.model.js";
+import { zSourceFcCcn } from "./parts/source.france_competence.ccn.model.js";
+import type { ISourceFcCertificateur } from "./parts/source.france_competence.certificateurs.model.js";
+import { zSourceFcCertificateur } from "./parts/source.france_competence.certificateurs.model.js";
+import type { ISourceFcFormacode } from "./parts/source.france_competence.formacode.model.js";
+import { zSourceFcFormacode } from "./parts/source.france_competence.formacode.model.js";
+import type { ISourceFcNsf } from "./parts/source.france_competence.nsf.model.js";
+import { zSourceFcNsf } from "./parts/source.france_competence.nsf.model.js";
+import type { ISourceFcPartenaires } from "./parts/source.france_competence.partenaires.model.js";
+import { zSourceFcPartenaires } from "./parts/source.france_competence.partenaires.model.js";
+import type { ISourceFcRome } from "./parts/source.france_competence.rome.model.js";
+import { zSourceFcRome } from "./parts/source.france_competence.rome.model.js";
+import type { ISourceFcStandard } from "./parts/source.france_competence.standard.model.js";
+import { zSourceFcStandard } from "./parts/source.france_competence.standard.model.js";
+import type { ISourceFcVoixAcces } from "./parts/source.france_competence.voix_acces.model.js";
+import { zSourceFcVoixAcces } from "./parts/source.france_competence.voix_acces.model.js";
 
 const collectionName = "source.france_competence" as const;
 

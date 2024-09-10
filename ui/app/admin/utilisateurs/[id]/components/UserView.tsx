@@ -11,12 +11,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Snackbar, Typography } from "@mui/material";
 import { captureException } from "@sentry/nextjs";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { FC } from "react";
-import { FieldError, useForm } from "react-hook-form";
+import type { FC } from "react";
+import type { FieldError } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zRoutes } from "shared";
-import { IOrganisation } from "shared/models/organisation.model";
-import { IUserAdminView } from "shared/models/user.model";
-import { Jsonify } from "type-fest";
+import type { IOrganisation } from "shared/models/organisation.model";
+import type { IUserAdminView } from "shared/models/user.model";
+import type { Jsonify } from "type-fest";
 
 import Breadcrumb from "@/components/breadcrumb/Breadcrumb";
 import { apiPut } from "@/utils/api.utils";
@@ -114,7 +115,7 @@ const UserView: FC<Props> = ({ user, organisations }) => {
 
       {mutation.isSuccess && <Box sx={{ marginTop: fr.spacing("2w") }}></Box>}
 
-      <Box component="form" onSubmit={handleSubmit((d) => mutation.mutateAsync(d))}>
+      <Box component="form" onSubmit={handleSubmit(async (d) => mutation.mutateAsync(d))}>
         <Input label="Email" nativeInputProps={control.register("email")} {...getInputState(errors?.email)} />
 
         <Select

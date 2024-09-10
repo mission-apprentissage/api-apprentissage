@@ -8,7 +8,7 @@ import {
   generateSourceAcceZoneFixture,
   generateUserFixture,
 } from "shared/models/fixtures/index";
-import {
+import type {
   ISourceAcceUai,
   ISourceAcceUaiFille,
   ISourceAcceUaiMere,
@@ -18,7 +18,8 @@ import {
 import { beforeAll, beforeEach, describe, expect, it } from "vitest";
 
 import { generateApiKey } from "@/actions/users.actions.js";
-import createServer, { Server } from "@/server/server.js";
+import type { Server } from "@/server/server.js";
+import createServer from "@/server/server.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
 useMongo();

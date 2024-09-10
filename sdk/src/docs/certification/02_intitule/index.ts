@@ -1,4 +1,4 @@
-import { DocTopologie } from "../../types.js";
+import type { DocTopologie } from "../../types.js";
 import { intituleNiveauField } from "./intitule.niveau/index.js";
 import { intituleField } from "./intitule/index.js";
 

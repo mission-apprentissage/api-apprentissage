@@ -1,9 +1,10 @@
 import { internal } from "@hapi/boom";
-import { createReadStream, createWriteStream, ReadStream } from "fs";
+import type { ReadStream } from "fs";
+import { createReadStream, createWriteStream } from "fs";
 import { DateTime } from "luxon";
 import { parse } from "node-html-parser";
 import { basename, dirname, extname, join } from "path";
-import { Stream } from "stream";
+import type { Stream } from "stream";
 import { pipeline } from "stream/promises";
 import { Parse } from "unzipper";
 

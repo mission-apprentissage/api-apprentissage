@@ -1,10 +1,10 @@
-import { ICertification } from "api-alternance-sdk";
-import { IBcn_N_FormationDiplome } from "shared/models/source/bcn/bcn.n_formation_diplome.model";
-import { IBcn_N51_FormationDiplome } from "shared/models/source/bcn/bcn.n51_formation_diplome.model";
-import { ISourceFranceCompetence } from "shared/models/source/france_competence/source.france_competence.model";
+import type { ICertification } from "api-alternance-sdk";
+import type { IBcn_N_FormationDiplome } from "shared/models/source/bcn/bcn.n_formation_diplome.model";
+import type { IBcn_N51_FormationDiplome } from "shared/models/source/bcn/bcn.n51_formation_diplome.model";
+import type { ISourceFranceCompetence } from "shared/models/source/france_competence/source.france_competence.model";
 import { parseNullableParisLocalDate } from "shared/zod/date.primitives";
 
-import { ISourceAggregatedData } from "@/jobs/importer/certifications/builder/certification.builder.js";
+import type { ISourceAggregatedData } from "@/jobs/importer/certifications/builder/certification.builder.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
 export function computePeriodeValidite(

@@ -1,11 +1,40 @@
-import { FastifyReply, FastifyRequest } from "fastify";
+import { captureException } from "@sentry/node";
+import type { FastifyReply, FastifyRequest } from "fastify";
+import type { JwtPayload } from "jsonwebtoken";
 import jwt from "jsonwebtoken";
-import { Filter, FindOptions, ObjectId } from "mongodb";
-import { ISession } from "shared/models/session.model";
+import type { Filter, FindOptions } from "mongodb";
+import { ObjectId } from "mongodb";
+import type { ISession } from "shared/models/session.model";
+import type { IUser } from "shared/models/user.model";
+import type { UserWithType } from "shared/security/permissions";
 
 import config from "@/config.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
-import { authCookieSession } from "@/services/security/authenticationService.js";
+
+export async function authCookieSession(req: FastifyRequest): Promise<UserWithType<"user", IUser> | null> {
+  const token = req.cookies?.[config.session.cookieName];
+
+  if (!token) {
+    return null;
+  }
+
+  try {
+    const { email } = jwt.verify(token, config.auth.user.jwtSecret) as JwtPayload;
+
+    const session = await getSession({ email });
+
+    if (!session) {
+      return null;
+    }
+
+    const user = await getDbCollection("users").findOne({ email: email.toLowerCase() });
+
+    return user ? { type: "user", value: user } : user;
+  } catch (error) {
+    captureException(error);
+    return null;
+  }
+}
 
 async function createSession(email: string) {
   const now = new Date();

@@ -1,6 +1,6 @@
 import { fr } from "@codegouvfr/react-dsfr";
 import { Badge } from "@codegouvfr/react-dsfr/Badge";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 const colorMap = {
   beigeGrisGalet: {

@@ -1,7 +1,7 @@
 import { useMongo } from "@tests/mongo.test.utils.js";
 import { createReadStream } from "fs";
 import { dirname, join } from "path";
-import { ISourceAcce } from "shared/models/source/acce/source.acce.model";
+import type { ISourceAcce } from "shared/models/source/acce/source.acce.model";
 import { fileURLToPath } from "url";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 

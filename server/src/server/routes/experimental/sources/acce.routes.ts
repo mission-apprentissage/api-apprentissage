@@ -1,6 +1,6 @@
-import { AbstractCursor, Document, Filter } from "mongodb";
+import type { AbstractCursor, Document, Filter } from "mongodb";
 import { zRoutes } from "shared";
-import {
+import type {
   ISourceAcce,
   ISourceAcceUai,
   ISourceAcceUaiFille,
@@ -8,7 +8,7 @@ import {
   ISourceAcceUaiSpec,
   ISourceAcceUaiZone,
 } from "shared/models/source/acce/source.acce.model";
-import { ISourceAcceQuerystring } from "shared/routes/experimental/source/acce.routes";
+import type { ISourceAcceQuerystring } from "shared/routes/experimental/source/acce.routes";
 
 import type { Server } from "@/server/server.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";

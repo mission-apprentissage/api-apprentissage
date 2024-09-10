@@ -4,7 +4,7 @@ import { toPublicUser } from "shared/models/user.model";
 
 import { registerUser, sendRegisterFeedbackEmail, sendRequestLoginEmail } from "@/actions/auth.actions.js";
 import { startSession, stopSession } from "@/actions/sessions.actions.js";
-import { Server } from "@/server/server.js";
+import type { Server } from "@/server/server.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 import { getUserFromRequest } from "@/services/security/authenticationService.js";
 

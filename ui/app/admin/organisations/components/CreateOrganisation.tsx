@@ -9,7 +9,7 @@ import { captureException } from "@sentry/nextjs";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zRoutes } from "shared";
-import { IOrganisationCreate } from "shared/models/organisation.model";
+import type { IOrganisationCreate } from "shared/models/organisation.model";
 
 import { apiPost } from "@/utils/api.utils";
 
@@ -61,7 +61,7 @@ export function CreateOrganisation() {
           },
           {
             type: "submit",
-            onClick: handleSubmit((d) => mutation.mutateAsync(d)),
+            onClick: handleSubmit(async (d) => mutation.mutateAsync(d)),
             children: "Créer",
             disabled: isSubmitting,
             doClosesModal: false,
@@ -70,7 +70,7 @@ export function CreateOrganisation() {
       >
         <Box
           component="form"
-          onSubmit={handleSubmit((d) => mutation.mutateAsync(d))}
+          onSubmit={handleSubmit(async (d) => mutation.mutateAsync(d))}
           sx={{
             width: "100%",
             display: "flex",

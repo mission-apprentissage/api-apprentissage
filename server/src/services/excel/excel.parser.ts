@@ -1,7 +1,7 @@
 import { internal } from "@hapi/boom";
 import ExcelJs from "exceljs";
 import { assertUnreachable } from "shared";
-import { Stream } from "stream";
+import type { Stream } from "stream";
 
 declare module "exceljs" {
   // eslint-disable-next-line @typescript-eslint/no-namespace

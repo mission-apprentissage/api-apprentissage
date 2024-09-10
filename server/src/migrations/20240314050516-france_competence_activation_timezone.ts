@@ -1,5 +1,5 @@
-import { Db, MongoClient } from "mongodb";
-import { IImportMetaFranceCompetence } from "shared/models/import.meta.model";
+import type { Db, MongoClient } from "mongodb";
+import type { IImportMetaFranceCompetence } from "shared/models/import.meta.model";
 import { parisTimezoneDate } from "shared/zod/date.primitives";
 
 import { getDbCollection, setMongodbClient } from "@/services/mongodb/mongodbService.js";

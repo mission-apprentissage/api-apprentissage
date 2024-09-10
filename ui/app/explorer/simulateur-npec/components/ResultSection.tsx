@@ -7,8 +7,8 @@ import { Box, Snackbar, Typography } from "@mui/material";
 import { captureException } from "@sentry/nextjs";
 import { useQuery } from "@tanstack/react-query";
 import { useCallback, useState } from "react";
-import { ISourceNpecNormalized } from "shared/models/source/npec/source.npec.normalized.model";
-import { Jsonify } from "type-fest";
+import type { ISourceNpecNormalized } from "shared/models/source/npec/source.npec.normalized.model";
+import type { Jsonify } from "type-fest";
 
 import Loading from "@/app/loading";
 import { DsfrLink } from "@/components/link/DsfrLink";

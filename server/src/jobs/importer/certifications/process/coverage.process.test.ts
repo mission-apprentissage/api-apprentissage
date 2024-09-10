@@ -1,12 +1,12 @@
 import { useMongo } from "@tests/mongo.test.utils.js";
 import { ObjectId } from "mongodb";
-import { ICertificationInternal } from "shared/models/certification.model";
+import type { ICertificationInternal } from "shared/models/certification.model";
 import {
   generateCertificationFixture,
   generateSourceBcn_N_FormationDiplomeFixture,
   generateSourceFranceCompetenceFixture,
 } from "shared/models/fixtures/index";
-import { IImportMetaCertifications } from "shared/models/import.meta.model";
+import type { IImportMetaCertifications } from "shared/models/import.meta.model";
 import { parseParisLocalDate } from "shared/zod/date.primitives";
 import { describe, expect, it } from "vitest";
 

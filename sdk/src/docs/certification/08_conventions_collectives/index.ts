@@ -1,4 +1,4 @@
-import { DocTopologie } from "../../types.js";
+import type { DocTopologie } from "../../types.js";
 import { conventionsCollectivesField } from "./conventions_collectives/index.js";
 
 export const conventionsCollectivesTopologie = {

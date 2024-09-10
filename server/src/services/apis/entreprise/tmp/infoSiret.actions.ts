@@ -1,11 +1,12 @@
 import { captureException } from "@sentry/node";
 import { validateSIRET } from "api-alternance-sdk";
 
-import { ApiEntEtablissement, getEtablissementDiffusible } from "@/services/apis/entreprise/entreprise.js";
+import type { ApiEntEtablissement } from "@/services/apis/entreprise/entreprise.js";
+import { getEtablissementDiffusible } from "@/services/apis/entreprise/entreprise.js";
 import logger from "@/services/logger.js";
 
 import { buildAdresse, findDataByDepartementNum, getDepartementCodeFromCodeInsee } from "./adresseUtils.js";
-import { InfoSiret } from "./infoSiret.actions-struct.js";
+import type { InfoSiret } from "./infoSiret.actions-struct.js";
 
 export const findDataFromSiret = async (providedSiret: string): Promise<InfoSiret> => {
   if (!providedSiret || !validateSIRET(providedSiret.trim())) {

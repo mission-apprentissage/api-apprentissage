@@ -1,16 +1,15 @@
 import { internal, unauthorized } from "@hapi/boom";
 import { captureException } from "@sentry/node";
-import { PathParam, QueryString } from "api-alternance-sdk/internal";
-import { FastifyRequest } from "fastify";
-import jwt, { type JwtPayload } from "jsonwebtoken";
+import type { PathParam, QueryString } from "api-alternance-sdk/internal";
+import type { FastifyRequest } from "fastify";
+import type { JwtPayload } from "jsonwebtoken";
 import { ObjectId } from "mongodb";
-import { IApiKey, IUser } from "shared/models/user.model";
-import { IAccessToken, ISecuredRouteSchema, WithSecurityScheme } from "shared/routes/common.routes";
-import { UserWithType } from "shared/security/permissions";
+import type { IApiKey, IUser } from "shared/models/user.model";
+import type { IAccessToken, ISecuredRouteSchema, WithSecurityScheme } from "shared/routes/common.routes";
+import type { UserWithType } from "shared/security/permissions";
 import { assertUnreachable } from "shared/utils/assertUnreachable";
 
-import { getSession } from "@/actions/sessions.actions.js";
-import config from "@/config.js";
+import { authCookieSession } from "@/actions/sessions.actions.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 import { compareKeys } from "@/utils/cryptoUtils.js";
 import { decodeToken } from "@/utils/jwtUtils.js";
@@ -43,31 +42,6 @@ export const getUserFromRequest = <S extends WithSecurityScheme>(
 
   return req.user.value as AuthenticatedUser<S["securityScheme"]["auth"]>["value"];
 };
-
-export async function authCookieSession(req: FastifyRequest): Promise<UserWithType<"user", IUser> | null> {
-  const token = req.cookies?.[config.session.cookieName];
-
-  if (!token) {
-    return null;
-  }
-
-  try {
-    const { email } = jwt.verify(token, config.auth.user.jwtSecret) as JwtPayload;
-
-    const session = await getSession({ email });
-
-    if (!session) {
-      return null;
-    }
-
-    const user = await getDbCollection("users").findOne({ email: email.toLowerCase() });
-
-    return user ? { type: "user", value: user } : user;
-  } catch (error) {
-    captureException(error);
-    return null;
-  }
-}
 
 async function authApiKey(req: FastifyRequest): Promise<UserWithType<"user", IUser> | null> {
   const token = extractBearerTokenFromHeader(req);

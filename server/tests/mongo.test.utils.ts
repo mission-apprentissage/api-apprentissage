@@ -26,7 +26,7 @@ export const useMongo = (clearStep: "beforeEach" | "beforeAll" = "beforeEach") =
     await startAndConnectMongodb();
     if (clearStep === "beforeAll") await clearAllCollections();
 
-    return () => stopMongodb();
+    return async () => stopMongodb();
   });
 
   beforeEach(async () => {

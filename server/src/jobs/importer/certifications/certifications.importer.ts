@@ -2,15 +2,17 @@ import { Transform } from "node:stream";
 import { pipeline } from "node:stream/promises";
 
 import { internal } from "@hapi/boom";
-import { AggregationCursor, ObjectId } from "mongodb";
-import { IImportMetaCertifications, IImportMetaFranceCompetence } from "shared/models/import.meta.model";
+import type { AggregationCursor } from "mongodb";
+import { ObjectId } from "mongodb";
+import type { IImportMetaCertifications, IImportMetaFranceCompetence } from "shared/models/import.meta.model";
 
 import { withCause } from "@/services/errors/withCause.js";
 import parentLogger from "@/services/logger.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 import { createBatchTransformStream } from "@/utils/streamUtils.js";
 
-import { buildCertification, ISourceAggregatedData } from "./builder/certification.builder.js";
+import type { ISourceAggregatedData } from "./builder/certification.builder.js";
+import { buildCertification } from "./builder/certification.builder.js";
 import { validateNiveauFormationDiplomeToInterministerielRule } from "./builder/intitule/certification.intitule.builder.js";
 import { processContinuite } from "./process/continuite.process.js";
 import { processCertificationCoverage } from "./process/coverage.process.js";

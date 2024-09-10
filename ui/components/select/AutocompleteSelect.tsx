@@ -1,6 +1,8 @@
 import { Input } from "@codegouvfr/react-dsfr/Input";
-import Autocomplete, { AutocompleteRenderInputParams, AutocompleteRenderOptionState } from "@mui/material/Autocomplete";
-import Popper, { PopperProps } from "@mui/material/Popper";
+import type { AutocompleteRenderInputParams, AutocompleteRenderOptionState } from "@mui/material/Autocomplete";
+import Autocomplete from "@mui/material/Autocomplete";
+import type { PopperProps } from "@mui/material/Popper";
+import Popper from "@mui/material/Popper";
 import match from "autosuggest-highlight/match";
 import parse from "autosuggest-highlight/parse";
 import { matchSorter } from "match-sorter";

@@ -1,6 +1,6 @@
 import { zApiOrganismesRoutes } from "api-alternance-sdk";
 
-import { IRoutesDef } from "./common.routes.js";
+import type { IRoutesDef } from "./common.routes.js";
 
 export const zOrganismesRoutes = {
   get: {

@@ -3,18 +3,20 @@ import { addAbortSignal, Transform } from "node:stream";
 import { internal } from "@hapi/boom";
 import { parse } from "csv-parse";
 import { addJob } from "job-processor";
-import { AnyBulkWriteOperation, ObjectId } from "mongodb";
-import { IDataGouvDataset, IDataGouvDatasetResource } from "shared";
-import { IArchiveMeta, IImportMetaFranceCompetence } from "shared/models/import.meta.model";
-import { ISourceFcStandard } from "shared/models/source/france_competence/parts/source.france_competence.standard.model";
-import {
+import type { AnyBulkWriteOperation } from "mongodb";
+import { ObjectId } from "mongodb";
+import type { IDataGouvDataset, IDataGouvDatasetResource } from "shared";
+import type { IArchiveMeta, IImportMetaFranceCompetence } from "shared/models/import.meta.model";
+import type { ISourceFcStandard } from "shared/models/source/france_competence/parts/source.france_competence.standard.model";
+import type {
   ISourceFranceCompetence,
   ISourceFranceCompetenceDataPart,
-  zFranceCompetenceDataBySource,
 } from "shared/models/source/france_competence/source.france_competence.model";
+import { zFranceCompetenceDataBySource } from "shared/models/source/france_competence/source.france_competence.model";
 import { parisTimezoneDate } from "shared/zod/date.primitives";
 import { pipeline } from "stream/promises";
-import { Entry, Parse } from "unzipper";
+import type { Entry } from "unzipper";
+import { Parse } from "unzipper";
 
 import { downloadDataGouvResource, fetchDataGouvDataSet } from "@/services/apis/data_gouv/data_gouv.api.js";
 import { withCause } from "@/services/errors/withCause.js";

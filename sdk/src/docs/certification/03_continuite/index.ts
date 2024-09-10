@@ -1,4 +1,4 @@
-import { DocTopologie } from "../../types.js";
+import type { DocTopologie } from "../../types.js";
 import { continuiteField } from "./continuite/index.js";
 
 export const continuiteTopologie = {

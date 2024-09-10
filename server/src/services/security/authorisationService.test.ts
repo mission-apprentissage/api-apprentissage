@@ -1,11 +1,12 @@
 import { generateUserFixture } from "shared/models/fixtures/index";
-import { SchemaWithSecurity } from "shared/routes/common.routes";
+import type { SchemaWithSecurity } from "shared/routes/common.routes";
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
 import { zObjectId } from "zod-mongodb-schema";
 
 import { generateAccessToken, generateScope, parseAccessToken } from "./accessTokenService.js";
-import { isAuthorizedToken, isAuthorizedUser, Ressources } from "./authorisationService.js";
+import type { Ressources } from "./authorisationService.js";
+import { isAuthorizedToken, isAuthorizedUser } from "./authorisationService.js";
 
 describe("isAuthorizedToken", () => {
   const requiredUsers = [

@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { DataGrid, DataGridProps, GridValidRowModel } from "@mui/x-data-grid";
+import type { DataGridProps, GridValidRowModel } from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
 import { frFR } from "@mui/x-data-grid/locales";
 
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({

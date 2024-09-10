@@ -1,8 +1,8 @@
 import { useMongo } from "@tests/mongo.test.utils.js";
 import { ObjectId } from "mongodb";
 import { generateUserFixture } from "shared/models/fixtures/index";
-import { IUser } from "shared/models/user.model";
-import { ISecuredRouteSchema } from "shared/routes/common.routes";
+import type { IUser } from "shared/models/user.model";
+import type { ISecuredRouteSchema } from "shared/routes/common.routes";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { z } from "zod";
 

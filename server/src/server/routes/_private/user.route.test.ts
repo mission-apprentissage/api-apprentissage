@@ -6,7 +6,8 @@ import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { createSession, createSessionToken } from "@/actions/sessions.actions.js";
 import { generateApiKey } from "@/actions/users.actions.js";
-import createServer, { Server } from "@/server/server.js";
+import type { Server } from "@/server/server.js";
+import createServer from "@/server/server.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 import { compareKeys } from "@/utils/cryptoUtils.js";
 

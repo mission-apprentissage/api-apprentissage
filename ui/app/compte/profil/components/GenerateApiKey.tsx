@@ -8,11 +8,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Typography } from "@mui/material";
 import { captureException } from "@sentry/nextjs";
 import { useMemo, useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import type { SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zRoutes } from "shared";
 
 import { useApiKeysStatut } from "@/app/compte/profil/hooks/useApiKeys";
-import { ICreateApiKeyInput, useCreateApiKeyMutation } from "@/app/compte/profil/hooks/useCreateApiKeyMutation";
+import type { ICreateApiKeyInput } from "@/app/compte/profil/hooks/useCreateApiKeyMutation";
+import { useCreateApiKeyMutation } from "@/app/compte/profil/hooks/useCreateApiKeyMutation";
 import { Artwork } from "@/components/artwork/Artwork";
 import { ApiError } from "@/utils/api.utils";
 

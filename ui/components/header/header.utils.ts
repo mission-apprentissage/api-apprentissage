@@ -1,6 +1,6 @@
-import { MainNavigationProps } from "@codegouvfr/react-dsfr/MainNavigation";
+import type { MainNavigationProps } from "@codegouvfr/react-dsfr/MainNavigation";
 import { useMemo } from "react";
-import { IUserPublic } from "shared/models/user.model";
+import type { IUserPublic } from "shared/models/user.model";
 
 import { PAGES } from "@/utils/routes.utils";
 

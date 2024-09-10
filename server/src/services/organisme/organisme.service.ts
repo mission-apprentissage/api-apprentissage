@@ -1,7 +1,7 @@
 import { captureException } from "@sentry/node";
-import { IRechercheOrganismeResponse, IRechercheOrganismeResultat } from "api-alternance-sdk";
-import { Filter } from "mongodb";
-import { ISourceReferentiel } from "shared/models/source/referentiel/source.referentiel.model";
+import type { IRechercheOrganismeResponse, IRechercheOrganismeResultat } from "api-alternance-sdk";
+import type { Filter } from "mongodb";
+import type { ISourceReferentiel } from "shared/models/source/referentiel/source.referentiel.model";
 
 import { getEtablissementDiffusible } from "@/services/apis/entreprise/entreprise.js";
 import logger from "@/services/logger.js";

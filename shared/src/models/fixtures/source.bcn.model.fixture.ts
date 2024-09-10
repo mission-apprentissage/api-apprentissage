@@ -1,9 +1,9 @@
 import { ObjectId } from "bson";
 
-import { IBcn_N_FormationDiplome } from "../source/bcn/bcn.n_formation_diplome.model.js";
-import { IBcn_N_NiveauFormationDiplome } from "../source/bcn/bcn.n_niveau_formation_diplome.model.js";
-import { IBcn_N51_FormationDiplome } from "../source/bcn/bcn.n51_formation_diplome.model.js";
-import { IBcn_V_FormationDiplome } from "../source/bcn/bcn.v_formation_diplome.model.js";
+import type { IBcn_N_FormationDiplome } from "../source/bcn/bcn.n_formation_diplome.model.js";
+import type { IBcn_N_NiveauFormationDiplome } from "../source/bcn/bcn.n_niveau_formation_diplome.model.js";
+import type { IBcn_N51_FormationDiplome } from "../source/bcn/bcn.n51_formation_diplome.model.js";
+import type { IBcn_V_FormationDiplome } from "../source/bcn/bcn.v_formation_diplome.model.js";
 import { getFixtureValue } from "./fixture_helper.js";
 
 export function generateSourceBcn_V_FormationDiplomeDataFixture(

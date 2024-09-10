@@ -6,7 +6,8 @@ import { fr } from "@codegouvfr/react-dsfr";
 import { Table } from "@codegouvfr/react-dsfr/Table";
 import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import Tooltip, { tooltipClasses, TooltipProps } from "@mui/material/Tooltip";
+import type { TooltipProps } from "@mui/material/Tooltip";
+import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import { useMemo } from "react";
 
 import { DsfrLink } from "@/components/link/DsfrLink";

@@ -1,7 +1,8 @@
 import { Breadcrumb as DSFRBreadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
-import { FC } from "react";
+import type { FC } from "react";
 
-import { IPage, PAGES } from "@/utils/routes.utils";
+import type { IPage } from "@/utils/routes.utils";
+import { PAGES } from "@/utils/routes.utils";
 
 interface Props {
   pages: IPage[];

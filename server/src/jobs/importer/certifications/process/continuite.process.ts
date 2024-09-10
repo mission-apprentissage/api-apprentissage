@@ -1,12 +1,10 @@
-import { AnyBulkWriteOperation } from "mongodb";
-import { ICertificationInternal } from "shared/models/certification.model";
-import { IImportMetaCertifications } from "shared/models/import.meta.model";
-import { IBcn_N_FormationDiplome } from "shared/models/source/bcn/bcn.n_formation_diplome.model";
+import type { AnyBulkWriteOperation } from "mongodb";
+import type { ICertificationInternal } from "shared/models/certification.model";
+import type { IImportMetaCertifications } from "shared/models/import.meta.model";
+import type { IBcn_N_FormationDiplome } from "shared/models/source/bcn/bcn.n_formation_diplome.model";
 
-import {
-  buildCertificationSearchMap,
-  ICertificationSearchMap,
-} from "@/jobs/importer/certifications/builder/periode_validite/certification.periode_validite.builder.js";
+import type { ICertificationSearchMap } from "@/jobs/importer/certifications/builder/periode_validite/certification.periode_validite.builder.js";
+import { buildCertificationSearchMap } from "@/jobs/importer/certifications/builder/periode_validite/certification.periode_validite.builder.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
 type GroupContext = {

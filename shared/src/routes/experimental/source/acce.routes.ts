@@ -7,7 +7,7 @@ import {
   zAcceUaiSpec,
   zAcceUaiZone,
 } from "../../../models/source/acce/source.acce.model.js";
-import { IRoutesDef } from "../../common.routes.js";
+import type { IRoutesDef } from "../../common.routes.js";
 
 const zQuery = z.object({
   uai: z.string().optional(),

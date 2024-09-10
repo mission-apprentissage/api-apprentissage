@@ -8,8 +8,10 @@ import { Box, Dialog, DialogContent, Typography } from "@mui/material";
 import { captureException } from "@sentry/nextjs";
 import Link from "next/link";
 import { useState } from "react";
-import { FieldError, SubmitHandler, useForm } from "react-hook-form";
-import { IBody, IPostRoutes, zRoutes } from "shared";
+import type { FieldError, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import type { IBody, IPostRoutes } from "shared";
+import { zRoutes } from "shared";
 
 import { Artwork } from "@/components/artwork/Artwork";
 import { ApiError, apiPost } from "@/utils/api.utils";

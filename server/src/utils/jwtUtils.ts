@@ -1,5 +1,7 @@
-import jwt, { type SignOptions } from "jsonwebtoken";
-import { ITemplate, zTemplate } from "shared/models/email_event/email_templates";
+import type { SignOptions } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
+import type { ITemplate } from "shared/models/email_event/email_templates";
+import { zTemplate } from "shared/models/email_event/email_templates";
 
 import config from "@/config.js";
 

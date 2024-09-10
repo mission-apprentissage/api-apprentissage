@@ -1,6 +1,6 @@
 import { zodOpenApi } from "api-alternance-sdk/internal";
 
-import { IRoutesDef } from "./common.routes.js";
+import type { IRoutesDef } from "./common.routes.js";
 
 export const zCoreRoutes = {
   get: {

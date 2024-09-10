@@ -1,4 +1,4 @@
-import { Jsonify } from "type-fest";
+import type { Jsonify } from "type-fest";
 import { z } from "zod";
 
 import { certificationDoc } from "../../docs/certification/certification.doc.js";

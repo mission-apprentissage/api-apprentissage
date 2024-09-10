@@ -1,9 +1,9 @@
 import { internal } from "@hapi/boom";
 import { zRoutes } from "shared";
-import { IImportMetaNpec } from "shared/models/import.meta.model";
-import { ISourceNpecNormalized } from "shared/models/source/npec/source.npec.normalized.model";
+import type { IImportMetaNpec } from "shared/models/import.meta.model";
+import type { ISourceNpecNormalized } from "shared/models/source/npec/source.npec.normalized.model";
 
-import { Server } from "@/server/server.js";
+import type { Server } from "@/server/server.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
 export const simulateurRoutes = ({ server }: { server: Server }) => {

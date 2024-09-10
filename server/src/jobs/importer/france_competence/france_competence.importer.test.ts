@@ -6,19 +6,17 @@ import { addJob } from "job-processor";
 import { ObjectId } from "mongodb";
 import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
 import { dirname, join } from "path";
-import { IDataGouvDataset } from "shared";
-import { IImportMetaFranceCompetence } from "shared/models/import.meta.model";
-import {
-  ISourceFcStandard,
-  zSourceFcStandard,
-} from "shared/models/source/france_competence/parts/source.france_competence.standard.model";
-import {
+import type { IDataGouvDataset } from "shared";
+import type { IImportMetaFranceCompetence } from "shared/models/import.meta.model";
+import type { ISourceFcStandard } from "shared/models/source/france_competence/parts/source.france_competence.standard.model";
+import { zSourceFcStandard } from "shared/models/source/france_competence/parts/source.france_competence.standard.model";
+import type {
   ISourceFranceCompetence,
   ISourceFranceCompetenceDataKey,
-  zFranceCompetenceDataBySource,
 } from "shared/models/source/france_competence/source.france_competence.model";
+import { zFranceCompetenceDataBySource } from "shared/models/source/france_competence/source.france_competence.model";
 import { Readable } from "stream";
-import { Entry } from "unzipper";
+import type { Entry } from "unzipper";
 import { fileURLToPath } from "url";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 

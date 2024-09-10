@@ -6,11 +6,12 @@ import { parse } from "csv-parse";
 import { createReadStream } from "fs";
 import { addJob } from "job-processor";
 import { ObjectId } from "mongodb";
-import { ISourceKitApprentissage } from "shared/models/source/kitApprentissage/source.kit_apprentissage.model";
+import type { ISourceKitApprentissage } from "shared/models/source/kitApprentissage/source.kit_apprentissage.model";
 import { pipeline } from "stream/promises";
 
 import { withCause } from "@/services/errors/withCause.js";
-import { ExcelParsedRow, ExcelParseSpec, parseExcelFileStream } from "@/services/excel/excel.parser.js";
+import type { ExcelParsedRow, ExcelParseSpec } from "@/services/excel/excel.parser.js";
+import { parseExcelFileStream } from "@/services/excel/excel.parser.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 import { getStaticFilePath } from "@/utils/getStaticFilePath.js";
 import { createBatchTransformStream } from "@/utils/streamUtils.js";

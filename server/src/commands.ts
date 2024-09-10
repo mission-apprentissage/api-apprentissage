@@ -210,7 +210,7 @@ program
   .description("Run a job")
   .requiredOption("-n, --name <string>", "Job name")
   .option("-q, --queued", "Run job asynchronously", false)
-  .action(({ name, ...options }) => {
+  .action(async ({ name, ...options }) => {
     return createJobAction(name)(options);
   });
 
@@ -221,7 +221,7 @@ program
   .option("--date <string>", "date")
   .option("--certification <string>", "certification")
   .option("-q, --queued", "Run job asynchronously", false)
-  .action(({ uai, siret, certification }) => {
+  .action(async ({ uai, siret, certification }) => {
     return createJobAction("experimental:redressement:uai-siret")({ couple: { uai, siret }, certification });
   });
 

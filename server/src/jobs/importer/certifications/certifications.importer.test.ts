@@ -12,7 +12,8 @@ import {
   generateSourceBcn_V_FormationDiplomeFixture,
   generateSourceFranceCompetenceFixture,
 } from "shared/models/fixtures/index";
-import { ParisDate, parseParisLocalDate } from "shared/zod/date.primitives";
+import type { ParisDate } from "shared/zod/date.primitives";
+import { parseParisLocalDate } from "shared/zod/date.primitives";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";

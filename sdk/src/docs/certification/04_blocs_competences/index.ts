@@ -1,4 +1,4 @@
-import { DocTopologie } from "../../types.js";
+import type { DocTopologie } from "../../types.js";
 import { blocsCompetencesField } from "./blocs_competences/index.js";
 
 export const blocsCompetencesTopologie = {

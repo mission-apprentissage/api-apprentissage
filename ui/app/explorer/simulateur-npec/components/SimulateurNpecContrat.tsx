@@ -11,7 +11,8 @@ import { apiGet } from "@/utils/api.utils";
 import { CertificationSection } from "./CertificationSection";
 import { EntrepriseSection } from "./EntrepriseSection";
 import { PeriodeSection } from "./PeriodeSection";
-import { ResultSection, ResultSectionProps } from "./ResultSection";
+import type { ResultSectionProps } from "./ResultSection";
+import { ResultSection } from "./ResultSection";
 
 export function SimulateurNpecContrat() {
   const result = useQuery({

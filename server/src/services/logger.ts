@@ -7,7 +7,8 @@ import {
   MongoWriteConcernError,
   ObjectId,
 } from "mongodb";
-import { Logger as PinoLogger, pino } from "pino";
+import type { Logger as PinoLogger } from "pino";
+import { pino } from "pino";
 import { ZodError } from "zod";
 
 import config from "@/config.js";

@@ -7,7 +7,7 @@ import { captureException } from "@sentry/node";
 import { useMongo } from "@tests/mongo.test.utils.js";
 import { addJob } from "job-processor";
 import { ObjectId } from "mongodb";
-import { IImportMetaNpec } from "shared/models/import.meta.model";
+import type { IImportMetaNpec } from "shared/models/import.meta.model";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";

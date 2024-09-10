@@ -1,5 +1,5 @@
 import { Box, Container, Typography } from "@mui/material";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 import { DsfrLink } from "@/components/link/DsfrLink";
 import { NotFound } from "@/icons/NotFound";

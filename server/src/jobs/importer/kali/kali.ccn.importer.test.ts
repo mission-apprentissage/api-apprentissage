@@ -3,8 +3,8 @@ import { createReadStream } from "fs";
 import { ObjectId } from "mongodb";
 import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
 import { dirname, join } from "path";
-import { IDataGouvDataset } from "shared";
-import { IImportMeta } from "shared/models/import.meta.model";
+import type { IDataGouvDataset } from "shared";
+import type { IImportMeta } from "shared/models/import.meta.model";
 import { fileURLToPath } from "url";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 

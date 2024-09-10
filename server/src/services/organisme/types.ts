@@ -1,4 +1,4 @@
-import { IOrganismeReferentiel } from "shared/models/source/referentiel/source.referentiel.model";
+import type { IOrganismeReferentiel } from "shared/models/source/referentiel/source.referentiel.model";
 
 export type SearchCriteria = {
   uai: string;

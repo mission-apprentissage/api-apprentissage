@@ -6,7 +6,7 @@ import { Box, Snackbar, Typography } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import { captureException } from "@sentry/nextjs";
 import { useCallback, useMemo, useState } from "react";
-import { IApiKeyPrivateJson } from "shared/models/user.model";
+import type { IApiKeyPrivateJson } from "shared/models/user.model";
 
 import { useDeleteApiKeyMutation } from "@/app/compte/profil/hooks/useDeleteApiKeyMutation";
 import { ApiError } from "@/utils/api.utils";

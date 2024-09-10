@@ -1,10 +1,10 @@
 import { forbidden } from "@hapi/boom";
 import { zRoutes } from "shared";
-import { IEmailError } from "shared/models/email_event.model";
+import type { IEmailError } from "shared/models/email_event.model";
 
 import { markEmailAsDelivered, markEmailAsFailed, markEmailAsOpened, unsubscribe } from "@/actions/emails.actions.js";
 import config from "@/config.js";
-import { Server } from "@/server/server.js";
+import type { Server } from "@/server/server.js";
 import { renderEmail } from "@/services/mailer/mailer.js";
 import { deserializeEmailTemplate } from "@/utils/jwtUtils.js";
 

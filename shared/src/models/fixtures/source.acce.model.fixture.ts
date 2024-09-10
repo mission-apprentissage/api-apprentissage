@@ -1,6 +1,6 @@
 import { ObjectId } from "bson";
 
-import {
+import type {
   ISourceAcceUai,
   ISourceAcceUaiFille,
   ISourceAcceUaiMere,

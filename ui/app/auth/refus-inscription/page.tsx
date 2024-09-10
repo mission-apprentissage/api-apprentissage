@@ -9,9 +9,11 @@ import { captureException } from "@sentry/nextjs";
 import NextLink from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { FieldError, SubmitHandler, useForm } from "react-hook-form";
-import { IBody, IPostRoutes, zRoutes } from "shared";
-import { Jsonify } from "type-fest";
+import type { FieldError, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import type { IBody, IPostRoutes } from "shared";
+import { zRoutes } from "shared";
+import type { Jsonify } from "type-fest";
 
 import { Artwork } from "@/components/artwork/Artwork";
 import { useJwtToken } from "@/hooks/useJwtToken";

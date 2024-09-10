@@ -1,7 +1,8 @@
-import { MetadataRoute } from "next";
+import type { MetadataRoute } from "next";
 
 import { publicConfig } from "@/config.public";
-import { IPage, PAGES } from "@/utils/routes.utils";
+import type { IPage } from "@/utils/routes.utils";
+import { PAGES } from "@/utils/routes.utils";
 
 function getSitemapItem(page: IPage): MetadataRoute.Sitemap[number] {
   return {

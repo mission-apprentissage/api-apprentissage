@@ -2,7 +2,8 @@ import { Container } from "@mui/material";
 
 import NotFoundPage from "@/app/not-found";
 import NotionPage from "@/components/notion/NotionPage";
-import { INotionPage, IPages, PAGES } from "@/utils/routes.utils";
+import type { INotionPage, IPages } from "@/utils/routes.utils";
+import { PAGES } from "@/utils/routes.utils";
 
 export const revalidate = 3_600;
 

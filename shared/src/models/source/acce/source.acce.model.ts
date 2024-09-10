@@ -1,6 +1,7 @@
 import { z } from "zod";
 
-import { IModelDescriptorGeneric, zObjectId } from "../../common.js";
+import type { IModelDescriptorGeneric } from "../../common.js";
+import { zObjectId } from "../../common.js";
 
 const collectionName = "source.acce" as const;
 

@@ -1,7 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { IBody, IPostRoutes, zRoutes } from "shared";
-import { IApiKeyPrivateJson } from "shared/models/user.model";
-import { Jsonify } from "type-fest";
+import type { IBody, IPostRoutes } from "shared";
+import { zRoutes } from "shared";
+import type { IApiKeyPrivateJson } from "shared/models/user.model";
+import type { Jsonify } from "type-fest";
 
 import { apiPost } from "@/utils/api.utils";
 

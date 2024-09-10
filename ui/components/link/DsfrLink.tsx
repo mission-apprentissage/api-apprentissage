@@ -1,7 +1,9 @@
 import { fr } from "@codegouvfr/react-dsfr";
 import { Link } from "@mui/material";
-import NextLink, { LinkProps } from "next/link";
-import { ReactNode, useMemo } from "react";
+import type { LinkProps } from "next/link";
+import NextLink from "next/link";
+import type { ReactNode } from "react";
+import { useMemo } from "react";
 
 import { publicConfig } from "@/config.public";
 

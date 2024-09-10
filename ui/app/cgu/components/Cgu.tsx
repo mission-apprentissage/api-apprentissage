@@ -2,7 +2,8 @@
 import { fr } from "@codegouvfr/react-dsfr";
 import { Summary } from "@codegouvfr/react-dsfr/Summary";
 import { Grid, Typography } from "@mui/material";
-import { FC, useEffect } from "react";
+import type { FC } from "react";
+import { useEffect } from "react";
 
 import Section from "@/components/section/Section";
 

@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { zRoutes } from "shared";
-import { IApiKeyPrivateJson } from "shared/models/user.model";
+import type { IApiKeyPrivateJson } from "shared/models/user.model";
 
 import { apiGet } from "@/utils/api.utils";
 

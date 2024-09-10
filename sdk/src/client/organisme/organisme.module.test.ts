@@ -4,6 +4,7 @@ import { beforeEach, describe, expect, expectTypeOf, it } from "vitest";
 import type { IRechercheOrganismeResponse } from "../../routes/organisme.routes.js";
 import { ApiError } from "../apiError.js";
 import { ApiClient } from "../client.js";
+import { ApiParseError } from "../parser/response.parser.js";
 
 beforeEach(() => {
   disableNetConnect();
@@ -110,7 +111,7 @@ describe("recherche", () => {
         return error;
       });
 
-    // expect(err).toBeInstanceOf(ApiError);
+    expect(err).toBeInstanceOf(ApiParseError);
     expect(err.name).toBe("ApiParseError");
     expect(err.message).toMatchSnapshot();
 

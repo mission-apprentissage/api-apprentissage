@@ -7259,6 +7259,7 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
         "editeur_logiciel",
         "organisme_financeur",
         "apprenant",
+        "mission_apprentissage",
         "autre",
       ],
     },

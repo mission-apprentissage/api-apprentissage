@@ -6794,8 +6794,8 @@ Notes:
     },
     "/job/v1/search": {
       "get": {
-        "description": "Récupère la liste des organismes, filtrée par UAI et/ou SIRET fournis",
-        "operationId": "searchOrganismes",
+        "description": "Accédez en temps réel à l'ensemble des opportunités d'emploi en alternance disponibles sur le territoire français et exposez les gratuitement et en marque blanche auprès de vos utilisateurs.",
+        "operationId": "searchJobs",
         "parameters": [
           {
             "in": "query",
@@ -7820,9 +7820,9 @@ Notes:
             "api-key": [],
           },
         ],
-        "summary": "Recherche d'organismes par UAI et/ou SIRET",
+        "summary": "Opportunités d’emploi en alternance",
         "tags": [
-          "Organismes",
+          "Job",
         ],
       },
     },

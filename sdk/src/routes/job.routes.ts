@@ -34,10 +34,11 @@ export const zApiJobRoutes = {
         "200": zJobSearchResponse,
       },
       openapi: {
-        tags: ["Organismes"] as string[],
-        summary: "Recherche d'organismes par UAI et/ou SIRET",
-        description: "Récupère la liste des organismes, filtrée par UAI et/ou SIRET fournis",
-        operationId: "searchOrganismes",
+        tags: ["Job"] as string[],
+        summary: "Opportunités d’emploi en alternance",
+        description:
+          "Accédez en temps réel à l'ensemble des opportunités d'emploi en alternance disponibles sur le territoire français et exposez les gratuitement et en marque blanche auprès de vos utilisateurs.",
+        operationId: "searchJobs",
       },
     },
   },

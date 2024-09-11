@@ -80,12 +80,17 @@ export const zJobOfferPart = z.object({
 
 export type IJobRecruiter = z.output<typeof zJobRecruiter>;
 
+const zJobOfferIdentifierWritable = z.object({
+  partner_job_id: z.string().nullable(),
+});
+
+const zJobOfferIdentifier = zJobOfferIdentifierWritable.extend({
+  id: z.string().nullable(),
+  partner: z.string(),
+});
+
 export const zJobOffer = z.object({
-  identifier: z.object({
-    id: z.string().nullable(),
-    partner: z.string(),
-    partner_job_id: z.string().nullable(),
-  }),
+  identifier: zJobOfferIdentifier,
   workplace: zJobRecruiterWorkplace,
   apply: zJobRecruiterApply,
   contract: zJobOfferContract,

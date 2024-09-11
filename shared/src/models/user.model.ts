@@ -46,36 +46,39 @@ export const zApiKeyPrivate = zApiKey.omit({ key: true }).extend({
 export type IApiKeyPrivate = z.output<typeof zApiKeyPrivate>;
 export type IApiKeyPrivateJson = Jsonify<IApiKeyPrivate>;
 
-export const zUser = z.object({
-  _id: zObjectId,
-  organisation: z.string().nullable(),
-  email: z.string().email().describe("Email de l'utilisateur").toLowerCase(),
-  type: z.enum([
-    "operateur_public",
-    "organisme_formation",
-    "entreprise",
-    "editeur_logiciel",
-    "organisme_financeur",
-    "apprenant",
-    "autre",
-  ]),
-  activite: z
-    .string()
-    .trim()
-    .nullable()
-    .transform((v) => v || null),
-  objectif: z.enum(["fiabiliser", "concevoir"]).nullable(),
-  cas_usage: z
-    .string()
-    .trim()
-    .nullable()
-    .transform((v) => v || null),
-  cgu_accepted_at: z.date(),
-  is_admin: z.boolean(),
-  api_keys: z.array(zApiKey),
-  updated_at: z.date().describe("Date de mise à jour en base de données"),
-  created_at: z.date().describe("Date d'ajout en base de données"),
-});
+export const zUser = z
+  .object({
+    _id: zObjectId,
+    organisation: z.string().nullable(),
+    email: z.string().email().describe("Email de l'utilisateur").toLowerCase(),
+    type: z.enum([
+      "operateur_public",
+      "organisme_formation",
+      "entreprise",
+      "editeur_logiciel",
+      "organisme_financeur",
+      "apprenant",
+      "mission_apprentissage",
+      "autre",
+    ]),
+    activite: z
+      .string()
+      .trim()
+      .nullable()
+      .transform((v) => v || null),
+    objectif: z.enum(["fiabiliser", "concevoir"]).nullable(),
+    cas_usage: z
+      .string()
+      .trim()
+      .nullable()
+      .transform((v) => v || null),
+    cgu_accepted_at: z.date(),
+    is_admin: z.boolean(),
+    api_keys: z.array(zApiKey),
+    updated_at: z.date().describe("Date de mise à jour en base de données"),
+    created_at: z.date().describe("Date d'ajout en base de données"),
+  })
+  .strict();
 
 export const zUserCreate = zUser.pick({
   email: true,

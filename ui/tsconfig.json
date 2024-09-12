@@ -5,7 +5,8 @@
     "forceConsistentCasingInFileNames": true,
     "paths": {
       "@/*": ["./*"]
-    }
+    },
+    "noErrorTruncation": true
   },
   "references": [{ "path": "../sdk" }, { "path": "../shared" }],
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

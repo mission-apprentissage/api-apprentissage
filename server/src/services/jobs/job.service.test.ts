@@ -9,7 +9,7 @@ describe("convertJobSearchResponseLbaToApi", () => {
     const lbaResponse: IJobSearchResponseLba = {
       jobs: [
         {
-          id: "1",
+          _id: "1",
           apply_phone: "0300000000",
           apply_url: "https://postler.com",
           contract_duration: 12,
@@ -34,7 +34,7 @@ describe("convertJobSearchResponseLbaToApi", () => {
             "Production, Fabrication: Réaliser des travaux de reprographie",
             "Organisation: Contrôler la conformité des données ou des documents",
           ],
-          partner: "La bonne alternance",
+          partner_label: "La bonne alternance",
           partner_job_id: null,
           workplace_address: {
             label: "Paris",
@@ -58,7 +58,7 @@ describe("convertJobSearchResponseLbaToApi", () => {
       ],
       recruiters: [
         {
-          id: "42",
+          _id: "42",
           apply_phone: "0100000000",
           apply_url: "http://localhost:3000/recherche-apprentissage?type=lba&itemId=11000001500013",
           workplace_address: {
@@ -94,7 +94,7 @@ describe("convertJobSearchResponseLbaToApi", () => {
         {
           identifier: {
             id: "1",
-            partner: "La bonne alternance",
+            partner_label: "La bonne alternance",
             partner_job_id: null,
           },
           workplace: {

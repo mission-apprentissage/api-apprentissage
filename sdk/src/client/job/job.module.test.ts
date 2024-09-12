@@ -22,7 +22,7 @@ describe("search", () => {
       {
         identifier: {
           id: "1",
-          partner: "La bonne alternance",
+          partner_label: "La bonne alternance",
           partner_job_id: null,
         },
         workplace: {

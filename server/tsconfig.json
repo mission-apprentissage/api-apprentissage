@@ -30,7 +30,8 @@
     /* Completeness */
     "skipLibCheck": true,
     /* Output Formatting */
-    "pretty": true
+    "pretty": true,
+    "noErrorTruncation": true
   },
   "references": [{ "path": "../sdk" }, { "path": "../shared" }],
   "include": ["./**/*.ts", "./**/*.js", "**/*.md"],

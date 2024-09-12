@@ -6891,12 +6891,13 @@ Notes:
                               "url": {
                                 "description": "URL pour candidater",
                                 "format": "uri",
-                                "type": [
-                                  "string",
-                                  "null",
-                                ],
+                                "type": "string",
                               },
                             },
+                            "required": [
+                              "phone",
+                              "url",
+                            ],
                             "type": "object",
                           },
                           "contract": {
@@ -6932,6 +6933,9 @@ Notes:
                                   {
                                     "type": "string",
                                   },
+                                  {
+                                    "type": "null",
+                                  },
                                 ],
                                 "description": "Date de début du contrat",
                                 "format": "date-time",
@@ -6945,10 +6949,7 @@ Notes:
                                   ],
                                   "type": "string",
                                 },
-                                "type": [
-                                  "array",
-                                  "null",
-                                ],
+                                "type": "array",
                               },
                             },
                             "required": [
@@ -6967,27 +6968,26 @@ Notes:
                                   "null",
                                 ],
                               },
-                              "partner": {
-                                "type": "string",
-                              },
                               "partner_job_id": {
                                 "type": [
                                   "string",
                                   "null",
                                 ],
                               },
+                              "partner_label": {
+                                "type": "string",
+                              },
                             },
                             "required": [
                               "partner_job_id",
                               "id",
-                              "partner",
+                              "partner_label",
                             ],
                             "type": "object",
                           },
                           "offer": {
                             "properties": {
                               "access_conditions": {
-                                "default": [],
                                 "description": "Conditions d'accès à l'offre",
                                 "items": {
                                   "type": "string",
@@ -7015,10 +7015,10 @@ Notes:
                               },
                               "description": {
                                 "description": "description de l'offre, soit définit par le partenaire, soit celle du ROME si pas suffisament grande",
+                                "minLength": 30,
                                 "type": "string",
                               },
                               "desired_skills": {
-                                "default": [],
                                 "description": "Compétence attendues par le candidat pour l'offre",
                                 "items": {
                                   "type": "string",
@@ -7045,12 +7045,10 @@ Notes:
                                 "format": "date-time",
                               },
                               "opening_count": {
-                                "default": 1,
                                 "description": "Nombre de poste disponible",
                                 "type": "number",
                               },
                               "rome_codes": {
-                                "description": "Code rome de l'offre",
                                 "items": {
                                   "example": "D1102",
                                   "pattern": "^[A-Z]{1}\\d{4}$",
@@ -7071,7 +7069,6 @@ Notes:
                               "target_diploma": {
                                 "properties": {
                                   "european": {
-                                    "description": "Niveau de diplome visé en fin d'étude, transformé pour chaque partenaire",
                                     "enum": [
                                       "3",
                                       "4",
@@ -7101,7 +7098,6 @@ Notes:
                                 "type": "string",
                               },
                               "to_be_acquired_skills": {
-                                "default": [],
                                 "description": "Compétence acuqises durant l'alternance",
                                 "items": {
                                   "type": "string",
@@ -7111,6 +7107,12 @@ Notes:
                             },
                             "required": [
                               "title",
+                              "desired_skills",
+                              "to_be_acquired_skills",
+                              "access_conditions",
+                              "opening_count",
+                              "creation",
+                              "expiration",
                               "rome_codes",
                               "description",
                               "target_diploma",
@@ -7255,11 +7257,14 @@ Notes:
                               },
                             },
                             "required": [
+                              "name",
+                              "description",
+                              "website",
                               "siret",
+                              "address",
                               "brand",
                               "legal_name",
                               "size",
-                              "address",
                               "geopoint",
                               "idcc",
                               "opco",
@@ -7294,12 +7299,13 @@ Notes:
                               "url": {
                                 "description": "URL pour candidater",
                                 "format": "uri",
-                                "type": [
-                                  "string",
-                                  "null",
-                                ],
+                                "type": "string",
                               },
                             },
+                            "required": [
+                              "phone",
+                              "url",
+                            ],
                             "type": "object",
                           },
                           "identifier": {
@@ -7450,11 +7456,14 @@ Notes:
                               },
                             },
                             "required": [
+                              "name",
+                              "description",
+                              "website",
                               "siret",
+                              "address",
                               "brand",
                               "legal_name",
                               "size",
-                              "address",
                               "geopoint",
                               "idcc",
                               "opco",

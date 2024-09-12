@@ -1,45 +1,51 @@
 import type { IJobOffer, IJobRecruiter, IJobSearchResponse } from "api-alternance-sdk";
 import type { IJobOfferLba, IJobRecruiterLba, IJobSearchResponseLba } from "api-alternance-sdk/internal";
 
+function convertJobWorkplaceLbaToApi(input: IJobRecruiterLba | IJobOfferLba): IJobRecruiter["workplace"] {
+  return {
+    siret: input.workplace_siret,
+    brand: input.workplace_brand,
+    legal_name: input.workplace_legal_name,
+    website: input.workplace_website,
+    name: input.workplace_name,
+    description: input.workplace_description,
+    size: input.workplace_size,
+    address: input.workplace_address,
+    geopoint: input.workplace_geopoint,
+    idcc: input.workplace_idcc,
+    opco: input.workplace_opco,
+    naf:
+      input.workplace_naf_code === null ? null : { code: input.workplace_naf_code, label: input.workplace_naf_label },
+  };
+}
+
+function convertJobApplyLbaToApi(input: IJobRecruiterLba | IJobOfferLba): IJobRecruiter["apply"] {
+  return {
+    url: input.apply_url,
+    phone: input.apply_phone,
+  };
+}
+
 function convertJobRecruiterLbaToApi(input: IJobRecruiterLba): IJobRecruiter {
   return {
     identifier: {
-      id: input.id,
+      id: input._id,
     },
-    workplace: {
-      siret: input.workplace_siret,
-      brand: input.workplace_brand,
-      legal_name: input.workplace_legal_name,
-      website: input.workplace_website,
-      name: input.workplace_name,
-      description: input.workplace_description,
-      size: input.workplace_size,
-      address: input.workplace_address,
-      geopoint: input.workplace_geopoint,
-      idcc: input.workplace_idcc,
-      opco: input.workplace_opco,
-      naf:
-        input.workplace_naf_code === null ? null : { code: input.workplace_naf_code, label: input.workplace_naf_label },
-    },
-    apply: {
-      url: input.apply_url,
-      phone: input.apply_phone,
-    },
+    workplace: convertJobWorkplaceLbaToApi(input),
+    apply: convertJobApplyLbaToApi(input),
   };
 }
 
 function convertJobOfferLbaToApi(input: IJobOfferLba): IJobOffer {
-  const { workplace, apply, identifier } = convertJobRecruiterLbaToApi(input);
   return {
     identifier: {
-      ...identifier,
-      partner: input.partner,
+      id: input._id,
+      partner_label: input.partner_label,
       partner_job_id: input.partner_job_id,
     },
 
-    workplace,
-
-    apply,
+    workplace: convertJobWorkplaceLbaToApi(input),
+    apply: convertJobApplyLbaToApi(input),
 
     contract: {
       start: input.contract_start,

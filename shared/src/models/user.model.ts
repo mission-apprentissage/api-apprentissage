@@ -78,7 +78,6 @@ export const zUser = z
     updated_at: z.date().describe("Date de mise à jour en base de données"),
     created_at: z.date().describe("Date d'ajout en base de données"),
   })
-  .strict();
 
 export const zUserCreate = zUser.pick({
   email: true,

@@ -57,6 +57,7 @@ export const zUser = z.object({
     "editeur_logiciel",
     "organisme_financeur",
     "apprenant",
+    "mission_apprentissage",
     "autre",
   ]),
   activite: z

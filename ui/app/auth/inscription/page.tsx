@@ -205,6 +205,7 @@ export default function RegisterPage() {
               <option value="editeur_logiciel">Editeur de logiciel</option>
               <option value="organisme_financeur">Organisme financeur</option>
               <option value="apprenant">Apprenant</option>
+              <option value="mission_apprentissage">Mission Apprentissage</option>
               <option value="autre">Autre</option>
             </Select>
             <Input

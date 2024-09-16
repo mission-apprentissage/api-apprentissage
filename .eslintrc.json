@@ -26,6 +26,20 @@
     "import/no-relative-packages": "error",
     "import/no-useless-path-segments": ["error"],
     "import/consistent-type-specifier-style": ["error", "prefer-top-level"],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": [
+          "**/*.test.ts",
+          "**/*.test.tsx",
+          "**/tests/**/*.ts",
+          "**/tests/*.ts",
+          "**/fixtures/**/*.ts",
+          "**/tsup.config.ts",
+          "**/vitest.workspace.ts"
+        ]
+      }
+    ],
     "@typescript-eslint/consistent-type-imports": ["error", { "prefer": "type-imports" }],
     "@typescript-eslint/ban-ts-comment": ["off"],
     "@typescript-eslint/no-import-type-side-effects": "error",

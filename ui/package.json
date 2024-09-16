@@ -35,6 +35,7 @@
     "@types/node": "^22.2.0",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
+    "api-alternance-sdk": "workspace:^",
     "autosuggest-highlight": "^3.3.4",
     "core-js": "^3.38.0",
     "date-fns": "^3.6.0",
@@ -54,6 +55,7 @@
     "redoc": "^2.1.5",
     "remark-gfm": "^4.0.0",
     "sass": "^1.77.8",
+    "shared": "workspace:^",
     "sharp": "^0.33.4",
     "styled-components": "^6.1.12",
     "swagger-ui-react": "^5.17.14",
@@ -65,7 +67,9 @@
     "@tsconfig/next": "^2.0.3",
     "@types/autosuggest-highlight": "^3.2.3",
     "@types/swagger-ui-react": "^4.18.3",
+    "dotenv": "^16.4.5",
     "notion-types": "^6.16.0",
-    "type-fest": "^4.24.0"
+    "type-fest": "^4.24.0",
+    "vitest": "^2.1.1"
   }
 }

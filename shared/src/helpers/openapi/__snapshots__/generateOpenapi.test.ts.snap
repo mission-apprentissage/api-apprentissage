@@ -1545,7 +1545,7 @@ Notes:
   "paths": {
     "/certification/v1": {
       "get": {
-        "description": "Récupère la liste des certifications, filtrée par \`identifiant.cfd\` et \`identifiant.rncp\`",
+        "description": "Récupère la liste des certifications et leur historique. Il est possible de filter cette liste par \`identifiant.cfd\` et \`identifiant.rncp\`",
         "operationId": "getCertifications",
         "parameters": [
           {
@@ -9105,7 +9105,7 @@ Notes:
     },
     "/organisme/v1/recherche": {
       "get": {
-        "description": "Récupère la liste des organismes, filtrée par UAI et/ou SIRET fournis",
+        "description": "Affiche la liste des organismes de formation qui correspondent à une UAI et/ou un numéro SIRET donné(e)s.",
         "operationId": "searchOrganismes",
         "parameters": [
           {

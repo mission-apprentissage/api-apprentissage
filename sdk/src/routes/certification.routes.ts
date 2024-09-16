@@ -42,7 +42,8 @@ export const zApiCertificationsRoutes = {
       openapi: {
         tags: ["Certifications"] as string[],
         summary: "Récupération des certifications",
-        description: "Récupère la liste des certifications, filtrée par `identifiant.cfd` et `identifiant.rncp`",
+        description:
+          "Récupère la liste des certifications et leur historique. Il est possible de filter cette liste par `identifiant.cfd` et `identifiant.rncp`.",
         operationId: "getCertifications",
       },
     },

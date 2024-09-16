@@ -1,5 +1,20 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`createOffer > should throw if the response does not match the schema 1`] = `
+"api-alternance-sdk: Error while parsing API response, this is either a bug in the SDK or a change in the API response. Please report this issue.
+	ZodErrors: [
+	  {
+	    "code": "invalid_type",
+	    "expected": "string",
+	    "received": "undefined",
+	    "path": [
+	      "id"
+	    ],
+	    "message": "Required"
+	  }
+	]"
+`;
+
 exports[`search > should throw if the response does not match the schema 1`] = `
 "api-alternance-sdk: Error while parsing API response, this is either a bug in the SDK or a change in the API response. Please report this issue.
 	ZodErrors: [

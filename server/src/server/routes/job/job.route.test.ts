@@ -284,7 +284,8 @@ describe("GET /job/v1/search", () => {
         _id: user._id,
         email: user.email,
         organisation: user.organisation,
-      })
+      }),
+      null
     );
   });
 
@@ -346,7 +347,8 @@ describe("GET /job/v1/search", () => {
         _id: user._id,
         email: user.email,
         organisation: user.organisation,
-      })
+      }),
+      null
     );
   });
 
@@ -382,7 +384,8 @@ describe("GET /job/v1/search", () => {
         _id: user._id,
         email: user.email,
         organisation: user.organisation,
-      })
+      }),
+      null
     );
   });
 });

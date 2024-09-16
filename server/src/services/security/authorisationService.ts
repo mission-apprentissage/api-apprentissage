@@ -2,10 +2,11 @@ import { forbidden, internal } from "@hapi/boom";
 import type { PathParam, QueryString } from "api-alternance-sdk/internal";
 import type { FastifyRequest } from "fastify";
 import type { ObjectId } from "mongodb";
+import type { IOrganisation } from "shared/models/organisation.model";
 import type { IUser } from "shared/models/user.model";
 import type { IAccessToken, IRouteSchema, SchemaWithSecurity, WithSecurityScheme } from "shared/routes/common.routes";
 import type { AccessPermission, AccessResourcePath, Role } from "shared/security/permissions";
-import { AdminRole, NoneRole } from "shared/security/permissions";
+import { AdminRole, getBaseRole } from "shared/security/permissions";
 import { assertUnreachable } from "shared/utils/assertUnreachable";
 import type { Primitive } from "zod";
 import { zObjectId } from "zod-mongodb-schema";
@@ -20,7 +21,7 @@ export type Ressources = {
 };
 
 // Specify what we need to simplify mocking in tests
-type IRequest = Pick<FastifyRequest, "user" | "params" | "query">;
+type IRequest = Pick<FastifyRequest, "user" | "params" | "query" | "organisation">;
 
 function getAccessResourcePathValue(path: AccessResourcePath, req: IRequest) {
   const obj = req[path.type] as Record<string, Primitive>;
@@ -57,20 +58,25 @@ export async function getResources<S extends WithSecurityScheme>(schema: S, req:
   };
 }
 
-function getUserRole(userOrToken: IAccessToken | IUser): Role {
+function getUserRole(userOrToken: IAccessToken | IUser, organisation: IOrganisation | null): Role {
   if ("identity" in userOrToken) {
-    return NoneRole;
+    return getBaseRole(organisation);
   }
 
-  return userOrToken.is_admin ? AdminRole : NoneRole;
+  return userOrToken.is_admin ? AdminRole : getBaseRole(organisation);
 }
 
 function canAccessUser(user: IUser, resource: Ressources["users"][number]): boolean {
   return user.is_admin || resource._id.toString() === user._id.toString();
 }
 
-export function isAuthorizedUser(access: AccessPermission, user: IUser, resources: Ressources): boolean {
-  if (!getUserRole(user).permissions.includes(access)) {
+export function isAuthorizedUser(
+  access: AccessPermission,
+  user: IUser,
+  resources: Ressources,
+  organisation: IOrganisation | null
+): boolean {
+  if (!getUserRole(user, organisation).permissions.includes(access)) {
     return false;
   }
 
@@ -79,6 +85,8 @@ export function isAuthorizedUser(access: AccessPermission, user: IUser, resource
       return resources.users.every((r) => canAccessUser(user, r));
     case "admin":
       return user.is_admin;
+    case "jobs:write":
+      return true;
     default:
       assertUnreachable(access);
   }
@@ -147,7 +155,7 @@ export async function authorizationnMiddleware<S extends Pick<IRouteSchema, "met
   const isAuthorized =
     "identity" in userOrToken
       ? isAuthorizedToken(userOrToken, resources, schema, req.params as PathParam, req.query as QueryString)
-      : isAuthorizedUser(schema.securityScheme.access, userOrToken, resources);
+      : isAuthorizedUser(schema.securityScheme.access, userOrToken, resources, req.organisation ?? null);
 
   if (!isAuthorized) {
     throw forbidden("Vous n'êtes pas autorisé à accéder à cette ressource");

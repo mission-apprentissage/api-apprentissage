@@ -7,6 +7,12 @@ fileignoreconfig:
   checksum: 257498bc016ca59d8f83123c813ddc49953b416608ddc6a633991a80c9411ddd
 - filename: server/src/services/apis/lba/lba.api.test.ts
   checksum: e253bc3577608253b69da1c930f6386fa759a721e211c10f6444527f9ddb569f
+- filename: server/src/services/security/authenticationService.test.ts
+  checksum: e20c8c89ad7872db40c23f1e5905db0933f5b7bbdb56072d37dee900dfd38881
+- filename: server/src/services/security/authorisationService.test.ts
+  checksum: 029b5bf6deaf702bf70b6bef5fcfaf1f1b19672c0d8e5a3775b2671c5eaae60c
+- filename: shared/src/models/fixtures/user.model.fixture.ts
+  checksum: 0fb667cd0db69b149b681fa414ece52a62cff9155737456aadd22a1ca6ed2417
 scopeconfig:
 - scope: node
 custom_patterns:

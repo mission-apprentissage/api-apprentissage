@@ -46,7 +46,7 @@ export function generateAccessToken<S extends ReadonlyArray<IAccessTokenScope<IS
   scopes: S,
   options: { expiresIn?: string } = {}
 ): string {
-  const identity: IAccessToken["identity"] = { email: user.email.toLowerCase() };
+  const identity: IAccessToken["identity"] = { email: user.email.toLowerCase(), organisation: user.organisation };
 
   const data: IAccessToken<ISecuredRouteSchema> = { identity, scopes };
 

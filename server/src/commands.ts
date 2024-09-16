@@ -238,7 +238,10 @@ program
       program.error(`User with email ${email} not found`);
     }
 
-    const token = createAuthToken(user);
+    const org =
+      user.organisation === null ? null : await getDbCollection("organisations").findOne({ nom: user.organisation });
+
+    const token = createAuthToken(user, org);
     logger.info({ token });
 
     logger.info(parseApiAlternanceToken({ token, publicKey: config.api.alternance.public_cert }));

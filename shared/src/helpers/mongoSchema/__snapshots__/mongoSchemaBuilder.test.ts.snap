@@ -1623,6 +1623,15 @@ exports[`zodToMongoSchema > should convert organisations schema 1`] = `
       "bsonType": "date",
       "description": "Date d'ajout en base de données",
     },
+    "habilitations": {
+      "bsonType": "array",
+      "items": {
+        "bsonType": "string",
+        "enum": [
+          "jobs:write",
+        ],
+      },
+    },
     "nom": {
       "bsonType": "string",
       "description": "Nom de l'organisation",
@@ -1644,6 +1653,7 @@ exports[`zodToMongoSchema > should convert organisations schema 1`] = `
     "_id",
     "nom",
     "slug",
+    "habilitations",
     "updated_at",
     "created_at",
   ],

@@ -14,7 +14,7 @@ export const jobRoutes = ({ server }: { server: Server }) => {
     },
     async (request, response) => {
       const user = getUserFromRequest(request, zRoutes.get["/job/v1/search"]);
-      const lbaResponse = await searchJobOpportunitiesLba(request.query, user);
+      const lbaResponse = await searchJobOpportunitiesLba(request.query, user, request.organisation ?? null);
 
       return response.status(200).send(convertJobSearchResponseLbaToApi(lbaResponse));
     }

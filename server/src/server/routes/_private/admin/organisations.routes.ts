@@ -31,6 +31,7 @@ export const organisationAdminRoutes = ({ server }: { server: Server }) => {
         _id: new ObjectId(),
         nom: request.body.nom,
         slug: request.body.nom.toLowerCase().replace(/ /g, "-"),
+        habilitations: [],
         updated_at: now,
         created_at: now,
       };

@@ -129,7 +129,8 @@ function getMarkAsOpenedActionLink(emailEvent: IEmailEvent | null) {
     return null;
   }
 
-  const token = generateAccessToken({ email: emailEvent.template.to }, [
+  // organisation is not needed for this token
+  const token = generateAccessToken({ email: emailEvent.template.to, organisation: null }, [
     generateScope({
       schema: zRoutes.get["/_private/emails/:id/markAsOpened"],
       options: "all",

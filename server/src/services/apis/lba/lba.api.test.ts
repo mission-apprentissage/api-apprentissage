@@ -139,7 +139,7 @@ describe("searchJobOpportunities", () => {
       })
       .reply(200, data);
 
-    await expect(searchJobOpportunitiesLba(query, user)).resolves.toEqual(data);
+    await expect(searchJobOpportunitiesLba(query, user, null)).resolves.toEqual(data);
     expect(nock.isDone());
     expect.assertions(3);
   });
@@ -173,7 +173,7 @@ describe("searchJobOpportunities", () => {
       })
       .reply(200, data);
 
-    await expect(searchJobOpportunitiesLba(query, user)).resolves.toEqual(data);
+    await expect(searchJobOpportunitiesLba(query, user, null)).resolves.toEqual(data);
     expect(nock.isDone());
     expect.assertions(3);
   });
@@ -186,7 +186,7 @@ describe("searchJobOpportunities", () => {
       .query(query)
       .reply(200, {});
 
-    await expect(searchJobOpportunitiesLba(query, user)).rejects.toMatchObject({
+    await expect(searchJobOpportunitiesLba(query, user, null)).rejects.toMatchObject({
       isBoom: true,
       output: {
         statusCode: 500,
@@ -203,7 +203,7 @@ describe("searchJobOpportunities", () => {
       .query(query)
       .replyWithError("Oops");
 
-    await expect(searchJobOpportunitiesLba(query, user)).rejects.toMatchObject({
+    await expect(searchJobOpportunitiesLba(query, user, null)).rejects.toMatchObject({
       isBoom: true,
       output: {
         statusCode: 500,
@@ -225,7 +225,7 @@ describe("searchJobOpportunities", () => {
         statusCode: 500,
       });
 
-    await expect(searchJobOpportunitiesLba(query, user)).rejects.toMatchObject({
+    await expect(searchJobOpportunitiesLba(query, user, null)).rejects.toMatchObject({
       isBoom: true,
       output: {
         statusCode: 500,
@@ -264,7 +264,7 @@ describe("searchJobOpportunities", () => {
       .query(query)
       .reply(400, lbaError);
 
-    const e = await searchJobOpportunitiesLba(query, user).catch((e) => e);
+    const e = await searchJobOpportunitiesLba(query, user, null).catch((e) => e);
     expect(e.isBoom).toBe(true);
     expect(formatResponseError(e)).toEqual(expectedError);
 
@@ -288,11 +288,11 @@ describe("searchJobOpportunities", () => {
       .query(query)
       .reply(401, lbaError);
 
-    const e = await searchJobOpportunitiesLba(query, user).catch((e) => e);
+    const e = await searchJobOpportunitiesLba(query, user, null).catch((e) => e);
     expect(e.isBoom).toBe(true);
     expect(formatResponseError(e)).toEqual(expectedError);
     expect(e.data).toEqual(lbaError);
-    expect(e.message).toBe("api.lba: failure searchJobOpportunities");
+    expect(e.message).toBe("api.lba: failure convertLbaErrors");
 
     expect(nock.isDone());
   });
@@ -313,7 +313,7 @@ describe("searchJobOpportunities", () => {
       .query(query)
       .reply(403, lbaError);
 
-    const e = await searchJobOpportunitiesLba(query, user).catch((e) => e);
+    const e = await searchJobOpportunitiesLba(query, user, null).catch((e) => e);
     expect(e.isBoom).toBe(true);
     expect(formatResponseError(e)).toEqual(expectedError);
 
@@ -336,7 +336,7 @@ describe("searchJobOpportunities", () => {
       .query(query)
       .reply(404, lbaError);
 
-    const e = await searchJobOpportunitiesLba(query, user).catch((e) => e);
+    const e = await searchJobOpportunitiesLba(query, user, null).catch((e) => e);
     expect(e.isBoom).toBe(true);
     expect(formatResponseError(e)).toEqual(expectedError);
 

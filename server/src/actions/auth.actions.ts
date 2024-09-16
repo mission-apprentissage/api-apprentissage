@@ -9,8 +9,9 @@ import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 import { generateAccessToken, generateScope } from "@/services/security/accessTokenService.js";
 
 export function generateRegisterToken(email: string): string {
+  // No need to provided organisation for register
   return generateAccessToken(
-    { email },
+    { email, organisation: null },
     [
       generateScope({
         schema: zRoutes.post["/_private/auth/register"],
@@ -37,7 +38,8 @@ function sendRegisterEmail(email: string) {
 
 export function generateMagicLinkToken(email: string): string {
   return generateAccessToken(
-    { email },
+    // No need to provided organisation for login
+    { email, organisation: null },
     [
       generateScope({
         schema: zRoutes.post["/_private/auth/login"],

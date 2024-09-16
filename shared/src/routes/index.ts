@@ -36,10 +36,12 @@ const zRoutesPost = {
   ...zAuthRoutes.post,
   ...zEmailRoutes.post,
   ...zOrganisationAdminRoutes.post,
+  ...zJobRoutes.post,
 } as const;
 
 const zRoutesPut = {
   ...zUserAdminRoutes.put,
+  ...zJobRoutes.put,
 } as const;
 
 const zRoutesDelete = {

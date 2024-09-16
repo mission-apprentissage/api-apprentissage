@@ -24,6 +24,7 @@ export const zOrganisation = z.object({
     .max(100)
     .describe("Slug de l'organisation")
     .transform((v) => v.trim().toLowerCase()),
+  habilitations: z.enum(["jobs:write"]).array(),
   updated_at: z.date().describe("Date de mise à jour en base de données"),
   created_at: z.date().describe("Date d'ajout en base de données"),
 });

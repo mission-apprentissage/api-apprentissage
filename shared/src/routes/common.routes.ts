@@ -156,6 +156,7 @@ export type IAccessTokenScopeParam<S extends SchemaWithSecurity> = Pick<
 export type IAccessToken<S extends SchemaWithSecurity = SchemaWithSecurity> = {
   identity: {
     email: string;
+    organisation: string | null;
   };
   scopes: ReadonlyArray<IAccessTokenScope<S>>;
 };

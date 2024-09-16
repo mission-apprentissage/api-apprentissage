@@ -114,6 +114,10 @@ export class ApiClient {
       throw await ApiError.build(path, new Headers(reqHeaders), options, res);
     }
 
+    if (res.status === 204) {
+      return;
+    }
+
     return res.json();
   }
 

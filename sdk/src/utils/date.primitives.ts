@@ -13,7 +13,7 @@ export class ParisDate extends Date {
 
 export const zParisLocalDate = zodOpenApi
   .union([zodOpenApi.string().datetime({ offset: true }), zodOpenApi.string().date(), zodOpenApi.date()])
-  .transform((val) => {
+  .transform<ParisDate>((val) => {
     if (val instanceof Date) return ParisDate.fromDate(val);
     return ParisDate.fromDate(DateTime.fromISO(val, { zone: "Europe/Paris" }).toJSDate());
   })

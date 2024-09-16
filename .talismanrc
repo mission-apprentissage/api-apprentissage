@@ -3,13 +3,14 @@ fileignoreconfig:
   checksum: 4877e85f6584402f51877f06f7f48b84a6c717c6b90f7343afbcbe63a232d928
 - filename: server/.env.test
   checksum: 65357f150bfedfebea511b1007eed941983484abf990d87e91fd7477360ad280
-- filename: server/src/server/routes/job/job.route.test.ts
-  checksum: 257498bc016ca59d8f83123c813ddc49953b416608ddc6a633991a80c9411ddd
-- filename: server/src/services/apis/lba/lba.api.test.ts
-  checksum: e253bc3577608253b69da1c930f6386fa759a721e211c10f6444527f9ddb569f
 scopeconfig:
 - scope: node
 custom_patterns:
 - (?s)[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}
+allowed_patterns:
+- '@mail.com'
+- '@exemple.fr'
+- '@apprentissage.beta.gouv.fr'
+- '@alternance.beta.gouv.fr'
 threshold: medium
 version: "1.0"

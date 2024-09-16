@@ -1,7 +1,8 @@
 import { z } from "zod";
 
+import { zJobOfferCreateResponseLba } from "../external/laBonneAlternance.api.js";
 import { zRncpCode } from "../models/index.js";
-import { zJobOffer, zJobRecruiter } from "../models/job/job.model.js";
+import { zJobOffer, zJobOfferWritable, zJobRecruiter } from "../models/job/job.model.js";
 import { zLatitudeCoerce, zLongitudeCoerce, zOfferTargetDiplomaLevel } from "../models/job/job.primitives.js";
 import type { IApiRoutesDef } from "./common.routes.js";
 
@@ -39,6 +40,39 @@ export const zApiJobRoutes = {
         description:
           "Accédez en temps réel à l'ensemble des opportunités d'emploi en alternance disponibles sur le territoire français et exposez les gratuitement et en marque blanche auprès de vos utilisateurs.",
         operationId: "searchJobs",
+      },
+    },
+  },
+  post: {
+    "/job/v1/offer": {
+      method: "post",
+      path: "/job/v1/offer",
+      body: zJobOfferWritable,
+      response: {
+        "200": zJobOfferCreateResponseLba,
+      },
+      openapi: {
+        tags: ["Job"] as string[],
+        summary: "Publier une offre d'emploi en alternance",
+        description: "Publiez une offre d'emploi en alternance",
+        operationId: "createJobOffer",
+      },
+    },
+  },
+  put: {
+    "/job/v1/offer/:id": {
+      method: "put",
+      path: "/job/v1/offer/:id",
+      params: z.object({ id: z.string() }),
+      body: zJobOfferWritable,
+      response: {
+        "204": z.null(),
+      },
+      openapi: {
+        tags: ["Job"] as string[],
+        summary: "Modification d'une offre d'emploi en alternance",
+        description: "Modifiez une offre d'emploi en alternance",
+        operationId: "updateJobOffer",
       },
     },
   },

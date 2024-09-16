@@ -1,6 +1,7 @@
 import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
 import { beforeEach, describe, expect, expectTypeOf, it } from "vitest";
 
+import type { IJobOfferWritable } from "../../models/index.js";
 import type { IJobSearchQuery, IJobSearchResponse } from "../../routes/job.routes.js";
 import { ApiError } from "../apiError.js";
 import { ApiClient } from "../client.js";
@@ -22,7 +23,7 @@ describe("search", () => {
       {
         identifier: {
           id: "1",
-          partner: "La bonne alternance",
+          partner_label: "La bonne alternance",
           partner_job_id: null,
         },
         workplace: {
@@ -227,5 +228,178 @@ describe("search", () => {
 
     expect(scope.isDone()).toBe(true);
     expect(data).toEqual(response);
+  });
+});
+
+describe("createOffer", () => {
+  const data: IJobOfferWritable = {
+    offer: {
+      title: "Opérations administratives",
+      description: "Exécute des travaux administratifs courants",
+    },
+    workplace: {
+      siret: "11000001500013",
+    },
+    apply: {},
+  };
+
+  it("should call the API with the correct querystring", async () => {
+    const scope = nock("https://api.apprentissage.beta.gouv.fr/api", {
+      reqheaders: { authorization: "Bearer api-key" },
+    })
+      .post("/job/v1/offer", (body) => {
+        expect.soft(body).toEqual(data);
+        return true;
+      })
+      .reply(200, { id: "1" });
+
+    const apiClient = new ApiClient({ key: "api-key" });
+
+    const id = await apiClient.job.createOffer(data);
+
+    expectTypeOf(id).toEqualTypeOf<string>();
+
+    expect(scope.isDone()).toBe(true);
+    expect(id).toEqual("1");
+  });
+
+  it("should throw an ApiError when server error", async () => {
+    const scope = nock("https://api.apprentissage.beta.gouv.fr/api", {
+      reqheaders: { authorization: "Bearer api-key" },
+    })
+      .post("/job/v1/offer", (body) => {
+        expect.soft(body).toEqual(data);
+        return true;
+      })
+      .reply(401, {
+        statusCode: 401,
+        name: "Unauthorized",
+        message: "Vous devez fournir une clé d'API valide pour accéder à cette ressource",
+      });
+
+    const apiClient = new ApiClient({ key: "api-key" });
+    const err = await apiClient.job
+      .createOffer(data)
+      .then(() => {
+        expect.unreachable("should throw an error");
+      })
+      .catch((error: ApiError) => {
+        return error;
+      });
+
+    expect(err).toBeInstanceOf(ApiError);
+    expect(err.name).toBe("Unauthorized");
+
+    expect(scope.isDone()).toBe(true);
+  });
+
+  it("should throw if the response does not match the schema", async () => {
+    const scope = nock("https://api.apprentissage.beta.gouv.fr/api", {
+      reqheaders: { authorization: "Bearer api-key" },
+    })
+      .post("/job/v1/offer", (body) => {
+        expect.soft(body).toEqual(data);
+        return true;
+      })
+      .reply(200, { breaking: "schema" });
+
+    const apiClient = new ApiClient({ key: "api-key" });
+    const err = await apiClient.job
+      .createOffer(data)
+      .then(() => {
+        expect.unreachable("should throw an error");
+      })
+      .catch((error: ApiError) => {
+        return error;
+      });
+
+    expect(err).toBeInstanceOf(ApiParseError);
+    expect(err.name).toBe("ApiParseError");
+    expect(err.message).toMatchSnapshot();
+
+    expect(scope.isDone()).toBe(true);
+  });
+
+  it("should accepts future schema ehancements", async () => {
+    const scope = nock("https://api.apprentissage.beta.gouv.fr/api", {
+      reqheaders: { authorization: "Bearer api-key" },
+    })
+      .post("/job/v1/offer", (body) => {
+        expect.soft(body).toEqual(data);
+        return true;
+      })
+      .reply(200, {
+        id: "1",
+        new_field: "new_field",
+      });
+
+    const apiClient = new ApiClient({ key: "api-key" });
+
+    const id = await apiClient.job.createOffer(data);
+
+    expectTypeOf(id).toEqualTypeOf<string>();
+
+    expect(scope.isDone()).toBe(true);
+    expect(id).toEqual("1");
+  });
+});
+
+describe("updateOffer", () => {
+  const data: IJobOfferWritable = {
+    offer: {
+      title: "Opérations administratives",
+      description: "Exécute des travaux administratifs courants",
+    },
+    workplace: {
+      siret: "11000001500013",
+    },
+    apply: {},
+  };
+
+  it("should call the API with the correct querystring", async () => {
+    const scope = nock("https://api.apprentissage.beta.gouv.fr/api", {
+      reqheaders: { authorization: "Bearer api-key" },
+    })
+      .put("/job/v1/offer/1234", (body) => {
+        expect.soft(body).toEqual(data);
+        return true;
+      })
+      .reply(204);
+
+    const apiClient = new ApiClient({ key: "api-key" });
+
+    const res = await apiClient.job.updateOffer("1234", data);
+    expectTypeOf(res).toEqualTypeOf<void>();
+    expect(scope.isDone()).toBe(true);
+  });
+
+  it("should throw an ApiError when server error", async () => {
+    const scope = nock("https://api.apprentissage.beta.gouv.fr/api", {
+      reqheaders: { authorization: "Bearer api-key" },
+    })
+      .put("/job/v1/offer/1234", (body) => {
+        expect.soft(body).toEqual(data);
+        return true;
+      })
+      .reply(401, {
+        statusCode: 401,
+        name: "Unauthorized",
+        message: "Vous devez fournir une clé d'API valide pour accéder à cette ressource",
+      });
+
+    const apiClient = new ApiClient({ key: "api-key" });
+    const err = await apiClient.job
+      .updateOffer("1234", data)
+      .then(() => {
+        expect.unreachable("should throw an error");
+      })
+      .catch((error: ApiError) => {
+        return error;
+      });
+
+    expect(err).toBeInstanceOf(ApiError);
+    expect(err.name).toBe("Unauthorized");
+
+    expect(scope.isDone()).toBe(true);
   });
 });

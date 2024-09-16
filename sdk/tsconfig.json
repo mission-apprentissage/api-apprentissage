@@ -28,6 +28,7 @@
     "skipLibCheck": true,
     /* Output Formatting */
     "pretty": true,
+    "noErrorTruncation": true,
     "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
   },
   "include": ["./src/**/*.ts"],

@@ -1,6 +1,8 @@
-export type Permission = "admin" | "user:manage";
+import type { IOrganisation } from "../models/organisation.model.js";
 
-export type RoleNames = "none" | "admin";
+export type Permission = "admin" | "user:manage" | "jobs:write";
+
+export type RoleNames = "none" | "org" | "admin";
 
 export interface Role {
   name: RoleNames;
@@ -12,9 +14,18 @@ export const NoneRole = {
   permissions: [],
 } satisfies Role;
 
+export function getBaseRole(organisation: IOrganisation | null): Role {
+  return organisation === null
+    ? NoneRole
+    : {
+        name: "org",
+        permissions: organisation.habilitations,
+      };
+}
+
 export const AdminRole = {
   name: "admin",
-  permissions: ["admin", "user:manage"],
+  permissions: ["admin", "user:manage", "jobs:write"],
 } satisfies Role;
 
 export type AccessPermission = Permission;

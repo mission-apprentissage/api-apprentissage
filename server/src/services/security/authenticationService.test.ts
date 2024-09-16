@@ -1,7 +1,6 @@
 import { useMongo } from "@tests/mongo.test.utils.js";
 import { ObjectId } from "mongodb";
-import { generateUserFixture } from "shared/models/fixtures/index";
-import type { IUser } from "shared/models/user.model";
+import { generateOrganisationFixture, generateUserFixture } from "shared/models/fixtures/index";
 import type { ISecuredRouteSchema } from "shared/routes/common.routes";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { z } from "zod";
@@ -16,21 +15,27 @@ import { authenticationMiddleware } from "./authenticationService.js";
 useMongo();
 
 describe("authenticationMiddleware", () => {
-  let user: IUser;
-  let otherUser: IUser;
+  const user = generateUserFixture({
+    email: "user@email.com",
+    is_admin: false,
+  });
+  const userWithOrg = generateUserFixture({
+    email: "userOrg@email.com",
+    is_admin: false,
+    organisation: "Hello Work",
+  });
+  let otherUser = generateUserFixture({
+    email: "other@email.com",
+    is_admin: false,
+  });
+  const organisation = generateOrganisationFixture({
+    nom: "Hello Work",
+    slug: "hello work",
+  });
 
   beforeEach(async () => {
-    user = generateUserFixture({
-      email: "user@email.com",
-      is_admin: false,
-    });
-
-    otherUser = generateUserFixture({
-      email: "other@email.com",
-      is_admin: false,
-    });
-
-    await getDbCollection("users").insertMany([user, otherUser]);
+    await getDbCollection("users").insertMany([user, otherUser, userWithOrg]);
+    await getDbCollection("organisations").insertOne(organisation);
   });
 
   describe("cookie-session", () => {
@@ -68,6 +73,22 @@ describe("authenticationMiddleware", () => {
         type: "user",
         value: user,
       });
+      expect(req.organisation).toBeNull();
+    });
+
+    it("should set req.organisation if cookie is valid", async () => {
+      const token = createSessionToken(userWithOrg.email);
+      await createSession(userWithOrg.email);
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const req: any = { cookies: { [config.session.cookieName]: token } };
+
+      await expect(authenticationMiddleware(schema, req)).resolves.toBeUndefined();
+      expect(req.user).toEqual({
+        type: "user",
+        value: userWithOrg,
+      });
+      expect(req.organisation).toEqual(organisation);
     });
 
     it("should throw unauthorized if cookie is not provided", async () => {
@@ -190,6 +211,7 @@ describe("authenticationMiddleware", () => {
         expectedUser,
         // Should not be modified
         otherUser,
+        userWithOrg,
       ]);
     });
 
@@ -242,6 +264,7 @@ describe("authenticationMiddleware", () => {
         expectedUser1,
         // Should not be modified
         otherUser,
+        userWithOrg,
       ]);
 
       const in3Days = new Date("2024-03-24T23:00:00Z");
@@ -284,6 +307,7 @@ describe("authenticationMiddleware", () => {
         expectedUser2,
         // Should not be modified
         otherUser,
+        userWithOrg,
       ]);
     });
 

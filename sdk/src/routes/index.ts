@@ -20,9 +20,13 @@ const _zApiRoutesGet = {
   ...zApiJobRoutes.get,
 } as const;
 
-const _zApiRoutesPost = {} as const;
+const _zApiRoutesPost = {
+  ...zApiJobRoutes.post,
+} as const;
 
-const _zApiRoutesPut = {} as const;
+const _zApiRoutesPut = {
+  ...zApiJobRoutes.put,
+} as const;
 
 const _zApiRoutesDelete = {} as const;
 

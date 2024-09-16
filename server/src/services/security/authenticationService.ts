@@ -4,6 +4,7 @@ import type { PathParam, QueryString } from "api-alternance-sdk/internal";
 import type { FastifyRequest } from "fastify";
 import type { JwtPayload } from "jsonwebtoken";
 import { ObjectId } from "mongodb";
+import type { IOrganisation } from "shared/models/organisation.model";
 import type { IApiKey, IUser } from "shared/models/user.model";
 import type { IAccessToken, ISecuredRouteSchema, WithSecurityScheme } from "shared/routes/common.routes";
 import type { UserWithType } from "shared/security/permissions";
@@ -21,6 +22,7 @@ export type IUserWithType = UserWithType<"token", IAccessToken> | UserWithType<"
 declare module "fastify" {
   interface FastifyRequest {
     user?: null | IUserWithType;
+    organisation?: null | IOrganisation;
     api_key?: IApiKey | null;
   }
 }
@@ -118,6 +120,14 @@ async function authAccessToken<S extends ISecuredRouteSchema>(
   return token ? { type: "token", value: token } : null;
 }
 
+async function getOrganisation(user: IUserWithType | null | undefined): Promise<IOrganisation | null> {
+  if (user == null) return null;
+  const organisationName = user.type === "token" ? user.value.identity.organisation : user.value.organisation;
+  if (organisationName === null) return null;
+
+  return getDbCollection("organisations").findOne({ nom: organisationName });
+}
+
 export async function authenticationMiddleware<S extends ISecuredRouteSchema>(schema: S, req: FastifyRequest) {
   if (!schema.securityScheme) {
     throw internal("Missing securityScheme");
@@ -151,4 +161,6 @@ export async function authenticationMiddleware<S extends ISecuredRouteSchema>(sc
   if (!req.user) {
     throw unauthorized("Vous devez être connecté pour accéder à cette ressource");
   }
+
+  req.organisation = await getOrganisation(req.user);
 }

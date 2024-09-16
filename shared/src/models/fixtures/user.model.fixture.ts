@@ -1,23 +1,27 @@
 import { ObjectId } from "bson";
+import type { z } from "zod";
 
 import type { IUser } from "../user.model.js";
-import { getFixtureValue } from "./fixture_helper.js";
+import { zUser } from "../user.model.js";
 
 type IUserFixtureInput = Partial<IUser>;
 
 export function generateUserFixture(data?: IUserFixtureInput): IUser {
-  return {
-    _id: getFixtureValue(data, "_id", new ObjectId()),
-    email: getFixtureValue(data, "email", "user@exemple.fr"),
-    organisation: getFixtureValue(data, "organisation", null),
-    is_admin: getFixtureValue(data, "is_admin", false),
-    api_keys: getFixtureValue(data, "api_keys", []),
-    updated_at: getFixtureValue(data, "updated_at", new Date("2024-03-21T00:00:00Z")),
-    created_at: getFixtureValue(data, "created_at", new Date("2024-03-21T00:00:00Z")),
-    type: getFixtureValue(data, "type", "autre"),
-    activite: getFixtureValue(data, "activite", null),
-    objectif: getFixtureValue(data, "objectif", "fiabiliser"),
-    cas_usage: getFixtureValue(data, "cas_usage", null),
-    cgu_accepted_at: getFixtureValue(data, "cgu_accepted_at", new Date("2024-03-21T00:00:00Z")),
+  const input: z.input<typeof zUser> = {
+    _id: new ObjectId(),
+    email: "user@exemple.fr",
+    organisation: null,
+    is_admin: false,
+    api_keys: [],
+    updated_at: new Date("2024-03-21T00:00:00Z"),
+    created_at: new Date("2024-03-21T00:00:00Z"),
+    type: "autre",
+    activite: null,
+    objectif: "fiabiliser",
+    cas_usage: null,
+    cgu_accepted_at: new Date("2024-03-21T00:00:00Z"),
+    ...data,
   };
+
+  return zUser.parse(input);
 }

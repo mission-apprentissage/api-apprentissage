@@ -122,6 +122,7 @@ describe("Authentication", () => {
         iat: expect.any(Number),
         identity: {
           email: "user@exemple.fr",
+          organisation: null,
         },
         iss: "http://localhost",
         scopes: [
@@ -179,6 +180,7 @@ describe("Authentication", () => {
         iat: expect.any(Number),
         identity: {
           email: "user@exemple.fr",
+          organisation: null,
         },
         iss: "http://localhost",
         scopes: [

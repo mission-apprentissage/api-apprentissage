@@ -2,6 +2,7 @@ import type { Jsonify } from "type-fest";
 import { describe, expectTypeOf, it } from "vitest";
 import type { z } from "zod";
 
+import type { ParisDate } from "../internal.js";
 import type {
   IJobOfferLba,
   IJobOfferWritableLba,
@@ -52,7 +53,7 @@ type IJobOfferExpected = IJobWorkplaceExpected &
     partner_label: string;
     partner_job_id: string | null;
 
-    contract_start: Date | null;
+    contract_start: ParisDate | null;
     contract_duration: number | null;
     contract_type: Array<"Apprentissage" | "Professionnalisation">;
     contract_remote: "onsite" | "hybrid" | "remote" | null;
@@ -67,8 +68,8 @@ type IJobOfferExpected = IJobWorkplaceExpected &
     offer_desired_skills: string[];
     offer_to_be_acquired_skills: string[];
     offer_access_conditions: string[];
-    offer_creation: Date | null;
-    offer_expiration: Date | null;
+    offer_creation: ParisDate | null;
+    offer_expiration: ParisDate | null;
     offer_opening_count: number;
     offer_status: "Active" | "Filled" | "Cancelled" | "Pending";
   };
@@ -79,7 +80,7 @@ type IJobOfferWritableExpected = {
   contract_duration?: number | null | undefined;
   contract_type?: Array<"Apprentissage" | "Professionnalisation"> | undefined;
   contract_remote?: IJobOfferExpected["contract_remote"] | undefined;
-  contract_start?: Date | null | undefined;
+  contract_start?: ParisDate | null | undefined;
 
   offer_title: string;
   offer_rome_codes?: string[] | null | undefined;
@@ -88,8 +89,8 @@ type IJobOfferWritableExpected = {
   offer_desired_skills?: string[] | undefined;
   offer_to_be_acquired_skills?: string[] | undefined;
   offer_access_conditions?: string[] | undefined;
-  offer_creation?: Date | null | undefined;
-  offer_expiration?: Date | null | undefined;
+  offer_creation?: ParisDate | null | undefined;
+  offer_expiration?: ParisDate | null | undefined;
   offer_opening_count?: number | undefined;
   offer_origin?: string | null | undefined;
   offer_multicast?: boolean | undefined;
@@ -107,18 +108,18 @@ type IJobOfferWritableExpected = {
 
 describe("IJobRecruiterLbaExpected", () => {
   it("should have proper typing", () => {
-    expectTypeOf<IJobRecruiterLbaExpected>().toMatchTypeOf<IJobRecruiterLba>();
+    expectTypeOf<IJobRecruiterLbaExpected>().branded.toEqualTypeOf<IJobRecruiterLba>();
   });
 });
 
 describe("IJobOfferLba", () => {
   it("should have proper typing", () => {
-    expectTypeOf<IJobOfferLba>().toMatchTypeOf<IJobOfferExpected>();
+    expectTypeOf<IJobOfferLba>().branded.toEqualTypeOf<IJobOfferExpected>();
   });
 });
 
 describe("IJobsPartnersWritableApi", () => {
   it("should have proper typing", () => {
-    expectTypeOf<IJobOfferWritableLba>().toMatchTypeOf<IJobOfferWritableExpected>();
+    expectTypeOf<IJobOfferWritableLba>().branded.toEqualTypeOf<IJobOfferWritableExpected>();
   });
 });

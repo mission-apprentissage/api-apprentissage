@@ -69,7 +69,6 @@ export const zJobOfferWritableLba = zJobOfferLba
     contract_start: true,
 
     offer_title: true,
-    offer_rome_codes: true,
     offer_description: true,
     offer_desired_skills: true,
     offer_to_be_acquired_skills: true,
@@ -78,7 +77,6 @@ export const zJobOfferWritableLba = zJobOfferLba
     offer_expiration: true,
     offer_opening_count: true,
 
-    apply_url: true,
     apply_phone: true,
 
     workplace_siret: true,
@@ -90,7 +88,9 @@ export const zJobOfferWritableLba = zJobOfferLba
     offer_target_diploma_european: zOfferTargetDiplomaLevel.nullable(),
     offer_origin: z.string().nullable(),
     offer_multicast: z.boolean(),
+    offer_rome_codes: zJobOfferLba.shape.offer_rome_codes.nullable(),
 
+    apply_url: z.string().url().nullable(),
     apply_email: z.string().email().nullable(),
 
     workplace_siret: z.string(),
@@ -104,3 +104,9 @@ export const zJobOfferWritableLba = zJobOfferLba
   });
 
 export type IJobOfferWritableLba = z.output<typeof zJobOfferWritableLba>;
+
+export const zJobOfferCreateResponseLba = z.object({
+  id: z.string(),
+});
+
+export type IJobOfferCreateResponseLba = z.output<typeof zJobOfferCreateResponseLba>;

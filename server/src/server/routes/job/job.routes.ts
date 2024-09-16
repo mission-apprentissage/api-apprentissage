@@ -1,8 +1,8 @@
 import { zRoutes } from "shared";
 
 import type { Server } from "@/server/server.js";
-import { searchJobOpportunitiesLba } from "@/services/apis/lba/lba.api.js";
-import { convertJobSearchResponseLbaToApi } from "@/services/jobs/job.service.js";
+import { createJobOfferLba, searchJobOpportunitiesLba } from "@/services/apis/lba/lba.api.js";
+import { convertJobOfferWritableApiToLba, convertJobSearchResponseLbaToApi } from "@/services/jobs/job.service.js";
 import { getUserFromRequest } from "@/services/security/authenticationService.js";
 
 export const jobRoutes = ({ server }: { server: Server }) => {
@@ -17,6 +17,24 @@ export const jobRoutes = ({ server }: { server: Server }) => {
       const lbaResponse = await searchJobOpportunitiesLba(request.query, user, request.organisation ?? null);
 
       return response.status(200).send(convertJobSearchResponseLbaToApi(lbaResponse));
+    }
+  );
+
+  server.post(
+    "/job/v1/offer",
+    {
+      schema: zRoutes.post["/job/v1/offer"],
+      onRequest: [server.auth(zRoutes.post["/job/v1/offer"])],
+    },
+    async (request, response) => {
+      const user = getUserFromRequest(request, zRoutes.post["/job/v1/offer"]);
+      const result = await createJobOfferLba(
+        convertJobOfferWritableApiToLba(request.body),
+        user,
+        request.organisation ?? null
+      );
+
+      return response.status(200).send(result);
     }
   );
 };

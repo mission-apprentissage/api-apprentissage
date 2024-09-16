@@ -36,6 +36,7 @@ const zRoutesPost = {
   ...zAuthRoutes.post,
   ...zEmailRoutes.post,
   ...zOrganisationAdminRoutes.post,
+  ...zJobRoutes.post,
 } as const;
 
 const zRoutesPut = {

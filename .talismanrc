@@ -4,9 +4,11 @@ fileignoreconfig:
 - filename: server/.env.test
   checksum: 65357f150bfedfebea511b1007eed941983484abf990d87e91fd7477360ad280
 - filename: server/src/server/routes/job/job.route.test.ts
-  checksum: 257498bc016ca59d8f83123c813ddc49953b416608ddc6a633991a80c9411ddd
+  checksum: 48699b4fab6218e1313e784c864267c5b92ec70331f1fb6c3358f1a751f90b0f
 - filename: server/src/services/apis/lba/lba.api.test.ts
-  checksum: e253bc3577608253b69da1c930f6386fa759a721e211c10f6444527f9ddb569f
+  checksum: 4f95da4b12e0ff3e4dd7f1450da117ea7cf315bdd7457a9052b13b929f60c962
+- filename: server/src/services/jobs/job.service.test.ts
+  checksum: 93bc3a9d6ed931f1754a9424550514f048ce2b9162288e9dade5bd3a74216549
 - filename: server/src/services/security/authenticationService.test.ts
   checksum: e20c8c89ad7872db40c23f1e5905db0933f5b7bbdb56072d37dee900dfd38881
 - filename: server/src/services/security/authorisationService.test.ts

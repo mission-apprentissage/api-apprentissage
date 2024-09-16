@@ -1,8 +1,9 @@
-import type { IJobSearchResponse } from "api-alternance-sdk";
-import type { IJobSearchResponseLba } from "api-alternance-sdk/internal";
+import type { IJobOfferWritable, IJobSearchResponse } from "api-alternance-sdk";
+import type { IJobOfferWritableLba, IJobSearchResponseLba } from "api-alternance-sdk/internal";
+import type { RequiredDeep } from "type-fest";
 import { describe, expect, it } from "vitest";
 
-import { convertJobSearchResponseLbaToApi } from "./job.service.js";
+import { convertJobOfferWritableApiToLba, convertJobSearchResponseLbaToApi } from "./job.service.js";
 
 describe("convertJobSearchResponseLbaToApi", () => {
   it("should convert job search response from LBA to API format", () => {
@@ -194,5 +195,234 @@ describe("convertJobSearchResponseLbaToApi", () => {
 
     const apiResponse = convertJobSearchResponseLbaToApi(lbaResponse);
     expect(apiResponse).toEqual(expectedApiResponse);
+  });
+});
+
+describe("convertJobOfferWritableApiToLba", () => {
+  it("should convert minimal job offer from API to LBA format", () => {
+    const apiOffer: IJobOfferWritable = {
+      offer: {
+        title: "Opérations administratives",
+        description: "Exécute des travaux administratifs courants",
+      },
+      workplace: {
+        siret: "11000001500013",
+      },
+      apply: {},
+    };
+
+    const expectedLbaOffer: IJobOfferWritableLba = {
+      offer_title: "Opérations administratives",
+      offer_description: "Exécute des travaux administratifs courants",
+      workplace_siret: "11000001500013",
+    };
+
+    expect(convertJobOfferWritableApiToLba(apiOffer)).toEqual(expectedLbaOffer);
+  });
+
+  it("should convert full job offer from API to LBA format", () => {
+    const apiOffer: RequiredDeep<IJobOfferWritable> = {
+      identifier: {
+        partner_job_id: "1",
+      },
+      offer: {
+        title: "Opérations administratives",
+        description: "Exécute des travaux administratifs courants",
+        rome_codes: ["M1602"],
+        desired_skills: ["Faire preuve de rigueur et de précision"],
+        to_be_acquired_skills: [
+          "Production, Fabrication: Procéder à l'enregistrement, au tri, à l'affranchissement du courrier",
+          "Production, Fabrication: Réaliser des travaux de reprographie",
+          "Organisation: Contrôler la conformité des données ou des documents",
+        ],
+        target_diploma: {
+          european: "4",
+        },
+        access_conditions: ["Ce métier est accessible avec un diplôme de fin d'études secondaires"],
+        creation: new Date("2021-01-01T00:00:00.000Z"),
+        expiration: new Date("2021-03-28T15:00:00.000Z"),
+        opening_count: 1,
+        multicast: true,
+        origin: "La bonne alternance",
+      },
+      workplace: {
+        siret: "11000001500013",
+        name: "ASSEMBLEE NATIONALE",
+        description: "Workplace Description",
+        website: "https://assemblee-nationale.fr",
+        address: { label: "Paris" },
+      },
+      apply: {
+        url: "https://postler.com",
+        phone: "0300000000",
+        email: "mail@mail.com",
+      },
+      contract: {
+        start: new Date("2021-01-28T15:00:00.000Z"),
+        duration: 12,
+        type: ["Apprentissage"],
+        remote: "onsite",
+      },
+    };
+
+    const expectedLbaOffer: Required<IJobOfferWritableLba> = {
+      partner_job_id: "1",
+      offer_title: "Opérations administratives",
+      offer_description: "Exécute des travaux administratifs courants",
+      offer_rome_codes: ["M1602"],
+      offer_desired_skills: ["Faire preuve de rigueur et de précision"],
+      offer_to_be_acquired_skills: [
+        "Production, Fabrication: Procéder à l'enregistrement, au tri, à l'affranchissement du courrier",
+        "Production, Fabrication: Réaliser des travaux de reprographie",
+        "Organisation: Contrôler la conformité des données ou des documents",
+      ],
+      offer_target_diploma_european: "4",
+      offer_access_conditions: ["Ce métier est accessible avec un diplôme de fin d'études secondaires"],
+      offer_creation: new Date("2021-01-01T00:00:00.000Z"),
+      offer_expiration: new Date("2021-03-28T15:00:00.000Z"),
+      offer_opening_count: 1,
+      offer_multicast: true,
+      offer_origin: "La bonne alternance",
+      workplace_siret: "11000001500013",
+      workplace_name: "ASSEMBLEE NATIONALE",
+      workplace_description: "Workplace Description",
+      workplace_website: "https://assemblee-nationale.fr",
+      workplace_address_label: "Paris",
+      apply_url: "https://postler.com",
+      apply_phone: "0300000000",
+      apply_email: "mail@mail.com",
+      contract_start: new Date("2021-01-28T15:00:00.000Z"),
+      contract_duration: 12,
+      contract_type: ["Apprentissage"],
+      contract_remote: "onsite",
+    };
+
+    expect(convertJobOfferWritableApiToLba(apiOffer)).toEqual(expectedLbaOffer);
+  });
+
+  it("should convert full job offer from API to LBA format", () => {
+    const apiOffer: RequiredDeep<IJobOfferWritable> = {
+      identifier: {
+        partner_job_id: "1",
+      },
+      offer: {
+        title: "Opérations administratives",
+        description: "Exécute des travaux administratifs courants",
+        rome_codes: ["M1602"],
+        desired_skills: ["Faire preuve de rigueur et de précision"],
+        to_be_acquired_skills: [
+          "Production, Fabrication: Procéder à l'enregistrement, au tri, à l'affranchissement du courrier",
+          "Production, Fabrication: Réaliser des travaux de reprographie",
+          "Organisation: Contrôler la conformité des données ou des documents",
+        ],
+        target_diploma: {
+          european: "4",
+        },
+        access_conditions: ["Ce métier est accessible avec un diplôme de fin d'études secondaires"],
+        creation: new Date("2021-01-01T00:00:00.000Z"),
+        expiration: new Date("2021-03-28T15:00:00.000Z"),
+        opening_count: 1,
+        multicast: true,
+        origin: "La bonne alternance",
+      },
+      workplace: {
+        siret: "11000001500013",
+        name: "ASSEMBLEE NATIONALE",
+        description: "Workplace Description",
+        website: "https://assemblee-nationale.fr",
+        address: { label: "Paris" },
+      },
+      apply: {
+        url: "https://postler.com",
+        phone: "0300000000",
+        email: "mail@mail.com",
+      },
+      contract: {
+        start: new Date("2021-01-28T15:00:00.000Z"),
+        duration: 12,
+        type: ["Apprentissage"],
+        remote: "onsite",
+      },
+    };
+
+    const expectedLbaOffer: Required<IJobOfferWritableLba> = {
+      partner_job_id: "1",
+      offer_title: "Opérations administratives",
+      offer_description: "Exécute des travaux administratifs courants",
+      offer_rome_codes: ["M1602"],
+      offer_desired_skills: ["Faire preuve de rigueur et de précision"],
+      offer_to_be_acquired_skills: [
+        "Production, Fabrication: Procéder à l'enregistrement, au tri, à l'affranchissement du courrier",
+        "Production, Fabrication: Réaliser des travaux de reprographie",
+        "Organisation: Contrôler la conformité des données ou des documents",
+      ],
+      offer_target_diploma_european: "4",
+      offer_access_conditions: ["Ce métier est accessible avec un diplôme de fin d'études secondaires"],
+      offer_creation: new Date("2021-01-01T00:00:00.000Z"),
+      offer_expiration: new Date("2021-03-28T15:00:00.000Z"),
+      offer_opening_count: 1,
+      offer_multicast: true,
+      offer_origin: "La bonne alternance",
+      workplace_siret: "11000001500013",
+      workplace_name: "ASSEMBLEE NATIONALE",
+      workplace_description: "Workplace Description",
+      workplace_website: "https://assemblee-nationale.fr",
+      workplace_address_label: "Paris",
+      apply_url: "https://postler.com",
+      apply_phone: "0300000000",
+      apply_email: "mail@mail.com",
+      contract_start: new Date("2021-01-28T15:00:00.000Z"),
+      contract_duration: 12,
+      contract_type: ["Apprentissage"],
+      contract_remote: "onsite",
+    };
+
+    expect(convertJobOfferWritableApiToLba(apiOffer)).toEqual(expectedLbaOffer);
+  });
+
+  it("should support null target_diploma", () => {
+    const apiOffer: IJobOfferWritable = {
+      offer: {
+        title: "Opérations administratives",
+        description: "Exécute des travaux administratifs courants",
+        target_diploma: null,
+      },
+      workplace: {
+        siret: "11000001500013",
+      },
+      apply: {},
+    };
+
+    const expectedLbaOffer: IJobOfferWritableLba = {
+      offer_title: "Opérations administratives",
+      offer_description: "Exécute des travaux administratifs courants",
+      offer_target_diploma_european: null,
+      workplace_siret: "11000001500013",
+    };
+
+    expect(convertJobOfferWritableApiToLba(apiOffer)).toEqual(expectedLbaOffer);
+  });
+
+  it("should support null workplace_address", () => {
+    const apiOffer: IJobOfferWritable = {
+      offer: {
+        title: "Opérations administratives",
+        description: "Exécute des travaux administratifs courants",
+      },
+      workplace: {
+        siret: "11000001500013",
+        address: null,
+      },
+      apply: {},
+    };
+
+    const expectedLbaOffer: IJobOfferWritableLba = {
+      offer_title: "Opérations administratives",
+      offer_description: "Exécute des travaux administratifs courants",
+      workplace_siret: "11000001500013",
+      workplace_address_label: null,
+    };
+
+    expect(convertJobOfferWritableApiToLba(apiOffer)).toEqual(expectedLbaOffer);
   });
 });

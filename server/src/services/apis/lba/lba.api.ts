@@ -1,8 +1,12 @@
 import { badRequest, forbidden, internal, notFound } from "@hapi/boom";
 import type { IJobSearchQuery } from "api-alternance-sdk";
 import { createApiAlternanceToken } from "api-alternance-sdk";
-import type { IJobSearchResponseLba } from "api-alternance-sdk/internal";
-import { zJobSearchResponseLba } from "api-alternance-sdk/internal";
+import type {
+  IJobOfferCreateResponseLba,
+  IJobOfferWritableLba,
+  IJobSearchResponseLba,
+} from "api-alternance-sdk/internal";
+import { zJobOfferCreateResponseLba, zJobSearchResponseLba } from "api-alternance-sdk/internal";
 import { isAxiosError } from "axios";
 import type { IOrganisation } from "shared/models/organisation.model";
 import type { IUser } from "shared/models/user.model";
@@ -69,6 +73,24 @@ export async function searchJobOpportunitiesLba(
     });
 
     return zJobSearchResponseLba.parse(res.data);
+  } catch (error) {
+    convertLbaError(error);
+  }
+}
+
+export async function createJobOfferLba(
+  body: IJobOfferWritableLba,
+  user: IUser,
+  organisation: IOrganisation | null
+): Promise<IJobOfferCreateResponseLba> {
+  try {
+    const res = await lbaClient.post("/v2/jobs", body, {
+      headers: {
+        Authorization: createAuthToken(user, organisation),
+      },
+    });
+
+    return zJobOfferCreateResponseLba.parse(res.data);
   } catch (error) {
     convertLbaError(error);
   }

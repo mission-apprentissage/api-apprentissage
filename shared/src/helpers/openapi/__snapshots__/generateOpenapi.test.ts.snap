@@ -6792,6 +6792,639 @@ Notes:
         ],
       },
     },
+    "/job/v1/offer": {
+      "post": {
+        "description": "Publiez une offre d'emploi en alternance",
+        "operationId": "createJobOffer",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "apply": {
+                    "properties": {
+                      "email": {
+                        "description": "Email de contact",
+                        "format": "email",
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "phone": {
+                        "description": "Téléphone de contact",
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "url": {
+                        "description": "URL pour candidater",
+                        "format": "uri",
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                    },
+                    "type": "object",
+                  },
+                  "contract": {
+                    "properties": {
+                      "duration": {
+                        "description": "Durée du contrat en mois",
+                        "type": [
+                          "number",
+                          "null",
+                        ],
+                      },
+                      "remote": {
+                        "description": "Format de travail de l'offre",
+                        "enum": [
+                          "onsite",
+                          "remote",
+                          "hybrid",
+                        ],
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "start": {
+                        "anyOf": [
+                          {
+                            "format": "date-time",
+                            "type": "string",
+                          },
+                          {
+                            "type": "string",
+                          },
+                          {
+                            "type": "string",
+                          },
+                          {
+                            "type": "null",
+                          },
+                        ],
+                        "description": "Date de début du contrat",
+                        "format": "date-time",
+                      },
+                      "type": {
+                        "description": "Type de contrat",
+                        "items": {
+                          "enum": [
+                            "Apprentissage",
+                            "Professionnalisation",
+                          ],
+                          "type": "string",
+                        },
+                        "type": "array",
+                      },
+                    },
+                    "type": "object",
+                  },
+                  "identifier": {
+                    "properties": {
+                      "partner_job_id": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                    },
+                    "type": "object",
+                  },
+                  "offer": {
+                    "properties": {
+                      "access_conditions": {
+                        "description": "Conditions d'accès à l'offre",
+                        "items": {
+                          "type": "string",
+                        },
+                        "type": "array",
+                      },
+                      "creation": {
+                        "anyOf": [
+                          {
+                            "format": "date-time",
+                            "type": "string",
+                          },
+                          {
+                            "type": "string",
+                          },
+                          {
+                            "type": "string",
+                          },
+                          {
+                            "type": "null",
+                          },
+                        ],
+                        "description": "Date de creation de l'offre",
+                        "format": "date-time",
+                      },
+                      "description": {
+                        "description": "description de l'offre, soit définit par le partenaire, soit celle du ROME si pas suffisament grande",
+                        "type": "string",
+                      },
+                      "desired_skills": {
+                        "description": "Compétence attendues par le candidat pour l'offre",
+                        "items": {
+                          "type": "string",
+                        },
+                        "type": "array",
+                      },
+                      "expiration": {
+                        "anyOf": [
+                          {
+                            "format": "date-time",
+                            "type": "string",
+                          },
+                          {
+                            "type": "string",
+                          },
+                          {
+                            "type": "string",
+                          },
+                          {
+                            "type": "null",
+                          },
+                        ],
+                        "description": "Date d'expiration de l'offre. Si pas présente, mettre à creation_date + 60j",
+                        "format": "date-time",
+                      },
+                      "multicast": {
+                        "description": "Si l'offre peut être diffusé sur l'ensemble des plateformes partenaires",
+                        "type": "boolean",
+                      },
+                      "opening_count": {
+                        "description": "Nombre de poste disponible",
+                        "type": "number",
+                      },
+                      "origin": {
+                        "description": "Origine de l'offre provenant d'un aggregateur",
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "rome_codes": {
+                        "description": "Code rome de l'offre",
+                        "items": {
+                          "example": "D1102",
+                          "pattern": "^[A-Z]{1}\\d{4}$",
+                          "type": "string",
+                        },
+                        "type": [
+                          "array",
+                          "null",
+                        ],
+                      },
+                      "target_diploma": {
+                        "properties": {
+                          "european": {
+                            "description": "Niveau de diplome visé en fin d'étude, transformé pour chaque partenaire",
+                            "enum": [
+                              "3",
+                              "4",
+                              "5",
+                              "6",
+                              "7",
+                            ],
+                            "type": "string",
+                          },
+                        },
+                        "required": [
+                          "european",
+                        ],
+                        "type": [
+                          "object",
+                          "null",
+                        ],
+                      },
+                      "title": {
+                        "description": "Titre de l'offre",
+                        "minLength": 3,
+                        "type": "string",
+                      },
+                      "to_be_acquired_skills": {
+                        "description": "Compétence acuqises durant l'alternance",
+                        "items": {
+                          "type": "string",
+                        },
+                        "type": "array",
+                      },
+                    },
+                    "required": [
+                      "title",
+                      "description",
+                    ],
+                    "type": "object",
+                  },
+                  "workplace": {
+                    "properties": {
+                      "address": {
+                        "properties": {
+                          "label": {
+                            "description": "Adresse de l'offre, provenant du SIRET ou du partenaire",
+                            "type": "string",
+                          },
+                        },
+                        "required": [
+                          "label",
+                        ],
+                        "type": [
+                          "object",
+                          "null",
+                        ],
+                      },
+                      "description": {
+                        "description": "description de l'entreprise",
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "name": {
+                        "description": "Nom customisé de l'entreprise",
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "siret": {
+                        "description": "Siret de l'entreprise",
+                        "pattern": "^\\d{9,14}$",
+                        "type": "string",
+                      },
+                      "website": {
+                        "description": "Site web de l'entreprise",
+                        "format": "uri",
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                    },
+                    "required": [
+                      "siret",
+                    ],
+                    "type": "object",
+                  },
+                },
+                "required": [
+                  "workplace",
+                  "apply",
+                  "offer",
+                ],
+                "type": "object",
+              },
+            },
+          },
+          "required": true,
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "id",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "",
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Paramètre de requête non valide.",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Request validation failed",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Bad Request",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        400,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Paramètre de requête non valide.",
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Clé d’API manquante ou invalide",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Request validation failed",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Bad Request",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        401,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Clé d’API manquante ou invalide",
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Habilitations insuffisantes pour accéder à la ressource",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Request validation failed",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Bad Request",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        403,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Habilitations insuffisantes pour accéder à la ressource",
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Resource non trouvée",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Request validation failed",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Bad Request",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        404,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Resource non trouvée",
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Limite de volumétrie atteinte pour la clé d’API",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Request validation failed",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Bad Request",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        419,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Limite de volumétrie atteinte pour la clé d’API",
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Une erreur inattendue s'est produite sur le serveur.",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Request validation failed",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Bad Request",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        500,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Une erreur inattendue s'est produite sur le serveur.",
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Le service est indisponible.",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Request validation failed",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Bad Request",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        502,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Le service est indisponible.",
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Le service est en maintenance",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Request validation failed",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Bad Request",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        502,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Le service est en maintenance",
+          },
+        },
+        "security": [
+          {
+            "api-key": [],
+          },
+        ],
+        "summary": "Publier une offre d'emploi en alternance",
+        "tags": [
+          "Job",
+        ],
+      },
+    },
     "/job/v1/search": {
       "get": {
         "description": "Accédez en temps réel à l'ensemble des opportunités d'emploi en alternance disponibles sur le territoire français et exposez les gratuitement et en marque blanche auprès de vos utilisateurs.",

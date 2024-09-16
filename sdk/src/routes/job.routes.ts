@@ -59,4 +59,21 @@ export const zApiJobRoutes = {
       },
     },
   },
+  put: {
+    "/job/v1/offer/:id": {
+      method: "put",
+      path: "/job/v1/offer/:id",
+      params: z.object({ id: z.string() }),
+      body: zJobOfferWritable,
+      response: {
+        "204": z.null(),
+      },
+      openapi: {
+        tags: ["Job"] as string[],
+        summary: "Modification d'une offre d'emploi en alternance",
+        description: "Modifiez une offre d'emploi en alternance",
+        operationId: "updateJobOffer",
+      },
+    },
+  },
 } as const satisfies IApiRoutesDef;

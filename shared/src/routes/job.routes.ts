@@ -23,4 +23,14 @@ export const zJobRoutes = {
       },
     },
   },
+  put: {
+    "/job/v1/offer/:id": {
+      ...zApiJobRoutes.put["/job/v1/offer/:id"],
+      securityScheme: {
+        auth: "api-key",
+        access: "jobs:write",
+        ressources: {},
+      },
+    },
+  },
 } as const satisfies IRoutesDef;

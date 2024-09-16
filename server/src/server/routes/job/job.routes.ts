@@ -1,7 +1,7 @@
 import { zRoutes } from "shared";
 
 import type { Server } from "@/server/server.js";
-import { createJobOfferLba, searchJobOpportunitiesLba } from "@/services/apis/lba/lba.api.js";
+import { createJobOfferLba, searchJobOpportunitiesLba, updateJobOfferLba } from "@/services/apis/lba/lba.api.js";
 import { convertJobOfferWritableApiToLba, convertJobSearchResponseLbaToApi } from "@/services/jobs/job.service.js";
 import { getUserFromRequest } from "@/services/security/authenticationService.js";
 
@@ -35,6 +35,25 @@ export const jobRoutes = ({ server }: { server: Server }) => {
       );
 
       return response.status(200).send(result);
+    }
+  );
+
+  server.put(
+    "/job/v1/offer/:id",
+    {
+      schema: zRoutes.put["/job/v1/offer/:id"],
+      onRequest: [server.auth(zRoutes.put["/job/v1/offer/:id"])],
+    },
+    async (request, response) => {
+      const user = getUserFromRequest(request, zRoutes.put["/job/v1/offer/:id"]);
+      await updateJobOfferLba(
+        request.params.id,
+        convertJobOfferWritableApiToLba(request.body),
+        user,
+        request.organisation ?? null
+      );
+
+      return response.status(204).send();
     }
   );
 };

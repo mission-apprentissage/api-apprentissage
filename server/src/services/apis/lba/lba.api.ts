@@ -95,3 +95,20 @@ export async function createJobOfferLba(
     convertLbaError(error);
   }
 }
+
+export async function updateJobOfferLba(
+  id: string,
+  body: IJobOfferWritableLba,
+  user: IUser,
+  organisation: IOrganisation | null
+): Promise<void> {
+  try {
+    await lbaClient.put(`/v2/jobs/${encodeURIComponent(id)}`, body, {
+      headers: {
+        Authorization: createAuthToken(user, organisation),
+      },
+    });
+  } catch (error) {
+    convertLbaError(error);
+  }
+}

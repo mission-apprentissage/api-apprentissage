@@ -9,7 +9,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import config from "@/config.js";
 import { formatResponseError } from "@/server/middlewares/errorMiddleware.js";
 
-import { createJobOfferLba, searchJobOpportunitiesLba } from "./lba.api.js";
+import { createJobOfferLba, searchJobOpportunitiesLba, updateJobOfferLba } from "./lba.api.js";
 
 beforeEach(() => {
   disableNetConnect();
@@ -600,6 +600,251 @@ describe("createJobOfferLba", () => {
       .reply(404, lbaError);
 
     const e = await createJobOfferLba(minimalData, userWrite, orgWrite).catch((e) => e);
+    expect(e.isBoom).toBe(true);
+    expect(formatResponseError(e)).toEqual(expectedError);
+
+    expect(nock.isDone());
+  });
+});
+
+describe("updateJobOfferLba", () => {
+  const minimalData: IJobOfferWritableLba = {
+    offer_title: "Opérations administratives",
+    workplace_siret: "11000001500013",
+    offer_description: "Exécute des travaux administratifs courants",
+  };
+
+  const user = generateUserFixture({
+    email: "basic@exemple.fr",
+    is_admin: false,
+    organisation: null,
+  });
+
+  const userRo = generateUserFixture({
+    email: "ro@exemple.fr",
+    is_admin: false,
+    organisation: "ReadOnly",
+  });
+
+  const userWrite = generateUserFixture({
+    email: "write@exemple.fr",
+    is_admin: false,
+    organisation: "WriteOnly",
+  });
+
+  const orgRo = generateOrganisationFixture({
+    nom: "ReadOnly",
+    habilitations: [],
+  });
+
+  const orgWrite = generateOrganisationFixture({
+    nom: "WriteOnly",
+    habilitations: ["jobs:write"],
+  });
+
+  const expectedBasicUserToken = {
+    email: "basic@exemple.fr",
+    habilitations: {
+      "jobs:write": false,
+    },
+    organisation: null,
+  };
+
+  const expectedRoUserToken = {
+    email: "ro@exemple.fr",
+    habilitations: {
+      "jobs:write": false,
+    },
+    organisation: orgRo.nom,
+  };
+
+  const expectedWriteUserToken = {
+    email: "write@exemple.fr",
+    habilitations: {
+      "jobs:write": true,
+    },
+    organisation: orgWrite.nom,
+  };
+
+  it.each([
+    [user, orgRo, expectedBasicUserToken],
+    [userRo, orgRo, expectedRoUserToken],
+    [userWrite, orgWrite, expectedWriteUserToken],
+  ])("should send correct data", async (u, o, t) => {
+    nock("https://labonnealternance-recette.apprentissage.beta.gouv.fr/api")
+      .put("/v2/jobs/1234", (body) => {
+        expect.soft(body).toEqual(minimalData);
+        return true;
+      })
+      .matchHeader("authorization", (token) => {
+        expect
+          .soft(
+            parseApiAlternanceToken({
+              token,
+              publicKey: config.api.alternance.public_cert,
+            })
+          )
+          .toEqual({
+            data: t,
+            success: true,
+          });
+        return true;
+      })
+      .reply(204);
+
+    await expect(updateJobOfferLba("1234", minimalData, u, o)).resolves.toBeUndefined();
+    expect(nock.isDone());
+    expect.assertions(4);
+  });
+
+  it("should throw internal when network error", async () => {
+    nock("https://labonnealternance-recette.apprentissage.beta.gouv.fr/api")
+      .put("/v2/jobs/1234", (body) => {
+        expect.soft(body).toEqual(minimalData);
+        return true;
+      })
+      .replyWithError("Oops");
+
+    await expect(updateJobOfferLba("1234", minimalData, userWrite, orgWrite)).rejects.toMatchObject({
+      isBoom: true,
+      output: {
+        statusCode: 500,
+      },
+    });
+
+    expect(nock.isDone());
+  });
+
+  it("should throw internal when server error on LBA", async () => {
+    nock("https://labonnealternance-recette.apprentissage.beta.gouv.fr/api")
+      .put("/v2/jobs/1234", (body) => {
+        expect.soft(body).toEqual(minimalData);
+        return true;
+      })
+      .reply(500, {
+        error: "Internal",
+        message: "Internal Server error",
+        statusCode: 500,
+      });
+
+    await expect(updateJobOfferLba("1234", minimalData, userWrite, orgWrite)).rejects.toMatchObject({
+      isBoom: true,
+      output: {
+        statusCode: 500,
+      },
+    });
+
+    expect(nock.isDone());
+  });
+
+  it("should throw client error when 400 error on LBA", async () => {
+    const lbaError = {
+      statusCode: 400,
+      error: "Bad Request",
+      message: "Request validation failed",
+      data: {
+        validationError: {
+          _errors: [],
+          offer_title: {
+            _errors: ["String attendu"],
+          },
+          offer_description: {
+            _errors: ["String attendu"],
+          },
+          workplace_siret: {
+            _errors: ["String attendu"],
+          },
+        },
+      },
+    };
+
+    const expectedError: IResError = {
+      data: lbaError.data,
+      name: "Bad Request",
+      message: lbaError.message,
+      statusCode: 400,
+    };
+
+    nock("https://labonnealternance-recette.apprentissage.beta.gouv.fr/api")
+      .put("/v2/jobs/1234", (body) => {
+        expect.soft(body).toEqual(minimalData);
+        return true;
+      })
+      .reply(400, lbaError);
+
+    const e = await updateJobOfferLba("1234", minimalData, userWrite, orgWrite).catch((e) => e);
+    expect(e.isBoom).toBe(true);
+    expect(formatResponseError(e)).toEqual(expectedError);
+
+    expect(nock.isDone());
+  });
+
+  // This one is due to API, so it's server error
+  it("should throw server error when 401 error on LBA", async () => {
+    const lbaError = { error: "Forbidden", message: "Invalid JWT token", statusCode: 401 };
+
+    const expectedError: IResError = {
+      message: "The server was unable to complete your request",
+      name: "Internal Server Error",
+      statusCode: 500,
+    };
+
+    nock("https://labonnealternance-recette.apprentissage.beta.gouv.fr/api")
+      .put("/v2/jobs/1234", (body) => {
+        expect.soft(body).toEqual(minimalData);
+        return true;
+      })
+      .reply(401, lbaError);
+
+    const e = await updateJobOfferLba("1234", minimalData, userWrite, orgWrite).catch((e) => e);
+    expect(e.isBoom).toBe(true);
+    expect(formatResponseError(e)).toEqual(expectedError);
+    expect(e.data).toEqual(lbaError);
+    expect(e.message).toBe("api.lba: failure convertLbaErrors");
+
+    expect(nock.isDone());
+  });
+
+  it("should throw client error when 403 error on LBA", async () => {
+    const lbaError = { error: "Forbidden", message: "You are not allowed to create a job offer", statusCode: 403 };
+
+    const expectedError: IResError = {
+      message: lbaError.message,
+      name: "Forbidden",
+      statusCode: 403,
+    };
+
+    nock("https://labonnealternance-recette.apprentissage.beta.gouv.fr/api")
+      .put("/v2/jobs/1234", (body) => {
+        expect.soft(body).toEqual(minimalData);
+        return true;
+      })
+      .reply(403, lbaError);
+
+    const e = await updateJobOfferLba("1234", minimalData, userWrite, orgWrite).catch((e) => e);
+    expect(e.isBoom).toBe(true);
+    expect(formatResponseError(e)).toEqual(expectedError);
+
+    expect(nock.isDone());
+  });
+
+  it("should throw client error when 404 error on LBA", async () => {
+    const lbaError = { error: "Not found", message: "Resource not found", statusCode: 403 };
+
+    const expectedError: IResError = {
+      message: lbaError.message,
+      name: "Not Found",
+      statusCode: 404,
+    };
+
+    nock("https://labonnealternance-recette.apprentissage.beta.gouv.fr/api")
+      .put("/v2/jobs/1234", (body) => {
+        expect.soft(body).toEqual(minimalData);
+        return true;
+      })
+      .reply(404, lbaError);
+
+    const e = await updateJobOfferLba("1234", minimalData, userWrite, orgWrite).catch((e) => e);
     expect(e.isBoom).toBe(true);
     expect(formatResponseError(e)).toEqual(expectedError);
 

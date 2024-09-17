@@ -104,6 +104,11 @@ export const PAGES = {
       path: `/admin/utilisateurs/${id}`,
       index: false,
     }),
+    adminOrganisationView: (id: string): IPage => ({
+      title: `Fiche Organisation`,
+      path: `/admin/organisations/${id}`,
+      index: false,
+    }),
     adminProcessorJob: (name: string): IPage => ({
       title: `Job ${name}`,
       path: `/admin/processeur/job/${name}`,

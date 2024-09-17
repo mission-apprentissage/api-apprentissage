@@ -1,6 +1,7 @@
 import { z } from "zod";
+import { zObjectId } from "zod-mongodb-schema";
 
-import { zOrganisation, zOrganisationCreate } from "../../../models/organisation.model.js";
+import { zOrganisation, zOrganisationCreate, zOrganisationEdit } from "../../../models/organisation.model.js";
 import type { IRoutesDef } from "../../common.routes.js";
 
 export const zOrganisationAdminRoutes = {
@@ -21,6 +22,20 @@ export const zOrganisationAdminRoutes = {
       method: "post",
       path: "/_private/admin/organisations",
       body: zOrganisationCreate,
+      response: { "200": zOrganisation },
+      securityScheme: {
+        auth: "cookie-session",
+        access: "admin",
+        ressources: {},
+      },
+    },
+  },
+  put: {
+    "/_private/admin/organisations/:id": {
+      method: "put",
+      path: "/_private/admin/organisations/:id",
+      params: z.object({ id: zObjectId }),
+      body: zOrganisationEdit,
       response: { "200": zOrganisation },
       securityScheme: {
         auth: "cookie-session",

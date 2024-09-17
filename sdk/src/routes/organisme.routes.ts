@@ -69,7 +69,8 @@ export const zApiOrganismesRoutes = {
       openapi: {
         tags: ["Organismes"] as string[],
         summary: "Recherche d'organismes par UAI et/ou SIRET",
-        description: "Récupère la liste des organismes, filtrée par UAI et/ou SIRET fournis",
+        description:
+          "Affiche la liste des organismes de formation qui correspondent à une UAI et/ou un numéro SIRET donné(e)s.",
         operationId: "searchOrganismes",
       },
     },

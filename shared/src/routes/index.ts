@@ -42,6 +42,7 @@ const zRoutesPost = {
 const zRoutesPut = {
   ...zUserAdminRoutes.put,
   ...zJobRoutes.put,
+  ...zOrganisationAdminRoutes.put,
 } as const;
 
 const zRoutesDelete = {

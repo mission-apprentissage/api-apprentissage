@@ -33,6 +33,10 @@ export const zOrganisationCreate = zOrganisation.pick({
   nom: true,
 });
 
+export const zOrganisationEdit = zOrganisation.pick({
+  habilitations: true,
+});
+
 export type IOrganisation = z.output<typeof zOrganisation>;
 export type IOrganisationCreate = z.output<typeof zOrganisationCreate>;
 

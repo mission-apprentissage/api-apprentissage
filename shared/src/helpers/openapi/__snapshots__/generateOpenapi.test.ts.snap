@@ -1326,6 +1326,37 @@ Notes:
         ],
         "type": "object",
       },
+      "Conflict": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "description": "Données contextuelles liées à l'erreur",
+          },
+          "message": {
+            "description": "Un message explicatif de l'erreur",
+            "example": "Request validation failed",
+            "type": "string",
+          },
+          "name": {
+            "description": "Le type générique de l'erreur",
+            "example": "Bad Request",
+            "type": "string",
+          },
+          "statusCode": {
+            "description": "Le status code retourné",
+            "enum": [
+              409,
+            ],
+            "type": "number",
+          },
+        },
+        "required": [
+          "message",
+          "name",
+          "statusCode",
+        ],
+        "type": "object",
+      },
       "Forbidden": {
         "additionalProperties": false,
         "description": "Habilitations insuffisantes pour accéder à la ressource",
@@ -3018,6 +3049,44 @@ Notes:
             },
             "description": "Resource non trouvée",
           },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Request validation failed",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Bad Request",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        409,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "",
+          },
           "429": {
             "content": {
               "application/json": {
@@ -3819,6 +3888,44 @@ Notes:
               },
             },
             "description": "Resource non trouvée",
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Request validation failed",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Bad Request",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        409,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "",
           },
           "429": {
             "content": {
@@ -4630,6 +4737,44 @@ Notes:
             },
             "description": "Resource non trouvée",
           },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Request validation failed",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Bad Request",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        409,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "",
+          },
           "429": {
             "content": {
               "application/json": {
@@ -5440,6 +5585,44 @@ Notes:
             },
             "description": "Resource non trouvée",
           },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Request validation failed",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Bad Request",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        409,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "",
+          },
           "429": {
             "content": {
               "application/json": {
@@ -5844,6 +6027,44 @@ Notes:
               },
             },
             "description": "Resource non trouvée",
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Request validation failed",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Bad Request",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        409,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "",
           },
           "429": {
             "content": {
@@ -6265,6 +6486,44 @@ Notes:
             },
             "description": "Resource non trouvée",
           },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Request validation failed",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Bad Request",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        409,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "",
+          },
           "429": {
             "content": {
               "application/json": {
@@ -6628,6 +6887,44 @@ Notes:
               },
             },
             "description": "Resource non trouvée",
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Request validation failed",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Bad Request",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        409,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "",
           },
           "429": {
             "content": {
@@ -7053,6 +7350,7 @@ Notes:
                       },
                       "siret": {
                         "description": "Siret de l'entreprise",
+                        "example": "13002526500013",
                         "pattern": "^\\d{9,14}$",
                         "type": "string",
                       },
@@ -7256,6 +7554,44 @@ Notes:
               },
             },
             "description": "Resource non trouvée",
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Request validation failed",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Bad Request",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        409,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "",
           },
           "429": {
             "content": {
@@ -7696,6 +8032,7 @@ Notes:
                       },
                       "siret": {
                         "description": "Siret de l'entreprise",
+                        "example": "13002526500013",
                         "pattern": "^\\d{9,14}$",
                         "type": "string",
                       },
@@ -7891,6 +8228,44 @@ Notes:
               },
             },
             "description": "Resource non trouvée",
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Request validation failed",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Bad Request",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        409,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "",
           },
           "429": {
             "content": {
@@ -8502,6 +8877,7 @@ Notes:
                               },
                               "siret": {
                                 "description": "Siret de l'entreprise",
+                                "example": "13002526500013",
                                 "pattern": "^\\d{9,14}$",
                                 "type": [
                                   "string",
@@ -8701,6 +9077,7 @@ Notes:
                               },
                               "siret": {
                                 "description": "Siret de l'entreprise",
+                                "example": "13002526500013",
                                 "pattern": "^\\d{9,14}$",
                                 "type": [
                                   "string",
@@ -8935,6 +9312,44 @@ Notes:
             },
             "description": "Resource non trouvée",
           },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Request validation failed",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Bad Request",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        409,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "",
+          },
           "429": {
             "content": {
               "application/json": {
@@ -9125,6 +9540,7 @@ Notes:
             "name": "siret",
             "required": false,
             "schema": {
+              "example": "13002526500013",
               "pattern": "^\\d{9,14}$",
               "type": [
                 "string",
@@ -9196,6 +9612,7 @@ Notes:
                               "identifiant": {
                                 "properties": {
                                   "siret": {
+                                    "example": "13002526500013",
                                     "pattern": "^\\d{9,14}$",
                                     "type": "string",
                                   },
@@ -9350,6 +9767,7 @@ Notes:
                             "identifiant": {
                               "properties": {
                                 "siret": {
+                                  "example": "13002526500013",
                                   "pattern": "^\\d{9,14}$",
                                   "type": "string",
                                 },
@@ -9570,6 +9988,44 @@ Notes:
               },
             },
             "description": "Resource non trouvée",
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Request validation failed",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Bad Request",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        409,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "",
           },
           "429": {
             "content": {

@@ -1,63 +1,20 @@
 import type { IApiRouteSchemaCommon, IApiRouteSchemaGet, IApiRouteSchemaWrite } from "api-alternance-sdk";
 import {
-  zResBadGateway as _zResBadGateway,
-  zResBadRequest as _zResBadRequest,
-  ZResError as _ZResError,
-  zResForbidden as _zResForbidden,
-  zResInternalServerError as _zResInternalServerError,
-  zResNotFound as _zResNotFound,
-  zResServiceUnavailable as _zResServiceUnavailable,
-  zResTooManyRequest as _zResTooManyRequest,
-  zResUnauthorized as _zResUnauthorized,
+  zResBadGateway,
+  zResBadRequest,
+  ZResError,
+  zResForbidden,
+  zResInternalServerError,
+  zResNotFound,
+  zResServiceUnavailable,
+  zResTooManyRequest,
+  zResUnauthorized,
 } from "api-alternance-sdk";
 import { zodOpenApi } from "api-alternance-sdk/internal";
 import type { Jsonify } from "type-fest";
 import type { AnyZodObject, z } from "zod";
 
 import type { AccessPermission, AccessRessouces } from "../security/permissions.js";
-
-const zResBadRequest = _zResBadRequest.openapi({ description: "Paramètre de requête non valide." });
-const zResUnauthorized = _zResUnauthorized.openapi({ description: "Clé d’API manquante ou invalide" });
-const zResForbidden = _zResForbidden.openapi({
-  description: "Habilitations insuffisantes pour accéder à la ressource",
-});
-const zResNotFound = _zResNotFound.openapi({ description: "Resource non trouvée" });
-const zResTooManyRequest = _zResTooManyRequest.openapi({
-  description: "Limite de volumétrie atteinte pour la clé d’API",
-});
-const zResInternalServerError = _zResInternalServerError.openapi({
-  description: "Une erreur inattendue s'est produite sur le serveur.",
-});
-const zResBadGateway = _zResBadGateway.openapi({ description: "Le service est indisponible." });
-const zResServiceUnavailable = _zResServiceUnavailable.openapi({ description: "Le service est en maintenance" });
-const ZResError = _ZResError.openapi({ description: "Erreur générique" });
-
-for (const zErr of [
-  _zResBadRequest,
-  _zResUnauthorized,
-  _zResForbidden,
-  _zResNotFound,
-  _zResTooManyRequest,
-  _zResInternalServerError,
-  _zResBadGateway,
-  _zResServiceUnavailable,
-  _ZResError,
-]) {
-  zErr.shape.data = zErr.shape.data.openapi({
-    description: "Données contextuelles liées à l'erreur",
-  });
-  zErr.shape.message = zErr.shape.message.openapi({
-    description: "Un message explicatif de l'erreur",
-    example: "Request validation failed",
-  });
-  zErr.shape.name = zErr.shape.name.openapi({
-    description: "Le type générique de l'erreur",
-    example: "Bad Request",
-  });
-  zErr.shape.statusCode = zErr.shape.statusCode.openapi({
-    description: "Le status code retourné",
-  });
-}
 
 export {
   zResBadGateway,

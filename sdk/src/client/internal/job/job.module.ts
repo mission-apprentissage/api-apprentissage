@@ -1,8 +1,8 @@
-import { zJobOfferCreateResponseLba } from "../../external/laBonneAlternance.api.js";
-import type { IJobOfferWritable } from "../../models/index.js";
-import type { IJobSearchQuery, IJobSearchResponse } from "../../routes/index.js";
-import { zJobSearchResponse } from "../../routes/job.routes.js";
-import type { ApiClient } from "../client.js";
+import { zJobOfferCreateResponseLba } from "../../../external/laBonneAlternance.api.js";
+import type { IJobOfferWritable } from "../../../models/index.js";
+import type { IJobSearchQuery, IJobSearchResponse } from "../../../routes/index.js";
+import { zJobSearchResponse } from "../../../routes/job.routes.js";
+import type { ApiClient } from "../../client.js";
 import { parseApiResponse } from "../parser/response.parser.js";
 
 export type JobSearchFilter = Omit<IJobSearchQuery, "romes"> & {

@@ -1,4 +1,4 @@
-import { zRncp } from "api-alternance-sdk";
+import { zRncp } from "api-alternance-sdk/internal";
 import { z } from "zod";
 
 import type { IModelDescriptorGeneric } from "../../common.js";

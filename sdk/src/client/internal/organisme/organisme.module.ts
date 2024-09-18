@@ -1,6 +1,6 @@
-import type { IApiGetRoutes, IApiQuery, IRechercheOrganismeResponse } from "../../routes/index.js";
-import { zRechercheOrganismeResponse } from "../../routes/index.js";
-import type { ApiClient } from "../client.js";
+import type { IApiGetRoutes, IApiQuery, IRechercheOrganismeResponse } from "../../../routes/index.js";
+import { zRechercheOrganismeResponse } from "../../../routes/index.js";
+import type { ApiClient } from "../../client.js";
 import { parseApiResponse } from "../parser/response.parser.js";
 
 export type OrganismeModule = {

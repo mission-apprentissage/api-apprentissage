@@ -1,4 +1,4 @@
-import { zTypeEnregistrement } from "api-alternance-sdk";
+import { zTypeEnregistrement } from "api-alternance-sdk/internal";
 import { z } from "zod";
 
 export const zSourceFcStandard = z

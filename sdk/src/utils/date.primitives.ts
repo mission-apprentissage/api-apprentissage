@@ -16,7 +16,4 @@ export const zParisLocalDate = zodOpenApi
   .transform<ParisDate>((val) => {
     if (val instanceof Date) return ParisDate.fromDate(val);
     return ParisDate.fromDate(DateTime.fromISO(val, { zone: "Europe/Paris" }).toJSDate());
-  })
-  .openapi({
-    format: "date-time",
   });

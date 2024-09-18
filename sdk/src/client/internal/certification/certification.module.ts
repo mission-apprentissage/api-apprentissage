@@ -1,9 +1,9 @@
 import { z } from "zod";
 
-import type { ICertification } from "../../models/index.js";
-import { zCertification } from "../../models/index.js";
-import type { IApiGetRoutes, IApiQuery } from "../../routes/index.js";
-import type { ApiClient } from "../client.js";
+import type { ICertification } from "../../../models/index.js";
+import { zCertification } from "../../../models/index.js";
+import type { IApiGetRoutes, IApiQuery } from "../../../routes/index.js";
+import type { ApiClient } from "../../client.js";
 import { parseApiResponse } from "../parser/response.parser.js";
 
 type FindFilter = { identifiant?: { cfd?: string | null; rncp?: string | null } };

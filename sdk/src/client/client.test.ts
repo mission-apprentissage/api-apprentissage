@@ -2,8 +2,8 @@ import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
 import { beforeEach, describe, expect, expectTypeOf, it } from "vitest";
 
 import type { IRechercheOrganismeResponse } from "../routes/organisme.routes.js";
-import { ApiError } from "./apiError.js";
 import { ApiClient } from "./client.js";
+import { ApiError } from "./internal/apiError.js";
 
 beforeEach(() => {
   disableNetConnect();

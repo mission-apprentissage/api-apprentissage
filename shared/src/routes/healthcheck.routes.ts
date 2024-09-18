@@ -10,12 +10,8 @@ export const zCoreRoutes = {
       response: {
         "200": zodOpenApi
           .object({
-            name: zodOpenApi.string().openapi({
-              example: "api",
-            }),
-            version: zodOpenApi.string().openapi({
-              example: "1.0.0",
-            }),
+            name: zodOpenApi.string(),
+            version: zodOpenApi.string(),
             env: zodOpenApi.enum(["local", "recette", "production", "preview", "test"]),
           })
           .describe("Statut de l'application")

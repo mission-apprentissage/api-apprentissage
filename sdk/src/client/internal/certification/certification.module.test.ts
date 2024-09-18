@@ -1,9 +1,9 @@
 import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
 import { beforeEach, describe, expect, expectTypeOf, it } from "vitest";
 
-import type { ICertification } from "../../models/index.js";
+import type { ICertification } from "../../../models/index.js";
+import { ApiClient } from "../../client.js";
 import { ApiError } from "../apiError.js";
-import { ApiClient } from "../client.js";
 import { ApiParseError } from "../parser/response.parser.js";
 
 beforeEach(() => {

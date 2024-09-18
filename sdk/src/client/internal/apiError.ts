@@ -1,4 +1,4 @@
-import type { IResErrorJson } from "../routes/errors.routes.js";
+import type { IResErrorJson } from "../../models/errors/errors.model.js";
 import type { PathParam, QueryString, WithQueryStringAndPathParam } from "./generateUri/generateUri.js";
 
 export interface ApiErrorContext {

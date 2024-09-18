@@ -1,9 +1,9 @@
 import assert from "node:assert";
 
+import { ZResError } from "api-alternance-sdk";
 import { describe, it } from "vitest";
 
 import type { IRouteSchema, IRouteSchemaGet, IRouteSchemaWrite, IRoutesDef } from "./common.routes.js";
-import { ZResError } from "./common.routes.js";
 import { zRoutes } from "./index.js";
 
 describe("zRoutes", () => {

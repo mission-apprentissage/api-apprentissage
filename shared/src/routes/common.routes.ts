@@ -1,32 +1,9 @@
 import type { IApiRouteSchemaCommon, IApiRouteSchemaGet, IApiRouteSchemaWrite } from "api-alternance-sdk";
-import {
-  zResBadGateway,
-  zResBadRequest,
-  ZResError,
-  zResForbidden,
-  zResInternalServerError,
-  zResNotFound,
-  zResServiceUnavailable,
-  zResTooManyRequest,
-  zResUnauthorized,
-} from "api-alternance-sdk";
 import { zodOpenApi } from "api-alternance-sdk/internal";
 import type { Jsonify } from "type-fest";
 import type { AnyZodObject, z } from "zod";
 
 import type { AccessPermission, AccessRessouces } from "../security/permissions.js";
-
-export {
-  zResBadGateway,
-  zResBadRequest,
-  ZResError,
-  zResForbidden,
-  zResInternalServerError,
-  zResNotFound,
-  zResServiceUnavailable,
-  zResTooManyRequest,
-  zResUnauthorized,
-};
 
 export const ZResOk = zodOpenApi.object({}).strict();
 

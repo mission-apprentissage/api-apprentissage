@@ -100,6 +100,31 @@ const NotFoundSchema: SchemaObject = {
   description: "Resource non trouvée",
 };
 
+const ConflictSchema: SchemaObject = {
+  type: "object",
+  properties: {
+    data: { description: "Données contextuelles liées à l'erreur" },
+    message: {
+      type: "string",
+      description: "Un message explicatif de l'erreur",
+      example: "Request validation failed",
+    },
+    name: {
+      type: "string",
+      description: "Le type générique de l'erreur",
+      example: "Bad Request",
+    },
+    statusCode: {
+      type: "number",
+      enum: [409],
+      description: "Le status code retourné",
+    },
+  },
+  required: ["message", "name", "statusCode"],
+  additionalProperties: false,
+  description: "Conflit de ressource",
+};
+
 const TooManyRequestsSchema: SchemaObject = {
   type: "object",
   properties: {
@@ -205,6 +230,7 @@ export function registerOpenApiErrorsSchema(builder: OpenApiBuilder): OpenApiBui
     .addSchema("BadRequest", badRequestSchema)
     .addSchema("Unauthorized", UnauthorizedSchema)
     .addSchema("Forbidden", ForbiddenSchema)
+    .addSchema("Conflict", ConflictSchema)
     .addSchema("NotFound", NotFoundSchema)
     .addSchema("TooManyRequests", TooManyRequestsSchema)
     .addSchema("InternalServerError", InternalServerErrorSchema)

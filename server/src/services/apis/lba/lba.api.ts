@@ -1,4 +1,4 @@
-import { badRequest, forbidden, internal, notFound } from "@hapi/boom";
+import { badRequest, conflict, forbidden, internal, notFound } from "@hapi/boom";
 import type { IJobSearchQuery } from "api-alternance-sdk";
 import { createApiAlternanceToken } from "api-alternance-sdk";
 import type {
@@ -48,6 +48,8 @@ function convertLbaError(error: unknown): never {
         throw forbidden(data.message, data.data);
       case 404:
         throw notFound(data.message, data.data);
+      case 409:
+        throw conflict(data.message, data.data);
       default:
         throw internal("api.lba: failure convertLbaErrors", data);
     }

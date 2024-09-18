@@ -37,6 +37,15 @@ export const zResNotFound = z
   })
   .strict();
 
+export const zResConflict = z
+  .object({
+    data: z.any().optional(),
+    message: z.string(),
+    name: z.string(),
+    statusCode: z.literal(409),
+  })
+  .strict();
+
 export const zResTooManyRequest = z
   .object({
     data: z.any().optional(),

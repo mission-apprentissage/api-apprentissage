@@ -2,6 +2,7 @@ import type { IApiRouteSchemaCommon, IApiRouteSchemaGet, IApiRouteSchemaWrite } 
 import {
   zResBadGateway as _zResBadGateway,
   zResBadRequest as _zResBadRequest,
+  zResConflict as _zResConflict,
   ZResError as _ZResError,
   zResForbidden as _zResForbidden,
   zResInternalServerError as _zResInternalServerError,
@@ -25,6 +26,7 @@ const zResNotFound = _zResNotFound.openapi({ description: "Resource non trouvée
 const zResTooManyRequest = _zResTooManyRequest.openapi({
   description: "Limite de volumétrie atteinte pour la clé d’API",
 });
+const zResConflict = _zResConflict.openapi({ description: "La ressource existe déjà" });
 const zResInternalServerError = _zResInternalServerError.openapi({
   description: "Une erreur inattendue s'est produite sur le serveur.",
 });
@@ -41,6 +43,7 @@ for (const zErr of [
   _zResInternalServerError,
   _zResBadGateway,
   _zResServiceUnavailable,
+  _zResConflict,
   _ZResError,
 ]) {
   zErr.shape.data = zErr.shape.data.openapi({
@@ -62,6 +65,7 @@ for (const zErr of [
 export {
   zResBadGateway,
   zResBadRequest,
+  zResConflict,
   ZResError,
   zResForbidden,
   zResInternalServerError,

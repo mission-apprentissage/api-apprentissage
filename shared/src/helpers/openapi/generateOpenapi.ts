@@ -1,7 +1,7 @@
 import type { ResponseConfig, RouteConfig } from "@asteasolutions/zod-to-openapi";
 import { OpenApiGeneratorV31, OpenAPIRegistry } from "@asteasolutions/zod-to-openapi";
 import { formatParamUrl } from "@fastify/swagger";
-import { zCertification } from "api-alternance-sdk";
+import { zCertification, zResConflict } from "api-alternance-sdk";
 import { zodOpenApi } from "api-alternance-sdk/internal";
 import type { SecurityRequirementObject } from "openapi3-ts/oas30";
 import type { ZodType } from "zod";
@@ -39,6 +39,7 @@ const errorResponses: { [statusCode: string]: [string, ZodType] } = {
   401: ["Unauthorized", zResUnauthorized],
   403: ["Forbidden", zResForbidden],
   404: ["NotFound", zResNotFound],
+  409: ["Conflict", zResConflict],
   429: ["TooManyRequests", zResTooManyRequest],
   500: ["InternalServerError", zResInternalServerError],
   502: ["BadGateway", zResBadGateway],

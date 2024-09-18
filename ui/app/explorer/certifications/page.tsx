@@ -1,7 +1,7 @@
 import { fr } from "@codegouvfr/react-dsfr";
 import { Breadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
 import { Box, Container } from "@mui/material";
-import { certificationDoc, certificationSources } from "api-alternance-sdk/internal";
+import { certificationModelDoc } from "api-alternance-sdk/internal";
 
 import { DsfrLink } from "@/components/link/DsfrLink";
 import { PAGES } from "@/utils/routes.utils";
@@ -34,8 +34,8 @@ export default function CatalogueCertificationPage() {
       </Box>
 
       <CatalogueHeadline />
-      <CatalogueData dictionnaire={certificationDoc} />
-      <DataSources sources={certificationSources} />
+      <CatalogueData model={certificationModelDoc} />
+      <DataSources sources={certificationModelDoc.sources} />
     </Container>
   );
 }

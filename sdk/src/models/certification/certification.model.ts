@@ -1,9 +1,9 @@
 import type { Jsonify } from "type-fest";
 import type { z } from "zod";
 
-import { certificationDoc } from "../../docs/certification/certification.doc.js";
+import { certificationModelDoc } from "../../docs/models/certification/certification.model.doc.js";
 import { zParisLocalDate } from "../../utils/date.primitives.js";
-import { buildOpenApiDescription, zodOpenApi } from "../../utils/zodWithOpenApi.js";
+import { buildOpenApiDescription, buildOpenApiDescriptionLegacy, zodOpenApi } from "../../utils/zodWithOpenApi.js";
 import {
   zCfd,
   zNiveauDiplomeEuropeen,
@@ -17,14 +17,14 @@ import {
 const zCertifIdentifiant = zodOpenApi
   .object({
     cfd: zCfd.nullable().openapi({
-      description: buildOpenApiDescription("Code Formation Diplôme (CFD) de la certification.", [
+      description: buildOpenApiDescriptionLegacy("Code Formation Diplôme (CFD) de la certification.", [
         "- `null` si et seulement si aucun diplôme CFD correspondant à la fiche RNCP (`identifiant.rncp`) n'est connu.",
         "- Lorsque le code est `null`, toutes les informations issues de la base centrale des nomenclatures (BCN) seront `null`.",
       ]),
       example: "50022137",
     }),
     rncp: zRncp.nullable().openapi({
-      description: buildOpenApiDescription(
+      description: buildOpenApiDescriptionLegacy(
         "Code Répertoire National des Certifications Professionnelles (RNCP) de la certification.",
         [
           "- `null` si et seulement si aucune fiche RNCP correspondant au diplôme (`identifiant.cfd`) n'est connu.",
@@ -37,7 +37,7 @@ const zCertifIdentifiant = zodOpenApi
       .boolean()
       .nullable()
       .openapi({
-        description: buildOpenApiDescription(
+        description: buildOpenApiDescriptionLegacy(
           "Identifie les certifications dont le code RNCP correspond à une fiche antérieure à la réforme de 2019.",
           [
             "- `null` si `identifiant.rncp` est `null`",
@@ -48,15 +48,13 @@ const zCertifIdentifiant = zodOpenApi
       }),
   })
   .openapi({
-    description: buildOpenApiDescription(certificationDoc.identifiantTopologie.fields.identifiantField.description, [
-      "- les fiches RNCP antérieures à la réforme de 2019 ont certaines données qui ne sont pas renseignées, elles sont identifiées par le champ `rncp_anterieur_2019` à `true`.",
-    ]),
+    description: buildOpenApiDescription(certificationModelDoc.sections[0].fields.identifiant),
   });
 
 const zCertifPeriodeValidite = zodOpenApi
   .object({
     debut: zParisLocalDate.nullable().openapi({
-      description: buildOpenApiDescription(
+      description: buildOpenApiDescriptionLegacy(
         "Date de début de validité de la certification. Cette date correspond à l'intersection de la date d'ouverture du diplôme et de la date d'activation de la fiche RNCP.",
         [
           "- La couverture de ce champ est partiel car nous ne sommes pas en mesure pour le moment de récupérer les dates d'activation antérieures au 24 décembre 2021.",
@@ -72,13 +70,13 @@ const zCertifPeriodeValidite = zodOpenApi
     cfd: zodOpenApi
       .object({
         ouverture: zParisLocalDate.nullable().openapi({
-          description: buildOpenApiDescription("Date d'ouverture du diplôme.", [
+          description: buildOpenApiDescriptionLegacy("Date d'ouverture du diplôme.", [
             "- La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '00:00:00' sur le fuseau horaire 'Europe/Paris'.",
           ]),
           examples: ["2021-09-01T00:00:00.000+02:00", "2022-01-01T00:00:00.000+01:00"],
         }),
         fermeture: zParisLocalDate.nullable().openapi({
-          description: buildOpenApiDescription("Date de fermeture du diplôme.", [
+          description: buildOpenApiDescriptionLegacy("Date de fermeture du diplôme.", [
             "- La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.",
           ]),
           examples: ["2022-08-31T23:59:59.000+02:00", "2022-12-31T23:59:59.000+01:00"],
@@ -94,10 +92,7 @@ const zCertifPeriodeValidite = zodOpenApi
       })
       .nullable()
       .openapi({
-        description: buildOpenApiDescription(
-          certificationDoc.periodeValiditeTopologie.fields.periodeValiditeCfdField.description,
-          ["- `null` lorsque le champs `identifiant.cfd` est `null`."]
-        ),
+        description: buildOpenApiDescription(certificationModelDoc.sections[1].fields["periode_validite.cfd"]),
       }),
     rncp: zodOpenApi
       .object({
@@ -106,20 +101,20 @@ const zCertifPeriodeValidite = zodOpenApi
             "Lorsque la fiche est active, les inscriptions à la formation sont ouvertes, à l’inverse, lorsque la fiche est inactive, les inscriptions sont fermées.",
         }),
         activation: zParisLocalDate.nullable().openapi({
-          description: buildOpenApiDescription("Date à laquelle la fiche RNCP est passée au statut `actif`.", [
+          description: buildOpenApiDescriptionLegacy("Date à laquelle la fiche RNCP est passée au statut `actif`.", [
             "- La couverture de ce champ est partiel car nous ne sommes pas en mesure pour le moment de récupérer les dates d'activation antérieures au 24 décembre 2021.",
             "- France Compétence ne fournie pas l'information, nous le déduisons de la date de premiere apparation de la fiche RNCP avec le statut `actif`.",
           ]),
           examples: ["2021-09-01T00:00:00.000+02:00", "2022-01-01T00:00:00.000+01:00"],
         }),
         debut_parcours: zParisLocalDate.nullable().openapi({
-          description: buildOpenApiDescription(
+          description: buildOpenApiDescriptionLegacy(
             "Date de début des parcours certifiants. Anciennement appelée 'date d'effet' pour les enregistrements de droit et correspondant à la date de décision pour les enregistrements sur demande.",
             ["La date est retournée au format ISO 8601 avec le fuseau horaire Europe/Paris."]
           ),
         }),
         fin_enregistrement: zParisLocalDate.nullable().openapi({
-          description: buildOpenApiDescription("Date de fin d’enregistrement d’une fiche au RNCP.", [
+          description: buildOpenApiDescriptionLegacy("Date de fin d’enregistrement d’une fiche au RNCP.", [
             "- France Compétence fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.",
           ]),
           examples: ["2021-09-01T00:00:00.000+02:00", "2022-01-01T00:00:00.000+01:00"],
@@ -127,17 +122,11 @@ const zCertifPeriodeValidite = zodOpenApi
       })
       .nullable()
       .openapi({
-        description: buildOpenApiDescription(
-          certificationDoc.periodeValiditeTopologie.fields.periodeValiditeRncpField.description,
-          ["- `null` lorsque le champs `identifiant.rncp` est `null`."]
-        ),
+        description: buildOpenApiDescription(certificationModelDoc.sections[1].fields["periode_validite.rncp"]),
       }),
   })
   .openapi({
-    description: buildOpenApiDescription(
-      certificationDoc.periodeValiditeTopologie.fields.periodeValiditeField.description,
-      ["Les dates sont retournées au format ISO 8601 avec le fuseau horaire Europe/Paris."]
-    ),
+    description: buildOpenApiDescription(certificationModelDoc.sections[1].fields["periode_validite"]),
   });
 
 const zCertifIntitule = zodOpenApi
@@ -159,7 +148,7 @@ const zCertifIntitule = zodOpenApi
           "**Intitulé du diplôme.**\n\nLa base centrale des nomenclatures (BCN) fournie un intitulé long et court du diplôme.",
       })
       .openapi({
-        description: buildOpenApiDescription(
+        description: buildOpenApiDescriptionLegacy(
           "Intitulés de la certification issue de la base centrale des nomenclatures (BCN).",
           ["- `null` lorsque le champs `identifiant.cfd` est `null`."]
         ),
@@ -169,7 +158,7 @@ const zCertifIntitule = zodOpenApi
         cfd: zodOpenApi
           .object({
             europeen: zNiveauDiplomeEuropeen.nullable().openapi({
-              description: buildOpenApiDescription(
+              description: buildOpenApiDescriptionLegacy(
                 "Niveau de qualification de la certification (de 1 à 8) utilisés dans les référentiels nationaux européens.",
                 [
                   "- peut être `null` lorsque le niveau de diplôme n'a pas de correspondance avec les niveaux européens ou qu'elle n'est pas déterminée.",
@@ -179,14 +168,14 @@ const zCertifIntitule = zodOpenApi
               examples: ["3", "5"],
             }),
             formation_diplome: zodOpenApi.string().openapi({
-              description: buildOpenApiDescription(
+              description: buildOpenApiDescriptionLegacy(
                 "Code à 3 caractères qui renseigne sur le niveau du diplôme suivant le référentiel de l'Éducation Nationale.",
                 ["- correspond aux 3 premiers caractères du code CFD."]
               ),
               examples: ["500", "370"],
             }),
             interministeriel: zodOpenApi.string().openapi({
-              description: buildOpenApiDescription(
+              description: buildOpenApiDescriptionLegacy(
                 "code interministériel du niveau de la formation suivant le référentiel de l'Éducation Nationale.",
                 ["- correspond au premier caractère du code CFD, sauf pour le CFD `01321401`"]
               ),
@@ -204,7 +193,7 @@ const zCertifIntitule = zodOpenApi
           })
           .nullable()
           .openapi({
-            description: buildOpenApiDescription(
+            description: buildOpenApiDescriptionLegacy(
               "Niveau de la certification issue de la base centrale des nomenclatures (BCN).",
               ["- `null` lorsque le champs `identifiant.cfd` est `null`."]
             ),
@@ -212,7 +201,7 @@ const zCertifIntitule = zodOpenApi
         rncp: zodOpenApi
           .object({
             europeen: zNiveauDiplomeEuropeen.nullable().openapi({
-              description: buildOpenApiDescription(
+              description: buildOpenApiDescriptionLegacy(
                 "Niveau de qualification de la certification (de 1 à 8) utilisés dans les référentiels nationaux européens.",
                 ["- `null` lorsque le niveau de diplôme n'a pas de correspondance avec les niveaux européens."]
               ),
@@ -221,13 +210,13 @@ const zCertifIntitule = zodOpenApi
           })
           .nullable()
           .openapi({
-            description: buildOpenApiDescription("Niveau de qualification issue de France Compétences.", [
+            description: buildOpenApiDescriptionLegacy("Niveau de qualification issue de France Compétences.", [
               "- `null` lorsque le champs `identifiant.rncp` est `null`.",
             ]),
           }),
       })
       .openapi({
-        description: buildOpenApiDescription(certificationDoc.intituleTopologie.fields.intituleNiveauField.description),
+        description: buildOpenApiDescription(certificationModelDoc.sections[2].fields["intitule.niveau"]),
       }),
     rncp: zodOpenApi
       .string()
@@ -236,13 +225,13 @@ const zCertifIntitule = zodOpenApi
       })
       .nullable()
       .openapi({
-        description: buildOpenApiDescription("Intitulé de la certification issue de France Compétences.", [
+        description: buildOpenApiDescriptionLegacy("Intitulé de la certification issue de France Compétences.", [
           "- `null` lorsque le champs `identifiant.rncp` est `null`.",
         ]),
       }),
   })
   .openapi({
-    description: certificationDoc.intituleTopologie.fields.intituleField.description,
+    description: buildOpenApiDescription(certificationModelDoc.sections[2].fields["intitule"]),
   });
 
 const zCertifBlocsCompetences = zodOpenApi
@@ -258,13 +247,13 @@ const zCertifBlocsCompetences = zodOpenApi
       )
       .nullable()
       .openapi({
-        description: buildOpenApiDescription("Liste des blocs de compétences issue de France Compétences.", [
+        description: buildOpenApiDescriptionLegacy("Liste des blocs de compétences issue de France Compétences.", [
           "- `null` lorsque le champs `identifiant.rncp` est `null`.",
         ]),
       }),
   })
   .openapi({
-    description: certificationDoc.blocsCompetencesTopologie.fields.blocsCompetencesField.description,
+    description: buildOpenApiDescription(certificationModelDoc.sections[4].fields["blocs_competences"]),
   });
 
 const zCertifDomaines = zodOpenApi
@@ -284,7 +273,7 @@ const zCertifDomaines = zodOpenApi
           )
           .nullable()
           .openapi({
-            description: buildOpenApiDescription("Formacode® issue de France Compétences.", [
+            description: buildOpenApiDescriptionLegacy("Formacode® issue de France Compétences.", [
               "- `null` lorsque le champs `identifiant.rncp` est `null`.",
             ]),
           }),
@@ -307,7 +296,7 @@ const zCertifDomaines = zodOpenApi
         })
         .nullable()
         .openapi({
-          description: buildOpenApiDescription("NSF issue de la base centrale des nomenclatures (BCN).", [
+          description: buildOpenApiDescriptionLegacy("NSF issue de la base centrale des nomenclatures (BCN).", [
             "- `null` lorsque le champs `identifiant.cfd` est `null`.",
             "- Le code NSF est déduis du code formation diplôme (CFD), il n'inclut donc pas la lettre de spécialité et le tableau ne contient qu'un seul élément.",
           ]),
@@ -323,7 +312,7 @@ const zCertifDomaines = zodOpenApi
         )
         .nullable()
         .openapi({
-          description: buildOpenApiDescription("NSF issue de France Compétences.", [
+          description: buildOpenApiDescriptionLegacy("NSF issue de France Compétences.", [
             "- `null` lorsque le champs `identifiant.rncp` est `null`.",
           ]),
         }),
@@ -347,7 +336,7 @@ const zCertifDomaines = zodOpenApi
           )
           .nullable()
           .openapi({
-            description: buildOpenApiDescription("ROME issue de France Compétences.", [
+            description: buildOpenApiDescriptionLegacy("ROME issue de France Compétences.", [
               "- `null` lorsque le champs `identifiant.rncp` est `null`.",
             ]),
           }),
@@ -357,7 +346,7 @@ const zCertifDomaines = zodOpenApi
       }),
   })
   .openapi({
-    description: certificationDoc.domainesTypologie.fields.domainesField.description,
+    description: buildOpenApiDescription(certificationModelDoc.sections[5].fields["domaines"]),
   });
 
 const zCertifType = zodOpenApi
@@ -385,7 +374,7 @@ const zCertifType = zodOpenApi
           })
           .nullable()
           .openapi({
-            description: buildOpenApiDescription(
+            description: buildOpenApiDescriptionLegacy(
               "Nature du diplôme issue de la base centrale des nomenclatures (BCN).",
               ["- `null` lorsque le champs `identifiant.cfd` est `null`."]
             ),
@@ -398,13 +387,13 @@ const zCertifType = zodOpenApi
       .string()
       .nullable()
       .openapi({
-        description: buildOpenApiDescription("Service responsable de la définition du diplôme.", [
+        description: buildOpenApiDescriptionLegacy("Service responsable de la définition du diplôme.", [
           "- `null` lorsque le champs `identifiant.cfd` est `null`.",
         ]),
         example: "DGESCO A2-3",
       }),
     enregistrement_rncp: zTypeEnregistrement.nullable().openapi({
-      description: buildOpenApiDescription(
+      description: buildOpenApiDescriptionLegacy(
         "Permet de savoir si la certification est enregistrée de droit ou sur demande au Repertoire National des Certifications Professionnelles (RNCP)",
         ["- `null` lorsque le champs `identifiant.rncp` est `null`."]
       ),
@@ -434,7 +423,7 @@ const zCertifType = zodOpenApi
           })
           .nullable()
           .openapi({
-            description: buildOpenApiDescription("Voie d’accès à la certification issue de France Compétences.", [
+            description: buildOpenApiDescriptionLegacy("Voie d’accès à la certification issue de France Compétences.", [
               "- `null` lorsque le champs `identifiant.rncp` est `null`.",
             ]),
           }),
@@ -455,13 +444,13 @@ const zCertifType = zodOpenApi
       )
       .nullable()
       .openapi({
-        description: buildOpenApiDescription("Liste des certificateurs de la fiche RNCP.", [
+        description: buildOpenApiDescriptionLegacy("Liste des certificateurs de la fiche RNCP.", [
           "- `null` lorsque le champs `identifiant.rncp` est `null`.",
         ]),
       }),
   })
   .openapi({
-    description: certificationDoc.typeTypologie.fields.typeField.description,
+    description: buildOpenApiDescription(certificationModelDoc.sections[6].fields["type"]),
   });
 
 const zCertifBaseLegale = zodOpenApi
@@ -469,14 +458,14 @@ const zCertifBaseLegale = zodOpenApi
     cfd: zodOpenApi
       .object({
         creation: zParisLocalDate.nullable().openapi({
-          description: buildOpenApiDescription("Date d'arrêté de création du diplôme.", [
+          description: buildOpenApiDescriptionLegacy("Date d'arrêté de création du diplôme.", [
             "- La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '00:00:00' sur le fuseau horaire 'Europe/Paris'.",
             "- La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
           ]),
           examples: ["2014-02-21T00:00:00.000+01:00", "2018-05-11T00:00:00.000+02:00"],
         }),
         abrogation: zParisLocalDate.nullable().openapi({
-          description: buildOpenApiDescription("Date d'arrêté d'abrogation du diplôme.", [
+          description: buildOpenApiDescriptionLegacy("Date d'arrêté d'abrogation du diplôme.", [
             "- La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.",
             "- La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
           ]),
@@ -485,14 +474,14 @@ const zCertifBaseLegale = zodOpenApi
       })
       .nullable()
       .openapi({
-        description: buildOpenApiDescription(
+        description: buildOpenApiDescriptionLegacy(
           "Informations légales issue de la base centrale des nomenclatures (BCN) relatives au diplôme.",
           ["- `null` lorsque le champs `identifiant.cfd` est `null`."]
         ),
       }),
   })
   .openapi({
-    description: certificationDoc.baseLegaleTopologie.fields.baseLegaleField.description,
+    description: buildOpenApiDescription(certificationModelDoc.sections[7].fields["base_legale"]),
   });
 
 const zCertifConventionCollectives = zodOpenApi
@@ -510,13 +499,13 @@ const zCertifConventionCollectives = zodOpenApi
       )
       .nullable()
       .openapi({
-        description: buildOpenApiDescription("Liste des conventions collectives issue de France Compétences.", [
+        description: buildOpenApiDescriptionLegacy("Liste des conventions collectives issue de France Compétences.", [
           "- `null` lorsque le champs `identifiant.rncp` est `null`.",
         ]),
       }),
   })
   .openapi({
-    description: certificationDoc.conventionsCollectivesTopologie.fields.conventionsCollectivesField.description,
+    description: buildOpenApiDescription(certificationModelDoc.sections[8].fields["conventions_collectives"]),
   });
 
 export const zContinuite = zodOpenApi.object({
@@ -533,7 +522,7 @@ export const zContinuite = zodOpenApi.object({
     )
     .nullable()
     .openapi({
-      description: buildOpenApiDescription(
+      description: buildOpenApiDescriptionLegacy(
         "Liste des diplômes assurant la continuité du diplôme. La liste inclut à la fois les diplômes remplacés et remplaçant. La liste est ordonnée par date d'ouverture du diplôme et inclut le diplôme courant.",
         [
           "- `null` lorsque le champs `identifiant.cfd` est `null`.",
@@ -555,10 +544,7 @@ export const zContinuite = zodOpenApi.object({
     )
     .nullable()
     .openapi({
-      description: buildOpenApiDescription(certificationDoc.continuiteTopologie.fields.continuiteField.description, [
-        "- `null` lorsque le champs `identifiant.rncp` est `null`.",
-        "- Pour distinguer les fiches remplacées des fiches remplaçant, il faut se référer aux dates d'activation et de fin d'enregistrement des fiches.",
-      ]),
+      description: buildOpenApiDescription(certificationModelDoc.sections[3].fields["continuite"]),
     }),
 });
 

@@ -72,8 +72,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
       "Certification": {
         "properties": {
           "base_legale": {
-            "description": "Dates de création et d’abrogation des diplômes crées par arrêtés
-",
+            "description": "Dates de création et d’abrogation des diplômes crées par arrêtés",
             "properties": {
               "cfd": {
                 "description": "Informations légales issue de la base centrale des nomenclatures (BCN) relatives au diplôme.
@@ -157,8 +156,7 @@ Notes:
             "type": "object",
           },
           "blocs_competences": {
-            "description": "Liste du (ou des) code (s) et intitulé(s) des blocs de compétences validées par la certification
-",
+            "description": "Liste du (ou des) code (s) et intitulé(s) des blocs de compétences validées par la certification",
             "properties": {
               "rncp": {
                 "description": "Liste des blocs de compétences issue de France Compétences.
@@ -293,8 +291,8 @@ Notes:
 Notes:
 
 - \`null\` lorsque le champs \`identifiant.rncp\` est \`null\`.
-
-- Pour distinguer les fiches remplacées des fiches remplaçant, il faut se référer aux dates d'activation et de fin d'enregistrement des fiches.",
+- Pour distinguer les fiches remplacées des fiches remplaçant, il faut se référer aux dates d'activation et de fin d'enregistrement des fiches.
+",
                 "items": {
                   "properties": {
                     "actif": {
@@ -388,8 +386,7 @@ Notes:
             "type": "object",
           },
           "convention_collectives": {
-            "description": "Liste(s) de la ou des convention(s) collective(s) rattachées à la certification
-",
+            "description": "Liste(s) de la ou des convention(s) collective(s) rattachées à la certification",
             "properties": {
               "rncp": {
                 "description": "Liste des conventions collectives issue de France Compétences.
@@ -605,7 +602,6 @@ Notes:
           "identifiant": {
             "description": "**Une certification correspond à un couple CFD-RNCP sur une période donnée.** Le Code Formation Diplôme (CFD) ou code scolarité référence la certification dans la Base Centrale des Nomenclature. Le code RNCP référence la certification dans le Répertoire National des Certifications Professionnelle.
 
-
 Notes:
 
 - les fiches RNCP antérieures à la réforme de 2019 ont certaines données qui ne sont pas renseignées, elles sont identifiées par le champ \`rncp_anterieur_2019\` à \`true\`.",
@@ -707,8 +703,7 @@ Notes:
                 ],
               },
               "niveau": {
-                "description": "Niveau de qualification de la certification professionnelle
-",
+                "description": "Niveau de qualification de la certification professionnelle",
                 "properties": {
                   "cfd": {
                     "description": "Niveau de la certification issue de la base centrale des nomenclatures (BCN).
@@ -867,7 +862,6 @@ Notes:
           },
           "periode_validite": {
             "description": "**Un couple CFD-RNCP a une période de validité** qui correspond à l’intersection de la période d’ouverture du diplôme et de la période d’activité de la fiche RNCP.
-
 
 Notes:
 
@@ -1602,8 +1596,7 @@ Notes:
                   "items": {
                     "properties": {
                       "base_legale": {
-                        "description": "Dates de création et d’abrogation des diplômes crées par arrêtés
-",
+                        "description": "Dates de création et d’abrogation des diplômes crées par arrêtés",
                         "properties": {
                           "cfd": {
                             "description": "Informations légales issue de la base centrale des nomenclatures (BCN) relatives au diplôme.
@@ -1687,8 +1680,7 @@ Notes:
                         "type": "object",
                       },
                       "blocs_competences": {
-                        "description": "Liste du (ou des) code (s) et intitulé(s) des blocs de compétences validées par la certification
-",
+                        "description": "Liste du (ou des) code (s) et intitulé(s) des blocs de compétences validées par la certification",
                         "properties": {
                           "rncp": {
                             "description": "Liste des blocs de compétences issue de France Compétences.
@@ -1823,8 +1815,8 @@ Notes:
 Notes:
 
 - \`null\` lorsque le champs \`identifiant.rncp\` est \`null\`.
-
-- Pour distinguer les fiches remplacées des fiches remplaçant, il faut se référer aux dates d'activation et de fin d'enregistrement des fiches.",
+- Pour distinguer les fiches remplacées des fiches remplaçant, il faut se référer aux dates d'activation et de fin d'enregistrement des fiches.
+",
                             "items": {
                               "properties": {
                                 "actif": {
@@ -1918,8 +1910,7 @@ Notes:
                         "type": "object",
                       },
                       "convention_collectives": {
-                        "description": "Liste(s) de la ou des convention(s) collective(s) rattachées à la certification
-",
+                        "description": "Liste(s) de la ou des convention(s) collective(s) rattachées à la certification",
                         "properties": {
                           "rncp": {
                             "description": "Liste des conventions collectives issue de France Compétences.
@@ -2135,7 +2126,6 @@ Notes:
                       "identifiant": {
                         "description": "**Une certification correspond à un couple CFD-RNCP sur une période donnée.** Le Code Formation Diplôme (CFD) ou code scolarité référence la certification dans la Base Centrale des Nomenclature. Le code RNCP référence la certification dans le Répertoire National des Certifications Professionnelle.
 
-
 Notes:
 
 - les fiches RNCP antérieures à la réforme de 2019 ont certaines données qui ne sont pas renseignées, elles sont identifiées par le champ \`rncp_anterieur_2019\` à \`true\`.",
@@ -2237,8 +2227,7 @@ Notes:
                             ],
                           },
                           "niveau": {
-                            "description": "Niveau de qualification de la certification professionnelle
-",
+                            "description": "Niveau de qualification de la certification professionnelle",
                             "properties": {
                               "cfd": {
                                 "description": "Niveau de la certification issue de la base centrale des nomenclatures (BCN).
@@ -2397,7 +2386,6 @@ Notes:
                       },
                       "periode_validite": {
                         "description": "**Un couple CFD-RNCP a une période de validité** qui correspond à l’intersection de la période d’ouverture du diplôme et de la période d’activité de la fiche RNCP.
-
 
 Notes:
 

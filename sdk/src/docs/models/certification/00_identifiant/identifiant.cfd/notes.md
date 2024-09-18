@@ -1,0 +1,2 @@
+- `null` si et seulement si aucune fiche RNCP correspondant au diplôme (`identifiant.cfd`) n'est connu.
+- Lorsque le code est `null`, toutes les informations issues de France Compétence seront `null`

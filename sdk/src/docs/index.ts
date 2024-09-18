@@ -1,3 +1,3 @@
-export * from "./certification/certification.doc.js";
+export * from "./models/certification/certification.model.doc.js";
 
 export type * from "./types.js";

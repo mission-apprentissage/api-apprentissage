@@ -1,0 +1,2 @@
+- `null` si et seulement si aucun diplôme CFD correspondant à la fiche RNCP (`identifiant.rncp`) n'est connu.
+- Lorsque le code est `null`, toutes les informations issues de la base centrale des nomenclatures (BCN) seront `null`

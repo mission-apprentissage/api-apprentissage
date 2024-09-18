@@ -7,14 +7,14 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import type { DocField } from "api-alternance-sdk/internal";
+import type { DocBusinessField } from "api-alternance-sdk/internal";
 import { useState } from "react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 import { DsfrLink } from "@/components/link/DsfrLink";
 
-export function GoodToKnow({ tip }: Pick<DocField, "tip">) {
+export function GoodToKnow({ tip }: Pick<DocBusinessField, "tip">) {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 

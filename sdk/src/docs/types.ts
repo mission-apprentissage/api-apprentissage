@@ -1,25 +1,36 @@
-export type DocField = Readonly<{
+export interface DocTechnicalField {
+  type: "technical";
   name: string;
+  description: string | null;
+  notes: string | null;
+}
+
+export interface DocBusinessField extends Omit<DocTechnicalField, "type" | "description"> {
+  type: "business";
   description: string;
-  information: string;
+  information: string | null;
   sample: string | null;
   tags: ReadonlyArray<string>;
-  tip?: {
+  tip: null | {
     title: string;
     content: string;
   };
-}>;
+}
 
-export type DocTopologie = {
+export type DocBusinessSection = {
   name: string;
-  fields: Record<string, DocField>;
+  fields: Record<string, DocBusinessField | DocTechnicalField>;
 };
-
-export type DocDictionary = Record<string, DocTopologie>;
 
 export type DataSource = {
   name: string;
   logo: { href: string; width: number; height: number };
   providers: string[];
   href: string;
+};
+
+export type DocModel = {
+  name: string;
+  sections: DocBusinessSection[];
+  sources: DataSource[];
 };

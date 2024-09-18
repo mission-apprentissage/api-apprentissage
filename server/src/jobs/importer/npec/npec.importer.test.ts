@@ -597,7 +597,7 @@ describe("importNpecResource", () => {
 
     const data = await getDbCollection("source.npec").find({}).toArray();
     expect(data).toEqual(expectedData);
-    expect(getDbCollection("import.meta").findOne({ _id: importMeta._id })).resolves.toEqual({
+    await expect(getDbCollection("import.meta").findOne({ _id: importMeta._id })).resolves.toEqual({
       ...importMeta,
       status: "done",
     });

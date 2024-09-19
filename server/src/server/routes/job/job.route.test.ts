@@ -169,18 +169,20 @@ describe("GET /job/v1/search", () => {
             name: "ASSEMBLEE NATIONALE",
             description: "Workplace Description",
             size: null,
-            address: {
-              label: "Paris",
+            location: {
+              address: "Paris",
+              geopoint: {
+                coordinates: [2.347, 48.8589],
+                type: "Point",
+              },
             },
-            geopoint: {
-              coordinates: [2.347, 48.8589],
-              type: "Point",
-            },
-            idcc: 1242,
-            opco: "",
-            naf: {
-              code: "84.11Z",
-              label: "Autorité constitutionnelle",
+            domain: {
+              idcc: 1242,
+              opco: "",
+              naf: {
+                code: "84.11Z",
+                label: "Autorité constitutionnelle",
+              },
             },
           },
           apply: {
@@ -208,8 +210,10 @@ describe("GET /job/v1/search", () => {
               "Organisation: Contrôler la conformité des données ou des documents",
             ],
             access_conditions: ["Ce métier est accessible avec un diplôme de fin d'études secondaires"],
-            creation: "2021-01-01T01:00:00.000+01:00",
-            expiration: "2021-03-28T17:00:00.000+02:00",
+            publication: {
+              creation: "2021-01-01T01:00:00.000+01:00",
+              expiration: "2021-03-28T17:00:00.000+02:00",
+            },
             opening_count: 1,
             status: "Active",
           },
@@ -228,18 +232,20 @@ describe("GET /job/v1/search", () => {
             name: "ASSEMBLEE NATIONALE - La vraie",
             description: null,
             size: null,
-            address: {
-              label: "126 RUE DE L'UNIVERSITE 75007 PARIS",
+            location: {
+              address: "126 RUE DE L'UNIVERSITE 75007 PARIS",
+              geopoint: {
+                coordinates: [2.347, 48.8589],
+                type: "Point",
+              },
             },
-            geopoint: {
-              coordinates: [2.347, 48.8589],
-              type: "Point",
-            },
-            idcc: null,
-            opco: null,
-            naf: {
-              code: "8411Z",
-              label: "Administration publique générale",
+            domain: {
+              idcc: null,
+              opco: null,
+              naf: {
+                code: "8411Z",
+                label: "Administration publique générale",
+              },
             },
           },
           apply: {
@@ -543,8 +549,10 @@ describe("POST /job/v1/offer", () => {
           european: "4",
         },
         access_conditions: ["Ce métier est accessible avec un diplôme de fin d'études secondaires"],
-        creation: new Date("2021-01-01T00:00:00.000Z"),
-        expiration: new Date("2021-03-28T15:00:00.000Z"),
+        publication: {
+          creation: new Date("2021-01-01T00:00:00.000Z"),
+          expiration: new Date("2021-03-28T15:00:00.000Z"),
+        },
         opening_count: 1,
         multicast: true,
         origin: "La bonne alternance",
@@ -554,7 +562,7 @@ describe("POST /job/v1/offer", () => {
         name: "ASSEMBLEE NATIONALE",
         description: "Workplace Description",
         website: "https://assemblee-nationale.fr",
-        address: { label: "Paris" },
+        location: { address: "Paris" },
       },
       apply: {
         url: "https://postler.com",
@@ -912,8 +920,10 @@ describe("PUT /job/v1/offer/:id", () => {
           european: "4",
         },
         access_conditions: ["Ce métier est accessible avec un diplôme de fin d'études secondaires"],
-        creation: new Date("2021-01-01T00:00:00.000Z"),
-        expiration: new Date("2021-03-28T15:00:00.000Z"),
+        publication: {
+          creation: new Date("2021-01-01T00:00:00.000Z"),
+          expiration: new Date("2021-03-28T15:00:00.000Z"),
+        },
         opening_count: 1,
         multicast: true,
         origin: "La bonne alternance",
@@ -923,7 +933,7 @@ describe("PUT /job/v1/offer/:id", () => {
         name: "ASSEMBLEE NATIONALE",
         description: "Workplace Description",
         website: "https://assemblee-nationale.fr",
-        address: { label: "Paris" },
+        location: { address: "Paris" },
       },
       apply: {
         url: "https://postler.com",

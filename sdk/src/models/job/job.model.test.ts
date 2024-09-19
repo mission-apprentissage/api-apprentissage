@@ -15,18 +15,20 @@ type IJobRecruiterExpected = {
     name: string | null;
     description: string | null;
     size: string | null;
-    address: {
-      label: string;
+    location: {
+      address: string;
+      geopoint: {
+        type: "Point";
+        coordinates: [number, number];
+      };
     };
-    geopoint: {
-      type: "Point";
-      coordinates: [number, number];
-    };
-    idcc: number | null;
-    opco: string | null;
-    naf: null | {
-      code: string;
-      label: string | null;
+    domain: {
+      idcc: number | null;
+      opco: string | null;
+      naf: null | {
+        code: string;
+        label: string | null;
+      };
     };
   };
   apply: {
@@ -60,8 +62,10 @@ type IJobOfferExpected = {
     desired_skills: string[];
     to_be_acquired_skills: string[];
     access_conditions: string[];
-    creation: ParisDate | null;
-    expiration: ParisDate | null;
+    publication: {
+      creation: ParisDate | null;
+      expiration: ParisDate | null;
+    };
     opening_count: number;
     status: "Active" | "Filled" | "Cancelled" | "Pending";
   };
@@ -83,7 +87,7 @@ type IJobOfferWritableExpected = {
     | undefined;
   offer: {
     title: string;
-    rome_codes?: string[] | null;
+    rome_codes?: string[] | undefined;
     description: string;
     target_diploma?: {
       european: "3" | "4" | "5" | "6" | "7";
@@ -91,8 +95,10 @@ type IJobOfferWritableExpected = {
     desired_skills?: string[];
     to_be_acquired_skills?: string[];
     access_conditions?: string[];
-    creation?: ParisDate | null;
-    expiration?: ParisDate | null;
+    publication?: {
+      creation?: ParisDate | null;
+      expiration?: ParisDate | null;
+    };
     opening_count?: number;
     origin?: string | null;
     multicast?: boolean;
@@ -107,7 +113,12 @@ type IJobOfferWritableExpected = {
     name?: string | null;
     website?: string | null;
     description?: string | null;
-    address?: { label: string } | null | undefined;
+    location?:
+      | {
+          address: string;
+        }
+      | null
+      | undefined;
   };
 };
 

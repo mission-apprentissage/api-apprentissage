@@ -3,7 +3,6 @@ import description from "./description.md.js";
 
 export default <DocBusinessField>{
   type: "business",
-  name: "intitule",
   description,
   information: null,
   tip: null,

@@ -4,7 +4,6 @@ import notes from "./notes.md.js";
 
 export default <DocBusinessField>{
   type: "business",
-  name: "continuite",
   description,
   information: null,
   sample: null,

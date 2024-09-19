@@ -1,17 +1,17 @@
 export interface DocTechnicalField {
   type: "technical";
-  name: string;
   description: string | null;
-  notes: string | null;
+  notes?: string | null;
+  examples?: Array<string | number>;
 }
 
 export interface DocBusinessField extends Omit<DocTechnicalField, "type" | "description"> {
   type: "business";
   description: string;
-  information: string | null;
-  sample: string | null;
+  information?: string | null;
+  sample?: string | null;
   tags: ReadonlyArray<string>;
-  tip: null | {
+  tip?: null | {
     title: string;
     content: string;
   };

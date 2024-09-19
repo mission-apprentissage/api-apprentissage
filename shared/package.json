@@ -41,10 +41,12 @@
     "zod-to-json-schema": "^3.23.2"
   },
   "devDependencies": {
+    "@readme/openapi-parser": "^2.6.0",
     "@tsconfig/node22": "^22.0.0",
     "@types/luxon": "^3.4.2",
     "@types/node": "^22.2.0",
     "bson": "^6.8.0",
+    "microdiff": "^1.4.0",
     "mongodb": "^6.8.0",
     "typescript": "^5.5.4",
     "vitest": "^2.0.5",

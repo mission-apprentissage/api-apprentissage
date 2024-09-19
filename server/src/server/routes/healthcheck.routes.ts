@@ -13,13 +13,4 @@ export const healthcheckRoutes = ({ server }: { server: Server }) => {
       env: config.env,
     });
   });
-  server.get(
-    "/healthcheck/sentry",
-    {
-      schema: zRoutes.get["/healthcheck/sentry"],
-    },
-    async () => {
-      throw new Error("testing sentry error");
-    }
-  );
 };

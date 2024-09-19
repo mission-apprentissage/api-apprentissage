@@ -77,7 +77,7 @@ function InformationBox({ information }: Pick<DocBusinessField, "information">) 
   );
 }
 
-function DataField({ field }: { field: DocBusinessField }) {
+function DataField({ name, field }: { name: string; field: DocBusinessField }) {
   return (
     <Box
       sx={{
@@ -88,7 +88,7 @@ function DataField({ field }: { field: DocBusinessField }) {
       }}
     >
       <Box>
-        <Tag color="beigeGrisGalet">{field.name}</Tag>
+        <Tag color="beigeGrisGalet">{name}</Tag>
       </Box>
       <Box sx={{ gridColumn: "span 3", display: "flex", gap: fr.spacing("1w"), flexDirection: "column" }}>
         {field.sample !== null && (
@@ -140,7 +140,7 @@ function DataTypologie({ typologie }: { typologie: DocBusinessSection }) {
             }}
             key={name}
           >
-            <DataField field={field} />
+            <DataField name={name} field={field} />
             <InformationBox information={field.information} />
           </Box>
         )

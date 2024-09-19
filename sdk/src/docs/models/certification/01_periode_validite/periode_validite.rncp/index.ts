@@ -3,7 +3,6 @@ import description from "./description.md.js";
 
 export default <DocBusinessField>{
   type: "business",
-  name: "periode_validite.rncp",
   description,
   information:
     "Un enregistrement au RNCP est de maximum 5 ans, dépassé ce délai toute fiche doit fait l’objet d’une demande de renouvellement.",

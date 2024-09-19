@@ -1,14 +1,14 @@
 import type { Jsonify } from "type-fest";
 import { z } from "zod";
 
-import { zParisLocalDate } from "../../utils/date.primitives.js";
+import { zParisLocalDateNullable } from "../../utils/date.primitives.js";
 import {
   zCfd,
   zNiveauDiplomeEuropeen,
   zNsfCode,
   zRncp,
   zRncpBlocCompetenceCode,
-  zRomeCode,
+  zRomeCodeFlex,
   zTypeEnregistrement,
 } from "./certification.primitives.js";
 
@@ -19,12 +19,12 @@ const zCertifIdentifiant = z.object({
 });
 
 const zCertifPeriodeValidite = z.object({
-  debut: zParisLocalDate.nullable(),
-  fin: zParisLocalDate.nullable(),
+  debut: zParisLocalDateNullable,
+  fin: zParisLocalDateNullable,
   cfd: z
     .object({
-      ouverture: zParisLocalDate.nullable(),
-      fermeture: zParisLocalDate.nullable(),
+      ouverture: zParisLocalDateNullable,
+      fermeture: zParisLocalDateNullable,
       premiere_session: z.number().int().nullable(),
       derniere_session: z.number().int().nullable(),
     })
@@ -32,9 +32,9 @@ const zCertifPeriodeValidite = z.object({
   rncp: z
     .object({
       actif: z.boolean(),
-      activation: zParisLocalDate.nullable(),
-      debut_parcours: zParisLocalDate.nullable(),
-      fin_enregistrement: zParisLocalDate.nullable(),
+      activation: zParisLocalDateNullable,
+      debut_parcours: zParisLocalDateNullable,
+      fin_enregistrement: zParisLocalDateNullable,
     })
     .nullable(),
 });
@@ -107,7 +107,7 @@ const zCertifDomaines = z.object({
     rncp: z
       .array(
         z.object({
-          code: z.union([zRomeCode, z.string().regex(/^[A-Z]\d{2}$/)]),
+          code: zRomeCodeFlex,
           intitule: z.string(),
         })
       )
@@ -151,8 +151,8 @@ const zCertifType = z.object({
 const zCertifBaseLegale = z.object({
   cfd: z
     .object({
-      creation: zParisLocalDate.nullable(),
-      abrogation: zParisLocalDate.nullable(),
+      creation: zParisLocalDateNullable,
+      abrogation: zParisLocalDateNullable,
     })
     .nullable(),
 });

@@ -1,7 +1,5 @@
-export * from "./client/index.js";
-
-export * from "./docs/index.js";
-
-export * from "./external/index.js";
-
+export * from "./client/internal.js";
+export * from "./docs/internal.js";
+export * from "./models/internal.js";
+export * from "./external/internal.js";
 export * from "./utils/index.js";

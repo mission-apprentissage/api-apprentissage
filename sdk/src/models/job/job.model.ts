@@ -9,7 +9,7 @@ const zWorkspaceAddress = z.object({
   label: z.string().describe("Adresse de l'offre, provenant du SIRET ou du partenaire"),
 });
 
-export const zJobRecruiterWorkplaceWritable = z
+const zJobRecruiterWorkplaceWritable = z
   .object({
     siret: zSiret.describe("Siret de l'entreprise"),
     name: z.string().nullable().describe("Nom customisé de l'entreprise"),
@@ -20,7 +20,7 @@ export const zJobRecruiterWorkplaceWritable = z
   .partial()
   .required({ siret: true });
 
-export const zJobRecruiterWorkplace = zJobRecruiterWorkplaceWritable
+const zJobRecruiterWorkplace = zJobRecruiterWorkplaceWritable
   .required()
   .omit({
     siret: true,
@@ -47,7 +47,7 @@ export const zJobRecruiterWorkplace = zJobRecruiterWorkplaceWritable
 
 const zApplyUrl = z.string().url().describe("URL pour candidater");
 
-export const zJobRecruiterApplyWritable = z
+const zJobRecruiterApplyWritable = z
   .object({
     email: z.string().email().nullable().describe("Email de contact"),
     url: zApplyUrl.nullable(),
@@ -55,7 +55,7 @@ export const zJobRecruiterApplyWritable = z
   })
   .partial();
 
-export const zJobRecruiterApply = zJobRecruiterApplyWritable
+const zJobRecruiterApply = zJobRecruiterApplyWritable
   .required()
   .omit({
     email: true,
@@ -65,15 +65,13 @@ export const zJobRecruiterApply = zJobRecruiterApplyWritable
     url: zApplyUrl,
   });
 
-export const zJobRecruiter = z.object({
+const zJobRecruiter = z.object({
   identifier: z.object({
     id: z.string(),
   }),
   workplace: zJobRecruiterWorkplace,
   apply: zJobRecruiterApply,
 });
-
-export type IJobRecruiter = z.output<typeof zJobRecruiter>;
 
 const zJobOfferIdentifierWritable = z
   .object({
@@ -86,7 +84,7 @@ const zJobOfferIdentifier = zJobOfferIdentifierWritable.required().extend({
   partner_label: z.string(),
 });
 
-export const zJobOfferContractWritable = z
+const zJobOfferContractWritable = z
   .object({
     start: zParisLocalDate.nullable().describe("Date de début du contrat"),
     duration: z.number().nullable().describe("Durée du contrat en mois"),
@@ -95,11 +93,11 @@ export const zJobOfferContractWritable = z
   })
   .partial();
 
-export const zJobOfferContract = zJobOfferContractWritable.required();
+const zJobOfferContract = zJobOfferContractWritable.required();
 
 const zOfferStatus = z.enum(["Active", "Filled", "Cancelled", "Pending"]);
 
-export const zJobOfferPartWritable = z
+const zJobOfferPartWritable = z
   .object({
     title: z.string().min(3).describe("Titre de l'offre"),
     description: z
@@ -130,7 +128,7 @@ export const zJobOfferPartWritable = z
     description: true,
   });
 
-export const zJobOfferPart = zJobOfferPartWritable
+const zJobOfferPart = zJobOfferPartWritable
   .required()
   .omit({
     rome_codes: true,
@@ -153,7 +151,7 @@ export const zJobOfferPart = zJobOfferPartWritable
     status: zOfferStatus.describe("Status de l'offre (surtout utilisé pour les offres ajouté par API)"),
   });
 
-export const zJobOffer = z.object({
+const zJobOffer = z.object({
   identifier: zJobOfferIdentifier,
   workplace: zJobRecruiterWorkplace,
   apply: zJobRecruiterApply,
@@ -161,9 +159,9 @@ export const zJobOffer = z.object({
   offer: zJobOfferPart,
 });
 
-export type IJobOffer = z.output<typeof zJobOffer>;
+type IJobOffer = z.output<typeof zJobOffer>;
 
-export const zJobOfferWritable = z
+const zJobOfferWritable = z
   .object({
     identifier: zJobOfferIdentifierWritable,
     workplace: zJobRecruiterWorkplaceWritable,
@@ -176,4 +174,9 @@ export const zJobOfferWritable = z
     contract: true,
   });
 
-export type IJobOfferWritable = z.output<typeof zJobOfferWritable>;
+type IJobOfferWritable = z.output<typeof zJobOfferWritable>;
+type IJobRecruiter = z.output<typeof zJobRecruiter>;
+
+export type { IJobOffer, IJobOfferWritable, IJobRecruiter };
+
+export { zJobRecruiter, zJobOffer, zJobOfferWritable };

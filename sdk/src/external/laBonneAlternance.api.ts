@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-import { zOfferTargetDiplomaLevel } from "../models/index.js";
 import { zJobOffer, zJobRecruiter } from "../models/job/job.model.js";
+import { zOfferTargetDiplomaLevel } from "../models/job/job.primitives.js";
 
 export const zJobRecruiterLba = z.object({
   _id: zJobRecruiter.shape.identifier.shape.id,

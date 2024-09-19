@@ -1,6 +1,6 @@
 import { fr } from "@codegouvfr/react-dsfr";
 import { Box, Container, Hidden, Typography } from "@mui/material";
-import type { DocDictionary, DocField, DocTopologie } from "api-alternance-sdk/internal";
+import type { DocBusinessField, DocBusinessSection, DocModel } from "api-alternance-sdk/internal";
 import Markdown from "react-markdown";
 
 import { Artwork } from "@/components/artwork/Artwork";
@@ -41,7 +41,7 @@ function DsfrMarkdown({ children }: { children: string | null | undefined }) {
   );
 }
 
-function InformationBox({ information }: Pick<DocField, "information">) {
+function InformationBox({ information }: Pick<DocBusinessField, "information">) {
   if (!information) return null;
 
   return (
@@ -77,7 +77,7 @@ function InformationBox({ information }: Pick<DocField, "information">) {
   );
 }
 
-function DataField({ field }: { field: DocField }) {
+function DataField({ field }: { field: DocBusinessField }) {
   return (
     <Box
       sx={{
@@ -115,7 +115,7 @@ function DataField({ field }: { field: DocField }) {
   );
 }
 
-function DataTypologie({ typologie }: { typologie: DocTopologie }) {
+function DataTypologie({ typologie }: { typologie: DocBusinessSection }) {
   return (
     <Box sx={{ display: "flex", gap: fr.spacing("1w"), flexDirection: "column" }}>
       <Typography variant="h6">{typologie.name}</Typography>
@@ -129,25 +129,27 @@ function DataTypologie({ typologie }: { typologie: DocTopologie }) {
       >
         <Box component="hr" sx={{ gridColumn: "1/3", padding: 0, height: "1px" }} />
       </Box>
-      {Object.entries(typologie.fields).map(([name, field]) => (
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: threeColumns,
-            gap: { md: fr.spacing("2w"), lg: fr.spacing("9w") },
-            flexDirection: "column",
-          }}
-          key={name}
-        >
-          <DataField field={field} />
-          <InformationBox information={field.information} />
-        </Box>
-      ))}
+      {Object.entries(typologie.fields).map(([name, field]) =>
+        field.type === "technical" ? null : (
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: threeColumns,
+              gap: { md: fr.spacing("2w"), lg: fr.spacing("9w") },
+              flexDirection: "column",
+            }}
+            key={name}
+          >
+            <DataField field={field} />
+            <InformationBox information={field.information} />
+          </Box>
+        )
+      )}
     </Box>
   );
 }
 
-function DataSection({ dictionnaire }: { dictionnaire: DocDictionary }) {
+function DataSection({ model }: { model: DocModel }) {
   return (
     <Box
       sx={{
@@ -160,8 +162,8 @@ function DataSection({ dictionnaire }: { dictionnaire: DocDictionary }) {
       <Typography variant="h2" sx={{ color: fr.colors.decisions.artwork.minor.blueEcume.default }}>
         Détail des données
       </Typography>
-      {Object.entries(dictionnaire).map(([key, typologie]) => (
-        <DataTypologie key={key} typologie={typologie} />
+      {model.sections.map((section) => (
+        <DataTypologie key={section.name} typologie={section} />
       ))}
       <Box
         sx={{
@@ -226,10 +228,10 @@ function ContactSection() {
   );
 }
 
-export function CatalogueData({ dictionnaire }: { dictionnaire: DocDictionary }) {
+export function CatalogueData({ model }: { model: DocModel }) {
   return (
     <>
-      <DataSection dictionnaire={dictionnaire} />
+      <DataSection model={model} />
       <ContactSection />
     </>
   );

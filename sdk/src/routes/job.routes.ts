@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { zJobOfferCreateResponseLba } from "../external/laBonneAlternance.api.js";
-import { zRncpCode } from "../models/index.js";
+import { zRncp } from "../models/internal.js";
 import { zJobOffer, zJobOfferWritable, zJobRecruiter } from "../models/job/job.model.js";
 import { zLatitudeCoerce, zLongitudeCoerce, zOfferTargetDiplomaLevel } from "../models/job/job.primitives.js";
 import type { IApiRoutesDef } from "./common.routes.js";
@@ -12,7 +12,7 @@ export const zJobSearchQuery = z.object({
   radius: z.coerce.number().min(0).max(200).default(30).optional(),
   target_diploma_level: zOfferTargetDiplomaLevel.optional(),
   romes: z.string().optional(),
-  rncp: zRncpCode.optional(),
+  rncp: zRncp.optional(),
 });
 
 export type IJobSearchQuery = z.output<typeof zJobSearchQuery>;

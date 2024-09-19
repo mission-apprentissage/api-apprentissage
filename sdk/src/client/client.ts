@@ -10,15 +10,15 @@ import type {
   IApiRequest,
   IApiResponse,
 } from "../routes/index.js";
-import { ApiError } from "./apiError.js";
-import type { CertificationModule } from "./certification/certification.module.js";
-import { buildCertificationModule } from "./certification/certification.module.js";
-import type { WithQueryStringAndPathParam } from "./generateUri/generateUri.js";
-import { generateUri } from "./generateUri/generateUri.js";
-import type { JobModule } from "./job/job.module.js";
-import { buildJobModule } from "./job/job.module.js";
-import type { OrganismeModule } from "./organisme/organisme.module.js";
-import { buildOrganismeModule } from "./organisme/organisme.module.js";
+import { ApiError } from "./internal/apiError.js";
+import type { CertificationModule } from "./internal/certification/certification.module.js";
+import { buildCertificationModule } from "./internal/certification/certification.module.js";
+import type { WithQueryStringAndPathParam } from "./internal/generateUri/generateUri.js";
+import { generateUri } from "./internal/generateUri/generateUri.js";
+import type { JobModule } from "./internal/job/job.module.js";
+import { buildJobModule } from "./internal/job/job.module.js";
+import type { OrganismeModule } from "./internal/organisme/organisme.module.js";
+import { buildOrganismeModule } from "./internal/organisme/organisme.module.js";
 
 type OptionsGet = {
   [Prop in keyof Pick<IApiRouteSchema, "params" | "querystring" | "headers">]: IApiRouteSchema[Prop] extends ZodType
@@ -44,12 +44,12 @@ function throwError(message: string): never {
   throw new Error(message);
 }
 
-export type ApiClientConfig = {
+type ApiClientConfig = {
   endpoint?: string;
   key: string;
 };
 
-export class ApiClient {
+class ApiClient {
   endpoint: string;
   key: string;
 
@@ -157,3 +157,6 @@ export class ApiClient {
     return this.exec(path, requestInit, options);
   }
 }
+
+export type { ApiClientConfig };
+export { ApiClient };

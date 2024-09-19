@@ -7,9 +7,6 @@ import { zApiJobRoutes } from "./job.routes.js";
 import { zApiOrganismesRoutes } from "./organisme.routes.js";
 
 export * from "./common.routes.js";
-
-export * from "./errors.routes.js";
-
 export * from "./certification.routes.js";
 export * from "./job.routes.js";
 export * from "./organisme.routes.js";

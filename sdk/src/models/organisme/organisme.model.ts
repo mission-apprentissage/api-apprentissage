@@ -2,7 +2,7 @@ import { z } from "zod";
 
 import { zSiret, zUai } from "./organismes.primitives.js";
 
-const zOrganisme = z.object({
+export const zOrganisme = z.object({
   identifiant: z.object({
     uai: zUai.nullable(),
     siret: zSiret,
@@ -10,5 +10,3 @@ const zOrganisme = z.object({
 });
 
 export type IOrganisme = z.output<typeof zOrganisme>;
-
-export { zOrganisme };

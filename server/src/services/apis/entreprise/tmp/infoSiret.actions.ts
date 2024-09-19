@@ -1,5 +1,5 @@
 import { captureException } from "@sentry/node";
-import { validateSIRET } from "api-alternance-sdk";
+import { validateSIRET } from "api-alternance-sdk/internal";
 
 import type { ApiEntEtablissement } from "@/services/apis/entreprise/entreprise.js";
 import { getEtablissementDiffusible } from "@/services/apis/entreprise/entreprise.js";

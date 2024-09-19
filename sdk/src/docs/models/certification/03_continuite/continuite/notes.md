@@ -1,0 +1,2 @@
+- `null` lorsque le champs `identifiant.rncp` est `null`.
+- Pour distinguer les fiches remplacées des fiches remplaçant, il faut se référer aux dates d'activation et de fin d'enregistrement des fiches.

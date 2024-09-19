@@ -1,0 +1,3 @@
+- `null` si `identifiant.rncp` est `null`
+- `true` si le numéro de fiche `identifiant.rncp` est inférieur à `34,000`
+- `false` sinon

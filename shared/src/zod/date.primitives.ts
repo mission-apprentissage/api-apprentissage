@@ -47,20 +47,12 @@ export const zParisLocalDateString = zodOpenApi
     return parseParisLocalDate(val);
   });
 
-export const zLocalDate = zodOpenApi
-  .date()
-  .transform((val) => {
-    return ParisDate.fromDate(val);
-  })
-  .openapi({
-    format: "date-time",
-  });
+export const zLocalDate = zodOpenApi.date().transform((val) => {
+  return ParisDate.fromDate(val);
+});
 
 export const zParisLocalDate = zodOpenApi
   .union([zodOpenApi.string().datetime({ offset: true }), zodOpenApi.string().date()])
   .transform((val) => {
     return ParisDate.fromDate(DateTime.fromISO(val, { zone: "Europe/Paris" }).toJSDate());
-  })
-  .openapi({
-    format: "date-time",
   });

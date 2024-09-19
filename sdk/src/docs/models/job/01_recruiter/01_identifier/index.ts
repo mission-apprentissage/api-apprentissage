@@ -6,7 +6,6 @@ export default {
   fields: {
     identifier,
     ["identifier.id"]: {
-      type: "technical",
       description: "Partner responsible for the job offer.",
       examples: ["6687165396d52b5e01b409545"],
     },

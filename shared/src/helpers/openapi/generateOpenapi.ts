@@ -143,6 +143,10 @@ export function generateOpenApiSchema(version: string, env: string, publicUrl: s
         description: "Liste des opérations sur les certifications.",
       },
       {
+        name: "Job",
+        description: "Apprenticeship job opportunities",
+      },
+      {
         name: "Expérimental",
         description: "Liste des routes expérimentales. Attention: ces routes peuvent changer sans préavis.",
       },

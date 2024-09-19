@@ -1,4 +1,5 @@
 import { zApiJobRoutes } from "api-alternance-sdk";
+import { getDocOpenAPIAttributes, jobSearchRouteDoc } from "api-alternance-sdk/internal";
 import type { OpenApiBuilder, ResponsesObject } from "openapi3-ts/oas31";
 
 import type { IRoutesDef } from "./common.routes.js";
@@ -41,14 +42,14 @@ export function registerJobRoutes(builder: OpenApiBuilder, errorResponses: Respo
     .addPath("/job/v1/search", {
       get: {
         tags: ["Job"],
-        summary: "Opportunités d’emploi en alternance",
-        description:
-          "Accédez en temps réel à l'ensemble des opportunités d'emploi en alternance disponibles sur le territoire français et exposez les gratuitement et en marque blanche auprès de vos utilisateurs.",
-        operationId: "searchJobs",
+        summary: jobSearchRouteDoc.summary,
+        description: jobSearchRouteDoc.description,
+        operationId: "jobSearch",
         security: [{ "api-key": [] }],
         parameters: [
           {
             schema: {
+              ...getDocOpenAPIAttributes(jobSearchRouteDoc.parameters.longitude),
               type: ["number", "null"],
               minimum: -180,
               maximum: 180,
@@ -59,6 +60,7 @@ export function registerJobRoutes(builder: OpenApiBuilder, errorResponses: Respo
           },
           {
             schema: {
+              ...getDocOpenAPIAttributes(jobSearchRouteDoc.parameters.latitude),
               type: ["number", "null"],
               minimum: -90,
               maximum: 90,
@@ -69,6 +71,7 @@ export function registerJobRoutes(builder: OpenApiBuilder, errorResponses: Respo
           },
           {
             schema: {
+              ...getDocOpenAPIAttributes(jobSearchRouteDoc.parameters.radius),
               type: ["number", "null"],
               minimum: 0,
               maximum: 200,
@@ -79,19 +82,30 @@ export function registerJobRoutes(builder: OpenApiBuilder, errorResponses: Respo
             in: "query",
           },
           {
-            schema: { type: "string", enum: ["3", "4", "5", "6", "7"] },
+            schema: {
+              ...getDocOpenAPIAttributes(jobSearchRouteDoc.parameters.target_diploma_level),
+              type: "string",
+              enum: ["3", "4", "5", "6", "7"],
+            },
             required: false,
             name: "target_diploma_level",
             in: "query",
           },
           {
-            schema: { type: "string" },
+            schema: {
+              ...getDocOpenAPIAttributes(jobSearchRouteDoc.parameters.romes),
+              type: "string",
+            },
             required: false,
             name: "romes",
             in: "query",
           },
           {
-            schema: { type: "string", pattern: "^RNCP\\d{3,5}$" },
+            schema: {
+              ...getDocOpenAPIAttributes(jobSearchRouteDoc.parameters.rncp),
+              type: "string",
+              pattern: "^RNCP\\d{3,5}$",
+            },
             required: false,
             name: "rncp",
             in: "query",
@@ -99,31 +113,38 @@ export function registerJobRoutes(builder: OpenApiBuilder, errorResponses: Respo
         ],
         responses: {
           "200": {
-            description: "",
+            description: jobSearchRouteDoc.response.description,
             content: {
               "application/json": {
                 schema: {
                   type: "object",
                   properties: {
                     jobs: {
+                      ...getDocOpenAPIAttributes(jobSearchRouteDoc.response._.jobs),
                       type: "array",
                       items: {
                         $ref: "#/components/schemas/JobOfferRead",
                       },
                     },
                     recruiters: {
+                      ...getDocOpenAPIAttributes(jobSearchRouteDoc.response._.recruiters),
                       type: "array",
                       items: {
                         $ref: "#/components/schemas/JobRecruiter",
                       },
                     },
                     warnings: {
+                      ...getDocOpenAPIAttributes(jobSearchRouteDoc.response._.warnings),
                       type: "array",
                       items: {
                         type: "object",
                         properties: {
-                          message: { type: "string" },
-                          code: { type: "string" },
+                          message: {
+                            type: "string",
+                          },
+                          code: {
+                            type: "string",
+                          },
                         },
                         required: ["message", "code"],
                       },

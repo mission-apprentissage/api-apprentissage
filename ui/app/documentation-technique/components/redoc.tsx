@@ -9,13 +9,17 @@ export default function RedocPageClient({ nonce, locale }: { nonce: string; loca
     <RedocStandalone
       specUrl={`${publicConfig.apiEndpoint}/documentation/json`}
       options={{
+        disableSearch: true,
         sortPropsAlphabetically: false,
         sortEnumValuesAlphabetically: true,
         sortOperationsAlphabetically: false,
         sortTagsAlphabetically: false,
         menuToggle: true,
+        simpleOneOfTypeLabel: true,
         hideSchemaTitles: false,
         pathInMiddlePanel: true,
+        expandResponses: "200,201,203,204,205",
+        requiredPropsFirst: true,
         theme: {
           typography: {
             links: {
@@ -23,6 +27,7 @@ export default function RedocPageClient({ nonce, locale }: { nonce: string; loca
             },
           },
         },
+        jsonSampleExpandLevel: 3,
         labels:
           locale === "fr"
             ? {

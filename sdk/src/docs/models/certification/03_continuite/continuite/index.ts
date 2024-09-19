@@ -3,7 +3,7 @@ import description from "./description.md.js";
 import notes from "./notes.md.js";
 
 export default <DocBusinessField>{
-  type: "business",
+  metier: true,
   description,
   information: null,
   sample: null,

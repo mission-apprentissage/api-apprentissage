@@ -7,13 +7,11 @@ export default {
   fields: {
     apply,
     ["apply.email"]: {
-      type: "technical",
       description: "Recruiter's email adress",
       examples: ["jean.dupuis@beta.gouv.fr"],
     },
     ["apply.phone"]: offerReadModelDoc.sections[4].fields["apply.phone"],
     ["apply.url"]: {
-      type: "technical",
       description: "Redirect URL",
       examples: [
         "https://labonnealternance.apprentissage.beta.gouv.fr/recherche-apprentissage?display=list&page=fiche&type=matcha&itemId=664752a2ebe24062b758c641",

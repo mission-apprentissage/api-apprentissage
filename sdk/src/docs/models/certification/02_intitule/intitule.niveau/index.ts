@@ -2,7 +2,7 @@ import type { DocBusinessField } from "../../../../types.js";
 import tip from "./tip.md.js";
 
 export default <DocBusinessField>{
-  type: "business",
+  metier: true,
   description: "Niveau de qualification de la certification professionnelle",
   information: null,
   notes: null,

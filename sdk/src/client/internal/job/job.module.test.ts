@@ -2,7 +2,7 @@ import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
 import { beforeEach, describe, expect, expectTypeOf, it } from "vitest";
 
 import type { IJobOfferWritable } from "../../../models/index.js";
-import type { IJobSearchQuery, IJobSearchResponse } from "../../../routes/job.routes.js";
+import type { IJobSearchQuery, IJobSearchResponse } from "../../../routes/jobs/job.routes.js";
 import { ApiClient } from "../../client.js";
 import { ApiError } from "../apiError.js";
 import { ApiParseError } from "../parser/response.parser.js";

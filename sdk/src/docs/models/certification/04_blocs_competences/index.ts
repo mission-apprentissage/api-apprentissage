@@ -6,22 +6,18 @@ export default {
   fields: {
     blocs_competences,
     "blocs_competences.rncp": <DocTechnicalField>{
-      type: "technical",
       description: "",
       notes: null,
     },
     "blocs_competences.rncp[]": <DocTechnicalField>{
-      type: "technical",
       description: "",
       notes: null,
     },
     "blocs_competences.rncp[].code": <DocTechnicalField>{
-      type: "technical",
       description: "",
       notes: null,
     },
     "blocs_competences.rncp[].intitule": <DocTechnicalField>{
-      type: "technical",
       description: "",
       notes: null,
     },

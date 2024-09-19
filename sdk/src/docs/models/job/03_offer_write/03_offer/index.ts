@@ -15,14 +15,12 @@ export default {
     ["offer.publication.creation"]: offerReadModelDoc.sections[2].fields["offer.publication.creation"],
     ["offer.publication.expiration"]: offerReadModelDoc.sections[2].fields["offer.publication.expiration"],
     ["offer.rome_codes"]: {
-      type: "technical",
       description: "ROME code(s) of the offer",
       notes:
         "If the published offer does not have a ROME code provided, we deduce the ROME codes from the job offer title.",
     },
     ["offer.rome_codes[]"]: offerReadModelDoc.sections[2].fields["offer.rome_codes[]"],
     ["offer.status"]: {
-      type: "technical",
       description: [
         "The status of the offer (life cycle):",
         "- Active: The offer is available on the platform, and applications are open.",

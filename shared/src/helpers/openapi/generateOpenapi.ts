@@ -64,7 +64,13 @@ function getSecurityRequirementObject(route: IRouteSchema): SecurityRequirementO
     return [];
   }
 
-  return [{ [route.securityScheme.auth]: [] }];
+  const habiliations: string[] = [];
+
+  if (route.securityScheme.access) {
+    habiliations.push(route.securityScheme.access);
+  }
+
+  return [{ [route.securityScheme.auth]: habiliations }];
 }
 
 function experimentalGenerateOpenApiPathItem(route: IRouteSchema, registry: OpenAPIRegistry) {
@@ -158,7 +164,8 @@ export function generateOpenApiSchema(version: string, env: string, publicUrl: s
     type: "http",
     scheme: "bearer",
     bearerFormat: "Bearer",
-    description: "Clé d'API à fournir dans le header `Authorization`.",
+    description:
+      "Clé d'API à fournir dans le header `Authorization`. Si la route nécessite une habiliation particulière veuillez contacter le support pour en faire la demande à [support_api@apprentissage.beta.gouv.fr](mailto:support_api@apprentissage.beta.gouv.fr)",
   });
 
   registerOpenApiCertificationSchema(builder);

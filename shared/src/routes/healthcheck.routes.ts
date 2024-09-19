@@ -23,14 +23,6 @@ export const zCoreRoutes = {
         tags: ["Système"] as string[],
       },
     },
-    "/healthcheck/sentry": {
-      method: "get",
-      path: "/healthcheck/sentry",
-      response: {
-        "200": zodOpenApi.never(),
-      },
-      securityScheme: null,
-    },
   },
 } as const satisfies IRoutesDef;
 

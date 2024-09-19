@@ -15,12 +15,16 @@ function convertJobWorkplaceLbaToApi(input: IJobRecruiterLba | IJobOfferLba): IJ
     name: input.workplace_name,
     description: input.workplace_description,
     size: input.workplace_size,
-    address: input.workplace_address,
-    geopoint: input.workplace_geopoint,
-    idcc: input.workplace_idcc,
-    opco: input.workplace_opco,
-    naf:
-      input.workplace_naf_code === null ? null : { code: input.workplace_naf_code, label: input.workplace_naf_label },
+    location: {
+      address: input.workplace_address.label,
+      geopoint: input.workplace_geopoint,
+    },
+    domain: {
+      idcc: input.workplace_idcc,
+      opco: input.workplace_opco,
+      naf:
+        input.workplace_naf_code === null ? null : { code: input.workplace_naf_code, label: input.workplace_naf_label },
+    },
   };
 }
 
@@ -67,8 +71,10 @@ function convertJobOfferLbaToApi(input: IJobOfferLba): IJobOffer {
       desired_skills: input.offer_desired_skills,
       to_be_acquired_skills: input.offer_to_be_acquired_skills,
       access_conditions: input.offer_access_conditions,
-      creation: input.offer_creation,
-      expiration: input.offer_expiration,
+      publication: {
+        creation: input.offer_creation,
+        expiration: input.offer_expiration,
+      },
       opening_count: input.offer_opening_count,
       status: input.offer_status,
     },
@@ -91,82 +97,84 @@ export function convertJobOfferWritableApiToLba(jobOffer: IJobOfferWritable): IJ
   };
 
   if (jobOffer.identifier) {
-    if ("partner_job_id" in jobOffer.identifier) {
+    if (jobOffer.identifier.partner_job_id != null) {
       result.partner_job_id = jobOffer.identifier.partner_job_id;
     }
   }
 
-  if ("name" in jobOffer.workplace) {
+  if (jobOffer.workplace.name != null) {
     result.workplace_name = jobOffer.workplace.name;
   }
-  if ("description" in jobOffer.workplace) {
+  if (jobOffer.workplace.description != null) {
     result.workplace_description = jobOffer.workplace.description;
   }
-  if ("website" in jobOffer.workplace) {
+  if (jobOffer.workplace.website != null) {
     result.workplace_website = jobOffer.workplace.website;
   }
-  if ("address" in jobOffer.workplace) {
-    result.workplace_address_label = jobOffer.workplace.address != null ? jobOffer.workplace.address.label : null;
+  if (jobOffer.workplace.location != null) {
+    result.workplace_address_label = jobOffer.workplace.location.address;
   }
 
-  if ("url" in jobOffer.apply) {
+  if (jobOffer.apply.url != null) {
     result.apply_url = jobOffer.apply.url;
   }
-  if ("phone" in jobOffer.apply) {
+  if (jobOffer.apply.phone != null) {
     result.apply_phone = jobOffer.apply.phone;
   }
-  if ("email" in jobOffer.apply) {
+  if (jobOffer.apply.email != null) {
     result.apply_email = jobOffer.apply.email;
   }
 
   if (jobOffer.contract) {
-    if ("start" in jobOffer.contract) {
+    if (jobOffer.contract.start != null) {
       result.contract_start = jobOffer.contract.start;
     }
-    if ("duration" in jobOffer.contract) {
+    if (jobOffer.contract.duration != null) {
       result.contract_duration = jobOffer.contract.duration;
     }
-    if ("type" in jobOffer.contract) {
+    if (jobOffer.contract.type != null) {
       result.contract_type = jobOffer.contract.type;
     }
-    if ("remote" in jobOffer.contract) {
+    if (jobOffer.contract.remote != null) {
       result.contract_remote = jobOffer.contract.remote;
     }
   }
 
   if (jobOffer.offer) {
-    if ("rome_codes" in jobOffer.offer && jobOffer.offer.rome_codes !== undefined) {
+    if (jobOffer.offer.rome_codes != null) {
       result.offer_rome_codes = jobOffer.offer.rome_codes;
     }
-    if ("target_diploma" in jobOffer.offer && jobOffer.offer.target_diploma !== undefined) {
+    if (jobOffer.offer.target_diploma != null) {
       result.offer_target_diploma_european =
         jobOffer.offer.target_diploma != null ? jobOffer.offer.target_diploma.european : null;
     }
-    if ("desired_skills" in jobOffer.offer && jobOffer.offer.desired_skills != undefined) {
+    if (jobOffer.offer.desired_skills != null) {
       result.offer_desired_skills = jobOffer.offer.desired_skills;
     }
-    if ("to_be_acquired_skills" in jobOffer.offer) {
+    if (jobOffer.offer.to_be_acquired_skills != null) {
       result.offer_to_be_acquired_skills = jobOffer.offer.to_be_acquired_skills;
     }
-    if ("access_conditions" in jobOffer.offer) {
+    if (jobOffer.offer.access_conditions != null) {
       result.offer_access_conditions = jobOffer.offer.access_conditions;
     }
-    if ("creation" in jobOffer.offer) {
-      result.offer_creation = jobOffer.offer.creation;
+    if (jobOffer.offer.publication != null) {
+      if (jobOffer.offer.publication.creation != null) {
+        result.offer_creation = jobOffer.offer.publication.creation;
+      }
+      if (jobOffer.offer.publication.expiration != null) {
+        result.offer_expiration = jobOffer.offer.publication.expiration;
+      }
     }
-    if ("expiration" in jobOffer.offer) {
-      result.offer_expiration = jobOffer.offer.expiration;
-    }
-    if ("opening_count" in jobOffer.offer) {
+    if (jobOffer.offer.opening_count != null) {
       result.offer_opening_count = jobOffer.offer.opening_count;
     }
-    if ("multicast" in jobOffer.offer) {
+    if (jobOffer.offer.multicast != null) {
       result.offer_multicast = jobOffer.offer.multicast;
     }
-    if ("origin" in jobOffer.offer) {
+    if (jobOffer.offer.origin != null) {
       result.offer_origin = jobOffer.offer.origin;
     }
-    // if ("status" in jobOffer.offer) {
+    // if (jobOffer.offer.status != null) {
     //   result.offer_status = jobOffer.offer.status;
     // }
   }

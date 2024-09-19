@@ -80,5 +80,4 @@ export const zSiret = zodOpenApi
   .string()
   .regex(/^\d{9,14}$/, "SIRET does not match the format /^\\d{14}$/")
   .transform((value) => value.padStart(14, "0"))
-  .refine(validateSIRET, { message: "SIRET does not pass the Luhn algorithm" })
-  .openapi({ example: "13002526500013" });
+  .refine(validateSIRET, { message: "SIRET does not pass the Luhn algorithm" });

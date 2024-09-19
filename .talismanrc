@@ -3,6 +3,8 @@ fileignoreconfig:
   checksum: 4877e85f6584402f51877f06f7f48b84a6c717c6b90f7343afbcbe63a232d928
 - filename: server/.env.test
   checksum: 65357f150bfedfebea511b1007eed941983484abf990d87e91fd7477360ad280
+- filename: shared/src/helpers/openapi/__snapshots__/generateOpenapi.test.ts.snap
+  checksum: 731fe26884e71dab84c5a8e4c56c06ffb43dc059df2419759fe8b9c88a9168e1
 scopeconfig:
 - scope: node
 custom_patterns:

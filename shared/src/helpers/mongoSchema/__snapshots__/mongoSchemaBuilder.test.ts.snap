@@ -449,16 +449,8 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
                     "bsonType": "object",
                     "properties": {
                       "code": {
-                        "anyOf": [
-                          {
-                            "bsonType": "string",
-                            "pattern": "^[A-Z]{1}\\d{4}$",
-                          },
-                          {
-                            "bsonType": "string",
-                            "pattern": "^[A-Z]\\d{2}$",
-                          },
-                        ],
+                        "bsonType": "string",
+                        "pattern": "^[A-Z]{1}\\d{2,4}$",
                       },
                       "intitule": {
                         "bsonType": "string",

@@ -3,7 +3,6 @@ import description from "./description.md.js";
 
 export default <DocBusinessField>{
   type: "business",
-  name: "periode_validite.cfd",
   description,
   information: null,
   sample: null,

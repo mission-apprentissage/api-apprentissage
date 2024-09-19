@@ -3,7 +3,6 @@ import tip from "./tip.md.js";
 
 export default <DocBusinessField>{
   type: "business",
-  name: "intitule.niveau",
   description: "Niveau de qualification de la certification professionnelle",
   information: null,
   notes: null,

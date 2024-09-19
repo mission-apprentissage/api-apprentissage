@@ -34,18 +34,20 @@ describe("search", () => {
           name: "ASSEMBLEE NATIONALE",
           description: "Workplace Description",
           size: null,
-          address: {
-            label: "Paris",
+          location: {
+            address: "Paris",
+            geopoint: {
+              coordinates: [2.347, 48.8589],
+              type: "Point",
+            },
           },
-          geopoint: {
-            coordinates: [2.347, 48.8589],
-            type: "Point",
-          },
-          idcc: 1242,
-          opco: "",
-          naf: {
-            code: "84.11Z",
-            label: "Autorité constitutionnelle",
+          domain: {
+            idcc: 1242,
+            opco: "",
+            naf: {
+              code: "84.11Z",
+              label: "Autorité constitutionnelle",
+            },
           },
         },
         apply: {
@@ -73,8 +75,10 @@ describe("search", () => {
             "Organisation: Contrôler la conformité des données ou des documents",
           ],
           access_conditions: ["Ce métier est accessible avec un diplôme de fin d'études secondaires"],
-          creation: new Date("2021-01-01T01:00:00.000+01:00"),
-          expiration: new Date("2021-03-28T17:00:00.000+02:00"),
+          publication: {
+            creation: new Date("2021-01-01T01:00:00.000+01:00"),
+            expiration: new Date("2021-03-28T17:00:00.000+02:00"),
+          },
           opening_count: 1,
           status: "Active",
         },
@@ -93,18 +97,20 @@ describe("search", () => {
           name: "ASSEMBLEE NATIONALE - La vraie",
           description: null,
           size: null,
-          address: {
-            label: "126 RUE DE L'UNIVERSITE 75007 PARIS",
+          location: {
+            address: "126 RUE DE L'UNIVERSITE 75007 PARIS",
+            geopoint: {
+              coordinates: [2.347, 48.8589],
+              type: "Point",
+            },
           },
-          geopoint: {
-            coordinates: [2.347, 48.8589],
-            type: "Point",
-          },
-          idcc: null,
-          opco: null,
-          naf: {
-            code: "8411Z",
-            label: "Administration publique générale",
+          domain: {
+            idcc: null,
+            opco: null,
+            naf: {
+              code: "8411Z",
+              label: "Administration publique générale",
+            },
           },
         },
         apply: {

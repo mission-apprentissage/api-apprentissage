@@ -76,6 +76,22 @@ exports[`generateOpenApiSchema > should be alright /job/v1/offer/{id} 1`] = `
     ],
     "type": "REMOVE",
   },
+  {
+    "path": [
+      "put",
+      "responses",
+      "204",
+      "content",
+    ],
+    "type": "CREATE",
+    "value": {
+      "application/json": {
+        "schema": {
+          "type": "null",
+        },
+      },
+    },
+  },
 ]
 `;
 
@@ -2743,7 +2759,7 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
     "securitySchemes": {
       "api-key": {
         "bearerFormat": "Bearer",
-        "description": "Clé d'API à fournir dans le header \`Authorization\`.",
+        "description": "Clé d'API à fournir dans le header \`Authorization\`. Si la route nécessite une habiliation particulière veuillez contacter le support pour en faire la demande à [support_api@apprentissage.beta.gouv.fr](mailto:support_api@apprentissage.beta.gouv.fr)",
         "scheme": "bearer",
         "type": "http",
       },
@@ -4746,8 +4762,8 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
     },
     "/job/v1/offer": {
       "post": {
-        "description": "Publiez une offre d'emploi en alternance",
-        "operationId": "createJobOffer",
+        "description": "This API allows you to maximize the visibility of your apprenticeship job offers by sharing them with the La bonne alternance service, which then automatically redistributes them to the most relevant candidates on its site as well as its partner sites.",
+        "operationId": "jobOfferCreate",
         "requestBody": {
           "content": {
             "application/json": {
@@ -4765,6 +4781,7 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
                 "schema": {
                   "properties": {
                     "id": {
+                      "description": "Identifier of the created offer",
                       "type": "string",
                     },
                   },
@@ -4775,7 +4792,7 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
                 },
               },
             },
-            "description": "",
+            "description": "Success",
           },
           "400": {
             "content": {
@@ -4870,10 +4887,12 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
         },
         "security": [
           {
-            "api-key": [],
+            "api-key": [
+              "jobs:write",
+            ],
           },
         ],
-        "summary": "Publier une offre d'emploi en alternance",
+        "summary": "Send an apprenticeship job offer",
         "tags": [
           "Job",
         ],
@@ -4881,14 +4900,18 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
     },
     "/job/v1/offer/{id}": {
       "put": {
-        "description": "Modifiez une offre d'emploi en alternance",
-        "operationId": "updateJobOffer",
+        "description": "This API allows you to maximize the visibility of your work-study job offers by sharing them with the service La bonne alternance, which then automatically distributes them closer to candidates on its site and its partner sites.",
+        "operationId": "jobOfferUpdate",
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
             "schema": {
+              "description": "Identifiant unique de l’opportunité d’emploi",
+              "examples": [
+                "6687165396d52b5e01b409545",
+              ],
               "type": "string",
             },
           },
@@ -4905,14 +4928,7 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
         },
         "responses": {
           "204": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "null",
-                },
-              },
-            },
-            "description": "",
+            "description": "Success",
           },
           "400": {
             "content": {
@@ -5007,10 +5023,12 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
         },
         "security": [
           {
-            "api-key": [],
+            "api-key": [
+              "jobs:write",
+            ],
           },
         ],
-        "summary": "Modification d'une offre d'emploi en alternance",
+        "summary": "Modify a work-study job offer.",
         "tags": [
           "Job",
         ],

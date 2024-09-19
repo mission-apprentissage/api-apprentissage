@@ -37,9 +37,9 @@ export type DocModel = {
 export type DocRoute = {
   summary: string;
   description: string;
-  parameters: Record<string, DocTechnicalField>;
+  parameters?: Record<string, DocTechnicalField>;
   response: {
     description: string;
-    _: Record<string, DocTechnicalField>;
+    _?: Record<string, DocTechnicalField>;
   };
 };

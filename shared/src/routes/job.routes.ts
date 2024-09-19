@@ -1,5 +1,10 @@
 import { zApiJobRoutes } from "api-alternance-sdk";
-import { getDocOpenAPIAttributes, jobSearchRouteDoc } from "api-alternance-sdk/internal";
+import {
+  getDocOpenAPIAttributes,
+  jobOfferCreateRouteDoc,
+  jobOfferUpdateRouteDoc,
+  jobSearchRouteDoc,
+} from "api-alternance-sdk/internal";
 import type { OpenApiBuilder, ResponsesObject } from "openapi3-ts/oas31";
 
 import type { IRoutesDef } from "./common.routes.js";
@@ -162,10 +167,10 @@ export function registerJobRoutes(builder: OpenApiBuilder, errorResponses: Respo
     .addPath("/job/v1/offer", {
       post: {
         tags: ["Job"],
-        summary: "Publier une offre d'emploi en alternance",
-        description: "Publiez une offre d'emploi en alternance",
-        operationId: "createJobOffer",
-        security: [{ "api-key": [] }],
+        summary: jobOfferCreateRouteDoc.summary,
+        description: jobOfferCreateRouteDoc.description,
+        operationId: "jobOfferCreate",
+        security: [{ "api-key": ["jobs:write"] }],
         requestBody: {
           required: true,
           content: {
@@ -178,12 +183,14 @@ export function registerJobRoutes(builder: OpenApiBuilder, errorResponses: Respo
         },
         responses: {
           "200": {
-            description: "",
+            description: jobOfferCreateRouteDoc.response.description,
             content: {
               "application/json": {
                 schema: {
                   type: "object",
-                  properties: { id: { type: "string" } },
+                  properties: {
+                    id: { type: "string", ...getDocOpenAPIAttributes(jobOfferCreateRouteDoc.response._.id) },
+                  },
                   required: ["id"],
                 },
               },
@@ -196,13 +203,13 @@ export function registerJobRoutes(builder: OpenApiBuilder, errorResponses: Respo
     .addPath("/job/v1/offer/{id}", {
       put: {
         tags: ["Job"],
-        summary: "Modification d'une offre d'emploi en alternance",
-        description: "Modifiez une offre d'emploi en alternance",
-        operationId: "updateJobOffer",
-        security: [{ "api-key": [] }],
+        summary: jobOfferUpdateRouteDoc.summary,
+        description: jobOfferUpdateRouteDoc.description,
+        operationId: "jobOfferUpdate",
+        security: [{ "api-key": ["jobs:write"] }],
         parameters: [
           {
-            schema: { type: "string" },
+            schema: { type: "string", ...getDocOpenAPIAttributes(jobOfferUpdateRouteDoc.parameters.id) },
             required: true,
             name: "id",
             in: "path",
@@ -220,8 +227,7 @@ export function registerJobRoutes(builder: OpenApiBuilder, errorResponses: Respo
         },
         responses: {
           "204": {
-            description: "",
-            content: { "application/json": { schema: { type: "null" } } },
+            description: jobOfferUpdateRouteDoc.response.description,
           },
           ...errorResponses,
         },

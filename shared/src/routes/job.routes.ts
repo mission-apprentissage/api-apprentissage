@@ -139,6 +139,7 @@ export function registerJobRoutes(builder: OpenApiBuilder, errorResponses: Respo
                                 type: ["string", "null"],
                                 pattern: "^\\d{9,14}$",
                                 description: "Siret de l'entreprise",
+                                examples: ["13002526500013"],
                               },
                               address: {
                                 type: "object",
@@ -406,6 +407,7 @@ export function registerJobRoutes(builder: OpenApiBuilder, errorResponses: Respo
                                 type: ["string", "null"],
                                 pattern: "^\\d{9,14}$",
                                 description: "Siret de l'entreprise",
+                                examples: ["13002526500013"],
                               },
                               address: {
                                 type: "object",
@@ -562,6 +564,7 @@ export function registerJobRoutes(builder: OpenApiBuilder, errorResponses: Respo
                         type: "string",
                         pattern: "^\\d{9,14}$",
                         description: "Siret de l'entreprise",
+                        examples: ["13002526500013"],
                       },
                       name: {
                         type: ["string", "null"],
@@ -781,6 +784,7 @@ export function registerJobRoutes(builder: OpenApiBuilder, errorResponses: Respo
                         type: "string",
                         pattern: "^\\d{9,14}$",
                         description: "Siret de l'entreprise",
+                        examples: ["13002526500013"],
                       },
                       name: {
                         type: ["string", "null"],

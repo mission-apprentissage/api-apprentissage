@@ -4156,7 +4156,9 @@ Notes:
                       },
                       "siret": {
                         "description": "Siret de l'entreprise",
-                        "example": "13002526500013",
+                        "examples": [
+                          "13002526500013",
+                        ],
                         "pattern": "^\\d{9,14}$",
                         "type": "string",
                       },
@@ -4578,7 +4580,9 @@ Notes:
                       },
                       "siret": {
                         "description": "Siret de l'entreprise",
-                        "example": "13002526500013",
+                        "examples": [
+                          "13002526500013",
+                        ],
                         "pattern": "^\\d{9,14}$",
                         "type": "string",
                       },
@@ -5163,7 +5167,9 @@ Notes:
                               },
                               "siret": {
                                 "description": "Siret de l'entreprise",
-                                "example": "13002526500013",
+                                "examples": [
+                                  "13002526500013",
+                                ],
                                 "pattern": "^\\d{9,14}$",
                                 "type": [
                                   "string",
@@ -5363,7 +5369,9 @@ Notes:
                               },
                               "siret": {
                                 "description": "Siret de l'entreprise",
-                                "example": "13002526500013",
+                                "examples": [
+                                  "13002526500013",
+                                ],
                                 "pattern": "^\\d{9,14}$",
                                 "type": [
                                   "string",
@@ -5566,7 +5574,6 @@ Notes:
             "name": "siret",
             "required": false,
             "schema": {
-              "example": "13002526500013",
               "pattern": "^\\d{9,14}$",
               "type": [
                 "string",
@@ -5638,7 +5645,6 @@ Notes:
                               "identifiant": {
                                 "properties": {
                                   "siret": {
-                                    "example": "13002526500013",
                                     "pattern": "^\\d{9,14}$",
                                     "type": "string",
                                   },
@@ -5793,7 +5799,6 @@ Notes:
                             "identifiant": {
                               "properties": {
                                 "siret": {
-                                  "example": "13002526500013",
                                   "pattern": "^\\d{9,14}$",
                                   "type": "string",
                                 },

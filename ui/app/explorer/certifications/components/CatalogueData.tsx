@@ -101,13 +101,15 @@ function DataField({ name, field }: { name: string; field: DocBusinessField }) {
           </Typography>
         )}
         <DsfrMarkdown>{field.description}</DsfrMarkdown>
-        <Box sx={{ display: "flex", gap: fr.spacing("1w"), flexWrap: "wrap" }}>
-          {field.tags.map((tag) => (
-            <Tag color="beigeGrisGalet" key={tag}>
-              {tag}
-            </Tag>
-          ))}
-        </Box>
+        {field.tags != null ? (
+          <Box sx={{ display: "flex", gap: fr.spacing("1w"), flexWrap: "wrap" }}>
+            {field.tags.map((tag) => (
+              <Tag color="beigeGrisGalet" key={tag}>
+                {tag}
+              </Tag>
+            ))}
+          </Box>
+        ) : null}
       </Box>
       <GoodToKnow tip={field.tip} />
       <Box component="hr" sx={{ gridColumn: "1/-1", padding: 0, height: "1px" }} />
@@ -130,7 +132,7 @@ function DataTypologie({ typologie }: { typologie: DocBusinessSection }) {
         <Box component="hr" sx={{ gridColumn: "1/3", padding: 0, height: "1px" }} />
       </Box>
       {Object.entries(typologie.fields).map(([name, field]) =>
-        field.type === "technical" ? null : (
+        "metier" in field && field.metier ? (
           <Box
             sx={{
               display: "grid",
@@ -143,7 +145,7 @@ function DataTypologie({ typologie }: { typologie: DocBusinessSection }) {
             <DataField name={name} field={field} />
             <InformationBox information={field.information} />
           </Box>
-        )
+        ) : null
       )}
     </Box>
   );

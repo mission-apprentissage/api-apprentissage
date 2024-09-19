@@ -32,7 +32,7 @@ function getDocOpenAPIAttributes(field: DocTechnicalField | DocBusinessField): {
     description.push(field.description);
   }
 
-  if (field.type === "business" && field.information) {
+  if ("information" in field && field.information) {
     description.push(field.information);
   }
 
@@ -48,7 +48,7 @@ function getDocOpenAPIAttributes(field: DocTechnicalField | DocBusinessField): {
   }
 
   if (field.examples) {
-    r.examples = field.examples;
+    r.examples = [...field.examples] as unknown[];
   }
 
   return r;

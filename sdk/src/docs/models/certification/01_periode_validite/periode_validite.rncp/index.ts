@@ -2,7 +2,7 @@ import type { DocBusinessField } from "../../../../types.js";
 import description from "./description.md.js";
 
 export default <DocBusinessField>{
-  type: "business",
+  metier: true,
   description,
   information:
     "Un enregistrement au RNCP est de maximum 5 ans, dépassé ce délai toute fiche doit fait l’objet d’une demande de renouvellement.",

@@ -6,17 +6,14 @@ export default {
   fields: {
     base_legale,
     "base_legale.cfd": <DocTechnicalField>{
-      type: "technical",
       description: "",
       notes: null,
     },
     "base_legale.cfd.creation": <DocTechnicalField>{
-      type: "technical",
       description: "",
       notes: null,
     },
     "base_legale.cfd.abrogation": <DocTechnicalField>{
-      type: "technical",
       description: "",
       notes: null,
     },

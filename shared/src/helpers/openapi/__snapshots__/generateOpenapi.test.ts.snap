@@ -5018,14 +5018,23 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
     },
     "/job/v1/search": {
       "get": {
-        "description": "Accédez en temps réel à l'ensemble des opportunités d'emploi en alternance disponibles sur le territoire français et exposez les gratuitement et en marque blanche auprès de vos utilisateurs.",
-        "operationId": "searchJobs",
+        "description": "Access in real-time all apprenticeship job opportunities available in France and offer them to your users for free and under a white-label format.",
+        "operationId": "jobSearch",
         "parameters": [
           {
             "in": "query",
             "name": "longitude",
             "required": false,
             "schema": {
+              "description": "Longitude of the GPS coordinate of the search area.
+
+The search will cover the whole of France if not specified.
+
+This field must be mandatory when used with the longitude field.
+",
+              "examples": [
+                48.8566,
+              ],
               "maximum": 180,
               "minimum": -180,
               "type": [
@@ -5039,6 +5048,15 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
             "name": "latitude",
             "required": false,
             "schema": {
+              "description": "Latitude of the GPS coordinate of the search area.
+
+The search will cover the entire France if not specified.
+
+This field should be mandatory when used with the longitude field.
+",
+              "examples": [
+                2.3522,
+              ],
               "maximum": 90,
               "minimum": -90,
               "type": [
@@ -5053,6 +5071,11 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
             "required": false,
             "schema": {
               "default": 30,
+              "description": "Search radius in km, useful if a latitude and longitude are provided. The value must be between 0 and 200 and will default to 30.
+",
+              "examples": [
+                30,
+              ],
               "maximum": 200,
               "minimum": 0,
               "type": [
@@ -5066,7 +5089,23 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
             "name": "target_diploma_level",
             "required": false,
             "schema": {
+              "description": "Target diploma level at the end of studies.
+
+When filtering by diploma level, we return offers:
+
+- where the target diploma level is unknown / not specified / indifferent
+- **and** where the target diploma level matches the requested diploma level
+
+By filtering on \`4\`, only offers related to this diploma level, as well as those with unknown/unspecified levels, will be returned to you.
+",
               "enum": [
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+              ],
+              "examples": [
                 "3",
                 "4",
                 "5",
@@ -5081,6 +5120,18 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
             "name": "romes",
             "required": false,
             "schema": {
+              "description": "ROME code(s) for the research scope
+
+The ROME corresponds to the Operational Reference for Trades and Jobs designed by France Travail.
+
+List of codes separated by commas
+
+The codes must adhere to the ROME formats
+",
+              "examples": [
+                "F1601,F1201,F1106",
+                "M1806",
+              ],
               "type": "string",
             },
           },
@@ -5089,6 +5140,14 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
             "name": "rncp",
             "required": false,
             "schema": {
+              "description": "RNCP code of the research scope
+
+The RNCP corresponds to the National Directory of Professional Certifications by [France Compétences](https://www.francecompetences.fr/reguler-le-marche/certification-professionnelle/)
+",
+              "examples": [
+                "RNCP34436",
+                "RNCP183",
+              ],
               "pattern": "^RNCP\\d{3,5}$",
               "type": "string",
             },
@@ -5101,18 +5160,48 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
                 "schema": {
                   "properties": {
                     "jobs": {
+                      "description": "List of job offers corresponding to the search.
+
+The offers come from:
+
+- collection on the platform La bonne alternance
+- France Travail
+- publication via API by our partners
+
+Currently, the results are sorted by:
+
+- Source priority (La bonne alternance > France Travail > other partners)
+- Increasing distance (only for a search by location)
+- Decreasing date of creation
+
+The results are limited to 150 per source, and currently, it is not possible to retrieve all the offers matching the search criteria.
+",
                       "items": {
                         "$ref": "#/components/schemas/JobOfferRead",
                       },
                       "type": "array",
                     },
                     "recruiters": {
+                      "description": "List of companies that have not posted a job offer but are likely to hire apprentices in the desired field.
+
+The results are limited to 150, and currently, it is not possible to retrieve all recruiters matching the search criteria.
+",
                       "items": {
                         "$ref": "#/components/schemas/JobRecruiter",
                       },
                       "type": "array",
                     },
                     "warnings": {
+                      "description": "List of warnings related to the search.
+
+France Travail job offers are retrieved in real-time, so in case of an error when calling the France Travail API, the France Travail offers will not be returned and a warning will be added to the response.
+",
+                      "examples": [
+                        {
+                          "code": "WARNING_CODE",
+                          "message": "Some warning message",
+                        },
+                      ],
                       "items": {
                         "properties": {
                           "code": {
@@ -5140,7 +5229,7 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
                 },
               },
             },
-            "description": "",
+            "description": "Success",
           },
           "400": {
             "content": {
@@ -5238,7 +5327,7 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
             "api-key": [],
           },
         ],
-        "summary": "Opportunités d’emploi en alternance",
+        "summary": "Search for apprenticeship job opportunities",
         "tags": [
           "Job",
         ],
@@ -5673,6 +5762,10 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
     {
       "description": "Liste des opérations sur les certifications.",
       "name": "Certifications",
+    },
+    {
+      "description": "Apprenticeship job opportunities",
+      "name": "Job",
     },
     {
       "description": "Liste des routes expérimentales. Attention: ces routes peuvent changer sans préavis.",

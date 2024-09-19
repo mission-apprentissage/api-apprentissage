@@ -1,10 +1,10 @@
 import { z } from "zod";
 
-import { zJobOfferCreateResponseLba } from "../external/laBonneAlternance.api.js";
-import { zRncp } from "../models/internal.js";
-import { zJobOffer, zJobOfferWritable, zJobRecruiter } from "../models/job/job.model.js";
-import { zLatitudeCoerce, zLongitudeCoerce, zOfferTargetDiplomaLevel } from "../models/job/job.primitives.js";
-import type { IApiRoutesDef } from "./common.routes.js";
+import { zJobOfferCreateResponseLba } from "../../external/laBonneAlternance.api.js";
+import { zRncp } from "../../models/internal.js";
+import { zJobOffer, zJobOfferWritable, zJobRecruiter } from "../../models/job/job.model.js";
+import { zLatitudeCoerce, zLongitudeCoerce, zOfferTargetDiplomaLevel } from "../../models/job/job.primitives.js";
+import type { IApiRoutesDef } from "../common.routes.js";
 
 export const zJobSearchQuery = z.object({
   longitude: zLongitudeCoerce.optional(),

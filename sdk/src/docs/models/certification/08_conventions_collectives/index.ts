@@ -6,22 +6,18 @@ export default {
   fields: {
     conventions_collectives,
     "convention_collectives.rncp": <DocTechnicalField>{
-      type: "technical",
       description: "",
       notes: null,
     },
     "convention_collectives.rncp[]": <DocTechnicalField>{
-      type: "technical",
       description: "",
       notes: null,
     },
     "convention_collectives.rncp[].numero": <DocTechnicalField>{
-      type: "technical",
       description: "",
       notes: null,
     },
     "convention_collectives.rncp[].intitule": <DocTechnicalField>{
-      type: "technical",
       description: "",
       notes: null,
     },

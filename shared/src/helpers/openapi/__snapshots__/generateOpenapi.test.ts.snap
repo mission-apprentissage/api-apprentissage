@@ -4928,6 +4928,7 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
         },
         "responses": {
           "204": {
+            "content": undefined,
             "description": "Success",
           },
           "400": {

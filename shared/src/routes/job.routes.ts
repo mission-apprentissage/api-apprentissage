@@ -1,6 +1,6 @@
 import { zApiJobRoutes } from "api-alternance-sdk";
 import {
-  getDocOpenAPIAttributes,
+  addOperationDoc,
   jobOfferCreateRouteDoc,
   jobOfferUpdateRouteDoc,
   jobSearchRouteDoc,
@@ -45,192 +45,183 @@ export const zJobRoutes = {
 export function registerJobRoutes(builder: OpenApiBuilder, errorResponses: ResponsesObject): OpenApiBuilder {
   return builder
     .addPath("/job/v1/search", {
-      get: {
-        tags: ["Job"],
-        summary: jobSearchRouteDoc.summary,
-        description: jobSearchRouteDoc.description,
-        operationId: "jobSearch",
-        security: [{ "api-key": [] }],
-        parameters: [
-          {
-            schema: {
-              ...getDocOpenAPIAttributes(jobSearchRouteDoc.parameters.longitude),
-              type: ["number", "null"],
-              minimum: -180,
-              maximum: 180,
+      get: addOperationDoc(
+        {
+          tags: ["Job"],
+          operationId: "jobSearch",
+          security: [{ "api-key": [] }],
+          parameters: [
+            {
+              schema: {
+                type: ["number", "null"],
+                minimum: -180,
+                maximum: 180,
+              },
+              required: false,
+              name: "longitude",
+              in: "query",
             },
-            required: false,
-            name: "longitude",
-            in: "query",
-          },
-          {
-            schema: {
-              ...getDocOpenAPIAttributes(jobSearchRouteDoc.parameters.latitude),
-              type: ["number", "null"],
-              minimum: -90,
-              maximum: 90,
+            {
+              schema: {
+                type: ["number", "null"],
+                minimum: -90,
+                maximum: 90,
+              },
+              required: false,
+              name: "latitude",
+              in: "query",
             },
-            required: false,
-            name: "latitude",
-            in: "query",
-          },
-          {
-            schema: {
-              ...getDocOpenAPIAttributes(jobSearchRouteDoc.parameters.radius),
-              type: ["number", "null"],
-              minimum: 0,
-              maximum: 200,
-              default: 30,
+            {
+              schema: {
+                type: ["number", "null"],
+                minimum: 0,
+                maximum: 200,
+                default: 30,
+              },
+              required: false,
+              name: "radius",
+              in: "query",
             },
-            required: false,
-            name: "radius",
-            in: "query",
-          },
-          {
-            schema: {
-              ...getDocOpenAPIAttributes(jobSearchRouteDoc.parameters.target_diploma_level),
-              type: "string",
-              enum: ["3", "4", "5", "6", "7"],
+            {
+              schema: {
+                type: "string",
+                enum: ["3", "4", "5", "6", "7"],
+              },
+              required: false,
+              name: "target_diploma_level",
+              in: "query",
             },
-            required: false,
-            name: "target_diploma_level",
-            in: "query",
-          },
-          {
-            schema: {
-              ...getDocOpenAPIAttributes(jobSearchRouteDoc.parameters.romes),
-              type: "string",
+            {
+              schema: {
+                type: "string",
+              },
+              required: false,
+              name: "romes",
+              in: "query",
             },
-            required: false,
-            name: "romes",
-            in: "query",
-          },
-          {
-            schema: {
-              ...getDocOpenAPIAttributes(jobSearchRouteDoc.parameters.rncp),
-              type: "string",
-              pattern: "^RNCP\\d{3,5}$",
+            {
+              schema: {
+                type: "string",
+                pattern: "^RNCP\\d{3,5}$",
+              },
+              required: false,
+              name: "rncp",
+              in: "query",
             },
-            required: false,
-            name: "rncp",
-            in: "query",
-          },
-        ],
-        responses: {
-          "200": {
-            description: jobSearchRouteDoc.response.description,
-            content: {
-              "application/json": {
-                schema: {
-                  type: "object",
-                  properties: {
-                    jobs: {
-                      ...getDocOpenAPIAttributes(jobSearchRouteDoc.response._.jobs),
-                      type: "array",
-                      items: {
-                        $ref: "#/components/schemas/JobOfferRead",
-                      },
-                    },
-                    recruiters: {
-                      ...getDocOpenAPIAttributes(jobSearchRouteDoc.response._.recruiters),
-                      type: "array",
-                      items: {
-                        $ref: "#/components/schemas/JobRecruiter",
-                      },
-                    },
-                    warnings: {
-                      ...getDocOpenAPIAttributes(jobSearchRouteDoc.response._.warnings),
-                      type: "array",
-                      items: {
-                        type: "object",
-                        properties: {
-                          message: {
-                            type: "string",
-                          },
-                          code: {
-                            type: "string",
-                          },
+          ],
+          responses: {
+            "200": {
+              description: jobSearchRouteDoc.response.description,
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      jobs: {
+                        type: "array",
+                        items: {
+                          $ref: "#/components/schemas/JobOfferRead",
                         },
-                        required: ["message", "code"],
+                      },
+                      recruiters: {
+                        type: "array",
+                        items: {
+                          $ref: "#/components/schemas/JobRecruiter",
+                        },
+                      },
+                      warnings: {
+                        type: "array",
+                        items: {
+                          type: "object",
+                          properties: {
+                            message: {
+                              type: "string",
+                            },
+                            code: {
+                              type: "string",
+                            },
+                          },
+                          required: ["message", "code"],
+                        },
                       },
                     },
+                    required: ["jobs", "recruiters", "warnings"],
                   },
-                  required: ["jobs", "recruiters", "warnings"],
                 },
               },
             },
+            ...errorResponses,
           },
-          ...errorResponses,
         },
-      },
+        jobSearchRouteDoc
+      ),
     })
     .addPath("/job/v1/offer", {
-      post: {
-        tags: ["Job"],
-        summary: jobOfferCreateRouteDoc.summary,
-        description: jobOfferCreateRouteDoc.description,
-        operationId: "jobOfferCreate",
-        security: [{ "api-key": ["jobs:write"] }],
-        requestBody: {
-          required: true,
-          content: {
-            "application/json": {
-              schema: {
-                $ref: "#/components/schemas/JobOfferWrite",
-              },
-            },
-          },
-        },
-        responses: {
-          "200": {
-            description: jobOfferCreateRouteDoc.response.description,
+      post: addOperationDoc(
+        {
+          tags: ["Job"],
+          operationId: "jobOfferCreate",
+          security: [{ "api-key": ["jobs:write"] }],
+          requestBody: {
+            required: true,
             content: {
               "application/json": {
                 schema: {
-                  type: "object",
-                  properties: {
-                    id: { type: "string", ...getDocOpenAPIAttributes(jobOfferCreateRouteDoc.response._.id) },
-                  },
-                  required: ["id"],
+                  $ref: "#/components/schemas/JobOfferWrite",
                 },
               },
             },
           },
-          ...errorResponses,
+          responses: {
+            "200": {
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      id: { type: "string" },
+                    },
+                    required: ["id"],
+                  },
+                },
+              },
+            },
+            ...errorResponses,
+          },
         },
-      },
+        jobOfferCreateRouteDoc
+      ),
     })
     .addPath("/job/v1/offer/{id}", {
-      put: {
-        tags: ["Job"],
-        summary: jobOfferUpdateRouteDoc.summary,
-        description: jobOfferUpdateRouteDoc.description,
-        operationId: "jobOfferUpdate",
-        security: [{ "api-key": ["jobs:write"] }],
-        parameters: [
-          {
-            schema: { type: "string", ...getDocOpenAPIAttributes(jobOfferUpdateRouteDoc.parameters.id) },
+      put: addOperationDoc(
+        {
+          tags: ["Job"],
+          operationId: "jobOfferUpdate",
+          security: [{ "api-key": ["jobs:write"] }],
+          parameters: [
+            {
+              schema: { type: "string" },
+              required: true,
+              name: "id",
+              in: "path",
+            },
+          ],
+          requestBody: {
             required: true,
-            name: "id",
-            in: "path",
-          },
-        ],
-        requestBody: {
-          required: true,
-          content: {
-            "application/json": {
-              schema: {
-                $ref: "#/components/schemas/JobOfferWrite",
+            content: {
+              "application/json": {
+                schema: {
+                  $ref: "#/components/schemas/JobOfferWrite",
+                },
               },
             },
           },
-        },
-        responses: {
-          "204": {
-            description: jobOfferUpdateRouteDoc.response.description,
+          responses: {
+            "204": {},
+            ...errorResponses,
           },
-          ...errorResponses,
         },
-      },
+        jobOfferUpdateRouteDoc
+      ),
     });
 }

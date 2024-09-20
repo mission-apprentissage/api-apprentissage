@@ -41,21 +41,24 @@ export const jobSearchRouteDoc = {
   },
   response: {
     description: "Success",
-    _: {
-      jobs: {
-        description: jobs,
-      },
-      recruiters: {
-        description: recruiters,
-      },
-      warnings: {
-        description: warnings,
-        examples: [
-          {
-            message: "Some warning message",
-            code: "WARNING_CODE",
-          },
-        ],
+    content: {
+      description: null,
+      _: {
+        jobs: {
+          description: jobs,
+        },
+        recruiters: {
+          description: recruiters,
+        },
+        warnings: {
+          description: warnings,
+          examples: [
+            {
+              message: "Some warning message",
+              code: "WARNING_CODE",
+            },
+          ],
+        },
       },
     },
   },

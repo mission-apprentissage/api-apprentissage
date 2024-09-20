@@ -40,6 +40,6 @@ export type DocRoute = {
   parameters?: Record<string, DocTechnicalField>;
   response: {
     description: string;
-    _?: Record<string, DocTechnicalField>;
+    content?: DocTechnicalField;
   };
 };

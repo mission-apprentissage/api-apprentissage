@@ -77,7 +77,16 @@ export async function readTmpAsStreamAndCleanup(filePath: string): Promise<ReadS
 }
 
 export async function cleanupTmp(filePath: string): Promise<void> {
-  await rm(dirname(filePath), { force: true, recursive: true });
+  try {
+    await rm(dirname(filePath), { force: true, recursive: true });
+  } catch (error) {
+    // We are ignoring the error if the file does not exist (already cleaned up)
+    if (error.code === "ENOENT") {
+      return;
+    }
+
+    throw withCause(internal("api.utils: unable to cleanup downloaded file"), error);
+  }
 }
 
 export async function downloadFileAsStream(stream: Readable, filename: string): Promise<ReadStream> {

@@ -7,6 +7,7 @@ import { fastifySwagger } from "@fastify/swagger";
 import type { FastifySwaggerUiOptions } from "@fastify/swagger-ui";
 import { fastifySwaggerUi } from "@fastify/swagger-ui";
 import { notFound } from "@hapi/boom";
+import { setupFastifyErrorHandler } from "@sentry/node";
 import type {
   FastifyBaseLogger,
   FastifyInstance,
@@ -95,6 +96,7 @@ export async function bind(app: Server) {
 
   apiKeyUsageMiddleware(app);
   errorMiddleware(app);
+  setupFastifyErrorHandler(app);
 
   return app;
 }

@@ -18,7 +18,8 @@
     "forceConsistentCasingInFileNames": true,
     "allowJs": false,
     "jsx": "react",
-    "noErrorTruncation": true
+    "noErrorTruncation": true,
+    "noUncheckedSideEffectImports": true
   },
   "references": [{ "path": "../sdk" }],
   "include": ["./src/**/*.ts"],

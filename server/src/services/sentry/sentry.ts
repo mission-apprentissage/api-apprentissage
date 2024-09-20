@@ -1,6 +1,5 @@
 import type { FastifySentryOptions } from "@immobiliarelabs/fastify-sentry";
 import fastifySentryPlugin from "@immobiliarelabs/fastify-sentry";
-import { captureConsoleIntegration, extraErrorDataIntegration } from "@sentry/integrations";
 import * as Sentry from "@sentry/node";
 import type { FastifyRequest } from "fastify";
 
@@ -15,10 +14,10 @@ function getOptions(): Sentry.NodeOptions {
     release: config.version,
     enabled: config.env !== "local",
     integrations: [
-      Sentry.httpIntegration({ tracing: true }),
-      new Sentry.Integrations.Mongo({ useMongoose: false }),
-      captureConsoleIntegration({ levels: ["error"] }),
-      extraErrorDataIntegration({ depth: 16 }),
+      Sentry.httpIntegration(),
+      Sentry.mongoIntegration(),
+      Sentry.captureConsoleIntegration({ levels: ["error"] }),
+      Sentry.extraErrorDataIntegration({ depth: 16 }),
     ],
   };
 }
@@ -72,6 +71,8 @@ function extractUserData(request: FastifyRequest): UserData {
 }
 
 export function initSentryFastify(app: Server) {
+  Sentry.setupFastifyErrorHandler(app);
+
   const options: FastifySentryOptions = {
     setErrorHandler: false,
     extractUserData: extractUserData,
@@ -87,27 +88,4 @@ export function initSentryFastify(app: Server) {
 
   // @ts-expect-error
   app.register(fastifySentryPlugin, { options, ...getOptions() });
-}
-
-function getTransation() {
-  return Sentry.getCurrentHub()?.getScope()?.getSpan();
-}
-
-export function startSentryPerfRecording(
-  category: string,
-  operation: string,
-  data: {
-    [key: string]: unknown;
-  } = {}
-): () => void {
-  const childTransaction =
-    getTransation()?.startChild({
-      op: category,
-      description: operation,
-      data,
-    }) ?? null;
-
-  return () => {
-    childTransaction?.finish();
-  };
 }

@@ -29,7 +29,8 @@
     /* Output Formatting */
     "pretty": true,
     "noErrorTruncation": true,
-    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
+    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo",
+    "noUncheckedSideEffectImports": true
   },
   "include": ["./src/**/*.ts"],
   "exclude": ["**/node_modules"],

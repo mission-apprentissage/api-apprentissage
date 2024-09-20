@@ -131,9 +131,9 @@ async function extractNpecZipFile(filepath: string): Promise<ReadStream> {
 
     return await readTmpAsStreamAndCleanup(destFile);
   } catch (error) {
+    readStream.destroy();
     // This will remove the tmp directory
     await cleanupTmp(filepath);
-    readStream.destroy();
     throw error;
   }
 }

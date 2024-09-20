@@ -6,9 +6,9 @@ import {
   captureConsoleIntegration,
   extraErrorDataIntegration,
   httpClientIntegration,
+  init,
   reportingObserverIntegration,
-} from "@sentry/integrations";
-import { init } from "@sentry/nextjs";
+} from "@sentry/nextjs";
 
 import { publicConfig } from "./config.public";
 
@@ -25,14 +25,7 @@ init({
   enabled: publicConfig.env !== "local",
   release: publicConfig.version,
   normalizeDepth: 8,
-  // replaysOnErrorSampleRate: 1.0,
-  // replaysSessionSampleRate: 0.1,
   integrations: [
-    // new Sentry.Replay({
-    //   maskAllText: true,
-    //   blockAllMedia: true,
-    // }),
-    // new Sentry.BrowserTracing(),
     captureConsoleIntegration({ levels: ["error"] }),
     extraErrorDataIntegration({ depth: 8 }),
     httpClientIntegration({}),

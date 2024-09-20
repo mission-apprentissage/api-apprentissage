@@ -10,7 +10,7 @@ import { getHtmlAttributes } from "@codegouvfr/react-dsfr/next-appdir/getHtmlAtt
 import { Box } from "@mui/material";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import { captureException } from "@sentry/nextjs";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import type { PropsWithChildren } from "react";
 import type { IUserPublic } from "shared/models/user.model";
@@ -37,9 +37,12 @@ async function getSession(): Promise<IUserPublic | undefined> {
     return;
   }
 }
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
 
 export const metadata: Metadata = {
-  viewport: "width=device-width, initial-scale=1",
   icons: {
     icon: [{ url: "/favicon.ico" }, { url: "/favicon.svg" }],
     apple: [{ url: "/apple-touch-icon.png" }],

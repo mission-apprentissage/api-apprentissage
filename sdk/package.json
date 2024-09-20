@@ -30,18 +30,18 @@
   },
   "devDependencies": {
     "@tsconfig/node22": "^22.0.0",
-    "@types/node": "^22.2.0",
+    "@types/node": "^22.5.5",
     "nock": "beta",
-    "type-fest": "^4.24.0",
-    "typescript": "^5.5.4",
-    "vitest": "^2.0.5"
+    "type-fest": "^4.26.1",
+    "typescript": "^5.6.2",
+    "vitest": "^2.1.1"
   },
   "dependencies": {
     "@asteasolutions/zod-to-openapi": "^7.1.1",
     "jsonwebtoken": "^9.0.2",
     "luhn": "^2.4.1",
     "luxon": "^3.5.0",
-    "openapi3-ts": "^4.3.3",
+    "openapi3-ts": "^4.4.0",
     "zod": "^3.23.8"
   }
 }

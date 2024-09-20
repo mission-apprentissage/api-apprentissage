@@ -31,7 +31,8 @@
     "skipLibCheck": true,
     /* Output Formatting */
     "pretty": true,
-    "noErrorTruncation": true
+    "noErrorTruncation": true,
+    "noUncheckedSideEffectImports": true
   },
   "references": [{ "path": "../sdk" }, { "path": "../shared" }],
   "include": ["./**/*.ts", "./**/*.js", "**/*.md"],

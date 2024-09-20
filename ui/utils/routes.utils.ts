@@ -1,3 +1,7 @@
+import type { MetadataRoute } from "next";
+
+import { publicConfig } from "@/config.public";
+
 export interface IPage {
   title: string;
   path: string;
@@ -19,77 +23,77 @@ export const PAGES = {
   static: {
     home: {
       title: "Accueil",
-      path: "/",
+      path: "/" as string,
       index: true,
     },
     documentationTechnique: {
       title: "Documentation technique",
-      path: "/documentation-technique",
+      path: "/documentation-technique" as string,
       index: true,
     },
     documentationTechniqueEssayer: {
       title: "Essayer l'API",
-      path: "/documentation-technique/try",
+      path: "/documentation-technique/try" as string,
       index: true,
     },
     explorerApi: {
       title: "Explorer l’API",
-      path: "/explorer",
+      path: "/explorer" as string,
       index: true,
     },
     catalogueDesDonneesCertification: {
       title: "Liste des certifications professionnelles",
-      path: "/explorer/certifications",
+      path: "/explorer/certifications" as string,
       index: true,
     },
     simulateurNpec: {
       title: "Simulateur des Niveaux de Prise en Charge (NPEC)",
-      path: "/explorer/simulateur-npec",
+      path: "/explorer/simulateur-npec" as string,
       index: true,
     },
     mentionsLegales: {
       title: "Mentions Légales",
-      path: "/mentions-legales",
+      path: "/mentions-legales" as string,
       index: true,
     },
     accessibilite: {
       title: "Accessibilité",
-      path: "/accessibilite",
+      path: "/accessibilite" as string,
       index: true,
     },
     cgu: {
       title: "Conditions Générales d'Utilisation",
-      path: "/cgu",
+      path: "/cgu" as string,
       index: true,
     },
     donneesPersonnelles: {
       title: "Données Personnelles",
-      path: "/donnees-personnelles",
+      path: "/donnees-personnelles" as string,
       index: true,
     },
     politiqueConfidentialite: {
       title: "Politique de Confidentialité",
-      path: "/politique-confidentialite",
+      path: "/politique-confidentialite" as string,
       index: true,
     },
     compteProfil: {
       title: "Mon profil",
-      path: "/compte/profil",
+      path: "/compte/profil" as string,
       index: true,
     },
     adminUsers: {
       title: "Gestion des utilisateurs",
-      path: "/admin/utilisateurs",
+      path: "/admin/utilisateurs" as string,
       index: false,
     },
     adminOrganisations: {
       title: "Gestion des organisations",
-      path: "/admin/organisations",
+      path: "/admin/organisations" as string,
       index: false,
     },
     adminProcessor: {
       title: "Administration du processeur",
-      path: "/admin/processeur",
+      path: "/admin/processeur" as string,
       index: false,
     },
   },
@@ -132,3 +136,27 @@ export const PAGES = {
   },
   notion: {},
 } as const satisfies IPages;
+
+function getSitemapItem(page: IPage): MetadataRoute.Sitemap[number] {
+  return {
+    url: `${publicConfig.baseUrl}${page.path}`,
+    alternates: {
+      languages: {
+        fr: `${publicConfig.baseUrl}/fr${page.path}`,
+        en: `${publicConfig.baseUrl}/en${page.path}`,
+      },
+    },
+  };
+}
+
+export function getSitemap(): MetadataRoute.Sitemap {
+  return Object.values(PAGES.static)
+    .filter((page) => page.index)
+    .map(getSitemapItem);
+}
+
+export function isPage(pathname: string): boolean {
+  return Object.values(PAGES.static).some((page) =>
+    page.path === "/" ? pathname === "/" : pathname.startsWith(page.path)
+  );
+}

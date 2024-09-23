@@ -8,7 +8,7 @@ import { publicConfig } from "@/config.public";
 export default function RedocPageClient({ nonce, lang }: { nonce: string; lang: Lang }) {
   return (
     <RedocStandalone
-      specUrl={`${publicConfig.apiEndpoint}/documentation/json`}
+      specUrl={`${publicConfig.apiEndpoint}/swagger.json?lang=${lang}`}
       options={{
         disableSearch: true,
         sortPropsAlphabetically: false,

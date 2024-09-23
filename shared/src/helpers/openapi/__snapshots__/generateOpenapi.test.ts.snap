@@ -1606,11 +1606,11 @@ Notes:
       "JobOfferRead": {
         "properties": {
           "apply": {
-            "description": "Elements for submitting an application:
+            "description": "Eléments qui permettent de déposer une candidature :
 
-- Redirect URL
-- Phone number
-- Company email
+- URL de redirection
+- numéro de téléphone
+- email de l’entreprise
 ",
             "properties": {
               "phone": {
@@ -1643,12 +1643,12 @@ Only European phone numbers are allowed. There is also a check on the nature of 
             "type": "object",
           },
           "contract": {
-            "description": "A contract is described by:
+            "description": "Un contrat est décrit par :
 
-- The type (apprenticeship and/or professionalization).
-- The start date.
-- The duration.
-- The work mode (on-site, remote, or hybrid).
+- Le type (apprentissage et/ou professionnalisation).
+- La date de début.
+- La durée.
+- Le mode de travail (présentiel, télétravail ou hybride).
 ",
             "properties": {
               "duration": {
@@ -1712,10 +1712,10 @@ Only European phone numbers are allowed. There is also a check on the nature of 
             "type": "object",
           },
           "identifier": {
-            "description": "This element includes:
+            "description": "Cet élément regroupe :
 
-- the partner responsible for the job offer
-- the unique identifier of the job offer within the "La bonne alternance" information system
+- le partenaire à l'origine de l'offre d'emploi
+- l'identifiant unique de l'offre d'emploi au sein du système d'information La bonne alternance
 ",
             "properties": {
               "id": {
@@ -1763,15 +1763,21 @@ In the case of La Bonne Alternance, the partner_label is: "La bonne alternance".
             "type": "object",
           },
           "offer": {
-            "description": "A job offer is described by:
+            "description": "Une offre d’emploi est décrite par :
 
-- The title. Example: Web Developer.
-- The description. Example: Designs, develops, and implements a software application project, from the study phase to its integration, for a client or company, according to functional needs and specifications. May lead development projects. May coordinate a team.
-- The targeted diploma level. Example: BP, Bac, other level (Bac) qualifications.
-- The skills or qualities expected for the position. Example: Demonstrate autonomy; Show creativity and inventiveness; Display rigor and precision; Work well in a team.
-- The skills or qualities to be acquired during the apprenticeship. Example: Research, Innovation (Analyze relevant indicators on trends and customer usage; Design and develop a digital solution; Create technical documentation). New technologies (Assemble software components; Design a web application).
-- The conditions for entering the profession. Example: This profession is accessible with a degree from Bac+2 (BTS, DUT) to Master (MIAGE, engineering degree, professional Master, etc.) in computer science. It is also accessible with professional experience in computer science, operating systems, or an application domain. Proficiency in English (technical vocabulary) is required.
-- The work mode (on-site, remote, or hybrid).
+- L’intitulé. Exemple : Développeur / Développeuse web.
+
+- La description. Exemple : Conçoit, développe et met au point un projet d'application informatique, de la phase d'étude à son intégration, pour un client ou une entreprise selon des besoins fonctionnels et un cahier des charges. Peut conduire des projets de développement. Peut coordonner une équipe.
+
+- Le niveau de diplôme visé. Exemple : BP, Bac, autres formations niveau (Bac)
+
+- Les compétences ou qualités attendues pour le poste. Exemple : Faire preuve d'autonomie ; Faire preuve de créativité, d'inventivité ; Faire preuve de rigueur et de précision ; Travailler en équipe
+
+- Les compétences ou qualités à acquérir durant l'alternance. Exemple : Recherche, Innovation (Analyser les indicateurs pertinents sur les tendances et les usages des clients ; Concevoir et développer une solution digitale ; Créer une documentation technique). Nouvelles technologies (Assembler des composants logiciels ; Concevoir une application web)
+
+- Les conditions d’accès au métier. Exemple : Ce métier est accessible avec un diplôme de niveau Bac+2 (BTS, DUT) à Master (MIAGE, diplôme d'ingénieur, Master professionnel, ...) en informatique. Il est également accessible avec une expérience professionnelle en informatique, système d'exploitation ou dans un domaine applicatif. La pratique de l'anglais (vocabulaire technique) est requise.
+
+- Le mode de travail (présentiel, télétravail ou hybride).
 
 
 The ROME corresponds to the Operational Reference for Jobs and Occupations. Designed by France Travail (formerly Pôle Emploi), this reference system presents all professions grouped into profiles, organized by professional fields.",
@@ -1820,7 +1826,7 @@ The ROME corresponds to the Operational Reference for Jobs and Occupations. Desi
                 "type": "number",
               },
               "publication": {
-                "description": "A job opportunity has a life cycle: a creation date and an expiration date.
+                "description": "Une opportunité d’emploi possède un cycle de vie : une date de création et une date d'expiration.
 ",
                 "properties": {
                   "creation": {
@@ -1865,11 +1871,11 @@ The ROME corresponds to the Operational Reference for Jobs and Occupations. Desi
                 "type": "array",
               },
               "status": {
-                "description": "The status of the offer (life cycle):
+                "description": "Le statut de l'offre (cycle de vie) :
 
-- Active: The offer is available on the platform, and applications are open.
-- Filled: The offer has been filled and is no longer available.
-- Cancelled: The offer has been canceled and is no longer available.
+- Active : L'offre est disponible sur la plateforme et il est possible d'y postuler.
+- Filled : L'offre a été pourvue et n'est donc plus disponible.
+- Cancelled : L'offre a été annulée et n'est donc plus disponible.
 
 
 Notes:
@@ -1957,12 +1963,12 @@ Only active offers are returned by the search.",
             "type": "object",
           },
           "workplace": {
-            "description": "This element includes:
+            "description": "Cet élement regroupe :
 
-- The name (brand name or, failing that, the company name) and the SIRET number of the company.
-- The description of the employer and/or the department where the contract will be carried out.
-- The company's workforce range, in terms of the number of employees.
-- The company's website.
+- Le nom (enseigne ou à défaut, raison sociale) et le numéro SIRET de l’entreprise.
+- La description de l’employeur et/ou du service où s’exécutera le contrat.
+- La tranche effectif de l’entreprise, en nombre de salariés.
+- Le site web de l’entreprise.
 ",
             "properties": {
               "brand": {
@@ -1986,11 +1992,11 @@ Only active offers are returned by the search.",
                 ],
               },
               "domain": {
-                "description": "Groups elements that describe the field to which the company's SIRET number is linked:
+                "description": "Regroupe des éléments qui décrivent le domaine auquel est rattaché le numéro SIRET de l’entreprise :
 
-The French Classification of Activities (NAF). Produced by INSEE, its aim is to facilitate the organization of economic and social information.
-The IDCC number of the collective agreement. Produced by the ministry responsible for labor (Dares and DGT) and the one responsible for agriculture.
-The Competency Operator (OPCO) responsible for managing the funding of the contract.
+- La Nomenclature d’Activité Française (NAF). Produite par l’INSEE, elle a pour objectif de faciliter l'organisation de l'information économique et sociale.
+- Le numéro IDCC de la convention collective. Produit par le ministère chargé du travail (Dares et DGT) et celui chargé de l’agriculture.
+- L’Opérateur de Compétence (OPCO) de rattachement pouvant prendre en charge le financement du contrat.
 ",
                 "properties": {
                   "idcc": {
@@ -2059,7 +2065,7 @@ The Competency Operator (OPCO) responsible for managing the funding of the contr
                 ],
               },
               "location": {
-                "description": "Postal address and geolocation linked to the company's SIRET number
+                "description": "Adresse postale et géolocalisation rattachées au numéro SIRET de l’entreprise
 ",
                 "properties": {
                   "address": {
@@ -2197,11 +2203,11 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
       "JobOfferWrite": {
         "properties": {
           "apply": {
-            "description": "Elements for submitting an application:
+            "description": "Eléments qui permettent de déposer une candidature :
 
-- Redirect URL
-- Phone number
-- Company email
+- URL de redirection
+- numéro de téléphone
+- email de l’entreprise
 
 
 At least one application method must be provided when submitting an offer. (either URL, phone, or email)",
@@ -2246,12 +2252,12 @@ Only European phone numbers are allowed. There is also a check on the nature of 
             "type": "object",
           },
           "contract": {
-            "description": "A contract is described by:
+            "description": "Un contrat est décrit par :
 
-- The type (apprenticeship and/or professionalization).
-- The start date.
-- The duration.
-- The work mode (on-site, remote, or hybrid).
+- Le type (apprentissage et/ou professionnalisation).
+- La date de début.
+- La durée.
+- Le mode de travail (présentiel, télétravail ou hybride).
 ",
             "properties": {
               "duration": {
@@ -2309,10 +2315,10 @@ Only European phone numbers are allowed. There is also a check on the nature of 
             "type": "object",
           },
           "identifier": {
-            "description": "This element includes:
+            "description": "Cet élément regroupe :
 
-- the partner responsible for the job offer
-- the unique identifier of the job offer within the "La bonne alternance" information system
+- le partenaire à l'origine de l'offre d'emploi
+- l'identifiant unique de l'offre d'emploi au sein du système d'information La bonne alternance
 ",
             "properties": {
               "partner_job_id": {
@@ -2329,15 +2335,21 @@ Only European phone numbers are allowed. There is also a check on the nature of 
             "type": "object",
           },
           "offer": {
-            "description": "A job offer is described by:
+            "description": "Une offre d’emploi est décrite par :
 
-- The title. Example: Web Developer.
-- The description. Example: Designs, develops, and implements a software application project, from the study phase to its integration, for a client or company, according to functional needs and specifications. May lead development projects. May coordinate a team.
-- The targeted diploma level. Example: BP, Bac, other level (Bac) qualifications.
-- The skills or qualities expected for the position. Example: Demonstrate autonomy; Show creativity and inventiveness; Display rigor and precision; Work well in a team.
-- The skills or qualities to be acquired during the apprenticeship. Example: Research, Innovation (Analyze relevant indicators on trends and customer usage; Design and develop a digital solution; Create technical documentation). New technologies (Assemble software components; Design a web application).
-- The conditions for entering the profession. Example: This profession is accessible with a degree from Bac+2 (BTS, DUT) to Master (MIAGE, engineering degree, professional Master, etc.) in computer science. It is also accessible with professional experience in computer science, operating systems, or an application domain. Proficiency in English (technical vocabulary) is required.
-- The work mode (on-site, remote, or hybrid).
+- L’intitulé. Exemple : Développeur / Développeuse web.
+
+- La description. Exemple : Conçoit, développe et met au point un projet d'application informatique, de la phase d'étude à son intégration, pour un client ou une entreprise selon des besoins fonctionnels et un cahier des charges. Peut conduire des projets de développement. Peut coordonner une équipe.
+
+- Le niveau de diplôme visé. Exemple : BP, Bac, autres formations niveau (Bac)
+
+- Les compétences ou qualités attendues pour le poste. Exemple : Faire preuve d'autonomie ; Faire preuve de créativité, d'inventivité ; Faire preuve de rigueur et de précision ; Travailler en équipe
+
+- Les compétences ou qualités à acquérir durant l'alternance. Exemple : Recherche, Innovation (Analyser les indicateurs pertinents sur les tendances et les usages des clients ; Concevoir et développer une solution digitale ; Créer une documentation technique). Nouvelles technologies (Assembler des composants logiciels ; Concevoir une application web)
+
+- Les conditions d’accès au métier. Exemple : Ce métier est accessible avec un diplôme de niveau Bac+2 (BTS, DUT) à Master (MIAGE, diplôme d'ingénieur, Master professionnel, ...) en informatique. Il est également accessible avec une expérience professionnelle en informatique, système d'exploitation ou dans un domaine applicatif. La pratique de l'anglais (vocabulaire technique) est requise.
+
+- Le mode de travail (présentiel, télétravail ou hybride).
 
 
 The ROME corresponds to the Operational Reference for Jobs and Occupations. Designed by France Travail (formerly Pôle Emploi), this reference system presents all professions grouped into profiles, organized by professional fields.",
@@ -2397,7 +2409,7 @@ The ROME corresponds to the Operational Reference for Jobs and Occupations. Desi
                 ],
               },
               "publication": {
-                "description": "A job opportunity has a life cycle: a creation date and an expiration date.
+                "description": "Une opportunité d’emploi possède un cycle de vie : une date de création et une date d'expiration.
 ",
                 "properties": {
                   "creation": {
@@ -2496,12 +2508,12 @@ If the published offer does not have a ROME code provided, we deduce the ROME co
             "type": "object",
           },
           "workplace": {
-            "description": "This element includes:
+            "description": "Cet élement regroupe :
 
-- The name (brand name or, failing that, the company name) and the SIRET number of the company.
-- The description of the employer and/or the department where the contract will be carried out.
-- The company's workforce range, in terms of the number of employees.
-- The company's website.
+- Le nom (enseigne ou à défaut, raison sociale) et le numéro SIRET de l’entreprise.
+- La description de l’employeur et/ou du service où s’exécutera le contrat.
+- La tranche effectif de l’entreprise, en nombre de salariés.
+- Le site web de l’entreprise.
 ",
             "properties": {
               "description": {
@@ -2515,7 +2527,7 @@ If the published offer does not have a ROME code provided, we deduce the ROME co
                 ],
               },
               "location": {
-                "description": "Postal address and geolocation linked to the company's SIRET number
+                "description": "Adresse postale et géolocalisation rattachées au numéro SIRET de l’entreprise
 ",
                 "properties": {
                   "address": {
@@ -2594,11 +2606,11 @@ The information \`brand\` \`legal_name\` \`size\` \`idcc\` \`opco\` \`naf\` is a
       "JobRecruiter": {
         "properties": {
           "apply": {
-            "description": "Elements for submitting an application:
+            "description": "Eléments qui permettent de déposer une candidature :
 
-- Redirect URL
-- Phone number
-- Company email
+- URL de redirection
+- numéro de téléphone
+- email de l’entreprise
 ",
             "properties": {
               "phone": {
@@ -2631,10 +2643,10 @@ Only European phone numbers are allowed. There is also a check on the nature of 
             "type": "object",
           },
           "identifier": {
-            "description": "This element includes:
+            "description": "Cet élément regroupe :
 
-- the partner responsible for the job offer
-- the unique identifier of the job offer within the "La bonne alternance" information system
+- le partenaire à l'origine de l'offre d'emploi
+- l'identifiant unique de l'offre d'emploi au sein du système d'information La bonne alternance
 ",
             "properties": {
               "id": {
@@ -2651,12 +2663,12 @@ Only European phone numbers are allowed. There is also a check on the nature of 
             "type": "object",
           },
           "workplace": {
-            "description": "This element includes:
+            "description": "Cet élement regroupe :
 
-- The name (brand name or, failing that, the company name) and the SIRET number of the company.
-- The description of the employer and/or the department where the contract will be carried out.
-- The company's workforce range, in terms of the number of employees.
-- The company's website.
+- Le nom (enseigne ou à défaut, raison sociale) et le numéro SIRET de l’entreprise.
+- La description de l’employeur et/ou du service où s’exécutera le contrat.
+- La tranche effectif de l’entreprise, en nombre de salariés.
+- Le site web de l’entreprise.
 ",
             "properties": {
               "brand": {
@@ -2680,11 +2692,11 @@ Only European phone numbers are allowed. There is also a check on the nature of 
                 ],
               },
               "domain": {
-                "description": "Groups elements that describe the field to which the company's SIRET number is linked:
+                "description": "Regroupe des éléments qui décrivent le domaine auquel est rattaché le numéro SIRET de l’entreprise :
 
-The French Classification of Activities (NAF). Produced by INSEE, its aim is to facilitate the organization of economic and social information.
-The IDCC number of the collective agreement. Produced by the ministry responsible for labor (Dares and DGT) and the one responsible for agriculture.
-The Competency Operator (OPCO) responsible for managing the funding of the contract.
+- La Nomenclature d’Activité Française (NAF). Produite par l’INSEE, elle a pour objectif de faciliter l'organisation de l'information économique et sociale.
+- Le numéro IDCC de la convention collective. Produit par le ministère chargé du travail (Dares et DGT) et celui chargé de l’agriculture.
+- L’Opérateur de Compétence (OPCO) de rattachement pouvant prendre en charge le financement du contrat.
 ",
                 "properties": {
                   "idcc": {
@@ -2753,7 +2765,7 @@ The Competency Operator (OPCO) responsible for managing the funding of the contr
                 ],
               },
               "location": {
-                "description": "Postal address and geolocation linked to the company's SIRET number
+                "description": "Adresse postale et géolocalisation rattachées au numéro SIRET de l’entreprise
 ",
                 "properties": {
                   "address": {

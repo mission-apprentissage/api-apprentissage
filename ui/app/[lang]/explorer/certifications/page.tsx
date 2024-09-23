@@ -3,6 +3,7 @@ import { Breadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
 import { Box, Container } from "@mui/material";
 import { certificationModelDoc } from "api-alternance-sdk/internal";
 
+import type { PropsWithLangParams } from "@/app/i18n/settings";
 import { DsfrLink } from "@/components/link/DsfrLink";
 import { PAGES } from "@/utils/routes.utils";
 
@@ -10,7 +11,7 @@ import { CatalogueData } from "./components/CatalogueData";
 import { CatalogueHeadline } from "./components/CatalogueDonneeHeadline";
 import { DataSources } from "./components/DataSources";
 
-export default function CatalogueCertificationPage() {
+export default function CatalogueCertificationPage({ params: { lang } }: PropsWithLangParams) {
   return (
     <Container maxWidth="xl" sx={{ marginTop: fr.spacing("2w"), marginBottom: fr.spacing("9w") }}>
       <Breadcrumb
@@ -34,7 +35,7 @@ export default function CatalogueCertificationPage() {
       </Box>
 
       <CatalogueHeadline />
-      <CatalogueData model={certificationModelDoc} />
+      <CatalogueData model={certificationModelDoc} lang={lang} />
       <DataSources sources={certificationModelDoc.sources} />
     </Container>
   );

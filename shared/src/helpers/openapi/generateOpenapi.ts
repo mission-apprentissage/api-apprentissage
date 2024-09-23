@@ -117,7 +117,7 @@ export function experimentalGenerateOpenApiPathsObject(routes: IRoutesDef): Path
   return paths;
 }
 
-export function generateOpenApiSchema(version: string, env: string, publicUrl: string) {
+export function generateOpenApiSchema(version: string, env: string, publicUrl: string, lang: "en" | "fr") {
   const builder = new OpenApiBuilder({
     openapi: "3.1.0",
     info: {
@@ -168,13 +168,13 @@ export function generateOpenApiSchema(version: string, env: string, publicUrl: s
       "Clé d'API à fournir dans le header `Authorization`. Si la route nécessite une habiliation particulière veuillez contacter le support pour en faire la demande à [support_api@apprentissage.beta.gouv.fr](mailto:support_api@apprentissage.beta.gouv.fr)",
   });
 
-  registerOpenApiCertificationSchema(builder);
-  registerOpenApiJobModel(builder);
+  registerOpenApiCertificationSchema(builder, lang);
+  registerOpenApiJobModel(builder, lang);
   registerOpenApiErrorsSchema(builder);
 
   registerHealhcheckRoutes(builder);
   registerCertificationRoutes(builder);
-  registerJobRoutes(builder);
+  registerJobRoutes(builder, lang);
   registerOrganismeRoutes(builder);
 
   return builder.getSpec();

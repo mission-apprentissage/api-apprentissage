@@ -429,6 +429,6 @@ const schema: SchemaObject = {
   ],
 };
 
-export function registerOpenApiCertificationSchema(builder: OpenApiBuilder): OpenApiBuilder {
-  return builder.addSchema("Certification", addSchemaDoc(schema, certificationModelDoc));
+export function registerOpenApiCertificationSchema(builder: OpenApiBuilder, lang: "en" | "fr"): OpenApiBuilder {
+  return builder.addSchema("Certification", addSchemaDoc(schema, certificationModelDoc, lang));
 }

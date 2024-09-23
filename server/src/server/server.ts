@@ -20,6 +20,7 @@ import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import { serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
 import { generateOpenApiSchema } from "shared/helpers/openapi/generateOpenapi";
 import type { IRouteSchema, WithSecurityScheme } from "shared/routes/common.routes";
+import { z } from "zod";
 
 import config from "@/config.js";
 import { initSentryFastify } from "@/services/sentry/sentry.js";
@@ -44,14 +45,13 @@ export async function bind(app: Server) {
   app.setValidatorCompiler(validatorCompiler);
   app.setSerializerCompiler(serializerCompiler);
 
+  const frSwaggerDoc = generateOpenApiSchema(config.version, config.env, config.apiPublicUrl, "fr");
+  const enSwaggerDoc = generateOpenApiSchema(config.version, config.env, config.apiPublicUrl, "en");
+
   const swaggerOpts: FastifyStaticSwaggerOptions = {
     mode: "static",
     specification: {
-      document: generateOpenApiSchema(
-        config.version,
-        config.env,
-        config.apiPublicUrl
-      ) as StaticDocumentSpec["document"],
+      document: enSwaggerDoc as StaticDocumentSpec["document"],
     },
   };
   await app.register(fastifySwagger, swaggerOpts);
@@ -69,6 +69,18 @@ export async function bind(app: Server) {
     },
   };
   await app.register(fastifySwaggerUi, swaggerUiOptions);
+
+  app.get(
+    "/api/swagger.json",
+    {
+      schema: {
+        querystring: z.object({ lang: z.string().optional() }),
+      },
+    },
+    async (req, res) => {
+      return res.header("content-type", "application/json").send(req.query.lang === "fr" ? frSwaggerDoc : enSwaggerDoc);
+    }
+  );
 
   app.register(fastifyCookie);
   app.decorate("auth", <S extends IRouteSchema & WithSecurityScheme>(scheme: S) => auth(scheme));

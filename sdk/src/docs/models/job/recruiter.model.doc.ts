@@ -1,9 +1,14 @@
 import type { DataSource, DocModel } from "../../types.js";
-import applyDesc from "./recruiter_docs/apply.description.md.js";
-import identifierDesc from "./recruiter_docs/identifier.description.md.js";
-import workplaceDesc from "./recruiter_docs/workplace.description.md.js";
-import workplaceDomainDesc from "./recruiter_docs/workplace.domain.description.md.js";
-import workplaceLocationDesc from "./recruiter_docs/workplace.location.description.md.js";
+import applyDescEn from "./recruiter_docs/en/apply.description.md.js";
+import identifierDescEn from "./recruiter_docs/en/identifier.description.md.js";
+import workplaceDescEn from "./recruiter_docs/en/workplace.description.md.js";
+import workplaceDomainDescEn from "./recruiter_docs/en/workplace.domain.description.md.js";
+import workplaceLocationDescEn from "./recruiter_docs/en/workplace.location.description.md.js";
+import applyDescFr from "./recruiter_docs/fr/apply.description.md.js";
+import identifierDescFr from "./recruiter_docs/fr/identifier.description.md.js";
+import workplaceDescFr from "./recruiter_docs/fr/workplace.description.md.js";
+import workplaceDomainDescFr from "./recruiter_docs/fr/workplace.domain.description.md.js";
+import workplaceLocationDescFr from "./recruiter_docs/fr/workplace.location.description.md.js";
 
 const sources: DataSource[] = [
   {
@@ -22,7 +27,7 @@ export const recruiterModelDoc = {
     identifier: {
       metier: true,
       section: { en: "Identifier", fr: null },
-      description: { en: identifierDesc, fr: null },
+      description: { en: identifierDescEn, fr: identifierDescFr },
       tags: [],
       _: {
         id: {
@@ -34,7 +39,7 @@ export const recruiterModelDoc = {
     workplace: {
       metier: true,
       section: { en: "Workplace", fr: null },
-      description: { en: workplaceDesc, fr: null },
+      description: { en: workplaceDescEn, fr: workplaceDescFr },
       tags: [],
       _: {
         siret: {
@@ -76,7 +81,7 @@ export const recruiterModelDoc = {
         location: {
           section: { en: "Workplace", fr: null },
           metier: true,
-          description: { en: workplaceLocationDesc, fr: null },
+          description: { en: workplaceLocationDescEn, fr: workplaceLocationDescFr },
           tags: [],
           _: {
             address: {
@@ -111,7 +116,7 @@ export const recruiterModelDoc = {
         domain: {
           section: { en: "Workplace", fr: null },
           metier: true,
-          description: { en: workplaceDomainDesc, fr: null },
+          description: { en: workplaceDomainDescEn, fr: workplaceDomainDescFr },
           tags: [],
           _: {
             idcc: {
@@ -145,7 +150,7 @@ export const recruiterModelDoc = {
     apply: {
       section: { en: "Apply", fr: null },
       metier: true,
-      description: { en: applyDesc, fr: null },
+      description: { en: applyDescEn, fr: applyDescFr },
       tags: [],
       _: {
         phone: {

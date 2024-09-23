@@ -1,6 +1,7 @@
 import type { DataSource, DocModel } from "../../types.js";
 import { offerReadModelDoc } from "./offer_read.model.doc.js";
-import applyDesc from "./offer_write_docs/apply.description.md.js";
+import applyDescEn from "./offer_write_docs/en/apply.description.md.js";
+import applyDescFr from "./offer_write_docs/fr/apply.description.md.js";
 
 const sources: DataSource[] = [
   {
@@ -90,7 +91,7 @@ export const offerWriteModelDoc = {
     },
     apply: {
       ...offerReadModelDoc._.apply,
-      description: { en: applyDesc, fr: null },
+      description: { en: applyDescEn, fr: applyDescFr },
       information: {
         en: "At least one application method must be provided when submitting an offer. (either URL, phone, or email)",
         fr: null,

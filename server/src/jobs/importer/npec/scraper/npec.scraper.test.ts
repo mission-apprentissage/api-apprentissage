@@ -188,7 +188,7 @@ describe("downloadXlsxNPECFile", () => {
 
     const result = await downloadXlsxNPECFile(url);
 
-    expect(readStreamData(result)).resolves.toBe("file content");
+    await expect(readStreamData(result)).resolves.toBe("file content");
     expect(scope.isDone()).toBe(true);
   });
 
@@ -202,7 +202,7 @@ describe("downloadXlsxNPECFile", () => {
 
     const result = await downloadXlsxNPECFile(url);
 
-    expect(readStreamData(result)).resolves.toBe("file content");
+    await expect(readStreamData(result)).resolves.toBe("file content");
     expect(scope.isDone()).toBe(true);
   });
 
@@ -254,7 +254,7 @@ describe("downloadXlsxNPECFile", () => {
         );
 
         const result = await downloadXlsxNPECFile(`https://www.francecompetences.fr/upload/${filename}.xlsb.zip`);
-        expect(readStreamData(result)).resolves.toBe("file content\n");
+        await expect(readStreamData(result)).resolves.toBe("file content\n");
         expect(getStaticFilePath).toHaveBeenCalledTimes(1);
         expect(getStaticFilePath).toHaveBeenCalledWith(`npec/${filename}.xlsx`);
       } catch (e) {

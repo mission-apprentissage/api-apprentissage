@@ -14,10 +14,15 @@ function extendZodWithOpenApi<T extends typeof z>(zod: T): T {
 const zodOpenApi = extendZodWithOpenApi(z);
 
 function getTextOpenAPI<T extends OpenApiText | null | undefined>(
-  value: T
+  value: T,
+  lang: "fr" | "en"
 ): T extends null | undefined ? null : string {
   if (value == null) {
     return null as T extends null | undefined ? null : string;
+  }
+
+  if (value[lang]) {
+    return value[lang] as T extends null | undefined ? null : string;
   }
 
   const text = Object.values(value).find((v) => v !== null);
@@ -29,23 +34,26 @@ function getTextOpenAPI<T extends OpenApiText | null | undefined>(
   return text as T extends null | undefined ? null : string;
 }
 
-function getDocOpenAPIAttributes(field: DocTechnicalField | DocBusinessField): {
+function getDocOpenAPIAttributes(
+  field: DocTechnicalField | DocBusinessField,
+  lang: "en" | "fr"
+): {
   description?: string;
   examples?: unknown[];
 } {
   const description: string[] = [];
 
   if (field.description) {
-    description.push(getTextOpenAPI(field.description));
+    description.push(getTextOpenAPI(field.description, lang));
   }
 
   if ("information" in field && field.information) {
-    description.push(getTextOpenAPI(field.information));
+    description.push(getTextOpenAPI(field.information, lang));
   }
 
   if (field.notes) {
     description.push("Notes:");
-    description.push(getTextOpenAPI(field.notes));
+    description.push(getTextOpenAPI(field.notes, lang));
   }
 
   const r: { description?: string; examples?: unknown[] } = {};
@@ -75,12 +83,16 @@ function pickPropertiesOpenAPI<T extends Record<string, SchemaObject>, K extends
   );
 }
 
-function addSchemaDoc<T extends SchemaObject | ReferenceObject | undefined>(schema: T, doc: DocTechnicalField): T {
+function addSchemaDoc<T extends SchemaObject | ReferenceObject | undefined>(
+  schema: T,
+  doc: DocTechnicalField,
+  lang: "en" | "fr"
+): T {
   if (!schema || "$ref" in schema) {
     return schema;
   }
 
-  const output: SchemaObject = { ...schema, ...getDocOpenAPIAttributes(doc) };
+  const output: SchemaObject = { ...schema, ...getDocOpenAPIAttributes(doc, lang) };
 
   const docProperties = doc._;
 
@@ -88,7 +100,7 @@ function addSchemaDoc<T extends SchemaObject | ReferenceObject | undefined>(sche
     output.properties = Object.entries(output.properties).reduce(
       (acc, [prop, propSchema]) => {
         if (prop in docProperties) {
-          acc[prop] = addSchemaDoc(propSchema, docProperties[prop]);
+          acc[prop] = addSchemaDoc(propSchema, docProperties[prop], lang);
         } else {
           acc[prop] = propSchema;
         }
@@ -100,13 +112,13 @@ function addSchemaDoc<T extends SchemaObject | ReferenceObject | undefined>(sche
   }
 
   if (output.items && docProperties) {
-    output.items = addSchemaDoc(output.items, docProperties["[]"]);
+    output.items = addSchemaDoc(output.items, docProperties["[]"], lang);
   }
 
   if (output.prefixItems && docProperties) {
     output.prefixItems = output.prefixItems.map((item, index): SchemaObject | ReferenceObject => {
       if (index in docProperties) {
-        return addSchemaDoc(item, docProperties[index]);
+        return addSchemaDoc(item, docProperties[index], lang);
       }
       return item;
     });
@@ -117,7 +129,8 @@ function addSchemaDoc<T extends SchemaObject | ReferenceObject | undefined>(sche
 
 function addContentObjectDoc<T extends ContentObject | undefined>(
   content: T,
-  doc: DocTechnicalField | undefined
+  doc: DocTechnicalField | undefined,
+  lang: "en" | "fr"
 ): ContentObject | undefined {
   if (!content || !doc) {
     return content;
@@ -131,14 +144,14 @@ function addContentObjectDoc<T extends ContentObject | undefined>(
 
     acc[mediaType] = {
       ...media,
-      schema: addSchemaDoc(media.schema, doc),
+      schema: addSchemaDoc(media.schema, doc, lang),
     };
 
     return acc;
   }, {} as ContentObject);
 }
 
-function addOperationDoc(operation: OperationObject, doc: DocRoute): OperationObject {
+function addOperationDoc(operation: OperationObject, doc: DocRoute, lang: "en" | "fr"): OperationObject {
   const output = structuredClone(operation);
 
   output.summary = doc.summary;
@@ -162,7 +175,7 @@ function addOperationDoc(operation: OperationObject, doc: DocRoute): OperationOb
 
       return {
         ...param,
-        schema: addSchemaDoc(param.schema, docParams[param.name]),
+        schema: addSchemaDoc(param.schema, docParams[param.name], lang),
       };
     });
   }
@@ -184,7 +197,7 @@ function addOperationDoc(operation: OperationObject, doc: DocRoute): OperationOb
         acc[code] = {
           ...response,
           description: docResponse.description,
-          content: addContentObjectDoc(response.content, docResponse.content),
+          content: addContentObjectDoc(response.content, docResponse.content, lang),
         };
 
         return acc;

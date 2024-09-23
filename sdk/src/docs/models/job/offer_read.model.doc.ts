@@ -1,8 +1,12 @@
 import type { DataSource, DocModel } from "../../types.js";
-import contractDesc from "./offer_read_docs/contract.description.md.js";
-import offerDesc from "./offer_read_docs/offer.description.md.js";
-import offerPublicationDesc from "./offer_read_docs/offer.publication.description.md.js";
-import offerStatusDesc from "./offer_read_docs/offer.status.description.md.js";
+import contractDescEn from "./offer_read_docs/en/contract.description.md.js";
+import offerDescEn from "./offer_read_docs/en/offer.description.md.js";
+import offerPublicationDescEn from "./offer_read_docs/en/offer.publication.description.md.js";
+import offerStatusDescEn from "./offer_read_docs/en/offer.status.description.md.js";
+import contractDescFr from "./offer_read_docs/fr/contract.description.md.js";
+import offerDescFr from "./offer_read_docs/fr/offer.description.md.js";
+import offerPublicationDescFr from "./offer_read_docs/fr/offer.publication.description.md.js";
+import offerStatusDescFr from "./offer_read_docs/fr/offer.status.description.md.js";
 import { recruiterModelDoc } from "./recruiter.model.doc.js";
 
 const sources: DataSource[] = [
@@ -44,7 +48,7 @@ export const offerReadModelDoc = {
     contract: {
       section: { en: "Contract", fr: null },
       metier: true,
-      description: { en: contractDesc, fr: null },
+      description: { en: contractDescEn, fr: contractDescFr },
       tags: [],
       _: {
         duration: {
@@ -72,7 +76,7 @@ export const offerReadModelDoc = {
     offer: {
       section: { en: "Offer", fr: null },
       metier: true,
-      description: { en: offerDesc, fr: null },
+      description: { en: offerDescEn, fr: offerDescFr },
       information: {
         en: "The ROME corresponds to the Operational Reference for Jobs and Occupations. Designed by France Travail (formerly Pôle Emploi), this reference system presents all professions grouped into profiles, organized by professional fields.",
         fr: null,
@@ -126,7 +130,7 @@ export const offerReadModelDoc = {
           },
         },
         status: {
-          description: { en: offerStatusDesc, fr: null },
+          description: { en: offerStatusDescEn, fr: offerStatusDescFr },
           notes: { en: "Only active offers are returned by the search.", fr: null },
           examples: ["Active"],
         },
@@ -163,7 +167,7 @@ export const offerReadModelDoc = {
         publication: {
           section: { en: "Offer", fr: null },
           metier: true,
-          description: { en: offerPublicationDesc, fr: null },
+          description: { en: offerPublicationDescEn, fr: offerPublicationDescFr },
           tags: [],
           _: {
             creation: {

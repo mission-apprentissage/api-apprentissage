@@ -42,7 +42,7 @@ export const zJobRoutes = {
   },
 } as const satisfies IRoutesDef;
 
-export function registerJobRoutes(builder: OpenApiBuilder): OpenApiBuilder {
+export function registerJobRoutes(builder: OpenApiBuilder, lang: "en" | "fr"): OpenApiBuilder {
   return builder
     .addPath("/job/v1/search", {
       get: addOperationDoc(
@@ -152,7 +152,8 @@ export function registerJobRoutes(builder: OpenApiBuilder): OpenApiBuilder {
             },
           },
         },
-        jobSearchRouteDoc
+        jobSearchRouteDoc,
+        lang
       ),
     })
     .addPath("/job/v1/offer", {
@@ -187,7 +188,8 @@ export function registerJobRoutes(builder: OpenApiBuilder): OpenApiBuilder {
             },
           },
         },
-        jobOfferCreateRouteDoc
+        jobOfferCreateRouteDoc,
+        lang
       ),
     })
     .addPath("/job/v1/offer/{id}", {
@@ -218,7 +220,8 @@ export function registerJobRoutes(builder: OpenApiBuilder): OpenApiBuilder {
             "204": {},
           },
         },
-        jobOfferUpdateRouteDoc
+        jobOfferUpdateRouteDoc,
+        lang
       ),
     });
 }

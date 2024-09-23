@@ -22,6 +22,10 @@ describe("zUai", () => {
     expect(zUai.safeParse("0951099D")).toEqual({ success: true, data: "0951099D" });
   });
 
+  it("should support lowercase ", () => {
+    expect(zUai.safeParse("0951099d")).toEqual({ success: true, data: "0951099D" });
+  });
+
   it.each([["0123456"], ["0123456AA"], ["0123456A0"], ["XXX"]])("should reject UAI %s not matching format", (uai) => {
     const result = zUai.safeParse(uai);
     expect(result.success).toBe(false);

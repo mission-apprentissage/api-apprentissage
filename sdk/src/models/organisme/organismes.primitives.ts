@@ -58,6 +58,7 @@ const ALPHABET_23_LETTERS = [
 // https://blog.juliendelmas.fr/?qu-est-ce-que-le-code-rne-ou-uai
 export const zUai = z
   .string()
+  .toUpperCase()
   .regex(/^\d{1,7}[A-Z]$/, "UAI does not match the format /^\\d{1,7}[A-Z]$/")
   .transform((value) => value.padStart(8, "0"))
   .refine(

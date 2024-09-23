@@ -3,6 +3,7 @@ import type { ContentObject, OperationObject, ParameterObject, ReferenceObject, 
 import { z } from "zod";
 
 import type { DocBusinessField, DocRoute, DocTechnicalField } from "../internal.js";
+import { addErrorResponseOpenApi } from "../models/errors/errors.model.openapi.js";
 
 function extendZodWithOpenApi<T extends typeof z>(zod: T): T {
   extendZodWithOpenApiBase(zod);
@@ -176,7 +177,7 @@ function addOperationDoc(operation: OperationObject, doc: DocRoute): OperationOb
     );
   }
 
-  return output;
+  return addErrorResponseOpenApi(output);
 }
 
 export { addOperationDoc, addSchemaDoc, zodOpenApi, getDocOpenAPIAttributes, pickPropertiesOpenAPI };

@@ -1,5 +1,6 @@
 import { zApiOrganismesRoutes } from "api-alternance-sdk";
-import type { OpenApiBuilder, ResponsesObject } from "openapi3-ts/oas31";
+import { addErrorResponseOpenApi } from "api-alternance-sdk/internal";
+import type { OpenApiBuilder } from "openapi3-ts/oas31";
 
 import type { IRoutesDef } from "./common.routes.js";
 
@@ -16,9 +17,9 @@ export const zOrganismesRoutes = {
   },
 } as const satisfies IRoutesDef;
 
-export function registerOrganismeRoutes(builder: OpenApiBuilder, errorResponses: ResponsesObject): OpenApiBuilder {
+export function registerOrganismeRoutes(builder: OpenApiBuilder): OpenApiBuilder {
   return builder.addPath("/organisme/v1/recherche", {
-    get: {
+    get: addErrorResponseOpenApi({
       tags: ["Organismes"],
       summary: "Recherche d'organismes par UAI et/ou SIRET",
       description: "Récupère la liste des organismes, filtrée par UAI et/ou SIRET fournis",
@@ -200,8 +201,7 @@ export function registerOrganismeRoutes(builder: OpenApiBuilder, errorResponses:
             },
           },
         },
-        ...errorResponses,
       },
-    },
+    }),
   });
 }

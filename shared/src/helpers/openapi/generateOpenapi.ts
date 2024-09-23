@@ -172,103 +172,10 @@ export function generateOpenApiSchema(version: string, env: string, publicUrl: s
   registerOpenApiJobModel(builder);
   registerOpenApiErrorsSchema(builder);
 
-  const errorResponses = {
-    "400": {
-      description: "Paramètre de requête non valide.",
-      content: {
-        "application/json": {
-          schema: {
-            $ref: "#/components/schemas/BadRequest",
-          },
-        },
-      },
-    },
-    "401": {
-      description: "Clé d’API manquante ou invalide",
-      content: {
-        "application/json": {
-          schema: {
-            $ref: "#/components/schemas/Unauthorized",
-          },
-        },
-      },
-    },
-    "403": {
-      description: "Habilitations insuffisantes pour accéder à la ressource",
-      content: {
-        "application/json": {
-          schema: {
-            $ref: "#/components/schemas/Forbidden",
-          },
-        },
-      },
-    },
-    "404": {
-      description: "Resource non trouvée",
-      content: {
-        "application/json": {
-          schema: {
-            $ref: "#/components/schemas/NotFound",
-          },
-        },
-      },
-    },
-    "409": {
-      description: "Conflit",
-      content: {
-        "application/json": {
-          schema: {
-            $ref: "#/components/schemas/Conflict",
-          },
-        },
-      },
-    },
-    "429": {
-      description: "Limite de volumétrie atteinte pour la clé d’API",
-      content: {
-        "application/json": {
-          schema: {
-            $ref: "#/components/schemas/TooManyRequests",
-          },
-        },
-      },
-    },
-    "500": {
-      description: "Une erreur inattendue s'est produite sur le serveur.",
-      content: {
-        "application/json": {
-          schema: {
-            $ref: "#/components/schemas/InternalServerError",
-          },
-        },
-      },
-    },
-    "502": {
-      description: "Le service est indisponible.",
-      content: {
-        "application/json": {
-          schema: {
-            $ref: "#/components/schemas/BadGateway",
-          },
-        },
-      },
-    },
-    "503": {
-      description: "Le service est en maintenance",
-      content: {
-        "application/json": {
-          schema: {
-            $ref: "#/components/schemas/ServiceUnavailable",
-          },
-        },
-      },
-    },
-  } as const;
-
-  registerHealhcheckRoutes(builder, errorResponses);
-  registerCertificationRoutes(builder, errorResponses);
-  registerJobRoutes(builder, errorResponses);
-  registerOrganismeRoutes(builder, errorResponses);
+  registerHealhcheckRoutes(builder);
+  registerCertificationRoutes(builder);
+  registerJobRoutes(builder);
+  registerOrganismeRoutes(builder);
 
   return builder.getSpec();
 }

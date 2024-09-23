@@ -1,8 +1,6 @@
 import luhn from "luhn";
 import { z } from "zod";
 
-import { zodOpenApi } from "../../utils/zodWithOpenApi.js";
-
 export const validateSIRET = (siret: string): boolean => {
   if (!siret) {
     return false;
@@ -77,7 +75,7 @@ export const zUai = z
     { message: "UAI checksum is invalid" }
   );
 
-export const zSiret = zodOpenApi
+export const zSiret = z
   .string()
   .regex(/^\d{9,14}$/, "SIRET does not match the format /^\\d{14}$/")
   .transform((value) => value.padStart(14, "0"))

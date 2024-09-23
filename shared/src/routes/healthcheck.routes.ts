@@ -1,5 +1,6 @@
-import { zodOpenApi } from "api-alternance-sdk/internal";
-import type { OpenApiBuilder, ResponsesObject } from "openapi3-ts/oas31";
+import { addErrorResponseOpenApi } from "api-alternance-sdk/internal";
+import type { OpenApiBuilder } from "openapi3-ts/oas31";
+import { z } from "zod";
 
 import type { IRoutesDef } from "./common.routes.js";
 
@@ -9,11 +10,11 @@ export const zCoreRoutes = {
       method: "get",
       path: "/healthcheck",
       response: {
-        "200": zodOpenApi
+        "200": z
           .object({
-            name: zodOpenApi.string(),
-            version: zodOpenApi.string(),
-            env: zodOpenApi.enum(["local", "recette", "production", "preview", "test"]),
+            name: z.string(),
+            version: z.string(),
+            env: z.enum(["local", "recette", "production", "preview", "test"]),
           })
           .describe("Statut de l'application")
           .strict(),
@@ -26,9 +27,9 @@ export const zCoreRoutes = {
   },
 } as const satisfies IRoutesDef;
 
-export function registerHealhcheckRoutes(builder: OpenApiBuilder, errorResponses: ResponsesObject): OpenApiBuilder {
+export function registerHealhcheckRoutes(builder: OpenApiBuilder): OpenApiBuilder {
   return builder.addPath("/healthcheck", {
-    get: {
+    get: addErrorResponseOpenApi({
       tags: ["Système"],
       security: [],
       responses: {
@@ -53,8 +54,7 @@ export function registerHealhcheckRoutes(builder: OpenApiBuilder, errorResponses
             },
           },
         },
-        ...errorResponses,
       },
-    },
+    }),
   });
 }

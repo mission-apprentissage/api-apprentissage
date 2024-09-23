@@ -1,5 +1,6 @@
 import { zApiCertificationsRoutes } from "api-alternance-sdk";
-import type { OpenApiBuilder, ResponsesObject } from "openapi3-ts/oas31";
+import { addErrorResponseOpenApi } from "api-alternance-sdk/internal";
+import type { OpenApiBuilder } from "openapi3-ts/oas31";
 
 import type { IRoutesDef } from "./common.routes.js";
 
@@ -16,9 +17,9 @@ export const zCertificationsRoutes = {
   },
 } as const satisfies IRoutesDef;
 
-export function registerCertificationRoutes(builder: OpenApiBuilder, errorResponses: ResponsesObject): OpenApiBuilder {
+export function registerCertificationRoutes(builder: OpenApiBuilder): OpenApiBuilder {
   return builder.addPath("/certification/v1", {
-    get: {
+    get: addErrorResponseOpenApi({
       tags: ["Certifications"],
       summary: "Récupération des certifications",
       description: "Récupère la liste des certifications, filtrée par `identifiant.cfd` et `identifiant.rncp`",
@@ -66,8 +67,7 @@ export function registerCertificationRoutes(builder: OpenApiBuilder, errorRespon
             },
           },
         },
-        ...errorResponses,
       },
-    },
+    }),
   });
 }

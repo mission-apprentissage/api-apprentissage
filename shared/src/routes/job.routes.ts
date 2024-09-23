@@ -5,7 +5,7 @@ import {
   jobOfferUpdateRouteDoc,
   jobSearchRouteDoc,
 } from "api-alternance-sdk/internal";
-import type { OpenApiBuilder, ResponsesObject } from "openapi3-ts/oas31";
+import type { OpenApiBuilder } from "openapi3-ts/oas31";
 
 import type { IRoutesDef } from "./common.routes.js";
 
@@ -42,7 +42,7 @@ export const zJobRoutes = {
   },
 } as const satisfies IRoutesDef;
 
-export function registerJobRoutes(builder: OpenApiBuilder, errorResponses: ResponsesObject): OpenApiBuilder {
+export function registerJobRoutes(builder: OpenApiBuilder): OpenApiBuilder {
   return builder
     .addPath("/job/v1/search", {
       get: addOperationDoc(
@@ -150,7 +150,6 @@ export function registerJobRoutes(builder: OpenApiBuilder, errorResponses: Respo
                 },
               },
             },
-            ...errorResponses,
           },
         },
         jobSearchRouteDoc
@@ -186,7 +185,6 @@ export function registerJobRoutes(builder: OpenApiBuilder, errorResponses: Respo
                 },
               },
             },
-            ...errorResponses,
           },
         },
         jobOfferCreateRouteDoc
@@ -218,7 +216,6 @@ export function registerJobRoutes(builder: OpenApiBuilder, errorResponses: Respo
           },
           responses: {
             "204": {},
-            ...errorResponses,
           },
         },
         jobOfferUpdateRouteDoc

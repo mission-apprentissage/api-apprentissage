@@ -1,6 +1,5 @@
 "use client";
 
-import { zodOpenApi } from "api-alternance-sdk/internal";
 import { changeLanguage, use } from "i18next";
 import resourcesToBackend from "i18next-resources-to-backend";
 import { initReactI18next } from "react-i18next";

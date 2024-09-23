@@ -50,10 +50,16 @@ function convertLbaError(error: unknown): never {
         throw notFound(data.message, data.data);
       case 409:
         throw conflict(data.message, data.data);
-      default:
-        throw internal("api.lba: failure convertLbaErrors", data);
+      default: {
+        if (error.response?.status && error.response.status >= 500) {
+          throw internal("api.lba: LBA server error", data);
+        }
+
+        throw internal("api.lba: LBA client error", data);
+      }
     }
   }
+
   if (error instanceof Error) {
     throw withCause(internal("api.lba: failure convertLbaErrors"), error);
   }

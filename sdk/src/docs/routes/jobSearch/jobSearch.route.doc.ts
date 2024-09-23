@@ -15,27 +15,27 @@ export const jobSearchRouteDoc = {
     "Access in real-time all apprenticeship job opportunities available in France and offer them to your users for free and under a white-label format.",
   parameters: {
     longitude: {
-      description: longitude,
+      description: { en: longitude, fr: null },
       examples: [48.8566],
     },
     latitude: {
-      description: latitude,
+      description: { en: latitude, fr: null },
       examples: [2.3522],
     },
     radius: {
-      description: radius,
+      description: { en: radius, fr: null },
       examples: [30],
     },
     rncp: {
-      description: rncp,
+      description: { en: rncp, fr: null },
       examples: ["RNCP34436", "RNCP183"],
     },
     romes: {
-      description: romes,
+      description: { en: romes, fr: null },
       examples: ["F1601,F1201,F1106", "M1806"],
     },
     target_diploma_level: {
-      description: target_diploma_level,
+      description: { en: target_diploma_level, fr: null },
       examples: ["3", "4", "5", "6", "7"],
     },
   },
@@ -45,13 +45,13 @@ export const jobSearchRouteDoc = {
       description: null,
       _: {
         jobs: {
-          description: jobs,
+          description: { en: jobs, fr: null },
         },
         recruiters: {
-          description: recruiters,
+          description: { en: recruiters, fr: null },
         },
         warnings: {
-          description: warnings,
+          description: { en: warnings, fr: null },
           examples: [
             {
               message: "Some warning message",

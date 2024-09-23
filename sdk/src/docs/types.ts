@@ -1,19 +1,24 @@
+export type OpenApiText = {
+  fr: string | null;
+  en: string | null;
+};
+
 export interface DocTechnicalField {
-  readonly description: string | null;
-  readonly notes?: string | null;
+  readonly description: OpenApiText | null;
+  readonly notes?: OpenApiText | null;
   readonly examples?: ReadonlyArray<unknown>;
   readonly _?: Record<string, DocTechnicalField | DocBusinessField>;
 }
 
 export interface DocBusinessField extends DocTechnicalField {
   readonly metier: true;
-  readonly section: string;
-  readonly information?: string | null;
-  readonly sample?: string | null;
+  readonly section: OpenApiText;
+  readonly information?: OpenApiText | null;
+  readonly sample?: OpenApiText | null;
   readonly tags?: ReadonlyArray<string>;
   readonly tip?: null | {
-    readonly title: string;
-    readonly content: string;
+    readonly title: OpenApiText;
+    readonly content: OpenApiText;
   };
 }
 

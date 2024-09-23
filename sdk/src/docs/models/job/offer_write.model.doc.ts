@@ -32,22 +32,21 @@ export const offerWriteModelDoc = {
         opening_count: offerReadModelDoc._.offer._.opening_count,
         publication: offerReadModelDoc._.offer._.publication,
         rome_codes: {
-          description: "ROME code(s) of the offer",
-          notes:
-            "If the published offer does not have a ROME code provided, we deduce the ROME codes from the job offer title.",
+          description: { en: "ROME code(s) of the offer", fr: null },
+          notes: {
+            en: "If the published offer does not have a ROME code provided, we deduce the ROME codes from the job offer title.",
+            fr: null,
+          },
           _: {
             "[]": offerReadModelDoc._.offer._.rome_codes._["[]"],
           },
         },
         status: {
-          description: [
-            "The status of the offer (life cycle):",
-            "- Active: The offer is available on the platform, and applications are open.",
-            "- Filled: The offer has been filled and is no longer available.",
-            "- Cancelled: The offer has been canceled and is no longer available.",
-          ].join("\n\n"),
-          notes:
-            "When creating an offer, only active offers are accepted. However, during an update, it is possible to cancel or mark an offer as filled.",
+          description: offerReadModelDoc._.offer._.status.description,
+          notes: {
+            en: "When creating an offer, only active offers are accepted. However, during an update, it is possible to cancel or mark an offer as filled.",
+            fr: null,
+          },
           examples: ["Active", "Filled", "Cancelled"],
         },
         target_diploma: {
@@ -68,9 +67,11 @@ export const offerWriteModelDoc = {
           ...offerReadModelDoc._.workplace._.location,
           _: {
             address: {
-              description: "Address of the job offer",
-              notes:
-                "In the case of job offer publication, a custom address can be provided; otherwise, the establishment's address will be used.\n\nThe geopoint field is derived from the address.",
+              description: { en: "Address of the job offer", fr: null },
+              notes: {
+                en: "In the case of job offer publication, a custom address can be provided; otherwise, the establishment's address will be used.\n\nThe geopoint field is derived from the address.",
+                fr: null,
+              },
               examples: ["20 AVENUE DE SEGUR 75007 PARIS"],
             },
           },
@@ -78,26 +79,30 @@ export const offerWriteModelDoc = {
         name: offerReadModelDoc._.workplace._.name,
         siret: {
           ...offerReadModelDoc._.workplace._.siret,
-          description: "SIRET of the contract execution location",
-          notes:
-            "The information `brand` `legal_name` `size` `idcc` `opco` `naf` is automatically deduced from the SIRET.",
+          description: { en: "SIRET of the contract execution location", fr: null },
+          notes: {
+            en: "The information `brand` `legal_name` `size` `idcc` `opco` `naf` is automatically deduced from the SIRET.",
+            fr: null,
+          },
         },
         website: offerReadModelDoc._.workplace._.website,
       },
     },
     apply: {
       ...offerReadModelDoc._.apply,
-      description: applyDesc,
-      information:
-        "At least one application method must be provided when submitting an offer. (either URL, phone, or email)",
+      description: { en: applyDesc, fr: null },
+      information: {
+        en: "At least one application method must be provided when submitting an offer. (either URL, phone, or email)",
+        fr: null,
+      },
       _: {
         email: {
-          description: "Recruiter's email adress",
+          description: { en: "Recruiter's email adress", fr: null },
           examples: ["jean.dupuis@beta.gouv.fr"],
         },
         phone: offerReadModelDoc._.apply._.phone,
         url: {
-          description: "Redirect URL",
+          description: { en: "Redirect URL", fr: null },
           examples: [
             "https://labonnealternance.apprentissage.beta.gouv.fr/recherche-apprentissage?display=list&page=fiche&type=matcha&itemId=664752a2ebe24062b758c641",
           ],

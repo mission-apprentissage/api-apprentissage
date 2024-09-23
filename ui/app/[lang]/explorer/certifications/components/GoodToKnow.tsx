@@ -8,6 +8,7 @@ import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import type { DocBusinessField } from "api-alternance-sdk/internal";
+import { getTextOpenAPI } from "api-alternance-sdk/internal";
 import { useState } from "react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -37,7 +38,7 @@ export function GoodToKnow({ tip }: Pick<DocBusinessField, "tip">) {
           iconPosition="right"
           onClick={toggle}
         >
-          {tip.title}
+          {getTextOpenAPI(tip.title)}
         </Button>
       </Box>
       <Collapse in={isOpen}>
@@ -88,7 +89,7 @@ export function GoodToKnow({ tip }: Pick<DocBusinessField, "tip">) {
           }}
           remarkPlugins={[remarkGfm]}
         >
-          {tip.content}
+          {getTextOpenAPI(tip.content)}
         </Markdown>
       </Collapse>
     </Box>

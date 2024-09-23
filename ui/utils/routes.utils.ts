@@ -99,8 +99,13 @@ export const PAGES = {
   },
   dynamic: {
     inscription: (token: string): IPage => ({
-      title: "Mon profil",
+      title: "Inscription",
       path: `/auth/inscription?token=${token}`,
+      index: false,
+    }),
+    refusInscription: (token: string): IPage => ({
+      title: "Inscription",
+      path: `/auth/refus-inscription?token=${token}`,
       index: false,
     }),
     adminUserView: (id: string): IPage => ({
@@ -137,6 +142,43 @@ export const PAGES = {
   notion: {},
 } as const satisfies IPages;
 
+export function isStaticPage(pathname: string): boolean {
+  return Object.values(PAGES.static).some((page) => page.path === pathname);
+}
+
+export function isDynamicPage(pathname: string): boolean {
+  if (pathname === "/auth/inscription") {
+    return true;
+  }
+  if (pathname === "/auth/refus-inscription") {
+    return true;
+  }
+  if (/^\/admin\/utilisateurs\/[^/]+$/.test(pathname)) {
+    return true;
+  }
+  if (/^\/admin\/organisations\/[^/]+$/.test(pathname)) {
+    return true;
+  }
+  if (/^\/admin\/processeur\/job\/[^/]+$/.test(pathname)) {
+    return true;
+  }
+  if (/^\/admin\/processeur\/job\/[^/]+\/[^/]+$/.test(pathname)) {
+    return true;
+  }
+  if (/^\/admin\/processeur\/cron\/[^/]+$/.test(pathname)) {
+    return true;
+  }
+  if (/^\/admin\/processeur\/cron\/[^/]+\/[^/]+$/.test(pathname)) {
+    return true;
+  }
+
+  return false;
+}
+
+export function isNotionPage(pathname: string): boolean {
+  return pathname.startsWith("/doc/") || /^\/notion\/[^/]+$/.test(pathname);
+}
+
 function getSitemapItem(page: IPage): MetadataRoute.Sitemap[number] {
   return {
     url: `${publicConfig.baseUrl}${page.path}`,
@@ -156,7 +198,5 @@ export function getSitemap(): MetadataRoute.Sitemap {
 }
 
 export function isPage(pathname: string): boolean {
-  return Object.values(PAGES.static).some((page) =>
-    page.path === "/" ? pathname === "/" : pathname.startsWith(page.path)
-  );
+  return isStaticPage(pathname) || isDynamicPage(pathname) || isNotionPage(pathname);
 }

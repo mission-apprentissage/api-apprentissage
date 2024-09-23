@@ -1,6 +1,6 @@
 import { fr } from "@codegouvfr/react-dsfr";
 import { Box, Container, Hidden, Typography } from "@mui/material";
-import type { DocBusinessField, DocBusinessSection, DocModel } from "api-alternance-sdk/internal";
+import type { DocBusinessField, DocModel } from "api-alternance-sdk/internal";
 import Markdown from "react-markdown";
 
 import { Artwork } from "@/components/artwork/Artwork";
@@ -82,45 +82,55 @@ function DataField({ name, field }: { name: string; field: DocBusinessField }) {
     <Box
       sx={{
         display: "grid",
-        gridColumn: spanTwoColumns,
-        gridTemplateColumns: { sm: "1fr", md: "repeat(4, 1fr)" },
-        gap: fr.spacing("2w"),
+        gridTemplateColumns: threeColumns,
+        gap: { md: fr.spacing("2w"), lg: fr.spacing("9w") },
+        flexDirection: "column",
       }}
     >
-      <Box>
-        <Tag color="beigeGrisGalet">{name}</Tag>
+      <Box
+        sx={{
+          display: "grid",
+          gridColumn: spanTwoColumns,
+          gridTemplateColumns: { sm: "1fr", md: "repeat(4, 1fr)" },
+          gap: fr.spacing("2w"),
+        }}
+      >
+        <Box>
+          <Tag color="beigeGrisGalet">{name}</Tag>
+        </Box>
+        <Box sx={{ gridColumn: "span 3", display: "flex", gap: fr.spacing("1w"), flexDirection: "column" }}>
+          {field.sample !== null && (
+            <Typography
+              sx={{
+                color: fr.colors.decisions.text.mention.grey.default,
+              }}
+            >
+              {field.sample}
+            </Typography>
+          )}
+          <DsfrMarkdown>{field.description}</DsfrMarkdown>
+          {field.tags != null ? (
+            <Box sx={{ display: "flex", gap: fr.spacing("1w"), flexWrap: "wrap" }}>
+              {field.tags.map((tag) => (
+                <Tag color="beigeGrisGalet" key={tag}>
+                  {tag}
+                </Tag>
+              ))}
+            </Box>
+          ) : null}
+        </Box>
+        <GoodToKnow tip={field.tip} />
+        <Box component="hr" sx={{ gridColumn: "1/-1", padding: 0, height: "1px" }} />
       </Box>
-      <Box sx={{ gridColumn: "span 3", display: "flex", gap: fr.spacing("1w"), flexDirection: "column" }}>
-        {field.sample !== null && (
-          <Typography
-            sx={{
-              color: fr.colors.decisions.text.mention.grey.default,
-            }}
-          >
-            {field.sample}
-          </Typography>
-        )}
-        <DsfrMarkdown>{field.description}</DsfrMarkdown>
-        {field.tags != null ? (
-          <Box sx={{ display: "flex", gap: fr.spacing("1w"), flexWrap: "wrap" }}>
-            {field.tags.map((tag) => (
-              <Tag color="beigeGrisGalet" key={tag}>
-                {tag}
-              </Tag>
-            ))}
-          </Box>
-        ) : null}
-      </Box>
-      <GoodToKnow tip={field.tip} />
-      <Box component="hr" sx={{ gridColumn: "1/-1", padding: 0, height: "1px" }} />
+      <InformationBox information={field.information} />
     </Box>
   );
 }
 
-function DataTypologie({ typologie }: { typologie: DocBusinessSection }) {
+function DataTypologie({ name, field }: { name: string; field: DocBusinessField }) {
   return (
     <Box sx={{ display: "flex", gap: fr.spacing("1w"), flexDirection: "column" }}>
-      <Typography variant="h6">{typologie.name}</Typography>
+      <Typography variant="h6">{field.section}</Typography>
       <Box
         sx={{
           display: "grid",
@@ -131,22 +141,12 @@ function DataTypologie({ typologie }: { typologie: DocBusinessSection }) {
       >
         <Box component="hr" sx={{ gridColumn: "1/3", padding: 0, height: "1px" }} />
       </Box>
-      {Object.entries(typologie.fields).map(([name, field]) =>
-        "metier" in field && field.metier ? (
-          <Box
-            sx={{
-              display: "grid",
-              gridTemplateColumns: threeColumns,
-              gap: { md: fr.spacing("2w"), lg: fr.spacing("9w") },
-              flexDirection: "column",
-            }}
-            key={name}
-          >
-            <DataField name={name} field={field} />
-            <InformationBox information={field.information} />
-          </Box>
-        ) : null
-      )}
+      <DataField key={name} name={name} field={field} />
+      {field._ == null
+        ? null
+        : Object.entries(field._).map(([key, childField]) =>
+            "metier" in childField && childField.metier ? <DataField key={key} name={key} field={childField} /> : null
+          )}
     </Box>
   );
 }
@@ -164,8 +164,8 @@ function DataSection({ model }: { model: DocModel }) {
       <Typography variant="h2" sx={{ color: fr.colors.decisions.artwork.minor.blueEcume.default }}>
         Détail des données
       </Typography>
-      {model.sections.map((section) => (
-        <DataTypologie key={section.name} typologie={section} />
+      {Object.entries(model._).map(([key, field]) => (
+        <DataTypologie key={key} name={key} field={field} />
       ))}
       <Box
         sx={{

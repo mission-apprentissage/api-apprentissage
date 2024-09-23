@@ -1,0 +1,1 @@
+**Liste des couples CFD-RNCP assurant la continuité de la certification professionnelles.** La liste inclut à la fois les fiches remplacées et remplaçantes. Elle est ordonnée par date d'activation de la fiche RNCP et inclut la fiche courante.

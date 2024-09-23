@@ -76,6 +76,7 @@ function addSchemaDoc<T extends SchemaObject | ReferenceObject | undefined>(sche
   const output: SchemaObject = { ...schema, ...getDocOpenAPIAttributes(doc) };
 
   const docProperties = doc._;
+
   if (output.properties && docProperties) {
     output.properties = Object.entries(output.properties).reduce(
       (acc, [prop, propSchema]) => {
@@ -89,6 +90,19 @@ function addSchemaDoc<T extends SchemaObject | ReferenceObject | undefined>(sche
       },
       {} as Record<string, SchemaObject | ReferenceObject>
     );
+  }
+
+  if (output.items && docProperties) {
+    output.items = addSchemaDoc(output.items, docProperties["[]"]);
+  }
+
+  if (output.prefixItems && docProperties) {
+    output.prefixItems = output.prefixItems.map((item, index): SchemaObject | ReferenceObject => {
+      if (index in docProperties) {
+        return addSchemaDoc(item, docProperties[index]);
+      }
+      return item;
+    });
   }
 
   return output as T;
@@ -175,4 +189,11 @@ function addOperationDoc(operation: OperationObject, doc: DocRoute): OperationOb
   return output;
 }
 
-export { addOperationDoc, zodOpenApi, buildOpenApiDescriptionLegacy, getDocOpenAPIAttributes, pickPropertiesOpenAPI };
+export {
+  addOperationDoc,
+  addSchemaDoc,
+  zodOpenApi,
+  buildOpenApiDescriptionLegacy,
+  getDocOpenAPIAttributes,
+  pickPropertiesOpenAPI,
+};

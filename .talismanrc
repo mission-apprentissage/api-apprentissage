@@ -1,12 +1,18 @@
 fileignoreconfig:
 - filename: .infra/vault/vault.yml
   checksum: 4877e85f6584402f51877f06f7f48b84a6c717c6b90f7343afbcbe63a232d928
+- filename: sdk/src/docs/models/job/offer_read.model.doc.ts
+  checksum: 774d4378e590dcc5a0f69a574a95401c6d139f1524b8895b58efe8409a3095d1
+- filename: sdk/src/docs/models/job/offer_write.model.doc.ts
+  checksum: 6a4ccecc51aeea79268cf03a357e328c9e6b93edb1857093326da2e0cd7a82a8
+- filename: sdk/src/docs/models/job/recruiter.model.doc.ts
+  checksum: e0f47a127693f277280e6c04d9791fdbbd59d5a567b578dfa1a9c7a01a9f4d8c
 - filename: sdk/src/docs/routes/jobOfferUpdate/jobOfferUpdate.route.doc.ts
   checksum: 4c6e64beba2f719da577a0aae1c9642e6e2e8712dc909dc62c64c081a2c612a8
 - filename: server/.env.test
   checksum: 65357f150bfedfebea511b1007eed941983484abf990d87e91fd7477360ad280
 - filename: shared/src/helpers/openapi/__snapshots__/generateOpenapi.test.ts.snap
-  checksum: 018db51494512b3b023d628b0896638d1c860885b0cf7e4a63afd0ead1ddbc7b
+  checksum: 2463909dd3422d45d8f15ec7ebd39058d02bbd4d57ed1dfc6482a348fcc27152
 scopeconfig:
 - scope: node
 custom_patterns:

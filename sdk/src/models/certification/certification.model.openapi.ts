@@ -1,7 +1,7 @@
 import type { OpenApiBuilder, SchemaObject } from "openapi3-ts/oas31";
 
 import { certificationModelDoc } from "../../docs/models/certification/certification.model.doc.js";
-import { buildOpenApiDescriptionLegacy, getDocOpenAPIAttributes } from "../../utils/zodWithOpenApi.js";
+import { addSchemaDoc, buildOpenApiDescriptionLegacy } from "../../utils/zodWithOpenApi.js";
 import { CFD_REGEX, RNCP_REGEX } from "./certification.primitives.js";
 
 const schema: SchemaObject = {
@@ -44,7 +44,6 @@ const schema: SchemaObject = {
         },
       },
       required: ["cfd", "rncp", "rncp_anterieur_2019"],
-      ...getDocOpenAPIAttributes(certificationModelDoc.sections[0].fields.identifiant),
     },
     intitule: {
       type: "object",
@@ -136,7 +135,6 @@ const schema: SchemaObject = {
             },
           },
           required: ["cfd", "rncp"],
-          ...getDocOpenAPIAttributes(certificationModelDoc.sections[2].fields["intitule.niveau"]),
         },
         rncp: {
           type: ["string", "null"],
@@ -147,7 +145,6 @@ const schema: SchemaObject = {
         },
       },
       required: ["cfd", "niveau", "rncp"],
-      ...getDocOpenAPIAttributes(certificationModelDoc.sections[2].fields["intitule"]),
     },
     base_legale: {
       type: "object",
@@ -182,7 +179,6 @@ const schema: SchemaObject = {
         },
       },
       required: ["cfd"],
-      ...getDocOpenAPIAttributes(certificationModelDoc.sections[7].fields["base_legale"]),
     },
     blocs_competences: {
       type: "object",
@@ -210,7 +206,6 @@ const schema: SchemaObject = {
         },
       },
       required: ["rncp"],
-      ...getDocOpenAPIAttributes(certificationModelDoc.sections[4].fields["blocs_competences"]),
     },
     convention_collectives: {
       type: "object",
@@ -234,7 +229,6 @@ const schema: SchemaObject = {
         },
       },
       required: ["rncp"],
-      ...getDocOpenAPIAttributes(certificationModelDoc.sections[8].fields["conventions_collectives"]),
     },
     domaines: {
       type: "object",
@@ -336,7 +330,6 @@ const schema: SchemaObject = {
         },
       },
       required: ["formacodes", "nsf", "rome"],
-      ...getDocOpenAPIAttributes(certificationModelDoc.sections[5].fields["domaines"]),
     },
     periode_validite: {
       type: "object",
@@ -390,7 +383,6 @@ const schema: SchemaObject = {
             },
           },
           required: ["ouverture", "fermeture", "premiere_session", "derniere_session"],
-          ...getDocOpenAPIAttributes(certificationModelDoc.sections[1].fields["periode_validite.cfd"]),
         },
         rncp: {
           type: ["object", "null"],
@@ -430,11 +422,9 @@ const schema: SchemaObject = {
             },
           },
           required: ["actif", "activation", "debut_parcours", "fin_enregistrement"],
-          ...getDocOpenAPIAttributes(certificationModelDoc.sections[1].fields["periode_validite.rncp"]),
         },
       },
       required: ["debut", "fin", "cfd", "rncp"],
-      ...getDocOpenAPIAttributes(certificationModelDoc.sections[1].fields["periode_validite"]),
     },
     type: {
       type: "object",
@@ -555,7 +545,6 @@ const schema: SchemaObject = {
         },
       },
       required: ["nature", "gestionnaire_diplome", "enregistrement_rncp", "voie_acces", "certificateurs_rncp"],
-      ...getDocOpenAPIAttributes(certificationModelDoc.sections[6].fields["type"]),
     },
     continuite: {
       type: "object",
@@ -632,7 +621,6 @@ const schema: SchemaObject = {
             },
             required: ["activation", "fin_enregistrement", "code", "courant", "actif"],
           },
-          ...getDocOpenAPIAttributes(certificationModelDoc.sections[3].fields["continuite"]),
         },
       },
       required: ["cfd", "rncp"],
@@ -652,5 +640,5 @@ const schema: SchemaObject = {
 };
 
 export function registerOpenApiCertificationSchema(builder: OpenApiBuilder): OpenApiBuilder {
-  return builder.addSchema("Certification", schema);
+  return builder.addSchema("Certification", addSchemaDoc(schema, certificationModelDoc));
 }

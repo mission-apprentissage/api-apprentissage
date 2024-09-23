@@ -2,11 +2,12 @@ export interface DocTechnicalField {
   readonly description: string | null;
   readonly notes?: string | null;
   readonly examples?: ReadonlyArray<unknown>;
-  readonly _?: Record<string, DocTechnicalField>;
+  readonly _?: Record<string, DocTechnicalField | DocBusinessField>;
 }
 
 export interface DocBusinessField extends DocTechnicalField {
   readonly metier: true;
+  readonly section: string;
   readonly information?: string | null;
   readonly sample?: string | null;
   readonly tags?: ReadonlyArray<string>;
@@ -16,11 +17,6 @@ export interface DocBusinessField extends DocTechnicalField {
   };
 }
 
-export type DocBusinessSection = {
-  name: string;
-  fields: Record<string, DocBusinessField | DocTechnicalField>;
-};
-
 export type DataSource = {
   name: string;
   logo: { href: string; width: number; height: number };
@@ -29,9 +25,10 @@ export type DataSource = {
 };
 
 export type DocModel = {
-  name: string;
-  sections: DocBusinessSection[];
-  sources: DataSource[];
+  readonly name: string;
+  readonly description: string | null;
+  readonly _: Record<string, DocBusinessField>;
+  readonly sources: DataSource[];
 };
 
 export type DocRoute = {

@@ -1,26 +1,26 @@
 import type { IApiRouteSchemaCommon, IApiRouteSchemaGet, IApiRouteSchemaWrite } from "api-alternance-sdk";
-import { zodOpenApi } from "api-alternance-sdk/internal";
 import type { Jsonify } from "type-fest";
-import type { AnyZodObject, z } from "zod";
+import type { AnyZodObject } from "zod";
+import { z } from "zod";
 
 import type { AccessPermission, AccessRessouces } from "../security/permissions.js";
 
-export const ZResOk = zodOpenApi.object({}).strict();
+export const ZResOk = z.object({}).strict();
 
 export type { IResError, IResErrorJson } from "api-alternance-sdk";
 
-export const ZReqParamsSearchPagination = zodOpenApi
+export const ZReqParamsSearchPagination = z
   .object({
-    page: zodOpenApi.preprocess((v) => parseInt(v as string, 10), zodOpenApi.number().positive().optional()),
-    limit: zodOpenApi.preprocess((v) => parseInt(v as string, 10), zodOpenApi.number().positive().optional()),
-    q: zodOpenApi.string().optional(),
+    page: z.preprocess((v) => parseInt(v as string, 10), z.number().positive().optional()),
+    limit: z.preprocess((v) => parseInt(v as string, 10), z.number().positive().optional()),
+    q: z.string().optional(),
   })
   .strict();
 export type IReqParamsSearchPagination = z.input<typeof ZReqParamsSearchPagination>;
 
-export const ZReqHeadersAuthorization = zodOpenApi
+export const ZReqHeadersAuthorization = z
   .object({
-    Authorization: zodOpenApi.string().describe("Bearer token").optional(),
+    Authorization: z.string().describe("Bearer token").optional(),
   })
   .passthrough();
 

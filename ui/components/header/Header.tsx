@@ -3,7 +3,7 @@
 import { Header as DSFRHeader, HeaderQuickAccessItem } from "@codegouvfr/react-dsfr/Header";
 import { LanguageSelect } from "@codegouvfr/react-dsfr/LanguageSelect";
 import { useIsDark } from "@codegouvfr/react-dsfr/useIsDark";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useCallback, useEffect } from "react";
 
 import type { Lang } from "@/app/i18n/settings";
@@ -29,14 +29,10 @@ export const Header = ({ lang }: { lang: Lang }) => {
 
   const navigation = useNavigationItems({ user, pathname });
 
-  const router = useRouter();
-  const setLang = useCallback(
-    async (locale: Lang) => {
-      const newPath = window.location.pathname.replace(new RegExp(`^/${lang}`), `/${locale}`);
-      router.push(newPath);
-    },
-    [router]
-  );
+  const setLang = useCallback(async (locale: Lang) => {
+    const newPath = window.location.pathname.replace(new RegExp(`^/${lang}`), `/${locale}`);
+    window.location.assign(newPath);
+  }, []);
 
   return (
     <>

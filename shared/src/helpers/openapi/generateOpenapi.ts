@@ -121,7 +121,8 @@ export function generateOpenApiSchema(version: string, env: string, publicUrl: s
   const builder = new OpenApiBuilder({
     openapi: "3.1.0",
     info: {
-      title: "Documentation technique de l'API Apprentissage",
+      title:
+        lang === "fr" ? "Documentation technique de l'API Apprentissage" : "API Apprentissage technical documentation",
       version,
       license: {
         name: "Etalab-2.0",
@@ -129,7 +130,7 @@ export function generateOpenApiSchema(version: string, env: string, publicUrl: s
       },
       termsOfService: "https://api.apprentissage.beta.gouv.fr/cgu",
       contact: {
-        name: "Équipe API Apprentissage",
+        name: lang === "fr" ? "Équipe API Apprentissage" : "API Apprentissage team",
         email: "support_api@apprentissage.beta.gouv.fr",
       },
     },
@@ -141,20 +142,27 @@ export function generateOpenApiSchema(version: string, env: string, publicUrl: s
     ],
     tags: [
       {
-        name: "Essayer l'API",
-        description: "Pour essayer l'API [vous pouvez utiliser le swagger UI](/documentation-technique/try)",
+        name: lang === "fr" ? "Essayer l'API" : "Try the API",
+        description:
+          lang === "fr"
+            ? "Pour essayer l'API [vous pouvez utiliser le swagger UI](/documentation-technique/try)"
+            : "To try the API [you can use the swagger UI](/documentation-technique/try)",
       },
       {
         name: "Certifications",
-        description: "Liste des opérations sur les certifications.",
+        description:
+          lang === "fr" ? "Liste des opérations sur les certifications." : "List of operations on certifications.",
       },
       {
         name: "Job",
-        description: "Apprenticeship job opportunities",
+        description: lang === "fr" ? "Opportunités d'emploi en alternance" : "Apprenticeship job opportunities",
       },
       {
         name: "Expérimental",
-        description: "Liste des routes expérimentales. Attention: ces routes peuvent changer sans préavis.",
+        description:
+          lang === "fr"
+            ? "Liste des routes expérimentales. Attention: ces routes peuvent changer sans préavis."
+            : "List of experimental routes. Warning: these routes may change without notice.",
       },
     ],
     paths: experimentalGenerateOpenApiPathsObject(zSourceAcceRoutes),
@@ -165,7 +173,9 @@ export function generateOpenApiSchema(version: string, env: string, publicUrl: s
     scheme: "bearer",
     bearerFormat: "Bearer",
     description:
-      "Clé d'API à fournir dans le header `Authorization`. Si la route nécessite une habiliation particulière veuillez contacter le support pour en faire la demande à [support_api@apprentissage.beta.gouv.fr](mailto:support_api@apprentissage.beta.gouv.fr)",
+      lang === "fr"
+        ? "Clé d'API à fournir dans le header `Authorization`. Si la route nécessite une habiliation particulière veuillez contacter le support pour en faire la demande à [support_api@apprentissage.beta.gouv.fr](mailto:support_api@apprentissage.beta.gouv.fr)"
+        : "API key to provide in the `Authorization` header. If the route requires a particular authorization, please contact support to request it at [support_api@apprentissage.beta.gouv.fr](mailto:support_api@apprentissage.beta.gouv.fr)",
   });
 
   registerOpenApiCertificationSchema(builder, lang);

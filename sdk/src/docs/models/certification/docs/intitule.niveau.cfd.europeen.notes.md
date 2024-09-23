@@ -1,0 +1,2 @@
+- peut être `null` lorsque le niveau de diplôme n'a pas de correspondance avec les niveaux européens ou qu'elle n'est pas déterminée.
+- lorsque la fiche RNCP correspondante est connue, il faut priviliégier le niveau européen issue de France Compétences.

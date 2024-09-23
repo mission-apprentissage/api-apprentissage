@@ -1,0 +1,2 @@
+- `null` lorsque le champs `identifiant.cfd` est `null`.
+- Pour distinguer les diplômes remplacés des diplômes remplaçant, il faut se référer aux dates d'ouverture et de fermeture des diplômes.

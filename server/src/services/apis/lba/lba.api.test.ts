@@ -293,7 +293,7 @@ describe("searchJobOpportunities", () => {
     expect(e.isBoom).toBe(true);
     expect(formatResponseError(e)).toEqual(expectedError);
     expect(e.data).toEqual(lbaError);
-    expect(e.message).toBe("api.lba: failure convertLbaErrors");
+    expect(e.message).toBe("api.lba: LBA client error");
 
     expect(nock.isDone());
   });
@@ -555,7 +555,7 @@ describe("createJobOfferLba", () => {
     expect(e.isBoom).toBe(true);
     expect(formatResponseError(e)).toEqual(expectedError);
     expect(e.data).toEqual(lbaError);
-    expect(e.message).toBe("api.lba: failure convertLbaErrors");
+    expect(e.message).toBe("api.lba: LBA client error");
 
     expect(nock.isDone());
   });
@@ -800,7 +800,7 @@ describe("updateJobOfferLba", () => {
     expect(e.isBoom).toBe(true);
     expect(formatResponseError(e)).toEqual(expectedError);
     expect(e.data).toEqual(lbaError);
-    expect(e.message).toBe("api.lba: failure convertLbaErrors");
+    expect(e.message).toBe("api.lba: LBA client error");
 
     expect(nock.isDone());
   });

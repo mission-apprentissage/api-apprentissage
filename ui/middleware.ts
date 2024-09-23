@@ -56,9 +56,12 @@ function isLocalisedPath(pathname: string) {
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
+  console.log("pathname", request.nextUrl);
+
   const lang = guessLang(request);
 
   if (isPage(pathname)) {
+    console.log("isPage", pathname);
     return NextResponse.redirect(new URL(`/${lang}${pathname}`, request.url));
   }
 

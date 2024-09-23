@@ -1,5 +1,3 @@
-import type { FastifySentryOptions } from "@immobiliarelabs/fastify-sentry";
-import fastifySentryPlugin from "@immobiliarelabs/fastify-sentry";
 import * as Sentry from "@sentry/node";
 import type { FastifyRequest } from "fastify";
 
@@ -71,21 +69,17 @@ function extractUserData(request: FastifyRequest): UserData {
 }
 
 export function initSentryFastify(app: Server) {
+  Sentry.init(getOptions());
+
   Sentry.setupFastifyErrorHandler(app);
 
-  const options: FastifySentryOptions = {
-    setErrorHandler: false,
-    extractUserData: extractUserData,
-    extractRequestData: (request: FastifyRequest) => {
-      return {
-        headers: request.headers,
-        method: request.method,
-        protocol: request.protocol,
-        query_string: request.query,
-      };
-    },
-  };
-
-  // @ts-expect-error
-  app.register(fastifySentryPlugin, { options, ...getOptions() });
+  app.addHook("onRequest", async (request, _reply) => {
+    const scope = Sentry.getIsolationScope();
+    scope
+      .setUser(extractUserData(request))
+      .setExtra("headers", request.headers)
+      .setExtra("method", request.method)
+      .setExtra("protocol", request.protocol)
+      .setExtra("query_string", request.query);
+  });
 }

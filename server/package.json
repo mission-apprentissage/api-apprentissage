@@ -27,7 +27,6 @@
     "@fastify/swagger": "^8.15.0",
     "@fastify/swagger-ui": "^4.1.1",
     "@hapi/boom": "^10.0.1",
-    "@immobiliarelabs/fastify-sentry": "^8.0.1",
     "@sentry/node": "^8.30.0",
     "api-alternance-sdk": "workspace:^",
     "axios": "^1.7.7",

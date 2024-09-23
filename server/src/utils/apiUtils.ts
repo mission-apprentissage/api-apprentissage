@@ -57,7 +57,7 @@ export async function downloadFileAsTmp(stream: Readable, filename: string): Pro
 
     return destFile;
   } catch (error) {
-    await rm(tmpDir, { force: true, recursive: true });
+    await cleanupTmp(tmpDir);
     throw withCause(internal("api.utils.downloadFileAsTmp: unable to download file"), error);
   }
 }

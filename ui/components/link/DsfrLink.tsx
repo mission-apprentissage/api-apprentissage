@@ -5,6 +5,7 @@ import NextLink from "next/link";
 import type { ReactNode } from "react";
 import { useMemo } from "react";
 
+import type { Lang } from "@/app/i18n/settings";
 import { publicConfig } from "@/config.public";
 
 export function DsfrLink({

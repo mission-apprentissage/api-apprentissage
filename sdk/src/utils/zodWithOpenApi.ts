@@ -2,7 +2,7 @@ import { extendZodWithOpenApi as extendZodWithOpenApiBase } from "@asteasolution
 import type { ContentObject, OperationObject, ParameterObject, ReferenceObject, SchemaObject } from "openapi3-ts/oas31";
 import { z } from "zod";
 
-import type { DocBusinessField, DocRoute, DocTechnicalField } from "../internal.js";
+import type { DocBusinessField, DocRoute, DocTechnicalField, OpenApiText } from "../internal.js";
 import { addErrorResponseOpenApi } from "../models/errors/errors.model.openapi.js";
 
 function extendZodWithOpenApi<T extends typeof z>(zod: T): T {
@@ -13,6 +13,22 @@ function extendZodWithOpenApi<T extends typeof z>(zod: T): T {
 
 const zodOpenApi = extendZodWithOpenApi(z);
 
+function getTextOpenAPI<T extends OpenApiText | null | undefined>(
+  value: T
+): T extends null | undefined ? null : string {
+  if (value == null) {
+    return null as T extends null | undefined ? null : string;
+  }
+
+  const text = Object.values(value).find((v) => v !== null);
+
+  if (!text) {
+    throw new Error("No text value found in " + JSON.stringify(value));
+  }
+
+  return text as T extends null | undefined ? null : string;
+}
+
 function getDocOpenAPIAttributes(field: DocTechnicalField | DocBusinessField): {
   description?: string;
   examples?: unknown[];
@@ -20,16 +36,16 @@ function getDocOpenAPIAttributes(field: DocTechnicalField | DocBusinessField): {
   const description: string[] = [];
 
   if (field.description) {
-    description.push(field.description);
+    description.push(getTextOpenAPI(field.description));
   }
 
   if ("information" in field && field.information) {
-    description.push(field.information);
+    description.push(getTextOpenAPI(field.information));
   }
 
   if (field.notes) {
     description.push("Notes:");
-    description.push(field.notes);
+    description.push(getTextOpenAPI(field.notes));
   }
 
   const r: { description?: string; examples?: unknown[] } = {};
@@ -180,4 +196,4 @@ function addOperationDoc(operation: OperationObject, doc: DocRoute): OperationOb
   return addErrorResponseOpenApi(output);
 }
 
-export { addOperationDoc, addSchemaDoc, zodOpenApi, getDocOpenAPIAttributes, pickPropertiesOpenAPI };
+export { addOperationDoc, addSchemaDoc, zodOpenApi, getDocOpenAPIAttributes, pickPropertiesOpenAPI, getTextOpenAPI };

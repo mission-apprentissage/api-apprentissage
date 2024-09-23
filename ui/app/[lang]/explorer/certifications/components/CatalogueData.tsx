@@ -1,6 +1,7 @@
 import { fr } from "@codegouvfr/react-dsfr";
 import { Box, Container, Hidden, Typography } from "@mui/material";
 import type { DocBusinessField, DocModel } from "api-alternance-sdk/internal";
+import { getTextOpenAPI } from "api-alternance-sdk/internal";
 import Markdown from "react-markdown";
 
 import { Artwork } from "@/components/artwork/Artwork";
@@ -71,7 +72,7 @@ function InformationBox({ information }: Pick<DocBusinessField, "information">) 
             <strong>Information</strong>
           </Typography>
         </Box>
-        <DsfrMarkdown>{information}</DsfrMarkdown>
+        <DsfrMarkdown>{getTextOpenAPI(information)}</DsfrMarkdown>
       </Box>
     </Box>
   );
@@ -105,10 +106,10 @@ function DataField({ name, field }: { name: string; field: DocBusinessField }) {
                 color: fr.colors.decisions.text.mention.grey.default,
               }}
             >
-              {field.sample}
+              {getTextOpenAPI(field.sample)}
             </Typography>
           )}
-          <DsfrMarkdown>{field.description}</DsfrMarkdown>
+          <DsfrMarkdown>{getTextOpenAPI(field.description)}</DsfrMarkdown>
           {field.tags != null ? (
             <Box sx={{ display: "flex", gap: fr.spacing("1w"), flexWrap: "wrap" }}>
               {field.tags.map((tag) => (
@@ -130,7 +131,7 @@ function DataField({ name, field }: { name: string; field: DocBusinessField }) {
 function DataTypologie({ name, field }: { name: string; field: DocBusinessField }) {
   return (
     <Box sx={{ display: "flex", gap: fr.spacing("1w"), flexDirection: "column" }}>
-      <Typography variant="h6">{field.section}</Typography>
+      <Typography variant="h6">{getTextOpenAPI(field.section)}</Typography>
       <Box
         sx={{
           display: "grid",

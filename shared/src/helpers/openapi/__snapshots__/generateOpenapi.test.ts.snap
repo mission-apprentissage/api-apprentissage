@@ -1868,12 +1868,9 @@ The ROME corresponds to the Operational Reference for Jobs and Occupations. Desi
                 "description": "The status of the offer (life cycle):
 
 - Active: The offer is available on the platform, and applications are open.
-
 - Filled: The offer has been filled and is no longer available.
-
 - Cancelled: The offer has been canceled and is no longer available.
 
-- Pending: The offer is awaiting validation by ? and is not available.
 
 Notes:
 

@@ -10,7 +10,7 @@ export const jobOfferCreateRouteDoc = {
       description: null,
       _: {
         id: {
-          description: "Identifier of the created offer",
+          description: { en: "Identifier of the created offer", fr: null },
         },
       },
     },

@@ -21,82 +21,87 @@ export const recruiterModelDoc = {
   _: {
     identifier: {
       metier: true,
-      section: "Identifier",
-      description: identifierDesc,
+      section: { en: "Identifier", fr: null },
+      description: { en: identifierDesc, fr: null },
       tags: [],
       _: {
         id: {
-          description: "Partner responsible for the job offer.",
+          description: { en: "Partner responsible for the job offer.", fr: null },
           examples: ["6687165396d52b5e01b409545"],
         },
       },
     },
     workplace: {
       metier: true,
-      section: "Workplace",
-      description: workplaceDesc,
+      section: { en: "Workplace", fr: null },
+      description: { en: workplaceDesc, fr: null },
       tags: [],
       _: {
         siret: {
-          description: "SIRET of the contract execution location",
+          description: { en: "SIRET of the contract execution location", fr: null },
           examples: ["13002526500013"],
         },
         name: {
-          description: "Name of the establishment (brand name or, failing that, legal name)",
-          notes:
-            "In the case of publishing a job offer, it is possible to use a custom name; otherwise, it will take the value of the brand name, or failing that, the legal name.",
+          description: { en: "Name of the establishment (brand name or, failing that, legal name)", fr: null },
+          notes: {
+            en: "In the case of publishing a job offer, it is possible to use a custom name; otherwise, it will take the value of the brand name, or failing that, the legal name.",
+            fr: null,
+          },
           examples: ["DIRECTION INTERMINISTERIELLE DU NUMERIQUE (DINUM)"],
         },
         description: {
-          description: "Description of the employer and/or the department where the contract will be carried out.",
+          description: {
+            en: "Description of the employer and/or the department where the contract will be carried out.",
+            fr: null,
+          },
           examples: [
             "Service du Premier ministre, placé sous l’autorité du ministre de la Transformation et de la Fonction publiques, la direction interministérielle du numérique (DINUM) a pour mission d’élaborer la stratégie numérique de l’État et de piloter sa mise en œuvre. Notre objectif : un État plus efficace, plus simple et plus souverain grâce au numérique.",
           ],
         },
         brand: {
-          description: "Brand name of the establishment",
+          description: { en: "Brand name of the establishment", fr: null },
           examples: ["Enseigne (todo)"],
         },
         legal_name: {
-          description: "Company legal name",
+          description: { en: "Company legal name", fr: null },
         },
         size: {
-          description: "Company workforce range, in number of employees",
+          description: { en: "Company workforce range, in number of employees", fr: null },
           examples: ["100-199"],
         },
         website: {
-          description: "Company website",
+          description: { en: "Company website", fr: null },
           examples: ["https://beta.gouv.fr/startups/"],
         },
         location: {
-          section: "Workplace",
+          section: { en: "Workplace", fr: null },
           metier: true,
-          description: workplaceLocationDesc,
+          description: { en: workplaceLocationDesc, fr: null },
           tags: [],
           _: {
             address: {
-              description: "Postal address of the job offer location.",
+              description: { en: "Postal address of the job offer location.", fr: null },
               examples: ["20 AVENUE DE SEGUR 75007 PARIS"],
             },
             geopoint: {
-              description: "Geolocation linked to the address",
-              notes: "Derived from the address.",
+              description: { en: "Geolocation linked to the address", fr: null },
+              notes: { en: "Derived from the address.", fr: null },
               _: {
                 coordinates: {
-                  description: "Coordinates of the geolocation linked to the address",
+                  description: { en: "Coordinates of the geolocation linked to the address", fr: null },
                   _: {
                     0: {
-                      description: "Longitude",
+                      description: { en: "Longitude", fr: null },
                       examples: [48.850699],
                     },
                     1: {
-                      description: "Latitude",
+                      description: { en: "Latitude", fr: null },
                       examples: [2.308628],
                     },
                   },
                 },
                 type: {
-                  description: "GeoJSON type related to the geolocation linked to the address",
+                  description: { en: "GeoJSON type related to the geolocation linked to the address", fr: null },
                   examples: ["Point"],
                 },
               },
@@ -104,30 +109,33 @@ export const recruiterModelDoc = {
           },
         },
         domain: {
-          section: "Workplace",
+          section: { en: "Workplace", fr: null },
           metier: true,
-          description: workplaceDomainDesc,
+          description: { en: workplaceDomainDesc, fr: null },
           tags: [],
           _: {
             idcc: {
-              description: "Collective agreement number associated with the SIRET number",
+              description: { en: "Collective agreement number associated with the SIRET number", fr: null },
               examples: [1979],
             },
             naf: {
-              description: "NAF (sector of activity) associated with the SIRET number",
+              description: { en: "NAF (sector of activity) associated with the SIRET number", fr: null },
               _: {
                 code: {
-                  description: "NAF code (sector of activity) associated with the SIRET number",
+                  description: { en: "NAF code (sector of activity) associated with the SIRET number", fr: null },
                   examples: ["8411Z"],
                 },
                 label: {
-                  description: "Label of the NAF code (sector of activity) associated with the SIRET number",
+                  description: {
+                    en: "Label of the NAF code (sector of activity) associated with the SIRET number",
+                    fr: null,
+                  },
                   examples: ["Administration publique générale"],
                 },
               },
             },
             opco: {
-              description: "Competency Operator (OPCO) associated with the SIRET number",
+              description: { en: "Competency Operator (OPCO) associated with the SIRET number", fr: null },
               examples: ["OPCO 2i"],
             },
           },
@@ -135,19 +143,21 @@ export const recruiterModelDoc = {
       },
     },
     apply: {
-      section: "Apply",
+      section: { en: "Apply", fr: null },
       metier: true,
-      description: applyDesc,
+      description: { en: applyDesc, fr: null },
       tags: [],
       _: {
         phone: {
-          description: "Recruiter's phone number",
-          notes:
-            "Only European phone numbers are allowed. There is also a check on the nature of the number: only mobile and landline phones are allowed.",
+          description: { en: "Recruiter's phone number", fr: null },
+          notes: {
+            en: "Only European phone numbers are allowed. There is also a check on the nature of the number: only mobile and landline phones are allowed.",
+            fr: null,
+          },
           examples: ["0199000000"],
         },
         url: {
-          description: "Redirect URL to the application form",
+          description: { en: "Redirect URL to the application form", fr: null },
           examples: [
             "https://labonnealternance.apprentissage.beta.gouv.fr/recherche-apprentissage?display=list&page=fiche&type=matcha&itemId=664752a2ebe24062b758c641",
           ],

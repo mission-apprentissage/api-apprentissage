@@ -12,16 +12,6 @@ function extendZodWithOpenApi<T extends typeof z>(zod: T): T {
 
 const zodOpenApi = extendZodWithOpenApi(z);
 
-function buildOpenApiDescriptionLegacy(description: string | string[], notes: string[] = []): string {
-  const d = Array.isArray(description) ? description : [description];
-  if (notes.length > 0) {
-    d.push("Notes:");
-    d.push(...notes);
-  }
-
-  return d.join("\n\n");
-}
-
 function getDocOpenAPIAttributes(field: DocTechnicalField | DocBusinessField): {
   description?: string;
   examples?: unknown[];
@@ -189,11 +179,4 @@ function addOperationDoc(operation: OperationObject, doc: DocRoute): OperationOb
   return output;
 }
 
-export {
-  addOperationDoc,
-  addSchemaDoc,
-  zodOpenApi,
-  buildOpenApiDescriptionLegacy,
-  getDocOpenAPIAttributes,
-  pickPropertiesOpenAPI,
-};
+export { addOperationDoc, addSchemaDoc, zodOpenApi, getDocOpenAPIAttributes, pickPropertiesOpenAPI };

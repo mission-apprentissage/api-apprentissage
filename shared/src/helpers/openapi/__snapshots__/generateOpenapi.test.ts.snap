@@ -185,8 +185,8 @@ Notes:
 Notes:
 
 - La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.
-
-- La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
+- La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.
+",
                     "examples": [
                       "2022-08-31T23:59:59.000+02:00",
                       "2022-12-31T23:59:59.000+01:00",
@@ -203,8 +203,8 @@ Notes:
 Notes:
 
 - La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '00:00:00' sur le fuseau horaire 'Europe/Paris'.
-
-- La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
+- La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.
+",
                     "examples": [
                       "2014-02-21T00:00:00.000+01:00",
                       "2018-05-11T00:00:00.000+02:00",
@@ -243,12 +243,16 @@ Notes:
                 "items": {
                   "properties": {
                     "code": {
-                      "example": "RNCP37537BC01",
+                      "examples": [
+                        "RNCP37537BC01",
+                      ],
                       "pattern": "^(RNCP\\d{3,5}BC)?\\d{1,2}$",
                       "type": "string",
                     },
                     "intitule": {
-                      "example": "Approvisionnement, communication, sécurité alimentaire et hygiène en boulangerie",
+                      "examples": [
+                        "Approvisionnement, communication, sécurité alimentaire et hygiène en boulangerie",
+                      ],
                       "type": [
                         "string",
                         "null",
@@ -282,8 +286,8 @@ Notes:
 Notes:
 
 - \`null\` lorsque le champs \`identifiant.cfd\` est \`null\`.
-
-- Pour distinguer les diplômes remplacés des diplômes remplaçant, il faut se référer aux dates d'ouverture et de fermeture des diplômes.",
+- Pour distinguer les diplômes remplacés des diplômes remplaçant, il faut se référer aux dates d'ouverture et de fermeture des diplômes.
+",
                 "items": {
                   "properties": {
                     "code": {
@@ -374,11 +378,11 @@ Notes:
                       ],
                     },
                     "code": {
+                      "description": "Indique si la fiche correspond à la fiche courante, i.e \`identifiant.rncp\` est égal au \`code\`.",
                       "pattern": "^RNCP\\d{3,5}$",
                       "type": "string",
                     },
                     "courant": {
-                      "description": "Indique si la fiche correspond à la fiche courante, i.e \`identifiant.rncp\` est égal au \`code\`.",
                       "type": "boolean",
                     },
                     "fin_enregistrement": {
@@ -431,11 +435,15 @@ Notes:
                 "items": {
                   "properties": {
                     "intitule": {
-                      "example": "Bâtiment (Employés, techniciens et agents de maîtrise, ingénieurs, assimilés et cadres)",
+                      "examples": [
+                        "Bâtiment (Employés, techniciens et agents de maîtrise, ingénieurs, assimilés et cadres)",
+                      ],
                       "type": "string",
                     },
                     "numero": {
-                      "example": "3002",
+                      "examples": [
+                        "3002",
+                      ],
                       "type": "string",
                     },
                   },
@@ -480,11 +488,15 @@ Notes:
                     "items": {
                       "properties": {
                         "code": {
-                          "example": "21538",
+                          "examples": [
+                            "21538",
+                          ],
                           "type": "string",
                         },
                         "intitule": {
-                          "example": "21538 : Boulangerie",
+                          "examples": [
+                            "21538 : Boulangerie",
+                          ],
                           "type": "string",
                         },
                       },
@@ -513,8 +525,8 @@ Notes:
 Notes:
 
 - \`null\` lorsque le champs \`identifiant.cfd\` est \`null\`.
-
-- Le code NSF est déduis du code formation diplôme (CFD), il n'inclut donc pas la lettre de spécialité et le tableau ne contient qu'un seul élément.",
+- Le code NSF est déduis du code formation diplôme (CFD), il n'inclut donc pas la lettre de spécialité et le tableau ne contient qu'un seul élément.
+",
                     "properties": {
                       "code": {
                         "examples": [
@@ -552,12 +564,16 @@ Notes:
                     "items": {
                       "properties": {
                         "code": {
-                          "example": "221",
+                          "examples": [
+                            "221",
+                          ],
                           "pattern": "^\\d{2,3}[a-z]?$",
                           "type": "string",
                         },
                         "intitule": {
-                          "example": "221 : Agro-alimentaire, alimentation, cuisine",
+                          "examples": [
+                            "221 : Agro-alimentaire, alimentation, cuisine",
+                          ],
                           "type": [
                             "string",
                             "null",
@@ -594,12 +610,16 @@ Notes:
                     "items": {
                       "properties": {
                         "code": {
-                          "example": "D1102",
+                          "examples": [
+                            "D1102",
+                          ],
                           "pattern": "^[A-Z]{1}\\d{2,4}$",
                           "type": "string",
                         },
                         "intitule": {
-                          "example": "Boulangerie - viennoiserie",
+                          "examples": [
+                            "Boulangerie - viennoiserie",
+                          ],
                           "type": "string",
                         },
                       },
@@ -755,8 +775,8 @@ Notes:
 Notes:
 
 - peut être \`null\` lorsque le niveau de diplôme n'a pas de correspondance avec les niveaux européens ou qu'elle n'est pas déterminée.
-
-- lorsque la fiche RNCP correspondante est connue, il faut priviliégier le niveau européen issue de France Compétences.",
+- lorsque la fiche RNCP correspondante est connue, il faut priviliégier le niveau européen issue de France Compétences.
+",
                         "enum": [
                           "1",
                           "2",
@@ -855,7 +875,9 @@ Notes:
                           "7",
                           "8",
                         ],
-                        "example": "3",
+                        "examples": [
+                          "3",
+                        ],
                         "type": [
                           "string",
                           "null",
@@ -883,7 +905,9 @@ Notes:
 Notes:
 
 - \`null\` lorsque le champs \`identifiant.rncp\` est \`null\`.",
-                "example": "Boulanger",
+                "examples": [
+                  "Boulanger",
+                ],
                 "type": [
                   "string",
                   "null",
@@ -919,7 +943,9 @@ Notes:
                 "properties": {
                   "derniere_session": {
                     "description": "Année de sortie des derniers diplômés.",
-                    "example": 2025,
+                    "examples": [
+                      2025,
+                    ],
                     "type": [
                       "integer",
                       "null",
@@ -959,7 +985,9 @@ Notes:
                   },
                   "premiere_session": {
                     "description": "Année de sortie des premiers diplômés.",
-                    "example": 2022,
+                    "examples": [
+                      2022,
+                    ],
                     "type": [
                       "integer",
                       "null",
@@ -1029,8 +1057,8 @@ Notes:
 Notes:
 
 - La couverture de ce champ est partiel car nous ne sommes pas en mesure pour le moment de récupérer les dates d'activation antérieures au 24 décembre 2021.
-
-- France Compétence ne fournie pas l'information, nous le déduisons de la date de premiere apparation de la fiche RNCP avec le statut \`actif\`.",
+- France Compétence ne fournie pas l'information, nous le déduisons de la date de premiere apparation de la fiche RNCP avec le statut \`actif\`.
+",
                     "examples": [
                       "2021-09-01T00:00:00.000+02:00",
                       "2022-01-01T00:00:00.000+01:00",
@@ -1138,7 +1166,9 @@ Notes:
                   "Enregistrement de droit",
                   "Enregistrement sur demande",
                 ],
-                "example": "Enregistrement de droit",
+                "examples": [
+                  "Enregistrement de droit",
+                ],
                 "type": [
                   "string",
                   "null",
@@ -1150,7 +1180,9 @@ Notes:
 Notes:
 
 - \`null\` lorsque le champs \`identifiant.cfd\` est \`null\`.",
-                "example": "DGESCO A2-3",
+                "examples": [
+                  "DGESCO A2-3",
+                ],
                 "type": [
                   "string",
                   "null",

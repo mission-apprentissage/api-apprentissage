@@ -170,7 +170,7 @@ export function generateOpenApiSchema(version: string, env: string, publicUrl: s
 
   registerOpenApiCertificationSchema(builder, lang);
   registerOpenApiJobModel(builder, lang);
-  registerOpenApiErrorsSchema(builder);
+  registerOpenApiErrorsSchema(builder, lang);
 
   registerHealhcheckRoutes(builder);
   registerCertificationRoutes(builder);

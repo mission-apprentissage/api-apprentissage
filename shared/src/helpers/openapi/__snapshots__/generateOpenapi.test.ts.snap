@@ -115,12 +115,12 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 },
                 "message": {
                   "description": "Un message explicatif de l'erreur",
-                  "example": "Request validation failed",
+                  "example": "The server was unable to complete your request",
                   "type": "string",
                 },
                 "name": {
                   "description": "Le type générique de l'erreur",
-                  "example": "Bad Request",
+                  "example": "Bad Gateway",
                   "type": "string",
                 },
                 "statusCode": {
@@ -147,19 +147,23 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
           "application/json": {
             "schema": {
               "additionalProperties": false,
-              "description": "Paramètre de requête non valide.",
+              "description": "Requête invalide",
               "properties": {
                 "data": {
                   "description": "Données contextuelles liées à l'erreur",
                 },
                 "message": {
                   "description": "Un message explicatif de l'erreur",
-                  "example": "Request validation failed",
+                  "examples": [
+                    "Request validation failed",
+                  ],
                   "type": "string",
                 },
                 "name": {
                   "description": "Le type générique de l'erreur",
-                  "example": "Bad Request",
+                  "examples": [
+                    "Bad Request",
+                  ],
                   "type": "string",
                 },
                 "statusCode": {
@@ -193,12 +197,12 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 },
                 "message": {
                   "description": "Un message explicatif de l'erreur",
-                  "example": "Request validation failed",
+                  "example": "La ressource exite déjà",
                   "type": "string",
                 },
                 "name": {
                   "description": "Le type générique de l'erreur",
-                  "example": "Bad Request",
+                  "example": "Conflict",
                   "type": "string",
                 },
                 "statusCode": {
@@ -218,7 +222,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             },
           },
         },
-        "description": "Conflit",
+        "description": "Conflit de ressource",
       },
       "Forbidden": {
         "content": {
@@ -232,12 +236,12 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 },
                 "message": {
                   "description": "Un message explicatif de l'erreur",
-                  "example": "Request validation failed",
+                  "example": "Le jeton d'accès est invalide",
                   "type": "string",
                 },
                 "name": {
                   "description": "Le type générique de l'erreur",
-                  "example": "Bad Request",
+                  "example": "Forbidden",
                   "type": "string",
                 },
                 "statusCode": {
@@ -271,12 +275,12 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 },
                 "message": {
                   "description": "Un message explicatif de l'erreur",
-                  "example": "Request validation failed",
+                  "example": "The server was unable to complete your request",
                   "type": "string",
                 },
                 "name": {
                   "description": "Le type générique de l'erreur",
-                  "example": "Bad Request",
+                  "example": "Internal Server Error",
                   "type": "string",
                 },
                 "statusCode": {
@@ -303,19 +307,19 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
           "application/json": {
             "schema": {
               "additionalProperties": false,
-              "description": "Resource non trouvée",
+              "description": "Ressource non trouvée",
               "properties": {
                 "data": {
                   "description": "Données contextuelles liées à l'erreur",
                 },
                 "message": {
                   "description": "Un message explicatif de l'erreur",
-                  "example": "Request validation failed",
+                  "example": "Resource non trouvée",
                   "type": "string",
                 },
                 "name": {
                   "description": "Le type générique de l'erreur",
-                  "example": "Bad Request",
+                  "example": "Not Found",
                   "type": "string",
                 },
                 "statusCode": {
@@ -335,7 +339,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             },
           },
         },
-        "description": "Resource non trouvée",
+        "description": "Ressource non trouvée",
       },
       "ServiceUnavailable": {
         "content": {
@@ -349,12 +353,12 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 },
                 "message": {
                   "description": "Un message explicatif de l'erreur",
-                  "example": "Request validation failed",
+                  "example": "The server was unable to complete your request",
                   "type": "string",
                 },
                 "name": {
                   "description": "Le type générique de l'erreur",
-                  "example": "Bad Request",
+                  "example": "Service Unavailable",
                   "type": "string",
                 },
                 "statusCode": {
@@ -388,12 +392,12 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 },
                 "message": {
                   "description": "Un message explicatif de l'erreur",
-                  "example": "Request validation failed",
+                  "example": "Limite de requêtes atteinte",
                   "type": "string",
                 },
                 "name": {
                   "description": "Le type générique de l'erreur",
-                  "example": "Bad Request",
+                  "example": "Too Many Requests",
                   "type": "string",
                 },
                 "statusCode": {
@@ -427,12 +431,12 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 },
                 "message": {
                   "description": "Un message explicatif de l'erreur",
-                  "example": "Request validation failed",
+                  "example": "Vous devez être connecté pour accéder à cette ressource",
                   "type": "string",
                 },
                 "name": {
                   "description": "Le type générique de l'erreur",
-                  "example": "Bad Request",
+                  "example": "Unauthorized",
                   "type": "string",
                 },
                 "statusCode": {

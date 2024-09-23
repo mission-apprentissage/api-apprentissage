@@ -361,9 +361,9 @@ const offerWriteSchema = {
   required: ["workplace", "apply", "offer"],
 } as const satisfies SchemaObject;
 
-export function registerOpenApiJobModel(builder: OpenApiBuilder): OpenApiBuilder {
+export function registerOpenApiJobModel(builder: OpenApiBuilder, lang: "en" | "fr"): OpenApiBuilder {
   return builder
-    .addSchema("JobRecruiter", addSchemaDoc(recruiterSchema, recruiterModelDoc))
-    .addSchema("JobOfferRead", addSchemaDoc(offerReadSchema, offerReadModelDoc))
-    .addSchema("JobOfferWrite", addSchemaDoc(offerWriteSchema, offerWriteModelDoc));
+    .addSchema("JobRecruiter", addSchemaDoc(recruiterSchema, recruiterModelDoc, lang))
+    .addSchema("JobOfferRead", addSchemaDoc(offerReadSchema, offerReadModelDoc, lang))
+    .addSchema("JobOfferWrite", addSchemaDoc(offerWriteSchema, offerWriteModelDoc, lang));
 }

@@ -193,7 +193,7 @@ function cleanPathItemObject(pathItem: PathItemObject | undefined) {
 
 describe("generateOpenApiSchema", () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const openapi: any = generateOpenApiSchema("V1.0", "Production", "https://api.apprentissage.beta.gouv.fr");
+  const openapi: any = generateOpenApiSchema("V1.0", "Production", "https://api.apprentissage.beta.gouv.fr", "fr");
 
   it("should generate proper schema", async () => {
     expect(openapi).toMatchSnapshot();

@@ -4,6 +4,7 @@ import type { DocBusinessField, DocModel } from "api-alternance-sdk/internal";
 import { getTextOpenAPI } from "api-alternance-sdk/internal";
 import Markdown from "react-markdown";
 
+import type { WithLang } from "@/app/i18n/settings";
 import { Artwork } from "@/components/artwork/Artwork";
 import { DsfrLink } from "@/components/link/DsfrLink";
 import { Tag } from "@/components/tag/Tag";
@@ -42,7 +43,7 @@ function DsfrMarkdown({ children }: { children: string | null | undefined }) {
   );
 }
 
-function InformationBox({ information }: Pick<DocBusinessField, "information">) {
+function InformationBox({ information, lang }: WithLang<Pick<DocBusinessField, "information">>) {
   if (!information) return null;
 
   return (
@@ -72,13 +73,13 @@ function InformationBox({ information }: Pick<DocBusinessField, "information">) 
             <strong>Information</strong>
           </Typography>
         </Box>
-        <DsfrMarkdown>{getTextOpenAPI(information)}</DsfrMarkdown>
+        <DsfrMarkdown>{getTextOpenAPI(information, lang)}</DsfrMarkdown>
       </Box>
     </Box>
   );
 }
 
-function DataField({ name, field }: { name: string; field: DocBusinessField }) {
+function DataField({ name, field, lang }: WithLang<{ name: string; field: DocBusinessField }>) {
   return (
     <Box
       sx={{
@@ -106,10 +107,10 @@ function DataField({ name, field }: { name: string; field: DocBusinessField }) {
                 color: fr.colors.decisions.text.mention.grey.default,
               }}
             >
-              {getTextOpenAPI(field.sample)}
+              {getTextOpenAPI(field.sample, lang)}
             </Typography>
           )}
-          <DsfrMarkdown>{getTextOpenAPI(field.description)}</DsfrMarkdown>
+          <DsfrMarkdown>{getTextOpenAPI(field.description, lang)}</DsfrMarkdown>
           {field.tags != null ? (
             <Box sx={{ display: "flex", gap: fr.spacing("1w"), flexWrap: "wrap" }}>
               {field.tags.map((tag) => (
@@ -120,18 +121,18 @@ function DataField({ name, field }: { name: string; field: DocBusinessField }) {
             </Box>
           ) : null}
         </Box>
-        <GoodToKnow tip={field.tip} />
+        <GoodToKnow tip={field.tip} lang={lang} />
         <Box component="hr" sx={{ gridColumn: "1/-1", padding: 0, height: "1px" }} />
       </Box>
-      <InformationBox information={field.information} />
+      <InformationBox information={field.information} lang={lang} />
     </Box>
   );
 }
 
-function DataTypologie({ name, field }: { name: string; field: DocBusinessField }) {
+function DataTypologie({ name, field, lang }: WithLang<{ name: string; field: DocBusinessField }>) {
   return (
     <Box sx={{ display: "flex", gap: fr.spacing("1w"), flexDirection: "column" }}>
-      <Typography variant="h6">{getTextOpenAPI(field.section)}</Typography>
+      <Typography variant="h6">{getTextOpenAPI(field.section, lang)}</Typography>
       <Box
         sx={{
           display: "grid",
@@ -142,17 +143,19 @@ function DataTypologie({ name, field }: { name: string; field: DocBusinessField 
       >
         <Box component="hr" sx={{ gridColumn: "1/3", padding: 0, height: "1px" }} />
       </Box>
-      <DataField key={name} name={name} field={field} />
+      <DataField key={name} name={name} field={field} lang={lang} />
       {field._ == null
         ? null
         : Object.entries(field._).map(([key, childField]) =>
-            "metier" in childField && childField.metier ? <DataField key={key} name={key} field={childField} /> : null
+            "metier" in childField && childField.metier ? (
+              <DataField key={key} name={key} field={childField} lang={lang} />
+            ) : null
           )}
     </Box>
   );
 }
 
-function DataSection({ model }: { model: DocModel }) {
+function DataSection({ model, lang }: WithLang<{ model: DocModel }>) {
   return (
     <Box
       sx={{
@@ -166,7 +169,7 @@ function DataSection({ model }: { model: DocModel }) {
         Détail des données
       </Typography>
       {Object.entries(model._).map(([key, field]) => (
-        <DataTypologie key={key} name={key} field={field} />
+        <DataTypologie key={key} name={key} field={field} lang={lang} />
       ))}
       <Box
         sx={{
@@ -231,10 +234,10 @@ function ContactSection() {
   );
 }
 
-export function CatalogueData({ model }: { model: DocModel }) {
+export function CatalogueData({ model, lang }: WithLang<{ model: DocModel }>) {
   return (
     <>
-      <DataSection model={model} />
+      <DataSection model={model} lang={lang} />
       <ContactSection />
     </>
   );

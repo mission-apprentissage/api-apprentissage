@@ -50,7 +50,8 @@ export async function bind(app: Server) {
       document: generateOpenApiSchema(
         config.version,
         config.env,
-        config.apiPublicUrl
+        config.apiPublicUrl,
+        "fr"
       ) as StaticDocumentSpec["document"],
     },
   };

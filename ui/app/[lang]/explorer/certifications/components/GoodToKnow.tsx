@@ -13,9 +13,10 @@ import { useState } from "react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
+import type { WithLang } from "@/app/i18n/settings";
 import { DsfrLink } from "@/components/link/DsfrLink";
 
-export function GoodToKnow({ tip }: Pick<DocBusinessField, "tip">) {
+export function GoodToKnow({ tip, lang }: WithLang<Pick<DocBusinessField, "tip">>) {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
@@ -38,7 +39,7 @@ export function GoodToKnow({ tip }: Pick<DocBusinessField, "tip">) {
           iconPosition="right"
           onClick={toggle}
         >
-          {getTextOpenAPI(tip.title)}
+          {getTextOpenAPI(tip.title, lang)}
         </Button>
       </Box>
       <Collapse in={isOpen}>
@@ -89,7 +90,7 @@ export function GoodToKnow({ tip }: Pick<DocBusinessField, "tip">) {
           }}
           remarkPlugins={[remarkGfm]}
         >
-          {getTextOpenAPI(tip.content)}
+          {getTextOpenAPI(tip.content, lang)}
         </Markdown>
       </Collapse>
     </Box>

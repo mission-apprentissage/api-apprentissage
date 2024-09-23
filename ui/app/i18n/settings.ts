@@ -1,3 +1,5 @@
+import type { EmptyObject } from "type-fest";
+
 export const fallbackLng = "fr" as const;
 export const languages = [fallbackLng, "en"] as const;
 export const cookieName = "i18n-locale";
@@ -23,6 +25,10 @@ export function getOptions(lng: Lang = fallbackLng, ns: Namespace = defaultNS) {
   };
 }
 
-export type PropsWithLangParams = {
-  params: { lang: Lang };
+export type WithLang<T = EmptyObject> = T & {
+  lang: Lang;
+};
+
+export type PropsWithLangParams<T = EmptyObject> = {
+  params: WithLang<T>;
 };

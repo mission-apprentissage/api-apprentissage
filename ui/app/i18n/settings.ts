@@ -1,3 +1,4 @@
+import type { TFunction } from "i18next";
 import type { EmptyObject } from "type-fest";
 
 export const fallbackLng = "fr" as const;
@@ -27,6 +28,10 @@ export function getOptions(lng: Lang = fallbackLng) {
 
 export type WithLang<T = EmptyObject> = T & {
   lang: Lang;
+};
+
+export type WithLangAndT<T = EmptyObject> = WithLang<T> & {
+  t: TFunction<Namespace>;
 };
 
 export type PropsWithLangParams<T = EmptyObject> = {

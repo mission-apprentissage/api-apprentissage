@@ -20,7 +20,7 @@ export default async function ExplorerApiPage({ params: { lang } }: PropsWithLan
     <Container maxWidth="xl" style={{ marginTop: fr.spacing("2w"), marginBottom: fr.spacing("9w") }}>
       <Box>
         <Breadcrumb
-          currentPageLabel={PAGES.static.explorerApi.title}
+          currentPageLabel={PAGES.static.explorerApi.getTitle(lang, t)}
           homeLinkProps={{
             href: "/",
           }}
@@ -37,7 +37,7 @@ export default async function ExplorerApiPage({ params: { lang } }: PropsWithLan
           gap={fr.spacing("3w")}
         >
           <Typography variant="h1" align="center" sx={{ color: fr.colors.decisions.text.label.blueEcume.default }}>
-            {PAGES.static.explorerApi.title}
+            {PAGES.static.explorerApi.getTitle(lang, t)}
           </Typography>
           <Box
             component="h4"
@@ -60,7 +60,7 @@ export default async function ExplorerApiPage({ params: { lang } }: PropsWithLan
         gap={fr.spacing("2w")}
       >
         <Tile
-          title={PAGES.static.catalogueDesDonneesCertification.title}
+          title={PAGES.static.catalogueDesDonneesCertification.getTitle(lang, t)}
           desc={t("catalogueDesDonneesCertification.desc")}
           imageSvg
           imageUrl={book.src}
@@ -71,7 +71,7 @@ export default async function ExplorerApiPage({ params: { lang } }: PropsWithLan
           }}
         />
         <Tile
-          title={PAGES.static.simulateurNpec.title}
+          title={PAGES.static.simulateurNpec.getTitle(lang, t)}
           desc={t("simulateurNpec.desc")}
           imageSvg
           imageUrl={money.src}

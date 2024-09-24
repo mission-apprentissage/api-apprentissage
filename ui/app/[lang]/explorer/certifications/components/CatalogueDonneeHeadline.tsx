@@ -1,6 +1,7 @@
 import { fr } from "@codegouvfr/react-dsfr";
 import { Box, Typography } from "@mui/material";
 
+import type { WithLangAndT } from "@/app/i18n/settings";
 import { Artwork } from "@/components/artwork/Artwork";
 import { DsfrLink } from "@/components/link/DsfrLink";
 import { Tag } from "@/components/tag/Tag";
@@ -17,7 +18,7 @@ const spanTwoColumns = {
   lg: "span 2",
 };
 
-export function CatalogueHeadline() {
+export function CatalogueHeadline({ t, lang }: WithLangAndT) {
   return (
     <Box
       sx={{
@@ -36,7 +37,7 @@ export function CatalogueHeadline() {
         }}
       >
         <Typography variant="h1" sx={{ color: fr.colors.decisions.text.label.blueEcume.default }}>
-          {PAGES.static.catalogueDesDonneesCertification.title}
+          {PAGES.static.catalogueDesDonneesCertification.getTitle(lang, t)}
         </Typography>
 
         <Box

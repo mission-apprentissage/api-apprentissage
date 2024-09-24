@@ -28,7 +28,7 @@ export default function TryPage({ params: { lang } }: PropsWithLangParams) {
         sx={{ color: fr.colors.decisions.text.label.blueEcume.default, mb: fr.spacing("3w") }}
         gutterBottom
       >
-        {PAGES.static.documentationTechniqueEssayer.title}
+        {PAGES.static.documentationTechniqueEssayer.getTitle(lang, t)}
       </Typography>
       <SwaggerUI url={`${publicConfig.apiEndpoint}/documentation/json`} />
     </Container>

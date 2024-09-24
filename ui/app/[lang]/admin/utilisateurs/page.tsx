@@ -1,20 +1,21 @@
 import { Typography } from "@mui/material";
 
+import { getServerTranslation } from "@/app/i18n";
+import type { PropsWithLangParams } from "@/app/i18n/settings";
 import Breadcrumb from "@/components/breadcrumb/Breadcrumb";
 import { PAGES } from "@/utils/routes.utils";
 
 import UserList from "./components/UserList";
 
-const AdminUsersPage = () => {
+export default async function AdminUsersPage({ params: { lang } }: PropsWithLangParams) {
+  const { t } = await getServerTranslation(lang, "global");
   return (
     <>
-      <Breadcrumb pages={[PAGES.static.adminUsers]} />
+      <Breadcrumb pages={[PAGES.static.adminUsers]} lang={lang} t={t} />
       <Typography variant="h2" gutterBottom>
-        {PAGES.static.adminUsers.title}
+        {PAGES.static.adminUsers.getTitle(lang, t)}
       </Typography>
       <UserList />
     </>
   );
-};
-
-export default AdminUsersPage;
+}

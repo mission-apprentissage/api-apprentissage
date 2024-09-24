@@ -5,14 +5,11 @@ import type { IOrganisation } from "shared/models/organisation.model";
 import type { Jsonify } from "type-fest";
 
 import Loading from "@/app/[lang]/loading";
+import type { PropsWithLangParams } from "@/app/i18n/settings";
 import { NotFound } from "@/icons/NotFound";
 import { apiGet } from "@/utils/api.utils";
 
-import OrganisationView from "./components/OrganisationView";
-
-interface Props {
-  params: { id: string };
-}
+import { OrganisationView } from "./components/OrganisationView";
 
 type Result<T> = { isLoading: true } | { isLoading: false; data: T };
 
@@ -35,8 +32,8 @@ function useOrganisation(id: string): Result<Jsonify<IOrganisation | null>> {
   return { isLoading: false, data: result.data.find((o) => o._id === id) ?? null };
 }
 
-const AdminOrganisationViewPage = ({ params }: Props) => {
-  const organisationResult = useOrganisation(params.id);
+export default function AdminOrganisationViewPage({ params: { id, lang } }: PropsWithLangParams<{ id: string }>) {
+  const organisationResult = useOrganisation(id);
 
   if (organisationResult.isLoading) {
     return <Loading />;
@@ -46,7 +43,5 @@ const AdminOrganisationViewPage = ({ params }: Props) => {
     return <NotFound />;
   }
 
-  return <OrganisationView organisation={organisationResult.data} />;
-};
-
-export default AdminOrganisationViewPage;
+  return <OrganisationView organisation={organisationResult.data} lang={lang} />;
+}

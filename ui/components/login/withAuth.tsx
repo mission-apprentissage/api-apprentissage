@@ -134,7 +134,7 @@ function useLogin() {
         error: "Une erreur est survenue lors de la connection. Veuillez réessayer ultérieurement.",
       });
     }
-  }, [token, user]);
+  }, [token, user, setUser]);
 
   return status;
 }

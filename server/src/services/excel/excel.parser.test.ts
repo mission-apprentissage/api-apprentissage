@@ -109,7 +109,7 @@ describe("parseExcelFileStream", () => {
       },
     ] as const;
 
-    await expect(getRows(parseExcelFileStream(s, spec))).rejects.toThrow("Missing worksheets");
+    await expect(getRows(parseExcelFileStream(s, spec))).rejects.toThrow("Unexpected worksheets");
   });
 
   it("should not require optional sheets", async () => {

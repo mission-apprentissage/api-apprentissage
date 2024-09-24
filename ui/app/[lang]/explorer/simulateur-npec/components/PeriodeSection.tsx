@@ -14,6 +14,7 @@ type PeriodeSectionProps = {
 export function PeriodeSection(props: PeriodeSectionProps) {
   const [error, setError] = useState<string | null>(null);
 
+  const { onDateSignatureChanged } = props;
   const onChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       const start = new Date("2019-01-01");
@@ -22,14 +23,14 @@ export function PeriodeSection(props: PeriodeSectionProps) {
 
       if (event.target.value === "") {
         setError("La date de signature obligatoire");
-        props.onDateSignatureChanged(null);
+        onDateSignatureChanged(null);
       }
 
       const value = new Date(event.target.value);
 
       if (isNaN(value.getTime())) {
         setError("La date de signature n'est pas valide");
-        props.onDateSignatureChanged(null);
+        onDateSignatureChanged(null);
         return;
       }
 
@@ -37,14 +38,14 @@ export function PeriodeSection(props: PeriodeSectionProps) {
         setError(
           `La date doit être comprise entre le ${start.toLocaleDateString("fr-FR")} et le ${end.toLocaleDateString("fr-FR")}`
         );
-        props.onDateSignatureChanged(null);
+        onDateSignatureChanged(null);
         return;
       }
 
       setError(null);
-      props.onDateSignatureChanged(value);
+      onDateSignatureChanged(value);
     },
-    [props.onDateSignatureChanged]
+    [onDateSignatureChanged]
   );
 
   return (

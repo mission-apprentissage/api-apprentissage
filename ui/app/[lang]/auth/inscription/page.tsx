@@ -105,7 +105,7 @@ export default function RegisterPage() {
     if (user) {
       push(PAGES.static.compteProfil.path);
     }
-  }, [user]);
+  }, [user, push]);
 
   return (
     <Dialog

@@ -1,0 +1,22 @@
+diff --git a/lib/stream/xlsx/workbook-reader.js b/lib/stream/xlsx/workbook-reader.js
+index 0d3afd62a54ebc566ac430a0741c9d51f8b12888..7e8c97f12cfe9d8e45f93132c8b63e2722d3cbfe 100644
+--- a/lib/stream/xlsx/workbook-reader.js
++++ b/lib/stream/xlsx/workbook-reader.js
+@@ -112,7 +112,7 @@ class WorkbookReader extends EventEmitter {
+             } else {
+               // create temp file for each worksheet
+               await new Promise((resolve, reject) => {
+-                tmp.file((err, path, fd, tempFileCleanupCallback) => {
++                tmp.file({prefix: 'exceljs-'}, (err, path, fd, tempFileCleanupCallback) => {
+                   if (err) {
+                     return reject(err);
+                   }
+@@ -145,7 +145,7 @@ class WorkbookReader extends EventEmitter {
+         fileStream = fileStream.pipe(new PassThrough());
+       }
+       yield* this._parseWorksheet(fileStream, sheetNo);
+-      tempFileCleanupCallback();
++      await tempFileCleanupCallback();
+     }
+   }
+ 

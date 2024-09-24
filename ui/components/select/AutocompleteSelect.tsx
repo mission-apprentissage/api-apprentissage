@@ -73,7 +73,7 @@ export function AutocompleteSelect<T extends string | number>(props: Autocomplet
     (params: AutocompleteRenderInputParams) => (
       <Input label={props.label} ref={params.InputProps.ref} nativeInputProps={params.inputProps}></Input>
     ),
-    []
+    [props.label]
   );
 
   return (

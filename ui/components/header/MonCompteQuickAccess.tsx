@@ -20,7 +20,7 @@ export function MonCompteQuickAccess() {
     await apiGet("/_private/auth/logout", {});
     setUser(null);
     push(PAGES.static.home.path);
-  }, []);
+  }, [push, setUser]);
 
   const handleOpenPopover = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);

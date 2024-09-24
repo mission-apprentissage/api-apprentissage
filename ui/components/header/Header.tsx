@@ -29,10 +29,13 @@ export const Header = ({ lang }: { lang: Lang }) => {
 
   const navigation = useNavigationItems({ user, pathname });
 
-  const setLang = useCallback(async (locale: Lang) => {
-    const newPath = window.location.pathname.replace(new RegExp(`^/${lang}`), `/${locale}`);
-    window.location.assign(newPath);
-  }, []);
+  const setLang = useCallback(
+    async (locale: Lang) => {
+      const newPath = window.location.pathname.replace(new RegExp(`^/${lang}`), `/${locale}`);
+      window.location.assign(newPath);
+    },
+    [lang]
+  );
 
   return (
     <>

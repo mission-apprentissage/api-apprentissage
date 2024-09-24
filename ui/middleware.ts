@@ -54,12 +54,12 @@ function isLocalisedPath(pathname: string) {
 }
 
 export function middleware(request: NextRequest) {
-  const pathname = request.nextUrl.pathname;
+  const { pathname, search } = request.nextUrl;
 
   const lang = guessLang(request);
 
   if (isPage(pathname)) {
-    return NextResponse.redirect(new URL(`/${lang}${pathname}`, request.url));
+    return NextResponse.redirect(new URL(`/${lang}${pathname}${search}`, request.url));
   }
 
   const nonce = Buffer.from(crypto.randomUUID()).toString("base64");

@@ -2,32 +2,33 @@ import type { MainNavigationProps } from "@codegouvfr/react-dsfr/MainNavigation"
 import { useMemo } from "react";
 import type { IUserPublic } from "shared/models/user.model";
 
+import type { WithLangAndT } from "@/app/i18n/settings";
 import { PAGES } from "@/utils/routes.utils";
 
-interface GetNavigationItemsProps {
+type GetNavigationItemsProps = WithLangAndT<{
   user: IUserPublic | null;
   pathname: string;
-}
+}>;
 
-const getNavigationItems = ({ user, pathname }: GetNavigationItemsProps): MainNavigationProps.Item[] => {
+const getNavigationItems = ({ user, pathname, lang, t }: GetNavigationItemsProps): MainNavigationProps.Item[] => {
   const navigation: MainNavigationProps.Item[] = [
     {
       isActive: pathname === PAGES.static.home.path,
-      text: PAGES.static.home.title,
+      text: PAGES.static.home.getTitle(lang, t),
       linkProps: {
         href: PAGES.static.home.path,
       },
     },
     {
       isActive: pathname.startsWith(PAGES.static.explorerApi.path),
-      text: PAGES.static.explorerApi.title,
+      text: PAGES.static.explorerApi.getTitle(lang, t),
       linkProps: {
         href: PAGES.static.explorerApi.path,
       },
     },
     {
       isActive: pathname.startsWith(PAGES.static.documentationTechnique.path),
-      text: PAGES.static.documentationTechnique.title,
+      text: PAGES.static.documentationTechnique.getTitle(lang, t),
       linkProps: {
         href: PAGES.static.documentationTechnique.path,
       },
@@ -37,21 +38,21 @@ const getNavigationItems = ({ user, pathname }: GetNavigationItemsProps): MainNa
   if (user?.is_admin) {
     const adminMenuLinks = [
       {
-        text: PAGES.static.adminOrganisations.title,
+        text: PAGES.static.adminOrganisations.getTitle(lang, t),
         isActive: pathname.startsWith(PAGES.static.adminOrganisations.path),
         linkProps: {
           href: PAGES.static.adminOrganisations.path,
         },
       },
       {
-        text: PAGES.static.adminUsers.title,
+        text: PAGES.static.adminUsers.getTitle(lang, t),
         isActive: pathname.startsWith(PAGES.static.adminUsers.path),
         linkProps: {
           href: PAGES.static.adminUsers.path,
         },
       },
       {
-        text: PAGES.static.adminProcessor.title,
+        text: PAGES.static.adminProcessor.getTitle(lang, t),
         isActive: pathname.startsWith(PAGES.static.adminProcessor.path),
         linkProps: {
           href: PAGES.static.adminProcessor.path,
@@ -76,5 +77,5 @@ const getNavigationItems = ({ user, pathname }: GetNavigationItemsProps): MainNa
   }) as MainNavigationProps.Item[];
 };
 
-export const useNavigationItems = ({ user, pathname }: GetNavigationItemsProps): MainNavigationProps.Item[] =>
-  useMemo(() => getNavigationItems({ user, pathname }), [user, pathname]);
+export const useNavigationItems = ({ user, pathname, lang, t }: GetNavigationItemsProps): MainNavigationProps.Item[] =>
+  useMemo(() => getNavigationItems({ user, pathname, lang, t }), [user, pathname]);

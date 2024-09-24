@@ -15,6 +15,7 @@ import Link from "next/link";
 import type { PropsWithChildren } from "react";
 import type { IUserPublic } from "shared/models/user.model";
 
+import { getServerTranslation } from "@/app/i18n";
 import type { PropsWithLangParams } from "@/app/i18n/settings";
 import { languages } from "@/app/i18n/settings";
 import { StartIntl } from "@/app/i18n/StartIntl";
@@ -95,7 +96,7 @@ export default async function LangLayout({ children, params: { lang } }: PropsWi
                 >
                   {children}
                 </Box>
-                <Footer />
+                <Footer lang={lang} />
               </MuiDsfrThemeProvider>
             </DsfrProvider>
           </AuthContextProvider>

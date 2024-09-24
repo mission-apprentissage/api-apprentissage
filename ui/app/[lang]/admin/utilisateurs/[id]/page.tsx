@@ -6,13 +6,10 @@ import type { IUserAdminView } from "shared/models/user.model";
 import type { Jsonify } from "type-fest";
 
 import Loading from "@/app/[lang]/loading";
+import type { PropsWithLangParams } from "@/app/i18n/settings";
 import { apiGet } from "@/utils/api.utils";
 
 import UserView from "./components/UserView";
-
-interface Props {
-  params: { id: string };
-}
 
 type Result<T> = { isLoading: true } | { isLoading: false; data: T };
 
@@ -49,7 +46,7 @@ function useOrganisations(): Result<Jsonify<IOrganisation[]>> {
   return { isLoading: false, data: result.data };
 }
 
-const AdminUserViewPage = ({ params }: Props) => {
+export default function AdminUserViewPage({ params }: PropsWithLangParams<{ id: string }>) {
   const userResult = useUsers(params.id);
   const organisationResult = useOrganisations();
 
@@ -57,7 +54,5 @@ const AdminUserViewPage = ({ params }: Props) => {
     return <Loading />;
   }
 
-  return <UserView user={userResult.data} organisations={organisationResult.data} />;
-};
-
-export default AdminUserViewPage;
+  return <UserView user={userResult.data} organisations={organisationResult.data} lang={params.lang} />;
+}

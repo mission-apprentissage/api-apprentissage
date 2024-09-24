@@ -1,4 +1,28 @@
 {
-  "title": "Salut!",
-  "to-second-page": "Vers la deuxième page"
+  "pages": {
+    "home": "Accueil",
+    "documentationTechnique": "Documentation technique",
+    "documentationTechniqueEssayer": "Essayer l'API",
+
+    "explorerApi": "Explorer l’API",
+    "catalogueDesDonneesCertification": "Liste des certifications professionnelles",
+    "simulateurNpec": "Simulateur des Niveaux de Prise en Charge (NPEC)",
+    "mentionsLegales": "Mentions Légales",
+    "accessibilite": "Accessibilité",
+    "cgu": "Conditions Générales d'Utilisation",
+    "donneesPersonnelles": "Données Personnelles",
+    "politiqueConfidentialite": "Politique de Confidentialité",
+    "compteProfil": "Mon profil",
+    "adminUsers": "Gestion des utilisateurs",
+    "adminOrganisations": "Gestion des organisations",
+    "adminProcessor": "Administration du processeur",
+    "inscription": "Inscription",
+    "refusInscription": "Inscription",
+    "adminUserView": "Fiche utilisateur",
+    "adminOrganisationView": "Fiche Organisation",
+    "adminProcessorJob": "Job {{name}}",
+    "adminProcessorJobInstance": "Tâche Job {{id}}",
+    "adminProcessorCron": "CRON {{name}}",
+    "adminProcessorCronTask": "Tâche CRON {{id}}"
+  }
 }

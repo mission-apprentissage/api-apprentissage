@@ -25,10 +25,10 @@ const initI18next = async (lang: Lang) => {
   return i18nInstance;
 };
 
-export async function getServerTranslation(lang: Lang, ns: Namespace) {
+export async function getServerTranslation<N extends Namespace>(lang: Lang, ns: N) {
   const i18nextInstance = await initI18next(lang);
   return {
-    t: i18nextInstance.getFixedT(lang, ns),
+    t: i18nextInstance.getFixedT<N>(lang, ns),
     i18n: i18nextInstance,
   };
 }

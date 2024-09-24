@@ -1,4 +1,28 @@
 {
-  "title": "Hi there!",
-  "to-second-page": "To second page"
+  "pages": {
+    "home": "Home",
+    "documentationTechnique": "Technical Documentation",
+    "documentationTechniqueEssayer": "Try the API",
+
+    "explorerApi": "Explore the API",
+    "catalogueDesDonneesCertification": "List of Professional Certifications",
+    "simulateurNpec": "NPEC Simulator",
+    "mentionsLegales": "Legal Notice",
+    "accessibilite": "Accessibility",
+    "cgu": "Terms of Use",
+    "donneesPersonnelles": "Personal Data",
+    "politiqueConfidentialite": "Privacy Policy",
+    "compteProfil": "My Profile",
+    "adminUsers": "User Management",
+    "adminOrganisations": "Organization Management",
+    "adminProcessor": "Processor Administration",
+    "inscription": "Registration",
+    "refusInscription": "Registration",
+    "adminUserView": "User Profile",
+    "adminOrganisationView": "Organization Profile",
+    "adminProcessorJob": "Job {{name}}",
+    "adminProcessorJobInstance": "Job Task {{id}}",
+    "adminProcessorCron": "CRON {{name}}",
+    "adminProcessorCronTask": "CRON Task {{id}}"
+  }
 }

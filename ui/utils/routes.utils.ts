@@ -1,11 +1,13 @@
+import type { TFunction } from "i18next";
 import type { MetadataRoute } from "next";
 
+import type { Lang, Namespace } from "@/app/i18n/settings";
 import { publicConfig } from "@/config.public";
 
 export interface IPage {
-  title: string;
   path: string;
   index: boolean;
+  getTitle: (lang: Lang, t: TFunction<Namespace>) => string;
 }
 
 export interface INotionPage extends IPage {
@@ -22,121 +24,121 @@ export interface IPages {
 export const PAGES = {
   static: {
     home: {
-      title: "Accueil",
       path: "/" as string,
       index: true,
+      getTitle: (lang, t) => t("pages.home", { lang, ns: "global" }),
     },
     documentationTechnique: {
-      title: "Documentation technique",
       path: "/documentation-technique" as string,
       index: true,
+      getTitle: (lang, t) => t("pages.documentationTechnique", { lang, ns: "global" }),
     },
     documentationTechniqueEssayer: {
-      title: "Essayer l'API",
       path: "/documentation-technique/try" as string,
       index: true,
+      getTitle: (lang, t) => t("pages.documentationTechniqueEssayer", { lang, ns: "global" }),
     },
     explorerApi: {
-      title: "Explorer l’API",
       path: "/explorer" as string,
       index: true,
+      getTitle: (lang, t) => t("pages.explorerApi", { lang, ns: "global" }),
     },
     catalogueDesDonneesCertification: {
-      title: "Liste des certifications professionnelles",
       path: "/explorer/certifications" as string,
       index: true,
+      getTitle: (lang, t) => t("pages.catalogueDesDonneesCertification", { lang, ns: "global" }),
     },
     simulateurNpec: {
-      title: "Simulateur des Niveaux de Prise en Charge (NPEC)",
       path: "/explorer/simulateur-npec" as string,
       index: true,
+      getTitle: (lang, t) => t("pages.simulateurNpec", { lang, ns: "global" }),
     },
     mentionsLegales: {
-      title: "Mentions Légales",
       path: "/mentions-legales" as string,
       index: true,
+      getTitle: (lang, t) => t("pages.mentionsLegales", { lang, ns: "global" }),
     },
     accessibilite: {
-      title: "Accessibilité",
       path: "/accessibilite" as string,
       index: true,
+      getTitle: (lang, t) => t("pages.accessibilite", { lang, ns: "global" }),
     },
     cgu: {
-      title: "Conditions Générales d'Utilisation",
       path: "/cgu" as string,
       index: true,
+      getTitle: (lang, t) => t("pages.cgu", { lang, ns: "global" }),
     },
     donneesPersonnelles: {
-      title: "Données Personnelles",
       path: "/donnees-personnelles" as string,
       index: true,
+      getTitle: (lang, t) => t("pages.donneesPersonnelles", { lang, ns: "global" }),
     },
     politiqueConfidentialite: {
-      title: "Politique de Confidentialité",
       path: "/politique-confidentialite" as string,
       index: true,
+      getTitle: (lang, t) => t("pages.politiqueConfidentialite", { lang, ns: "global" }),
     },
     compteProfil: {
-      title: "Mon profil",
       path: "/compte/profil" as string,
       index: true,
+      getTitle: (lang, t) => t("pages.compteProfil", { lang, ns: "global" }),
     },
     adminUsers: {
-      title: "Gestion des utilisateurs",
       path: "/admin/utilisateurs" as string,
       index: false,
+      getTitle: (lang, t) => t("pages.adminUsers", { lang, ns: "global" }),
     },
     adminOrganisations: {
-      title: "Gestion des organisations",
       path: "/admin/organisations" as string,
       index: false,
+      getTitle: (lang, t) => t("pages.adminOrganisations", { lang, ns: "global" }),
     },
     adminProcessor: {
-      title: "Administration du processeur",
       path: "/admin/processeur" as string,
       index: false,
+      getTitle: (lang, t) => t("pages.adminProcessor", { lang, ns: "global" }),
     },
   },
   dynamic: {
     inscription: (token: string): IPage => ({
-      title: "Inscription",
       path: `/auth/inscription?token=${token}`,
       index: false,
+      getTitle: (lang, t) => t("pages.inscription", { lang, ns: "global" }),
     }),
     refusInscription: (token: string): IPage => ({
-      title: "Inscription",
       path: `/auth/refus-inscription?token=${token}`,
       index: false,
+      getTitle: (lang, t) => t("pages.refusInscription", { lang, ns: "global" }),
     }),
     adminUserView: (id: string): IPage => ({
-      title: "Fiche utilisateur",
       path: `/admin/utilisateurs/${id}`,
       index: false,
+      getTitle: (lang, t) => t("pages.adminUserView", { lang, ns: "global" }),
     }),
     adminOrganisationView: (id: string): IPage => ({
-      title: `Fiche Organisation`,
       path: `/admin/organisations/${id}`,
       index: false,
+      getTitle: (lang, t) => t("pages.adminOrganisationView", { lang, ns: "global" }),
     }),
     adminProcessorJob: (name: string): IPage => ({
-      title: `Job ${name}`,
       path: `/admin/processeur/job/${name}`,
       index: false,
+      getTitle: (lang, t) => t("pages.adminProcessorJob", { lang, name, ns: "global" }),
     }),
     adminProcessorJobInstance: (params: { name: string; id: string }): IPage => ({
-      title: `Tâche ${params.id}`,
       path: `/admin/processeur/job/${params.name}/${params.id}`,
       index: false,
+      getTitle: (lang, t) => t("pages.adminProcessorJobInstance", { lang, id: params.id, ns: "global" }),
     }),
     adminProcessorCron: (name: string): IPage => ({
-      title: `CRON ${name}`,
       path: `/admin/processeur/cron/${name}`,
       index: false,
+      getTitle: (lang, t) => t("pages.adminProcessorCron", { lang, name, ns: "global" }),
     }),
     adminProcessorCronTask: (params: { name: string; id: string }): IPage => ({
-      title: `Tâche ${params.id}`,
       path: `/admin/processeur/cron/${params.name}/${params.id}`,
       index: false,
+      getTitle: (lang, t) => t("pages.adminProcessorCronTask", { lang, id: params.id, ns: "global" }),
     }),
   },
   notion: {},

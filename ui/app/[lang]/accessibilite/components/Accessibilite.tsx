@@ -2,15 +2,16 @@ import { fr } from "@codegouvfr/react-dsfr";
 import { getLink } from "@codegouvfr/react-dsfr/link";
 import { Typography } from "@mui/material";
 
+import type { WithLangAndT } from "@/app/i18n/settings";
 import Section from "@/components/section/Section";
 import { PAGES } from "@/utils/routes.utils";
 
-const Accessibilite = () => {
+const Accessibilite = ({ lang, t }: WithLangAndT) => {
   const { Link } = getLink();
   return (
     <>
       <Typography variant="h1" gutterBottom color={fr.colors.decisions.text.actionHigh.blueEcume.default}>
-        {PAGES.static.accessibilite.title}
+        {PAGES.static.accessibilite.getTitle(lang, t)}
       </Typography>
       <Section>
         <Typography>

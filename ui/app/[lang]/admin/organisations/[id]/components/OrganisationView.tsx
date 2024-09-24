@@ -12,17 +12,19 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { FC } from "react";
 import { use, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { zRoutes } from "shared";
 import type { IOrganisation } from "shared/models/organisation.model";
 import type { Jsonify } from "type-fest";
 
+import type { WithLang } from "@/app/i18n/settings";
 import Breadcrumb from "@/components/breadcrumb/Breadcrumb";
 import { apiPut } from "@/utils/api.utils";
 import { PAGES } from "@/utils/routes.utils";
 
-interface Props {
+type Props = WithLang<{
   organisation: Jsonify<IOrganisation>;
-}
+}>;
 
 const HABILITATIONS = ["jobs:write"] as const;
 
@@ -42,7 +44,8 @@ function buildHabilitations(data: FormData): IOrganisation["habilitations"] {
   return habilitations;
 }
 
-const OrganisationView: FC<Props> = ({ organisation }) => {
+export function OrganisationView({ organisation, lang }: Props) {
+  const { t } = useTranslation("global", { lng: lang });
   const defaultValues: FormData = useMemo(() => {
     const values: FormData = {
       "jobs:write": false,
@@ -92,7 +95,11 @@ const OrganisationView: FC<Props> = ({ organisation }) => {
 
   return (
     <>
-      <Breadcrumb pages={[PAGES.static.adminOrganisations, PAGES.dynamic.adminOrganisationView(organisation._id)]} />
+      <Breadcrumb
+        pages={[PAGES.static.adminOrganisations, PAGES.dynamic.adminOrganisationView(organisation._id)]}
+        lang={lang}
+        t={t}
+      />
       <Typography variant="h2" gutterBottom>
         Fiche organisation
       </Typography>
@@ -157,6 +164,4 @@ const OrganisationView: FC<Props> = ({ organisation }) => {
       </Box>
     </>
   );
-};
-
-export default OrganisationView;
+}

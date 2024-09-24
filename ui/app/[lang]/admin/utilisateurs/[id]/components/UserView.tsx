@@ -11,23 +11,24 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Snackbar, Typography } from "@mui/material";
 import { captureException } from "@sentry/nextjs";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { FC } from "react";
 import type { FieldError } from "react-hook-form";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { zRoutes } from "shared";
 import type { IOrganisation } from "shared/models/organisation.model";
 import type { IUserAdminView } from "shared/models/user.model";
 import type { Jsonify } from "type-fest";
 
+import type { WithLang } from "@/app/i18n/settings";
 import Breadcrumb from "@/components/breadcrumb/Breadcrumb";
 import { apiPut } from "@/utils/api.utils";
 import { formatDate, formatNullableDate } from "@/utils/date.utils";
 import { PAGES } from "@/utils/routes.utils";
 
-interface Props {
+type Props = WithLang<{
   user: Jsonify<IUserAdminView>;
   organisations: Jsonify<IOrganisation[]>;
-}
+}>;
 
 function getInputState(error: FieldError | undefined | null): {
   state: "default" | "error" | "success";
@@ -40,7 +41,7 @@ function getInputState(error: FieldError | undefined | null): {
   return { state: "error", stateRelatedMessage: error.message ?? "Erreur de validation" };
 }
 
-const UserView: FC<Props> = ({ user, organisations }) => {
+export default function UserView({ user, organisations, lang }: Props) {
   const {
     handleSubmit,
     control,
@@ -59,6 +60,7 @@ const UserView: FC<Props> = ({ user, organisations }) => {
     },
   });
 
+  const { t } = useTranslation("global", { lng: lang });
   const isAdminControl = control.register("is_admin");
   const queryClient = useQueryClient();
 
@@ -87,7 +89,7 @@ const UserView: FC<Props> = ({ user, organisations }) => {
 
   return (
     <>
-      <Breadcrumb pages={[PAGES.static.adminUsers, PAGES.dynamic.adminUserView(user._id)]} />
+      <Breadcrumb pages={[PAGES.static.adminUsers, PAGES.dynamic.adminUserView(user._id)]} lang={lang} t={t} />
       <Typography variant="h2" gutterBottom>
         Fiche utilisateur
       </Typography>
@@ -172,6 +174,4 @@ const UserView: FC<Props> = ({ user, organisations }) => {
       ></Table>
     </>
   );
-};
-
-export default UserView;
+}

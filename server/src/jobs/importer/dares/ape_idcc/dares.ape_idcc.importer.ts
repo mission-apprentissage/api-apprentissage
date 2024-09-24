@@ -114,7 +114,7 @@ export async function runDaresApeIdccImporter(signal?: AbortSignal) {
     await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "done" } });
   } catch (error) {
     await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "failed" } });
-    await getDbCollection("source.dares.ccn").deleteMany({
+    await getDbCollection("source.dares.ape_idcc").deleteMany({
       import_id: importId,
     });
     if (signal && error.name === signal?.reason?.name) {

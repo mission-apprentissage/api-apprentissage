@@ -1,0 +1,14 @@
+{
+  "catalogueDesDonneesCertification": {
+    "desc": "Consulter le modèle de données et effectuer une recherche dans la liste des certifications"
+  },
+  "simulateurNpec": {
+    "desc": "Calculer le niveau de prise en charge d’un contrat, réaliser un budget prévisionnel"
+  },
+  "jobSearch": {
+    "desc": "Accéder gratuitement et en temps réel à l'ensemble des opportunités d'emploi en alternance"
+  },
+  "jobPublish": {
+    "desc": "Maximiser la visibilité de vos offres d’emploi en alternance en les diffusant sur la plateforme La bonne alternance ainsi que ses sites partenaires."
+  }
+}

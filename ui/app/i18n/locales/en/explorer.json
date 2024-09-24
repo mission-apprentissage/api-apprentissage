@@ -1,0 +1,14 @@
+{
+  "catalogueDesDonneesCertification": {
+    "desc": "Consult the data model and search the list of certifications"
+  },
+  "simulateurNpec": {
+    "desc": "Calculate the level of support for a contract, prepare a budget"
+  },
+  "jobSearch": {
+    "desc": "Access all apprenticeship job opportunities for free and in real time"
+  },
+  "jobPublish": {
+    "desc": "Maximize the visibility of your apprenticeship job offers by broadcasting them on the La bonne alternance platform and its partner sites."
+  }
+}

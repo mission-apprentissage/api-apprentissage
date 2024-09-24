@@ -27,24 +27,6 @@ const artworkData = {
     width: 132,
     height: 128,
   },
-  "human-cooperation": {
-    src: "/asset/artwork/human-cooperation.svg",
-    alt: "Illustration de 3 mains posées les unes sur les autres",
-    width: 80,
-    height: 80,
-  },
-  book: {
-    src: "/asset/artwork/book.svg",
-    alt: "Illustration d'un livre ouvert",
-    width: 80,
-    height: 80,
-  },
-  school: {
-    src: "/asset/artwork/school.svg",
-    alt: "Illustration d'un établissement scolaire",
-    width: 80,
-    height: 80,
-  },
   "not-found-solid-iii-0": {
     src: "/asset/artwork/not-found-solid-iii-0.svg",
     alt: "Illustration d'un homme qui hausse les épaules",
@@ -75,12 +57,6 @@ const artworkData = {
     width: 40,
     height: 40,
   },
-  money: {
-    src: "/asset/artwork/theme-clair-money.svg",
-    alt: "Illustration d'une pile de pièces de monnaie",
-    width: 80,
-    height: 80,
-  },
 } as const satisfies IArtworkData;
 
 type ArtworkName = keyof typeof artworkData;
@@ -91,8 +67,4 @@ export function Artwork({ name, height }: { name: ArtworkName; height?: number }
   const width = (h / origH) * origW;
 
   return <Image src={src} alt={alt} width={width} height={h} />;
-}
-
-export function getArtworkUrl(name: ArtworkName) {
-  return artworkData[name].src;
 }

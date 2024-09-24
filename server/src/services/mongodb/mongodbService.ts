@@ -35,6 +35,8 @@ export const connectToMongodb = async (uri: string) => {
     retryReads: true,
     minPoolSize: config.env === "test" ? 0 : 5,
     serverSelectionTimeoutMS: 300_000,
+    // Disable utf8 validation to avoid nodejs driver error
+    enableUtf8Validation: false,
   });
 
   client.on("connectionPoolReady", () => {

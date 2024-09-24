@@ -1,3 +1,4 @@
+import padlock from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/system/padlock.svg";
 import Image from "next/image";
 
 type IArtworkData = Record<string, { src: string; alt: string; width: number; height: number }>;
@@ -56,6 +57,12 @@ const artworkData = {
     alt: "Illustration du profil d'une personne",
     width: 40,
     height: 40,
+  },
+  padlock: {
+    src: padlock.src,
+    width: padlock.width,
+    height: padlock.height,
+    alt: "Illustration d'un cadenas",
   },
 } as const satisfies IArtworkData;
 

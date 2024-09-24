@@ -15,6 +15,10 @@ fileignoreconfig:
   checksum: 65357f150bfedfebea511b1007eed941983484abf990d87e91fd7477360ad280
 - filename: shared/src/helpers/openapi/__snapshots__/generateOpenapi.test.ts.snap
   checksum: 2463909dd3422d45d8f15ec7ebd39058d02bbd4d57ed1dfc6482a348fcc27152
+- filename: ui/app/[lang]/explorer/certifications/page.tsx
+  checksum: 79162968dc111206592c35c9bdbfc1babae88ad1390a190d6c7b5108ebb82b9d
+- filename: ui/app/[lang]/explorer/depot-offre/page.tsx
+  checksum: 764fcfac0c4242d1b22a812798db3a661392d72688d80f7898b6e82714efe457
 scopeconfig:
 - scope: node
 custom_patterns:

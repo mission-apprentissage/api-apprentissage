@@ -78,4 +78,4 @@ const getNavigationItems = ({ user, pathname, lang, t }: GetNavigationItemsProps
 };
 
 export const useNavigationItems = ({ user, pathname, lang, t }: GetNavigationItemsProps): MainNavigationProps.Item[] =>
-  useMemo(() => getNavigationItems({ user, pathname, lang, t }), [user, pathname]);
+  useMemo(() => getNavigationItems({ user, pathname, lang, t }), [user, pathname, t, lang]);

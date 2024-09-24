@@ -1,14 +1,47 @@
 {
+  "summary": "<strong>The Apprenticeship API centralizes, enriches</strong> and<strong> provides</strong> datasets and tools related to the entire apprenticeship training offer",
   "catalogueDesDonneesCertification": {
-    "desc": "Consult the data model and search the list of certifications"
+    "desc": "Consult the data model and search the list of certifications",
+    "summary": "<strong>Use a reliable and enriched dataset for your project:</strong> coding, validity period, title, domains, continuity, type, and legal basis."
   },
   "simulateurNpec": {
-    "desc": "Calculate the level of support for a contract, prepare a budget"
+    "desc": "Calculate the level of support for a contract, create a budget forecast"
   },
   "jobSearch": {
-    "desc": "Access all apprenticeship job opportunities for free and in real time"
+    "desc": "Access all apprenticeship job opportunities for free and in real-time"
   },
-  "jobPublish": {
-    "desc": "Maximize the visibility of your apprenticeship job offers by broadcasting them on the La bonne alternance platform and its partner sites."
+  "depotOffre": {
+    "desc": "Maximize the visibility of your apprenticeship job offers by posting them on the La bonne alternance platform and its partner sites.",
+    "summary": "<strong>Post, modify, or delete your apprenticeship job offers</strong> to maximize their visibility by posting them on the {{- lienLba }} platform and its partner sites {{- lienPartenaire }}.",
+    "liste_partenaire": "view the list",
+    "tip": "<strong>💡 Using the API allows you to post all your offers at once,</strong> but it is also possible to post a single offer directly on the La bonne alternance site ({{- lienDepotLba }})",
+    "lientDepotLba": "access the submission form",
+    "demandeHabilitation": {
+      "sujet": "Request for authorization to post apprenticeship job offers",
+      "contenu": "Hello, I would like to obtain authorization to post apprenticeship job offers on the La bonne alternance platform."
+    }
+  },
+  "back": "Back to the list",
+  "besoinDonnees": {
+    "titre": "Need these data for your project?",
+    "swagger": "Consult the swagger",
+    "obtenirJeton": "Get an access token",
+    "donneesManquantes": "Are you missing one or more data points to meet your needs?",
+    "ditesLeNous": "Let us know"
+  },
+  "habilitationRequise": {
+    "titre": "Using this tool requires authorization",
+    "faireDemande": "Make a request"
+  },
+  "frequenceMiseAJour": {
+    "titre": "Update frequency:",
+    "daily": "DAILY"
+  },
+  "type": {
+    "outil": "Tool",
+    "data": "Dataset"
+  },
+  "donneesCatalogue": {
+    "titre": "Data details"
   }
 }

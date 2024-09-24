@@ -10,6 +10,7 @@ import TableRow from "@mui/material/TableRow";
 import type { DocBusinessField } from "api-alternance-sdk/internal";
 import { getTextOpenAPI } from "api-alternance-sdk/internal";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
@@ -19,6 +20,7 @@ import { DsfrLink } from "@/components/link/DsfrLink";
 export function GoodToKnow({ tip, lang }: WithLang<Pick<DocBusinessField, "tip">>) {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
+  const { t } = useTranslation("explorer");
 
   if (!tip) return null;
 
@@ -32,7 +34,7 @@ export function GoodToKnow({ tip, lang }: WithLang<Pick<DocBusinessField, "tip">
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center" }}>
-        <Typography className={fr.cx("fr-text--bold")}>💡Bon à savoir :</Typography>
+        <Typography className={fr.cx("fr-text--bold")}>{t("bonASavoir", { lng: lang })}</Typography>
         <Button
           priority="tertiary no outline"
           iconId={isOpen ? "fr-icon-arrow-up-s-line" : "fr-icon-arrow-down-s-line"}

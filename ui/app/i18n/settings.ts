@@ -7,7 +7,7 @@ export const defaultNS = "global" as const;
 
 export type Lang = "fr" | "en";
 
-export type Namespace = "global" | "documentation-technique" | "zod";
+export type Namespace = "global" | "documentation-technique" | "zod" | "explorer";
 
 export function isValidLang(lang: unknown): lang is Lang {
   return languages.includes(lang as Lang);
@@ -21,7 +21,7 @@ export function getOptions(lng: Lang = fallbackLng) {
     lng,
     fallbackNS: defaultNS,
     defaultNS,
-    ns: "global",
+    ns: ["global", "documentation-technique", "zod", "explorer"],
   };
 }
 

@@ -1,13 +1,21 @@
 import { fr } from "@codegouvfr/react-dsfr";
 import { Breadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
+import internet from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/digital/internet.svg";
+import search from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/digital/search.svg";
+import money from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/institutions/money.svg";
+import book from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/leisure/book.svg";
 import { Tile } from "@codegouvfr/react-dsfr/Tile";
 import { Box, Container, Hidden, Typography } from "@mui/material";
 
-import { Artwork, getArtworkUrl } from "@/components/artwork/Artwork";
+import { getServerTranslation } from "@/app/i18n";
+import type { PropsWithLangParams } from "@/app/i18n/settings";
+import { Artwork } from "@/components/artwork/Artwork";
 import { DsfrLink } from "@/components/link/DsfrLink";
 import { PAGES } from "@/utils/routes.utils";
 
-export default function ExplorerApiPage() {
+export default async function ExplorerApiPage({ params: { lang } }: PropsWithLangParams) {
+  const { t } = await getServerTranslation(lang, "explorer");
+
   return (
     <Container maxWidth="xl" style={{ marginTop: fr.spacing("2w"), marginBottom: fr.spacing("9w") }}>
       <Box>
@@ -53,8 +61,9 @@ export default function ExplorerApiPage() {
       >
         <Tile
           title={PAGES.static.catalogueDesDonneesCertification.title}
-          desc="Consulter le modèle de données et effectuer une recherche dans la liste des certifications"
-          imageUrl={getArtworkUrl("book")}
+          desc={t("catalogueDesDonneesCertification.desc")}
+          imageSvg
+          imageUrl={book.src}
           enlargeLinkOrButton
           linkProps={{ href: PAGES.static.catalogueDesDonneesCertification.path }}
           style={{
@@ -63,15 +72,22 @@ export default function ExplorerApiPage() {
         />
         <Tile
           title={PAGES.static.simulateurNpec.title}
-          desc="Calculer le niveau de prise en charge d’un contrat, réaliser un budget prévisionnel"
-          imageUrl={getArtworkUrl("money")}
+          desc={t("simulateurNpec.desc")}
+          imageSvg
+          imageUrl={money.src}
           enlargeLinkOrButton
           linkProps={{ href: PAGES.static.simulateurNpec.path }}
         />
         <Tile
-          title="Opportunités d’emplois et de formations en alternance"
-          desc="Bientôt disponible !"
-          imageUrl={getArtworkUrl("human-cooperation")}
+          title="Recherche d’opportunités d’emploi en alternance"
+          desc={t("jobSearch.desc")}
+          imageUrl={search.src}
+          disabled
+        />
+        <Tile
+          title="Dépôt d’offres d’emploi en alternance"
+          desc={t("jobPublish.desc")}
+          imageUrl={internet.src}
           disabled
         />
       </Box>

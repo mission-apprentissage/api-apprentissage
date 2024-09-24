@@ -207,7 +207,7 @@ async function* parseSheet(
 function getParseSheetSpec(
   unprocessedSpecs: Set<ExcelParseSheetSpec>,
   worksheetReader: ExcelJs.stream.xlsx.WorksheetReader
-): ExcelParseSheetSpec {
+): ExcelParseSheetSpec | null {
   for (const sheetSpec of unprocessedSpecs) {
     if (sheetSpec.nameMatchers.some((matcher) => matcher.test(worksheetReader.name))) {
       if (sheetSpec.type !== "ignore") {
@@ -217,10 +217,7 @@ function getParseSheetSpec(
     }
   }
 
-  throw internal("Unexpected worksheet", {
-    name: worksheetReader.name,
-    unprocessedSpecs: Array.from(unprocessedSpecs),
-  });
+  return null;
 }
 
 async function* parseWorkbook(
@@ -228,9 +225,15 @@ async function* parseWorkbook(
   workbookReader: ExcelJs.stream.xlsx.WorkbookReader
 ): AsyncGenerator<ExcelParsedRow, void, void> {
   const unusedSpecs = new Set(parseSpec);
+  const unexpectedWorksheets: string[] = [];
 
   for await (const worksheetReader of workbookReader) {
     const spec = getParseSheetSpec(unusedSpecs, worksheetReader);
+
+    if (spec === null) {
+      unexpectedWorksheets.push(worksheetReader.name);
+      continue;
+    }
 
     if (spec.type === "ignore") {
       continue;
@@ -242,8 +245,8 @@ async function* parseWorkbook(
   }
 
   const missingSpecs = Array.from(unusedSpecs).filter((s) => s.type === "required");
-  if (missingSpecs.length > 0) {
-    throw internal("Missing worksheets", { missingSpecs });
+  if (missingSpecs.length > 0 || unexpectedWorksheets.length > 0) {
+    throw internal("Unexpected worksheets", { missingSpecs, unexpectedWorksheets });
   }
 }
 

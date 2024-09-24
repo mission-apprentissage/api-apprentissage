@@ -8,6 +8,8 @@ import { publicConfig } from "@/config.public";
 export default function RedocPageClient({ nonce, lang }: { nonce: string; lang: Lang }) {
   return (
     <RedocStandalone
+      // Use key in order to force re-rendering when lang changes
+      key={lang}
       specUrl={`${publicConfig.apiEndpoint}/swagger.json?lang=${lang}`}
       options={{
         disableSearch: true,

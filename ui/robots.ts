@@ -20,5 +20,6 @@ const getRules = () => {
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: getRules(),
+    sitemap: `${publicConfig.baseUrl}/sitemap.xml`,
   };
 }

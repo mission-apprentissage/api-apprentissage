@@ -19,7 +19,7 @@ export default function TryPage({ params: { lang } }: PropsWithLangParams) {
   return (
     <Container maxWidth="xl">
       <Box sx={{ my: fr.spacing("6w") }}>
-        <DsfrLink href={PAGES.static.documentationTechnique.path} arrow="left" size="lg">
+        <DsfrLink href={PAGES.static.documentationTechnique.getPath(lang)} arrow="left" size="lg">
           {t("try.back")}
         </DsfrLink>
       </Box>

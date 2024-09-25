@@ -23,14 +23,14 @@ export default async function SimulateurNpecPage({ params: { lang } }: PropsWith
         segments={[
           {
             label: PAGES.static.explorerApi.getTitle(lang, t),
-            linkProps: { href: PAGES.static.explorerApi.path },
+            linkProps: { href: PAGES.static.explorerApi.getPath(lang) },
           },
         ]}
         style={{ marginBottom: fr.spacing("3w") }}
       />
 
       <Box sx={{ mb: fr.spacing("6w") }}>
-        <DsfrLink href={PAGES.static.explorerApi.path} arrow="left" size="lg">
+        <DsfrLink href={PAGES.static.explorerApi.getPath(lang)} arrow="left" size="lg">
           Revenir à la liste
         </DsfrLink>
       </Box>

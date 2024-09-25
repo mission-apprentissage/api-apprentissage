@@ -7,11 +7,12 @@ import NextLink from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 
+import type { WithLang } from "@/app/i18n/settings";
 import { useAuth } from "@/context/AuthContext";
 import { apiGet } from "@/utils/api.utils";
 import { PAGES } from "@/utils/routes.utils";
 
-export function MonCompteQuickAccess() {
+export function MonCompteQuickAccess({ lang }: WithLang) {
   const { user, setUser } = useAuth();
   const { push } = useRouter();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -19,7 +20,7 @@ export function MonCompteQuickAccess() {
   const handleLogout = useCallback(async () => {
     await apiGet("/_private/auth/logout", {});
     setUser(null);
-    push(PAGES.static.home.path);
+    push(PAGES.static.home.getPath(lang));
   }, [push, setUser]);
 
   const handleOpenPopover = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
@@ -41,7 +42,7 @@ export function MonCompteQuickAccess() {
           iconId: "fr-icon-lock-line",
           text: "Se connecter / S'inscrire",
           linkProps: {
-            href: PAGES.static.compteProfil.path,
+            href: PAGES.static.compteProfil.getPath(lang),
           },
         }}
       />
@@ -90,12 +91,12 @@ export function MonCompteQuickAccess() {
               sx={{
                 textDecoration: "none",
                 color:
-                  pathname === PAGES.static.compteProfil.path
+                  pathname === PAGES.static.compteProfil.getPath(lang)
                     ? fr.colors.decisions.text.active.blueFrance.default
                     : fr.colors.decisions.text.mention.grey.default,
               }}
               component={NextLink}
-              href={PAGES.static.compteProfil.path}
+              href={PAGES.static.compteProfil.getPath(lang)}
             >
               Jetons d'accès
             </Link>
@@ -111,7 +112,7 @@ export function MonCompteQuickAccess() {
                 color: fr.colors.decisions.text.mention.grey.default,
               }}
               onClick={handleLogout}
-              href={PAGES.static.home.path}
+              href={PAGES.static.home.getPath(lang)}
             >
               <i className={fr.cx("fr-icon-logout-box-r-line")} />
               Déconnexion

@@ -6,7 +6,7 @@ import Image from "next/image";
 import NextLink from "next/link";
 import type { PropsWithChildren } from "react";
 
-import { getServerTranslation } from "@/app/i18n";
+import type { PropsWithLangParams, WithLang } from "@/app/i18n/settings";
 import { Artwork } from "@/components/artwork/Artwork";
 import { DsfrLink } from "@/components/link/DsfrLink";
 import { PAGES } from "@/utils/routes.utils";
@@ -28,7 +28,7 @@ function ActeurBadge({ children }: PropsWithChildren) {
   );
 }
 
-function VousEtesSection() {
+function VousEtesSection({ lang }: WithLang) {
   return (
     <Container maxWidth="xl" sx={{ overflowX: "clip" }} disableGutters>
       <Box my={fr.spacing("9w")} display="grid" gridTemplateColumns="1fr auto 1fr" overflow="visible" maxWidth="100vw">
@@ -79,7 +79,7 @@ function VousEtesSection() {
             </Typography>
           </Box>
 
-          <Link component={NextLink} href={PAGES.static.explorerApi.path}>
+          <Link component={NextLink} href={PAGES.static.explorerApi.getPath(lang)}>
             <Button iconId="fr-icon-arrow-right-line" iconPosition="right" priority="primary" size="large">
               Explorer l'API
             </Button>
@@ -110,7 +110,7 @@ function VousEtesSection() {
   );
 }
 
-function CommentUtiliserApiSection() {
+function CommentUtiliserApiSection({ lang }: WithLang) {
   return (
     <Box sx={{ background: fr.colors.decisions.background.alt.beigeGrisGalet.default }}>
       <Container maxWidth="xl" disableGutters>
@@ -134,11 +134,11 @@ function CommentUtiliserApiSection() {
             </Typography>
             <Box display="grid" gap={fr.spacing("2v")}>
               <Typography>
-                <DsfrLink href={PAGES.static.compteProfil.path}>Créer mon compte</DsfrLink>
+                <DsfrLink href={PAGES.static.compteProfil.getPath(lang)}>Créer mon compte</DsfrLink>
               </Typography>
 
               <Typography>
-                <DsfrLink href={PAGES.static.documentationTechnique.path}>
+                <DsfrLink href={PAGES.static.documentationTechnique.getPath(lang)}>
                   Consulter la documentation technique
                 </DsfrLink>
               </Typography>
@@ -150,7 +150,7 @@ function CommentUtiliserApiSection() {
   );
 }
 
-function ProtectionDesDonneeSection() {
+function ProtectionDesDonneeSection({ lang }: WithLang) {
   return (
     <Box sx={{ background: fr.colors.decisions.background.alt.blueEcume.default }}>
       <Container maxWidth="xl" disableGutters>
@@ -165,13 +165,13 @@ function ProtectionDesDonneeSection() {
             </Typography>
             <Box display="grid" gap={fr.spacing("2v")}>
               <Typography>
-                <DsfrLink href={PAGES.static.politiqueConfidentialite.path}>
+                <DsfrLink href={PAGES.static.politiqueConfidentialite.getPath(lang)}>
                   Notre politique de confidentialité
                 </DsfrLink>
               </Typography>
 
               <Typography>
-                <DsfrLink href={PAGES.static.donneesPersonnelles.path}>
+                <DsfrLink href={PAGES.static.donneesPersonnelles.getPath(lang)}>
                   Protection des données à caractère personnel
                 </DsfrLink>
               </Typography>
@@ -188,12 +188,12 @@ function ProtectionDesDonneeSection() {
   );
 }
 
-export default async function Home() {
+export default async function Home({ params: { lang } }: PropsWithLangParams) {
   return (
     <>
-      <VousEtesSection />
-      <CommentUtiliserApiSection />
-      <ProtectionDesDonneeSection />
+      <VousEtesSection lang={lang} />
+      <CommentUtiliserApiSection lang={lang} />
+      <ProtectionDesDonneeSection lang={lang} />
     </>
   );
 }

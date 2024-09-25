@@ -22,7 +22,7 @@ export default function AdminProcessorPage({ params: { lang } }: PropsWithLangPa
         {(status) => (
           <ProcessorStatusIndexComponent
             status={status}
-            baseUrl={new URL(PAGES.static.adminProcessor.path, publicConfig.baseUrl).href}
+            baseUrl={new URL(PAGES.static.adminProcessor.getPath(lang), publicConfig.baseUrl).href}
           />
         )}
       </ProcessorStatusProvider>

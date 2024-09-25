@@ -10,6 +10,7 @@ import { assertUnreachable } from "shared";
 import type { IUserPublic } from "shared/models/user.model";
 import type { IAccessToken } from "shared/routes/common.routes";
 
+import type { Lang, PropsWithLangParams } from "@/app/i18n/settings";
 import { useAuth } from "@/context/AuthContext";
 import { ApiError, apiPost } from "@/utils/api.utils";
 
@@ -139,7 +140,7 @@ function useLogin() {
   return status;
 }
 
-export function withAuth<P>(Component: ComponentType<P & { user: IUserPublic }>) {
+export function withAuth<P extends PropsWithLangParams>(Component: ComponentType<P & { user: IUserPublic }>) {
   return function AuthComponent(props: P) {
     const status = useLogin();
 
@@ -147,7 +148,7 @@ export function withAuth<P>(Component: ComponentType<P & { user: IUserPublic }>)
       case "connected":
         return <Component {...props} user={status.user} />;
       case "disconnected":
-        return <LoginModal />;
+        return <LoginModal lang={props.params.lang} />;
       case "loading":
         return null;
       case "error":
@@ -156,7 +157,7 @@ export function withAuth<P>(Component: ComponentType<P & { user: IUserPublic }>)
             <Snackbar open anchorOrigin={{ vertical: "top", horizontal: "center" }}>
               <Alert severity="error" description={status.error} small />
             </Snackbar>
-            <LoginModal />
+            <LoginModal lang={props.params.lang} />
           </>
         );
       default:

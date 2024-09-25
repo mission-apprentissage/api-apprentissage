@@ -24,7 +24,7 @@ export default function JobTypePage({ params }: PropsWithLangParams<{ name: stri
           <ProcessorStatusJobComponent
             name={name}
             status={status}
-            baseUrl={new URL(PAGES.static.adminProcessor.path, publicConfig.baseUrl).href}
+            baseUrl={new URL(PAGES.static.adminProcessor.getPath(lang), publicConfig.baseUrl).href}
           />
         )}
       </ProcessorStatusProvider>

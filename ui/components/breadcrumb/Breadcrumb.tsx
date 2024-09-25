@@ -13,12 +13,12 @@ export default function Breadcrumb({ pages, lang, t }: WithLangAndT<{ pages: IPa
     <DSFRBreadcrumb
       currentPageLabel={currentPage?.getTitle(lang, t)}
       homeLinkProps={{
-        href: PAGES.static.home.path,
+        href: PAGES.static.home.getPath(lang),
       }}
       segments={rest.map((page) => ({
         label: page.getTitle(lang, t),
         linkProps: {
-          href: page.path,
+          href: page.getPath(lang),
         },
       }))}
     />

@@ -18,6 +18,7 @@ import type { IBody, IPostRoutes } from "shared";
 import { zRoutes } from "shared";
 import type { Jsonify } from "type-fest";
 
+import type { PropsWithLangParams } from "@/app/i18n/settings";
 import { Artwork } from "@/components/artwork/Artwork";
 import { useAuth } from "@/context/AuthContext";
 import { useJwtToken } from "@/hooks/useJwtToken";
@@ -39,7 +40,7 @@ function getInputState(error: FieldError | undefined | null): {
 
 const defaultErrorMessage = "Une erreur est survenue lors de l'envoi du formulaire. Veuillez réessayer ultérieurement.";
 
-export default function RegisterPage() {
+export default function RegisterPage({ params: { lang } }: PropsWithLangParams) {
   const {
     register,
     handleSubmit,
@@ -89,7 +90,7 @@ export default function RegisterPage() {
         body: data,
       });
       setUser(user);
-      push(PAGES.static.compteProfil.path);
+      push(PAGES.static.compteProfil.getPath(lang));
     } catch (error) {
       console.error(error);
       if (error instanceof ApiError && error.context.statusCode < 500) {
@@ -103,9 +104,9 @@ export default function RegisterPage() {
 
   useEffect(() => {
     if (user) {
-      push(PAGES.static.compteProfil.path);
+      push(PAGES.static.compteProfil.getPath(lang));
     }
-  }, [user, push]);
+  }, [user, push, lang]);
 
   return (
     <Dialog
@@ -131,7 +132,7 @@ export default function RegisterPage() {
       >
         <Box sx={{ textAlign: "right", marginBottom: fr.spacing("2w") }}>
           <Button priority="tertiary">
-            <Box component={NextLink} href={PAGES.static.home.path} sx={{ backgroundImage: "none" }}>
+            <Box component={NextLink} href={PAGES.static.home.getPath(lang)} sx={{ backgroundImage: "none" }}>
               Retourner sur le site API Apprentissage
             </Box>
           </Button>
@@ -251,7 +252,7 @@ export default function RegisterPage() {
                   label: (
                     <Typography>
                       J’ai lu et j’accepte les{" "}
-                      <NextLink href={PAGES.static.cgu.path} target="_blank">
+                      <NextLink href={PAGES.static.cgu.getPath(lang)} target="_blank">
                         Conditions Générales d’Utilisation
                       </NextLink>
                       &nbsp;du service&nbsp;

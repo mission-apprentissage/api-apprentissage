@@ -17,7 +17,7 @@ export default async function DocPage(props: DocPageProps) {
   const path = `/doc/${props.params.slug.join("/")}`;
   const page: INotionPage | null =
     Object.values((PAGES as IPages).notion).find((p: INotionPage) => {
-      return p.path === path;
+      return p.getPath("fr") === path;
     }) ?? null;
 
   if (!page) {

@@ -245,7 +245,7 @@ function DataSection({ models, lang, t }: Props) {
           <Typography sx={{ textWrap: "balance" }} className={fr.cx("fr-text--lead")}>
             <strong>{t("besoinDonnees.titre", { lng: lang })}</strong>
           </Typography>
-          <DsfrLink href={PAGES.static.documentationTechnique.path} size="lg">
+          <DsfrLink href={PAGES.static.documentationTechnique.getPath(lang)} size="lg">
             {t("besoinDonnees.swagger", { lng: lang })}
           </DsfrLink>
         </Box>

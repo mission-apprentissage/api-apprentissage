@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import type { IUserAdminView } from "shared/models/user.model";
 import type { Jsonify } from "type-fest";
 
+import type { WithLang } from "@/app/i18n/settings";
 import SearchBar from "@/components/SearchBar";
 import { Table } from "@/components/table/Table";
 import { ApiError, apiGet } from "@/utils/api.utils";
@@ -12,7 +13,7 @@ import { formatDate, formatNullableDate } from "@/utils/date.utils";
 import { formatUrlWithNewParams, getSearchParamsForQuery } from "@/utils/query.utils";
 import { PAGES } from "@/utils/routes.utils";
 
-const UserList = () => {
+const UserList = ({ lang }: WithLang) => {
   const searchParams = useSearchParams();
   const { push } = useRouter();
 
@@ -36,7 +37,7 @@ const UserList = () => {
   const { data: users } = result;
 
   const onSearch = (q: string) => {
-    const url = formatUrlWithNewParams(PAGES.static.adminUsers.path, searchParams, {
+    const url = formatUrlWithNewParams(PAGES.static.adminUsers.getPath(lang), searchParams, {
       q,
       page,
       limit,
@@ -96,7 +97,7 @@ const UserList = () => {
                 key="view"
                 iconId="fr-icon-arrow-right-line"
                 linkProps={{
-                  href: PAGES.dynamic.adminUserView(_id).path,
+                  href: PAGES.dynamic.adminUserView(_id).getPath(lang),
                 }}
                 priority="tertiary no outline"
                 title="Voir l'utilisateur"

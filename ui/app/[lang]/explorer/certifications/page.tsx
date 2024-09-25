@@ -49,7 +49,11 @@ export default async function CatalogueCertificationPage({ params: { lang } }: P
         ]}
         frequenceMiseAJour="daily"
       />
-      <CatalogueData model={certificationModelDoc} lang={lang} t={t} />
+      <CatalogueData
+        models={{ [t("catalogueDesDonneesCertification.variant")]: certificationModelDoc }}
+        lang={lang}
+        t={t}
+      />
       <DataSources sources={certificationModelDoc.sources} />
     </Container>
   );

@@ -53,6 +53,11 @@ export const PAGES = {
       index: true,
       getTitle: (lang, t) => t("pages.simulateurNpec", { lang, ns: "global" }),
     },
+    rechercheOffre: {
+      path: "/explorer/recherche-offre" as string,
+      index: true,
+      getTitle: (lang, t) => t("pages.rechercheOffre", { lang, ns: "global" }),
+    },
     depotOffre: {
       path: "/explorer/depot-offre" as string,
       index: true,

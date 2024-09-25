@@ -2,13 +2,19 @@
   "summary": "<strong>The Apprenticeship API centralizes, enriches</strong> and<strong> provides</strong> datasets and tools related to the entire apprenticeship training offer",
   "catalogueDesDonneesCertification": {
     "desc": "Consult the data model and search the list of certifications",
-    "summary": "<strong>Use a reliable and enriched dataset for your project:</strong> coding, validity period, title, domains, continuity, type, and legal basis."
+    "summary": "<strong>Use a reliable and enriched dataset for your project:</strong> coding, validity period, title, fields, continuity, type, and legal basis.",
+    "variant": "Certification"
   },
   "simulateurNpec": {
-    "desc": "Calculate the level of support for a contract, create a budget forecast"
+    "desc": "Calculate the coverage level of a contract, create a budget forecast"
   },
-  "jobSearch": {
-    "desc": "Access all apprenticeship job opportunities for free and in real-time"
+  "rechercheOffre": {
+    "desc": "Access all apprenticeship job opportunities for free and in real-time",
+    "summary": "<strong>Access all apprenticeship job opportunities in France for free and in real-time.</strong> The job opportunities returned are those collected on {{- lienLba }}, retrieved by France Travail, and shared by our partners.",
+    "tip": "<strong>💡 You can search all job opportunities based on the following criteria:</strong> ROME code(s), RNCP, geolocation, diploma level, and search radius.",
+    "note": "To date, results are sorted by source priority (La bonne alternance, France Travail, then our partners); by increasing distance (only if location criteria) and by decreasing creation date. Results are limited to 150 per source.",
+    "variantOffre": "Job Offer",
+    "variantRecruteur": "Recruiter"
   },
   "depotOffre": {
     "desc": "Maximize the visibility of your apprenticeship job offers by posting them on the La bonne alternance platform and its partner sites.",
@@ -19,29 +25,19 @@
     "demandeHabilitation": {
       "sujet": "Request for authorization to post apprenticeship job offers",
       "contenu": "Hello, I would like to obtain authorization to post apprenticeship job offers on the La bonne alternance platform."
-    }
+    },
+    "variant": "Job Offer"
   },
   "back": "Back to the list",
   "besoinDonnees": {
-    "titre": "Need these data for your project?",
-    "swagger": "Consult the swagger",
+    "titre": "Need this data for your project?",
+    "swagger": "View the swagger",
     "obtenirJeton": "Get an access token",
-    "donneesManquantes": "Are you missing one or more data points to meet your needs?",
-    "ditesLeNous": "Let us know"
+    "donneesManquantes": "Are you missing one or more data to meet your needs?",
+    "ditesLeNous": "Tell us"
   },
   "habilitationRequise": {
     "titre": "Using this tool requires authorization",
     "faireDemande": "Make a request"
-  },
-  "frequenceMiseAJour": {
-    "titre": "Update frequency:",
-    "daily": "DAILY"
-  },
-  "type": {
-    "outil": "Tool",
-    "data": "Dataset"
-  },
-  "donneesCatalogue": {
-    "titre": "Data details"
   }
 }

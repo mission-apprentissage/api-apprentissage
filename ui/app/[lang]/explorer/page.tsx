@@ -81,10 +81,12 @@ export default async function ExplorerApiPage({ params: { lang } }: PropsWithLan
         />
         <Tile
           title="Recherche d’opportunités d’emploi en alternance"
-          desc={t("jobSearch.desc")}
+          desc={t("rechercheOffre.desc")}
+          imageSvg
           imageUrl={search.src}
+          enlargeLinkOrButton
           start={<TagDsfr>{t(`type.data`, { lng: lang })}</TagDsfr>}
-          disabled
+          linkProps={{ href: PAGES.static.rechercheOffre.path }}
         />
         <Tile
           title={PAGES.static.depotOffre.getTitle(lang, t)}

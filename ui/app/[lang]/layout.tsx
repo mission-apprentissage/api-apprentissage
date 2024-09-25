@@ -15,7 +15,6 @@ import Link from "next/link";
 import type { PropsWithChildren } from "react";
 import type { IUserPublic } from "shared/models/user.model";
 
-import { getServerTranslation } from "@/app/i18n";
 import type { PropsWithLangParams } from "@/app/i18n/settings";
 import { languages } from "@/app/i18n/settings";
 import { StartIntl } from "@/app/i18n/StartIntl";
@@ -26,6 +25,7 @@ import { defaultColorScheme } from "@/theme/defaultColorScheme";
 import type { ApiError } from "@/utils/api.utils";
 import { apiGet } from "@/utils/api.utils";
 
+import NotFoundPage from "./not-found";
 import { StartDsfr } from "./StartDsfr";
 
 async function getSession(): Promise<IUserPublic | undefined> {
@@ -58,8 +58,13 @@ export function generateStaticParams() {
   return languages.map((lang) => ({ lang }));
 }
 
-export default async function LangLayout({ children, params: { lang } }: PropsWithChildren<PropsWithLangParams>) {
+export default async function LangLayout({
+  children,
+  params: { lang: requestedLang },
+}: PropsWithChildren<PropsWithLangParams>) {
   const session = await getSession();
+
+  const lang = languages.includes(requestedLang) ? requestedLang : languages[0];
 
   return (
     <html {...getHtmlAttributes({ defaultColorScheme, lang })} dir={dir(lang)}>
@@ -94,7 +99,7 @@ export default async function LangLayout({ children, params: { lang } }: PropsWi
                     color: fr.colors.decisions.text.default.grey.default,
                   }}
                 >
-                  {children}
+                  {lang === requestedLang ? children : <NotFoundPage />}
                 </Box>
                 <Footer lang={lang} />
               </MuiDsfrThemeProvider>

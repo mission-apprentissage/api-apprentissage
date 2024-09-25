@@ -1,6 +1,8 @@
 {
+  "summary": "<strong>L’API Apprentissage centralise, enrichit</strong> et<strong> met à disposition</strong> des jeux de données et des outils relatifs à l’ensemble de l’offre de formation en apprentissage",
   "catalogueDesDonneesCertification": {
-    "desc": "Consulter le modèle de données et effectuer une recherche dans la liste des certifications"
+    "desc": "Consulter le modèle de données et effectuer une recherche dans la liste des certifications",
+    "summary": "<strong>Utilisez un jeu de données fiable et enrichi pour votre projet :</strong> codification, période de validité, intitulé, domaines, continuité, type et base légale."
   },
   "simulateurNpec": {
     "desc": "Calculer le niveau de prise en charge d’un contrat, réaliser un budget prévisionnel"
@@ -8,7 +10,40 @@
   "jobSearch": {
     "desc": "Accéder gratuitement et en temps réel à l'ensemble des opportunités d'emploi en alternance"
   },
-  "jobPublish": {
-    "desc": "Maximiser la visibilité de vos offres d’emploi en alternance en les diffusant sur la plateforme La bonne alternance ainsi que ses sites partenaires."
-  }
+  "depotOffre": {
+    "desc": "Maximiser la visibilité de vos offres d’emploi en alternance en les diffusant sur la plateforme La bonne alternance ainsi que ses sites partenaires.",
+    "summary": "<strong>Déposez, modifiez ou supprimez vos offres d’emploi en alternance</strong> pour maximiser leur visibilité en les diffusant sur la plateforme {{- lienLba }} ainsi que ses sites partenaires {{- lienPartenaire }}.",
+    "liste_partenaire": "consulter la liste",
+    "tip": "<strong>💡 L’utilisation de l’API vous permet de déposer toutes vos offres en une seule fois,</strong> mais il est également possible de déposer une offre unitaire directement sur le site de La bonne alternance ({{- lienDepotLba }})",
+    "lientDepotLba": "accéder au formulaire de dépôt",
+    "demandeHabilitation": {
+      "sujet": "Demande d'habilitation pour le dépôt d'offres d'emploi en alternance",
+      "contenu": "Bonjour, je souhaite obtenir une habilitation pour déposer des offres d'emploi en alternance sur la plateforme La bonne alternance."
+    }
+  },
+  "back": "Revenir à la liste",
+  "besoinDonnees": {
+    "titre": "Besoin de ces données pour votre projet ?",
+    "swagger": "Consulter le swagger",
+    "obtenirJeton": "Obtenir un jeton d’accès",
+    "donneesManquantes": "Il vous manque une ou plusieurs donnée(s) pour répondre à vos besoins ?",
+    "ditesLeNous": "Dites-le nous"
+  },
+  "habilitationRequise": {
+    "titre": "L’utilisation de cet outil nécessite une habilitation",
+    "faireDemande": "Faire une demande"
+  },
+  "frequenceMiseAJour": {
+    "titre": "Fréquence de mise à jour :",
+    "daily": "TOUS LES JOURS"
+  },
+  "type": {
+    "outil": "Outil",
+    "data": "Jeu de données"
+  },
+  "donneesCatalogue": {
+    "titre": "Détail des données"
+  },
+  "bonASavoir": "💡Bon à savoir :",
+  "information": "Information"
 }

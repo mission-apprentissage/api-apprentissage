@@ -4,6 +4,7 @@ import internet from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/digital/int
 import search from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/digital/search.svg";
 import money from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/institutions/money.svg";
 import book from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/leisure/book.svg";
+import { Tag as TagDsfr } from "@codegouvfr/react-dsfr/Tag";
 import { Tile } from "@codegouvfr/react-dsfr/Tile";
 import { Box, Container, Hidden, Typography } from "@mui/material";
 
@@ -47,10 +48,8 @@ export default async function ExplorerApiPage({ params: { lang } }: PropsWithLan
               textWrap: "balance",
               textAlign: "center",
             }}
-          >
-            <strong>L’API Apprentissage centralise, enrichit</strong> et<strong> met à disposition</strong> des jeux de
-            données et des outils relatifs à l’ensemble de l’offre de formation en apprentissage
-          </Box>
+            dangerouslySetInnerHTML={{ __html: t("summary", { lng: lang }) }}
+          ></Box>
         </Box>
       </Box>
       <Box
@@ -69,6 +68,7 @@ export default async function ExplorerApiPage({ params: { lang } }: PropsWithLan
           style={{
             color: fr.colors.decisions.text.title.grey.default,
           }}
+          start={<TagDsfr>{t(`type.data`, { lng: lang })}</TagDsfr>}
         />
         <Tile
           title={PAGES.static.simulateurNpec.getTitle(lang, t)}
@@ -77,18 +77,23 @@ export default async function ExplorerApiPage({ params: { lang } }: PropsWithLan
           imageUrl={money.src}
           enlargeLinkOrButton
           linkProps={{ href: PAGES.static.simulateurNpec.path }}
+          start={<TagDsfr>{t(`type.outil`, { lng: lang })}</TagDsfr>}
         />
         <Tile
           title="Recherche d’opportunités d’emploi en alternance"
           desc={t("jobSearch.desc")}
           imageUrl={search.src}
+          start={<TagDsfr>{t(`type.data`, { lng: lang })}</TagDsfr>}
           disabled
         />
         <Tile
-          title="Dépôt d’offres d’emploi en alternance"
-          desc={t("jobPublish.desc")}
+          title={PAGES.static.depotOffre.getTitle(lang, t)}
+          desc={t("depotOffre.desc")}
+          imageSvg
           imageUrl={internet.src}
-          disabled
+          enlargeLinkOrButton
+          linkProps={{ href: PAGES.static.depotOffre.path }}
+          start={<TagDsfr>{t(`type.outil`, { lng: lang })}</TagDsfr>}
         />
       </Box>
       <Box sx={{ background: fr.colors.decisions.background.alt.beigeGrisGalet.default }}>

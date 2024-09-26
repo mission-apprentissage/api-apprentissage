@@ -155,7 +155,8 @@ export const PAGES = {
 } as const satisfies IPages;
 
 function getRawPath(pathname: string): string {
-  return pathname.replace(/^\/fr/, "").replace(/^\/en/, "");
+  const rawPath = pathname.replace(/^\/fr/, "").replace(/^\/en/, "");
+  return rawPath === "" ? "/" : rawPath;
 }
 
 export function isStaticPage(pathname: string): boolean {

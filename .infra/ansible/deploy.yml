@@ -10,7 +10,7 @@
     - name: Récupération des images docker
       shell:
         chdir: /opt/app
-        cmd: "/opt/app/scripts/docker-compose.sh pull"
+        cmd: "/opt/app/scripts/docker-compose.sh pull --policy missing"
 
     - name: Récupération du status de la stack
       shell:

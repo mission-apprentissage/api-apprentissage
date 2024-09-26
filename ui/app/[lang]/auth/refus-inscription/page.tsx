@@ -15,6 +15,7 @@ import type { IBody, IPostRoutes } from "shared";
 import { zRoutes } from "shared";
 import type { Jsonify } from "type-fest";
 
+import type { PropsWithLangParams } from "@/app/i18n/settings";
 import { Artwork } from "@/components/artwork/Artwork";
 import { useJwtToken } from "@/hooks/useJwtToken";
 import { ApiError, apiPost } from "@/utils/api.utils";
@@ -35,7 +36,7 @@ function getInputState(error: FieldError | undefined | null): {
 
 const defaultErrorMessage = "Une erreur est survenue lors de l'envoi du formulaire. Veuillez réessayer ultérieurement.";
 
-export default function RegisterFeedbackPage() {
+export default function RegisterFeedbackPage({ params: { lang } }: PropsWithLangParams) {
   const {
     register,
     handleSubmit,
@@ -63,7 +64,7 @@ export default function RegisterFeedbackPage() {
         },
         body: data,
       });
-      push(PAGES.static.home.path);
+      push(PAGES.static.home.getPath(lang));
     } catch (error) {
       console.error(error);
       if (error instanceof ApiError && error.context.statusCode < 500) {
@@ -77,9 +78,9 @@ export default function RegisterFeedbackPage() {
 
   const onCreateAccountClicked = () => {
     if (token.valid) {
-      push(PAGES.dynamic.inscription(token.value).path);
+      push(PAGES.dynamic.inscription(token.value).getPath(lang));
     } else {
-      push(PAGES.static.compteProfil.path);
+      push(PAGES.static.compteProfil.getPath(lang));
     }
   };
 
@@ -107,7 +108,7 @@ export default function RegisterFeedbackPage() {
       >
         <Box sx={{ textAlign: "right", marginBottom: fr.spacing("2w") }}>
           <Button priority="tertiary">
-            <Box component={NextLink} href={PAGES.static.home.path} sx={{ backgroundImage: "none" }}>
+            <Box component={NextLink} href={PAGES.static.home.getPath(lang)} sx={{ backgroundImage: "none" }}>
               Retourner sur le site API Apprentissage
             </Box>
           </Button>

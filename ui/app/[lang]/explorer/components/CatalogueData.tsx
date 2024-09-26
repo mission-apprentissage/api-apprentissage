@@ -1,4 +1,5 @@
 import { fr } from "@codegouvfr/react-dsfr";
+import { Tabs } from "@codegouvfr/react-dsfr/Tabs";
 import { Box, Container, Hidden, Typography } from "@mui/material";
 import type { DocBusinessField, DocModel } from "api-alternance-sdk/internal";
 import { getTextOpenAPI } from "api-alternance-sdk/internal";
@@ -22,6 +23,8 @@ const spanTwoColumns = {
   md: "span 1",
   lg: "span 2",
 };
+
+type Props = WithLangAndT<{ models: Record<string, DocModel> }>;
 
 function DsfrMarkdown({ children }: { children: string | null | undefined }) {
   return (
@@ -79,7 +82,13 @@ function InformationBox({ information, lang, t }: WithLangAndT<Pick<DocBusinessF
   );
 }
 
-function DataField({ name, field, lang, t }: WithLangAndT<{ name: string; field: DocBusinessField }>) {
+function DataField({
+  name,
+  field,
+  lang,
+  t,
+  noHr,
+}: WithLangAndT<{ name: string; field: DocBusinessField; noHr: boolean }>) {
   return (
     <Box
       sx={{
@@ -122,14 +131,28 @@ function DataField({ name, field, lang, t }: WithLangAndT<{ name: string; field:
           ) : null}
         </Box>
         <GoodToKnow tip={field.tip} lang={lang} />
-        <Box component="hr" sx={{ gridColumn: "1/-1", padding: 0, height: "1px" }} />
+        {noHr ? null : <Box component="hr" sx={{ gridColumn: "1/-1", padding: 0, height: "1px" }} />}
       </Box>
       <InformationBox information={field.information} lang={lang} t={t} />
     </Box>
   );
 }
 
-function DataTypologie({ name, field, lang, t }: WithLangAndT<{ name: string; field: DocBusinessField }>) {
+function DataTypologie({
+  name,
+  field,
+  lang,
+  t,
+  noHr,
+}: WithLangAndT<{ name: string; field: DocBusinessField; noHr: boolean }>) {
+  const subFields: [string, DocBusinessField][] =
+    field._ == null
+      ? []
+      : (Object.entries(field._).filter(([, childField]) => "metier" in childField && childField.metier) as [
+          string,
+          DocBusinessField,
+        ][]);
+
   return (
     <Box sx={{ display: "flex", gap: fr.spacing("1w"), flexDirection: "column" }}>
       <Typography variant="h6">{getTextOpenAPI(field.section, lang)}</Typography>
@@ -143,19 +166,42 @@ function DataTypologie({ name, field, lang, t }: WithLangAndT<{ name: string; fi
       >
         <Box component="hr" sx={{ gridColumn: "1/3", padding: 0, height: "1px" }} />
       </Box>
-      <DataField key={name} name={name} field={field} lang={lang} t={t} />
-      {field._ == null
-        ? null
-        : Object.entries(field._).map(([key, childField]) =>
-            "metier" in childField && childField.metier ? (
-              <DataField key={key} name={key} field={childField} lang={lang} t={t} />
-            ) : null
-          )}
+      <DataField key={name} name={name} field={field} lang={lang} t={t} noHr={noHr && subFields.length === 0} />
+      {subFields.map(([key, childField], i) => (
+        <DataField
+          key={key}
+          name={key}
+          field={childField}
+          lang={lang}
+          t={t}
+          noHr={noHr && i === subFields.length - 1}
+        />
+      ))}
     </Box>
   );
 }
 
-function DataSection({ model, lang, t }: WithLangAndT<{ model: DocModel }>) {
+function DataModelVariant({ model, lang, t, tab }: WithLangAndT<{ model: DocModel; tab: boolean }>) {
+  const entries = Object.entries(model._);
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: fr.spacing("4w"),
+      }}
+    >
+      {entries.map(([key, field], i) => (
+        <DataTypologie key={key} name={key} field={field} lang={lang} t={t} noHr={tab && i === entries.length - 1} />
+      ))}
+    </Box>
+  );
+}
+
+function DataSection({ models, lang, t }: Props) {
+  const variants = Object.keys(models);
+
   return (
     <Box
       sx={{
@@ -168,9 +214,19 @@ function DataSection({ model, lang, t }: WithLangAndT<{ model: DocModel }>) {
       <Typography variant="h2" sx={{ color: fr.colors.decisions.artwork.minor.blueEcume.default }}>
         {t("donneesCatalogue.titre", { lng: lang })}
       </Typography>
-      {Object.entries(model._).map(([key, field]) => (
-        <DataTypologie key={key} name={key} field={field} lang={lang} t={t} />
-      ))}
+      {variants.length === 1 ? (
+        <DataModelVariant model={models[variants[0]]} lang={lang} t={t} tab={false} />
+      ) : (
+        <Tabs
+          tabs={variants.map((variant, i) => {
+            return {
+              isDefault: i === 0,
+              label: variant,
+              content: <DataModelVariant model={models[variant]} lang={lang} t={t} tab />,
+            };
+          })}
+        />
+      )}
       <Box
         sx={{
           display: "grid",
@@ -189,7 +245,7 @@ function DataSection({ model, lang, t }: WithLangAndT<{ model: DocModel }>) {
           <Typography sx={{ textWrap: "balance" }} className={fr.cx("fr-text--lead")}>
             <strong>{t("besoinDonnees.titre", { lng: lang })}</strong>
           </Typography>
-          <DsfrLink href={PAGES.static.documentationTechnique.path} size="lg">
+          <DsfrLink href={PAGES.static.documentationTechnique.getPath(lang)} size="lg">
             {t("besoinDonnees.swagger", { lng: lang })}
           </DsfrLink>
         </Box>
@@ -236,10 +292,10 @@ function ContactSection({ t, lang }: WithLangAndT) {
   );
 }
 
-export function CatalogueData({ model, lang, t }: WithLangAndT<{ model: DocModel }>) {
+export function CatalogueData({ models, lang, t }: Props) {
   return (
     <>
-      <DataSection model={model} lang={lang} t={t} />
+      <DataSection models={models} lang={lang} t={t} />
       <ContactSection lang={lang} t={t} />
     </>
   );

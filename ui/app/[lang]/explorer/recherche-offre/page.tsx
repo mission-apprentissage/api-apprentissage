@@ -1,7 +1,8 @@
 import { fr } from "@codegouvfr/react-dsfr";
 import { Breadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
+import { Tabs } from "@codegouvfr/react-dsfr/Tabs";
 import { Box, Container } from "@mui/material";
-import { offerWriteModelDoc } from "api-alternance-sdk/internal";
+import { offerReadModelDoc, recruiterModelDoc } from "api-alternance-sdk/internal";
 
 import { CatalogueData } from "@/app/[lang]/explorer/components/CatalogueData";
 import { CatalogueHeadline } from "@/app/[lang]/explorer/components/CatalogueHeadline";
@@ -11,13 +12,13 @@ import type { PropsWithLangParams } from "@/app/i18n/settings";
 import { DsfrLink } from "@/components/link/DsfrLink";
 import { PAGES } from "@/utils/routes.utils";
 
-export default async function DepotOffrePage({ params: { lang } }: PropsWithLangParams) {
+export default async function RechercheOffrePage({ params: { lang } }: PropsWithLangParams) {
   const { t } = await getServerTranslation(lang, "explorer");
 
   return (
     <Container maxWidth="xl" sx={{ marginTop: fr.spacing("2w"), marginBottom: fr.spacing("9w") }}>
       <Breadcrumb
-        currentPageLabel={PAGES.static.depotOffre.getTitle(lang, t)}
+        currentPageLabel={PAGES.static.rechercheOffre.getTitle(lang, t)}
         homeLinkProps={{
           href: "/",
         }}
@@ -42,24 +43,24 @@ export default async function DepotOffrePage({ params: { lang } }: PropsWithLang
         t={t}
         title={PAGES.static.depotOffre.getTitle(lang, t)}
         dangerousHtmlDescriptions={[
-          t("depotOffre.summary", {
+          t("rechercheOffre.summary", {
             lienLba: `<a href="https://labonnealternance.apprentissage.beta.gouv.fr/" target="_blank">La bonne alternance</a>`,
-            lienPartenaire:
-              `(<a class="fr-link" href="https://mission-apprentissage.notion.site/Liste-des-partenaires-de-La-bonne-alternance-3e9aadb0170e41339bac486399ec4ac1" target="_blank">${t("depotOffre.liste_partenaire", { lng: lang })}</a>)` as string,
+            lang: lang,
           }),
-          t("depotOffre.tip", {
-            lienDepotLba:
-              `<a class="fr-link" href="https://labonnealternance.apprentissage.beta.gouv.fr/espace-pro/creation/entreprise" target="_blank">${t("depotOffre.lientDepotLba", { lng: lang })}</a>` as string,
-          }),
+          t("rechercheOffre.tip", { lang: lang }),
         ]}
-        demandeHabilitation={{
-          subject: t("depotOffre.demandeHabilitation.sujet", { lng: lang }),
-          body: t("depotOffre.demandeHabilitation.contenu", { lng: lang }),
-        }}
+        note={t("rechercheOffre.note", { lang: lang })}
         frequenceMiseAJour="daily"
       />
-      <CatalogueData models={{ [t("depotOffre.variant")]: offerWriteModelDoc }} lang={lang} t={t} />
-      <DataSources sources={offerWriteModelDoc.sources} />
+      <CatalogueData
+        models={{
+          [t("rechercheOffre.variantOffre")]: offerReadModelDoc,
+          [t("rechercheOffre.variantRecruteur")]: recruiterModelDoc,
+        }}
+        lang={lang}
+        t={t}
+      />
+      <DataSources sources={offerReadModelDoc.sources} />
     </Container>
   );
 }

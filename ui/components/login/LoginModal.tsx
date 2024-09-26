@@ -13,6 +13,7 @@ import { useForm } from "react-hook-form";
 import type { IBody, IPostRoutes } from "shared";
 import { zRoutes } from "shared";
 
+import type { WithLang } from "@/app/i18n/settings";
 import { Artwork } from "@/components/artwork/Artwork";
 import { ApiError, apiPost } from "@/utils/api.utils";
 import { PAGES } from "@/utils/routes.utils";
@@ -32,7 +33,7 @@ function getInputState(error: FieldError | undefined | null): {
   return { state: "error", stateRelatedMessage: error.message ?? "Erreur de validation" };
 }
 
-export function LoginModal() {
+export function LoginModal({ lang }: WithLang) {
   const {
     register,
     handleSubmit,
@@ -60,7 +61,7 @@ export function LoginModal() {
   };
 
   if (sentTo) {
-    return <LoginEmailSentModal email={sentTo} />;
+    return <LoginEmailSentModal email={sentTo} lang={lang} />;
   }
 
   return (
@@ -86,7 +87,7 @@ export function LoginModal() {
         }}
       >
         <Box sx={{ textAlign: "right", marginBottom: fr.spacing("2w") }}>
-          <Box component={Link} href={PAGES.static.home.path} sx={{ backgroundImage: "none" }}>
+          <Box component={Link} href={PAGES.static.home.getPath(lang)} sx={{ backgroundImage: "none" }}>
             <Button priority="tertiary" iconId="fr-icon-close-line" iconPosition="right">
               Fermer
             </Button>

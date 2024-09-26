@@ -23,7 +23,7 @@ function resolveNotionLink(id: string) {
   const page = Object.values((PAGES as IPages).notion).find(({ notionId }) => notionId === normalisedId);
 
   if (page) {
-    return page.path;
+    return page.getPath("fr");
   }
 
   return `/notion/${normalisedId}`;

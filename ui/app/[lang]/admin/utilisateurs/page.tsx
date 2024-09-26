@@ -15,7 +15,7 @@ export default async function AdminUsersPage({ params: { lang } }: PropsWithLang
       <Typography variant="h2" gutterBottom>
         {PAGES.static.adminUsers.getTitle(lang, t)}
       </Typography>
-      <UserList />
+      <UserList lang={lang} />
     </>
   );
 }

@@ -15,7 +15,7 @@ export default async function AdminOrganisationPage({ params: { lang } }: PropsW
       <Typography variant="h2" gutterBottom>
         {PAGES.static.adminOrganisations.getTitle(lang, t)}
       </Typography>
-      <OrganisationList />
+      <OrganisationList lang={lang} />
     </>
   );
 }

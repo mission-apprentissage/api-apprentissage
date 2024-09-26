@@ -76,7 +76,7 @@ export const Header = ({ lang }: WithLang) => {
               },
             }}
           />,
-          <MonCompteQuickAccess key="mon-compte-quick-access" />,
+          <MonCompteQuickAccess key="mon-compte-quick-access" lang={lang} />,
         ]}
         serviceTitle={publicConfig.productMeta.brandName}
         navigation={navigation}

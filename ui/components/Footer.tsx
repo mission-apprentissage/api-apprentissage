@@ -32,10 +32,10 @@ export default function Footer({ lang }: WithLang) {
         href: "/sitemap.xml",
       }}
       termsLinkProps={{
-        href: PAGES.static.mentionsLegales.path,
+        href: PAGES.static.mentionsLegales.getPath(lang),
       }}
       accessibilityLinkProps={{
-        href: PAGES.static.accessibilite.path,
+        href: PAGES.static.accessibilite.getPath(lang),
       }}
       bottomItems={[
         <FooterBottomItem
@@ -43,7 +43,7 @@ export default function Footer({ lang }: WithLang) {
           bottomItem={{
             text: PAGES.static.cgu.getTitle(lang, t),
             linkProps: {
-              href: PAGES.static.cgu.path,
+              href: PAGES.static.cgu.getPath(lang),
             },
           }}
         />,
@@ -52,7 +52,7 @@ export default function Footer({ lang }: WithLang) {
           bottomItem={{
             text: PAGES.static.donneesPersonnelles.getTitle(lang, t),
             linkProps: {
-              href: PAGES.static.donneesPersonnelles.path,
+              href: PAGES.static.donneesPersonnelles.getPath(lang),
             },
           }}
         />,
@@ -61,7 +61,7 @@ export default function Footer({ lang }: WithLang) {
           bottomItem={{
             text: PAGES.static.politiqueConfidentialite.getTitle(lang, t),
             linkProps: {
-              href: PAGES.static.politiqueConfidentialite.path,
+              href: PAGES.static.politiqueConfidentialite.getPath(lang),
             },
           }}
         />,

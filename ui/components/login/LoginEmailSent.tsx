@@ -4,10 +4,11 @@ import { Button } from "@codegouvfr/react-dsfr/Button";
 import { Box, Dialog, DialogContent, Typography } from "@mui/material";
 import Link from "next/link";
 
+import type { WithLang } from "@/app/i18n/settings";
 import { Artwork } from "@/components/artwork/Artwork";
 import { PAGES } from "@/utils/routes.utils";
 
-export function LoginEmailSentModal({ email }: { email: string }) {
+export function LoginEmailSentModal({ email, lang }: WithLang<{ email: string }>) {
   return (
     <Dialog
       open
@@ -32,7 +33,7 @@ export function LoginEmailSentModal({ email }: { email: string }) {
       >
         <Box sx={{ textAlign: "right", marginBottom: fr.spacing("2w") }}>
           <Button priority="tertiary">
-            <Box component={Link} href={PAGES.static.home.path} sx={{ backgroundImage: "none" }}>
+            <Box component={Link} href={PAGES.static.home.getPath(lang)} sx={{ backgroundImage: "none" }}>
               Fermer
             </Box>
           </Button>

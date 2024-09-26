@@ -64,7 +64,7 @@ export default async function ExplorerApiPage({ params: { lang } }: PropsWithLan
           imageSvg
           imageUrl={book.src}
           enlargeLinkOrButton
-          linkProps={{ href: PAGES.static.catalogueDesDonneesCertification.path }}
+          linkProps={{ href: PAGES.static.catalogueDesDonneesCertification.getPath(lang) }}
           style={{
             color: fr.colors.decisions.text.title.grey.default,
           }}
@@ -76,15 +76,17 @@ export default async function ExplorerApiPage({ params: { lang } }: PropsWithLan
           imageSvg
           imageUrl={money.src}
           enlargeLinkOrButton
-          linkProps={{ href: PAGES.static.simulateurNpec.path }}
+          linkProps={{ href: PAGES.static.simulateurNpec.getPath(lang) }}
           start={<TagDsfr>{t(`type.outil`, { lng: lang })}</TagDsfr>}
         />
         <Tile
           title="Recherche d’opportunités d’emploi en alternance"
-          desc={t("jobSearch.desc")}
+          desc={t("rechercheOffre.desc")}
+          imageSvg
           imageUrl={search.src}
+          enlargeLinkOrButton
           start={<TagDsfr>{t(`type.data`, { lng: lang })}</TagDsfr>}
-          disabled
+          linkProps={{ href: PAGES.static.rechercheOffre.getPath(lang) }}
         />
         <Tile
           title={PAGES.static.depotOffre.getTitle(lang, t)}
@@ -92,7 +94,7 @@ export default async function ExplorerApiPage({ params: { lang } }: PropsWithLan
           imageSvg
           imageUrl={internet.src}
           enlargeLinkOrButton
-          linkProps={{ href: PAGES.static.depotOffre.path }}
+          linkProps={{ href: PAGES.static.depotOffre.getPath(lang) }}
           start={<TagDsfr>{t(`type.outil`, { lng: lang })}</TagDsfr>}
         />
       </Box>

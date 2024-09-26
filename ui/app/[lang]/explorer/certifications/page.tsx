@@ -23,14 +23,14 @@ export default async function CatalogueCertificationPage({ params: { lang } }: P
         segments={[
           {
             label: PAGES.static.explorerApi.getTitle(lang, t),
-            linkProps: { href: PAGES.static.explorerApi.path },
+            linkProps: { href: PAGES.static.explorerApi.getPath(lang) },
           },
         ]}
         style={{ marginBottom: fr.spacing("3w") }}
       />
 
       <Box sx={{ mb: fr.spacing("6w") }}>
-        <DsfrLink href={PAGES.static.explorerApi.path} arrow="left" size="lg">
+        <DsfrLink href={PAGES.static.explorerApi.getPath(lang)} arrow="left" size="lg">
           Revenir à la liste
         </DsfrLink>
       </Box>
@@ -49,7 +49,11 @@ export default async function CatalogueCertificationPage({ params: { lang } }: P
         ]}
         frequenceMiseAJour="daily"
       />
-      <CatalogueData model={certificationModelDoc} lang={lang} t={t} />
+      <CatalogueData
+        models={{ [t("catalogueDesDonneesCertification.variant")]: certificationModelDoc }}
+        lang={lang}
+        t={t}
+      />
       <DataSources sources={certificationModelDoc.sources} />
     </Container>
   );

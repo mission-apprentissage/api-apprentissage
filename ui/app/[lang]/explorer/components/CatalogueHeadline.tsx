@@ -28,6 +28,7 @@ type Props = WithLangAndT<{
     body: string;
   };
   frequenceMiseAJour: "daily";
+  note?: string;
 }>;
 
 export function CatalogueHeadline({
@@ -38,6 +39,7 @@ export function CatalogueHeadline({
   dangerousHtmlDescriptions,
   demandeHabilitation,
   frequenceMiseAJour,
+  note,
 }: Props) {
   return (
     <>
@@ -79,8 +81,17 @@ export function CatalogueHeadline({
           </Box>
 
           {dangerousHtmlDescriptions.map((html, index) => (
-            <Typography key={index} sx={{ marginTop: fr.spacing("1w") }} dangerouslySetInnerHTML={{ __html: html }} />
+            <Typography
+              key={index}
+              className={fr.cx("fr-text--lead")}
+              sx={{ marginTop: fr.spacing("1w") }}
+              dangerouslySetInnerHTML={{ __html: html }}
+            />
           ))}
+
+          {note != null && (
+            <Typography sx={{ marginTop: fr.spacing("1w") }} dangerouslySetInnerHTML={{ __html: note }} />
+          )}
 
           {demandeHabilitation != null && <HabilitationRequise lang={lang} t={t} {...demandeHabilitation} />}
         </Box>

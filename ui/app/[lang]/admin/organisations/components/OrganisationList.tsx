@@ -4,13 +4,14 @@ import { Button } from "@codegouvfr/react-dsfr/Button";
 import { useQuery } from "@tanstack/react-query";
 
 import Loading from "@/app/[lang]/loading";
+import type { WithLang } from "@/app/i18n/settings";
 import { Table } from "@/components/table/Table";
 import { apiGet } from "@/utils/api.utils";
 import { PAGES } from "@/utils/routes.utils";
 
 import { CreateOrganisation } from "./CreateOrganisation";
 
-export default function OrganisationList() {
+export default function OrganisationList({ lang }: WithLang) {
   const result = useQuery({
     queryKey: ["/_private/admin/organisations"],
     queryFn: async () => apiGet("/_private/admin/organisations", {}),
@@ -49,7 +50,7 @@ export default function OrganisationList() {
                 key="view"
                 iconId="fr-icon-arrow-right-line"
                 linkProps={{
-                  href: PAGES.dynamic.adminOrganisationView(_id).path,
+                  href: PAGES.dynamic.adminOrganisationView(_id).getPath(lang),
                 }}
                 priority="tertiary no outline"
                 title="Voir l'utilisateur"

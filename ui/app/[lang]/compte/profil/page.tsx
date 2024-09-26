@@ -10,6 +10,7 @@ import type { TooltipProps } from "@mui/material/Tooltip";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import { useMemo } from "react";
 
+import type { PropsWithLangParams } from "@/app/i18n/settings";
 import { DsfrLink } from "@/components/link/DsfrLink";
 import { PAGES } from "@/utils/routes.utils";
 
@@ -26,7 +27,7 @@ const CustomWidthTooltip = styled(({ className, ...props }: TooltipProps) => (
   },
 });
 
-const ProfilPage = () => {
+const ProfilPage = ({ params: { lang } }: PropsWithLangParams) => {
   const apiKeys = useApiKeys();
   const statut = useApiKeysStatut();
 
@@ -111,7 +112,9 @@ const ProfilPage = () => {
           Jetons d’accès API
         </Typography>
         <Typography textAlign="right">
-          <DsfrLink href={PAGES.static.documentationTechnique.path}>Consulter la documentation technique</DsfrLink>
+          <DsfrLink href={PAGES.static.documentationTechnique.getPath(lang)}>
+            Consulter la documentation technique
+          </DsfrLink>
         </Typography>
       </Box>
 

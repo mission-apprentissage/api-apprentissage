@@ -13,24 +13,24 @@ type GetNavigationItemsProps = WithLangAndT<{
 const getNavigationItems = ({ user, pathname, lang, t }: GetNavigationItemsProps): MainNavigationProps.Item[] => {
   const navigation: MainNavigationProps.Item[] = [
     {
-      isActive: pathname === PAGES.static.home.path,
+      isActive: pathname === PAGES.static.home.getPath(lang),
       text: PAGES.static.home.getTitle(lang, t),
       linkProps: {
-        href: PAGES.static.home.path,
+        href: PAGES.static.home.getPath(lang),
       },
     },
     {
-      isActive: pathname.startsWith(PAGES.static.explorerApi.path),
+      isActive: pathname.startsWith(PAGES.static.explorerApi.getPath(lang)),
       text: PAGES.static.explorerApi.getTitle(lang, t),
       linkProps: {
-        href: PAGES.static.explorerApi.path,
+        href: PAGES.static.explorerApi.getPath(lang),
       },
     },
     {
-      isActive: pathname.startsWith(PAGES.static.documentationTechnique.path),
+      isActive: pathname.startsWith(PAGES.static.documentationTechnique.getPath(lang)),
       text: PAGES.static.documentationTechnique.getTitle(lang, t),
       linkProps: {
-        href: PAGES.static.documentationTechnique.path,
+        href: PAGES.static.documentationTechnique.getPath(lang),
       },
     },
   ];
@@ -39,23 +39,23 @@ const getNavigationItems = ({ user, pathname, lang, t }: GetNavigationItemsProps
     const adminMenuLinks = [
       {
         text: PAGES.static.adminOrganisations.getTitle(lang, t),
-        isActive: pathname.startsWith(PAGES.static.adminOrganisations.path),
+        isActive: pathname.startsWith(PAGES.static.adminOrganisations.getPath(lang)),
         linkProps: {
-          href: PAGES.static.adminOrganisations.path,
+          href: PAGES.static.adminOrganisations.getPath(lang),
         },
       },
       {
         text: PAGES.static.adminUsers.getTitle(lang, t),
-        isActive: pathname.startsWith(PAGES.static.adminUsers.path),
+        isActive: pathname.startsWith(PAGES.static.adminUsers.getPath(lang)),
         linkProps: {
-          href: PAGES.static.adminUsers.path,
+          href: PAGES.static.adminUsers.getPath(lang),
         },
       },
       {
         text: PAGES.static.adminProcessor.getTitle(lang, t),
-        isActive: pathname.startsWith(PAGES.static.adminProcessor.path),
+        isActive: pathname.startsWith(PAGES.static.adminProcessor.getPath(lang)),
         linkProps: {
-          href: PAGES.static.adminProcessor.path,
+          href: PAGES.static.adminProcessor.getPath(lang),
         },
       },
     ];

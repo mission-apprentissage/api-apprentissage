@@ -21,12 +21,12 @@ export function BesoinDesDonnes({ lang, t }: WithLangAndT) {
             {t("besoinDonnees.titre", { lng: lang })}
           </Typography>
           <Typography>
-            <DsfrLink href={PAGES.static.documentationTechnique.path} size="lg">
+            <DsfrLink href={PAGES.static.documentationTechnique.getPath(lang)} size="lg">
               {t("besoinDonnees.swagger", { lng: lang })}
             </DsfrLink>
           </Typography>
           <Typography>
-            <DsfrLink href={PAGES.static.compteProfil.path} size="lg">
+            <DsfrLink href={PAGES.static.compteProfil.getPath(lang)} size="lg">
               {t("besoinDonnees.obtenirJeton", { lng: lang })}
             </DsfrLink>
           </Typography>

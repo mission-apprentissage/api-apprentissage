@@ -2,13 +2,19 @@
   "summary": "<strong>L’API Apprentissage centralise, enrichit</strong> et<strong> met à disposition</strong> des jeux de données et des outils relatifs à l’ensemble de l’offre de formation en apprentissage",
   "catalogueDesDonneesCertification": {
     "desc": "Consulter le modèle de données et effectuer une recherche dans la liste des certifications",
-    "summary": "<strong>Utilisez un jeu de données fiable et enrichi pour votre projet :</strong> codification, période de validité, intitulé, domaines, continuité, type et base légale."
+    "summary": "<strong>Utilisez un jeu de données fiable et enrichi pour votre projet :</strong> codification, période de validité, intitulé, domaines, continuité, type et base légale.",
+    "variant": "Certification"
   },
   "simulateurNpec": {
     "desc": "Calculer le niveau de prise en charge d’un contrat, réaliser un budget prévisionnel"
   },
-  "jobSearch": {
-    "desc": "Accéder gratuitement et en temps réel à l'ensemble des opportunités d'emploi en alternance"
+  "rechercheOffre": {
+    "desc": "Accéder gratuitement et en temps réel à l'ensemble des opportunités d'emploi en alternance",
+    "summary": "<strong>Accédez gratuitement en temps réel à l'ensemble des opportunités d'emploi en alternance sur le territoire français.</strong> Les opportunités d’emploi retournées sont celles collectées sur {{- lienLba }}, récupérées par France Travail et partagées par nos partenaires.",
+    "tip": "<strong>💡 Vous pouvez rechercher dans l’ensemble opportunités d’emploi selon les critères suivants :</strong> Code(s) ROME, RNCP, géolocalisation, niveau de diplôme et rayon de recherche.",
+    "note": "À date, les résultats sont triés par priorité de source (La bonne alternance, France Travail puis nos partenaires) ; par distance croisssante (uniquement si critère de localisation) et par date de création décroissante. Les résultats sont limités à 150 par source.",
+    "variantOffre": "Offre d'emploi",
+    "variantRecruteur": "Recruteur"
   },
   "depotOffre": {
     "desc": "Maximiser la visibilité de vos offres d’emploi en alternance en les diffusant sur la plateforme La bonne alternance ainsi que ses sites partenaires.",
@@ -19,7 +25,8 @@
     "demandeHabilitation": {
       "sujet": "Demande d'habilitation pour le dépôt d'offres d'emploi en alternance",
       "contenu": "Bonjour, je souhaite obtenir une habilitation pour déposer des offres d'emploi en alternance sur la plateforme La bonne alternance."
-    }
+    },
+    "variant": "Offre d'emploi"
   },
   "back": "Revenir à la liste",
   "besoinDonnees": {

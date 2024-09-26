@@ -17,6 +17,8 @@
     "donneesPersonnelles": "Personal Data",
     "politiqueConfidentialite": "Privacy Policy",
     "compteProfil": "My Profile",
+    "compte": "My account",
+    "seConnecterInscrireCompte": "Connect / Register",
     "adminUsers": "User Management",
     "adminOrganisations": "Organization Management",
     "adminProcessor": "Processor Administration",

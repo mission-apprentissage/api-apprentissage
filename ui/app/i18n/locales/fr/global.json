@@ -17,6 +17,8 @@
     "donneesPersonnelles": "Données Personnelles",
     "politiqueConfidentialite": "Politique de Confidentialité",
     "compteProfil": "Mon profil",
+    "compte": "Mon compte",
+    "seConnecterInscrireCompte": "Se connecter / S'inscrire",
     "adminUsers": "Gestion des utilisateurs",
     "adminOrganisations": "Gestion des organisations",
     "adminProcessor": "Administration du processeur",

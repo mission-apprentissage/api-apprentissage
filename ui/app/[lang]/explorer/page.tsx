@@ -80,7 +80,7 @@ export default async function ExplorerApiPage({ params: { lang } }: PropsWithLan
           start={<TagDsfr>{t(`type.outil`, { lng: lang })}</TagDsfr>}
         />
         <Tile
-          title="Recherche d’opportunités d’emploi en alternance"
+          title={PAGES.static.rechercheOffre.getTitle(lang, t)}
           desc={t("rechercheOffre.desc")}
           imageSvg
           imageUrl={search.src}

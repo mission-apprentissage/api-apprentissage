@@ -1,0 +1,12 @@
+{
+  "modal": {
+    "seConnecterInscrire": "Connect / Register",
+    "fermer": "Close",
+    "obtenirJetons": "Obtain and manage your API access tokens",
+    "alApiApprentissage": "to API Apprentissage",
+    "saisirEmail": "Please enter your email address",
+    "continuer": "Next",
+    "envoiLienDescription": "We will send you a link that will allow you to log in to your account or sign up, without a password.",
+    "problemeConnexionContactezNous": "Having trouble logging in? Contact us :"
+  }
+}

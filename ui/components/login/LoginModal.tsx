@@ -10,6 +10,7 @@ import Link from "next/link";
 import { useState } from "react";
 import type { FieldError, SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import type { IBody, IPostRoutes } from "shared";
 import { zRoutes } from "shared";
 
@@ -43,6 +44,7 @@ export function LoginModal({ lang }: WithLang) {
   });
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [sentTo, setSentTo] = useState<string | null>(null);
+  const { t } = useTranslation("inscription-connexion", { lng: lang });
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
@@ -89,7 +91,7 @@ export function LoginModal({ lang }: WithLang) {
         <Box sx={{ textAlign: "right", marginBottom: fr.spacing("2w") }}>
           <Box component={Link} href={PAGES.static.home.getPath(lang)} sx={{ backgroundImage: "none" }}>
             <Button priority="tertiary" iconId="fr-icon-close-line" iconPosition="right">
-              Fermer
+              {t("modal.fermer", { lng: lang })}
             </Button>
           </Box>
         </Box>
@@ -117,10 +119,10 @@ export function LoginModal({ lang }: WithLang) {
                 color: fr.colors.decisions.text.label.blueEcume.default,
               }}
             >
-              Se connecter / S’inscrire
+              {t("modal.seConnecterInscrire", { lng: lang })}
             </Typography>
             <Typography id="login-modal-description" className={fr.cx("fr-text--lead")}>
-              <strong>Obtenez et gérez vos jetons d’accès</strong> à l’API Apprentissage
+              <strong> {t("modal.obtenirJetons", { lng: lang })}</strong> {t("modal.alApiApprentissage", { lng: lang })}
             </Typography>
           </Box>
 
@@ -134,7 +136,7 @@ export function LoginModal({ lang }: WithLang) {
             }}
           >
             <Input
-              label="Merci de saisir votre adresse email"
+              label={t("modal.saisirEmail", { lng: lang })}
               {...getInputState(errors?.email)}
               nativeInputProps={register("email", { required: true })}
             />
@@ -148,7 +150,7 @@ export function LoginModal({ lang }: WithLang) {
                 iconId="fr-icon-arrow-right-line"
                 iconPosition="right"
               >
-                Continuer
+                {t("modal.continuer", { lng: lang })}
               </Button>
             </Box>
           </Box>
@@ -159,12 +161,11 @@ export function LoginModal({ lang }: WithLang) {
           )}
 
           <Typography textAlign="center" color={fr.colors.decisions.text.default.grey.default}>
-            Nous vous enverrons un lien qui vous permettra de vous connecter à votre compte ou de vous inscrire, sans
-            mot de passe
+            {t("modal.envoiLienDescription", { lng: lang })}
           </Typography>
         </Box>
         <Typography textAlign="center" color={fr.colors.decisions.text.default.grey.default}>
-          Vous rencontrez des problèmes pour vous identifier, contactez-nous :{" "}
+          {t("modal.problemeConnexionContactezNous", { lng: lang })}{" "}
           <Box
             component="a"
             href="mailto:support_api@apprentissage.beta.gouv.fr"

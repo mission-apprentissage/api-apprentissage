@@ -2214,7 +2214,7 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
 - email de l’entreprise
 
 
-At least one application method must be provided when submitting an offer. (either URL, phone, or email)",
+Au moins une méthode de candidature doit être fournie lors du dépot d'offre. (soit url, phone, email)",
             "properties": {
               "email": {
                 "description": "Recruiter's email adress",

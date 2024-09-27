@@ -50,6 +50,7 @@ export default async function RechercheOffrePage({ params: { lang } }: PropsWith
           t("rechercheOffre.tip", { lang: lang }),
         ]}
         note={t("rechercheOffre.note", { lang: lang })}
+        warning={t("rechercheOffre.warning", { lang: lang })}
         frequenceMiseAJour="daily"
       />
       <CatalogueData

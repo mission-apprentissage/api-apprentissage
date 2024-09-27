@@ -13,6 +13,7 @@
     "summary": "<strong>Access all apprenticeship job opportunities in France for free and in real-time.</strong> The job opportunities returned are those collected on {{- lienLba }}, retrieved by France Travail, and shared by our partners.",
     "tip": "<strong>💡 You can search all job opportunities based on the following criteria:</strong> ROME code(s), RNCP, geolocation, diploma level, and search radius.",
     "note": "To date, results are sorted by source priority (La bonne alternance, France Travail, then our partners); by increasing distance (only if location criteria) and by decreasing creation date. Results are limited to 150 per source.",
+    "warning": "In the interest of fair sharing, the use of this API is reserved for non-profit purposes. Please note that the use of this data for commercial purposes, such as reselling or charging access fees to third parties like candidates, companies, or schools, is prohibited.",
     "variantOffre": "Job Offer",
     "variantRecruteur": "Recruiter"
   },

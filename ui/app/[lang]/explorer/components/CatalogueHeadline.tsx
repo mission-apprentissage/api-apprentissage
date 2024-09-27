@@ -29,6 +29,7 @@ type Props = WithLangAndT<{
   };
   frequenceMiseAJour: "daily";
   note?: string;
+  warning?: string;
 }>;
 
 export function CatalogueHeadline({
@@ -40,6 +41,7 @@ export function CatalogueHeadline({
   demandeHabilitation,
   frequenceMiseAJour,
   note,
+  warning,
 }: Props) {
   return (
     <>
@@ -91,6 +93,10 @@ export function CatalogueHeadline({
 
           {note != null && (
             <Typography sx={{ marginTop: fr.spacing("1w") }} dangerouslySetInnerHTML={{ __html: note }} />
+          )}
+
+          {warning != null && (
+            <Typography sx={{ marginTop: fr.spacing("1w") }} dangerouslySetInnerHTML={{ __html: warning }} />
           )}
 
           {demandeHabilitation != null && <HabilitationRequise lang={lang} t={t} {...demandeHabilitation} />}

@@ -13,6 +13,7 @@
     "summary": "<strong>Accédez gratuitement en temps réel à l'ensemble des opportunités d'emploi en alternance sur le territoire français.</strong> Les opportunités d’emploi retournées sont celles collectées sur {{- lienLba }}, récupérées par France Travail et partagées par nos partenaires.",
     "tip": "<strong>💡 Vous pouvez rechercher dans l’ensemble opportunités d’emploi selon les critères suivants :</strong> Code(s) ROME, RNCP, géolocalisation, niveau de diplôme et rayon de recherche.",
     "note": "À date, les résultats sont triés par priorité de source (La bonne alternance, France Travail puis nos partenaires) ; par distance croisssante (uniquement si critère de localisation) et par date de création décroissante. Les résultats sont limités à 150 par source.",
+    "warning": "Dans un souci de partage équitable, l'utilisation de cette API est réservée à des usages non lucratifs. Veuillez noter que l'utilisation de ces données à des fins commerciales, telles que la revente ou la facturation de l'accès pour des tiers comme des candidats, entreprises ou écoles, est interdite.",
     "variantOffre": "Offre d'emploi",
     "variantRecruteur": "Recruteur"
   },

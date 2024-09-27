@@ -79,7 +79,7 @@ export const offerReadModelDoc = {
       description: { en: offerDescEn, fr: offerDescFr },
       information: {
         en: "The ROME corresponds to the Operational Reference for Jobs and Occupations. Designed by France Travail (formerly Pôle Emploi), this reference system presents all professions grouped into profiles, organized by professional fields.",
-        fr: null,
+        fr: "Le ROME correspond au Référentiel Opérationnel des Métiers et des Emplois. Conçu par France Travail (anciennement Pôle Emploi), ce référentiel présente l'ensemble des métiers regroupés par fiches, organisées par domaines professionnels.",
       },
       tags: [],
       _: {

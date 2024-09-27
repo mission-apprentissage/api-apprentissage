@@ -1784,7 +1784,7 @@ In the case of La Bonne Alternance, the partner_label is: "La bonne alternance".
 - Le mode de travail (présentiel, télétravail ou hybride).
 
 
-The ROME corresponds to the Operational Reference for Jobs and Occupations. Designed by France Travail (formerly Pôle Emploi), this reference system presents all professions grouped into profiles, organized by professional fields.",
+Le ROME correspond au Référentiel Opérationnel des Métiers et des Emplois. Conçu par France Travail (anciennement Pôle Emploi), ce référentiel présente l'ensemble des métiers regroupés par fiches, organisées par domaines professionnels.",
             "properties": {
               "access_conditions": {
                 "description": "The conditions for entering the profession",
@@ -2214,7 +2214,7 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
 - email de l’entreprise
 
 
-At least one application method must be provided when submitting an offer. (either URL, phone, or email)",
+Au moins une méthode de candidature doit être fournie lors du dépot d'offre. (soit url, phone, email)",
             "properties": {
               "email": {
                 "description": "Recruiter's email adress",
@@ -2356,7 +2356,7 @@ Only European phone numbers are allowed. There is also a check on the nature of 
 - Le mode de travail (présentiel, télétravail ou hybride).
 
 
-The ROME corresponds to the Operational Reference for Jobs and Occupations. Designed by France Travail (formerly Pôle Emploi), this reference system presents all professions grouped into profiles, organized by professional fields.",
+Le ROME correspond au Référentiel Opérationnel des Métiers et des Emplois. Conçu par France Travail (anciennement Pôle Emploi), ce référentiel présente l'ensemble des métiers regroupés par fiches, organisées par domaines professionnels.",
             "properties": {
               "access_conditions": {
                 "description": "The conditions for entering the profession",

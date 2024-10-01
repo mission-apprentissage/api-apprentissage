@@ -94,7 +94,7 @@ export const offerWriteModelDoc = {
       description: { en: applyDescEn, fr: applyDescFr },
       information: {
         en: "At least one application method must be provided when submitting an offer. (either URL, phone, or email)",
-        fr: null,
+        fr: "Au moins une méthode de candidature doit être fournie lors du dépot d'offre. (soit url, phone, email)",
       },
       _: {
         email: {

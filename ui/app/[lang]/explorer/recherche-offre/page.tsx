@@ -41,7 +41,7 @@ export default async function RechercheOffrePage({ params: { lang } }: PropsWith
         type="outil"
         lang={lang}
         t={t}
-        title={PAGES.static.depotOffre.getTitle(lang, t)}
+        title={PAGES.static.rechercheOffre.getTitle(lang, t)}
         dangerousHtmlDescriptions={[
           t("rechercheOffre.summary", {
             lienLba: `<a href="https://labonnealternance.apprentissage.beta.gouv.fr/" target="_blank">La bonne alternance</a>`,

@@ -1,22 +1,136 @@
 diff --git a/lib/stream/xlsx/workbook-reader.js b/lib/stream/xlsx/workbook-reader.js
-index 0d3afd62a54ebc566ac430a0741c9d51f8b12888..7e8c97f12cfe9d8e45f93132c8b63e2722d3cbfe 100644
+index 0d3afd62a54ebc566ac430a0741c9d51f8b12888..e03db53df32d961b68921760ab423ecdc76f022c 100644
 --- a/lib/stream/xlsx/workbook-reader.js
 +++ b/lib/stream/xlsx/workbook-reader.js
-@@ -112,7 +112,7 @@ class WorkbookReader extends EventEmitter {
-             } else {
-               // create temp file for each worksheet
-               await new Promise((resolve, reject) => {
+@@ -84,68 +84,75 @@ class WorkbookReader extends EventEmitter {
+ 
+     // worksheets, deferred for parsing after shared strings reading
+     const waitingWorkSheets = [];
++    const cleanupCallbacks = new Set();
+ 
+-    for await (const entry of iterateStream(zip)) {
+-      let match;
+-      let sheetNo;
+-      switch (entry.path) {
+-        case '_rels/.rels':
+-          break;
+-        case 'xl/_rels/workbook.xml.rels':
+-          await this._parseRels(entry);
+-          break;
+-        case 'xl/workbook.xml':
+-          await this._parseWorkbook(entry);
+-          break;
+-        case 'xl/sharedStrings.xml':
+-          yield* this._parseSharedStrings(entry);
+-          break;
+-        case 'xl/styles.xml':
+-          await this._parseStyles(entry);
+-          break;
+-        default:
+-          if (entry.path.match(/xl\/worksheets\/sheet\d+[.]xml/)) {
+-            match = entry.path.match(/xl\/worksheets\/sheet(\d+)[.]xml/);
+-            sheetNo = match[1];
+-            if (this.sharedStrings && this.workbookRels) {
+-              yield* this._parseWorksheet(iterateStream(entry), sheetNo);
+-            } else {
+-              // create temp file for each worksheet
+-              await new Promise((resolve, reject) => {
 -                tmp.file((err, path, fd, tempFileCleanupCallback) => {
-+                tmp.file({prefix: 'exceljs-'}, (err, path, fd, tempFileCleanupCallback) => {
-                   if (err) {
-                     return reject(err);
-                   }
-@@ -145,7 +145,7 @@ class WorkbookReader extends EventEmitter {
-         fileStream = fileStream.pipe(new PassThrough());
+-                  if (err) {
+-                    return reject(err);
+-                  }
+-                  waitingWorkSheets.push({sheetNo, path, tempFileCleanupCallback});
+-
+-                  const tempStream = fs.createWriteStream(path);
+-                  tempStream.on('error', reject);
+-                  entry.pipe(tempStream);
+-                  return tempStream.on('finish', () => {
+-                    return resolve();
++    try {
++      for await (const entry of iterateStream(zip)) {
++        let match;
++        let sheetNo;
++        switch (entry.path) {
++          case '_rels/.rels':
++            break;
++          case 'xl/_rels/workbook.xml.rels':
++            await this._parseRels(entry);
++            break;
++          case 'xl/workbook.xml':
++            await this._parseWorkbook(entry);
++            break;
++          case 'xl/sharedStrings.xml':
++            yield* this._parseSharedStrings(entry);
++            break;
++          case 'xl/styles.xml':
++            await this._parseStyles(entry);
++            break;
++          default:
++            if (entry.path.match(/xl\/worksheets\/sheet\d+[.]xml/)) {
++              match = entry.path.match(/xl\/worksheets\/sheet(\d+)[.]xml/);
++              sheetNo = match[1];
++              if (this.sharedStrings && this.workbookRels) {
++                yield* this._parseWorksheet(iterateStream(entry), sheetNo);
++              } else {
++                // create temp file for each worksheet
++                await new Promise((resolve, reject) => {
++                  tmp.file((err, path, fd, tempFileCleanupCallback) => {
++                    if (err) {
++                      return reject(err);
++                    }
++                    cleanupCallbacks.add(tempFileCleanupCallback);
++                    waitingWorkSheets.push({sheetNo, path, tempFileCleanupCallback});
++  
++                    const tempStream = fs.createWriteStream(path);
++                    tempStream.on('error', reject);
++                    entry.pipe(tempStream);
++                    return tempStream.on('finish', () => {
++                      return resolve();
++                    });
+                   });
+                 });
+-              });
++              }
++            } else if (entry.path.match(/xl\/worksheets\/_rels\/sheet\d+[.]xml.rels/)) {
++              match = entry.path.match(/xl\/worksheets\/_rels\/sheet(\d+)[.]xml.rels/);
++              sheetNo = match[1];
++              yield* this._parseHyperlinks(iterateStream(entry), sheetNo);
+             }
+-          } else if (entry.path.match(/xl\/worksheets\/_rels\/sheet\d+[.]xml.rels/)) {
+-            match = entry.path.match(/xl\/worksheets\/_rels\/sheet(\d+)[.]xml.rels/);
+-            sheetNo = match[1];
+-            yield* this._parseHyperlinks(iterateStream(entry), sheetNo);
+-          }
+-          break;
++            break;
++        }
++        entry.autodrain();
        }
-       yield* this._parseWorksheet(fileStream, sheetNo);
+-      entry.autodrain();
+-    }
+-
+-    for (const {sheetNo, path, tempFileCleanupCallback} of waitingWorkSheets) {
+-      let fileStream = fs.createReadStream(path);
+-      // TODO: Remove once node v8 is deprecated
+-      // Detect and upgrade old fileStreams
+-      if (!fileStream[Symbol.asyncIterator]) {
+-        fileStream = fileStream.pipe(new PassThrough());
++  
++      for (const {sheetNo, path, tempFileCleanupCallback} of waitingWorkSheets) {
++        let fileStream = fs.createReadStream(path);
++        // TODO: Remove once node v8 is deprecated
++        // Detect and upgrade old fileStreams
++        if (!fileStream[Symbol.asyncIterator]) {
++          fileStream = fileStream.pipe(new PassThrough());
++        }
++        yield* this._parseWorksheet(fileStream, sheetNo);
++        cleanupCallbacks.delete(tempFileCleanupCallback);
++        await tempFileCleanupCallback();
+       }
+-      yield* this._parseWorksheet(fileStream, sheetNo);
 -      tempFileCleanupCallback();
-+      await tempFileCleanupCallback();
++    } finally {
++      await Promise.all(Array.from(cleanupCallbacks.values()).map(cb => cb()));
      }
    }
  

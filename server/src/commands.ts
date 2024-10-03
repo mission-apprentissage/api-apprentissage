@@ -13,7 +13,7 @@ import { createAuthToken } from "./services/apis/lba/lba.api.js";
 import logger from "./services/logger.js";
 import { closeMailer } from "./services/mailer/mailer.js";
 import { closeMongodbConnection, getDbCollection } from "./services/mongodb/mongodbService.js";
-import { closeSentry, initSentryProcessor } from "./services/sentry/sentry.js";
+import { closeSentry } from "./services/sentry/sentry.js";
 import { sleep } from "./utils/asyncUtils.js";
 
 program
@@ -25,8 +25,6 @@ program
     // on définit le module du logger en global pour distinguer les logs des jobs
     if (command !== "start") {
       logger.setBindings({ module: `cli:${command}` });
-      // Pas besoin d'init Sentry dans le cas du server car il est start automatiquement
-      initSentryProcessor();
     }
   })
   .hook("postAction", async () => {

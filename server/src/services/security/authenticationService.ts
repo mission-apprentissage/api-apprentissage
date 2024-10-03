@@ -3,7 +3,7 @@ import { captureException } from "@sentry/node";
 import type { PathParam, QueryString } from "api-alternance-sdk/internal";
 import type { FastifyRequest } from "fastify";
 import type { JwtPayload } from "jsonwebtoken";
-import { JsonWebTokenError } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
 import type { IOrganisation } from "shared/models/organisation.model";
 import type { IApiKey, IUser } from "shared/models/user.model";
@@ -80,7 +80,7 @@ async function authApiKey(req: FastifyRequest): Promise<UserWithType<"user", IUs
 
     return updatedUser === null ? null : { type: "user", value: updatedUser };
   } catch (error) {
-    if (error instanceof JsonWebTokenError) {
+    if (error instanceof jwt.JsonWebTokenError) {
       return null;
     }
     captureException(error);

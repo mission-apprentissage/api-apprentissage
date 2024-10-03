@@ -1,4 +1,4 @@
-import { captureException } from "@sentry/node";
+import { internal } from "@hapi/boom";
 import type { FastifyReply, FastifyRequest } from "fastify";
 import type { JwtPayload } from "jsonwebtoken";
 import jwt from "jsonwebtoken";
@@ -9,6 +9,7 @@ import type { IUser } from "shared/models/user.model";
 import type { UserWithType } from "shared/security/permissions";
 
 import config from "@/config.js";
+import { withCause } from "@/services/errors/withCause.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
 export async function authCookieSession(req: FastifyRequest): Promise<UserWithType<"user", IUser> | null> {
@@ -31,8 +32,12 @@ export async function authCookieSession(req: FastifyRequest): Promise<UserWithTy
 
     return user ? { type: "user", value: user } : user;
   } catch (error) {
-    captureException(error);
-    return null;
+    if (error instanceof jwt.JsonWebTokenError) {
+      return null;
+    }
+
+    const err = internal("authCookieSession: error when verifying token");
+    throw withCause(err, error);
   }
 }
 

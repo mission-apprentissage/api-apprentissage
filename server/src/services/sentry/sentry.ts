@@ -1,13 +1,13 @@
 import * as Sentry from "@sentry/node";
-import type { FastifyRequest } from "fastify";
+import { nodeProfilingIntegration } from "@sentry/profiling-node";
 
 import config from "@/config.js";
-import type { Server } from "@/server/server.js";
 
 function getOptions(): Sentry.NodeOptions {
   return {
     tracesSampleRate: config.env === "production" ? 0.1 : 1.0,
     tracePropagationTargets: [/^https:\/\/[^/]*\.apprentissage\.beta\.gouv\.fr/],
+    profilesSampleRate: config.env === "production" ? 0.1 : 1.0,
     environment: config.env,
     release: config.version,
     enabled: config.env !== "local",
@@ -16,68 +16,15 @@ function getOptions(): Sentry.NodeOptions {
       Sentry.mongoIntegration(),
       Sentry.captureConsoleIntegration({ levels: ["error"] }),
       Sentry.extraErrorDataIntegration({ depth: 16 }),
+      nodeProfilingIntegration(),
     ],
   };
 }
 
-export function initSentryProcessor(): void {
+export function initSentry(): void {
   Sentry.init(getOptions());
 }
 
 export async function closeSentry(): Promise<void> {
   await Sentry.close(2_000);
-}
-
-type UserData = {
-  id?: string | number;
-  username: string;
-  email?: string;
-} & Record<string, unknown>;
-
-function extractUserData(request: FastifyRequest): UserData {
-  const user = request.user;
-
-  if (!user) {
-    // @ts-expect-error
-    return {
-      segment: "anonymous",
-    };
-  }
-
-  if (user.type === "token") {
-    const identity = user.value.identity;
-    return {
-      segment: "access-token",
-      id: identity.email,
-      email: identity.email,
-      username: identity.email,
-    };
-  }
-
-  const data: UserData = {
-    segment: "session",
-    id: user.value._id.toString(),
-    username: user.value.email ?? user.value._id.toString(),
-    type: user.value.is_admin ? "admin" : "standard",
-  };
-
-  if (user.value.email) {
-    data.email = user.value.email;
-  }
-
-  return data;
-}
-
-export function initSentryFastify(app: Server) {
-  Sentry.init(getOptions());
-
-  app.addHook("onRequest", async (request, _reply) => {
-    const scope = Sentry.getIsolationScope();
-    scope
-      .setUser(extractUserData(request))
-      .setExtra("headers", request.headers)
-      .setExtra("method", request.method)
-      .setExtra("protocol", request.protocol)
-      .setExtra("query_string", request.query);
-  });
 }

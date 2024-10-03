@@ -206,6 +206,6 @@ export async function runBcnImporter(): Promise<Record<string, unknown>> {
     return statsBySource;
   } catch (error) {
     await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "failed" } });
-    throw withCause(internal("import.bcn: unable to runBcnImporter"), error);
+    throw withCause(internal("import.bcn: unable to runBcnImporter"), error, "fatal");
   }
 }

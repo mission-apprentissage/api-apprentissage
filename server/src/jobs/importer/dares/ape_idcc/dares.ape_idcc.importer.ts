@@ -120,6 +120,6 @@ export async function runDaresApeIdccImporter(signal?: AbortSignal) {
     if (signal && error.name === signal?.reason?.name) {
       throw signal.reason;
     }
-    throw withCause(internal("import.dares_ape_idcc: unable to runDaresApeIdccImporter"), error);
+    throw withCause(internal("import.dares_ape_idcc: unable to runDaresApeIdccImporter"), error, "fatal");
   }
 }

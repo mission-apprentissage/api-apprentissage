@@ -112,6 +112,6 @@ export async function runDaresConventionCollectivesImporter(signal?: AbortSignal
     if (signal && error.name === signal?.reason?.name) {
       throw signal.reason;
     }
-    throw withCause(internal("import.dares_ccn: unable to runDaresConventionCollectivesImporter"), error);
+    throw withCause(internal("import.dares_ccn: unable to runDaresConventionCollectivesImporter"), error, "fatal");
   }
 }

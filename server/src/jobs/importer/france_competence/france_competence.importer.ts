@@ -441,7 +441,7 @@ export async function importRncpArchive(importMeta: IImportMetaFranceCompetence,
     if (signal && error.name === signal?.reason?.name) {
       throw signal.reason;
     }
-    throw withCause(internal("import.france_competence: unable to importRncpArchive", { importMeta }), error);
+    throw withCause(internal("import.france_competence: unable to importRncpArchive", { importMeta }), error, "fatal");
   }
 }
 
@@ -449,7 +449,7 @@ export async function onImportRncpArchiveFailure(importMeta: IImportMetaFranceCo
   try {
     await getDbCollection("import.meta").updateOne({ _id: importMeta._id }, { $set: { status: "failed" } });
   } catch (error) {
-    throw withCause(internal("import.france_competence: unable to onImportRncpArchiveFailure"), error);
+    throw withCause(internal("import.france_competence: unable to onImportRncpArchiveFailure"), error, "fatal");
   }
 }
 
@@ -512,6 +512,6 @@ export async function runRncpImporter() {
       archives: importMetas.map((meta) => meta.archiveMeta.nom),
     };
   } catch (error) {
-    throw withCause(internal("import.france_competence: unable to runRncpImporter"), error);
+    throw withCause(internal("import.france_competence: unable to runRncpImporter"), error, "fatal");
   }
 }

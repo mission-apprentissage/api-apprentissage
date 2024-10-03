@@ -142,6 +142,6 @@ export async function runKaliConventionCollectivesImporter(signal?: AbortSignal)
     await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "done" } });
   } catch (error) {
     await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "failed" } });
-    throw withCause(internal("import.kali_ccn: unable to runKaliConventionCollectivesImporter"), error);
+    throw withCause(internal("import.kali_ccn: unable to runKaliConventionCollectivesImporter"), error, "fatal");
   }
 }

@@ -208,7 +208,7 @@ const schema: SchemaObject = {
                 properties: {
                   code: {
                     type: "string",
-                    pattern: "^[A-Z]{1}\\d{2,4}$",
+                    pattern: "^[A-Z]{1}\\d{0,4}$",
                   },
                   intitule: {
                     type: "string",

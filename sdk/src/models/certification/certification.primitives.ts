@@ -25,7 +25,7 @@ export const zNsfCode = z.string().regex(/^\d{2,3}[a-z]?$/);
 
 export const zRomeCode = z.string().regex(/^[A-Z]{1}\d{4}$/);
 
-export const zRomeCodeFlex = z.string().regex(/^[A-Z]{1}\d{2,4}$/);
+export const zRomeCodeFlex = z.string().regex(/^[A-Z]{1}\d{0,4}$/);
 
 export const zCfdNatureCode = z.string().regex(/^[0-9A-Z]$/);
 

@@ -363,7 +363,7 @@ export async function importNpecResource(importMeta: IImportMetaNpec, signal?: A
       date_import: importMeta.import_date,
       filename,
     });
-    throw withCause(internal("npec.import: unable to importNpecResource", { importMeta }), error);
+    throw withCause(internal("npec.import: unable to importNpecResource", { importMeta }), error, "fatal");
   }
 }
 
@@ -371,7 +371,7 @@ export async function onImportNpecResourceFailure(importMeta: IImportMetaNpec) {
   try {
     await getDbCollection("import.meta").updateOne({ _id: importMeta._id }, { $set: { status: "failed" } });
   } catch (error) {
-    throw withCause(internal("npec.import: unable to update import_meta status", { importMeta }), error);
+    throw withCause(internal("npec.import: unable to update import_meta status", { importMeta }), error, "fatal");
   }
 }
 
@@ -441,6 +441,6 @@ export async function runNpecImporter() {
       await getDbCollection("import.meta").updateOne({ _id: importMeta._id }, { $set: { status: "pending" } });
     }
   } catch (error) {
-    throw withCause(internal("npec.importer: error while running importer"), error);
+    throw withCause(internal("npec.importer: error while running importer"), error, "fatal");
   }
 }

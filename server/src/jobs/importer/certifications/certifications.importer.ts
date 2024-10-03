@@ -384,6 +384,6 @@ export async function importCertifications(options: ImportCertificationsOptions 
     await getDbCollection("import.meta").updateOne({ _id: importMeta._id }, { $set: { status: "failed" } });
     await getDbCollection("certifications").deleteMany({ updated_at: importMeta.import_date });
 
-    throw withCause(internal("import.certifications: unable to importCertifications"), error);
+    throw withCause(internal("import.certifications: unable to importCertifications"), error, "fatal");
   }
 }

@@ -58,6 +58,10 @@ export async function downloadResourceApeIdccFile(resource: IImportMetaDares["re
 
     return await downloadFileAsStream(response.data, new URL(resource.url).pathname.split("/").pop() ?? "");
   } catch (error) {
-    throw withCause(internal("dares.ape_idcc.scraper: unable to downloadResourceCcnFile", { resource }), error);
+    throw withCause(
+      internal("dares.ape_idcc.scraper: unable to downloadResourceCcnFile", { resource }),
+      error,
+      "fatal"
+    );
   }
 }

@@ -170,6 +170,6 @@ export async function runKitApprentissageImporter(): Promise<number> {
   } catch (error) {
     await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "failed" } });
     await getDbCollection("source.kit_apprentissage").deleteMany({ date: importDate });
-    throw withCause(internal("import.kit_apprentissage: unable to runKitApprentissageImporter"), error);
+    throw withCause(internal("import.kit_apprentissage: unable to runKitApprentissageImporter"), error, "fatal");
   }
 }

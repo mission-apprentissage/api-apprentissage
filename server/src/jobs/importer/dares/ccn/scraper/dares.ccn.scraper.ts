@@ -64,6 +64,6 @@ export async function downloadResourceCcnFile(resource: IImportMetaDares["resour
 
     return await downloadFileAsStream(response.data, new URL(resource.url).pathname.split("/").pop() ?? "");
   } catch (error) {
-    throw withCause(internal("dares.ccn.scraper: unable to downloadResourceCcnFile", { resource }), error);
+    throw withCause(internal("dares.ccn.scraper: unable to downloadResourceCcnFile", { resource }), error, "fatal");
   }
 }

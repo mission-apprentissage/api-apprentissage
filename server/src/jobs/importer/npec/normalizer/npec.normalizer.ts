@@ -219,6 +219,6 @@ export async function runNpecNormalizer(importMeta: IImportMetaNpec) {
       date_import: importMeta.import_date,
       filename,
     });
-    throw withCause(internal("npec.import.normalizer: unable to runNpecNormalizer", { importMeta }), error);
+    throw withCause(internal("npec.import.normalizer: unable to runNpecNormalizer", { importMeta }), error, "fatal");
   }
 }

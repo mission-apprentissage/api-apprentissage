@@ -2,6 +2,7 @@ import type { z } from "zod";
 
 import { certificationsModelDescriptor } from "./certification.model.js";
 import type { IModelDescriptorGeneric } from "./common.js";
+import { communeModelDescriptor } from "./commune.model.js";
 import emailDeniedModelDescriptor from "./email_denied.model.js";
 import emailEventsModelDescriptor from "./email_event.model.js";
 import { importMetaModelDescriptor } from "./import.meta.model.js";
@@ -24,6 +25,7 @@ import usersModelDescriptor from "./user.model.js";
 
 export const modelDescriptorMap = {
   [certificationsModelDescriptor.collectionName]: certificationsModelDescriptor,
+  [communeModelDescriptor.collectionName]: communeModelDescriptor,
   [emailDeniedModelDescriptor.collectionName]: emailDeniedModelDescriptor,
   [emailEventsModelDescriptor.collectionName]: emailEventsModelDescriptor,
   [importMetaModelDescriptor.collectionName]: importMetaModelDescriptor,

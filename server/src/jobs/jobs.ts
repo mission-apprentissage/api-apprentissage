@@ -11,6 +11,7 @@ import { runAcceImporter } from "./importer/acce/acce.js";
 import { runBcnImporter } from "./importer/bcn/bcn.importer.js";
 import { runCatalogueImporter } from "./importer/catalogue/catalogue.importer.js";
 import { importCertifications } from "./importer/certifications/certifications.importer.js";
+import { runCommuneImporter } from "./importer/commune/commune.importer.js";
 import { runDaresApeIdccImporter } from "./importer/dares/ape_idcc/dares.ape_idcc.importer.js";
 import { runDaresConventionCollectivesImporter } from "./importer/dares/ccn/dares.ccn.importer.js";
 import {
@@ -93,6 +94,11 @@ export async function setupJobProcessor() {
               handler: runDaresApeIdccImporter,
               resumable: true,
             },
+            "Import des Communes": {
+              cron_string: timings.import_source,
+              handler: async () => runCommuneImporter(),
+              resumable: true,
+            },
           },
     jobs: {
       "indexes:recreate": {
@@ -135,6 +141,9 @@ export async function setupJobProcessor() {
       },
       "import:catalogue": {
         handler: async () => runCatalogueImporter(),
+      },
+      "import:commmunes": {
+        handler: async () => runCommuneImporter(),
       },
       "import:france_competence": {
         handler: async () => runRncpImporter(),

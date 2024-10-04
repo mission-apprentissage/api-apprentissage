@@ -41,7 +41,7 @@
     "date-fns": "^4.1.0",
     "i18next": "^23.15.1",
     "i18next-resources-to-backend": "^1.2.1",
-    "job-processor": "^1.6.1",
+    "job-processor": "^1.6.2",
     "jwt-decode": "^4.0.0",
     "match-sorter": "^6.3.4",
     "mobx": "^6.13.2",

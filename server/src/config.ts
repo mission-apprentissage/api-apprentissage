@@ -69,6 +69,13 @@ const config = {
     referentielOnisep: {
       endpoint: "https://referentiel.apprentissage.onisep.fr/api/v1",
     },
+    geo: {
+      endpoint: "https://geo.api.gouv.fr",
+    },
+    insee: {
+      endpoint: "https://api.insee.fr",
+      token: env.get("API_INSEE_TOKEN").required().asString(),
+    },
     catalogue: {
       baseurl: "https://catalogue-apprentissage.intercariforef.org",
     },

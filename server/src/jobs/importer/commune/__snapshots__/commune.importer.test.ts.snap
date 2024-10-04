@@ -1,0 +1,867 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`runCommuneImporter > should import communes with existing regions and departements 1`] = `
+[
+  {
+    "bbox": {
+      "coordinates": [
+        [
+          [
+            2.437874,
+            47.25828,
+          ],
+          [
+            2.482241,
+            47.25828,
+          ],
+          [
+            2.482241,
+            47.307371,
+          ],
+          [
+            2.437874,
+            47.307371,
+          ],
+          [
+            2.437874,
+            47.25828,
+          ],
+        ],
+      ],
+      "type": "Polygon",
+    },
+    "centre": {
+      "coordinates": [
+        2.4601,
+        47.2828,
+      ],
+      "type": "Point",
+    },
+    "codeInsee": "18001",
+    "codesPostaux": [
+      "18250",
+    ],
+    "created_at": 2024-10-03T21:53:08.141Z,
+    "departement": {
+      "codeInsee": "18",
+      "nom": "Cher",
+      "region": {
+        "codeInsee": "24",
+        "nom": "Centre-Val de Loire",
+      },
+    },
+    "nom": "Achères",
+    "updated_at": 2024-10-03T21:53:08.141Z,
+  },
+  {
+    "bbox": {
+      "coordinates": [
+        [
+          [
+            2.510546,
+            46.625569,
+          ],
+          [
+            2.572084,
+            46.625569,
+          ],
+          [
+            2.572084,
+            46.689055,
+          ],
+          [
+            2.510546,
+            46.689055,
+          ],
+          [
+            2.510546,
+            46.625569,
+          ],
+        ],
+      ],
+      "type": "Polygon",
+    },
+    "centre": {
+      "coordinates": [
+        2.5413,
+        46.6573,
+      ],
+      "type": "Point",
+    },
+    "codeInsee": "18002",
+    "codesPostaux": [
+      "18200",
+    ],
+    "created_at": 2024-10-03T21:53:08.141Z,
+    "departement": {
+      "codeInsee": "18",
+      "nom": "Cher",
+      "region": {
+        "codeInsee": "24",
+        "nom": "Centre-Val de Loire",
+      },
+    },
+    "nom": "Ainay-le-Vieil",
+    "updated_at": 2024-10-03T21:53:08.141Z,
+  },
+  {
+    "bbox": {
+      "coordinates": [
+        [
+          [
+            0.940639,
+            47.683749,
+          ],
+          [
+            1.000203,
+            47.683749,
+          ],
+          [
+            1.000203,
+            47.735078,
+          ],
+          [
+            0.940639,
+            47.735078,
+          ],
+          [
+            0.940639,
+            47.683749,
+          ],
+        ],
+      ],
+      "type": "Polygon",
+    },
+    "centre": {
+      "coordinates": [
+        0.9704,
+        47.7094,
+      ],
+      "type": "Point",
+    },
+    "codeInsee": "41001",
+    "codesPostaux": [
+      "41310",
+    ],
+    "created_at": 2024-10-03T21:53:08.141Z,
+    "departement": {
+      "codeInsee": "41",
+      "nom": "Loir-et-Cher",
+      "region": {
+        "codeInsee": "24",
+        "nom": "Centre-Val de Loire",
+      },
+    },
+    "nom": "Ambloy",
+    "updated_at": 2024-10-03T21:53:08.141Z,
+  },
+  {
+    "bbox": {
+      "coordinates": [
+        [
+          [
+            2.749006,
+            47.727449,
+          ],
+          [
+            2.835944,
+            47.727449,
+          ],
+          [
+            2.835944,
+            47.790032,
+          ],
+          [
+            2.749006,
+            47.790032,
+          ],
+          [
+            2.749006,
+            47.727449,
+          ],
+        ],
+      ],
+      "type": "Polygon",
+    },
+    "centre": {
+      "coordinates": [
+        2.7925,
+        47.7587,
+      ],
+      "type": "Point",
+    },
+    "codeInsee": "45001",
+    "codesPostaux": [
+      "45230",
+    ],
+    "created_at": 2024-10-03T21:53:08.141Z,
+    "departement": {
+      "codeInsee": "45",
+      "nom": "Loiret",
+      "region": {
+        "codeInsee": "24",
+        "nom": "Centre-Val de Loire",
+      },
+    },
+    "nom": "Adon",
+    "updated_at": 2024-10-03T21:53:08.141Z,
+  },
+  {
+    "bbox": {
+      "coordinates": [
+        [
+          [
+            2.224219,
+            48.815562,
+          ],
+          [
+            2.469851,
+            48.815562,
+          ],
+          [
+            2.469851,
+            48.902148,
+          ],
+          [
+            2.224219,
+            48.902148,
+          ],
+          [
+            2.224219,
+            48.815562,
+          ],
+        ],
+      ],
+      "type": "Polygon",
+    },
+    "centre": {
+      "coordinates": [
+        2.347,
+        48.8589,
+      ],
+      "type": "Point",
+    },
+    "codeInsee": "75056",
+    "codesPostaux": [
+      "75001",
+      "75002",
+      "75003",
+      "75004",
+      "75005",
+      "75006",
+      "75007",
+      "75008",
+      "75009",
+      "75010",
+      "75011",
+      "75012",
+      "75013",
+      "75014",
+      "75015",
+      "75016",
+      "75017",
+      "75018",
+      "75019",
+      "75020",
+      "75116",
+    ],
+    "created_at": 2024-10-02T21:53:08.141Z,
+    "departement": {
+      "codeInsee": "75",
+      "nom": "Paris",
+      "region": {
+        "codeInsee": "11",
+        "nom": "Île-de-France",
+      },
+    },
+    "nom": "Paris",
+    "updated_at": 2024-10-03T21:53:08.141Z,
+  },
+  {
+    "bbox": {
+      "coordinates": [
+        [
+          [
+            2.541179,
+            48.323765,
+          ],
+          [
+            2.589357,
+            48.323765,
+          ],
+          [
+            2.589357,
+            48.371343,
+          ],
+          [
+            2.541179,
+            48.371343,
+          ],
+          [
+            2.541179,
+            48.323765,
+          ],
+        ],
+      ],
+      "type": "Polygon",
+    },
+    "centre": {
+      "coordinates": [
+        2.5653,
+        48.3476,
+      ],
+      "type": "Point",
+    },
+    "codeInsee": "77001",
+    "codesPostaux": [
+      "77760",
+    ],
+    "created_at": 2024-10-03T21:53:08.141Z,
+    "departement": {
+      "codeInsee": "77",
+      "nom": "Seine-et-Marne",
+      "region": {
+        "codeInsee": "11",
+        "nom": "Île-de-France",
+      },
+    },
+    "nom": "Achères-la-Forêt",
+    "updated_at": 2024-10-03T21:53:08.141Z,
+  },
+  {
+    "bbox": {
+      "coordinates": [
+        [
+          [
+            3.106556,
+            48.702079,
+          ],
+          [
+            3.173488,
+            48.702079,
+          ],
+          [
+            3.173488,
+            48.763362,
+          ],
+          [
+            3.106556,
+            48.763362,
+          ],
+          [
+            3.106556,
+            48.702079,
+          ],
+        ],
+      ],
+      "type": "Polygon",
+    },
+    "centre": {
+      "coordinates": [
+        3.14,
+        48.7327,
+      ],
+      "type": "Point",
+    },
+    "codeInsee": "77002",
+    "codesPostaux": [
+      "77120",
+    ],
+    "created_at": 2024-10-03T21:53:08.141Z,
+    "departement": {
+      "codeInsee": "77",
+      "nom": "Seine-et-Marne",
+      "region": {
+        "codeInsee": "11",
+        "nom": "Île-de-France",
+      },
+    },
+    "nom": "Amillis",
+    "updated_at": 2024-10-03T21:53:08.141Z,
+  },
+  {
+    "bbox": {
+      "coordinates": [
+        [
+          [
+            163.569697,
+            -19.902093,
+          ],
+          [
+            163.708819,
+            -19.902093,
+          ],
+          [
+            163.708819,
+            -19.525114,
+          ],
+          [
+            163.569697,
+            -19.525114,
+          ],
+          [
+            163.569697,
+            -19.902093,
+          ],
+        ],
+      ],
+      "type": "Polygon",
+    },
+    "centre": {
+      "coordinates": [
+        163.6412,
+        -19.711,
+      ],
+      "type": "Point",
+    },
+    "codeInsee": "98801",
+    "codesPostaux": [
+      "98811",
+    ],
+    "created_at": 2024-10-03T21:53:08.141Z,
+    "departement": {
+      "codeInsee": "975",
+      "nom": "Saint-Pierre-et-Miquelon",
+      "region": {
+        "codeInsee": "975",
+        "nom": "Saint-Pierre-et-Miquelon",
+      },
+    },
+    "nom": "Belep",
+    "updated_at": 2024-10-03T21:53:08.141Z,
+  },
+]
+`;
+
+exports[`runCommuneImporter > should import initial communes 1`] = `
+[
+  {
+    "bbox": {
+      "coordinates": [
+        [
+          [
+            2.437874,
+            47.25828,
+          ],
+          [
+            2.482241,
+            47.25828,
+          ],
+          [
+            2.482241,
+            47.307371,
+          ],
+          [
+            2.437874,
+            47.307371,
+          ],
+          [
+            2.437874,
+            47.25828,
+          ],
+        ],
+      ],
+      "type": "Polygon",
+    },
+    "centre": {
+      "coordinates": [
+        2.4601,
+        47.2828,
+      ],
+      "type": "Point",
+    },
+    "codeInsee": "18001",
+    "codesPostaux": [
+      "18250",
+    ],
+    "created_at": 2024-10-03T21:53:08.141Z,
+    "departement": {
+      "codeInsee": "18",
+      "nom": "Cher",
+      "region": {
+        "codeInsee": "24",
+        "nom": "Centre-Val de Loire",
+      },
+    },
+    "nom": "Achères",
+    "updated_at": 2024-10-03T21:53:08.141Z,
+  },
+  {
+    "bbox": {
+      "coordinates": [
+        [
+          [
+            2.510546,
+            46.625569,
+          ],
+          [
+            2.572084,
+            46.625569,
+          ],
+          [
+            2.572084,
+            46.689055,
+          ],
+          [
+            2.510546,
+            46.689055,
+          ],
+          [
+            2.510546,
+            46.625569,
+          ],
+        ],
+      ],
+      "type": "Polygon",
+    },
+    "centre": {
+      "coordinates": [
+        2.5413,
+        46.6573,
+      ],
+      "type": "Point",
+    },
+    "codeInsee": "18002",
+    "codesPostaux": [
+      "18200",
+    ],
+    "created_at": 2024-10-03T21:53:08.141Z,
+    "departement": {
+      "codeInsee": "18",
+      "nom": "Cher",
+      "region": {
+        "codeInsee": "24",
+        "nom": "Centre-Val de Loire",
+      },
+    },
+    "nom": "Ainay-le-Vieil",
+    "updated_at": 2024-10-03T21:53:08.141Z,
+  },
+  {
+    "bbox": {
+      "coordinates": [
+        [
+          [
+            0.940639,
+            47.683749,
+          ],
+          [
+            1.000203,
+            47.683749,
+          ],
+          [
+            1.000203,
+            47.735078,
+          ],
+          [
+            0.940639,
+            47.735078,
+          ],
+          [
+            0.940639,
+            47.683749,
+          ],
+        ],
+      ],
+      "type": "Polygon",
+    },
+    "centre": {
+      "coordinates": [
+        0.9704,
+        47.7094,
+      ],
+      "type": "Point",
+    },
+    "codeInsee": "41001",
+    "codesPostaux": [
+      "41310",
+    ],
+    "created_at": 2024-10-03T21:53:08.141Z,
+    "departement": {
+      "codeInsee": "41",
+      "nom": "Loir-et-Cher",
+      "region": {
+        "codeInsee": "24",
+        "nom": "Centre-Val de Loire",
+      },
+    },
+    "nom": "Ambloy",
+    "updated_at": 2024-10-03T21:53:08.141Z,
+  },
+  {
+    "bbox": {
+      "coordinates": [
+        [
+          [
+            2.749006,
+            47.727449,
+          ],
+          [
+            2.835944,
+            47.727449,
+          ],
+          [
+            2.835944,
+            47.790032,
+          ],
+          [
+            2.749006,
+            47.790032,
+          ],
+          [
+            2.749006,
+            47.727449,
+          ],
+        ],
+      ],
+      "type": "Polygon",
+    },
+    "centre": {
+      "coordinates": [
+        2.7925,
+        47.7587,
+      ],
+      "type": "Point",
+    },
+    "codeInsee": "45001",
+    "codesPostaux": [
+      "45230",
+    ],
+    "created_at": 2024-10-03T21:53:08.141Z,
+    "departement": {
+      "codeInsee": "45",
+      "nom": "Loiret",
+      "region": {
+        "codeInsee": "24",
+        "nom": "Centre-Val de Loire",
+      },
+    },
+    "nom": "Adon",
+    "updated_at": 2024-10-03T21:53:08.141Z,
+  },
+  {
+    "bbox": {
+      "coordinates": [
+        [
+          [
+            2.224219,
+            48.815562,
+          ],
+          [
+            2.469851,
+            48.815562,
+          ],
+          [
+            2.469851,
+            48.902148,
+          ],
+          [
+            2.224219,
+            48.902148,
+          ],
+          [
+            2.224219,
+            48.815562,
+          ],
+        ],
+      ],
+      "type": "Polygon",
+    },
+    "centre": {
+      "coordinates": [
+        2.347,
+        48.8589,
+      ],
+      "type": "Point",
+    },
+    "codeInsee": "75056",
+    "codesPostaux": [
+      "75001",
+      "75002",
+      "75003",
+      "75004",
+      "75005",
+      "75006",
+      "75007",
+      "75008",
+      "75009",
+      "75010",
+      "75011",
+      "75012",
+      "75013",
+      "75014",
+      "75015",
+      "75016",
+      "75017",
+      "75018",
+      "75019",
+      "75020",
+      "75116",
+    ],
+    "created_at": 2024-10-03T21:53:08.141Z,
+    "departement": {
+      "codeInsee": "75",
+      "nom": "Paris",
+      "region": {
+        "codeInsee": "11",
+        "nom": "Île-de-France",
+      },
+    },
+    "nom": "Paris",
+    "updated_at": 2024-10-03T21:53:08.141Z,
+  },
+  {
+    "bbox": {
+      "coordinates": [
+        [
+          [
+            2.541179,
+            48.323765,
+          ],
+          [
+            2.589357,
+            48.323765,
+          ],
+          [
+            2.589357,
+            48.371343,
+          ],
+          [
+            2.541179,
+            48.371343,
+          ],
+          [
+            2.541179,
+            48.323765,
+          ],
+        ],
+      ],
+      "type": "Polygon",
+    },
+    "centre": {
+      "coordinates": [
+        2.5653,
+        48.3476,
+      ],
+      "type": "Point",
+    },
+    "codeInsee": "77001",
+    "codesPostaux": [
+      "77760",
+    ],
+    "created_at": 2024-10-03T21:53:08.141Z,
+    "departement": {
+      "codeInsee": "77",
+      "nom": "Seine-et-Marne",
+      "region": {
+        "codeInsee": "11",
+        "nom": "Île-de-France",
+      },
+    },
+    "nom": "Achères-la-Forêt",
+    "updated_at": 2024-10-03T21:53:08.141Z,
+  },
+  {
+    "bbox": {
+      "coordinates": [
+        [
+          [
+            3.106556,
+            48.702079,
+          ],
+          [
+            3.173488,
+            48.702079,
+          ],
+          [
+            3.173488,
+            48.763362,
+          ],
+          [
+            3.106556,
+            48.763362,
+          ],
+          [
+            3.106556,
+            48.702079,
+          ],
+        ],
+      ],
+      "type": "Polygon",
+    },
+    "centre": {
+      "coordinates": [
+        3.14,
+        48.7327,
+      ],
+      "type": "Point",
+    },
+    "codeInsee": "77002",
+    "codesPostaux": [
+      "77120",
+    ],
+    "created_at": 2024-10-03T21:53:08.141Z,
+    "departement": {
+      "codeInsee": "77",
+      "nom": "Seine-et-Marne",
+      "region": {
+        "codeInsee": "11",
+        "nom": "Île-de-France",
+      },
+    },
+    "nom": "Amillis",
+    "updated_at": 2024-10-03T21:53:08.141Z,
+  },
+  {
+    "bbox": {
+      "coordinates": [
+        [
+          [
+            163.569697,
+            -19.902093,
+          ],
+          [
+            163.708819,
+            -19.902093,
+          ],
+          [
+            163.708819,
+            -19.525114,
+          ],
+          [
+            163.569697,
+            -19.525114,
+          ],
+          [
+            163.569697,
+            -19.902093,
+          ],
+        ],
+      ],
+      "type": "Polygon",
+    },
+    "centre": {
+      "coordinates": [
+        163.6412,
+        -19.711,
+      ],
+      "type": "Point",
+    },
+    "codeInsee": "98801",
+    "codesPostaux": [
+      "98811",
+    ],
+    "created_at": 2024-10-03T21:53:08.141Z,
+    "departement": {
+      "codeInsee": "975",
+      "nom": "Saint-Pierre-et-Miquelon",
+      "region": {
+        "codeInsee": "975",
+        "nom": "Saint-Pierre-et-Miquelon",
+      },
+    },
+    "nom": "Belep",
+    "updated_at": 2024-10-03T21:53:08.141Z,
+  },
+]
+`;

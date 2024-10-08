@@ -2,6 +2,7 @@ import { useMongo } from "@tests/mongo.test.utils.js";
 import { ObjectId } from "mongodb";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import { fetchAcademies } from "@/services/apis/enseignementSup/enseignementSup.js";
 import type { ISourceGeoCommune, ISourceGeoDepartement, ISourceGeoRegion } from "@/services/apis/geo/geo.js";
 import { fetchGeoCommunes, fetchGeoDepartements, fetchGeoRegions } from "@/services/apis/geo/geo.js";
 import type { IInseeCollectiviteOutreMer } from "@/services/apis/insee/insee.js";
@@ -12,19 +13,9 @@ import { runCommuneImporter } from "./commune.importer.js";
 
 useMongo();
 
-vi.mock("@/services/apis/geo/geo.js", () => {
-  return {
-    fetchGeoRegions: vi.fn(),
-    fetchGeoDepartements: vi.fn(),
-    fetchGeoCommunes: vi.fn(),
-  };
-});
-
-vi.mock("@/services/apis/insee/insee.js", () => {
-  return {
-    fetchCollectivitesOutreMer: vi.fn(),
-  };
-});
+vi.mock("@/services/apis/geo/geo.js");
+vi.mock("@/services/apis/enseignementSup/enseignementSup.js");
+vi.mock("@/services/apis/insee/insee.js");
 
 const sourceRegions: ISourceGeoRegion[] = [
   {
@@ -304,6 +295,45 @@ const sourceCommunes: Record<ISourceGeoDepartement["code"], ISourceGeoCommune[]>
   ],
 };
 
+const sourceAcademies = [
+  {
+    dep_code: "75",
+    aca_nom: "Paris",
+    aca_id: "A01",
+    aca_code: "01",
+  },
+  {
+    dep_code: "77",
+    aca_nom: "Créteil",
+    aca_id: "A24",
+    aca_code: "24",
+  },
+  {
+    dep_code: "18",
+    aca_nom: "Orléans-Tours",
+    aca_id: "A18",
+    aca_code: "18",
+  },
+  {
+    dep_code: "41",
+    aca_nom: "Orléans-Tours",
+    aca_id: "A18",
+    aca_code: "18",
+  },
+  {
+    dep_code: "45",
+    aca_nom: "Orléans-Tours",
+    aca_id: "A18",
+    aca_code: "18",
+  },
+  {
+    dep_code: "975",
+    aca_nom: "Saint-Pierre-et-Miquelon",
+    aca_id: "A44",
+    aca_code: "44",
+  },
+];
+
 describe("runCommuneImporter", () => {
   const now = new Date("2024-10-03T21:53:08.141Z");
   const yesterday = new Date("2024-10-02T21:53:08.141Z");
@@ -320,6 +350,7 @@ describe("runCommuneImporter", () => {
     vi.mocked(fetchGeoDepartements).mockImplementation(async (codeRegion: string) => sourceDepartements[codeRegion]);
     vi.mocked(fetchGeoCommunes).mockImplementation(async (codeDepartement: string) => sourceCommunes[codeDepartement]);
     vi.mocked(fetchCollectivitesOutreMer).mockResolvedValue(sourceCollectivites);
+    vi.mocked(fetchAcademies).mockResolvedValue(sourceAcademies);
 
     await runCommuneImporter();
 
@@ -359,6 +390,11 @@ describe("runCommuneImporter", () => {
             codeInsee: "Ancien code region",
             nom: "Ancien nom region",
           },
+          academie: {
+            code: "Ancien code",
+            nom: "Ancien nom",
+            id: "Ancien id",
+          },
         },
         centre: { type: "Point", coordinates: [0, 0] },
         bbox: {
@@ -389,6 +425,11 @@ describe("runCommuneImporter", () => {
           codeInsee: "Ancien code region",
           nom: "Ancien nom region",
         },
+        academie: {
+          code: "Ancien code",
+          nom: "Ancien nom",
+          id: "Ancien id",
+        },
       },
       centre: { type: "Point", coordinates: [0, 0] },
       bbox: {
@@ -416,6 +457,7 @@ describe("runCommuneImporter", () => {
     vi.mocked(fetchGeoRegions).mockResolvedValue(sourceRegions);
     vi.mocked(fetchGeoDepartements).mockImplementation(async (codeRegion: string) => sourceDepartements[codeRegion]);
     vi.mocked(fetchGeoCommunes).mockImplementation(async (codeDepartement: string) => sourceCommunes[codeDepartement]);
+    vi.mocked(fetchAcademies).mockResolvedValue(sourceAcademies);
 
     await runCommuneImporter();
 

@@ -76,6 +76,9 @@ const config = {
       endpoint: "https://api.insee.fr",
       token: env.get("API_INSEE_TOKEN").required().asString(),
     },
+    enseignementSup: {
+      endpoint: "https://data.enseignementsup-recherche.gouv.fr",
+    },
     catalogue: {
       baseurl: "https://catalogue-apprentissage.intercariforef.org",
     },

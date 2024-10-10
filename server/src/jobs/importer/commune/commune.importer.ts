@@ -4,6 +4,7 @@ import type { AnyBulkWriteOperation } from "mongodb";
 import { ObjectId } from "mongodb";
 import type { ICommuneInternal } from "shared/models/commune.model";
 
+import { fetchAcademies } from "@/services/apis/enseignementSup/enseignementSup.js";
 import type { ISourceGeoRegion } from "@/services/apis/geo/geo.js";
 import { fetchGeoCommunes, fetchGeoDepartements, fetchGeoRegions } from "@/services/apis/geo/geo.js";
 import { fetchCollectivitesOutreMer } from "@/services/apis/insee/insee.js";
@@ -27,7 +28,20 @@ export async function runCommuneImporter() {
       status: "pending",
     });
 
-    const [regions, collectivites] = await Promise.all([fetchGeoRegions(), fetchCollectivitesOutreMer()]);
+    const [regions, collectivites, academies] = await Promise.all([
+      fetchGeoRegions(),
+      fetchCollectivitesOutreMer(),
+      fetchAcademies(),
+    ]);
+
+    const academieByDep = new Map<string, ICommune["departement"]["academie"]>();
+    for (const academie of academies) {
+      academieByDep.set(academie.dep_code, {
+        nom: academie.aca_nom,
+        id: academie.aca_id,
+        code: academie.aca_code,
+      });
+    }
 
     const extendedRegions: ISourceGeoRegion[] = [
       ...regions,
@@ -44,6 +58,11 @@ export async function runCommuneImporter() {
         logger.info(`Importing communes for departement ${departement.nom} ...`);
         const geoCommunes = await fetchGeoCommunes(departement.code);
 
+        const academie = academieByDep.get(departement.code);
+        if (!academie) {
+          throw internal("import.comunnes: unable to find academy for departement", { departement });
+        }
+
         const communes: ICommune[] = geoCommunes.map((geoCommune) => ({
           nom: geoCommune.nom,
           codeInsee: geoCommune.code,
@@ -55,6 +74,7 @@ export async function runCommuneImporter() {
               codeInsee: region.code,
               nom: region.nom,
             },
+            academie,
           },
           centre: geoCommune.centre,
           bbox: geoCommune.bbox,

@@ -1128,6 +1128,26 @@ exports[`zodToMongoSchema > should convert commune schema 1`] = `
       "additionalProperties": false,
       "bsonType": "object",
       "properties": {
+        "academie": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "code": {
+              "bsonType": "string",
+            },
+            "id": {
+              "bsonType": "string",
+            },
+            "nom": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "id",
+            "code",
+            "nom",
+          ],
+        },
         "codeInsee": {
           "bsonType": "string",
         },
@@ -1155,6 +1175,7 @@ exports[`zodToMongoSchema > should convert commune schema 1`] = `
         "nom",
         "codeInsee",
         "region",
+        "academie",
       ],
     },
     "nom": {

@@ -56,9 +56,6 @@ export default function RedocPageClient({ nonce, lang }: { nonce: string; lang: 
             : {},
         nonce,
       }}
-      onLoaded={(...args) => {
-        console.log(args);
-      }}
     />
   );
 }

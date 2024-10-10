@@ -22,8 +22,7 @@ export function useJwtToken(): UseJwtToken {
     }
 
     try {
-      const decoded = jwtDecode(token);
-      console.log(decoded);
+      jwtDecode(token);
     } catch (error) {
       captureException(error);
       console.error(error);

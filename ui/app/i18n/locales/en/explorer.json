@@ -17,6 +17,11 @@
     "variantOffre": "Job Offer",
     "variantRecruteur": "Recruiter"
   },
+  "rechercheCommune": {
+    "desc": "Consult the list of municipalities in France",
+    "summary": "Search for a municipality by INSEE code or postal code.",
+    "variant": "Municipality"
+  },
   "depotOffre": {
     "desc": "Maximize the visibility of your apprenticeship job offers by posting them on the La bonne alternance platform and its partner sites.",
     "summary": "<strong>Post, modify, or delete your apprenticeship job offers</strong> to maximize their visibility by posting them on the {{- lienLba }} platform and its partner sites {{- lienPartenaire }}.",

@@ -3,6 +3,7 @@ import { OpenApiGeneratorV31, OpenAPIRegistry } from "@asteasolutions/zod-to-ope
 import { formatParamUrl } from "@fastify/swagger";
 import {
   registerOpenApiCertificationSchema,
+  registerOpenApiCommuneModel,
   registerOpenApiErrorsSchema,
   registerOpenApiJobModel,
 } from "api-alternance-sdk/internal";
@@ -12,6 +13,7 @@ import { OpenApiBuilder } from "openapi3-ts/oas31";
 import { registerCertificationRoutes } from "../../routes/certification.routes.js";
 import type { IRouteSchema, IRoutesDef } from "../../routes/common.routes.js";
 import { zSourceAcceRoutes } from "../../routes/experimental/source/acce.routes.js";
+import { registerCommuneSearchRoutes } from "../../routes/geographie.routes.js";
 import { registerHealhcheckRoutes } from "../../routes/healthcheck.routes.js";
 import { registerJobRoutes } from "../../routes/job.routes.js";
 import { registerOrganismeRoutes } from "../../routes/organisme.routes.js";
@@ -158,6 +160,10 @@ export function generateOpenApiSchema(version: string, env: string, publicUrl: s
         description: lang === "fr" ? "Opportunités d'emploi en alternance" : "Apprenticeship job opportunities",
       },
       {
+        name: "Géographie",
+        description: lang === "fr" ? "Référentiel Géographique" : "Geographical Referential",
+      },
+      {
         name: "Expérimental",
         description:
           lang === "fr"
@@ -181,11 +187,13 @@ export function generateOpenApiSchema(version: string, env: string, publicUrl: s
   registerOpenApiCertificationSchema(builder, lang);
   registerOpenApiJobModel(builder, lang);
   registerOpenApiErrorsSchema(builder, lang);
+  registerOpenApiCommuneModel(builder, lang);
 
   registerHealhcheckRoutes(builder);
   registerCertificationRoutes(builder);
   registerJobRoutes(builder, lang);
   registerOrganismeRoutes(builder);
+  registerCommuneSearchRoutes(builder, lang);
 
   return builder.getSpec();
 }

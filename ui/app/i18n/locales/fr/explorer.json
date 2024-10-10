@@ -17,6 +17,11 @@
     "variantOffre": "Offre d'emploi",
     "variantRecruteur": "Recruteur"
   },
+  "rechercheCommune": {
+    "desc": "Consulter le référentiel des communes de France",
+    "summary": "Rechercher une commune par code INSEE ou code postal. ",
+    "variant": "Commune"
+  },
   "depotOffre": {
     "desc": "Maximiser la visibilité de vos offres d’emploi en alternance en les diffusant sur la plateforme La bonne alternance ainsi que ses sites partenaires.",
     "summary": "<strong>Déposez, modifiez ou supprimez vos offres d’emploi en alternance</strong> pour maximiser leur visibilité en les diffusant sur la plateforme {{- lienLba }} ainsi que ses sites partenaires {{- lienPartenaire }}.",

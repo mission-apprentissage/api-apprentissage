@@ -1,5 +1,6 @@
 import { fr } from "@codegouvfr/react-dsfr";
 import { Breadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
+import cityHall from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/buildings/city-hall.svg";
 import internet from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/digital/internet.svg";
 import search from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/digital/search.svg";
 import money from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/institutions/money.svg";
@@ -96,6 +97,15 @@ export default async function ExplorerApiPage({ params: { lang } }: PropsWithLan
           enlargeLinkOrButton
           linkProps={{ href: PAGES.static.depotOffre.getPath(lang) }}
           start={<TagDsfr>{t(`type.outil`, { lng: lang })}</TagDsfr>}
+        />
+        <Tile
+          title={PAGES.static.rechercheCommune.getTitle(lang, t)}
+          desc={t("rechercheCommune.desc")}
+          imageSvg
+          imageUrl={cityHall.src}
+          enlargeLinkOrButton
+          linkProps={{ href: PAGES.static.rechercheCommune.getPath(lang) }}
+          start={<TagDsfr>{t(`type.data`, { lng: lang })}</TagDsfr>}
         />
       </Box>
       <Box sx={{ background: fr.colors.decisions.background.alt.beigeGrisGalet.default }}>

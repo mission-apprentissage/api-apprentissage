@@ -30,8 +30,10 @@ function SourceCard(props: DataSource) {
         }}
       >
         <Image
-          width={props.logo.width}
-          height={props.logo.height}
+          fill
+          style={{
+            objectFit: "contain",
+          }}
           src={props.logo.href}
           alt={`Logo des fournisseurs de ${props.name}`}
         />

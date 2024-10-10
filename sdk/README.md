@@ -84,6 +84,27 @@ apiClient.job
   });
 ```
 
+### Module Géographie
+
+#### rechercheCommune
+
+`rechercheCommune(querystring: { code: string }): Promise<ICommune>`: Recherche de commune par code INSEE ou postal.
+
+```javascript
+const querystring = {
+  code: "59330",
+};
+
+apiClient.geographie
+  .rechercheCommune(querystring)
+  .then((response) => {
+    console.log(response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+```
+
 ### Gestion des erreurs
 
 Les erreurs sont levées sous forme d'instances de `ApiError`. Vous pouvez les capturer et les gérer comme suit :

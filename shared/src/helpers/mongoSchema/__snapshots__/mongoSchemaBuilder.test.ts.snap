@@ -1046,15 +1046,109 @@ exports[`zodToMongoSchema > should convert commune schema 1`] = `
     "_id": {
       "bsonType": "objectId",
     },
-    "bbox": {
+    "academie": {
       "additionalProperties": false,
       "bsonType": "object",
       "properties": {
-        "coordinates": {
+        "code": {
+          "bsonType": "string",
+        },
+        "id": {
+          "bsonType": "string",
+        },
+        "nom": {
+          "bsonType": "string",
+        },
+      },
+      "required": [
+        "id",
+        "code",
+        "nom",
+      ],
+    },
+    "code": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "insee": {
+          "bsonType": "string",
+        },
+        "postaux": {
           "bsonType": "array",
           "items": {
-            "bsonType": "array",
-            "items": {
+            "bsonType": "string",
+          },
+        },
+      },
+      "required": [
+        "insee",
+        "postaux",
+      ],
+    },
+    "created_at": {
+      "bsonType": "date",
+    },
+    "departement": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "codeInsee": {
+          "bsonType": "string",
+        },
+        "nom": {
+          "bsonType": "string",
+        },
+      },
+      "required": [
+        "nom",
+        "codeInsee",
+      ],
+    },
+    "localisation": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "bbox": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "coordinates": {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "array",
+                "items": {
+                  "bsonType": "array",
+                  "items": [
+                    {
+                      "bsonType": "number",
+                      "maximum": 180,
+                      "minimum": -180,
+                    },
+                    {
+                      "bsonType": "number",
+                      "maximum": 90,
+                      "minimum": -90,
+                    },
+                  ],
+                  "maxItems": 2,
+                  "minItems": 2,
+                },
+              },
+            },
+            "type": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "coordinates",
+            "type",
+          ],
+        },
+        "centre": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "coordinates": {
               "bsonType": "array",
               "items": [
                 {
@@ -1071,115 +1165,39 @@ exports[`zodToMongoSchema > should convert commune schema 1`] = `
               "maxItems": 2,
               "minItems": 2,
             },
-          },
-        },
-        "type": {
-          "bsonType": "string",
-        },
-      },
-      "required": [
-        "coordinates",
-        "type",
-      ],
-    },
-    "centre": {
-      "additionalProperties": false,
-      "bsonType": "object",
-      "properties": {
-        "coordinates": {
-          "bsonType": "array",
-          "items": [
-            {
-              "bsonType": "number",
-              "maximum": 180,
-              "minimum": -180,
-            },
-            {
-              "bsonType": "number",
-              "maximum": 90,
-              "minimum": -90,
-            },
-          ],
-          "maxItems": 2,
-          "minItems": 2,
-        },
-        "type": {
-          "bsonType": "string",
-        },
-      },
-      "required": [
-        "coordinates",
-        "type",
-      ],
-    },
-    "codeInsee": {
-      "bsonType": "string",
-    },
-    "codesPostaux": {
-      "bsonType": "array",
-      "items": {
-        "bsonType": "string",
-      },
-    },
-    "created_at": {
-      "bsonType": "date",
-    },
-    "departement": {
-      "additionalProperties": false,
-      "bsonType": "object",
-      "properties": {
-        "academie": {
-          "additionalProperties": false,
-          "bsonType": "object",
-          "properties": {
-            "code": {
-              "bsonType": "string",
-            },
-            "id": {
-              "bsonType": "string",
-            },
-            "nom": {
+            "type": {
               "bsonType": "string",
             },
           },
           "required": [
-            "id",
-            "code",
-            "nom",
+            "coordinates",
+            "type",
           ],
         },
+      },
+      "required": [
+        "centre",
+        "bbox",
+      ],
+    },
+    "nom": {
+      "bsonType": "string",
+    },
+    "region": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
         "codeInsee": {
           "bsonType": "string",
         },
         "nom": {
           "bsonType": "string",
         },
-        "region": {
-          "additionalProperties": false,
-          "bsonType": "object",
-          "properties": {
-            "codeInsee": {
-              "bsonType": "string",
-            },
-            "nom": {
-              "bsonType": "string",
-            },
-          },
-          "required": [
-            "codeInsee",
-            "nom",
-          ],
-        },
       },
       "required": [
-        "nom",
         "codeInsee",
-        "region",
-        "academie",
+        "nom",
       ],
-    },
-    "nom": {
-      "bsonType": "string",
     },
     "updated_at": {
       "bsonType": "date",
@@ -1187,11 +1205,11 @@ exports[`zodToMongoSchema > should convert commune schema 1`] = `
   },
   "required": [
     "nom",
-    "codeInsee",
-    "codesPostaux",
+    "code",
     "departement",
-    "centre",
-    "bbox",
+    "region",
+    "academie",
+    "localisation",
     "_id",
     "created_at",
     "updated_at",

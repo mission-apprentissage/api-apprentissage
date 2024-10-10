@@ -23,19 +23,19 @@ import typeDesc from "./docs/type.description.md.js";
 const sources: DataSource[] = [
   {
     name: "Répertoire National des Certifications Professionnelles (RNCP)",
-    logo: { href: "/asset/logo/france_competences.png", width: 171, height: 48 },
+    logo: { href: "/asset/logo/france_competences.png" },
     providers: ["France Compétences (FC)"],
     href: "https://www.data.gouv.fr/fr/datasets/repertoire-national-des-certifications-professionnelles-et-repertoire-specifique/",
   },
   {
     name: "Base Centrale des Nomenclatures (BCN)",
-    logo: { href: "/asset/logo/education_nationale.png", width: 98, height: 80 },
+    logo: { href: "/asset/logo/education_nationale.png" },
     providers: ["Éducation nationale (EN)"],
     href: "https://infocentre.pleiade.education.fr/bcn/index.php/domaine/voir/id/45",
   },
   {
     name: "Kit apprentissage (sur demande)",
-    logo: { href: "/asset/logo/carif-oref-onisep.png", width: 130, height: 80 },
+    logo: { href: "/asset/logo/carif-oref-onisep.png" },
     providers: ["Réseau des carif-oref (RCO)", "Onisep"],
     href: "https://www.intercariforef.org/blog/communique-de-presse-france-competences-onisep-rco",
   },

@@ -1,6 +1,7 @@
 import { internal } from "@hapi/boom";
 import { isAxiosError } from "axios";
-import { z } from "zod";
+import type { IInseeCollectiviteOutreMer, IInseeCommuneOutreMer } from "shared";
+import { zInseeCollectiviteOutreMer, zInseeCommuneOutreMer } from "shared";
 
 import config from "@/config.js";
 import getApiClient from "@/services/apis/client.js";
@@ -20,19 +21,6 @@ const apiInsee = apiRateLimiter("insee", {
     { cache: false }
   ),
 });
-
-const zInseeCollectiviteOutreMer = z.object({
-  code: z.string(),
-  intitule: z.string(),
-});
-
-const zInseeCommuneOutreMer = z.object({
-  code: z.string(),
-  intitule: z.string(),
-});
-
-export type IInseeCollectiviteOutreMer = z.infer<typeof zInseeCollectiviteOutreMer>;
-export type IInseeCommuneOutreMer = z.infer<typeof zInseeCommuneOutreMer>;
 
 export async function fetchCollectivitesOutreMer(): Promise<IInseeCollectiviteOutreMer[]> {
   return apiInsee(async (client) => {

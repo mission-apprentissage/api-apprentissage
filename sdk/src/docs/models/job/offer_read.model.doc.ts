@@ -12,7 +12,7 @@ import { recruiterModelDoc } from "./recruiter.model.doc.js";
 const sources: DataSource[] = [
   {
     name: "La bonne alternance",
-    logo: { href: "/asset/logo/la_bonne_alternance.png", width: 171, height: 48 },
+    logo: { href: "/asset/logo/la_bonne_alternance.png" },
     providers: ["La bonne alternance"],
     href: "https://labonnealternance.apprentissage.beta.gouv.fr/",
   },

@@ -15,6 +15,8 @@ import type { CertificationModule } from "./internal/certification/certification
 import { buildCertificationModule } from "./internal/certification/certification.module.js";
 import type { WithQueryStringAndPathParam } from "./internal/generateUri/generateUri.js";
 import { generateUri } from "./internal/generateUri/generateUri.js";
+import type { GeographieModule } from "./internal/geographie/geographie.module.js";
+import { buildGeographieModule } from "./internal/geographie/geographie.module.js";
 import type { JobModule } from "./internal/job/job.module.js";
 import { buildJobModule } from "./internal/job/job.module.js";
 import type { OrganismeModule } from "./internal/organisme/organisme.module.js";
@@ -54,6 +56,7 @@ class ApiClient {
   key: string;
 
   certification: CertificationModule;
+  geographie: GeographieModule;
   job: JobModule;
   organisme: OrganismeModule;
 
@@ -62,6 +65,7 @@ class ApiClient {
     this.key = config.key ?? throwError("api-alternance-sdk: api key is required");
 
     this.certification = buildCertificationModule(this);
+    this.geographie = buildGeographieModule(this);
     this.job = buildJobModule(this);
     this.organisme = buildOrganismeModule(this);
   }

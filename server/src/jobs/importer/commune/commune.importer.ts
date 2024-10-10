@@ -2,10 +2,10 @@ import { internal } from "@hapi/boom";
 import type { ICommune } from "api-alternance-sdk";
 import type { AnyBulkWriteOperation } from "mongodb";
 import { ObjectId } from "mongodb";
+import type { ISourceGeoRegion } from "shared";
 import type { ICommuneInternal } from "shared/models/commune.model";
 
 import { fetchAcademies } from "@/services/apis/enseignementSup/enseignementSup.js";
-import type { ISourceGeoRegion } from "@/services/apis/geo/geo.js";
 import { fetchGeoCommunes, fetchGeoDepartements, fetchGeoRegions } from "@/services/apis/geo/geo.js";
 import { fetchCollectivitesOutreMer } from "@/services/apis/insee/insee.js";
 import { withCause } from "@/services/errors/withCause.js";
@@ -34,7 +34,7 @@ export async function runCommuneImporter() {
       fetchAcademies(),
     ]);
 
-    const academieByDep = new Map<string, ICommune["departement"]["academie"]>();
+    const academieByDep = new Map<string, ICommune["academie"]>();
     for (const academie of academies) {
       academieByDep.set(academie.dep_code, {
         nom: academie.aca_nom,
@@ -65,29 +65,34 @@ export async function runCommuneImporter() {
 
         const communes: ICommune[] = geoCommunes.map((geoCommune) => ({
           nom: geoCommune.nom,
-          codeInsee: geoCommune.code,
-          codesPostaux: geoCommune.codesPostaux,
+          code: { insee: geoCommune.code, postaux: geoCommune.codesPostaux },
           departement: {
             nom: departement.nom,
             codeInsee: departement.code,
-            region: {
-              codeInsee: region.code,
-              nom: region.nom,
-            },
-            academie,
           },
-          centre: geoCommune.centre,
-          bbox: geoCommune.bbox,
+          region: {
+            codeInsee: region.code,
+            nom: region.nom,
+          },
+          academie,
+          localisation: {
+            centre: geoCommune.centre,
+            bbox: geoCommune.bbox,
+          },
         }));
 
         const bulkUpdate: AnyBulkWriteOperation<ICommuneInternal>[] = communes.map((commune) => {
-          const { codeInsee, ...rest } = commune;
+          const {
+            code: { insee, postaux },
+            ...rest
+          } = commune;
           return {
             updateOne: {
-              filter: { codeInsee },
+              filter: { "code.insee": insee },
               update: {
                 $set: {
                   ...rest,
+                  "code.postaux": postaux,
                   updated_at: importDate,
                 },
                 $setOnInsert: {

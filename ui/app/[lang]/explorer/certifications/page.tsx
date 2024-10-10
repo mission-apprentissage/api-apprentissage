@@ -39,7 +39,7 @@ export default async function CatalogueCertificationPage({ params: { lang } }: P
         type="data"
         lang={lang}
         t={t}
-        title={PAGES.static.depotOffre.getTitle(lang, t)}
+        title={PAGES.static.catalogueDesDonneesCertification.getTitle(lang, t)}
         dangerousHtmlDescriptions={[
           t("catalogueDesDonneesCertification.summary", {
             lienLba: `<a href="https://labonnealternance.apprentissage.beta.gouv.fr/" target="_blank">La bonne alternance</a>`,

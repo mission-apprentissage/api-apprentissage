@@ -1,7 +1,7 @@
 import { badRequest, Boom, internal, isBoom } from "@hapi/boom";
 import { captureException } from "@sentry/node";
 import type { FastifyError } from "fastify";
-import { ResponseValidationError } from "fastify-type-provider-zod/dist/ResponseValidationError.js";
+import { ResponseValidationError } from "fastify-type-provider-zod";
 import type { IResError } from "shared/routes/common.routes";
 import { ZodError } from "zod";
 

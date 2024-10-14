@@ -24,6 +24,14 @@
       }
     ]
   },
+  "overrides": [
+    {
+      "files": ["**/*.test.ts"],
+      "rules": {
+        "n/no-extraneous-import": ["off"]
+      }
+    }
+  ],
   "env": {
     "es2022": true,
     "node": true

@@ -32,7 +32,7 @@ export function initMailer() {
   const needsAuthentication = !!settings.auth.user;
   // @ts-expect-error
   transporter = createTransport(needsAuthentication ? settings : omit(settings, ["auth"]));
-  transporter.use("compile", htmlToText());
+  transporter?.use("compile", htmlToText());
 }
 
 function isTransactionalTemplate(template: ITemplate): boolean {

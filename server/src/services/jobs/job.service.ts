@@ -16,7 +16,7 @@ function convertJobWorkplaceLbaToApi(input: IJobRecruiterLba | IJobOfferLba): IJ
     description: input.workplace_description,
     size: input.workplace_size,
     location: {
-      address: input.workplace_address.label,
+      address: input.workplace_address_label,
       geopoint: input.workplace_geopoint,
     },
     domain: {

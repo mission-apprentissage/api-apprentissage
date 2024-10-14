@@ -3,6 +3,8 @@ fileignoreconfig:
   checksum: 4877e85f6584402f51877f06f7f48b84a6c717c6b90f7343afbcbe63a232d928
 - filename: .yarn/patches/exceljs-npm-4.4.0-15bcfdd142.patch
   checksum: f68e8532ff50d8777000fe6d27a6cdf8288574ca900ca3c0df4b6176b7a6d797
+- filename: .yarn/plugins/@yarnpkg/plugin-interactive-tools.cjs
+  checksum: a663e9955c2825bee3af55be1ebd6e26cd0a17fe7c614a13d726ddd4c7959b82
 - filename: sdk/src/docs/models/job/offer_read.model.doc.ts
   checksum: 774d4378e590dcc5a0f69a574a95401c6d139f1524b8895b58efe8409a3095d1
 - filename: sdk/src/docs/models/job/offer_write.model.doc.ts

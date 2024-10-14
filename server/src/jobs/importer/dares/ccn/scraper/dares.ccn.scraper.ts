@@ -21,7 +21,9 @@ export async function scrapeRessourceCcn(): Promise<IImportMetaDares["resource"]
     { responseType: "document" }
   );
   const root = parse(raw.data);
-  const links = root.querySelectorAll("a.doc-joint__link.xlsx");
+  const links = root.querySelectorAll(
+    'a.fr-link--download.file--x-office-spreadsheet[title*="Liste des conventions collectives et de leur code IDCC"]'
+  );
   const linkNode = links.at(0);
 
   if (links.length !== 1 || linkNode == null) {
@@ -42,8 +44,7 @@ export async function scrapeRessourceCcn(): Promise<IImportMetaDares["resource"]
     throw internal("dares.ccn.scraper: unexpected missing last-modified", { links });
   }
 
-  const parentElement = linkNode.parentNode;
-  const title = parentElement.querySelector(".doc-joint__titre")?.text ?? null;
+  const title = linkNode.attributes["data-tracking-download-label"] ?? null;
 
   if (!title) {
     throw internal("dares.ccn.scraper: unexpected missing title", { links });

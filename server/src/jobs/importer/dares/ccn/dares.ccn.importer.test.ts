@@ -15,10 +15,10 @@ import { runDaresConventionCollectivesImporter } from "./dares.ccn.importer.js";
 describe("runConventionCollectivesImporter", () => {
   useMongo();
 
-  const lastMonth = new Date("2024-05-14T09:00:07.000Z");
-  const now = new Date("2024-06-14T09:00:07.000Z");
-  const yesterday = new Date("2024-06-13T09:00:07.000Z");
-  const twoDaysAgo = new Date("2024-06-12T09:00:07.000Z");
+  const lastMonth = new Date("2024-09-02T09:00:07.000Z");
+  const now = new Date("2024-10-02T09:00:07.000Z");
+  const yesterday = new Date("2024-10-01T09:00:07.000Z");
+  const twoDaysAgo = new Date("2024-09-30T09:00:07.000Z");
 
   beforeEach(() => {
     vi.useFakeTimers();
@@ -40,12 +40,16 @@ describe("runConventionCollectivesImporter", () => {
       .get("/dialogue-social/negociation-collective/article/conventions-collectives-nomenclatures")
       .reply(200, await readFile(join(fixtureDir, "article.html"), "utf-8"));
     scope
-      .head("/IMG/xlsx/dares_donnes_identifiant_convention_collective_juin24.xlsx")
-      .reply(200, "", { "last-modified": "Sun, 06 Jun 2024 22:00:00 GMT" });
+      .head(
+        "/sites/travail-emploi/files/2024-10/Liste%20des%20conventions%20collectives%20et%20de%20leur%20code%20IDCC%20-%20octobre%202024.xlsx"
+      )
+      .reply(200, "", { "last-modified": "Wed, 02 Oct 2024 14:55:22 GMT" });
     scope
-      .get("/IMG/xlsx/dares_donnes_identifiant_convention_collective_juin24.xlsx")
+      .get(
+        "/sites/travail-emploi/files/2024-10/Liste%20des%20conventions%20collectives%20et%20de%20leur%20code%20IDCC%20-%20octobre%202024.xlsx"
+      )
       .reply(200, createReadStream(join(fixtureDir, "sample.xlsx")), {
-        "last-modified": "Sun, 06 Jun 2024 22:00:00 GMT",
+        "last-modified": "Wed, 02 Oct 2024 14:55:22 GMT",
       });
 
     await runDaresConventionCollectivesImporter();
@@ -58,9 +62,9 @@ describe("runConventionCollectivesImporter", () => {
         type: "dares_ccn",
         status: "done",
         resource: {
-          date: new Date("2024-06-06T22:00:00.000Z"),
-          title: "Liste des conventions collectives et de leur code IDCC - Juin 2024",
-          url: "https://travail-emploi.gouv.fr/IMG/xlsx/dares_donnes_identifiant_convention_collective_juin24.xlsx",
+          date: new Date("2024-10-02T14:55:22.000Z"),
+          title: "Liste des conventions collectives et de leur code IDCC - octobre 2024",
+          url: "https://travail-emploi.gouv.fr/sites/travail-emploi/files/2024-10/Liste%20des%20conventions%20collectives%20et%20de%20leur%20code%20IDCC%20-%20octobre%202024.xlsx",
         },
       },
     ]);
@@ -103,10 +107,12 @@ describe("runConventionCollectivesImporter", () => {
       .get("/dialogue-social/negociation-collective/article/conventions-collectives-nomenclatures")
       .reply(200, await readFile(join(fixtureDir, "article.html"), "utf-8"));
     scope
-      .head("/IMG/xlsx/dares_donnes_identifiant_convention_collective_juin24.xlsx")
+      .head(
+        "/sites/travail-emploi/files/2024-10/Liste%20des%20conventions%20collectives%20et%20de%20leur%20code%20IDCC%20-%20octobre%202024.xlsx"
+      )
       .reply(200, "", { "last-modified": lastMonth.toString() });
     // scope
-    //   .get("/IMG/xlsx/dares_donnes_identifiant_convention_collective_juin24.xlsx")
+    //   .get("/sites/travail-emploi/files/2024-10/Liste%20des%20conventions%20collectives%20et%20de%20leur%20code%20IDCC%20-%20octobre%202024.xlsxx")
     //   .reply(200, createReadStream(join(fixtureDir, "sample.xlsx")), {
     //     "last-modified": lastMonth.toString()
     //   });
@@ -118,8 +124,8 @@ describe("runConventionCollectivesImporter", () => {
       status: "done",
       resource: {
         date: lastMonth,
-        title: "Liste des conventions collectives et de leur code IDCC - Mai 2024",
-        url: "https://travail-emploi.gouv.fr/IMG/xlsx/dares_donnes_identifiant_convention_collective_juin24.xlsx",
+        title: "Liste des conventions collectives et de leur code IDCC - octobre 2024",
+        url: "https://travail-emploi.gouv.fr/sites/travail-emploi/files/2024-10/Liste%20des%20conventions%20collectives%20et%20de%20leur%20code%20IDCC%20-%20octobre%202024.xlsx",
       },
     };
 
@@ -165,10 +171,14 @@ describe("runConventionCollectivesImporter", () => {
       .get("/dialogue-social/negociation-collective/article/conventions-collectives-nomenclatures")
       .reply(200, await readFile(join(fixtureDir, "article.html"), "utf-8"));
     scope
-      .head("/IMG/xlsx/dares_donnes_identifiant_convention_collective_juin24.xlsx")
+      .head(
+        "/sites/travail-emploi/files/2024-10/Liste%20des%20conventions%20collectives%20et%20de%20leur%20code%20IDCC%20-%20octobre%202024.xlsx"
+      )
       .reply(200, "", { "last-modified": yesterday.toString() });
     scope
-      .get("/IMG/xlsx/dares_donnes_identifiant_convention_collective_juin24.xlsx")
+      .get(
+        "/sites/travail-emploi/files/2024-10/Liste%20des%20conventions%20collectives%20et%20de%20leur%20code%20IDCC%20-%20octobre%202024.xlsx"
+      )
       .reply(200, createReadStream(join(fixtureDir, "sample.xlsx")), {
         "last-modified": yesterday.toString(),
       });
@@ -222,8 +232,8 @@ describe("runConventionCollectivesImporter", () => {
         status: "done",
         resource: {
           date: yesterday,
-          title: "Liste des conventions collectives et de leur code IDCC - Juin 2024",
-          url: "https://travail-emploi.gouv.fr/IMG/xlsx/dares_donnes_identifiant_convention_collective_juin24.xlsx",
+          title: "Liste des conventions collectives et de leur code IDCC - octobre 2024",
+          url: "https://travail-emploi.gouv.fr/sites/travail-emploi/files/2024-10/Liste%20des%20conventions%20collectives%20et%20de%20leur%20code%20IDCC%20-%20octobre%202024.xlsx",
         },
       },
     ]);

@@ -15,6 +15,8 @@ fileignoreconfig:
   checksum: 4c6e64beba2f719da577a0aae1c9642e6e2e8712dc909dc62c64c081a2c612a8
 - filename: server/.env.test
   checksum: 65357f150bfedfebea511b1007eed941983484abf990d87e91fd7477360ad280
+- filename: server/src/jobs/importer/dares/ccn/fixtures/article.html
+  checksum: ffeb0d8b299c63b63ced0ecbcc41f72be67e4ba4e28a13b763cfdf6670e76e9d
 - filename: shared/src/helpers/openapi/__snapshots__/generateOpenapi.test.ts.snap
   checksum: 2463909dd3422d45d8f15ec7ebd39058d02bbd4d57ed1dfc6482a348fcc27152
 - filename: ui/app/[lang]/explorer/certifications/page.tsx

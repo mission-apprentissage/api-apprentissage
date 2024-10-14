@@ -10,9 +10,14 @@ import recruiters from "./response/recruiters.md.js";
 import warnings from "./response/warnings.md.js";
 
 export const jobSearchRouteDoc = {
-  summary: "Search for apprenticeship job opportunities",
-  description:
-    "Access in real-time all apprenticeship job opportunities available in France and offer them to your users for free and under a white-label format.",
+  summary: {
+    en: "Search for apprenticeship job opportunities",
+    fr: "Recherche d'opportunités d'emploi en apprentissage",
+  },
+  description: {
+    en: "Access in real-time all apprenticeship job opportunities available in France and offer them to your users for free and under a white-label format.",
+    fr: "Accédez en temps réel à toutes les opportunités d'emploi en apprentissage disponibles en France et proposez-les à vos utilisateurs gratuitement et sous un format white-label.",
+  },
   parameters: {
     longitude: {
       description: { en: longitude, fr: null },
@@ -40,7 +45,7 @@ export const jobSearchRouteDoc = {
     },
   },
   response: {
-    description: "Success",
+    description: { en: "Success", fr: "Succès" },
     content: {
       description: null,
       _: {

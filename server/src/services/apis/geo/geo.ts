@@ -1,7 +1,7 @@
 import { internal } from "@hapi/boom";
-import { zGeoJsonPoint, zGeoJsonPolygon } from "api-alternance-sdk";
 import { isAxiosError } from "axios";
-import { z } from "zod";
+import type { ISourceGeoCommune, ISourceGeoDepartement, ISourceGeoRegion } from "shared";
+import { sourceGeoCommune, sourceGeoDepartement, sourceGeoRegion } from "shared";
 
 import config from "@/config.js";
 import getApiClient from "@/services/apis/client.js";
@@ -18,31 +18,6 @@ const geoClient = apiRateLimiter("geo", {
     { cache: false }
   ),
 });
-
-const sourceGeoRegion = z.object({
-  nom: z.string(),
-  code: z.string(),
-});
-
-const sourceGeoDepartement = z.object({
-  code: z.string(),
-  codeRegion: z.string(),
-  nom: z.string(),
-});
-
-const sourceGeoCommune = z.object({
-  nom: z.string(),
-  code: z.string(),
-  codesPostaux: z.array(z.string()),
-  codeDepartement: z.string(),
-  codeRegion: z.string(),
-  centre: zGeoJsonPoint,
-  bbox: zGeoJsonPolygon,
-});
-
-export type ISourceGeoRegion = z.infer<typeof sourceGeoRegion>;
-export type ISourceGeoDepartement = z.infer<typeof sourceGeoDepartement>;
-export type ISourceGeoCommune = z.infer<typeof sourceGeoCommune>;
 
 export const fetchGeoRegions = async (): Promise<ISourceGeoRegion[]> => {
   return geoClient(async (client) => {

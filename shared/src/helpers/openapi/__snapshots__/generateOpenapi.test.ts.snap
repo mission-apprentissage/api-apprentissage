@@ -35,6 +35,261 @@ exports[`generateOpenApiSchema > should be alright /experimental/source/acce/spe
 
 exports[`generateOpenApiSchema > should be alright /experimental/source/acce/zone 1`] = `[]`;
 
+exports[`generateOpenApiSchema > should be alright /geographie/v1/commune/search 1`] = `
+[
+  {
+    "oldValue": false,
+    "path": [
+      "get",
+      "parameters",
+      0,
+      "required",
+    ],
+    "type": "CHANGE",
+    "value": true,
+  },
+  {
+    "oldValue": [
+      "string",
+    ],
+    "path": [
+      "get",
+      "parameters",
+      0,
+      "schema",
+      "type",
+    ],
+    "type": "CHANGE",
+    "value": "string",
+  },
+  {
+    "oldValue": {
+      "type": "number",
+    },
+    "path": [
+      "get",
+      "responses",
+      "200",
+      "content",
+      "application/json",
+      "schema",
+      "items",
+      "properties",
+      "localisation",
+      "properties",
+      "centre",
+      "properties",
+      "coordinates",
+      "items",
+    ],
+    "type": "REMOVE",
+  },
+  {
+    "oldValue": 2,
+    "path": [
+      "get",
+      "responses",
+      "200",
+      "content",
+      "application/json",
+      "schema",
+      "items",
+      "properties",
+      "localisation",
+      "properties",
+      "centre",
+      "properties",
+      "coordinates",
+      "maxItems",
+    ],
+    "type": "REMOVE",
+  },
+  {
+    "oldValue": 2,
+    "path": [
+      "get",
+      "responses",
+      "200",
+      "content",
+      "application/json",
+      "schema",
+      "items",
+      "properties",
+      "localisation",
+      "properties",
+      "centre",
+      "properties",
+      "coordinates",
+      "minItems",
+    ],
+    "type": "REMOVE",
+  },
+  {
+    "path": [
+      "get",
+      "responses",
+      "200",
+      "content",
+      "application/json",
+      "schema",
+      "items",
+      "properties",
+      "localisation",
+      "properties",
+      "centre",
+      "properties",
+      "coordinates",
+      "prefixItems",
+    ],
+    "type": "CREATE",
+    "value": [
+      {
+        "maximum": 180,
+        "minimum": -180,
+        "type": "number",
+      },
+      {
+        "maximum": 90,
+        "minimum": -90,
+        "type": "number",
+      },
+    ],
+  },
+  {
+    "path": [
+      "get",
+      "responses",
+      "200",
+      "content",
+      "application/json",
+      "schema",
+      "items",
+      "properties",
+      "localisation",
+      "properties",
+      "centre",
+      "additionalProperties",
+    ],
+    "type": "CREATE",
+    "value": false,
+  },
+  {
+    "oldValue": "number",
+    "path": [
+      "get",
+      "responses",
+      "200",
+      "content",
+      "application/json",
+      "schema",
+      "items",
+      "properties",
+      "localisation",
+      "properties",
+      "bbox",
+      "properties",
+      "coordinates",
+      "items",
+      "items",
+      "type",
+    ],
+    "type": "CHANGE",
+    "value": "array",
+  },
+  {
+    "path": [
+      "get",
+      "responses",
+      "200",
+      "content",
+      "application/json",
+      "schema",
+      "items",
+      "properties",
+      "localisation",
+      "properties",
+      "bbox",
+      "properties",
+      "coordinates",
+      "items",
+      "items",
+      "prefixItems",
+    ],
+    "type": "CREATE",
+    "value": [
+      {
+        "maximum": 180,
+        "minimum": -180,
+        "type": "number",
+      },
+      {
+        "maximum": 90,
+        "minimum": -90,
+        "type": "number",
+      },
+    ],
+  },
+  {
+    "oldValue": 2,
+    "path": [
+      "get",
+      "responses",
+      "200",
+      "content",
+      "application/json",
+      "schema",
+      "items",
+      "properties",
+      "localisation",
+      "properties",
+      "bbox",
+      "properties",
+      "coordinates",
+      "items",
+      "maxItems",
+    ],
+    "type": "REMOVE",
+  },
+  {
+    "oldValue": 2,
+    "path": [
+      "get",
+      "responses",
+      "200",
+      "content",
+      "application/json",
+      "schema",
+      "items",
+      "properties",
+      "localisation",
+      "properties",
+      "bbox",
+      "properties",
+      "coordinates",
+      "items",
+      "minItems",
+    ],
+    "type": "REMOVE",
+  },
+  {
+    "oldValue": "geographie",
+    "path": [
+      "get",
+      "responses",
+      "200",
+      "content",
+      "application/json",
+      "schema",
+      "items",
+      "required",
+      3,
+    ],
+    "type": "CHANGE",
+    "value": "localisation",
+  },
+]
+`;
+
 exports[`generateOpenApiSchema > should be alright /healthcheck 1`] = `[]`;
 
 exports[`generateOpenApiSchema > should be alright /job/v1/offer 1`] = `
@@ -1604,6 +1859,171 @@ Notes:
           "periode_validite",
           "type",
           "continuite",
+        ],
+        "type": "object",
+      },
+      "Commune": {
+        "properties": {
+          "academie": {
+            "description": "Académie de la commune",
+            "properties": {
+              "code": {
+                "description": "Code de l'académie",
+                "type": "string",
+              },
+              "id": {
+                "description": "Identifiant de l'académie",
+                "type": "string",
+              },
+              "nom": {
+                "description": "Nom de l'académie",
+                "type": "string",
+              },
+            },
+            "required": [
+              "id",
+              "code",
+              "nom",
+            ],
+            "type": "object",
+          },
+          "code": {
+            "description": "Code INSEE et postaux de la commune
+
+Une commune peut avoir plusieurs code postaux, et un code postal peut correspondre à plusieurs communes. Le code INSEE lui est unique pour chaque commune.",
+            "properties": {
+              "insee": {
+                "description": "Code INSEE de la commune",
+                "type": "string",
+              },
+              "postaux": {
+                "description": "Liste des codes postaux de la commune",
+                "items": {
+                  "type": "string",
+                },
+                "type": "array",
+              },
+            },
+            "required": [
+              "insee",
+              "postaux",
+            ],
+            "type": "object",
+          },
+          "departement": {
+            "description": "Département de la commune",
+            "properties": {
+              "codeInsee": {
+                "type": "string",
+              },
+              "nom": {
+                "description": "Nom du département",
+                "type": "string",
+              },
+            },
+            "required": [
+              "codeInsee",
+              "nom",
+            ],
+            "type": "object",
+          },
+          "localisation": {
+            "description": "Les informations de localisations sont composés du:
+
+- Du \`centre\` de la commune
+- De la boite englobante (\`bbox\`) qui délimite la zone de la commune.
+
+Les champs \`centre\` et \`bbox\` sont tous les deux au format [GeoJSON](https://fr.wikipedia.org/wiki/GeoJSON)
+",
+            "properties": {
+              "bbox": {
+                "description": "Coordonnées de la boîte englobante de la commune au format GeoJSON "Polygon"",
+                "properties": {
+                  "coordinates": {
+                    "items": {
+                      "items": {
+                        "type": "number",
+                      },
+                      "maxItems": 2,
+                      "minItems": 2,
+                      "type": "array",
+                    },
+                    "type": "array",
+                  },
+                  "type": {
+                    "enum": [
+                      "Polygon",
+                    ],
+                    "type": "string",
+                  },
+                },
+                "required": [
+                  "type",
+                  "coordinates",
+                ],
+                "type": "object",
+              },
+              "centre": {
+                "description": "Coordonnées du centre de la commune au format GeoJSON "Point"",
+                "properties": {
+                  "coordinates": {
+                    "items": {
+                      "type": "number",
+                    },
+                    "maxItems": 2,
+                    "minItems": 2,
+                    "type": "array",
+                  },
+                  "type": {
+                    "enum": [
+                      "Point",
+                    ],
+                    "type": "string",
+                  },
+                },
+                "required": [
+                  "type",
+                  "coordinates",
+                ],
+                "type": "object",
+              },
+            },
+            "required": [
+              "centre",
+              "bbox",
+            ],
+            "type": "object",
+          },
+          "nom": {
+            "description": "Nom de la commune",
+            "type": "string",
+          },
+          "region": {
+            "description": "Région de la commune",
+            "properties": {
+              "codeInsee": {
+                "description": "Code INSEE de la région",
+                "type": "string",
+              },
+              "nom": {
+                "description": "Nom de la région",
+                "type": "string",
+              },
+            },
+            "required": [
+              "codeInsee",
+              "nom",
+            ],
+            "type": "object",
+          },
+        },
+        "required": [
+          "nom",
+          "code",
+          "departement",
+          "academie",
+          "region",
+          "geographie",
         ],
         "type": "object",
       },
@@ -4707,6 +5127,82 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
         ],
       },
     },
+    "/geographie/v1/commune/search": {
+      "get": {
+        "description": "Recherche de communes par code insee ou postal. Attention, un meme code postal peut-etre associé à plusieurs communes et une commune peut avoir plusieurs code postaux.",
+        "operationId": "communeSearch",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "code",
+            "required": false,
+            "schema": {
+              "description": "Code INSEE ou postal recherché",
+              "examples": [
+                "75056",
+                "75000",
+              ],
+              "pattern": "^\\d{5}$",
+              "type": [
+                "string",
+              ],
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Liste des communes correspondant au code INSEE ou postal recherché",
+                  "items": {
+                    "$ref": "#/components/schemas/Commune",
+                  },
+                  "type": "array",
+                },
+              },
+            },
+            "description": "Succès",
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict",
+          },
+          "419": {
+            "$ref": "#/components/responses/TooManyRequests",
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+          },
+          "502": {
+            "$ref": "#/components/responses/BadGateway",
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable",
+          },
+        },
+        "security": [
+          {
+            "api-key": [],
+          },
+        ],
+        "summary": "Recherche de communes par code insee ou postal",
+        "tags": [
+          "Géographie",
+        ],
+      },
+    },
     "/healthcheck": {
       "get": {
         "responses": {
@@ -4783,7 +5279,7 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
     },
     "/job/v1/offer": {
       "post": {
-        "description": "This API allows you to maximize the visibility of your apprenticeship job offers by sharing them with the La bonne alternance service, which then automatically redistributes them to the most relevant candidates on its site as well as its partner sites.",
+        "description": "Cette API vous permet de maximiser la visibilité de vos offres d'emploi en alternance en les partageant avec le service La bonne alternance qui les redistribue automatiquement aux candidats les plus pertinents sur son site ainsi que sur ses sites partenaires.",
         "operationId": "jobOfferCreate",
         "requestBody": {
           "content": {
@@ -4813,7 +5309,7 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
                 },
               },
             },
-            "description": "Success",
+            "description": "Succès",
           },
           "400": {
             "$ref": "#/components/responses/BadRequest",
@@ -4850,7 +5346,7 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
             ],
           },
         ],
-        "summary": "Send an apprenticeship job offer",
+        "summary": "Envoyer une offre d'emploi en alternance",
         "tags": [
           "Job",
         ],
@@ -4858,7 +5354,7 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
     },
     "/job/v1/offer/{id}": {
       "put": {
-        "description": "This API allows you to maximize the visibility of your work-study job offers by sharing them with the service La bonne alternance, which then automatically distributes them closer to candidates on its site and its partner sites.",
+        "description": "Cette API vous permet de maximiser la visibilité de vos offres d'emploi en alternance en les partageant avec le service La bonne alternance qui les redistribue automatiquement aux candidats les plus pertinents sur son site ainsi que sur ses sites partenaires.",
         "operationId": "jobOfferUpdate",
         "parameters": [
           {
@@ -4887,7 +5383,7 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
         "responses": {
           "204": {
             "content": undefined,
-            "description": "Success",
+            "description": "Succès",
           },
           "400": {
             "$ref": "#/components/responses/BadRequest",
@@ -4924,7 +5420,7 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
             ],
           },
         ],
-        "summary": "Modify a work-study job offer.",
+        "summary": "Modifier une offre d'emploi en alternance.",
         "tags": [
           "Job",
         ],
@@ -4932,7 +5428,7 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
     },
     "/job/v1/search": {
       "get": {
-        "description": "Access in real-time all apprenticeship job opportunities available in France and offer them to your users for free and under a white-label format.",
+        "description": "Accédez en temps réel à toutes les opportunités d'emploi en apprentissage disponibles en France et proposez-les à vos utilisateurs gratuitement et sous un format white-label.",
         "operationId": "jobSearch",
         "parameters": [
           {
@@ -5143,7 +5639,7 @@ France Travail job offers are retrieved in real-time, so in case of an error whe
                 },
               },
             },
-            "description": "Success",
+            "description": "Succès",
           },
           "400": {
             "$ref": "#/components/responses/BadRequest",
@@ -5178,7 +5674,7 @@ France Travail job offers are retrieved in real-time, so in case of an error whe
             "api-key": [],
           },
         ],
-        "summary": "Search for apprenticeship job opportunities",
+        "summary": "Recherche d'opportunités d'emploi en apprentissage",
         "tags": [
           "Job",
         ],
@@ -5554,6 +6050,10 @@ France Travail job offers are retrieved in real-time, so in case of an error whe
     {
       "description": "Opportunités d'emploi en alternance",
       "name": "Job",
+    },
+    {
+      "description": "Référentiel Géographique",
+      "name": "Géographie",
     },
     {
       "description": "Liste des routes expérimentales. Attention: ces routes peuvent changer sans préavis.",

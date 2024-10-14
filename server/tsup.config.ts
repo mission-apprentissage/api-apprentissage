@@ -18,7 +18,7 @@ export default defineConfig((options) => {
 
   return {
     entry,
-    watch: isWatched ? ["./src", "../shared", "../sdk"] : false,
+    watch: isWatched ? ["./src", "../shared/dist", "../sdk/dist"] : false,
     onSuccess: isWatched ? "yarn cli start --withProcessor" : "",
     // In watch mode doesn't exit cleanly as it causes EADDRINUSE error
     killSignal: "SIGKILL",

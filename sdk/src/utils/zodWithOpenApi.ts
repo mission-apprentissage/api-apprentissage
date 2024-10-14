@@ -154,8 +154,8 @@ function addContentObjectDoc<T extends ContentObject | undefined>(
 function addOperationDoc(operation: OperationObject, doc: DocRoute, lang: "en" | "fr"): OperationObject {
   const output = structuredClone(operation);
 
-  output.summary = doc.summary;
-  output.description = doc.description;
+  output.summary = getTextOpenAPI(doc.summary, lang);
+  output.description = getTextOpenAPI(doc.description, lang);
 
   if (doc.parameters) {
     if (!output.parameters) {
@@ -196,7 +196,7 @@ function addOperationDoc(operation: OperationObject, doc: DocRoute, lang: "en" |
 
         acc[code] = {
           ...response,
-          description: docResponse.description,
+          description: getTextOpenAPI(docResponse.description, lang),
           content: addContentObjectDoc(response.content, docResponse.content, lang),
         };
 

@@ -24,7 +24,7 @@ export interface DocBusinessField extends DocTechnicalField {
 
 export type DataSource = {
   name: string;
-  logo: { href: string; width: number; height: number };
+  logo: { href: string };
   providers: string[];
   href: string;
 };
@@ -37,11 +37,11 @@ export type DocModel = {
 };
 
 export type DocRoute = {
-  summary: string;
-  description: string;
+  summary: { en: string; fr: string };
+  description: { en: string; fr: string };
   parameters?: Record<string, DocTechnicalField>;
   response: {
-    description: string;
+    description: { en: string; fr: string };
     content?: DocTechnicalField;
   };
 };

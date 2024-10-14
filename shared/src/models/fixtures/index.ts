@@ -1,4 +1,5 @@
 export * from "./certification.model.fixture.js";
+export * from "./commune.model.fixture.js";
 export * from "./organisation.model.fixture.js";
 export * from "./source.acce.model.fixture.js";
 export * from "./source.bcn.model.fixture.js";

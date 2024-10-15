@@ -52,12 +52,16 @@ const communeSchema = {
             type: { type: "string", enum: ["Point"] },
             coordinates: {
               type: "array",
-              items: { type: "number" },
+              prefixItems: [
+                { type: "number", minimum: -180, maximum: 180 },
+                { type: "number", minimum: -90, maximum: 90 },
+              ],
               minItems: 2,
               maxItems: 2,
             },
           },
           required: ["type", "coordinates"],
+          additionalProperties: false,
         },
         bbox: {
           type: "object",
@@ -67,7 +71,10 @@ const communeSchema = {
               type: "array",
               items: {
                 type: "array",
-                items: { type: "number" },
+                prefixItems: [
+                  { type: "number", minimum: -180, maximum: 180 },
+                  { type: "number", minimum: -90, maximum: 90 },
+                ],
                 minItems: 2,
                 maxItems: 2,
               },
@@ -79,7 +86,7 @@ const communeSchema = {
       required: ["centre", "bbox"],
     },
   },
-  required: ["nom", "code", "departement", "academie", "region", "geographie"],
+  required: ["nom", "code", "departement", "academie", "region", "localisation"],
 } as const satisfies SchemaObject;
 
 export function registerOpenApiCommuneModel(builder: OpenApiBuilder, lang: "en" | "fr"): OpenApiBuilder {

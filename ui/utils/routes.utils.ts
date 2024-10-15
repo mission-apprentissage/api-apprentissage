@@ -63,6 +63,11 @@ export const PAGES = {
       index: true,
       getTitle: (lang, t) => t("pages.rechercheCommune", { lang, ns: "global" }),
     },
+    recuperationDepartements: {
+      getPath: (lang) => `/${lang}/explorer/recuperation-departements` as string,
+      index: true,
+      getTitle: (lang, t) => t("pages.recuperationDepartements", { lang, ns: "global" }),
+    },
     depotOffre: {
       getPath: (lang) => `/${lang}/explorer/depot-offre` as string,
       index: true,

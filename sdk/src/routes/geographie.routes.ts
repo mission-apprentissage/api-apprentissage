@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { zCommune } from "../models/index.js";
+import { zCommune, zDepartement } from "../models/index.js";
 import type { IApiRoutesDef } from "./common.routes.js";
 
 const zCode = z.string().regex(/^\d{5}$/);
@@ -17,10 +17,24 @@ export const zApiGeographieRoutes = {
         "200": zCommune.array(),
       },
       openapi: {
-        tags: ["Commune"] as string[],
+        tags: ["Géographie"] as string[],
         summary: "Recherche de commune",
         description: "Recherche de communes par code insee ou postal",
         operationId: "searchCommune",
+      },
+    },
+    "/geographie/v1/departement": {
+      method: "get",
+      path: "/geographie/v1/departement",
+      response: {
+        "200": zDepartement.array(),
+      },
+      openapi: {
+        tags: ["Géographie"] as string[],
+        summary: "Récupération des départements français",
+        description:
+          "Récupération des départements français, pour des raisons pratiques les collectivités et territoires d'outre-mer sont inclus et assimilés à des départements",
+        operationId: "listDepartements",
       },
     },
   },

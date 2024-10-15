@@ -1,5 +1,4 @@
 import type { DataSource, DocModel } from "../../types.js";
-import localisationDescriptionFr from "./docs/fr/localisation.description.md.js";
 
 const sources: DataSource[] = [
   {
@@ -22,8 +21,8 @@ const sources: DataSource[] = [
   },
 ];
 
-export const communeModelDoc = {
-  name: "Commune",
+export const departementModelDoc = {
+  name: "Departement",
   description: null,
   sources,
   _: {
@@ -33,25 +32,31 @@ export const communeModelDoc = {
         fr: "Intitulé",
       },
       metier: true,
-      description: { en: null, fr: "Nom de la commune" },
-      sample: { en: null, fr: "exemple : Paris" },
+      description: { en: null, fr: "Département de la commune" },
+      sample: { en: null, fr: "exemple : Nord" },
       tags: [".nom"],
+      tip: {
+        title: {
+          en: null,
+          fr: "Collectivités et territoires d'outre-mer",
+        },
+        content: {
+          en: null,
+          fr: "Les collectivités et territoires d'outre-mer sont assimilés à des déparements pour des raisons pratiques. Le code INSEE utilisé correspond au code INSEE de la collectivité ou du territoire d'outre-mer.",
+        },
+      },
     },
-    code: {
+    codeInsee: {
       section: {
         en: null,
-        fr: "Code INSEE et postaux",
+        fr: "Code INSEE",
       },
       metier: true,
       description: {
         en: null,
-        fr: "Code INSEE et postaux de la commune",
+        fr: "Code INSEE du département",
       },
-      information: {
-        en: null,
-        fr: "Une commune peut avoir plusieurs code postaux, et un code postal peut correspondre à plusieurs communes. Le code INSEE lui est unique pour chaque commune.",
-      },
-      tags: [".code.insee", ".code.postaux"],
+      tags: [".codeInsee"],
       _: {
         insee: {
           description: { en: null, fr: "Code INSEE de la commune" },
@@ -88,33 +93,6 @@ export const communeModelDoc = {
         },
       },
     },
-    departement: {
-      section: {
-        en: null,
-        fr: "Département",
-      },
-      metier: true,
-      description: { en: null, fr: "Département de la commune" },
-      tip: {
-        title: {
-          en: null,
-          fr: "Collectivités et territoires d'outre-mer",
-        },
-        content: {
-          en: null,
-          fr: "Les collectivités et territoires d'outre-mer sont assimilés à des déparements pour des raisons pratiques. Le code INSEE utilisé correspond au code INSEE de la collectivité ou du territoire d'outre-mer.",
-        },
-      },
-      tags: [".departement"],
-      _: {
-        codeInsee: {
-          description: { en: null, fr: "Code du département" },
-        },
-        nom: {
-          description: { en: null, fr: "Nom du département" },
-        },
-      },
-    },
     academie: {
       section: {
         en: null,
@@ -142,37 +120,6 @@ export const communeModelDoc = {
         content: {
           en: null,
           fr: "L'académie de l'Étranger correspond à **L'Agence pour l’enseignement français à l’étranger (AEFE)**, elle est associée à du territoire d'outre-mer des **Terres australes et antarctiques françaises**.",
-        },
-      },
-    },
-    localisation: {
-      section: {
-        en: null,
-        fr: "Localisation",
-      },
-      metier: true,
-      description: { en: null, fr: localisationDescriptionFr },
-      tags: [".localisation.centre", ".localisation.bbox"],
-      _: {
-        centre: {
-          section: {
-            en: null,
-            fr: "Localisation",
-          },
-          description: {
-            en: null,
-            fr: 'Coordonnées du centre de la commune au format GeoJSON "Point"',
-          },
-        },
-        bbox: {
-          section: {
-            en: null,
-            fr: "Localisation",
-          },
-          description: {
-            en: null,
-            fr: 'Coordonnées de la boîte englobante de la commune au format GeoJSON "Polygon"',
-          },
         },
       },
     },

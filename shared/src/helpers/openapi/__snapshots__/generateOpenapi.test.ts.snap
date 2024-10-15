@@ -38,257 +38,158 @@ exports[`generateOpenApiSchema > should be alright /experimental/source/acce/zon
 exports[`generateOpenApiSchema > should be alright /geographie/v1/commune/search 1`] = `
 [
   {
-    "oldValue": false,
+    "oldValue": 2,
     "path": [
       "get",
-      "parameters",
-      0,
-      "required",
+      "responses",
+      "200",
+      "content",
+      "application/json",
+      "schema",
+      "items",
+      "properties",
+      "localisation",
+      "properties",
+      "centre",
+      "properties",
+      "coordinates",
+      "maxItems",
     ],
-    "type": "CHANGE",
-    "value": true,
+    "type": "REMOVE",
+  },
+  {
+    "oldValue": 2,
+    "path": [
+      "get",
+      "responses",
+      "200",
+      "content",
+      "application/json",
+      "schema",
+      "items",
+      "properties",
+      "localisation",
+      "properties",
+      "centre",
+      "properties",
+      "coordinates",
+      "minItems",
+    ],
+    "type": "REMOVE",
+  },
+  {
+    "oldValue": 2,
+    "path": [
+      "get",
+      "responses",
+      "200",
+      "content",
+      "application/json",
+      "schema",
+      "items",
+      "properties",
+      "localisation",
+      "properties",
+      "bbox",
+      "properties",
+      "coordinates",
+      "items",
+      "maxItems",
+    ],
+    "type": "REMOVE",
+  },
+  {
+    "oldValue": 2,
+    "path": [
+      "get",
+      "responses",
+      "200",
+      "content",
+      "application/json",
+      "schema",
+      "items",
+      "properties",
+      "localisation",
+      "properties",
+      "bbox",
+      "properties",
+      "coordinates",
+      "items",
+      "minItems",
+    ],
+    "type": "REMOVE",
   },
   {
     "oldValue": [
-      "string",
+      {
+        "maximum": 180,
+        "minimum": -180,
+        "type": "number",
+      },
+      {
+        "maximum": 90,
+        "minimum": -90,
+        "type": "number",
+      },
     ],
     "path": [
       "get",
-      "parameters",
-      0,
+      "responses",
+      "200",
+      "content",
+      "application/json",
       "schema",
-      "type",
+      "items",
+      "properties",
+      "localisation",
+      "properties",
+      "bbox",
+      "properties",
+      "coordinates",
+      "items",
+      "prefixItems",
     ],
-    "type": "CHANGE",
-    "value": "string",
+    "type": "REMOVE",
   },
   {
-    "oldValue": {
-      "type": "number",
+    "path": [
+      "get",
+      "responses",
+      "200",
+      "content",
+      "application/json",
+      "schema",
+      "items",
+      "properties",
+      "localisation",
+      "properties",
+      "bbox",
+      "properties",
+      "coordinates",
+      "items",
+      "items",
+    ],
+    "type": "CREATE",
+    "value": {
+      "prefixItems": [
+        {
+          "maximum": 180,
+          "minimum": -180,
+          "type": "number",
+        },
+        {
+          "maximum": 90,
+          "minimum": -90,
+          "type": "number",
+        },
+      ],
+      "type": "array",
     },
-    "path": [
-      "get",
-      "responses",
-      "200",
-      "content",
-      "application/json",
-      "schema",
-      "items",
-      "properties",
-      "localisation",
-      "properties",
-      "centre",
-      "properties",
-      "coordinates",
-      "items",
-    ],
-    "type": "REMOVE",
-  },
-  {
-    "oldValue": 2,
-    "path": [
-      "get",
-      "responses",
-      "200",
-      "content",
-      "application/json",
-      "schema",
-      "items",
-      "properties",
-      "localisation",
-      "properties",
-      "centre",
-      "properties",
-      "coordinates",
-      "maxItems",
-    ],
-    "type": "REMOVE",
-  },
-  {
-    "oldValue": 2,
-    "path": [
-      "get",
-      "responses",
-      "200",
-      "content",
-      "application/json",
-      "schema",
-      "items",
-      "properties",
-      "localisation",
-      "properties",
-      "centre",
-      "properties",
-      "coordinates",
-      "minItems",
-    ],
-    "type": "REMOVE",
-  },
-  {
-    "path": [
-      "get",
-      "responses",
-      "200",
-      "content",
-      "application/json",
-      "schema",
-      "items",
-      "properties",
-      "localisation",
-      "properties",
-      "centre",
-      "properties",
-      "coordinates",
-      "prefixItems",
-    ],
-    "type": "CREATE",
-    "value": [
-      {
-        "maximum": 180,
-        "minimum": -180,
-        "type": "number",
-      },
-      {
-        "maximum": 90,
-        "minimum": -90,
-        "type": "number",
-      },
-    ],
-  },
-  {
-    "path": [
-      "get",
-      "responses",
-      "200",
-      "content",
-      "application/json",
-      "schema",
-      "items",
-      "properties",
-      "localisation",
-      "properties",
-      "centre",
-      "additionalProperties",
-    ],
-    "type": "CREATE",
-    "value": false,
-  },
-  {
-    "oldValue": "number",
-    "path": [
-      "get",
-      "responses",
-      "200",
-      "content",
-      "application/json",
-      "schema",
-      "items",
-      "properties",
-      "localisation",
-      "properties",
-      "bbox",
-      "properties",
-      "coordinates",
-      "items",
-      "items",
-      "type",
-    ],
-    "type": "CHANGE",
-    "value": "array",
-  },
-  {
-    "path": [
-      "get",
-      "responses",
-      "200",
-      "content",
-      "application/json",
-      "schema",
-      "items",
-      "properties",
-      "localisation",
-      "properties",
-      "bbox",
-      "properties",
-      "coordinates",
-      "items",
-      "items",
-      "prefixItems",
-    ],
-    "type": "CREATE",
-    "value": [
-      {
-        "maximum": 180,
-        "minimum": -180,
-        "type": "number",
-      },
-      {
-        "maximum": 90,
-        "minimum": -90,
-        "type": "number",
-      },
-    ],
-  },
-  {
-    "oldValue": 2,
-    "path": [
-      "get",
-      "responses",
-      "200",
-      "content",
-      "application/json",
-      "schema",
-      "items",
-      "properties",
-      "localisation",
-      "properties",
-      "bbox",
-      "properties",
-      "coordinates",
-      "items",
-      "maxItems",
-    ],
-    "type": "REMOVE",
-  },
-  {
-    "oldValue": 2,
-    "path": [
-      "get",
-      "responses",
-      "200",
-      "content",
-      "application/json",
-      "schema",
-      "items",
-      "properties",
-      "localisation",
-      "properties",
-      "bbox",
-      "properties",
-      "coordinates",
-      "items",
-      "minItems",
-    ],
-    "type": "REMOVE",
-  },
-  {
-    "oldValue": "geographie",
-    "path": [
-      "get",
-      "responses",
-      "200",
-      "content",
-      "application/json",
-      "schema",
-      "items",
-      "required",
-      3,
-    ],
-    "type": "CHANGE",
-    "value": "localisation",
   },
 ]
 `;
+
+exports[`generateOpenApiSchema > should be alright /geographie/v1/departement 1`] = `[]`;
 
 exports[`generateOpenApiSchema > should be alright /healthcheck 1`] = `[]`;
 
@@ -1914,6 +1815,7 @@ Une commune peut avoir plusieurs code postaux, et un code postal peut correspond
             "description": "Département de la commune",
             "properties": {
               "codeInsee": {
+                "description": "Code du département",
                 "type": "string",
               },
               "nom": {
@@ -1941,11 +1843,20 @@ Les champs \`centre\` et \`bbox\` sont tous les deux au format [GeoJSON](https:/
                 "properties": {
                   "coordinates": {
                     "items": {
-                      "items": {
-                        "type": "number",
-                      },
                       "maxItems": 2,
                       "minItems": 2,
+                      "prefixItems": [
+                        {
+                          "maximum": 180,
+                          "minimum": -180,
+                          "type": "number",
+                        },
+                        {
+                          "maximum": 90,
+                          "minimum": -90,
+                          "type": "number",
+                        },
+                      ],
                       "type": "array",
                     },
                     "type": "array",
@@ -1964,14 +1875,24 @@ Les champs \`centre\` et \`bbox\` sont tous les deux au format [GeoJSON](https:/
                 "type": "object",
               },
               "centre": {
+                "additionalProperties": false,
                 "description": "Coordonnées du centre de la commune au format GeoJSON "Point"",
                 "properties": {
                   "coordinates": {
-                    "items": {
-                      "type": "number",
-                    },
                     "maxItems": 2,
                     "minItems": 2,
+                    "prefixItems": [
+                      {
+                        "maximum": 180,
+                        "minimum": -180,
+                        "type": "number",
+                      },
+                      {
+                        "maximum": 90,
+                        "minimum": -90,
+                        "type": "number",
+                      },
+                    ],
                     "type": "array",
                   },
                   "type": {
@@ -2023,7 +1944,67 @@ Les champs \`centre\` et \`bbox\` sont tous les deux au format [GeoJSON](https:/
           "departement",
           "academie",
           "region",
-          "geographie",
+          "localisation",
+        ],
+        "type": "object",
+      },
+      "Departement": {
+        "properties": {
+          "academie": {
+            "description": "Académie de la commune",
+            "properties": {
+              "code": {
+                "description": "Code de l'académie",
+                "type": "string",
+              },
+              "id": {
+                "description": "Identifiant de l'académie",
+                "type": "string",
+              },
+              "nom": {
+                "description": "Nom de l'académie",
+                "type": "string",
+              },
+            },
+            "required": [
+              "id",
+              "code",
+              "nom",
+            ],
+            "type": "object",
+          },
+          "codeInsee": {
+            "description": "Code INSEE du département",
+            "type": "string",
+          },
+          "nom": {
+            "description": "Département de la commune",
+            "type": "string",
+          },
+          "region": {
+            "description": "Région de la commune",
+            "properties": {
+              "codeInsee": {
+                "description": "Code INSEE de la région",
+                "type": "string",
+              },
+              "nom": {
+                "description": "Nom de la région",
+                "type": "string",
+              },
+            },
+            "required": [
+              "codeInsee",
+              "nom",
+            ],
+            "type": "object",
+          },
+        },
+        "required": [
+          "nom",
+          "codeInsee",
+          "academie",
+          "region",
         ],
         "type": "object",
       },
@@ -5135,7 +5116,7 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
           {
             "in": "query",
             "name": "code",
-            "required": false,
+            "required": true,
             "schema": {
               "description": "Code INSEE ou postal recherché",
               "examples": [
@@ -5143,9 +5124,7 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
                 "75000",
               ],
               "pattern": "^\\d{5}$",
-              "type": [
-                "string",
-              ],
+              "type": "string",
             },
           },
         ],
@@ -5198,6 +5177,64 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
           },
         ],
         "summary": "Recherche de communes par code insee ou postal",
+        "tags": [
+          "Géographie",
+        ],
+      },
+    },
+    "/geographie/v1/departement": {
+      "get": {
+        "description": "Récupération des départements français, pour des raisons pratiques les collectivités et territoires d'outre-mer sont inclus et assimilés à des départements",
+        "operationId": "listDepartements",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Liste des départements français",
+                  "items": {
+                    "$ref": "#/components/schemas/Departement",
+                  },
+                  "type": "array",
+                },
+              },
+            },
+            "description": "Succès",
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict",
+          },
+          "419": {
+            "$ref": "#/components/responses/TooManyRequests",
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+          },
+          "502": {
+            "$ref": "#/components/responses/BadGateway",
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable",
+          },
+        },
+        "security": [
+          {
+            "api-key": [],
+          },
+        ],
+        "summary": "Récupération des départements français",
         "tags": [
           "Géographie",
         ],

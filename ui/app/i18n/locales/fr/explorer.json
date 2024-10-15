@@ -19,8 +19,13 @@
   },
   "rechercheCommune": {
     "desc": "Consulter le référentiel des communes de France",
-    "summary": "Rechercher une commune par code INSEE ou code postal. ",
+    "summary": "Rechercher une commune par code INSEE ou code postal.",
     "variant": "Commune"
+  },
+  "recuperationDepartements": {
+    "desc": "Consulter le référentiel des départements de France",
+    "summary": "Récupération des départements de France",
+    "variant": "Departement"
   },
   "depotOffre": {
     "desc": "Maximiser la visibilité de vos offres d’emploi en alternance en les diffusant sur la plateforme La bonne alternance ainsi que ses sites partenaires.",

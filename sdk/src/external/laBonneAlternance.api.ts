@@ -12,9 +12,7 @@ export const zJobRecruiterLba = z.object({
   workplace_name: zJobRecruiter.shape.workplace.shape.name,
   workplace_description: zJobRecruiter.shape.workplace.shape.description,
   workplace_size: zJobRecruiter.shape.workplace.shape.size,
-  workplace_address: z.object({
-    label: zJobRecruiter.shape.workplace.shape.location.shape.address,
-  }),
+  workplace_address_label: zJobRecruiter.shape.workplace.shape.location.shape.address,
   workplace_geopoint: zJobRecruiter.shape.workplace.shape.location.shape.geopoint,
   workplace_idcc: zJobRecruiter.shape.workplace.shape.domain.shape.idcc,
   workplace_opco: zJobRecruiter.shape.workplace.shape.domain.shape.opco,

@@ -6,7 +6,7 @@ import type { ISourceGeoRegion } from "shared";
 import type { ICommuneInternal } from "shared/models/commune.model";
 
 import { fetchAcademies } from "@/services/apis/enseignementSup/enseignementSup.js";
-import { fetchGeoCommunes, fetchGeoDepartements, fetchGeoRegions } from "@/services/apis/geo/geo.js";
+import { fetchGeoCommunes, fetchGeoDepartements, fetchGeoRegion, fetchGeoRegions } from "@/services/apis/geo/geo.js";
 import { fetchCollectivitesOutreMer } from "@/services/apis/insee/insee.js";
 import { withCause } from "@/services/errors/withCause.js";
 import parentLogger from "@/services/logger.js";
@@ -30,7 +30,9 @@ export async function runCommuneImporter() {
 
     const [regions, collectivites, academies] = await Promise.all([
       fetchGeoRegions(),
-      fetchCollectivitesOutreMer(),
+      fetchCollectivitesOutreMer().then(async (collectivites) =>
+        Promise.all(collectivites.map((c) => fetchGeoRegion(c.code)))
+      ),
       fetchAcademies(),
     ]);
 
@@ -43,13 +45,7 @@ export async function runCommuneImporter() {
       });
     }
 
-    const extendedRegions: ISourceGeoRegion[] = [
-      ...regions,
-      ...collectivites.map((collectivite) => ({
-        nom: collectivite.intitule,
-        code: collectivite.code,
-      })),
-    ];
+    const extendedRegions: ISourceGeoRegion[] = [...regions, ...collectivites];
 
     for (const region of extendedRegions) {
       logger.info(`Importing departements for region ${region.nom}(${region.code}) ...`);

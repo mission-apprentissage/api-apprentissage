@@ -27,6 +27,28 @@ const zAcademieData = z.object({
 
 export type IEnseignementSupAcademieData = z.infer<typeof zAcademieData>;
 
+function fixGuadeloupeAcademie(data: IEnseignementSupAcademieData[]): IEnseignementSupAcademieData[] {
+  const guadeloupeAcademie = data.find((academie) => academie.dep_code === "971");
+
+  if (!guadeloupeAcademie) {
+    throw internal("api.enseignementSup: unable to find Guadeloupe academie");
+  }
+
+  return data.map((academie): IEnseignementSupAcademieData => {
+    // Saint-Martin et Saint-Barthélemy sont rattachés à l'académie de Guadeloupe
+    if (academie.dep_code === "977" || academie.dep_code === "978") {
+      return {
+        dep_code: academie.dep_code,
+        aca_nom: guadeloupeAcademie.aca_nom,
+        aca_id: guadeloupeAcademie.aca_id,
+        aca_code: guadeloupeAcademie.aca_code,
+      };
+    }
+
+    return academie;
+  });
+}
+
 export async function fetchAcademies(): Promise<IEnseignementSupAcademieData[]> {
   return apiEnseignementSup(async (client) => {
     try {
@@ -39,7 +61,7 @@ export async function fetchAcademies(): Promise<IEnseignementSupAcademieData[]> 
         }
       );
 
-      return zAcademieData.array().parse(data);
+      return fixGuadeloupeAcademie(zAcademieData.array().parse(data));
     } catch (error) {
       if (isAxiosError(error)) {
         throw internal("api.enseignementSup: unable to fetchAcademies", { data: error.toJSON() });

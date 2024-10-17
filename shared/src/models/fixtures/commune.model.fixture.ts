@@ -15,10 +15,19 @@ export const sourceRegionsFixtures: ISourceGeoRegion[] = [
   },
 ];
 
+export const sourceRegionExtendedFixtures: ISourceGeoRegion[] = [
+  { nom: "Saint-Pierre-et-Miquelon", code: "975" },
+  { nom: "Île de Clipperton", code: "989" },
+];
+
 export const inseeCollectiviteFixtures: IInseeCollectiviteOutreMer[] = [
   {
     code: "975",
     intitule: "Saint-Pierre-et-Miquelon",
+  },
+  {
+    code: "989",
+    intitule: "La Passion-Clipperton",
   },
 ];
 
@@ -57,6 +66,13 @@ export const sourceDepartementFixtures = {
       nom: "Saint-Pierre-et-Miquelon",
       code: "975",
       codeRegion: "975",
+    },
+  ],
+  "989": [
+    {
+      nom: "Île de Clipperton",
+      code: "989",
+      codeRegion: "989",
     },
   ],
 } as const satisfies Record<ISourceGeoRegion["code"], ISourceGeoDepartement[]>;
@@ -280,6 +296,28 @@ export const sourceCommuneFixtures = {
       nom: "Belep",
     },
   ],
+  "989": [
+    {
+      code: "98901",
+      codesPostaux: ["98799"],
+      centre: { type: "Point", coordinates: [-109.2172, 10.3034] },
+      bbox: {
+        type: "Polygon",
+        coordinates: [
+          [
+            [-109.234607, 10.287154],
+            [-109.19979, 10.287154],
+            [-109.19979, 10.31957],
+            [-109.234607, 10.31957],
+            [-109.234607, 10.287154],
+          ],
+        ],
+      },
+      codeDepartement: "989",
+      codeRegion: "989",
+      nom: "Île de Clipperton",
+    },
+  ],
 } as const satisfies Record<ISourceGeoDepartement["code"], ISourceGeoCommune[]>;
 
 export const academieFixtures = [
@@ -318,6 +356,13 @@ export const academieFixtures = [
     aca_nom: "Saint-Pierre-et-Miquelon",
     aca_id: "A44",
     aca_code: "44",
+  },
+  {
+    aca_code: "41",
+    aca_nom: "Polynésie Française",
+    aca_id: "A41",
+    dep_code: "989",
+    dep_nom: "Île de Clipperton",
   },
 ];
 

@@ -5,12 +5,13 @@ import {
   inseeCollectiviteFixtures,
   sourceCommuneFixtures,
   sourceDepartementFixtures,
+  sourceRegionExtendedFixtures,
   sourceRegionsFixtures,
 } from "shared/models/fixtures/commune.model.fixture";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { fetchAcademies } from "@/services/apis/enseignementSup/enseignementSup.js";
-import { fetchGeoCommunes, fetchGeoDepartements, fetchGeoRegions } from "@/services/apis/geo/geo.js";
+import { fetchGeoCommunes, fetchGeoDepartements, fetchGeoRegion, fetchGeoRegions } from "@/services/apis/geo/geo.js";
 import { fetchCollectivitesOutreMer } from "@/services/apis/insee/insee.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
@@ -35,6 +36,9 @@ describe("runCommuneImporter", () => {
 
   it("should import initial communes", async () => {
     vi.mocked(fetchGeoRegions).mockResolvedValue(sourceRegionsFixtures);
+    vi.mocked(fetchGeoRegion).mockImplementation(
+      async (code: string) => sourceRegionExtendedFixtures.find((r) => r.code === code)!
+    );
     vi.mocked(fetchGeoDepartements).mockImplementation(
       async (codeRegion: string) => sourceDepartementFixtures[codeRegion as keyof typeof sourceDepartementFixtures]
     );
@@ -47,8 +51,9 @@ describe("runCommuneImporter", () => {
     await runCommuneImporter();
 
     expect(fetchGeoRegions).toHaveBeenCalledTimes(1);
-    expect(fetchGeoDepartements).toHaveBeenCalledTimes(3);
-    expect(fetchGeoCommunes).toHaveBeenCalledTimes(6);
+    expect(fetchGeoRegion).toHaveBeenCalledTimes(2);
+    expect(fetchGeoDepartements).toHaveBeenCalledTimes(4);
+    expect(fetchGeoCommunes).toHaveBeenCalledTimes(7);
 
     const communes = await getDbCollection("commune").find({}).toArray();
 
@@ -147,6 +152,9 @@ describe("runCommuneImporter", () => {
     });
 
     vi.mocked(fetchGeoRegions).mockResolvedValue(sourceRegionsFixtures);
+    vi.mocked(fetchGeoRegion).mockImplementation(
+      async (code: string) => sourceRegionExtendedFixtures.find((r) => r.code === code)!
+    );
     vi.mocked(fetchGeoDepartements).mockImplementation(
       async (codeRegion: string) => sourceDepartementFixtures[codeRegion as keyof typeof sourceDepartementFixtures]
     );
@@ -158,8 +166,9 @@ describe("runCommuneImporter", () => {
     await runCommuneImporter();
 
     expect(fetchGeoRegions).toHaveBeenCalledTimes(1);
-    expect(fetchGeoDepartements).toHaveBeenCalledTimes(3);
-    expect(fetchGeoCommunes).toHaveBeenCalledTimes(6);
+    expect(fetchGeoRegion).toHaveBeenCalledTimes(2);
+    expect(fetchGeoDepartements).toHaveBeenCalledTimes(4);
+    expect(fetchGeoCommunes).toHaveBeenCalledTimes(7);
 
     const communes = await getDbCollection("commune").find({}).toArray();
 

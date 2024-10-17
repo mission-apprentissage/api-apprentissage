@@ -1,7 +1,7 @@
 import nock from "nock";
 import { describe, expect, it } from "vitest";
 
-import { fetchGeoCommunes, fetchGeoDepartements, fetchGeoRegions } from "./geo.js";
+import { fetchGeoCommunes, fetchGeoDepartements, fetchGeoRegion, fetchGeoRegions } from "./geo.js";
 
 describe("fetchGeoRegions", () => {
   it("should return the list of regions", async () => {
@@ -21,6 +21,21 @@ describe("fetchGeoRegions", () => {
     const result = await fetchGeoRegions();
 
     expect(result).toEqual(regions);
+  });
+});
+
+describe("fetchGeoRegion", () => {
+  it("should return requested region", async () => {
+    const region = {
+      nom: "Île-de-France",
+      code: "11",
+    };
+
+    nock("https://geo.api.gouv.fr").get(`/regions/${region.code}`).reply(200, region);
+
+    const result = await fetchGeoRegion(region.code);
+
+    expect(result).toEqual(region);
   });
 });
 

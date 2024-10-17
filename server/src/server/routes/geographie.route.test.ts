@@ -225,6 +225,19 @@ describe("GET /geographie/v1/departement", () => {
           nom: "Saint-Pierre-et-Miquelon",
         },
       },
+      {
+        academie: {
+          code: "41",
+          id: "A41",
+          nom: "Polynésie Française",
+        },
+        codeInsee: "989",
+        nom: "Île de Clipperton",
+        region: {
+          codeInsee: "989",
+          nom: "La Passion-Clipperton",
+        },
+      },
     ]);
   });
 });

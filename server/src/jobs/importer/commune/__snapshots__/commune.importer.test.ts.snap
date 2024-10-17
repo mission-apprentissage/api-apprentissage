@@ -502,6 +502,66 @@ exports[`runCommuneImporter > should import communes with existing regions and d
     },
     "updated_at": 2024-10-03T21:53:08.141Z,
   },
+  {
+    "academie": {
+      "code": "41",
+      "id": "A41",
+      "nom": "Polynésie Française",
+    },
+    "code": {
+      "insee": "98901",
+      "postaux": [
+        "98799",
+      ],
+    },
+    "created_at": 2024-10-03T21:53:08.141Z,
+    "departement": {
+      "codeInsee": "989",
+      "nom": "Île de Clipperton",
+    },
+    "localisation": {
+      "bbox": {
+        "coordinates": [
+          [
+            [
+              -109.234607,
+              10.287154,
+            ],
+            [
+              -109.19979,
+              10.287154,
+            ],
+            [
+              -109.19979,
+              10.31957,
+            ],
+            [
+              -109.234607,
+              10.31957,
+            ],
+            [
+              -109.234607,
+              10.287154,
+            ],
+          ],
+        ],
+        "type": "Polygon",
+      },
+      "centre": {
+        "coordinates": [
+          -109.2172,
+          10.3034,
+        ],
+        "type": "Point",
+      },
+    },
+    "nom": "Île de Clipperton",
+    "region": {
+      "codeInsee": "989",
+      "nom": "Île de Clipperton",
+    },
+    "updated_at": 2024-10-03T21:53:08.141Z,
+  },
 ]
 `;
 
@@ -1004,6 +1064,66 @@ exports[`runCommuneImporter > should import initial communes 1`] = `
     "region": {
       "codeInsee": "975",
       "nom": "Saint-Pierre-et-Miquelon",
+    },
+    "updated_at": 2024-10-03T21:53:08.141Z,
+  },
+  {
+    "academie": {
+      "code": "41",
+      "id": "A41",
+      "nom": "Polynésie Française",
+    },
+    "code": {
+      "insee": "98901",
+      "postaux": [
+        "98799",
+      ],
+    },
+    "created_at": 2024-10-03T21:53:08.141Z,
+    "departement": {
+      "codeInsee": "989",
+      "nom": "Île de Clipperton",
+    },
+    "localisation": {
+      "bbox": {
+        "coordinates": [
+          [
+            [
+              -109.234607,
+              10.287154,
+            ],
+            [
+              -109.19979,
+              10.287154,
+            ],
+            [
+              -109.19979,
+              10.31957,
+            ],
+            [
+              -109.234607,
+              10.31957,
+            ],
+            [
+              -109.234607,
+              10.287154,
+            ],
+          ],
+        ],
+        "type": "Polygon",
+      },
+      "centre": {
+        "coordinates": [
+          -109.2172,
+          10.3034,
+        ],
+        "type": "Point",
+      },
+    },
+    "nom": "Île de Clipperton",
+    "region": {
+      "codeInsee": "989",
+      "nom": "Île de Clipperton",
     },
     "updated_at": 2024-10-03T21:53:08.141Z,
   },

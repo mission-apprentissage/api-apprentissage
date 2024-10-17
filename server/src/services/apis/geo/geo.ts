@@ -34,6 +34,21 @@ export const fetchGeoRegions = async (): Promise<ISourceGeoRegion[]> => {
   });
 };
 
+export const fetchGeoRegion = async (code: string): Promise<ISourceGeoRegion> => {
+  return geoClient(async (client) => {
+    try {
+      const { data } = await client.get(`/regions/${code}`);
+
+      return sourceGeoRegion.parse(data);
+    } catch (error) {
+      if (isAxiosError(error)) {
+        throw internal("api.geo: unable to fetchGeoRegion", { data: error.toJSON() });
+      }
+      throw withCause(internal("api.geo: unable to fetchGeoRegion"), error);
+    }
+  });
+};
+
 export const fetchGeoDepartements = async (codeRegion: string): Promise<ISourceGeoDepartement[]> => {
   return geoClient(async (client) => {
     try {

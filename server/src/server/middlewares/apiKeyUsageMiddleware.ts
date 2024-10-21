@@ -18,6 +18,7 @@ export function apiKeyUsageMiddleware(server: Server) {
         api_key_id: request.api_key._id,
         method: request.routeOptions.method,
         path: request.routeOptions.config.url,
+        queryParams: request.query as { [key: string]: any },
         date: now,
       };
 

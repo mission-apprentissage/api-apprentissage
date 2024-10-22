@@ -87,6 +87,10 @@ export function isAuthorizedUser(
       return user.is_admin;
     case "jobs:write":
       return true;
+    case "applications:write":
+      return true;
+    case "appointments:write":
+      return true;
     default:
       assertUnreachable(access);
   }

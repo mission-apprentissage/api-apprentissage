@@ -5,15 +5,12 @@ import { Alert } from "@codegouvfr/react-dsfr/Alert";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { Input } from "@codegouvfr/react-dsfr/Input";
 import { ToggleSwitch } from "@codegouvfr/react-dsfr/ToggleSwitch";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Snackbar, Typography } from "@mui/material";
 import { captureException } from "@sentry/nextjs";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { FC } from "react";
-import { use, useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { zRoutes } from "shared";
 import type { IOrganisation } from "shared/models/organisation.model";
 import type { Jsonify } from "type-fest";
 
@@ -26,7 +23,7 @@ type Props = WithLang<{
   organisation: Jsonify<IOrganisation>;
 }>;
 
-const HABILITATIONS = ["jobs:write"] as const;
+const HABILITATIONS = ["jobs:write", "appointments:write", "applications:write"] as const; // shared/src/security/permissions.ts#L3 ?
 
 type FormData = {
   [key in (typeof HABILITATIONS)[number]]: boolean;
@@ -49,6 +46,8 @@ export function OrganisationView({ organisation, lang }: Props) {
   const defaultValues: FormData = useMemo(() => {
     const values: FormData = {
       "jobs:write": false,
+      "appointments:write": false,
+      "applications:write": false,
     };
 
     for (const habilitation of organisation.habilitations) {

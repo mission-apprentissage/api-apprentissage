@@ -1,6 +1,6 @@
 import type { IOrganisation } from "../models/organisation.model.js";
 
-export type Permission = "admin" | "user:manage" | "jobs:write";
+export type Permission = "admin" | "user:manage" | "jobs:write" | "appointments:write" | "applications:write";
 
 export type RoleNames = "none" | "org" | "admin";
 

@@ -109,6 +109,8 @@ describe("searchJobOpportunities", () => {
   const expectedBasicUserToken = {
     email: "basic@exemple.fr",
     habilitations: {
+      "applications:write": false,
+      "appointments:write": false,
       "jobs:write": false,
     },
     organisation: null,
@@ -379,6 +381,8 @@ describe("createJobOfferLba", () => {
   const expectedBasicUserToken = {
     email: "basic@exemple.fr",
     habilitations: {
+      "applications:write": false,
+      "appointments:write": false,
       "jobs:write": false,
     },
     organisation: null,
@@ -387,6 +391,8 @@ describe("createJobOfferLba", () => {
   const expectedRoUserToken = {
     email: "ro@exemple.fr",
     habilitations: {
+      "applications:write": false,
+      "appointments:write": false,
       "jobs:write": false,
     },
     organisation: orgRo.nom,
@@ -395,6 +401,8 @@ describe("createJobOfferLba", () => {
   const expectedWriteUserToken = {
     email: "write@exemple.fr",
     habilitations: {
+      "applications:write": false,
+      "appointments:write": false,
       "jobs:write": true,
     },
     organisation: orgWrite.nom,
@@ -641,6 +649,8 @@ describe("updateJobOfferLba", () => {
   const expectedBasicUserToken = {
     email: "basic@exemple.fr",
     habilitations: {
+      "applications:write": false,
+      "appointments:write": false,
       "jobs:write": false,
     },
     organisation: null,
@@ -649,6 +659,8 @@ describe("updateJobOfferLba", () => {
   const expectedRoUserToken = {
     email: "ro@exemple.fr",
     habilitations: {
+      "applications:write": false,
+      "appointments:write": false,
       "jobs:write": false,
     },
     organisation: orgRo.nom,
@@ -657,6 +669,8 @@ describe("updateJobOfferLba", () => {
   const expectedWriteUserToken = {
     email: "write@exemple.fr",
     habilitations: {
+      "applications:write": false,
+      "appointments:write": false,
       "jobs:write": true,
     },
     organisation: orgWrite.nom,

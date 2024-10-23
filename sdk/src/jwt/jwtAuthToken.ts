@@ -8,6 +8,8 @@ export const zApiAlternanceTokenData = z.object({
   organisation: z.string().nullable(),
   habilitations: z.object({
     "jobs:write": z.boolean(),
+    "applications:write": z.boolean(),
+    "appointments:write": z.boolean(),
   }),
 });
 

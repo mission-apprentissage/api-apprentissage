@@ -29,7 +29,11 @@ export function createAuthToken(user: IUser, organisation: IOrganisation | null)
     data: {
       email: user.email,
       organisation: user.organisation,
-      habilitations: { "jobs:write": hasHabilitation(organisation, "jobs:write") },
+      habilitations: {
+        "jobs:write": hasHabilitation(organisation, "jobs:write"),
+        "applications:write": hasHabilitation(organisation, "applications:write"),
+        "appointments:write": hasHabilitation(organisation, "appointments:write"),
+      },
     },
     privateKey: config.api.alternance.private_key,
   });

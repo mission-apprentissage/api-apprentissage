@@ -42,7 +42,7 @@ describe("search", () => {
             },
           },
           domain: {
-            idcc: 1242,
+            idcc: "1242",
             opco: "",
             naf: {
               code: "84.11Z",

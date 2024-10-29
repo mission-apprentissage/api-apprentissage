@@ -58,7 +58,7 @@ describe("searchJobOpportunities", () => {
           coordinates: [2.347, 48.8589],
           type: "Point",
         },
-        workplace_idcc: 1242,
+        workplace_idcc: "1242",
         workplace_legal_name: "ASSEMBLEE NATIONALE",
         workplace_naf_code: "84.11Z",
         workplace_naf_label: "Autorité constitutionnelle",

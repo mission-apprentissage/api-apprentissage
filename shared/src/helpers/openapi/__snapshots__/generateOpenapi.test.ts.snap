@@ -251,7 +251,58 @@ exports[`generateOpenApiSchema > should be alright /job/v1/offer/{id} 1`] = `
 ]
 `;
 
-exports[`generateOpenApiSchema > should be alright /job/v1/search 1`] = `[]`;
+exports[`generateOpenApiSchema > should be alright /job/v1/search 1`] = `
+[
+  {
+    "oldValue": "number",
+    "path": [
+      "get",
+      "responses",
+      "200",
+      "content",
+      "application/json",
+      "schema",
+      "properties",
+      "jobs",
+      "items",
+      "properties",
+      "workplace",
+      "properties",
+      "domain",
+      "properties",
+      "idcc",
+      "type",
+      0,
+    ],
+    "type": "CHANGE",
+    "value": "string",
+  },
+  {
+    "oldValue": "number",
+    "path": [
+      "get",
+      "responses",
+      "200",
+      "content",
+      "application/json",
+      "schema",
+      "properties",
+      "recruiters",
+      "items",
+      "properties",
+      "workplace",
+      "properties",
+      "domain",
+      "properties",
+      "idcc",
+      "type",
+      0,
+    ],
+    "type": "CHANGE",
+    "value": "string",
+  },
+]
+`;
 
 exports[`generateOpenApiSchema > should be alright /organisme/v1/recherche 1`] = `[]`;
 

@@ -16,7 +16,7 @@ function convertJobWorkplaceLbaToApi(input: IJobRecruiterLba | IJobOfferLba): IJ
     description: input.workplace_description,
     size: input.workplace_size,
     location: {
-      address: input.workplace_address_label,
+      address: `${input.workplace_address_street_label ?? ""} ${input.workplace_address_zipcode ?? ""} ${input.workplace_address_city ?? ""}`.trim(),
       geopoint: input.workplace_geopoint,
     },
     domain: {
@@ -112,7 +112,10 @@ export function convertJobOfferWritableApiToLba(jobOffer: IJobOfferWritable): IJ
     result.workplace_website = jobOffer.workplace.website;
   }
   if (jobOffer.workplace.location != null) {
-    result.workplace_address_label = jobOffer.workplace.location.address;
+    result.workplace_address_street_label = jobOffer.workplace.location.address;
+    result.workplace_address_city = null; // TODO
+    result.workplace_address_zipcode = null; // TODO
+    result.workplace_address_country = null; // TODO
   }
 
   if (jobOffer.apply.url != null) {

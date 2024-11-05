@@ -51,7 +51,10 @@ describe("searchJobOpportunities", () => {
         ],
         partner_label: "La bonne alternance",
         partner_job_id: null,
-        workplace_address_label: "Paris",
+        workplace_address_city: "Paris",
+        workplace_address_street_label: null,
+        workplace_address_zipcode: null,
+        workplace_address_country: null,
         workplace_brand: "Brand",
         workplace_description: "Workplace Description",
         workplace_geopoint: {
@@ -74,7 +77,10 @@ describe("searchJobOpportunities", () => {
         _id: "42",
         apply_phone: "0100000000",
         apply_url: "http://localhost:3000/recherche-apprentissage?type=lba&itemId=11000001500013",
-        workplace_address_label: "126 RUE DE L'UNIVERSITE 75007 PARIS",
+        workplace_address_city: "PARIS",
+        workplace_address_street_label: "126 RUE DE L'UNIVERSITE",
+        workplace_address_zipcode: "75007",
+        workplace_address_country: null,
         workplace_brand: "ASSEMBLEE NATIONALE - La vraie",
         workplace_description: null,
         workplace_geopoint: {

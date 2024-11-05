@@ -112,7 +112,8 @@ export function convertJobOfferWritableApiToLba(jobOffer: IJobOfferWritable): IJ
     result.workplace_website = jobOffer.workplace.website;
   }
   if (jobOffer.workplace.location != null) {
-    result.workplace_address_street_label = jobOffer.workplace.location.address;
+    result.workplace_address_label = jobOffer.workplace.location.address;
+    result.workplace_address_street_label = null; // TODO
     result.workplace_address_city = null; // TODO
     result.workplace_address_zipcode = null; // TODO
     result.workplace_address_country = null; // TODO

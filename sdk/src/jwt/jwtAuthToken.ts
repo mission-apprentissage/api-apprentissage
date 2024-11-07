@@ -7,9 +7,9 @@ export const zApiAlternanceTokenData = z.object({
   email: z.string().email(),
   organisation: z.string().nullable(),
   habilitations: z.object({
-    "jobs:write": z.boolean(),
-    "applications:write": z.boolean(),
-    "appointments:write": z.boolean(),
+    "jobs:write": z.boolean().default(false),
+    "applications:write": z.boolean().default(false),
+    "appointments:write": z.boolean().default(false),
   }),
 });
 
@@ -91,6 +91,6 @@ type ICreateApiAlternanceTokenParams = {
 export function createApiAlternanceToken({ data, privateKey }: ICreateApiAlternanceTokenParams): string {
   return jwt.sign(data, privateKey, {
     algorithm: "ES512",
-    expiresIn: "1h",
+    expiresIn: "1y",
   });
 }

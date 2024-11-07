@@ -91,6 +91,6 @@ type ICreateApiAlternanceTokenParams = {
 export function createApiAlternanceToken({ data, privateKey }: ICreateApiAlternanceTokenParams): string {
   return jwt.sign(data, privateKey, {
     algorithm: "ES512",
-    expiresIn: "1y",
+    expiresIn: "1h",
   });
 }

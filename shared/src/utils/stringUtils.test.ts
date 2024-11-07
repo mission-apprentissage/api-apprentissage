@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import { joinNonNullStrings } from "./stringUtils";
+import { joinNonNullStrings } from "./stringUtils.js";
 
 describe("stringUtils", () => {
   describe("joinNonNullStrings", () => {

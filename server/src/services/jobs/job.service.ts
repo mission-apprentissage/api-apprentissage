@@ -5,6 +5,8 @@ import type {
   IJobRecruiterLba,
   IJobSearchResponseLba,
 } from "api-alternance-sdk/internal";
+import joinNonNullStrings "shared/utils/stringUtils";
+
 
 function convertJobWorkplaceLbaToApi(input: IJobRecruiterLba | IJobOfferLba): IJobRecruiter["workplace"] {
   return {
@@ -16,7 +18,7 @@ function convertJobWorkplaceLbaToApi(input: IJobRecruiterLba | IJobOfferLba): IJ
     description: input.workplace_description,
     size: input.workplace_size,
     location: {
-      address: `${input.workplace_address_street_label ?? ""} ${input.workplace_address_zipcode ?? ""} ${input.workplace_address_city ?? ""}`.trim(),
+      address: joinNonNullStrings([input.workplace_address_street_labelconvertJobWorkplaceLbaToApi,input.workplace_address_zipcode,input.workplace_address_city]),
       geopoint: input.workplace_geopoint,
     },
     domain: {

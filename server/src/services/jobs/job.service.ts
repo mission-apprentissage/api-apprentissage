@@ -5,7 +5,7 @@ import type {
   IJobRecruiterLba,
   IJobSearchResponseLba,
 } from "api-alternance-sdk/internal";
-import joinNonNullStrings "shared/utils/stringUtils";
+import { joinNonNullStrings } from "shared/utils/stringUtils";
 
 
 function convertJobWorkplaceLbaToApi(input: IJobRecruiterLba | IJobOfferLba): IJobRecruiter["workplace"] {

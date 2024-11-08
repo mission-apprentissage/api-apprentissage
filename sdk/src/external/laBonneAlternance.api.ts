@@ -11,7 +11,7 @@ export const zJobRecruiterLba = z.object({
   workplace_website: zJobRecruiter.shape.workplace.shape.website,
   workplace_name: zJobRecruiter.shape.workplace.shape.name,
   workplace_description: zJobRecruiter.shape.workplace.shape.description,
-  workplace_size: zJobRecruiter.shape.workplace.shape.size,  
+  workplace_size: zJobRecruiter.shape.workplace.shape.size,
   workplace_address_label: zJobRecruiter.shape.workplace.shape.location.shape.address,
   workplace_address_street_label: z.string().nullable(),
   workplace_address_city: z.string().nullable(),

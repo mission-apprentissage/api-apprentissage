@@ -61,5 +61,5 @@ function runPlaybook() {
 if [[ -z "${CI:-}" ]]; then
   runPlaybook "$@"
 else
-  runPlaybook "$@" &> /tmp/deploy_error.log
+  runPlaybook "$@" &> /tmp/deploy.log
 fi;

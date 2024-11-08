@@ -7,9 +7,9 @@ export const zApiAlternanceTokenData = z.object({
   email: z.string().email(),
   organisation: z.string().nullable(),
   habilitations: z.object({
-    "jobs:write": z.boolean(),
-    "applications:write": z.boolean(),
-    "appointments:write": z.boolean(),
+    "jobs:write": z.boolean().default(false),
+    "applications:write": z.boolean().default(false),
+    "appointments:write": z.boolean().default(false),
   }),
 });
 

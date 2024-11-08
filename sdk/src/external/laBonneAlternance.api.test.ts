@@ -24,7 +24,7 @@ type IJobWorkplaceExpected = {
   workplace_name: string | null;
   workplace_description: string | null;
   workplace_size: string | null;
-  workplace_address_label: string | null;
+  workplace_address_label: string;
   workplace_address_street_label: string | null;
   workplace_address_city: string | null;
   workplace_address_zipcode: string | null;
@@ -115,6 +115,9 @@ type IJobOfferWritableExpected = {
 describe("IJobRecruiterLbaExpected", () => {
   it("should have proper typing", () => {
     expectTypeOf<IJobRecruiterLbaExpected>().branded.toEqualTypeOf<IJobRecruiterLba>();
+    expectTypeOf<IJobRecruiterLbaExpected["workplace_address_label"]>().branded.toEqualTypeOf<
+      IJobRecruiterLba["workplace_address_label"]
+    >();
   });
 });
 

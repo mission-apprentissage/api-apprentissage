@@ -115,9 +115,6 @@ type IJobOfferWritableExpected = {
 describe("IJobRecruiterLbaExpected", () => {
   it("should have proper typing", () => {
     expectTypeOf<IJobRecruiterLbaExpected>().branded.toEqualTypeOf<IJobRecruiterLba>();
-    expectTypeOf<IJobRecruiterLbaExpected["workplace_address_label"]>().branded.toEqualTypeOf<
-      IJobRecruiterLba["workplace_address_label"]
-    >();
   });
 });
 

@@ -160,7 +160,7 @@ describe("authenticationMiddleware", () => {
     };
 
     const now = new Date("2024-03-21T00:00:00Z");
-    const expiresAt = new Date("2024-09-17T00:00:00Z");
+    const expiresAt = new Date("2025-03-21T00:00:00Z");
 
     beforeEach(async () => {
       await generateApiKey("", otherUser);
@@ -222,7 +222,7 @@ describe("authenticationMiddleware", () => {
       vi.setSystemTime(tomorrow);
 
       const token2 = await generateApiKey("", user);
-      const expiresAt2 = new Date("2024-09-18T12:00:00Z");
+      const expiresAt2 = new Date("2025-03-22T12:00:00Z");
 
       const in2Days = new Date("2024-03-23T23:00:00Z");
       vi.setSystemTime(in2Days);

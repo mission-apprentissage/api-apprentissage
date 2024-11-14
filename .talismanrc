@@ -6,7 +6,7 @@ fileignoreconfig:
 - filename: .yarn/plugins/@yarnpkg/plugin-interactive-tools.cjs
   checksum: a663e9955c2825bee3af55be1ebd6e26cd0a17fe7c614a13d726ddd4c7959b82
 - filename: sdk/src/docs/models/job/offer_read.model.doc.ts
-  checksum: 774d4378e590dcc5a0f69a574a95401c6d139f1524b8895b58efe8409a3095d1
+  checksum: 99756953eb5b3ac5e1ef18cab25bc6f5a992afa8bf3d5c3a3687b27cb3ce321e
 - filename: sdk/src/docs/models/job/offer_write.model.doc.ts
   checksum: 6a4ccecc51aeea79268cf03a357e328c9e6b93edb1857093326da2e0cd7a82a8
 - filename: sdk/src/docs/models/job/recruiter.model.doc.ts

@@ -6,4 +6,4 @@ export const joinNonNullStrings = (values: (string | null | undefined)[]): strin
     .trim();
 
   return result || null;
-}
+};

@@ -31,8 +31,8 @@ const config = {
     },
   },
   api_key: {
-    // 3 mois
-    expiresIn: 180 * 24 * 60 * 60 * 1000,
+    // 1 an
+    expiresIn: 365 * 24 * 60 * 60 * 1000,
   },
   auth: {
     user: {

@@ -98,7 +98,7 @@ export const zJobOfferWritableLba = zJobOfferLba
     apply_email: z.string().email().nullable(),
 
     workplace_siret: z.string(),
-    workplace_address_label: z.string().nullable(),
+    workplace_address_label: z.string(),
     workplace_address_street_label: z.string().nullable(),
     workplace_address_city: z.string().nullable(),
     workplace_address_zipcode: z.string().nullable(),

@@ -1,4 +1,4 @@
-import { internal } from "@hapi/boom";
+import { internal, isBoom } from "@hapi/boom";
 import { isAxiosError } from "axios";
 import type { IInseeCollectiviteOutreMer, IInseeCommuneOutreMer } from "shared";
 import { zInseeCollectiviteOutreMer, zInseeCommuneOutreMer } from "shared";
@@ -27,11 +27,21 @@ export async function fetchCollectivitesOutreMer(): Promise<IInseeCollectiviteOu
     try {
       const { data } = await client.get("/metadonnees/V1/geo/collectivitesDOutreMer");
 
-      return zInseeCollectiviteOutreMer.array().parse(data);
+      return zInseeCollectiviteOutreMer
+        .array()
+        .parseAsync(data)
+        .catch((error) => {
+          throw internal("api.insee: unable to parse collectivitesDOutreMer", { data, error });
+        });
     } catch (error) {
+      if (isBoom(error)) {
+        throw error;
+      }
+
       if (isAxiosError(error)) {
         throw internal("api.insee: unable to fetchCollectivitesOutreMer", { data: error.toJSON() });
       }
+
       throw withCause(internal("api.insee: unable to fetchCollectivitesOutreMer"), error);
     }
   });
@@ -46,8 +56,17 @@ export async function fetchCommuneOutreMer(codeCollectivite: string): Promise<II
         },
       });
 
-      return zInseeCommuneOutreMer.array().parse(data);
+      return zInseeCommuneOutreMer
+        .array()
+        .parseAsync(data)
+        .catch((error) => {
+          throw internal("api.insee: unable to parse communeOutreMer", { data, error });
+        });
     } catch (error) {
+      if (isBoom(error)) {
+        throw error;
+      }
+
       if (isAxiosError(error)) {
         throw internal("api.insee: unable to fetchCommuneOutreMer", { data: error.toJSON() });
       }

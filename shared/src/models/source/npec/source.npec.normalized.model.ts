@@ -7,6 +7,7 @@ import { zObjectId } from "../../common.js";
 const collectionName = "source.npec.normalized" as const;
 
 const indexes: IModelDescriptorGeneric["indexes"] = [
+  [{ import_id: 1 }, {}],
   [{ date_import: 1, filename: 1 }, {}],
   [{ date_import: 1, filename: 1, rncp: 1, cpne_code: 1 }, { unique: true }],
   [{ rncp: 1, idcc: 1, date_file: -1, date_applicabilite: 1 }, {}],

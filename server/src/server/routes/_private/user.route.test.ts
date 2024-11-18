@@ -20,7 +20,7 @@ vi.mock("@/services/mailer/mailer", () => {
 useMongo();
 
 const now = new Date("2021-10-11T22:00:00.000+00:00");
-const in180Days = new Date("2022-04-09T22:00:00.000+00:00");
+const in365Days = new Date("2022-10-11T22:00:00.000+00:00");
 
 describe("User Routes", () => {
   let app: Server;
@@ -64,7 +64,7 @@ describe("User Routes", () => {
   });
 
   describe("POST /api/_private/user/api-key", () => {
-    it("should create new key with 6 months validity", async () => {
+    it("should create new key with 1 year validity", async () => {
       let userFromDb = await getDbCollection("users").findOne({ _id: user._id });
 
       expect(userFromDb?.api_keys).toHaveLength(0);
@@ -87,7 +87,7 @@ describe("User Routes", () => {
         _id: expect.any(String),
         name: "My key",
         last_used_at: null,
-        expires_at: in180Days.toJSON(),
+        expires_at: in365Days.toJSON(),
         created_at: now.toJSON(),
         value: expect.any(String),
       });
@@ -97,7 +97,7 @@ describe("User Routes", () => {
         {
           _id: expect.any(ObjectId),
           created_at: now,
-          expires_at: in180Days,
+          expires_at: in365Days,
           key: expect.any(String),
           last_used_at: null,
           name: "My key",
@@ -108,7 +108,9 @@ describe("User Routes", () => {
       expect(decodedToken).toEqual({
         _id: user._id.toString(),
         api_key: expect.any(String),
-        exp: in180Days.getTime() / 1000,
+        email: user.email,
+        organisation: null,
+        exp: in365Days.getTime() / 1000,
         iat: now.getTime() / 1000,
         iss: "api",
       });
@@ -222,7 +224,7 @@ describe("User Routes", () => {
           _id: expect.any(String),
           name: "key1",
           last_used_at: null,
-          expires_at: in180Days.toJSON(),
+          expires_at: in365Days.toJSON(),
           created_at: now.toJSON(),
           value: null,
         },
@@ -230,7 +232,7 @@ describe("User Routes", () => {
           _id: expect.any(String),
           name: "key2",
           last_used_at: null,
-          expires_at: in180Days.toJSON(),
+          expires_at: in365Days.toJSON(),
           created_at: now.toJSON(),
           value: null,
         },
@@ -238,7 +240,7 @@ describe("User Routes", () => {
           _id: expect.any(String),
           name: "key3",
           last_used_at: null,
-          expires_at: in180Days.toJSON(),
+          expires_at: in365Days.toJSON(),
           created_at: now.toJSON(),
           value: null,
         },
@@ -292,7 +294,7 @@ describe("User Routes", () => {
           _id: key1._id,
           name: "key1",
           last_used_at: null,
-          expires_at: in180Days,
+          expires_at: in365Days,
           created_at: now,
           key: key1.key,
         },
@@ -300,7 +302,7 @@ describe("User Routes", () => {
           _id: key3._id,
           name: "key3",
           last_used_at: null,
-          expires_at: in180Days,
+          expires_at: in365Days,
           created_at: now,
           key: key3.key,
         },

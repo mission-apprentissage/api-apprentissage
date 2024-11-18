@@ -10165,9 +10165,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"job-processor@npm:^1.6.3":
-  version: 1.6.3
-  resolution: "job-processor@npm:1.6.3"
+"job-processor@npm:^1.6.5":
+  version: 1.6.5
+  resolution: "job-processor@npm:1.6.5"
   dependencies:
     cron-parser: ^4.9.0
     date-fns: ^2.30.0
@@ -10190,7 +10190,7 @@ __metadata:
       optional: true
     react:
       optional: true
-  checksum: 80c12c7b1a583968400628662f5a0c3195bca2ffcaccf0ec37975f1091adecf83fdd0a9a178a7cc24d05ef488c47dd0a0c14052caa7fea3a0884371eebd5ab22
+  checksum: ae690a8f1bb168dfbe2792ae95aee8179ea9f8bba7d32a763b6a5a7dde7f034ea3156f08fb8cd371d03e3c8bb23126fecd37ade2318e60a26a641707cafce1aa
   languageName: node
   linkType: hard
 
@@ -15602,7 +15602,7 @@ __metadata:
     exceljs: ^4.4.0
     fastify: ^4.28.1
     fastify-type-provider-zod: ^2.1.0
-    job-processor: ^1.6.3
+    job-processor: ^1.6.5
     jsonwebtoken: ^9.0.2
     lil-http-terminator: ^1.2.3
     lodash-es: ^4.17.21
@@ -15716,7 +15716,7 @@ __metadata:
     "@types/node": ^22.5.5
     api-alternance-sdk: "workspace:^"
     bson: ^6.8.0
-    job-processor: ^1.6.3
+    job-processor: ^1.6.5
     lodash-es: ^4.17.21
     luhn: ^2.4.1
     luxon: ^3.5.0
@@ -17408,7 +17408,7 @@ __metadata:
     dotenv: ^16.4.5
     i18next: ^23.16.0
     i18next-resources-to-backend: ^1.2.1
-    job-processor: ^1.6.3
+    job-processor: ^1.6.5
     jwt-decode: ^4.0.0
     match-sorter: ^6.3.4
     mobx: ^6.13.3

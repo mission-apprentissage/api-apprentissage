@@ -4,7 +4,7 @@ import type { IJobOfferWritableLba, IJobSearchResponseLba } from "api-alternance
 import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
 import { generateOrganisationFixture } from "shared/models/fixtures/organisation.model.fixture";
 import { generateUserFixture } from "shared/models/fixtures/user.model.fixture";
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import config from "@/config.js";
 import { formatResponseError } from "@/server/middlewares/errorMiddleware.js";
@@ -13,10 +13,13 @@ import { createJobOfferLba, searchJobOpportunitiesLba, updateJobOfferLba } from 
 
 beforeEach(() => {
   disableNetConnect();
+  vi.useFakeTimers();
+  vi.setSystemTime(new Date("2024-11-01T00:00:00.000Z"));
 
   return () => {
     cleanAll();
     enableNetConnect();
+    vi.useRealTimers();
   };
 });
 
@@ -272,6 +275,30 @@ describe("searchJobOpportunities", () => {
       .reply(400, lbaError);
 
     const e = await searchJobOpportunitiesLba(query, user, null).catch((e) => e);
+    expect(e.isBoom).toBe(true);
+    expect(formatResponseError(e)).toEqual(expectedError);
+
+    expect(nock.isDone());
+  });
+
+  it("should throw client error on timeout", async () => {
+    const query: IJobSearchQuery = {};
+
+    const expectedError: IResError = {
+      message: "The server was unable to complete your request",
+      name: "Internal Server Error",
+      statusCode: 500,
+    };
+
+    nock("https://labonnealternance-recette.apprentissage.beta.gouv.fr/api")
+      .get("/v2/jobs/search")
+      .query(query)
+      .delay(30_000)
+      .reply(200, data);
+
+    const req = searchJobOpportunitiesLba(query, user, null).catch((e) => e);
+    vi.advanceTimersByTime(30_000);
+    const e = await req;
     expect(e.isBoom).toBe(true);
     expect(formatResponseError(e)).toEqual(expectedError);
 

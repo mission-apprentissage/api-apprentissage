@@ -115,7 +115,11 @@ export async function getEtablissementDiffusible(siret: string): Promise<ApiEntE
       });
       logger.debug(`api.entreprise: Fetched etablissement ${siret}`);
       if (!response?.data?.data) {
-        throw internal("api.entreprise: No etablissement data received");
+        throw internal("api.entreprise: No etablissement data received", {
+          data: response.data,
+          headers: response.headers,
+          status: response.status,
+        });
       }
       return response.data.data;
     } catch (error) {

@@ -64,7 +64,7 @@ const ProfilPage = ({ params: { lang } }: PropsWithLangParams) => {
           <CustomWidthTooltip
             title={
               <Box component="ul" sx={{ margin: fr.spacing("1w") }} className={fr.cx("fr-text--xs")}>
-                <li>Tous les jetons d'accès ont une durée de vie de 180 jours ;</li>
+                <li>Tous les jetons d'accès ont une durée de vie de 365 jours ;</li>
                 <li>1 mois avant l'expiration, vous serez invite à en créer un nouveau pour prolonger votre usage ;</li>
                 <li>
                   Vous avez la possibilité à tout moment de créer un nouveau jeton d'accès avec une nouvelle date

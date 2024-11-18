@@ -7,7 +7,7 @@ import type {
   IJobSearchResponseLba,
 } from "api-alternance-sdk/internal";
 import { zJobOfferCreateResponseLba, zJobSearchResponseLba } from "api-alternance-sdk/internal";
-import { isAxiosError } from "axios";
+import { AxiosError, isAxiosError } from "axios";
 import type { IOrganisation } from "shared/models/organisation.model";
 import type { IUser } from "shared/models/user.model";
 
@@ -15,7 +15,7 @@ import config from "@/config.js";
 import getApiClient from "@/services/apis/client.js";
 import { withCause } from "@/services/errors/withCause.js";
 
-const lbaClient = getApiClient({ baseURL: config.api.lba.endpoint }, { cache: false });
+const lbaClient = getApiClient({ baseURL: config.api.lba.endpoint, timeout: 30_000 }, { cache: false });
 
 function hasHabilitation(
   organisation: IOrganisation | null,
@@ -43,6 +43,10 @@ export function createAuthToken(user: IUser, organisation: IOrganisation | null)
 
 function convertLbaError(error: unknown): never {
   if (isAxiosError(error)) {
+    if (error.code === AxiosError.ECONNABORTED || error.code === AxiosError.ETIMEDOUT) {
+      throw withCause(internal("api.lba: LBA timeout"), error);
+    }
+
     const data = error.response?.data ?? null;
 
     switch (error.response?.status) {
@@ -56,10 +60,10 @@ function convertLbaError(error: unknown): never {
         throw conflict(data.message, data.data);
       default: {
         if (error.response?.status && error.response.status >= 500) {
-          throw internal("api.lba: LBA server error", data);
+          throw withCause(internal("api.lba: LBA server error", data), error);
         }
 
-        throw internal("api.lba: LBA client error", data);
+        throw withCause(internal("api.lba: LBA client error", data), error);
       }
     }
   }

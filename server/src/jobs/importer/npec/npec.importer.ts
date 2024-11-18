@@ -398,9 +398,8 @@ async function getUnprocessedImportMeta(
           captureException(internal("npec.importer: found an import meta for a resource that is still pending"));
         }
       } else {
-        captureException(
-          internal("npec.importer: found an import meta for a resource that is not in the dataset", { meta })
-        );
+        await getDbCollection("source.npec").deleteMany({ import_id: meta._id });
+        await getDbCollection("import.meta").deleteOne({ _id: meta._id });
       }
     }
 

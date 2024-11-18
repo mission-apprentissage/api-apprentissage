@@ -6,7 +6,7 @@ fileignoreconfig:
 - filename: .yarn/plugins/@yarnpkg/plugin-interactive-tools.cjs
   checksum: a663e9955c2825bee3af55be1ebd6e26cd0a17fe7c614a13d726ddd4c7959b82
 - filename: sdk/src/docs/models/job/offer_read.model.doc.ts
-  checksum: 774d4378e590dcc5a0f69a574a95401c6d139f1524b8895b58efe8409a3095d1
+  checksum: 99756953eb5b3ac5e1ef18cab25bc6f5a992afa8bf3d5c3a3687b27cb3ce321e
 - filename: sdk/src/docs/models/job/offer_write.model.doc.ts
   checksum: 6a4ccecc51aeea79268cf03a357e328c9e6b93edb1857093326da2e0cd7a82a8
 - filename: sdk/src/docs/models/job/recruiter.model.doc.ts
@@ -18,7 +18,7 @@ fileignoreconfig:
 - filename: server/src/jobs/importer/dares/ccn/fixtures/article.html
   checksum: ffeb0d8b299c63b63ced0ecbcc41f72be67e4ba4e28a13b763cfdf6670e76e9d
 - filename: shared/src/helpers/openapi/__snapshots__/generateOpenapi.test.ts.snap
-  checksum: 2463909dd3422d45d8f15ec7ebd39058d02bbd4d57ed1dfc6482a348fcc27152
+  checksum: df51c56819cac33d1a66bdf48ca095b501f15e299af4844c2e602de605ebc948
 - filename: ui/app/[lang]/explorer/certifications/page.tsx
   checksum: 79162968dc111206592c35c9bdbfc1babae88ad1390a190d6c7b5108ebb82b9d
 - filename: ui/app/[lang]/explorer/depot-offre/page.tsx

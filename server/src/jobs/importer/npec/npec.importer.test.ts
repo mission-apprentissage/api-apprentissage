@@ -145,7 +145,6 @@ describe("runRncpImporter", () => {
       initialImports[0],
       retryImportMeta,
       initialImports[2],
-      initialImports[3],
       newImportMeta,
     ]);
     expect(addJob).toHaveBeenCalledTimes(2);
@@ -159,12 +158,9 @@ describe("runRncpImporter", () => {
       payload: retryImportMeta,
       queued: true,
     });
-    expect(captureException).toHaveBeenCalledTimes(2);
+    expect(captureException).toHaveBeenCalledTimes(1);
     expect(captureException).toHaveBeenCalledWith(
       internal("npec.importer: found an import meta for a resource that is still pending")
-    );
-    expect(captureException).toHaveBeenCalledWith(
-      internal("npec.importer: found an import meta for a resource that is not in the dataset")
     );
   });
 });

@@ -28,7 +28,7 @@ export const offerReadModelDoc = {
       _: {
         id: {
           description: { en: "Identifier of the job offer in the La bonne alternance database.", fr: null },
-          examples: ["6687165396d52b5e01b409545 "],
+          examples: ["6687165396d52b5e01b409545"],
           notes: {
             en: "France Travail offers are not stored in the La bonne alternance database but are retrieved on the fly. They do not have an identifier in the database.",
             fr: null,

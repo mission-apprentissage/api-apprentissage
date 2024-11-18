@@ -29,7 +29,7 @@ type IJobWorkplaceExpected = {
     type: "Point";
     coordinates: [number, number];
   };
-  workplace_idcc: number | null;
+  workplace_idcc: string | null;
   workplace_opco: string | null;
   workplace_naf_code: string | null;
   workplace_naf_label: string | null;

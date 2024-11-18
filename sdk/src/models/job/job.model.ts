@@ -36,7 +36,7 @@ const zJobRecruiterWorkplace = zJobRecruiterWorkplaceWritable
     size: z.string().nullable(),
 
     domain: z.object({
-      idcc: z.number().nullable(),
+      idcc: z.string().nullable(),
       opco: z.string().nullable(),
       naf: z
         .object({
@@ -179,4 +179,4 @@ type IJobRecruiter = z.output<typeof zJobRecruiter>;
 
 export type { IJobOffer, IJobOfferWritable, IJobRecruiter };
 
-export { zJobRecruiter, zJobOffer, zJobOfferWritable };
+export { zJobOffer, zJobOfferWritable, zJobRecruiter };

@@ -23,7 +23,7 @@ type IJobRecruiterExpected = {
       };
     };
     domain: {
-      idcc: number | null;
+      idcc: string | null;
       opco: string | null;
       naf: null | {
         code: string;

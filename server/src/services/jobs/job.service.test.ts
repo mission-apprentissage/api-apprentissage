@@ -41,7 +41,6 @@ describe("convertJobSearchResponseLbaToApi", () => {
           workplace_address_city: "Paris",
           workplace_address_street_label: null,
           workplace_address_zipcode: null,
-          workplace_address_country: "France",
           workplace_brand: "Brand",
           workplace_description: "Workplace Description",
           workplace_geopoint: {
@@ -68,7 +67,6 @@ describe("convertJobSearchResponseLbaToApi", () => {
           workplace_address_city: "PARIS",
           workplace_address_street_label: "126 RUE DE L'UNIVERSITE",
           workplace_address_zipcode: "75007",
-          workplace_address_country: "France",
           workplace_brand: "ASSEMBLEE NATIONALE - La vraie",
           workplace_description: null,
           workplace_geopoint: {
@@ -303,7 +301,6 @@ describe("convertJobOfferWritableApiToLba", () => {
       workplace_address_city: null,
       workplace_address_street_label: null,
       workplace_address_zipcode: null,
-      workplace_address_country: "France",
       apply_url: "https://postler.com",
       apply_phone: "0300000000",
       apply_email: "mail@mail.com",
@@ -389,7 +386,6 @@ describe("convertJobOfferWritableApiToLba", () => {
       workplace_address_city: null,
       workplace_address_street_label: null,
       workplace_address_zipcode: null,
-      workplace_address_country: "France",
       apply_url: "https://postler.com",
       apply_phone: "0300000000",
       apply_email: "mail@mail.com",

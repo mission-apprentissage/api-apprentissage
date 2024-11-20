@@ -10,6 +10,7 @@ import {
 } from "api-alternance-sdk/internal";
 import type { PathsObject, SecurityRequirementObject } from "openapi3-ts/oas31";
 import { OpenApiBuilder } from "openapi3-ts/oas31";
+import type { AnyZodObject } from "zod";
 
 import { registerCertificationRoutes } from "../../routes/certification.routes.js";
 import type { IRouteSchema, IRoutesDef } from "../../routes/common.routes.js";
@@ -52,8 +53,8 @@ function generateOpenApiRequest(route: IRouteSchema): RouteConfig["request"] {
   if (route.params) {
     requestParams.params = route.params;
   }
-  if (route.querystring) {
-    requestParams.query = route.querystring;
+  if (route.querystring && route.querystring._def.typeName !== "ZodUnknown") {
+    requestParams.query = route.querystring as AnyZodObject;
   }
   if (route.headers) {
     requestParams.headers = route.headers;

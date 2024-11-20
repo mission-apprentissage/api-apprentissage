@@ -85,7 +85,7 @@
     "@types/unzipper": "^0.10.10",
     "archiver": "^7.0.1",
     "csv-stringify": "^6.5.1",
-    "nock": "^13.5.5",
+    "nock": "^14.0.0-beta.16",
     "tsup": "^8.3.0",
     "typescript": "^5.6.3",
     "vitest": "^2.1.3"

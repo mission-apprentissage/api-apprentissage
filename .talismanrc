@@ -18,7 +18,7 @@ fileignoreconfig:
 - filename: server/src/jobs/importer/dares/ccn/fixtures/article.html
   checksum: ffeb0d8b299c63b63ced0ecbcc41f72be67e4ba4e28a13b763cfdf6670e76e9d
 - filename: shared/src/helpers/openapi/__snapshots__/generateOpenapi.test.ts.snap
-  checksum: df51c56819cac33d1a66bdf48ca095b501f15e299af4844c2e602de605ebc948
+  checksum: a5055a921ec73a0ebd7a9cee510ccb4d8aa1e43514f5720660c741bad372c916
 - filename: ui/app/[lang]/explorer/certifications/page.tsx
   checksum: 79162968dc111206592c35c9bdbfc1babae88ad1390a190d6c7b5108ebb82b9d
 - filename: ui/app/[lang]/explorer/depot-offre/page.tsx

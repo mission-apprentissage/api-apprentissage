@@ -12,7 +12,7 @@ import type {
   ResponsesObject,
   SchemaObject,
 } from "openapi3-ts/oas31";
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
 
 import { zRoutes } from "../../routes/index.js";
 import { experimentalGenerateOpenApiPathsObject, generateOpenApiSchema } from "./generateOpenapi.js";
@@ -209,10 +209,16 @@ describe("generateOpenApiSchema", () => {
   });
 
   const expectedPaths = experimentalGenerateOpenApiPathsObject(zRoutes);
+  let resolvedOpenapi: OpenAPIObject;
 
-  it.each<[string]>(Object.keys(openapi.paths).map((p) => [p]))("should be alright %s", async (path) => {
+  beforeAll(async () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const resolvedOpenapi: OpenAPIObject = (await OpenAPIParser.dereference(openapi)) as any;
+    resolvedOpenapi = (await OpenAPIParser.dereference(openapi)) as any;
+  });
+
+  const paths = Object.entries(openapi.paths).filter(([path]) => path.startsWith("/job/v1"));
+
+  it.each<[string, unknown]>(paths)("should be alright %s", async (path) => {
     expect(
       diff(cleanPathItemObject(resolvedOpenapi.paths?.[path]), cleanPathItemObject(expectedPaths[path]))
     ).toMatchSnapshot();

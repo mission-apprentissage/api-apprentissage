@@ -1,9 +1,9 @@
 import type { oas31 } from "openapi3-ts";
-import type { AnyZodObject, ZodType } from "zod";
+import type { AnyZodObject, ZodType, ZodUnknown } from "zod";
 
 export interface IApiRouteSchemaCommon {
   path: string;
-  querystring?: AnyZodObject;
+  querystring?: AnyZodObject | ZodUnknown;
   headers?: AnyZodObject;
   params?: AnyZodObject;
   response: { [statuscode: `${1 | 2 | 3 | 4 | 5}${string}`]: ZodType };

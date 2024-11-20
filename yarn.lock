@@ -1511,9 +1511,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mswjs/interceptors@npm:^0.36.4":
-  version: 0.36.4
-  resolution: "@mswjs/interceptors@npm:0.36.4"
+"@mswjs/interceptors@npm:^0.36.6":
+  version: 0.36.10
+  resolution: "@mswjs/interceptors@npm:0.36.10"
   dependencies:
     "@open-draft/deferred-promise": ^2.2.0
     "@open-draft/logger": ^0.3.0
@@ -1521,7 +1521,7 @@ __metadata:
     is-node-process: ^1.2.0
     outvariant: ^1.4.3
     strict-event-emitter: ^0.5.1
-  checksum: 60c5278bce72eea9c97d2f96457bbf17b6633e4406a98b12166d5daedb5b6d28d4d229dfd4787d5f7789e8f6826adacbecee3caf76ea7e758f03879bb578f674
+  checksum: e4d22f66782c911836c2b7370b8782ad2466d7f781e96703727b736caede29cc80f31cfbdcb5c4f44faf8737d321db1cbd5367dbd179cd213852a27f586f3cc9
   languageName: node
   linkType: hard
 
@@ -4672,7 +4672,7 @@ __metadata:
     jsonwebtoken: ^9.0.2
     luhn: ^2.4.1
     luxon: ^3.5.0
-    nock: ^14.0.0-beta.15
+    nock: ^14.0.0-beta.16
     openapi3-ts: ^4.4.0
     type-fest: ^4.26.1
     typescript: ^5.6.3
@@ -12801,25 +12801,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nock@npm:^13.5.5":
-  version: 13.5.5
-  resolution: "nock@npm:13.5.5"
+"nock@npm:^14.0.0-beta.16":
+  version: 14.0.0-beta.16
+  resolution: "nock@npm:14.0.0-beta.16"
   dependencies:
-    debug: ^4.1.0
+    "@mswjs/interceptors": ^0.36.6
     json-stringify-safe: ^5.0.1
     propagate: ^2.0.0
-  checksum: 91947b683992096a694140714323f11493b8ad9961c172e3e574c4801131fea259755e95c48e7e01527c14209967c20f151ff03b6bf6700471f0f76fa4071d32
-  languageName: node
-  linkType: hard
-
-"nock@npm:^14.0.0-beta.15":
-  version: 14.0.0-beta.15
-  resolution: "nock@npm:14.0.0-beta.15"
-  dependencies:
-    "@mswjs/interceptors": ^0.36.4
-    json-stringify-safe: ^5.0.1
-    propagate: ^2.0.0
-  checksum: df78dbe472006a72ff82cc474a7793cdfb2937aa271a99f117833824d354ec85d9005bca50b080cc1a5c17e06874965997c512b7d94ac4e8e8db592d760ac126
+  checksum: 723577acbe4192f1a069ba7c1fa997cf35d8923627767bd8ee1ac10befe8adae800c18b8a94ea697d6c28c65c02a61d3f5ee9434516056594c9fa46abf6640f4
   languageName: node
   linkType: hard
 
@@ -15610,7 +15599,7 @@ __metadata:
     migrate-mongo: ^11.0.0
     mjml: ^4.15.3
     mongodb: ^6.9.0
-    nock: ^13.5.5
+    nock: ^14.0.0-beta.16
     node-html-parser: ^6.1.13
     nodemailer: ^6.9.15
     nodemailer-html-to-text: ^3.2.0

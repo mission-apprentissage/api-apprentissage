@@ -9,7 +9,7 @@ import HttpTerminator from "lil-http-terminator";
 import config from "./config.js";
 import createServer from "./server/server.js";
 import { closeMemoryCache } from "./services/apis/client.js";
-import { createAuthToken } from "./services/apis/lba/lba.api.js";
+import { createAuthToken } from "./services/forward/forwardApi.service.js";
 import logger from "./services/logger.js";
 import { closeMailer } from "./services/mailer/mailer.js";
 import { closeMongodbConnection, getDbCollection } from "./services/mongodb/mongodbService.js";
@@ -229,17 +229,18 @@ program
   .command("debug:auth:token")
   .description("Create a LBA API token")
   .requiredOption("-e, --email <string>", "User email to create the token for")
-  .action(async ({ email }) => {
+  .option("-t, --ttl <string>", "Expiration time", "1y")
+  .action(async ({ email, expiresIn }) => {
     const user = await getDbCollection("users").findOne({ email });
 
     if (!user) {
       program.error(`User with email ${email} not found`);
     }
 
-    const org =
+    const organisation =
       user.organisation === null ? null : await getDbCollection("organisations").findOne({ nom: user.organisation });
 
-    const token = createAuthToken(user, org);
+    const token = createAuthToken({ user, organisation }, expiresIn);
     logger.info({ token });
 
     logger.info(parseApiAlternanceToken({ token, publicKey: config.api.alternance.public_cert }));

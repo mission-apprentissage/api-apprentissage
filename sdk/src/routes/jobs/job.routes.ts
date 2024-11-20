@@ -1,38 +1,15 @@
 import { z } from "zod";
 
-import { zJobOfferCreateResponseLba } from "../../external/laBonneAlternance.api.js";
-import { zRncp } from "../../models/internal.js";
-import { zJobOffer, zJobOfferWritable, zJobRecruiter } from "../../models/job/job.model.js";
-import { zLatitudeCoerce, zLongitudeCoerce, zOfferTargetDiplomaLevel } from "../../models/job/job.primitives.js";
 import type { IApiRoutesDef } from "../common.routes.js";
-
-export const zJobSearchQuery = z.object({
-  longitude: zLongitudeCoerce.optional(),
-  latitude: zLatitudeCoerce.optional(),
-  radius: z.coerce.number().min(0).max(200).default(30).optional(),
-  target_diploma_level: zOfferTargetDiplomaLevel.optional(),
-  romes: z.string().optional(),
-  rncp: zRncp.optional(),
-});
-
-export type IJobSearchQuery = z.output<typeof zJobSearchQuery>;
-
-export const zJobSearchResponse = z.object({
-  jobs: zJobOffer.array(),
-  recruiters: zJobRecruiter.array(),
-  warnings: z.array(z.object({ message: z.string(), code: z.string() })),
-});
-
-export type IJobSearchResponse = z.output<typeof zJobSearchResponse>;
 
 export const zApiJobRoutes = {
   get: {
     "/job/v1/search": {
       method: "get",
       path: "/job/v1/search",
-      querystring: zJobSearchQuery,
+      querystring: z.unknown(),
       response: {
-        "200": zJobSearchResponse,
+        "200": z.unknown(),
       },
       openapi: {
         tags: ["Job"] as string[],
@@ -47,9 +24,9 @@ export const zApiJobRoutes = {
     "/job/v1/offer": {
       method: "post",
       path: "/job/v1/offer",
-      body: zJobOfferWritable,
+      body: z.unknown(),
       response: {
-        "200": zJobOfferCreateResponseLba,
+        "200": z.unknown(),
       },
       openapi: {
         tags: ["Job"] as string[],
@@ -64,9 +41,9 @@ export const zApiJobRoutes = {
       method: "put",
       path: "/job/v1/offer/:id",
       params: z.object({ id: z.string() }),
-      body: zJobOfferWritable,
+      body: z.unknown(),
       response: {
-        "204": z.null(),
+        "204": z.unknown(),
       },
       openapi: {
         tags: ["Job"] as string[],

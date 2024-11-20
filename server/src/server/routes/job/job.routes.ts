@@ -1,8 +1,8 @@
 import { zRoutes } from "shared";
 
+import config from "@/config.js";
 import type { Server } from "@/server/server.js";
-import { createJobOfferLba, searchJobOpportunitiesLba, updateJobOfferLba } from "@/services/apis/lba/lba.api.js";
-import { convertJobOfferWritableApiToLba, convertJobSearchResponseLbaToApi } from "@/services/jobs/job.service.js";
+import { forwardApiRequest } from "@/services/forward/forwardApi.service.js";
 import { getUserFromRequest } from "@/services/security/authenticationService.js";
 
 export const jobRoutes = ({ server }: { server: Server }) => {
@@ -14,9 +14,18 @@ export const jobRoutes = ({ server }: { server: Server }) => {
     },
     async (request, response) => {
       const user = getUserFromRequest(request, zRoutes.get["/job/v1/search"]);
-      const lbaResponse = await searchJobOpportunitiesLba(request.query, user, request.organisation ?? null);
+      const querystring = new URL(request.url, config.apiPublicUrl).search;
 
-      return response.status(200).send(convertJobSearchResponseLbaToApi(lbaResponse));
+      return forwardApiRequest(
+        {
+          endpoint: config.api.lba.endpoint,
+          path: "/v3/jobs/search",
+          querystring,
+          requestInit: { method: "GET" },
+        },
+        response,
+        { user, organisation: request.organisation ?? null }
+      );
     }
   );
 
@@ -28,13 +37,16 @@ export const jobRoutes = ({ server }: { server: Server }) => {
     },
     async (request, response) => {
       const user = getUserFromRequest(request, zRoutes.post["/job/v1/offer"]);
-      const result = await createJobOfferLba(
-        convertJobOfferWritableApiToLba(request.body),
-        user,
-        request.organisation ?? null
-      );
 
-      return response.status(200).send(result);
+      return forwardApiRequest(
+        {
+          endpoint: config.api.lba.endpoint,
+          path: "/v3/jobs",
+          requestInit: { method: "POST", body: JSON.stringify(request.body) },
+        },
+        response,
+        { user, organisation: request.organisation ?? null }
+      );
     }
   );
 
@@ -46,14 +58,16 @@ export const jobRoutes = ({ server }: { server: Server }) => {
     },
     async (request, response) => {
       const user = getUserFromRequest(request, zRoutes.put["/job/v1/offer/:id"]);
-      await updateJobOfferLba(
-        request.params.id,
-        convertJobOfferWritableApiToLba(request.body),
-        user,
-        request.organisation ?? null
-      );
 
-      return response.status(204).send();
+      return forwardApiRequest(
+        {
+          endpoint: config.api.lba.endpoint,
+          path: `/v3/jobs/${encodeURIComponent(request.params.id)}`,
+          requestInit: { method: "PUT", body: JSON.stringify(request.body) },
+        },
+        response,
+        { user, organisation: request.organisation ?? null }
+      );
     }
   );
 };

@@ -6,11 +6,7 @@ const { JsonWebTokenError, TokenExpiredError } = jwt;
 export const zApiAlternanceTokenData = z.object({
   email: z.string().email(),
   organisation: z.string().nullable(),
-  habilitations: z.object({
-    "jobs:write": z.boolean().default(false),
-    "applications:write": z.boolean().default(false),
-    "appointments:write": z.boolean().default(false),
-  }),
+  habilitations: z.record(z.string(), z.boolean()),
 });
 
 export type IApiAlternanceTokenData = z.output<typeof zApiAlternanceTokenData>;
@@ -86,11 +82,12 @@ export function parseApiAlternanceToken(params: IParseApiAlternanceTokenParams):
 type ICreateApiAlternanceTokenParams = {
   data: IApiAlternanceTokenData;
   privateKey: string;
+  expiresIn?: string | null;
 };
 
-export function createApiAlternanceToken({ data, privateKey }: ICreateApiAlternanceTokenParams): string {
+export function createApiAlternanceToken({ data, privateKey, expiresIn }: ICreateApiAlternanceTokenParams): string {
   return jwt.sign(data, privateKey, {
     algorithm: "ES512",
-    expiresIn: "1h",
+    expiresIn: expiresIn || "1h",
   });
 }

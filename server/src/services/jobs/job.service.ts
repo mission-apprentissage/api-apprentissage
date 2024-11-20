@@ -5,6 +5,7 @@ import type {
   IJobRecruiterLba,
   IJobSearchResponseLba,
 } from "api-alternance-sdk/internal";
+import { joinNonNullStrings } from "shared/utils/stringUtils";
 
 function convertJobWorkplaceLbaToApi(input: IJobRecruiterLba | IJobOfferLba): IJobRecruiter["workplace"] {
   return {
@@ -16,7 +17,12 @@ function convertJobWorkplaceLbaToApi(input: IJobRecruiterLba | IJobOfferLba): IJ
     description: input.workplace_description,
     size: input.workplace_size,
     location: {
-      address: input.workplace_address_label,
+      address:
+        joinNonNullStrings([
+          input.workplace_address_street_label,
+          input.workplace_address_zipcode,
+          input.workplace_address_city,
+        ]) || input.workplace_address_label,
       geopoint: input.workplace_geopoint,
     },
     domain: {
@@ -113,6 +119,9 @@ export function convertJobOfferWritableApiToLba(jobOffer: IJobOfferWritable): IJ
   }
   if (jobOffer.workplace.location != null) {
     result.workplace_address_label = jobOffer.workplace.location.address;
+    result.workplace_address_street_label = null; // TODO
+    result.workplace_address_city = null; // TODO
+    result.workplace_address_zipcode = null; // TODO
   }
 
   if (jobOffer.apply.url != null) {

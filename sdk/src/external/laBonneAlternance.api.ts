@@ -13,6 +13,9 @@ export const zJobRecruiterLba = z.object({
   workplace_description: zJobRecruiter.shape.workplace.shape.description,
   workplace_size: zJobRecruiter.shape.workplace.shape.size,
   workplace_address_label: zJobRecruiter.shape.workplace.shape.location.shape.address,
+  workplace_address_street_label: z.string().nullable(),
+  workplace_address_city: z.string().nullable(),
+  workplace_address_zipcode: z.string().nullable(),
   workplace_geopoint: zJobRecruiter.shape.workplace.shape.location.shape.geopoint,
   workplace_idcc: zJobRecruiter.shape.workplace.shape.domain.shape.idcc,
   workplace_opco: zJobRecruiter.shape.workplace.shape.domain.shape.opco,
@@ -94,7 +97,10 @@ export const zJobOfferWritableLba = zJobOfferLba
     apply_email: z.string().email().nullable(),
 
     workplace_siret: z.string(),
-    workplace_address_label: z.string().nullable(),
+    workplace_address_label: z.string(),
+    workplace_address_street_label: z.string().nullable(),
+    workplace_address_city: z.string().nullable(),
+    workplace_address_zipcode: z.string().nullable(),
   })
   .partial()
   .required({

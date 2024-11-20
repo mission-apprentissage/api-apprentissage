@@ -5,6 +5,7 @@ import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
 import { generateOrganisationFixture } from "shared/models/fixtures/organisation.model.fixture";
 import { generateUserFixture } from "shared/models/fixtures/user.model.fixture";
 import { beforeEach, describe, expect, it } from "vitest";
+import { gzipSync } from "zlib";
 
 import config from "@/config.js";
 import { errorMiddleware } from "@/server/middlewares/errorMiddleware.js";
@@ -167,7 +168,7 @@ describe("forwardApi.service", () => {
     expect.soft(response.json()).toEqual(responseBody);
   });
 
-  it("should pass headers", async () => {
+  it("should support content-type header", async () => {
     const responseBody = "hello world";
 
     app.get("/test", async (req, reply) => {
@@ -193,7 +194,6 @@ describe("forwardApi.service", () => {
       .matchHeader("Authorization", nockMatchBasicUserAuthorization)
       .reply(200, responseBody, {
         "content-type": "text/plain",
-        "x-rate-limit": "100",
       });
 
     const response = await app.inject({
@@ -207,7 +207,51 @@ describe("forwardApi.service", () => {
     expect.soft(response.statusCode).toBe(200);
     expect.soft(response.headers).toMatchObject({
       "content-type": "text/plain",
-      "x-rate-limit": "100",
+    });
+    expect.soft(response.body).toEqual(responseBody);
+  });
+
+  it("should support GZIP encoded response", async () => {
+    const responseBody = JSON.stringify({ message: "hello world" });
+    const compressedResponse = gzipSync(responseBody);
+
+    app.get("/test", async (req, reply) => {
+      const querystring = new URL(req.url, config.apiPublicUrl).search;
+
+      await forwardApiRequest(
+        {
+          endpoint: baseUrl,
+          path: "/v3/jobs/search",
+          querystring,
+          requestInit: {
+            method: "GET",
+          },
+        },
+        reply,
+        { user: basicUser, organisation: null }
+      );
+    });
+
+    nock(baseUrl)
+      .get("/v3/jobs/search")
+      .query({ param: "value" })
+      .matchHeader("Authorization", nockMatchBasicUserAuthorization)
+      .reply(200, compressedResponse, {
+        "content-type": "application/json",
+        "content-encoding": "gzip",
+      });
+
+    const response = await app.inject({
+      method: "GET",
+      url: "/test",
+      query: {
+        param: "value",
+      },
+    });
+
+    expect.soft(response.statusCode).toBe(200);
+    expect.soft(response.headers).toMatchObject({
+      "content-type": "application/json",
     });
     expect.soft(response.body).toEqual(responseBody);
   });

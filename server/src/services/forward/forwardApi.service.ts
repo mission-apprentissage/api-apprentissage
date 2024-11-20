@@ -1,6 +1,7 @@
 import { internal } from "@hapi/boom";
 import { createApiAlternanceToken } from "api-alternance-sdk";
 import type { FastifyReply } from "fastify";
+import type { HttpHeader } from "fastify/types/utils.js";
 import type { IOrganisation } from "shared/models/organisation.model";
 import type { IUser } from "shared/models/user.model";
 
@@ -50,6 +51,7 @@ async function getResponse(request: ForwardApiRequestConfig, identity: Identity)
 
     const headers =
       request.requestInit instanceof Headers ? request.requestInit : new Headers(request.requestInit.headers);
+
     headers.append("Authorization", createAuthToken(identity));
 
     const response = await fetch(url, { ...request.requestInit, headers });
@@ -75,5 +77,13 @@ export async function forwardApiRequest(
 ): Promise<FastifyReply> {
   const response = await getResponse(request, identity);
 
-  return reply.send(response);
+  // We cannot pass directly the headers to the reply.headers
+  // Indeed response headers includes conflictual headers like content-enconding
+  const responseHeaders: Partial<Record<HttpHeader, string>> = {};
+
+  if (response.headers.has("content-type")) {
+    responseHeaders["content-type"] = response.headers.get("content-type")!;
+  }
+
+  return reply.status(response.status).headers(responseHeaders).send(response.body);
 }

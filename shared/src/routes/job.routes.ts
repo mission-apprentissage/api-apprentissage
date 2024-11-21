@@ -53,7 +53,7 @@ export function registerJobRoutes(builder: OpenApiBuilder, lang: "en" | "fr"): O
           parameters: [
             {
               schema: {
-                type: ["number", "null"],
+                type: "number",
                 minimum: -180,
                 maximum: 180,
               },
@@ -63,7 +63,7 @@ export function registerJobRoutes(builder: OpenApiBuilder, lang: "en" | "fr"): O
             },
             {
               schema: {
-                type: ["number", "null"],
+                type: "number",
                 minimum: -90,
                 maximum: 90,
               },
@@ -73,7 +73,7 @@ export function registerJobRoutes(builder: OpenApiBuilder, lang: "en" | "fr"): O
             },
             {
               schema: {
-                type: ["number", "null"],
+                type: "number",
                 minimum: 0,
                 maximum: 200,
                 default: 30,

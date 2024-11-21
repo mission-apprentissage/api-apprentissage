@@ -3,233 +3,281 @@
 exports[`generateOpenApiSchema > should be alright /job/v1/offer 1`] = `
 [
   {
-    "oldValue": "object",
-    "path": [
-      "post",
-      "requestBody",
-      "content",
-      "application/json",
-      "schema",
-      "type",
-    ],
-    "type": "REMOVE",
-  },
-  {
     "oldValue": {
-      "apply": {
-        "properties": {
-          "email": {
-            "format": "email",
-            "type": [
-              "string",
-              "null",
-            ],
+      "_": "schema",
+      "properties": {
+        "apply": {
+          "_": "schema",
+          "properties": {
+            "email": {
+              "_": "schema",
+              "format": "email",
+              "type": [
+                "string",
+                "null",
+              ],
+            },
+            "phone": {
+              "_": "schema",
+              "type": [
+                "string",
+                "null",
+              ],
+            },
+            "url": {
+              "_": "schema",
+              "format": "uri",
+              "type": [
+                "string",
+                "null",
+              ],
+            },
           },
-          "phone": {
-            "type": [
-              "string",
-              "null",
-            ],
-          },
-          "url": {
-            "format": "uri",
-            "type": [
-              "string",
-              "null",
-            ],
-          },
+          "type": "object",
         },
-        "type": "object",
-      },
-      "contract": {
-        "properties": {
-          "duration": {
-            "type": [
-              "number",
-              "null",
-            ],
-          },
-          "remote": {
-            "enum": [
-              "onsite",
-              "remote",
-              "hybrid",
-            ],
-            "type": [
-              "string",
-              "null",
-            ],
-          },
-          "start": {
-            "format": "date-time",
-            "type": [
-              "string",
-              "null",
-            ],
-          },
-          "type": {
-            "items": {
+        "contract": {
+          "_": "schema",
+          "properties": {
+            "duration": {
+              "_": "schema",
+              "minimum": 0,
+              "type": [
+                "integer",
+                "null",
+              ],
+            },
+            "remote": {
+              "_": "schema",
               "enum": [
+                "onsite",
+                "remote",
+                "hybrid",
+              ],
+              "type": [
+                "string",
+                "null",
+              ],
+            },
+            "start": {
+              "_": "schema",
+              "default": [
                 "Apprentissage",
                 "Professionnalisation",
               ],
-              "type": "string",
+              "format": "date-time",
+              "type": [
+                "string",
+                "null",
+              ],
             },
-            "type": "array",
-          },
-        },
-        "type": "object",
-      },
-      "identifier": {
-        "properties": {
-          "partner_job_id": {
-            "type": [
-              "string",
-              "null",
-            ],
-          },
-        },
-        "type": "object",
-      },
-      "offer": {
-        "properties": {
-          "access_conditions": {
-            "items": {
-              "type": "string",
-            },
-            "type": "array",
-          },
-          "description": {
-            "minLength": 30,
-            "type": "string",
-          },
-          "desired_skills": {
-            "items": {
-              "type": "string",
-            },
-            "type": "array",
-          },
-          "multicast": {
-            "type": "boolean",
-          },
-          "opening_count": {
-            "type": "number",
-          },
-          "origin": {
-            "type": [
-              "string",
-              "null",
-            ],
-          },
-          "publication": {
-            "properties": {
-              "creation": {
-                "format": "date-time",
-                "type": [
-                  "string",
-                  "null",
-                ],
-              },
-              "expiration": {
-                "format": "date-time",
-                "type": [
-                  "string",
-                  "null",
-                ],
-              },
-            },
-            "type": "object",
-          },
-          "rome_codes": {
-            "items": {
-              "pattern": "^[A-Z]{1}\\d{4}$",
-              "type": "string",
-            },
-            "type": "array",
-          },
-          "target_diploma": {
-            "properties": {
-              "european": {
+            "type": {
+              "_": "schema",
+              "items": {
+                "_": "schema",
                 "enum": [
-                  "3",
-                  "4",
-                  "5",
-                  "6",
-                  "7",
+                  "Apprentissage",
+                  "Professionnalisation",
                 ],
                 "type": "string",
               },
+              "type": "array",
             },
-            "required": [
-              "european",
-            ],
-            "type": [
-              "object",
-              "null",
-            ],
           },
-          "title": {
-            "minLength": 3,
-            "type": "string",
-          },
-          "to_be_acquired_skills": {
-            "items": {
-              "type": "string",
-            },
-            "type": "array",
-          },
+          "type": "object",
         },
-        "required": [
-          "description",
-          "title",
-        ],
-        "type": "object",
-      },
-      "workplace": {
-        "properties": {
-          "description": {
-            "type": [
-              "string",
-              "null",
-            ],
+        "identifier": {
+          "_": "schema",
+          "properties": {
+            "partner_job_id": {
+              "_": "schema",
+              "type": [
+                "string",
+                "null",
+              ],
+            },
           },
-          "location": {
-            "properties": {
-              "address": {
+          "type": "object",
+        },
+        "offer": {
+          "_": "schema",
+          "properties": {
+            "access_conditions": {
+              "_": "schema",
+              "default": [],
+              "items": {
+                "_": "schema",
                 "type": "string",
               },
+              "type": "array",
             },
-            "required": [
-              "address",
-            ],
-            "type": [
-              "object",
-              "null",
-            ],
+            "description": {
+              "_": "schema",
+              "minLength": 30,
+              "type": "string",
+            },
+            "desired_skills": {
+              "_": "schema",
+              "default": [],
+              "items": {
+                "_": "schema",
+                "type": "string",
+              },
+              "type": "array",
+            },
+            "multicast": {
+              "_": "schema",
+              "default": true,
+              "type": "boolean",
+            },
+            "opening_count": {
+              "_": "schema",
+              "default": 1,
+              "type": "number",
+            },
+            "origin": {
+              "_": "schema",
+              "type": [
+                "string",
+                "null",
+              ],
+            },
+            "publication": {
+              "_": "schema",
+              "properties": {
+                "creation": {
+                  "_": "schema",
+                  "format": "date-time",
+                  "type": [
+                    "string",
+                    "null",
+                  ],
+                },
+                "expiration": {
+                  "_": "schema",
+                  "format": "date-time",
+                  "type": [
+                    "string",
+                    "null",
+                  ],
+                },
+              },
+              "type": "object",
+            },
+            "rome_codes": {
+              "_": "schema",
+              "items": {
+                "_": "schema",
+                "pattern": "^[A-Z]\\d{4}$",
+                "type": "string",
+              },
+              "type": [
+                "array",
+                "null",
+              ],
+            },
+            "target_diploma": {
+              "_": "schema",
+              "properties": {
+                "european": {
+                  "_": "schema",
+                  "enum": [
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                  ],
+                  "type": [
+                    "string",
+                    "null",
+                  ],
+                },
+              },
+              "type": [
+                "object",
+                "null",
+              ],
+            },
+            "title": {
+              "_": "schema",
+              "minLength": 3,
+              "type": "string",
+            },
+            "to_be_acquired_skills": {
+              "_": "schema",
+              "default": [],
+              "items": {
+                "_": "schema",
+                "type": "string",
+              },
+              "type": "array",
+            },
           },
-          "name": {
-            "type": [
-              "string",
-              "null",
-            ],
-          },
-          "siret": {
-            "pattern": "^\\d{9,14}$",
-            "type": "string",
-          },
-          "website": {
-            "format": "uri",
-            "type": [
-              "string",
-              "null",
-            ],
-          },
+          "required": [
+            "description",
+            "title",
+          ],
+          "type": "object",
         },
-        "required": [
-          "siret",
-        ],
-        "type": "object",
+        "workplace": {
+          "_": "schema",
+          "properties": {
+            "description": {
+              "_": "schema",
+              "type": [
+                "string",
+                "null",
+              ],
+            },
+            "location": {
+              "_": "schema",
+              "properties": {
+                "address": {
+                  "_": "schema",
+                  "type": [
+                    "string",
+                    "null",
+                  ],
+                },
+              },
+              "type": [
+                "object",
+                "null",
+              ],
+            },
+            "name": {
+              "_": "schema",
+              "type": [
+                "string",
+                "null",
+              ],
+            },
+            "siret": {
+              "_": "schema",
+              "pattern": "^\\d{14}$",
+              "type": "string",
+            },
+            "website": {
+              "_": "schema",
+              "format": "uri",
+              "type": [
+                "string",
+                "null",
+              ],
+            },
+          },
+          "required": [
+            "siret",
+          ],
+          "type": "object",
+        },
       },
+      "required": [
+        "apply",
+        "offer",
+        "workplace",
+      ],
+      "type": "object",
     },
     "path": [
       "post",
@@ -237,44 +285,22 @@ exports[`generateOpenApiSchema > should be alright /job/v1/offer 1`] = `
       "content",
       "application/json",
       "schema",
-      "properties",
-    ],
-    "type": "REMOVE",
-  },
-  {
-    "oldValue": [
-      "apply",
-      "offer",
-      "workplace",
-    ],
-    "path": [
-      "post",
-      "requestBody",
-      "content",
-      "application/json",
-      "schema",
-      "required",
-    ],
-    "type": "REMOVE",
-  },
-  {
-    "oldValue": "object",
-    "path": [
-      "post",
-      "responses",
-      "200",
-      "content",
-      "application/json",
-      "schema",
-      "type",
     ],
     "type": "REMOVE",
   },
   {
     "oldValue": {
-      "id": {
-        "type": "string",
+      "_": "schema",
+      "properties": {
+        "id": {
+          "_": "schema",
+          "type": "string",
+        },
       },
+      "required": [
+        "id",
+      ],
+      "type": "object",
     },
     "path": [
       "post",
@@ -283,22 +309,6 @@ exports[`generateOpenApiSchema > should be alright /job/v1/offer 1`] = `
       "content",
       "application/json",
       "schema",
-      "properties",
-    ],
-    "type": "REMOVE",
-  },
-  {
-    "oldValue": [
-      "id",
-    ],
-    "path": [
-      "post",
-      "responses",
-      "200",
-      "content",
-      "application/json",
-      "schema",
-      "required",
     ],
     "type": "REMOVE",
   },
@@ -308,233 +318,281 @@ exports[`generateOpenApiSchema > should be alright /job/v1/offer 1`] = `
 exports[`generateOpenApiSchema > should be alright /job/v1/offer/{id} 1`] = `
 [
   {
-    "oldValue": "object",
-    "path": [
-      "put",
-      "requestBody",
-      "content",
-      "application/json",
-      "schema",
-      "type",
-    ],
-    "type": "REMOVE",
-  },
-  {
     "oldValue": {
-      "apply": {
-        "properties": {
-          "email": {
-            "format": "email",
-            "type": [
-              "string",
-              "null",
-            ],
+      "_": "schema",
+      "properties": {
+        "apply": {
+          "_": "schema",
+          "properties": {
+            "email": {
+              "_": "schema",
+              "format": "email",
+              "type": [
+                "string",
+                "null",
+              ],
+            },
+            "phone": {
+              "_": "schema",
+              "type": [
+                "string",
+                "null",
+              ],
+            },
+            "url": {
+              "_": "schema",
+              "format": "uri",
+              "type": [
+                "string",
+                "null",
+              ],
+            },
           },
-          "phone": {
-            "type": [
-              "string",
-              "null",
-            ],
-          },
-          "url": {
-            "format": "uri",
-            "type": [
-              "string",
-              "null",
-            ],
-          },
+          "type": "object",
         },
-        "type": "object",
-      },
-      "contract": {
-        "properties": {
-          "duration": {
-            "type": [
-              "number",
-              "null",
-            ],
-          },
-          "remote": {
-            "enum": [
-              "onsite",
-              "remote",
-              "hybrid",
-            ],
-            "type": [
-              "string",
-              "null",
-            ],
-          },
-          "start": {
-            "format": "date-time",
-            "type": [
-              "string",
-              "null",
-            ],
-          },
-          "type": {
-            "items": {
+        "contract": {
+          "_": "schema",
+          "properties": {
+            "duration": {
+              "_": "schema",
+              "minimum": 0,
+              "type": [
+                "integer",
+                "null",
+              ],
+            },
+            "remote": {
+              "_": "schema",
               "enum": [
+                "onsite",
+                "remote",
+                "hybrid",
+              ],
+              "type": [
+                "string",
+                "null",
+              ],
+            },
+            "start": {
+              "_": "schema",
+              "default": [
                 "Apprentissage",
                 "Professionnalisation",
               ],
-              "type": "string",
+              "format": "date-time",
+              "type": [
+                "string",
+                "null",
+              ],
             },
-            "type": "array",
-          },
-        },
-        "type": "object",
-      },
-      "identifier": {
-        "properties": {
-          "partner_job_id": {
-            "type": [
-              "string",
-              "null",
-            ],
-          },
-        },
-        "type": "object",
-      },
-      "offer": {
-        "properties": {
-          "access_conditions": {
-            "items": {
-              "type": "string",
-            },
-            "type": "array",
-          },
-          "description": {
-            "minLength": 30,
-            "type": "string",
-          },
-          "desired_skills": {
-            "items": {
-              "type": "string",
-            },
-            "type": "array",
-          },
-          "multicast": {
-            "type": "boolean",
-          },
-          "opening_count": {
-            "type": "number",
-          },
-          "origin": {
-            "type": [
-              "string",
-              "null",
-            ],
-          },
-          "publication": {
-            "properties": {
-              "creation": {
-                "format": "date-time",
-                "type": [
-                  "string",
-                  "null",
-                ],
-              },
-              "expiration": {
-                "format": "date-time",
-                "type": [
-                  "string",
-                  "null",
-                ],
-              },
-            },
-            "type": "object",
-          },
-          "rome_codes": {
-            "items": {
-              "pattern": "^[A-Z]{1}\\d{4}$",
-              "type": "string",
-            },
-            "type": "array",
-          },
-          "target_diploma": {
-            "properties": {
-              "european": {
+            "type": {
+              "_": "schema",
+              "items": {
+                "_": "schema",
                 "enum": [
-                  "3",
-                  "4",
-                  "5",
-                  "6",
-                  "7",
+                  "Apprentissage",
+                  "Professionnalisation",
                 ],
                 "type": "string",
               },
+              "type": "array",
             },
-            "required": [
-              "european",
-            ],
-            "type": [
-              "object",
-              "null",
-            ],
           },
-          "title": {
-            "minLength": 3,
-            "type": "string",
-          },
-          "to_be_acquired_skills": {
-            "items": {
-              "type": "string",
-            },
-            "type": "array",
-          },
+          "type": "object",
         },
-        "required": [
-          "description",
-          "title",
-        ],
-        "type": "object",
-      },
-      "workplace": {
-        "properties": {
-          "description": {
-            "type": [
-              "string",
-              "null",
-            ],
+        "identifier": {
+          "_": "schema",
+          "properties": {
+            "partner_job_id": {
+              "_": "schema",
+              "type": [
+                "string",
+                "null",
+              ],
+            },
           },
-          "location": {
-            "properties": {
-              "address": {
+          "type": "object",
+        },
+        "offer": {
+          "_": "schema",
+          "properties": {
+            "access_conditions": {
+              "_": "schema",
+              "default": [],
+              "items": {
+                "_": "schema",
                 "type": "string",
               },
+              "type": "array",
             },
-            "required": [
-              "address",
-            ],
-            "type": [
-              "object",
-              "null",
-            ],
+            "description": {
+              "_": "schema",
+              "minLength": 30,
+              "type": "string",
+            },
+            "desired_skills": {
+              "_": "schema",
+              "default": [],
+              "items": {
+                "_": "schema",
+                "type": "string",
+              },
+              "type": "array",
+            },
+            "multicast": {
+              "_": "schema",
+              "default": true,
+              "type": "boolean",
+            },
+            "opening_count": {
+              "_": "schema",
+              "default": 1,
+              "type": "number",
+            },
+            "origin": {
+              "_": "schema",
+              "type": [
+                "string",
+                "null",
+              ],
+            },
+            "publication": {
+              "_": "schema",
+              "properties": {
+                "creation": {
+                  "_": "schema",
+                  "format": "date-time",
+                  "type": [
+                    "string",
+                    "null",
+                  ],
+                },
+                "expiration": {
+                  "_": "schema",
+                  "format": "date-time",
+                  "type": [
+                    "string",
+                    "null",
+                  ],
+                },
+              },
+              "type": "object",
+            },
+            "rome_codes": {
+              "_": "schema",
+              "items": {
+                "_": "schema",
+                "pattern": "^[A-Z]\\d{4}$",
+                "type": "string",
+              },
+              "type": [
+                "array",
+                "null",
+              ],
+            },
+            "target_diploma": {
+              "_": "schema",
+              "properties": {
+                "european": {
+                  "_": "schema",
+                  "enum": [
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                  ],
+                  "type": [
+                    "string",
+                    "null",
+                  ],
+                },
+              },
+              "type": [
+                "object",
+                "null",
+              ],
+            },
+            "title": {
+              "_": "schema",
+              "minLength": 3,
+              "type": "string",
+            },
+            "to_be_acquired_skills": {
+              "_": "schema",
+              "default": [],
+              "items": {
+                "_": "schema",
+                "type": "string",
+              },
+              "type": "array",
+            },
           },
-          "name": {
-            "type": [
-              "string",
-              "null",
-            ],
-          },
-          "siret": {
-            "pattern": "^\\d{9,14}$",
-            "type": "string",
-          },
-          "website": {
-            "format": "uri",
-            "type": [
-              "string",
-              "null",
-            ],
-          },
+          "required": [
+            "description",
+            "title",
+          ],
+          "type": "object",
         },
-        "required": [
-          "siret",
-        ],
-        "type": "object",
+        "workplace": {
+          "_": "schema",
+          "properties": {
+            "description": {
+              "_": "schema",
+              "type": [
+                "string",
+                "null",
+              ],
+            },
+            "location": {
+              "_": "schema",
+              "properties": {
+                "address": {
+                  "_": "schema",
+                  "type": [
+                    "string",
+                    "null",
+                  ],
+                },
+              },
+              "type": [
+                "object",
+                "null",
+              ],
+            },
+            "name": {
+              "_": "schema",
+              "type": [
+                "string",
+                "null",
+              ],
+            },
+            "siret": {
+              "_": "schema",
+              "pattern": "^\\d{14}$",
+              "type": "string",
+            },
+            "website": {
+              "_": "schema",
+              "format": "uri",
+              "type": [
+                "string",
+                "null",
+              ],
+            },
+          },
+          "required": [
+            "siret",
+          ],
+          "type": "object",
+        },
       },
+      "required": [
+        "apply",
+        "offer",
+        "workplace",
+      ],
+      "type": "object",
     },
     "path": [
       "put",
@@ -542,23 +600,6 @@ exports[`generateOpenApiSchema > should be alright /job/v1/offer/{id} 1`] = `
       "content",
       "application/json",
       "schema",
-      "properties",
-    ],
-    "type": "REMOVE",
-  },
-  {
-    "oldValue": [
-      "apply",
-      "offer",
-      "workplace",
-    ],
-    "path": [
-      "put",
-      "requestBody",
-      "content",
-      "application/json",
-      "schema",
-      "required",
     ],
     "type": "REMOVE",
   },
@@ -571,9 +612,7 @@ exports[`generateOpenApiSchema > should be alright /job/v1/offer/{id} 1`] = `
     ],
     "type": "CREATE",
     "value": {
-      "application/json": {
-        "schema": {},
-      },
+      "application/json": {},
     },
   },
 ]
@@ -582,52 +621,66 @@ exports[`generateOpenApiSchema > should be alright /job/v1/offer/{id} 1`] = `
 exports[`generateOpenApiSchema > should be alright /job/v1/search 1`] = `
 [
   {
-    "oldValue": [
-      {
-        "in": "query",
-        "name": "longitude",
-        "required": false,
-        "schema": {
-          "maximum": 180,
-          "minimum": -180,
-          "type": [
-            "number",
-            "null",
-          ],
-        },
-      },
-      {
+    "oldValue": {
+      "latitude": {
         "in": "query",
         "name": "latitude",
         "required": false,
         "schema": {
+          "_": "schema",
           "maximum": 90,
           "minimum": -90,
-          "type": [
-            "number",
-            "null",
-          ],
+          "type": "number",
         },
       },
-      {
+      "longitude": {
+        "in": "query",
+        "name": "longitude",
+        "required": false,
+        "schema": {
+          "_": "schema",
+          "maximum": 180,
+          "minimum": -180,
+          "type": "number",
+        },
+      },
+      "radius": {
         "in": "query",
         "name": "radius",
         "required": false,
         "schema": {
+          "_": "schema",
           "default": 30,
           "maximum": 200,
           "minimum": 0,
-          "type": [
-            "number",
-            "null",
-          ],
+          "type": "number",
         },
       },
-      {
+      "rncp": {
+        "in": "query",
+        "name": "rncp",
+        "required": false,
+        "schema": {
+          "_": "schema",
+          "pattern": "^RNCP\\d{3,5}$",
+          "type": "string",
+        },
+      },
+      "romes": {
+        "in": "query",
+        "name": "romes",
+        "required": false,
+        "schema": {
+          "_": "schema",
+          "type": "string",
+        },
+      },
+      "target_diploma_level": {
         "in": "query",
         "name": "target_diploma_level",
         "required": false,
         "schema": {
+          "_": "schema",
           "enum": [
             "3",
             "4",
@@ -638,24 +691,7 @@ exports[`generateOpenApiSchema > should be alright /job/v1/search 1`] = `
           "type": "string",
         },
       },
-      {
-        "in": "query",
-        "name": "romes",
-        "required": false,
-        "schema": {
-          "type": "string",
-        },
-      },
-      {
-        "in": "query",
-        "name": "rncp",
-        "required": false,
-        "schema": {
-          "pattern": "^RNCP\\d{3,5}$",
-          "type": "string",
-        },
-      },
-    ],
+    },
     "path": [
       "get",
       "parameters",
@@ -663,585 +699,670 @@ exports[`generateOpenApiSchema > should be alright /job/v1/search 1`] = `
     "type": "REMOVE",
   },
   {
-    "oldValue": "object",
-    "path": [
-      "get",
-      "responses",
-      "200",
-      "content",
-      "application/json",
-      "schema",
-      "type",
-    ],
-    "type": "REMOVE",
-  },
-  {
     "oldValue": {
-      "jobs": {
-        "items": {
-          "properties": {
-            "apply": {
-              "properties": {
-                "phone": {
-                  "type": [
-                    "string",
-                    "null",
-                  ],
+      "_": "schema",
+      "properties": {
+        "jobs": {
+          "_": "schema",
+          "items": {
+            "_": "schema",
+            "properties": {
+              "apply": {
+                "_": "schema",
+                "properties": {
+                  "phone": {
+                    "_": "schema",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "url": {
+                    "_": "schema",
+                    "format": "uri",
+                    "type": "string",
+                  },
                 },
-                "url": {
-                  "format": "uri",
-                  "type": "string",
-                },
+                "required": [
+                  "phone",
+                  "url",
+                ],
+                "type": "object",
               },
-              "required": [
-                "phone",
-                "url",
-              ],
-              "type": "object",
-            },
-            "contract": {
-              "properties": {
-                "duration": {
-                  "type": [
-                    "number",
-                    "null",
-                  ],
-                },
-                "remote": {
-                  "enum": [
-                    "onsite",
-                    "remote",
-                    "hybrid",
-                  ],
-                  "type": [
-                    "string",
-                    "null",
-                  ],
-                },
-                "start": {
-                  "format": "date-time",
-                  "type": [
-                    "string",
-                    "null",
-                  ],
-                },
-                "type": {
-                  "items": {
+              "contract": {
+                "_": "schema",
+                "properties": {
+                  "duration": {
+                    "_": "schema",
+                    "minimum": 0,
+                    "type": [
+                      "integer",
+                      "null",
+                    ],
+                  },
+                  "remote": {
+                    "_": "schema",
                     "enum": [
-                      "Apprentissage",
-                      "Professionnalisation",
+                      "onsite",
+                      "remote",
+                      "hybrid",
+                    ],
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "start": {
+                    "_": "schema",
+                    "format": "date-time",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "type": {
+                    "_": "schema",
+                    "items": {
+                      "_": "schema",
+                      "enum": [
+                        "Apprentissage",
+                        "Professionnalisation",
+                      ],
+                      "type": "string",
+                    },
+                    "type": "array",
+                  },
+                },
+                "required": [
+                  "duration",
+                  "remote",
+                  "start",
+                  "type",
+                ],
+                "type": "object",
+              },
+              "identifier": {
+                "_": "schema",
+                "properties": {
+                  "id": {
+                    "_": "schema",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "partner_job_id": {
+                    "_": "schema",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "partner_label": {
+                    "_": "schema",
+                    "type": "string",
+                  },
+                },
+                "required": [
+                  "id",
+                  "partner_job_id",
+                  "partner_label",
+                ],
+                "type": "object",
+              },
+              "offer": {
+                "_": "schema",
+                "properties": {
+                  "access_conditions": {
+                    "_": "schema",
+                    "items": {
+                      "_": "schema",
+                      "type": "string",
+                    },
+                    "type": "array",
+                  },
+                  "description": {
+                    "_": "schema",
+                    "type": "string",
+                  },
+                  "desired_skills": {
+                    "_": "schema",
+                    "items": {
+                      "_": "schema",
+                      "type": "string",
+                    },
+                    "type": "array",
+                  },
+                  "opening_count": {
+                    "_": "schema",
+                    "type": "number",
+                  },
+                  "publication": {
+                    "_": "schema",
+                    "properties": {
+                      "creation": {
+                        "_": "schema",
+                        "format": "date-time",
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "expiration": {
+                        "_": "schema",
+                        "format": "date-time",
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                    },
+                    "required": [
+                      "creation",
+                      "expiration",
+                    ],
+                    "type": "object",
+                  },
+                  "rome_codes": {
+                    "_": "schema",
+                    "items": {
+                      "_": "schema",
+                      "pattern": "^[A-Z]\\d{4}$",
+                      "type": "string",
+                    },
+                    "type": "array",
+                  },
+                  "status": {
+                    "_": "schema",
+                    "enum": [
+                      "Active",
+                      "Filled",
+                      "Cancelled",
+                      "Pending",
                     ],
                     "type": "string",
                   },
-                  "type": "array",
-                },
-              },
-              "required": [
-                "duration",
-                "remote",
-                "start",
-                "type",
-              ],
-              "type": "object",
-            },
-            "identifier": {
-              "properties": {
-                "id": {
-                  "type": [
-                    "string",
-                    "null",
-                  ],
-                },
-                "partner_job_id": {
-                  "type": [
-                    "string",
-                    "null",
-                  ],
-                },
-                "partner_label": {
-                  "type": "string",
-                },
-              },
-              "required": [
-                "id",
-                "partner_job_id",
-                "partner_label",
-              ],
-              "type": "object",
-            },
-            "offer": {
-              "properties": {
-                "access_conditions": {
-                  "items": {
-                    "type": "string",
-                  },
-                  "type": "array",
-                },
-                "description": {
-                  "minLength": 30,
-                  "type": "string",
-                },
-                "desired_skills": {
-                  "items": {
-                    "type": "string",
-                  },
-                  "type": "array",
-                },
-                "opening_count": {
-                  "type": "number",
-                },
-                "publication": {
-                  "properties": {
-                    "creation": {
-                      "format": "date-time",
-                      "type": [
-                        "string",
-                        "null",
-                      ],
-                    },
-                    "expiration": {
-                      "format": "date-time",
-                      "type": [
-                        "string",
-                        "null",
-                      ],
-                    },
-                  },
-                  "required": [
-                    "creation",
-                    "expiration",
-                  ],
-                  "type": "object",
-                },
-                "rome_codes": {
-                  "items": {
-                    "pattern": "^[A-Z]{1}\\d{4}$",
-                    "type": "string",
-                  },
-                  "type": "array",
-                },
-                "status": {
-                  "enum": [
-                    "Active",
-                    "Filled",
-                    "Cancelled",
-                    "Pending",
-                  ],
-                  "type": "string",
-                },
-                "target_diploma": {
-                  "properties": {
-                    "european": {
-                      "enum": [
-                        "3",
-                        "4",
-                        "5",
-                        "6",
-                        "7",
-                      ],
-                      "type": "string",
-                    },
-                    "label": {
-                      "type": "string",
-                    },
-                  },
-                  "required": [
-                    "european",
-                    "label",
-                  ],
-                  "type": [
-                    "object",
-                    "null",
-                  ],
-                },
-                "title": {
-                  "minLength": 3,
-                  "type": "string",
-                },
-                "to_be_acquired_skills": {
-                  "items": {
-                    "type": "string",
-                  },
-                  "type": "array",
-                },
-              },
-              "required": [
-                "access_conditions",
-                "description",
-                "desired_skills",
-                "opening_count",
-                "publication",
-                "rome_codes",
-                "status",
-                "target_diploma",
-                "title",
-                "to_be_acquired_skills",
-              ],
-              "type": "object",
-            },
-            "workplace": {
-              "properties": {
-                "brand": {
-                  "type": [
-                    "string",
-                    "null",
-                  ],
-                },
-                "description": {
-                  "type": [
-                    "string",
-                    "null",
-                  ],
-                },
-                "domain": {
-                  "properties": {
-                    "idcc": {
-                      "type": [
-                        "number",
-                        "null",
-                      ],
-                    },
-                    "naf": {
-                      "properties": {
-                        "code": {
-                          "type": "string",
-                        },
-                        "label": {
-                          "type": [
-                            "string",
-                            "null",
-                          ],
-                        },
+                  "target_diploma": {
+                    "_": "schema",
+                    "properties": {
+                      "european": {
+                        "_": "schema",
+                        "enum": [
+                          "3",
+                          "4",
+                          "5",
+                          "6",
+                          "7",
+                        ],
+                        "type": "string",
                       },
-                      "required": [
-                        "code",
-                        "label",
-                      ],
-                      "type": [
-                        "object",
-                        "null",
-                      ],
+                      "label": {
+                        "_": "schema",
+                        "type": "string",
+                      },
                     },
-                    "opco": {
-                      "type": [
-                        "string",
-                        "null",
-                      ],
-                    },
+                    "required": [
+                      "european",
+                      "label",
+                    ],
+                    "type": [
+                      "object",
+                      "null",
+                    ],
                   },
-                  "required": [
-                    "idcc",
-                    "naf",
-                    "opco",
-                  ],
-                  "type": "object",
-                },
-                "legal_name": {
-                  "type": [
-                    "string",
-                    "null",
-                  ],
-                },
-                "location": {
-                  "properties": {
-                    "address": {
+                  "title": {
+                    "_": "schema",
+                    "minLength": 3,
+                    "type": "string",
+                  },
+                  "to_be_acquired_skills": {
+                    "_": "schema",
+                    "items": {
+                      "_": "schema",
                       "type": "string",
                     },
-                    "geopoint": {
-                      "properties": {
-                        "coordinates": {
-                          "prefixItems": [
-                            {
-                              "maximum": 180,
-                              "minimum": -180,
-                              "type": "number",
-                            },
-                            {
-                              "maximum": 90,
-                              "minimum": -90,
-                              "type": "number",
-                            },
-                          ],
-                          "type": "array",
-                        },
-                        "type": {
-                          "enum": [
-                            "Point",
-                          ],
-                          "type": "string",
-                        },
-                      },
-                      "required": [
-                        "coordinates",
-                        "type",
-                      ],
-                      "type": "object",
-                    },
+                    "type": "array",
                   },
-                  "required": [
-                    "address",
-                    "geopoint",
-                  ],
-                  "type": "object",
                 },
-                "name": {
-                  "type": [
-                    "string",
-                    "null",
-                  ],
-                },
-                "siret": {
-                  "pattern": "^\\d{9,14}$",
-                  "type": [
-                    "string",
-                    "null",
-                  ],
-                },
-                "size": {
-                  "type": [
-                    "string",
-                    "null",
-                  ],
-                },
-                "website": {
-                  "format": "uri",
-                  "type": [
-                    "string",
-                    "null",
-                  ],
-                },
+                "required": [
+                  "access_conditions",
+                  "description",
+                  "desired_skills",
+                  "opening_count",
+                  "publication",
+                  "rome_codes",
+                  "status",
+                  "target_diploma",
+                  "title",
+                  "to_be_acquired_skills",
+                ],
+                "type": "object",
               },
-              "required": [
-                "brand",
-                "description",
-                "domain",
-                "legal_name",
-                "location",
-                "name",
-                "siret",
-                "size",
-                "website",
-              ],
-              "type": "object",
+              "workplace": {
+                "_": "schema",
+                "properties": {
+                  "brand": {
+                    "_": "schema",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "description": {
+                    "_": "schema",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "domain": {
+                    "_": "schema",
+                    "properties": {
+                      "idcc": {
+                        "_": "schema",
+                        "type": [
+                          "number",
+                          "null",
+                        ],
+                      },
+                      "naf": {
+                        "_": "schema",
+                        "properties": {
+                          "code": {
+                            "_": "schema",
+                            "type": "string",
+                          },
+                          "label": {
+                            "_": "schema",
+                            "type": [
+                              "string",
+                              "null",
+                            ],
+                          },
+                        },
+                        "required": [
+                          "code",
+                          "label",
+                        ],
+                        "type": [
+                          "object",
+                          "null",
+                        ],
+                      },
+                      "opco": {
+                        "_": "schema",
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                    },
+                    "required": [
+                      "idcc",
+                      "naf",
+                      "opco",
+                    ],
+                    "type": "object",
+                  },
+                  "legal_name": {
+                    "_": "schema",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "location": {
+                    "_": "schema",
+                    "properties": {
+                      "address": {
+                        "_": "schema",
+                        "type": "string",
+                      },
+                      "geopoint": {
+                        "_": "schema",
+                        "additionalProperties": false,
+                        "properties": {
+                          "coordinates": {
+                            "_": "schema",
+                            "prefixItems": [
+                              {
+                                "_": "schema",
+                                "maximum": 180,
+                                "minimum": -180,
+                                "type": "number",
+                              },
+                              {
+                                "_": "schema",
+                                "maximum": 90,
+                                "minimum": -90,
+                                "type": "number",
+                              },
+                            ],
+                            "type": "array",
+                          },
+                          "type": {
+                            "_": "schema",
+                            "enum": [
+                              "Point",
+                            ],
+                            "type": "string",
+                          },
+                        },
+                        "required": [
+                          "coordinates",
+                          "type",
+                        ],
+                        "type": "object",
+                      },
+                    },
+                    "required": [
+                      "address",
+                      "geopoint",
+                    ],
+                    "type": "object",
+                  },
+                  "name": {
+                    "_": "schema",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "siret": {
+                    "_": "schema",
+                    "pattern": "^\\d{14}$",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "size": {
+                    "_": "schema",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "website": {
+                    "_": "schema",
+                    "format": "uri",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                },
+                "required": [
+                  "brand",
+                  "description",
+                  "domain",
+                  "legal_name",
+                  "location",
+                  "name",
+                  "siret",
+                  "size",
+                  "website",
+                ],
+                "type": "object",
+              },
             },
+            "required": [
+              "apply",
+              "contract",
+              "identifier",
+              "offer",
+              "workplace",
+            ],
+            "type": "object",
           },
-          "required": [
-            "apply",
-            "contract",
-            "identifier",
-            "offer",
-            "workplace",
-          ],
-          "type": "object",
+          "type": "array",
         },
-        "type": "array",
-      },
-      "recruiters": {
-        "items": {
-          "properties": {
-            "apply": {
-              "properties": {
-                "phone": {
-                  "type": [
-                    "string",
-                    "null",
-                  ],
-                },
-                "url": {
-                  "format": "uri",
-                  "type": "string",
-                },
-              },
-              "required": [
-                "phone",
-                "url",
-              ],
-              "type": "object",
-            },
-            "identifier": {
-              "properties": {
-                "id": {
-                  "type": "string",
-                },
-              },
-              "required": [
-                "id",
-              ],
-              "type": "object",
-            },
-            "workplace": {
-              "properties": {
-                "brand": {
-                  "type": [
-                    "string",
-                    "null",
-                  ],
-                },
-                "description": {
-                  "type": [
-                    "string",
-                    "null",
-                  ],
-                },
-                "domain": {
-                  "properties": {
-                    "idcc": {
-                      "type": [
-                        "number",
-                        "null",
-                      ],
-                    },
-                    "naf": {
-                      "properties": {
-                        "code": {
-                          "type": "string",
-                        },
-                        "label": {
-                          "type": [
-                            "string",
-                            "null",
-                          ],
-                        },
-                      },
-                      "required": [
-                        "code",
-                        "label",
-                      ],
-                      "type": [
-                        "object",
-                        "null",
-                      ],
-                    },
-                    "opco": {
-                      "type": [
-                        "string",
-                        "null",
-                      ],
-                    },
+        "recruiters": {
+          "_": "schema",
+          "items": {
+            "_": "schema",
+            "properties": {
+              "apply": {
+                "_": "schema",
+                "properties": {
+                  "phone": {
+                    "_": "schema",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
                   },
-                  "required": [
-                    "idcc",
-                    "naf",
-                    "opco",
-                  ],
-                  "type": "object",
-                },
-                "legal_name": {
-                  "type": [
-                    "string",
-                    "null",
-                  ],
-                },
-                "location": {
-                  "properties": {
-                    "address": {
-                      "type": "string",
-                    },
-                    "geopoint": {
-                      "properties": {
-                        "coordinates": {
-                          "prefixItems": [
-                            {
-                              "maximum": 180,
-                              "minimum": -180,
-                              "type": "number",
-                            },
-                            {
-                              "maximum": 90,
-                              "minimum": -90,
-                              "type": "number",
-                            },
-                          ],
-                          "type": "array",
-                        },
-                        "type": {
-                          "enum": [
-                            "Point",
-                          ],
-                          "type": "string",
-                        },
-                      },
-                      "required": [
-                        "coordinates",
-                        "type",
-                      ],
-                      "type": "object",
-                    },
+                  "url": {
+                    "_": "schema",
+                    "format": "uri",
+                    "type": "string",
                   },
-                  "required": [
-                    "address",
-                    "geopoint",
-                  ],
-                  "type": "object",
                 },
-                "name": {
-                  "type": [
-                    "string",
-                    "null",
-                  ],
-                },
-                "siret": {
-                  "pattern": "^\\d{9,14}$",
-                  "type": [
-                    "string",
-                    "null",
-                  ],
-                },
-                "size": {
-                  "type": [
-                    "string",
-                    "null",
-                  ],
-                },
-                "website": {
-                  "format": "uri",
-                  "type": [
-                    "string",
-                    "null",
-                  ],
-                },
+                "required": [
+                  "phone",
+                  "url",
+                ],
+                "type": "object",
               },
-              "required": [
-                "brand",
-                "description",
-                "domain",
-                "legal_name",
-                "location",
-                "name",
-                "siret",
-                "size",
-                "website",
-              ],
-              "type": "object",
+              "identifier": {
+                "_": "schema",
+                "properties": {
+                  "id": {
+                    "_": "schema",
+                    "type": "string",
+                  },
+                },
+                "required": [
+                  "id",
+                ],
+                "type": "object",
+              },
+              "workplace": {
+                "_": "schema",
+                "properties": {
+                  "brand": {
+                    "_": "schema",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "description": {
+                    "_": "schema",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "domain": {
+                    "_": "schema",
+                    "properties": {
+                      "idcc": {
+                        "_": "schema",
+                        "type": [
+                          "number",
+                          "null",
+                        ],
+                      },
+                      "naf": {
+                        "_": "schema",
+                        "properties": {
+                          "code": {
+                            "_": "schema",
+                            "type": "string",
+                          },
+                          "label": {
+                            "_": "schema",
+                            "type": [
+                              "string",
+                              "null",
+                            ],
+                          },
+                        },
+                        "required": [
+                          "code",
+                          "label",
+                        ],
+                        "type": [
+                          "object",
+                          "null",
+                        ],
+                      },
+                      "opco": {
+                        "_": "schema",
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                    },
+                    "required": [
+                      "idcc",
+                      "naf",
+                      "opco",
+                    ],
+                    "type": "object",
+                  },
+                  "legal_name": {
+                    "_": "schema",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "location": {
+                    "_": "schema",
+                    "properties": {
+                      "address": {
+                        "_": "schema",
+                        "type": "string",
+                      },
+                      "geopoint": {
+                        "_": "schema",
+                        "additionalProperties": false,
+                        "properties": {
+                          "coordinates": {
+                            "_": "schema",
+                            "prefixItems": [
+                              {
+                                "_": "schema",
+                                "maximum": 180,
+                                "minimum": -180,
+                                "type": "number",
+                              },
+                              {
+                                "_": "schema",
+                                "maximum": 90,
+                                "minimum": -90,
+                                "type": "number",
+                              },
+                            ],
+                            "type": "array",
+                          },
+                          "type": {
+                            "_": "schema",
+                            "enum": [
+                              "Point",
+                            ],
+                            "type": "string",
+                          },
+                        },
+                        "required": [
+                          "coordinates",
+                          "type",
+                        ],
+                        "type": "object",
+                      },
+                    },
+                    "required": [
+                      "address",
+                      "geopoint",
+                    ],
+                    "type": "object",
+                  },
+                  "name": {
+                    "_": "schema",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "siret": {
+                    "_": "schema",
+                    "pattern": "^\\d{14}$",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "size": {
+                    "_": "schema",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "website": {
+                    "_": "schema",
+                    "format": "uri",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                },
+                "required": [
+                  "brand",
+                  "description",
+                  "domain",
+                  "legal_name",
+                  "location",
+                  "name",
+                  "siret",
+                  "size",
+                  "website",
+                ],
+                "type": "object",
+              },
             },
+            "required": [
+              "apply",
+              "identifier",
+              "workplace",
+            ],
+            "type": "object",
           },
-          "required": [
-            "apply",
-            "identifier",
-            "workplace",
-          ],
-          "type": "object",
+          "type": "array",
         },
-        "type": "array",
-      },
-      "warnings": {
-        "items": {
-          "properties": {
-            "code": {
-              "type": "string",
+        "warnings": {
+          "_": "schema",
+          "items": {
+            "_": "schema",
+            "properties": {
+              "code": {
+                "_": "schema",
+                "type": "string",
+              },
+              "message": {
+                "_": "schema",
+                "type": "string",
+              },
             },
-            "message": {
-              "type": "string",
-            },
+            "required": [
+              "code",
+              "message",
+            ],
+            "type": "object",
           },
-          "required": [
-            "code",
-            "message",
-          ],
-          "type": "object",
+          "type": "array",
         },
-        "type": "array",
       },
+      "required": [
+        "jobs",
+        "recruiters",
+        "warnings",
+      ],
+      "type": "object",
     },
     "path": [
       "get",
@@ -1250,24 +1371,6 @@ exports[`generateOpenApiSchema > should be alright /job/v1/search 1`] = `
       "content",
       "application/json",
       "schema",
-      "properties",
-    ],
-    "type": "REMOVE",
-  },
-  {
-    "oldValue": [
-      "jobs",
-      "recruiters",
-      "warnings",
-    ],
-    "path": [
-      "get",
-      "responses",
-      "200",
-      "content",
-      "application/json",
-      "schema",
-      "required",
     ],
     "type": "REMOVE",
   },
@@ -3080,8 +3183,9 @@ Only European phone numbers are allowed. There is also a check on the nature of 
                 "examples": [
                   12,
                 ],
+                "minimum": 0,
                 "type": [
-                  "number",
+                  "integer",
                   "null",
                 ],
               },
@@ -3224,7 +3328,6 @@ Le ROME correspond au Référentiel Opérationnel des Métiers et des Emplois. C
                 "examples": [
                   "Conçoit, développe et met au point un projet d'application informatique, de la phase d'étude à son intégration, pour un client ou une entreprise selon des besoins fonctionnels et un cahier des charges. Peut conduire des projets de développement. Peut coordonner une équipe.",
                 ],
-                "minLength": 30,
                 "type": "string",
               },
               "desired_skills": {
@@ -3289,7 +3392,7 @@ Le ROME correspond au Référentiel Opérationnel des Métiers et des Emplois. C
                   "examples": [
                     "A1401",
                   ],
-                  "pattern": "^[A-Z]{1}\\d{4}$",
+                  "pattern": "^[A-Z]\\d{4}$",
                   "type": "string",
                 },
                 "type": "array",
@@ -3500,6 +3603,7 @@ Only active offers are returned by the search.",
                     "type": "string",
                   },
                   "geopoint": {
+                    "additionalProperties": false,
                     "description": "Geolocation linked to the address
 
 Notes:
@@ -3573,7 +3677,7 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
                 "examples": [
                   "13002526500013",
                 ],
-                "pattern": "^\\d{9,14}$",
+                "pattern": "^\\d{14}$",
                 "type": [
                   "string",
                   "null",
@@ -3689,8 +3793,9 @@ Only European phone numbers are allowed. There is also a check on the nature of 
                 "examples": [
                   12,
                 ],
+                "minimum": 0,
                 "type": [
-                  "number",
+                  "integer",
                   "null",
                 ],
               },
@@ -3712,6 +3817,10 @@ Only European phone numbers are allowed. There is also a check on the nature of 
                 ],
               },
               "start": {
+                "default": [
+                  "Apprentissage",
+                  "Professionnalisation",
+                ],
                 "description": "Date de début du contrat.",
                 "format": "date-time",
                 "type": [
@@ -3779,6 +3888,7 @@ Only European phone numbers are allowed. There is also a check on the nature of 
 Le ROME correspond au Référentiel Opérationnel des Métiers et des Emplois. Conçu par France Travail (anciennement Pôle Emploi), ce référentiel présente l'ensemble des métiers regroupés par fiches, organisées par domaines professionnels.",
             "properties": {
               "access_conditions": {
+                "default": [],
                 "description": "The conditions for entering the profession",
                 "items": {
                   "description": "The conditions for entering the profession",
@@ -3800,6 +3910,7 @@ Le ROME correspond au Référentiel Opérationnel des Métiers et des Emplois. C
                 "type": "string",
               },
               "desired_skills": {
+                "default": [],
                 "description": "The skills or qualities expected for the position.",
                 "items": {
                   "description": "The skills or qualities expected for the position.",
@@ -3814,10 +3925,12 @@ Le ROME correspond au Référentiel Opérationnel des Métiers et des Emplois. C
                 "type": "array",
               },
               "multicast": {
+                "default": true,
                 "description": "Si l'offre peut être diffusé sur l'ensemble des plateformes partenaires",
                 "type": "boolean",
               },
               "opening_count": {
+                "default": 1,
                 "description": "Number of positions available for this job offer",
                 "examples": [
                   1,
@@ -3872,10 +3985,13 @@ If the published offer does not have a ROME code provided, we deduce the ROME co
                   "examples": [
                     "A1401",
                   ],
-                  "pattern": "^[A-Z]{1}\\d{4}$",
+                  "pattern": "^[A-Z]\\d{4}$",
                   "type": "string",
                 },
-                "type": "array",
+                "type": [
+                  "array",
+                  "null",
+                ],
               },
               "target_diploma": {
                 "description": "Targeted diploma level at the end of studies.",
@@ -3892,12 +4008,12 @@ If the published offer does not have a ROME code provided, we deduce the ROME co
                     "examples": [
                       3,
                     ],
-                    "type": "string",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
                   },
                 },
-                "required": [
-                  "european",
-                ],
                 "type": [
                   "object",
                   "null",
@@ -3912,6 +4028,7 @@ If the published offer does not have a ROME code provided, we deduce the ROME co
                 "type": "string",
               },
               "to_be_acquired_skills": {
+                "default": [],
                 "description": "The skills or qualities to be acquired during the apprenticeship.",
                 "items": {
                   "description": "The skills or qualities to be acquired during the apprenticeship.",
@@ -3965,12 +4082,12 @@ The geopoint field is derived from the address.",
                     "examples": [
                       "20 AVENUE DE SEGUR 75007 PARIS",
                     ],
-                    "type": "string",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
                   },
                 },
-                "required": [
-                  "address",
-                ],
                 "type": [
                   "object",
                   "null",
@@ -3999,7 +4116,7 @@ The information \`brand\` \`legal_name\` \`size\` \`idcc\` \`opco\` \`naf\` is a
                 "examples": [
                   "13002526500013",
                 ],
-                "pattern": "^\\d{9,14}$",
+                "pattern": "^\\d{14}$",
                 "type": "string",
               },
               "website": {
@@ -4200,6 +4317,7 @@ Only European phone numbers are allowed. There is also a check on the nature of 
                     "type": "string",
                   },
                   "geopoint": {
+                    "additionalProperties": false,
                     "description": "Geolocation linked to the address
 
 Notes:
@@ -4273,7 +4391,7 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
                 "examples": [
                   "13002526500013",
                 ],
-                "pattern": "^\\d{9,14}$",
+                "pattern": "^\\d{14}$",
                 "type": [
                   "string",
                   "null",
@@ -9100,8 +9218,9 @@ Only European phone numbers are allowed. There is also a check on the nature of 
                         "examples": [
                           12,
                         ],
+                        "minimum": 0,
                         "type": [
-                          "number",
+                          "integer",
                           "null",
                         ],
                       },
@@ -9123,6 +9242,10 @@ Only European phone numbers are allowed. There is also a check on the nature of 
                         ],
                       },
                       "start": {
+                        "default": [
+                          "Apprentissage",
+                          "Professionnalisation",
+                        ],
                         "description": "Date de début du contrat.",
                         "format": "date-time",
                         "type": [
@@ -9190,6 +9313,7 @@ Only European phone numbers are allowed. There is also a check on the nature of 
 Le ROME correspond au Référentiel Opérationnel des Métiers et des Emplois. Conçu par France Travail (anciennement Pôle Emploi), ce référentiel présente l'ensemble des métiers regroupés par fiches, organisées par domaines professionnels.",
                     "properties": {
                       "access_conditions": {
+                        "default": [],
                         "description": "The conditions for entering the profession",
                         "items": {
                           "description": "The conditions for entering the profession",
@@ -9211,6 +9335,7 @@ Le ROME correspond au Référentiel Opérationnel des Métiers et des Emplois. C
                         "type": "string",
                       },
                       "desired_skills": {
+                        "default": [],
                         "description": "The skills or qualities expected for the position.",
                         "items": {
                           "description": "The skills or qualities expected for the position.",
@@ -9225,10 +9350,12 @@ Le ROME correspond au Référentiel Opérationnel des Métiers et des Emplois. C
                         "type": "array",
                       },
                       "multicast": {
+                        "default": true,
                         "description": "Si l'offre peut être diffusé sur l'ensemble des plateformes partenaires",
                         "type": "boolean",
                       },
                       "opening_count": {
+                        "default": 1,
                         "description": "Number of positions available for this job offer",
                         "examples": [
                           1,
@@ -9283,10 +9410,13 @@ If the published offer does not have a ROME code provided, we deduce the ROME co
                           "examples": [
                             "A1401",
                           ],
-                          "pattern": "^[A-Z]{1}\\d{4}$",
+                          "pattern": "^[A-Z]\\d{4}$",
                           "type": "string",
                         },
-                        "type": "array",
+                        "type": [
+                          "array",
+                          "null",
+                        ],
                       },
                       "target_diploma": {
                         "description": "Targeted diploma level at the end of studies.",
@@ -9303,12 +9433,12 @@ If the published offer does not have a ROME code provided, we deduce the ROME co
                             "examples": [
                               3,
                             ],
-                            "type": "string",
+                            "type": [
+                              "string",
+                              "null",
+                            ],
                           },
                         },
-                        "required": [
-                          "european",
-                        ],
                         "type": [
                           "object",
                           "null",
@@ -9323,6 +9453,7 @@ If the published offer does not have a ROME code provided, we deduce the ROME co
                         "type": "string",
                       },
                       "to_be_acquired_skills": {
+                        "default": [],
                         "description": "The skills or qualities to be acquired during the apprenticeship.",
                         "items": {
                           "description": "The skills or qualities to be acquired during the apprenticeship.",
@@ -9376,12 +9507,12 @@ The geopoint field is derived from the address.",
                             "examples": [
                               "20 AVENUE DE SEGUR 75007 PARIS",
                             ],
-                            "type": "string",
+                            "type": [
+                              "string",
+                              "null",
+                            ],
                           },
                         },
-                        "required": [
-                          "address",
-                        ],
                         "type": [
                           "object",
                           "null",
@@ -9410,7 +9541,7 @@ The information \`brand\` \`legal_name\` \`size\` \`idcc\` \`opco\` \`naf\` is a
                         "examples": [
                           "13002526500013",
                         ],
-                        "pattern": "^\\d{9,14}$",
+                        "pattern": "^\\d{14}$",
                         "type": "string",
                       },
                       "website": {
@@ -9917,8 +10048,9 @@ Only European phone numbers are allowed. There is also a check on the nature of 
                         "examples": [
                           12,
                         ],
+                        "minimum": 0,
                         "type": [
-                          "number",
+                          "integer",
                           "null",
                         ],
                       },
@@ -9940,6 +10072,10 @@ Only European phone numbers are allowed. There is also a check on the nature of 
                         ],
                       },
                       "start": {
+                        "default": [
+                          "Apprentissage",
+                          "Professionnalisation",
+                        ],
                         "description": "Date de début du contrat.",
                         "format": "date-time",
                         "type": [
@@ -10007,6 +10143,7 @@ Only European phone numbers are allowed. There is also a check on the nature of 
 Le ROME correspond au Référentiel Opérationnel des Métiers et des Emplois. Conçu par France Travail (anciennement Pôle Emploi), ce référentiel présente l'ensemble des métiers regroupés par fiches, organisées par domaines professionnels.",
                     "properties": {
                       "access_conditions": {
+                        "default": [],
                         "description": "The conditions for entering the profession",
                         "items": {
                           "description": "The conditions for entering the profession",
@@ -10028,6 +10165,7 @@ Le ROME correspond au Référentiel Opérationnel des Métiers et des Emplois. C
                         "type": "string",
                       },
                       "desired_skills": {
+                        "default": [],
                         "description": "The skills or qualities expected for the position.",
                         "items": {
                           "description": "The skills or qualities expected for the position.",
@@ -10042,10 +10180,12 @@ Le ROME correspond au Référentiel Opérationnel des Métiers et des Emplois. C
                         "type": "array",
                       },
                       "multicast": {
+                        "default": true,
                         "description": "Si l'offre peut être diffusé sur l'ensemble des plateformes partenaires",
                         "type": "boolean",
                       },
                       "opening_count": {
+                        "default": 1,
                         "description": "Number of positions available for this job offer",
                         "examples": [
                           1,
@@ -10100,10 +10240,13 @@ If the published offer does not have a ROME code provided, we deduce the ROME co
                           "examples": [
                             "A1401",
                           ],
-                          "pattern": "^[A-Z]{1}\\d{4}$",
+                          "pattern": "^[A-Z]\\d{4}$",
                           "type": "string",
                         },
-                        "type": "array",
+                        "type": [
+                          "array",
+                          "null",
+                        ],
                       },
                       "target_diploma": {
                         "description": "Targeted diploma level at the end of studies.",
@@ -10120,12 +10263,12 @@ If the published offer does not have a ROME code provided, we deduce the ROME co
                             "examples": [
                               3,
                             ],
-                            "type": "string",
+                            "type": [
+                              "string",
+                              "null",
+                            ],
                           },
                         },
-                        "required": [
-                          "european",
-                        ],
                         "type": [
                           "object",
                           "null",
@@ -10140,6 +10283,7 @@ If the published offer does not have a ROME code provided, we deduce the ROME co
                         "type": "string",
                       },
                       "to_be_acquired_skills": {
+                        "default": [],
                         "description": "The skills or qualities to be acquired during the apprenticeship.",
                         "items": {
                           "description": "The skills or qualities to be acquired during the apprenticeship.",
@@ -10193,12 +10337,12 @@ The geopoint field is derived from the address.",
                             "examples": [
                               "20 AVENUE DE SEGUR 75007 PARIS",
                             ],
-                            "type": "string",
+                            "type": [
+                              "string",
+                              "null",
+                            ],
                           },
                         },
-                        "required": [
-                          "address",
-                        ],
                         "type": [
                           "object",
                           "null",
@@ -10227,7 +10371,7 @@ The information \`brand\` \`legal_name\` \`size\` \`idcc\` \`opco\` \`naf\` is a
                         "examples": [
                           "13002526500013",
                         ],
-                        "pattern": "^\\d{9,14}$",
+                        "pattern": "^\\d{14}$",
                         "type": "string",
                       },
                       "website": {
@@ -10654,10 +10798,7 @@ This field must be mandatory when used with the longitude field.
               ],
               "maximum": 180,
               "minimum": -180,
-              "type": [
-                "number",
-                "null",
-              ],
+              "type": "number",
             },
           },
           {
@@ -10676,10 +10817,7 @@ This field should be mandatory when used with the longitude field.
               ],
               "maximum": 90,
               "minimum": -90,
-              "type": [
-                "number",
-                "null",
-              ],
+              "type": "number",
             },
           },
           {
@@ -10695,10 +10833,7 @@ This field should be mandatory when used with the longitude field.
               ],
               "maximum": 200,
               "minimum": 0,
-              "type": [
-                "number",
-                "null",
-              ],
+              "type": "number",
             },
           },
           {
@@ -10846,8 +10981,9 @@ Only European phone numbers are allowed. There is also a check on the nature of 
                                 "examples": [
                                   12,
                                 ],
+                                "minimum": 0,
                                 "type": [
-                                  "number",
+                                  "integer",
                                   "null",
                                 ],
                               },
@@ -10990,7 +11126,6 @@ Le ROME correspond au Référentiel Opérationnel des Métiers et des Emplois. C
                                 "examples": [
                                   "Conçoit, développe et met au point un projet d'application informatique, de la phase d'étude à son intégration, pour un client ou une entreprise selon des besoins fonctionnels et un cahier des charges. Peut conduire des projets de développement. Peut coordonner une équipe.",
                                 ],
-                                "minLength": 30,
                                 "type": "string",
                               },
                               "desired_skills": {
@@ -11055,7 +11190,7 @@ Le ROME correspond au Référentiel Opérationnel des Métiers et des Emplois. C
                                   "examples": [
                                     "A1401",
                                   ],
-                                  "pattern": "^[A-Z]{1}\\d{4}$",
+                                  "pattern": "^[A-Z]\\d{4}$",
                                   "type": "string",
                                 },
                                 "type": "array",
@@ -11266,6 +11401,7 @@ Only active offers are returned by the search.",
                                     "type": "string",
                                   },
                                   "geopoint": {
+                                    "additionalProperties": false,
                                     "description": "Geolocation linked to the address
 
 Notes:
@@ -11339,7 +11475,7 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
                                 "examples": [
                                   "13002526500013",
                                 ],
-                                "pattern": "^\\d{9,14}$",
+                                "pattern": "^\\d{14}$",
                                 "type": [
                                   "string",
                                   "null",
@@ -11570,6 +11706,7 @@ Only European phone numbers are allowed. There is also a check on the nature of 
                                     "type": "string",
                                   },
                                   "geopoint": {
+                                    "additionalProperties": false,
                                     "description": "Geolocation linked to the address
 
 Notes:
@@ -11643,7 +11780,7 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
                                 "examples": [
                                   "13002526500013",
                                 ],
-                                "pattern": "^\\d{9,14}$",
+                                "pattern": "^\\d{14}$",
                                 "type": [
                                   "string",
                                   "null",

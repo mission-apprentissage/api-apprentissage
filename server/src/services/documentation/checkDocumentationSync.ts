@@ -1,6 +1,5 @@
 import { internal } from "@hapi/boom";
 import OpenAPIParser from "@readme/openapi-parser";
-import { captureException } from "@sentry/node";
 import type { Difference } from "microdiff";
 import diff from "microdiff";
 import type { OpenAPIObject, OperationObject, PathsObject } from "openapi3-ts/oas31";
@@ -106,7 +105,7 @@ function compareOperationObjects(operation1: OperationObject, operation2: Operat
   return diff(s1 ?? {}, s2 ?? {});
 }
 
-export async function checkDocumentationSync(): Promise<boolean> {
+export async function checkDocumentationSync() {
   const [lbaOperations, apiOperations] = await Promise.all([fetchLbaOperations(), buildApiOpenapiPathItems()]);
 
   const result: Record<string, Difference[]> = {};
@@ -127,9 +126,6 @@ export async function checkDocumentationSync(): Promise<boolean> {
   if (delta.length > 0) {
     const message = `checkDocumentationSync: API Alternance documentation is not in sync with LBA`;
     logger.error(message, { delta });
-    captureException(internal(message, { delta, result }));
-    return false;
+    throw internal(message, { delta, result });
   }
-
-  return true;
 }

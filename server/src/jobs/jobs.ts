@@ -3,6 +3,7 @@ import { zImportMetaFranceCompetence, zImportMetaNpec } from "shared/models/impo
 import { z } from "zod";
 
 import config from "@/config.js";
+import { checkDocumentationSync } from "@/services/documentation/checkDocumentationSync.js";
 import logger, { createJobProcessorLogger } from "@/services/logger.js";
 import { createIndexes, getDatabase } from "@/services/mongodb/mongodbService.js";
 
@@ -29,6 +30,7 @@ import { create as createMigration, status as statusMigration, up as upMigration
 const timings = {
   import_source: config.env === "production" ? "0 4 * * *" : "0 5 * * *",
   certif: "0 */2 * * *",
+  morning: "0 0 * * *",
 };
 
 export async function setupJobProcessor() {
@@ -97,6 +99,11 @@ export async function setupJobProcessor() {
             "Import des Communes": {
               cron_string: timings.import_source,
               handler: async () => runCommuneImporter(),
+              resumable: true,
+            },
+            "Controle synchronisation de la documentation": {
+              cron_string: timings.morning,
+              handler: async () => checkDocumentationSync,
               resumable: true,
             },
           },

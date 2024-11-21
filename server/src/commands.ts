@@ -206,12 +206,7 @@ program
     return createJobAction(name)(options);
   });
 
-program.command("document:sync:check").action(async () => {
-  const synced = await checkDocumentationSync();
-  if (!synced) {
-    program.error("Command failed", { exitCode: 1 });
-  }
-});
+program.command("document:sync:check").action(checkDocumentationSync);
 
 program
   .command("debug:auth:token")

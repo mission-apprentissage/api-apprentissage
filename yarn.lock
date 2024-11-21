@@ -15559,6 +15559,7 @@ __metadata:
     "@fastify/swagger": ^8.15.0
     "@fastify/swagger-ui": ^4.1.1
     "@hapi/boom": ^10.0.1
+    "@readme/openapi-parser": ^2.6.0
     "@sentry/node": ^8.34.0
     "@sentry/profiling-node": ^8.34.0
     "@tsconfig/node22": ^22.0.0
@@ -15596,6 +15597,7 @@ __metadata:
     lil-http-terminator: ^1.2.3
     lodash-es: ^4.17.21
     luxon: ^3.5.0
+    microdiff: ^1.4.0
     migrate-mongo: ^11.0.0
     mjml: ^4.15.3
     mongodb: ^6.9.0
@@ -15604,6 +15606,7 @@ __metadata:
     nodemailer: ^6.9.15
     nodemailer-html-to-text: ^3.2.0
     oleoduc: ^0.8.0
+    openapi3-ts: ^4.4.0
     pino: ^9.4.0
     pino-pretty: ^11.2.2
     rate-limiter-flexible: ^5.0.3

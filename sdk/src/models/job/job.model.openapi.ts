@@ -32,7 +32,7 @@ const recruiterSchema = {
         },
         siret: {
           type: ["string", "null"],
-          pattern: "^\\d{9,14}$",
+          pattern: "^\\d{14}$",
         },
         location: {
           type: "object",
@@ -64,6 +64,7 @@ const recruiterSchema = {
                 },
               },
               required: ["coordinates", "type"],
+              additionalProperties: false,
             },
           },
           required: ["address", "geopoint"],
@@ -149,7 +150,8 @@ const offerReadSchema = {
           format: "date-time",
         },
         duration: {
-          type: ["number", "null"],
+          type: ["integer", "null"],
+          minimum: 0,
         },
         type: {
           type: "array",
@@ -211,12 +213,11 @@ const offerReadSchema = {
           type: "array",
           items: {
             type: "string",
-            pattern: "^[A-Z]{1}\\d{4}$",
+            pattern: "^[A-Z]\\d{4}$",
           },
         },
         description: {
           type: "string",
-          minLength: 30,
         },
         target_diploma: {
           type: ["object", "null"],
@@ -266,16 +267,15 @@ const offerWriteSchema = {
         ...pickPropertiesOpenAPI(offerReadSchema.properties.workplace.properties, ["name", "description", "website"]),
         siret: {
           type: "string",
-          pattern: "^\\d{9,14}$",
+          pattern: "^\\d{14}$",
         },
         location: {
           type: ["object", "null"],
           properties: {
             address: {
-              type: "string",
+              type: ["string", "null"],
             },
           },
-          required: ["address"],
         },
       },
       required: ["siret"],
@@ -301,43 +301,53 @@ const offerWriteSchema = {
     },
     contract: {
       type: "object",
-      properties: pickPropertiesOpenAPI(offerReadSchema.properties.contract.properties, [
-        "start",
-        "duration",
-        "type",
-        "remote",
-      ]),
+      properties: {
+        ...pickPropertiesOpenAPI(offerReadSchema.properties.contract.properties, ["duration", "type", "remote"]),
+        start: {
+          ...offerReadSchema.properties.contract.properties.start,
+          default: ["Apprentissage", "Professionnalisation"],
+        },
+      },
     },
     offer: {
       type: "object",
       properties: {
-        ...pickPropertiesOpenAPI(offerReadSchema.properties.offer.properties, [
-          "title",
-          "desired_skills",
-          "to_be_acquired_skills",
-          "access_conditions",
-          "opening_count",
-        ]),
+        title: offerReadSchema.properties.offer.properties.title,
+        desired_skills: {
+          ...offerReadSchema.properties.offer.properties.desired_skills,
+          default: [],
+        },
+        to_be_acquired_skills: {
+          ...offerReadSchema.properties.offer.properties.to_be_acquired_skills,
+          default: [],
+        },
+        access_conditions: {
+          ...offerReadSchema.properties.offer.properties.access_conditions,
+          default: [],
+        },
+        opening_count: {
+          ...offerReadSchema.properties.offer.properties.opening_count,
+          default: 1,
+        },
         description: {
           type: "string",
           minLength: 30,
         },
         rome_codes: {
-          type: "array",
+          type: ["array", "null"],
           items: {
             type: "string",
-            pattern: "^[A-Z]{1}\\d{4}$",
+            pattern: "^[A-Z]\\d{4}$",
           },
         },
         target_diploma: {
           type: ["object", "null"],
           properties: {
             european: {
-              type: "string",
+              type: ["string", "null"],
               enum: ["3", "4", "5", "6", "7"],
             },
           },
-          required: ["european"],
         },
         publication: {
           type: "object",
@@ -349,6 +359,7 @@ const offerWriteSchema = {
         multicast: {
           type: "boolean",
           description: "Si l'offre peut être diffusé sur l'ensemble des plateformes partenaires",
+          default: true,
         },
         origin: {
           type: ["string", "null"],

@@ -9,6 +9,7 @@ import HttpTerminator from "lil-http-terminator";
 import config from "./config.js";
 import createServer from "./server/server.js";
 import { closeMemoryCache } from "./services/apis/client.js";
+import { checkDocumentationSync } from "./services/documentation/checkDocumentationSync.js";
 import { createAuthToken } from "./services/forward/forwardApi.service.js";
 import logger from "./services/logger.js";
 import { closeMailer } from "./services/mailer/mailer.js";
@@ -166,15 +167,6 @@ function createJobAction(name: string) {
 }
 
 program
-  .command("users:create")
-  .description("Créer un utilisateur")
-  .requiredOption("-e, --email <string>", "Email de l'utilisateur")
-  .requiredOption("-p, --password <string>", "Mot de passe de l'utilisateur")
-  .option("-a, --is_admin", "administrateur", false)
-  .option("-q, --queued", "Run job asynchronously", false)
-  .action(createJobAction("users:create"));
-
-program
   .command("db:validate")
   .description("Validate Documents")
   .option("-q, --queued", "Run job asynchronously", false)
@@ -214,16 +206,12 @@ program
     return createJobAction(name)(options);
   });
 
-program
-  .command("experimental:redressement:uai-siret")
-  .option("--uai <string>", "uai")
-  .option("--siret <string>", "siret")
-  .option("--date <string>", "date")
-  .option("--certification <string>", "certification")
-  .option("-q, --queued", "Run job asynchronously", false)
-  .action(async ({ uai, siret, certification }) => {
-    return createJobAction("experimental:redressement:uai-siret")({ couple: { uai, siret }, certification });
-  });
+program.command("document:sync:check").action(async () => {
+  const synced = await checkDocumentationSync();
+  if (!synced) {
+    program.error("Command failed", { exitCode: 1 });
+  }
+});
 
 program
   .command("debug:auth:token")

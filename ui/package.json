@@ -8,7 +8,7 @@
     "npm": "please-use-yarn"
   },
   "scripts": {
-    "dev": "yarn predev && next dev",
+    "dev": "yarn predev && next dev -p 3002",
     "build": "yarn prebuild && next build --no-lint",
     "typecheck": "tsc -b",
     "predev": "only-include-used-icons",

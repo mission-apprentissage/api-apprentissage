@@ -22,7 +22,7 @@ echo "NEXT_PUBLIC_ENV=local" >> "${ROOT_DIR}/ui/.env"
 echo "NEXT_PUBLIC_VERSION=0-local" >> "${ROOT_DIR}/ui/.env"
 echo "NEXT_PUBLIC_PRODUCT_NAME=\"${PRODUCT_NAME}\"" >> "${ROOT_DIR}/ui/.env"
 echo "NEXT_PUBLIC_PRODUCT_REPO=\"${REPO_NAME}\"" >> "${ROOT_DIR}/ui/.env"
-echo "NEXT_PUBLIC_API_PORT=5001" >> "${ROOT_DIR}/ui/.env"
+echo "NEXT_PUBLIC_API_PORT=5002" >> "${ROOT_DIR}/ui/.env"
 
 
 yarn

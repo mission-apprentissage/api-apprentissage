@@ -76,7 +76,7 @@ function getLocalPublicConfig(): PublicConfig {
       dsn: "https://2aef281c33b8e491993d55b0b5a8a669@sentry.apprentissage.beta.gouv.fr/10",
     },
     host,
-    baseUrl: `http://${host}:3000`,
+    baseUrl: `http://${host}:3002`,
     env: "local",
     apiEndpoint: `http://${host}:${process.env.NEXT_PUBLIC_API_PORT ?? 5000}/api`,
     version: getVersion(),

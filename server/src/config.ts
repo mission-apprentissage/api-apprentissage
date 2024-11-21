@@ -11,7 +11,7 @@ const config = {
   publicUrl,
   email: env.get("EMAIL").required().asString(),
   email_from: "Mission Apprentissage",
-  apiPublicUrl: environement === "local" ? "http://localhost:5001/api" : `${publicUrl}/api`,
+  apiPublicUrl: environement === "local" ? "http://localhost:5002/api" : `${publicUrl}/api`,
   mongodb: {
     uri: env.get("MONGODB_URI").required().asString(),
   },

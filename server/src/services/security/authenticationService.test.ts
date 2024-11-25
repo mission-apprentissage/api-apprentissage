@@ -319,9 +319,7 @@ describe("authenticationMiddleware", () => {
 
       vi.advanceTimersByTime(config.api_key.expiresIn + 1);
 
-      await expect(authenticationMiddleware(schema, req)).rejects.toThrow(
-        "Vous devez fournir une clé d'API valide pour accéder à cette ressource"
-      );
+      await expect(authenticationMiddleware(schema, req)).rejects.toThrow("La clé d'API a expirée");
     });
 
     it("should throw unauthorized if key is removed", async () => {
@@ -341,9 +339,7 @@ describe("authenticationMiddleware", () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const req: any = { headers: { authorization: `Bearer invalid` } };
 
-      await expect(authenticationMiddleware(schema, req)).rejects.toThrow(
-        "Vous devez fournir une clé d'API valide pour accéder à cette ressource"
-      );
+      await expect(authenticationMiddleware(schema, req)).rejects.toThrow("Impossible de déchiffrer la clé d'API");
     });
   });
 });

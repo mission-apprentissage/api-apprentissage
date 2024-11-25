@@ -306,7 +306,7 @@ describe("acce.routes", () => {
       expect(response.json()).toEqual({
         statusCode: 401,
         name: "Unauthorized",
-        message: "Vous devez fournir une clé d'API valide pour accéder à cette ressource",
+        message: "Impossible de déchiffrer la clé d'API",
       });
     });
 
@@ -357,7 +357,7 @@ describe("acce.routes", () => {
       expect(response.json()).toEqual({
         statusCode: 401,
         name: "Unauthorized",
-        message: "Vous devez fournir une clé d'API valide pour accéder à cette ressource",
+        message: "Impossible de déchiffrer la clé d'API",
       });
     });
 
@@ -408,7 +408,7 @@ describe("acce.routes", () => {
       expect(response.json()).toEqual({
         statusCode: 401,
         name: "Unauthorized",
-        message: "Vous devez fournir une clé d'API valide pour accéder à cette ressource",
+        message: "Impossible de déchiffrer la clé d'API",
       });
     });
 
@@ -459,7 +459,7 @@ describe("acce.routes", () => {
       expect(response.json()).toEqual({
         statusCode: 401,
         name: "Unauthorized",
-        message: "Vous devez fournir une clé d'API valide pour accéder à cette ressource",
+        message: "Impossible de déchiffrer la clé d'API",
       });
     });
 
@@ -510,7 +510,7 @@ describe("acce.routes", () => {
       expect(response.json()).toEqual({
         statusCode: 401,
         name: "Unauthorized",
-        message: "Vous devez fournir une clé d'API valide pour accéder à cette ressource",
+        message: "Impossible de déchiffrer la clé d'API",
       });
     });
 

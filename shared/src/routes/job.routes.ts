@@ -29,6 +29,14 @@ export const zJobRoutes = {
         ressources: {},
       },
     },
+    "/job/v1/apply": {
+      ...zApiJobRoutes.post["/job/v1/apply"],
+      securityScheme: {
+        auth: "api-key",
+        access: "applications:write",
+        ressources: {},
+      },
+    },
   },
   put: {
     "/job/v1/offer/:id": {

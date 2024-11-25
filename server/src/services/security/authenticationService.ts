@@ -61,7 +61,7 @@ async function authApiKey(req: FastifyRequest): Promise<UserWithType<"user", IUs
     const savedKey = user?.api_keys.find((key) => compareKeys(key.key, api_key));
 
     if (!savedKey) {
-      return null;
+      throw unauthorized("La clé d'API fournie a été révoquée");
     }
 
     const now = new Date();
@@ -81,8 +81,13 @@ async function authApiKey(req: FastifyRequest): Promise<UserWithType<"user", IUs
     return updatedUser === null ? null : { type: "user", value: updatedUser };
   } catch (error) {
     if (error instanceof jwt.JsonWebTokenError) {
-      return null;
+      if (error instanceof jwt.TokenExpiredError) {
+        throw unauthorized("La clé d'API a expirée");
+      }
+
+      throw unauthorized("Impossible de déchiffrer la clé d'API");
     }
+
     captureException(error);
     return null;
   }
@@ -98,7 +103,11 @@ function extractBearerTokenFromHeader(req: FastifyRequest): null | string {
 
   const matches = authorization.match(bearerRegex);
 
-  return matches === null ? null : matches[1];
+  if (!matches) {
+    throw unauthorized("Le header Authorization doit être de la forme 'Bearer <token>'");
+  }
+
+  return matches[1];
 }
 
 function extractTokenFromQuery(req: FastifyRequest): null | string {

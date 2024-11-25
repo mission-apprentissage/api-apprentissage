@@ -35,6 +35,21 @@ export const zApiJobRoutes = {
         operationId: "createJobOffer",
       },
     },
+    "/job/v1/apply": {
+      method: "post",
+      path: "/job/v1/apply",
+      body: z.unknown(),
+      response: {
+        "200": z.unknown(),
+      },
+      openapi: {
+        tags: ["Job"] as string[],
+        summary: "Envoi d’une candidature à une opportunité d’emploi en alternance",
+        description:
+          "Lorsque cette route est appelée, le service La bonne alternance déclenche l’envoi d'un email de candidature à une offre d’emploi La bonne alternance ou une candidature spontanée à une entreprise identifiée par La bonne alternance.",
+        operationId: "applyToJobOffer",
+      },
+    },
   },
   put: {
     "/job/v1/offer/:id": {

@@ -50,6 +50,28 @@ export const jobRoutes = ({ server }: { server: Server }) => {
     }
   );
 
+  server.post(
+    "/job/v1/apply",
+    {
+      schema: zRoutes.post["/job/v1/apply"],
+      onRequest: [server.auth(zRoutes.post["/job/v1/apply"])],
+      bodyLimit: 5 * 1024 ** 2, // 5MB
+    },
+    async (request, response) => {
+      const user = getUserFromRequest(request, zRoutes.post["/job/v1/apply"]);
+
+      return forwardApiRequest(
+        {
+          endpoint: config.api.lba.endpoint,
+          path: "/v2/application",
+          requestInit: { method: "POST", body: JSON.stringify(request.body) },
+        },
+        response,
+        { user, organisation: request.organisation ?? null }
+      );
+    }
+  );
+
   server.put(
     "/job/v1/offer/:id",
     {

@@ -9,7 +9,6 @@ import { generateApiKey } from "@/actions/users.actions.js";
 import type { Server } from "@/server/server.js";
 import createServer from "@/server/server.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
-import { compareKeys } from "@/utils/cryptoUtils.js";
 
 vi.mock("@/services/mailer/mailer", () => {
   return {
@@ -116,7 +115,7 @@ describe("User Routes", () => {
       });
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      expect(compareKeys(userFromDb!.api_keys[0].key, (decodedToken as any)!.api_key)).toBe(true);
+      expect(userFromDb!.api_keys[0].key === (decodedToken as any)!.api_key).toBe(true);
     });
 
     it("should create key with default unique names", async () => {
@@ -172,11 +171,11 @@ describe("User Routes", () => {
       const decodedToken1 = jwt.decode(data1.value);
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      expect(compareKeys(userFromDb!.api_keys[0].key, (decodedToken1 as any)!.api_key)).toBe(true);
+      expect(userFromDb!.api_keys[0].key === (decodedToken1 as any)!.api_key).toBe(true);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      expect(compareKeys(userFromDb!.api_keys[1].key, (decodedToken1 as any)!.api_key)).toBe(false);
+      expect(userFromDb!.api_keys[1].key === (decodedToken1 as any)!.api_key).toBe(false);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      expect(compareKeys(userFromDb!.api_keys[2].key, (decodedToken1 as any)!.api_key)).toBe(false);
+      expect(userFromDb!.api_keys[2].key === (decodedToken1 as any)!.api_key).toBe(false);
     });
 
     it("should returns 401 when user is not connected", async () => {

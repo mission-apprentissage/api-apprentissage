@@ -76,6 +76,7 @@ describe("apiKeyUsageMiddleware", () => {
   });
 
   let token: string;
+  let token2: string;
   let user: IUser;
 
   beforeEach(async () => {
@@ -88,6 +89,7 @@ describe("apiKeyUsageMiddleware", () => {
     });
     await getDbCollection("users").insertOne(user);
     token = (await generateApiKey("", user)).value;
+    token2 = (await generateApiKey("", user)).value;
     user = (await getDbCollection("users").findOne({ _id: user._id }))!;
 
     return () => {
@@ -95,12 +97,12 @@ describe("apiKeyUsageMiddleware", () => {
     };
   });
 
-  const runGet = () =>
+  const runGet = (t: string = token) =>
     app.inject({
       method: "GET",
       url: "/",
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${t}`,
       },
     });
   const runGetPublic = () =>
@@ -137,27 +139,65 @@ describe("apiKeyUsageMiddleware", () => {
       expect(await getDbCollection("indicateurs.usage_api").find().toArray()).toEqual([
         { ...attributes, date: new Date("2024-03-21T00:00:00Z"), usage: { "200": 1 } },
       ]);
+      const u = await getDbCollection("users").findOne({ _id: user._id });
+      expect(u?.api_keys).toEqual([
+        {
+          ...user.api_keys[0],
+          last_used_at: new Date("2024-03-21T00:00:00Z"),
+        },
+        {
+          ...user.api_keys[1],
+          last_used_at: null,
+        },
+      ]);
     });
 
     await runGet();
     // We advance time by 23 hours
-    vi.advanceTimersByTime(23 * 3600_000);
+    vi.setSystemTime(new Date("2024-03-21T23:00:00Z"));
     await runGet();
 
     await vi.waitFor(async () => {
       expect(await getDbCollection("indicateurs.usage_api").find().toArray()).toEqual([
         { ...attributes, date: new Date("2024-03-21T00:00:00Z"), usage: { "200": 3 } },
       ]);
+      const u = await getDbCollection("users").findOne({ _id: user._id });
+      expect(u?.api_keys).toEqual([
+        {
+          ...user.api_keys[0],
+          last_used_at: new Date("2024-03-21T23:00:00Z"),
+        },
+        {
+          ...user.api_keys[1],
+          last_used_at: null,
+        },
+      ]);
     });
 
     // We advance time by 1 hour
-    vi.advanceTimersByTime(3600_000);
-    await runGet();
+    vi.setSystemTime(new Date("2024-03-22T00:00:00Z"));
+    await runGet(token2);
 
     await vi.waitFor(async () => {
       expect(await getDbCollection("indicateurs.usage_api").find().toArray()).toEqual([
         { ...attributes, date: new Date("2024-03-21T00:00:00Z"), usage: { "200": 3 } },
-        { ...attributes, date: new Date("2024-03-22T00:00:00Z"), usage: { "200": 1 } },
+        {
+          ...attributes,
+          api_key_id: user.api_keys[1]._id,
+          date: new Date("2024-03-22T00:00:00Z"),
+          usage: { "200": 1 },
+        },
+      ]);
+      const u = await getDbCollection("users").findOne({ _id: user._id });
+      expect(u?.api_keys).toEqual([
+        {
+          ...user.api_keys[0],
+          last_used_at: new Date("2024-03-21T23:00:00Z"),
+        },
+        {
+          ...user.api_keys[1],
+          last_used_at: new Date("2024-03-22T00:00:00Z"),
+        },
       ]);
     });
   });

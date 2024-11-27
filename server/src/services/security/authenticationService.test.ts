@@ -192,12 +192,11 @@ describe("authenticationMiddleware", () => {
             _id: token._id,
             key: token.key,
             expires_at: token.expires_at,
-            last_used_at: tomorrow,
+            last_used_at: null,
             name: token.name,
             created_at: now,
           },
         ],
-        updated_at: tomorrow,
       };
       await expect(authenticationMiddleware(schema, req)).resolves.toBeUndefined();
       expect(req.user).toEqual({
@@ -230,14 +229,14 @@ describe("authenticationMiddleware", () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const req1: any = { headers: { authorization: `Bearer ${token1.value}` } };
 
-      const expectedUser1 = {
+      const expectedUser = {
         ...user,
         api_keys: [
           {
             _id: token1._id,
             key: token1.key,
             expires_at: expiresAt,
-            last_used_at: in2Days,
+            last_used_at: null,
             name: token1.name,
             created_at: now,
           },
@@ -250,22 +249,18 @@ describe("authenticationMiddleware", () => {
             created_at: tomorrow,
           },
         ],
-        updated_at: in2Days,
+        // Last time we updated token
+        updated_at: tomorrow,
       };
 
       await expect(authenticationMiddleware(schema, req1)).resolves.toBeUndefined();
       expect(req1.user).toEqual({
         type: "user",
-        value: expectedUser1,
+        value: expectedUser,
       });
-      expect(req1.api_key).toEqual(expectedUser1.api_keys[0]);
+      expect(req1.api_key).toEqual(expectedUser.api_keys[0]);
       const allUsers1 = await getDbCollection("users").find().toArray();
-      expect(allUsers1).toEqual([
-        expectedUser1,
-        // Should not be modified
-        otherUser,
-        userWithOrg,
-      ]);
+      expect(allUsers1).toEqual([expectedUser, otherUser, userWithOrg]);
 
       const in3Days = new Date("2024-03-24T23:00:00Z");
       vi.setSystemTime(in3Days);
@@ -273,42 +268,14 @@ describe("authenticationMiddleware", () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const req2: any = { headers: { authorization: `Bearer ${token2.value}` } };
 
-      const expectedUser2 = {
-        ...user,
-        api_keys: [
-          {
-            _id: token1._id,
-            key: token1.key,
-            expires_at: expiresAt,
-            last_used_at: in2Days,
-            name: token1.name,
-            created_at: now,
-          },
-          {
-            _id: token2._id,
-            key: token2.key,
-            expires_at: expiresAt2,
-            last_used_at: in3Days,
-            name: token2.name,
-            created_at: tomorrow,
-          },
-        ],
-        updated_at: in3Days,
-      };
-
       await expect(authenticationMiddleware(schema, req2)).resolves.toBeUndefined();
       expect(req2.user).toEqual({
         type: "user",
-        value: expectedUser2,
+        value: expectedUser,
       });
-      expect(req2.api_key).toEqual(expectedUser2.api_keys[1]);
+      expect(req2.api_key).toEqual(expectedUser.api_keys[1]);
       const allUsers2 = await getDbCollection("users").find().toArray();
-      expect(allUsers2).toEqual([
-        expectedUser2,
-        // Should not be modified
-        otherUser,
-        userWithOrg,
-      ]);
+      expect(allUsers2).toEqual([expectedUser, otherUser, userWithOrg]);
     });
 
     it("should throw unauthorized if key is expired", async () => {
@@ -364,7 +331,7 @@ describe("authenticationMiddleware", () => {
             _id: token._id,
             key: token.key,
             expires_at: expiresAt,
-            last_used_at: tomorrow,
+            last_used_at: null,
             name: token.name,
             created_at: now,
           },

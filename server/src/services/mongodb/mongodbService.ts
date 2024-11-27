@@ -23,6 +23,26 @@ export function setMongodbClient(client: MongoClient) {
   mongodbClient = client;
 }
 
+function getMinPoolSize() {
+  switch (config.env) {
+    case "test":
+      return 0;
+    case "production":
+      return 20;
+    default:
+      return 5;
+  }
+}
+
+function getMaxPoolSize() {
+  switch (config.env) {
+    case "production":
+      return 200;
+    default:
+      return 50;
+  }
+}
+
 /**
  * @param  {string} uri
  * @returns client
@@ -33,7 +53,8 @@ export const connectToMongodb = async (uri: string) => {
     heartbeatFrequencyMS: 10_000,
     retryWrites: true,
     retryReads: true,
-    minPoolSize: config.env === "test" ? 0 : 5,
+    minPoolSize: getMinPoolSize(),
+    maxPoolSize: getMaxPoolSize(),
     serverSelectionTimeoutMS: 300_000,
     // Disable utf8 validation to avoid nodejs driver error
     enableUtf8Validation: false,

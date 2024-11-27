@@ -45,6 +45,17 @@ export const getUserFromRequest = <S extends WithSecurityScheme>(
   return req.user.value as AuthenticatedUser<S["securityScheme"]["auth"]>["value"];
 };
 
+function findApiKey(api_keys: IApiKey[], value: string) {
+  const key = api_keys.find((k) => k.key === value);
+
+  if (key) {
+    return key;
+  }
+
+  // Support legacy token emitted using hashed key
+  return api_keys.find((k) => k.key.includes(".") && compareKeys(k.key, value));
+}
+
 async function authApiKey(req: FastifyRequest): Promise<UserWithType<"user", IUser> | null> {
   const token = extractBearerTokenFromHeader(req);
 
@@ -57,18 +68,7 @@ async function authApiKey(req: FastifyRequest): Promise<UserWithType<"user", IUs
 
     const user = await getDbCollection("users").findOne({ _id: new ObjectId(`${_id}`) });
 
-    const savedKey = user?.api_keys.find((key) => {
-      if (key.key === api_key) {
-        return true;
-      }
-
-      // Support legacy token emitted using hashed key
-      if (key.key.includes(".")) {
-        return compareKeys(key.key, api_key);
-      }
-
-      return false;
-    });
+    const savedKey = findApiKey(user?.api_keys ?? [], api_key);
 
     if (!savedKey || user === null) {
       throw unauthorized("La clé d'API fournie a été révoquée");

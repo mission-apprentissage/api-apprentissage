@@ -1,3 +1,5 @@
+import { LRUCache } from "lru-cache";
+import { stringify } from "safe-stable-stringify";
 import { z } from "zod";
 
 import type { ICertification } from "../../../models/index.js";
@@ -13,6 +15,11 @@ export type CertificationModule = {
 };
 
 export function buildCertificationModule(apiClient: ApiClient): CertificationModule {
+  const certificationCache = new LRUCache<string, ICertification[]>({
+    max: 500,
+    ttl: 1_000 * 60 * 60,
+  });
+
   return {
     index: async (filter: FindFilter): Promise<ICertification[]> => {
       const querystring: IApiQuery<IApiGetRoutes["/certification/v1"]> = {};
@@ -26,9 +33,17 @@ export function buildCertificationModule(apiClient: ApiClient): CertificationMod
         }
       }
 
+      const cacheKey = stringify(querystring);
+      const cached = certificationCache.get(cacheKey);
+      if (cached) {
+        return cached;
+      }
+
       const data = await apiClient.get("/certification/v1", { querystring });
 
-      return parseApiResponse(data, z.array(zCertification));
+      const result = parseApiResponse(data, z.array(zCertification));
+      certificationCache.set(cacheKey, result);
+      return result;
     },
   };
 }

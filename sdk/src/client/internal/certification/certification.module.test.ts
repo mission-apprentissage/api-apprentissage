@@ -262,6 +262,30 @@ describe("index", () => {
     expect(data).toEqual([certif]);
   });
 
+  it("should cache API responses", async () => {
+    const scope = nock("https://api.apprentissage.beta.gouv.fr/api", {
+      reqheaders: { authorization: "Bearer api-key" },
+    })
+      .get("/certification/v1")
+      .query({})
+      .reply(200, [certifJson]);
+
+    const apiClient = new ApiClient({ key: "api-key" });
+
+    const data = await apiClient.certification.index({});
+
+    expectTypeOf(data).toEqualTypeOf<ICertification[]>();
+
+    expect(scope.isDone()).toBe(true);
+    // Should parse dates
+    expect(data[0].periode_validite.debut).toBeInstanceOf(Date);
+    expect(data).toEqual([certif]);
+
+    const data2 = await apiClient.certification.index({});
+    // Same instance --> data is cached
+    expect(data2).toBe(data);
+  });
+
   it.each([
     ["12345", "12345"],
     ["null", null],

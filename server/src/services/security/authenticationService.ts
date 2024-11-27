@@ -70,27 +70,37 @@ async function authApiKey(req: FastifyRequest): Promise<UserWithType<"user", IUs
       return false;
     });
 
-    if (!savedKey) {
+    if (!savedKey || user === null) {
       throw unauthorized("La clé d'API fournie a été révoquée");
     }
 
+    req.api_key = { ...savedKey, key: api_key };
+
+    if (savedKey.key === api_key) {
+      return { type: "user", value: user };
+    }
+
     const now = new Date();
-    const updatedUser = await getDbCollection("users").findOneAndUpdate(
+
+    await getDbCollection("users").updateOne(
       { "api_keys._id": savedKey._id },
       {
         $set: {
-          "api_keys.$.last_used_at": now,
           // Keep the key value to migrate from hashed key to plain key
           "api_keys.$.key": api_key,
           updated_at: now,
         },
-      },
-      { returnDocument: "after" }
+      }
     );
 
-    req.api_key = updatedUser?.api_keys.find((key) => key._id.equals(savedKey._id)) ?? null;
-
-    return updatedUser === null ? null : { type: "user", value: updatedUser };
+    return {
+      type: "user",
+      value: {
+        ...user,
+        updated_at: now,
+        api_keys: user.api_keys.map((k) => (k._id === savedKey._id ? { ...k, key: api_key } : k)),
+      },
+    };
   } catch (error) {
     if (error instanceof jwt.JsonWebTokenError) {
       if (error instanceof jwt.TokenExpiredError) {

@@ -4,7 +4,7 @@ import type { Server } from "@/server/server.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
 export function apiKeyUsageMiddleware(server: Server) {
-  server.addHook("onSend", async (request, reply) => {
+  server.addHook("onResponse", async (request, reply) => {
     if (request.user && request.user.type === "user" && request.api_key) {
       // We group usage by day
       const now = new Date();

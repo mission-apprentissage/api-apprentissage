@@ -132,27 +132,34 @@ describe("apiKeyUsageMiddleware", () => {
       path: "/",
     };
 
-    expect(await getDbCollection("indicateurs.usage_api").find().toArray()).toEqual([
-      { ...attributes, date: new Date("2024-03-21T00:00:00Z"), usage: { "200": 1 } },
-    ]);
+    // We advance time by 23 hours
+    await vi.waitFor(async () => {
+      expect(await getDbCollection("indicateurs.usage_api").find().toArray()).toEqual([
+        { ...attributes, date: new Date("2024-03-21T00:00:00Z"), usage: { "200": 1 } },
+      ]);
+    });
 
     await runGet();
     // We advance time by 23 hours
     vi.advanceTimersByTime(23 * 3600_000);
     await runGet();
 
-    expect(await getDbCollection("indicateurs.usage_api").find().toArray()).toEqual([
-      { ...attributes, date: new Date("2024-03-21T00:00:00Z"), usage: { "200": 3 } },
-    ]);
+    await vi.waitFor(async () => {
+      expect(await getDbCollection("indicateurs.usage_api").find().toArray()).toEqual([
+        { ...attributes, date: new Date("2024-03-21T00:00:00Z"), usage: { "200": 3 } },
+      ]);
+    });
 
     // We advance time by 1 hour
     vi.advanceTimersByTime(3600_000);
     await runGet();
 
-    expect(await getDbCollection("indicateurs.usage_api").find().toArray()).toEqual([
-      { ...attributes, date: new Date("2024-03-21T00:00:00Z"), usage: { "200": 3 } },
-      { ...attributes, date: new Date("2024-03-22T00:00:00Z"), usage: { "200": 1 } },
-    ]);
+    await vi.waitFor(async () => {
+      expect(await getDbCollection("indicateurs.usage_api").find().toArray()).toEqual([
+        { ...attributes, date: new Date("2024-03-21T00:00:00Z"), usage: { "200": 3 } },
+        { ...attributes, date: new Date("2024-03-22T00:00:00Z"), usage: { "200": 1 } },
+      ]);
+    });
   });
 
   it("should register the config path not real one", async () => {
@@ -168,9 +175,11 @@ describe("apiKeyUsageMiddleware", () => {
       path: "/:name",
     };
 
-    expect(await getDbCollection("indicateurs.usage_api").find().toArray()).toEqual([
-      { ...attributes, date: new Date("2024-03-21T00:00:00Z"), usage: { "200": 2, 400: 1 } },
-    ]);
+    await vi.waitFor(async () => {
+      expect(await getDbCollection("indicateurs.usage_api").find().toArray()).toEqual([
+        { ...attributes, date: new Date("2024-03-21T00:00:00Z"), usage: { "200": 2, 400: 1 } },
+      ]);
+    });
   });
 
   it("should not register usage for unauthenticated routes", async () => {
@@ -184,16 +193,18 @@ describe("apiKeyUsageMiddleware", () => {
       tasks.push(runGet());
     }
     await Promise.all(tasks);
-    expect(await getDbCollection("indicateurs.usage_api").find().toArray()).toEqual([
-      {
-        _id: expect.any(ObjectId),
-        user_id: user._id,
-        api_key_id: user.api_keys[0]._id,
-        method: "GET",
-        path: "/",
-        date: new Date("2024-03-21T00:00:00Z"),
-        usage: { "200": 50 },
-      },
-    ]);
+    await vi.waitFor(async () => {
+      expect(await getDbCollection("indicateurs.usage_api").find().toArray()).toEqual([
+        {
+          _id: expect.any(ObjectId),
+          user_id: user._id,
+          api_key_id: user.api_keys[0]._id,
+          method: "GET",
+          path: "/",
+          date: new Date("2024-03-21T00:00:00Z"),
+          usage: { "200": 50 },
+        },
+      ]);
+    });
   });
 });

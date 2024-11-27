@@ -1,4 +1,5 @@
-import type { SignOptions } from "jsonwebtoken";
+import { internal } from "@hapi/boom";
+import type { JwtPayload, SignOptions } from "jsonwebtoken";
 import jwt from "jsonwebtoken";
 import type { ITemplate } from "shared/models/email_event/email_templates";
 import { zTemplate } from "shared/models/email_event/email_templates";
@@ -26,6 +27,11 @@ const createToken = (type: TokenType, subject: string | null = null, options: IC
   if (subject) {
     opts.subject = subject;
   }
+
+  if (secret.length < 32) {
+    throw internal("JWT secret must be at least 32 characters long");
+  }
+
   return jwt.sign(payload, secret, opts);
 };
 
@@ -44,6 +50,18 @@ export function createUserTokenSimple(options = {}) {
   return createToken("user", null, options);
 }
 
-export const decodeToken = (token: string, type: TokenType = "user") => {
-  return jwt.verify(token, config.auth[type].jwtSecret);
-};
+export async function decodeToken(token: string, type: TokenType = "user"): Promise<JwtPayload> {
+  return new Promise((resolve, reject) => {
+    try {
+      jwt.verify(token, config.auth[type].jwtSecret, (err, decoded) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(decoded as JwtPayload);
+        }
+      });
+    } catch (error) {
+      reject(error);
+    }
+  });
+}

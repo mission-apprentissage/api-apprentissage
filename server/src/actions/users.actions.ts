@@ -4,7 +4,7 @@ import { adjectives, animals, colors, uniqueNamesGenerator } from "unique-names-
 
 import config from "@/config.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
-import { generateKey, generateSecretHash } from "@/utils/cryptoUtils.js";
+import { generateKey } from "@/utils/cryptoUtils.js";
 import { createUserTokenSimple } from "@/utils/jwtUtils.js";
 
 export const updateUser = async (email: IUser["email"], data: Partial<IUser>): Promise<void> => {
@@ -24,7 +24,6 @@ export const generateApiKey = async (
 ): Promise<IApiKeyPrivate & { value: string; key: string }> => {
   const now = new Date();
   const generatedKey = generateKey();
-  const secretHash = generateSecretHash(generatedKey);
 
   const data = {
     _id: new ObjectId(),
@@ -34,7 +33,7 @@ export const generateApiKey = async (
         dictionaries: [adjectives, colors, animals],
         separator: "-",
       }),
-    key: secretHash,
+    key: generatedKey,
     last_used_at: null,
     expires_at: new Date(now.getTime() + config.api_key.expiresIn),
     created_at: now,

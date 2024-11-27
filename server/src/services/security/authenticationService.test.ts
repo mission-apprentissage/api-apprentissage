@@ -1,5 +1,4 @@
 import { useMongo } from "@tests/mongo.test.utils.js";
-import { ObjectId } from "mongodb";
 import { generateOrganisationFixture, generateUserFixture } from "shared/models/fixtures/index";
 import type { ISecuredRouteSchema } from "shared/routes/common.routes";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -9,6 +8,7 @@ import { createSession, createSessionToken } from "@/actions/sessions.actions.js
 import { generateApiKey } from "@/actions/users.actions.js";
 import config from "@/config.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import { generateSecretHash } from "@/utils/cryptoUtils.js";
 
 import { authenticationMiddleware } from "./authenticationService.js";
 
@@ -189,11 +189,11 @@ describe("authenticationMiddleware", () => {
         ...user,
         api_keys: [
           {
-            _id: expect.any(ObjectId),
-            key: expect.any(String),
-            expires_at: expiresAt,
+            _id: token._id,
+            key: token.key,
+            expires_at: token.expires_at,
             last_used_at: tomorrow,
-            name: expect.any(String),
+            name: token.name,
             created_at: now,
           },
         ],
@@ -234,19 +234,19 @@ describe("authenticationMiddleware", () => {
         ...user,
         api_keys: [
           {
-            _id: expect.any(ObjectId),
-            key: expect.any(String),
+            _id: token1._id,
+            key: token1.key,
             expires_at: expiresAt,
             last_used_at: in2Days,
-            name: expect.any(String),
+            name: token1.name,
             created_at: now,
           },
           {
-            _id: expect.any(ObjectId),
-            key: expect.any(String),
+            _id: token2._id,
+            key: token2.key,
             expires_at: expiresAt2,
             last_used_at: null,
-            name: expect.any(String),
+            name: token2.name,
             created_at: tomorrow,
           },
         ],
@@ -277,19 +277,19 @@ describe("authenticationMiddleware", () => {
         ...user,
         api_keys: [
           {
-            _id: expect.any(ObjectId),
-            key: expect.any(String),
+            _id: token1._id,
+            key: token1.key,
             expires_at: expiresAt,
             last_used_at: in2Days,
-            name: expect.any(String),
+            name: token1.name,
             created_at: now,
           },
           {
-            _id: expect.any(ObjectId),
-            key: expect.any(String),
+            _id: token2._id,
+            key: token2.key,
             expires_at: expiresAt2,
             last_used_at: in3Days,
-            name: expect.any(String),
+            name: token2.name,
             created_at: tomorrow,
           },
         ],
@@ -340,6 +340,51 @@ describe("authenticationMiddleware", () => {
       const req: any = { headers: { authorization: `Bearer invalid` } };
 
       await expect(authenticationMiddleware(schema, req)).rejects.toThrow("Impossible de déchiffrer la clé d'API");
+    });
+
+    it("should migrate legacy keys", async () => {
+      const token = await generateApiKey("", user);
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const req: any = { headers: { authorization: `Bearer ${token.value}` } };
+
+      const tomorrow = new Date("2024-03-22T12:00:00Z");
+      vi.setSystemTime(tomorrow);
+
+      // Historically we stored the key as a hash
+      await getDbCollection("users").updateOne(
+        { _id: user._id },
+        { $set: { "api_keys.0.key": generateSecretHash(token.key) } }
+      );
+
+      const expectedUser = {
+        ...user,
+        api_keys: [
+          {
+            _id: token._id,
+            key: token.key,
+            expires_at: expiresAt,
+            last_used_at: tomorrow,
+            name: token.name,
+            created_at: now,
+          },
+        ],
+        updated_at: tomorrow,
+      };
+      await expect(authenticationMiddleware(schema, req)).resolves.toBeUndefined();
+      expect(req.user).toEqual({
+        type: "user",
+        value: expectedUser,
+      });
+      expect(req.api_key).toEqual(expectedUser.api_keys[0]);
+
+      const allUsers = await getDbCollection("users").find().toArray();
+      expect(allUsers).toEqual([
+        expectedUser,
+        // Should not be modified
+        otherUser,
+        userWithOrg,
+      ]);
     });
   });
 });

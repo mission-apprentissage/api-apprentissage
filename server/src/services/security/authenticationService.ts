@@ -2,7 +2,6 @@ import { internal, unauthorized } from "@hapi/boom";
 import { captureException } from "@sentry/node";
 import type { PathParam, QueryString } from "api-alternance-sdk/internal";
 import type { FastifyRequest } from "fastify";
-import type { JwtPayload } from "jsonwebtoken";
 import jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
 import type { IOrganisation } from "shared/models/organisation.model";
@@ -54,11 +53,22 @@ async function authApiKey(req: FastifyRequest): Promise<UserWithType<"user", IUs
   }
 
   try {
-    const { _id, api_key } = decodeToken(token) as JwtPayload;
+    const { _id, api_key } = await decodeToken(token);
 
     const user = await getDbCollection("users").findOne({ _id: new ObjectId(`${_id}`) });
 
-    const savedKey = user?.api_keys.find((key) => compareKeys(key.key, api_key));
+    const savedKey = user?.api_keys.find((key) => {
+      if (key.key === api_key) {
+        return true;
+      }
+
+      // Support legacy token emitted using hashed key
+      if (key.key.includes(".")) {
+        return compareKeys(key.key, api_key);
+      }
+
+      return false;
+    });
 
     if (!savedKey) {
       throw unauthorized("La clé d'API fournie a été révoquée");
@@ -70,6 +80,8 @@ async function authApiKey(req: FastifyRequest): Promise<UserWithType<"user", IUs
       {
         $set: {
           "api_keys.$.last_used_at": now,
+          // Keep the key value to migrate from hashed key to plain key
+          "api_keys.$.key": api_key,
           updated_at: now,
         },
       },

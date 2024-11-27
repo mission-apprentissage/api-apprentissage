@@ -28,7 +28,7 @@ services:
       resources:
         limits:
           memory: 2g
-      replicas: 2
+      replicas: 4
     stop_grace_period: 60s
     volumes:
       - /opt/app/data/server:/data

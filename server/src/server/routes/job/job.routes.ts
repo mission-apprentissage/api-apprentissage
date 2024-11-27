@@ -42,7 +42,11 @@ export const jobRoutes = ({ server }: { server: Server }) => {
         {
           endpoint: config.api.lba.endpoint,
           path: "/v3/jobs",
-          requestInit: { method: "POST", body: JSON.stringify(request.body) },
+          requestInit: {
+            method: "POST",
+            body: JSON.stringify(request.body),
+            headers: { "Content-Type": "application/json" },
+          },
         },
         response,
         { user, organisation: request.organisation ?? null }
@@ -64,7 +68,11 @@ export const jobRoutes = ({ server }: { server: Server }) => {
         {
           endpoint: config.api.lba.endpoint,
           path: "/v2/application",
-          requestInit: { method: "POST", body: JSON.stringify(request.body) },
+          requestInit: {
+            method: "POST",
+            body: JSON.stringify(request.body),
+            headers: { "Content-Type": "application/json" },
+          },
         },
         response,
         { user, organisation: request.organisation ?? null }

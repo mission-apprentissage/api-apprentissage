@@ -55,6 +55,25 @@ describe("rechercheCommune", () => {
         id: "A18",
         code: "18",
       },
+      mission_locale: {
+        id: 346,
+        nom: "DE MONTARGIS - GIEN - AIJAM",
+        siret: "43410235600012",
+        localisation: {
+          geopoint: {
+            type: "Point",
+            coordinates: [2.7459767, 48.007378],
+          },
+          adresse: "Centre Nelson Mandela",
+          cp: "45200",
+          ville: "MONTARGIS",
+        },
+        contact: {
+          email: "contact@aijam.com",
+          telephone: "02 38 98 73 60",
+          siteWeb: "https://aijam.com",
+        },
+      },
     },
   ];
 

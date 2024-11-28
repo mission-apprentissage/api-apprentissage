@@ -25,6 +25,24 @@ export const zCommune = z.object({
     centre: zGeoJsonPoint,
     bbox: zGeoJsonPolygon,
   }),
+  mission_locale: z
+    .object({
+      id: z.number(),
+      nom: z.string(),
+      siret: z.string(),
+      localisation: z.object({
+        geopoint: zGeoJsonPoint.nullable(),
+        adresse: z.string(),
+        cp: z.string(),
+        ville: z.string(),
+      }),
+      contact: z.object({
+        email: z.string().email().nullable(),
+        telephone: z.string().nullable(),
+        siteWeb: z.string().nullable(),
+      }),
+    })
+    .nullable(),
 });
 
 export type ICommune = z.infer<typeof zCommune>;

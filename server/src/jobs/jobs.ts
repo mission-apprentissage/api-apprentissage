@@ -28,7 +28,7 @@ import { updateKitApprentissageIndicateurSource } from "./indicateurs/source/kit
 import { create as createMigration, status as statusMigration, up as upMigration } from "./migrations/migrations.js";
 
 const timings = {
-  import_source: config.env === "production" ? "0 4 * * *" : "0 5 * * *",
+  import_source: "0 4 * * *",
   certif: "0 */2 * * *",
   morning: "0 0 * * *",
 };

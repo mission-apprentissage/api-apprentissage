@@ -55,6 +55,7 @@ exports[`runCommuneImporter > should import communes with existing regions and d
         "type": "Point",
       },
     },
+    "mission_locale": null,
     "nom": "Achères",
     "region": {
       "codeInsee": "24",
@@ -115,6 +116,7 @@ exports[`runCommuneImporter > should import communes with existing regions and d
         "type": "Point",
       },
     },
+    "mission_locale": null,
     "nom": "Ainay-le-Vieil",
     "region": {
       "codeInsee": "24",
@@ -175,6 +177,7 @@ exports[`runCommuneImporter > should import communes with existing regions and d
         "type": "Point",
       },
     },
+    "mission_locale": null,
     "nom": "Ambloy",
     "region": {
       "codeInsee": "24",
@@ -235,6 +238,7 @@ exports[`runCommuneImporter > should import communes with existing regions and d
         "type": "Point",
       },
     },
+    "mission_locale": null,
     "nom": "Adon",
     "region": {
       "codeInsee": "24",
@@ -315,6 +319,28 @@ exports[`runCommuneImporter > should import communes with existing regions and d
         "type": "Point",
       },
     },
+    "mission_locale": {
+      "contact": {
+        "email": "contact@mail.fr",
+        "siteWeb": "https://www.missionlocale.paris/",
+        "telephone": "0179970000",
+      },
+      "id": 609,
+      "localisation": {
+        "adresse": "22 rue Pajol",
+        "cp": "75018",
+        "geopoint": {
+          "coordinates": [
+            2.3740736,
+            48.8848179,
+          ],
+          "type": "Point",
+        },
+        "ville": "PARIS",
+      },
+      "nom": "DE PARIS",
+      "siret": "53132862300149",
+    },
     "nom": "Paris",
     "region": {
       "codeInsee": "11",
@@ -374,6 +400,28 @@ exports[`runCommuneImporter > should import communes with existing regions and d
         ],
         "type": "Point",
       },
+    },
+    "mission_locale": {
+      "contact": {
+        "email": "",
+        "siteWeb": "https://www.mlseineetloing.fr/",
+        "telephone": "01 64 28 51 58",
+      },
+      "id": 374,
+      "localisation": {
+        "adresse": "17 Rue des Tanneurs",
+        "cp": "77140",
+        "geopoint": {
+          "coordinates": [
+            2.6988983,
+            48.2655271,
+          ],
+          "type": "Point",
+        },
+        "ville": "NEMOURS",
+      },
+      "nom": "DE LA SEINE ET DU LOING",
+      "siret": "44270199100014",
     },
     "nom": "Achères-la-Forêt",
     "region": {
@@ -435,6 +483,7 @@ exports[`runCommuneImporter > should import communes with existing regions and d
         "type": "Point",
       },
     },
+    "mission_locale": null,
     "nom": "Amillis",
     "region": {
       "codeInsee": "11",
@@ -495,6 +544,7 @@ exports[`runCommuneImporter > should import communes with existing regions and d
         "type": "Point",
       },
     },
+    "mission_locale": null,
     "nom": "Belep",
     "region": {
       "codeInsee": "975",
@@ -555,6 +605,7 @@ exports[`runCommuneImporter > should import communes with existing regions and d
         "type": "Point",
       },
     },
+    "mission_locale": null,
     "nom": "Île de Clipperton",
     "region": {
       "codeInsee": "989",
@@ -620,6 +671,7 @@ exports[`runCommuneImporter > should import initial communes 1`] = `
         "type": "Point",
       },
     },
+    "mission_locale": null,
     "nom": "Achères",
     "region": {
       "codeInsee": "24",
@@ -680,6 +732,7 @@ exports[`runCommuneImporter > should import initial communes 1`] = `
         "type": "Point",
       },
     },
+    "mission_locale": null,
     "nom": "Ainay-le-Vieil",
     "region": {
       "codeInsee": "24",
@@ -740,6 +793,7 @@ exports[`runCommuneImporter > should import initial communes 1`] = `
         "type": "Point",
       },
     },
+    "mission_locale": null,
     "nom": "Ambloy",
     "region": {
       "codeInsee": "24",
@@ -800,6 +854,7 @@ exports[`runCommuneImporter > should import initial communes 1`] = `
         "type": "Point",
       },
     },
+    "mission_locale": null,
     "nom": "Adon",
     "region": {
       "codeInsee": "24",
@@ -880,6 +935,28 @@ exports[`runCommuneImporter > should import initial communes 1`] = `
         "type": "Point",
       },
     },
+    "mission_locale": {
+      "contact": {
+        "email": "contact@mail.fr",
+        "siteWeb": "https://www.missionlocale.paris/",
+        "telephone": "0179970000",
+      },
+      "id": 609,
+      "localisation": {
+        "adresse": "22 rue Pajol",
+        "cp": "75018",
+        "geopoint": {
+          "coordinates": [
+            2.3740736,
+            48.8848179,
+          ],
+          "type": "Point",
+        },
+        "ville": "PARIS",
+      },
+      "nom": "DE PARIS",
+      "siret": "53132862300149",
+    },
     "nom": "Paris",
     "region": {
       "codeInsee": "11",
@@ -939,6 +1016,28 @@ exports[`runCommuneImporter > should import initial communes 1`] = `
         ],
         "type": "Point",
       },
+    },
+    "mission_locale": {
+      "contact": {
+        "email": "",
+        "siteWeb": "https://www.mlseineetloing.fr/",
+        "telephone": "01 64 28 51 58",
+      },
+      "id": 374,
+      "localisation": {
+        "adresse": "17 Rue des Tanneurs",
+        "cp": "77140",
+        "geopoint": {
+          "coordinates": [
+            2.6988983,
+            48.2655271,
+          ],
+          "type": "Point",
+        },
+        "ville": "NEMOURS",
+      },
+      "nom": "DE LA SEINE ET DU LOING",
+      "siret": "44270199100014",
     },
     "nom": "Achères-la-Forêt",
     "region": {
@@ -1000,6 +1099,7 @@ exports[`runCommuneImporter > should import initial communes 1`] = `
         "type": "Point",
       },
     },
+    "mission_locale": null,
     "nom": "Amillis",
     "region": {
       "codeInsee": "11",
@@ -1060,6 +1160,7 @@ exports[`runCommuneImporter > should import initial communes 1`] = `
         "type": "Point",
       },
     },
+    "mission_locale": null,
     "nom": "Belep",
     "region": {
       "codeInsee": "975",
@@ -1120,6 +1221,7 @@ exports[`runCommuneImporter > should import initial communes 1`] = `
         "type": "Point",
       },
     },
+    "mission_locale": null,
     "nom": "Île de Clipperton",
     "region": {
       "codeInsee": "989",

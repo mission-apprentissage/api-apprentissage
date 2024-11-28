@@ -2,6 +2,7 @@ import { internal } from "@hapi/boom";
 import type { AxiosInstance } from "axios";
 import { isAxiosError } from "axios";
 import axiosRetry from "axios-retry";
+import { LRUCache } from "lru-cache";
 
 import config from "@/config.js";
 import getApiClient from "@/services/apis/client.js";
@@ -50,6 +51,8 @@ export type ApiEntEtablissement = {
 const apiEntrepriseClient = apiRateLimiter("apiEntreprise", {
   nbRequests: 100,
   durationInSeconds: 60,
+  maxQueueSize: 10_000,
+  timeout: 60_000,
   client: getApiClient({
     baseURL: config.api.entreprise.baseurl,
   }),
@@ -106,7 +109,17 @@ export const getEntreprise = async (siren: string) => {
 };
 
 export async function getEtablissementDiffusible(siret: string): Promise<ApiEntEtablissement> {
-  return apiEntrepriseClient(async (client: AxiosInstance) => {
+  const cache = new LRUCache<string, ApiEntEtablissement>({
+    max: 1_000,
+    ttl: 60_000 * 60 * 24,
+  });
+
+  const cached = cache.get(siret);
+  if (cached) {
+    return cached;
+  }
+
+  const result = await apiEntrepriseClient(async (client: AxiosInstance) => {
     try {
       logger.debug(`[Entreprise API] Fetching etablissement diffusible ${siret}...`);
       axiosRetry(client, { retries: 3 });
@@ -129,4 +142,7 @@ export async function getEtablissementDiffusible(siret: string): Promise<ApiEntE
       throw withCause(internal("api.entreprise: unable to get etablissement diffusible"), error);
     }
   });
+
+  cache.set(siret, result);
+  return result;
 }

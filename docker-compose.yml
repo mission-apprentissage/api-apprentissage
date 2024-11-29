@@ -7,7 +7,6 @@ services:
     hostname: mongodb
     ports:
       - "127.0.0.1:27018:27017"
-    command: ["-f", "/etc/mongod.conf"]
     volumes:
       - tpml_mongodb_data:/data
     healthcheck:

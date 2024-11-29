@@ -50,7 +50,7 @@ describe("generateOpenApiSchema", () => {
     resolvedOpenapi = (await OpenAPIParser.dereference(openapi)) as any;
   });
 
-  const paths = Object.entries(openapi.paths).filter(([path]) => path.startsWith("/job/v1"));
+  const paths = Object.entries(openapi.paths).filter(([path]) => !path.startsWith("/job/v1"));
 
   it.each<[string, unknown]>(paths)("should be alright %s", async (path) => {
     expect(

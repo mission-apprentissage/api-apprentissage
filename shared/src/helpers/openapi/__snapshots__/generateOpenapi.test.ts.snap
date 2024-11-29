@@ -1,1369 +1,44 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`generateOpenApiSchema > should be alright /job/v1/offer 1`] = `
+exports[`generateOpenApiSchema > should be alright /certification/v1 1`] = `
 [
   {
-    "oldValue": {
-      "_": "schema",
-      "properties": {
-        "apply": {
-          "_": "schema",
-          "properties": {
-            "email": {
-              "_": "schema",
-              "format": "email",
-              "type": [
-                "string",
-                "null",
-              ],
-            },
-            "phone": {
-              "_": "schema",
-              "type": [
-                "string",
-                "null",
-              ],
-            },
-            "url": {
-              "_": "schema",
-              "format": "uri",
-              "type": [
-                "string",
-                "null",
-              ],
-            },
-          },
-          "type": "object",
-        },
-        "contract": {
-          "_": "schema",
-          "properties": {
-            "duration": {
-              "_": "schema",
-              "minimum": 0,
-              "type": [
-                "integer",
-                "null",
-              ],
-            },
-            "remote": {
-              "_": "schema",
-              "enum": [
-                "onsite",
-                "remote",
-                "hybrid",
-              ],
-              "type": [
-                "string",
-                "null",
-              ],
-            },
-            "start": {
-              "_": "schema",
-              "default": [
-                "Apprentissage",
-                "Professionnalisation",
-              ],
-              "format": "date-time",
-              "type": [
-                "string",
-                "null",
-              ],
-            },
-            "type": {
-              "_": "schema",
-              "items": {
-                "_": "schema",
-                "enum": [
-                  "Apprentissage",
-                  "Professionnalisation",
-                ],
-                "type": "string",
-              },
-              "type": "array",
-            },
-          },
-          "type": "object",
-        },
-        "identifier": {
-          "_": "schema",
-          "properties": {
-            "partner_job_id": {
-              "_": "schema",
-              "type": [
-                "string",
-                "null",
-              ],
-            },
-          },
-          "type": "object",
-        },
-        "offer": {
-          "_": "schema",
-          "properties": {
-            "access_conditions": {
-              "_": "schema",
-              "default": [],
-              "items": {
-                "_": "schema",
-                "type": "string",
-              },
-              "type": "array",
-            },
-            "description": {
-              "_": "schema",
-              "minLength": 30,
-              "type": "string",
-            },
-            "desired_skills": {
-              "_": "schema",
-              "default": [],
-              "items": {
-                "_": "schema",
-                "type": "string",
-              },
-              "type": "array",
-            },
-            "multicast": {
-              "_": "schema",
-              "default": true,
-              "type": "boolean",
-            },
-            "opening_count": {
-              "_": "schema",
-              "default": 1,
-              "type": "number",
-            },
-            "origin": {
-              "_": "schema",
-              "type": [
-                "string",
-                "null",
-              ],
-            },
-            "publication": {
-              "_": "schema",
-              "properties": {
-                "creation": {
-                  "_": "schema",
-                  "format": "date-time",
-                  "type": [
-                    "string",
-                    "null",
-                  ],
-                },
-                "expiration": {
-                  "_": "schema",
-                  "format": "date-time",
-                  "type": [
-                    "string",
-                    "null",
-                  ],
-                },
-              },
-              "type": "object",
-            },
-            "rome_codes": {
-              "_": "schema",
-              "items": {
-                "_": "schema",
-                "pattern": "^[A-Z]\\d{4}$",
-                "type": "string",
-              },
-              "type": [
-                "array",
-                "null",
-              ],
-            },
-            "target_diploma": {
-              "_": "schema",
-              "properties": {
-                "european": {
-                  "_": "schema",
-                  "enum": [
-                    "3",
-                    "4",
-                    "5",
-                    "6",
-                    "7",
-                  ],
-                  "type": [
-                    "string",
-                    "null",
-                  ],
-                },
-              },
-              "type": [
-                "object",
-                "null",
-              ],
-            },
-            "title": {
-              "_": "schema",
-              "minLength": 3,
-              "type": "string",
-            },
-            "to_be_acquired_skills": {
-              "_": "schema",
-              "default": [],
-              "items": {
-                "_": "schema",
-                "type": "string",
-              },
-              "type": "array",
-            },
-          },
-          "required": [
-            "description",
-            "title",
-          ],
-          "type": "object",
-        },
-        "workplace": {
-          "_": "schema",
-          "properties": {
-            "description": {
-              "_": "schema",
-              "type": [
-                "string",
-                "null",
-              ],
-            },
-            "location": {
-              "_": "schema",
-              "properties": {
-                "address": {
-                  "_": "schema",
-                  "type": [
-                    "string",
-                    "null",
-                  ],
-                },
-              },
-              "type": [
-                "object",
-                "null",
-              ],
-            },
-            "name": {
-              "_": "schema",
-              "type": [
-                "string",
-                "null",
-              ],
-            },
-            "siret": {
-              "_": "schema",
-              "pattern": "^\\d{14}$",
-              "type": "string",
-            },
-            "website": {
-              "_": "schema",
-              "format": "uri",
-              "type": [
-                "string",
-                "null",
-              ],
-            },
-          },
-          "required": [
-            "siret",
-          ],
-          "type": "object",
-        },
-      },
-      "required": [
-        "apply",
-        "offer",
-        "workplace",
-      ],
-      "type": "object",
-    },
-    "path": [
-      "post",
-      "requestBody",
-      "content",
-      "application/json",
-      "schema",
-    ],
-    "type": "REMOVE",
-  },
-  {
-    "oldValue": {
-      "_": "schema",
-      "properties": {
-        "id": {
-          "_": "schema",
-          "type": "string",
-        },
-      },
-      "required": [
-        "id",
-      ],
-      "type": "object",
-    },
-    "path": [
-      "post",
-      "responses",
-      "200",
-      "content",
-      "application/json",
-      "schema",
-    ],
-    "type": "REMOVE",
-  },
-]
-`;
-
-exports[`generateOpenApiSchema > should be alright /job/v1/offer/{id} 1`] = `
-[
-  {
-    "oldValue": {
-      "_": "schema",
-      "properties": {
-        "apply": {
-          "_": "schema",
-          "properties": {
-            "email": {
-              "_": "schema",
-              "format": "email",
-              "type": [
-                "string",
-                "null",
-              ],
-            },
-            "phone": {
-              "_": "schema",
-              "type": [
-                "string",
-                "null",
-              ],
-            },
-            "url": {
-              "_": "schema",
-              "format": "uri",
-              "type": [
-                "string",
-                "null",
-              ],
-            },
-          },
-          "type": "object",
-        },
-        "contract": {
-          "_": "schema",
-          "properties": {
-            "duration": {
-              "_": "schema",
-              "minimum": 0,
-              "type": [
-                "integer",
-                "null",
-              ],
-            },
-            "remote": {
-              "_": "schema",
-              "enum": [
-                "onsite",
-                "remote",
-                "hybrid",
-              ],
-              "type": [
-                "string",
-                "null",
-              ],
-            },
-            "start": {
-              "_": "schema",
-              "default": [
-                "Apprentissage",
-                "Professionnalisation",
-              ],
-              "format": "date-time",
-              "type": [
-                "string",
-                "null",
-              ],
-            },
-            "type": {
-              "_": "schema",
-              "items": {
-                "_": "schema",
-                "enum": [
-                  "Apprentissage",
-                  "Professionnalisation",
-                ],
-                "type": "string",
-              },
-              "type": "array",
-            },
-          },
-          "type": "object",
-        },
-        "identifier": {
-          "_": "schema",
-          "properties": {
-            "partner_job_id": {
-              "_": "schema",
-              "type": [
-                "string",
-                "null",
-              ],
-            },
-          },
-          "type": "object",
-        },
-        "offer": {
-          "_": "schema",
-          "properties": {
-            "access_conditions": {
-              "_": "schema",
-              "default": [],
-              "items": {
-                "_": "schema",
-                "type": "string",
-              },
-              "type": "array",
-            },
-            "description": {
-              "_": "schema",
-              "minLength": 30,
-              "type": "string",
-            },
-            "desired_skills": {
-              "_": "schema",
-              "default": [],
-              "items": {
-                "_": "schema",
-                "type": "string",
-              },
-              "type": "array",
-            },
-            "multicast": {
-              "_": "schema",
-              "default": true,
-              "type": "boolean",
-            },
-            "opening_count": {
-              "_": "schema",
-              "default": 1,
-              "type": "number",
-            },
-            "origin": {
-              "_": "schema",
-              "type": [
-                "string",
-                "null",
-              ],
-            },
-            "publication": {
-              "_": "schema",
-              "properties": {
-                "creation": {
-                  "_": "schema",
-                  "format": "date-time",
-                  "type": [
-                    "string",
-                    "null",
-                  ],
-                },
-                "expiration": {
-                  "_": "schema",
-                  "format": "date-time",
-                  "type": [
-                    "string",
-                    "null",
-                  ],
-                },
-              },
-              "type": "object",
-            },
-            "rome_codes": {
-              "_": "schema",
-              "items": {
-                "_": "schema",
-                "pattern": "^[A-Z]\\d{4}$",
-                "type": "string",
-              },
-              "type": [
-                "array",
-                "null",
-              ],
-            },
-            "target_diploma": {
-              "_": "schema",
-              "properties": {
-                "european": {
-                  "_": "schema",
-                  "enum": [
-                    "3",
-                    "4",
-                    "5",
-                    "6",
-                    "7",
-                  ],
-                  "type": [
-                    "string",
-                    "null",
-                  ],
-                },
-              },
-              "type": [
-                "object",
-                "null",
-              ],
-            },
-            "title": {
-              "_": "schema",
-              "minLength": 3,
-              "type": "string",
-            },
-            "to_be_acquired_skills": {
-              "_": "schema",
-              "default": [],
-              "items": {
-                "_": "schema",
-                "type": "string",
-              },
-              "type": "array",
-            },
-          },
-          "required": [
-            "description",
-            "title",
-          ],
-          "type": "object",
-        },
-        "workplace": {
-          "_": "schema",
-          "properties": {
-            "description": {
-              "_": "schema",
-              "type": [
-                "string",
-                "null",
-              ],
-            },
-            "location": {
-              "_": "schema",
-              "properties": {
-                "address": {
-                  "_": "schema",
-                  "type": [
-                    "string",
-                    "null",
-                  ],
-                },
-              },
-              "type": [
-                "object",
-                "null",
-              ],
-            },
-            "name": {
-              "_": "schema",
-              "type": [
-                "string",
-                "null",
-              ],
-            },
-            "siret": {
-              "_": "schema",
-              "pattern": "^\\d{14}$",
-              "type": "string",
-            },
-            "website": {
-              "_": "schema",
-              "format": "uri",
-              "type": [
-                "string",
-                "null",
-              ],
-            },
-          },
-          "required": [
-            "siret",
-          ],
-          "type": "object",
-        },
-      },
-      "required": [
-        "apply",
-        "offer",
-        "workplace",
-      ],
-      "type": "object",
-    },
-    "path": [
-      "put",
-      "requestBody",
-      "content",
-      "application/json",
-      "schema",
-    ],
-    "type": "REMOVE",
-  },
-  {
-    "path": [
-      "put",
-      "responses",
-      "204",
-      "content",
-    ],
-    "type": "CREATE",
-    "value": {
-      "application/json": {},
-    },
-  },
-]
-`;
-
-exports[`generateOpenApiSchema > should be alright /job/v1/search 1`] = `
-[
-  {
-    "oldValue": {
-      "latitude": {
-        "in": "query",
-        "name": "latitude",
-        "required": false,
-        "schema": {
-          "_": "schema",
-          "maximum": 90,
-          "minimum": -90,
-          "type": "number",
-        },
-      },
-      "longitude": {
-        "in": "query",
-        "name": "longitude",
-        "required": false,
-        "schema": {
-          "_": "schema",
-          "maximum": 180,
-          "minimum": -180,
-          "type": "number",
-        },
-      },
-      "radius": {
-        "in": "query",
-        "name": "radius",
-        "required": false,
-        "schema": {
-          "_": "schema",
-          "default": 30,
-          "maximum": 200,
-          "minimum": 0,
-          "type": "number",
-        },
-      },
-      "rncp": {
-        "in": "query",
-        "name": "rncp",
-        "required": false,
-        "schema": {
-          "_": "schema",
-          "pattern": "^RNCP\\d{3,5}$",
-          "type": "string",
-        },
-      },
-      "romes": {
-        "in": "query",
-        "name": "romes",
-        "required": false,
-        "schema": {
-          "_": "schema",
-          "type": "string",
-        },
-      },
-      "target_diploma_level": {
-        "in": "query",
-        "name": "target_diploma_level",
-        "required": false,
-        "schema": {
-          "_": "schema",
-          "enum": [
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-          ],
-          "type": "string",
-        },
-      },
-    },
+    "oldValue": true,
     "path": [
       "get",
       "parameters",
+      "identifiant.cfd",
+      "allowEmptyValue",
     ],
     "type": "REMOVE",
   },
   {
-    "oldValue": {
-      "_": "schema",
-      "properties": {
-        "jobs": {
-          "_": "schema",
-          "items": {
-            "_": "schema",
-            "properties": {
-              "apply": {
-                "_": "schema",
-                "properties": {
-                  "phone": {
-                    "_": "schema",
-                    "type": [
-                      "string",
-                      "null",
-                    ],
-                  },
-                  "url": {
-                    "_": "schema",
-                    "format": "uri",
-                    "type": "string",
-                  },
-                },
-                "required": [
-                  "phone",
-                  "url",
-                ],
-                "type": "object",
-              },
-              "contract": {
-                "_": "schema",
-                "properties": {
-                  "duration": {
-                    "_": "schema",
-                    "minimum": 0,
-                    "type": [
-                      "integer",
-                      "null",
-                    ],
-                  },
-                  "remote": {
-                    "_": "schema",
-                    "enum": [
-                      "onsite",
-                      "remote",
-                      "hybrid",
-                    ],
-                    "type": [
-                      "string",
-                      "null",
-                    ],
-                  },
-                  "start": {
-                    "_": "schema",
-                    "format": "date-time",
-                    "type": [
-                      "string",
-                      "null",
-                    ],
-                  },
-                  "type": {
-                    "_": "schema",
-                    "items": {
-                      "_": "schema",
-                      "enum": [
-                        "Apprentissage",
-                        "Professionnalisation",
-                      ],
-                      "type": "string",
-                    },
-                    "type": "array",
-                  },
-                },
-                "required": [
-                  "duration",
-                  "remote",
-                  "start",
-                  "type",
-                ],
-                "type": "object",
-              },
-              "identifier": {
-                "_": "schema",
-                "properties": {
-                  "id": {
-                    "_": "schema",
-                    "type": [
-                      "string",
-                      "null",
-                    ],
-                  },
-                  "partner_job_id": {
-                    "_": "schema",
-                    "type": [
-                      "string",
-                      "null",
-                    ],
-                  },
-                  "partner_label": {
-                    "_": "schema",
-                    "type": "string",
-                  },
-                },
-                "required": [
-                  "id",
-                  "partner_job_id",
-                  "partner_label",
-                ],
-                "type": "object",
-              },
-              "offer": {
-                "_": "schema",
-                "properties": {
-                  "access_conditions": {
-                    "_": "schema",
-                    "items": {
-                      "_": "schema",
-                      "type": "string",
-                    },
-                    "type": "array",
-                  },
-                  "description": {
-                    "_": "schema",
-                    "type": "string",
-                  },
-                  "desired_skills": {
-                    "_": "schema",
-                    "items": {
-                      "_": "schema",
-                      "type": "string",
-                    },
-                    "type": "array",
-                  },
-                  "opening_count": {
-                    "_": "schema",
-                    "type": "number",
-                  },
-                  "publication": {
-                    "_": "schema",
-                    "properties": {
-                      "creation": {
-                        "_": "schema",
-                        "format": "date-time",
-                        "type": [
-                          "string",
-                          "null",
-                        ],
-                      },
-                      "expiration": {
-                        "_": "schema",
-                        "format": "date-time",
-                        "type": [
-                          "string",
-                          "null",
-                        ],
-                      },
-                    },
-                    "required": [
-                      "creation",
-                      "expiration",
-                    ],
-                    "type": "object",
-                  },
-                  "rome_codes": {
-                    "_": "schema",
-                    "items": {
-                      "_": "schema",
-                      "pattern": "^[A-Z]\\d{4}$",
-                      "type": "string",
-                    },
-                    "type": "array",
-                  },
-                  "status": {
-                    "_": "schema",
-                    "enum": [
-                      "Active",
-                      "Filled",
-                      "Cancelled",
-                      "Pending",
-                    ],
-                    "type": "string",
-                  },
-                  "target_diploma": {
-                    "_": "schema",
-                    "properties": {
-                      "european": {
-                        "_": "schema",
-                        "enum": [
-                          "3",
-                          "4",
-                          "5",
-                          "6",
-                          "7",
-                        ],
-                        "type": "string",
-                      },
-                      "label": {
-                        "_": "schema",
-                        "type": "string",
-                      },
-                    },
-                    "required": [
-                      "european",
-                      "label",
-                    ],
-                    "type": [
-                      "object",
-                      "null",
-                    ],
-                  },
-                  "title": {
-                    "_": "schema",
-                    "minLength": 3,
-                    "type": "string",
-                  },
-                  "to_be_acquired_skills": {
-                    "_": "schema",
-                    "items": {
-                      "_": "schema",
-                      "type": "string",
-                    },
-                    "type": "array",
-                  },
-                },
-                "required": [
-                  "access_conditions",
-                  "description",
-                  "desired_skills",
-                  "opening_count",
-                  "publication",
-                  "rome_codes",
-                  "status",
-                  "target_diploma",
-                  "title",
-                  "to_be_acquired_skills",
-                ],
-                "type": "object",
-              },
-              "workplace": {
-                "_": "schema",
-                "properties": {
-                  "brand": {
-                    "_": "schema",
-                    "type": [
-                      "string",
-                      "null",
-                    ],
-                  },
-                  "description": {
-                    "_": "schema",
-                    "type": [
-                      "string",
-                      "null",
-                    ],
-                  },
-                  "domain": {
-                    "_": "schema",
-                    "properties": {
-                      "idcc": {
-                        "_": "schema",
-                        "type": [
-                          "number",
-                          "null",
-                        ],
-                      },
-                      "naf": {
-                        "_": "schema",
-                        "properties": {
-                          "code": {
-                            "_": "schema",
-                            "type": "string",
-                          },
-                          "label": {
-                            "_": "schema",
-                            "type": [
-                              "string",
-                              "null",
-                            ],
-                          },
-                        },
-                        "required": [
-                          "code",
-                          "label",
-                        ],
-                        "type": [
-                          "object",
-                          "null",
-                        ],
-                      },
-                      "opco": {
-                        "_": "schema",
-                        "type": [
-                          "string",
-                          "null",
-                        ],
-                      },
-                    },
-                    "required": [
-                      "idcc",
-                      "naf",
-                      "opco",
-                    ],
-                    "type": "object",
-                  },
-                  "legal_name": {
-                    "_": "schema",
-                    "type": [
-                      "string",
-                      "null",
-                    ],
-                  },
-                  "location": {
-                    "_": "schema",
-                    "properties": {
-                      "address": {
-                        "_": "schema",
-                        "type": "string",
-                      },
-                      "geopoint": {
-                        "_": "schema",
-                        "additionalProperties": false,
-                        "properties": {
-                          "coordinates": {
-                            "_": "schema",
-                            "prefixItems": [
-                              {
-                                "_": "schema",
-                                "maximum": 180,
-                                "minimum": -180,
-                                "type": "number",
-                              },
-                              {
-                                "_": "schema",
-                                "maximum": 90,
-                                "minimum": -90,
-                                "type": "number",
-                              },
-                            ],
-                            "type": "array",
-                          },
-                          "type": {
-                            "_": "schema",
-                            "enum": [
-                              "Point",
-                            ],
-                            "type": "string",
-                          },
-                        },
-                        "required": [
-                          "coordinates",
-                          "type",
-                        ],
-                        "type": "object",
-                      },
-                    },
-                    "required": [
-                      "address",
-                      "geopoint",
-                    ],
-                    "type": "object",
-                  },
-                  "name": {
-                    "_": "schema",
-                    "type": [
-                      "string",
-                      "null",
-                    ],
-                  },
-                  "siret": {
-                    "_": "schema",
-                    "pattern": "^\\d{14}$",
-                    "type": [
-                      "string",
-                      "null",
-                    ],
-                  },
-                  "size": {
-                    "_": "schema",
-                    "type": [
-                      "string",
-                      "null",
-                    ],
-                  },
-                  "website": {
-                    "_": "schema",
-                    "format": "uri",
-                    "type": [
-                      "string",
-                      "null",
-                    ],
-                  },
-                },
-                "required": [
-                  "brand",
-                  "description",
-                  "domain",
-                  "legal_name",
-                  "location",
-                  "name",
-                  "siret",
-                  "size",
-                  "website",
-                ],
-                "type": "object",
-              },
-            },
-            "required": [
-              "apply",
-              "contract",
-              "identifier",
-              "offer",
-              "workplace",
-            ],
-            "type": "object",
-          },
-          "type": "array",
-        },
-        "recruiters": {
-          "_": "schema",
-          "items": {
-            "_": "schema",
-            "properties": {
-              "apply": {
-                "_": "schema",
-                "properties": {
-                  "phone": {
-                    "_": "schema",
-                    "type": [
-                      "string",
-                      "null",
-                    ],
-                  },
-                  "url": {
-                    "_": "schema",
-                    "format": "uri",
-                    "type": "string",
-                  },
-                },
-                "required": [
-                  "phone",
-                  "url",
-                ],
-                "type": "object",
-              },
-              "identifier": {
-                "_": "schema",
-                "properties": {
-                  "id": {
-                    "_": "schema",
-                    "type": "string",
-                  },
-                },
-                "required": [
-                  "id",
-                ],
-                "type": "object",
-              },
-              "workplace": {
-                "_": "schema",
-                "properties": {
-                  "brand": {
-                    "_": "schema",
-                    "type": [
-                      "string",
-                      "null",
-                    ],
-                  },
-                  "description": {
-                    "_": "schema",
-                    "type": [
-                      "string",
-                      "null",
-                    ],
-                  },
-                  "domain": {
-                    "_": "schema",
-                    "properties": {
-                      "idcc": {
-                        "_": "schema",
-                        "type": [
-                          "number",
-                          "null",
-                        ],
-                      },
-                      "naf": {
-                        "_": "schema",
-                        "properties": {
-                          "code": {
-                            "_": "schema",
-                            "type": "string",
-                          },
-                          "label": {
-                            "_": "schema",
-                            "type": [
-                              "string",
-                              "null",
-                            ],
-                          },
-                        },
-                        "required": [
-                          "code",
-                          "label",
-                        ],
-                        "type": [
-                          "object",
-                          "null",
-                        ],
-                      },
-                      "opco": {
-                        "_": "schema",
-                        "type": [
-                          "string",
-                          "null",
-                        ],
-                      },
-                    },
-                    "required": [
-                      "idcc",
-                      "naf",
-                      "opco",
-                    ],
-                    "type": "object",
-                  },
-                  "legal_name": {
-                    "_": "schema",
-                    "type": [
-                      "string",
-                      "null",
-                    ],
-                  },
-                  "location": {
-                    "_": "schema",
-                    "properties": {
-                      "address": {
-                        "_": "schema",
-                        "type": "string",
-                      },
-                      "geopoint": {
-                        "_": "schema",
-                        "additionalProperties": false,
-                        "properties": {
-                          "coordinates": {
-                            "_": "schema",
-                            "prefixItems": [
-                              {
-                                "_": "schema",
-                                "maximum": 180,
-                                "minimum": -180,
-                                "type": "number",
-                              },
-                              {
-                                "_": "schema",
-                                "maximum": 90,
-                                "minimum": -90,
-                                "type": "number",
-                              },
-                            ],
-                            "type": "array",
-                          },
-                          "type": {
-                            "_": "schema",
-                            "enum": [
-                              "Point",
-                            ],
-                            "type": "string",
-                          },
-                        },
-                        "required": [
-                          "coordinates",
-                          "type",
-                        ],
-                        "type": "object",
-                      },
-                    },
-                    "required": [
-                      "address",
-                      "geopoint",
-                    ],
-                    "type": "object",
-                  },
-                  "name": {
-                    "_": "schema",
-                    "type": [
-                      "string",
-                      "null",
-                    ],
-                  },
-                  "siret": {
-                    "_": "schema",
-                    "pattern": "^\\d{14}$",
-                    "type": [
-                      "string",
-                      "null",
-                    ],
-                  },
-                  "size": {
-                    "_": "schema",
-                    "type": [
-                      "string",
-                      "null",
-                    ],
-                  },
-                  "website": {
-                    "_": "schema",
-                    "format": "uri",
-                    "type": [
-                      "string",
-                      "null",
-                    ],
-                  },
-                },
-                "required": [
-                  "brand",
-                  "description",
-                  "domain",
-                  "legal_name",
-                  "location",
-                  "name",
-                  "siret",
-                  "size",
-                  "website",
-                ],
-                "type": "object",
-              },
-            },
-            "required": [
-              "apply",
-              "identifier",
-              "workplace",
-            ],
-            "type": "object",
-          },
-          "type": "array",
-        },
-        "warnings": {
-          "_": "schema",
-          "items": {
-            "_": "schema",
-            "properties": {
-              "code": {
-                "_": "schema",
-                "type": "string",
-              },
-              "message": {
-                "_": "schema",
-                "type": "string",
-              },
-            },
-            "required": [
-              "code",
-              "message",
-            ],
-            "type": "object",
-          },
-          "type": "array",
-        },
-      },
-      "required": [
-        "jobs",
-        "recruiters",
-        "warnings",
-      ],
-      "type": "object",
-    },
+    "oldValue": true,
+    "path": [
+      "get",
+      "parameters",
+      "identifiant.rncp",
+      "allowEmptyValue",
+    ],
+    "type": "REMOVE",
+  },
+]
+`;
+
+exports[`generateOpenApiSchema > should be alright /experimental/source/acce 1`] = `[]`;
+
+exports[`generateOpenApiSchema > should be alright /experimental/source/acce/fille 1`] = `[]`;
+
+exports[`generateOpenApiSchema > should be alright /experimental/source/acce/mere 1`] = `[]`;
+
+exports[`generateOpenApiSchema > should be alright /experimental/source/acce/specialite 1`] = `[]`;
+
+exports[`generateOpenApiSchema > should be alright /experimental/source/acce/zone 1`] = `[]`;
+
+exports[`generateOpenApiSchema > should be alright /geographie/v1/commune/search 1`] = `
+[
+  {
+    "oldValue": 2,
     "path": [
       "get",
       "responses",
@@ -1371,11 +46,133 @@ exports[`generateOpenApiSchema > should be alright /job/v1/search 1`] = `
       "content",
       "application/json",
       "schema",
+      "items",
+      "properties",
+      "localisation",
+      "properties",
+      "centre",
+      "properties",
+      "coordinates",
+      "maxItems",
+    ],
+    "type": "REMOVE",
+  },
+  {
+    "oldValue": 2,
+    "path": [
+      "get",
+      "responses",
+      "200",
+      "content",
+      "application/json",
+      "schema",
+      "items",
+      "properties",
+      "localisation",
+      "properties",
+      "centre",
+      "properties",
+      "coordinates",
+      "minItems",
+    ],
+    "type": "REMOVE",
+  },
+  {
+    "oldValue": 2,
+    "path": [
+      "get",
+      "responses",
+      "200",
+      "content",
+      "application/json",
+      "schema",
+      "items",
+      "properties",
+      "localisation",
+      "properties",
+      "bbox",
+      "properties",
+      "coordinates",
+      "items",
+      "items",
+      "maxItems",
+    ],
+    "type": "REMOVE",
+  },
+  {
+    "oldValue": 2,
+    "path": [
+      "get",
+      "responses",
+      "200",
+      "content",
+      "application/json",
+      "schema",
+      "items",
+      "properties",
+      "localisation",
+      "properties",
+      "bbox",
+      "properties",
+      "coordinates",
+      "items",
+      "items",
+      "minItems",
+    ],
+    "type": "REMOVE",
+  },
+  {
+    "oldValue": 2,
+    "path": [
+      "get",
+      "responses",
+      "200",
+      "content",
+      "application/json",
+      "schema",
+      "items",
+      "properties",
+      "mission_locale",
+      "properties",
+      "localisation",
+      "properties",
+      "geopoint",
+      "properties",
+      "coordinates",
+      "maxItems",
+    ],
+    "type": "REMOVE",
+  },
+  {
+    "oldValue": 2,
+    "path": [
+      "get",
+      "responses",
+      "200",
+      "content",
+      "application/json",
+      "schema",
+      "items",
+      "properties",
+      "mission_locale",
+      "properties",
+      "localisation",
+      "properties",
+      "geopoint",
+      "properties",
+      "coordinates",
+      "minItems",
     ],
     "type": "REMOVE",
   },
 ]
 `;
+
+exports[`generateOpenApiSchema > should be alright /geographie/v1/departement 1`] = `[]`;
+
+exports[`generateOpenApiSchema > should be alright /healthcheck 1`] = `[]`;
+
+exports[`generateOpenApiSchema > should be alright /organisme/v1/recherche 1`] = `[]`;
 
 exports[`generateOpenApiSchema > should generate proper schema 1`] = `
 {
@@ -2965,20 +1762,23 @@ Les champs \`centre\` et \`bbox\` sont tous les deux au format [GeoJSON](https:/
                 "properties": {
                   "coordinates": {
                     "items": {
-                      "maxItems": 2,
-                      "minItems": 2,
-                      "prefixItems": [
-                        {
-                          "maximum": 180,
-                          "minimum": -180,
-                          "type": "number",
-                        },
-                        {
-                          "maximum": 90,
-                          "minimum": -90,
-                          "type": "number",
-                        },
-                      ],
+                      "items": {
+                        "maxItems": 2,
+                        "minItems": 2,
+                        "prefixItems": [
+                          {
+                            "maximum": 180,
+                            "minimum": -180,
+                            "type": "number",
+                          },
+                          {
+                            "maximum": 90,
+                            "minimum": -90,
+                            "type": "number",
+                          },
+                        ],
+                        "type": "array",
+                      },
                       "type": "array",
                     },
                     "type": "array",
@@ -3037,6 +1837,124 @@ Les champs \`centre\` et \`bbox\` sont tous les deux au format [GeoJSON](https:/
             ],
             "type": "object",
           },
+          "mission_locale": {
+            "description": "Mission locale dont relève la commune",
+            "properties": {
+              "contact": {
+                "description": "Contact de la mission locale",
+                "properties": {
+                  "email": {
+                    "description": "Adresse email de la mission locale",
+                    "format": "email",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "siteWeb": {
+                    "description": "Site web de la mission locale",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "telephone": {
+                    "description": "Numéro de téléphone de la mission locale",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                },
+                "required": [
+                  "email",
+                  "telephone",
+                  "siteWeb",
+                ],
+                "type": "object",
+              },
+              "id": {
+                "description": "Identifiant de la mission locale",
+                "type": "number",
+              },
+              "localisation": {
+                "description": "Localisation de la mission locale",
+                "properties": {
+                  "adresse": {
+                    "type": "string",
+                  },
+                  "cp": {
+                    "type": "string",
+                  },
+                  "geopoint": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "coordinates": {
+                        "maxItems": 2,
+                        "minItems": 2,
+                        "prefixItems": [
+                          {
+                            "maximum": 180,
+                            "minimum": -180,
+                            "type": "number",
+                          },
+                          {
+                            "maximum": 90,
+                            "minimum": -90,
+                            "type": "number",
+                          },
+                        ],
+                        "type": "array",
+                      },
+                      "type": {
+                        "enum": [
+                          "Point",
+                        ],
+                        "type": "string",
+                      },
+                    },
+                    "required": [
+                      "type",
+                      "coordinates",
+                    ],
+                    "type": [
+                      "object",
+                      "null",
+                    ],
+                  },
+                  "ville": {
+                    "type": "string",
+                  },
+                },
+                "required": [
+                  "geopoint",
+                  "adresse",
+                  "cp",
+                  "ville",
+                ],
+                "type": "object",
+              },
+              "nom": {
+                "description": "Nom de la mission locale",
+                "type": "string",
+              },
+              "siret": {
+                "description": "Numéro SIRET de la mission locale",
+                "type": "string",
+              },
+            },
+            "required": [
+              "id",
+              "nom",
+              "siret",
+              "localisation",
+              "contact",
+            ],
+            "type": [
+              "object",
+              "null",
+            ],
+          },
           "nom": {
             "description": "Nom de la commune",
             "type": "string",
@@ -3067,6 +1985,7 @@ Les champs \`centre\` et \`bbox\` sont tous les deux au format [GeoJSON](https:/
           "academie",
           "region",
           "localisation",
+          "mission_locale",
         ],
         "type": "object",
       },
@@ -7823,20 +6742,23 @@ Les champs \`centre\` et \`bbox\` sont tous les deux au format [GeoJSON](https:/
                             "properties": {
                               "coordinates": {
                                 "items": {
-                                  "maxItems": 2,
-                                  "minItems": 2,
-                                  "prefixItems": [
-                                    {
-                                      "maximum": 180,
-                                      "minimum": -180,
-                                      "type": "number",
-                                    },
-                                    {
-                                      "maximum": 90,
-                                      "minimum": -90,
-                                      "type": "number",
-                                    },
-                                  ],
+                                  "items": {
+                                    "maxItems": 2,
+                                    "minItems": 2,
+                                    "prefixItems": [
+                                      {
+                                        "maximum": 180,
+                                        "minimum": -180,
+                                        "type": "number",
+                                      },
+                                      {
+                                        "maximum": 90,
+                                        "minimum": -90,
+                                        "type": "number",
+                                      },
+                                    ],
+                                    "type": "array",
+                                  },
                                   "type": "array",
                                 },
                                 "type": "array",
@@ -7895,6 +6817,124 @@ Les champs \`centre\` et \`bbox\` sont tous les deux au format [GeoJSON](https:/
                         ],
                         "type": "object",
                       },
+                      "mission_locale": {
+                        "description": "Mission locale dont relève la commune",
+                        "properties": {
+                          "contact": {
+                            "description": "Contact de la mission locale",
+                            "properties": {
+                              "email": {
+                                "description": "Adresse email de la mission locale",
+                                "format": "email",
+                                "type": [
+                                  "string",
+                                  "null",
+                                ],
+                              },
+                              "siteWeb": {
+                                "description": "Site web de la mission locale",
+                                "type": [
+                                  "string",
+                                  "null",
+                                ],
+                              },
+                              "telephone": {
+                                "description": "Numéro de téléphone de la mission locale",
+                                "type": [
+                                  "string",
+                                  "null",
+                                ],
+                              },
+                            },
+                            "required": [
+                              "email",
+                              "telephone",
+                              "siteWeb",
+                            ],
+                            "type": "object",
+                          },
+                          "id": {
+                            "description": "Identifiant de la mission locale",
+                            "type": "number",
+                          },
+                          "localisation": {
+                            "description": "Localisation de la mission locale",
+                            "properties": {
+                              "adresse": {
+                                "type": "string",
+                              },
+                              "cp": {
+                                "type": "string",
+                              },
+                              "geopoint": {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "coordinates": {
+                                    "maxItems": 2,
+                                    "minItems": 2,
+                                    "prefixItems": [
+                                      {
+                                        "maximum": 180,
+                                        "minimum": -180,
+                                        "type": "number",
+                                      },
+                                      {
+                                        "maximum": 90,
+                                        "minimum": -90,
+                                        "type": "number",
+                                      },
+                                    ],
+                                    "type": "array",
+                                  },
+                                  "type": {
+                                    "enum": [
+                                      "Point",
+                                    ],
+                                    "type": "string",
+                                  },
+                                },
+                                "required": [
+                                  "type",
+                                  "coordinates",
+                                ],
+                                "type": [
+                                  "object",
+                                  "null",
+                                ],
+                              },
+                              "ville": {
+                                "type": "string",
+                              },
+                            },
+                            "required": [
+                              "geopoint",
+                              "adresse",
+                              "cp",
+                              "ville",
+                            ],
+                            "type": "object",
+                          },
+                          "nom": {
+                            "description": "Nom de la mission locale",
+                            "type": "string",
+                          },
+                          "siret": {
+                            "description": "Numéro SIRET de la mission locale",
+                            "type": "string",
+                          },
+                        },
+                        "required": [
+                          "id",
+                          "nom",
+                          "siret",
+                          "localisation",
+                          "contact",
+                        ],
+                        "type": [
+                          "object",
+                          "null",
+                        ],
+                      },
                       "nom": {
                         "description": "Nom de la commune",
                         "type": "string",
@@ -7925,6 +6965,7 @@ Les champs \`centre\` et \`bbox\` sont tous les deux au format [GeoJSON](https:/
                       "academie",
                       "region",
                       "localisation",
+                      "mission_locale",
                     ],
                     "type": "object",
                   },

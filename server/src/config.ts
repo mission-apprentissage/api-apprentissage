@@ -72,6 +72,9 @@ const config = {
     geo: {
       endpoint: "https://geo.api.gouv.fr",
     },
+    unml: {
+      endpoint: "https://api.unml.info",
+    },
     insee: {
       endpoint: "https://api.insee.fr",
       token: env.get("API_INSEE_TOKEN").required().asString(),

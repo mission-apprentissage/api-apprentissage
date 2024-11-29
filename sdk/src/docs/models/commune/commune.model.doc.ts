@@ -176,5 +176,66 @@ export const communeModelDoc = {
         },
       },
     },
+    mission_locale: {
+      section: {
+        en: null,
+        fr: "Mission locale",
+      },
+      metier: true,
+      description: { en: null, fr: "Mission locale dont relève la commune" },
+      tags: [".mission_locale.id", ".mission_locale.nom", ".mission_locale.siret"],
+      _: {
+        id: {
+          description: { en: null, fr: "Identifiant de la mission locale" },
+        },
+        nom: {
+          description: { en: null, fr: "Nom de la mission locale" },
+        },
+        siret: {
+          description: { en: null, fr: "Numéro SIRET de la mission locale" },
+        },
+        localisation: {
+          metier: true,
+          section: {
+            en: null,
+            fr: "Localisation",
+          },
+          description: {
+            en: null,
+            fr: "Localisation de la mission locale",
+          },
+          tags: [
+            ".mission_locale.localisation.geopoint",
+            ".mission_locale.localisation.adresse",
+            ".mission_locale.localisation.cp",
+            ".mission_locale.localisation.ville",
+          ],
+        },
+        contact: {
+          metier: true,
+          section: {
+            en: null,
+            fr: "Contact",
+          },
+          description: { en: null, fr: "Contact de la mission locale" },
+          tags: [
+            ".mission_locale.contact.email",
+            ".mission_locale.contact.telephone",
+            ".mission_locale.contact.siteWeb",
+          ],
+          _: {
+            email: {
+              description: { en: null, fr: "Adresse email de la mission locale" },
+            },
+            telephone: {
+              description: { en: null, fr: "Numéro de téléphone de la mission locale" },
+            },
+            siteWeb: {
+              description: { en: null, fr: "Site web de la mission locale" },
+            },
+          },
+        },
+      },
+    },
   },
 } as const satisfies DocModel;

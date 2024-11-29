@@ -5,6 +5,8 @@ fileignoreconfig:
   checksum: f68e8532ff50d8777000fe6d27a6cdf8288574ca900ca3c0df4b6176b7a6d797
 - filename: .yarn/plugins/@yarnpkg/plugin-interactive-tools.cjs
   checksum: a663e9955c2825bee3af55be1ebd6e26cd0a17fe7c614a13d726ddd4c7959b82
+- filename: sdk/src/client/internal/geographie/geographie.module.test.ts
+  checksum: 520b2ba0cac171d714a8cf8c7a4fdb349e280416aeaff419a94d423898674b0e
 - filename: sdk/src/docs/models/job/offer_read.model.doc.ts
   checksum: 99756953eb5b3ac5e1ef18cab25bc6f5a992afa8bf3d5c3a3687b27cb3ce321e
 - filename: sdk/src/docs/models/job/offer_write.model.doc.ts
@@ -15,10 +17,16 @@ fileignoreconfig:
   checksum: 4c6e64beba2f719da577a0aae1c9642e6e2e8712dc909dc62c64c081a2c612a8
 - filename: server/.env.test
   checksum: 65357f150bfedfebea511b1007eed941983484abf990d87e91fd7477360ad280
+- filename: server/src/jobs/importer/commune/__snapshots__/commune.importer.test.ts.snap
+  checksum: 7505813ef556c3a7befee7e1576467b2bcbd806534843b5d09d00e0878115573
 - filename: server/src/jobs/importer/dares/ccn/fixtures/article.html
   checksum: ffeb0d8b299c63b63ced0ecbcc41f72be67e4ba4e28a13b763cfdf6670e76e9d
+- filename: server/src/services/apis/unml/unml.test.ts
+  checksum: 71b196ba42a795b8a649fb9a17ac356cd719bfc9c254d4859a8aab22b05b03e5
 - filename: shared/src/helpers/openapi/__snapshots__/generateOpenapi.test.ts.snap
   checksum: a5055a921ec73a0ebd7a9cee510ccb4d8aa1e43514f5720660c741bad372c916
+- filename: shared/src/models/fixtures/commune.model.fixture.ts
+  checksum: daa4eff58250cff472482a39a8c7a215f71986324c07c257a24e0de1948e1dd3
 - filename: ui/app/[lang]/explorer/certifications/page.tsx
   checksum: 79162968dc111206592c35c9bdbfc1babae88ad1390a190d6c7b5108ebb82b9d
 - filename: ui/app/[lang]/explorer/depot-offre/page.tsx

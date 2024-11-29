@@ -1180,6 +1180,126 @@ exports[`zodToMongoSchema > should convert commune schema 1`] = `
         "bbox",
       ],
     },
+    "mission_locale": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "contact": {
+              "additionalProperties": false,
+              "bsonType": "object",
+              "properties": {
+                "email": {
+                  "anyOf": [
+                    {
+                      "bsonType": "string",
+                    },
+                    {
+                      "bsonType": "null",
+                    },
+                  ],
+                },
+                "siteWeb": {
+                  "bsonType": [
+                    "string",
+                    "null",
+                  ],
+                },
+                "telephone": {
+                  "bsonType": [
+                    "string",
+                    "null",
+                  ],
+                },
+              },
+              "required": [
+                "email",
+                "telephone",
+                "siteWeb",
+              ],
+            },
+            "id": {
+              "bsonType": "number",
+            },
+            "localisation": {
+              "additionalProperties": false,
+              "bsonType": "object",
+              "properties": {
+                "adresse": {
+                  "bsonType": "string",
+                },
+                "cp": {
+                  "bsonType": "string",
+                },
+                "geopoint": {
+                  "anyOf": [
+                    {
+                      "additionalProperties": false,
+                      "bsonType": "object",
+                      "properties": {
+                        "coordinates": {
+                          "bsonType": "array",
+                          "items": [
+                            {
+                              "bsonType": "number",
+                              "maximum": 180,
+                              "minimum": -180,
+                            },
+                            {
+                              "bsonType": "number",
+                              "maximum": 90,
+                              "minimum": -90,
+                            },
+                          ],
+                          "maxItems": 2,
+                          "minItems": 2,
+                        },
+                        "type": {
+                          "bsonType": "string",
+                        },
+                      },
+                      "required": [
+                        "coordinates",
+                        "type",
+                      ],
+                    },
+                    {
+                      "bsonType": "null",
+                    },
+                  ],
+                },
+                "ville": {
+                  "bsonType": "string",
+                },
+              },
+              "required": [
+                "geopoint",
+                "adresse",
+                "cp",
+                "ville",
+              ],
+            },
+            "nom": {
+              "bsonType": "string",
+            },
+            "siret": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "id",
+            "nom",
+            "siret",
+            "localisation",
+            "contact",
+          ],
+        },
+        {
+          "bsonType": "null",
+        },
+      ],
+    },
     "nom": {
       "bsonType": "string",
     },
@@ -1210,6 +1330,7 @@ exports[`zodToMongoSchema > should convert commune schema 1`] = `
     "region",
     "academie",
     "localisation",
+    "mission_locale",
     "_id",
     "created_at",
     "updated_at",

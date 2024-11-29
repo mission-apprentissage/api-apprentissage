@@ -1,7 +1,6 @@
 import { internal } from "@hapi/boom";
 import type { AxiosInstance } from "axios";
 import { isAxiosError } from "axios";
-import axiosRetry from "axios-retry";
 import { LRUCache } from "lru-cache";
 
 import config from "@/config.js";
@@ -53,9 +52,14 @@ const apiEntrepriseClient = apiRateLimiter("apiEntreprise", {
   durationInSeconds: 60,
   maxQueueSize: 10_000,
   timeout: 60_000,
-  client: getApiClient({
-    baseURL: config.api.entreprise.baseurl,
-  }),
+  client: getApiClient(
+    {
+      baseURL: config.api.entreprise.baseurl,
+    },
+    {
+      cache: false,
+    }
+  ),
 });
 
 const apiParams = {
@@ -122,7 +126,6 @@ export async function getEtablissementDiffusible(siret: string): Promise<ApiEntE
   const result = await apiEntrepriseClient(async (client: AxiosInstance) => {
     try {
       logger.debug(`[Entreprise API] Fetching etablissement diffusible ${siret}...`);
-      axiosRetry(client, { retries: 3 });
       const response = await client.get(`insee/sirene/etablissements/diffusibles/${siret}`, {
         params: apiParams,
       });

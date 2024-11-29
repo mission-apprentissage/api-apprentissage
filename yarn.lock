@@ -5067,17 +5067,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios-retry@npm:^4.5.0":
-  version: 4.5.0
-  resolution: "axios-retry@npm:4.5.0"
-  dependencies:
-    is-retry-allowed: ^2.2.0
-  peerDependencies:
-    axios: 0.x || 1.x
-  checksum: ec831e566ed3a55d3c3c927c1d42c52f2c2f1a8ea99ff8521d3675c6313f8c77f704c7186299fda08b7dc0f771a2c5471e72d279789d5aade65ec3755ab3a1ff
-  languageName: node
-  linkType: hard
-
 "axios@npm:^1.4.0, axios@npm:^1.7.7":
   version: 1.7.7
   resolution: "axios@npm:1.7.7"
@@ -9942,13 +9931,6 @@ __metadata:
     call-bind: ^1.0.2
     has-tostringtag: ^1.0.0
   checksum: 362399b33535bc8f386d96c45c9feb04cf7f8b41c182f54174c1a45c9abbbe5e31290bbad09a458583ff6bf3b2048672cdb1881b13289569a7c548370856a652
-  languageName: node
-  linkType: hard
-
-"is-retry-allowed@npm:^2.2.0":
-  version: 2.2.0
-  resolution: "is-retry-allowed@npm:2.2.0"
-  checksum: 3d1103a9290b5d03626756a41054844633eac78bc5d3e3a95b13afeae94fa3cfbcf7f0b5520d83f75f48a25ce7b142fdbac4217dc4b0630f3ea55e866ec3a029
   languageName: node
   linkType: hard
 
@@ -15589,7 +15571,6 @@ __metadata:
     archiver: ^7.0.1
     axios: ^1.7.7
     axios-cache-interceptor: ^1.6.0
-    axios-retry: ^4.5.0
     commander: ^12.1.0
     cron-parser: ^4.9.0
     csv-parse: ^5.5.6

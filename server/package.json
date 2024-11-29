@@ -33,7 +33,6 @@
     "api-alternance-sdk": "workspace:^",
     "axios": "^1.7.7",
     "axios-cache-interceptor": "^1.6.0",
-    "axios-retry": "^4.5.0",
     "commander": "^12.1.0",
     "cron-parser": "^4.9.0",
     "csv-parse": "^5.5.6",

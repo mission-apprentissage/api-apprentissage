@@ -2,16 +2,13 @@ version: "3.8"
 
 services:
   mongodb:
-    image: mongo:7
+    build: ./.infra/local/
     restart: unless-stopped
     hostname: mongodb
     ports:
       - "127.0.0.1:27018:27017"
-    command: ["-f", "/etc/mongod.conf"]
     volumes:
       - tpml_mongodb_data:/data
-      - ./.infra/local/mongo_keyfile:/tmp/mongo_keyfile
-      - ./.infra/local/mongod.conf:/etc/mongod.conf:ro
     healthcheck:
       test: ["CMD", "mongosh", "--eval", '''db.runCommand("ping").ok''', "--quiet"]
       interval: 10s

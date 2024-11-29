@@ -1,7 +1,7 @@
 import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
 import { beforeEach, describe, expect, expectTypeOf, it } from "vitest";
 
-import type { ICommune, IDepartement } from "../../../models/index.js";
+import type { ICommune, IDepartement, IMissionLocale } from "../../../models/index.js";
 import { ApiClient } from "../../client.js";
 import { ApiError } from "../apiError.js";
 import { ApiParseError } from "../parser/response.parser.js";
@@ -341,6 +341,140 @@ describe("listDepartements", () => {
     const data = await apiClient.geographie.listDepartements();
 
     expectTypeOf(data).toEqualTypeOf<IDepartement[]>();
+
+    expect(scope.isDone()).toBe(true);
+    expect(data).toEqual(response);
+  });
+});
+
+describe("listMissionLocale", () => {
+  const response = [
+    {
+      id: 1,
+      nom: "DE LA PICARDIE MARITIME",
+      siret: "43012526000017",
+      localisation: {
+        geopoint: {
+          coordinates: [1.8396337, 50.099872],
+          type: "Point",
+        },
+        adresse: "82, rue Saint-Gilles",
+        cp: "80100",
+        ville: "ABBEVILLE",
+      },
+      contact: {
+        email: "mlpm@mail.fr",
+        telephone: "03 22 20 14 14",
+        siteWeb: "https://www.mlpm.org",
+      },
+    },
+    {
+      id: 2,
+      nom: "DE L'AGENAIS, DE L'ALBRET ET DU CONFLUENT",
+      siret: "38988650800040",
+      localisation: {
+        geopoint: {
+          coordinates: [0.6231217, 44.2071179],
+          type: "Point",
+        },
+        adresse: "70 Bld Silvain Dumon",
+        cp: "47000",
+        ville: "AGEN",
+      },
+      contact: {
+        email: "accueil@mail.fr",
+        telephone: "05 53 47 23 32",
+        siteWeb: "https://missionlocale-agen.org/",
+      },
+    },
+  ];
+
+  it("should call the API", async () => {
+    const scope = nock("https://api.apprentissage.beta.gouv.fr/api", {
+      reqheaders: { authorization: "Bearer api-key" },
+    })
+      .get("/geographie/v1/mission-locale")
+      .reply(200, response);
+
+    const apiClient = new ApiClient({ key: "api-key" });
+
+    const data = await apiClient.geographie.listMissionLocales();
+
+    expectTypeOf(data).toEqualTypeOf<IMissionLocale[]>();
+
+    expect(scope.isDone()).toBe(true);
+    expect(data).toEqual(response);
+  });
+
+  it("should throw an ApiError when server error", async () => {
+    const scope = nock("https://api.apprentissage.beta.gouv.fr/api", {
+      reqheaders: { authorization: "Bearer api-key" },
+    })
+      .get("/geographie/v1/mission-locale")
+      .reply(401, {
+        statusCode: 401,
+        name: "Unauthorized",
+        message: "Vous devez fournir une clé d'API valide pour accéder à cette ressource",
+      });
+
+    const apiClient = new ApiClient({ key: "api-key" });
+    const err = await apiClient.geographie
+      .listMissionLocales()
+      .then(() => {
+        expect.unreachable("should throw an error");
+      })
+      .catch((error: ApiError) => {
+        return error;
+      });
+
+    expect(err).toBeInstanceOf(ApiError);
+    expect(err.name).toBe("Unauthorized");
+
+    expect(scope.isDone()).toBe(true);
+  });
+
+  it("should throw if the response does not match the schema", async () => {
+    const scope = nock("https://api.apprentissage.beta.gouv.fr/api", {
+      reqheaders: { authorization: "Bearer api-key" },
+    })
+      .get("/geographie/v1/mission-locale")
+      .reply(200, { breaking: "schema" });
+
+    const apiClient = new ApiClient({ key: "api-key" });
+    const err = await apiClient.geographie
+      .listMissionLocales()
+      .then(() => {
+        expect.unreachable("should throw an error");
+      })
+      .catch((error: ApiError) => {
+        return error;
+      });
+
+    expect(err).toBeInstanceOf(ApiParseError);
+    expect(err.name).toBe("ApiParseError");
+    expect(err.message).toMatchSnapshot();
+
+    expect(scope.isDone()).toBe(true);
+  });
+
+  it("should accepts future schema ehancements", async () => {
+    const scope = nock("https://api.apprentissage.beta.gouv.fr/api", {
+      reqheaders: { authorization: "Bearer api-key" },
+    })
+      .get("/geographie/v1/mission-locale")
+      .reply(
+        200,
+        response.map((c) => ({
+          ...c,
+          new_field: "new_field",
+        }))
+      );
+
+    const apiClient = new ApiClient({ key: "api-key" });
+
+    const data = await apiClient.geographie.listMissionLocales();
+
+    expectTypeOf(data).toEqualTypeOf<IMissionLocale[]>();
 
     expect(scope.isDone()).toBe(true);
     expect(data).toEqual(response);

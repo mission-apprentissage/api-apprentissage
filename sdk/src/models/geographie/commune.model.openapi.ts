@@ -89,48 +89,7 @@ const communeSchema = {
       required: ["centre", "bbox"],
     },
     mission_locale: {
-      type: ["object", "null"],
-      properties: {
-        id: { type: "number" },
-        nom: { type: "string" },
-        siret: { type: "string" },
-        localisation: {
-          type: "object",
-          properties: {
-            geopoint: {
-              type: ["object", "null"],
-              properties: {
-                type: { type: "string", enum: ["Point"] },
-                coordinates: {
-                  type: "array",
-                  prefixItems: [
-                    { type: "number", minimum: -180, maximum: 180 },
-                    { type: "number", minimum: -90, maximum: 90 },
-                  ],
-                  minItems: 2,
-                  maxItems: 2,
-                },
-              },
-              additionalProperties: false,
-              required: ["type", "coordinates"],
-            },
-            adresse: { type: "string" },
-            cp: { type: "string" },
-            ville: { type: "string" },
-          },
-          required: ["geopoint", "adresse", "cp", "ville"],
-        },
-        contact: {
-          type: "object",
-          properties: {
-            email: { type: ["string", "null"], format: "email" },
-            telephone: { type: ["string", "null"] },
-            siteWeb: { type: ["string", "null"] },
-          },
-          required: ["email", "telephone", "siteWeb"],
-        },
-      },
-      required: ["id", "nom", "siret", "localisation", "contact"],
+      anyOf: [{ type: "null" }, { $ref: "#/components/schemas/MissionLocale" }],
     },
   },
   required: ["nom", "code", "departement", "academie", "region", "localisation", "mission_locale"],

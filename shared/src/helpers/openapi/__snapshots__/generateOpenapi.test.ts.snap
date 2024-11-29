@@ -122,7 +122,135 @@ exports[`generateOpenApiSchema > should be alright /geographie/v1/commune/search
     "type": "REMOVE",
   },
   {
-    "oldValue": 2,
+    "oldValue": [
+      {
+        "_": "schema",
+        "type": "null",
+      },
+      {
+        "_": "schema",
+        "properties": {
+          "contact": {
+            "_": "schema",
+            "properties": {
+              "email": {
+                "_": "schema",
+                "format": "email",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "siteWeb": {
+                "_": "schema",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "telephone": {
+                "_": "schema",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+            },
+            "required": [
+              "email",
+              "siteWeb",
+              "telephone",
+            ],
+            "type": "object",
+          },
+          "id": {
+            "_": "schema",
+            "type": "number",
+          },
+          "localisation": {
+            "_": "schema",
+            "properties": {
+              "adresse": {
+                "_": "schema",
+                "type": "string",
+              },
+              "cp": {
+                "_": "schema",
+                "type": "string",
+              },
+              "geopoint": {
+                "_": "schema",
+                "additionalProperties": false,
+                "properties": {
+                  "coordinates": {
+                    "_": "schema",
+                    "maxItems": 2,
+                    "minItems": 2,
+                    "prefixItems": [
+                      {
+                        "_": "schema",
+                        "maximum": 180,
+                        "minimum": -180,
+                        "type": "number",
+                      },
+                      {
+                        "_": "schema",
+                        "maximum": 90,
+                        "minimum": -90,
+                        "type": "number",
+                      },
+                    ],
+                    "type": "array",
+                  },
+                  "type": {
+                    "_": "schema",
+                    "enum": [
+                      "Point",
+                    ],
+                    "type": "string",
+                  },
+                },
+                "required": [
+                  "coordinates",
+                  "type",
+                ],
+                "type": [
+                  "object",
+                  "null",
+                ],
+              },
+              "ville": {
+                "_": "schema",
+                "type": "string",
+              },
+            },
+            "required": [
+              "adresse",
+              "cp",
+              "geopoint",
+              "ville",
+            ],
+            "type": "object",
+          },
+          "nom": {
+            "_": "schema",
+            "type": "string",
+          },
+          "siret": {
+            "_": "schema",
+            "type": "string",
+          },
+        },
+        "required": [
+          "contact",
+          "id",
+          "localisation",
+          "nom",
+          "siret",
+        ],
+        "type": "object",
+      },
+    ],
     "path": [
       "get",
       "responses",
@@ -133,6 +261,193 @@ exports[`generateOpenApiSchema > should be alright /geographie/v1/commune/search
       "items",
       "properties",
       "mission_locale",
+      "anyOf",
+    ],
+    "type": "REMOVE",
+  },
+  {
+    "path": [
+      "get",
+      "responses",
+      "200",
+      "content",
+      "application/json",
+      "schema",
+      "items",
+      "properties",
+      "mission_locale",
+      "type",
+    ],
+    "type": "CREATE",
+    "value": [
+      "object",
+      "null",
+    ],
+  },
+  {
+    "path": [
+      "get",
+      "responses",
+      "200",
+      "content",
+      "application/json",
+      "schema",
+      "items",
+      "properties",
+      "mission_locale",
+      "properties",
+    ],
+    "type": "CREATE",
+    "value": {
+      "contact": {
+        "_": "schema",
+        "properties": {
+          "email": {
+            "_": "schema",
+            "format": "email",
+            "type": [
+              "string",
+              "null",
+            ],
+          },
+          "siteWeb": {
+            "_": "schema",
+            "type": [
+              "string",
+              "null",
+            ],
+          },
+          "telephone": {
+            "_": "schema",
+            "type": [
+              "string",
+              "null",
+            ],
+          },
+        },
+        "required": [
+          "email",
+          "siteWeb",
+          "telephone",
+        ],
+        "type": "object",
+      },
+      "id": {
+        "_": "schema",
+        "type": "number",
+      },
+      "localisation": {
+        "_": "schema",
+        "properties": {
+          "adresse": {
+            "_": "schema",
+            "type": "string",
+          },
+          "cp": {
+            "_": "schema",
+            "type": "string",
+          },
+          "geopoint": {
+            "_": "schema",
+            "additionalProperties": false,
+            "properties": {
+              "coordinates": {
+                "_": "schema",
+                "prefixItems": [
+                  {
+                    "_": "schema",
+                    "maximum": 180,
+                    "minimum": -180,
+                    "type": "number",
+                  },
+                  {
+                    "_": "schema",
+                    "maximum": 90,
+                    "minimum": -90,
+                    "type": "number",
+                  },
+                ],
+                "type": "array",
+              },
+              "type": {
+                "_": "schema",
+                "enum": [
+                  "Point",
+                ],
+                "type": "string",
+              },
+            },
+            "required": [
+              "coordinates",
+              "type",
+            ],
+            "type": [
+              "object",
+              "null",
+            ],
+          },
+          "ville": {
+            "_": "schema",
+            "type": "string",
+          },
+        },
+        "required": [
+          "adresse",
+          "cp",
+          "geopoint",
+          "ville",
+        ],
+        "type": "object",
+      },
+      "nom": {
+        "_": "schema",
+        "type": "string",
+      },
+      "siret": {
+        "_": "schema",
+        "type": "string",
+      },
+    },
+  },
+  {
+    "path": [
+      "get",
+      "responses",
+      "200",
+      "content",
+      "application/json",
+      "schema",
+      "items",
+      "properties",
+      "mission_locale",
+      "required",
+    ],
+    "type": "CREATE",
+    "value": [
+      "contact",
+      "id",
+      "localisation",
+      "nom",
+      "siret",
+    ],
+  },
+]
+`;
+
+exports[`generateOpenApiSchema > should be alright /geographie/v1/departement 1`] = `[]`;
+
+exports[`generateOpenApiSchema > should be alright /geographie/v1/mission-locale 1`] = `
+[
+  {
+    "oldValue": 2,
+    "path": [
+      "get",
+      "responses",
+      "200",
+      "content",
+      "application/json",
+      "schema",
+      "items",
       "properties",
       "localisation",
       "properties",
@@ -154,8 +469,6 @@ exports[`generateOpenApiSchema > should be alright /geographie/v1/commune/search
       "schema",
       "items",
       "properties",
-      "mission_locale",
-      "properties",
       "localisation",
       "properties",
       "geopoint",
@@ -167,8 +480,6 @@ exports[`generateOpenApiSchema > should be alright /geographie/v1/commune/search
   },
 ]
 `;
-
-exports[`generateOpenApiSchema > should be alright /geographie/v1/departement 1`] = `[]`;
 
 exports[`generateOpenApiSchema > should be alright /healthcheck 1`] = `[]`;
 
@@ -1838,122 +2149,126 @@ Les champs \`centre\` et \`bbox\` sont tous les deux au format [GeoJSON](https:/
             "type": "object",
           },
           "mission_locale": {
-            "description": "Mission locale dont relève la commune",
-            "properties": {
-              "contact": {
-                "description": "Contact de la mission locale",
-                "properties": {
-                  "email": {
-                    "description": "Adresse email de la mission locale",
-                    "format": "email",
-                    "type": [
-                      "string",
-                      "null",
-                    ],
-                  },
-                  "siteWeb": {
-                    "description": "Site web de la mission locale",
-                    "type": [
-                      "string",
-                      "null",
-                    ],
-                  },
-                  "telephone": {
-                    "description": "Numéro de téléphone de la mission locale",
-                    "type": [
-                      "string",
-                      "null",
-                    ],
-                  },
-                },
-                "required": [
-                  "email",
-                  "telephone",
-                  "siteWeb",
-                ],
-                "type": "object",
+            "anyOf": [
+              {
+                "type": "null",
               },
-              "id": {
-                "description": "Identifiant de la mission locale",
-                "type": "number",
-              },
-              "localisation": {
-                "description": "Localisation de la mission locale",
+              {
                 "properties": {
-                  "adresse": {
-                    "type": "string",
-                  },
-                  "cp": {
-                    "type": "string",
-                  },
-                  "geopoint": {
-                    "additionalProperties": false,
+                  "contact": {
                     "properties": {
-                      "coordinates": {
-                        "maxItems": 2,
-                        "minItems": 2,
-                        "prefixItems": [
-                          {
-                            "maximum": 180,
-                            "minimum": -180,
-                            "type": "number",
-                          },
-                          {
-                            "maximum": 90,
-                            "minimum": -90,
-                            "type": "number",
-                          },
+                      "email": {
+                        "format": "email",
+                        "type": [
+                          "string",
+                          "null",
                         ],
-                        "type": "array",
                       },
-                      "type": {
-                        "enum": [
-                          "Point",
+                      "siteWeb": {
+                        "type": [
+                          "string",
+                          "null",
                         ],
+                      },
+                      "telephone": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                    },
+                    "required": [
+                      "email",
+                      "telephone",
+                      "siteWeb",
+                    ],
+                    "type": "object",
+                  },
+                  "id": {
+                    "description": "Identifiant de la Mission Locale",
+                    "type": "number",
+                  },
+                  "localisation": {
+                    "description": "Localisation de la mission locale",
+                    "properties": {
+                      "adresse": {
+                        "description": "Adresse de la Mission Locale",
+                        "type": "string",
+                      },
+                      "cp": {
+                        "description": "Code postal de la Mission Locale",
+                        "type": "string",
+                      },
+                      "geopoint": {
+                        "additionalProperties": false,
+                        "description": "Coordonnés GPS au format GeoJSON "Point"",
+                        "properties": {
+                          "coordinates": {
+                            "maxItems": 2,
+                            "minItems": 2,
+                            "prefixItems": [
+                              {
+                                "maximum": 180,
+                                "minimum": -180,
+                                "type": "number",
+                              },
+                              {
+                                "maximum": 90,
+                                "minimum": -90,
+                                "type": "number",
+                              },
+                            ],
+                            "type": "array",
+                          },
+                          "type": {
+                            "enum": [
+                              "Point",
+                            ],
+                            "type": "string",
+                          },
+                        },
+                        "required": [
+                          "type",
+                          "coordinates",
+                        ],
+                        "type": [
+                          "object",
+                          "null",
+                        ],
+                      },
+                      "ville": {
+                        "description": "Ville de la Mission Locale",
                         "type": "string",
                       },
                     },
                     "required": [
-                      "type",
-                      "coordinates",
+                      "geopoint",
+                      "adresse",
+                      "cp",
+                      "ville",
                     ],
-                    "type": [
-                      "object",
-                      "null",
-                    ],
+                    "type": "object",
                   },
-                  "ville": {
+                  "nom": {
+                    "description": "Nom de la mission locale",
+                    "type": "string",
+                  },
+                  "siret": {
+                    "description": "Numéro SIRET de la mission locale",
                     "type": "string",
                   },
                 },
                 "required": [
-                  "geopoint",
-                  "adresse",
-                  "cp",
-                  "ville",
+                  "id",
+                  "nom",
+                  "siret",
+                  "localisation",
+                  "contact",
                 ],
                 "type": "object",
               },
-              "nom": {
-                "description": "Nom de la mission locale",
-                "type": "string",
-              },
-              "siret": {
-                "description": "Numéro SIRET de la mission locale",
-                "type": "string",
-              },
-            },
-            "required": [
-              "id",
-              "nom",
-              "siret",
-              "localisation",
-              "contact",
             ],
-            "type": [
-              "object",
-              "null",
-            ],
+            "description": "Mission locale dont relève la commune",
           },
           "nom": {
             "description": "Nom de la commune",
@@ -3356,6 +3671,120 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
           "identifier",
           "workplace",
           "apply",
+        ],
+        "type": "object",
+      },
+      "MissionLocale": {
+        "properties": {
+          "contact": {
+            "properties": {
+              "email": {
+                "format": "email",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "siteWeb": {
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "telephone": {
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+            },
+            "required": [
+              "email",
+              "telephone",
+              "siteWeb",
+            ],
+            "type": "object",
+          },
+          "id": {
+            "description": "Identifiant de la Mission Locale",
+            "type": "number",
+          },
+          "localisation": {
+            "description": "Localisation de la mission locale",
+            "properties": {
+              "adresse": {
+                "description": "Adresse de la Mission Locale",
+                "type": "string",
+              },
+              "cp": {
+                "description": "Code postal de la Mission Locale",
+                "type": "string",
+              },
+              "geopoint": {
+                "additionalProperties": false,
+                "description": "Coordonnés GPS au format GeoJSON "Point"",
+                "properties": {
+                  "coordinates": {
+                    "maxItems": 2,
+                    "minItems": 2,
+                    "prefixItems": [
+                      {
+                        "maximum": 180,
+                        "minimum": -180,
+                        "type": "number",
+                      },
+                      {
+                        "maximum": 90,
+                        "minimum": -90,
+                        "type": "number",
+                      },
+                    ],
+                    "type": "array",
+                  },
+                  "type": {
+                    "enum": [
+                      "Point",
+                    ],
+                    "type": "string",
+                  },
+                },
+                "required": [
+                  "type",
+                  "coordinates",
+                ],
+                "type": [
+                  "object",
+                  "null",
+                ],
+              },
+              "ville": {
+                "description": "Ville de la Mission Locale",
+                "type": "string",
+              },
+            },
+            "required": [
+              "geopoint",
+              "adresse",
+              "cp",
+              "ville",
+            ],
+            "type": "object",
+          },
+          "nom": {
+            "description": "Nom de la mission locale",
+            "type": "string",
+          },
+          "siret": {
+            "description": "Numéro SIRET de la mission locale",
+            "type": "string",
+          },
+        },
+        "required": [
+          "id",
+          "nom",
+          "siret",
+          "localisation",
+          "contact",
         ],
         "type": "object",
       },
@@ -6818,122 +7247,126 @@ Les champs \`centre\` et \`bbox\` sont tous les deux au format [GeoJSON](https:/
                         "type": "object",
                       },
                       "mission_locale": {
-                        "description": "Mission locale dont relève la commune",
-                        "properties": {
-                          "contact": {
-                            "description": "Contact de la mission locale",
-                            "properties": {
-                              "email": {
-                                "description": "Adresse email de la mission locale",
-                                "format": "email",
-                                "type": [
-                                  "string",
-                                  "null",
-                                ],
-                              },
-                              "siteWeb": {
-                                "description": "Site web de la mission locale",
-                                "type": [
-                                  "string",
-                                  "null",
-                                ],
-                              },
-                              "telephone": {
-                                "description": "Numéro de téléphone de la mission locale",
-                                "type": [
-                                  "string",
-                                  "null",
-                                ],
-                              },
-                            },
-                            "required": [
-                              "email",
-                              "telephone",
-                              "siteWeb",
-                            ],
-                            "type": "object",
+                        "anyOf": [
+                          {
+                            "type": "null",
                           },
-                          "id": {
-                            "description": "Identifiant de la mission locale",
-                            "type": "number",
-                          },
-                          "localisation": {
-                            "description": "Localisation de la mission locale",
+                          {
                             "properties": {
-                              "adresse": {
-                                "type": "string",
-                              },
-                              "cp": {
-                                "type": "string",
-                              },
-                              "geopoint": {
-                                "additionalProperties": false,
+                              "contact": {
                                 "properties": {
-                                  "coordinates": {
-                                    "maxItems": 2,
-                                    "minItems": 2,
-                                    "prefixItems": [
-                                      {
-                                        "maximum": 180,
-                                        "minimum": -180,
-                                        "type": "number",
-                                      },
-                                      {
-                                        "maximum": 90,
-                                        "minimum": -90,
-                                        "type": "number",
-                                      },
+                                  "email": {
+                                    "format": "email",
+                                    "type": [
+                                      "string",
+                                      "null",
                                     ],
-                                    "type": "array",
                                   },
-                                  "type": {
-                                    "enum": [
-                                      "Point",
+                                  "siteWeb": {
+                                    "type": [
+                                      "string",
+                                      "null",
                                     ],
+                                  },
+                                  "telephone": {
+                                    "type": [
+                                      "string",
+                                      "null",
+                                    ],
+                                  },
+                                },
+                                "required": [
+                                  "email",
+                                  "telephone",
+                                  "siteWeb",
+                                ],
+                                "type": "object",
+                              },
+                              "id": {
+                                "description": "Identifiant de la Mission Locale",
+                                "type": "number",
+                              },
+                              "localisation": {
+                                "description": "Localisation de la mission locale",
+                                "properties": {
+                                  "adresse": {
+                                    "description": "Adresse de la Mission Locale",
+                                    "type": "string",
+                                  },
+                                  "cp": {
+                                    "description": "Code postal de la Mission Locale",
+                                    "type": "string",
+                                  },
+                                  "geopoint": {
+                                    "additionalProperties": false,
+                                    "description": "Coordonnés GPS au format GeoJSON "Point"",
+                                    "properties": {
+                                      "coordinates": {
+                                        "maxItems": 2,
+                                        "minItems": 2,
+                                        "prefixItems": [
+                                          {
+                                            "maximum": 180,
+                                            "minimum": -180,
+                                            "type": "number",
+                                          },
+                                          {
+                                            "maximum": 90,
+                                            "minimum": -90,
+                                            "type": "number",
+                                          },
+                                        ],
+                                        "type": "array",
+                                      },
+                                      "type": {
+                                        "enum": [
+                                          "Point",
+                                        ],
+                                        "type": "string",
+                                      },
+                                    },
+                                    "required": [
+                                      "type",
+                                      "coordinates",
+                                    ],
+                                    "type": [
+                                      "object",
+                                      "null",
+                                    ],
+                                  },
+                                  "ville": {
+                                    "description": "Ville de la Mission Locale",
                                     "type": "string",
                                   },
                                 },
                                 "required": [
-                                  "type",
-                                  "coordinates",
+                                  "geopoint",
+                                  "adresse",
+                                  "cp",
+                                  "ville",
                                 ],
-                                "type": [
-                                  "object",
-                                  "null",
-                                ],
+                                "type": "object",
                               },
-                              "ville": {
+                              "nom": {
+                                "description": "Nom de la mission locale",
+                                "type": "string",
+                              },
+                              "siret": {
+                                "description": "Numéro SIRET de la mission locale",
                                 "type": "string",
                               },
                             },
                             "required": [
-                              "geopoint",
-                              "adresse",
-                              "cp",
-                              "ville",
+                              "id",
+                              "nom",
+                              "siret",
+                              "localisation",
+                              "contact",
                             ],
                             "type": "object",
                           },
-                          "nom": {
-                            "description": "Nom de la mission locale",
-                            "type": "string",
-                          },
-                          "siret": {
-                            "description": "Numéro SIRET de la mission locale",
-                            "type": "string",
-                          },
-                        },
-                        "required": [
-                          "id",
-                          "nom",
-                          "siret",
-                          "localisation",
-                          "contact",
                         ],
-                        "type": [
-                          "object",
-                          "null",
-                        ],
+                        "description": "Mission locale dont relève la commune",
                       },
                       "nom": {
                         "description": "Nom de la commune",
@@ -7780,6 +8213,503 @@ Les champs \`centre\` et \`bbox\` sont tous les deux au format [GeoJSON](https:/
           },
         ],
         "summary": "Récupération des départements français",
+        "tags": [
+          "Géographie",
+        ],
+      },
+    },
+    "/geographie/v1/mission-locale": {
+      "get": {
+        "description": "Récupération de la liste des missions locales",
+        "operationId": "listMissionLocales",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Liste des missions locales",
+                  "items": {
+                    "properties": {
+                      "contact": {
+                        "properties": {
+                          "email": {
+                            "format": "email",
+                            "type": [
+                              "string",
+                              "null",
+                            ],
+                          },
+                          "siteWeb": {
+                            "type": [
+                              "string",
+                              "null",
+                            ],
+                          },
+                          "telephone": {
+                            "type": [
+                              "string",
+                              "null",
+                            ],
+                          },
+                        },
+                        "required": [
+                          "email",
+                          "telephone",
+                          "siteWeb",
+                        ],
+                        "type": "object",
+                      },
+                      "id": {
+                        "description": "Identifiant de la Mission Locale",
+                        "type": "number",
+                      },
+                      "localisation": {
+                        "description": "Localisation de la mission locale",
+                        "properties": {
+                          "adresse": {
+                            "description": "Adresse de la Mission Locale",
+                            "type": "string",
+                          },
+                          "cp": {
+                            "description": "Code postal de la Mission Locale",
+                            "type": "string",
+                          },
+                          "geopoint": {
+                            "additionalProperties": false,
+                            "description": "Coordonnés GPS au format GeoJSON "Point"",
+                            "properties": {
+                              "coordinates": {
+                                "maxItems": 2,
+                                "minItems": 2,
+                                "prefixItems": [
+                                  {
+                                    "maximum": 180,
+                                    "minimum": -180,
+                                    "type": "number",
+                                  },
+                                  {
+                                    "maximum": 90,
+                                    "minimum": -90,
+                                    "type": "number",
+                                  },
+                                ],
+                                "type": "array",
+                              },
+                              "type": {
+                                "enum": [
+                                  "Point",
+                                ],
+                                "type": "string",
+                              },
+                            },
+                            "required": [
+                              "type",
+                              "coordinates",
+                            ],
+                            "type": [
+                              "object",
+                              "null",
+                            ],
+                          },
+                          "ville": {
+                            "description": "Ville de la Mission Locale",
+                            "type": "string",
+                          },
+                        },
+                        "required": [
+                          "geopoint",
+                          "adresse",
+                          "cp",
+                          "ville",
+                        ],
+                        "type": "object",
+                      },
+                      "nom": {
+                        "description": "Nom de la mission locale",
+                        "type": "string",
+                      },
+                      "siret": {
+                        "description": "Numéro SIRET de la mission locale",
+                        "type": "string",
+                      },
+                    },
+                    "required": [
+                      "id",
+                      "nom",
+                      "siret",
+                      "localisation",
+                      "contact",
+                    ],
+                    "type": "object",
+                  },
+                  "type": "array",
+                },
+              },
+            },
+            "description": "Succès",
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Requête invalide",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "examples": [
+                        "Request validation failed",
+                      ],
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "examples": [
+                        "Bad Request",
+                      ],
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        400,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Requête invalide",
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Clé d’API manquante ou invalide",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Vous devez être connecté pour accéder à cette ressource",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Unauthorized",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        401,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Clé d’API manquante ou invalide",
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Habilitations insuffisantes pour accéder à la ressource",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Le jeton d'accès est invalide",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Forbidden",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        403,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Habilitations insuffisantes pour accéder à la ressource",
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Ressource non trouvée",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Resource non trouvée",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Not Found",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        404,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Ressource non trouvée",
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Conflit de ressource",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "La ressource exite déjà",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Conflict",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        409,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Conflit de ressource",
+          },
+          "419": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Limite de volumétrie atteinte pour la clé d’API",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Limite de requêtes atteinte",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Too Many Requests",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        419,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Limite de volumétrie atteinte pour la clé d’API",
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Une erreur inattendue s'est produite sur le serveur.",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "The server was unable to complete your request",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Internal Server Error",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        500,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Une erreur inattendue s'est produite sur le serveur.",
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Le service est indisponible.",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "The server was unable to complete your request",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Bad Gateway",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        502,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Le service est indisponible.",
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Le service est en maintenance",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "The server was unable to complete your request",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Service Unavailable",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        502,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Le service est en maintenance",
+          },
+        },
+        "security": [
+          {
+            "api-key": [],
+          },
+        ],
+        "summary": "Récupération de la liste des missions locales",
         "tags": [
           "Géographie",
         ],

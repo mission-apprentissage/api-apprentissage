@@ -1,5 +1,10 @@
 import { zApiGeographieRoutes } from "api-alternance-sdk";
-import { addOperationDoc, communeSearchRouteDoc, listDepartementsRouteDoc } from "api-alternance-sdk/internal";
+import {
+  addOperationDoc,
+  communeSearchRouteDoc,
+  listDepartementsRouteDoc,
+  listMissionLocalesRouteDoc,
+} from "api-alternance-sdk/internal";
 import type { OpenApiBuilder } from "openapi3-ts/oas31";
 
 import type { IRoutesDef } from "./common.routes.js";
@@ -16,6 +21,14 @@ export const zGeographieRoutes = {
     },
     "/geographie/v1/departement": {
       ...zApiGeographieRoutes.get["/geographie/v1/departement"],
+      securityScheme: {
+        auth: "api-key",
+        access: null,
+        ressources: {},
+      },
+    },
+    "/geographie/v1/mission-locale": {
+      ...zApiGeographieRoutes.get["/geographie/v1/mission-locale"],
       securityScheme: {
         auth: "api-key",
         access: null,
@@ -87,6 +100,32 @@ export function registerGeographieRoutes(builder: OpenApiBuilder, lang: "en" | "
           },
         },
         listDepartementsRouteDoc,
+        lang
+      ),
+    })
+    .addPath("/geographie/v1/mission-locale", {
+      get: addOperationDoc(
+        {
+          tags: ["Géographie"],
+          operationId: "listMissionLocales",
+          security: [{ "api-key": [] }],
+          responses: {
+            "200": {
+              description: listMissionLocalesRouteDoc.response.description,
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "array",
+                    items: {
+                      $ref: "#/components/schemas/MissionLocale",
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        listMissionLocalesRouteDoc,
         lang
       ),
     });

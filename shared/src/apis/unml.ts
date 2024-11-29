@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const zSourceMissionLocale = z.object({
+export const zSourceMissionLocale = z.object({
   id: z.number(),
   code: z.string(),
   numAdherent: z.number(),

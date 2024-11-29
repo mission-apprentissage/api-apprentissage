@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { zCommune, zDepartement } from "../models/index.js";
+import { zCommune, zDepartement, zMissionLocale } from "../models/index.js";
 import type { IApiRoutesDef } from "./common.routes.js";
 
 const zCode = z.string().regex(/^\d{5}$/);
@@ -35,6 +35,19 @@ export const zApiGeographieRoutes = {
         description:
           "Récupération des départements français, pour des raisons pratiques les collectivités et territoires d'outre-mer sont inclus et assimilés à des départements",
         operationId: "listDepartements",
+      },
+    },
+    "/geographie/v1/mission-locale": {
+      method: "get",
+      path: "/geographie/v1/mission-locale",
+      response: {
+        "200": zMissionLocale.array(),
+      },
+      openapi: {
+        tags: ["Géographie"] as string[],
+        summary: "Récupération des missions locales",
+        description: "Récupération des mission locales",
+        operationId: "listMissionLocales",
       },
     },
   },

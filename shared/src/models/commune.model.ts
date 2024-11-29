@@ -10,6 +10,7 @@ const indexes: IModelDescriptorGeneric["indexes"] = [
   [{ "code.insee": 1 }, { unique: true }],
   [{ "code.postaux": 1 }, {}],
   [{ "departement.codeInsee": 1 }, {}],
+  [{ "mission_locale.id": 1 }, {}],
 ];
 
 export const zCommuneInternal = zCommune.extend({

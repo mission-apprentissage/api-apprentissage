@@ -325,7 +325,7 @@ exports[`runCommuneImporter > should import communes with existing regions and d
         "siteWeb": "https://www.missionlocale.paris/",
         "telephone": "0179970000",
       },
-      "id": 609,
+      "id": 226,
       "localisation": {
         "adresse": "22 rue Pajol",
         "cp": "75018",
@@ -941,7 +941,7 @@ exports[`runCommuneImporter > should import initial communes 1`] = `
         "siteWeb": "https://www.missionlocale.paris/",
         "telephone": "0179970000",
       },
-      "id": 609,
+      "id": 226,
       "localisation": {
         "adresse": "22 rue Pajol",
         "cp": "75018",

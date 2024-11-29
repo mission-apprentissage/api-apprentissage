@@ -27,6 +27,11 @@
     "summary": "Retrieve the departments of France",
     "variant": "Department"
   },
+  "recuperationMissionLocales": {
+    "desc": "Consult the list of Mission Locales",
+    "summary": "Retrieve the Mission Locales",
+    "variant": "MissionLocale"
+  },
   "depotOffre": {
     "desc": "Maximize the visibility of your apprenticeship job offers by posting them on the La bonne alternance platform and its partner sites.",
     "summary": "<strong>Post, modify, or delete your apprenticeship job offers</strong> to maximize their visibility by posting them on the {{- lienLba }} platform and its partner sites {{- lienPartenaire }}.",

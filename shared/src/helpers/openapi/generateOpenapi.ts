@@ -7,6 +7,7 @@ import {
   registerOpenApiDepartementModel,
   registerOpenApiErrorsSchema,
   registerOpenApiJobModel,
+  registerOpenApiMissionLocaleModel,
 } from "api-alternance-sdk/internal";
 import type { PathsObject, SecurityRequirementObject } from "openapi3-ts/oas31";
 import { OpenApiBuilder } from "openapi3-ts/oas31";
@@ -190,6 +191,7 @@ export function generateOpenApiSchema(version: string, env: string, publicUrl: s
   registerOpenApiJobModel(builder, lang);
   registerOpenApiErrorsSchema(builder, lang);
   registerOpenApiCommuneModel(builder, lang);
+  registerOpenApiMissionLocaleModel(builder, lang);
   registerOpenApiDepartementModel(builder, lang);
 
   registerHealhcheckRoutes(builder);

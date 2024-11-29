@@ -1,6 +1,7 @@
 import { fr } from "@codegouvfr/react-dsfr";
 import { Breadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
 import cityHall from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/buildings/city-hall.svg";
+import house from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/buildings/house.svg";
 import internet from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/digital/internet.svg";
 import search from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/digital/search.svg";
 import money from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/institutions/money.svg";
@@ -115,6 +116,15 @@ export default async function ExplorerApiPage({ params: { lang } }: PropsWithLan
           imageUrl={locationFrance.src}
           enlargeLinkOrButton
           linkProps={{ href: PAGES.static.recuperationDepartements.getPath(lang) }}
+          start={<TagDsfr>{t(`type.data`, { lng: lang })}</TagDsfr>}
+        />
+        <Tile
+          title={PAGES.static.recuperationMissionLocales.getTitle(lang, t)}
+          desc={t("recuperationMissionLocales.desc")}
+          imageSvg
+          imageUrl={house.src}
+          enlargeLinkOrButton
+          linkProps={{ href: PAGES.static.recuperationMissionLocales.getPath(lang) }}
           start={<TagDsfr>{t(`type.data`, { lng: lang })}</TagDsfr>}
         />
       </Box>

@@ -18,9 +18,26 @@ Installez [Node Js20+](https://nodejs.org/en/download)
 
 ## Ansible
 
-Installez [Ansible 2.7+](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
+Installez [Ansible 2.07+](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
 
 > Sur OS X vous pouvez utiliser `brew install ansible`
+
+---
+
+> Sur Ubuntu / WSL vous pouvez l'installer en 2 temps via :
+
+> 1. L'ajout du dépôt Ansible officiel
+
+```bash
+sudo apt install -y software-properties-common
+sudo add-apt-repository --yes --update ppa:ansible/ansible
+```
+
+> 2. L'installer avec la commande
+
+```bash
+sudo apt install -y ansible
+```
 
 ## 1Password CLI
 
@@ -36,6 +53,8 @@ Installez [Ansible 2.7+](https://docs.ansible.com/ansible/latest/installation_gu
 
 > Sur OS X vous pouvez utiliser `brew install yq`
 
+> Sur Ubuntu / WSL vous pouvez utiliser `sudo snap install yq`
+
 ## sshpass
 
 [Installez sshpass](https://www.linuxtricks.fr/wiki/ssh-sshpass-la-connexion-ssh-par-mot-de-passe-non-interactive)
@@ -47,10 +66,20 @@ brew tap esolitos/ipa
 brew install esolitos/ipa/sshpass
 ```
 
+> Sur Ubuntu / WSL vous pouvez utiliser :
+
+```bash
+sudo apt install -y sshpass
+```
+
 ## pwgen
 
 > Sur OS X vous pouvez utiliser `brew install pwgen`
 
+> Sur Ubuntu / WSL vous pouvez utiliser `sudo apt install -y pwgen`
+
 ## bash 5+
 
 > Sur OS X vous pouvez utiliser `brew install bash`
+
+> Sur Ubuntu / WSL vous pouvez utiliser `sudo apt install -y bash`

@@ -24,6 +24,7 @@ Avant de lancer l'application, assurez-vous d'installer toutes les dépendances 
 
 ```bash
 yarn
+yarn typecheck
 yarn setup
 ```
 

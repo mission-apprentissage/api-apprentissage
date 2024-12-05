@@ -93,7 +93,11 @@ export const jobRoutes = ({ server }: { server: Server }) => {
         {
           endpoint: config.api.lba.endpoint,
           path: `/v3/jobs/${encodeURIComponent(request.params.id)}`,
-          requestInit: { method: "PUT", body: JSON.stringify(request.body) },
+          requestInit: {
+            method: "PUT",
+            body: JSON.stringify(request.body),
+            headers: { "Content-Type": "application/json" },
+          },
         },
         response,
         { user, organisation: request.organisation ?? null }

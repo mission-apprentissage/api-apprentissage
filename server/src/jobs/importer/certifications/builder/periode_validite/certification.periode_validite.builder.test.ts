@@ -21,6 +21,8 @@ type IGenerateSourceAggregatedDataFixture = {
   rncp: {
     actif?: "ACTIVE" | "INACTIVE" | null;
     date_premiere_activation?: Date | null;
+    date_derniere_activation?: Date | null;
+    date_premiere_publication?: Date | null;
     date_fin_enregistrement?: string | null;
     date_effet?: string | null;
     date_decision?: string | null;
@@ -59,6 +61,12 @@ function generateSourceAggregatedDataFixture(data: IGenerateSourceAggregatedData
     }
     if ("date_premiere_activation" in data.rncp) {
       fcData.date_premiere_activation = data.rncp.date_premiere_activation;
+    }
+    if ("date_derniere_activation" in data.rncp) {
+      fcData.date_derniere_activation = data.rncp.date_derniere_activation;
+    }
+    if ("date_premiere_publication" in data.rncp) {
+      fcData.date_premiere_publication = data.rncp.date_premiere_publication;
     }
     if ("date_fin_enregistrement" in data.rncp) {
       fcData.data!.standard!.Date_Fin_Enregistrement = data.rncp.date_fin_enregistrement ?? null;
@@ -205,16 +213,45 @@ describe("buildCertificationPeriodeValidite", () => {
     });
 
     describe("periode_validite.rncp.fin_enregistrement", () => {
-      it("should returns null when Date_Fin_Enregistrement is null", () => {
+      it("should returns null when Date_Fin_Enregistrement is null and fiche not Active", () => {
         const data = generateSourceAggregatedDataFixture({
           cfd: null,
           rncp: {
             date_fin_enregistrement: null,
+            date_derniere_activation: new Date("2024-01-01T23:59:59.000+01:00"),
           },
         });
         const result = buildCertificationPeriodeValidite(data, oldestFranceCompetenceDatePublication);
         expect(result.rncp?.fin_enregistrement).toBeNull();
       });
+
+      it("should returns date_derniere_activation when Date_Fin_Enregistrement is null", () => {
+        const data = generateSourceAggregatedDataFixture({
+          cfd: null,
+          rncp: {
+            actif: "INACTIVE",
+            date_fin_enregistrement: null,
+            date_derniere_activation: new Date("2024-01-01T23:59:59.000+01:00"),
+          },
+        });
+        const result = buildCertificationPeriodeValidite(data, oldestFranceCompetenceDatePublication);
+        expect(result.rncp?.fin_enregistrement).toEqual(new Date("2024-01-01T23:59:59.000+01:00"));
+      });
+
+      it("should returns date_premiere_publication when Date_Fin_Enregistrement is null, fiche is ACTIVE & date_derniere_activation is null", () => {
+        const data = generateSourceAggregatedDataFixture({
+          cfd: null,
+          rncp: {
+            actif: "INACTIVE",
+            date_fin_enregistrement: null,
+            date_derniere_activation: null,
+            date_premiere_publication: new Date("2024-01-01T23:59:59.000+01:00"),
+          },
+        });
+        const result = buildCertificationPeriodeValidite(data, oldestFranceCompetenceDatePublication);
+        expect(result.rncp?.fin_enregistrement).toEqual(new Date("2024-01-01T23:59:59.000+01:00"));
+      });
+
       it.each([
         ["07/05/2024", new Date("2024-05-07T21:59:59.000Z")],
         ["07/11/2024", new Date("2024-11-07T22:59:59.000Z")],

@@ -23,7 +23,7 @@ describe("bcn", () => {
     // uses accent characters to test encoding between latin1 and utf8
     const expectedData = "Un texte avec des caractères accentués";
 
-    const scope = nock("https://infocentre.pleiade.education.fr")
+    const scope = nock("https://bcn.depp.education.fr")
       .post("/bcn/index.php/export/CSV")
       .query({ n: table, separator: ";", withForeign: true })
       .reply(200, Buffer.from(expectedData, "latin1"));

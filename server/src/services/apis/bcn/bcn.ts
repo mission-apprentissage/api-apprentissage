@@ -10,7 +10,7 @@ import { downloadFileAsStream } from "@/utils/apiUtils.js";
 
 const bcnClient = getApiClient(
   {
-    baseURL: "https://infocentre.pleiade.education.fr/bcn",
+    baseURL: "https://bcn.depp.education.fr/bcn",
     timeout: 90_000,
   },
   { cache: false }

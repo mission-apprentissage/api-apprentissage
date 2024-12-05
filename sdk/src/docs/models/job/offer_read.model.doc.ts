@@ -57,6 +57,7 @@ export const offerReadModelDoc = {
         },
         start: {
           description: { en: "Date de début du contrat.", fr: null },
+          examples: ["2024-09-23T10:00:00.000Z"],
         },
         type: {
           description: { en: "Contract type (apprenticeship and/or professionalization)", fr: null },

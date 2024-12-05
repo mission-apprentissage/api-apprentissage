@@ -302,9 +302,9 @@ const offerWriteSchema = {
     contract: {
       type: "object",
       properties: {
-        ...pickPropertiesOpenAPI(offerReadSchema.properties.contract.properties, ["duration", "type", "remote"]),
-        start: {
-          ...offerReadSchema.properties.contract.properties.start,
+        ...pickPropertiesOpenAPI(offerReadSchema.properties.contract.properties, ["duration", "start", "remote"]),
+        type: {
+          ...offerReadSchema.properties.contract.properties.type,
           default: ["Apprentissage", "Professionnalisation"],
         },
       },

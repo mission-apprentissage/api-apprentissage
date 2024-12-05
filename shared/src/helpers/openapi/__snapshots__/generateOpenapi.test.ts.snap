@@ -2442,6 +2442,9 @@ Only European phone numbers are allowed. There is also a check on the nature of 
               },
               "start": {
                 "description": "Date de début du contrat.",
+                "examples": [
+                  "2024-09-23T10:00:00.000Z",
+                ],
                 "format": "date-time",
                 "type": [
                   "string",
@@ -3051,11 +3054,10 @@ Only European phone numbers are allowed. There is also a check on the nature of 
                 ],
               },
               "start": {
-                "default": [
-                  "Apprentissage",
-                  "Professionnalisation",
-                ],
                 "description": "Date de début du contrat.",
+                "examples": [
+                  "2024-09-23T10:00:00.000Z",
+                ],
                 "format": "date-time",
                 "type": [
                   "string",
@@ -3063,6 +3065,10 @@ Only European phone numbers are allowed. There is also a check on the nature of 
                 ],
               },
               "type": {
+                "default": [
+                  "Apprentissage",
+                  "Professionnalisation",
+                ],
                 "description": "Contract type (apprenticeship and/or professionalization)",
                 "items": {
                   "description": "Contract type (apprenticeship and/or professionalization)",
@@ -9213,11 +9219,10 @@ Only European phone numbers are allowed. There is also a check on the nature of 
                         ],
                       },
                       "start": {
-                        "default": [
-                          "Apprentissage",
-                          "Professionnalisation",
-                        ],
                         "description": "Date de début du contrat.",
+                        "examples": [
+                          "2024-09-23T10:00:00.000Z",
+                        ],
                         "format": "date-time",
                         "type": [
                           "string",
@@ -9225,6 +9230,10 @@ Only European phone numbers are allowed. There is also a check on the nature of 
                         ],
                       },
                       "type": {
+                        "default": [
+                          "Apprentissage",
+                          "Professionnalisation",
+                        ],
                         "description": "Contract type (apprenticeship and/or professionalization)",
                         "items": {
                           "description": "Contract type (apprenticeship and/or professionalization)",
@@ -10043,11 +10052,10 @@ Only European phone numbers are allowed. There is also a check on the nature of 
                         ],
                       },
                       "start": {
-                        "default": [
-                          "Apprentissage",
-                          "Professionnalisation",
-                        ],
                         "description": "Date de début du contrat.",
+                        "examples": [
+                          "2024-09-23T10:00:00.000Z",
+                        ],
                         "format": "date-time",
                         "type": [
                           "string",
@@ -10055,6 +10063,10 @@ Only European phone numbers are allowed. There is also a check on the nature of 
                         ],
                       },
                       "type": {
+                        "default": [
+                          "Apprentissage",
+                          "Professionnalisation",
+                        ],
                         "description": "Contract type (apprenticeship and/or professionalization)",
                         "items": {
                           "description": "Contract type (apprenticeship and/or professionalization)",
@@ -10977,6 +10989,9 @@ Only European phone numbers are allowed. There is also a check on the nature of 
                               },
                               "start": {
                                 "description": "Date de début du contrat.",
+                                "examples": [
+                                  "2024-09-23T10:00:00.000Z",
+                                ],
                                 "format": "date-time",
                                 "type": [
                                   "string",

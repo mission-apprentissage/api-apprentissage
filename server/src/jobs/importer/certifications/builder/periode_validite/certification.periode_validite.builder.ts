@@ -75,7 +75,7 @@ function buildCertificationPeriodeValiditeRncp(
     return null;
   }
 
-  return {
+  const result: ICertification["periode_validite"]["rncp"] = {
     actif: standard.Actif === "ACTIVE",
     activation: getRncpDateActivation(data, oldestFranceCompetenceDatePublication),
     fin_enregistrement: parseNullableParisLocalDate(standard.Date_Fin_Enregistrement, "23:59:59"),
@@ -83,6 +83,13 @@ function buildCertificationPeriodeValiditeRncp(
       parseNullableParisLocalDate(standard.Date_Effet, "00:00:00") ??
       parseNullableParisLocalDate(standard.Date_Decision, "00:00:00"),
   };
+
+  // This can hapen for RNCP emitted before 2019
+  if (!result.actif && result.fin_enregistrement === null) {
+    result.fin_enregistrement = data.date_derniere_activation ?? data.date_premiere_publication;
+  }
+
+  return result;
 }
 
 export type ICertificationSearchMap = {

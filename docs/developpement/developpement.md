@@ -54,10 +54,12 @@ Les principales opérations sont regroupées dans le `package.json`.
 ### Initialisation de l'environnment
 
 ```bash
+  yarn setup:env
   yarn setup
 ```
 
-installation ou mise à jour de vos fichiers d'environnement de développement depuis le vault.yml (`server/.env` et `ui/.env`)
+La première étape fera l'installation ou la mise à jour de vos fichiers d'environnement de développement depuis le vault.yml (`server/.env` et `ui/.env`).
+La deuxième étape se chargera du démarrage des services et conteneurs en local.
 
 ### Lancement de la stack compléte
 

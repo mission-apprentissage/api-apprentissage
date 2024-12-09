@@ -24,7 +24,8 @@
     "husky": "^9.1.6"
   },
   "scripts": {
-    "setup": ".bin/mna init:env",
+    "setup:env": ".bin/mna init:env",
+    "setup": ".bin/mna setup:env",
     "setup:mongodb": "docker compose exec -it mongodb mongosh --eval \"try { rs.status().ok } catch (e) { if (e.code === 94) {rs.initiate();} else {throw e} }\" --quiet",
     "dev": "yarn services:start; yarn foreach:parallel run dev",
     "cli": "yarn workspace server cli",

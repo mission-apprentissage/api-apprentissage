@@ -7,6 +7,7 @@ function Help() {
    echo "Commands"
    echo "  bin:setup                                               Installs ${PRODUCT_NAME} binary with zsh completion on system"
    echo "  init:env                                                Update local env files using values from vault file"
+   echo "  setup:env                                               Setup local environnement"
    echo "  build:image                                             Build Ui & Server Docker images"
    echo "  docker:login                                            Login to ghcr.io"
    echo "  deploy <env> --user <your_username>                                           Deploy application to <env>"
@@ -34,6 +35,10 @@ function bin:setup() {
 }
 
 function init:env() {
+  "${SCRIPT_DIR}/init-local-env.sh" "$@"
+}
+
+function setup:env() {
   "${SCRIPT_DIR}/setup-local-env.sh" "$@"
 }
 

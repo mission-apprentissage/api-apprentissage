@@ -1,238 +1,145 @@
-export const expectedDocumentationDelta = {
-  "get:/job/v1/search": [
-    {
-      path: ["parameters", "longitude", "schema", "type"],
-      type: "CHANGE",
-      value: ["number", "null"],
-      oldValue: "number",
+export type StructuredDiff = Record<
+  string,
+  | { type: "removed"; apiValue: unknown }
+  | { type: "added"; sourceValue: unknown }
+  | { type: "changed"; apiValue: unknown; sourceValue: unknown }
+>;
+
+export const expectedDocumentationDelta: Record<string, StructuredDiff> = {
+  "get:/job/v1/search": {
+    "parameters.longitude.schema.type": {
+      type: "changed",
+      apiValue: "number",
+      sourceValue: ["number", "null"],
     },
-    {
-      path: ["parameters", "latitude", "schema", "type"],
-      type: "CHANGE",
-      value: ["number", "null"],
-      oldValue: "number",
+    "parameters.latitude.schema.type": {
+      type: "changed",
+      apiValue: "number",
+      sourceValue: ["number", "null"],
     },
-    {
-      path: ["parameters", "radius", "schema", "type"],
-      type: "CHANGE",
-      value: ["number", "null"],
-      oldValue: "number",
+    "parameters.radius.schema.type": {
+      type: "changed",
+      apiValue: "number",
+      sourceValue: ["number", "null"],
     },
-    {
-      path: ["parameters", "romes", "schema", "type"],
-      type: "CHANGE",
-      value: ["string", "null"],
-      oldValue: "string",
+    "parameters.romes.schema.type": {
+      type: "changed",
+      apiValue: "string",
+      sourceValue: ["string", "null"],
     },
-    {
-      path: ["parameters", "rncp", "schema", "type"],
-      type: "CHANGE",
-      value: ["string", "null"],
-      oldValue: "string",
+    "parameters.rncp.schema.type": {
+      type: "changed",
+      apiValue: "string",
+      sourceValue: ["string", "null"],
     },
-    {
-      path: [
-        "responses",
-        "200",
-        "content",
-        "application/json",
-        "schema",
-        "properties",
-        "jobs",
-        "items",
-        "properties",
-        "workplace",
-        "properties",
-        "domain",
-        "properties",
-        "opco",
-        "enum",
-      ],
-      type: "CHANGE",
-      value: [
-        "AFDAS",
-        "AKTO / Opco entreprises et salariés des services à forte intensité de main d'oeuvre",
-        "ATLAS",
-        "Constructys",
-        "L'Opcommerce",
-        "OCAPIAT",
-        "OPCO 2i",
-        "Opco entreprises de proximité",
-        "Opco Mobilités",
-        "Opco Santé",
-        "Uniformation, l'Opco de la Cohésion sociale",
-        "inconnu",
-        "OPCO multiple",
-      ],
+    "responses.200.content.application/json.schema.properties.jobs.items.properties.workplace.properties.domain.properties.opco.enum":
+      {
+        type: "added",
+        sourceValue: [
+          "AFDAS",
+          "AKTO / Opco entreprises et salariés des services à forte intensité de main d'oeuvre",
+          "ATLAS",
+          "Constructys",
+          "L'Opcommerce",
+          "OCAPIAT",
+          "OPCO 2i",
+          "Opco entreprises de proximité",
+          "Opco Mobilités",
+          "Opco Santé",
+          "Uniformation, l'Opco de la Cohésion sociale",
+          "inconnu",
+          "OPCO multiple",
+        ],
+      },
+    "responses.200.content.application/json.schema.properties.recruiters.items.properties.workplace.properties.domain.properties.opco.enum":
+      {
+        type: "added",
+        sourceValue: [
+          "AFDAS",
+          "AKTO / Opco entreprises et salariés des services à forte intensité de main d'oeuvre",
+          "ATLAS",
+          "Constructys",
+          "L'Opcommerce",
+          "OCAPIAT",
+          "OPCO 2i",
+          "Opco entreprises de proximité",
+          "Opco Mobilités",
+          "Opco Santé",
+          "Uniformation, l'Opco de la Cohésion sociale",
+          "inconnu",
+          "OPCO multiple",
+        ],
+      },
+  },
+  "post:/job/v1/offer": {
+    "requestBody.content.application/json.schema.properties.identifier.default": {
+      type: "added",
+      sourceValue: {},
     },
-    {
-      path: [
-        "responses",
-        "200",
-        "content",
-        "application/json",
-        "schema",
-        "properties",
-        "recruiters",
-        "items",
-        "properties",
-        "identifier",
-        "properties",
-        "id",
-      ],
-      type: "CHANGE",
-      oldValue: {
+    "requestBody.content.application/json.schema.properties.workplace.properties.location.default": {
+      type: "added",
+      sourceValue: {},
+    },
+    "requestBody.content.application/json.schema.properties.contract.default": {
+      type: "added",
+      sourceValue: {},
+    },
+    "requestBody.content.application/json.schema.properties.offer.properties.publication.default": {
+      type: "added",
+      sourceValue: {},
+    },
+    "requestBody.content.application/json.schema.properties.offer.properties.status.default": {
+      type: "added",
+      sourceValue: "Active",
+    },
+    "responses.200.content.application/json.schema.properties.id": {
+      type: "removed",
+      apiValue: {
         _: "schema",
         type: "string",
       },
     },
-    {
-      path: [
-        "responses",
-        "200",
-        "content",
-        "application/json",
-        "schema",
-        "properties",
-        "recruiters",
-        "items",
-        "properties",
-        "identifier",
-        "required",
-      ],
-      type: "CHANGE",
-      oldValue: ["id"],
+    "responses.200.content.application/json.schema.required": {
+      type: "removed",
+      apiValue: ["id"],
     },
-    {
-      path: [
-        "responses",
-        "200",
-        "content",
-        "application/json",
-        "schema",
-        "properties",
-        "recruiters",
-        "items",
-        "properties",
-        "workplace",
-        "properties",
-        "domain",
-        "properties",
-        "opco",
-        "enum",
-      ],
-      type: "CHANGE",
-      value: [
-        "AFDAS",
-        "AKTO / Opco entreprises et salariés des services à forte intensité de main d'oeuvre",
-        "ATLAS",
-        "Constructys",
-        "L'Opcommerce",
-        "OCAPIAT",
-        "OPCO 2i",
-        "Opco entreprises de proximité",
-        "Opco Mobilités",
-        "Opco Santé",
-        "Uniformation, l'Opco de la Cohésion sociale",
-        "inconnu",
-        "OPCO multiple",
-      ],
+  },
+  "put:/job/v1/offer/{id}": {
+    "parameters.id.required": {
+      type: "changed",
+      apiValue: true,
+      sourceValue: false,
     },
-  ],
-  "post:/job/v1/offer": [
-    {
-      path: [
-        "requestBody",
-        "content",
-        "application/json",
-        "schema",
-        "properties",
-        "contract",
-        "properties",
-        "type",
-        "default",
-      ],
-      type: "CHANGE",
-      value: ["Apprentissage", "Professionnalisation"],
-    },
-    {
-      path: [
-        "requestBody",
-        "content",
-        "application/json",
-        "schema",
-        "properties",
-        "contract",
-        "properties",
-        "start",
-        "default",
-      ],
-      type: "CHANGE",
-      oldValue: ["Apprentissage", "Professionnalisation"],
-    },
-    {
-      path: ["responses", "200", "content", "application/json", "schema", "properties", "id"],
-      type: "CHANGE",
-      oldValue: {
+    "parameters.id.schema": {
+      type: "removed",
+      apiValue: {
         _: "schema",
         type: "string",
       },
     },
-    {
-      path: ["responses", "200", "content", "application/json", "schema", "required"],
-      type: "CHANGE",
-      oldValue: ["id"],
+    "requestBody.content.application/json.schema.properties.identifier.default": {
+      type: "added",
+      sourceValue: {},
     },
-  ],
-  "put:/job/v1/offer/{id}": [
-    {
-      path: ["parameters", "id", "required"],
-      type: "CHANGE",
-      value: false,
-      oldValue: true,
+    "requestBody.content.application/json.schema.properties.workplace.properties.location.default": {
+      type: "added",
+      sourceValue: {},
     },
-    {
-      path: ["parameters", "id", "schema"],
-      type: "CHANGE",
-      oldValue: {
-        _: "schema",
-        type: "string",
-      },
+    "requestBody.content.application/json.schema.properties.contract.default": {
+      type: "added",
+      sourceValue: {},
     },
-    {
-      path: [
-        "requestBody",
-        "content",
-        "application/json",
-        "schema",
-        "properties",
-        "contract",
-        "properties",
-        "type",
-        "default",
-      ],
-      type: "CHANGE",
-      value: ["Apprentissage", "Professionnalisation"],
+    "requestBody.content.application/json.schema.properties.offer.properties.publication.default": {
+      type: "added",
+      sourceValue: {},
     },
-    {
-      path: [
-        "requestBody",
-        "content",
-        "application/json",
-        "schema",
-        "properties",
-        "contract",
-        "properties",
-        "start",
-        "default",
-      ],
-      type: "CHANGE",
-      oldValue: ["Apprentissage", "Professionnalisation"],
+    "requestBody.content.application/json.schema.properties.offer.properties.status.default": {
+      type: "added",
+      sourceValue: "Active",
     },
-    {
-      path: ["responses", "204", "content"],
-      type: "CHANGE",
-      value: {
+    "responses.204.content": {
+      type: "added",
+      sourceValue: {
         "application/json": {
           schema: {
             _: "schema",
@@ -241,5 +148,5 @@ export const expectedDocumentationDelta = {
         },
       },
     },
-  ],
+  },
 };

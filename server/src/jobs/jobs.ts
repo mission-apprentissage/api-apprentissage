@@ -78,7 +78,7 @@ export async function setupJobProcessor() {
             },
             "Import des NPEC": {
               cron_string: timings.import_source,
-              handler: async () => runNpecImporter(),
+              handler: runNpecImporter,
               resumable: true,
             },
             "Import des Conventions Collective Kali": {
@@ -98,12 +98,12 @@ export async function setupJobProcessor() {
             },
             "Import des Communes": {
               cron_string: timings.import_source,
-              handler: async () => runCommuneImporter(),
+              handler: runCommuneImporter,
               resumable: true,
             },
             "Controle synchronisation de la documentation": {
               cron_string: timings.morning,
-              handler: async () => checkDocumentationSync,
+              handler: checkDocumentationSync,
               resumable: true,
             },
           },
@@ -135,25 +135,25 @@ export async function setupJobProcessor() {
         handler: async (job) => createMigration(job.payload as any),
       },
       "import:acce": {
-        handler: async () => runAcceImporter(),
+        handler: runAcceImporter,
       },
       "import:bcn": {
-        handler: async () => runBcnImporter(),
+        handler: runBcnImporter,
       },
       "import:kit_apprentissage": {
-        handler: async () => runKitApprentissageImporter(),
+        handler: runKitApprentissageImporter,
       },
       "import:referentiel": {
-        handler: async () => runReferentielImporter(),
+        handler: runReferentielImporter,
       },
       "import:catalogue": {
-        handler: async () => runCatalogueImporter(),
+        handler: runCatalogueImporter,
       },
       "import:commmunes": {
-        handler: async () => runCommuneImporter(),
+        handler: runCommuneImporter,
       },
       "import:france_competence": {
-        handler: async () => runRncpImporter(),
+        handler: runRncpImporter,
       },
       "import:kali_ccn": {
         handler: async (_job, signal) => runKaliConventionCollectivesImporter(signal),
@@ -177,7 +177,7 @@ export async function setupJobProcessor() {
         resumable: true,
       },
       "import:npec": {
-        handler: async () => runNpecImporter(),
+        handler: runNpecImporter,
       },
       "import:npec:resource": {
         handler: async (job, signal) => importNpecResource(zImportMetaNpec.parse(job.payload), signal),
@@ -203,6 +203,9 @@ export async function setupJobProcessor() {
       "indicateurs:source_kit_apprentissage:update": {
         handler: updateKitApprentissageIndicateurSource,
         resumable: true,
+      },
+      "doc:check_sync": {
+        handler: checkDocumentationSync,
       },
     },
   });

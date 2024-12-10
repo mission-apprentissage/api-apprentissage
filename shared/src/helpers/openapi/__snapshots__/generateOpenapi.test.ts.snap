@@ -3233,6 +3233,30 @@ If the published offer does not have a ROME code provided, we deduce the ROME co
                   "null",
                 ],
               },
+              "status": {
+                "description": "Le statut de l'offre (cycle de vie) :
+
+- Active : L'offre est disponible sur la plateforme et il est possible d'y postuler.
+- Filled : L'offre a été pourvue et n'est donc plus disponible.
+- Cancelled : L'offre a été annulée et n'est donc plus disponible.
+
+
+Notes:
+
+When creating an offer, only active offers are accepted. However, during an update, it is possible to cancel or mark an offer as filled.",
+                "enum": [
+                  "Active",
+                  "Filled",
+                  "Cancelled",
+                  "Pending",
+                ],
+                "examples": [
+                  "Active",
+                  "Filled",
+                  "Cancelled",
+                ],
+                "type": "string",
+              },
               "target_diploma": {
                 "description": "Targeted diploma level at the end of studies.",
                 "properties": {
@@ -9398,6 +9422,30 @@ If the published offer does not have a ROME code provided, we deduce the ROME co
                           "null",
                         ],
                       },
+                      "status": {
+                        "description": "Le statut de l'offre (cycle de vie) :
+
+- Active : L'offre est disponible sur la plateforme et il est possible d'y postuler.
+- Filled : L'offre a été pourvue et n'est donc plus disponible.
+- Cancelled : L'offre a été annulée et n'est donc plus disponible.
+
+
+Notes:
+
+When creating an offer, only active offers are accepted. However, during an update, it is possible to cancel or mark an offer as filled.",
+                        "enum": [
+                          "Active",
+                          "Filled",
+                          "Cancelled",
+                          "Pending",
+                        ],
+                        "examples": [
+                          "Active",
+                          "Filled",
+                          "Cancelled",
+                        ],
+                        "type": "string",
+                      },
                       "target_diploma": {
                         "description": "Targeted diploma level at the end of studies.",
                         "properties": {
@@ -10230,6 +10278,30 @@ If the published offer does not have a ROME code provided, we deduce the ROME co
                           "array",
                           "null",
                         ],
+                      },
+                      "status": {
+                        "description": "Le statut de l'offre (cycle de vie) :
+
+- Active : L'offre est disponible sur la plateforme et il est possible d'y postuler.
+- Filled : L'offre a été pourvue et n'est donc plus disponible.
+- Cancelled : L'offre a été annulée et n'est donc plus disponible.
+
+
+Notes:
+
+When creating an offer, only active offers are accepted. However, during an update, it is possible to cancel or mark an offer as filled.",
+                        "enum": [
+                          "Active",
+                          "Filled",
+                          "Cancelled",
+                          "Pending",
+                        ],
+                        "examples": [
+                          "Active",
+                          "Filled",
+                          "Cancelled",
+                        ],
+                        "type": "string",
                       },
                       "target_diploma": {
                         "description": "Targeted diploma level at the end of studies.",

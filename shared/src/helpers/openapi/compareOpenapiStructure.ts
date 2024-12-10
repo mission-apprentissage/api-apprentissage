@@ -246,10 +246,13 @@ export function getOperationObjectStructure(operation: OperationObject | undefin
     return;
   }
 
-  return {
+  const result = {
     parameters: getParametersStructure(operation.parameters),
     requestBody: getRequestBodyObjectStructure(operation.requestBody),
     responses: getResponsesObjectStructure(operation.responses),
     security: operation.security,
   };
+
+  // Remove all undefined fields
+  return JSON.parse(JSON.stringify(result));
 }

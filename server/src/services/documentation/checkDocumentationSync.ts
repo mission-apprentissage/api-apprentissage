@@ -1,6 +1,5 @@
 import { internal } from "@hapi/boom";
 import OpenAPIParser from "@readme/openapi-parser";
-import type { Difference } from "microdiff";
 import diff from "microdiff";
 import type { OpenAPIObject, OperationObject, PathsObject } from "openapi3-ts/oas31";
 import { getPath } from "openapi3-ts/oas31";
@@ -10,6 +9,7 @@ import { generateOpenApiSchema } from "shared/helpers/openapi/generateOpenapi";
 import config from "@/config.js";
 import logger from "@/services/logger.js";
 
+import type { StructuredDiff } from "./expectedDocumentationDelta.js";
 import { expectedDocumentationDelta } from "./expectedDocumentationDelta.js";
 
 const OPERATION_MAPPING: Record<string, string> = {
@@ -90,25 +90,51 @@ async function buildApiOpenapiPathItems(): Promise<Operation[]> {
   return getOperations(doc.paths).filter((op) => op.path.startsWith("/job/v1"));
 }
 
-function compareOperationObjects(operation1: OperationObject, operation2: OperationObject | undefined): Difference[] {
-  const s1 = getOperationObjectStructure(operation1);
-  const s2 = getOperationObjectStructure(operation2);
+function structureDiff(
+  apiValue: Record<string, unknown> | undefined,
+  sourceValue: Record<string, unknown> | undefined
+): StructuredDiff {
+  const result: StructuredDiff = {};
 
-  if (s1?.security) {
-    delete s1.security;
+  // Remove undefined values before diffing
+  const diffs = diff(JSON.parse(JSON.stringify(apiValue ?? {})), JSON.parse(JSON.stringify(sourceValue ?? {})));
+
+  for (const d of diffs) {
+    const path = d.path.join(".");
+    if (d.type === "CREATE" || (d.type === "CHANGE" && d.oldValue === undefined)) {
+      result[path] = { type: "added", sourceValue: d.value };
+    } else if (d.type === "REMOVE" || (d.type === "CHANGE" && d.value === undefined)) {
+      result[path] = { type: "removed", apiValue: d.oldValue };
+    } else if (d.type === "CHANGE") {
+      result[path] = { type: "changed", apiValue: d.oldValue, sourceValue: d.value };
+    }
   }
 
-  if (s2?.security) {
-    delete s2.security;
+  return result;
+}
+
+function compareOperationObjects(
+  operationApi: OperationObject,
+  operationSource: OperationObject | undefined
+): StructuredDiff {
+  const apiStruc = getOperationObjectStructure(operationApi);
+  const sourceStruc = getOperationObjectStructure(operationSource);
+
+  if (apiStruc?.security) {
+    delete apiStruc.security;
   }
 
-  return diff(s1 ?? {}, s2 ?? {});
+  if (sourceStruc?.security) {
+    delete sourceStruc.security;
+  }
+
+  return structureDiff(apiStruc, sourceStruc);
 }
 
 export async function checkDocumentationSync() {
   const [lbaOperations, apiOperations] = await Promise.all([fetchLbaOperations(), buildApiOpenapiPathItems()]);
 
-  const result: Record<string, Difference[]> = {};
+  const result: Record<string, StructuredDiff> = {};
 
   for (const apiOperation of apiOperations) {
     const lbaOperation = lbaOperations.find((op) => op.id === OPERATION_MAPPING[apiOperation.id]) ?? null;
@@ -117,15 +143,11 @@ export async function checkDocumentationSync() {
     result[apiOperation.id] = d;
   }
 
-  const delta = diff(expectedDocumentationDelta, result).filter((d) => {
-    if (d.type === "CHANGE") return true;
-    if (d.type === "CREATE") return d.value !== undefined;
-    return d.oldValue !== undefined;
-  });
+  const delta = structureDiff(expectedDocumentationDelta, result);
 
-  if (delta.length > 0) {
+  if (Object.keys(delta).length > 0) {
     const message = `checkDocumentationSync: API Alternance documentation is not in sync with LBA`;
-    logger.error(message, { delta });
+    logger.error(message, { delta, result });
     throw internal(message, { delta, result });
   }
 }

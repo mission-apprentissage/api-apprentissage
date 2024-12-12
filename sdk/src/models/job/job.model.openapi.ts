@@ -234,7 +234,7 @@ const offerReadSchema = {
         },
         status: {
           type: "string",
-          enum: ["Active", "Filled", "Cancelled", "Pending"],
+          enum: ["Active", "Filled", "Cancelled"],
         },
       },
       required: [

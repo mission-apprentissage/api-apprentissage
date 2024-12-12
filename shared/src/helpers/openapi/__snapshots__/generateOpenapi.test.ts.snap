@@ -2649,7 +2649,6 @@ Only active offers are returned by the search.",
                   "Active",
                   "Filled",
                   "Cancelled",
-                  "Pending",
                 ],
                 "examples": [
                   "Active",
@@ -3248,7 +3247,6 @@ When creating an offer, only active offers are accepted. However, during an upda
                   "Active",
                   "Filled",
                   "Cancelled",
-                  "Pending",
                 ],
                 "examples": [
                   "Active",
@@ -9437,7 +9435,6 @@ When creating an offer, only active offers are accepted. However, during an upda
                           "Active",
                           "Filled",
                           "Cancelled",
-                          "Pending",
                         ],
                         "examples": [
                           "Active",
@@ -10294,7 +10291,6 @@ When creating an offer, only active offers are accepted. However, during an upda
                           "Active",
                           "Filled",
                           "Cancelled",
-                          "Pending",
                         ],
                         "examples": [
                           "Active",
@@ -11268,7 +11264,6 @@ Only active offers are returned by the search.",
                                   "Active",
                                   "Filled",
                                   "Cancelled",
-                                  "Pending",
                                 ],
                                 "examples": [
                                   "Active",

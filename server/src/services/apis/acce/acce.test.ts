@@ -7,7 +7,7 @@ import { downloadCsvExtraction, login } from "./acce.js";
 
 describe("login", () => {
   it("should login correctly", async () => {
-    const scope = nock("https://dep.adc.education.fr/acce")
+    const scope = nock("https://acce.depp.education.fr/acce")
       .post("/ajax/ident.php", (body) => {
         expect(body).toEqual({
           json: '{"id":"username","mdp":"pass","nom":null,"prenom":null,"email":null,"fonction":null,"organisme":null,"commentaire":null,"captcha_code":null}',
@@ -26,7 +26,7 @@ describe("login", () => {
   });
 
   it("should error when cookie session name changed", async () => {
-    const scope = nock("https://dep.adc.education.fr/acce").post("/ajax/ident.php").reply(200, "", {
+    const scope = nock("https://acce.depp.education.fr/acce").post("/ajax/ident.php").reply(200, "", {
       "set-cookie": "invalid_cookie_name=session_token;",
     });
 
@@ -36,7 +36,7 @@ describe("login", () => {
   });
 
   it("should error when cookie session is missing", async () => {
-    const scope = nock("https://dep.adc.education.fr/acce").post("/ajax/ident.php").reply(200, "");
+    const scope = nock("https://acce.depp.education.fr/acce").post("/ajax/ident.php").reply(200, "");
 
     await expect(login()).rejects.toThrow("api.acce: unable to login");
 
@@ -44,7 +44,7 @@ describe("login", () => {
   });
 
   it("should error when login is not success", async () => {
-    const scope = nock("https://dep.adc.education.fr/acce").post("/ajax/ident.php").reply(401, "");
+    const scope = nock("https://acce.depp.education.fr/acce").post("/ajax/ident.php").reply(401, "");
 
     await expect(login()).rejects.toThrow("api.acce: unable to login");
 
@@ -61,7 +61,7 @@ describe("downloadCsvExtraction", () => {
   });
 
   it("should download response and return a readStream", async () => {
-    const scope = nock("https://dep.adc.education.fr/acce").post("/ajax/ident.php").reply(200, "", {
+    const scope = nock("https://acce.depp.education.fr/acce").post("/ajax/ident.php").reply(200, "", {
       "set-cookie": "men_default=session_token;",
     });
 
@@ -73,7 +73,7 @@ describe("downloadCsvExtraction", () => {
       .matchHeader("Cookie", "men_default=session_token")
       .reply(
         200,
-        'You should have a look at this "https://dep.adc.education.fr/acce/getextract.php?ex_id=some-random-id"'
+        'You should have a look at this "https://acce.depp.education.fr/acce/getextract.php?ex_id=some-random-id"'
       );
 
     scope
@@ -97,7 +97,7 @@ describe("downloadCsvExtraction", () => {
   });
 
   it("should wait for extract to be ready", async () => {
-    const scope = nock("https://dep.adc.education.fr/acce").post("/ajax/ident.php").reply(200, "", {
+    const scope = nock("https://acce.depp.education.fr/acce").post("/ajax/ident.php").reply(200, "", {
       "set-cookie": "men_default=session_token;",
     });
 
@@ -108,7 +108,7 @@ describe("downloadCsvExtraction", () => {
       )
       .reply(
         200,
-        'You should have a look at this "https://dep.adc.education.fr/acce/getextract.php?ex_id=some-random-id"'
+        'You should have a look at this "https://acce.depp.education.fr/acce/getextract.php?ex_id=some-random-id"'
       );
 
     scope.get("/getextract.php?ex_id=some-random-id").times(5).reply(200, "Wait");
@@ -131,7 +131,7 @@ describe("downloadCsvExtraction", () => {
   });
 
   it("should error on timeout", async () => {
-    const scope = nock("https://dep.adc.education.fr/acce").post("/ajax/ident.php").reply(200, "", {
+    const scope = nock("https://acce.depp.education.fr/acce").post("/ajax/ident.php").reply(200, "", {
       "set-cookie": "men_default=session_token;",
     });
 
@@ -142,7 +142,7 @@ describe("downloadCsvExtraction", () => {
       )
       .reply(
         200,
-        'You should have a look at this "https://dep.adc.education.fr/acce/getextract.php?ex_id=some-random-id"'
+        'You should have a look at this "https://acce.depp.education.fr/acce/getextract.php?ex_id=some-random-id"'
       );
 
     scope.get("/getextract.php?ex_id=some-random-id").times(15).reply(200, "Wait");
@@ -151,7 +151,7 @@ describe("downloadCsvExtraction", () => {
   });
 
   it("should error when check extract status fail", async () => {
-    const scope = nock("https://dep.adc.education.fr/acce").post("/ajax/ident.php").reply(200, "", {
+    const scope = nock("https://acce.depp.education.fr/acce").post("/ajax/ident.php").reply(200, "", {
       "set-cookie": "men_default=session_token;",
     });
 
@@ -162,7 +162,7 @@ describe("downloadCsvExtraction", () => {
       )
       .reply(
         200,
-        'You should have a look at this "https://dep.adc.education.fr/acce/getextract.php?ex_id=some-random-id"'
+        'You should have a look at this "https://acce.depp.education.fr/acce/getextract.php?ex_id=some-random-id"'
       );
 
     scope.get("/getextract.php?ex_id=some-random-id").reply(500, "Ooops");
@@ -171,7 +171,7 @@ describe("downloadCsvExtraction", () => {
   });
 
   it("should error when generate extract doesn't return extract_id", async () => {
-    const scope = nock("https://dep.adc.education.fr/acce").post("/ajax/ident.php").reply(200, "", {
+    const scope = nock("https://acce.depp.education.fr/acce").post("/ajax/ident.php").reply(200, "", {
       "set-cookie": "men_default=session_token;",
     });
 
@@ -182,7 +182,7 @@ describe("downloadCsvExtraction", () => {
       )
       .reply(
         200,
-        'You should have a look at this "https://dep.adc.education.fr/acce/the_api_changed?ex_id=some-random-id"'
+        'You should have a look at this "https://acce.depp.education.fr/acce/the_api_changed?ex_id=some-random-id"'
       );
 
     await expect(downloadCsvExtraction()).rejects.toThrow("api.acce: unable to download acce database");
@@ -190,7 +190,7 @@ describe("downloadCsvExtraction", () => {
   });
 
   it("should error when generate extract failed", async () => {
-    const scope = nock("https://dep.adc.education.fr/acce").post("/ajax/ident.php").reply(200, "", {
+    const scope = nock("https://acce.depp.education.fr/acce").post("/ajax/ident.php").reply(200, "", {
       "set-cookie": "men_default=session_token;",
     });
 
@@ -207,7 +207,7 @@ describe("downloadCsvExtraction", () => {
   });
 
   it("should error when login fail", async () => {
-    const scope = nock("https://dep.adc.education.fr/acce").post("/ajax/ident.php").reply(401);
+    const scope = nock("https://acce.depp.education.fr/acce").post("/ajax/ident.php").reply(401);
     await expect(downloadCsvExtraction()).rejects.toThrow("api.acce: unable to download acce database");
 
     scope.done();

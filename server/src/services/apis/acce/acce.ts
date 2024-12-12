@@ -22,7 +22,7 @@ const acceClient = apiRateLimiter("acce", {
   durationInSeconds: 1,
   client: getApiClient(
     {
-      baseURL: "https://dep.adc.education.fr/acce",
+      baseURL: "https://acce.depp.education.fr/acce",
       timeout: 900_000,
     },
     { cache: false }
@@ -53,10 +53,12 @@ export async function login() {
         commentaire: null,
         captcha_code: null,
       });
-      const response = await client.post(`/ajax/ident.php`, querystring.stringify({ json: data }), {
+
+      const response = await client.post(`/index.php`, querystring.stringify({ json: data }), {
         headers: getFormHeaders(),
       });
 
+      console.log(`JSON DATA ${JSON.stringify(data)}`);
       const cookie = response.headers["set-cookie"]?.[0] ?? null;
 
       if (!cookie) {

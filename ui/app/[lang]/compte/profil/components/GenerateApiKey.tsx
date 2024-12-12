@@ -15,6 +15,7 @@ import { zRoutes } from "shared";
 import { useApiKeysStatut } from "@/app/[lang]/compte/profil/hooks/useApiKeys";
 import type { ICreateApiKeyInput } from "@/app/[lang]/compte/profil/hooks/useCreateApiKeyMutation";
 import { useCreateApiKeyMutation } from "@/app/[lang]/compte/profil/hooks/useCreateApiKeyMutation";
+import type { WithLangAndT } from "@/app/i18n/settings";
 import { Artwork } from "@/components/artwork/Artwork";
 import { ApiError } from "@/utils/api.utils";
 
@@ -25,7 +26,7 @@ export const generateApiKeyModal = createModal({
   isOpenedByDefault: false,
 });
 
-export function GenerateApiKey() {
+export function GenerateApiKey({ lang, t }: WithLangAndT) {
   const status = useApiKeysStatut();
   const mutation = useCreateApiKeyMutation();
   const {
@@ -59,14 +60,14 @@ export function GenerateApiKey() {
   const title = useMemo(() => {
     switch (statut) {
       case "none":
-        return "Vous n’avez aucun jeton d’accès à l’API Apprentissage";
+        return t("monCompte.aucunJetonAPI", { lng: lang });
       case "actif-encrypted":
       case "actif-ready":
-        return "Si vous avez besoin de jeton supplémentaires, vous pouvez en générer un nouveau";
+        return t("monCompte.besoinJetons", { lng: lang });
       case "expired":
-        return "Tous vos jetons d’accès à l’API Apprentissage sont expirés, vous pouvez en générer un nouveau";
+        return t("monCompte.jetonsExpires", { lng: lang });
       default:
-        return "Générer un nouveau jeton d’accès";
+        return t("monCompte.genererNouveauJeton", { lng: lang });
     }
   }, [statut]);
 
@@ -92,25 +93,29 @@ export function GenerateApiKey() {
         nativeButtonProps={generateApiKeyModal.buttonProps}
         priority={statut === "none" || statut === "expired" ? "primary" : "secondary"}
       >
-        {statut === "none" ? "Générer mon premier jeton" : "Générer un nouveau jeton d’accès"}
+        {statut === "none"
+          ? t("monCompte.genererPremier", { lng: lang })
+          : t("monCompte.genererNouveauJeton", { lng: lang })}
       </Button>
 
       <generateApiKeyModal.Component
         title={
           <span>
             <i className={fr.cx("fr-icon-arrow-right-line", "fr-text--lg")} />
-            {statut === "none" ? "Générer un jeton d’accès" : "Générer un nouveau jeton d’accès"}
+            {statut === "none"
+              ? t("monCompte.genererJeton", { lng: lang })
+              : t("monCompte.genererNouveauJeton", { lng: lang })}
           </span>
         }
         buttons={[
           {
-            children: "Annuler",
+            children: t("monCompte.annuler", { lng: lang }),
             disabled: isSubmitting,
           },
           {
             type: "submit",
             onClick: handleSubmit(onSubmit),
-            children: "Générer",
+            children: t("monCompte.generer", { lng: lang }),
             disabled: isSubmitting,
             doClosesModal: false,
           },
@@ -126,8 +131,8 @@ export function GenerateApiKey() {
           }}
         >
           <Input
-            label="Nommez votre jeton (optionnel)"
-            hintText="Si vous ne nommez pas votre jeton, un nom lui sera attribué par défaut"
+            label={t("monCompte.nommezJeton", { lng: lang })}
+            hintText={t("monCompte.nomJetonDefault", { lng: lang })}
             state={errors?.name ? "error" : "default"}
             stateRelatedMessage={errors?.name?.message ?? "Erreur de validation"}
             nativeInputProps={register("name", { required: false })}

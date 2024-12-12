@@ -9,9 +9,10 @@ import { useCallback, useMemo, useState } from "react";
 import type { IApiKeyPrivateJson } from "shared/models/user.model";
 
 import { useDeleteApiKeyMutation } from "@/app/[lang]/compte/profil/hooks/useDeleteApiKeyMutation";
+import type { WithLangAndT } from "@/app/i18n/settings";
 import { ApiError } from "@/utils/api.utils";
 
-export function ApiKeyAction({ apiKey }: { apiKey: IApiKeyPrivateJson }) {
+export function ApiKeyAction({ apiKey, lang, t }: WithLangAndT<{ apiKey: IApiKeyPrivateJson }>) {
   const deleteMutation = useDeleteApiKeyMutation();
   const [copyState, setCopyState] = useState<boolean | null>(null);
 
@@ -67,9 +68,9 @@ export function ApiKeyAction({ apiKey }: { apiKey: IApiKeyPrivateJson }) {
   return (
     <Box sx={{ display: "flex", gap: fr.spacing("1w"), flexWrap: "wrap" }}>
       <Button key="action" onClick={onClick} size="small" priority={"primary"} disabled={!apiKey.value}>
-        Copier le jeton
+        {t("monCompte.copierJeton", { lng: lang })}
       </Button>
-      <Tooltip title="Supprimer le jeton d’accès">
+      <Tooltip title={t("monCompte.supprimerJeton", { lng: lang })}>
         <Box
           component={"i"}
           sx={{
@@ -82,21 +83,21 @@ export function ApiKeyAction({ apiKey }: { apiKey: IApiKeyPrivateJson }) {
         Supprimer
       </Button>
       <modal.Component
-        title={`Supprimer le jeton d’accès "${apiKey.name}"`}
+        title={`${t("monCompte.supprimerJeton", { lng: lang })}"${apiKey.name}"`}
         buttons={[
           {
-            children: "Annuler",
+            children: t("monCompte.annuler", { lng: lang }),
             disabled: deleteMutation.isPending,
           },
           {
             onClick: onDeleteConfirm,
-            children: "Supprimer",
+            children: t("monCompte.supprimer", { lng: lang }),
             disabled: deleteMutation.isPending,
             doClosesModal: false,
           },
         ]}
       >
-        <Typography>Êtes-vous sûr de vouloir supprimer ce jeton d’accès ? Cette action est irréversible.</Typography>
+        <Typography>{t("monCompte.etesVousSurDeSupprimerJeton", { lng: lang })}</Typography>
         {deleteError && (
           <Box sx={{ marginTop: fr.spacing("2w") }}>
             <Alert description={deleteError} severity="error" small />
@@ -120,8 +121,8 @@ export function ApiKeyAction({ apiKey }: { apiKey: IApiKeyPrivateJson }) {
           onClose={() => setCopyState(null)}
           description={
             copyState === false
-              ? `Une erreur est survenue lors de la copie du jeton. Veuillez copier manuellement le jeton: ${apiKey.value}`
-              : "Le jeton a été copié dans le presse papier"
+              ? `${t("monCompte.erreurCopieJeton", { lng: lang })} ${apiKey.value}`
+              : t("monCompte.jetonCopiePressePapier", { lng: lang })
           }
           closable
           severity={copyState === false ? "error" : "info"}

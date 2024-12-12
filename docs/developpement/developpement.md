@@ -232,7 +232,7 @@ Cette commande exécutera tous les tests du projet et vous affichera les résult
 Pour mettre à jour les snapshots, utilisez la commande suivante
 
 ```bash
-yarn vitest --update
+yarn test --update
 ```
 
 ## Emails

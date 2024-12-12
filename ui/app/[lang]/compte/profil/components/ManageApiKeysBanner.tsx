@@ -17,7 +17,7 @@ export function ManageApiKeysBanner({ lang, t }: WithLangAndT) {
         <>
           {(t("monCompte.votreJetonCree"), { lng: lang })} &nbsp;
           <Box component="span" sx={{ fontWeight: "normal" }}>
-            {(t("monCompte.jetonCopie"), { lng: lang })}
+            {t("monCompte.jetonCopie", { lng: lang })}
           </Box>
         </>
       }

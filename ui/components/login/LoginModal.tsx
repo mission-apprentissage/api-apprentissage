@@ -63,7 +63,7 @@ export function LoginModal({ lang }: WithLang) {
   };
 
   if (sentTo) {
-    return <LoginEmailSentModal email={sentTo} lang={lang} />;
+    return <LoginEmailSentModal email={sentTo} lang={lang} t={t} />;
   }
 
   return (

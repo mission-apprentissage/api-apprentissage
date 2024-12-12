@@ -8,5 +8,13 @@
     "continuer": "Next",
     "envoiLienDescription": "We will send you a link that will allow you to log in to your account or sign up, without a password.",
     "problemeConnexionContactezNous": "Having trouble logging in? Contact us :"
+  },
+  "loginEmailSent": {
+    "verifierEmail": "Verify your email address",
+    "lienEnvoye": "We have sent a link to the address",
+    "vousPermettre": "which will allow you to",
+    "vousConnecter": "log in to your account or sign up without a password",
+    "verifierSpams": "don't forget to check your spam folder",
+    "problemeReceptionLien": "If you haven’t received the link within 10 minutes, contact us:"
   }
 }

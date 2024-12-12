@@ -8,5 +8,13 @@
     "continuer": "Continuer",
     "envoiLienDescription": "Nous vous enverrons un lien qui vous permettra de vous connecter à votre compte ou de vous inscrire, sans mot de passe",
     "problemeConnexionContactezNous": "Vous rencontrez des problèmes pour vous identifier, contactez-nous :"
+  },
+  "loginEmailSent": {
+    "verifierEmail": "Vérifier votre adresse électronique",
+    "lienEnvoye": "Nous avons envoyé un lien à l’adresse",
+    "vousPermettre": "qui va vous permettre de",
+    "vousConnecter": "vous connecter à votre compte ou de vous inscrire, sans mot de passe",
+    "verifierSpams": "n’oubliez pas de vérifier vos indésirables",
+    "problemeReceptionLien": "Si vous n’avez pas reçu le lien d’ici 10 min, contactez-nous :"
   }
 }

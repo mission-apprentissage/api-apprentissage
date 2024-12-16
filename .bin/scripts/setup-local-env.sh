@@ -2,18 +2,32 @@
 set -euo pipefail
 
 echo "Updating local server/.env & ui/.env"
-ANSIBLE_CONFIG="${ROOT_DIR}/.infra/ansible/ansible.cfg" ansible all \
-  --limit "local" \
-  -m template \
-  -a "src=\"${ROOT_DIR}/.infra/.env_server\" dest=\"${ROOT_DIR}/server/.env\"" \
-  --extra-vars "@${ROOT_DIR}/.infra/vault/vault.yml" \
-  --vault-password-file="${SCRIPT_DIR}/get-vault-password-client.sh"
-ANSIBLE_CONFIG="${ROOT_DIR}/.infra/ansible/ansible.cfg" ansible all \
-  --limit "local" \
-  -m template \
-  -a "src=\"${ROOT_DIR}/.infra/.env_ui\" dest=\"${ROOT_DIR}/ui/.env\"" \
-  --extra-vars "@${ROOT_DIR}/.infra/vault/vault.yml" \
-  --vault-password-file="${SCRIPT_DIR}/get-vault-password-client.sh"
+
+delete_cleartext() {
+  rm -f "${ROOT_DIR}/.vault_pwd.txt"
+}
+
+trap delete_cleartext EXIT
+"${SCRIPT_DIR}/get-vault-password-client.sh" > "${ROOT_DIR}/.vault_pwd.txt"
+
+docker run -it --rm \
+  -v "${ROOT_DIR}:/root" \
+  -e ANSIBLE_CONFIG="/root/.infra/ansible/ansible.cfg" \
+  alpine/ansible ansible all \
+    --limit "local" \
+    -m template \
+    -a "src=\"/root/.infra/.env_server\" dest=\"/root/server/.env\"" \
+    --extra-vars "@root/.infra/vault/vault.yml" \
+    --vault-password-file="/root/.vault_pwd.txt"
+docker run -it --rm \
+  -v "${ROOT_DIR}:/root" \
+  -e ANSIBLE_CONFIG="/root/.infra/ansible/ansible.cfg" \
+  alpine/ansible ansible all \
+    --limit "local" \
+    -m template \
+    -a "src=\"/root/.infra/.env_ui\" dest=\"/root/ui/.env\"" \
+    --extra-vars "@root/.infra/vault/vault.yml" \
+    --vault-password-file="/root/.vault_pwd.txt"
 
 echo "PUBLIC_VERSION=0-local" >> "${ROOT_DIR}/server/.env"
 echo "PUBLIC_PRODUCT_NAME=\"${PRODUCT_NAME}\"" >> "${ROOT_DIR}/server/.env"
@@ -23,7 +37,6 @@ echo "NEXT_PUBLIC_VERSION=0-local" >> "${ROOT_DIR}/ui/.env"
 echo "NEXT_PUBLIC_PRODUCT_NAME=\"${PRODUCT_NAME}\"" >> "${ROOT_DIR}/ui/.env"
 echo "NEXT_PUBLIC_PRODUCT_REPO=\"${REPO_NAME}\"" >> "${ROOT_DIR}/ui/.env"
 echo "NEXT_PUBLIC_API_PORT=5002" >> "${ROOT_DIR}/ui/.env"
-
 
 yarn
 yarn services:start

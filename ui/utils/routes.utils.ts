@@ -108,16 +108,6 @@ export const PAGES = {
       index: true,
       getTitle: (lang, t) => t("pages.compteProfil", { lang, ns: "global" }),
     },
-    compte: {
-      getPath: (lang) => `/${lang}/compte/profil` as string,
-      index: true,
-      getTitle: (lang, t) => t("pages.compte", { lang, ns: "global" }),
-    },
-    seConnecterInscrireCompte: {
-      getPath: (lang) => `/${lang}/compte/profil` as string,
-      index: true,
-      getTitle: (lang, t) => t("pages.seConnecterInscrireCompte", { lang, ns: "global" }),
-    },
     adminUsers: {
       getPath: (lang) => `/${lang}/admin/utilisateurs` as string,
       index: false,

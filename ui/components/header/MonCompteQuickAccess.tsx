@@ -40,7 +40,7 @@ export function MonCompteQuickAccess({ lang, t }: WithLangAndT) {
       <HeaderQuickAccessItem
         quickAccessItem={{
           iconId: "fr-icon-lock-line",
-          text: PAGES.static.seConnecterInscrireCompte.getTitle(lang, t),
+          text: t("pages.seConnecterInscrireCompte", { lang, ns: "global" }),
           linkProps: {
             href: PAGES.static.compteProfil.getPath(lang),
           },
@@ -54,7 +54,7 @@ export function MonCompteQuickAccess({ lang, t }: WithLangAndT) {
       <HeaderQuickAccessItem
         quickAccessItem={{
           iconId: "fr-icon-account-circle-fill",
-          text: PAGES.static.compte.getTitle(lang, t),
+          text: t("pages.compte", { lang, ns: "global" }),
           buttonProps: {
             onClick: handleOpenPopover,
             "aria-describedby": popoverId,

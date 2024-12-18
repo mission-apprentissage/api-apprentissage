@@ -10,6 +10,7 @@ import { importMetaModelDescriptor } from "./import.meta.model.js";
 import { indicateurSourceKitApprentissageModelDescriptor } from "./indicateurs/source_kit_apprentissage.model.js";
 import { indicateurUsageApiModelDescriptor } from "./indicateurs/usage_api.model.js";
 import { organisationModelDescriptor } from "./organisation.model.js";
+import { organismeModelDescriptor } from "./organisme.model.js";
 import sessionsModelDescriptor from "./session.model.js";
 import sourceAcceModelDescriptor from "./source/acce/source.acce.model.js";
 import { sourceBcnModelDescriptor } from "./source/bcn/source.bcn.model.js";
@@ -46,6 +47,7 @@ export const modelDescriptorMap = {
   [sourceDaresCcnModelDescriptor.collectionName]: sourceDaresCcnModelDescriptor,
   [sourceDaresApeIdccModelDescriptor.collectionName]: sourceDaresApeIdccModelDescriptor,
   [organisationModelDescriptor.collectionName]: organisationModelDescriptor,
+  [organismeModelDescriptor.collectionName]: organismeModelDescriptor,
   [cacheEntrepriseModelDescriptor.collectionName]: cacheEntrepriseModelDescriptor,
 };
 

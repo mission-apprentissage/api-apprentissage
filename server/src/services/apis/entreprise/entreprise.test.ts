@@ -1,6 +1,7 @@
 import { useMongo } from "@tests/mongo.test.utils.js";
 import { ObjectId } from "mongodb";
 import nock from "nock";
+import type { IApiEntEtablissement } from "shared/models/cache/cache.entreprise.model";
 import { zApiEntEtablissement, zApiEntUniteLegale } from "shared/models/cache/cache.entreprise.model";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { z } from "zod";
@@ -31,7 +32,7 @@ beforeEach(() => {
 describe("getEtablissementDiffusible", () => {
   const siret = "13002526500013";
   const siren = "130025265";
-  const etablissement: z.input<typeof zApiEntEtablissement> = {
+  const etablissement: IApiEntEtablissement = {
     siret: "13002526500013",
     etat_administratif: "A",
     enseigne: null,
@@ -48,7 +49,6 @@ describe("getEtablissementDiffusible", () => {
         prenom_usuel: null,
         nom_usage: null,
       },
-      date_cessation: null,
       date_creation: 1495576800,
       etat_administratif: "A",
     },
@@ -95,15 +95,7 @@ describe("getEtablissementDiffusible", () => {
 
     const cacheUniteLegale = await getDbCollection("cache.entreprise").findOne({ identifiant: siren });
 
-    expect(cacheUniteLegale).toEqual({
-      _id: expect.any(ObjectId),
-      identifiant: siren,
-      ttl: inOneWeek,
-      data: {
-        type: "unite_legale",
-        unite_legale: etablissement.unite_legale,
-      },
-    });
+    expect(cacheUniteLegale).toEqual(null);
 
     expect(nock.isDone()).toBe(true);
   });
@@ -214,7 +206,6 @@ describe("getEtablissementDiffusible", () => {
             prenom_usuel: "AURELIE",
             nom_usage: "MOREAU",
           },
-          date_cessation: null,
           date_creation: 1495576800,
           etat_administratif: "A",
         },
@@ -284,7 +275,6 @@ describe("getEtablissementDiffusible", () => {
             prenom_usuel: null,
             nom_usage: null,
           },
-          date_cessation: null,
           date_creation: 1495576800,
           etat_administratif: "A",
         },
@@ -319,16 +309,7 @@ describe("getEtablissementDiffusible", () => {
 
       const cacheUniteLegale = await getDbCollection("cache.entreprise").findOne({ identifiant: siren });
 
-      // L'etablissement n'existe pas, mais l'unité légale peut exister
-      expect(cacheUniteLegale).toEqual({
-        _id: expect.any(ObjectId),
-        identifiant: siren,
-        ttl: inOneWeek,
-        data: {
-          type: "unite_legale",
-          unite_legale: expected.unite_legale,
-        },
-      });
+      expect(cacheUniteLegale).toEqual(null);
     });
   });
 

@@ -52,23 +52,20 @@ const apiParams = {
 };
 
 async function saveEtablissementCache(siret: string, data: IApiEntEtablissement | null) {
-  await Promise.all([
-    getDbCollection("cache.entreprise").updateOne(
-      { identifiant: siret, "data.type": "etablissement" },
-      {
-        $set: {
-          ttl: data?.etat_administratif === "A" ? new Date(Date.now() + ONE_WEEK) : null,
-          "data.etablissement": data,
-        },
-        $setOnInsert: {
-          identifiant: siret,
-          "data.type": "etablissement",
-        },
+  await getDbCollection("cache.entreprise").updateOne(
+    { identifiant: siret, "data.type": "etablissement" },
+    {
+      $set: {
+        ttl: data?.etat_administratif === "A" ? new Date(Date.now() + ONE_WEEK) : null,
+        "data.etablissement": data,
       },
-      { upsert: true }
-    ),
-    data === null ? Promise.resolve() : saveUniteLegaleCache(data.unite_legale.siren, data.unite_legale),
-  ]);
+      $setOnInsert: {
+        identifiant: siret,
+        "data.type": "etablissement",
+      },
+    },
+    { upsert: true }
+  );
 }
 
 async function saveUniteLegaleCache(siren: string, data: IApiEntUniteLegale | null) {
@@ -95,12 +92,14 @@ export function getSirenFromSiret(siret: string): string {
 // Le status diffusible a changé en 2022, et devenu partiellement diffusible
 // Seuls les informations personnelles des personnes physiques et l'adresse des établissements ne sont pas diffusibles
 // https://www.insee.fr/fr/information/6683782
-function dropNonDiffusibleUniteLegaleData<T extends IApiEntUniteLegale | null>(data: T): T {
+function dropNonDiffusibleUniteLegaleData<T extends IApiEntUniteLegale | IApiEntEtablissement["unite_legale"] | null>(
+  data: T
+): T {
   if (data === null) {
     return data;
   }
 
-  const result: IApiEntUniteLegale = {
+  const result: IApiEntEtablissement["unite_legale"] = {
     siren: data.siren,
     type: data.type,
     personne_morale_attributs: {
@@ -113,8 +112,12 @@ function dropNonDiffusibleUniteLegaleData<T extends IApiEntUniteLegale | null>(d
     },
     etat_administratif: data.etat_administratif,
     date_creation: data.date_creation,
-    date_cessation: data.date_cessation,
   };
+
+  if ("date_cessation" in data) {
+    const r: IApiEntUniteLegale = { ...result, date_cessation: data.date_cessation };
+    return r as T;
+  }
 
   return result as T;
 }

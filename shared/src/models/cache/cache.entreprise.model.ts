@@ -25,7 +25,7 @@ export const zApiEntUniteLegale = z.object({
   }),
   etat_administratif: z.enum(["A", "C"]),
   date_creation: z.number().nullable(),
-  date_cessation: z.number().nullable().default(null),
+  date_cessation: z.number().nullable(),
 });
 
 export const zApiEntEtablissement = z.object({
@@ -34,7 +34,9 @@ export const zApiEntEtablissement = z.object({
   date_creation: z.number().nullable(),
   date_fermeture: z.number().nullable(),
   enseigne: z.string().nullable(),
-  unite_legale: zApiEntUniteLegale,
+  unite_legale: zApiEntUniteLegale.omit({
+    date_cessation: true,
+  }),
   adresse: z.object({
     numero_voie: z.string().nullable().default(null),
     indice_repetition_voie: z.string().nullable(),

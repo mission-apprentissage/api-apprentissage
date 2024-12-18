@@ -58,7 +58,6 @@ export async function login() {
         headers: getFormHeaders(),
       });
 
-      console.log(`JSON DATA ${JSON.stringify(data)}`);
       const cookie = response.headers["set-cookie"]?.[0] ?? null;
 
       if (!cookie) {
@@ -237,6 +236,7 @@ export async function downloadCsvExtraction(): Promise<ReadStream> {
 
     // Max 30min to download
     const timeoutSignal = AbortSignal.timeout(config.env === "test" ? 150 : 30 * 60 * 1_000);
+
     while (!(stream = await pollExtraction(auth, extractionId))) {
       await sleep(config.env === "test" ? 10 : 5_000, timeoutSignal);
     }

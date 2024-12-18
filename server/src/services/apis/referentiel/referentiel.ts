@@ -1,6 +1,7 @@
-import { internal } from "@hapi/boom";
+import { internal, isBoom } from "@hapi/boom";
 import { isAxiosError } from "axios";
-import type { ISourceReferentiel } from "shared/models/source/referentiel/source.referentiel.model";
+import { zOrganismeReferentiel } from "shared/models/source/referentiel/source.referentiel.model";
+import { z } from "zod";
 
 import config from "@/config.js";
 import getApiClient from "@/services/apis/client.js";
@@ -15,21 +16,46 @@ const referentielClient = getApiClient(
   { cache: false }
 );
 
+const ITEMS_PAR_PAGES = 60_000;
+
 export const fetchReferentielOrganismes = async () => {
   try {
-    const {
-      data: { organismes },
-    } = await referentielClient.get<{ organismes: ISourceReferentiel[] }>("/organismes.json", {
+    const { data } = await referentielClient.get("/organismes.json", {
       params: {
-        items_par_page: 60000,
+        items_par_page: ITEMS_PAR_PAGES,
       },
     });
 
-    return organismes;
+    const result = z
+      .object({
+        pagination: z.object({
+          page: z.number(),
+          resultats_par_page: z.number(),
+          nombre_de_page: z.number(),
+          total: z.number(),
+        }),
+        organismes: zOrganismeReferentiel.array(),
+      })
+      .parse(data);
+
+    if (result.pagination.total > ITEMS_PAR_PAGES) {
+      throw internal("api.referentiel: too many results", { data: result.pagination });
+    }
+
+    if (result.pagination.total !== result.organismes.length) {
+      throw internal("api.referentiel: mismatch between total and results", { data: result.pagination });
+    }
+
+    return result.organismes;
   } catch (error) {
+    if (isBoom(error)) {
+      throw error;
+    }
+
     if (isAxiosError(error)) {
       throw internal("api.referentiel: unable to fetchReferentielOrganismes", { data: error.toJSON() });
     }
+
     throw withCause(internal("api.referentiel: unable to fetchReferentielOrganismes"), error);
   }
 };

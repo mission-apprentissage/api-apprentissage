@@ -22,7 +22,7 @@ const acceClient = apiRateLimiter("acce", {
   durationInSeconds: 1,
   client: getApiClient(
     {
-      baseURL: "https://dep.adc.education.fr/acce",
+      baseURL: "https://acce.depp.education.fr/acce",
       timeout: 900_000,
     },
     { cache: false }
@@ -53,7 +53,8 @@ export async function login() {
         commentaire: null,
         captcha_code: null,
       });
-      const response = await client.post(`/ajax/ident.php`, querystring.stringify({ json: data }), {
+
+      const response = await client.post(`/index.php`, querystring.stringify({ json: data }), {
         headers: getFormHeaders(),
       });
 
@@ -234,7 +235,8 @@ export async function downloadCsvExtraction(): Promise<ReadStream> {
     const { extractionId } = await startExtraction(auth);
 
     // Max 30min to download
-    const timeoutSignal = AbortSignal.timeout(config.env === "test" ? 150 : 30 * 60 * 1_000);
+    const timeoutSignal = AbortSignal.timeout(config.env === "test" ? 200 : 30 * 60 * 1_000);
+
     while (!(stream = await pollExtraction(auth, extractionId))) {
       await sleep(config.env === "test" ? 10 : 5_000, timeoutSignal);
     }

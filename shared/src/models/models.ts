@@ -1,5 +1,6 @@
 import type { z } from "zod";
 
+import cacheEntrepriseModelDescriptor from "./cache/cache.entreprise.model.js";
 import { certificationsModelDescriptor } from "./certification.model.js";
 import type { IModelDescriptorGeneric } from "./common.js";
 import { communeModelDescriptor } from "./commune.model.js";
@@ -45,6 +46,7 @@ export const modelDescriptorMap = {
   [sourceDaresCcnModelDescriptor.collectionName]: sourceDaresCcnModelDescriptor,
   [sourceDaresApeIdccModelDescriptor.collectionName]: sourceDaresApeIdccModelDescriptor,
   [organisationModelDescriptor.collectionName]: organisationModelDescriptor,
+  [cacheEntrepriseModelDescriptor.collectionName]: cacheEntrepriseModelDescriptor,
 };
 
 export type IModelDescriptorMap = typeof modelDescriptorMap;

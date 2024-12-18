@@ -7,6 +7,7 @@
   "license": "MIT",
   "private": true,
   "type": "module",
+  "sideEffects": [],
   "exports": {
     ".": {
       "import": "./dist/src/index.js",

@@ -31,7 +31,7 @@ const zRechercheOrganismeResultat = z.object({
       })
       .nullable(),
   }),
-  organisme: zOrganisme,
+  organisme: zOrganisme.pick({ identifiant: true }),
 });
 
 export const zRechercheOrganismeResponse = z.object({

@@ -23,6 +23,7 @@ import {
 import { runKaliConventionCollectivesImporter } from "./importer/kali/kali.ccn.importer.js";
 import { runKitApprentissageImporter } from "./importer/kit/kitApprentissage.importer.js";
 import { importNpecResource, onImportNpecResourceFailure, runNpecImporter } from "./importer/npec/npec.importer.js";
+import { importOrganismes } from "./importer/organisme/organisme.importer.js";
 import { runReferentielImporter } from "./importer/referentiel/referentiel.js";
 import { updateKitApprentissageIndicateurSource } from "./indicateurs/source/kitApprentissage.source.indicateur.js";
 import { create as createMigration, status as statusMigration, up as upMigration } from "./migrations/migrations.js";
@@ -74,6 +75,11 @@ export async function setupJobProcessor() {
             "Import des certifications": {
               cron_string: timings.certif,
               handler: async () => importCertifications(),
+              resumable: true,
+            },
+            "Import des organismes": {
+              cron_string: timings.certif,
+              handler: async () => importOrganismes(),
               resumable: true,
             },
             "Import des NPEC": {
@@ -198,6 +204,10 @@ export async function setupJobProcessor() {
               .nullish()
               .parse(job.payload)
           ),
+        resumable: true,
+      },
+      "import:organismes": {
+        handler: async () => importOrganismes(),
         resumable: true,
       },
       "indicateurs:source_kit_apprentissage:update": {

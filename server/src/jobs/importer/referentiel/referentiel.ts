@@ -1,30 +1,43 @@
+import { internal } from "@hapi/boom";
 import { ObjectId } from "mongodb";
 import { zSourceReferentiel } from "shared/models/source/referentiel/source.referentiel.model";
 
 import { fetchReferentielOrganismes } from "@/services/apis/referentiel/referentiel.js";
-import parentLogger from "@/services/logger.js";
+import { withCause } from "@/services/errors/withCause.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
-const logger = parentLogger.child({ module: "import:referentiel" });
-
 export async function runReferentielImporter() {
-  logger.info("Geting Referentiel ...");
-
   const importDate = new Date();
 
-  const organismes = await fetchReferentielOrganismes();
+  const importId = new ObjectId();
 
-  const toInsert = organismes.map((data) =>
-    zSourceReferentiel.parse({
-      _id: new ObjectId(),
-      date: importDate,
-      data,
-    })
-  );
+  try {
+    await getDbCollection("import.meta").insertOne({
+      _id: importId,
+      import_date: importDate,
+      type: "referentiel",
+      status: "pending",
+    });
 
-  await getDbCollection("source.referentiel").insertMany(toInsert);
+    const organismes = await fetchReferentielOrganismes();
 
-  await getDbCollection("source.referentiel").deleteMany({
-    date: { $ne: importDate },
-  });
+    const toInsert = organismes.map((data) =>
+      zSourceReferentiel.parse({
+        _id: new ObjectId(),
+        date: importDate,
+        data,
+      })
+    );
+
+    await getDbCollection("source.referentiel").insertMany(toInsert);
+
+    await getDbCollection("source.referentiel").deleteMany({
+      date: { $ne: importDate },
+    });
+
+    await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "done" } });
+  } catch (error) {
+    await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "failed" } });
+    throw withCause(internal("import.referentiel: unable to runReferentielImporter"), error, "fatal");
+  }
 }

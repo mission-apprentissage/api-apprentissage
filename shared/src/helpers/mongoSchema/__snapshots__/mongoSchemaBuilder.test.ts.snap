@@ -1,5 +1,378 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`zodToMongoSchema > should convert cache.entreprise schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "data": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "etablissement": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "bsonType": "object",
+                  "properties": {
+                    "adresse": {
+                      "additionalProperties": false,
+                      "bsonType": "object",
+                      "properties": {
+                        "code_commune": {
+                          "bsonType": [
+                            "string",
+                            "null",
+                          ],
+                        },
+                        "code_pays_etranger": {
+                          "bsonType": [
+                            "string",
+                            "null",
+                          ],
+                        },
+                        "code_postal": {
+                          "bsonType": [
+                            "string",
+                            "null",
+                          ],
+                        },
+                        "complement_adresse": {
+                          "bsonType": [
+                            "string",
+                            "null",
+                          ],
+                        },
+                        "indice_repetition_voie": {
+                          "bsonType": [
+                            "string",
+                            "null",
+                          ],
+                        },
+                        "libelle_commune": {
+                          "bsonType": [
+                            "string",
+                            "null",
+                          ],
+                        },
+                        "libelle_commune_etranger": {
+                          "bsonType": [
+                            "string",
+                            "null",
+                          ],
+                        },
+                        "libelle_pays_etranger": {
+                          "bsonType": [
+                            "string",
+                            "null",
+                          ],
+                        },
+                        "libelle_voie": {
+                          "bsonType": [
+                            "string",
+                            "null",
+                          ],
+                        },
+                        "numero_voie": {
+                          "bsonType": [
+                            "string",
+                            "null",
+                          ],
+                        },
+                        "type_voie": {
+                          "bsonType": [
+                            "string",
+                            "null",
+                          ],
+                        },
+                      },
+                      "required": [
+                        "indice_repetition_voie",
+                        "type_voie",
+                        "libelle_voie",
+                        "complement_adresse",
+                        "code_commune",
+                        "code_postal",
+                        "libelle_commune",
+                        "libelle_commune_etranger",
+                        "code_pays_etranger",
+                        "libelle_pays_etranger",
+                      ],
+                    },
+                    "date_creation": {
+                      "bsonType": [
+                        "number",
+                        "null",
+                      ],
+                    },
+                    "date_fermeture": {
+                      "bsonType": [
+                        "number",
+                        "null",
+                      ],
+                    },
+                    "enseigne": {
+                      "bsonType": [
+                        "string",
+                        "null",
+                      ],
+                    },
+                    "etat_administratif": {
+                      "bsonType": "string",
+                      "enum": [
+                        "A",
+                        "F",
+                      ],
+                    },
+                    "siret": {
+                      "bsonType": "string",
+                      "pattern": "^\\d{9,14}$",
+                    },
+                    "unite_legale": {
+                      "additionalProperties": false,
+                      "bsonType": "object",
+                      "properties": {
+                        "date_creation": {
+                          "bsonType": [
+                            "number",
+                            "null",
+                          ],
+                        },
+                        "etat_administratif": {
+                          "bsonType": "string",
+                          "enum": [
+                            "A",
+                            "C",
+                          ],
+                        },
+                        "personne_morale_attributs": {
+                          "additionalProperties": false,
+                          "bsonType": "object",
+                          "properties": {
+                            "raison_sociale": {
+                              "bsonType": [
+                                "string",
+                                "null",
+                              ],
+                            },
+                            "sigle": {
+                              "bsonType": [
+                                "string",
+                                "null",
+                              ],
+                            },
+                          },
+                          "required": [
+                            "raison_sociale",
+                            "sigle",
+                          ],
+                        },
+                        "personne_physique_attributs": {
+                          "additionalProperties": false,
+                          "bsonType": "object",
+                          "properties": {
+                            "nom_usage": {
+                              "bsonType": [
+                                "string",
+                                "null",
+                              ],
+                            },
+                            "prenom_usuel": {
+                              "bsonType": [
+                                "string",
+                                "null",
+                              ],
+                            },
+                          },
+                          "required": [
+                            "prenom_usuel",
+                            "nom_usage",
+                          ],
+                        },
+                        "siren": {
+                          "bsonType": "string",
+                        },
+                        "type": {
+                          "bsonType": "string",
+                          "enum": [
+                            "personne_morale",
+                            "personne_physique",
+                          ],
+                        },
+                      },
+                      "required": [
+                        "siren",
+                        "type",
+                        "personne_morale_attributs",
+                        "personne_physique_attributs",
+                        "etat_administratif",
+                        "date_creation",
+                      ],
+                    },
+                  },
+                  "required": [
+                    "siret",
+                    "etat_administratif",
+                    "date_creation",
+                    "date_fermeture",
+                    "enseigne",
+                    "unite_legale",
+                    "adresse",
+                  ],
+                },
+                {
+                  "bsonType": "null",
+                },
+              ],
+            },
+            "type": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "type",
+            "etablissement",
+          ],
+        },
+        {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "type": {
+              "bsonType": "string",
+            },
+            "unite_legale": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "bsonType": "object",
+                  "properties": {
+                    "date_cessation": {
+                      "bsonType": [
+                        "number",
+                        "null",
+                      ],
+                    },
+                    "date_creation": {
+                      "bsonType": [
+                        "number",
+                        "null",
+                      ],
+                    },
+                    "etat_administratif": {
+                      "bsonType": "string",
+                      "enum": [
+                        "A",
+                        "C",
+                      ],
+                    },
+                    "personne_morale_attributs": {
+                      "additionalProperties": false,
+                      "bsonType": "object",
+                      "properties": {
+                        "raison_sociale": {
+                          "bsonType": [
+                            "string",
+                            "null",
+                          ],
+                        },
+                        "sigle": {
+                          "bsonType": [
+                            "string",
+                            "null",
+                          ],
+                        },
+                      },
+                      "required": [
+                        "raison_sociale",
+                        "sigle",
+                      ],
+                    },
+                    "personne_physique_attributs": {
+                      "additionalProperties": false,
+                      "bsonType": "object",
+                      "properties": {
+                        "nom_usage": {
+                          "bsonType": [
+                            "string",
+                            "null",
+                          ],
+                        },
+                        "prenom_usuel": {
+                          "bsonType": [
+                            "string",
+                            "null",
+                          ],
+                        },
+                      },
+                      "required": [
+                        "prenom_usuel",
+                        "nom_usage",
+                      ],
+                    },
+                    "siren": {
+                      "bsonType": "string",
+                    },
+                    "type": {
+                      "bsonType": "string",
+                      "enum": [
+                        "personne_morale",
+                        "personne_physique",
+                      ],
+                    },
+                  },
+                  "required": [
+                    "siren",
+                    "type",
+                    "personne_morale_attributs",
+                    "personne_physique_attributs",
+                    "etat_administratif",
+                    "date_creation",
+                    "date_cessation",
+                  ],
+                },
+                {
+                  "bsonType": "null",
+                },
+              ],
+            },
+          },
+          "required": [
+            "type",
+            "unite_legale",
+          ],
+        },
+      ],
+    },
+    "identifiant": {
+      "bsonType": "string",
+      "description": "SIRET ou SIREN de l'entité",
+    },
+    "ttl": {
+      "anyOf": [
+        {
+          "bsonType": "date",
+        },
+        {
+          "bsonType": "null",
+        },
+      ],
+    },
+  },
+  "required": [
+    "_id",
+    "identifiant",
+    "ttl",
+    "data",
+  ],
+}
+`;
+
 exports[`zodToMongoSchema > should convert certifications schema 1`] = `
 {
   "additionalProperties": false,
@@ -1633,6 +2006,7 @@ exports[`zodToMongoSchema > should convert import.meta schema 1`] = `
             "acce",
             "kali_ccn",
             "communes",
+            "referentiel",
           ],
         },
       },
@@ -1827,6 +2201,70 @@ exports[`zodToMongoSchema > should convert import.meta schema 1`] = `
         "resource",
       ],
     },
+    {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "_id": {
+          "bsonType": "objectId",
+        },
+        "import_date": {
+          "bsonType": "date",
+        },
+        "source": {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "communes": {
+              "additionalProperties": false,
+              "bsonType": "object",
+              "properties": {
+                "import_date": {
+                  "bsonType": "date",
+                },
+              },
+              "required": [
+                "import_date",
+              ],
+            },
+            "referentiel": {
+              "additionalProperties": false,
+              "bsonType": "object",
+              "properties": {
+                "import_date": {
+                  "bsonType": "date",
+                },
+              },
+              "required": [
+                "import_date",
+              ],
+            },
+          },
+          "required": [
+            "referentiel",
+            "communes",
+          ],
+        },
+        "status": {
+          "bsonType": "string",
+          "enum": [
+            "pending",
+            "done",
+            "failed",
+          ],
+        },
+        "type": {
+          "bsonType": "string",
+        },
+      },
+      "required": [
+        "_id",
+        "import_date",
+        "status",
+        "type",
+        "source",
+      ],
+    },
   ],
 }
 `;
@@ -1951,6 +2389,310 @@ exports[`zodToMongoSchema > should convert organisations schema 1`] = `
     "habilitations",
     "updated_at",
     "created_at",
+  ],
+}
+`;
+
+exports[`zodToMongoSchema > should convert organisme schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "created_at": {
+      "bsonType": "date",
+    },
+    "etablissement": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "adresse": {
+          "anyOf": [
+            {
+              "additionalProperties": false,
+              "bsonType": "object",
+              "properties": {
+                "academie": {
+                  "additionalProperties": false,
+                  "bsonType": "object",
+                  "properties": {
+                    "code": {
+                      "bsonType": "string",
+                    },
+                    "id": {
+                      "bsonType": "string",
+                    },
+                    "nom": {
+                      "bsonType": "string",
+                    },
+                  },
+                  "required": [
+                    "id",
+                    "code",
+                    "nom",
+                  ],
+                },
+                "code_postal": {
+                  "bsonType": [
+                    "string",
+                    "null",
+                  ],
+                },
+                "commune": {
+                  "additionalProperties": false,
+                  "bsonType": "object",
+                  "properties": {
+                    "code_insee": {
+                      "bsonType": "string",
+                    },
+                    "nom": {
+                      "bsonType": "string",
+                    },
+                  },
+                  "required": [
+                    "nom",
+                    "code_insee",
+                  ],
+                },
+                "departement": {
+                  "additionalProperties": false,
+                  "bsonType": "object",
+                  "properties": {
+                    "code_insee": {
+                      "bsonType": "string",
+                    },
+                    "nom": {
+                      "bsonType": "string",
+                    },
+                  },
+                  "required": [
+                    "nom",
+                    "code_insee",
+                  ],
+                },
+                "label": {
+                  "bsonType": [
+                    "string",
+                    "null",
+                  ],
+                },
+                "region": {
+                  "additionalProperties": false,
+                  "bsonType": "object",
+                  "properties": {
+                    "code_insee": {
+                      "bsonType": "string",
+                    },
+                    "nom": {
+                      "bsonType": "string",
+                    },
+                  },
+                  "required": [
+                    "code_insee",
+                    "nom",
+                  ],
+                },
+              },
+              "required": [
+                "label",
+                "code_postal",
+                "commune",
+                "departement",
+                "region",
+                "academie",
+              ],
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "creation": {
+          "anyOf": [
+            {
+              "bsonType": "date",
+            },
+            {
+              "bsonType": "string",
+            },
+            {
+              "bsonType": "date",
+            },
+          ],
+        },
+        "enseigne": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "fermeture": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "bsonType": "date",
+                },
+                {
+                  "bsonType": "string",
+                },
+                {
+                  "bsonType": "date",
+                },
+              ],
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "ouvert": {
+          "bsonType": "bool",
+        },
+        "siret": {
+          "bsonType": "string",
+          "pattern": "^\\d{9,14}$",
+        },
+      },
+      "required": [
+        "siret",
+        "ouvert",
+        "enseigne",
+        "adresse",
+        "creation",
+        "fermeture",
+      ],
+    },
+    "identifiant": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "siret": {
+          "bsonType": "string",
+          "pattern": "^\\d{9,14}$",
+        },
+        "uai": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^\\d{1,7}[A-Z]$",
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+      },
+      "required": [
+        "uai",
+        "siret",
+      ],
+    },
+    "renseignements_specifiques": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "numero_activite": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "qualiopi": {
+          "bsonType": "bool",
+        },
+      },
+      "required": [
+        "qualiopi",
+        "numero_activite",
+      ],
+    },
+    "statut": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "referentiel": {
+          "bsonType": "string",
+          "enum": [
+            "présent",
+            "supprimé",
+          ],
+        },
+      },
+      "required": [
+        "referentiel",
+      ],
+    },
+    "unite_legale": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "actif": {
+          "bsonType": "bool",
+        },
+        "cessation": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "bsonType": "date",
+                },
+                {
+                  "bsonType": "string",
+                },
+                {
+                  "bsonType": "date",
+                },
+              ],
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
+        "creation": {
+          "anyOf": [
+            {
+              "bsonType": "date",
+            },
+            {
+              "bsonType": "string",
+            },
+            {
+              "bsonType": "date",
+            },
+          ],
+        },
+        "raison_sociale": {
+          "bsonType": "string",
+        },
+        "siren": {
+          "bsonType": "string",
+        },
+      },
+      "required": [
+        "siren",
+        "actif",
+        "raison_sociale",
+        "creation",
+        "cessation",
+      ],
+    },
+    "updated_at": {
+      "bsonType": "date",
+    },
+  },
+  "required": [
+    "identifiant",
+    "etablissement",
+    "unite_legale",
+    "renseignements_specifiques",
+    "statut",
+    "_id",
+    "created_at",
+    "updated_at",
   ],
 }
 `;

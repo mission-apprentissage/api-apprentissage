@@ -69,12 +69,18 @@
     - "{{inventory_dir}}/docker-compose.production.yml"
   when: env_type != 'preview'
 
-- name: copy du fichier recette docker compose
-  ansible.builtin.template:
-    src: "{{ item }}"
-    dest: "/opt/app/docker-compose.recette.yml"
-  with_fileglob:
-    - "{{inventory_dir}}/docker-compose.recette.yml"
+# - name: copy du fichier recette docker compose
+#   ansible.builtin.template:
+#     src: "{{ item }}"
+#     dest: "/opt/app/docker-compose.recette.yml"
+#   with_fileglob:
+#     - "{{inventory_dir}}/docker-compose.recette.yml"
+#   when: env_type == 'recette'
+
+- name: suppression du fichier recette docker compose
+  ansible.builtin.file:
+    path: "/opt/app/docker-compose.recette.yml"
+    state: absent
   when: env_type == 'recette'
 
 - name: creation du fichier docker compose preview system

@@ -81,6 +81,10 @@ export function normalizeKitApprentissageColumnName(column: string): string {
     case "Date de début des parcours certifiants\n\n(enregistrement de droit)":
       return "Date de début des parcours certifiants";
     // v1.0+: n/a
+    // v20241025+: "Date de début des parcours certifiants\n(enregistrement de droit)"
+    case "Date de début des parcours certifiants\n(enregistrement de droit)":
+      return "Date de début des parcours certifiants";
+    // v1.0+: n/a
     // v20240223+: Date limite de la délivrance
     case "Date limite de la délivrance":
       return "Date limite de la délivrance";

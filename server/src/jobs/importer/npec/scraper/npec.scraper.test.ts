@@ -151,7 +151,7 @@ describe("scrapeRessourceNPEC", () => {
         .reply(200, content);
     }
 
-    await expect(scrapeRessourceNPEC()).rejects.toThrowError("");
+    await expect(scrapeRessourceNPEC()).rejects.toThrowError("npec.importer: unexpected number of pages");
     expect(nock.isDone()).toBe(true);
   });
 });

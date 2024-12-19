@@ -234,7 +234,7 @@ const offerReadSchema = {
         },
         status: {
           type: "string",
-          enum: ["Active", "Filled", "Cancelled", "Pending"],
+          enum: ["Active", "Filled", "Cancelled"],
         },
       },
       required: [
@@ -365,6 +365,7 @@ const offerWriteSchema = {
           type: ["string", "null"],
           description: "Origine de l'offre provenant d'un aggregateur",
         },
+        status: offerReadSchema.properties.offer.properties.status,
       },
       required: ["title", "description"],
     },

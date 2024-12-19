@@ -229,7 +229,7 @@ Cette commande exécutera tous les tests du projet et vous affichera les résult
 
 #### Snapshots
 
-Pour mettre à jour les snapshots, utilisez la commande suivante dans `/shared`
+Pour mettre à jour les snapshots, utilisez la commande suivante
 
 ```bash
 yarn test --update

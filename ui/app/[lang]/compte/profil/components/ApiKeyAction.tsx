@@ -12,7 +12,7 @@ import { useDeleteApiKeyMutation } from "@/app/[lang]/compte/profil/hooks/useDel
 import type { WithLangAndT } from "@/app/i18n/settings";
 import { ApiError } from "@/utils/api.utils";
 
-export function ApiKeyAction({ apiKey, lang, t }: WithLangAndT<{ apiKey: IApiKeyPrivateJson }>) {
+export function ApiKeyAction({ apiKey, index, lang, t }: WithLangAndT<{ apiKey: IApiKeyPrivateJson; index: number }>) {
   const deleteMutation = useDeleteApiKeyMutation();
   const [copyState, setCopyState] = useState<boolean | null>(null);
 
@@ -67,7 +67,7 @@ export function ApiKeyAction({ apiKey, lang, t }: WithLangAndT<{ apiKey: IApiKey
 
   return (
     <Box sx={{ display: "flex", gap: fr.spacing("1w"), flexWrap: "wrap" }}>
-      <Button key="action" onClick={onClick} size="small" priority={"primary"} disabled={!apiKey.value}>
+      <Button key={`copy_action_${index}`} onClick={onClick} size="small" priority={"primary"} disabled={!apiKey.value}>
         {t("monCompte.copierJeton", { lng: lang })}
       </Button>
       <Tooltip title={t("monCompte.supprimerJeton", { lng: lang })}>
@@ -79,7 +79,7 @@ export function ApiKeyAction({ apiKey, lang, t }: WithLangAndT<{ apiKey: IApiKey
           className={fr.cx("fr-icon-question-line", "fr-icon--md")}
         ></Box>
       </Tooltip>
-      <Button key="action" nativeButtonProps={modal.buttonProps} size="small" priority="tertiary">
+      <Button key={`delete_action_${index}`} nativeButtonProps={modal.buttonProps} size="small" priority="tertiary">
         Supprimer
       </Button>
       <modal.Component

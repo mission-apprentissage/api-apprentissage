@@ -39,7 +39,7 @@ const ProfilPage = ({ params: { lang } }: PropsWithLangParams) => {
       return [];
     }
 
-    return apiKeys.apiKeys.map((apiKey) => {
+    return apiKeys.apiKeys.map((apiKey, index) => {
       const expired = new Date(apiKey.expires_at) < new Date();
       const statut = expired ? t("monCompte.expire", { lng: lang }) : t("monCompte.actif", { lng: lang });
 
@@ -92,11 +92,10 @@ const ProfilPage = ({ params: { lang } }: PropsWithLangParams) => {
             ? new Date(apiKey.last_used_at).toLocaleDateString()
             : t("monCompte.jamais", { lng: lang })}
         </Typography>,
-        <ApiKeyAction key="action" apiKey={apiKey} t={t} lang={lang} />,
+        <ApiKeyAction index={index} key={`action_${index}`} apiKey={apiKey} t={t} lang={lang} />,
       ];
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [apiKeys]);
+  }, [apiKeys, lang, t]);
 
   return (
     <Box
@@ -126,7 +125,7 @@ const ProfilPage = ({ params: { lang } }: PropsWithLangParams) => {
       {statut !== "actif-ready" && <GenerateApiKey lang={lang} t={t} />}
 
       <Box>
-        <ManageApiKeysBanner key="api-key-banner" lang={lang} t={t} />
+        {/* <ManageApiKeysBanner key="api-key-banner" lang={lang} t={t} /> */}
         {tableData.length > 0 && (
           <Table
             data={tableData}

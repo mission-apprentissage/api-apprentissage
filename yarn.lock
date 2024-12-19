@@ -7851,7 +7851,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"exceljs@npm:^4.4.0":
+"exceljs@npm:4.4.0":
   version: 4.4.0
   resolution: "exceljs@npm:4.4.0"
   dependencies:
@@ -7865,6 +7865,23 @@ __metadata:
     unzipper: ^0.10.11
     uuid: ^8.3.0
   checksum: e2ab1b4667988c213edf47ab67fc83be64dc4de5b1de64b41c9d564ae00eb7ee774fd00a907520a93757dd90fd6b601583f18ded28dd7d833001e0ed188792b7
+  languageName: node
+  linkType: hard
+
+"exceljs@patch:exceljs@npm%3A4.4.0#./.yarn/patches/exceljs-npm-4.4.0-15bcfdd142.patch::locator=mna%40workspace%3A.":
+  version: 4.4.0
+  resolution: "exceljs@patch:exceljs@npm%3A4.4.0#./.yarn/patches/exceljs-npm-4.4.0-15bcfdd142.patch::version=4.4.0&hash=b6b270&locator=mna%40workspace%3A."
+  dependencies:
+    archiver: ^5.0.0
+    dayjs: ^1.8.34
+    fast-csv: ^4.3.1
+    jszip: ^3.10.1
+    readable-stream: ^3.6.0
+    saxes: ^5.0.1
+    tmp: ^0.2.0
+    unzipper: ^0.10.11
+    uuid: ^8.3.0
+  checksum: 43b1b56e27b4e55ec924d3fec4f7ce89126fdd2a6d619ccf5bc644153aaecc4eb16dc2aa44a60ac43f1a2148ec53cd124e074abae1df98f3174ff35b2d168f38
   languageName: node
   linkType: hard
 

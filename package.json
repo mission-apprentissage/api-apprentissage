@@ -102,5 +102,8 @@
     "yarn.lock": [
       "yarn dedupe"
     ]
+  },
+  "resolutions": {
+    "exceljs@^4.4.0": "patch:exceljs@npm%3A4.4.0#./.yarn/patches/exceljs-npm-4.4.0-15bcfdd142.patch"
   }
 }

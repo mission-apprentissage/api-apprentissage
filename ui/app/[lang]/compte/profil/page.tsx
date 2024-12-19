@@ -125,7 +125,7 @@ const ProfilPage = ({ params: { lang } }: PropsWithLangParams) => {
       {statut !== "actif-ready" && <GenerateApiKey lang={lang} t={t} />}
 
       <Box>
-        {/* <ManageApiKeysBanner key="api-key-banner" lang={lang} t={t} /> */}
+        <ManageApiKeysBanner key="api-key-banner" lang={lang} t={t} />
         {tableData.length > 0 && (
           <Table
             data={tableData}

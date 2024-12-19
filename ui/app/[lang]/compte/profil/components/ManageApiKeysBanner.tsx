@@ -15,9 +15,14 @@ export function ManageApiKeysBanner({ lang, t }: WithLangAndT) {
     <Notice
       title={
         <>
-          {(t("monCompte.votreJetonCree"), { lng: lang })} &nbsp;
+          {typeof t("monCompte.votreJetonCree", { lng: lang }) === "string"
+            ? t("monCompte.votreJetonCree", { lng: lang })
+            : ""}{" "}
+          &nbsp;
           <Box component="span" sx={{ fontWeight: "normal" }}>
-            {t("monCompte.jetonCopie", { lng: lang })}
+            {typeof t("monCompte.jetonCopie", { lng: lang }) === "string"
+              ? t("monCompte.jetonCopie", { lng: lang })
+              : ""}
           </Box>
         </>
       }

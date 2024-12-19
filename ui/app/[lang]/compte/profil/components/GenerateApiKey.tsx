@@ -69,7 +69,7 @@ export function GenerateApiKey({ lang, t }: WithLangAndT) {
       default:
         return t("monCompte.genererNouveauJeton", { lng: lang });
     }
-  }, [statut]);
+  }, [statut, lang, t]);
 
   if (status === "loading") {
     return null;

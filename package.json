@@ -102,11 +102,5 @@
     "yarn.lock": [
       "yarn dedupe"
     ]
-  },
-  "resolutions": {
-    "exceljs@^4.4.0": "patch:exceljs@npm%3A4.4.0#./.yarn/patches/exceljs-npm-4.4.0-15bcfdd142.patch",
-    "debug": "4.4.0",
-    "loupe": "3.1.2",
-    "magic-string": "0.30.15"
   }
 }

@@ -80,7 +80,7 @@ export function ApiKeyAction({ apiKey, index, lang, t }: WithLangAndT<{ apiKey: 
         ></Box>
       </Tooltip>
       <Button key={`delete_action_${index}`} nativeButtonProps={modal.buttonProps} size="small" priority="tertiary">
-        Supprimer
+        {t("monCompte.supprimer", { lng: lang })}
       </Button>
       <modal.Component
         title={`${t("monCompte.supprimerJeton", { lng: lang })}"${apiKey.name}"`}

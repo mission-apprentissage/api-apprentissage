@@ -25,25 +25,6 @@ describe("PAGES", () => {
   });
 
   it("should all PAGES exists", () => {
-    // console.log("Object.keys(PAGES.static).length :>> ", Object.keys(PAGES.static).length);
-    // console.log("Object.keys(PAGES.dynamic).length :>> ", Object.keys(PAGES.dynamic).length);
-    // console.log(
-    //   "pages.filter((page) => !isNotionPage(page)).length :>> ",
-    //   pages.filter((page) => !isNotionPage(page)).length
-    // );
-
-    console.log(
-      Object.values(PAGES.static)
-        .map((p) => p.getPath("fr"))
-        .sort((a, b) => a.localeCompare(b))
-    );
-    // console.log(
-    //   Object.values(PAGES.dynamic)
-    //     .map((p) => p.getPath("fr"))
-    //     .sort((a, b) => a.localeCompare(b))
-    // );
-    console.log(pages.filter((page) => !isNotionPage(page)).sort((a, b) => a.localeCompare(b)));
-
     expect(Object.keys(PAGES.static).length + Object.keys(PAGES.dynamic).length).toBe(
       pages.filter((page) => !isNotionPage(page)).length
     );

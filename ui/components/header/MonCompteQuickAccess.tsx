@@ -7,12 +7,12 @@ import NextLink from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 
-import type { WithLang } from "@/app/i18n/settings";
+import type { WithLangAndT } from "@/app/i18n/settings";
 import { useAuth } from "@/context/AuthContext";
 import { apiGet } from "@/utils/api.utils";
 import { PAGES } from "@/utils/routes.utils";
 
-export function MonCompteQuickAccess({ lang }: WithLang) {
+export function MonCompteQuickAccess({ lang, t }: WithLangAndT) {
   const { user, setUser } = useAuth();
   const { push } = useRouter();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -40,7 +40,7 @@ export function MonCompteQuickAccess({ lang }: WithLang) {
       <HeaderQuickAccessItem
         quickAccessItem={{
           iconId: "fr-icon-lock-line",
-          text: "Se connecter / S'inscrire",
+          text: t("pages.seConnecterInscrireCompte", { lang, ns: "global" }),
           linkProps: {
             href: PAGES.static.compteProfil.getPath(lang),
           },
@@ -54,7 +54,7 @@ export function MonCompteQuickAccess({ lang }: WithLang) {
       <HeaderQuickAccessItem
         quickAccessItem={{
           iconId: "fr-icon-account-circle-fill",
-          text: "Mon compte",
+          text: t("pages.compte", { lang, ns: "global" }),
           buttonProps: {
             onClick: handleOpenPopover,
             "aria-describedby": popoverId,

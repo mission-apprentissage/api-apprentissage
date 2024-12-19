@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { FieldError, SubmitHandler } from "react-hook-form";
 import { useController, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import type { IBody, IPostRoutes } from "shared";
 import { zRoutes } from "shared";
 import type { Jsonify } from "type-fest";
@@ -54,6 +55,7 @@ export default function RegisterPage({ params: { lang } }: PropsWithLangParams) 
     },
   });
   const { user, setUser } = useAuth();
+  const { t } = useTranslation("inscription-connexion", { lng: lang });
 
   const token = useJwtToken();
   const { push } = useRouter();
@@ -133,7 +135,7 @@ export default function RegisterPage({ params: { lang } }: PropsWithLangParams) 
         <Box sx={{ textAlign: "right", marginBottom: fr.spacing("2w") }}>
           <Button priority="tertiary">
             <Box component={NextLink} href={PAGES.static.home.getPath(lang)} sx={{ backgroundImage: "none" }}>
-              Retourner sur le site API Apprentissage
+              {t("creerCompte.retournerSite", { lng: lang })}
             </Box>
           </Button>
         </Box>
@@ -163,11 +165,11 @@ export default function RegisterPage({ params: { lang } }: PropsWithLangParams) 
                 color: fr.colors.decisions.text.label.blueEcume.default,
               }}
             >
-              Créer mon compte
+              {t("creerCompte.creerMonCompte", { lng: lang })}
             </Typography>
             <Typography align="center" id="register-modal-description">
-              Merci de renseigner les informations ci dessous pour{" "}
-              <strong>finaliser la création de votre compte</strong>
+              {t("creerCompte.renseignerInfos", { lng: lang })}{" "}
+              <strong>{t("creerCompte.finaliserCreation", { lng: lang })}</strong>
             </Typography>
           </Box>
 
@@ -183,7 +185,7 @@ export default function RegisterPage({ params: { lang } }: PropsWithLangParams) 
             <Select
               label={
                 <Typography>
-                  Vous êtes ? &nbsp;
+                  {t("creerCompte.vousEtes", { lng: lang })} &nbsp;
                   <Box component="span" sx={{ color: fr.colors.decisions.artwork.minor.redMarianne.default }}>
                     *
                   </Box>
@@ -198,38 +200,38 @@ export default function RegisterPage({ params: { lang } }: PropsWithLangParams) 
               stateRelatedMessage={typeController.fieldState.error?.message ?? ""}
             >
               <option value="" disabled hidden>
-                Selectionnez une option
+                {t("creerCompte.selectionnerOption", { lng: lang })}
               </option>
-              <option value="operateur_public">Opérateur public</option>
-              <option value="organisme_formation">Organisme de formation</option>
-              <option value="entreprise">Entreprise</option>
-              <option value="editeur_logiciel">Editeur de logiciel</option>
-              <option value="organisme_financeur">Organisme financeur</option>
-              <option value="apprenant">Apprenant</option>
-              <option value="mission_apprentissage">Mission Apprentissage</option>
-              <option value="autre">Autre</option>
+              <option value="operateur_public">{t("creerCompte.operateurPublic", { lng: lang })}</option>
+              <option value="organisme_formation">{t("creerCompte.organismeFormation", { lng: lang })}</option>
+              <option value="entreprise">{t("creerCompte.entreprise", { lng: lang })}</option>
+              <option value="editeur_logiciel">{t("creerCompte.editeurLogiciel", { lng: lang })}</option>
+              <option value="organisme_financeur">{t("creerCompte.organismeFinanceur", { lng: lang })}</option>
+              <option value="apprenant">{t("creerCompte.apprenant", { lng: lang })}</option>
+              <option value="mission_apprentissage">{t("creerCompte.missionApprentissage", { lng: lang })}</option>
+              <option value="autre">{t("creerCompte.autre", { lng: lang })}</option>
             </Select>
             <Input
-              label="Quelle est votre activité ?"
-              hintText="Par exemple : développeur(euse), chef(fe) de projet, étudiant(e), etc."
+              label={t("creerCompte.quelleActivite", { lng: lang })}
+              hintText={t("creerCompte.activiteExemple", { lng: lang })}
               {...getInputState(errors?.activite)}
               nativeTextAreaProps={register("activite", { required: false })}
               textArea
             />
             <RadioButtons
-              legend="Vous souhaitez utiliser l’API pour"
+              legend={t("creerCompte.souhaitUtiliserApi", { lng: lang })}
               state={objectifController.fieldState.error ? "error" : "default"}
               stateRelatedMessage={objectifController.fieldState.error?.message ?? ""}
               options={[
                 {
-                  label: "Fiabiliser un service existant",
+                  label: t("creerCompte.fiabiliserService", { lng: lang }),
                   nativeInputProps: {
                     checked: objectifController.field.value === "fiabiliser",
                     onChange: () => objectifController.field.onChange("fiabiliser"),
                   },
                 },
                 {
-                  label: "Concevoir un nouveau service",
+                  label: t("creerCompte.concevoirService", { lng: lang }),
                   nativeInputProps: {
                     checked: objectifController.field.value === "concevoir",
                     onChange: () => objectifController.field.onChange("concevoir"),
@@ -238,24 +240,24 @@ export default function RegisterPage({ params: { lang } }: PropsWithLangParams) 
               ]}
             />
             <Input
-              label="A quel(s) cas d'usage(s) voulez-vous répondre avec cette API ?"
-              hintText="Par exemple : pré-remplir automatiquement des champs de formulaire, fiabiliser des données, etc."
+              label={t("creerCompte.quelsCasUsage", { lng: lang })}
+              hintText={t("creerCompte.casUsageExemple", { lng: lang })}
               {...getInputState(errors?.cas_usage)}
               nativeTextAreaProps={register("cas_usage", { required: false })}
               textArea
             />
             <Checkbox
               state={cguController.fieldState.error ? "error" : "default"}
-              stateRelatedMessage={"Veuillez accepter les conditions générales d'utilisation pour continuer"}
+              stateRelatedMessage={t("creerCompte.veuillezAccepterCGV", { lng: lang })}
               options={[
                 {
                   label: (
                     <Typography>
-                      J’ai lu et j’accepte les{" "}
+                      {t("creerCompte.jaccepte", { lng: lang })}{" "}
                       <NextLink href={PAGES.static.cgu.getPath(lang)} target="_blank">
-                        Conditions Générales d’Utilisation
+                        {t("creerCompte.conditionsGenerales", { lng: lang })}
                       </NextLink>
-                      &nbsp;du service&nbsp;
+                      &nbsp;{t("creerCompte.duService", { lng: lang })}&nbsp;
                       <Box component="span" sx={{ color: fr.colors.decisions.artwork.minor.redMarianne.default }}>
                         *
                       </Box>
@@ -273,7 +275,7 @@ export default function RegisterPage({ params: { lang } }: PropsWithLangParams) 
                 iconId="fr-icon-arrow-right-line"
                 iconPosition="right"
               >
-                Continuer
+                {t("creerCompte.continuer", { lng: lang })}
               </Button>
             </Box>
           </Box>
@@ -284,7 +286,7 @@ export default function RegisterPage({ params: { lang } }: PropsWithLangParams) 
           )}
         </Box>
         <Typography textAlign="center" color={fr.colors.decisions.text.default.grey.default}>
-          Vous rencontrez des problèmes pour vous inscrire, contactez-nous :{" "}
+          {t("creerCompte.problemesConnexion", { lng: lang })}{" "}
           <Box
             component="a"
             href="mailto:support_api@apprentissage.beta.gouv.fr"

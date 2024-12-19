@@ -40,10 +40,9 @@ const ProfilPage = ({ params: { lang } }: PropsWithLangParams) => {
     }
 
     return apiKeys.apiKeys.map((apiKey) => {
-      const statut =
-        new Date(apiKey.expires_at) < new Date()
-          ? t("monCompte.expire", { lng: lang })
-          : t("monCompte.actif", { lng: lang });
+      const expired = new Date(apiKey.expires_at) < new Date();
+      const statut = expired ? t("monCompte.expire", { lng: lang }) : t("monCompte.actif", { lng: lang });
+
       return [
         <Typography variant="body1" key="name" className="fr-text--sm">
           {apiKey.name}
@@ -53,18 +52,12 @@ const ProfilPage = ({ params: { lang } }: PropsWithLangParams) => {
           key="statut"
           className="fr-text--bold"
           color={
-            statut === t("monCompte.actif", { lng: lang })
-              ? fr.colors.decisions.artwork.minor.greenBourgeon.default
-              : fr.colors.decisions.text.label.pinkTuile.default
+            expired
+              ? fr.colors.decisions.text.label.pinkTuile.default
+              : fr.colors.decisions.artwork.minor.greenBourgeon.default
           }
         >
-          <i
-            className={fr.cx(
-              statut === t("monCompte.actif", { lng: lang })
-                ? "fr-icon-checkbox-circle-fill"
-                : "fr-icon-error-warning-fill"
-            )}
-          ></i>
+          <i className={fr.cx(!expired ? "fr-icon-checkbox-circle-fill" : "fr-icon-error-warning-fill")}></i>
           &nbsp;
           {statut}
         </Typography>,

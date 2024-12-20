@@ -1,7 +1,7 @@
 import { fr } from "@codegouvfr/react-dsfr";
 import { Tabs } from "@codegouvfr/react-dsfr/Tabs";
 import { Box, Container, Hidden, Typography } from "@mui/material";
-import type { DocBusinessField, DocModel } from "api-alternance-sdk/internal";
+import type { DocBusinessField, DocModel, DocModelSection, DocTechnicalField } from "api-alternance-sdk/internal";
 import { getTextOpenAPI } from "api-alternance-sdk/internal";
 import Markdown from "react-markdown";
 
@@ -88,85 +88,72 @@ function DataField({
   lang,
   t,
   noHr,
-}: WithLangAndT<{ name: string; field: DocBusinessField; noHr: boolean }>) {
+}: WithLangAndT<{ name: string; field: DocBusinessField | DocTechnicalField; noHr: boolean }>) {
   return (
-    <Box
-      sx={{
-        display: "grid",
-        gridTemplateColumns: threeColumns,
-        gap: { md: fr.spacing("2w"), lg: fr.spacing("9w") },
-        flexDirection: "column",
-      }}
-    >
-      <Box
-        sx={{
-          display: "grid",
-          gridColumn: spanTwoColumns,
-          gridTemplateColumns: { sm: "1fr", md: "repeat(4, 1fr)" },
-          gap: fr.spacing("2w"),
-        }}
-      >
-        <Box>
-          <Tag color="beigeGrisGalet">{name}</Tag>
-        </Box>
-        <Box sx={{ gridColumn: "span 3", display: "flex", gap: fr.spacing("1w"), flexDirection: "column" }}>
-          {field.sample !== null && (
-            <Typography
-              sx={{
-                color: fr.colors.decisions.text.mention.grey.default,
-              }}
-            >
-              {getTextOpenAPI(field.sample, lang)}
-            </Typography>
-          )}
-          <DsfrMarkdown>{getTextOpenAPI(field.description, lang)}</DsfrMarkdown>
-          {field.tags != null ? (
-            <Box sx={{ display: "flex", gap: fr.spacing("1w"), flexWrap: "wrap" }}>
-              {field.tags.map((tag) => (
-                <Tag color="beigeGrisGalet" key={tag}>
-                  {tag}
-                </Tag>
-              ))}
+    <>
+      {"metier" in field && (
+        <Box
+          key="_"
+          sx={{
+            display: "grid",
+            gridTemplateColumns: threeColumns,
+            gap: { md: fr.spacing("2w"), lg: fr.spacing("9w") },
+            flexDirection: "column",
+          }}
+        >
+          <Box
+            sx={{
+              display: "grid",
+              gridColumn: spanTwoColumns,
+              gridTemplateColumns: { sm: "1fr", md: "repeat(4, 1fr)" },
+              gap: fr.spacing("2w"),
+            }}
+          >
+            <Box>
+              <Tag color="beigeGrisGalet">{name}</Tag>
             </Box>
-          ) : null}
+            <Box sx={{ gridColumn: "span 3", display: "flex", gap: fr.spacing("1w"), flexDirection: "column" }}>
+              {field.sample !== null && (
+                <Typography
+                  sx={{
+                    color: fr.colors.decisions.text.mention.grey.default,
+                  }}
+                >
+                  {getTextOpenAPI(field.sample, lang)}
+                </Typography>
+              )}
+              <DsfrMarkdown>{getTextOpenAPI(field.description, lang)}</DsfrMarkdown>
+              {field.tags != null ? (
+                <Box sx={{ display: "flex", gap: fr.spacing("1w"), flexWrap: "wrap" }}>
+                  {field.tags.map((tag) => (
+                    <Tag color="beigeGrisGalet" key={tag}>
+                      {tag}
+                    </Tag>
+                  ))}
+                </Box>
+              ) : null}
+            </Box>
+            <GoodToKnow tip={field.tip} lang={lang} />
+            {noHr ? null : <Box component="hr" sx={{ gridColumn: "1/-1", padding: 0, height: "1px" }} />}
+          </Box>
+          <InformationBox information={field.information} lang={lang} t={t} />
         </Box>
-        <GoodToKnow tip={field.tip} lang={lang} />
-        {noHr ? null : <Box component="hr" sx={{ gridColumn: "1/-1", padding: 0, height: "1px" }} />}
-      </Box>
-      <InformationBox information={field.information} lang={lang} t={t} />
-    </Box>
+      )}
+      <DataSubField _={field._ ?? {}} lang={lang} t={t} noHr={noHr} />
+    </>
   );
 }
 
-function DataTypologie({
-  name,
-  field,
+function DataSubField({
+  _,
   lang,
   t,
   noHr,
-}: WithLangAndT<{ name: string; field: DocBusinessField; noHr: boolean }>) {
-  const subFields: [string, DocBusinessField][] =
-    field._ == null
-      ? []
-      : (Object.entries(field._).filter(([, childField]) => "metier" in childField && childField.metier) as [
-          string,
-          DocBusinessField,
-        ][]);
+}: WithLangAndT<{ _: Record<string, DocTechnicalField | DocBusinessField>; noHr: boolean }>) {
+  const subFields: [string, DocBusinessField | DocTechnicalField][] = Object.entries(_);
 
   return (
-    <Box sx={{ display: "flex", gap: fr.spacing("1w"), flexDirection: "column" }}>
-      <Typography variant="h6">{getTextOpenAPI(field.section, lang)}</Typography>
-      <Box
-        sx={{
-          display: "grid",
-          gridTemplateColumns: threeColumns,
-          gap: fr.spacing("9w"),
-          flexDirection: "column",
-        }}
-      >
-        <Box component="hr" sx={{ gridColumn: "1/3", padding: 0, height: "1px" }} />
-      </Box>
-      <DataField key={name} name={name} field={field} lang={lang} t={t} noHr={noHr && subFields.length === 0} />
+    <>
       {subFields.map(([key, childField], i) => (
         <DataField
           key={key}
@@ -177,12 +164,31 @@ function DataTypologie({
           noHr={noHr && i === subFields.length - 1}
         />
       ))}
+    </>
+  );
+}
+
+function DataTypologie({ section, lang, t, noHr }: WithLangAndT<{ section: DocModelSection; noHr: boolean }>) {
+  return (
+    <Box sx={{ display: "flex", gap: fr.spacing("1w"), flexDirection: "column" }}>
+      <Typography variant="h6">{getTextOpenAPI(section.name, lang)}</Typography>
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: threeColumns,
+          gap: fr.spacing("9w"),
+          flexDirection: "column",
+        }}
+      >
+        <Box component="hr" sx={{ gridColumn: "1/3", padding: 0, height: "1px" }} />
+      </Box>
+      <DataSubField _={section._} lang={lang} t={t} noHr={noHr} />
     </Box>
   );
 }
 
 function DataModelVariant({ model, lang, t, tab }: WithLangAndT<{ model: DocModel; tab: boolean }>) {
-  const entries = Object.entries(model._);
+  const entries = Object.entries(model.sections);
 
   return (
     <Box
@@ -192,8 +198,8 @@ function DataModelVariant({ model, lang, t, tab }: WithLangAndT<{ model: DocMode
         gap: fr.spacing("4w"),
       }}
     >
-      {entries.map(([key, field], i) => (
-        <DataTypologie key={key} name={key} field={field} lang={lang} t={t} noHr={tab && i === entries.length - 1} />
+      {entries.map(([key, section], i) => (
+        <DataTypologie key={key} section={section} lang={lang} t={t} noHr={tab && i === entries.length - 1} />
       ))}
     </Box>
   );

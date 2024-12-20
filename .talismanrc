@@ -9,12 +9,14 @@ fileignoreconfig:
   checksum: a663e9955c2825bee3af55be1ebd6e26cd0a17fe7c614a13d726ddd4c7959b82
 - filename: sdk/src/client/internal/geographie/geographie.module.test.ts
   checksum: 520b2ba0cac171d714a8cf8c7a4fdb349e280416aeaff419a94d423898674b0e
+- filename: sdk/src/docs/models/job/application.model.doc.ts
+  checksum: 9eb6c1fff24b532a002385705e293152a0e74a357c8d0071a500383c3c17c50b
 - filename: sdk/src/docs/models/job/offer_read.model.doc.ts
-  checksum: 99756953eb5b3ac5e1ef18cab25bc6f5a992afa8bf3d5c3a3687b27cb3ce321e
+  checksum: 903f0766eeb4226095460f2a16d52e0ca0eafe594c9c6f318b22bbdaf62bf80b
 - filename: sdk/src/docs/models/job/offer_write.model.doc.ts
-  checksum: 6a4ccecc51aeea79268cf03a357e328c9e6b93edb1857093326da2e0cd7a82a8
+  checksum: 946b0a07258005ce5b1f6206f807cdabbfaf6a08d5b6d5176cf7a9a88bec64f7
 - filename: sdk/src/docs/models/job/recruiter.model.doc.ts
-  checksum: e0f47a127693f277280e6c04d9791fdbbd59d5a567b578dfa1a9c7a01a9f4d8c
+  checksum: 0361bde271d90fd4b6f57afa205611875bd64172d66d4df3ed78ca3931b85e2f
 - filename: sdk/src/docs/routes/jobOfferUpdate/jobOfferUpdate.route.doc.ts
   checksum: 4c6e64beba2f719da577a0aae1c9642e6e2e8712dc909dc62c64c081a2c612a8
 - filename: server/.env.test

@@ -78,6 +78,11 @@ export const PAGES = {
       index: true,
       getTitle: (lang, t) => t("pages.depotOffre", { lang, ns: "global" }),
     },
+    candidatureOffre: {
+      getPath: (lang) => `/${lang}/explorer/candidature-offre` as string,
+      index: true,
+      getTitle: (lang, t) => t("pages.candidatureOffre", { lang, ns: "global" }),
+    },
     mentionsLegales: {
       getPath: (lang) => `/${lang}/mentions-legales` as string,
       index: true,

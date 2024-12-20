@@ -19,9 +19,9 @@ const sources: DataSource[] = [
   },
 ];
 
-export const recruiterModelDoc = {
-  name: "Recruiter",
-  description: { en: null, fr: "Recruteur" },
+export const applicationModelDoc = {
+  name: "Application",
+  description: { en: null, fr: "Application" },
   sources,
   sections: {
     identifier: {

@@ -2,7 +2,7 @@ import { extendZodWithOpenApi as extendZodWithOpenApiBase } from "@asteasolution
 import type { ContentObject, OperationObject, ParameterObject, ReferenceObject, SchemaObject } from "openapi3-ts/oas31";
 import { z } from "zod";
 
-import type { DocBusinessField, DocRoute, DocTechnicalField, OpenApiText } from "../internal.js";
+import type { DocBusinessField, DocModel, DocRoute, DocTechnicalField, OpenApiText } from "../internal.js";
 import { addErrorResponseOpenApi } from "../models/errors/errors.model.openapi.js";
 
 function extendZodWithOpenApi<T extends typeof z>(zod: T): T {
@@ -81,6 +81,22 @@ function pickPropertiesOpenAPI<T extends Record<string, SchemaObject>, K extends
     },
     {} as Record<K, SchemaObject>
   );
+}
+
+function addSchemaModelDoc<T extends SchemaObject | ReferenceObject | undefined>(
+  schema: T,
+  doc: DocModel,
+  lang: "en" | "fr"
+): T {
+  if (!schema || "$ref" in schema) {
+    return schema;
+  }
+
+  const fields = Object.entries(doc.sections).reduce<Record<string, DocTechnicalField>>((acc, [_name, field]) => {
+    return { ...acc, ...field._ };
+  }, {});
+
+  return addSchemaDoc(schema, { description: doc.description, _: fields }, lang);
 }
 
 function addSchemaDoc<T extends SchemaObject | ReferenceObject | undefined>(
@@ -209,4 +225,11 @@ function addOperationDoc(operation: OperationObject, doc: DocRoute, lang: "en" |
   return addErrorResponseOpenApi(output);
 }
 
-export { addOperationDoc, addSchemaDoc, zodOpenApi, getDocOpenAPIAttributes, pickPropertiesOpenAPI, getTextOpenAPI };
+export {
+  addSchemaModelDoc,
+  addOperationDoc,
+  zodOpenApi,
+  getDocOpenAPIAttributes,
+  pickPropertiesOpenAPI,
+  getTextOpenAPI,
+};

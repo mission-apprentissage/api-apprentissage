@@ -27,7 +27,7 @@ type Props = WithLangAndT<{
     subject: string;
     body: string;
   };
-  frequenceMiseAJour: "daily";
+  frequenceMiseAJour: "daily" | null;
   note?: string;
   warning?: string;
 }>;
@@ -68,19 +68,21 @@ export function CatalogueHeadline({
             {title}
           </Typography>
 
-          <Box
-            sx={{
-              width: "100%",
-              display: "flex",
-              flexWrap: "wrap",
-              gap: fr.spacing("2w"),
-            }}
-          >
-            <Typography component="span" variant="body1">
-              <strong>{t("frequenceMiseAJour.titre", { lng: lang })}</strong>{" "}
-              <Tag color="blueEcume">{t(`frequenceMiseAJour.${frequenceMiseAJour}`, { lng: lang })}</Tag>
-            </Typography>
-          </Box>
+          {frequenceMiseAJour && (
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                flexWrap: "wrap",
+                gap: fr.spacing("2w"),
+              }}
+            >
+              <Typography component="span" variant="body1">
+                <strong>{t("frequenceMiseAJour.titre", { lng: lang })}</strong>{" "}
+                <Tag color="blueEcume">{t(`frequenceMiseAJour.${frequenceMiseAJour}`, { lng: lang })}</Tag>
+              </Typography>
+            </Box>
+          )}
 
           {dangerousHtmlDescriptions.map((html, index) => (
             <Typography

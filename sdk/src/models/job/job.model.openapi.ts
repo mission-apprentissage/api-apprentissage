@@ -3,7 +3,7 @@ import type { OpenApiBuilder, SchemaObject } from "openapi3-ts/oas31";
 import { offerReadModelDoc } from "../../docs/models/job/offer_read.model.doc.js";
 import { offerWriteModelDoc } from "../../docs/models/job/offer_write.model.doc.js";
 import { recruiterModelDoc } from "../../docs/models/job/recruiter.model.doc.js";
-import { addSchemaDoc, pickPropertiesOpenAPI } from "../../utils/zodWithOpenApi.js";
+import { addSchemaModelDoc, pickPropertiesOpenAPI } from "../../utils/zodWithOpenApi.js";
 
 const recruiterSchema = {
   type: "object",
@@ -373,9 +373,72 @@ const offerWriteSchema = {
   required: ["workplace", "apply", "offer"],
 } as const satisfies SchemaObject;
 
+const applicationWriteSchema = {
+  type: "object",
+  properties: {
+    applicant_first_name: {
+      type: "string",
+      minLength: 1,
+      maxLength: 50,
+    },
+    applicant_last_name: {
+      type: "string",
+      minLength: 1,
+      maxLength: 50,
+    },
+    applicant_email: {
+      type: "string",
+      format: "email",
+    },
+    applicant_phone: {
+      type: "string",
+    },
+    applicant_attachment_name: {
+      type: "string",
+      minLength: 1,
+      pattern: "((.*?))(\\.)+([Dd][Oo][Cc][Xx]|[Pp][Dd][Ff])$",
+    },
+    job_searched_by_user: {
+      type: ["string", "null"],
+      description: "Métier recherché par le candidat",
+    },
+    caller: {
+      type: ["string", "null"],
+      description: "L'identification de la source d'émission de la candidature (pour widget et api)",
+    },
+    applicant_message: {
+      type: ["string", "null"],
+      description:
+        "Un message du candidat vers le recruteur. Ce champ peut contenir la lettre de motivation du candidat.",
+    },
+    applicant_attachment_content: {
+      type: "string",
+      maxLength: 4215276,
+      format: "byte",
+      description: "Le contenu du fichier du CV du candidat. La taille maximale autorisée est de 3 Mo.",
+    },
+    recipient_id: {
+      type: "string",
+      description:
+        "Identifiant unique de la ressource vers laquelle la candidature est faite, préfixé par le nom de la collection",
+    },
+  },
+  required: [
+    "applicant_first_name",
+    "applicant_last_name",
+    "applicant_email",
+    "applicant_phone",
+    "applicant_attachment_name",
+    "applicant_attachment_content",
+    "recipient_id",
+  ],
+  additionalProperties: false,
+} as const satisfies SchemaObject;
+
 export function registerOpenApiJobModel(builder: OpenApiBuilder, lang: "en" | "fr"): OpenApiBuilder {
   return builder
-    .addSchema("JobRecruiter", addSchemaDoc(recruiterSchema, recruiterModelDoc, lang))
-    .addSchema("JobOfferRead", addSchemaDoc(offerReadSchema, offerReadModelDoc, lang))
-    .addSchema("JobOfferWrite", addSchemaDoc(offerWriteSchema, offerWriteModelDoc, lang));
+    .addSchema("JobRecruiter", addSchemaModelDoc(recruiterSchema, recruiterModelDoc, lang))
+    .addSchema("JobOfferRead", addSchemaModelDoc(offerReadSchema, offerReadModelDoc, lang))
+    .addSchema("JobOfferWrite", addSchemaModelDoc(offerWriteSchema, offerWriteModelDoc, lang))
+    .addSchema("JobApplicationWrite", addSchemaModelDoc(applicationWriteSchema, offerWriteModelDoc, lang));
 }

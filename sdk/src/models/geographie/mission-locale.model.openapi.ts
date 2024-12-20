@@ -1,7 +1,7 @@
 import type { OpenApiBuilder, SchemaObject } from "openapi3-ts/oas31";
 
 import { missionLocaleModelDoc } from "../../docs/models/mission-locale/mission-locale.model.doc.js";
-import { addSchemaDoc } from "../../utils/zodWithOpenApi.js";
+import { addSchemaModelDoc } from "../../utils/zodWithOpenApi.js";
 
 const missionLocaleSchema = {
   type: "object",
@@ -49,5 +49,5 @@ const missionLocaleSchema = {
 } as const satisfies SchemaObject;
 
 export function registerOpenApiMissionLocaleModel(builder: OpenApiBuilder, lang: "en" | "fr"): OpenApiBuilder {
-  return builder.addSchema("MissionLocale", addSchemaDoc(missionLocaleSchema, missionLocaleModelDoc, lang));
+  return builder.addSchema("MissionLocale", addSchemaModelDoc(missionLocaleSchema, missionLocaleModelDoc, lang));
 }

@@ -1,6 +1,7 @@
 import { zApiJobRoutes } from "api-alternance-sdk";
 import {
   addOperationDoc,
+  jobApplyRouteDoc,
   jobOfferCreateRouteDoc,
   jobOfferUpdateRouteDoc,
   jobSearchRouteDoc,
@@ -229,6 +230,42 @@ export function registerJobRoutes(builder: OpenApiBuilder, lang: "en" | "fr"): O
           },
         },
         jobOfferUpdateRouteDoc,
+        lang
+      ),
+    })
+    .addPath("/job/v1/apply", {
+      post: addOperationDoc(
+        {
+          tags: ["Job"],
+          operationId: "jobApply",
+          security: [{ "api-key": ["applications:write"] }],
+          requestBody: {
+            required: true,
+            content: {
+              "application/json": {
+                schema: {
+                  $ref: "#/components/schemas/JobApplicationWrite",
+                },
+              },
+            },
+          },
+          responses: {
+            "202": {
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      id: { type: "string" },
+                    },
+                    required: ["id"],
+                  },
+                },
+              },
+            },
+          },
+        },
+        jobApplyRouteDoc,
         lang
       ),
     });

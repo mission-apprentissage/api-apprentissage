@@ -9,6 +9,7 @@ import { styled } from "@mui/material/styles";
 import type { TooltipProps } from "@mui/material/Tooltip";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 
 import type { PropsWithLangParams } from "@/app/i18n/settings";
 import { DsfrLink } from "@/components/link/DsfrLink";
@@ -31,13 +32,17 @@ const ProfilPage = ({ params: { lang } }: PropsWithLangParams) => {
   const apiKeys = useApiKeys();
   const statut = useApiKeysStatut();
 
+  const { t } = useTranslation("inscription-connexion", { lng: lang });
+
   const tableData = useMemo(() => {
     if (apiKeys.isLoading) {
       return [];
     }
 
-    return apiKeys.apiKeys.map((apiKey) => {
-      const statut = new Date(apiKey.expires_at) < new Date() ? "expiré" : "actif";
+    return apiKeys.apiKeys.map((apiKey, index) => {
+      const expired = new Date(apiKey.expires_at) < new Date();
+      const statut = expired ? t("monCompte.expire", { lng: lang }) : t("monCompte.actif", { lng: lang });
+
       return [
         <Typography variant="body1" key="name" className="fr-text--sm">
           {apiKey.name}
@@ -47,12 +52,12 @@ const ProfilPage = ({ params: { lang } }: PropsWithLangParams) => {
           key="statut"
           className="fr-text--bold"
           color={
-            statut === "actif"
-              ? fr.colors.decisions.artwork.minor.greenBourgeon.default
-              : fr.colors.decisions.text.label.pinkTuile.default
+            expired
+              ? fr.colors.decisions.text.label.pinkTuile.default
+              : fr.colors.decisions.artwork.minor.greenBourgeon.default
           }
         >
-          <i className={fr.cx(statut === "actif" ? "fr-icon-checkbox-circle-fill" : "fr-icon-error-warning-fill")}></i>
+          <i className={fr.cx(!expired ? "fr-icon-checkbox-circle-fill" : "fr-icon-error-warning-fill")}></i>
           &nbsp;
           {statut}
         </Typography>,
@@ -64,13 +69,10 @@ const ProfilPage = ({ params: { lang } }: PropsWithLangParams) => {
           <CustomWidthTooltip
             title={
               <Box component="ul" sx={{ margin: fr.spacing("1w") }} className={fr.cx("fr-text--xs")}>
-                <li>Tous les jetons d'accès ont une durée de vie de 365 jours ;</li>
-                <li>1 mois avant l'expiration, vous serez invite à en créer un nouveau pour prolonger votre usage ;</li>
-                <li>
-                  Vous avez la possibilité à tout moment de créer un nouveau jeton d'accès avec une nouvelle date
-                  d'expiration ;
-                </li>
-                <li>Il n'est pas possible de prolonger la durée de vie d'un jeton.</li>
+                <li>{t("monCompte.jetonsDureeVie", { lng: lang })}</li>
+                <li>{t("monCompte.creerJetonProlongation", { lng: lang })}</li>
+                <li>{t("monCompte.possibiliteCreerJeton", { lng: lang })}</li>
+                <li>{t("monCompte.impossibleProlonger", { lng: lang })}</li>
               </Box>
             }
             arrow
@@ -86,12 +88,14 @@ const ProfilPage = ({ params: { lang } }: PropsWithLangParams) => {
           </CustomWidthTooltip>
         </Typography>,
         <Typography variant="body1" key="last_used_at" className="fr-text--sm">
-          {apiKey.last_used_at ? new Date(apiKey.last_used_at).toLocaleDateString() : "Jamais"}
+          {apiKey.last_used_at
+            ? new Date(apiKey.last_used_at).toLocaleDateString()
+            : t("monCompte.jamais", { lng: lang })}
         </Typography>,
-        <ApiKeyAction key="action" apiKey={apiKey} />,
+        <ApiKeyAction index={index} key={`action_${index}`} apiKey={apiKey} t={t} lang={lang} />,
       ];
     });
-  }, [apiKeys]);
+  }, [apiKeys, lang, t]);
 
   return (
     <Box
@@ -105,28 +109,35 @@ const ProfilPage = ({ params: { lang } }: PropsWithLangParams) => {
       }}
     >
       <Typography variant="h1" color={fr.colors.decisions.text.actionHigh.blueEcume.default}>
-        Mon compte
+        {t("monCompte.monCompte", { lng: lang })}
       </Typography>
       <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", flexWrap: "wrap" }}>
         <Typography variant="h2" color={fr.colors.decisions.artwork.minor.blueEcume.default}>
-          Jetons d’accès API
+          {t("monCompte.jetonsAPI", { lng: lang })}
         </Typography>
         <Typography textAlign="right">
           <DsfrLink href={PAGES.static.documentationTechnique.getPath(lang)}>
-            Consulter la documentation technique
+            {t("monCompte.consulterDocTechnique", { lng: lang })}
           </DsfrLink>
         </Typography>
       </Box>
 
-      {statut !== "actif-ready" && <GenerateApiKey />}
+      {statut !== "actif-ready" && <GenerateApiKey lang={lang} t={t} />}
 
       <Box>
-        <ManageApiKeysBanner key="api-key-banner" />
+        <ManageApiKeysBanner key="api-key-banner" lang={lang} t={t} />
         {tableData.length > 0 && (
           <Table
             data={tableData}
             fixed
-            headers={["Nom", "Statut", "Date de création", "Date d'expiration", "Dernière utilisation", "Action"]}
+            headers={[
+              t("monCompte.nom", { lng: lang }),
+              t("monCompte.statut", { lng: lang }),
+              t("monCompte.dateCreation", { lng: lang }),
+              t("monCompte.dateExpiration", { lng: lang }),
+              t("monCompte.derniereUtilisation", { lng: lang }),
+              t("monCompte.action", { lng: lang }),
+            ]}
             style={{
               minWidth: "100%",
               marginBottom: fr.spacing("2w"),
@@ -136,7 +147,7 @@ const ProfilPage = ({ params: { lang } }: PropsWithLangParams) => {
         )}
       </Box>
 
-      {statut === "actif-ready" && <GenerateApiKey />}
+      {statut === "actif-ready" && <GenerateApiKey lang={lang} t={t} />}
     </Box>
   );
 };

@@ -12,9 +12,11 @@ describe("PAGES", () => {
       if (file.isDirectory()) return null;
       if (file.name !== "page.tsx") return null;
       const name = path.relative(langDir, file.parentPath);
+      const normalizedPath = name.split(path.sep).join("/");
+
       // 404 page
-      if (name === "[...rest]") return null;
-      return `/${name}`;
+      if (normalizedPath === "[...rest]") return null;
+      return `/${normalizedPath}`;
     })
     .filter((p) => p !== null);
 
@@ -22,7 +24,7 @@ describe("PAGES", () => {
     expect(isPage(page)).toBe(true);
   });
 
-  it("should all  PAGES exists", () => {
+  it("should all PAGES exists", () => {
     expect(Object.keys(PAGES.static).length + Object.keys(PAGES.dynamic).length).toBe(
       pages.filter((page) => !isNotionPage(page)).length
     );

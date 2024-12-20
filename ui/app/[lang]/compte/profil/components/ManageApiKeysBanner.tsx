@@ -2,8 +2,9 @@ import { Notice } from "@codegouvfr/react-dsfr/Notice";
 import { Box } from "@mui/material";
 
 import { useApiKeysStatut } from "@/app/[lang]/compte/profil/hooks/useApiKeys";
+import type { WithLangAndT } from "@/app/i18n/settings";
 
-export function ManageApiKeysBanner() {
+export function ManageApiKeysBanner({ lang, t }: WithLangAndT) {
   const statut = useApiKeysStatut();
 
   if (statut !== "actif-ready") {
@@ -14,10 +15,9 @@ export function ManageApiKeysBanner() {
     <Notice
       title={
         <>
-          Votre jeton a bien été crée. &nbsp;
+          {t("monCompte.votreJetonCree", { lng: lang })} &nbsp;
           <Box component="span" sx={{ fontWeight: "normal" }}>
-            Il sera crypté une fois que vous aurez quitté cette page, vous n’aurez donc plus la possibilité de le
-            copier.
+            {t("monCompte.jetonCopie", { lng: lang })}
           </Box>
         </>
       }

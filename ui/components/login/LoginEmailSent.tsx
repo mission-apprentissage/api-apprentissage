@@ -4,11 +4,11 @@ import { Button } from "@codegouvfr/react-dsfr/Button";
 import { Box, Dialog, DialogContent, Typography } from "@mui/material";
 import Link from "next/link";
 
-import type { WithLang } from "@/app/i18n/settings";
+import type { WithLangAndT } from "@/app/i18n/settings";
 import { Artwork } from "@/components/artwork/Artwork";
 import { PAGES } from "@/utils/routes.utils";
 
-export function LoginEmailSentModal({ email, lang }: WithLang<{ email: string }>) {
+export function LoginEmailSentModal({ email, lang, t }: WithLangAndT<{ email: string }>) {
   return (
     <Dialog
       open
@@ -34,7 +34,7 @@ export function LoginEmailSentModal({ email, lang }: WithLang<{ email: string }>
         <Box sx={{ textAlign: "right", marginBottom: fr.spacing("2w") }}>
           <Button priority="tertiary">
             <Box component={Link} href={PAGES.static.home.getPath(lang)} sx={{ backgroundImage: "none" }}>
-              Fermer
+              {t("modal.fermer", { lng: lang })}
             </Box>
           </Button>
         </Box>
@@ -61,17 +61,18 @@ export function LoginEmailSentModal({ email, lang }: WithLang<{ email: string }>
                 color: fr.colors.decisions.text.label.blueEcume.default,
               }}
             >
-              Vérifier votre adresse electronique
+              {t("loginEmailSent.verifierEmail", { lng: lang })}
             </Typography>
             <Typography id="login-sent-modal-description">
-              Nous avons envoyé un lien à l’adresse <strong>{email}</strong> qui va vous permettre de{" "}
-              <strong>vous connecter à votre compte ou de vous inscrire, sans mot de passe</strong> (n’oubliez pas de
-              vérifier vos indésirables)
+              {t("loginEmailSent.lienEnvoye", { lng: lang })} <strong>{email}</strong>{" "}
+              {t("loginEmailSent.vousPermettre", { lng: lang })}{" "}
+              <strong>{t("loginEmailSent.vousConnecter", { lng: lang })}</strong> (
+              {t("loginEmailSent.verifierSpams", { lng: lang })})
             </Typography>
           </Box>
           <Artwork name="mail-sent" />
           <Typography textAlign="center" color={fr.colors.decisions.text.default.grey.default}>
-            Si vous n’avez pas reçu le lien d’ici 10 min, contactez-nous :{" "}
+            {t("loginEmailSent.problemeReceptionLien", { lng: lang })}{" "}
             <Box
               component="a"
               href="mailto:support_api@apprentissage.beta.gouv.fr"

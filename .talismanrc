@@ -9,6 +9,8 @@ fileignoreconfig:
   checksum: a663e9955c2825bee3af55be1ebd6e26cd0a17fe7c614a13d726ddd4c7959b82
 - filename: sdk/src/client/internal/geographie/geographie.module.test.ts
   checksum: 520b2ba0cac171d714a8cf8c7a4fdb349e280416aeaff419a94d423898674b0e
+- filename: sdk/src/docs/models/job/application.model.doc.ts
+  checksum: 9eb6c1fff24b532a002385705e293152a0e74a357c8d0071a500383c3c17c50b
 - filename: sdk/src/docs/models/job/offer_read.model.doc.ts
   checksum: 903f0766eeb4226095460f2a16d52e0ca0eafe594c9c6f318b22bbdaf62bf80b
 - filename: sdk/src/docs/models/job/offer_write.model.doc.ts

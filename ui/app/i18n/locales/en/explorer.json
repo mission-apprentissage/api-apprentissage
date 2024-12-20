@@ -44,6 +44,13 @@
     },
     "variant": "Job Offer"
   },
+  "candidatureOffre": {
+    "desc": "Streamline your users' journey by directly transmitting your users' applications to recruiters.",
+    "summary_1": "To streamline your users' journey, this API allows you to directly transmit your users' applications to recruiters without them having to leave your site.",
+    "summary_2": "For this, it only requires the transmission of the candidate's contact information and resume. A cover letter, addressed to the recruiter, can also be optionally submitted. The application is then sent to the recruiter via email.",
+    "summary_3": "The use of this API route is possible in two different scenarios :<ul><li>Applying to a specific offer, in which case the offer ID is required.</li><li>Applying to a specific company, in which case the recruiter ID is required.</li></ul>",
+    "variant": "Application"
+  },
   "back": "Back to the list",
   "besoinDonnees": {
     "titre": "Need this data for your project?",

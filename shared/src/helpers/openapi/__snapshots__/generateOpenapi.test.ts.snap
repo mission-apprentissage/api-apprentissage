@@ -2368,6 +2368,75 @@ Les champs \`centre\` et \`bbox\` sont tous les deux au format [GeoJSON](https:/
         ],
         "type": "object",
       },
+      "JobApplicationWrite": {
+        "additionalProperties": false,
+        "description": "Offre d'emploi",
+        "properties": {
+          "applicant_attachment_content": {
+            "description": "Le contenu du fichier du CV du candidat. La taille maximale autorisée est de 3 Mo.",
+            "format": "byte",
+            "maxLength": 4215276,
+            "type": "string",
+          },
+          "applicant_attachment_name": {
+            "minLength": 1,
+            "pattern": "((.*?))(\\.)+([Dd][Oo][Cc][Xx]|[Pp][Dd][Ff])$",
+            "type": "string",
+          },
+          "applicant_email": {
+            "format": "email",
+            "type": "string",
+          },
+          "applicant_first_name": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string",
+          },
+          "applicant_last_name": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string",
+          },
+          "applicant_message": {
+            "description": "Un message du candidat vers le recruteur. Ce champ peut contenir la lettre de motivation du candidat.",
+            "type": [
+              "string",
+              "null",
+            ],
+          },
+          "applicant_phone": {
+            "type": "string",
+          },
+          "caller": {
+            "description": "L'identification de la source d'émission de la candidature (pour widget et api)",
+            "type": [
+              "string",
+              "null",
+            ],
+          },
+          "job_searched_by_user": {
+            "description": "Métier recherché par le candidat",
+            "type": [
+              "string",
+              "null",
+            ],
+          },
+          "recipient_id": {
+            "description": "Identifiant unique de la ressource vers laquelle la candidature est faite, préfixé par le nom de la collection",
+            "type": "string",
+          },
+        },
+        "required": [
+          "applicant_first_name",
+          "applicant_last_name",
+          "applicant_email",
+          "applicant_phone",
+          "applicant_attachment_name",
+          "applicant_attachment_content",
+          "recipient_id",
+        ],
+        "type": "object",
+      },
       "JobOfferRead": {
         "description": "Offre d'emploi",
         "properties": {
@@ -9155,6 +9224,483 @@ Les champs \`centre\` et \`bbox\` sont tous les deux au format [GeoJSON](https:/
         "security": [],
         "tags": [
           "Système",
+        ],
+      },
+    },
+    "/job/v1/apply": {
+      "post": {
+        "description": "Afin de fluidifier le parcours de vos utilisateurs, cette API vous permet de transmettre directement aux recruteurs les candidatures de vos usagers, sans que ces derniers n’aient à quitter votre site.
+
+Pour cela, elle requiert seulement la transmission des coordonnées ainsi que du CV du candidat. Un message de motivation, à destination du recruteur, peut également être transmis de manière facultative. La candidature est ensuite envoyée au recruteur par email.
+
+L’utilisation de cette route d’API est possible dans 2 scénarios différents :
+
+- On postule à une offre spécifique, dans ce cas il est nécessaire de connaitre l’identifiant de l’offre.
+- On postule à une entreprise spécifique, dans ce cas il est nécessaire de connaitre l’identifiant du recruteur.
+",
+        "operationId": "jobApply",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "description": "Offre d'emploi",
+                "properties": {
+                  "applicant_attachment_content": {
+                    "description": "Le contenu du fichier du CV du candidat. La taille maximale autorisée est de 3 Mo.",
+                    "format": "byte",
+                    "maxLength": 4215276,
+                    "type": "string",
+                  },
+                  "applicant_attachment_name": {
+                    "minLength": 1,
+                    "pattern": "((.*?))(\\.)+([Dd][Oo][Cc][Xx]|[Pp][Dd][Ff])$",
+                    "type": "string",
+                  },
+                  "applicant_email": {
+                    "format": "email",
+                    "type": "string",
+                  },
+                  "applicant_first_name": {
+                    "maxLength": 50,
+                    "minLength": 1,
+                    "type": "string",
+                  },
+                  "applicant_last_name": {
+                    "maxLength": 50,
+                    "minLength": 1,
+                    "type": "string",
+                  },
+                  "applicant_message": {
+                    "description": "Un message du candidat vers le recruteur. Ce champ peut contenir la lettre de motivation du candidat.",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "applicant_phone": {
+                    "type": "string",
+                  },
+                  "caller": {
+                    "description": "L'identification de la source d'émission de la candidature (pour widget et api)",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "job_searched_by_user": {
+                    "description": "Métier recherché par le candidat",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "recipient_id": {
+                    "description": "Identifiant unique de la ressource vers laquelle la candidature est faite, préfixé par le nom de la collection",
+                    "type": "string",
+                  },
+                },
+                "required": [
+                  "applicant_first_name",
+                  "applicant_last_name",
+                  "applicant_email",
+                  "applicant_phone",
+                  "applicant_attachment_name",
+                  "applicant_attachment_content",
+                  "recipient_id",
+                ],
+                "type": "object",
+              },
+            },
+          },
+          "required": true,
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "id": {
+                      "description": "Identifiant de la candidature.",
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "id",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Succès",
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Requête invalide",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "examples": [
+                        "Request validation failed",
+                      ],
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "examples": [
+                        "Bad Request",
+                      ],
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        400,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Requête invalide",
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Clé d’API manquante ou invalide",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Vous devez être connecté pour accéder à cette ressource",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Unauthorized",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        401,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Clé d’API manquante ou invalide",
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Habilitations insuffisantes pour accéder à la ressource",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Le jeton d'accès est invalide",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Forbidden",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        403,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Habilitations insuffisantes pour accéder à la ressource",
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Ressource non trouvée",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Resource non trouvée",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Not Found",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        404,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Ressource non trouvée",
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Conflit de ressource",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "La ressource exite déjà",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Conflict",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        409,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Conflit de ressource",
+          },
+          "419": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Limite de volumétrie atteinte pour la clé d’API",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "Limite de requêtes atteinte",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Too Many Requests",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        419,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Limite de volumétrie atteinte pour la clé d’API",
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Une erreur inattendue s'est produite sur le serveur.",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "The server was unable to complete your request",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Internal Server Error",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        500,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Une erreur inattendue s'est produite sur le serveur.",
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Le service est indisponible.",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "The server was unable to complete your request",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Bad Gateway",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        502,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Le service est indisponible.",
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "description": "Le service est en maintenance",
+                  "properties": {
+                    "data": {
+                      "description": "Données contextuelles liées à l'erreur",
+                    },
+                    "message": {
+                      "description": "Un message explicatif de l'erreur",
+                      "example": "The server was unable to complete your request",
+                      "type": "string",
+                    },
+                    "name": {
+                      "description": "Le type générique de l'erreur",
+                      "example": "Service Unavailable",
+                      "type": "string",
+                    },
+                    "statusCode": {
+                      "description": "Le status code retourné",
+                      "enum": [
+                        502,
+                      ],
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "message",
+                    "name",
+                    "statusCode",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Le service est en maintenance",
+          },
+        },
+        "security": [
+          {
+            "api-key": [
+              "applications:write",
+            ],
+          },
+        ],
+        "summary": "Envoyer une candidature à une offre ou à une entreprise.",
+        "tags": [
+          "Job",
         ],
       },
     },

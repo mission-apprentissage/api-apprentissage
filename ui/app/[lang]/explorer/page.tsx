@@ -4,6 +4,7 @@ import cityHall from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/buildings/c
 import house from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/buildings/house.svg";
 import internet from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/digital/internet.svg";
 import search from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/digital/search.svg";
+import contract from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/document/contract.svg";
 import money from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/institutions/money.svg";
 import book from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/leisure/book.svg";
 import locationFrance from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/map/location-france.svg";
@@ -98,6 +99,15 @@ export default async function ExplorerApiPage({ params: { lang } }: PropsWithLan
           imageUrl={internet.src}
           enlargeLinkOrButton
           linkProps={{ href: PAGES.static.depotOffre.getPath(lang) }}
+          start={<TagDsfr>{t(`type.outil`, { lng: lang })}</TagDsfr>}
+        />
+        <Tile
+          title={PAGES.static.candidatureOffre.getTitle(lang, t)}
+          desc={t("candidatureOffre.desc")}
+          imageSvg
+          imageUrl={contract.src}
+          enlargeLinkOrButton
+          linkProps={{ href: PAGES.static.candidatureOffre.getPath(lang) }}
           start={<TagDsfr>{t(`type.outil`, { lng: lang })}</TagDsfr>}
         />
         <Tile

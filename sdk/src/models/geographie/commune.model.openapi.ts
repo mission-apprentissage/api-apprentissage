@@ -1,7 +1,7 @@
 import type { OpenApiBuilder, SchemaObject } from "openapi3-ts/oas31";
 
 import { communeModelDoc } from "../../docs/models/commune/commune.model.doc.js";
-import { addSchemaDoc } from "../../utils/zodWithOpenApi.js";
+import { addSchemaModelDoc } from "../../utils/zodWithOpenApi.js";
 
 const communeSchema = {
   type: "object",
@@ -96,5 +96,5 @@ const communeSchema = {
 } as const satisfies SchemaObject;
 
 export function registerOpenApiCommuneModel(builder: OpenApiBuilder, lang: "en" | "fr"): OpenApiBuilder {
-  return builder.addSchema("Commune", addSchemaDoc(communeSchema, communeModelDoc, lang));
+  return builder.addSchema("Commune", addSchemaModelDoc(communeSchema, communeModelDoc, lang));
 }

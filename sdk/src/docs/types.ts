@@ -12,7 +12,6 @@ export interface DocTechnicalField {
 
 export interface DocBusinessField extends DocTechnicalField {
   readonly metier: true;
-  readonly section: OpenApiText;
   readonly information?: OpenApiText | null;
   readonly sample?: OpenApiText | null;
   readonly tags?: ReadonlyArray<string>;
@@ -29,10 +28,15 @@ export type DataSource = {
   href: string;
 };
 
+export type DocModelSection = {
+  name: OpenApiText;
+  _: Record<string, DocBusinessField | DocTechnicalField>;
+};
+
 export type DocModel = {
   readonly name: string;
-  readonly description: string | null;
-  readonly _: Record<string, DocBusinessField>;
+  readonly description: OpenApiText;
+  readonly sections: Record<string, DocModelSection>;
   readonly sources: DataSource[];
 };
 

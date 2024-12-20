@@ -847,6 +847,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
     },
     "schemas": {
       "Certification": {
+        "description": "Certification",
         "properties": {
           "base_legale": {
             "description": "Dates de création et d’abrogation des diplômes crées par arrêtés",
@@ -1994,6 +1995,7 @@ Notes:
         "type": "object",
       },
       "Commune": {
+        "description": "Commune",
         "properties": {
           "academie": {
             "description": "Académie de la commune",
@@ -2045,7 +2047,7 @@ Une commune peut avoir plusieurs code postaux, et un code postal peut correspond
             "description": "Département de la commune",
             "properties": {
               "codeInsee": {
-                "description": "Code du département",
+                "description": "Code INSEE du département",
                 "type": "string",
               },
               "nom": {
@@ -2154,6 +2156,7 @@ Les champs \`centre\` et \`bbox\` sont tous les deux au format [GeoJSON](https:/
                 "type": "null",
               },
               {
+                "description": "Mission Locale",
                 "properties": {
                   "contact": {
                     "properties": {
@@ -2305,6 +2308,7 @@ Les champs \`centre\` et \`bbox\` sont tous les deux au format [GeoJSON](https:/
         "type": "object",
       },
       "Departement": {
+        "description": "Département",
         "properties": {
           "academie": {
             "description": "Académie de la commune",
@@ -2334,7 +2338,7 @@ Les champs \`centre\` et \`bbox\` sont tous les deux au format [GeoJSON](https:/
             "type": "string",
           },
           "nom": {
-            "description": "Département de la commune",
+            "description": "Nom du département",
             "type": "string",
           },
           "region": {
@@ -2365,6 +2369,7 @@ Les champs \`centre\` et \`bbox\` sont tous les deux au format [GeoJSON](https:/
         "type": "object",
       },
       "JobOfferRead": {
+        "description": "Offre d'emploi",
         "properties": {
           "apply": {
             "description": "Eléments qui permettent de déposer une candidature :
@@ -2965,6 +2970,7 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
         "type": "object",
       },
       "JobOfferWrite": {
+        "description": "Offre d'emploi",
         "properties": {
           "apply": {
             "description": "Eléments qui permettent de déposer une candidature :
@@ -3407,6 +3413,7 @@ The information \`brand\` \`legal_name\` \`size\` \`idcc\` \`opco\` \`naf\` is a
         "type": "object",
       },
       "JobRecruiter": {
+        "description": "Recruteur",
         "properties": {
           "apply": {
             "description": "Eléments qui permettent de déposer une candidature :
@@ -3703,6 +3710,7 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
         "type": "object",
       },
       "MissionLocale": {
+        "description": "Mission Locale",
         "properties": {
           "contact": {
             "properties": {
@@ -3897,6 +3905,7 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
               "application/json": {
                 "schema": {
                   "items": {
+                    "description": "Certification",
                     "properties": {
                       "base_legale": {
                         "description": "Dates de création et d’abrogation des diplômes crées par arrêtés",
@@ -7120,6 +7129,7 @@ Notes:
                 "schema": {
                   "description": "Liste des communes correspondant au code INSEE ou postal recherché",
                   "items": {
+                    "description": "Commune",
                     "properties": {
                       "academie": {
                         "description": "Académie de la commune",
@@ -7171,7 +7181,7 @@ Une commune peut avoir plusieurs code postaux, et un code postal peut correspond
                         "description": "Département de la commune",
                         "properties": {
                           "codeInsee": {
-                            "description": "Code du département",
+                            "description": "Code INSEE du département",
                             "type": "string",
                           },
                           "nom": {
@@ -7280,6 +7290,7 @@ Les champs \`centre\` et \`bbox\` sont tous les deux au format [GeoJSON](https:/
                             "type": "null",
                           },
                           {
+                            "description": "Mission Locale",
                             "properties": {
                               "contact": {
                                 "properties": {
@@ -7814,6 +7825,7 @@ Les champs \`centre\` et \`bbox\` sont tous les deux au format [GeoJSON](https:/
                 "schema": {
                   "description": "Liste des départements français",
                   "items": {
+                    "description": "Département",
                     "properties": {
                       "academie": {
                         "description": "Académie de la commune",
@@ -7843,7 +7855,7 @@ Les champs \`centre\` et \`bbox\` sont tous les deux au format [GeoJSON](https:/
                         "type": "string",
                       },
                       "nom": {
-                        "description": "Département de la commune",
+                        "description": "Nom du département",
                         "type": "string",
                       },
                       "region": {
@@ -8257,6 +8269,7 @@ Les champs \`centre\` et \`bbox\` sont tous les deux au format [GeoJSON](https:/
                 "schema": {
                   "description": "Liste des missions locales",
                   "items": {
+                    "description": "Mission Locale",
                     "properties": {
                       "contact": {
                         "properties": {
@@ -9153,6 +9166,7 @@ Les champs \`centre\` et \`bbox\` sont tous les deux au format [GeoJSON](https:/
           "content": {
             "application/json": {
               "schema": {
+                "description": "Offre d'emploi",
                 "properties": {
                   "apply": {
                     "description": "Eléments qui permettent de déposer une candidature :
@@ -10009,6 +10023,7 @@ The information \`brand\` \`legal_name\` \`size\` \`idcc\` \`opco\` \`naf\` is a
           "content": {
             "application/json": {
               "schema": {
+                "description": "Offre d'emploi",
                 "properties": {
                   "apply": {
                     "description": "Eléments qui permettent de déposer une candidature :
@@ -10980,6 +10995,7 @@ Currently, the results are sorted by:
 The results are limited to 150 per source, and currently, it is not possible to retrieve all the offers matching the search criteria.
 ",
                       "items": {
+                        "description": "Offre d'emploi",
                         "properties": {
                           "apply": {
                             "description": "Eléments qui permettent de déposer une candidature :
@@ -11587,6 +11603,7 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
 The results are limited to 150, and currently, it is not possible to retrieve all recruiters matching the search criteria.
 ",
                       "items": {
+                        "description": "Recruteur",
                         "properties": {
                           "apply": {
                             "description": "Eléments qui permettent de déposer une candidature :

@@ -1,4 +1,5 @@
 import type { DataSource, DocModel } from "../../types.js";
+import { communeModelDoc } from "../commune/commune.model.doc.js";
 
 const sources: DataSource[] = [
   {
@@ -23,105 +24,14 @@ const sources: DataSource[] = [
 
 export const departementModelDoc = {
   name: "Departement",
-  description: null,
+  description: { en: null, fr: "Département" },
   sources,
-  _: {
-    nom: {
-      section: {
-        en: null,
-        fr: "Intitulé",
-      },
-      metier: true,
-      description: { en: null, fr: "Département de la commune" },
-      sample: { en: null, fr: "exemple : Nord" },
-      tags: [".nom"],
-      tip: {
-        title: {
-          en: null,
-          fr: "Collectivités et territoires d'outre-mer",
-        },
-        content: {
-          en: null,
-          fr: "Les collectivités et territoires d'outre-mer sont assimilés à des déparements pour des raisons pratiques. Le code INSEE utilisé correspond au code INSEE de la collectivité ou du territoire d'outre-mer.",
-        },
-      },
+  sections: {
+    department: {
+      name: communeModelDoc.sections.departement.name,
+      _: communeModelDoc.sections.departement._.departement._,
     },
-    codeInsee: {
-      section: {
-        en: null,
-        fr: "Code INSEE",
-      },
-      metier: true,
-      description: {
-        en: null,
-        fr: "Code INSEE du département",
-      },
-      tags: [".codeInsee"],
-      _: {
-        insee: {
-          description: { en: null, fr: "Code INSEE de la commune" },
-        },
-        postaux: {
-          description: { en: null, fr: "Liste des codes postaux de la commune" },
-        },
-      },
-    },
-    region: {
-      section: {
-        en: null,
-        fr: "Région",
-      },
-      metier: true,
-      description: { en: null, fr: "Région de la commune" },
-      tip: {
-        title: {
-          en: null,
-          fr: "Collectivités et territoires d'outre-mer",
-        },
-        content: {
-          en: null,
-          fr: "Les collectivités et territoires d'outre-mer sont assimilés à des régions pour des raisons pratiques. Le code INSEE utilisé correspond au code INSEE de la collectivité ou du territoire d'outre-mer.",
-        },
-      },
-      tags: [".region"],
-      _: {
-        codeInsee: {
-          description: { en: null, fr: "Code INSEE de la région" },
-        },
-        nom: {
-          description: { en: null, fr: "Nom de la région" },
-        },
-      },
-    },
-    academie: {
-      section: {
-        en: null,
-        fr: "Académie",
-      },
-      metier: true,
-      description: { en: null, fr: "Académie de la commune" },
-      tags: [".academie"],
-      _: {
-        id: {
-          description: { en: null, fr: "Identifiant de l'académie" },
-        },
-        code: {
-          description: { en: null, fr: "Code de l'académie" },
-        },
-        nom: {
-          description: { en: null, fr: "Nom de l'académie" },
-        },
-      },
-      tip: {
-        title: {
-          en: null,
-          fr: "Académie de l'Étranger",
-        },
-        content: {
-          en: null,
-          fr: "L'académie de l'Étranger correspond à **L'Agence pour l’enseignement français à l’étranger (AEFE)**, elle est associée à du territoire d'outre-mer des **Terres australes et antarctiques françaises**.",
-        },
-      },
-    },
+    region: communeModelDoc.sections.region,
+    academie: communeModelDoc.sections.academie,
   },
 } as const satisfies DocModel;

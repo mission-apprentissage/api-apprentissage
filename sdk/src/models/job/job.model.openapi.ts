@@ -3,7 +3,7 @@ import type { OpenApiBuilder, SchemaObject } from "openapi3-ts/oas31";
 import { offerReadModelDoc } from "../../docs/models/job/offer_read.model.doc.js";
 import { offerWriteModelDoc } from "../../docs/models/job/offer_write.model.doc.js";
 import { recruiterModelDoc } from "../../docs/models/job/recruiter.model.doc.js";
-import { addSchemaDoc, pickPropertiesOpenAPI } from "../../utils/zodWithOpenApi.js";
+import { addSchemaModelDoc, pickPropertiesOpenAPI } from "../../utils/zodWithOpenApi.js";
 
 const recruiterSchema = {
   type: "object",
@@ -375,7 +375,7 @@ const offerWriteSchema = {
 
 export function registerOpenApiJobModel(builder: OpenApiBuilder, lang: "en" | "fr"): OpenApiBuilder {
   return builder
-    .addSchema("JobRecruiter", addSchemaDoc(recruiterSchema, recruiterModelDoc, lang))
-    .addSchema("JobOfferRead", addSchemaDoc(offerReadSchema, offerReadModelDoc, lang))
-    .addSchema("JobOfferWrite", addSchemaDoc(offerWriteSchema, offerWriteModelDoc, lang));
+    .addSchema("JobRecruiter", addSchemaModelDoc(recruiterSchema, recruiterModelDoc, lang))
+    .addSchema("JobOfferRead", addSchemaModelDoc(offerReadSchema, offerReadModelDoc, lang))
+    .addSchema("JobOfferWrite", addSchemaModelDoc(offerWriteSchema, offerWriteModelDoc, lang));
 }

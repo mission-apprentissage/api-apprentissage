@@ -1,7 +1,7 @@
 import type { OpenApiBuilder, SchemaObject } from "openapi3-ts/oas31";
 
 import { certificationModelDoc } from "../../docs/models/certification/certification.model.doc.js";
-import { addSchemaDoc } from "../../utils/zodWithOpenApi.js";
+import { addSchemaModelDoc } from "../../utils/zodWithOpenApi.js";
 import { CFD_REGEX, RNCP_REGEX } from "./certification.primitives.js";
 
 const schema: SchemaObject = {
@@ -430,5 +430,5 @@ const schema: SchemaObject = {
 };
 
 export function registerOpenApiCertificationSchema(builder: OpenApiBuilder, lang: "en" | "fr"): OpenApiBuilder {
-  return builder.addSchema("Certification", addSchemaDoc(schema, certificationModelDoc, lang));
+  return builder.addSchema("Certification", addSchemaModelDoc(schema, certificationModelDoc, lang));
 }

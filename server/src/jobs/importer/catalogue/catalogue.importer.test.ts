@@ -9,12 +9,7 @@ import { fetchCatalogueEducatifData } from "@/services/apis/catalogue/catalogueE
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
 import { runCatalogueImporter } from "./catalogue.importer.js";
-import {
-  catalogueDataFixture,
-  exceptedUaiFormation,
-  generateCatalogueData,
-  generateCatalogueEducatifData,
-} from "./fixtures/sample.js";
+import { catalogueDataFixture, generateCatalogueData } from "./fixtures/sample.js";
 
 vi.mock("@/services/apis/catalogue/catalogue", async (importOriginal) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -54,9 +49,6 @@ describe("runBcnImporter", () => {
     vi.mocked(fetchCatalogueData).mockImplementation(async () => {
       return Readable.from(generateCatalogueData());
     });
-    vi.mocked(fetchCatalogueEducatifData).mockImplementation(async () => {
-      return Readable.from(generateCatalogueEducatifData());
-    });
 
     const stats = await runCatalogueImporter();
 
@@ -66,14 +58,12 @@ describe("runBcnImporter", () => {
     expect(data.length).toBe(catalogueDataFixture.length);
     expect(data).toEqual(
       catalogueDataFixture.map((data) => ({
-        data: {
-          ...data,
-          uai_formation: exceptedUaiFormation[data.cle_ministere_educatif],
-        },
+        data: data,
         _id: expect.any(ObjectId),
         date,
       }))
     );
+    expect(fetchCatalogueEducatifData).toHaveBeenCalledTimes(0);
     expect(stats).toBe(catalogueDataFixture.length);
   });
 
@@ -83,7 +73,6 @@ describe("runBcnImporter", () => {
     const error = new Error("Unable to fetch data");
 
     vi.mocked(fetchCatalogueData).mockRejectedValue(error);
-    vi.mocked(fetchCatalogueEducatifData).mockRejectedValue(error);
 
     await expect(runCatalogueImporter()).rejects.toThrowError("import.catalogue: unable to runCatalogueImporter");
   });

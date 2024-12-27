@@ -5,9 +5,9 @@ import config from "@/config.js";
 
 function getOptions(): Sentry.NodeOptions {
   return {
-    tracesSampleRate: config.env === "production" ? 0.01 : 1.0,
+    tracesSampleRate: config.env === "production" ? 0.001 : 1.0,
     tracePropagationTargets: [/^https:\/\/[^/]*\.apprentissage\.beta\.gouv\.fr/],
-    // profilesSampleRate is relative to tracesSampleRate --> 1% of 1% = 0.01% of requests
+    // profilesSampleRate is relative to tracesSampleRate --> 0.1% of 1% = 0.001% of requests
     profilesSampleRate: 0.01,
     environment: config.env,
     release: config.version,

@@ -21,6 +21,8 @@ fileignoreconfig:
   checksum: 4c6e64beba2f719da577a0aae1c9642e6e2e8712dc909dc62c64c081a2c612a8
 - filename: server/.env.test
   checksum: 65357f150bfedfebea511b1007eed941983484abf990d87e91fd7477360ad280
+- filename: server/src/jobs/importer/catalogue/fixtures/sample.ts
+  checksum: b1335a1859f5c91edfb6ccabe0b91d61dea53130f6270a5172e20450bb36e119
 - filename: server/src/jobs/importer/commune/__snapshots__/commune.importer.test.ts.snap
   checksum: 7505813ef556c3a7befee7e1576467b2bcbd806534843b5d09d00e0878115573
 - filename: server/src/jobs/importer/dares/ccn/fixtures/article.html

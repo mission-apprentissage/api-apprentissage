@@ -13,7 +13,7 @@ describe("getAllFormationsFromCatalogue", () => {
     const scopeCount = nock("https://catalogue-apprentissage.intercariforef.org")
       .get("/api/v1/entity/formations/count")
       .query({
-        query: '{"catalogue_published":true}',
+        query: '{"published":true}',
       })
       .reply(200, "2");
 

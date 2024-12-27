@@ -24,7 +24,7 @@ const neededFieldsFromCatalogue: Record<string, number> = Object.keys(zFormation
 }, {});
 
 export async function fetchCatalogueData(): Promise<Readable> {
-  const query = JSON.stringify({ catalogue_published: true });
+  const query = JSON.stringify({ published: true });
 
   const countResponse = await catalogueClient.get<number>("/api/v1/entity/formations/count", { params: { query } });
 

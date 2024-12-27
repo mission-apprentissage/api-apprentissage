@@ -2007,6 +2007,7 @@ exports[`zodToMongoSchema > should convert import.meta schema 1`] = `
             "kali_ccn",
             "communes",
             "referentiel",
+            "catalogue",
           ],
         },
       },
@@ -5310,81 +5311,15 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
         "_id": {
           "bsonType": "string",
         },
-        "affelnet_a_charger": {
-          "bsonType": [
-            "bool",
-            "null",
-          ],
-        },
-        "affelnet_code_nature": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "affelnet_infos_offre": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "affelnet_raison_depublication": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "affelnet_reference": {
-          "bsonType": [
-            "bool",
-            "null",
-          ],
-        },
-        "affelnet_secteur": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "affelnet_statut": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "affelnet_statut_history": {
-          "anyOf": [
-            {
-              "bsonType": "array",
-              "items": {
-                "additionalProperties": true,
-                "bsonType": "object",
-              },
-            },
-            {
-              "bsonType": "null",
-            },
-          ],
-        },
         "annee": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
+          "bsonType": "string",
         },
         "bcn_mefs_10": {
-          "anyOf": [
-            {
-              "bsonType": "array",
-              "items": {
-                "additionalProperties": true,
-                "bsonType": "object",
-              },
-            },
-            {
-              "bsonType": "null",
-            },
-          ],
+          "bsonType": "array",
+          "items": {
+            "additionalProperties": true,
+            "bsonType": "object",
+          },
         },
         "capacite": {
           "bsonType": [
@@ -5393,16 +5328,7 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
           ],
         },
         "catalogue_published": {
-          "bsonType": [
-            "bool",
-            "null",
-          ],
-        },
-        "cfa_outdated": {
-          "bsonType": [
-            "bool",
-            "null",
-          ],
+          "bsonType": "bool",
         },
         "cfd": {
           "bsonType": "string",
@@ -5429,22 +5355,10 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
           "bsonType": "string",
         },
         "code_commune_insee": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
+          "bsonType": "string",
         },
         "code_postal": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "commentaires": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
+          "bsonType": "string",
         },
         "contenu": {
           "bsonType": [
@@ -5453,10 +5367,7 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
           ],
         },
         "created_at": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
+          "bsonType": "string",
         },
         "date_debut": {
           "anyOf": [
@@ -5485,10 +5396,7 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
           ],
         },
         "diplome": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
+          "bsonType": "string",
         },
         "distance": {
           "bsonType": [
@@ -5502,28 +5410,8 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
             "null",
           ],
         },
-        "draft": {
-          "bsonType": [
-            "bool",
-            "null",
-          ],
-        },
         "duree": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "editedFields": {
-          "anyOf": [
-            {
-              "additionalProperties": true,
-              "bsonType": "object",
-            },
-            {
-              "bsonType": "null",
-            },
-          ],
+          "bsonType": "string",
         },
         "email": {
           "bsonType": [
@@ -5532,20 +5420,11 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
           ],
         },
         "entierement_a_distance": {
-          "bsonType": [
-            "bool",
-            "null",
-          ],
+          "bsonType": "bool",
         },
         "etablissement_formateur_adresse": {
           "bsonType": [
             "string",
-            "null",
-          ],
-        },
-        "etablissement_formateur_catalogue_published": {
-          "bsonType": [
-            "bool",
             "null",
           ],
         },
@@ -5573,35 +5452,14 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
             "null",
           ],
         },
-        "etablissement_formateur_conventionne": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
         "etablissement_formateur_courriel": {
           "bsonType": [
             "string",
             "null",
           ],
         },
-        "etablissement_formateur_datadock": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
         "etablissement_formateur_date_creation": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "etablissement_formateur_declare_prefecture": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
+          "bsonType": "string",
         },
         "etablissement_formateur_enseigne": {
           "bsonType": [
@@ -5610,16 +5468,10 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
           ],
         },
         "etablissement_formateur_entreprise_raison_sociale": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
+          "bsonType": "string",
         },
         "etablissement_formateur_id": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
+          "bsonType": "string",
         },
         "etablissement_formateur_localite": {
           "bsonType": [
@@ -5652,10 +5504,7 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
           ],
         },
         "etablissement_formateur_published": {
-          "bsonType": [
-            "bool",
-            "null",
-          ],
+          "bsonType": "bool",
         },
         "etablissement_formateur_region": {
           "bsonType": [
@@ -5664,22 +5513,10 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
           ],
         },
         "etablissement_formateur_siren": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
+          "bsonType": "string",
         },
         "etablissement_formateur_siret": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "etablissement_formateur_type": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
+          "bsonType": "string",
         },
         "etablissement_formateur_uai": {
           "bsonType": [
@@ -5690,12 +5527,6 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
         "etablissement_gestionnaire_adresse": {
           "bsonType": [
             "string",
-            "null",
-          ],
-        },
-        "etablissement_gestionnaire_catalogue_published": {
-          "bsonType": [
-            "bool",
             "null",
           ],
         },
@@ -5723,31 +5554,7 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
             "null",
           ],
         },
-        "etablissement_gestionnaire_conventionne": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
         "etablissement_gestionnaire_courriel": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "etablissement_gestionnaire_datadock": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "etablissement_gestionnaire_date_creation": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "etablissement_gestionnaire_declare_prefecture": {
           "bsonType": [
             "string",
             "null",
@@ -5760,16 +5567,10 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
           ],
         },
         "etablissement_gestionnaire_entreprise_raison_sociale": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
+          "bsonType": "string",
         },
         "etablissement_gestionnaire_id": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
+          "bsonType": "string",
         },
         "etablissement_gestionnaire_localite": {
           "bsonType": [
@@ -5778,58 +5579,28 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
           ],
         },
         "etablissement_gestionnaire_nom_academie": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
+          "bsonType": "string",
         },
         "etablissement_gestionnaire_nom_departement": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
+          "bsonType": "string",
         },
         "etablissement_gestionnaire_num_academie": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
+          "bsonType": "string",
         },
         "etablissement_gestionnaire_num_departement": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
+          "bsonType": "string",
         },
         "etablissement_gestionnaire_published": {
-          "bsonType": [
-            "bool",
-            "null",
-          ],
+          "bsonType": "bool",
         },
         "etablissement_gestionnaire_region": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
+          "bsonType": "string",
         },
         "etablissement_gestionnaire_siren": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
+          "bsonType": "string",
         },
         "etablissement_gestionnaire_siret": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "etablissement_gestionnaire_type": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
+          "bsonType": "string",
         },
         "etablissement_gestionnaire_uai": {
           "bsonType": [
@@ -5838,10 +5609,7 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
           ],
         },
         "etablissement_reference": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
+          "bsonType": "string",
         },
         "etablissement_reference_certifie_qualite": {
           "bsonType": [
@@ -5862,10 +5630,7 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
           ],
         },
         "etablissement_reference_published": {
-          "bsonType": [
-            "bool",
-            "null",
-          ],
+          "bsonType": "bool",
         },
         "geo_coordonnees_etablissement_formateur": {
           "bsonType": [
@@ -5880,53 +5645,22 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
           ],
         },
         "id_action": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
+          "bsonType": "string",
         },
         "id_certifinfo": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
+          "bsonType": "string",
         },
         "id_formation": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
+          "bsonType": "string",
         },
         "id_rco_formation": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
+          "bsonType": "string",
         },
         "ids_action": {
-          "anyOf": [
-            {
-              "bsonType": "array",
-              "items": {
-                "bsonType": "string",
-              },
-            },
-            {
-              "bsonType": "null",
-            },
-          ],
-        },
-        "info_opcos": {
-          "bsonType": [
-            "number",
-            "null",
-          ],
-        },
-        "info_opcos_intitule": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
+          "bsonType": "array",
+          "items": {
+            "bsonType": "string",
+          },
         },
         "intitule_court": {
           "bsonType": [
@@ -5941,16 +5675,7 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
           ],
         },
         "last_update_at": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "last_update_who": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
+          "bsonType": "string",
         },
         "libelle_court": {
           "anyOf": [
@@ -5973,10 +5698,7 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
           ],
         },
         "lieu_formation_adresse": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
+          "bsonType": "string",
         },
         "lieu_formation_adresse_computed": {
           "bsonType": [
@@ -5988,14 +5710,6 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
           "bsonType": [
             "string",
             "null",
-          ],
-        },
-        "lieu_formation_geopoint": {
-          "anyOf": [
-            {},
-            {
-              "bsonType": "null",
-            },
           ],
         },
         "lieu_formation_siret": {
@@ -6010,43 +5724,14 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
             "null",
           ],
         },
-        "mef_10_code": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "mefs_10": {
-          "anyOf": [
-            {
-              "bsonType": "array",
-              "items": {
-                "bsonType": "string",
-              },
-            },
-            {
-              "bsonType": "null",
-            },
-          ],
-        },
         "modalites_entrees_sorties": {
-          "anyOf": [
-            {
-              "bsonType": "array",
-              "items": {
-                "bsonType": "bool",
-              },
-            },
-            {
-              "bsonType": "null",
-            },
-          ],
+          "bsonType": "array",
+          "items": {
+            "bsonType": "bool",
+          },
         },
         "niveau": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
+          "bsonType": "string",
         },
         "niveau_entree_obligatoire": {
           "bsonType": [
@@ -6055,12 +5740,6 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
           ],
         },
         "niveau_formation_diplome": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "nom": {
           "bsonType": [
             "string",
             "null",
@@ -6139,80 +5818,8 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
             "null",
           ],
         },
-        "opcos": {
-          "anyOf": [
-            {
-              "bsonType": "array",
-              "items": {
-                "bsonType": "string",
-              },
-            },
-            {
-              "bsonType": "null",
-            },
-          ],
-        },
-        "parcoursup_a_charger": {
-          "bsonType": [
-            "bool",
-            "null",
-          ],
-        },
-        "parcoursup_error": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "parcoursup_id": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "parcoursup_raison_depublication": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "parcoursup_reference": {
-          "bsonType": [
-            "bool",
-            "null",
-          ],
-        },
-        "parcoursup_statut": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "parcoursup_statut_history": {
-          "anyOf": [
-            {
-              "bsonType": "array",
-              "items": {
-                "additionalProperties": true,
-                "bsonType": "object",
-              },
-            },
-            {
-              "bsonType": "null",
-            },
-          ],
-        },
         "published": {
-          "bsonType": [
-            "bool",
-            "null",
-          ],
-        },
-        "rco_published": {
-          "bsonType": [
-            "bool",
-            "null",
-          ],
+          "bsonType": "bool",
         },
         "region": {
           "bsonType": [
@@ -6238,32 +5845,6 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
           ],
         },
         "rncp_eligible_apprentissage": {
-          "anyOf": [
-            {
-              "anyOf": [
-                {
-                  "not": {},
-                },
-                {
-                  "bsonType": [
-                    "bool",
-                    "null",
-                  ],
-                },
-              ],
-            },
-            {
-              "bsonType": "null",
-            },
-          ],
-        },
-        "rncp_etablissement_formateur_habilite": {
-          "bsonType": [
-            "bool",
-            "null",
-          ],
-        },
-        "rncp_etablissement_gestionnaire_habilite": {
           "bsonType": [
             "bool",
             "null",
@@ -6288,30 +5869,11 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
             },
           ],
         },
-        "source": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
         "tags": {
-          "anyOf": [
-            {
-              "bsonType": "array",
-              "items": {
-                "bsonType": "string",
-              },
-            },
-            {
-              "bsonType": "null",
-            },
-          ],
-        },
-        "to_update": {
-          "bsonType": [
-            "bool",
-            "null",
-          ],
+          "bsonType": "array",
+          "items": {
+            "bsonType": "string",
+          },
         },
         "uai_formation": {
           "bsonType": [
@@ -6319,31 +5881,112 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
             "null",
           ],
         },
-        "update_error": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "updates_history": {
-          "anyOf": [
-            {
-              "bsonType": "array",
-              "items": {
-                "additionalProperties": true,
-                "bsonType": "object",
-              },
-            },
-            {
-              "bsonType": "null",
-            },
-          ],
-        },
       },
       "required": [
         "_id",
         "cle_ministere_educatif",
         "cfd",
+        "cfd_specialite",
+        "cfd_date_fermeture",
+        "cfd_entree",
+        "nom_academie",
+        "num_academie",
+        "code_postal",
+        "code_commune_insee",
+        "num_departement",
+        "nom_departement",
+        "region",
+        "localite",
+        "intitule_long",
+        "intitule_court",
+        "diplome",
+        "niveau",
+        "onisep_url",
+        "onisep_intitule",
+        "onisep_libelle_poursuite",
+        "onisep_lien_site_onisepfr",
+        "onisep_discipline",
+        "onisep_domaine_sousdomaine",
+        "rncp_code",
+        "rncp_intitule",
+        "rncp_eligible_apprentissage",
+        "rncp_details",
+        "rome_codes",
+        "capacite",
+        "duree",
+        "annee",
+        "email",
+        "published",
+        "created_at",
+        "last_update_at",
+        "lieu_formation_geo_coordonnees",
+        "lieu_formation_adresse",
+        "lieu_formation_adresse_computed",
+        "id_rco_formation",
+        "id_formation",
+        "id_action",
+        "ids_action",
+        "id_certifinfo",
+        "tags",
+        "libelle_court",
+        "niveau_formation_diplome",
+        "bcn_mefs_10",
+        "distance_lieu_formation_etablissement_formateur",
+        "niveau_entree_obligatoire",
+        "entierement_a_distance",
+        "catalogue_published",
+        "contenu",
+        "objectif",
+        "date_debut",
+        "date_fin",
+        "modalites_entrees_sorties",
+        "num_tel",
+        "distance",
+        "etablissement_formateur_id",
+        "etablissement_formateur_siret",
+        "etablissement_formateur_enseigne",
+        "etablissement_formateur_uai",
+        "etablissement_formateur_adresse",
+        "etablissement_formateur_code_postal",
+        "etablissement_formateur_code_commune_insee",
+        "etablissement_formateur_localite",
+        "etablissement_formateur_complement_adresse",
+        "etablissement_formateur_cedex",
+        "etablissement_formateur_entreprise_raison_sociale",
+        "geo_coordonnees_etablissement_formateur",
+        "etablissement_formateur_region",
+        "etablissement_formateur_num_departement",
+        "etablissement_formateur_nom_departement",
+        "etablissement_formateur_nom_academie",
+        "etablissement_formateur_num_academie",
+        "etablissement_formateur_siren",
+        "etablissement_formateur_courriel",
+        "etablissement_formateur_published",
+        "etablissement_formateur_date_creation",
+        "etablissement_gestionnaire_id",
+        "etablissement_gestionnaire_siret",
+        "etablissement_gestionnaire_enseigne",
+        "etablissement_gestionnaire_uai",
+        "etablissement_gestionnaire_adresse",
+        "etablissement_gestionnaire_code_postal",
+        "etablissement_gestionnaire_code_commune_insee",
+        "etablissement_gestionnaire_localite",
+        "etablissement_gestionnaire_complement_adresse",
+        "etablissement_gestionnaire_cedex",
+        "etablissement_gestionnaire_entreprise_raison_sociale",
+        "etablissement_gestionnaire_region",
+        "etablissement_gestionnaire_num_departement",
+        "etablissement_gestionnaire_nom_departement",
+        "etablissement_gestionnaire_nom_academie",
+        "etablissement_gestionnaire_num_academie",
+        "etablissement_gestionnaire_siren",
+        "etablissement_gestionnaire_courriel",
+        "etablissement_gestionnaire_published",
+        "etablissement_reference",
+        "etablissement_reference_published",
+        "etablissement_reference_habilite_rncp",
+        "etablissement_reference_certifie_qualite",
+        "etablissement_reference_date_creation",
       ],
     },
     "date": {

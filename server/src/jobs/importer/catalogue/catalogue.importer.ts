@@ -16,6 +16,11 @@ async function importCatalogueFormations(importDate: Date): Promise<void> {
     new Transform({
       objectMode: true,
       transform(data, _encoding, callback) {
+        if (data.tags?.length === 0) {
+          // Skip formations which has never been published
+          return callback();
+        }
+
         callback(
           null,
           zSourceCatalogue.parse({

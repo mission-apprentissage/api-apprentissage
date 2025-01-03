@@ -5348,17 +5348,39 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
       "additionalProperties": false,
       "bsonType": "object",
       "properties": {
-        "_id": {
-          "bsonType": "string",
-        },
         "annee": {
           "bsonType": "string",
         },
         "bcn_mefs_10": {
           "bsonType": "array",
           "items": {
-            "additionalProperties": true,
+            "additionalProperties": false,
             "bsonType": "object",
+            "properties": {
+              "mef10": {
+                "bsonType": "string",
+              },
+              "modalite": {
+                "additionalProperties": false,
+                "bsonType": "object",
+                "properties": {
+                  "annee": {
+                    "bsonType": "string",
+                  },
+                  "duree": {
+                    "bsonType": "string",
+                  },
+                },
+                "required": [
+                  "duree",
+                  "annee",
+                ],
+              },
+            },
+            "required": [
+              "mef10",
+              "modalite",
+            ],
           },
         },
         "capacite": {
@@ -5372,24 +5394,6 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
         },
         "cfd": {
           "bsonType": "string",
-        },
-        "cfd_date_fermeture": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "cfd_entree": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "cfd_specialite": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
         },
         "cle_ministere_educatif": {
           "bsonType": "string",
@@ -5405,9 +5409,6 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
             "string",
             "null",
           ],
-        },
-        "created_at": {
-          "bsonType": "string",
         },
         "date_debut": {
           "anyOf": [
@@ -5435,16 +5436,7 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
             },
           ],
         },
-        "diplome": {
-          "bsonType": "string",
-        },
         "distance": {
-          "bsonType": [
-            "number",
-            "null",
-          ],
-        },
-        "distance_lieu_formation_etablissement_formateur": {
           "bsonType": [
             "number",
             "null",
@@ -5462,99 +5454,6 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
         "entierement_a_distance": {
           "bsonType": "bool",
         },
-        "etablissement_formateur_adresse": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "etablissement_formateur_cedex": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "etablissement_formateur_code_commune_insee": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "etablissement_formateur_code_postal": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "etablissement_formateur_complement_adresse": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "etablissement_formateur_courriel": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "etablissement_formateur_date_creation": {
-          "bsonType": "string",
-        },
-        "etablissement_formateur_enseigne": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "etablissement_formateur_entreprise_raison_sociale": {
-          "bsonType": "string",
-        },
-        "etablissement_formateur_id": {
-          "bsonType": "string",
-        },
-        "etablissement_formateur_localite": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "etablissement_formateur_nom_academie": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "etablissement_formateur_nom_departement": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "etablissement_formateur_num_academie": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "etablissement_formateur_num_departement": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "etablissement_formateur_published": {
-          "bsonType": "bool",
-        },
-        "etablissement_formateur_region": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "etablissement_formateur_siren": {
-          "bsonType": "string",
-        },
         "etablissement_formateur_siret": {
           "bsonType": "string",
         },
@@ -5563,81 +5462,6 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
             "string",
             "null",
           ],
-        },
-        "etablissement_gestionnaire_adresse": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "etablissement_gestionnaire_cedex": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "etablissement_gestionnaire_code_commune_insee": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "etablissement_gestionnaire_code_postal": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "etablissement_gestionnaire_complement_adresse": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "etablissement_gestionnaire_courriel": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "etablissement_gestionnaire_enseigne": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "etablissement_gestionnaire_entreprise_raison_sociale": {
-          "bsonType": "string",
-        },
-        "etablissement_gestionnaire_id": {
-          "bsonType": "string",
-        },
-        "etablissement_gestionnaire_localite": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "etablissement_gestionnaire_nom_academie": {
-          "bsonType": "string",
-        },
-        "etablissement_gestionnaire_nom_departement": {
-          "bsonType": "string",
-        },
-        "etablissement_gestionnaire_num_academie": {
-          "bsonType": "string",
-        },
-        "etablissement_gestionnaire_num_departement": {
-          "bsonType": "string",
-        },
-        "etablissement_gestionnaire_published": {
-          "bsonType": "bool",
-        },
-        "etablissement_gestionnaire_region": {
-          "bsonType": "string",
-        },
-        "etablissement_gestionnaire_siren": {
-          "bsonType": "string",
         },
         "etablissement_gestionnaire_siret": {
           "bsonType": "string",
@@ -5648,162 +5472,19 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
             "null",
           ],
         },
-        "etablissement_reference": {
-          "bsonType": "string",
-        },
-        "etablissement_reference_certifie_qualite": {
-          "bsonType": [
-            "bool",
-            "null",
-          ],
-        },
-        "etablissement_reference_date_creation": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "etablissement_reference_habilite_rncp": {
-          "bsonType": [
-            "bool",
-            "null",
-          ],
-        },
-        "etablissement_reference_published": {
-          "bsonType": "bool",
-        },
-        "geo_coordonnees_etablissement_formateur": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "geo_coordonnees_etablissement_gestionnaire": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "id_action": {
-          "bsonType": "string",
-        },
-        "id_certifinfo": {
-          "bsonType": "string",
-        },
-        "id_formation": {
-          "bsonType": "string",
-        },
-        "id_rco_formation": {
-          "bsonType": "string",
-        },
-        "ids_action": {
-          "bsonType": "array",
-          "items": {
-            "bsonType": "string",
-          },
-        },
-        "intitule_court": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "intitule_long": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "last_update_at": {
-          "bsonType": "string",
-        },
-        "libelle_court": {
-          "anyOf": [
-            {
-              "anyOf": [
-                {
-                  "bsonType": "string",
-                },
-                {
-                  "bsonType": "array",
-                  "items": {
-                    "bsonType": "string",
-                  },
-                },
-              ],
-            },
-            {
-              "bsonType": "null",
-            },
-          ],
-        },
         "lieu_formation_adresse": {
           "bsonType": "string",
         },
-        "lieu_formation_adresse_computed": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
         "lieu_formation_geo_coordonnees": {
+          "bsonType": "string",
+        },
+        "lieu_formation_geo_coordonnees_computed": {
           "bsonType": [
             "string",
             "null",
           ],
         },
         "lieu_formation_siret": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "localite": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "modalites_entrees_sorties": {
-          "bsonType": "array",
-          "items": {
-            "bsonType": "bool",
-          },
-        },
-        "niveau": {
-          "bsonType": "string",
-        },
-        "niveau_entree_obligatoire": {
-          "bsonType": [
-            "number",
-            "null",
-          ],
-        },
-        "niveau_formation_diplome": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "nom_academie": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "nom_departement": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "num_academie": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "num_departement": {
           "bsonType": [
             "string",
             "null",
@@ -5861,52 +5542,10 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
         "published": {
           "bsonType": "bool",
         },
-        "region": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
         "rncp_code": {
           "bsonType": [
             "string",
             "null",
-          ],
-        },
-        "rncp_details": {
-          "anyOf": [
-            {
-              "additionalProperties": true,
-              "bsonType": "object",
-            },
-            {
-              "bsonType": "null",
-            },
-          ],
-        },
-        "rncp_eligible_apprentissage": {
-          "bsonType": [
-            "bool",
-            "null",
-          ],
-        },
-        "rncp_intitule": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "rome_codes": {
-          "anyOf": [
-            {
-              "bsonType": "array",
-              "items": {
-                "bsonType": "string",
-              },
-            },
-            {
-              "bsonType": "null",
-            },
           ],
         },
         "tags": {
@@ -5915,32 +5554,12 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
             "bsonType": "string",
           },
         },
-        "uai_formation": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
       },
       "required": [
-        "_id",
         "cle_ministere_educatif",
         "cfd",
-        "cfd_specialite",
-        "cfd_date_fermeture",
-        "cfd_entree",
-        "nom_academie",
-        "num_academie",
         "code_postal",
         "code_commune_insee",
-        "num_departement",
-        "nom_departement",
-        "region",
-        "localite",
-        "intitule_long",
-        "intitule_court",
-        "diplome",
-        "niveau",
         "onisep_url",
         "onisep_intitule",
         "onisep_libelle_poursuite",
@@ -5948,85 +5567,28 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
         "onisep_discipline",
         "onisep_domaine_sousdomaine",
         "rncp_code",
-        "rncp_intitule",
-        "rncp_eligible_apprentissage",
-        "rncp_details",
-        "rome_codes",
         "capacite",
         "duree",
         "annee",
         "email",
-        "published",
-        "created_at",
-        "last_update_at",
         "lieu_formation_geo_coordonnees",
+        "lieu_formation_geo_coordonnees_computed",
         "lieu_formation_adresse",
-        "lieu_formation_adresse_computed",
-        "id_rco_formation",
-        "id_formation",
-        "id_action",
-        "ids_action",
-        "id_certifinfo",
         "tags",
-        "libelle_court",
-        "niveau_formation_diplome",
         "bcn_mefs_10",
-        "distance_lieu_formation_etablissement_formateur",
-        "niveau_entree_obligatoire",
         "entierement_a_distance",
-        "catalogue_published",
         "contenu",
         "objectif",
         "date_debut",
         "date_fin",
-        "modalites_entrees_sorties",
         "num_tel",
         "distance",
-        "etablissement_formateur_id",
+        "catalogue_published",
+        "published",
         "etablissement_formateur_siret",
-        "etablissement_formateur_enseigne",
         "etablissement_formateur_uai",
-        "etablissement_formateur_adresse",
-        "etablissement_formateur_code_postal",
-        "etablissement_formateur_code_commune_insee",
-        "etablissement_formateur_localite",
-        "etablissement_formateur_complement_adresse",
-        "etablissement_formateur_cedex",
-        "etablissement_formateur_entreprise_raison_sociale",
-        "geo_coordonnees_etablissement_formateur",
-        "etablissement_formateur_region",
-        "etablissement_formateur_num_departement",
-        "etablissement_formateur_nom_departement",
-        "etablissement_formateur_nom_academie",
-        "etablissement_formateur_num_academie",
-        "etablissement_formateur_siren",
-        "etablissement_formateur_courriel",
-        "etablissement_formateur_published",
-        "etablissement_formateur_date_creation",
-        "etablissement_gestionnaire_id",
         "etablissement_gestionnaire_siret",
-        "etablissement_gestionnaire_enseigne",
         "etablissement_gestionnaire_uai",
-        "etablissement_gestionnaire_adresse",
-        "etablissement_gestionnaire_code_postal",
-        "etablissement_gestionnaire_code_commune_insee",
-        "etablissement_gestionnaire_localite",
-        "etablissement_gestionnaire_complement_adresse",
-        "etablissement_gestionnaire_cedex",
-        "etablissement_gestionnaire_entreprise_raison_sociale",
-        "etablissement_gestionnaire_region",
-        "etablissement_gestionnaire_num_departement",
-        "etablissement_gestionnaire_nom_departement",
-        "etablissement_gestionnaire_nom_academie",
-        "etablissement_gestionnaire_num_academie",
-        "etablissement_gestionnaire_siren",
-        "etablissement_gestionnaire_courriel",
-        "etablissement_gestionnaire_published",
-        "etablissement_reference",
-        "etablissement_reference_published",
-        "etablissement_reference_habilite_rncp",
-        "etablissement_reference_certifie_qualite",
-        "etablissement_reference_date_creation",
       ],
     },
     "date": {

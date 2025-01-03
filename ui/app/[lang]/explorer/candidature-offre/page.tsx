@@ -45,7 +45,6 @@ export default async function CandidatureOffrePage({ params: { lang } }: PropsWi
         dangerousHtmlDescriptions={[
           t("candidatureOffre.summary_1", { lang: lang }),
           t("candidatureOffre.summary_2", { lang: lang }),
-          t("candidatureOffre.summary_3", { lang: lang }),
         ]}
         frequenceMiseAJour={null}
       />

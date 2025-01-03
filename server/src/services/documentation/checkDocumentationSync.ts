@@ -16,7 +16,7 @@ const OPERATION_MAPPING: Record<string, string> = {
   "get:/job/v1/search": "get:/v3/jobs/search",
   "post:/job/v1/offer": "post:/v3/jobs",
   "put:/job/v1/offer/{id}": "put:/v3/jobs/{id}",
-  "post:/job/v1/apply": "post:/v2/applicationh",
+  "post:/job/v1/apply": "post:/v2/application",
 };
 
 async function dereferenceSchema(data: OpenAPIObject): Promise<OpenAPIObject> {
@@ -76,7 +76,9 @@ async function fetchLbaOperations(): Promise<Operation[]> {
     throw new Error("Unsupported OpenAPI version");
   }
 
-  return getOperations(doc.paths).filter((op) => op.path.startsWith("/v3/jobs"));
+  const operations = Object.values(OPERATION_MAPPING);
+
+  return getOperations(doc.paths).filter((op) => operations.includes(op.id));
 }
 
 async function buildApiOpenapiPathItems(): Promise<Operation[]> {
@@ -88,7 +90,7 @@ async function buildApiOpenapiPathItems(): Promise<Operation[]> {
     throw new Error("Unsupported OpenAPI version");
   }
 
-  return getOperations(doc.paths).filter((op) => op.path.startsWith("/job/v1"));
+  return getOperations(doc.paths).filter((op) => op.id in OPERATION_MAPPING);
 }
 
 function structureDiff(

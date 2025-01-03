@@ -1,5 +1,6 @@
 import type { OpenApiBuilder, SchemaObject } from "openapi3-ts/oas31";
 
+import { applicationModelDoc } from "../../docs/models/job/application.model.doc.js";
 import { offerReadModelDoc } from "../../docs/models/job/offer_read.model.doc.js";
 import { offerWriteModelDoc } from "../../docs/models/job/offer_write.model.doc.js";
 import { recruiterModelDoc } from "../../docs/models/job/recruiter.model.doc.js";
@@ -115,6 +116,9 @@ const recruiterSchema = {
           type: "string",
           format: "uri",
         },
+        recipient_id: {
+          type: ["string", "null"],
+        },
       },
       required: ["phone", "url"],
     },
@@ -129,7 +133,7 @@ const offerReadSchema = {
       type: "object",
       properties: {
         partner_job_id: {
-          type: ["string", "null"],
+          type: "string",
         },
         id: {
           type: ["string", "null"],
@@ -257,10 +261,6 @@ const offerReadSchema = {
 const offerWriteSchema = {
   type: "object",
   properties: {
-    identifier: {
-      type: "object",
-      properties: pickPropertiesOpenAPI(offerReadSchema.properties.identifier.properties, ["partner_job_id"]),
-    },
     workplace: {
       type: "object",
       properties: {
@@ -398,24 +398,13 @@ const applicationWriteSchema = {
       minLength: 1,
       pattern: "((.*?))(\\.)+([Dd][Oo][Cc][Xx]|[Pp][Dd][Ff])$",
     },
-    job_searched_by_user: {
-      type: ["string", "null"],
-      description: "Métier recherché par le candidat",
-    },
-    caller: {
-      type: ["string", "null"],
-      description: "L'identification de la source d'émission de la candidature (pour widget et api)",
-    },
     applicant_message: {
       type: ["string", "null"],
-      description:
-        "Un message du candidat vers le recruteur. Ce champ peut contenir la lettre de motivation du candidat.",
     },
     applicant_attachment_content: {
       type: "string",
       maxLength: 4215276,
       format: "byte",
-      description: "Le contenu du fichier du CV du candidat. La taille maximale autorisée est de 3 Mo.",
     },
     recipient_id: {
       type: "string",
@@ -440,5 +429,5 @@ export function registerOpenApiJobModel(builder: OpenApiBuilder, lang: "en" | "f
     .addSchema("JobRecruiter", addSchemaModelDoc(recruiterSchema, recruiterModelDoc, lang))
     .addSchema("JobOfferRead", addSchemaModelDoc(offerReadSchema, offerReadModelDoc, lang))
     .addSchema("JobOfferWrite", addSchemaModelDoc(offerWriteSchema, offerWriteModelDoc, lang))
-    .addSchema("JobApplicationWrite", addSchemaModelDoc(applicationWriteSchema, offerWriteModelDoc, lang));
+    .addSchema("JobApplicationWrite", addSchemaModelDoc(applicationWriteSchema, applicationModelDoc, lang));
 }

@@ -17,17 +17,6 @@ export const offerWriteModelDoc = {
   description: { en: null, fr: "Offre d'emploi" },
   sources,
   sections: {
-    identifier: {
-      name: offerReadModelDoc.sections.identifier.name,
-      _: {
-        identifier: {
-          ...offerReadModelDoc.sections.identifier._.identifier,
-          _: {
-            partner_job_id: offerReadModelDoc.sections.identifier._.identifier._.partner_job_id,
-          },
-        },
-      },
-    },
     contract: offerReadModelDoc.sections.contract,
     offer: {
       name: offerReadModelDoc.sections.offer.name,

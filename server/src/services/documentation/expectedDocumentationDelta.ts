@@ -32,6 +32,17 @@ export const expectedDocumentationDelta: Record<string, StructuredDiff> = {
       apiValue: "string",
       sourceValue: ["string", "null"],
     },
+    "responses.200.content.application/json.schema.properties.recruiters.items.properties.identifier.properties.id": {
+      type: "removed",
+      apiValue: {
+        _: "schema",
+        type: "string",
+      },
+    },
+    "responses.200.content.application/json.schema.properties.recruiters.items.properties.identifier.required": {
+      type: "removed",
+      apiValue: ["id"],
+    },
     "responses.200.content.application/json.schema.properties.jobs.items.properties.workplace.properties.domain.properties.opco.enum":
       {
         type: "added",
@@ -72,10 +83,6 @@ export const expectedDocumentationDelta: Record<string, StructuredDiff> = {
       },
   },
   "post:/job/v1/offer": {
-    "requestBody.content.application/json.schema.properties.identifier.default": {
-      type: "added",
-      sourceValue: {},
-    },
     "requestBody.content.application/json.schema.properties.workplace.properties.location.default": {
       type: "added",
       sourceValue: {},
@@ -117,10 +124,6 @@ export const expectedDocumentationDelta: Record<string, StructuredDiff> = {
         type: "string",
       },
     },
-    "requestBody.content.application/json.schema.properties.identifier.default": {
-      type: "added",
-      sourceValue: {},
-    },
     "requestBody.content.application/json.schema.properties.workplace.properties.location.default": {
       type: "added",
       sourceValue: {},
@@ -147,6 +150,12 @@ export const expectedDocumentationDelta: Record<string, StructuredDiff> = {
           },
         },
       },
+    },
+  },
+  "post:/job/v1/apply": {
+    "requestBody.content.application/json.schema.properties.applicant_attachment_content.format": {
+      type: "removed",
+      apiValue: "byte",
     },
   },
 };

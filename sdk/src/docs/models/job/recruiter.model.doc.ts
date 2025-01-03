@@ -161,6 +161,12 @@ export const recruiterModelDoc = {
           description: { en: applyDescEn, fr: applyDescFr },
           tags: [],
           _: {
+            recipient_id: {
+              description: {
+                en: "Identifier to use for applying to the job offer using /v3/jobs/apply route",
+                fr: null,
+              },
+            },
             phone: {
               description: { en: "Recruiter's phone number", fr: null },
               notes: {

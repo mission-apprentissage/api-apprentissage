@@ -1439,6 +1439,44 @@ exports[`zodToMongoSchema > should convert commune schema 1`] = `
         "nom",
       ],
     },
+    "anciennes": {
+      "bsonType": "array",
+      "items": {
+        "additionalProperties": false,
+        "bsonType": "object",
+        "properties": {
+          "codeInsee": {
+            "bsonType": "string",
+          },
+          "nom": {
+            "bsonType": "string",
+          },
+        },
+        "required": [
+          "nom",
+          "codeInsee",
+        ],
+      },
+    },
+    "arrondissements": {
+      "bsonType": "array",
+      "items": {
+        "additionalProperties": false,
+        "bsonType": "object",
+        "properties": {
+          "code": {
+            "bsonType": "string",
+          },
+          "nom": {
+            "bsonType": "string",
+          },
+        },
+        "required": [
+          "code",
+          "nom",
+        ],
+      },
+    },
     "code": {
       "additionalProperties": false,
       "bsonType": "object",
@@ -1699,6 +1737,8 @@ exports[`zodToMongoSchema > should convert commune schema 1`] = `
   "required": [
     "nom",
     "code",
+    "anciennes",
+    "arrondissements",
     "departement",
     "region",
     "academie",

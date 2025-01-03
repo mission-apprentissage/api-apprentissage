@@ -18,6 +18,28 @@ const communeSchema = {
       },
       required: ["insee", "postaux"],
     },
+    anciennes: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          codeInsee: { type: "string" },
+          nom: { type: "string" },
+        },
+        required: ["codeInsee", "nom"],
+      },
+    },
+    arrondissements: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          code: { type: "string" },
+          nom: { type: "string" },
+        },
+        required: ["code", "nom"],
+      },
+    },
     region: {
       type: "object",
       properties: {
@@ -92,7 +114,17 @@ const communeSchema = {
       anyOf: [{ type: "null" }, { $ref: "#/components/schemas/MissionLocale" }],
     },
   },
-  required: ["nom", "code", "departement", "academie", "region", "localisation", "mission_locale"],
+  required: [
+    "nom",
+    "code",
+    "departement",
+    "academie",
+    "region",
+    "localisation",
+    "mission_locale",
+    "arrondissements",
+    "anciennes",
+  ],
 } as const satisfies SchemaObject;
 
 export function registerOpenApiCommuneModel(builder: OpenApiBuilder, lang: "en" | "fr"): OpenApiBuilder {

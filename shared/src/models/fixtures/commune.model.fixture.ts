@@ -1,7 +1,7 @@
 import { ObjectId } from "bson";
 
 import type { ISourceGeoCommune, ISourceGeoDepartement, ISourceGeoRegion } from "../../apis/geo_gouv.js";
-import type { IInseeCollectiviteOutreMer } from "../../apis/insee.js";
+import type { IInseeItem } from "../../apis/insee.js";
 import type { ISourceMissionLocale, ISourceUnmlPayload } from "../../apis/unml.js";
 import { zSourceMissionLocale } from "../../apis/unml.js";
 import type { ICommuneInternal } from "../commune.model.js";
@@ -22,7 +22,7 @@ export const sourceRegionExtendedFixtures: ISourceGeoRegion[] = [
   { nom: "Île de Clipperton", code: "989" },
 ];
 
-export const inseeCollectiviteFixtures: IInseeCollectiviteOutreMer[] = [
+export const inseeCollectiviteFixtures: IInseeItem[] = [
   {
     code: "975",
     intitule: "Saint-Pierre-et-Miquelon",
@@ -32,6 +32,20 @@ export const inseeCollectiviteFixtures: IInseeCollectiviteOutreMer[] = [
     intitule: "La Passion-Clipperton",
   },
 ];
+
+export const inseeArrondissementFixtures: Record<string, IInseeItem[]> = {
+  "75056": [
+    { code: "75101", intitule: "Paris 1er Arrondissement" },
+    { code: "75120", intitule: "Paris 20e Arrondissement" },
+  ],
+};
+
+export const inseeAnciennesFixtures: Record<string, IInseeItem[]> = {
+  "77002": [
+    { code: "77166", intitule: "Écuelles" },
+    { code: "77170", intitule: "Épisy" },
+  ],
+};
 
 export const sourceDepartementFixtures = {
   "11": [
@@ -612,6 +626,16 @@ export const communeFixtures: ICommuneInternal[] = Object.values(sourceCommuneFi
         bbox: sourceCommune.bbox,
       },
       mission_locale: mlParCp == null ? null : getMissionLocaleFixtureFromSource(mlParCp.structure),
+      arrondissements:
+        inseeArrondissementFixtures[sourceCommune.code]?.map((item) => ({
+          code: item.code,
+          nom: item.intitule,
+        })) ?? [],
+      anciennes:
+        inseeAnciennesFixtures[sourceCommune.code]?.map((item) => ({
+          codeInsee: item.code,
+          nom: item.intitule,
+        })) ?? [],
       updated_at: new Date(),
       created_at: new Date(),
     };

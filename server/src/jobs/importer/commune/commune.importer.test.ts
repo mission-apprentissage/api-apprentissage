@@ -2,6 +2,8 @@ import { useMongo } from "@tests/mongo.test.utils.js";
 import { ObjectId } from "mongodb";
 import {
   academieFixtures,
+  inseeAnciennesFixtures,
+  inseeArrondissementFixtures,
   inseeCollectiviteFixtures,
   sourceCommuneFixtures,
   sourceDepartementFixtures,
@@ -13,7 +15,11 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { fetchAcademies } from "@/services/apis/enseignementSup/enseignementSup.js";
 import { fetchGeoCommunes, fetchGeoDepartements, fetchGeoRegion, fetchGeoRegions } from "@/services/apis/geo/geo.js";
-import { fetchCollectivitesOutreMer } from "@/services/apis/insee/insee.js";
+import {
+  fetchAnciennesCommuneByCodeCommune,
+  fetchArrondissementIndexedByCodeCommune,
+  fetchCollectivitesOutreMer,
+} from "@/services/apis/insee/insee.js";
 import { fetchDepartementMissionLocale } from "@/services/apis/unml/unml.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
@@ -54,6 +60,8 @@ describe("runCommuneImporter", () => {
     );
     vi.mocked(fetchCollectivitesOutreMer).mockResolvedValue(inseeCollectiviteFixtures);
     vi.mocked(fetchAcademies).mockResolvedValue(academieFixtures);
+    vi.mocked(fetchArrondissementIndexedByCodeCommune).mockResolvedValue(inseeArrondissementFixtures);
+    vi.mocked(fetchAnciennesCommuneByCodeCommune).mockResolvedValue(inseeAnciennesFixtures);
 
     await runCommuneImporter();
 
@@ -114,6 +122,8 @@ describe("runCommuneImporter", () => {
           },
         },
         mission_locale: null,
+        arrondissements: [],
+        anciennes: [],
         updated_at: yesterday,
         created_at: yesterday,
       }))
@@ -150,6 +160,8 @@ describe("runCommuneImporter", () => {
         },
       },
       mission_locale: null,
+      arrondissements: [],
+      anciennes: [],
       updated_at: yesterday,
       created_at: yesterday,
     });
@@ -174,7 +186,10 @@ describe("runCommuneImporter", () => {
       async (codeDepartement: string) =>
         sourceUnmlResultsFixtures[codeDepartement as keyof typeof sourceUnmlResultsFixtures]
     );
+    vi.mocked(fetchCollectivitesOutreMer).mockResolvedValue(inseeCollectiviteFixtures);
     vi.mocked(fetchAcademies).mockResolvedValue(academieFixtures);
+    vi.mocked(fetchArrondissementIndexedByCodeCommune).mockResolvedValue(inseeArrondissementFixtures);
+    vi.mocked(fetchAnciennesCommuneByCodeCommune).mockResolvedValue(inseeAnciennesFixtures);
 
     await runCommuneImporter();
 

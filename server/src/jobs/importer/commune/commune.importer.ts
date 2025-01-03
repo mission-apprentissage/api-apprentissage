@@ -7,7 +7,11 @@ import type { ICommuneInternal } from "shared/models/commune.model";
 
 import { fetchAcademies } from "@/services/apis/enseignementSup/enseignementSup.js";
 import { fetchGeoCommunes, fetchGeoDepartements, fetchGeoRegion, fetchGeoRegions } from "@/services/apis/geo/geo.js";
-import { fetchCollectivitesOutreMer } from "@/services/apis/insee/insee.js";
+import {
+  fetchAnciennesCommuneByCodeCommune,
+  fetchArrondissementIndexedByCodeCommune,
+  fetchCollectivitesOutreMer,
+} from "@/services/apis/insee/insee.js";
 import { fetchDepartementMissionLocale } from "@/services/apis/unml/unml.js";
 import { withCause } from "@/services/errors/withCause.js";
 import parentLogger from "@/services/logger.js";
@@ -65,12 +69,14 @@ export async function runCommuneImporter() {
       status: "pending",
     });
 
-    const [regions, collectivites, academies] = await Promise.all([
+    const [regions, collectivites, academies, arrondissementsInsee, anciennes] = await Promise.all([
       fetchGeoRegions(),
       fetchCollectivitesOutreMer().then(async (collectivites) =>
         Promise.all(collectivites.map((c) => fetchGeoRegion(c.code)))
       ),
       fetchAcademies(),
+      fetchArrondissementIndexedByCodeCommune(),
+      fetchAnciennesCommuneByCodeCommune(),
     ]);
 
     const academieByDep = new Map<string, ICommune["academie"]>();
@@ -96,11 +102,18 @@ export async function runCommuneImporter() {
 
         const academie = academieByDep.get(departement.code);
         if (!academie) {
-          throw internal("import.comunnes: unable to find academy for departement", { departement });
+          throw internal("import.communes: unable to find academy for departement", { departement });
         }
 
         const communes: ICommune[] = [];
         for (const geoCommune of geoCommunes) {
+          const arrondissements =
+            arrondissementsInsee[geoCommune.code]?.map(({ code, intitule }) => {
+              return {
+                code,
+                nom: intitule,
+              };
+            }) ?? [];
           const sourceMl = findCommuneMissionLocale(geoCommune, missionLocalePayload);
           const mission_locale: ICommune["mission_locale"] =
             sourceMl == null
@@ -135,6 +148,9 @@ export async function runCommuneImporter() {
               nom: departement.nom,
               codeInsee: departement.code,
             },
+            anciennes:
+              anciennes[geoCommune.code]?.map(({ code, intitule }) => ({ codeInsee: code, nom: intitule })) ?? [],
+            arrondissements,
             region: {
               codeInsee: region.code,
               nom: region.nom,
@@ -185,6 +201,6 @@ export async function runCommuneImporter() {
     return { status: "done" };
   } catch (error) {
     await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "failed" } });
-    throw withCause(internal("import.comunnes: unable to runCommuneImporter"), error, "fatal");
+    throw withCause(internal("import.communes: unable to runCommuneImporter"), error, "fatal");
   }
 }

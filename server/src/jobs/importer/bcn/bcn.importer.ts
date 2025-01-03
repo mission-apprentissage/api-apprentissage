@@ -116,12 +116,18 @@ async function importBcnSource(source: ISourceBcn["source"], date: Date): Promis
       })
     );
 
+    const count = await getDbCollection("source.bcn").countDocuments({ date, source });
+
+    if (count === 0) {
+      throw internal("import.bcn: no data imported", { source });
+    }
+
     await getDbCollection("source.bcn").deleteMany({
       source,
       date: { $ne: date },
     });
 
-    return await getDbCollection("source.bcn").countDocuments({ date, source });
+    return count;
   } catch (error) {
     await getDbCollection("source.bcn").deleteMany({ date });
     throw withCause(internal("import.bcn: unable to importBcnSource", { source }), error);

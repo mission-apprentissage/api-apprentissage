@@ -35,12 +35,16 @@ function getTextOpenAPI<T extends OpenApiText | null | undefined>(
 }
 
 function getDocOpenAPIAttributes(
-  field: DocTechnicalField | DocBusinessField,
+  field: DocTechnicalField | DocBusinessField | undefined,
   lang: "en" | "fr"
 ): {
   description?: string;
   examples?: unknown[];
 } {
+  if (!field) {
+    return {};
+  }
+
   const description: string[] = [];
 
   if (field.description) {
@@ -101,7 +105,7 @@ function addSchemaModelDoc<T extends SchemaObject | ReferenceObject | undefined>
 
 function addSchemaDoc<T extends SchemaObject | ReferenceObject | undefined>(
   schema: T,
-  doc: DocTechnicalField,
+  doc: DocTechnicalField | undefined,
   lang: "en" | "fr"
 ): T {
   if (!schema || "$ref" in schema) {
@@ -110,7 +114,7 @@ function addSchemaDoc<T extends SchemaObject | ReferenceObject | undefined>(
 
   const output: SchemaObject = { ...schema, ...getDocOpenAPIAttributes(doc, lang) };
 
-  const docProperties = doc._;
+  const docProperties = doc?._;
 
   if (output.properties && docProperties) {
     output.properties = Object.entries(output.properties).reduce(

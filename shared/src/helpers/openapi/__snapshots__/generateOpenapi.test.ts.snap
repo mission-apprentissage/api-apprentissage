@@ -2020,6 +2020,48 @@ Notes:
             ],
             "type": "object",
           },
+          "anciennes": {
+            "description": "Anciennes communes fusionnées",
+            "items": {
+              "properties": {
+                "codeInsee": {
+                  "description": "Code INSEE de l'ancienne commune",
+                  "type": "string",
+                },
+                "nom": {
+                  "description": "Nom de l'ancienne commune",
+                  "type": "string",
+                },
+              },
+              "required": [
+                "codeInsee",
+                "nom",
+              ],
+              "type": "object",
+            },
+            "type": "array",
+          },
+          "arrondissements": {
+            "description": "Arrondissements de la commune",
+            "items": {
+              "properties": {
+                "code": {
+                  "description": "Code INSEE de l'arrondissement",
+                  "type": "string",
+                },
+                "nom": {
+                  "description": "Nom de l'arrondissement",
+                  "type": "string",
+                },
+              },
+              "required": [
+                "code",
+                "nom",
+              ],
+              "type": "object",
+            },
+            "type": "array",
+          },
           "code": {
             "description": "Code INSEE et postaux de la commune
 
@@ -2304,6 +2346,8 @@ Les champs \`centre\` et \`bbox\` sont tous les deux au format [GeoJSON](https:/
           "region",
           "localisation",
           "mission_locale",
+          "arrondissements",
+          "anciennes",
         ],
         "type": "object",
       },
@@ -7204,6 +7248,48 @@ Notes:
                         ],
                         "type": "object",
                       },
+                      "anciennes": {
+                        "description": "Anciennes communes fusionnées",
+                        "items": {
+                          "properties": {
+                            "codeInsee": {
+                              "description": "Code INSEE de l'ancienne commune",
+                              "type": "string",
+                            },
+                            "nom": {
+                              "description": "Nom de l'ancienne commune",
+                              "type": "string",
+                            },
+                          },
+                          "required": [
+                            "codeInsee",
+                            "nom",
+                          ],
+                          "type": "object",
+                        },
+                        "type": "array",
+                      },
+                      "arrondissements": {
+                        "description": "Arrondissements de la commune",
+                        "items": {
+                          "properties": {
+                            "code": {
+                              "description": "Code INSEE de l'arrondissement",
+                              "type": "string",
+                            },
+                            "nom": {
+                              "description": "Nom de l'arrondissement",
+                              "type": "string",
+                            },
+                          },
+                          "required": [
+                            "code",
+                            "nom",
+                          ],
+                          "type": "object",
+                        },
+                        "type": "array",
+                      },
                       "code": {
                         "description": "Code INSEE et postaux de la commune
 
@@ -7488,6 +7574,8 @@ Les champs \`centre\` et \`bbox\` sont tous les deux au format [GeoJSON](https:/
                       "region",
                       "localisation",
                       "mission_locale",
+                      "arrondissements",
+                      "anciennes",
                     ],
                     "type": "object",
                   },

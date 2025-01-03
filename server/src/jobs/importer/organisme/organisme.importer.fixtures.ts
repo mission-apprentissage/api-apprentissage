@@ -252,6 +252,8 @@ export const communesFixture: ICommuneInternal[] = [
       codeInsee: "32",
       nom: "Hauts-de-France",
     },
+    arrondissements: [],
+    anciennes: [],
     updated_at: new Date("2024-12-18"),
   },
   {
@@ -312,6 +314,8 @@ export const communesFixture: ICommuneInternal[] = [
       codeInsee: "53",
       nom: "Bretagne",
     },
+    arrondissements: [],
+    anciennes: [],
     updated_at: new Date("2024-12-18"),
   },
   {
@@ -354,6 +358,8 @@ export const communesFixture: ICommuneInternal[] = [
       codeInsee: "32",
       nom: "Hauts-de-France",
     },
+    arrondissements: [],
+    anciennes: [],
     updated_at: new Date("2024-12-18T12:23:53.852Z"),
   },
 ];

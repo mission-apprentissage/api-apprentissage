@@ -8,6 +8,8 @@ exports[`runCommuneImporter > should import communes with existing regions and d
       "id": "A18",
       "nom": "Orléans-Tours",
     },
+    "anciennes": [],
+    "arrondissements": [],
     "code": {
       "insee": "18001",
       "postaux": [
@@ -69,6 +71,8 @@ exports[`runCommuneImporter > should import communes with existing regions and d
       "id": "A18",
       "nom": "Orléans-Tours",
     },
+    "anciennes": [],
+    "arrondissements": [],
     "code": {
       "insee": "18002",
       "postaux": [
@@ -130,6 +134,8 @@ exports[`runCommuneImporter > should import communes with existing regions and d
       "id": "A18",
       "nom": "Orléans-Tours",
     },
+    "anciennes": [],
+    "arrondissements": [],
     "code": {
       "insee": "41001",
       "postaux": [
@@ -191,6 +197,8 @@ exports[`runCommuneImporter > should import communes with existing regions and d
       "id": "A18",
       "nom": "Orléans-Tours",
     },
+    "anciennes": [],
+    "arrondissements": [],
     "code": {
       "insee": "45001",
       "postaux": [
@@ -252,6 +260,17 @@ exports[`runCommuneImporter > should import communes with existing regions and d
       "id": "A01",
       "nom": "Paris",
     },
+    "anciennes": [],
+    "arrondissements": [
+      {
+        "code": "75101",
+        "nom": "Paris 1er Arrondissement",
+      },
+      {
+        "code": "75120",
+        "nom": "Paris 20e Arrondissement",
+      },
+    ],
     "code": {
       "insee": "75056",
       "postaux": [
@@ -354,6 +373,8 @@ exports[`runCommuneImporter > should import communes with existing regions and d
       "id": "A24",
       "nom": "Créteil",
     },
+    "anciennes": [],
+    "arrondissements": [],
     "code": {
       "insee": "77001",
       "postaux": [
@@ -436,6 +457,17 @@ exports[`runCommuneImporter > should import communes with existing regions and d
       "id": "A24",
       "nom": "Créteil",
     },
+    "anciennes": [
+      {
+        "codeInsee": "77166",
+        "nom": "Écuelles",
+      },
+      {
+        "codeInsee": "77170",
+        "nom": "Épisy",
+      },
+    ],
+    "arrondissements": [],
     "code": {
       "insee": "77002",
       "postaux": [
@@ -497,6 +529,8 @@ exports[`runCommuneImporter > should import communes with existing regions and d
       "id": "A44",
       "nom": "Saint-Pierre-et-Miquelon",
     },
+    "anciennes": [],
+    "arrondissements": [],
     "code": {
       "insee": "98801",
       "postaux": [
@@ -558,6 +592,8 @@ exports[`runCommuneImporter > should import communes with existing regions and d
       "id": "A41",
       "nom": "Polynésie Française",
     },
+    "anciennes": [],
+    "arrondissements": [],
     "code": {
       "insee": "98901",
       "postaux": [
@@ -624,6 +660,8 @@ exports[`runCommuneImporter > should import initial communes 1`] = `
       "id": "A18",
       "nom": "Orléans-Tours",
     },
+    "anciennes": [],
+    "arrondissements": [],
     "code": {
       "insee": "18001",
       "postaux": [
@@ -685,6 +723,8 @@ exports[`runCommuneImporter > should import initial communes 1`] = `
       "id": "A18",
       "nom": "Orléans-Tours",
     },
+    "anciennes": [],
+    "arrondissements": [],
     "code": {
       "insee": "18002",
       "postaux": [
@@ -746,6 +786,8 @@ exports[`runCommuneImporter > should import initial communes 1`] = `
       "id": "A18",
       "nom": "Orléans-Tours",
     },
+    "anciennes": [],
+    "arrondissements": [],
     "code": {
       "insee": "41001",
       "postaux": [
@@ -807,6 +849,8 @@ exports[`runCommuneImporter > should import initial communes 1`] = `
       "id": "A18",
       "nom": "Orléans-Tours",
     },
+    "anciennes": [],
+    "arrondissements": [],
     "code": {
       "insee": "45001",
       "postaux": [
@@ -868,6 +912,17 @@ exports[`runCommuneImporter > should import initial communes 1`] = `
       "id": "A01",
       "nom": "Paris",
     },
+    "anciennes": [],
+    "arrondissements": [
+      {
+        "code": "75101",
+        "nom": "Paris 1er Arrondissement",
+      },
+      {
+        "code": "75120",
+        "nom": "Paris 20e Arrondissement",
+      },
+    ],
     "code": {
       "insee": "75056",
       "postaux": [
@@ -970,6 +1025,8 @@ exports[`runCommuneImporter > should import initial communes 1`] = `
       "id": "A24",
       "nom": "Créteil",
     },
+    "anciennes": [],
+    "arrondissements": [],
     "code": {
       "insee": "77001",
       "postaux": [
@@ -1052,6 +1109,17 @@ exports[`runCommuneImporter > should import initial communes 1`] = `
       "id": "A24",
       "nom": "Créteil",
     },
+    "anciennes": [
+      {
+        "codeInsee": "77166",
+        "nom": "Écuelles",
+      },
+      {
+        "codeInsee": "77170",
+        "nom": "Épisy",
+      },
+    ],
+    "arrondissements": [],
     "code": {
       "insee": "77002",
       "postaux": [
@@ -1113,6 +1181,8 @@ exports[`runCommuneImporter > should import initial communes 1`] = `
       "id": "A44",
       "nom": "Saint-Pierre-et-Miquelon",
     },
+    "anciennes": [],
+    "arrondissements": [],
     "code": {
       "insee": "98801",
       "postaux": [
@@ -1174,6 +1244,8 @@ exports[`runCommuneImporter > should import initial communes 1`] = `
       "id": "A41",
       "nom": "Polynésie Française",
     },
+    "anciennes": [],
+    "arrondissements": [],
     "code": {
       "insee": "98901",
       "postaux": [

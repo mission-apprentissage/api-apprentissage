@@ -62,6 +62,40 @@ export const communeModelDoc = {
             },
           },
         },
+        anciennes: {
+          description: { en: null, fr: "Anciennes communes fusionnées" },
+          tags: [".anciennes[].nom", ".anciennes[].codeInsee"],
+          _: {
+            "[]": {
+              description: null,
+              _: {
+                nom: {
+                  description: { en: null, fr: "Nom de l'ancienne commune" },
+                },
+                codeInsee: {
+                  description: { en: null, fr: "Code INSEE de l'ancienne commune" },
+                },
+              },
+            },
+          },
+        },
+        arrondissements: {
+          description: { en: null, fr: "Arrondissements de la commune" },
+          tags: [".arrondissements[].nom", ".arrondissements[].codeInsee"],
+          _: {
+            "[]": {
+              description: null,
+              _: {
+                nom: {
+                  description: { en: null, fr: "Nom de l'arrondissement" },
+                },
+                code: {
+                  description: { en: null, fr: "Code INSEE de l'arrondissement" },
+                },
+              },
+            },
+          },
+        },
       },
     },
     region: {

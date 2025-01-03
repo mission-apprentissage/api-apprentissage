@@ -1,5 +1,5 @@
 import { addJob } from "job-processor";
 
 export const up = async () => {
-  await addJob({ name: "import:commmunes" });
+  await addJob({ name: "import:communes" });
 };

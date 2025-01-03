@@ -17,7 +17,7 @@ beforeEach(() => {
 
 describe("rechercheCommune", () => {
   const code = "59330";
-  const response = [
+  const response: ICommune[] = [
     {
       nom: "Adon",
       code: {
@@ -74,6 +74,14 @@ describe("rechercheCommune", () => {
           siteWeb: "https://aijam.com",
         },
       },
+      arrondissements: [
+        { code: "75101", nom: "Paris 1er Arrondissement" },
+        { code: "75120", nom: "Paris 20e Arrondissement" },
+      ],
+      anciennes: [
+        { codeInsee: "77166", nom: "Écuelles" },
+        { codeInsee: "77170", nom: "Épisy" },
+      ],
     },
   ];
 

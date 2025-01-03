@@ -9,6 +9,13 @@ export const zCommune = z.object({
     insee: z.string(),
     postaux: z.array(z.string()),
   }),
+  anciennes: z.array(z.object({ nom: z.string(), codeInsee: z.string() })),
+  arrondissements: z.array(
+    z.object({
+      code: z.string(),
+      nom: z.string(),
+    })
+  ),
   departement: z.object({
     nom: z.string(),
     codeInsee: z.string(),

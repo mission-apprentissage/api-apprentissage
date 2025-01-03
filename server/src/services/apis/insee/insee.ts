@@ -1,33 +1,45 @@
 import { internal, isBoom } from "@hapi/boom";
 import { isAxiosError } from "axios";
-import type { IInseeCollectiviteOutreMer, IInseeCommuneOutreMer } from "shared";
-import { zInseeCollectiviteOutreMer, zInseeCommuneOutreMer } from "shared";
+import axiosRetry, { exponentialDelay } from "axios-retry";
+import type { IInseeItem } from "shared";
+import { zInseeItem } from "shared";
+import { z } from "zod";
 
 import config from "@/config.js";
 import getApiClient from "@/services/apis/client.js";
 import { withCause } from "@/services/errors/withCause.js";
 import { apiRateLimiter } from "@/utils/apiUtils.js";
 
-const apiInsee = apiRateLimiter("insee", {
-  nbRequests: 25,
-  durationInSeconds: 60,
-  client: getApiClient(
-    {
-      baseURL: config.api.insee.endpoint,
-      headers: {
-        Authorization: `Bearer ${config.api.insee.token}`,
-      },
+const rawClient = getApiClient(
+  {
+    baseURL: config.api.insee.endpoint,
+    headers: {
+      Authorization: `Bearer ${config.api.insee.token}`,
     },
-    { cache: false }
-  ),
+    timeout: 60_000,
+  },
+  { cache: false }
+);
+
+axiosRetry(rawClient, {
+  retries: 3,
+  retryDelay: exponentialDelay,
 });
 
-export async function fetchCollectivitesOutreMer(): Promise<IInseeCollectiviteOutreMer[]> {
+const apiInsee = apiRateLimiter("insee", {
+  nbRequests: 4000,
+  durationInSeconds: 60,
+  maxQueueSize: 10_000,
+  timeout: 300_000,
+  client: rawClient,
+});
+
+export async function fetchCollectivitesOutreMer(): Promise<IInseeItem[]> {
   return apiInsee(async (client) => {
     try {
-      const { data } = await client.get("/metadonnees/V1/geo/collectivitesDOutreMer");
+      const { data } = await client.get("/metadonnees/geo/collectivitesDOutreMer");
 
-      return zInseeCollectiviteOutreMer
+      return zInseeItem
         .array()
         .parseAsync(data)
         .catch((error) => {
@@ -47,16 +59,16 @@ export async function fetchCollectivitesOutreMer(): Promise<IInseeCollectiviteOu
   });
 }
 
-export async function fetchCommuneOutreMer(codeCollectivite: string): Promise<IInseeCommuneOutreMer[]> {
+export async function fetchCommuneOutreMer(codeCollectivite: string): Promise<IInseeItem[]> {
   return apiInsee(async (client) => {
     try {
-      const { data } = await client.get(`/metadonnees/V1/geo/collectivitesDOutreMer/${codeCollectivite}/descendants`, {
+      const { data } = await client.get(`/metadonnees/geo/collectivitesDOutreMer/${codeCollectivite}/descendants`, {
         params: {
           type: "commune",
         },
       });
 
-      return zInseeCommuneOutreMer
+      return zInseeItem
         .array()
         .parseAsync(data)
         .catch((error) => {
@@ -73,4 +85,218 @@ export async function fetchCommuneOutreMer(codeCollectivite: string): Promise<II
       throw withCause(internal("api.insee: unable to fetchCommuneOutreMer"), error);
     }
   });
+}
+
+async function fetchArrondissements(): Promise<IInseeItem[]> {
+  return apiInsee(async (client) => {
+    try {
+      const { data } = await client.get(`/metadonnees/geo/arrondissementsMunicipaux`);
+
+      return zInseeItem
+        .array()
+        .parseAsync(data)
+        .catch((error) => {
+          throw internal("api.insee: unable to parse arrondissement", { data, error });
+        });
+    } catch (error) {
+      if (isBoom(error)) {
+        throw error;
+      }
+
+      if (isAxiosError(error)) {
+        throw internal("api.insee: unable to fetchArrondissements", { data: error.toJSON() });
+      }
+      throw withCause(internal("api.insee: unable to fetchArrondissements"), error);
+    }
+  });
+}
+
+async function fetchArrondissementCodeCommune(codeArrondissement: string): Promise<string> {
+  return apiInsee(async (client) => {
+    try {
+      const { data } = await client.get(`/metadonnees/geo/arrondissementMunicipal/${codeArrondissement}/ascendants`, {
+        params: { type: "Commune" },
+      });
+
+      const result = await z
+        .object({ code: z.string() })
+        .array()
+        .parseAsync(data)
+        .catch((error) => {
+          throw internal("api.insee: unable to parse arrondissement ascendants", { data, error });
+        });
+
+      if (result.length !== 1) {
+        throw internal("api.insee: unable to find commune code in arrondissement ascendants", { data, result });
+      }
+
+      return result[0].code;
+    } catch (error) {
+      if (isBoom(error)) {
+        throw error;
+      }
+
+      if (isAxiosError(error)) {
+        throw internal("api.insee: unable to fetchArrondissementCodeCommune", { data: error.toJSON() });
+      }
+      throw withCause(internal("api.insee: unable to fetchArrondissementCodeCommune"), error);
+    }
+  });
+}
+
+export async function fetchArrondissementIndexedByCodeCommune(): Promise<Record<string, IInseeItem[]>> {
+  const arrondissements = await fetchArrondissements();
+
+  const result: Record<string, IInseeItem[]> = {};
+
+  for (const arrondissement of arrondissements) {
+    const codeCommune = await fetchArrondissementCodeCommune(arrondissement.code);
+
+    if (!result[codeCommune]) {
+      result[codeCommune] = [];
+    }
+    result[codeCommune].push(arrondissement);
+  }
+
+  return result;
+}
+
+async function fetchCommuneDeleguees(): Promise<IInseeItem[]> {
+  return apiInsee(async (client) => {
+    try {
+      const { data } = await client.get(`/metadonnees/geo/communesDeleguees`);
+
+      return zInseeItem
+        .array()
+        .parseAsync(data)
+        .catch((error) => {
+          throw internal("api.insee: unable to parse commune deleguees", { data, error });
+        });
+    } catch (error) {
+      if (isBoom(error)) {
+        throw error;
+      }
+
+      if (isAxiosError(error)) {
+        throw internal("api.insee: unable to fetchCommuneDeleguees", { data: error.toJSON() });
+      }
+      throw withCause(internal("api.insee: unable to fetchCommuneDeleguees"), error);
+    }
+  });
+}
+
+async function fetchCommuneDelegueeCodeCommune(code: string): Promise<string> {
+  return apiInsee(async (client) => {
+    try {
+      const { data } = await client.get(`/metadonnees/geo/communeDeleguee/${code}/ascendants`, {
+        params: { type: "Commune" },
+      });
+
+      const result = await z
+        .object({ code: z.string() })
+        .array()
+        .parseAsync(data)
+        .catch((error) => {
+          throw internal("api.insee: unable to parse deleguee ascendants", { data, error });
+        });
+
+      if (result.length !== 1) {
+        throw internal("api.insee: unable to find commune code in deleguee ascendants", { data, result });
+      }
+
+      return result[0].code;
+    } catch (error) {
+      if (isBoom(error)) {
+        throw error;
+      }
+
+      if (isAxiosError(error)) {
+        throw internal("api.insee: unable to fetchCommuneDelegueeCodeCommune", { data: error.toJSON() });
+      }
+      throw withCause(internal("api.insee: unable to fetchCommuneDelegueeCodeCommune"), error);
+    }
+  });
+}
+
+async function fetchCommuneAssociees(): Promise<IInseeItem[]> {
+  return apiInsee(async (client) => {
+    try {
+      const { data } = await client.get(`/metadonnees/geo/communesAssociees`);
+
+      return zInseeItem
+        .array()
+        .parseAsync(data)
+        .catch((error) => {
+          throw internal("api.insee: unable to parse communes associees", { data, error });
+        });
+    } catch (error) {
+      if (isBoom(error)) {
+        throw error;
+      }
+
+      if (isAxiosError(error)) {
+        throw internal("api.insee: unable to fetchCommuneAssociees", { data: error.toJSON() });
+      }
+      throw withCause(internal("api.insee: unable to fetchCommuneAssociees"), error);
+    }
+  });
+}
+
+async function fetchCommuneAssocieeCodeCommune(code: string): Promise<string> {
+  return apiInsee(async (client) => {
+    try {
+      const { data } = await client.get(`/metadonnees/geo/communeAssociee/${code}/ascendants`, {
+        params: { type: "Commune" },
+      });
+
+      const result = await z
+        .object({ code: z.string() })
+        .array()
+        .parseAsync(data)
+        .catch((error) => {
+          throw internal("api.insee: unable to parse associee ascendants", { data, error });
+        });
+
+      if (result.length !== 1) {
+        throw internal("api.insee: unable to find commune code in associee ascendants", { data, result });
+      }
+
+      return result[0].code;
+    } catch (error) {
+      if (isBoom(error)) {
+        throw error;
+      }
+
+      if (isAxiosError(error)) {
+        throw internal("api.insee: unable to fetchCommuneAssocieeCodeCommune", { data: error.toJSON() });
+      }
+      throw withCause(internal("api.insee: unable to fetchCommuneAssocieeCodeCommune"), error);
+    }
+  });
+}
+
+export async function fetchAnciennesCommuneByCodeCommune(): Promise<Record<string, IInseeItem[]>> {
+  const [associees, deleguees] = await Promise.all([fetchCommuneAssociees(), fetchCommuneDeleguees()]);
+
+  const result: Record<string, IInseeItem[]> = {};
+
+  for (const associee of associees) {
+    const codeCommune = await fetchCommuneAssocieeCodeCommune(associee.code);
+
+    if (!result[codeCommune]) {
+      result[codeCommune] = [];
+    }
+    result[codeCommune].push(associee);
+  }
+
+  for (const deleguee of deleguees) {
+    const codeCommune = await fetchCommuneDelegueeCodeCommune(deleguee.code);
+
+    if (!result[codeCommune]) {
+      result[codeCommune] = [];
+    }
+    result[codeCommune].push(deleguee);
+  }
+
+  return result;
 }

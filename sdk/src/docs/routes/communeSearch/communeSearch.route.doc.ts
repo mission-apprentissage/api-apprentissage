@@ -6,8 +6,8 @@ export const communeSearchRouteDoc = {
     fr: "Recherche de communes par code insee ou postal",
   },
   description: {
-    fr: "Recherche de communes par code insee ou postal. Attention, un meme code postal peut-etre associé à plusieurs communes et une commune peut avoir plusieurs code postaux.",
-    en: "Search for communes by INSEE or postal code. Be aware that a same postal code can be associated with multiple communes and a commune can have multiple postal codes.",
+    fr: "Recherche de communes par code insee ou postal. La recherche par code INSEE, recherche également parmis les anciennes communes fusionnées (déléguées ou associées) et parmis les arrondissements municipaux. Attention, un meme code postal peut-etre associé à plusieurs communes et une commune peut avoir plusieurs code postaux.",
+    en: "Search for municipalities by INSEE or postal code. Searching by INSEE code also includes merged municipalities (delegated or associated) and municipal districts. Please note that a single postal code may be associated with multiple municipalities, and a municipality may have multiple postal codes.",
   },
   parameters: {
     code: {

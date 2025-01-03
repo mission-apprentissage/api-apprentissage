@@ -21,7 +21,14 @@ export const geographieRoutes = ({ server }: { server: Server }) => {
     async (request, response) => {
       const { code } = request.query;
       const communes = await getDbCollection("commune")
-        .find({ $or: [{ "code.insee": code }, { "code.postaux": code }] })
+        .find({
+          $or: [
+            { "code.insee": code },
+            { "code.postaux": code },
+            { "arrondissements.code": code },
+            { "anciennes.codeInsee": code },
+          ],
+        })
         .toArray();
 
       return response.send(communes);

@@ -7198,7 +7198,7 @@ Notes:
     },
     "/geographie/v1/commune/search": {
       "get": {
-        "description": "Recherche de communes par code insee ou postal. Attention, un meme code postal peut-etre associé à plusieurs communes et une commune peut avoir plusieurs code postaux.",
+        "description": "Recherche de communes par code insee ou postal. La recherche par code INSEE, recherche également parmis les anciennes communes fusionnées (déléguées ou associées) et parmis les arrondissements municipaux. Attention, un meme code postal peut-etre associé à plusieurs communes et une commune peut avoir plusieurs code postaux.",
         "operationId": "communeSearch",
         "parameters": [
           {

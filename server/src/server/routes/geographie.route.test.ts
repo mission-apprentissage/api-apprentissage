@@ -70,6 +70,8 @@ describe("GET /geographie/v1/commune/search", () => {
   it.each([
     ["?code=75056", communeFixtures.filter((c) => c.code.insee === "75056")],
     ["?code=75003", communeFixtures.filter((c) => c.code.postaux.includes("75003"))],
+    ["?code=77166", communeFixtures.filter((c) => c.code.insee === "77002")], // Par ancienne commune
+    ["?code=75120", communeFixtures.filter((c) => c.code.insee === "75056")], // Par arrondissement
   ])('should perform search "%s" correctly', async (search, expected) => {
     const response = await app.inject({
       method: "GET",

@@ -51,7 +51,6 @@
     "lru-cache": "^11.0.2",
     "luxon": "^3.5.0",
     "microdiff": "^1.4.0",
-    "migrate-mongo": "^11.0.0",
     "mjml": "^4.15.3",
     "mongodb": "^6.9.0",
     "node-html-parser": "^6.1.13",

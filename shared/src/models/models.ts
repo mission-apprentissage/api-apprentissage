@@ -6,6 +6,7 @@ import type { IModelDescriptorGeneric } from "./common.js";
 import { communeModelDescriptor } from "./commune.model.js";
 import emailDeniedModelDescriptor from "./email_denied.model.js";
 import emailEventsModelDescriptor from "./email_event.model.js";
+import { formationModelDescriptor } from "./formation.model.js";
 import { importMetaModelDescriptor } from "./import.meta.model.js";
 import { indicateurSourceKitApprentissageModelDescriptor } from "./indicateurs/source_kit_apprentissage.model.js";
 import { indicateurUsageApiModelDescriptor } from "./indicateurs/usage_api.model.js";
@@ -30,6 +31,7 @@ export const modelDescriptorMap = {
   [communeModelDescriptor.collectionName]: communeModelDescriptor,
   [emailDeniedModelDescriptor.collectionName]: emailDeniedModelDescriptor,
   [emailEventsModelDescriptor.collectionName]: emailEventsModelDescriptor,
+  [formationModelDescriptor.collectionName]: formationModelDescriptor,
   [importMetaModelDescriptor.collectionName]: importMetaModelDescriptor,
   [usersModelDescriptor.collectionName]: usersModelDescriptor,
   [sessionsModelDescriptor.collectionName]: sessionsModelDescriptor,

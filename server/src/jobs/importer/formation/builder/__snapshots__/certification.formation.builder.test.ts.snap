@@ -1,0 +1,172 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`buildFormationCertification > should build certification if the association is not known 1`] = `
+{
+  "base_legale": {
+    "cfd": {
+      "abrogation": null,
+      "creation": 2023-08-24T22:00:00.000Z,
+    },
+  },
+  "blocs_competences": {
+    "rncp": [
+      {
+        "code": "RNCP35234BC02",
+        "intitule": "Réaliser des opérations d'exploitation sur un site d'apport volontaire de déchets",
+      },
+      {
+        "code": "RNCP35234BC01",
+        "intitule": "Accueillir les usagers/clients sur un site d'apport volontaire de déchets",
+      },
+    ],
+  },
+  "continuite": {
+    "cfd": [
+      {
+        "code": "01025116",
+        "courant": false,
+        "fermeture": 2003-08-31T21:59:59.000Z,
+        "ouverture": 1999-08-31T22:00:00.000Z,
+      },
+      {
+        "code": "01025123",
+        "courant": false,
+        "fermeture": 2024-08-31T21:59:59.000Z,
+        "ouverture": 2002-08-31T22:00:00.000Z,
+      },
+      {
+        "code": "46125123",
+        "courant": true,
+        "fermeture": null,
+        "ouverture": 2024-08-31T22:00:00.000Z,
+      },
+    ],
+    "rncp": [
+      {
+        "actif": false,
+        "activation": null,
+        "code": "RNCP34501",
+        "courant": false,
+        "fin_enregistrement": 2022-02-08T22:59:59.000Z,
+      },
+      {
+        "actif": false,
+        "activation": null,
+        "code": "RNCP4794",
+        "courant": false,
+        "fin_enregistrement": 2020-02-08T22:59:59.000Z,
+      },
+      {
+        "actif": true,
+        "activation": null,
+        "code": "RNCP35234",
+        "courant": true,
+        "fin_enregistrement": 2027-02-08T22:59:59.000Z,
+      },
+    ],
+  },
+  "convention_collectives": {
+    "rncp": [],
+  },
+  "domaines": {
+    "formacodes": {
+      "rncp": [
+        {
+          "code": "12582",
+          "intitule": "12582 : Gestion déchet",
+        },
+      ],
+    },
+    "nsf": {
+      "cfd": {
+        "code": "251",
+        "intitule": "MECANIQ.GENERALE & DE PRECISION, USINAGE",
+      },
+      "rncp": [
+        {
+          "code": "343",
+          "intitule": "343 : Nettoyage, assainissement, protection de l'environnement",
+        },
+      ],
+    },
+    "rome": {
+      "rncp": [
+        {
+          "code": "K2304",
+          "intitule": "Revalorisation de produits industriels",
+        },
+        {
+          "code": "K2303",
+          "intitule": "Nettoyage des espaces urbains",
+        },
+      ],
+    },
+  },
+  "identifiant": {
+    "cfd": "46125123",
+    "rncp": "RNCP35234",
+    "rncp_anterieur_2019": false,
+  },
+  "intitule": {
+    "cfd": {
+      "court": "MAINTEN.INSTAL.OLEOHYDRAU.PNEUM.",
+      "long": "MAINTENANCE DES INSTALLATIONS OLEOHYDRAULIQUES ET PNEUMATIQUES (CS4)",
+    },
+    "niveau": {
+      "cfd": {
+        "europeen": "4",
+        "formation_diplome": "461",
+        "interministeriel": "4",
+        "libelle": "DIPLOME NATIONAL / DIPLOME D'ETAT",
+        "sigle": "CS4",
+      },
+      "rncp": {
+        "europeen": "3",
+      },
+    },
+    "rncp": "Agent technique de réception et de valorisation de déchets",
+  },
+  "periode_validite": {
+    "cfd": {
+      "derniere_session": null,
+      "fermeture": null,
+      "ouverture": 2024-08-31T22:00:00.000Z,
+      "premiere_session": 2025,
+    },
+    "debut": 2024-08-31T22:00:00.000Z,
+    "fin": 2027-02-08T22:59:59.000Z,
+    "rncp": {
+      "actif": true,
+      "activation": null,
+      "debut_parcours": 2022-02-07T23:00:00.000Z,
+      "fin_enregistrement": 2027-02-08T22:59:59.000Z,
+    },
+  },
+  "type": {
+    "certificateurs_rncp": [
+      {
+        "nom": "MINISTERE DU TRAVAIL DU PLEIN EMPLOI ET DE L' INSERTION",
+        "siret": "11000007200014",
+      },
+    ],
+    "enregistrement_rncp": "Enregistrement de droit",
+    "gestionnaire_diplome": "DGESCO A2-3",
+    "nature": {
+      "cfd": {
+        "code": "1",
+        "libelle": "DIPLOME NATIONAL / DIPLOME D'ETAT",
+      },
+    },
+    "voie_acces": {
+      "rncp": {
+        "apprentissage": true,
+        "candidature_individuelle": false,
+        "contrat_professionnalisation": true,
+        "experience": true,
+        "formation_continue": true,
+        "formation_statut_eleve": false,
+      },
+    },
+  },
+}
+`;

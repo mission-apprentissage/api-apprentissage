@@ -1,0 +1,66 @@
+import type { IOrganisme } from "api-alternance-sdk";
+import { ObjectId } from "bson";
+
+import type { IOrganismeInternal } from "../organisme.model.js";
+
+export type IOrganismeInput = Partial<
+  Omit<IOrganisme, "identifiant"> & {
+    identifiant: Partial<IOrganisme["identifiant"]>;
+  }
+>;
+
+export function generateOrganismeFixture(data?: Partial<IOrganisme>): IOrganismeInternal {
+  return {
+    _id: new ObjectId(),
+    created_at: new Date("2024-04-19T00:00:00Z"),
+    updated_at: new Date("2024-04-19T00:00:00Z"),
+    identifiant: {
+      uai: "0352660B",
+      siret: "19350030300014",
+      ...data?.identifiant,
+    },
+    etablissement: {
+      siret: "19350030300014",
+      ouvert: true,
+      enseigne: null,
+      adresse: {
+        label: "34 RUE BAHON-RAULT",
+        code_postal: "35000",
+        commune: {
+          nom: "Rennes",
+          code_insee: "35238",
+        },
+        departement: {
+          nom: "Ille-et-Vilaine",
+          code_insee: "35",
+        },
+        region: {
+          code_insee: "53",
+          nom: "Bretagne",
+        },
+        academie: {
+          id: "A14",
+          code: "14",
+          nom: "Rennes",
+        },
+      },
+      creation: new Date("1970-01-05T19:22:01.200Z"),
+      fermeture: null,
+    },
+    renseignements_specifiques: {
+      qualiopi: true,
+      numero_activite: "5335P000935",
+    },
+    statut: {
+      referentiel: "présent",
+    },
+    unite_legale: {
+      siren: "193500303",
+      actif: true,
+      raison_sociale: "LYCEE DES METIERS PIERRE MENDES FRANCE",
+      creation: new Date("1969-12-30T07:03:18.000+00:00"),
+      cessation: null,
+    },
+    ...data,
+  };
+}

@@ -62,6 +62,7 @@
     "pino": "^9.4.0",
     "pino-pretty": "^11.2.2",
     "rate-limiter-flexible": "^5.0.3",
+    "safe-stable-stringify": "^2.5.0",
     "sax": "^1.4.1",
     "shared": "workspace:^",
     "stream-json": "^1.8.0",

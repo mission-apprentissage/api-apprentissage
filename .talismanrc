@@ -27,6 +27,10 @@ fileignoreconfig:
   checksum: 7505813ef556c3a7befee7e1576467b2bcbd806534843b5d09d00e0878115573
 - filename: server/src/jobs/importer/dares/ccn/fixtures/article.html
   checksum: ffeb0d8b299c63b63ced0ecbcc41f72be67e4ba4e28a13b763cfdf6670e76e9d
+- filename: server/src/jobs/importer/formation/builder/_.formation.builder.test.ts
+  checksum: acf09e358f0a245de48dd5b02cdceecb49cef2584954c3b9eafe3419922c7d74
+- filename: server/src/jobs/importer/formation/formation.importer.test.ts
+  checksum: 9a37a19fdae0c86a797e57a7b43f21faf3d18bd76185adc88a6f6639d4984a27
 - filename: server/src/services/apis/unml/unml.test.ts
   checksum: 71b196ba42a795b8a649fb9a17ac356cd719bfc9c254d4859a8aab22b05b03e5
 - filename: shared/src/helpers/openapi/__snapshots__/generateOpenapi.test.ts.snap

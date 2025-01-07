@@ -15,6 +15,7 @@ import { importCertifications } from "./importer/certifications/certifications.i
 import { runCommuneImporter } from "./importer/commune/commune.importer.js";
 import { runDaresApeIdccImporter } from "./importer/dares/ape_idcc/dares.ape_idcc.importer.js";
 import { runDaresConventionCollectivesImporter } from "./importer/dares/ccn/dares.ccn.importer.js";
+import { importFormations } from "./importer/formation/formation.importer.js";
 import {
   importRncpArchive,
   onImportRncpArchiveFailure,
@@ -80,6 +81,11 @@ export async function setupJobProcessor() {
             "Import des organismes": {
               cron_string: timings.certif,
               handler: async () => importOrganismes(),
+              resumable: true,
+            },
+            "Import des formations": {
+              cron_string: timings.certif,
+              handler: async () => importFormations(),
               resumable: true,
             },
             "Import des NPEC": {
@@ -155,7 +161,10 @@ export async function setupJobProcessor() {
       "import:catalogue": {
         handler: runCatalogueImporter,
       },
-      "import:commmunes": {
+      "import:formations": {
+        handler: importFormations,
+      },
+      "import:communes": {
         handler: runCommuneImporter,
       },
       "import:france_competence": {

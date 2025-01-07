@@ -37,4 +37,24 @@ describe("bcn", () => {
     expect(data).toBe(expectedData);
     expect(scope.isDone()).toBe(true);
   });
+
+  it("should throw an error if the request fails", async () => {
+    const scope = nock("https://bcn.depp.education.fr")
+      .post("/bcn/index.php/export/CSV")
+      .query({ n: "V_FORMATION_DIPLOME", separator: ";", withForeign: true })
+      .reply(500);
+
+    await expect(fetchBcnData("V_FORMATION_DIPLOME")).rejects.toThrowError("api.bcn: unable to fetchBcnData");
+    expect(scope.isDone()).toBe(true);
+  });
+
+  it("should throw an error if the request fails", async () => {
+    const scope = nock("https://bcn.depp.education.fr")
+      .post("/bcn/index.php/export/CSV")
+      .query({ n: "V_FORMATION_DIPLOME", separator: ";", withForeign: true })
+      .reply(400);
+
+    await expect(fetchBcnData("V_FORMATION_DIPLOME")).rejects.toThrowError("api.bcn: unable to fetchBcnData");
+    expect(scope.isDone()).toBe(true);
+  });
 });

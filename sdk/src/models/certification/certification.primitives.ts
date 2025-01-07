@@ -23,6 +23,8 @@ export type INiveauDiplomeEuropeen = z.output<typeof zNiveauDiplomeEuropeen>;
 
 export const zNsfCode = z.string().regex(/^\d{2,3}[a-z]?$/);
 
+export const zMef10 = z.string().regex(/^\d{10}$/);
+
 export const zRomeCode = z.string().regex(/^[A-Z]{1}\d{4}$/);
 
 export const zRomeCodeFlex = z.string().regex(/^[A-Z]{1}\d{0,4}$/);

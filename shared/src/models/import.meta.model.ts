@@ -99,6 +99,21 @@ export const zImportMetaOrganisme = z
   })
   .strict();
 
+export const zImportMetaFormations = z
+  .object({
+    _id: zObjectId,
+    import_date: z.date(),
+    status: z.enum(["pending", "done", "failed"]),
+    type: z.literal("formations"),
+    source: z.object({
+      organismes: z.object({ import_date: z.date() }),
+      catalogue: z.object({ import_date: z.date() }),
+      certifications: z.object({ import_date: z.date() }),
+      communes: z.object({ import_date: z.date() }),
+    }),
+  })
+  .strict();
+
 export const zImportMeta = z.discriminatedUnion("type", [
   zImportMetaFranceCompetence,
   zImportMetaSimple,
@@ -106,6 +121,7 @@ export const zImportMeta = z.discriminatedUnion("type", [
   zImportMetaNpec,
   zImportMetaDares,
   zImportMetaOrganisme,
+  zImportMetaFormations,
 ]);
 
 export const importMetaModelDescriptor = {
@@ -119,4 +135,5 @@ export type IImportMetaFranceCompetence = z.output<typeof zImportMetaFranceCompe
 export type IImportMetaNpec = z.output<typeof zImportMetaNpec>;
 export type IImportMetaCertifications = z.output<typeof zImportMetaCertifications>;
 export type IImportMetaOrganismes = z.output<typeof zImportMetaOrganisme>;
+export type IImportMetaFormations = z.output<typeof zImportMetaFormations>;
 export type IImportMetaDares = z.output<typeof zImportMetaDares>;

@@ -16,7 +16,7 @@ const indexes: IModelDescriptorGeneric["indexes"] = [
 export const zOrganismeReferentiel = z
   .object({
     siret: z.string(),
-    uai: z.string().optional(),
+    uai: z.string().nullish(),
     raison_sociale: z.string().optional(),
     enseigne: z.string().optional(),
     siege_social: z.boolean().optional(),

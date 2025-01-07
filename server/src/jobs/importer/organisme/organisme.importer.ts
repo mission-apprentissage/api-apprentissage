@@ -13,7 +13,7 @@ import parentLogger from "@/services/logger.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 import { createBatchTransformStream } from "@/utils/streamUtils.js";
 
-import { buildContext, buildOrganisme, buildOrganismeEntrepriseParts } from "./builder/organisme.builder.js";
+import { buildOrganisme, buildOrganismeContext, buildOrganismeEntrepriseParts } from "./builder/organisme.builder.js";
 
 const logger = parentLogger.child({ module: "import:organismes" });
 
@@ -77,13 +77,13 @@ async function buildOrganismeUpdateOperation(
   chunk: ISourceReferentiel,
   importMeta: IImportMetaOrganismes
 ): Promise<AnyBulkWriteOperation<IOrganismeInternal> | null> {
-  const context = await buildContext(chunk.data.siret);
+  const context = await buildOrganismeContext(chunk.data.siret);
 
   if (context === null) {
     return null;
   }
 
-  const { identifiant, ...rest } = buildOrganisme(chunk, context);
+  const { identifiant, ...rest } = buildOrganisme(chunk.data, context, "présent");
 
   return {
     updateOne: {
@@ -110,7 +110,7 @@ async function buildHistoricalOrganismeUpdateOperation(
   chunk: IOrganismeInternal,
   importMeta: IImportMetaOrganismes
 ): Promise<AnyBulkWriteOperation<IOrganismeInternal> | null> {
-  const context = await buildContext(chunk.identifiant.siret);
+  const context = await buildOrganismeContext(chunk.identifiant.siret);
 
   if (context === null) {
     return null;

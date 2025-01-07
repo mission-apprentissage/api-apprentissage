@@ -17,7 +17,7 @@ type OrganismeBuilderContext = {
   commune: ICommune | null;
 };
 
-export async function buildContext(siret: string): Promise<OrganismeBuilderContext | null> {
+export async function buildOrganismeContext(siret: string): Promise<OrganismeBuilderContext | null> {
   const [etablissement, uniteLegale] = await Promise.all([
     getEtablissementDiffusible(siret),
     getUniteLegaleDiffusible(getSirenFromSiret(siret)),
@@ -68,21 +68,25 @@ function getAdresse(context: OrganismeBuilderContext): IOrganisme["etablissement
   };
 }
 
-export function buildOrganisme(source: ISourceReferentiel, context: OrganismeBuilderContext): IOrganisme {
+export function buildOrganisme(
+  source: Pick<ISourceReferentiel["data"], "siret" | "uai" | "qualiopi" | "numero_declaration_activite">,
+  context: OrganismeBuilderContext,
+  statutReferentiel: IOrganisme["statut"]["referentiel"]
+): IOrganisme {
   const data: IOrganisme = {
     identifiant: {
-      siret: source.data.siret,
-      uai: source.data.uai ?? null,
+      siret: source.siret,
+      uai: source.uai ?? null,
     },
 
-    ...buildOrganismeEntrepriseParts(source.data.siret, context),
+    ...buildOrganismeEntrepriseParts(source.siret, context),
     renseignements_specifiques: {
-      qualiopi: source.data.qualiopi ?? false,
-      numero_activite: source.data.numero_declaration_activite ?? null,
+      qualiopi: source.qualiopi ?? false,
+      numero_activite: source.numero_declaration_activite ?? null,
     },
 
     statut: {
-      referentiel: "présent",
+      referentiel: statutReferentiel,
     },
   };
 

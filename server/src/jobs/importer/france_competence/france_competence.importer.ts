@@ -396,6 +396,15 @@ async function indicateurContinuity(
 
 export async function importRncpArchive(importMeta: IImportMetaFranceCompetence, signal?: AbortSignal) {
   try {
+    await getDbCollection("import.meta").updateOne(
+      { _id: importMeta._id },
+      {
+        $set: {
+          import_date: new Date(),
+        },
+      }
+    );
+
     const readStream = await downloadDataGouvResource(importMeta.archiveMeta.resource);
 
     if (signal) addAbortSignal(signal, readStream);

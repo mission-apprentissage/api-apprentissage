@@ -37,8 +37,11 @@ type ImportCertificationsOptions = {
 
 async function getSourceImportMeta(): Promise<IImportMetaCertifications["source"] | null> {
   const [kitApprentissage, bcn, franceCompetenceLatest, oldestFranceCompetence] = await Promise.all([
-    getDbCollection("import.meta").findOne({ type: "kit_apprentissage" }, { sort: { import_date: -1 } }),
-    getDbCollection("import.meta").findOne({ type: "bcn" }, { sort: { import_date: -1 } }),
+    getDbCollection("import.meta").findOne(
+      { type: "kit_apprentissage", status: "done" },
+      { sort: { import_date: -1 } }
+    ),
+    getDbCollection("import.meta").findOne({ type: "bcn", status: "done" }, { sort: { import_date: -1 } }),
     getDbCollection("import.meta").findOne<IImportMetaFranceCompetence>(
       { type: "france_competence", status: "done" },
       { sort: { import_date: -1, "archiveMeta.nom": -1 } }

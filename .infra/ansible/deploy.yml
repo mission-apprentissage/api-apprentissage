@@ -39,7 +39,7 @@
         cmd: "sudo /opt/app/tools/maintenance/maintenance-on.sh"
       when:
         - stack_status.stdout != ""
-        - '"migrations-status=synced" not in migration_status_output.stdout_lines'
+        - '"migrations-status=require-shutdown" in migration_status_output.stdout_lines'
 
     - name: "Shutdown server"
       shell:
@@ -47,7 +47,7 @@
         cmd: "sudo docker service scale {{product_name}}_server=0"
       when:
         - stack_status.stdout != ""
-        - '"migrations-status=synced" not in migration_status_output.stdout_lines'
+        - '"migrations-status=require-shutdown" in migration_status_output.stdout_lines'
 
     - name: Lancement des migrations
       shell:

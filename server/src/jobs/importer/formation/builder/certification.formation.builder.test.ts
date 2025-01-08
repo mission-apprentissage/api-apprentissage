@@ -1,5 +1,5 @@
 import { useMongo } from "@tests/mongo.test.utils.js";
-import { generateCertificationFixture } from "shared/models/fixtures/certification.model.fixture";
+import { generateCertificationInternalFixture } from "shared/models/fixtures/certification.model.fixture";
 import { beforeEach, describe, expect, it } from "vitest";
 
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
@@ -10,7 +10,7 @@ useMongo();
 
 describe("buildFormationCertification", () => {
   const certifications = [
-    generateCertificationFixture({
+    generateCertificationInternalFixture({
       identifiant: {
         cfd: "46125123",
         rncp: null,
@@ -111,7 +111,7 @@ describe("buildFormationCertification", () => {
       created_at: new Date("2025-01-02T12:09:58.075Z"),
       updated_at: new Date("2025-01-02T12:09:58.075Z"),
     }),
-    generateCertificationFixture({
+    generateCertificationInternalFixture({
       identifiant: {
         rncp: "RNCP35234",
         cfd: "56T34302",

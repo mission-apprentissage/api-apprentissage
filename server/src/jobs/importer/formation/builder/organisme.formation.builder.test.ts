@@ -1,5 +1,5 @@
 import { useMongo } from "@tests/mongo.test.utils.js";
-import { generateOrganismeFixture } from "shared/models/fixtures/index";
+import { generateOrganismeInternalFixture } from "shared/models/fixtures/index";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import {
@@ -26,10 +26,10 @@ vi.mock("@/services/apis/entreprise/entreprise.js", async (importOriginal) => {
 
 describe("buildFormationOrganisme", () => {
   const organismes = [
-    generateOrganismeFixture({
+    generateOrganismeInternalFixture({
       identifiant: { siret: "42180445100035", uai: "0771234A" },
     }),
-    generateOrganismeFixture({
+    generateOrganismeInternalFixture({
       identifiant: { siret: "19350030300014", uai: "0352660B" },
     }),
   ];

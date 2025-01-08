@@ -3,6 +3,7 @@ import type { z, ZodType } from "zod";
 
 import { zApiCertificationsRoutes } from "./certification.routes.js";
 import type { IApiRouteSchema, IApiRouteSchemaWrite } from "./common.routes.js";
+import { zApiFormationRoutes } from "./formation.routes.js";
 import { zApiGeographieRoutes } from "./geographie.routes.js";
 import { zApiJobRoutes } from "./jobs/job.routes.js";
 import { zApiOrganismesRoutes } from "./organisme.routes.js";
@@ -10,6 +11,7 @@ import { zApiOrganismesRoutes } from "./organisme.routes.js";
 export * from "./common.routes.js";
 export * from "./certification.routes.js";
 export * from "./geographie.routes.js";
+export * from "./formation.routes.js";
 export * from "./jobs/job.routes.js";
 export * from "./organisme.routes.js";
 
@@ -18,6 +20,7 @@ const _zApiRoutesGet = {
   ...zApiCertificationsRoutes.get,
   ...zApiJobRoutes.get,
   ...zApiGeographieRoutes.get,
+  ...zApiFormationRoutes.get,
 } as const;
 
 const _zApiRoutesPost = {

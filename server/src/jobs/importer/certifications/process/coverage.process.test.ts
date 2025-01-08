@@ -2,7 +2,7 @@ import { useMongo } from "@tests/mongo.test.utils.js";
 import { ObjectId } from "mongodb";
 import type { ICertificationInternal } from "shared/models/certification.model";
 import {
-  generateCertificationFixture,
+  generateCertificationInternalFixture,
   generateSourceBcn_N_FormationDiplomeFixture,
   generateSourceFranceCompetenceFixture,
 } from "shared/models/fixtures/index";
@@ -89,7 +89,7 @@ describe("cfd coverage", () => {
     [rncp, debut, fin]: [string | null, T | null, T | null],
     importMeta: IImportMetaCertifications
   ) =>
-    generateCertificationFixture({
+    generateCertificationInternalFixture({
       identifiant: { cfd, rncp },
       periode_validite: {
         debut: debut?.start ?? null,
@@ -277,7 +277,7 @@ describe("rncp coverage", () => {
     [cfd, ouverture, fermeture]: [string | null, T | null, T | null],
     importMeta: IImportMetaCertifications
   ) =>
-    generateCertificationFixture({
+    generateCertificationInternalFixture({
       identifiant: { cfd, rncp },
       periode_validite: {
         debut: ouverture?.start ?? null,

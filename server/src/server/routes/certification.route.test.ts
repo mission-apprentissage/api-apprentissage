@@ -1,7 +1,7 @@
 import { useMongo } from "@tests/mongo.test.utils.js";
 import { DateTime } from "luxon";
 import type { ICertificationInternal } from "shared/models/certification.model";
-import { generateCertificationFixture, generateUserFixture } from "shared/models/fixtures/index";
+import { generateCertificationInternalFixture, generateUserFixture } from "shared/models/fixtures/index";
 import { beforeAll, beforeEach, describe, expect, it } from "vitest";
 
 import { generateApiKey } from "@/actions/users.actions.js";
@@ -24,7 +24,7 @@ describe("GET /certification/v1", () => {
   let token: string;
 
   const certifications = {
-    "46X32402_RNCP36491": generateCertificationFixture({
+    "46X32402_RNCP36491": generateCertificationInternalFixture({
       identifiant: { cfd: "46X32402", rncp: "RNCP36491" },
       periode_validite: {
         debut: new Date("2023-10-11T22:00:00.000+00:00"),
@@ -51,22 +51,22 @@ describe("GET /certification/v1", () => {
       created_at: new Date("2021-09-11T22:00:00.000+00:00"),
       updated_at: new Date("2021-10-11T22:00:00.000+00:00"),
     }),
-    "3553260B_null": generateCertificationFixture({
+    "3553260B_null": generateCertificationInternalFixture({
       identifiant: { cfd: "3553260B", rncp: null },
     }),
-    "3553260B_RNCP21529": generateCertificationFixture({
+    "3553260B_RNCP21529": generateCertificationInternalFixture({
       identifiant: { cfd: "3553260B", rncp: "RNCP21529" },
     }),
-    null_RNCP36092: generateCertificationFixture({
+    null_RNCP36092: generateCertificationInternalFixture({
       identifiant: { cfd: null, rncp: "RNCP36092" },
     }),
-    null_RNCP10013: generateCertificationFixture({
+    null_RNCP10013: generateCertificationInternalFixture({
       identifiant: { cfd: null, rncp: "RNCP10013" },
     }),
-    "20512008_RNCP24420": generateCertificationFixture({
+    "20512008_RNCP24420": generateCertificationInternalFixture({
       identifiant: { cfd: "20512008", rncp: "RNCP24420" },
     }),
-    "13512840_null": generateCertificationFixture({
+    "13512840_null": generateCertificationInternalFixture({
       identifiant: { cfd: "13512840", rncp: null },
     }),
   } satisfies Record<string, ICertificationInternal>;

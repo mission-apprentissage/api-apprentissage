@@ -3,8 +3,8 @@ import type { IFormation } from "api-alternance-sdk";
 import { zCertification, zOrganisme } from "api-alternance-sdk";
 import { ObjectId } from "mongodb";
 import type { ICommuneInternal } from "shared/models/commune.model";
-import { generateCertificationFixture } from "shared/models/fixtures/certification.model.fixture";
-import { generateOrganismeFixture } from "shared/models/fixtures/organisme.model.fixture";
+import { generateCertificationInternalFixture } from "shared/models/fixtures/certification.model.fixture";
+import { generateOrganismeInternalFixture } from "shared/models/fixtures/organisme.model.fixture";
 import type { IImportMeta, IImportMetaFormations } from "shared/models/import.meta.model";
 import type { IFormationCatalogue } from "shared/models/source/catalogue/source.catalogue.model";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -245,15 +245,15 @@ const communes: ICommuneInternal[] = [
 const rncp = "RNCP35234";
 const cfd = "56T34302";
 
-const certification = generateCertificationFixture({
+const certification = generateCertificationInternalFixture({
   identifiant: { rncp, cfd, rncp_anterieur_2019: false },
 });
 
 const organismes = [
-  generateOrganismeFixture({
+  generateOrganismeInternalFixture({
     identifiant: { siret: "42339754600114", uai: "0212270D" },
   }),
-  generateOrganismeFixture({
+  generateOrganismeInternalFixture({
     identifiant: { siret: "19350030300014", uai: "0352660B" },
   }),
 ];

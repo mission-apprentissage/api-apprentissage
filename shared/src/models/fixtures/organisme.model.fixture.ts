@@ -3,21 +3,20 @@ import { ObjectId } from "bson";
 
 import type { IOrganismeInternal } from "../organisme.model.js";
 
-export type IOrganismeInput = Partial<
-  Omit<IOrganisme, "identifiant"> & {
+export type IOrganismeInput<T extends IOrganisme> = Partial<
+  Omit<T, "identifiant"> & {
     identifiant: Partial<IOrganisme["identifiant"]>;
   }
 >;
 
-export function generateOrganismeFixture(data?: Partial<IOrganisme>): IOrganismeInternal {
+export function generateOrganismeFixture(data?: IOrganismeInput<IOrganisme>): IOrganisme {
+  const { identifiant, ...rest } = data ?? {};
+
   return {
-    _id: new ObjectId(),
-    created_at: new Date("2024-04-19T00:00:00Z"),
-    updated_at: new Date("2024-04-19T00:00:00Z"),
     identifiant: {
       uai: "0352660B",
       siret: "19350030300014",
-      ...data?.identifiant,
+      ...identifiant,
     },
     etablissement: {
       siret: "19350030300014",
@@ -61,6 +60,16 @@ export function generateOrganismeFixture(data?: Partial<IOrganisme>): IOrganisme
       creation: new Date("1969-12-30T07:03:18.000+00:00"),
       cessation: null,
     },
+    ...rest,
+  };
+}
+
+export function generateOrganismeInternalFixture(data?: IOrganismeInput<IOrganismeInternal>): IOrganismeInternal {
+  return {
+    _id: new ObjectId(),
+    created_at: new Date("2024-04-19T00:00:00Z"),
+    updated_at: new Date("2024-04-19T00:00:00Z"),
     ...data,
+    ...generateOrganismeFixture(data),
   };
 }

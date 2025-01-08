@@ -27,6 +27,12 @@ export const zMef10 = z.string().regex(/^\d{10}$/);
 
 export const zRomeCode = z.string().regex(/^[A-Z]{1}\d{4}$/);
 
+export const zRomeCodeCsvParam = z
+  .string()
+  .trim()
+  .transform((val) => val.split(","))
+  .pipe(zRomeCode.array());
+
 export const zRomeCodeFlex = z.string().regex(/^[A-Z]{1}\d{0,4}$/);
 
 export const zCfdNatureCode = z.string().regex(/^[0-9A-Z]$/);

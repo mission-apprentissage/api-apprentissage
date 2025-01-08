@@ -6,7 +6,14 @@ import { zObjectId } from "./common.js";
 
 const collectionName = "formation" as const;
 
-const indexes: IModelDescriptorGeneric["indexes"] = [[{ "identifiant.cle_ministere_educatif": 1 }, { unique: true }]];
+const indexes: IModelDescriptorGeneric["indexes"] = [
+  [{ "identifiant.cle_ministere_educatif": 1 }, { unique: true }],
+  [{ "statut.catalogue": 1, "certification.valeur.domaines.rome.rncp.code": 1 }, {}],
+  [{ "statut.catalogue": 1, "certification.valeur.identifiant.rncp": 1 }, {}],
+  [{ "statut.catalogue": 1, "certification.valeur.intitule.niveau.rncp.europeen": 1 }, {}],
+  [{ "statut.catalogue": 1, "certification.valeur.intitule.niveau.cfd.europeen": 1 }, {}],
+  [{ "lieu.geolocalisation": "2dsphere", "statut.catalogue": 1 }, {}],
+];
 
 export const zFormationInternal = zFormation.extend({
   _id: zObjectId,

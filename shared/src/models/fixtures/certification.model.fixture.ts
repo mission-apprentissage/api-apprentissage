@@ -1,3 +1,4 @@
+import type { ICertification } from "api-alternance-sdk";
 import { ObjectId } from "bson";
 
 import type { ICertificationInternal } from "../certification.model.js";
@@ -31,7 +32,10 @@ export type ICertificationFixtureInput = {
   periode_validite?: ICertifPeriodeValiditeFixtureInput;
   type?: ICertifTypeFixtureInput;
   continuite?: ICertifContinuiteFixtureInput;
-} & Partial<Pick<ICertificationInternal, "_id" | "created_at" | "updated_at">>;
+};
+
+export type ICertificationInternalFixtureInput = ICertificationFixtureInput &
+  Partial<Pick<ICertificationInternal, "_id" | "created_at" | "updated_at">>;
 
 export function generateCertifBaseLegaleFixture(
   data?: ICertifBaseLegaleFixtureInput
@@ -281,12 +285,11 @@ export function generateCertifContinuiteFixture(
   };
 }
 
-export function generateCertificationFixture(data?: ICertificationFixtureInput): ICertificationInternal {
+export function generateCertificationFixture(data?: ICertificationFixtureInput): ICertification {
   const identifiant = generateCertifIdentifiantFixture(data?.identifiant);
   const periode_validite = generateCertificationPeriodeValiditeFixture(data?.periode_validite);
 
   return {
-    _id: getFixtureValue(data, "_id", new ObjectId()),
     base_legale: generateCertifBaseLegaleFixture(data?.base_legale),
     blocs_competences: generateCertifBlocsCompetencesFixture(data?.blocs_competences),
     convention_collectives: generateCertifConventionCollectivesFixture(data?.convention_collectives),
@@ -296,7 +299,16 @@ export function generateCertificationFixture(data?: ICertificationFixtureInput):
     periode_validite,
     type: generateCertifTypeFixture(data?.type),
     continuite: generateCertifContinuiteFixture({ identifiant, periode_validite }, data?.continuite),
+  };
+}
+
+export function generateCertificationInternalFixture(
+  data?: ICertificationInternalFixtureInput
+): ICertificationInternal {
+  return {
+    _id: getFixtureValue(data, "_id", new ObjectId()),
     created_at: getFixtureValue(data, "created_at", new Date("2021-08-31T22:00:00.000Z")),
     updated_at: getFixtureValue(data, "updated_at", new Date("2021-08-31T22:00:00.000Z")),
+    ...generateCertificationFixture(data),
   };
 }

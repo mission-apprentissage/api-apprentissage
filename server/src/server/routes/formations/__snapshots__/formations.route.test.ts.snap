@@ -1,0 +1,346 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`GET /formation/v1/search > should perform search correctly 1`] = `
+{
+  "certification": {
+    "connue": true,
+    "valeur": {
+      "base_legale": {
+        "cfd": {
+          "abrogation": "2024-07-01T23:59:59.000+02:00",
+          "creation": "2021-09-01T00:00:00.000+02:00",
+        },
+      },
+      "blocs_competences": {
+        "rncp": [
+          {
+            "code": "RNCP36629BC01",
+            "intitule": "Analyser et diagnostiquer les besoins du client en matière de gestion de patrimoine privé ou professionnel",
+          },
+          {
+            "code": "RNCP36629BC02",
+            "intitule": "Conseiller et commercialiser des montages d’ingénierie patrimoniale privée ou professionnelle",
+          },
+          {
+            "code": "RNCP36629BC03",
+            "intitule": "Créer son cabinet, développer et pérenniser son portefeuille client privé ou professionnel",
+          },
+          {
+            "code": "RNCP36629BC04",
+            "intitule": "Suivre les réglementations et les procédures d’éthique et de déontologie financières en matière de conseil patrimonial privé ou professionnel",
+          },
+        ],
+      },
+      "continuite": {
+        "cfd": [
+          {
+            "code": "16X31336",
+            "courant": true,
+            "fermeture": "2024-08-31T23:59:59.000+02:00",
+            "ouverture": "2021-09-01T00:00:00.000+02:00",
+          },
+        ],
+        "rncp": [
+          {
+            "actif": true,
+            "activation": "2022-07-05T02:00:00.000+02:00",
+            "code": "RNCP36629",
+            "courant": true,
+            "fin_enregistrement": "2024-06-30T23:59:59.000+02:00",
+          },
+        ],
+      },
+      "convention_collectives": {
+        "rncp": [],
+      },
+      "domaines": {
+        "formacodes": {
+          "rncp": [
+            {
+              "code": "41014",
+              "intitule": "41014 : Gestion patrimoine",
+            },
+            {
+              "code": "41007",
+              "intitule": "41007 : Gestion actifs",
+            },
+            {
+              "code": "41003",
+              "intitule": "41003 : Gestion portefeuille",
+            },
+            {
+              "code": "42133",
+              "intitule": "42133 : Gestion immobilière",
+            },
+          ],
+        },
+        "nsf": {
+          "cfd": {
+            "code": "313",
+            "intitule": "FINANCES, BANQUE, ASSURANCES",
+          },
+          "rncp": [
+            {
+              "code": "313",
+              "intitule": "313 : Finances, banque, assurances, immobilier",
+            },
+          ],
+        },
+        "rome": {
+          "rncp": [
+            {
+              "code": "C1205",
+              "intitule": "Conseil en gestion de patrimoine financier",
+            },
+          ],
+        },
+      },
+      "identifiant": {
+        "cfd": "16X31336",
+        "rncp": "RNCP36629",
+        "rncp_anterieur_2019": true,
+      },
+      "intitule": {
+        "cfd": {
+          "court": "EXPERT EN GESTION DE PATRIMOINE",
+          "long": "EXPERT EN GESTION DE PATRIMOINE (IPAC)",
+        },
+        "niveau": {
+          "cfd": {
+            "europeen": "7",
+            "formation_diplome": "16X",
+            "interministeriel": "16X",
+            "libelle": "TITRE PROFESSIONNEL HOMOLOGUE OU CERTIFIE",
+            "sigle": "TH1-X",
+          },
+          "rncp": {
+            "europeen": "7",
+          },
+        },
+        "rncp": "Expert en gestion de patrimoine",
+      },
+      "periode_validite": {
+        "cfd": {
+          "derniere_session": 2024,
+          "fermeture": "2024-08-31T23:59:59.000+02:00",
+          "ouverture": "2021-09-01T00:00:00.000+02:00",
+          "premiere_session": 2022,
+        },
+        "debut": "2021-09-01T00:00:00.000+02:00",
+        "fin": "2024-08-31T23:59:59.000+02:00",
+        "rncp": {
+          "actif": true,
+          "activation": "2022-07-05T02:00:00.000+02:00",
+          "debut_parcours": "2022-07-01T00:00:00.000+02:00",
+          "fin_enregistrement": "2024-06-30T23:59:59.000+02:00",
+        },
+      },
+      "type": {
+        "certificateurs_rncp": [
+          {
+            "nom": "MINISTERE DU TRAVAIL DU PLEIN EMPLOI ET DE L' INSERTION",
+            "siret": "11000007200014",
+          },
+        ],
+        "enregistrement_rncp": "Enregistrement sur demande",
+        "gestionnaire_diplome": "DEPPA1",
+        "nature": {
+          "cfd": {
+            "code": "2",
+            "libelle": "TITRE PROFESSIONNEL HOMOLOGUE OU CERTIFIE",
+          },
+        },
+        "voie_acces": {
+          "rncp": {
+            "apprentissage": true,
+            "candidature_individuelle": true,
+            "contrat_professionnalisation": true,
+            "experience": true,
+            "formation_continue": true,
+            "formation_statut_eleve": true,
+          },
+        },
+      },
+    },
+  },
+  "contact": {
+    "email": "mail@mail.fr",
+    "telephone": "0123456789",
+  },
+  "contenu_educatif": {
+    "contenu": "Contenu éducatif",
+    "objectif": "Apprendre",
+  },
+  "formateur": {
+    "connu": true,
+    "organisme": {
+      "etablissement": {
+        "adresse": {
+          "academie": {
+            "code": "14",
+            "id": "A14",
+            "nom": "Rennes",
+          },
+          "code_postal": "35000",
+          "commune": {
+            "code_insee": "35238",
+            "nom": "Rennes",
+          },
+          "departement": {
+            "code_insee": "35",
+            "nom": "Ille-et-Vilaine",
+          },
+          "label": "34 RUE BAHON-RAULT",
+          "region": {
+            "code_insee": "53",
+            "nom": "Bretagne",
+          },
+        },
+        "creation": "1970-01-05T20:22:01.200+01:00",
+        "enseigne": null,
+        "fermeture": null,
+        "ouvert": true,
+        "siret": "19350030300014",
+      },
+      "identifiant": {
+        "siret": "19350030300014",
+        "uai": "0352660B",
+      },
+      "renseignements_specifiques": {
+        "numero_activite": "5335P000935",
+        "qualiopi": true,
+      },
+      "statut": {
+        "referentiel": "présent",
+      },
+      "unite_legale": {
+        "actif": true,
+        "cessation": null,
+        "creation": "1969-12-30T08:03:18.000+01:00",
+        "raison_sociale": "LYCEE DES METIERS PIERRE MENDES FRANCE",
+        "siren": "193500303",
+      },
+    },
+  },
+  "identifiant": {
+    "cle_ministere_educatif": "clichy",
+  },
+  "lieu": {
+    "adresse": {
+      "academie": {
+        "code": "25",
+        "id": "A25",
+        "nom": "Versailles",
+      },
+      "code_postal": "92110",
+      "commune": {
+        "code_insee": "92024",
+        "nom": "Clichy",
+      },
+      "departement": {
+        "code_insee": "92",
+        "nom": "auts-de-Seine",
+      },
+      "label": "1T impasse Passoir",
+      "region": {
+        "code_insee": "11",
+        "nom": "Île-de-France",
+      },
+    },
+    "geolocalisation": {
+      "coordinates": [
+        2.3041,
+        48.9041,
+      ],
+      "type": "Point",
+    },
+    "precision": 15,
+    "siret": null,
+  },
+  "modalite": {
+    "annee_cycle": 1,
+    "duree_indicative": 1,
+    "entierement_a_distance": false,
+    "mef_10": null,
+  },
+  "onisep": {
+    "discipline": null,
+    "domaine_sousdomaine": null,
+    "intitule": null,
+    "libelle_poursuite": null,
+    "lien_site_onisepfr": null,
+    "url": null,
+  },
+  "responsable": {
+    "connu": true,
+    "organisme": {
+      "etablissement": {
+        "adresse": {
+          "academie": {
+            "code": "14",
+            "id": "A14",
+            "nom": "Rennes",
+          },
+          "code_postal": "35000",
+          "commune": {
+            "code_insee": "35238",
+            "nom": "Rennes",
+          },
+          "departement": {
+            "code_insee": "35",
+            "nom": "Ille-et-Vilaine",
+          },
+          "label": "34 RUE BAHON-RAULT",
+          "region": {
+            "code_insee": "53",
+            "nom": "Bretagne",
+          },
+        },
+        "creation": "1970-01-05T20:22:01.200+01:00",
+        "enseigne": null,
+        "fermeture": null,
+        "ouvert": true,
+        "siret": "19350030300014",
+      },
+      "identifiant": {
+        "siret": "19350030300014",
+        "uai": "0352660B",
+      },
+      "renseignements_specifiques": {
+        "numero_activite": "5335P000935",
+        "qualiopi": true,
+      },
+      "statut": {
+        "referentiel": "présent",
+      },
+      "unite_legale": {
+        "actif": true,
+        "cessation": null,
+        "creation": "1969-12-30T08:03:18.000+01:00",
+        "raison_sociale": "LYCEE DES METIERS PIERRE MENDES FRANCE",
+        "siren": "193500303",
+      },
+    },
+  },
+  "sessions": [
+    {
+      "capacite": 10,
+      "debut": "2023-09-01T02:00:00.000+02:00",
+      "fin": "2024-08-31T02:00:00.000+02:00",
+    },
+    {
+      "capacite": 10,
+      "debut": "2024-09-01T02:00:00.000+02:00",
+      "fin": "2025-08-31T02:00:00.000+02:00",
+    },
+    {
+      "capacite": 10,
+      "debut": "2025-09-01T02:00:00.000+02:00",
+      "fin": "2026-08-31T02:00:00.000+02:00",
+    },
+  ],
+  "statut": {
+    "catalogue": "publié",
+  },
+}
+`;

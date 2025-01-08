@@ -11,6 +11,7 @@ import { zUserRoutes } from "./_private/user.routes.js";
 import { zCertificationsRoutes } from "./certification.routes.js";
 import type { IRouteSchema, IRouteSchemaWrite } from "./common.routes.js";
 import { zSourceAcceRoutes } from "./experimental/source/acce.routes.js";
+import { zFormationRoutes } from "./formation.routes.js";
 import { zGeographieRoutes } from "./geographie.routes.js";
 import { zCoreRoutes } from "./healthcheck.routes.js";
 import { zJobRoutes } from "./job.routes.js";
@@ -30,6 +31,7 @@ const zRoutesGet = {
   ...zOrganisationAdminRoutes.get,
   ...zJobRoutes.get,
   ...zGeographieRoutes.get,
+  ...zFormationRoutes.get,
 } as const;
 
 const zRoutesPost = {

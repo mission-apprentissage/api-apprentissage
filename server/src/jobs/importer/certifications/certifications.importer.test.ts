@@ -2,7 +2,7 @@ import { useMongo } from "@tests/mongo.test.utils.js";
 import { DateTime } from "luxon";
 import { ObjectId } from "mongodb";
 import {
-  generateCertificationFixture,
+  generateCertificationInternalFixture,
   generateKitApprentissageFixture,
   generateKitApprentissageFixtureData,
   generateSourceBcn_N_FormationDiplomeDataFixture,
@@ -382,21 +382,21 @@ describe("importCertifications", () => {
 
     const existingCertifications = {
       updated: [
-        generateCertificationFixture({
+        generateCertificationInternalFixture({
           _id: new ObjectId(),
           identifiant: { cfd: "20512008", rncp: "RNCP24420", rncp_anterieur_2019: true },
           periode_validite,
           created_at: yesterday,
           updated_at: yesterday,
         }),
-        generateCertificationFixture({
+        generateCertificationInternalFixture({
           _id: new ObjectId(),
           identifiant: { cfd: "70010004", rncp: null, rncp_anterieur_2019: null },
           periode_validite,
           created_at: yesterday,
           updated_at: yesterday,
         }),
-        generateCertificationFixture({
+        generateCertificationInternalFixture({
           _id: new ObjectId(),
           identifiant: { cfd: null, rncp: "RNCP987", rncp_anterieur_2019: true },
           periode_validite,
@@ -405,21 +405,21 @@ describe("importCertifications", () => {
         }),
       ],
       removed: [
-        generateCertificationFixture({
+        generateCertificationInternalFixture({
           _id: new ObjectId(),
           identifiant: { cfd: "56T25202", rncp: "RNCP37545" },
           periode_validite,
           created_at: yesterday,
           updated_at: yesterday,
         }),
-        generateCertificationFixture({
+        generateCertificationInternalFixture({
           _id: new ObjectId(),
           identifiant: { cfd: "56X23201", rncp: null },
           periode_validite,
           created_at: yesterday,
           updated_at: yesterday,
         }),
-        generateCertificationFixture({
+        generateCertificationInternalFixture({
           _id: new ObjectId(),
           identifiant: { cfd: null, rncp: "RNCP183" },
           periode_validite,
@@ -430,21 +430,21 @@ describe("importCertifications", () => {
     };
 
     const newCertifications = [
-      generateCertificationFixture({
+      generateCertificationInternalFixture({
         _id: new ObjectId(),
         identifiant: { cfd: "56T25106", rncp: "RNCP34148", rncp_anterieur_2019: false },
         periode_validite,
         created_at: now,
         updated_at: now,
       }),
-      generateCertificationFixture({
+      generateCertificationInternalFixture({
         _id: new ObjectId(),
         identifiant: { cfd: "97031104", rncp: null, rncp_anterieur_2019: null },
         periode_validite,
         created_at: now,
         updated_at: now,
       }),
-      generateCertificationFixture({
+      generateCertificationInternalFixture({
         _id: new ObjectId(),
         identifiant: { cfd: null, rncp: "RNCP14636", rncp_anterieur_2019: true },
         periode_validite,
@@ -656,7 +656,7 @@ describe("importCertifications", () => {
       zRncp: { activation: debut.date, fin_enregistrement: fin.date },
     };
 
-    const existingCertification = generateCertificationFixture({
+    const existingCertification = generateCertificationInternalFixture({
       _id: new ObjectId(),
       identifiant: { cfd: "20512008", rncp: "RNCP24420", rncp_anterieur_2019: false },
       periode_validite,

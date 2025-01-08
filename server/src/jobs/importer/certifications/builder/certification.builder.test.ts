@@ -1,6 +1,6 @@
 import type { ICertification } from "api-alternance-sdk";
 import {
-  generateCertificationFixture,
+  generateCertificationInternalFixture,
   generateKitApprentissageFixture,
   generateKitApprentissageFixtureData,
   generateSourceBcn_N_FormationDiplomeFixture,
@@ -55,7 +55,7 @@ describe("buildCertification", () => {
         bcn: generateSourceBcn_N_FormationDiplomeFixture({ data: { FORMATION_DIPLOME: "20512008" } }),
         france_competence: null,
       };
-      const expectedCertification = generateCertificationFixture({
+      const expectedCertification = generateCertificationInternalFixture({
         identifiant: {
           cfd: "20512008",
           rncp: null,
@@ -78,7 +78,7 @@ describe("buildCertification", () => {
         bcn: null,
         france_competence: generateSourceFranceCompetenceFixture({ numero_fiche: rncp }),
       };
-      const expectedCertification = generateCertificationFixture({
+      const expectedCertification = generateCertificationInternalFixture({
         identifiant: {
           cfd: null,
           rncp: rncp,
@@ -128,7 +128,7 @@ describe("buildCertification", () => {
       created_at: _1,
       updated_at: _2,
       ...expectedCertification
-    } = generateCertificationFixture({
+    } = generateCertificationInternalFixture({
       identifiant: {
         cfd: "20512008",
         rncp: "RNCP24420",
@@ -164,7 +164,7 @@ describe("buildCertification", () => {
       created_at: _1,
       updated_at: _2,
       ...expectedCertification
-    } = generateCertificationFixture({
+    } = generateCertificationInternalFixture({
       identifiant: {
         cfd: "20512008",
         rncp: "RNCP24X20",

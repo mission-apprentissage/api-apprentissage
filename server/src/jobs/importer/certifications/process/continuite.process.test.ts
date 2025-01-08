@@ -1,7 +1,7 @@
 import { useMongo } from "@tests/mongo.test.utils.js";
 import { ObjectId } from "mongodb";
 import {
-  generateCertificationFixture,
+  generateCertificationInternalFixture,
   generateSourceBcn_N_FormationDiplomeFixture,
   generateSourceFranceCompetenceFixture,
 } from "shared/models/fixtures/index";
@@ -49,7 +49,7 @@ describe("CFD continuite", () => {
   } as const;
 
   const generateCert = (code: string, ouverture: Date, fermeture: Date) =>
-    generateCertificationFixture({
+    generateCertificationInternalFixture({
       identifiant: { cfd: code, rncp: null },
       periode_validite: { cfd: { ouverture, fermeture }, rncp: null, debut: ouverture, fin: fermeture },
     });
@@ -345,7 +345,7 @@ describe("RNCP continuite", () => {
   } as const;
 
   const generateCert = (code: string, activation: Date, fin_enregistrement: Date, actif: boolean) =>
-    generateCertificationFixture({
+    generateCertificationInternalFixture({
       identifiant: { rncp: code, cfd: null },
       periode_validite: {
         rncp: {

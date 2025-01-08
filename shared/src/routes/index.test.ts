@@ -2,7 +2,7 @@ import assert from "node:assert";
 
 import { ZResError } from "api-alternance-sdk";
 import { describe, it } from "vitest";
-import { ZodUnknown } from "zod";
+import { ZodEffects, ZodUnknown } from "zod";
 
 import type { IRouteSchema, IRouteSchemaGet, IRouteSchemaWrite, IRoutesDef } from "./common.routes.js";
 import { zRoutes } from "./index.js";
@@ -49,7 +49,11 @@ describe("zRoutes", () => {
               for (const [, access] of Object.entries(resourceAccess)) {
                 const zodInputShape = access.type === "params" ? typedDef.params : typedDef.querystring;
                 assert.notEqual(
-                  zodInputShape instanceof ZodUnknown ? undefined : zodInputShape?.shape?.[access.key],
+                  zodInputShape instanceof ZodUnknown
+                    ? undefined
+                    : zodInputShape instanceof ZodEffects
+                      ? zodInputShape.sourceType().shape[access.key]
+                      : zodInputShape?.shape?.[access.key],
                   undefined,
                   `${method} ${path} ${resourceType}.${access.type}.${access.key}: does not exists`
                 );

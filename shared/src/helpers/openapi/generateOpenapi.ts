@@ -2,24 +2,24 @@ import type { ResponseConfig, RouteConfig } from "@asteasolutions/zod-to-openapi
 import { OpenApiGeneratorV31, OpenAPIRegistry } from "@asteasolutions/zod-to-openapi";
 import { formatParamUrl } from "@fastify/swagger";
 import {
+  registerCertificationRoutes,
+  registerGeographieRoutes,
+  registerJobRoutes,
   registerOpenApiCertificationSchema,
   registerOpenApiCommuneModel,
   registerOpenApiDepartementModel,
   registerOpenApiErrorsSchema,
   registerOpenApiJobModel,
   registerOpenApiMissionLocaleModel,
+  registerOrganismeRoutes,
 } from "api-alternance-sdk/internal";
 import type { PathsObject, SecurityRequirementObject } from "openapi3-ts/oas31";
 import { OpenApiBuilder } from "openapi3-ts/oas31";
 import type { AnyZodObject } from "zod";
 
-import { registerCertificationRoutes } from "../../routes/certification.routes.js";
 import type { IRouteSchema, IRoutesDef } from "../../routes/common.routes.js";
 import { zSourceAcceRoutes } from "../../routes/experimental/source/acce.routes.js";
-import { registerGeographieRoutes } from "../../routes/geographie.routes.js";
 import { registerHealhcheckRoutes } from "../../routes/healthcheck.routes.js";
-import { registerJobRoutes } from "../../routes/job.routes.js";
-import { registerOrganismeRoutes } from "../../routes/organisme.routes.js";
 
 function generateOpenApiResponsesObject<R extends IRouteSchema["response"]>(
   response: R

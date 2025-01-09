@@ -1,8 +1,12 @@
 import { z } from "zod";
 
-import { zNiveauDiplomeEuropeen, zRncp, zRomeCodeCsvParam } from "../models/certification/certification.primitives.js";
-import { zFormation } from "../models/index.js";
-import type { IApiRoutesDef } from "./common.routes.js";
+import {
+  zNiveauDiplomeEuropeen,
+  zRncp,
+  zRomeCodeCsvParam,
+} from "../../models/certification/certification.primitives.js";
+import { zFormation } from "../../models/index.js";
+import type { IApiRoutesDef } from "../common.routes.js";
 
 export const zFormationSearchApiQuery = z
   .object({

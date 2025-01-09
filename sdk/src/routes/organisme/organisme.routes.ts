@@ -1,8 +1,8 @@
 import { z } from "zod";
 
-import { zOrganisme } from "../models/index.js";
-import { zSiret, zUai } from "../models/internal.js";
-import type { IApiRoutesDef } from "./common.routes.js";
+import { zOrganisme } from "../../models/organisme/organisme.model.js";
+import { zSiret, zUai } from "../../models/organisme/organismes.primitives.js";
+import type { IApiRoutesDef } from "../common.routes.js";
 
 const zRechercheOrganismeResultat = z.object({
   status: z.object({

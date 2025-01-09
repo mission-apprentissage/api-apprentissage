@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { zParisLocalDate, zParisLocalDateNullable } from "../../internal.js";
+import { zParisLocalDate, zParisLocalDateNullable } from "../../utils/date.primitives.js";
 import { zSiret, zUai } from "./organismes.primitives.js";
 
 export const zOrganisme = z.object({

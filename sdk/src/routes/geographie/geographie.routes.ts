@@ -1,7 +1,9 @@
 import { z } from "zod";
 
-import { zCommune, zDepartement, zMissionLocale } from "../models/index.js";
-import type { IApiRoutesDef } from "./common.routes.js";
+import { zCommune } from "../../models/geographie/commune.model.js";
+import { zDepartement } from "../../models/geographie/departement.model.js";
+import { zMissionLocale } from "../../models/geographie/mission-locale.model.js";
+import type { IApiRoutesDef } from "../common.routes.js";
 
 const zCode = z.string().regex(/^\d{5}$/);
 

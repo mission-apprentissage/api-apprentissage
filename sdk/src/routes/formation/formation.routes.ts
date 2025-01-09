@@ -68,10 +68,26 @@ export const zApiFormationRoutes = {
       },
       openapi: {
         tags: ["Formation"] as string[],
-        summary: "Formation en apprentissage",
+        summary: "Recherche de formations en apprentissage",
         description:
           "Accédez en temps réel à l'ensemble des formations en apprentissage disponibles sur le territoire français.",
         operationId: "searchFormations",
+      },
+    },
+  },
+  post: {
+    "/formation/v1/appointment/generate-link": {
+      method: "post",
+      path: "/formation/v1/appointment/generate-link",
+      body: z.unknown(),
+      response: {
+        "200": z.unknown(),
+      },
+      openapi: {
+        tags: ["Formation"] as string[],
+        summary: "Formation en apprentissage",
+        description: "Génère un lien pour prendre rendez-vous pour une formation en apprentissage.",
+        operationId: "generateAppointmentLinkFormation",
       },
     },
   },

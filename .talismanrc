@@ -31,6 +31,8 @@ fileignoreconfig:
   checksum: acf09e358f0a245de48dd5b02cdceecb49cef2584954c3b9eafe3419922c7d74
 - filename: server/src/jobs/importer/formation/formation.importer.test.ts
   checksum: 9a37a19fdae0c86a797e57a7b43f21faf3d18bd76185adc88a6f6639d4984a27
+- filename: server/src/server/routes/formations/formations.route.test.ts
+  checksum: 79689293db7fd897d17e08d175810d0ddb950019d221c8999bb5e4a4effe99fe
 - filename: server/src/services/apis/unml/unml.test.ts
   checksum: 71b196ba42a795b8a649fb9a17ac356cd719bfc9c254d4859a8aab22b05b03e5
 - filename: shared/src/helpers/openapi/__snapshots__/generateOpenapi.test.ts.snap

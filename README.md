@@ -13,3 +13,7 @@
 - [Vault](./docs/Vault.md)
 - [Infrastructure](./docs/infrastructure.md)
 - [Sécurité](./docs/securite.md)
+
+## Guides
+
+- [Ajouter une route passe plat LBA](./docs/developpement/ajouter-route-lba.md)

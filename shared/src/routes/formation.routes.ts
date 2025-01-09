@@ -14,6 +14,16 @@ export const zFormationRoutes = {
       },
     },
   },
+  post: {
+    "/formation/v1/appointment/generate-link": {
+      ...zApiFormationRoutes.post["/formation/v1/appointment/generate-link"],
+      securityScheme: {
+        auth: "api-key",
+        access: null,
+        ressources: {},
+      },
+    },
+  },
 } as const satisfies IRoutesDef;
 
 export function registerFormationRoutes(builder: OpenApiBuilder, _lang: "en" | "fr"): OpenApiBuilder {

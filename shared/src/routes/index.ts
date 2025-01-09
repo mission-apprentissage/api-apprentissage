@@ -41,6 +41,7 @@ const zRoutesPost = {
   ...zEmailRoutes.post,
   ...zOrganisationAdminRoutes.post,
   ...zJobRoutes.post,
+  ...zFormationRoutes.post,
 } as const;
 
 const zRoutesPut = {

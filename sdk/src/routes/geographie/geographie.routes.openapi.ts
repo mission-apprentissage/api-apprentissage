@@ -26,7 +26,6 @@ export function registerGeographieRoutes(builder: OpenApiBuilder, lang: "en" | "
           ],
           responses: {
             "200": {
-              description: communeSearchRouteDoc.response.description,
               content: {
                 "application/json": {
                   schema: {
@@ -52,7 +51,6 @@ export function registerGeographieRoutes(builder: OpenApiBuilder, lang: "en" | "
           security: [{ "api-key": [] }],
           responses: {
             "200": {
-              description: listDepartementsRouteDoc.response.description,
               content: {
                 "application/json": {
                   schema: {
@@ -78,7 +76,6 @@ export function registerGeographieRoutes(builder: OpenApiBuilder, lang: "en" | "
           security: [{ "api-key": [] }],
           responses: {
             "200": {
-              description: listMissionLocalesRouteDoc.response.description,
               content: {
                 "application/json": {
                   schema: {

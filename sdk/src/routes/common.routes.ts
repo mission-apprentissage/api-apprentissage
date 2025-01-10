@@ -1,4 +1,3 @@
-import type { oas31 } from "openapi3-ts";
 import type { AnyZodObject, ZodEffects, ZodType, ZodUnknown } from "zod";
 
 export interface IApiRouteSchemaCommon {
@@ -7,7 +6,6 @@ export interface IApiRouteSchemaCommon {
   headers?: AnyZodObject;
   params?: AnyZodObject;
   response: { [statuscode: `${1 | 2 | 3 | 4 | 5}${string}`]: ZodType };
-  openapi: Omit<oas31.OperationObject, "parameters" | "requestBody" | "requestParams" | "responses">;
 }
 
 export interface IApiRouteSchemaGet extends IApiRouteSchemaCommon {

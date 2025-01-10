@@ -20,9 +20,6 @@ export const zCoreRoutes = {
           .strict(),
       },
       securityScheme: null,
-      openapi: {
-        tags: ["Système"] as string[],
-      },
     },
   },
 } as const satisfies IRoutesDef;

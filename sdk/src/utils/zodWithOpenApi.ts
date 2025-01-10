@@ -90,14 +90,16 @@ function addSchemaModelDoc<T extends SchemaObject | ReferenceObject | undefined>
       descriptions: [doc.description],
       _: doc._,
     },
-    lang
+    lang,
+    []
   );
 }
 
 function addSchemaDoc<T extends SchemaObject | ReferenceObject | undefined>(
   schema: T,
   doc: DocTechnicalField | undefined,
-  lang: "en" | "fr"
+  lang: "en" | "fr",
+  path: string[]
 ): T {
   if (!schema || "$ref" in schema) {
     return schema;
@@ -108,10 +110,21 @@ function addSchemaDoc<T extends SchemaObject | ReferenceObject | undefined>(
   const docProperties = doc?._;
 
   if (output.properties && docProperties) {
+    const schemaProps = new Set(Object.keys(output.properties));
+    const docProps = new Set(Object.keys(docProperties));
+
+    const missingProps = [...docProps].filter((p) => !schemaProps.has(p));
+
+    if (missingProps.length > 0) {
+      throw new Error(
+        `Propriété de documentation inconnu: ${missingProps.map((p) => `${path.join(".")}.${p}`).join(", ")}`
+      );
+    }
+
     output.properties = Object.entries(output.properties).reduce(
       (acc, [prop, propSchema]) => {
         if (prop in docProperties) {
-          acc[prop] = addSchemaDoc(propSchema, docProperties[prop], lang);
+          acc[prop] = addSchemaDoc(propSchema, docProperties[prop], lang, [...path, prop]);
         } else {
           acc[prop] = propSchema;
         }
@@ -123,13 +136,27 @@ function addSchemaDoc<T extends SchemaObject | ReferenceObject | undefined>(
   }
 
   if (output.items && docProperties) {
-    output.items = addSchemaDoc(output.items, docProperties["[]"], lang);
+    const docProps = new Set(Object.keys(docProperties));
+
+    if (docProps.size !== 1 || !docProps.has("[]")) {
+      throw new Error(
+        `La documentation des items de tableau doivent etre "[]": ${[...docProps].map((p) => `${path.join(".")}.${p}`).join(", ")}`
+      );
+    }
+
+    output.items = addSchemaDoc(output.items, docProperties["[]"], lang, [...path, "[]"]);
   }
 
   if (output.prefixItems && docProperties) {
+    if (output.prefixItems.length < Object.keys(docProperties).length) {
+      throw new Error(
+        `La documentation des items de tableau prefixe est plus longue que le tableau: ${path.join(".")}`
+      );
+    }
+
     output.prefixItems = output.prefixItems.map((item, index): SchemaObject | ReferenceObject => {
       if (index in docProperties) {
-        return addSchemaDoc(item, docProperties[index], lang);
+        return addSchemaDoc(item, docProperties[index], lang, [...path, `${index}`]);
       }
       return item;
     });
@@ -155,7 +182,7 @@ function addContentObjectDoc<T extends ContentObject | undefined>(
 
     acc[mediaType] = {
       ...media,
-      schema: addSchemaDoc(media.schema, doc, lang),
+      schema: addSchemaDoc(media.schema, doc, lang, ["schema"]),
     };
 
     return acc;
@@ -186,7 +213,7 @@ function addOperationDoc(operation: OperationObject, doc: DocRoute, lang: "en" |
 
       return {
         ...param,
-        schema: addSchemaDoc(param.schema, docParams[param.name], lang),
+        schema: addSchemaDoc(param.schema, docParams[param.name], lang, [param.name]),
       };
     });
   }

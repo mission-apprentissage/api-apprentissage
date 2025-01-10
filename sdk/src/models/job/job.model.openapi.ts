@@ -1,10 +1,12 @@
-import type { OpenApiBuilder, SchemaObject } from "openapi3-ts/oas31";
+import type { SchemaObject } from "openapi3-ts/oas31";
+import { z } from "zod";
 
 import { applicationModelDoc } from "../../docs/models/job/application.model.doc.js";
 import { offerReadModelDoc } from "../../docs/models/job/offer_read.model.doc.js";
 import { offerWriteModelDoc } from "../../docs/models/job/offer_write.model.doc.js";
 import { recruiterModelDoc } from "../../docs/models/job/recruiter.model.doc.js";
-import { addSchemaModelDoc, pickPropertiesOpenAPI } from "../../utils/zodWithOpenApi.js";
+import type { OpenapiModel } from "../../openapi/types.js";
+import { pickPropertiesOpenAPI } from "../../openapi/zodWithOpenApi.js";
 
 const recruiterSchema = {
   type: "object",
@@ -424,10 +426,30 @@ const applicationWriteSchema = {
   additionalProperties: false,
 } as const satisfies SchemaObject;
 
-export function registerOpenApiJobModel(builder: OpenApiBuilder, lang: "en" | "fr"): OpenApiBuilder {
-  return builder
-    .addSchema("JobRecruiter", addSchemaModelDoc(recruiterSchema, recruiterModelDoc, lang))
-    .addSchema("JobOfferRead", addSchemaModelDoc(offerReadSchema, offerReadModelDoc, lang))
-    .addSchema("JobOfferWrite", addSchemaModelDoc(offerWriteSchema, offerWriteModelDoc, lang))
-    .addSchema("JobApplicationWrite", addSchemaModelDoc(applicationWriteSchema, applicationModelDoc, lang));
-}
+export const recruiterModelOpenapi = {
+  name: "JobRecruiter",
+  schema: recruiterSchema,
+  doc: recruiterModelDoc,
+  zod: z.unknown(),
+} as const satisfies OpenapiModel;
+
+export const offerReadModelOpenapi = {
+  name: "JobOfferRead",
+  schema: offerReadSchema,
+  doc: offerReadModelDoc,
+  zod: z.unknown(),
+} as const satisfies OpenapiModel;
+
+export const offerWriteModelOpenapi = {
+  name: "JobOfferWrite",
+  schema: offerWriteSchema,
+  doc: offerWriteModelDoc,
+  zod: z.unknown(),
+} as const satisfies OpenapiModel;
+
+export const applicationWriteModelOpenapi = {
+  name: "JobApplicationWrite",
+  schema: applicationWriteSchema,
+  doc: applicationModelDoc,
+  zod: z.unknown(),
+} as const satisfies OpenapiModel;

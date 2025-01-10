@@ -3,7 +3,7 @@ import diff from "microdiff";
 import type { OpenAPIObject, PathItemObject } from "openapi3-ts/oas31";
 import { beforeAll, describe, expect, it } from "vitest";
 
-import { zRoutes } from "../../routes/index.js";
+import { zRoutes } from "../routes/index.js";
 import { getOperationObjectStructure } from "./compareOpenapiStructure.js";
 import { experimentalGenerateOpenApiPathsObject, generateOpenApiSchema } from "./generateOpenapi.js";
 
@@ -42,7 +42,7 @@ describe("generateOpenApiSchema", () => {
     expect(validationResult.error).toBe(null);
   });
 
-  const expectedPaths = experimentalGenerateOpenApiPathsObject(zRoutes);
+  const expectedPaths = experimentalGenerateOpenApiPathsObject(zRoutes, "Test");
   let resolvedOpenapi: OpenAPIObject;
 
   beforeAll(async () => {

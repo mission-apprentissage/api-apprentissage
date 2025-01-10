@@ -2,8 +2,10 @@ import { extendZodWithOpenApi as extendZodWithOpenApiBase } from "@asteasolution
 import type { ContentObject, OperationObject, ParameterObject, ReferenceObject, SchemaObject } from "openapi3-ts/oas31";
 import { z } from "zod";
 
-import type { DocModel, DocRoute, DocTechnicalField, OpenApiText } from "../internal.js";
+import type { DocModel, DocTechnicalField, OpenApiText } from "../internal.js";
 import { addErrorResponseOpenApi } from "../models/errors/errors.model.openapi.js";
+import { tagsOpenapi } from "./tags.openapi.js";
+import type { OpenapiRoute } from "./types.js";
 
 function extendZodWithOpenApi<T extends typeof z>(zod: T): T {
   extendZodWithOpenApiBase(zod);
@@ -75,15 +77,7 @@ function pickPropertiesOpenAPI<T extends Record<string, SchemaObject>, K extends
   );
 }
 
-function addSchemaModelDoc<T extends SchemaObject | ReferenceObject | undefined>(
-  schema: T,
-  doc: DocModel,
-  lang: "en" | "fr"
-): T {
-  if (!schema || "$ref" in schema) {
-    return schema;
-  }
-
+function addSchemaModelDoc(schema: SchemaObject, doc: DocModel, lang: "en" | "fr"): SchemaObject {
   return addSchemaDoc(
     schema,
     {
@@ -189,15 +183,22 @@ function addContentObjectDoc<T extends ContentObject | undefined>(
   }, {} as ContentObject);
 }
 
-function addOperationDoc(operation: OperationObject, doc: DocRoute, lang: "en" | "fr"): OperationObject {
-  const output = structuredClone(operation);
+function addOperationDoc(route: OpenapiRoute, lang: "en" | "fr"): OperationObject {
+  const { schema, doc, tag } = route;
+  const output = structuredClone(schema);
+
+  output.tags = [getTextOpenAPI(tagsOpenapi[tag].name, lang)];
+
+  if (!doc) {
+    return output;
+  }
 
   output.summary = getTextOpenAPI(doc.summary, lang);
   output.description = getTextOpenAPI(doc.description, lang);
 
   if (doc.parameters) {
     if (!output.parameters) {
-      throw new Error("Operation parameters are not defined for " + operation.operationId);
+      throw new Error("Operation parameters are not defined for " + schema.operationId);
     }
 
     const docParams = doc.parameters;
@@ -220,7 +221,7 @@ function addOperationDoc(operation: OperationObject, doc: DocRoute, lang: "en" |
 
   if (doc.response) {
     if (!output.responses) {
-      throw new Error("Operation responses are not defined for " + operation.operationId);
+      throw new Error("Operation responses are not defined for " + schema.operationId);
     }
 
     const docResponse = doc.response;

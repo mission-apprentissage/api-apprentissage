@@ -18,13 +18,6 @@ export const zApiCertificationsRoutes = {
       response: {
         "200": z.array(zCertification),
       },
-      openapi: {
-        tags: ["Certifications"] as string[],
-        summary: "Récupération des certifications",
-        description:
-          "Récupère la liste des certifications et leur historique. Il est possible de filter cette liste par `identifiant.cfd` et `identifiant.rncp`",
-        operationId: "getCertifications",
-      },
     },
   },
 } as const satisfies IApiRoutesDef;

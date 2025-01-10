@@ -1,4 +1,4 @@
-import type { IApiRouteSchemaCommon, IApiRouteSchemaGet, IApiRouteSchemaWrite } from "api-alternance-sdk";
+import type { IApiRouteSchemaGet, IApiRouteSchemaWrite } from "api-alternance-sdk";
 import type { Jsonify } from "type-fest";
 import type { AnyZodObject } from "zod";
 import { z } from "zod";
@@ -41,13 +41,12 @@ export type SecuritySchemeNoAcl = {
 export type SecurityScheme = SecuritySchemeWithAcl | SecuritySchemeNoAcl;
 
 interface IRouteSchemaCommon {
-  openapi?: null | IApiRouteSchemaCommon["openapi"];
   securityScheme: SecurityScheme | null;
 }
 
-export interface IRouteSchemaGet extends Omit<IApiRouteSchemaGet, "openapi">, IRouteSchemaCommon {}
+export interface IRouteSchemaGet extends IApiRouteSchemaGet, IRouteSchemaCommon {}
 
-export interface IRouteSchemaWrite extends Omit<IApiRouteSchemaWrite, "openapi">, IRouteSchemaCommon {}
+export interface IRouteSchemaWrite extends IApiRouteSchemaWrite, IRouteSchemaCommon {}
 
 export type WithSecurityScheme = {
   securityScheme: SecurityScheme;

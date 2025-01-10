@@ -18,12 +18,6 @@ export const zApiGeographieRoutes = {
       response: {
         "200": zCommune.array(),
       },
-      openapi: {
-        tags: ["Géographie"] as string[],
-        summary: "Recherche de commune",
-        description: "Recherche de communes par code insee ou postal",
-        operationId: "searchCommune",
-      },
     },
     "/geographie/v1/departement": {
       method: "get",
@@ -31,25 +25,12 @@ export const zApiGeographieRoutes = {
       response: {
         "200": zDepartement.array(),
       },
-      openapi: {
-        tags: ["Géographie"] as string[],
-        summary: "Récupération des départements français",
-        description:
-          "Récupération des départements français, pour des raisons pratiques les collectivités et territoires d'outre-mer sont inclus et assimilés à des départements",
-        operationId: "listDepartements",
-      },
     },
     "/geographie/v1/mission-locale": {
       method: "get",
       path: "/geographie/v1/mission-locale",
       response: {
         "200": zMissionLocale.array(),
-      },
-      openapi: {
-        tags: ["Géographie"] as string[],
-        summary: "Récupération des missions locales",
-        description: "Récupération des mission locales",
-        operationId: "listMissionLocales",
       },
     },
   },

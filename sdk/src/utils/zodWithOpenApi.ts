@@ -2,7 +2,7 @@ import { extendZodWithOpenApi as extendZodWithOpenApiBase } from "@asteasolution
 import type { ContentObject, OperationObject, ParameterObject, ReferenceObject, SchemaObject } from "openapi3-ts/oas31";
 import { z } from "zod";
 
-import type { DocBusinessField, DocModel, DocRoute, DocTechnicalField, OpenApiText } from "../internal.js";
+import type { DocModel, DocRoute, DocTechnicalField, OpenApiText } from "../internal.js";
 import { addErrorResponseOpenApi } from "../models/errors/errors.model.openapi.js";
 
 function extendZodWithOpenApi<T extends typeof z>(zod: T): T {
@@ -22,7 +22,7 @@ function getTextOpenAPI<T extends OpenApiText | null | undefined>(
   }
 
   if (value[lang]) {
-    return value[lang] as T extends null | undefined ? null : string;
+    return value[lang].trim() as T extends null | undefined ? null : string;
   }
 
   const text = Object.values(value).find((v) => v !== null);
@@ -31,11 +31,11 @@ function getTextOpenAPI<T extends OpenApiText | null | undefined>(
     throw new Error("No text value found in " + JSON.stringify(value));
   }
 
-  return text as T extends null | undefined ? null : string;
+  return text.trim() as T extends null | undefined ? null : string;
 }
 
 function getDocOpenAPIAttributes(
-  field: DocTechnicalField | DocBusinessField | undefined,
+  field: DocTechnicalField | undefined,
   lang: "en" | "fr"
 ): {
   description?: string;
@@ -45,25 +45,13 @@ function getDocOpenAPIAttributes(
     return {};
   }
 
-  const description: string[] = [];
-
-  if (field.description) {
-    description.push(getTextOpenAPI(field.description, lang));
-  }
-
-  if ("information" in field && field.information) {
-    description.push(getTextOpenAPI(field.information, lang));
-  }
-
-  if (field.notes) {
-    description.push("Notes:");
-    description.push(getTextOpenAPI(field.notes, lang));
-  }
-
   const r: { description?: string; examples?: unknown[] } = {};
 
-  if (description.length > 0) {
-    r.description = description.join("\n\n");
+  if (field.descriptions && field.descriptions.length > 0) {
+    r.description = field.descriptions
+      .map((d) => getTextOpenAPI(d, lang))
+      .join("\n\n")
+      .trim();
   }
 
   if (field.examples) {
@@ -96,11 +84,14 @@ function addSchemaModelDoc<T extends SchemaObject | ReferenceObject | undefined>
     return schema;
   }
 
-  const fields = Object.entries(doc.sections).reduce<Record<string, DocTechnicalField>>((acc, [_name, field]) => {
-    return { ...acc, ...field._ };
-  }, {});
-
-  return addSchemaDoc(schema, { description: doc.description, _: fields }, lang);
+  return addSchemaDoc(
+    schema,
+    {
+      descriptions: [doc.description],
+      _: doc._,
+    },
+    lang
+  );
 }
 
 function addSchemaDoc<T extends SchemaObject | ReferenceObject | undefined>(

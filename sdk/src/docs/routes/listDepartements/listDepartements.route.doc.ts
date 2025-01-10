@@ -15,10 +15,12 @@ export const listDepartementsRouteDoc = {
       fr: "Succès",
     },
     content: {
-      description: {
-        fr: "Liste des départements français",
-        en: "List of French departments",
-      },
+      descriptions: [
+        {
+          fr: "Liste des départements français",
+          en: "List of French departments",
+        },
+      ],
     },
   },
 } as const satisfies DocRoute;

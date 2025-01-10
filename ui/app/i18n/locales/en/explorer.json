@@ -1,54 +1,7 @@
 {
   "summary": "<strong>The Apprenticeship API centralizes, enriches</strong> and<strong> provides</strong> datasets and tools related to the entire apprenticeship training offer",
-  "catalogueDesDonneesCertification": {
-    "desc": "Consult the data model and search the list of certifications",
-    "summary": "<strong>Use a reliable and enriched dataset for your project:</strong> coding, validity period, title, fields, continuity, type, and legal basis.",
-    "variant": "Certification"
-  },
   "simulateurNpec": {
     "desc": "Calculate the coverage level of a contract, create a budget forecast"
-  },
-  "rechercheOffre": {
-    "desc": "Access all apprenticeship job opportunities for free and in real-time",
-    "summary": "<strong>Access all apprenticeship job opportunities in France for free and in real-time.</strong> The job opportunities returned are those collected on {{- lienLba }}, retrieved by France Travail, and shared by our partners.",
-    "tip": "<strong>💡 You can search all job opportunities based on the following criteria:</strong> ROME code(s), RNCP, geolocation, diploma level, and search radius.",
-    "note": "To date, results are sorted by source priority (La bonne alternance, France Travail, then our partners); by increasing distance (only if location criteria) and by decreasing creation date. Results are limited to 150 per source.",
-    "warning": "In the interest of fair sharing, the use of this API is reserved for non-profit purposes. Please note that the use of this data for commercial purposes, such as reselling or charging access fees to third parties like candidates, companies, or schools, is prohibited.",
-    "variantOffre": "Job Offer",
-    "variantRecruteur": "Recruiter"
-  },
-  "rechercheCommune": {
-    "desc": "Consult the list of municipalities in France",
-    "summary": "Search for a municipality by INSEE code or postal code.",
-    "variant": "Municipality"
-  },
-  "recuperationDepartements": {
-    "desc": "Consult the list of departments in France",
-    "summary": "Retrieve the departments of France",
-    "variant": "Department"
-  },
-  "recuperationMissionLocales": {
-    "desc": "Consult the list of Mission Locales",
-    "summary": "Retrieve the Mission Locales",
-    "variant": "MissionLocale"
-  },
-  "depotOffre": {
-    "desc": "Maximize the visibility of your apprenticeship job offers by posting them on the La bonne alternance platform and its partner sites.",
-    "summary": "<strong>Post, modify, or delete your apprenticeship job offers</strong> to maximize their visibility by posting them on the {{- lienLba }} platform and its partner sites {{- lienPartenaire }}.",
-    "liste_partenaire": "view the list",
-    "tip": "<strong>💡 Using the API allows you to post all your offers at once,</strong> but it is also possible to post a single offer directly on the La bonne alternance site ({{- lienDepotLba }})",
-    "lientDepotLba": "access the submission form",
-    "demandeHabilitation": {
-      "sujet": "Request for authorization to post apprenticeship job offers",
-      "contenu": "Hello, I would like to obtain authorization to post apprenticeship job offers on the La bonne alternance platform."
-    },
-    "variant": "Job Offer"
-  },
-  "candidatureOffre": {
-    "desc": "Streamline your users' journey by directly transmitting your users' applications to recruiters.",
-    "summary_1": "To streamline your users' journey, this API allows you to directly transmit your users' applications to recruiters without them having to leave your site.",
-    "summary_2": "For this, it only requires the transmission of the candidate's contact information and resume. A cover letter, addressed to the recruiter, can also be optionally submitted. The application is then sent to the recruiter via email.",
-    "variant": "Application"
   },
   "back": "Back to the list",
   "besoinDonnees": {
@@ -61,5 +14,18 @@
   "habilitationRequise": {
     "titre": "Using this tool requires authorization",
     "faireDemande": "Make a request"
-  }
+  },
+  "frequenceMiseAJour": {
+    "titre": "Update frequency:",
+    "daily": "DAILY"
+  },
+  "type": {
+    "outil": "Tool",
+    "data": "Dataset"
+  },
+  "donneesCatalogue": {
+    "titre": "Data details"
+  },
+  "bonASavoir": "💡Good to know:",
+  "information": "Information"
 }

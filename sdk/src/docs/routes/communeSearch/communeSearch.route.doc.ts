@@ -11,7 +11,7 @@ export const communeSearchRouteDoc = {
   },
   parameters: {
     code: {
-      description: { en: null, fr: "Code INSEE ou postal recherché" },
+      descriptions: [{ en: null, fr: "Code INSEE ou postal recherché" }],
       examples: ["75056", "75000"],
     },
   },
@@ -21,10 +21,12 @@ export const communeSearchRouteDoc = {
       fr: "Succès",
     },
     content: {
-      description: {
-        fr: "Liste des communes correspondant au code INSEE ou postal recherché",
-        en: "List of communes matching the INSEE or postal code searched",
-      },
+      descriptions: [
+        {
+          fr: "Liste des communes correspondant au code INSEE ou postal recherché",
+          en: "List of communes matching the INSEE or postal code searched",
+        },
+      ],
     },
   },
 } as const satisfies DocRoute;

@@ -865,8 +865,7 @@ Notes:
 Notes:
 
 - La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.
-- La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.
-",
+- La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
                     "examples": [
                       "2022-08-31T23:59:59.000+02:00",
                       "2022-12-31T23:59:59.000+01:00",
@@ -883,8 +882,7 @@ Notes:
 Notes:
 
 - La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '00:00:00' sur le fuseau horaire 'Europe/Paris'.
-- La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.
-",
+- La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
                     "examples": [
                       "2014-02-21T00:00:00.000+01:00",
                       "2018-05-11T00:00:00.000+02:00",
@@ -957,8 +955,7 @@ Notes:
             "type": "object",
           },
           "continuite": {
-            "description": "**Liste des couples CFD-RNCP assurant la continuité de la certification professionnelles.** La liste inclut à la fois les fiches remplacées et remplaçantes. Elle est ordonnée par date d'activation de la fiche RNCP et inclut la fiche courante.
-",
+            "description": "**Liste des couples CFD-RNCP assurant la continuité de la certification professionnelles.** La liste inclut à la fois les fiches remplacées et remplaçantes. Elle est ordonnée par date d'activation de la fiche RNCP et inclut la fiche courante.",
             "properties": {
               "cfd": {
                 "description": "Liste des diplômes assurant la continuité du diplôme. La liste inclut à la fois les diplômes remplacés et remplaçant. La liste est ordonnée par date d'ouverture du diplôme et inclut le diplôme courant.
@@ -966,8 +963,7 @@ Notes:
 Notes:
 
 - \`null\` lorsque le champs \`identifiant.cfd\` est \`null\`.
-- Pour distinguer les diplômes remplacés des diplômes remplaçant, il faut se référer aux dates d'ouverture et de fermeture des diplômes.
-",
+- Pour distinguer les diplômes remplacés des diplômes remplaçant, il faut se référer aux dates d'ouverture et de fermeture des diplômes.",
                 "items": {
                   "properties": {
                     "code": {
@@ -1025,14 +1021,8 @@ Notes:
                 ],
               },
               "rncp": {
-                "description": "Liste des fiches RNCP assurant la continuité de la certification. La liste inclut à la fois les fiches remplacées et remplaçantes. La liste est ordonnée par date d'activation de la fiche RNCP et inclut la fiche courante.
-
-
-Notes:
-
-- \`null\` lorsque le champs \`identifiant.rncp\` est \`null\`.
-- Pour distinguer les fiches remplacées des fiches remplaçant, il faut se référer aux dates d'activation et de fin d'enregistrement des fiches.
-",
+                "description": "- \`null\` lorsque le champs \`identifiant.rncp\` est \`null\`.
+- Pour distinguer les fiches remplacées des fiches remplaçant, il faut se référer aux dates d'activation et de fin d'enregistrement des fiches.",
                 "items": {
                   "properties": {
                     "actif": {
@@ -1145,12 +1135,6 @@ Notes:
             "type": "object",
           },
           "domaines": {
-            "description": "Cet élément contient des listes de codes et d’intitulés qui décrivent le domaine de la formation à travers différentes nomenclatures :
-
-- la **Nomenclature des Spécialités de Formation (NSF).** Produite par l’INSEE, elle a pour objectif de couvrir l'ensemble des formations professionnelles ou non, de tout niveau, et sert à déterminer les domaines de formation.
-- le **Répertoire Opérationnel des Métiers et des Emplois (ROME).** Conçu par France Travail (anciennement Pôle Emploi), ce référentiel présente l'ensemble des métiers regroupés par fiches, organisées par domaines professionnels.
-- le **Formacode®, thésaurus de l’offre de formation** du Centre Inffo est un outil pour aider à l’indexation et la recherche d’informations sur l’offre de formation.
-",
             "properties": {
               "formacodes": {
                 "description": "Formacode® issue de France Compétences.
@@ -1205,8 +1189,7 @@ Notes:
 Notes:
 
 - \`null\` lorsque le champs \`identifiant.cfd\` est \`null\`.
-- Le code NSF est déduis du code formation diplôme (CFD), il n'inclut donc pas la lettre de spécialité et le tableau ne contient qu'un seul élément.
-",
+- Le code NSF est déduis du code formation diplôme (CFD), il n'inclut donc pas la lettre de spécialité et le tableau ne contient qu'un seul élément.",
                     "properties": {
                       "code": {
                         "examples": [
@@ -1329,16 +1312,7 @@ Notes:
             "type": "object",
           },
           "identifiant": {
-            "description": "**Une certification correspond à un couple CFD-RNCP sur une période donnée.** Le Code Formation Diplôme (CFD) ou code scolarité référence la certification dans la Base Centrale des Nomenclature. Le code RNCP référence la certification dans le Répertoire National des Certifications Professionnelle.
-
-La [Base Centrale des Nomenclature](https://infocentre.pleiade.education.fr/bcn/) (BCN) est administrée par l’Education Nationale.
-
-Le [Répertoire des Certifications Professionnelles](https://www.francecompetences.fr/recherche-resultats/?types=certification&search=&pageType=certification&active=1) (RNCP) est administré par France Compétences. **Il contient des fiches antérieures à la réforme de 2019 pour lesquelles certains champs étaient alors inexistants ou optionnels.**
-
-
-Notes:
-
-- les fiches RNCP antérieures à la réforme de 2019 ont certaines données qui ne sont pas renseignées, elles sont identifiées par le champ \`rncp_anterieur_2019\` à \`true\`.",
+            "description": "les fiches RNCP antérieures à la réforme de 2019 ont certaines données qui ne sont pas renseignées, elles sont identifiées par le champ \`rncp_anterieur_2019\` à \`true\`.",
             "properties": {
               "cfd": {
                 "description": "Code Formation Diplôme (CFD) de la certification.
@@ -1346,8 +1320,7 @@ Notes:
 Notes:
 
 - \`null\` si et seulement si aucun diplôme CFD correspondant à la fiche RNCP (\`identifiant.rncp\`) n'est connu.
-- Lorsque le code est \`null\`, toutes les informations issues de la base centrale des nomenclatures (BCN) seront \`null\`
-",
+- Lorsque le code est \`null\`, toutes les informations issues de la base centrale des nomenclatures (BCN) seront \`null\`",
                 "examples": [
                   "50022137",
                 ],
@@ -1363,8 +1336,7 @@ Notes:
 Notes:
 
 - \`null\` si et seulement si aucune fiche RNCP correspondant au diplôme (\`identifiant.cfd\`) n'est connu.
-- Lorsque le code est \`null\`, toutes les informations issues de France Compétence seront \`null\`
-",
+- Lorsque le code est \`null\`, toutes les informations issues de France Compétence seront \`null\`",
                 "examples": [
                   "RNCP37537",
                 ],
@@ -1381,8 +1353,7 @@ Notes:
 
 - \`null\` si \`identifiant.rncp\` est \`null\`
 - \`true\` si le numéro de fiche \`identifiant.rncp\` est inférieur à \`34,000\`
-- \`false\` sinon
-",
+- \`false\` sinon",
                 "type": [
                   "boolean",
                   "null",
@@ -1397,14 +1368,6 @@ Notes:
             "type": "object",
           },
           "intitule": {
-            "description": "Intitulé de la certification professionnelle.
-
-Si la formation a comme résultat l’obtention d’un diplôme, le contenu de cet élément devrait utiliser une dénomination conforme aux tables de l’Éducation Nationale - soit les champs \`.cfd.court\` ou \`.cfd.long\`
-
-Si la formation a comme résultat un titre ou une certification, le contenu devrait utiliser une dénomination conforme au contenu du Répertoire National des Certifications Professionnelles (RNCP) - soit le champ \`.rncp\`
-
-source : [Lhéo](http://lheo.gouv.fr/2.3/lheo/intitule-formation.html)
-",
             "properties": {
               "cfd": {
                 "description": "Intitulés de la certification issue de la base centrale des nomenclatures (BCN).
@@ -1455,8 +1418,7 @@ Notes:
 Notes:
 
 - peut être \`null\` lorsque le niveau de diplôme n'a pas de correspondance avec les niveaux européens ou qu'elle n'est pas déterminée.
-- lorsque la fiche RNCP correspondante est connue, il faut priviliégier le niveau européen issue de France Compétences.
-",
+- lorsque la fiche RNCP correspondante est connue, il faut priviliégier le niveau européen issue de France Compétences.",
                         "enum": [
                           "1",
                           "2",
@@ -1609,17 +1571,7 @@ Notes:
 Les dates sont retournées au format ISO 8601 avec le fuseau horaire Europe/Paris.",
             "properties": {
               "cfd": {
-                "description": "La période de validité d’un CFD est décrite par :
-
-- **La date d’ouverture** : moment où il est possible de s’inscrire pour l’obtention de la certification (ou du diplôme)
-- **La première session** : année de sortie des premiers diplômés
-- **La dernière session** : année de sortie des derniers diplômés
-- **La date de fermeture** : moment où il n’est plus possible d’émettre le diplôme.
-
-
-Notes:
-
-- \`null\` lorsque le champs \`identifiant.cfd\` est \`null\`.",
+                "description": "- \`null\` lorsque le champs \`identifiant.cfd\` est \`null\`.",
                 "properties": {
                   "derniere_session": {
                     "description": "Année de sortie des derniers diplômés.",
@@ -1714,18 +1666,7 @@ Notes:
                 ],
               },
               "rncp": {
-                "description": "La période de validité d’une fiche RNCP est décrite par :
-
-- **La date d’activation** correspond à la date laquelle la fiche RNCP est passée au **statut actif : les inscriptions à la formation sont ouvertes** jusqu'à la date limite de délivrance de la certification.
-- La **date de début des parcours certifiants** (anciennement appelée “**date d’effet**” pour les enregistrements de droits, et “**date de décision**” pour les enregistrement sur demande)
-- La **date de fin d’enregistrement** : le lendemain, la fiche RNCP passe du statut “**actif**” à “**inactif**”. Pour les enregistrement de droit, cette date est renseignée par le certificateur, et pour les enregistrements sur demande, elle est déterminée par commission au moment de la décision d’enregistrement. A cette date, l'accès à la certification n'est plus possible (les inscriptions sont fermées) mais elle peut continuer à être délivrée pour les parcours en cours (formation ou VAE) ou pour la signature d'un contrat d'apprentissage suite à un nouveau contrat consécutif à une rupture du contrat.
-
-
-Un enregistrement au RNCP est de maximum 5 ans, dépassé ce délai toute fiche doit fait l’objet d’une demande de renouvellement.
-
-Notes:
-
-- \`null\` lorsque le champs \`identifiant.rncp\` est \`null\`.",
+                "description": "- \`null\` lorsque le champs \`identifiant.rncp\` est \`null\`.",
                 "properties": {
                   "actif": {
                     "description": "Lorsque la fiche est active, les inscriptions à la formation sont ouvertes, à l’inverse, lorsque la fiche est inactive, les inscriptions sont fermées.",
@@ -1737,8 +1678,7 @@ Notes:
 Notes:
 
 - La couverture de ce champ est partiel car nous ne sommes pas en mesure pour le moment de récupérer les dates d'activation antérieures au 24 décembre 2021.
-- France Compétence ne fournie pas l'information, nous le déduisons de la date de premiere apparation de la fiche RNCP avec le statut \`actif\`.
-",
+- France Compétence ne fournie pas l'information, nous le déduisons de la date de premiere apparation de la fiche RNCP avec le statut \`actif\`.",
                     "examples": [
                       "2021-09-01T00:00:00.000+02:00",
                       "2022-01-01T00:00:00.000+01:00",
@@ -1799,14 +1739,6 @@ Notes:
             "type": "object",
           },
           "type": {
-            "description": "Le type de certification renseigne sur
-
-- la nature du diplôme
-- le service responsable de la définition du diplôme
-- le(s) nom(s) et numéro(s) SIRET du ou des certificateur(s) renseigné(s) dans le RNCP
-- le type d’enregistrement au RNCP (de droit ou sur demande)
-- la voie d’accès à la formation (apprentissage, expérience, candidature individuelle, contrat de professionnalisation, formation continue et formation statut élève).
-",
             "properties": {
               "certificateurs_rncp": {
                 "description": "Liste des certificateurs de la fiche RNCP.
@@ -1838,8 +1770,6 @@ Notes:
               },
               "enregistrement_rncp": {
                 "description": "Permet de savoir si la certification est enregistrée de droit ou sur demande au Repertoire National des Certifications Professionnelles (RNCP)
-
-Notes:
 
 - \`null\` lorsque le champs \`identifiant.rncp\` est \`null\`.",
                 "enum": [
@@ -2109,8 +2039,7 @@ Une commune peut avoir plusieurs code postaux, et un code postal peut correspond
 - Du \`centre\` de la commune
 - De la boite englobante (\`bbox\`) qui délimite la zone de la commune.
 
-Les champs \`centre\` et \`bbox\` sont tous les deux au format [GeoJSON](https://fr.wikipedia.org/wiki/GeoJSON)
-",
+Les champs \`centre\` et \`bbox\` sont tous les deux au format [GeoJSON](https://fr.wikipedia.org/wiki/GeoJSON)",
             "properties": {
               "bbox": {
                 "description": "Coordonnées de la boîte englobante de la commune au format GeoJSON "Polygon"",
@@ -2479,13 +2408,10 @@ Les champs \`centre\` et \`bbox\` sont tous les deux au format [GeoJSON](https:/
 
 - URL de redirection
 - numéro de téléphone
-- email de l’entreprise
-",
+- email de l’entreprise",
             "properties": {
               "phone": {
                 "description": "Recruiter's phone number
-
-Notes:
 
 Only European phone numbers are allowed. There is also a check on the nature of the number: only mobile and landline phones are allowed.",
                 "examples": [
@@ -2524,8 +2450,7 @@ Only European phone numbers are allowed. There is also a check on the nature of 
 - Le type (apprentissage et/ou professionnalisation).
 - La date de début.
 - La durée.
-- Le mode de travail (présentiel, télétravail ou hybride).
-",
+- Le mode de travail (présentiel, télétravail ou hybride).",
             "properties": {
               "duration": {
                 "description": "Contract duration in months.",
@@ -2595,13 +2520,10 @@ Only European phone numbers are allowed. There is also a check on the nature of 
             "description": "Cet élément regroupe :
 
 - le partenaire à l'origine de l'offre d'emploi
-- l'identifiant unique de l'offre d'emploi au sein du système d'information La bonne alternance
-",
+- l'identifiant unique de l'offre d'emploi au sein du système d'information La bonne alternance",
             "properties": {
               "id": {
                 "description": "Identifier of the job offer in the La bonne alternance database.
-
-Notes:
 
 France Travail offers are not stored in the La bonne alternance database but are retrieved on the fly. They do not have an identifier in the database.",
                 "examples": [
@@ -2621,8 +2543,6 @@ France Travail offers are not stored in the La bonne alternance database but are
               },
               "partner_label": {
                 "description": "Partner originating the job offer.
-
-Notes:
 
 In the case of La Bonne Alternance, the partner_label is: "La bonne alternance".",
                 "examples": [
@@ -2654,10 +2574,7 @@ In the case of La Bonne Alternance, the partner_label is: "La bonne alternance".
 
 - Les conditions d’accès au métier. Exemple : Ce métier est accessible avec un diplôme de niveau Bac+2 (BTS, DUT) à Master (MIAGE, diplôme d'ingénieur, Master professionnel, ...) en informatique. Il est également accessible avec une expérience professionnelle en informatique, système d'exploitation ou dans un domaine applicatif. La pratique de l'anglais (vocabulaire technique) est requise.
 
-- Le mode de travail (présentiel, télétravail ou hybride).
-
-
-Le ROME correspond au Référentiel Opérationnel des Métiers et des Emplois. Conçu par France Travail (anciennement Pôle Emploi), ce référentiel présente l'ensemble des métiers regroupés par fiches, organisées par domaines professionnels.",
+- Le mode de travail (présentiel, télétravail ou hybride).",
             "properties": {
               "access_conditions": {
                 "description": "The conditions for entering the profession",
@@ -2702,8 +2619,7 @@ Le ROME correspond au Référentiel Opérationnel des Métiers et des Emplois. C
                 "type": "number",
               },
               "publication": {
-                "description": "Une opportunité d’emploi possède un cycle de vie : une date de création et une date d'expiration.
-",
+                "description": "Une opportunité d’emploi possède un cycle de vie : une date de création et une date d'expiration.",
                 "properties": {
                   "creation": {
                     "description": "Creation date of the job opportunity.",
@@ -2752,9 +2668,6 @@ Le ROME correspond au Référentiel Opérationnel des Métiers et des Emplois. C
 - Active : L'offre est disponible sur la plateforme et il est possible d'y postuler.
 - Filled : L'offre a été pourvue et n'est donc plus disponible.
 - Cancelled : L'offre a été annulée et n'est donc plus disponible.
-
-
-Notes:
 
 Only active offers are returned by the search.",
                 "enum": [
@@ -2843,8 +2756,7 @@ Only active offers are returned by the search.",
 - Le nom (enseigne ou à défaut, raison sociale) et le numéro SIRET de l’entreprise.
 - La description de l’employeur et/ou du service où s’exécutera le contrat.
 - La tranche effectif de l’entreprise, en nombre de salariés.
-- Le site web de l’entreprise.
-",
+- Le site web de l’entreprise.",
             "properties": {
               "brand": {
                 "description": "Brand name of the establishment",
@@ -2871,8 +2783,7 @@ Only active offers are returned by the search.",
 
 - La Nomenclature d’Activité Française (NAF). Produite par l’INSEE, elle a pour objectif de faciliter l'organisation de l'information économique et sociale.
 - Le numéro IDCC de la convention collective. Produit par le ministère chargé du travail (Dares et DGT) et celui chargé de l’agriculture.
-- L’Opérateur de Compétence (OPCO) de rattachement pouvant prendre en charge le financement du contrat.
-",
+- L’Opérateur de Compétence (OPCO) de rattachement pouvant prendre en charge le financement du contrat.",
                 "properties": {
                   "idcc": {
                     "description": "Collective agreement number associated with the SIRET number",
@@ -2940,8 +2851,7 @@ Only active offers are returned by the search.",
                 ],
               },
               "location": {
-                "description": "Adresse postale et géolocalisation rattachées au numéro SIRET de l’entreprise
-",
+                "description": "Adresse postale et géolocalisation rattachées au numéro SIRET de l’entreprise",
                 "properties": {
                   "address": {
                     "description": "Postal address of the job offer location.",
@@ -2953,8 +2863,6 @@ Only active offers are returned by the search.",
                   "geopoint": {
                     "additionalProperties": false,
                     "description": "Geolocation linked to the address
-
-Notes:
 
 Derived from the address.",
                     "properties": {
@@ -3008,8 +2916,6 @@ Derived from the address.",
               },
               "name": {
                 "description": "Name of the establishment (brand name or, failing that, legal name)
-
-Notes:
 
 In the case of publishing a job offer, it is possible to use a custom name; otherwise, it will take the value of the brand name, or failing that, the legal name.",
                 "examples": [
@@ -3084,10 +2990,7 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
 
 - URL de redirection
 - numéro de téléphone
-- email de l’entreprise
-
-
-Au moins une méthode de candidature doit être fournie lors du dépot d'offre. (soit url, phone, email)",
+- email de l’entreprise",
             "properties": {
               "email": {
                 "description": "Recruiter's email adress",
@@ -3102,8 +3005,6 @@ Au moins une méthode de candidature doit être fournie lors du dépot d'offre. 
               },
               "phone": {
                 "description": "Recruiter's phone number
-
-Notes:
 
 Only European phone numbers are allowed. There is also a check on the nature of the number: only mobile and landline phones are allowed.",
                 "examples": [
@@ -3134,8 +3035,7 @@ Only European phone numbers are allowed. There is also a check on the nature of 
 - Le type (apprentissage et/ou professionnalisation).
 - La date de début.
 - La durée.
-- Le mode de travail (présentiel, télétravail ou hybride).
-",
+- Le mode de travail (présentiel, télétravail ou hybride).",
             "properties": {
               "duration": {
                 "description": "Contract duration in months.",
@@ -3214,10 +3114,7 @@ Only European phone numbers are allowed. There is also a check on the nature of 
 
 - Les conditions d’accès au métier. Exemple : Ce métier est accessible avec un diplôme de niveau Bac+2 (BTS, DUT) à Master (MIAGE, diplôme d'ingénieur, Master professionnel, ...) en informatique. Il est également accessible avec une expérience professionnelle en informatique, système d'exploitation ou dans un domaine applicatif. La pratique de l'anglais (vocabulaire technique) est requise.
 
-- Le mode de travail (présentiel, télétravail ou hybride).
-
-
-Le ROME correspond au Référentiel Opérationnel des Métiers et des Emplois. Conçu par France Travail (anciennement Pôle Emploi), ce référentiel présente l'ensemble des métiers regroupés par fiches, organisées par domaines professionnels.",
+- Le mode de travail (présentiel, télétravail ou hybride).",
             "properties": {
               "access_conditions": {
                 "default": [],
@@ -3278,8 +3175,7 @@ Le ROME correspond au Référentiel Opérationnel des Métiers et des Emplois. C
                 ],
               },
               "publication": {
-                "description": "Une opportunité d’emploi possède un cycle de vie : une date de création et une date d'expiration.
-",
+                "description": "Une opportunité d’emploi possède un cycle de vie : une date de création et une date d'expiration.",
                 "properties": {
                   "creation": {
                     "description": "Creation date of the job opportunity.",
@@ -3309,8 +3205,6 @@ Le ROME correspond au Référentiel Opérationnel des Métiers et des Emplois. C
               "rome_codes": {
                 "description": "ROME code(s) of the offer
 
-Notes:
-
 If the published offer does not have a ROME code provided, we deduce the ROME codes from the job offer title.",
                 "items": {
                   "description": "ROME code",
@@ -3332,8 +3226,7 @@ If the published offer does not have a ROME code provided, we deduce the ROME co
 - Filled : L'offre a été pourvue et n'est donc plus disponible.
 - Cancelled : L'offre a été annulée et n'est donc plus disponible.
 
-
-Notes:
+Only active offers are returned by the search.
 
 When creating an offer, only active offers are accepted. However, during an update, it is possible to cancel or mark an offer as filled.",
                 "enum": [
@@ -3409,8 +3302,7 @@ When creating an offer, only active offers are accepted. However, during an upda
 - Le nom (enseigne ou à défaut, raison sociale) et le numéro SIRET de l’entreprise.
 - La description de l’employeur et/ou du service où s’exécutera le contrat.
 - La tranche effectif de l’entreprise, en nombre de salariés.
-- Le site web de l’entreprise.
-",
+- Le site web de l’entreprise.",
             "properties": {
               "description": {
                 "description": "Description of the employer and/or the department where the contract will be carried out.",
@@ -3423,13 +3315,10 @@ When creating an offer, only active offers are accepted. However, during an upda
                 ],
               },
               "location": {
-                "description": "Adresse postale et géolocalisation rattachées au numéro SIRET de l’entreprise
-",
+                "description": "Adresse postale et géolocalisation rattachées au numéro SIRET de l’entreprise",
                 "properties": {
                   "address": {
                     "description": "Address of the job offer
-
-Notes:
 
 In the case of job offer publication, a custom address can be provided; otherwise, the establishment's address will be used.
 
@@ -3451,8 +3340,6 @@ The geopoint field is derived from the address.",
               "name": {
                 "description": "Name of the establishment (brand name or, failing that, legal name)
 
-Notes:
-
 In the case of publishing a job offer, it is possible to use a custom name; otherwise, it will take the value of the brand name, or failing that, the legal name.",
                 "examples": [
                   "DIRECTION INTERMINISTERIELLE DU NUMERIQUE (DINUM)",
@@ -3464,8 +3351,6 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
               },
               "siret": {
                 "description": "SIRET of the contract execution location
-
-Notes:
 
 The information \`brand\` \`legal_name\` \`size\` \`idcc\` \`opco\` \`naf\` is automatically deduced from the SIRET.",
                 "examples": [
@@ -3507,13 +3392,10 @@ The information \`brand\` \`legal_name\` \`size\` \`idcc\` \`opco\` \`naf\` is a
 
 - URL de redirection
 - numéro de téléphone
-- email de l’entreprise
-",
+- email de l’entreprise",
             "properties": {
               "phone": {
                 "description": "Recruiter's phone number
-
-Notes:
 
 Only European phone numbers are allowed. There is also a check on the nature of the number: only mobile and landline phones are allowed.",
                 "examples": [
@@ -3550,8 +3432,7 @@ Only European phone numbers are allowed. There is also a check on the nature of 
             "description": "Cet élément regroupe :
 
 - le partenaire à l'origine de l'offre d'emploi
-- l'identifiant unique de l'offre d'emploi au sein du système d'information La bonne alternance
-",
+- l'identifiant unique de l'offre d'emploi au sein du système d'information La bonne alternance",
             "properties": {
               "id": {
                 "description": "Partner responsible for the job offer.",
@@ -3572,8 +3453,7 @@ Only European phone numbers are allowed. There is also a check on the nature of 
 - Le nom (enseigne ou à défaut, raison sociale) et le numéro SIRET de l’entreprise.
 - La description de l’employeur et/ou du service où s’exécutera le contrat.
 - La tranche effectif de l’entreprise, en nombre de salariés.
-- Le site web de l’entreprise.
-",
+- Le site web de l’entreprise.",
             "properties": {
               "brand": {
                 "description": "Brand name of the establishment",
@@ -3600,8 +3480,7 @@ Only European phone numbers are allowed. There is also a check on the nature of 
 
 - La Nomenclature d’Activité Française (NAF). Produite par l’INSEE, elle a pour objectif de faciliter l'organisation de l'information économique et sociale.
 - Le numéro IDCC de la convention collective. Produit par le ministère chargé du travail (Dares et DGT) et celui chargé de l’agriculture.
-- L’Opérateur de Compétence (OPCO) de rattachement pouvant prendre en charge le financement du contrat.
-",
+- L’Opérateur de Compétence (OPCO) de rattachement pouvant prendre en charge le financement du contrat.",
                 "properties": {
                   "idcc": {
                     "description": "Collective agreement number associated with the SIRET number",
@@ -3669,8 +3548,7 @@ Only European phone numbers are allowed. There is also a check on the nature of 
                 ],
               },
               "location": {
-                "description": "Adresse postale et géolocalisation rattachées au numéro SIRET de l’entreprise
-",
+                "description": "Adresse postale et géolocalisation rattachées au numéro SIRET de l’entreprise",
                 "properties": {
                   "address": {
                     "description": "Postal address of the job offer location.",
@@ -3682,8 +3560,6 @@ Only European phone numbers are allowed. There is also a check on the nature of 
                   "geopoint": {
                     "additionalProperties": false,
                     "description": "Geolocation linked to the address
-
-Notes:
 
 Derived from the address.",
                     "properties": {
@@ -3737,8 +3613,6 @@ Derived from the address.",
               },
               "name": {
                 "description": "Name of the establishment (brand name or, failing that, legal name)
-
-Notes:
 
 In the case of publishing a job offer, it is possible to use a custom name; otherwise, it will take the value of the brand name, or failing that, the legal name.",
                 "examples": [
@@ -4017,8 +3891,7 @@ Notes:
 Notes:
 
 - La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.
-- La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.
-",
+- La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
                                 "examples": [
                                   "2022-08-31T23:59:59.000+02:00",
                                   "2022-12-31T23:59:59.000+01:00",
@@ -4035,8 +3908,7 @@ Notes:
 Notes:
 
 - La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '00:00:00' sur le fuseau horaire 'Europe/Paris'.
-- La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.
-",
+- La date est retournée au format ISO 8601 avec le fuseau horaire 'Europe/Paris'.",
                                 "examples": [
                                   "2014-02-21T00:00:00.000+01:00",
                                   "2018-05-11T00:00:00.000+02:00",
@@ -4109,8 +3981,7 @@ Notes:
                         "type": "object",
                       },
                       "continuite": {
-                        "description": "**Liste des couples CFD-RNCP assurant la continuité de la certification professionnelles.** La liste inclut à la fois les fiches remplacées et remplaçantes. Elle est ordonnée par date d'activation de la fiche RNCP et inclut la fiche courante.
-",
+                        "description": "**Liste des couples CFD-RNCP assurant la continuité de la certification professionnelles.** La liste inclut à la fois les fiches remplacées et remplaçantes. Elle est ordonnée par date d'activation de la fiche RNCP et inclut la fiche courante.",
                         "properties": {
                           "cfd": {
                             "description": "Liste des diplômes assurant la continuité du diplôme. La liste inclut à la fois les diplômes remplacés et remplaçant. La liste est ordonnée par date d'ouverture du diplôme et inclut le diplôme courant.
@@ -4118,8 +3989,7 @@ Notes:
 Notes:
 
 - \`null\` lorsque le champs \`identifiant.cfd\` est \`null\`.
-- Pour distinguer les diplômes remplacés des diplômes remplaçant, il faut se référer aux dates d'ouverture et de fermeture des diplômes.
-",
+- Pour distinguer les diplômes remplacés des diplômes remplaçant, il faut se référer aux dates d'ouverture et de fermeture des diplômes.",
                             "items": {
                               "properties": {
                                 "code": {
@@ -4177,14 +4047,8 @@ Notes:
                             ],
                           },
                           "rncp": {
-                            "description": "Liste des fiches RNCP assurant la continuité de la certification. La liste inclut à la fois les fiches remplacées et remplaçantes. La liste est ordonnée par date d'activation de la fiche RNCP et inclut la fiche courante.
-
-
-Notes:
-
-- \`null\` lorsque le champs \`identifiant.rncp\` est \`null\`.
-- Pour distinguer les fiches remplacées des fiches remplaçant, il faut se référer aux dates d'activation et de fin d'enregistrement des fiches.
-",
+                            "description": "- \`null\` lorsque le champs \`identifiant.rncp\` est \`null\`.
+- Pour distinguer les fiches remplacées des fiches remplaçant, il faut se référer aux dates d'activation et de fin d'enregistrement des fiches.",
                             "items": {
                               "properties": {
                                 "actif": {
@@ -4297,12 +4161,6 @@ Notes:
                         "type": "object",
                       },
                       "domaines": {
-                        "description": "Cet élément contient des listes de codes et d’intitulés qui décrivent le domaine de la formation à travers différentes nomenclatures :
-
-- la **Nomenclature des Spécialités de Formation (NSF).** Produite par l’INSEE, elle a pour objectif de couvrir l'ensemble des formations professionnelles ou non, de tout niveau, et sert à déterminer les domaines de formation.
-- le **Répertoire Opérationnel des Métiers et des Emplois (ROME).** Conçu par France Travail (anciennement Pôle Emploi), ce référentiel présente l'ensemble des métiers regroupés par fiches, organisées par domaines professionnels.
-- le **Formacode®, thésaurus de l’offre de formation** du Centre Inffo est un outil pour aider à l’indexation et la recherche d’informations sur l’offre de formation.
-",
                         "properties": {
                           "formacodes": {
                             "description": "Formacode® issue de France Compétences.
@@ -4357,8 +4215,7 @@ Notes:
 Notes:
 
 - \`null\` lorsque le champs \`identifiant.cfd\` est \`null\`.
-- Le code NSF est déduis du code formation diplôme (CFD), il n'inclut donc pas la lettre de spécialité et le tableau ne contient qu'un seul élément.
-",
+- Le code NSF est déduis du code formation diplôme (CFD), il n'inclut donc pas la lettre de spécialité et le tableau ne contient qu'un seul élément.",
                                 "properties": {
                                   "code": {
                                     "examples": [
@@ -4481,16 +4338,7 @@ Notes:
                         "type": "object",
                       },
                       "identifiant": {
-                        "description": "**Une certification correspond à un couple CFD-RNCP sur une période donnée.** Le Code Formation Diplôme (CFD) ou code scolarité référence la certification dans la Base Centrale des Nomenclature. Le code RNCP référence la certification dans le Répertoire National des Certifications Professionnelle.
-
-La [Base Centrale des Nomenclature](https://infocentre.pleiade.education.fr/bcn/) (BCN) est administrée par l’Education Nationale.
-
-Le [Répertoire des Certifications Professionnelles](https://www.francecompetences.fr/recherche-resultats/?types=certification&search=&pageType=certification&active=1) (RNCP) est administré par France Compétences. **Il contient des fiches antérieures à la réforme de 2019 pour lesquelles certains champs étaient alors inexistants ou optionnels.**
-
-
-Notes:
-
-- les fiches RNCP antérieures à la réforme de 2019 ont certaines données qui ne sont pas renseignées, elles sont identifiées par le champ \`rncp_anterieur_2019\` à \`true\`.",
+                        "description": "les fiches RNCP antérieures à la réforme de 2019 ont certaines données qui ne sont pas renseignées, elles sont identifiées par le champ \`rncp_anterieur_2019\` à \`true\`.",
                         "properties": {
                           "cfd": {
                             "description": "Code Formation Diplôme (CFD) de la certification.
@@ -4498,8 +4346,7 @@ Notes:
 Notes:
 
 - \`null\` si et seulement si aucun diplôme CFD correspondant à la fiche RNCP (\`identifiant.rncp\`) n'est connu.
-- Lorsque le code est \`null\`, toutes les informations issues de la base centrale des nomenclatures (BCN) seront \`null\`
-",
+- Lorsque le code est \`null\`, toutes les informations issues de la base centrale des nomenclatures (BCN) seront \`null\`",
                             "examples": [
                               "50022137",
                             ],
@@ -4515,8 +4362,7 @@ Notes:
 Notes:
 
 - \`null\` si et seulement si aucune fiche RNCP correspondant au diplôme (\`identifiant.cfd\`) n'est connu.
-- Lorsque le code est \`null\`, toutes les informations issues de France Compétence seront \`null\`
-",
+- Lorsque le code est \`null\`, toutes les informations issues de France Compétence seront \`null\`",
                             "examples": [
                               "RNCP37537",
                             ],
@@ -4533,8 +4379,7 @@ Notes:
 
 - \`null\` si \`identifiant.rncp\` est \`null\`
 - \`true\` si le numéro de fiche \`identifiant.rncp\` est inférieur à \`34,000\`
-- \`false\` sinon
-",
+- \`false\` sinon",
                             "type": [
                               "boolean",
                               "null",
@@ -4549,14 +4394,6 @@ Notes:
                         "type": "object",
                       },
                       "intitule": {
-                        "description": "Intitulé de la certification professionnelle.
-
-Si la formation a comme résultat l’obtention d’un diplôme, le contenu de cet élément devrait utiliser une dénomination conforme aux tables de l’Éducation Nationale - soit les champs \`.cfd.court\` ou \`.cfd.long\`
-
-Si la formation a comme résultat un titre ou une certification, le contenu devrait utiliser une dénomination conforme au contenu du Répertoire National des Certifications Professionnelles (RNCP) - soit le champ \`.rncp\`
-
-source : [Lhéo](http://lheo.gouv.fr/2.3/lheo/intitule-formation.html)
-",
                         "properties": {
                           "cfd": {
                             "description": "Intitulés de la certification issue de la base centrale des nomenclatures (BCN).
@@ -4607,8 +4444,7 @@ Notes:
 Notes:
 
 - peut être \`null\` lorsque le niveau de diplôme n'a pas de correspondance avec les niveaux européens ou qu'elle n'est pas déterminée.
-- lorsque la fiche RNCP correspondante est connue, il faut priviliégier le niveau européen issue de France Compétences.
-",
+- lorsque la fiche RNCP correspondante est connue, il faut priviliégier le niveau européen issue de France Compétences.",
                                     "enum": [
                                       "1",
                                       "2",
@@ -4761,17 +4597,7 @@ Notes:
 Les dates sont retournées au format ISO 8601 avec le fuseau horaire Europe/Paris.",
                         "properties": {
                           "cfd": {
-                            "description": "La période de validité d’un CFD est décrite par :
-
-- **La date d’ouverture** : moment où il est possible de s’inscrire pour l’obtention de la certification (ou du diplôme)
-- **La première session** : année de sortie des premiers diplômés
-- **La dernière session** : année de sortie des derniers diplômés
-- **La date de fermeture** : moment où il n’est plus possible d’émettre le diplôme.
-
-
-Notes:
-
-- \`null\` lorsque le champs \`identifiant.cfd\` est \`null\`.",
+                            "description": "- \`null\` lorsque le champs \`identifiant.cfd\` est \`null\`.",
                             "properties": {
                               "derniere_session": {
                                 "description": "Année de sortie des derniers diplômés.",
@@ -4866,18 +4692,7 @@ Notes:
                             ],
                           },
                           "rncp": {
-                            "description": "La période de validité d’une fiche RNCP est décrite par :
-
-- **La date d’activation** correspond à la date laquelle la fiche RNCP est passée au **statut actif : les inscriptions à la formation sont ouvertes** jusqu'à la date limite de délivrance de la certification.
-- La **date de début des parcours certifiants** (anciennement appelée “**date d’effet**” pour les enregistrements de droits, et “**date de décision**” pour les enregistrement sur demande)
-- La **date de fin d’enregistrement** : le lendemain, la fiche RNCP passe du statut “**actif**” à “**inactif**”. Pour les enregistrement de droit, cette date est renseignée par le certificateur, et pour les enregistrements sur demande, elle est déterminée par commission au moment de la décision d’enregistrement. A cette date, l'accès à la certification n'est plus possible (les inscriptions sont fermées) mais elle peut continuer à être délivrée pour les parcours en cours (formation ou VAE) ou pour la signature d'un contrat d'apprentissage suite à un nouveau contrat consécutif à une rupture du contrat.
-
-
-Un enregistrement au RNCP est de maximum 5 ans, dépassé ce délai toute fiche doit fait l’objet d’une demande de renouvellement.
-
-Notes:
-
-- \`null\` lorsque le champs \`identifiant.rncp\` est \`null\`.",
+                            "description": "- \`null\` lorsque le champs \`identifiant.rncp\` est \`null\`.",
                             "properties": {
                               "actif": {
                                 "description": "Lorsque la fiche est active, les inscriptions à la formation sont ouvertes, à l’inverse, lorsque la fiche est inactive, les inscriptions sont fermées.",
@@ -4889,8 +4704,7 @@ Notes:
 Notes:
 
 - La couverture de ce champ est partiel car nous ne sommes pas en mesure pour le moment de récupérer les dates d'activation antérieures au 24 décembre 2021.
-- France Compétence ne fournie pas l'information, nous le déduisons de la date de premiere apparation de la fiche RNCP avec le statut \`actif\`.
-",
+- France Compétence ne fournie pas l'information, nous le déduisons de la date de premiere apparation de la fiche RNCP avec le statut \`actif\`.",
                                 "examples": [
                                   "2021-09-01T00:00:00.000+02:00",
                                   "2022-01-01T00:00:00.000+01:00",
@@ -4951,14 +4765,6 @@ Notes:
                         "type": "object",
                       },
                       "type": {
-                        "description": "Le type de certification renseigne sur
-
-- la nature du diplôme
-- le service responsable de la définition du diplôme
-- le(s) nom(s) et numéro(s) SIRET du ou des certificateur(s) renseigné(s) dans le RNCP
-- le type d’enregistrement au RNCP (de droit ou sur demande)
-- la voie d’accès à la formation (apprentissage, expérience, candidature individuelle, contrat de professionnalisation, formation continue et formation statut élève).
-",
                         "properties": {
                           "certificateurs_rncp": {
                             "description": "Liste des certificateurs de la fiche RNCP.
@@ -4990,8 +4796,6 @@ Notes:
                           },
                           "enregistrement_rncp": {
                             "description": "Permet de savoir si la certification est enregistrée de droit ou sur demande au Repertoire National des Certifications Professionnelles (RNCP)
-
-Notes:
 
 - \`null\` lorsque le champs \`identifiant.rncp\` est \`null\`.",
                             "enum": [
@@ -7337,8 +7141,7 @@ Une commune peut avoir plusieurs code postaux, et un code postal peut correspond
 - Du \`centre\` de la commune
 - De la boite englobante (\`bbox\`) qui délimite la zone de la commune.
 
-Les champs \`centre\` et \`bbox\` sont tous les deux au format [GeoJSON](https://fr.wikipedia.org/wiki/GeoJSON)
-",
+Les champs \`centre\` et \`bbox\` sont tous les deux au format [GeoJSON](https://fr.wikipedia.org/wiki/GeoJSON)",
                         "properties": {
                           "bbox": {
                             "description": "Coordonnées de la boîte englobante de la commune au format GeoJSON "Polygon"",
@@ -9305,8 +9108,7 @@ Pour cela, elle requiert seulement la transmission des coordonnées ainsi que du
 L’utilisation de cette route d’API est possible dans 2 scénarios différents :
 
 - On postule à une offre spécifique, dans ce cas il est nécessaire de connaitre l’identifiant de l’offre.
-- On postule à une entreprise spécifique, dans ce cas il est nécessaire de connaitre l’identifiant du recruteur.
-",
+- On postule à une entreprise spécifique, dans ce cas il est nécessaire de connaitre l’identifiant du recruteur.",
         "operationId": "jobApply",
         "requestBody": {
           "content": {
@@ -9778,10 +9580,7 @@ L’utilisation de cette route d’API est possible dans 2 scénarios différent
 
 - URL de redirection
 - numéro de téléphone
-- email de l’entreprise
-
-
-Au moins une méthode de candidature doit être fournie lors du dépot d'offre. (soit url, phone, email)",
+- email de l’entreprise",
                     "properties": {
                       "email": {
                         "description": "Recruiter's email adress",
@@ -9796,8 +9595,6 @@ Au moins une méthode de candidature doit être fournie lors du dépot d'offre. 
                       },
                       "phone": {
                         "description": "Recruiter's phone number
-
-Notes:
 
 Only European phone numbers are allowed. There is also a check on the nature of the number: only mobile and landline phones are allowed.",
                         "examples": [
@@ -9828,8 +9625,7 @@ Only European phone numbers are allowed. There is also a check on the nature of 
 - Le type (apprentissage et/ou professionnalisation).
 - La date de début.
 - La durée.
-- Le mode de travail (présentiel, télétravail ou hybride).
-",
+- Le mode de travail (présentiel, télétravail ou hybride).",
                     "properties": {
                       "duration": {
                         "description": "Contract duration in months.",
@@ -9908,10 +9704,7 @@ Only European phone numbers are allowed. There is also a check on the nature of 
 
 - Les conditions d’accès au métier. Exemple : Ce métier est accessible avec un diplôme de niveau Bac+2 (BTS, DUT) à Master (MIAGE, diplôme d'ingénieur, Master professionnel, ...) en informatique. Il est également accessible avec une expérience professionnelle en informatique, système d'exploitation ou dans un domaine applicatif. La pratique de l'anglais (vocabulaire technique) est requise.
 
-- Le mode de travail (présentiel, télétravail ou hybride).
-
-
-Le ROME correspond au Référentiel Opérationnel des Métiers et des Emplois. Conçu par France Travail (anciennement Pôle Emploi), ce référentiel présente l'ensemble des métiers regroupés par fiches, organisées par domaines professionnels.",
+- Le mode de travail (présentiel, télétravail ou hybride).",
                     "properties": {
                       "access_conditions": {
                         "default": [],
@@ -9972,8 +9765,7 @@ Le ROME correspond au Référentiel Opérationnel des Métiers et des Emplois. C
                         ],
                       },
                       "publication": {
-                        "description": "Une opportunité d’emploi possède un cycle de vie : une date de création et une date d'expiration.
-",
+                        "description": "Une opportunité d’emploi possède un cycle de vie : une date de création et une date d'expiration.",
                         "properties": {
                           "creation": {
                             "description": "Creation date of the job opportunity.",
@@ -10003,8 +9795,6 @@ Le ROME correspond au Référentiel Opérationnel des Métiers et des Emplois. C
                       "rome_codes": {
                         "description": "ROME code(s) of the offer
 
-Notes:
-
 If the published offer does not have a ROME code provided, we deduce the ROME codes from the job offer title.",
                         "items": {
                           "description": "ROME code",
@@ -10026,8 +9816,7 @@ If the published offer does not have a ROME code provided, we deduce the ROME co
 - Filled : L'offre a été pourvue et n'est donc plus disponible.
 - Cancelled : L'offre a été annulée et n'est donc plus disponible.
 
-
-Notes:
+Only active offers are returned by the search.
 
 When creating an offer, only active offers are accepted. However, during an update, it is possible to cancel or mark an offer as filled.",
                         "enum": [
@@ -10103,8 +9892,7 @@ When creating an offer, only active offers are accepted. However, during an upda
 - Le nom (enseigne ou à défaut, raison sociale) et le numéro SIRET de l’entreprise.
 - La description de l’employeur et/ou du service où s’exécutera le contrat.
 - La tranche effectif de l’entreprise, en nombre de salariés.
-- Le site web de l’entreprise.
-",
+- Le site web de l’entreprise.",
                     "properties": {
                       "description": {
                         "description": "Description of the employer and/or the department where the contract will be carried out.",
@@ -10117,13 +9905,10 @@ When creating an offer, only active offers are accepted. However, during an upda
                         ],
                       },
                       "location": {
-                        "description": "Adresse postale et géolocalisation rattachées au numéro SIRET de l’entreprise
-",
+                        "description": "Adresse postale et géolocalisation rattachées au numéro SIRET de l’entreprise",
                         "properties": {
                           "address": {
                             "description": "Address of the job offer
-
-Notes:
 
 In the case of job offer publication, a custom address can be provided; otherwise, the establishment's address will be used.
 
@@ -10145,8 +9930,6 @@ The geopoint field is derived from the address.",
                       "name": {
                         "description": "Name of the establishment (brand name or, failing that, legal name)
 
-Notes:
-
 In the case of publishing a job offer, it is possible to use a custom name; otherwise, it will take the value of the brand name, or failing that, the legal name.",
                         "examples": [
                           "DIRECTION INTERMINISTERIELLE DU NUMERIQUE (DINUM)",
@@ -10158,8 +9941,6 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
                       },
                       "siret": {
                         "description": "SIRET of the contract execution location
-
-Notes:
 
 The information \`brand\` \`legal_name\` \`size\` \`idcc\` \`opco\` \`naf\` is automatically deduced from the SIRET.",
                         "examples": [
@@ -10615,10 +10396,7 @@ The information \`brand\` \`legal_name\` \`size\` \`idcc\` \`opco\` \`naf\` is a
 
 - URL de redirection
 - numéro de téléphone
-- email de l’entreprise
-
-
-Au moins une méthode de candidature doit être fournie lors du dépot d'offre. (soit url, phone, email)",
+- email de l’entreprise",
                     "properties": {
                       "email": {
                         "description": "Recruiter's email adress",
@@ -10633,8 +10411,6 @@ Au moins une méthode de candidature doit être fournie lors du dépot d'offre. 
                       },
                       "phone": {
                         "description": "Recruiter's phone number
-
-Notes:
 
 Only European phone numbers are allowed. There is also a check on the nature of the number: only mobile and landline phones are allowed.",
                         "examples": [
@@ -10665,8 +10441,7 @@ Only European phone numbers are allowed. There is also a check on the nature of 
 - Le type (apprentissage et/ou professionnalisation).
 - La date de début.
 - La durée.
-- Le mode de travail (présentiel, télétravail ou hybride).
-",
+- Le mode de travail (présentiel, télétravail ou hybride).",
                     "properties": {
                       "duration": {
                         "description": "Contract duration in months.",
@@ -10745,10 +10520,7 @@ Only European phone numbers are allowed. There is also a check on the nature of 
 
 - Les conditions d’accès au métier. Exemple : Ce métier est accessible avec un diplôme de niveau Bac+2 (BTS, DUT) à Master (MIAGE, diplôme d'ingénieur, Master professionnel, ...) en informatique. Il est également accessible avec une expérience professionnelle en informatique, système d'exploitation ou dans un domaine applicatif. La pratique de l'anglais (vocabulaire technique) est requise.
 
-- Le mode de travail (présentiel, télétravail ou hybride).
-
-
-Le ROME correspond au Référentiel Opérationnel des Métiers et des Emplois. Conçu par France Travail (anciennement Pôle Emploi), ce référentiel présente l'ensemble des métiers regroupés par fiches, organisées par domaines professionnels.",
+- Le mode de travail (présentiel, télétravail ou hybride).",
                     "properties": {
                       "access_conditions": {
                         "default": [],
@@ -10809,8 +10581,7 @@ Le ROME correspond au Référentiel Opérationnel des Métiers et des Emplois. C
                         ],
                       },
                       "publication": {
-                        "description": "Une opportunité d’emploi possède un cycle de vie : une date de création et une date d'expiration.
-",
+                        "description": "Une opportunité d’emploi possède un cycle de vie : une date de création et une date d'expiration.",
                         "properties": {
                           "creation": {
                             "description": "Creation date of the job opportunity.",
@@ -10840,8 +10611,6 @@ Le ROME correspond au Référentiel Opérationnel des Métiers et des Emplois. C
                       "rome_codes": {
                         "description": "ROME code(s) of the offer
 
-Notes:
-
 If the published offer does not have a ROME code provided, we deduce the ROME codes from the job offer title.",
                         "items": {
                           "description": "ROME code",
@@ -10863,8 +10632,7 @@ If the published offer does not have a ROME code provided, we deduce the ROME co
 - Filled : L'offre a été pourvue et n'est donc plus disponible.
 - Cancelled : L'offre a été annulée et n'est donc plus disponible.
 
-
-Notes:
+Only active offers are returned by the search.
 
 When creating an offer, only active offers are accepted. However, during an update, it is possible to cancel or mark an offer as filled.",
                         "enum": [
@@ -10940,8 +10708,7 @@ When creating an offer, only active offers are accepted. However, during an upda
 - Le nom (enseigne ou à défaut, raison sociale) et le numéro SIRET de l’entreprise.
 - La description de l’employeur et/ou du service où s’exécutera le contrat.
 - La tranche effectif de l’entreprise, en nombre de salariés.
-- Le site web de l’entreprise.
-",
+- Le site web de l’entreprise.",
                     "properties": {
                       "description": {
                         "description": "Description of the employer and/or the department where the contract will be carried out.",
@@ -10954,13 +10721,10 @@ When creating an offer, only active offers are accepted. However, during an upda
                         ],
                       },
                       "location": {
-                        "description": "Adresse postale et géolocalisation rattachées au numéro SIRET de l’entreprise
-",
+                        "description": "Adresse postale et géolocalisation rattachées au numéro SIRET de l’entreprise",
                         "properties": {
                           "address": {
                             "description": "Address of the job offer
-
-Notes:
 
 In the case of job offer publication, a custom address can be provided; otherwise, the establishment's address will be used.
 
@@ -10982,8 +10746,6 @@ The geopoint field is derived from the address.",
                       "name": {
                         "description": "Name of the establishment (brand name or, failing that, legal name)
 
-Notes:
-
 In the case of publishing a job offer, it is possible to use a custom name; otherwise, it will take the value of the brand name, or failing that, the legal name.",
                         "examples": [
                           "DIRECTION INTERMINISTERIELLE DU NUMERIQUE (DINUM)",
@@ -10995,8 +10757,6 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
                       },
                       "siret": {
                         "description": "SIRET of the contract execution location
-
-Notes:
 
 The information \`brand\` \`legal_name\` \`size\` \`idcc\` \`opco\` \`naf\` is automatically deduced from the SIRET.",
                         "examples": [
@@ -11422,8 +11182,7 @@ The information \`brand\` \`legal_name\` \`size\` \`idcc\` \`opco\` \`naf\` is a
 
 The search will cover the whole of France if not specified.
 
-This field must be mandatory when used with the longitude field.
-",
+This field must be mandatory when used with the longitude field.",
               "examples": [
                 48.8566,
               ],
@@ -11441,8 +11200,7 @@ This field must be mandatory when used with the longitude field.
 
 The search will cover the entire France if not specified.
 
-This field should be mandatory when used with the longitude field.
-",
+This field should be mandatory when used with the longitude field.",
               "examples": [
                 2.3522,
               ],
@@ -11457,8 +11215,7 @@ This field should be mandatory when used with the longitude field.
             "required": false,
             "schema": {
               "default": 30,
-              "description": "Search radius in km, useful if a latitude and longitude are provided. The value must be between 0 and 200 and will default to 30.
-",
+              "description": "Search radius in km, useful if a latitude and longitude are provided. The value must be between 0 and 200 and will default to 30.",
               "examples": [
                 30,
               ],
@@ -11479,8 +11236,7 @@ When filtering by diploma level, we return offers:
 - where the target diploma level is unknown / not specified / indifferent
 - **and** where the target diploma level matches the requested diploma level
 
-By filtering on \`4\`, only offers related to this diploma level, as well as those with unknown/unspecified levels, will be returned to you.
-",
+By filtering on \`4\`, only offers related to this diploma level, as well as those with unknown/unspecified levels, will be returned to you.",
               "enum": [
                 "3",
                 "4",
@@ -11509,8 +11265,7 @@ The ROME corresponds to the Operational Reference for Trades and Jobs designed b
 
 List of codes separated by commas
 
-The codes must adhere to the ROME formats
-",
+The codes must adhere to the ROME formats",
               "examples": [
                 "F1601,F1201,F1106",
                 "M1806",
@@ -11525,8 +11280,7 @@ The codes must adhere to the ROME formats
             "schema": {
               "description": "RNCP code of the research scope
 
-The RNCP corresponds to the National Directory of Professional Certifications by [France Compétences](https://www.francecompetences.fr/reguler-le-marche/certification-professionnelle/)
-",
+The RNCP corresponds to the National Directory of Professional Certifications by [France Compétences](https://www.francecompetences.fr/reguler-le-marche/certification-professionnelle/)",
               "examples": [
                 "RNCP34436",
                 "RNCP183",
@@ -11557,8 +11311,7 @@ Currently, the results are sorted by:
 - Increasing distance (only for a search by location)
 - Decreasing date of creation
 
-The results are limited to 150 per source, and currently, it is not possible to retrieve all the offers matching the search criteria.
-",
+The results are limited to 150 per source, and currently, it is not possible to retrieve all the offers matching the search criteria.",
                       "items": {
                         "description": "Offre d'emploi",
                         "properties": {
@@ -11567,13 +11320,10 @@ The results are limited to 150 per source, and currently, it is not possible to 
 
 - URL de redirection
 - numéro de téléphone
-- email de l’entreprise
-",
+- email de l’entreprise",
                             "properties": {
                               "phone": {
                                 "description": "Recruiter's phone number
-
-Notes:
 
 Only European phone numbers are allowed. There is also a check on the nature of the number: only mobile and landline phones are allowed.",
                                 "examples": [
@@ -11612,8 +11362,7 @@ Only European phone numbers are allowed. There is also a check on the nature of 
 - Le type (apprentissage et/ou professionnalisation).
 - La date de début.
 - La durée.
-- Le mode de travail (présentiel, télétravail ou hybride).
-",
+- Le mode de travail (présentiel, télétravail ou hybride).",
                             "properties": {
                               "duration": {
                                 "description": "Contract duration in months.",
@@ -11683,13 +11432,10 @@ Only European phone numbers are allowed. There is also a check on the nature of 
                             "description": "Cet élément regroupe :
 
 - le partenaire à l'origine de l'offre d'emploi
-- l'identifiant unique de l'offre d'emploi au sein du système d'information La bonne alternance
-",
+- l'identifiant unique de l'offre d'emploi au sein du système d'information La bonne alternance",
                             "properties": {
                               "id": {
                                 "description": "Identifier of the job offer in the La bonne alternance database.
-
-Notes:
 
 France Travail offers are not stored in the La bonne alternance database but are retrieved on the fly. They do not have an identifier in the database.",
                                 "examples": [
@@ -11709,8 +11455,6 @@ France Travail offers are not stored in the La bonne alternance database but are
                               },
                               "partner_label": {
                                 "description": "Partner originating the job offer.
-
-Notes:
 
 In the case of La Bonne Alternance, the partner_label is: "La bonne alternance".",
                                 "examples": [
@@ -11742,10 +11486,7 @@ In the case of La Bonne Alternance, the partner_label is: "La bonne alternance".
 
 - Les conditions d’accès au métier. Exemple : Ce métier est accessible avec un diplôme de niveau Bac+2 (BTS, DUT) à Master (MIAGE, diplôme d'ingénieur, Master professionnel, ...) en informatique. Il est également accessible avec une expérience professionnelle en informatique, système d'exploitation ou dans un domaine applicatif. La pratique de l'anglais (vocabulaire technique) est requise.
 
-- Le mode de travail (présentiel, télétravail ou hybride).
-
-
-Le ROME correspond au Référentiel Opérationnel des Métiers et des Emplois. Conçu par France Travail (anciennement Pôle Emploi), ce référentiel présente l'ensemble des métiers regroupés par fiches, organisées par domaines professionnels.",
+- Le mode de travail (présentiel, télétravail ou hybride).",
                             "properties": {
                               "access_conditions": {
                                 "description": "The conditions for entering the profession",
@@ -11790,8 +11531,7 @@ Le ROME correspond au Référentiel Opérationnel des Métiers et des Emplois. C
                                 "type": "number",
                               },
                               "publication": {
-                                "description": "Une opportunité d’emploi possède un cycle de vie : une date de création et une date d'expiration.
-",
+                                "description": "Une opportunité d’emploi possède un cycle de vie : une date de création et une date d'expiration.",
                                 "properties": {
                                   "creation": {
                                     "description": "Creation date of the job opportunity.",
@@ -11840,9 +11580,6 @@ Le ROME correspond au Référentiel Opérationnel des Métiers et des Emplois. C
 - Active : L'offre est disponible sur la plateforme et il est possible d'y postuler.
 - Filled : L'offre a été pourvue et n'est donc plus disponible.
 - Cancelled : L'offre a été annulée et n'est donc plus disponible.
-
-
-Notes:
 
 Only active offers are returned by the search.",
                                 "enum": [
@@ -11931,8 +11668,7 @@ Only active offers are returned by the search.",
 - Le nom (enseigne ou à défaut, raison sociale) et le numéro SIRET de l’entreprise.
 - La description de l’employeur et/ou du service où s’exécutera le contrat.
 - La tranche effectif de l’entreprise, en nombre de salariés.
-- Le site web de l’entreprise.
-",
+- Le site web de l’entreprise.",
                             "properties": {
                               "brand": {
                                 "description": "Brand name of the establishment",
@@ -11959,8 +11695,7 @@ Only active offers are returned by the search.",
 
 - La Nomenclature d’Activité Française (NAF). Produite par l’INSEE, elle a pour objectif de faciliter l'organisation de l'information économique et sociale.
 - Le numéro IDCC de la convention collective. Produit par le ministère chargé du travail (Dares et DGT) et celui chargé de l’agriculture.
-- L’Opérateur de Compétence (OPCO) de rattachement pouvant prendre en charge le financement du contrat.
-",
+- L’Opérateur de Compétence (OPCO) de rattachement pouvant prendre en charge le financement du contrat.",
                                 "properties": {
                                   "idcc": {
                                     "description": "Collective agreement number associated with the SIRET number",
@@ -12028,8 +11763,7 @@ Only active offers are returned by the search.",
                                 ],
                               },
                               "location": {
-                                "description": "Adresse postale et géolocalisation rattachées au numéro SIRET de l’entreprise
-",
+                                "description": "Adresse postale et géolocalisation rattachées au numéro SIRET de l’entreprise",
                                 "properties": {
                                   "address": {
                                     "description": "Postal address of the job offer location.",
@@ -12041,8 +11775,6 @@ Only active offers are returned by the search.",
                                   "geopoint": {
                                     "additionalProperties": false,
                                     "description": "Geolocation linked to the address
-
-Notes:
 
 Derived from the address.",
                                     "properties": {
@@ -12096,8 +11828,6 @@ Derived from the address.",
                               },
                               "name": {
                                 "description": "Name of the establishment (brand name or, failing that, legal name)
-
-Notes:
 
 In the case of publishing a job offer, it is possible to use a custom name; otherwise, it will take the value of the brand name, or failing that, the legal name.",
                                 "examples": [
@@ -12169,8 +11899,7 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
                     "recruiters": {
                       "description": "List of companies that have not posted a job offer but are likely to hire apprentices in the desired field.
 
-The results are limited to 150, and currently, it is not possible to retrieve all recruiters matching the search criteria.
-",
+The results are limited to 150, and currently, it is not possible to retrieve all recruiters matching the search criteria.",
                       "items": {
                         "description": "Recruteur",
                         "properties": {
@@ -12179,13 +11908,10 @@ The results are limited to 150, and currently, it is not possible to retrieve al
 
 - URL de redirection
 - numéro de téléphone
-- email de l’entreprise
-",
+- email de l’entreprise",
                             "properties": {
                               "phone": {
                                 "description": "Recruiter's phone number
-
-Notes:
 
 Only European phone numbers are allowed. There is also a check on the nature of the number: only mobile and landline phones are allowed.",
                                 "examples": [
@@ -12222,8 +11948,7 @@ Only European phone numbers are allowed. There is also a check on the nature of 
                             "description": "Cet élément regroupe :
 
 - le partenaire à l'origine de l'offre d'emploi
-- l'identifiant unique de l'offre d'emploi au sein du système d'information La bonne alternance
-",
+- l'identifiant unique de l'offre d'emploi au sein du système d'information La bonne alternance",
                             "properties": {
                               "id": {
                                 "description": "Partner responsible for the job offer.",
@@ -12244,8 +11969,7 @@ Only European phone numbers are allowed. There is also a check on the nature of 
 - Le nom (enseigne ou à défaut, raison sociale) et le numéro SIRET de l’entreprise.
 - La description de l’employeur et/ou du service où s’exécutera le contrat.
 - La tranche effectif de l’entreprise, en nombre de salariés.
-- Le site web de l’entreprise.
-",
+- Le site web de l’entreprise.",
                             "properties": {
                               "brand": {
                                 "description": "Brand name of the establishment",
@@ -12272,8 +11996,7 @@ Only European phone numbers are allowed. There is also a check on the nature of 
 
 - La Nomenclature d’Activité Française (NAF). Produite par l’INSEE, elle a pour objectif de faciliter l'organisation de l'information économique et sociale.
 - Le numéro IDCC de la convention collective. Produit par le ministère chargé du travail (Dares et DGT) et celui chargé de l’agriculture.
-- L’Opérateur de Compétence (OPCO) de rattachement pouvant prendre en charge le financement du contrat.
-",
+- L’Opérateur de Compétence (OPCO) de rattachement pouvant prendre en charge le financement du contrat.",
                                 "properties": {
                                   "idcc": {
                                     "description": "Collective agreement number associated with the SIRET number",
@@ -12341,8 +12064,7 @@ Only European phone numbers are allowed. There is also a check on the nature of 
                                 ],
                               },
                               "location": {
-                                "description": "Adresse postale et géolocalisation rattachées au numéro SIRET de l’entreprise
-",
+                                "description": "Adresse postale et géolocalisation rattachées au numéro SIRET de l’entreprise",
                                 "properties": {
                                   "address": {
                                     "description": "Postal address of the job offer location.",
@@ -12354,8 +12076,6 @@ Only European phone numbers are allowed. There is also a check on the nature of 
                                   "geopoint": {
                                     "additionalProperties": false,
                                     "description": "Geolocation linked to the address
-
-Notes:
 
 Derived from the address.",
                                     "properties": {
@@ -12409,8 +12129,6 @@ Derived from the address.",
                               },
                               "name": {
                                 "description": "Name of the establishment (brand name or, failing that, legal name)
-
-Notes:
 
 In the case of publishing a job offer, it is possible to use a custom name; otherwise, it will take the value of the brand name, or failing that, the legal name.",
                                 "examples": [
@@ -12480,8 +12198,7 @@ In the case of publishing a job offer, it is possible to use a custom name; othe
                     "warnings": {
                       "description": "List of warnings related to the search.
 
-France Travail job offers are retrieved in real-time, so in case of an error when calling the France Travail API, the France Travail offers will not be returned and a warning will be added to the response.
-",
+France Travail job offers are retrieved in real-time, so in case of an error when calling the France Travail API, the France Travail offers will not be returned and a warning will be added to the response.",
                       "examples": [
                         {
                           "code": "WARNING_CODE",

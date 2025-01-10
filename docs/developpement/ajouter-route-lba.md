@@ -43,5 +43,7 @@ La majorité du code relatif à la définition des routes et de la documentation
    1. Authentification requise
    2. Vérification des permissions utilisateur (si nécessaire)
    3. Vérification d'une requete simple
-5. Mise à jour des snapshots
-   1. `yarn typecheck && yarn test -u`
+
+Exemple de Pull Request: https://github.com/mission-apprentissage/api-apprentissage/pull/284
+
+## Création de la documentation

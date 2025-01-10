@@ -14,10 +14,10 @@ export const jobApplyRouteDoc = {
   response: {
     description: { en: "Success", fr: "Succès" },
     content: {
-      description: null,
+      descriptions: null,
       _: {
         id: {
-          description: { fr: "Identifiant de la candidature.", en: "Application's identifier." },
+          descriptions: [{ fr: "Identifiant de la candidature.", en: "Application's identifier." }],
         },
       },
     },

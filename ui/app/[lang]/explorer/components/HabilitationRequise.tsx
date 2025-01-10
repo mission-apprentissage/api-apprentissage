@@ -1,14 +1,16 @@
 import { fr } from "@codegouvfr/react-dsfr";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { Box, Typography } from "@mui/material";
+import type { OpenApiText } from "api-alternance-sdk/internal";
+import { getTextOpenAPI } from "api-alternance-sdk/internal";
 
 import type { WithLangAndT } from "@/app/i18n/settings";
 import { Artwork } from "@/components/artwork/Artwork";
 import { DsfrLink } from "@/components/link/DsfrLink";
 
 type Props = WithLangAndT<{
-  subject: string;
-  body: string;
+  subject: OpenApiText;
+  body: OpenApiText;
 }>;
 
 export function HabilitationRequise({ lang, t, subject, body }: Props) {
@@ -36,7 +38,7 @@ export function HabilitationRequise({ lang, t, subject, body }: Props) {
           {t("habilitationRequise.titre", { lng: lang })}
         </Typography>
         <DsfrLink
-          href={`mailto:support_api@apprentissage.beta.gouv.fr?subject=${encodeURIComponent(subject)}&body=${body}`}
+          href={`mailto:support_api@apprentissage.beta.gouv.fr?subject=${encodeURIComponent(getTextOpenAPI(subject, lang))}&body=${getTextOpenAPI(body, lang)}`}
           arrow="none"
         >
           <Button priority="secondary" size="small">

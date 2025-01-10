@@ -11,6 +11,16 @@ import locationFrance from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/map/l
 import { Tag as TagDsfr } from "@codegouvfr/react-dsfr/Tag";
 import { Tile } from "@codegouvfr/react-dsfr/Tile";
 import { Box, Container, Hidden, Typography } from "@mui/material";
+import {
+  candidatureOffrePageSummaryDoc,
+  certificationsPageSummaryDoc,
+  depotOffrePageSummaryDoc,
+  getTextOpenAPI,
+  rechercheCommunePageSummaryDoc,
+  rechercheOffrePageSummaryDoc,
+  recuperationDepartementsPageSummaryDoc,
+  recuperationMissionLocalePageSummaryDoc,
+} from "api-alternance-sdk/internal";
 
 import { getServerTranslation } from "@/app/i18n";
 import type { PropsWithLangParams } from "@/app/i18n/settings";
@@ -64,7 +74,7 @@ export default async function ExplorerApiPage({ params: { lang } }: PropsWithLan
       >
         <Tile
           title={PAGES.static.catalogueDesDonneesCertification.getTitle(lang, t)}
-          desc={t("catalogueDesDonneesCertification.desc")}
+          desc={getTextOpenAPI(certificationsPageSummaryDoc, lang)}
           imageSvg
           imageUrl={book.src}
           enlargeLinkOrButton
@@ -85,7 +95,7 @@ export default async function ExplorerApiPage({ params: { lang } }: PropsWithLan
         />
         <Tile
           title={PAGES.static.rechercheOffre.getTitle(lang, t)}
-          desc={t("rechercheOffre.desc")}
+          desc={getTextOpenAPI(rechercheOffrePageSummaryDoc, lang)}
           imageSvg
           imageUrl={search.src}
           enlargeLinkOrButton
@@ -94,7 +104,7 @@ export default async function ExplorerApiPage({ params: { lang } }: PropsWithLan
         />
         <Tile
           title={PAGES.static.depotOffre.getTitle(lang, t)}
-          desc={t("depotOffre.desc")}
+          desc={getTextOpenAPI(depotOffrePageSummaryDoc, lang)}
           imageSvg
           imageUrl={internet.src}
           enlargeLinkOrButton
@@ -103,7 +113,7 @@ export default async function ExplorerApiPage({ params: { lang } }: PropsWithLan
         />
         <Tile
           title={PAGES.static.candidatureOffre.getTitle(lang, t)}
-          desc={t("candidatureOffre.desc")}
+          desc={getTextOpenAPI(candidatureOffrePageSummaryDoc, lang)}
           imageSvg
           imageUrl={contract.src}
           enlargeLinkOrButton
@@ -112,7 +122,7 @@ export default async function ExplorerApiPage({ params: { lang } }: PropsWithLan
         />
         <Tile
           title={PAGES.static.rechercheCommune.getTitle(lang, t)}
-          desc={t("rechercheCommune.desc")}
+          desc={getTextOpenAPI(rechercheCommunePageSummaryDoc, lang)}
           imageSvg
           imageUrl={cityHall.src}
           enlargeLinkOrButton
@@ -121,7 +131,7 @@ export default async function ExplorerApiPage({ params: { lang } }: PropsWithLan
         />
         <Tile
           title={PAGES.static.recuperationDepartements.getTitle(lang, t)}
-          desc={t("recuperationDepartements.desc")}
+          desc={getTextOpenAPI(recuperationDepartementsPageSummaryDoc, lang)}
           imageSvg
           imageUrl={locationFrance.src}
           enlargeLinkOrButton
@@ -130,7 +140,7 @@ export default async function ExplorerApiPage({ params: { lang } }: PropsWithLan
         />
         <Tile
           title={PAGES.static.recuperationMissionLocales.getTitle(lang, t)}
-          desc={t("recuperationMissionLocales.desc")}
+          desc={getTextOpenAPI(recuperationMissionLocalePageSummaryDoc, lang)}
           imageSvg
           imageUrl={house.src}
           enlargeLinkOrButton

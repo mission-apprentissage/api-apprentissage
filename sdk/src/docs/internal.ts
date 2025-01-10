@@ -14,4 +14,5 @@ export * from "./routes/jobOfferUpdate/jobOfferUpdate.route.doc.js";
 export * from "./routes/listDepartements/listDepartements.route.doc.js";
 export * from "./routes/listMissionLocales/listMissionLocales.route.doc.js";
 
+export * from "./metier/internal.js";
 export type * from "./types.js";

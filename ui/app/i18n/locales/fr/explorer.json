@@ -1,54 +1,7 @@
 {
   "summary": "<strong>L’API Apprentissage centralise, enrichit</strong> et<strong> met à disposition</strong> des jeux de données et des outils relatifs à l’ensemble de l’offre de formation en apprentissage",
-  "catalogueDesDonneesCertification": {
-    "desc": "Consulter le modèle de données et effectuer une recherche dans la liste des certifications",
-    "summary": "<strong>Utilisez un jeu de données fiable et enrichi pour votre projet :</strong> codification, période de validité, intitulé, domaines, continuité, type et base légale.",
-    "variant": "Certification"
-  },
   "simulateurNpec": {
     "desc": "Calculer le niveau de prise en charge d’un contrat, réaliser un budget prévisionnel"
-  },
-  "rechercheOffre": {
-    "desc": "Accéder gratuitement et en temps réel à l'ensemble des opportunités d'emploi en alternance",
-    "summary": "<strong>Accédez gratuitement en temps réel à l'ensemble des opportunités d'emploi en alternance sur le territoire français.</strong> Les opportunités d’emploi retournées sont celles collectées sur {{- lienLba }}, récupérées par France Travail et partagées par nos partenaires.",
-    "tip": "<strong>💡 Vous pouvez rechercher dans l’ensemble opportunités d’emploi selon les critères suivants :</strong> Code(s) ROME, RNCP, géolocalisation, niveau de diplôme et rayon de recherche.",
-    "note": "À date, les résultats sont triés par priorité de source (La bonne alternance, France Travail puis nos partenaires) ; par distance croisssante (uniquement si critère de localisation) et par date de création décroissante. Les résultats sont limités à 150 par source.",
-    "warning": "Dans un souci de partage équitable, l'utilisation de cette API est réservée à des usages non lucratifs. Veuillez noter que l'utilisation de ces données à des fins commerciales, telles que la revente ou la facturation de l'accès pour des tiers comme des candidats, entreprises ou écoles, est interdite.",
-    "variantOffre": "Offre d'emploi",
-    "variantRecruteur": "Recruteur"
-  },
-  "rechercheCommune": {
-    "desc": "Consulter le référentiel des communes de France",
-    "summary": "Rechercher une commune par code INSEE ou code postal.",
-    "variant": "Commune"
-  },
-  "recuperationDepartements": {
-    "desc": "Consulter le référentiel des départements de France",
-    "summary": "Récupération des départements de France",
-    "variant": "Departement"
-  },
-  "recuperationMissionLocales": {
-    "desc": "Consulter le référentiel des Missions Locales",
-    "summary": "Récupération des Missions Locales",
-    "variant": "MissionLocale"
-  },
-  "depotOffre": {
-    "desc": "Maximiser la visibilité de vos offres d’emploi en alternance en les diffusant sur la plateforme La bonne alternance ainsi que ses sites partenaires.",
-    "summary": "<strong>Déposez, modifiez ou supprimez vos offres d’emploi en alternance</strong> pour maximiser leur visibilité en les diffusant sur la plateforme {{- lienLba }} ainsi que ses sites partenaires {{- lienPartenaire }}.",
-    "liste_partenaire": "consulter la liste",
-    "tip": "<strong>💡 L’utilisation de l’API vous permet de déposer toutes vos offres en une seule fois,</strong> mais il est également possible de déposer une offre unitaire directement sur le site de La bonne alternance ({{- lienDepotLba }})",
-    "lientDepotLba": "accéder au formulaire de dépôt",
-    "demandeHabilitation": {
-      "sujet": "Demande d'habilitation pour le dépôt d'offres d'emploi en alternance",
-      "contenu": "Bonjour, je souhaite obtenir une habilitation pour déposer des offres d'emploi en alternance sur la plateforme La bonne alternance."
-    },
-    "variant": "Offre d'emploi"
-  },
-  "candidatureOffre": {
-    "desc": "Fluidifier le parcours de vos utilisateurs en transmettant directement aux recruteurs les candidatures de vos usagers.",
-    "summary_1": "Afin de fluidifier le parcours de vos utilisateurs, cette API vous permet de transmettre directement aux recruteurs les candidatures de vos usagers, sans que ces derniers n’aient à quitter votre site.",
-    "summary_2": "Pour cela, elle requiert seulement la transmission des coordonnées ainsi que du CV du candidat. Un message de motivation, à destination du recruteur, peut également être transmis de manière facultative. La candidature est ensuite envoyée au recruteur par email.",
-    "variant": "Candidature"
   },
   "back": "Revenir à la liste",
   "besoinDonnees": {

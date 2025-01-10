@@ -4,21 +4,9 @@ export type OpenApiText = {
 };
 
 export interface DocTechnicalField {
-  readonly description: OpenApiText | null;
-  readonly notes?: OpenApiText | null;
+  readonly descriptions: OpenApiText[] | null;
   readonly examples?: ReadonlyArray<unknown>;
-  readonly _?: Record<string, DocTechnicalField | DocBusinessField>;
-}
-
-export interface DocBusinessField extends DocTechnicalField {
-  readonly metier: true;
-  readonly information?: OpenApiText | null;
-  readonly sample?: OpenApiText | null;
-  readonly tags?: ReadonlyArray<string>;
-  readonly tip?: null | {
-    readonly title: OpenApiText;
-    readonly content: OpenApiText;
-  };
+  readonly _?: Record<string, DocTechnicalField>;
 }
 
 export type DataSource = {
@@ -28,16 +16,46 @@ export type DataSource = {
   href: string;
 };
 
-export type DocModelSection = {
-  name: OpenApiText;
-  _: Record<string, DocBusinessField | DocTechnicalField>;
+export type DocModel = {
+  readonly description: OpenApiText;
+  readonly _: Record<string, DocTechnicalField>;
 };
 
-export type DocModel = {
-  readonly name: string;
-  readonly description: OpenApiText;
+export type DocModelRow = {
+  readonly description: OpenApiText | null;
+  readonly notes?: OpenApiText | null;
+  readonly examples?: ReadonlyArray<unknown>;
+  readonly information?: OpenApiText | null;
+  readonly sample?: OpenApiText | null;
+  readonly tags?: ReadonlyArray<string>;
+  readonly tip?: null | {
+    readonly title: OpenApiText;
+    readonly content: OpenApiText;
+  };
+};
+
+export type DocModelSection = {
+  name: OpenApiText;
+  rows: Record<string, DocModelRow>;
+};
+
+export type DocDatum = {
+  readonly name: OpenApiText;
   readonly sections: Record<string, DocModelSection>;
-  readonly sources: DataSource[];
+};
+
+export type DocPage = {
+  description: OpenApiText[];
+  emailDemandeHabilitations: null | {
+    subject: OpenApiText;
+    body: OpenApiText;
+  };
+  frequenceMiseAJour: "daily" | null;
+  note: null | OpenApiText;
+  warning: null | OpenApiText;
+  type: "data" | "outil";
+  sources: DataSource[];
+  data: DocDatum[];
 };
 
 export type DocRoute = {

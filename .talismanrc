@@ -12,11 +12,11 @@ fileignoreconfig:
 - filename: sdk/src/docs/models/job/application.model.doc.ts
   checksum: 9eb6c1fff24b532a002385705e293152a0e74a357c8d0071a500383c3c17c50b
 - filename: sdk/src/docs/models/job/offer_read.model.doc.ts
-  checksum: 903f0766eeb4226095460f2a16d52e0ca0eafe594c9c6f318b22bbdaf62bf80b
+  checksum: 403a69fa16e15f8a65d52c6aa7ec9b5c0eb4680996e2b4a2d07b52e5d297ce08
 - filename: sdk/src/docs/models/job/offer_write.model.doc.ts
-  checksum: 946b0a07258005ce5b1f6206f807cdabbfaf6a08d5b6d5176cf7a9a88bec64f7
+  checksum: 586ea3517bfa6cdad61453e2a2ecdd1a57ea52776f2e6ac63a6b700c3f569215
 - filename: sdk/src/docs/models/job/recruiter.model.doc.ts
-  checksum: 0361bde271d90fd4b6f57afa205611875bd64172d66d4df3ed78ca3931b85e2f
+  checksum: 01876f404d0d1ec92cc4ba83c1b869a32fe08621ed249b04d09609d3170f96f4
 - filename: sdk/src/docs/routes/jobOfferUpdate/jobOfferUpdate.route.doc.ts
   checksum: 4c6e64beba2f719da577a0aae1c9642e6e2e8712dc909dc62c64c081a2c612a8
 - filename: server/.env.test

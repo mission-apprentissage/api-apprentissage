@@ -7,7 +7,7 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import type { DocBusinessField } from "api-alternance-sdk/internal";
+import type { DocModelRow } from "api-alternance-sdk/internal";
 import { getTextOpenAPI } from "api-alternance-sdk/internal";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -17,7 +17,7 @@ import remarkGfm from "remark-gfm";
 import type { WithLang } from "@/app/i18n/settings";
 import { DsfrLink } from "@/components/link/DsfrLink";
 
-export function GoodToKnow({ tip, lang }: WithLang<Pick<DocBusinessField, "tip">>) {
+export function GoodToKnow({ tip, lang }: WithLang<Pick<DocModelRow, "tip">>) {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
   const { t } = useTranslation("explorer");

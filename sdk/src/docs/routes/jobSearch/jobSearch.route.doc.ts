@@ -20,43 +20,43 @@ export const jobSearchRouteDoc = {
   },
   parameters: {
     longitude: {
-      description: { en: longitude, fr: null },
+      descriptions: [{ en: longitude, fr: null }],
       examples: [48.8566],
     },
     latitude: {
-      description: { en: latitude, fr: null },
+      descriptions: [{ en: latitude, fr: null }],
       examples: [2.3522],
     },
     radius: {
-      description: { en: radius, fr: null },
+      descriptions: [{ en: radius, fr: null }],
       examples: [30],
     },
     rncp: {
-      description: { en: rncp, fr: null },
+      descriptions: [{ en: rncp, fr: null }],
       examples: ["RNCP34436", "RNCP183"],
     },
     romes: {
-      description: { en: romes, fr: null },
+      descriptions: [{ en: romes, fr: null }],
       examples: ["F1601,F1201,F1106", "M1806"],
     },
     target_diploma_level: {
-      description: { en: target_diploma_level, fr: null },
+      descriptions: [{ en: target_diploma_level, fr: null }],
       examples: ["3", "4", "5", "6", "7"],
     },
   },
   response: {
     description: { en: "Success", fr: "Succès" },
     content: {
-      description: null,
+      descriptions: null,
       _: {
         jobs: {
-          description: { en: jobs, fr: null },
+          descriptions: [{ en: jobs, fr: null }],
         },
         recruiters: {
-          description: { en: recruiters, fr: null },
+          descriptions: [{ en: recruiters, fr: null }],
         },
         warnings: {
-          description: { en: warnings, fr: null },
+          descriptions: [{ en: warnings, fr: null }],
           examples: [
             {
               message: "Some warning message",

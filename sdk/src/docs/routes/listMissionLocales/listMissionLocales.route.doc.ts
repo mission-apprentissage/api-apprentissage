@@ -15,10 +15,12 @@ export const listMissionLocalesRouteDoc = {
       fr: "Succès",
     },
     content: {
-      description: {
-        fr: "Liste des missions locales",
-        en: "List of mission locales",
-      },
+      descriptions: [
+        {
+          fr: "Liste des missions locales",
+          en: "List of mission locales",
+        },
+      ],
     },
   },
 } as const satisfies DocRoute;

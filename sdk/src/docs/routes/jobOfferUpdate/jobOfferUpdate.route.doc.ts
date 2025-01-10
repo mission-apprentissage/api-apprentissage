@@ -8,7 +8,7 @@ export const jobOfferUpdateRouteDoc = {
   },
   parameters: {
     id: {
-      description: { en: null, fr: "Identifiant unique de l’opportunité d’emploi" },
+      descriptions: [{ en: null, fr: "Identifiant unique de l’opportunité d’emploi" }],
       examples: ["6687165396d52b5e01b409545"],
     },
   },

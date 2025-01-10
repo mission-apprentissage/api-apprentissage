@@ -3,8 +3,8 @@ import OpenAPIParser from "@readme/openapi-parser";
 import diff from "microdiff";
 import type { OpenAPIObject, OperationObject, PathsObject } from "openapi3-ts/oas31";
 import { getPath } from "openapi3-ts/oas31";
-import { getOperationObjectStructure } from "shared/helpers/openapi/compareOpenapiStructure";
-import { generateOpenApiSchema } from "shared/helpers/openapi/generateOpenapi";
+import { getOperationObjectStructure } from "shared/openapi/compareOpenapiStructure";
+import { generateOpenApiSchema } from "shared/openapi/generateOpenapi";
 
 import config from "@/config.js";
 import logger from "@/services/logger.js";

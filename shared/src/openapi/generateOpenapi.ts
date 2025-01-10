@@ -2,24 +2,19 @@ import type { ResponseConfig, RouteConfig } from "@asteasolutions/zod-to-openapi
 import { OpenApiGeneratorV31, OpenAPIRegistry } from "@asteasolutions/zod-to-openapi";
 import { formatParamUrl } from "@fastify/swagger";
 import {
-  registerCertificationRoutes,
-  registerGeographieRoutes,
-  registerJobRoutes,
-  registerOpenApiCertificationSchema,
-  registerOpenApiCommuneModel,
-  registerOpenApiDepartementModel,
+  addOperationDoc,
+  addSchemaModelDoc,
+  getTextOpenAPI,
+  openapiSpec,
   registerOpenApiErrorsSchema,
-  registerOpenApiJobModel,
-  registerOpenApiMissionLocaleModel,
-  registerOrganismeRoutes,
 } from "api-alternance-sdk/internal";
-import type { PathsObject, SecurityRequirementObject } from "openapi3-ts/oas31";
+import type { PathItemObject, PathsObject, SecurityRequirementObject } from "openapi3-ts/oas31";
 import { OpenApiBuilder } from "openapi3-ts/oas31";
 import type { AnyZodObject } from "zod";
 
-import type { IRouteSchema, IRoutesDef } from "../../routes/common.routes.js";
-import { zSourceAcceRoutes } from "../../routes/experimental/source/acce.routes.js";
-import { registerHealhcheckRoutes } from "../../routes/healthcheck.routes.js";
+import type { IRouteSchema, IRoutesDef } from "../routes/common.routes.js";
+import { zSourceAcceRoutes } from "../routes/experimental/source/acce.routes.js";
+import { registerHealhcheckRoutes } from "../routes/healthcheck.routes.js";
 
 function generateOpenApiResponsesObject<R extends IRouteSchema["response"]>(
   response: R
@@ -78,10 +73,10 @@ function getSecurityRequirementObject(route: IRouteSchema): SecurityRequirementO
   return [{ [route.securityScheme.auth]: habiliations }];
 }
 
-function experimentalGenerateOpenApiPathItem(route: IRouteSchema, registry: OpenAPIRegistry) {
+function experimentalGenerateOpenApiPathItem(route: IRouteSchema, registry: OpenAPIRegistry, tag: string) {
   try {
     registry.registerPath({
-      tags: ["Expérimental"],
+      tags: [tag],
       method: route.method,
       path: formatParamUrl(route.path),
       request: generateOpenApiRequest(route),
@@ -95,13 +90,13 @@ function experimentalGenerateOpenApiPathItem(route: IRouteSchema, registry: Open
   }
 }
 
-export function experimentalGenerateOpenApiPathsObject(routes: IRoutesDef): PathsObject {
+export function experimentalGenerateOpenApiPathsObject(routes: IRoutesDef, tag: string): PathsObject {
   const registry = new OpenAPIRegistry();
 
   for (const [, pathRoutes] of Object.entries(routes)) {
     for (const [path, route] of Object.entries(pathRoutes)) {
       if (!path.startsWith("/_private")) {
-        experimentalGenerateOpenApiPathItem(route, registry);
+        experimentalGenerateOpenApiPathItem(route, registry, tag);
       }
     }
   }
@@ -145,36 +140,14 @@ export function generateOpenApiSchema(version: string, env: string, publicUrl: s
         description: env,
       },
     ],
-    tags: [
-      {
-        name: lang === "fr" ? "Essayer l'API" : "Try the API",
-        description:
-          lang === "fr"
-            ? "Pour essayer l'API [vous pouvez utiliser le swagger UI](/documentation-technique/try)"
-            : "To try the API [you can use the swagger UI](/documentation-technique/try)",
-      },
-      {
-        name: "Certifications",
-        description:
-          lang === "fr" ? "Liste des opérations sur les certifications." : "List of operations on certifications.",
-      },
-      {
-        name: "Job",
-        description: lang === "fr" ? "Opportunités d'emploi en alternance" : "Apprenticeship job opportunities",
-      },
-      {
-        name: "Géographie",
-        description: lang === "fr" ? "Référentiel Géographique" : "Geographical Referential",
-      },
-      {
-        name: "Expérimental",
-        description:
-          lang === "fr"
-            ? "Liste des routes expérimentales. Attention: ces routes peuvent changer sans préavis."
-            : "List of experimental routes. Warning: these routes may change without notice.",
-      },
-    ],
-    paths: experimentalGenerateOpenApiPathsObject(zSourceAcceRoutes),
+    tags: Object.values(openapiSpec.tags).map(({ name, description }) => ({
+      name: getTextOpenAPI(name, lang),
+      description: getTextOpenAPI(description, lang),
+    })),
+    paths: experimentalGenerateOpenApiPathsObject(
+      zSourceAcceRoutes,
+      getTextOpenAPI(openapiSpec.tags.exprimental.name, lang)
+    ),
   });
 
   builder.addSecurityScheme("api-key", {
@@ -187,18 +160,25 @@ export function generateOpenApiSchema(version: string, env: string, publicUrl: s
         : "API key to provide in the `Authorization` header. If the route requires a particular authorization, please contact support to request it at [support_api@apprentissage.beta.gouv.fr](mailto:support_api@apprentissage.beta.gouv.fr)",
   });
 
-  registerOpenApiCertificationSchema(builder, lang);
-  registerOpenApiJobModel(builder, lang);
-  registerOpenApiErrorsSchema(builder, lang);
-  registerOpenApiCommuneModel(builder, lang);
-  registerOpenApiMissionLocaleModel(builder, lang);
-  registerOpenApiDepartementModel(builder, lang);
+  for (const [name, s] of Object.entries(openapiSpec.models)) {
+    builder.addSchema(name, addSchemaModelDoc(s.schema, s.doc, lang));
+  }
 
-  registerHealhcheckRoutes(builder);
-  registerCertificationRoutes(builder);
-  registerJobRoutes(builder, lang);
-  registerOrganismeRoutes(builder);
-  registerGeographieRoutes(builder, lang);
+  for (const [path, operations] of Object.entries(openapiSpec.routes)) {
+    builder.addPath(
+      path,
+      Object.entries(operations).reduce<PathItemObject>((acc, [method, operation]) => {
+        acc[method as "get" | "put" | "post" | "delete" | "options" | "head" | "patch" | "trace"] = addOperationDoc(
+          operation,
+          lang
+        );
+        return acc;
+      }, {})
+    );
+  }
+
+  registerOpenApiErrorsSchema(builder, lang);
+  registerHealhcheckRoutes(builder, lang);
 
   return builder.getSpec();
 }

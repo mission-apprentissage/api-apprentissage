@@ -1,7 +1,8 @@
-import type { OpenApiBuilder, SchemaObject } from "openapi3-ts/oas31";
+import type { SchemaObject } from "openapi3-ts/oas31";
 
 import { departementModelDoc } from "../../docs/models/departement/departement.model.doc.js";
-import { addSchemaModelDoc } from "../../utils/zodWithOpenApi.js";
+import type { OpenapiModel } from "../../openapi/types.js";
+import { zDepartement } from "./departement.model.js";
 
 const departementSchema = {
   type: "object",
@@ -29,6 +30,9 @@ const departementSchema = {
   required: ["nom", "codeInsee", "academie", "region"],
 } as const satisfies SchemaObject;
 
-export function registerOpenApiDepartementModel(builder: OpenApiBuilder, lang: "en" | "fr"): OpenApiBuilder {
-  return builder.addSchema("Departement", addSchemaModelDoc(departementSchema, departementModelDoc, lang));
-}
+export const departementModelOpenapi = {
+  name: "Departement",
+  schema: departementSchema,
+  doc: departementModelDoc,
+  zod: zDepartement,
+} as const satisfies OpenapiModel;

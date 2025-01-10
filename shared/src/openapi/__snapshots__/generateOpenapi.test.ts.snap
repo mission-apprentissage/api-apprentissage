@@ -9561,7 +9561,7 @@ L’utilisation de cette route d’API est possible dans 2 scénarios différent
         ],
         "summary": "Envoyer une candidature à une offre ou à une entreprise.",
         "tags": [
-          "Job",
+          "Offre Emploi",
         ],
       },
     },
@@ -10363,7 +10363,7 @@ The information \`brand\` \`legal_name\` \`size\` \`idcc\` \`opco\` \`naf\` is a
         ],
         "summary": "Envoyer une offre d'emploi en alternance",
         "tags": [
-          "Job",
+          "Offre Emploi",
         ],
       },
     },
@@ -11164,7 +11164,7 @@ The information \`brand\` \`legal_name\` \`size\` \`idcc\` \`opco\` \`naf\` is a
         ],
         "summary": "Modifier une offre d'emploi en alternance.",
         "tags": [
-          "Job",
+          "Offre Emploi",
         ],
       },
     },
@@ -12597,7 +12597,7 @@ France Travail job offers are retrieved in real-time, so in case of an error whe
         ],
         "summary": "Recherche d'opportunités d'emploi en apprentissage",
         "tags": [
-          "Job",
+          "Offre Emploi",
         ],
       },
     },
@@ -13293,12 +13293,16 @@ France Travail job offers are retrieved in real-time, so in case of an error whe
       "name": "Essayer l'API",
     },
     {
+      "description": "Opportunités d'emploi en alternance",
+      "name": "Offre Emploi",
+    },
+    {
       "description": "Liste des opérations sur les certifications.",
       "name": "Certifications",
     },
     {
-      "description": "Opportunités d'emploi en alternance",
-      "name": "Job",
+      "description": "Liste des organismes",
+      "name": "Organismes",
     },
     {
       "description": "Référentiel Géographique",
@@ -13307,6 +13311,10 @@ France Travail job offers are retrieved in real-time, so in case of an error whe
     {
       "description": "Liste des routes expérimentales. Attention: ces routes peuvent changer sans préavis.",
       "name": "Expérimental",
+    },
+    {
+      "description": "Routes système",
+      "name": "Système",
     },
   ],
 }

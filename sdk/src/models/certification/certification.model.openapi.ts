@@ -1,7 +1,8 @@
-import type { OpenApiBuilder, SchemaObject } from "openapi3-ts/oas31";
+import type { SchemaObject } from "openapi3-ts/oas31";
 
 import { certificationModelDoc } from "../../docs/models/certification/certification.model.doc.js";
-import { addSchemaModelDoc } from "../../utils/zodWithOpenApi.js";
+import type { OpenapiModel } from "../../openapi/types.js";
+import { zCertification } from "./certification.model.js";
 import { CFD_REGEX, RNCP_REGEX } from "./certification.primitives.js";
 
 const schema: SchemaObject = {
@@ -429,6 +430,9 @@ const schema: SchemaObject = {
   ],
 };
 
-export function registerOpenApiCertificationSchema(builder: OpenApiBuilder, lang: "en" | "fr"): OpenApiBuilder {
-  return builder.addSchema("Certification", addSchemaModelDoc(schema, certificationModelDoc, lang));
-}
+export const certificationModelOpenapi = {
+  name: "Certification",
+  zod: zCertification,
+  schema,
+  doc: certificationModelDoc,
+} as const satisfies OpenapiModel;

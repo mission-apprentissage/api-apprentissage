@@ -1,7 +1,7 @@
+import type { IApiRoutesDef } from "api-alternance-sdk";
 import { z } from "zod";
 
 import { zUser, zUserPublic } from "../../models/user.model.js";
-import type { IRoutesDef } from "../common.routes.js";
 import { ZReqHeadersAuthorization, ZResOk } from "../common.routes.js";
 
 export const zAuthRoutes = {
@@ -98,7 +98,7 @@ export const zAuthRoutes = {
       },
     },
   },
-} as const satisfies IRoutesDef;
+} as const satisfies IApiRoutesDef;
 
 export interface IStatus {
   error?: boolean;

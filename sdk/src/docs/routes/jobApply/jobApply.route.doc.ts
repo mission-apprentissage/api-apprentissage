@@ -11,6 +11,9 @@ export const jobApplyRouteDoc = {
     en: descriptionEn,
     fr: descriptionFr,
   },
+  body: {
+    description: null,
+  },
   response: {
     description: { en: "Success", fr: "Succès" },
     content: {

@@ -1,3 +1,4 @@
+import type { IApiRoutesDef } from "api-alternance-sdk";
 import { z } from "zod";
 
 import {
@@ -7,7 +8,6 @@ import {
   zAcceUaiSpec,
   zAcceUaiZone,
 } from "../../../models/source/acce/source.acce.model.js";
-import type { IRoutesDef } from "../../common.routes.js";
 
 const zQuery = z.object({
   uai: z.string().optional(),
@@ -88,4 +88,4 @@ export const zSourceAcceRoutes = {
       },
     },
   },
-} as const satisfies IRoutesDef;
+} as const satisfies IApiRoutesDef;

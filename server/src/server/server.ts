@@ -7,6 +7,7 @@ import { fastifySwagger } from "@fastify/swagger";
 import type { FastifySwaggerUiOptions } from "@fastify/swagger-ui";
 import { fastifySwaggerUi } from "@fastify/swagger-ui";
 import { notFound } from "@hapi/boom";
+import type { IApiRouteSchema, WithSecurityScheme } from "api-alternance-sdk";
 import type {
   FastifyBaseLogger,
   FastifyInstance,
@@ -18,7 +19,6 @@ import { fastify } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import { serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
 import { generateOpenApiSchema } from "shared/openapi/generateOpenapi";
-import type { IRouteSchema, WithSecurityScheme } from "shared/routes/common.routes";
 import { z } from "zod";
 
 import config from "@/config.js";
@@ -82,7 +82,7 @@ export async function bind(app: Server) {
   );
 
   app.register(fastifyCookie);
-  app.decorate("auth", <S extends IRouteSchema & WithSecurityScheme>(scheme: S) => auth(scheme));
+  app.decorate("auth", <S extends IApiRouteSchema & WithSecurityScheme>(scheme: S) => auth(scheme));
 
   app.register(fastifyMultipart);
   app.register(fastifyCors, {

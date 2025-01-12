@@ -21,6 +21,9 @@ export const applicationModelDoc = {
     applicant_attachment_name: {
       descriptions: [{ en: "Resume file name", fr: "Nom du CV" }],
     },
+    applicant_message: {
+      descriptions: [{ en: "Applicant's message", fr: "Message du candidat" }],
+    },
     recipient_id: {
       descriptions: [
         {

@@ -16,6 +16,11 @@ export const zApiCertificationsRoutes = {
       response: {
         "200": z.array(zCertification),
       },
+      securityScheme: {
+        auth: "api-key",
+        access: null,
+        ressources: {},
+      },
     },
   },
 } as const satisfies IApiRoutesDef;

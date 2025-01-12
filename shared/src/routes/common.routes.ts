@@ -1,9 +1,7 @@
-import type { IApiRouteSchemaGet, IApiRouteSchemaWrite } from "api-alternance-sdk";
+import type { SchemaWithSecurity } from "api-alternance-sdk";
 import type { Jsonify } from "type-fest";
 import type { AnyZodObject } from "zod";
 import { z } from "zod";
-
-import type { AccessPermission, AccessRessouces } from "../security/permissions.js";
 
 export const ZResOk = z.object({}).strict();
 
@@ -23,47 +21,6 @@ export const ZReqHeadersAuthorization = z
     Authorization: z.string().describe("Bearer token").optional(),
   })
   .passthrough();
-
-export type AuthStrategy = "api-key" | "cookie-session" | "access-token";
-
-export type SecuritySchemeWithAcl = {
-  auth: AuthStrategy;
-  access: AccessPermission;
-  ressources: AccessRessouces;
-};
-
-export type SecuritySchemeNoAcl = {
-  auth: AuthStrategy;
-  access: null;
-  ressources: Record<string, never>;
-};
-
-export type SecurityScheme = SecuritySchemeWithAcl | SecuritySchemeNoAcl;
-
-interface IRouteSchemaCommon {
-  securityScheme: SecurityScheme | null;
-}
-
-export interface IRouteSchemaGet extends IApiRouteSchemaGet, IRouteSchemaCommon {}
-
-export interface IRouteSchemaWrite extends IApiRouteSchemaWrite, IRouteSchemaCommon {}
-
-export type WithSecurityScheme = {
-  securityScheme: SecurityScheme;
-};
-
-export type IRouteSchema = IRouteSchemaGet | IRouteSchemaWrite;
-export type ISecuredRouteSchema = IRouteSchema & WithSecurityScheme;
-
-export type IRoutesDef = {
-  get?: Record<string, IRouteSchemaGet>;
-  post?: Record<string, IRouteSchemaWrite>;
-  put?: Record<string, IRouteSchemaWrite>;
-  delete?: Record<string, IRouteSchemaWrite>;
-  patch?: Record<string, IRouteSchemaWrite>;
-};
-
-export type SchemaWithSecurity = Pick<IRouteSchema, "method" | "path" | "params" | "querystring"> & WithSecurityScheme;
 
 export type IAccessTokenScope<S extends SchemaWithSecurity> = {
   path: S["path"];

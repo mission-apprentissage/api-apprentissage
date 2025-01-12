@@ -1,15 +1,15 @@
+import type { IApiRoutesDef } from "api-alternance-sdk";
 import { z } from "zod";
 import { zObjectId } from "zod-mongodb-schema";
 
-import { zOrganisation, zOrganisationCreate, zOrganisationEdit } from "../../../models/organisation.model.js";
-import type { IRoutesDef } from "../../common.routes.js";
+import { zOrganisationCreate, zOrganisationEdit, zOrganisationInternal } from "../../../models/organisation.model.js";
 
 export const zOrganisationAdminRoutes = {
   get: {
     "/_private/admin/organisations": {
       method: "get",
       path: "/_private/admin/organisations",
-      response: { "200": z.array(zOrganisation) },
+      response: { "200": z.array(zOrganisationInternal) },
       securityScheme: {
         auth: "cookie-session",
         access: "admin",
@@ -22,7 +22,7 @@ export const zOrganisationAdminRoutes = {
       method: "post",
       path: "/_private/admin/organisations",
       body: zOrganisationCreate,
-      response: { "200": zOrganisation },
+      response: { "200": zOrganisationInternal },
       securityScheme: {
         auth: "cookie-session",
         access: "admin",
@@ -36,7 +36,7 @@ export const zOrganisationAdminRoutes = {
       path: "/_private/admin/organisations/:id",
       params: z.object({ id: zObjectId }),
       body: zOrganisationEdit,
-      response: { "200": zOrganisation },
+      response: { "200": zOrganisationInternal },
       securityScheme: {
         auth: "cookie-session",
         access: "admin",
@@ -44,4 +44,4 @@ export const zOrganisationAdminRoutes = {
       },
     },
   },
-} as const satisfies IRoutesDef;
+} as const satisfies IApiRoutesDef;

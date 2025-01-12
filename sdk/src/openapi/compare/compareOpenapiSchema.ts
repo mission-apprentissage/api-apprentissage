@@ -1,3 +1,4 @@
+import diff from "microdiff";
 import type {
   ContentObject,
   OperationObject,
@@ -241,7 +242,9 @@ function getResponsesObjectStructure(responses: ResponsesObject | undefined) {
   );
 }
 
-export function getOperationObjectStructure(operation: OperationObject | undefined) {
+export function getOperationObjectStructure(
+  operation: OperationObject | undefined
+): Record<string, unknown> | undefined {
   if (!operation) {
     return;
   }
@@ -255,4 +258,63 @@ export function getOperationObjectStructure(operation: OperationObject | undefin
 
   // Remove all undefined fields
   return JSON.parse(JSON.stringify(result));
+}
+
+export type OpenapiDiff<SourceName extends string, ResultName extends string> = {
+  result: ResultName;
+  source: SourceName;
+  diff: Record<
+    string,
+    | { type: "removed"; source: unknown }
+    | { type: "added"; result: unknown }
+    | { type: "changed"; result: unknown; source: unknown }
+  >;
+};
+
+function structureDiff<SourceName extends string, ResultName extends string>(
+  value1: { name: SourceName; value: Record<string, unknown> | undefined },
+  value2: { name: ResultName; value: Record<string, unknown> | undefined }
+): OpenapiDiff<SourceName, ResultName> {
+  const result: OpenapiDiff<SourceName, ResultName> = {
+    source: value1.name,
+    result: value2.name,
+    diff: {},
+  };
+
+  // Remove undefined values before diffing
+  const diffs = diff(JSON.parse(JSON.stringify(value1 ?? {})), JSON.parse(JSON.stringify(value2 ?? {})));
+
+  for (const d of diffs) {
+    const path = d.path.join(".");
+    if (d.type === "CREATE" || (d.type === "CHANGE" && d.oldValue === undefined)) {
+      result.diff[path] = { type: "added", result: d.value };
+    } else if (d.type === "REMOVE" || (d.type === "CHANGE" && d.value === undefined)) {
+      result.diff[path] = { type: "removed", source: d.oldValue };
+    } else if (d.type === "CHANGE") {
+      result.diff[path] = { type: "changed", source: d.oldValue, result: d.value };
+    }
+  }
+
+  return result;
+}
+
+export function compareOperationObjects<SourceName extends string, ResultName extends string>(
+  operationSource: { name: SourceName; op: OperationObject },
+  operationResult: { name: ResultName; op: OperationObject | undefined }
+): OpenapiDiff<SourceName, ResultName> {
+  const structSource = getOperationObjectStructure(operationSource);
+  const structResult = getOperationObjectStructure(operationResult);
+
+  if (structSource?.security) {
+    delete structSource.security;
+  }
+
+  if (structResult?.security) {
+    delete structResult.security;
+  }
+
+  return structureDiff(
+    { name: operationSource.name, value: structSource },
+    { name: operationResult.name, value: structResult }
+  );
 }

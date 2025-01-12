@@ -1,17 +1,17 @@
 import assert from "node:assert";
 
+import type { IApiRouteSchema, IApiRouteSchemaGet, IApiRouteSchemaWrite, IApiRoutesDef } from "api-alternance-sdk";
 import { ZResError } from "api-alternance-sdk";
 import { describe, it } from "vitest";
 import { ZodEffects, ZodUnknown } from "zod";
 
-import type { IRouteSchema, IRouteSchemaGet, IRouteSchemaWrite, IRoutesDef } from "./common.routes.js";
 import { zRoutes } from "./index.js";
 
 describe("zRoutes", () => {
   it("should define error schema compatible with default one from error middleware", () => {
     for (const [method, zMethodRoutes] of Object.entries(zRoutes)) {
       for (const [path, def] of Object.entries(zMethodRoutes)) {
-        for (const [statusCode, response] of Object.entries((def as IRouteSchema).response)) {
+        for (const [statusCode, response] of Object.entries((def as IApiRouteSchema).response)) {
           if (`${statusCode}`.startsWith("4") || `${statusCode}`.startsWith("5")) {
             if (response === ZResError) {
               continue;
@@ -40,9 +40,9 @@ describe("zRoutes", () => {
   });
 
   it("should access ressources be defined correctly", () => {
-    for (const [method, zMethodRoutes] of Object.entries(zRoutes as IRoutesDef)) {
+    for (const [method, zMethodRoutes] of Object.entries(zRoutes as IApiRoutesDef)) {
       for (const [path, def] of Object.entries(zMethodRoutes)) {
-        const typedDef = def as IRouteSchemaWrite | IRouteSchemaGet;
+        const typedDef = def as IApiRouteSchemaWrite | IApiRouteSchemaGet;
         if (typedDef.securityScheme) {
           for (const [resourceType, resourceAccesses] of Object.entries(typedDef.securityScheme.ressources)) {
             for (const resourceAccess of resourceAccesses) {

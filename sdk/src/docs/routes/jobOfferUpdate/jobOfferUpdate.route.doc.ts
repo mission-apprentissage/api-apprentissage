@@ -12,6 +12,9 @@ export const jobOfferUpdateRouteDoc = {
       examples: ["6687165396d52b5e01b409545"],
     },
   },
+  body: {
+    description: null,
+  },
   response: {
     description: { en: "Success", fr: "Succès" },
   },

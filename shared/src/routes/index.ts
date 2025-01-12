@@ -1,3 +1,5 @@
+import type { IApiRouteSchema, IApiRouteSchemaWrite } from "api-alternance-sdk";
+import { zApiRoutesDelete, zApiRoutesGet, zApiRoutesPost, zApiRoutesPut } from "api-alternance-sdk";
 import type { ConditionalExcept, EmptyObject, Jsonify } from "type-fest";
 import type { z, ZodType } from "zod";
 
@@ -8,14 +10,8 @@ import { zAuthRoutes } from "./_private/auth.routes.js";
 import { zEmailRoutes } from "./_private/emails.routes.js";
 import { zSimulateurRoutes } from "./_private/simulateur/simulateur.routes.js";
 import { zUserRoutes } from "./_private/user.routes.js";
-import { zCertificationsRoutes } from "./certification.routes.js";
-import type { IRouteSchema, IRouteSchemaWrite } from "./common.routes.js";
 import { zSourceAcceRoutes } from "./experimental/source/acce.routes.js";
-import { zFormationRoutes } from "./formation.routes.js";
-import { zGeographieRoutes } from "./geographie.routes.js";
 import { zCoreRoutes } from "./healthcheck.routes.js";
-import { zJobRoutes } from "./job.routes.js";
-import { zOrganismesRoutes } from "./organisme.routes.js";
 
 const zRoutesGet = {
   ...zUserAdminRoutes.get,
@@ -24,14 +20,10 @@ const zRoutesGet = {
   ...zAuthRoutes.get,
   ...zCoreRoutes.get,
   ...zEmailRoutes.get,
-  ...zCertificationsRoutes.get,
+  ...zApiRoutesGet,
   ...zSourceAcceRoutes.get,
   ...zSimulateurRoutes.get,
-  ...zOrganismesRoutes.get,
   ...zOrganisationAdminRoutes.get,
-  ...zJobRoutes.get,
-  ...zGeographieRoutes.get,
-  ...zFormationRoutes.get,
 } as const;
 
 const zRoutesPost = {
@@ -40,18 +32,18 @@ const zRoutesPost = {
   ...zAuthRoutes.post,
   ...zEmailRoutes.post,
   ...zOrganisationAdminRoutes.post,
-  ...zJobRoutes.post,
-  ...zFormationRoutes.post,
+  ...zApiRoutesPost,
 } as const;
 
 const zRoutesPut = {
   ...zUserAdminRoutes.put,
-  ...zJobRoutes.put,
+  ...zApiRoutesPut,
   ...zOrganisationAdminRoutes.put,
 } as const;
 
 const zRoutesDelete = {
   ...zUserRoutes.delete,
+  ...zApiRoutesDelete,
 } as const;
 
 export type IGetRoutes = typeof zRoutesGet;
@@ -80,35 +72,35 @@ export const zRoutes: IRoutes = {
   delete: zRoutesDelete,
 } as const;
 
-export type IResponse<S extends IRouteSchema> = S["response"][`200`] extends ZodType
+export type IResponse<S extends IApiRouteSchema> = S["response"][`200`] extends ZodType
   ? Jsonify<z.output<S["response"][`200`]>>
   : S["response"][`2${string}`] extends ZodType
     ? Jsonify<z.output<S["response"][`2${string}`]>>
     : never;
 
-export type IBody<S extends IRouteSchemaWrite> = S["body"] extends ZodType ? z.input<S["body"]> : never;
+export type IBody<S extends IApiRouteSchemaWrite> = S["body"] extends ZodType ? z.input<S["body"]> : never;
 
-export type IQuery<S extends IRouteSchema> = S["querystring"] extends ZodType ? z.input<S["querystring"]> : never;
+export type IQuery<S extends IApiRouteSchema> = S["querystring"] extends ZodType ? z.input<S["querystring"]> : never;
 
-export type IParam<S extends IRouteSchema> = S["params"] extends ZodType ? z.input<S["params"]> : never;
+export type IParam<S extends IApiRouteSchema> = S["params"] extends ZodType ? z.input<S["params"]> : never;
 
-type IHeadersAuth<S extends IRouteSchema> = S extends { securityScheme: { auth: infer A } }
+type IHeadersAuth<S extends IApiRouteSchema> = S extends { securityScheme: { auth: infer A } }
   ? A extends "access-token" | "api-key"
     ? { authorization: `Bearer ${string}` }
     : object
   : object;
 
-export type IHeaders<S extends IRouteSchema> = S["headers"] extends ZodType
+export type IHeaders<S extends IApiRouteSchema> = S["headers"] extends ZodType
   ? Omit<z.input<S["headers"]>, "referrer">
   : object;
 
-type IRequestRaw<S extends IRouteSchema> = {
+type IRequestRaw<S extends IApiRouteSchema> = {
   params: IParam<S>;
   querystring: IQuery<S>;
   headers: IHeaders<S> & IHeadersAuth<S> extends EmptyObject ? never : IHeaders<S> & IHeadersAuth<S>;
-  body: S extends IRouteSchemaWrite ? IBody<S> : never;
+  body: S extends IApiRouteSchemaWrite ? IBody<S> : never;
   signal?: AbortSignal;
 };
 
-export type IRequest<S extends IRouteSchema> =
+export type IRequest<S extends IApiRouteSchema> =
   ConditionalExcept<IRequestRaw<S>, never> extends EmptyObject ? EmptyObject : ConditionalExcept<IRequestRaw<S>, never>;

@@ -4565,10 +4565,10 @@ exports[`zodToMongoSchema > should convert organisations schema 1`] = `
     },
   },
   "required": [
-    "_id",
     "nom",
     "slug",
     "habilitations",
+    "_id",
     "updated_at",
     "created_at",
   ],

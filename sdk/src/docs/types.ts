@@ -62,6 +62,10 @@ export type DocRoute = {
   summary: { en: string; fr: string };
   description: { en: string; fr: string };
   parameters?: Record<string, DocTechnicalField>;
+  body?: {
+    description: { en: string; fr: string } | null;
+    content?: DocTechnicalField;
+  };
   response: {
     description: { en: string; fr: string };
     content?: DocTechnicalField;

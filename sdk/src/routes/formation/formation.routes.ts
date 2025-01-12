@@ -66,6 +66,11 @@ export const zApiFormationRoutes = {
       response: {
         "200": zFormationSearchApiResult,
       },
+      securityScheme: {
+        auth: "api-key",
+        access: null,
+        ressources: {},
+      },
     },
   },
   post: {
@@ -75,6 +80,11 @@ export const zApiFormationRoutes = {
       body: z.unknown(),
       response: {
         "200": z.unknown(),
+      },
+      securityScheme: {
+        auth: "api-key",
+        access: null,
+        ressources: {},
       },
     },
   },

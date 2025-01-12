@@ -1,7 +1,7 @@
 import { notFound } from "@hapi/boom";
 import { ObjectId } from "mongodb";
 import { zRoutes } from "shared";
-import type { IOrganisation } from "shared/models/organisation.model";
+import type { IOrganisationInternal } from "shared/models/organisation.model";
 
 import type { Server } from "@/server/server.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
@@ -28,7 +28,7 @@ export const organisationAdminRoutes = ({ server }: { server: Server }) => {
     },
     async (request, response) => {
       const now = new Date();
-      const organisation: IOrganisation = {
+      const organisation: IOrganisationInternal = {
         _id: new ObjectId(),
         nom: request.body.nom,
         slug: request.body.nom.toLowerCase().replace(/ /g, "-"),

@@ -1,9 +1,12 @@
 import { internal } from "@hapi/boom";
-import OpenAPIParser from "@readme/openapi-parser";
+import type { OpenapiOperation } from "api-alternance-sdk/internal";
+import {
+  dereferenceOpenapiSchema,
+  getOpeanipOperations,
+  getOperationObjectStructure,
+} from "api-alternance-sdk/internal";
 import diff from "microdiff";
-import type { OpenAPIObject, OperationObject, PathsObject } from "openapi3-ts/oas31";
-import { getPath } from "openapi3-ts/oas31";
-import { getOperationObjectStructure } from "shared/openapi/compareOpenapiStructure";
+import type { OperationObject } from "openapi3-ts/oas31";
 import { generateOpenApiSchema } from "shared/openapi/generateOpenapi";
 
 import config from "@/config.js";
@@ -19,58 +22,11 @@ const OPERATION_MAPPING: Record<string, string> = {
   "post:/job/v1/apply": "post:/v2/application",
 };
 
-async function dereferenceSchema(data: OpenAPIObject): Promise<OpenAPIObject> {
-  if (data.openapi !== "3.1.0") {
-    throw internal("Unsupported OpenAPI version");
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return (await OpenAPIParser.dereference(data as any)) as any;
-}
-
-type Operation = {
-  id: string;
-  method: "get" | "post" | "put" | "delete" | "patch" | "head" | "options" | "trace";
-  operation: OperationObject;
-  path: string;
-};
-
-function isOperationMethod(method: string): method is Operation["method"] {
-  return ["get", "post", "put", "delete", "patch", "head", "options", "trace"].includes(method);
-}
-
-function getOperations(paths: PathsObject | undefined): Operation[] {
-  if (paths == null) return [];
-
-  return Object.keys(paths).flatMap((path) => {
-    const pathItem = getPath(paths, path);
-
-    if (!pathItem) {
-      throw internal("unexpected: PathItem not found");
-    }
-
-    return Object.keys(pathItem)
-      .map((method): Operation | null => {
-        if (!isOperationMethod(method)) {
-          return null;
-        }
-
-        const operation = pathItem[method];
-        if (!operation) {
-          return null;
-        }
-
-        return { id: `${method}:${path}`, method: method, operation, path };
-      })
-      .filter((operation): operation is Operation => operation !== null);
-  });
-}
-
-async function fetchLbaOperations(): Promise<Operation[]> {
+async function fetchLbaOperations(): Promise<OpenapiOperation[]> {
   const response = await fetch(`${config.api.lba.endpoint}/docs/json`);
   const data = await response.json();
 
-  const doc = await dereferenceSchema(data);
+  const doc = await dereferenceOpenapiSchema(data);
 
   if (doc.openapi !== "3.1.0") {
     throw new Error("Unsupported OpenAPI version");
@@ -78,19 +34,19 @@ async function fetchLbaOperations(): Promise<Operation[]> {
 
   const operations = Object.values(OPERATION_MAPPING);
 
-  return getOperations(doc.paths).filter((op) => operations.includes(op.id));
+  return getOpeanipOperations(doc.paths).filter((op) => operations.includes(op.id));
 }
 
-async function buildApiOpenapiPathItems(): Promise<Operation[]> {
+async function buildApiOpenapiPathItems(): Promise<OpenapiOperation[]> {
   const data = generateOpenApiSchema(config.version, config.env, config.apiPublicUrl, "fr");
 
-  const doc = await dereferenceSchema(data);
+  const doc = await dereferenceOpenapiSchema(data);
 
   if (doc.openapi !== "3.1.0") {
     throw new Error("Unsupported OpenAPI version");
   }
 
-  return getOperations(doc.paths).filter((op) => op.id in OPERATION_MAPPING);
+  return getOpeanipOperations(doc.paths).filter((op) => op.id in OPERATION_MAPPING);
 }
 
 function structureDiff(

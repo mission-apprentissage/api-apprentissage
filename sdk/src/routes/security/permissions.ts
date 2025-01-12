@@ -1,4 +1,4 @@
-import type { IOrganisation } from "../models/organisation.model.js";
+import type { IOrganisation } from "../../models/index.js";
 
 export type Permission = "admin" | "user:manage" | "jobs:write" | "appointments:write" | "applications:write";
 

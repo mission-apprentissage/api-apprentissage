@@ -1183,6 +1183,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fastify/swagger@npm:^9.4.1":
+  version: 9.4.1
+  resolution: "@fastify/swagger@npm:9.4.1"
+  dependencies:
+    fastify-plugin: ^5.0.0
+    json-schema-resolver: ^2.0.0
+    openapi-types: ^12.1.3
+    rfdc: ^1.3.1
+    yaml: ^2.4.2
+  checksum: 22c89e3be30e17abdb4aac0d3ce6d5eab3418c5040c3677804d38ea409d9f0df21143e1abbe48a1372a244b1463e04e59848684abed97020f66f122c8573667a
+  languageName: node
+  linkType: hard
+
 "@fisch0920/medium-zoom@npm:^1.0.7":
   version: 1.0.7
   resolution: "@fisch0920/medium-zoom@npm:1.0.7"
@@ -4687,12 +4700,15 @@ __metadata:
   resolution: "api-alternance-sdk@workspace:sdk"
   dependencies:
     "@asteasolutions/zod-to-openapi": ^7.2.0
+    "@fastify/swagger": ^9.4.1
+    "@readme/openapi-parser": ^2.6.0
     "@tsconfig/node22": ^22.0.0
     "@types/node": ^22.5.5
     jsonwebtoken: ^9.0.2
     lru-cache: ^11.0.2
     luhn: ^2.4.1
     luxon: ^3.5.0
+    microdiff: ^1.5.0
     nock: ^14.0.0-beta.16
     openapi3-ts: ^4.4.0
     safe-stable-stringify: ^2.5.0
@@ -8258,6 +8274,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fastify-plugin@npm:^5.0.0":
+  version: 5.0.1
+  resolution: "fastify-plugin@npm:5.0.1"
+  checksum: 2c207716fe02b00ce73449b102b890b434af21299fef35f37a34b491bd2f9ee1d95c753b11041ffbbe845411260cf4b547440bc2c3c3203ab4e2837825600961
+  languageName: node
+  linkType: hard
+
 "fastify-type-provider-zod@npm:^2.1.0":
   version: 2.1.0
   resolution: "fastify-type-provider-zod@npm:2.1.0"
@@ -11450,10 +11473,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"microdiff@npm:^1.4.0":
-  version: 1.4.0
-  resolution: "microdiff@npm:1.4.0"
-  checksum: 4cae2ec4d0540b65656837a7c47a17d6428a1be2909d268a579921183c9c21a86e0dfa0c8ade8c60f9127887783a17d54ce7be16d5556708a0e58312bca8803d
+"microdiff@npm:^1.4.0, microdiff@npm:^1.5.0":
+  version: 1.5.0
+  resolution: "microdiff@npm:1.5.0"
+  checksum: 03d9d6885c9b30cdfd7cab0eb882c374d1dafeeba277de215af3e6d55b631afb7a6241469c6ce8c9d8a119ae49fc4f4d892d935c0b426333046bf2ef6ab2cbf4
   languageName: node
   linkType: hard
 
@@ -13334,7 +13357,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"openapi-types@npm:^12.0.0, openapi-types@npm:^12.0.2":
+"openapi-types@npm:^12.0.0, openapi-types@npm:^12.0.2, openapi-types@npm:^12.1.3":
   version: 12.1.3
   resolution: "openapi-types@npm:12.1.3"
   checksum: 7fa5547f87a58d2aa0eba6e91d396f42d7d31bc3ae140e61b5d60b47d2fd068b48776f42407d5a8da7280cf31195aa128c2fc285e8bb871d1105edee5647a0bb
@@ -15260,7 +15283,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rfdc@npm:^1.1.4, rfdc@npm:^1.2.0, rfdc@npm:^1.3.0, rfdc@npm:^1.4.1":
+"rfdc@npm:^1.1.4, rfdc@npm:^1.2.0, rfdc@npm:^1.3.0, rfdc@npm:^1.3.1, rfdc@npm:^1.4.1":
   version: 1.4.1
   resolution: "rfdc@npm:1.4.1"
   checksum: 3b05bd55062c1d78aaabfcea43840cdf7e12099968f368e9a4c3936beb744adb41cbdb315eac6d4d8c6623005d6f87fdf16d8a10e1ff3722e84afea7281c8d13
@@ -18257,7 +18280,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yaml@npm:^2.2.2, yaml@npm:^2.5.0, yaml@npm:~2.5.0":
+"yaml@npm:^2.2.2, yaml@npm:^2.4.2, yaml@npm:^2.5.0":
+  version: 2.7.0
+  resolution: "yaml@npm:2.7.0"
+  bin:
+    yaml: bin.mjs
+  checksum: 6e8b2f9b9d1b18b10274d58eb3a47ec223d9a93245a890dcb34d62865f7e744747190a9b9177d5f0ef4ea2e44ad2c0214993deb42e0800766203ac46f00a12dd
+  languageName: node
+  linkType: hard
+
+"yaml@npm:~2.5.0":
   version: 2.5.1
   resolution: "yaml@npm:2.5.1"
   bin:

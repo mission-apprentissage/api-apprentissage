@@ -2,7 +2,7 @@ import { internal } from "@hapi/boom";
 import { createApiAlternanceToken } from "api-alternance-sdk";
 import type { FastifyReply } from "fastify";
 import type { HttpHeader } from "fastify/types/utils.js";
-import type { IOrganisation } from "shared/models/organisation.model";
+import type { IOrganisationInternal } from "shared/models/organisation.model";
 import type { IUser } from "shared/models/user.model";
 
 import config from "@/config.js";
@@ -17,12 +17,12 @@ type ForwardApiRequestConfig = {
 
 type Identity = {
   user: IUser;
-  organisation: IOrganisation | null;
+  organisation: IOrganisationInternal | null;
 };
 
 function hasHabilitation(
-  organisation: IOrganisation | null,
-  habilitation: IOrganisation["habilitations"][number]
+  organisation: IOrganisationInternal | null,
+  habilitation: IOrganisationInternal["habilitations"][number]
 ): boolean {
   return organisation != null && organisation.habilitations.includes(habilitation);
 }

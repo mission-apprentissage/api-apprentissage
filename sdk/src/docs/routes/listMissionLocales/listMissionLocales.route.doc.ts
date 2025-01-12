@@ -21,6 +21,11 @@ export const listMissionLocalesRouteDoc = {
           en: "List of mission locales",
         },
       ],
+      _: {
+        "[]": {
+          descriptions: null,
+        },
+      },
     },
   },
 } as const satisfies DocRoute;

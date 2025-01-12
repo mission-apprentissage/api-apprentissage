@@ -11,6 +11,11 @@ export const zApiJobRoutes = {
       response: {
         "200": z.unknown(),
       },
+      securityScheme: {
+        auth: "api-key",
+        access: null,
+        ressources: {},
+      },
     },
   },
   post: {
@@ -21,6 +26,11 @@ export const zApiJobRoutes = {
       response: {
         "200": z.unknown(),
       },
+      securityScheme: {
+        auth: "api-key",
+        access: "jobs:write",
+        ressources: {},
+      },
     },
     "/job/v1/apply": {
       method: "post",
@@ -28,6 +38,11 @@ export const zApiJobRoutes = {
       body: z.unknown(),
       response: {
         "200": z.unknown(),
+      },
+      securityScheme: {
+        auth: "api-key",
+        access: "applications:write",
+        ressources: {},
       },
     },
   },
@@ -39,6 +54,11 @@ export const zApiJobRoutes = {
       body: z.unknown(),
       response: {
         "204": z.unknown(),
+      },
+      securityScheme: {
+        auth: "api-key",
+        access: "jobs:write",
+        ressources: {},
       },
     },
   },

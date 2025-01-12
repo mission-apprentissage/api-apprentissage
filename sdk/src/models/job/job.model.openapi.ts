@@ -1,5 +1,4 @@
 import type { SchemaObject } from "openapi3-ts/oas31";
-import { z } from "zod";
 
 import { applicationModelDoc } from "../../docs/models/job/application.model.doc.js";
 import { offerReadModelDoc } from "../../docs/models/job/offer_read.model.doc.js";
@@ -430,26 +429,22 @@ export const recruiterModelOpenapi = {
   name: "JobRecruiter",
   schema: recruiterSchema,
   doc: recruiterModelDoc,
-  zod: z.unknown(),
 } as const satisfies OpenapiModel;
 
 export const offerReadModelOpenapi = {
   name: "JobOfferRead",
   schema: offerReadSchema,
   doc: offerReadModelDoc,
-  zod: z.unknown(),
 } as const satisfies OpenapiModel;
 
 export const offerWriteModelOpenapi = {
   name: "JobOfferWrite",
   schema: offerWriteSchema,
   doc: offerWriteModelDoc,
-  zod: z.unknown(),
 } as const satisfies OpenapiModel;
 
 export const applicationWriteModelOpenapi = {
   name: "JobApplicationWrite",
   schema: applicationWriteSchema,
   doc: applicationModelDoc,
-  zod: z.unknown(),
 } as const satisfies OpenapiModel;

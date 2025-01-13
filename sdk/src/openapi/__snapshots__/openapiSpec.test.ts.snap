@@ -1,0 +1,105 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`openapiSpec#models > should generate schema in sync with zod definition 1`] = `
+{
+  "Commune": {
+    "diff": {
+      "properties.localisation.properties.bbox.properties.coordinates.items.items.maxItems": {
+        "result": 2,
+        "type": "added",
+      },
+      "properties.localisation.properties.bbox.properties.coordinates.items.items.minItems": {
+        "result": 2,
+        "type": "added",
+      },
+      "properties.localisation.properties.centre.properties.coordinates.maxItems": {
+        "result": 2,
+        "type": "added",
+      },
+      "properties.localisation.properties.centre.properties.coordinates.minItems": {
+        "result": 2,
+        "type": "added",
+      },
+      "properties.mission_locale.$ref": {
+        "source": "#/components/schemas/MissionLocale",
+        "type": "removed",
+      },
+      "properties.mission_locale.anyOf": {
+        "result": [
+          {
+            "type": "null",
+          },
+          {
+            "$ref": "#/components/schemas/MissionLocale",
+          },
+        ],
+        "type": "added",
+      },
+    },
+    "result": "api",
+    "source": "zod",
+  },
+  "MissionLocale": {
+    "diff": {
+      "properties.localisation.properties.geopoint.properties.coordinates.maxItems": {
+        "result": 2,
+        "type": "added",
+      },
+      "properties.localisation.properties.geopoint.properties.coordinates.minItems": {
+        "result": 2,
+        "type": "added",
+      },
+      "type": {
+        "result": "object",
+        "source": [
+          "object",
+          "null",
+        ],
+        "type": "changed",
+      },
+    },
+    "result": "api",
+    "source": "zod",
+  },
+}
+`;
+
+exports[`openapiSpec#routes > should generate schema in sync with zod definition 1`] = `
+{
+  "get:/certification/v1": {
+    "diff": {
+      "parameters.query:identifiant.cfd.allowEmptyValue": {
+        "result": true,
+        "type": "added",
+      },
+      "parameters.query:identifiant.rncp.allowEmptyValue": {
+        "result": true,
+        "type": "added",
+      },
+    },
+    "result": "api",
+    "source": "zod",
+  },
+  "get:/geographie/v1/mission-locale": {
+    "diff": {
+      "responses.200.content.application/json.schema.items.$ref": {
+        "result": "#/components/schemas/MissionLocale",
+        "type": "added",
+      },
+      "responses.200.content.application/json.schema.items.allOf": {
+        "source": [
+          {
+            "$ref": "#/components/schemas/MissionLocale",
+          },
+          {
+            "type": "object",
+          },
+        ],
+        "type": "removed",
+      },
+    },
+    "result": "api",
+    "source": "zod",
+  },
+}
+`;

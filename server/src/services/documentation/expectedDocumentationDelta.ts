@@ -1,161 +1,183 @@
-export type StructuredDiff = Record<
-  string,
-  | { type: "removed"; apiValue: unknown }
-  | { type: "added"; sourceValue: unknown }
-  | { type: "changed"; apiValue: unknown; sourceValue: unknown }
->;
+import type { StructureDiff } from "api-alternance-sdk/internal";
 
-export const expectedDocumentationDelta: Record<string, StructuredDiff> = {
+export const expectedDocumentationDelta: Record<string, StructureDiff<"lba", "api">> = {
   "get:/job/v1/search": {
-    "parameters.longitude.schema.type": {
-      type: "changed",
-      apiValue: "number",
-      sourceValue: ["number", "null"],
-    },
-    "parameters.latitude.schema.type": {
-      type: "changed",
-      apiValue: "number",
-      sourceValue: ["number", "null"],
-    },
-    "parameters.radius.schema.type": {
-      type: "changed",
-      apiValue: "number",
-      sourceValue: ["number", "null"],
-    },
-    "parameters.romes.schema.type": {
-      type: "changed",
-      apiValue: "string",
-      sourceValue: ["string", "null"],
-    },
-    "parameters.rncp.schema.type": {
-      type: "changed",
-      apiValue: "string",
-      sourceValue: ["string", "null"],
-    },
-    "responses.200.content.application/json.schema.properties.recruiters.items.properties.identifier.properties.id": {
-      type: "removed",
-      apiValue: {
-        _: "schema",
-        type: "string",
+    source: "lba",
+    result: "api",
+    diff: {
+      "parameters.query:latitude.schema.type": {
+        type: "changed",
+        source: ["number", "null"],
+        result: "number",
       },
-    },
-    "responses.200.content.application/json.schema.properties.recruiters.items.properties.identifier.required": {
-      type: "removed",
-      apiValue: ["id"],
-    },
-    "responses.200.content.application/json.schema.properties.jobs.items.properties.workplace.properties.domain.properties.opco.enum":
-      {
+      "parameters.query:longitude.schema.type": {
+        type: "changed",
+        source: ["number", "null"],
+        result: "number",
+      },
+      "parameters.query:partners_to_exclude": {
+        type: "removed",
+        source: {
+          name: "partners_to_exclude",
+          in: "query",
+          required: false,
+          schema: {
+            type: ["array", "null"],
+            items: {
+              type: "string",
+              enum: ["Hello work", "RH Alternance"],
+            },
+          },
+        },
+      },
+      "parameters.query:radius.schema.type": {
+        type: "changed",
+        source: ["number", "null"],
+        result: "number",
+      },
+      "parameters.query:rncp.schema.type": {
+        type: "changed",
+        source: ["string", "null"],
+        result: "string",
+      },
+      "parameters.query:romes.schema.type": {
+        type: "changed",
+        source: ["string", "null"],
+        result: "string",
+      },
+      "responses.200.content.application/json.schema.properties.jobs.items.properties.workplace.properties.domain.properties.opco.enum":
+        {
+          type: "removed",
+          source: [
+            "AFDAS",
+            "AKTO / Opco entreprises et salariés des services à forte intensité de main d'oeuvre",
+            "ATLAS",
+            "Constructys",
+            "L'Opcommerce",
+            "OCAPIAT",
+            "OPCO 2i",
+            "Opco entreprises de proximité",
+            "Opco Mobilités",
+            "Opco Santé",
+            "Uniformation, l'Opco de la Cohésion sociale",
+            "inconnu",
+            "OPCO multiple",
+          ],
+        },
+      "responses.200.content.application/json.schema.properties.recruiters.items.properties.identifier.properties.id": {
         type: "added",
-        sourceValue: [
-          "AFDAS",
-          "AKTO / Opco entreprises et salariés des services à forte intensité de main d'oeuvre",
-          "ATLAS",
-          "Constructys",
-          "L'Opcommerce",
-          "OCAPIAT",
-          "OPCO 2i",
-          "Opco entreprises de proximité",
-          "Opco Mobilités",
-          "Opco Santé",
-          "Uniformation, l'Opco de la Cohésion sociale",
-          "inconnu",
-          "OPCO multiple",
-        ],
+        result: {
+          type: "string",
+        },
       },
-    "responses.200.content.application/json.schema.properties.recruiters.items.properties.workplace.properties.domain.properties.opco.enum":
-      {
+      "responses.200.content.application/json.schema.properties.recruiters.items.properties.identifier.required": {
         type: "added",
-        sourceValue: [
-          "AFDAS",
-          "AKTO / Opco entreprises et salariés des services à forte intensité de main d'oeuvre",
-          "ATLAS",
-          "Constructys",
-          "L'Opcommerce",
-          "OCAPIAT",
-          "OPCO 2i",
-          "Opco entreprises de proximité",
-          "Opco Mobilités",
-          "Opco Santé",
-          "Uniformation, l'Opco de la Cohésion sociale",
-          "inconnu",
-          "OPCO multiple",
-        ],
+        result: ["id"],
       },
+      "responses.200.content.application/json.schema.properties.recruiters.items.properties.workplace.properties.domain.properties.opco.enum":
+        {
+          type: "removed",
+          source: [
+            "AFDAS",
+            "AKTO / Opco entreprises et salariés des services à forte intensité de main d'oeuvre",
+            "ATLAS",
+            "Constructys",
+            "L'Opcommerce",
+            "OCAPIAT",
+            "OPCO 2i",
+            "Opco entreprises de proximité",
+            "Opco Mobilités",
+            "Opco Santé",
+            "Uniformation, l'Opco de la Cohésion sociale",
+            "inconnu",
+            "OPCO multiple",
+          ],
+        },
+    },
   },
   "post:/job/v1/offer": {
-    "requestBody.content.application/json.schema.properties.workplace.properties.location.default": {
-      type: "added",
-      sourceValue: {},
-    },
-    "requestBody.content.application/json.schema.properties.contract.default": {
-      type: "added",
-      sourceValue: {},
-    },
-    "requestBody.content.application/json.schema.properties.offer.properties.publication.default": {
-      type: "added",
-      sourceValue: {},
-    },
-    "requestBody.content.application/json.schema.properties.offer.properties.status.default": {
-      type: "added",
-      sourceValue: "Active",
-    },
-    "responses.200.content.application/json.schema.properties.id": {
-      type: "removed",
-      apiValue: {
-        _: "schema",
-        type: "string",
+    source: "lba",
+    result: "api",
+    diff: {
+      "requestBody.content.application/json.schema.properties.contract.default": {
+        type: "removed",
+        source: {},
       },
-    },
-    "responses.200.content.application/json.schema.required": {
-      type: "removed",
-      apiValue: ["id"],
+      "requestBody.content.application/json.schema.properties.offer.properties.publication.default": {
+        type: "removed",
+        source: {},
+      },
+      "requestBody.content.application/json.schema.properties.offer.properties.status.default": {
+        type: "removed",
+        source: "Active",
+      },
+      "requestBody.content.application/json.schema.properties.workplace.properties.location.default": {
+        type: "removed",
+        source: {},
+      },
+      "responses.200.content.application/json.schema.properties.id": {
+        type: "added",
+        result: {
+          type: "string",
+        },
+      },
+      "responses.200.content.application/json.schema.required": {
+        type: "added",
+        result: ["id"],
+      },
     },
   },
   "put:/job/v1/offer/{id}": {
-    "parameters.id.required": {
-      type: "changed",
-      apiValue: true,
-      sourceValue: false,
-    },
-    "parameters.id.schema": {
-      type: "removed",
-      apiValue: {
-        _: "schema",
-        type: "string",
+    source: "lba",
+    result: "api",
+    diff: {
+      "parameters.path:id.required": {
+        type: "changed",
+        source: false,
+        result: true,
       },
-    },
-    "requestBody.content.application/json.schema.properties.workplace.properties.location.default": {
-      type: "added",
-      sourceValue: {},
-    },
-    "requestBody.content.application/json.schema.properties.contract.default": {
-      type: "added",
-      sourceValue: {},
-    },
-    "requestBody.content.application/json.schema.properties.offer.properties.publication.default": {
-      type: "added",
-      sourceValue: {},
-    },
-    "requestBody.content.application/json.schema.properties.offer.properties.status.default": {
-      type: "added",
-      sourceValue: "Active",
-    },
-    "responses.204.content": {
-      type: "added",
-      sourceValue: {
-        "application/json": {
-          schema: {
-            _: "schema",
-            type: "null",
+      "parameters.path:id.schema": {
+        type: "added",
+        result: {
+          type: "string",
+        },
+      },
+      "requestBody.content.application/json.schema.properties.contract.default": {
+        type: "removed",
+        source: {},
+      },
+      "requestBody.content.application/json.schema.properties.offer.properties.publication.default": {
+        type: "removed",
+        source: {},
+      },
+      "requestBody.content.application/json.schema.properties.offer.properties.status.default": {
+        type: "removed",
+        source: "Active",
+      },
+      "requestBody.content.application/json.schema.properties.workplace.properties.location.default": {
+        type: "removed",
+        source: {},
+      },
+      "responses.204.content": {
+        type: "removed",
+        source: {
+          "application/json": {
+            schema: {
+              type: "null",
+            },
           },
         },
       },
     },
   },
   "post:/job/v1/apply": {
-    "requestBody.content.application/json.schema.properties.applicant_attachment_content.format": {
-      type: "removed",
-      apiValue: "byte",
+    source: "lba",
+    result: "api",
+    diff: {
+      "requestBody.content.application/json.schema.properties.applicant_attachment_content.format": {
+        type: "added",
+        result: "byte",
+      },
     },
   },
 };

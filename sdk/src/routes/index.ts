@@ -35,6 +35,13 @@ export const zApiRoutesPut = {
 
 export const zApiRoutesDelete = {} as const;
 
+export const zApiRoutes = {
+  get: zApiRoutesGet,
+  post: zApiRoutesPost,
+  put: zApiRoutesPut,
+  delete: zApiRoutesDelete,
+} as const;
+
 export type IApiGetRoutes = typeof zApiRoutesGet;
 export type IApiPostRoutes = typeof zApiRoutesPost;
 export type IApiPutRoutes = typeof zApiRoutesPut;

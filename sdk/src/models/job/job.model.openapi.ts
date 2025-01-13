@@ -5,7 +5,7 @@ import { offerReadModelDoc } from "../../docs/models/job/offer_read.model.doc.js
 import { offerWriteModelDoc } from "../../docs/models/job/offer_write.model.doc.js";
 import { recruiterModelDoc } from "../../docs/models/job/recruiter.model.doc.js";
 import type { OpenapiModel } from "../../openapi/types.js";
-import { pickPropertiesOpenAPI } from "../../openapi/zodWithOpenApi.js";
+import { pickPropertiesOpenAPI, zodOpenApi } from "../../openapi/utils/zodWithOpenApi.js";
 
 const recruiterSchema = {
   type: "object",
@@ -429,22 +429,26 @@ export const recruiterModelOpenapi = {
   name: "JobRecruiter",
   schema: recruiterSchema,
   doc: recruiterModelDoc,
+  zod: zodOpenApi.unknown().openapi("JobRecruiter"),
 } as const satisfies OpenapiModel;
 
 export const offerReadModelOpenapi = {
   name: "JobOfferRead",
   schema: offerReadSchema,
   doc: offerReadModelDoc,
+  zod: zodOpenApi.unknown().openapi("JobOfferRead"),
 } as const satisfies OpenapiModel;
 
 export const offerWriteModelOpenapi = {
   name: "JobOfferWrite",
   schema: offerWriteSchema,
   doc: offerWriteModelDoc,
+  zod: zodOpenApi.unknown().openapi("JobOfferWrite"),
 } as const satisfies OpenapiModel;
 
 export const applicationWriteModelOpenapi = {
   name: "JobApplicationWrite",
   schema: applicationWriteSchema,
   doc: applicationModelDoc,
+  zod: zodOpenApi.unknown().openapi("JobApplicationWrite"),
 } as const satisfies OpenapiModel;

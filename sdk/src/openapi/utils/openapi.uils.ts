@@ -3,11 +3,13 @@ import { OpenApiGeneratorV31, OpenAPIRegistry } from "@asteasolutions/zod-to-ope
 import { formatParamUrl } from "@fastify/swagger";
 import OpenAPIParser from "@readme/openapi-parser";
 import type { SecurityRequirementObject } from "openapi3-ts/oas30";
-import type { OpenAPIObject, OperationObject, PathsObject } from "openapi3-ts/oas31";
+import type { OpenAPIObject, OperationObject, PathsObject, ReferenceObject, SchemaObject } from "openapi3-ts/oas31";
 import { getPath } from "openapi3-ts/oas31";
 import type { AnyZodObject } from "zod";
+import { ZodUnknown } from "zod";
 
 import type { IApiRouteSchema, IApiRoutesDef } from "../../routes/common.routes.js";
+import type { OpenapiModel } from "../types.js";
 
 export async function dereferenceOpenapiSchema(data: OpenAPIObject): Promise<OpenAPIObject> {
   if (data.openapi !== "3.1.0") {
@@ -29,38 +31,50 @@ function isOperationMethod(method: string): method is OpenapiOperation["method"]
   return ["get", "post", "put", "delete", "patch", "head", "options", "trace"].includes(method);
 }
 
-export function getOpeanipOperations(paths: PathsObject | undefined): OpenapiOperation[] {
-  if (paths == null) return [];
+export function getOperationObjectId({ method, path }: { method: string; path: string }): string {
+  return `${method}:${path}`;
+}
 
-  return Object.keys(paths).flatMap((path) => {
-    const pathItem = getPath(paths, path);
+export function getOpenapiOperations(paths: PathsObject | undefined): Record<string, OpenapiOperation> {
+  if (paths == null) return {};
 
-    if (!pathItem) {
-      throw new Error("unexpected: PathItem not found");
-    }
+  return Object.fromEntries(
+    Object.keys(paths)
+      .flatMap((path) => {
+        const pathItem = getPath(paths, path);
 
-    return Object.keys(pathItem)
-      .map((method): OpenapiOperation | null => {
-        if (!isOperationMethod(method)) {
-          return null;
+        if (!pathItem) {
+          throw new Error("unexpected: PathItem not found");
         }
 
-        const operation = pathItem[method];
-        if (!operation) {
-          return null;
-        }
+        return Object.keys(pathItem)
+          .map((method): OpenapiOperation | null => {
+            if (!isOperationMethod(method)) {
+              return null;
+            }
 
-        return { id: `${method}:${path}`, method: method, operation, path };
+            const operation = pathItem[method];
+            if (!operation) {
+              return null;
+            }
+
+            return { id: `${method}:${path}`, method: method, operation, path };
+          })
+          .filter((operation): operation is OpenapiOperation => operation !== null)
+          .toSorted((a, b) => a.id.localeCompare(b.id));
       })
-      .filter((operation): operation is OpenapiOperation => operation !== null)
-      .toSorted((a, b) => a.id.localeCompare(b.id));
-  });
+      .map((o) => [o.id, o])
+  );
 }
 
 function generateOpenApiResponsesObject<R extends IApiRouteSchema["response"]>(
   response: R
-): Record<string, ResponseConfig> {
-  return Object.entries(response).reduce<Record<string, ResponseConfig>>((acc, [code, main]) => {
+): Record<string, ResponseConfig> | null {
+  const result = Object.entries(response).reduce<Record<string, ResponseConfig>>((acc, [code, main]) => {
+    if (main instanceof ZodUnknown) {
+      return acc;
+    }
+
     if (code in response) {
       acc[code] = {
         description: main.description ?? "",
@@ -74,6 +88,12 @@ function generateOpenApiResponsesObject<R extends IApiRouteSchema["response"]>(
 
     return acc;
   }, {});
+
+  if (Object.keys(result).length === 0) {
+    return null;
+  }
+
+  return result;
 }
 
 function generateOpenApiRequest(route: IApiRouteSchema): RouteConfig["request"] {
@@ -116,19 +136,53 @@ function getSecurityRequirementObject(route: IApiRouteSchema): SecurityRequireme
 
 function generateOpenApiPathItemFromZod(route: IApiRouteSchema, registry: OpenAPIRegistry, tag: string) {
   try {
-    registry.registerPath({
-      tags: [tag],
-      method: route.method,
-      path: formatParamUrl(route.path),
-      request: generateOpenApiRequest(route),
-      responses: generateOpenApiResponsesObject(route.response),
-      security: getSecurityRequirementObject(route),
-    });
+    const responses = generateOpenApiResponsesObject(route.response);
+    if (responses) {
+      registry.registerPath({
+        tags: [tag],
+        method: route.method,
+        path: formatParamUrl(route.path),
+        request: generateOpenApiRequest(route),
+        responses,
+        security: getSecurityRequirementObject(route),
+      });
+    }
   } catch (e) {
     const message = `Error while generating OpenAPI for route ${route.method.toUpperCase()} ${route.path}`;
     console.error(message, e);
     throw new Error(message, { cause: e });
   }
+}
+
+export function generateOpenApiDocFromZod(
+  routes: IApiRoutesDef,
+  models: Record<string, OpenapiModel>,
+  tag: string
+): OpenAPIObject {
+  const registry = new OpenAPIRegistry();
+
+  for (const [, model] of Object.entries(models)) {
+    if (model.zod !== null) {
+      registry.register(model.name, model.zod);
+    }
+  }
+
+  for (const [, pathRoutes] of Object.entries(routes)) {
+    for (const [path, route] of Object.entries(pathRoutes)) {
+      if (!path.startsWith("/_private")) {
+        generateOpenApiPathItemFromZod(route, registry, tag);
+      }
+    }
+  }
+
+  const openApiGenerator = new OpenApiGeneratorV31(registry.definitions);
+  return openApiGenerator.generateDocument({
+    openapi: "3",
+    info: {
+      title: "Documentation technique de l'API Apprentissage",
+      version: "1.0.0",
+    },
+  });
 }
 
 export function generateOpenApiPathsObjectFromZod(routes: IApiRoutesDef, tag: string): PathsObject {
@@ -143,7 +197,7 @@ export function generateOpenApiPathsObjectFromZod(routes: IApiRoutesDef, tag: st
   }
 
   const openApiGenerator = new OpenApiGeneratorV31(registry.definitions);
-  const { paths } = openApiGenerator.generateDocument({
+  const doc = openApiGenerator.generateDocument({
     openapi: "3",
     info: {
       title: "Documentation technique de l'API Apprentissage",
@@ -151,9 +205,36 @@ export function generateOpenApiPathsObjectFromZod(routes: IApiRoutesDef, tag: st
     },
   });
 
-  if (paths == null) {
+  if (doc.paths == null) {
     throw new Error("No schemas found in the generated components");
   }
 
-  return paths;
+  return doc.paths;
+}
+
+export function generateOpenApiComponentSchemasFromZod(
+  models: Record<string, OpenapiModel>
+): Record<string, SchemaObject | ReferenceObject> {
+  const registry = new OpenAPIRegistry();
+
+  for (const [, model] of Object.entries(models)) {
+    if (model.zod !== null) {
+      registry.register(model.name, model.zod);
+    }
+  }
+
+  const openApiGenerator = new OpenApiGeneratorV31(registry.definitions);
+  const doc = openApiGenerator.generateDocument({
+    openapi: "3",
+    info: {
+      title: "Documentation technique de l'API Apprentissage",
+      version: "1.0.0",
+    },
+  });
+
+  if (doc.components == null) {
+    throw new Error("No schemas found in the generated components");
+  }
+
+  return doc.components.schemas ?? {};
 }

@@ -1,6 +1,7 @@
 import type { Jsonify } from "type-fest";
 import { z } from "zod";
 
+import { zodOpenApi } from "../../openapi/utils/zodWithOpenApi.js";
 import { zParisLocalDateNullable } from "../../utils/date.primitives.js";
 import {
   zCfd,
@@ -192,17 +193,19 @@ const zContinuite = z.object({
     .nullable(),
 });
 
-export const zCertification = z.object({
-  identifiant: zCertifIdentifiant,
-  intitule: zCertifIntitule,
-  base_legale: zCertifBaseLegale,
-  blocs_competences: zCertifBlocsCompetences,
-  convention_collectives: zCertifConventionCollectives,
-  domaines: zCertifDomaines,
-  periode_validite: zCertifPeriodeValidite,
-  type: zCertifType,
-  continuite: zContinuite,
-});
+export const zCertification = zodOpenApi
+  .object({
+    identifiant: zCertifIdentifiant,
+    intitule: zCertifIntitule,
+    base_legale: zCertifBaseLegale,
+    blocs_competences: zCertifBlocsCompetences,
+    convention_collectives: zCertifConventionCollectives,
+    domaines: zCertifDomaines,
+    periode_validite: zCertifPeriodeValidite,
+    type: zCertifType,
+    continuite: zContinuite,
+  })
+  .openapi("Certification");
 
 export type ICertification = z.output<typeof zCertification>;
 export type ICertificationJson = Jsonify<ICertification>;

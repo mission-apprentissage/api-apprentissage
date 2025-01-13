@@ -2,6 +2,7 @@ import type { SchemaObject } from "openapi3-ts/oas31";
 
 import { certificationModelDoc } from "../../docs/models/certification/certification.model.doc.js";
 import type { OpenapiModel } from "../../openapi/types.js";
+import { zCertification } from "./certification.model.js";
 import { CFD_REGEX, RNCP_REGEX } from "./certification.primitives.js";
 
 const schema: SchemaObject = {
@@ -433,4 +434,5 @@ export const certificationModelOpenapi = {
   name: "Certification",
   schema,
   doc: certificationModelDoc,
+  zod: zCertification,
 } as const satisfies OpenapiModel;

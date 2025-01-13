@@ -1,6 +1,6 @@
 import { DateTime } from "luxon";
 
-import { zodOpenApi } from "../openapi/zodWithOpenApi.js";
+import { zodOpenApi } from "../openapi/utils/zodWithOpenApi.js";
 
 export class ParisDate extends Date {
   static fromDate(date: Date): ParisDate {

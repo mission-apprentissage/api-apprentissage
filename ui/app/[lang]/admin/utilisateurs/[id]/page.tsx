@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import type { IOrganisation } from "shared/models/organisation.model";
+import type { IOrganisationInternal } from "shared/models/organisation.model";
 import type { IUserAdminView } from "shared/models/user.model";
 import type { Jsonify } from "type-fest";
 
@@ -29,7 +29,7 @@ function useUsers(id: string): Result<Jsonify<IUserAdminView>> {
 
   return { isLoading: false, data: result.data };
 }
-function useOrganisations(): Result<Jsonify<IOrganisation[]>> {
+function useOrganisations(): Result<Jsonify<IOrganisationInternal[]>> {
   const result = useQuery({
     queryKey: ["/_private/admin/organisations"],
     queryFn: async () => apiGet(`/_private/admin/organisations`, {}),

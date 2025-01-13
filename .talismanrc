@@ -39,6 +39,8 @@ fileignoreconfig:
   checksum: a5055a921ec73a0ebd7a9cee510ccb4d8aa1e43514f5720660c741bad372c916
 - filename: shared/src/models/fixtures/commune.model.fixture.ts
   checksum: 84d4cc1767cbdd9add0b2fec8c9509a08815deed3ae5d143e162c1b8dba88243
+- filename: shared/src/openapi/__snapshots__/generateOpenapi.test.ts.snap
+  checksum: 97fc5e1f85cc9f73d17fff2f8d462f2f8a1339a24ac80d171482f28000f42594
 - filename: ui/app/[lang]/explorer/certifications/page.tsx
   checksum: 79162968dc111206592c35c9bdbfc1babae88ad1390a190d6c7b5108ebb82b9d
 - filename: ui/app/[lang]/explorer/depot-offre/page.tsx

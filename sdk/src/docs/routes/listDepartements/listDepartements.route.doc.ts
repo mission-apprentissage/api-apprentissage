@@ -21,6 +21,11 @@ export const listDepartementsRouteDoc = {
           en: "List of French departments",
         },
       ],
+      _: {
+        "[]": {
+          descriptions: null,
+        },
+      },
     },
   },
 } as const satisfies DocRoute;

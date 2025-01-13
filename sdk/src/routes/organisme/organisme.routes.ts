@@ -67,6 +67,11 @@ export const zApiOrganismesRoutes = {
       response: {
         "200": zRechercheOrganismeResponse,
       },
+      securityScheme: {
+        auth: "api-key",
+        access: null,
+        ressources: {},
+      },
     },
   },
 } as const satisfies IApiRoutesDef;

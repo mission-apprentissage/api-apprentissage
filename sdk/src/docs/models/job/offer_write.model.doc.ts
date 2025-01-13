@@ -15,6 +15,19 @@ export const offerWriteModelDoc = {
         desired_skills: offerReadModelDoc._.offer._.desired_skills,
         opening_count: offerReadModelDoc._.offer._.opening_count,
         publication: offerReadModelDoc._.offer._.publication,
+        multicast: {
+          descriptions: [
+            {
+              fr: "Si l'offre peut être diffusé sur l'ensemble des plateformes partenaires",
+              en: "If the offer can be broadcast on all partner platforms",
+            },
+          ],
+        },
+        origin: {
+          descriptions: [
+            { fr: "Origine de l'offre provenant d'un aggregateur", en: "Origin of the offer from an aggregator" },
+          ],
+        },
         rome_codes: {
           descriptions: [
             { en: "ROME code(s) of the offer", fr: null },

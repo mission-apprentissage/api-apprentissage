@@ -1,9 +1,9 @@
+import type { SecurityScheme } from "api-alternance-sdk";
 import assert from "assert";
 import type { RouteOptions } from "fastify";
 import { fastify } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import { zRoutes } from "shared/index";
-import type { IRouteSchemaGet, IRouteSchemaWrite, SecurityScheme } from "shared/routes/common.routes";
 import { describe, it } from "vitest";
 
 import { describeAuthMiddleware } from "./middlewares/authMiddleware.js";

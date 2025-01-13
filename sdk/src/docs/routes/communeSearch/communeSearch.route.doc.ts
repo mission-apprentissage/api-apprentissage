@@ -27,6 +27,11 @@ export const communeSearchRouteDoc = {
           en: "List of communes matching the INSEE or postal code searched",
         },
       ],
+      _: {
+        "[]": {
+          descriptions: null,
+        },
+      },
     },
   },
 } as const satisfies DocRoute;

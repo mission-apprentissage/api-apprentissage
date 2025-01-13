@@ -1,11 +1,11 @@
 import { useMongo } from "@tests/mongo.test.utils.js";
+import type { IApiRouteSchema, ISecuredRouteSchema, WithSecurityScheme } from "api-alternance-sdk";
 import { fastify } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import { serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
 import { ObjectId } from "mongodb";
 import { generateUserFixture } from "shared/models/fixtures/index";
 import type { IUser } from "shared/models/user.model";
-import type { IRouteSchema, ISecuredRouteSchema, WithSecurityScheme } from "shared/routes/common.routes";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { z } from "zod";
 
@@ -35,7 +35,7 @@ describe("apiKeyUsageMiddleware", () => {
     path: "/public",
     response: { 200: z.any() },
     securityScheme: null,
-  } as const satisfies IRouteSchema;
+  } as const satisfies IApiRouteSchema;
   const postSchema = {
     method: "post",
     path: "/:name",
@@ -52,7 +52,7 @@ describe("apiKeyUsageMiddleware", () => {
   const app: Server = fastify().withTypeProvider<ZodTypeProvider>();
   app.setValidatorCompiler(validatorCompiler);
   app.setSerializerCompiler(serializerCompiler);
-  app.decorate("auth", <S extends IRouteSchema & WithSecurityScheme>(scheme: S) => auth(scheme));
+  app.decorate("auth", <S extends IApiRouteSchema & WithSecurityScheme>(scheme: S) => auth(scheme));
 
   app.post("/:name", { schema: postSchema, onRequest: [app.auth(postSchema)] }, async (request, response) => {
     return response.status(request.body.code).send({ ok: true });

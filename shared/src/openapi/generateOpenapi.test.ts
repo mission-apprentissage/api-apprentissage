@@ -1,29 +1,15 @@
 import OpenAPIParser from "@readme/openapi-parser";
+import {
+  dereferenceOpenapiSchema,
+  generateOpenApiPathsObjectFromZod,
+  getOpeanipOperations,
+} from "api-alternance-sdk/internal";
 import diff from "microdiff";
-import type { OpenAPIObject, PathItemObject } from "openapi3-ts/oas31";
+import type { OpenAPIObject } from "openapi3-ts/oas31";
 import { beforeAll, describe, expect, it } from "vitest";
 
 import { zRoutes } from "../routes/index.js";
-import { getOperationObjectStructure } from "./compareOpenapiStructure.js";
-import { experimentalGenerateOpenApiPathsObject, generateOpenApiSchema } from "./generateOpenapi.js";
-
-function getPathItemObjectStructure(pathItem: PathItemObject | undefined) {
-  if (!pathItem) {
-    return {};
-  }
-
-  return JSON.parse(
-    JSON.stringify({
-      get: getOperationObjectStructure(pathItem.get),
-      put: getOperationObjectStructure(pathItem.put),
-      post: getOperationObjectStructure(pathItem.post),
-      delete: getOperationObjectStructure(pathItem.delete),
-      options: getOperationObjectStructure(pathItem.options),
-      head: getOperationObjectStructure(pathItem.head),
-      patch: getOperationObjectStructure(pathItem.patch),
-    })
-  );
-}
+import { generateOpenApiSchema } from "./generateOpenapi.js";
 
 describe("generateOpenApiSchema", () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -42,19 +28,14 @@ describe("generateOpenApiSchema", () => {
     expect(validationResult.error).toBe(null);
   });
 
-  const expectedPaths = experimentalGenerateOpenApiPathsObject(zRoutes, "Test");
+  const expectedPaths = generateOpenApiPathsObjectFromZod(zRoutes, "Test");
   let resolvedOpenapi: OpenAPIObject;
 
   beforeAll(async () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    resolvedOpenapi = (await OpenAPIParser.dereference(openapi)) as any;
+    resolvedOpenapi = await dereferenceOpenapiSchema(openapi);
   });
 
-  const paths = Object.entries(openapi.paths).filter(([path]) => !path.startsWith("/job/v1"));
-
-  it.each<[string, unknown]>(paths)("should be alright %s", async (path) => {
-    expect(
-      diff(getPathItemObjectStructure(resolvedOpenapi.paths?.[path]), getPathItemObjectStructure(expectedPaths[path]))
-    ).toMatchSnapshot();
+  it("should be alright %s", async () => {
+    expect(diff(getOpeanipOperations(resolvedOpenapi.paths), getOpeanipOperations(expectedPaths))).toMatchSnapshot();
   });
 });

@@ -159,12 +159,12 @@ function addSchemaDoc<T extends SchemaObject | ReferenceObject | undefined>(
   return output as T;
 }
 
-function addContentObjectDoc<T extends ContentObject | undefined>(
-  content: T,
+function addContentObjectDoc(
+  content: ContentObject,
   doc: DocTechnicalField | undefined,
   lang: "en" | "fr"
-): ContentObject | undefined {
-  if (!content || !doc) {
+): ContentObject {
+  if (!doc) {
     return content;
   }
 
@@ -219,6 +219,24 @@ function addOperationDoc(route: OpenapiRoute, lang: "en" | "fr"): OperationObjec
     });
   }
 
+  if (doc.body) {
+    if (!output.requestBody) {
+      throw new Error("Operation requestBody is not defined for " + schema.operationId);
+    }
+
+    if (!("$ref" in output.requestBody)) {
+      output.requestBody = {
+        ...output.requestBody,
+        content: addContentObjectDoc(output.requestBody.content, doc.body.content, lang),
+      };
+
+      const description = getTextOpenAPI(doc.body.description, lang);
+      if (description) {
+        output.requestBody.description = description;
+      }
+    }
+  }
+
   if (doc.response) {
     if (!output.responses) {
       throw new Error("Operation responses are not defined for " + schema.operationId);
@@ -233,11 +251,20 @@ function addOperationDoc(route: OpenapiRoute, lang: "en" | "fr"): OperationObjec
           return acc;
         }
 
-        acc[code] = {
-          ...response,
-          description: getTextOpenAPI(docResponse.description, lang),
-          content: addContentObjectDoc(response.content, docResponse.content, lang),
-        };
+        const description = getTextOpenAPI(docResponse.description, lang);
+
+        if (response.content) {
+          acc[code] = {
+            ...response,
+            description,
+            content: addContentObjectDoc(response.content, docResponse.content, lang),
+          };
+        } else {
+          acc[code] = {
+            ...response,
+            description,
+          };
+        }
 
         return acc;
       },

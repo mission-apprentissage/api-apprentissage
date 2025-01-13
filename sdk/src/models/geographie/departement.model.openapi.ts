@@ -2,7 +2,6 @@ import type { SchemaObject } from "openapi3-ts/oas31";
 
 import { departementModelDoc } from "../../docs/models/departement/departement.model.doc.js";
 import type { OpenapiModel } from "../../openapi/types.js";
-import { zDepartement } from "./departement.model.js";
 
 const departementSchema = {
   type: "object",
@@ -34,5 +33,4 @@ export const departementModelOpenapi = {
   name: "Departement",
   schema: departementSchema,
   doc: departementModelDoc,
-  zod: zDepartement,
 } as const satisfies OpenapiModel;

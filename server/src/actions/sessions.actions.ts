@@ -1,4 +1,5 @@
 import { internal } from "@hapi/boom";
+import type { UserWithType } from "api-alternance-sdk/internal";
 import type { FastifyReply, FastifyRequest } from "fastify";
 import type { JwtPayload } from "jsonwebtoken";
 import jwt from "jsonwebtoken";
@@ -6,7 +7,6 @@ import type { Filter, FindOptions } from "mongodb";
 import { ObjectId } from "mongodb";
 import type { ISession } from "shared/models/session.model";
 import type { IUser } from "shared/models/user.model";
-import type { UserWithType } from "shared/security/permissions";
 
 import config from "@/config.js";
 import { withCause } from "@/services/errors/withCause.js";

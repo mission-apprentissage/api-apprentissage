@@ -1,3 +1,4 @@
+import type { IApiRouteSchema, SecurityScheme, WithSecurityScheme } from "api-alternance-sdk";
 import type {
   ContextConfigDefault,
   FastifyBaseLogger,
@@ -11,7 +12,6 @@ import type {
   RawServerDefault,
   RouteGenericInterface,
 } from "fastify";
-import type { IRouteSchema, SecurityScheme, WithSecurityScheme } from "shared/routes/common.routes";
 
 import { authenticationMiddleware } from "@/services/security/authenticationService.js";
 import { authorizationnMiddleware } from "@/services/security/authorisationService.js";
@@ -23,7 +23,7 @@ type AuthMiddleware = {
   [symbol]?: Readonly<SecurityScheme>;
 };
 
-export function auth<S extends IRouteSchema & WithSecurityScheme>(schema: S) {
+export function auth<S extends IApiRouteSchema & WithSecurityScheme>(schema: S) {
   const authMiddleware: AuthMiddleware = async (req: FastifyRequest) => {
     await authenticationMiddleware(schema, req);
     await authorizationnMiddleware(schema, req);
@@ -51,7 +51,7 @@ declare module "fastify" {
       ContextConfig = ContextConfigDefault,
       SchemaCompiler extends FastifySchema = FastifySchema,
     >(
-      scheme: IRouteSchema & WithSecurityScheme
+      scheme: IApiRouteSchema & WithSecurityScheme
     ): preHandlerHookHandler<
       RawServer,
       RawRequest,

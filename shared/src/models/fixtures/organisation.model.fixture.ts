@@ -1,10 +1,10 @@
 import { ObjectId } from "bson";
 
-import type { IOrganisation } from "../organisation.model.js";
+import type { IOrganisationInternal } from "../organisation.model.js";
 
-type IOrganisationFixtureInput = Partial<IOrganisation>;
+type IOrganisationFixtureInput = Partial<IOrganisationInternal>;
 
-export function generateOrganisationFixture(data?: IOrganisationFixtureInput): IOrganisation {
+export function generateOrganisationFixture(data?: IOrganisationFixtureInput): IOrganisationInternal {
   return {
     _id: new ObjectId(),
     nom: "Ma Super Organisation",

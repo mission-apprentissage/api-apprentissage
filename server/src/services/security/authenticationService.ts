@@ -1,13 +1,13 @@
 import { internal, unauthorized } from "@hapi/boom";
 import { captureException } from "@sentry/node";
-import type { PathParam, QueryString } from "api-alternance-sdk/internal";
+import type { ISecuredRouteSchema, WithSecurityScheme } from "api-alternance-sdk";
+import type { PathParam, QueryString, UserWithType } from "api-alternance-sdk/internal";
 import type { FastifyRequest } from "fastify";
 import jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
-import type { IOrganisation } from "shared/models/organisation.model";
+import type { IOrganisationInternal } from "shared/models/organisation.model";
 import type { IApiKey, IUser } from "shared/models/user.model";
-import type { IAccessToken, ISecuredRouteSchema, WithSecurityScheme } from "shared/routes/common.routes";
-import type { UserWithType } from "shared/security/permissions";
+import type { IAccessToken } from "shared/routes/common.routes";
 import { assertUnreachable } from "shared/utils/assertUnreachable";
 
 import { authCookieSession } from "@/actions/sessions.actions.js";
@@ -22,7 +22,7 @@ export type IUserWithType = UserWithType<"token", IAccessToken> | UserWithType<"
 declare module "fastify" {
   interface FastifyRequest {
     user?: null | IUserWithType;
-    organisation?: null | IOrganisation;
+    organisation?: null | IOrganisationInternal;
     api_key?: IApiKey | null;
   }
 }
@@ -155,7 +155,7 @@ async function authAccessToken<S extends ISecuredRouteSchema>(
   return token ? { type: "token", value: token } : null;
 }
 
-async function getOrganisation(user: IUserWithType | null | undefined): Promise<IOrganisation | null> {
+async function getOrganisation(user: IUserWithType | null | undefined): Promise<IOrganisationInternal | null> {
   if (user == null) return null;
   const organisationName = user.type === "token" ? user.value.identity.organisation : user.value.organisation;
   if (organisationName === null) return null;

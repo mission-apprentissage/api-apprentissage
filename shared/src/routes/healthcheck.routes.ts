@@ -1,8 +1,7 @@
+import type { IApiRoutesDef } from "api-alternance-sdk";
 import { addErrorResponseOpenApi, addOperationDoc } from "api-alternance-sdk/internal";
 import type { OpenApiBuilder } from "openapi3-ts/oas31";
 import { z } from "zod";
-
-import type { IRoutesDef } from "./common.routes.js";
 
 export const zCoreRoutes = {
   get: {
@@ -22,7 +21,7 @@ export const zCoreRoutes = {
       securityScheme: null,
     },
   },
-} as const satisfies IRoutesDef;
+} as const satisfies IApiRoutesDef;
 
 export function registerHealhcheckRoutes(builder: OpenApiBuilder, lang: "en" | "fr"): OpenApiBuilder {
   return builder.addPath("/healthcheck", {

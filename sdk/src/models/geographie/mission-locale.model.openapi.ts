@@ -2,7 +2,6 @@ import type { SchemaObject } from "openapi3-ts/oas31";
 
 import { missionLocaleModelDoc } from "../../docs/models/mission-locale/mission-locale.model.doc.js";
 import type { OpenapiModel } from "../../openapi/types.js";
-import { zMissionLocale } from "./mission-locale.model.js";
 
 const missionLocaleSchema = {
   type: "object",
@@ -53,5 +52,4 @@ export const missionLocaleModelOpenapi = {
   name: "MissionLocale",
   schema: missionLocaleSchema,
   doc: missionLocaleModelDoc,
-  zod: zMissionLocale,
 } as const satisfies OpenapiModel;

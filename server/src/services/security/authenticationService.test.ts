@@ -1,6 +1,6 @@
 import { useMongo } from "@tests/mongo.test.utils.js";
+import type { ISecuredRouteSchema } from "api-alternance-sdk";
 import { generateOrganisationFixture, generateUserFixture } from "shared/models/fixtures/index";
-import type { ISecuredRouteSchema } from "shared/routes/common.routes";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { z } from "zod";
 

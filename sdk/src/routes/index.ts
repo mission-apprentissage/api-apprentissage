@@ -15,28 +15,30 @@ export * from "./formation/formation.routes.js";
 export * from "./jobs/job.routes.js";
 export * from "./organisme/organisme.routes.js";
 
-const _zApiRoutesGet = {
+export const zApiRoutesGet = {
   ...zApiOrganismesRoutes.get,
   ...zApiCertificationsRoutes.get,
+  ...zApiFormationRoutes.get,
   ...zApiJobRoutes.get,
   ...zApiGeographieRoutes.get,
   ...zApiFormationRoutes.get,
 } as const;
 
-const _zApiRoutesPost = {
+export const zApiRoutesPost = {
   ...zApiJobRoutes.post,
+  ...zApiFormationRoutes.post,
 } as const;
 
-const _zApiRoutesPut = {
+export const zApiRoutesPut = {
   ...zApiJobRoutes.put,
 } as const;
 
-const _zApiRoutesDelete = {} as const;
+export const zApiRoutesDelete = {} as const;
 
-export type IApiGetRoutes = typeof _zApiRoutesGet;
-export type IApiPostRoutes = typeof _zApiRoutesPost;
-export type IApiPutRoutes = typeof _zApiRoutesPut;
-export type IApiDeleteRoutes = typeof _zApiRoutesDelete;
+export type IApiGetRoutes = typeof zApiRoutesGet;
+export type IApiPostRoutes = typeof zApiRoutesPost;
+export type IApiPutRoutes = typeof zApiRoutesPut;
+export type IApiDeleteRoutes = typeof zApiRoutesDelete;
 
 export type IApiResponse<S extends IApiRouteSchema> = S["response"][`200`] extends ZodType
   ? Jsonify<z.output<S["response"][`200`]>>

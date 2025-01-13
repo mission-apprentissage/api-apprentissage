@@ -15,7 +15,7 @@ import type { FieldError } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { zRoutes } from "shared";
-import type { IOrganisation } from "shared/models/organisation.model";
+import type { IOrganisationInternal } from "shared/models/organisation.model";
 import type { IUserAdminView } from "shared/models/user.model";
 import type { Jsonify } from "type-fest";
 
@@ -27,7 +27,7 @@ import { PAGES } from "@/utils/routes.utils";
 
 type Props = WithLang<{
   user: Jsonify<IUserAdminView>;
-  organisations: Jsonify<IOrganisation[]>;
+  organisations: Jsonify<IOrganisationInternal[]>;
 }>;
 
 function getInputState(error: FieldError | undefined | null): {

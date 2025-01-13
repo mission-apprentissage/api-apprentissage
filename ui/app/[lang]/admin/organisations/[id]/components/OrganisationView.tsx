@@ -11,7 +11,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import type { IOrganisation } from "shared/models/organisation.model";
+import type { IOrganisationInternal } from "shared/models/organisation.model";
 import type { Jsonify } from "type-fest";
 
 import type { WithLang } from "@/app/i18n/settings";
@@ -20,7 +20,7 @@ import { apiPut } from "@/utils/api.utils";
 import { PAGES } from "@/utils/routes.utils";
 
 type Props = WithLang<{
-  organisation: Jsonify<IOrganisation>;
+  organisation: Jsonify<IOrganisationInternal>;
 }>;
 
 const HABILITATIONS = ["jobs:write", "appointments:write", "applications:write"] as const; // shared/src/security/permissions.ts#L3 ?
@@ -29,8 +29,8 @@ type FormData = {
   [key in (typeof HABILITATIONS)[number]]: boolean;
 };
 
-function buildHabilitations(data: FormData): IOrganisation["habilitations"] {
-  const habilitations: IOrganisation["habilitations"] = [];
+function buildHabilitations(data: FormData): IOrganisationInternal["habilitations"] {
+  const habilitations: IOrganisationInternal["habilitations"] = [];
 
   for (const key of HABILITATIONS) {
     if (data[key]) {

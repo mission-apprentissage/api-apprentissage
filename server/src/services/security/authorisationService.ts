@@ -1,12 +1,12 @@
 import { forbidden, internal } from "@hapi/boom";
-import type { PathParam, QueryString } from "api-alternance-sdk/internal";
+import type { IApiRouteSchema, SchemaWithSecurity, WithSecurityScheme } from "api-alternance-sdk";
+import type { AccessPermission, AccessResourcePath, PathParam, QueryString, Role } from "api-alternance-sdk/internal";
+import { AdminRole, getBaseRole } from "api-alternance-sdk/internal";
 import type { FastifyRequest } from "fastify";
 import type { ObjectId } from "mongodb";
-import type { IOrganisation } from "shared/models/organisation.model";
+import type { IOrganisationInternal } from "shared/models/organisation.model";
 import type { IUser } from "shared/models/user.model";
-import type { IAccessToken, IRouteSchema, SchemaWithSecurity, WithSecurityScheme } from "shared/routes/common.routes";
-import type { AccessPermission, AccessResourcePath, Role } from "shared/security/permissions";
-import { AdminRole, getBaseRole } from "shared/security/permissions";
+import type { IAccessToken } from "shared/routes/common.routes";
 import { assertUnreachable } from "shared/utils/assertUnreachable";
 import type { Primitive } from "zod";
 import { zObjectId } from "zod-mongodb-schema";
@@ -58,7 +58,7 @@ export async function getResources<S extends WithSecurityScheme>(schema: S, req:
   };
 }
 
-function getUserRole(userOrToken: IAccessToken | IUser, organisation: IOrganisation | null): Role {
+function getUserRole(userOrToken: IAccessToken | IUser, organisation: IOrganisationInternal | null): Role {
   if ("identity" in userOrToken) {
     return getBaseRole(organisation);
   }
@@ -74,7 +74,7 @@ export function isAuthorizedUser(
   access: AccessPermission,
   user: IUser,
   resources: Ressources,
-  organisation: IOrganisation | null
+  organisation: IOrganisationInternal | null
 ): boolean {
   if (!getUserRole(user, organisation).permissions.includes(access)) {
     return false;
@@ -137,7 +137,7 @@ export function isAuthorizedToken<S extends SchemaWithSecurity>(
   return true;
 }
 
-export async function authorizationnMiddleware<S extends Pick<IRouteSchema, "method" | "path"> & WithSecurityScheme>(
+export async function authorizationnMiddleware<S extends Pick<IApiRouteSchema, "method" | "path"> & WithSecurityScheme>(
   schema: S,
   req: IRequest
 ) {

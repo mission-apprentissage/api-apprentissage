@@ -1,7 +1,7 @@
+import type { SchemaWithSecurity } from "api-alternance-sdk";
 import { ObjectId } from "mongodb";
 import { zRoutes } from "shared";
 import { generateUserFixture } from "shared/models/fixtures/index";
-import type { SchemaWithSecurity } from "shared/routes/common.routes";
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
 import { zObjectId } from "zod-mongodb-schema";

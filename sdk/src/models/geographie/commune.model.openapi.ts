@@ -2,7 +2,6 @@ import type { SchemaObject } from "openapi3-ts/oas31";
 
 import { communeModelDoc } from "../../docs/models/commune/commune.model.doc.js";
 import type { OpenapiModel } from "../../openapi/types.js";
-import { zCommune } from "./commune.model.js";
 
 const communeSchema = {
   type: "object",
@@ -132,5 +131,4 @@ export const communeModelOpenapi = {
   name: "Commune",
   schema: communeSchema,
   doc: communeModelDoc,
-  zod: zCommune,
 } as const satisfies OpenapiModel;

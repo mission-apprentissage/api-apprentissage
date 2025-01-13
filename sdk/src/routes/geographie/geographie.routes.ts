@@ -18,6 +18,11 @@ export const zApiGeographieRoutes = {
       response: {
         "200": zCommune.array(),
       },
+      securityScheme: {
+        auth: "api-key",
+        access: null,
+        ressources: {},
+      },
     },
     "/geographie/v1/departement": {
       method: "get",
@@ -25,12 +30,22 @@ export const zApiGeographieRoutes = {
       response: {
         "200": zDepartement.array(),
       },
+      securityScheme: {
+        auth: "api-key",
+        access: null,
+        ressources: {},
+      },
     },
     "/geographie/v1/mission-locale": {
       method: "get",
       path: "/geographie/v1/mission-locale",
       response: {
         "200": zMissionLocale.array(),
+      },
+      securityScheme: {
+        auth: "api-key",
+        access: null,
+        ressources: {},
       },
     },
   },

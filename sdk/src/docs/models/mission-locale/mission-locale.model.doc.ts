@@ -22,6 +22,22 @@ export const missionLocaleModelDoc = {
       _: {
         geopoint: {
           descriptions: [{ en: null, fr: 'Coordonnés GPS au format GeoJSON "Point"' }],
+          _: {
+            type: {
+              descriptions: null,
+            },
+            coordinates: {
+              descriptions: null,
+              _: {
+                0: {
+                  descriptions: [{ en: null, fr: "Longitude" }],
+                },
+                1: {
+                  descriptions: [{ en: null, fr: "Latitude" }],
+                },
+              },
+            },
+          },
         },
         adresse: {
           descriptions: [{ en: null, fr: "Adresse de la Mission Locale" }],
@@ -31,6 +47,20 @@ export const missionLocaleModelDoc = {
         },
         ville: {
           descriptions: [{ en: null, fr: "Ville de la Mission Locale" }],
+        },
+      },
+    },
+    contact: {
+      descriptions: [{ en: null, fr: "Contact de la mission locale" }],
+      _: {
+        email: {
+          descriptions: [{ en: null, fr: "Email de contact de la mission locale" }],
+        },
+        telephone: {
+          descriptions: [{ en: null, fr: "Téléphone de contact de la mission locale" }],
+        },
+        siteWeb: {
+          descriptions: [{ en: null, fr: "Site web de la mission locale" }],
         },
       },
     },

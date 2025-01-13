@@ -1,23 +1,24 @@
+import type { IApiRouteSchema, IApiRouteSchemaWrite } from "api-alternance-sdk";
 import type { PathParam, QueryString, WithQueryStringAndPathParam } from "api-alternance-sdk/internal";
 import { generateUri } from "api-alternance-sdk/internal";
 import type { IDeleteRoutes, IGetRoutes, IPostRoutes, IPutRoutes, IRequest, IResponse } from "shared";
-import type { IResErrorJson, IRouteSchema, IRouteSchemaWrite } from "shared/routes/common.routes";
+import type { IResErrorJson } from "shared/routes/common.routes";
 import type { EmptyObject } from "type-fest";
 import type { z, ZodType } from "zod";
 
 import { publicConfig } from "@/config.public";
 
 type OptionsGet = {
-  [Prop in keyof Pick<IRouteSchema, "params" | "querystring" | "headers">]: IRouteSchema[Prop] extends ZodType
-    ? z.input<IRouteSchema[Prop]>
+  [Prop in keyof Pick<IApiRouteSchema, "params" | "querystring" | "headers">]: IApiRouteSchema[Prop] extends ZodType
+    ? z.input<IApiRouteSchema[Prop]>
     : never;
 };
 
 type OptionsWrite = {
   [Prop in keyof Pick<
-    IRouteSchemaWrite,
+    IApiRouteSchemaWrite,
     "params" | "querystring" | "headers" | "body"
-  >]: IRouteSchemaWrite[Prop] extends ZodType ? z.input<IRouteSchemaWrite[Prop]> : never;
+  >]: IApiRouteSchemaWrite[Prop] extends ZodType ? z.input<IApiRouteSchemaWrite[Prop]> : never;
 };
 
 type IRequestOptions = OptionsGet | OptionsWrite | EmptyObject;

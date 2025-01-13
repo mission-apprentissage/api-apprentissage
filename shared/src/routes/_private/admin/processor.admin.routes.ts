@@ -1,6 +1,5 @@
+import type { IApiRoutesDef } from "api-alternance-sdk";
 import { zProcessorStatus } from "job-processor/dist/core.js";
-
-import type { IRoutesDef } from "../../common.routes.js";
 
 export const zProcessorAdminRoutes = {
   get: {
@@ -16,4 +15,4 @@ export const zProcessorAdminRoutes = {
     },
   },
   post: {},
-} as const satisfies IRoutesDef;
+} as const satisfies IApiRoutesDef;

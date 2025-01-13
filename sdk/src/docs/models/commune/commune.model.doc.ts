@@ -24,6 +24,11 @@ export const communeModelDoc = {
         },
         postaux: {
           descriptions: [{ en: null, fr: "Liste des codes postaux de la commune" }],
+          _: {
+            "[]": {
+              descriptions: null,
+            },
+          },
         },
       },
     },
@@ -110,6 +115,22 @@ export const communeModelDoc = {
               fr: 'Coordonnées du centre de la commune au format GeoJSON "Point"',
             },
           ],
+          _: {
+            type: {
+              descriptions: null,
+            },
+            coordinates: {
+              descriptions: null,
+              _: {
+                0: {
+                  descriptions: [{ en: null, fr: "Longitude" }],
+                },
+                1: {
+                  descriptions: [{ en: null, fr: "Latitude" }],
+                },
+              },
+            },
+          },
         },
         bbox: {
           descriptions: [
@@ -118,44 +139,37 @@ export const communeModelDoc = {
               fr: 'Coordonnées de la boîte englobante de la commune au format GeoJSON "Polygon"',
             },
           ],
+          _: {
+            type: {
+              descriptions: null,
+            },
+            coordinates: {
+              descriptions: null,
+              _: {
+                "[]": {
+                  descriptions: null,
+                  _: {
+                    "[]": {
+                      descriptions: null,
+                      _: {
+                        0: {
+                          descriptions: [{ en: null, fr: "Longitude" }],
+                        },
+                        1: {
+                          descriptions: [{ en: null, fr: "Latitude" }],
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
       },
     },
     mission_locale: {
       descriptions: [{ en: null, fr: "Mission locale dont relève la commune" }],
-      _: {
-        id: {
-          descriptions: [{ en: null, fr: "Identifiant de la mission locale" }],
-        },
-        nom: {
-          descriptions: [{ en: null, fr: "Nom de la mission locale" }],
-        },
-        siret: {
-          descriptions: [{ en: null, fr: "Numéro SIRET de la mission locale" }],
-        },
-        localisation: {
-          descriptions: [
-            {
-              en: null,
-              fr: "Localisation de la mission locale",
-            },
-          ],
-        },
-        contact: {
-          descriptions: [{ en: null, fr: "Contact de la mission locale" }],
-          _: {
-            email: {
-              descriptions: [{ en: null, fr: "Adresse email de la mission locale" }],
-            },
-            telephone: {
-              descriptions: [{ en: null, fr: "Numéro de téléphone de la mission locale" }],
-            },
-            siteWeb: {
-              descriptions: [{ en: null, fr: "Site web de la mission locale" }],
-            },
-          },
-        },
-      },
     },
   },
 } as const satisfies DocModel;

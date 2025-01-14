@@ -40,7 +40,7 @@ export const zApiGeographieRoutes = {
       method: "get",
       path: "/geographie/v1/mission-locale",
       response: {
-        "200": zMissionLocale.array(),
+        "200": z.array(zMissionLocale),
       },
       securityScheme: {
         auth: "api-key",

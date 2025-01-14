@@ -47,7 +47,10 @@ function getDocModelStructure(doc: DocModel, prefix: string = ""): string[] {
   return structure.toSorted();
 }
 
-function getSchemaObjectStructure(schema: SchemaObject | ReferenceObject | undefined, prefix: string = ""): string[] {
+function getSchemaObjectDocStructure(
+  schema: SchemaObject | ReferenceObject | undefined,
+  prefix: string = ""
+): string[] {
   const structure: string[] = [prefix];
 
   if (!schema || "$ref" in schema) {
@@ -57,19 +60,19 @@ function getSchemaObjectStructure(schema: SchemaObject | ReferenceObject | undef
   if (schema.properties) {
     for (const key in schema.properties) {
       if (schema.properties[key]) {
-        structure.push(...getSchemaObjectStructure(schema.properties[key], `${prefix}.${key}`));
+        structure.push(...getSchemaObjectDocStructure(schema.properties[key], `${prefix}.${key}`));
       }
     }
   }
 
   if (schema.items) {
-    structure.push(...getSchemaObjectStructure(schema.items, `${prefix}.[]`));
+    structure.push(...getSchemaObjectDocStructure(schema.items, `${prefix}.[]`));
   }
 
   if (schema.prefixItems) {
     for (const key in schema.prefixItems) {
       if (schema.prefixItems[key]) {
-        structure.push(...getSchemaObjectStructure(schema.prefixItems[key], `${prefix}.${key}`));
+        structure.push(...getSchemaObjectDocStructure(schema.prefixItems[key], `${prefix}.${key}`));
       }
     }
   }
@@ -109,17 +112,17 @@ function getDocRouteStructure(route: DocRoute | null, prefix: string = ""): stri
   return structure.toSorted();
 }
 
-function getContentObjectStructure(content: SchemaObject, prefix: string = ""): string[] {
+function getContentObjectDocStructure(content: SchemaObject, prefix: string = ""): string[] {
   const structure: string[] = [];
 
   for (const [_key, mediaType] of Object.entries(content)) {
-    structure.push(...getSchemaObjectStructure(mediaType.schema, prefix));
+    structure.push(...getSchemaObjectDocStructure(mediaType.schema, prefix));
   }
 
   return structure;
 }
 
-function getOperationObjectStructure(schema: OpenapiRoute["schema"], prefix: string = ""): string[] {
+function getOperationObjectDocStructure(schema: OpenapiRoute["schema"], prefix: string = ""): string[] {
   const structure: string[] = [prefix];
 
   if (schema.parameters) {
@@ -132,7 +135,7 @@ function getOperationObjectStructure(schema: OpenapiRoute["schema"], prefix: str
 
   if (schema.requestBody) {
     if (!("$ref" in schema.requestBody)) {
-      structure.push(...getContentObjectStructure(schema.requestBody.content, `${prefix}.body`));
+      structure.push(...getContentObjectDocStructure(schema.requestBody.content, `${prefix}.body`));
     }
   }
 
@@ -140,7 +143,7 @@ function getOperationObjectStructure(schema: OpenapiRoute["schema"], prefix: str
     for (const [key, response] of Object.entries(schema.responses)) {
       if (key === "default" || key.startsWith("2")) {
         if (response.content) {
-          structure.push(...getContentObjectStructure(response.content, `${prefix}.response`));
+          structure.push(...getContentObjectDocStructure(response.content, `${prefix}.response`));
         } else {
           structure.push(`${prefix}.response`);
         }
@@ -156,7 +159,7 @@ describe("openapiSpec#models", () => {
     if (model.doc === null) {
       return;
     }
-    expect(getDocModelStructure(model.doc)).toEqual(getSchemaObjectStructure(model.schema));
+    expect(getDocModelStructure(model.doc)).toEqual(getSchemaObjectDocStructure(model.schema));
   });
 
   it.each(Object.entries(openapiSpec.models))(
@@ -208,7 +211,7 @@ describe("openapiSpec#routes", () => {
       if (operation.doc === null) {
         return;
       }
-      expect(getDocRouteStructure(operation.doc)).toEqual(getOperationObjectStructure(operation.schema));
+      expect(getDocRouteStructure(operation.doc)).toEqual(getOperationObjectDocStructure(operation.schema));
     });
   });
 

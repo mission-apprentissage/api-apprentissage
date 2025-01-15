@@ -15,8 +15,6 @@ export const rechercheCommunePageDoc = {
     },
   ],
   frequenceMiseAJour: "daily",
-  note: null,
-  warning: null,
   type: "data",
   emailDemandeHabilitations: null,
   sources: [

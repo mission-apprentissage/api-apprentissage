@@ -9,8 +9,6 @@ export const recuperationDepartementsPageSummaryDoc = {
 export const recuperationDepartementsPageDoc = {
   description: [{ en: "Retrieve the departments of France", fr: "Récupération des départements de France" }],
   frequenceMiseAJour: "daily",
-  note: null,
-  warning: null,
   type: "data",
   emailDemandeHabilitations: null,
   sources: [

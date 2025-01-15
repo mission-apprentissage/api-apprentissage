@@ -76,14 +76,6 @@ export const rechercheOffrePageDoc = {
     },
   ],
   frequenceMiseAJour: "daily",
-  note: {
-    fr: "À date, les résultats sont triés par priorité de source (La bonne alternance, France Travail puis nos partenaires) ; par distance croisssante (uniquement si critère de localisation) et par date de création décroissante. Les résultats sont limités à 150 par source.",
-    en: "To date, results are sorted by source priority (La bonne alternance, France Travail, then our partners); by increasing distance (only if location criteria) and by decreasing creation date. Results are limited to 150 per source.",
-  },
-  warning: {
-    fr: "Dans un souci de partage équitable, l'utilisation de cette API est réservée à des usages non lucratifs. Veuillez noter que l'utilisation de ces données à des fins commerciales, telles que la revente ou la facturation de l'accès pour des tiers comme des candidats, entreprises ou écoles, est interdite.",
-    en: "In the interest of fair sharing, the use of this API is reserved for non-profit purposes. Please note that the use of this data for commercial purposes, such as reselling or charging access fees to third parties like candidates, companies, or schools, is prohibited.",
-  },
   type: "data",
   emailDemandeHabilitations: null,
   sources: [

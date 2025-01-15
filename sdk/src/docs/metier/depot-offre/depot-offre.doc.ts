@@ -1,4 +1,5 @@
 import type { DocPage, OpenApiText } from "../../types.js";
+import { rechercheOffrePageDoc } from "../recherche-offre/recherche-offre.doc.js";
 
 export const depotOffrePageSummaryDoc = {
   en: "Maximize the visibility of your apprenticeship job offers by posting them on the La bonne alternance platform and its partner sites.",
@@ -17,8 +18,6 @@ export const depotOffrePageDoc = {
     },
   ],
   frequenceMiseAJour: "daily",
-  note: null,
-  warning: null,
   type: "data",
   emailDemandeHabilitations: {
     subject: {
@@ -38,5 +37,21 @@ export const depotOffrePageDoc = {
       href: "https://labonnealternance.apprentissage.beta.gouv.fr/",
     },
   ],
-  data: [],
+  data: [
+    {
+      name: { fr: "Offre d'emploi", en: "Job offer" },
+      sections: {
+        contract: rechercheOffrePageDoc.data[0].sections.contract,
+        offer: rechercheOffrePageDoc.data[0].sections.offer,
+        workplace: {
+          name: rechercheOffrePageDoc.data[0].sections.workplace.name,
+          rows: {
+            workplace: rechercheOffrePageDoc.data[0].sections.workplace.rows.workplace,
+            location: rechercheOffrePageDoc.data[0].sections.workplace.rows.location,
+          },
+        },
+        apply: rechercheOffrePageDoc.data[0].sections.apply,
+      },
+    },
+  ],
 } as const satisfies DocPage;

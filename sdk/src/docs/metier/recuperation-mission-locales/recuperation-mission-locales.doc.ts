@@ -9,8 +9,6 @@ export const recuperationMissionLocalePageSummaryDoc = {
 export const recuperationMissionLocalesPageDoc = {
   description: [{ en: "Retrieve the Mission Locales", fr: "Récupération des Missions Locales" }],
   frequenceMiseAJour: "daily",
-  note: null,
-  warning: null,
   type: "data",
   emailDemandeHabilitations: null,
   sources: [

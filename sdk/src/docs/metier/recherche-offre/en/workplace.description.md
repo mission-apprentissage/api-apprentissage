@@ -1,4 +1,4 @@
-This element includes:
+Workplace is described by :
 
 - The name (brand name or, failing that, the company name) and the SIRET number of the company.
 - The description of the employer and/or the department where the contract will be carried out.

@@ -15,6 +15,10 @@ export const candidatureOffrePageDoc = {
       en: "For this, it only requires the transmission of the candidate's contact information and resume. A cover letter, addressed to the recruiter, can also be optionally submitted. The application is then sent to the recruiter via email.",
       fr: "Pour cela, elle requiert seulement la transmission des coordonnées ainsi que du CV du candidat. Un message de motivation, à destination du recruteur, peut également être transmis de manière facultative. La candidature est ensuite envoyée au recruteur par email.",
     },
+    {
+      fr: "Pour utiliser cette API, vous devez d’abord interroger l’API de [recherche d’opportunités d’emploi en alternance](./recherche-offre). Cette dernière vous permettra d’accéder gratuitement en temps réel à l'ensemble des opportunités d'emploi en alternance sur le territoire français. Ensuite, pour chaque opportunité présentant un `apply.recipient_id`, vous pouvez utiliser la présente route d’envoi d’une candidature à cette opportunité d’emploi, en spécifiant `apply.recipient_id` comme destinataire dans les paramètres d’appel.",
+      en: "To use this API, you must first query the [alternance job opportunities search API](./recherche-offre). This API allows you to access all the job opportunities in alternance in real time throughout France. Then, for each opportunity with a `apply.recipient_id`, you can use this route to send an application to this job opportunity, specifying `apply.recipient_id` as the recipient in the call parameters.",
+    },
   ],
   frequenceMiseAJour: "daily",
   type: "data",
@@ -45,6 +49,13 @@ export const candidatureOffrePageDoc = {
             },
             applicant_phone: {
               description: { en: "Applicant's phone", fr: "Numéro de téléphone du candidat" },
+              tip: {
+                title: { en: "Format", fr: "Format" },
+                content: {
+                  en: "Only European phone numbers are allowed. There is also a check on the nature of the number: only mobile and landline phones are allowed.",
+                  fr: "Seuls les numéros de téléphone européens sont autorisés. Il y a également une vérification sur la nature du numéro : seuls les téléphones mobiles et fixes sont autorisés.",
+                },
+              },
             },
           },
         },
@@ -71,8 +82,8 @@ export const candidatureOffrePageDoc = {
           rows: {
             recipient_id: {
               description: {
-                en: "Recipient identifier retrieved from `apply.recipient_id` from search route.",
-                fr: "Identifiant du destinataire récupéré de `apply.recipient_id` depuis les resultas de la route de recherche.",
+                en: "Recipient identifier retrieved from `apply.recipient_id` from search route results of the [alternance job opportunities search route](./recherche-offre).",
+                fr: "Identifiant du destinataire récupéré de `apply.recipient_id` depuis les resultas de la route de la [route de recherche d’opportunités d’emploi en alternance](./recherche-offre).",
               },
             },
           },

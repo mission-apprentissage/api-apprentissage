@@ -1,12 +1,15 @@
-name: CI
+name: Update Documentation
 
 on:
-  workflow_call:
+  push:
+    paths:
+      - "sdk/src/docs/**/*.md"
+
+permissions:
+  contents: write
 
 jobs:
-  tests:
-    timeout-minutes: 10
-    name: "Tests"
+  update-docs:
     runs-on: ubuntu-latest
 
     steps:
@@ -29,22 +32,16 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Make sure to use same dependencies version across all packages
-        run: yarn dedupe --check
+      - name: Transpile markdown
+        run: yarn workspace api-alternance-sdk markdown:transpile
 
-      - name: typecheck
-        run: yarn typecheck
+      - name: Run Prettier
+        run: yarn prettier:fix
 
-      - name: lint
-        run: yarn lint
+      - name: Run Lint with fix
+        run: yarn lint --fix
 
-      - name: start mongodb service
+      - name: Commit changes if any
         run: |
-          docker compose up --build -d --wait mongodb
-          yarn setup:mongodb
-
-      - name: test
-        run: yarn test:ci
-
-      - name: prettier
-        run: yarn prettier:check
+          git add ./sdk/src/docs
+          git commit -m "docs: update documentation"

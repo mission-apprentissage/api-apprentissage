@@ -1,8 +1,8 @@
-import type { DocModel } from "../../types.js";
+import type { DocTechnicalField } from "../../types.js";
 
 export const applicationModelDoc = {
-  description: { en: "Application", fr: "Candidature" },
-  _: {
+  descriptions: [{ en: "Application", fr: "Candidature" }],
+  properties: {
     applicant_first_name: {
       descriptions: [{ en: "Applicant's firstname", fr: "Prénom du candidat" }],
     },
@@ -33,4 +33,4 @@ export const applicationModelDoc = {
       ],
     },
   },
-} as const satisfies DocModel;
+} as const satisfies DocTechnicalField;

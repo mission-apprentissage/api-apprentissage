@@ -1,6 +1,6 @@
 import type { ResponseConfig, RouteConfig } from "@asteasolutions/zod-to-openapi";
 import { OpenApiGeneratorV31, OpenAPIRegistry } from "@asteasolutions/zod-to-openapi";
-import { formatParamUrl } from "@fastify/swagger";
+import { formatParamUrl } from "@fastify/swagger/lib/util/format-param-url.js";
 import OpenAPIParser from "@readme/openapi-parser";
 import type { SecurityRequirementObject } from "openapi3-ts/oas30";
 import type { OpenAPIObject, OperationObject, PathsObject, ReferenceObject, SchemaObject } from "openapi3-ts/oas31";

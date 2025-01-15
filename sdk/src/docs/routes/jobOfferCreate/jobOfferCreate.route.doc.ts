@@ -13,7 +13,7 @@ export const jobOfferCreateRouteDoc = {
     description: { en: "Success", fr: "Succès" },
     content: {
       descriptions: null,
-      _: {
+      properties: {
         id: {
           descriptions: [{ en: "Identifier of the created offer", fr: null }],
         },

@@ -8,14 +8,14 @@ import identifierDescFr from "../../metier/recherche-offre/fr/identifier.descrip
 import workplaceDescFr from "../../metier/recherche-offre/fr/workplace.description.md.js";
 import workplaceDomainDescFr from "../../metier/recherche-offre/fr/workplace.domain.description.md.js";
 import workplaceLocationDescFr from "../../metier/recherche-offre/fr/workplace.location.description.md.js";
-import type { DocModel } from "../../types.js";
+import type { DocTechnicalField } from "../../types.js";
 
 export const recruiterModelDoc = {
-  description: { en: null, fr: "Recruteur" },
-  _: {
+  descriptions: [{ en: null, fr: "Recruteur" }],
+  properties: {
     identifier: {
       descriptions: [{ en: identifierDescEn, fr: identifierDescFr }],
-      _: {
+      properties: {
         id: {
           descriptions: [{ en: "Partner responsible for the job offer.", fr: null }],
           examples: ["6687165396d52b5e01b409545"],
@@ -24,7 +24,7 @@ export const recruiterModelDoc = {
     },
     workplace: {
       descriptions: [{ en: workplaceDescEn, fr: workplaceDescFr }],
-      _: {
+      properties: {
         siret: {
           descriptions: [{ en: "SIRET of the contract execution location", fr: null }],
           examples: ["13002526500013"],
@@ -67,7 +67,7 @@ export const recruiterModelDoc = {
         },
         location: {
           descriptions: [{ en: workplaceLocationDescEn, fr: workplaceLocationDescFr }],
-          _: {
+          properties: {
             address: {
               descriptions: [{ en: "Postal address of the job offer location.", fr: null }],
               examples: ["20 AVENUE DE SEGUR 75007 PARIS"],
@@ -77,19 +77,19 @@ export const recruiterModelDoc = {
                 { en: "Geolocation linked to the address", fr: null },
                 { en: "Derived from the address.", fr: null },
               ],
-              _: {
+              properties: {
                 coordinates: {
                   descriptions: [{ en: "Coordinates of the geolocation linked to the address", fr: null }],
-                  _: {
-                    0: {
+                  prefixItems: [
+                    {
                       descriptions: [{ en: "Longitude", fr: null }],
                       examples: [48.850699],
                     },
-                    1: {
+                    {
                       descriptions: [{ en: "Latitude", fr: null }],
                       examples: [2.308628],
                     },
-                  },
+                  ],
                 },
                 type: {
                   descriptions: [{ en: "GeoJSON type related to the geolocation linked to the address", fr: null }],
@@ -101,14 +101,14 @@ export const recruiterModelDoc = {
         },
         domain: {
           descriptions: [{ en: workplaceDomainDescEn, fr: workplaceDomainDescFr }],
-          _: {
+          properties: {
             idcc: {
               descriptions: [{ en: "Collective agreement number associated with the SIRET number", fr: null }],
               examples: [1979],
             },
             naf: {
               descriptions: [{ en: "NAF (sector of activity) associated with the SIRET number", fr: null }],
-              _: {
+              properties: {
                 code: {
                   descriptions: [{ en: "NAF code (sector of activity) associated with the SIRET number", fr: null }],
                   examples: ["8411Z"],
@@ -134,7 +134,7 @@ export const recruiterModelDoc = {
     },
     apply: {
       descriptions: [{ en: applyDescEn, fr: applyDescFr }],
-      _: {
+      properties: {
         recipient_id: {
           descriptions: [
             {
@@ -162,4 +162,4 @@ export const recruiterModelDoc = {
       },
     },
   },
-} as const satisfies DocModel;
+} as const satisfies DocTechnicalField;

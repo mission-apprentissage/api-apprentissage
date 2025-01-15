@@ -3,7 +3,7 @@ import { OpenApiBuilder } from "openapi3-ts/oas31";
 
 import { registerOpenApiErrorsSchema } from "../../models/errors/errors.model.openapi.js";
 import { openapiSpec } from "../openapiSpec.js";
-import { addOperationDoc, addSchemaModelDoc, getTextOpenAPI } from "../utils/zodWithOpenApi.js";
+import { addOperationDoc, addSchemaDoc, getTextOpenAPI } from "../utils/zodWithOpenApi.js";
 
 export function buildOpenApiSchema(version: string, env: string, publicUrl: string, lang: "en" | "fr"): OpenApiBuilder {
   const builder = new OpenApiBuilder({
@@ -45,7 +45,7 @@ export function buildOpenApiSchema(version: string, env: string, publicUrl: stri
   });
 
   for (const [name, s] of Object.entries(openapiSpec.models)) {
-    builder.addSchema(name, addSchemaModelDoc(s.schema, s.doc, lang));
+    builder.addSchema(name, addSchemaDoc(s.schema, s.doc, lang, ["models", name]));
   }
 
   for (const [path, operations] of Object.entries(openapiSpec.routes)) {

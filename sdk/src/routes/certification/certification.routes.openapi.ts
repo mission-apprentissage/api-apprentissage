@@ -1,3 +1,4 @@
+import { getCertificationsRouteDoc } from "../../docs/routes/getCertifications/getCertifications.route.doc.js";
 import { addErrorResponseOpenApi } from "../../models/errors/errors.model.openapi.js";
 import type { OpenapiRoutes } from "../../openapi/types.js";
 
@@ -15,11 +16,8 @@ export const certificationsRoutesOpenapi = {
             schema: {
               type: "string",
               pattern: "^([A-Z0-9]{3}\\d{3}[A-Z0-9]{2}|null)?$",
-              examples: ["46X32402", "", "null"],
             },
             required: false,
-            description:
-              "Filtre la liste des certifications par `identifiant.cfd`\n\n- Si la valeur est vide ou `null`, filtre avec `identifiant.cfd = null`\n\n- Si la valeur est absente, aucun filtre n'est appliqué\n\n- Sinon doit respecter le regex `/^[A-Z0-9]{3}\\d{3}[A-Z0-9]{2}$/`",
             allowEmptyValue: true,
             name: "identifiant.cfd",
             in: "query",
@@ -28,11 +26,8 @@ export const certificationsRoutesOpenapi = {
             schema: {
               type: "string",
               pattern: "^(RNCP\\d{3,5}|null)?$",
-              examples: ["RNCP12345", "", "null"],
             },
             required: false,
-            description:
-              "Filtre la liste des certifications par `identifiant.rncp`\n\n- Si la valeur est vide ou `null`, filtre avec `identifiant.rncp = null`\n\n- Si la valeur est absente, aucun filtre n'est appliqué\n\n- Sinon doit respecter le regex `/^RNCP\\d{3,5}$/`",
             allowEmptyValue: true,
             name: "identifiant.rncp",
             in: "query",
@@ -54,7 +49,7 @@ export const certificationsRoutesOpenapi = {
           },
         },
       }),
-      doc: null,
+      doc: getCertificationsRouteDoc,
     },
   },
 } as const satisfies OpenapiRoutes;

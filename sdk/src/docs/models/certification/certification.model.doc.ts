@@ -1,5 +1,5 @@
 import { certificationsPageDoc } from "../../metier/certifications/certifications.doc.js";
-import type { DocModel } from "../../types.js";
+import type { DocTechnicalField } from "../../types.js";
 import baseLegaleCfdAbrogationNotes from "./fr/base_legale.cfd.abrogation.notes.md.js";
 import baseLegaleCfdCreationNotes from "./fr/base_legale.cfd.creation.notes.md.js";
 import continuiteDescCfdNotes from "./fr/continuite.description.cfd.notes.md.js";
@@ -12,8 +12,8 @@ import intituleNiveauCfdEuropeenNotes from "./fr/intitule.niveau.cfd.europeen.no
 import periodeValiditeRncpActivationNotes from "./fr/periode_validite.rncp.activation.notes.md.js";
 
 export const certificationModelDoc = {
-  description: { en: null, fr: "Certification" },
-  _: {
+  descriptions: [{ en: null, fr: "Certification" }],
+  properties: {
     identifiant: {
       descriptions: [
         {
@@ -21,7 +21,7 @@ export const certificationModelDoc = {
           fr: "les fiches RNCP antérieures à la réforme de 2019 ont certaines données qui ne sont pas renseignées, elles sont identifiées par le champ `rncp_anterieur_2019` à `true`.",
         },
       ],
-      _: {
+      properties: {
         cfd: {
           descriptions: [
             { en: null, fr: "Code Formation Diplôme (CFD) de la certification." },
@@ -62,7 +62,7 @@ export const certificationModelDoc = {
         { en: null, fr: "Notes:" },
         { en: null, fr: "Les dates sont retournées au format ISO 8601 avec le fuseau horaire Europe/Paris." },
       ],
-      _: {
+      properties: {
         debut: {
           descriptions: [
             {
@@ -88,7 +88,7 @@ export const certificationModelDoc = {
         },
         cfd: {
           descriptions: [{ en: null, fr: "- `null` lorsque le champs `identifiant.cfd` est `null`." }],
-          _: {
+          properties: {
             ouverture: {
               descriptions: [
                 { en: null, fr: "Date d'ouverture du diplôme." },
@@ -123,7 +123,7 @@ export const certificationModelDoc = {
         },
         rncp: {
           descriptions: [{ en: null, fr: "- `null` lorsque le champs `identifiant.rncp` est `null`." }],
-          _: {
+          properties: {
             actif: {
               descriptions: [
                 {
@@ -170,7 +170,7 @@ export const certificationModelDoc = {
     },
     intitule: {
       descriptions: null,
-      _: {
+      properties: {
         cfd: {
           descriptions: [
             {
@@ -180,7 +180,7 @@ export const certificationModelDoc = {
             { en: null, fr: "Notes:" },
             { en: null, fr: "- `null` lorsque le champs `identifiant.cfd` est `null`." },
           ],
-          _: {
+          properties: {
             court: {
               descriptions: [{ en: null, fr: "**Intitulé court du diplôme.**" }],
               examples: ["BOULANGER", "GENIE BIO - AGRONOMIE"],
@@ -201,7 +201,7 @@ export const certificationModelDoc = {
         },
         niveau: {
           descriptions: [{ en: null, fr: "Niveau de qualification de la certification professionnelle" }],
-          _: {
+          properties: {
             cfd: {
               descriptions: [
                 {
@@ -211,7 +211,7 @@ export const certificationModelDoc = {
                 { en: null, fr: "Notes:" },
                 { en: null, fr: "- `null` lorsque le champs `identifiant.cfd` est `null`." },
               ],
-              _: {
+              properties: {
                 sigle: {
                   descriptions: null,
                   examples: ["CAP", "DUT", "BTS", "CPGE"],
@@ -261,7 +261,7 @@ export const certificationModelDoc = {
                 { en: null, fr: "Notes:" },
                 { en: null, fr: "- `null` lorsque le champs `identifiant.rncp` est `null`." },
               ],
-              _: {
+              properties: {
                 europeen: {
                   descriptions: [
                     {
@@ -284,7 +284,7 @@ export const certificationModelDoc = {
     },
     continuite: {
       descriptions: [certificationsPageDoc.data[0].sections.continuite.rows.continuite.description],
-      _: {
+      properties: {
         cfd: {
           descriptions: [
             {
@@ -294,118 +294,114 @@ export const certificationModelDoc = {
             { en: null, fr: "Notes:" },
             { en: null, fr: continuiteDescCfdNotes },
           ],
-          _: {
-            "[]": {
-              descriptions: null,
-              _: {
-                ouverture: {
-                  descriptions: [
-                    {
-                      en: null,
-                      fr: "Date d'ouverture du diplôme.",
-                    },
-                    {
-                      en: null,
-                      fr: "Notes:",
-                    },
-                    {
-                      en: null,
-                      fr: "- La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '00:00:00' sur le fuseau horaire 'Europe/Paris'.",
-                    },
-                  ],
-                  examples: ["2021-09-01T00:00:00.000+02:00", "2022-01-01T00:00:00.000+01:00"],
-                },
-                fermeture: {
-                  descriptions: [
-                    {
-                      en: null,
-                      fr: "Date de fermeture du diplôme.",
-                    },
-                    {
-                      en: null,
-                      fr: "Notes:",
-                    },
-                    {
-                      en: null,
-                      fr: "- La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.",
-                    },
-                  ],
-                  examples: ["2022-08-31T23:59:59.000+02:00", "2022-12-31T23:59:59.000+01:00"],
-                },
-                code: {
-                  descriptions: null,
-                },
-                courant: {
-                  descriptions: [
-                    {
-                      en: null,
-                      fr: "Indique si le diplôme correspond au diplôme courant, i.e `identifiant.cfd` est égal au `code`.",
-                    },
-                  ],
-                },
+          items: {
+            descriptions: null,
+            properties: {
+              ouverture: {
+                descriptions: [
+                  {
+                    en: null,
+                    fr: "Date d'ouverture du diplôme.",
+                  },
+                  {
+                    en: null,
+                    fr: "Notes:",
+                  },
+                  {
+                    en: null,
+                    fr: "- La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '00:00:00' sur le fuseau horaire 'Europe/Paris'.",
+                  },
+                ],
+                examples: ["2021-09-01T00:00:00.000+02:00", "2022-01-01T00:00:00.000+01:00"],
+              },
+              fermeture: {
+                descriptions: [
+                  {
+                    en: null,
+                    fr: "Date de fermeture du diplôme.",
+                  },
+                  {
+                    en: null,
+                    fr: "Notes:",
+                  },
+                  {
+                    en: null,
+                    fr: "- La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.",
+                  },
+                ],
+                examples: ["2022-08-31T23:59:59.000+02:00", "2022-12-31T23:59:59.000+01:00"],
+              },
+              code: {
+                descriptions: null,
+              },
+              courant: {
+                descriptions: [
+                  {
+                    en: null,
+                    fr: "Indique si le diplôme correspond au diplôme courant, i.e `identifiant.cfd` est égal au `code`.",
+                  },
+                ],
               },
             },
           },
         },
         rncp: {
           descriptions: [{ en: null, fr: continuiteRncpNotes }],
-          _: {
-            "[]": {
-              descriptions: null,
-              _: {
-                activation: {
-                  descriptions: [
-                    {
-                      en: null,
-                      fr: "Date à laquelle la fiche RNCP est passée au statut `actif`.",
-                    },
-                    {
-                      en: null,
-                      fr: "Notes:",
-                    },
-                    {
-                      en: null,
-                      fr: "- La couverture de ce champ est partiel car nous ne sommes pas en mesure pour le moment de récupérer les dates d'activation antérieures au 24 décembre 2021.\n\n- France Compétence ne fournie pas l'information, nous le déduisons de la date de premiere apparation de la fiche RNCP avec le statut `actif`.",
-                    },
-                  ],
-                  examples: ["2021-09-01T00:00:00.000+02:00", "2022-01-01T00:00:00.000+01:00"],
-                },
-                fin_enregistrement: {
-                  descriptions: [
-                    {
-                      en: null,
-                      fr: "Date de fin d’enregistrement d’une fiche au RNCP.",
-                    },
-                    {
-                      en: null,
-                      fr: "Notes:",
-                    },
-                    {
-                      en: null,
-                      fr: "- France Compétence fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.",
-                    },
-                  ],
-                  examples: ["2021-09-01T00:00:00.000+02:00", "2022-01-01T00:00:00.000+01:00"],
-                },
-                code: {
-                  descriptions: [
-                    {
-                      en: null,
-                      fr: "Indique si la fiche correspond à la fiche courante, i.e `identifiant.rncp` est égal au `code`.",
-                    },
-                  ],
-                },
-                courant: {
-                  descriptions: null,
-                },
-                actif: {
-                  descriptions: [
-                    {
-                      en: null,
-                      fr: "Lorsque la fiche est active, les inscriptions à la formation sont ouvertes, à l’inverse, lorsque la fiche est inactive, les inscriptions sont fermées.",
-                    },
-                  ],
-                },
+          items: {
+            descriptions: null,
+            properties: {
+              activation: {
+                descriptions: [
+                  {
+                    en: null,
+                    fr: "Date à laquelle la fiche RNCP est passée au statut `actif`.",
+                  },
+                  {
+                    en: null,
+                    fr: "Notes:",
+                  },
+                  {
+                    en: null,
+                    fr: "- La couverture de ce champ est partiel car nous ne sommes pas en mesure pour le moment de récupérer les dates d'activation antérieures au 24 décembre 2021.\n\n- France Compétence ne fournie pas l'information, nous le déduisons de la date de premiere apparation de la fiche RNCP avec le statut `actif`.",
+                  },
+                ],
+                examples: ["2021-09-01T00:00:00.000+02:00", "2022-01-01T00:00:00.000+01:00"],
+              },
+              fin_enregistrement: {
+                descriptions: [
+                  {
+                    en: null,
+                    fr: "Date de fin d’enregistrement d’une fiche au RNCP.",
+                  },
+                  {
+                    en: null,
+                    fr: "Notes:",
+                  },
+                  {
+                    en: null,
+                    fr: "- France Compétence fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.",
+                  },
+                ],
+                examples: ["2021-09-01T00:00:00.000+02:00", "2022-01-01T00:00:00.000+01:00"],
+              },
+              code: {
+                descriptions: [
+                  {
+                    en: null,
+                    fr: "Indique si la fiche correspond à la fiche courante, i.e `identifiant.rncp` est égal au `code`.",
+                  },
+                ],
+              },
+              courant: {
+                descriptions: null,
+              },
+              actif: {
+                descriptions: [
+                  {
+                    en: null,
+                    fr: "Lorsque la fiche est active, les inscriptions à la formation sont ouvertes, à l’inverse, lorsque la fiche est inactive, les inscriptions sont fermées.",
+                  },
+                ],
               },
             },
           },
@@ -419,25 +415,23 @@ export const certificationModelDoc = {
           fr: "Liste du (ou des) code (s) et intitulé(s) des blocs de compétences validées par la certification",
         },
       ],
-      _: {
+      properties: {
         rncp: {
           descriptions: [
             { en: null, fr: "Liste des blocs de compétences issue de France Compétences." },
             { en: null, fr: "Notes:" },
             { en: null, fr: "- `null` lorsque le champs `identifiant.rncp` est `null`." },
           ],
-          _: {
-            "[]": {
-              descriptions: null,
-              _: {
-                code: {
-                  descriptions: null,
-                  examples: ["RNCP37537BC01"],
-                },
-                intitule: {
-                  descriptions: null,
-                  examples: ["Approvisionnement, communication, sécurité alimentaire et hygiène en boulangerie"],
-                },
+          items: {
+            descriptions: null,
+            properties: {
+              code: {
+                descriptions: null,
+                examples: ["RNCP37537BC01"],
+              },
+              intitule: {
+                descriptions: null,
+                examples: ["Approvisionnement, communication, sécurité alimentaire et hygiène en boulangerie"],
               },
             },
           },
@@ -445,18 +439,18 @@ export const certificationModelDoc = {
       },
     },
     domaines: {
-      descriptions: [],
-      _: {
+      descriptions: null,
+      properties: {
         nsf: {
           descriptions: null,
-          _: {
+          properties: {
             cfd: {
               descriptions: [
                 { en: null, fr: "NSF issue de la base centrale des nomenclatures (BCN)." },
                 { en: null, fr: "Notes:" },
                 { en: null, fr: domainesNsfCfdNotes },
               ],
-              _: {
+              properties: {
                 code: {
                   descriptions: null,
                   examples: ["221", "310"],
@@ -473,18 +467,16 @@ export const certificationModelDoc = {
                 { en: null, fr: "Notes:" },
                 { en: null, fr: "- `null` lorsque le champs `identifiant.rncp` est `null`." },
               ],
-              _: {
-                "[]": {
-                  descriptions: null,
-                  _: {
-                    code: {
-                      descriptions: null,
-                      examples: ["221"],
-                    },
-                    intitule: {
-                      descriptions: null,
-                      examples: ["221 : Agro-alimentaire, alimentation, cuisine"],
-                    },
+              items: {
+                descriptions: null,
+                properties: {
+                  code: {
+                    descriptions: null,
+                    examples: ["221"],
+                  },
+                  intitule: {
+                    descriptions: null,
+                    examples: ["221 : Agro-alimentaire, alimentation, cuisine"],
                   },
                 },
               },
@@ -493,25 +485,23 @@ export const certificationModelDoc = {
         },
         rome: {
           descriptions: [{ en: null, fr: "Répertoire Opérationnel des Métiers et des Emplois (ROME)." }],
-          _: {
+          properties: {
             rncp: {
               descriptions: [
                 { en: null, fr: "ROME issue de France Compétences." },
                 { en: null, fr: "Notes:" },
                 { en: null, fr: "- `null` lorsque le champs `identifiant.rncp` est `null`." },
               ],
-              _: {
-                "[]": {
-                  descriptions: null,
-                  _: {
-                    code: {
-                      descriptions: null,
-                      examples: ["D1102"],
-                    },
-                    intitule: {
-                      descriptions: null,
-                      examples: ["Boulangerie - viennoiserie"],
-                    },
+              items: {
+                descriptions: null,
+                properties: {
+                  code: {
+                    descriptions: null,
+                    examples: ["D1102"],
+                  },
+                  intitule: {
+                    descriptions: null,
+                    examples: ["Boulangerie - viennoiserie"],
                   },
                 },
               },
@@ -524,7 +514,7 @@ export const certificationModelDoc = {
             { en: null, fr: "Notes:" },
             { en: null, fr: "- `null` lorsque le champs `identifiant.rncp` est `null`." },
           ],
-          _: {
+          properties: {
             rncp: {
               descriptions: [
                 {
@@ -534,18 +524,16 @@ export const certificationModelDoc = {
                 { en: null, fr: "Notes:" },
                 { en: null, fr: "- `null` lorsque le champs `identifiant.rncp` est `null`." },
               ],
-              _: {
-                "[]": {
-                  descriptions: null,
-                  _: {
-                    code: {
-                      descriptions: null,
-                      examples: ["21538"],
-                    },
-                    intitule: {
-                      descriptions: null,
-                      examples: ["21538 : Boulangerie"],
-                    },
+              items: {
+                descriptions: null,
+                properties: {
+                  code: {
+                    descriptions: null,
+                    examples: ["21538"],
+                  },
+                  intitule: {
+                    descriptions: null,
+                    examples: ["21538 : Boulangerie"],
                   },
                 },
               },
@@ -556,17 +544,17 @@ export const certificationModelDoc = {
     },
     type: {
       descriptions: null,
-      _: {
+      properties: {
         nature: {
           descriptions: [{ en: null, fr: "Nature du diplôme." }],
-          _: {
+          properties: {
             cfd: {
               descriptions: [
                 { en: null, fr: "Nature du diplôme issue de la base centrale des nomenclatures (BCN)." },
                 { en: null, fr: "Notes:" },
                 { en: null, fr: "- `null` lorsque le champs `identifiant.cfd` est `null`." },
               ],
-              _: {
+              properties: {
                 code: {
                   descriptions: null,
                   examples: ["1", "2", "P"],
@@ -603,14 +591,14 @@ export const certificationModelDoc = {
         },
         voie_acces: {
           descriptions: [{ en: null, fr: "Voie d’accès à la certification." }],
-          _: {
+          properties: {
             rncp: {
               descriptions: [
                 { en: null, fr: "Voie d’accès à la certification issue de France Compétences." },
                 { en: null, fr: "Notes:" },
                 { en: null, fr: "- `null` lorsque le champs `identifiant.rncp` est `null`." },
               ],
-              _: {
+              properties: {
                 apprentissage: {
                   descriptions: [{ en: null, fr: "Certification accessible en contrat d’apprentissage." }],
                 },
@@ -649,16 +637,14 @@ export const certificationModelDoc = {
             { en: null, fr: "Notes:" },
             { en: null, fr: "- `null` lorsque le champs `identifiant.rncp` est `null`." },
           ],
-          _: {
-            "[]": {
-              descriptions: null,
-              _: {
-                siret: {
-                  descriptions: [{ en: null, fr: "Numéro SIRET du certificateur renseigné dans le RNCP." }],
-                },
-                nom: {
-                  descriptions: [{ en: null, fr: "Nom du certificateur renseigné dans le RNCP." }],
-                },
+          items: {
+            descriptions: null,
+            properties: {
+              siret: {
+                descriptions: [{ en: null, fr: "Numéro SIRET du certificateur renseigné dans le RNCP." }],
+              },
+              nom: {
+                descriptions: [{ en: null, fr: "Nom du certificateur renseigné dans le RNCP." }],
               },
             },
           },
@@ -667,7 +653,7 @@ export const certificationModelDoc = {
     },
     base_legale: {
       descriptions: [{ en: null, fr: "Dates de création et d’abrogation des diplômes crées par arrêtés" }],
-      _: {
+      properties: {
         cfd: {
           descriptions: [
             {
@@ -677,7 +663,7 @@ export const certificationModelDoc = {
             { en: null, fr: "Notes:" },
             { en: null, fr: "- `null` lorsque le champs `identifiant.cfd` est `null`." },
           ],
-          _: {
+          properties: {
             creation: {
               descriptions: [
                 { en: null, fr: "Date d'arrêté de création du diplôme." },
@@ -705,25 +691,23 @@ export const certificationModelDoc = {
           fr: "Liste(s) de la ou des convention(s) collective(s) rattachées à la certification",
         },
       ],
-      _: {
+      properties: {
         rncp: {
           descriptions: [
             { en: null, fr: "Liste des conventions collectives issue de France Compétences." },
             { en: null, fr: "Notes:" },
             { en: null, fr: "- `null` lorsque le champs `identifiant.rncp` est `null`." },
           ],
-          _: {
-            "[]": {
-              descriptions: null,
-              _: {
-                numero: {
-                  descriptions: null,
-                  examples: ["3002"],
-                },
-                intitule: {
-                  descriptions: null,
-                  examples: ["Bâtiment (Employés, techniciens et agents de maîtrise, ingénieurs, assimilés et cadres)"],
-                },
+          items: {
+            descriptions: null,
+            properties: {
+              numero: {
+                descriptions: null,
+                examples: ["3002"],
+              },
+              intitule: {
+                descriptions: null,
+                examples: ["Bâtiment (Employés, techniciens et agents de maîtrise, ingénieurs, assimilés et cadres)"],
               },
             },
           },
@@ -731,4 +715,4 @@ export const certificationModelDoc = {
       },
     },
   },
-} as const satisfies DocModel;
+} as const satisfies DocTechnicalField;

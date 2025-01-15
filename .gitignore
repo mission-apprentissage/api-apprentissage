@@ -168,3 +168,5 @@ tsconfig.tsbuildinfo
 .yarn/versions/
 
 .infra/vault/.vault-password-previous.gpg
+
+.tmp/

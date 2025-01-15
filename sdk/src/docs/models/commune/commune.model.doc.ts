@@ -1,9 +1,9 @@
 import localisationDescriptionFr from "../../metier/recherche-commune/fr/localisation.description.md.js";
-import type { DocModel } from "../../types.js";
+import type { DocTechnicalField } from "../../types.js";
 
 export const communeModelDoc = {
-  description: { en: null, fr: "Commune" },
-  _: {
+  descriptions: [{ en: null, fr: "Commune" }],
+  properties: {
     nom: {
       descriptions: [{ en: null, fr: "Nom de la commune" }],
     },
@@ -18,55 +18,49 @@ export const communeModelDoc = {
           fr: "Une commune peut avoir plusieurs code postaux, et un code postal peut correspondre à plusieurs communes. Le code INSEE lui est unique pour chaque commune.",
         },
       ],
-      _: {
+      properties: {
         insee: {
           descriptions: [{ en: null, fr: "Code INSEE de la commune" }],
         },
         postaux: {
           descriptions: [{ en: null, fr: "Liste des codes postaux de la commune" }],
-          _: {
-            "[]": {
-              descriptions: null,
-            },
+          items: {
+            descriptions: null,
           },
         },
       },
     },
     anciennes: {
       descriptions: [{ en: null, fr: "Anciennes communes fusionnées" }],
-      _: {
-        "[]": {
-          descriptions: null,
-          _: {
-            nom: {
-              descriptions: [{ en: null, fr: "Nom de l'ancienne commune" }],
-            },
-            codeInsee: {
-              descriptions: [{ en: null, fr: "Code INSEE de l'ancienne commune" }],
-            },
+      items: {
+        descriptions: null,
+        properties: {
+          nom: {
+            descriptions: [{ en: null, fr: "Nom de l'ancienne commune" }],
+          },
+          codeInsee: {
+            descriptions: [{ en: null, fr: "Code INSEE de l'ancienne commune" }],
           },
         },
       },
     },
     arrondissements: {
       descriptions: [{ en: null, fr: "Arrondissements de la commune" }],
-      _: {
-        "[]": {
-          descriptions: null,
-          _: {
-            nom: {
-              descriptions: [{ en: null, fr: "Nom de l'arrondissement" }],
-            },
-            code: {
-              descriptions: [{ en: null, fr: "Code INSEE de l'arrondissement" }],
-            },
+      items: {
+        descriptions: null,
+        properties: {
+          nom: {
+            descriptions: [{ en: null, fr: "Nom de l'arrondissement" }],
+          },
+          code: {
+            descriptions: [{ en: null, fr: "Code INSEE de l'arrondissement" }],
           },
         },
       },
     },
     region: {
       descriptions: [{ en: null, fr: "Région de la commune" }],
-      _: {
+      properties: {
         codeInsee: {
           descriptions: [{ en: null, fr: "Code INSEE de la région" }],
         },
@@ -77,7 +71,7 @@ export const communeModelDoc = {
     },
     departement: {
       descriptions: [{ en: null, fr: "Département de la commune" }],
-      _: {
+      properties: {
         nom: {
           descriptions: [{ en: null, fr: "Nom du département" }],
         },
@@ -93,7 +87,7 @@ export const communeModelDoc = {
     },
     academie: {
       descriptions: [{ en: null, fr: "Académie de la commune" }],
-      _: {
+      properties: {
         id: {
           descriptions: [{ en: null, fr: "Identifiant de l'académie" }],
         },
@@ -107,7 +101,7 @@ export const communeModelDoc = {
     },
     localisation: {
       descriptions: [{ en: null, fr: localisationDescriptionFr }],
-      _: {
+      properties: {
         centre: {
           descriptions: [
             {
@@ -115,20 +109,16 @@ export const communeModelDoc = {
               fr: 'Coordonnées du centre de la commune au format GeoJSON "Point"',
             },
           ],
-          _: {
+          properties: {
             type: {
               descriptions: null,
             },
             coordinates: {
               descriptions: null,
-              _: {
-                0: {
-                  descriptions: [{ en: null, fr: "Longitude" }],
-                },
-                1: {
-                  descriptions: [{ en: null, fr: "Latitude" }],
-                },
-              },
+              prefixItems: [
+                { descriptions: [{ en: null, fr: "Longitude" }] },
+                { descriptions: [{ en: null, fr: "Latitude" }] },
+              ],
             },
           },
         },
@@ -139,28 +129,20 @@ export const communeModelDoc = {
               fr: 'Coordonnées de la boîte englobante de la commune au format GeoJSON "Polygon"',
             },
           ],
-          _: {
+          properties: {
             type: {
               descriptions: null,
             },
             coordinates: {
               descriptions: null,
-              _: {
-                "[]": {
+              items: {
+                descriptions: null,
+                items: {
                   descriptions: null,
-                  _: {
-                    "[]": {
-                      descriptions: null,
-                      _: {
-                        0: {
-                          descriptions: [{ en: null, fr: "Longitude" }],
-                        },
-                        1: {
-                          descriptions: [{ en: null, fr: "Latitude" }],
-                        },
-                      },
-                    },
-                  },
+                  prefixItems: [
+                    { descriptions: [{ en: null, fr: "Longitude" }] },
+                    { descriptions: [{ en: null, fr: "Latitude" }] },
+                  ],
                 },
               },
             },
@@ -170,6 +152,7 @@ export const communeModelDoc = {
     },
     mission_locale: {
       descriptions: [{ en: null, fr: "Mission locale dont relève la commune" }],
+      anyOf: [{ descriptions: null }, { descriptions: null }],
     },
   },
-} as const satisfies DocModel;
+} as const satisfies DocTechnicalField;

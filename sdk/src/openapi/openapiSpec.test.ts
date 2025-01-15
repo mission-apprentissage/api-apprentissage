@@ -2,7 +2,7 @@ import type { ReferenceObject, SchemaObject } from "openapi3-ts/oas31";
 import { describe, expect, it } from "vitest";
 import { ZodUnknown } from "zod";
 
-import type { DocModel, DocRoute, DocTechnicalField } from "../docs/types.js";
+import type { DocRoute, DocTechnicalField } from "../docs/types.js";
 import { zApiRoutes } from "../routes/index.js";
 import { buildOpenApiSchema } from "./builder/openapi.builder.js";
 import { compareOperationObjectsStructure, compareSchemaObjectsStructure } from "./compare/compareOpenapiSchema.js";
@@ -15,39 +15,69 @@ import {
   getOpenapiOperations,
 } from "./utils/openapi.uils.js";
 
-function getDocTechnicalFieldStructure(doc: DocTechnicalField, prefix: string = ""): string[] {
+function getDocTechnicalFieldListStructure(docs: DocTechnicalField[], prefix: string = ""): string[] {
   const structure: string[] = [prefix];
 
-  if (!doc._) {
-    return structure;
-  }
-
-  for (const key in doc._) {
-    if (doc._[key]) {
-      structure.push(...getDocTechnicalFieldStructure(doc._[key], `${prefix}.${key}`));
-    }
+  for (let i = 0; i < docs.length; i++) {
+    structure.push(...getDocTechnicalFieldStructure(docs[i], `${prefix}.[${i}]`));
   }
 
   return structure;
 }
 
-function getDocModelStructure(doc: DocModel, prefix: string = ""): string[] {
+function getDocTechnicalFieldStructure(doc: DocTechnicalField, prefix: string = ""): string[] {
   const structure: string[] = [prefix];
 
-  if (!doc._) {
-    return structure;
+  if (doc.allOf) {
+    structure.push(...getDocTechnicalFieldListStructure(doc.allOf, `${prefix}.allOf`));
   }
-
-  for (const key in doc._) {
-    if (doc._[key]) {
-      structure.push(...getDocTechnicalFieldStructure(doc._[key], `${prefix}.${key}`));
+  if (doc.oneOf) {
+    structure.push(...getDocTechnicalFieldListStructure(doc.oneOf, `${prefix}.oneOf`));
+  }
+  if (doc.anyOf) {
+    structure.push(...getDocTechnicalFieldListStructure(doc.anyOf, `${prefix}.anyOf`));
+  }
+  if (doc.not) {
+    structure.push(...getDocTechnicalFieldStructure(doc.not, `${prefix}.not`));
+  }
+  if (doc.items) {
+    structure.push(...getDocTechnicalFieldStructure(doc.items, `${prefix}.items`));
+  }
+  if (doc.additionalProperties) {
+    structure.push(...getDocTechnicalFieldStructure(doc.additionalProperties, `${prefix}.additionalProperties`));
+  }
+  if (doc.propertyNames) {
+    structure.push(...getDocTechnicalFieldStructure(doc.propertyNames, `${prefix}.propertyNames`));
+  }
+  if (doc.prefixItems) {
+    structure.push(...getDocTechnicalFieldListStructure(doc.prefixItems, `${prefix}.prefixItems`));
+  }
+  if (doc.properties) {
+    structure.push(`${prefix}.properties`);
+    for (const key in doc.properties) {
+      if (doc.properties[key]) {
+        structure.push(...getDocTechnicalFieldStructure(doc.properties[key], `${prefix}.properties.${key}`));
+      }
     }
   }
 
   return structure.toSorted();
 }
 
-function getSchemaObjectStructure(schema: SchemaObject | ReferenceObject | undefined, prefix: string = ""): string[] {
+function getSchemaObjectListDocStructure(schemas: (SchemaObject | ReferenceObject)[], prefix: string = ""): string[] {
+  const structure: string[] = [prefix];
+
+  for (let i = 0; i < schemas.length; i++) {
+    structure.push(...getSchemaObjectDocStructure(schemas[i], `${prefix}.[${i}]`));
+  }
+
+  return structure;
+}
+
+function getSchemaObjectDocStructure(
+  schema: SchemaObject | ReferenceObject | undefined,
+  prefix: string = ""
+): string[] {
   const structure: string[] = [prefix];
 
   if (!schema || "$ref" in schema) {
@@ -55,23 +85,37 @@ function getSchemaObjectStructure(schema: SchemaObject | ReferenceObject | undef
   }
 
   if (schema.properties) {
+    structure.push(`${prefix}.properties`);
     for (const key in schema.properties) {
       if (schema.properties[key]) {
-        structure.push(...getSchemaObjectStructure(schema.properties[key], `${prefix}.${key}`));
+        structure.push(...getSchemaObjectDocStructure(schema.properties[key], `${prefix}.properties.${key}`));
       }
     }
   }
 
   if (schema.items) {
-    structure.push(...getSchemaObjectStructure(schema.items, `${prefix}.[]`));
+    structure.push(...getSchemaObjectDocStructure(schema.items, `${prefix}.items`));
   }
-
+  if (schema.allOf) {
+    structure.push(...getSchemaObjectListDocStructure(schema.allOf, `${prefix}.allOf`));
+  }
+  if (schema.oneOf) {
+    structure.push(...getSchemaObjectListDocStructure(schema.oneOf, `${prefix}.oneOf`));
+  }
+  if (schema.anyOf) {
+    structure.push(...getSchemaObjectListDocStructure(schema.anyOf, `${prefix}.anyOf`));
+  }
+  if (schema.not) {
+    structure.push(...getSchemaObjectDocStructure(schema.not, `${prefix}.not`));
+  }
+  if (schema.additionalProperties && schema.additionalProperties !== true) {
+    structure.push(...getSchemaObjectDocStructure(schema.additionalProperties, `${prefix}.additionalProperties`));
+  }
+  if (schema.propertyNames) {
+    structure.push(...getSchemaObjectDocStructure(schema.propertyNames, `${prefix}.propertyNames`));
+  }
   if (schema.prefixItems) {
-    for (const key in schema.prefixItems) {
-      if (schema.prefixItems[key]) {
-        structure.push(...getSchemaObjectStructure(schema.prefixItems[key], `${prefix}.${key}`));
-      }
-    }
+    structure.push(...getSchemaObjectListDocStructure(schema.prefixItems, `${prefix}.prefixItems`));
   }
 
   return structure.toSorted();
@@ -109,17 +153,17 @@ function getDocRouteStructure(route: DocRoute | null, prefix: string = ""): stri
   return structure.toSorted();
 }
 
-function getContentObjectStructure(content: SchemaObject, prefix: string = ""): string[] {
+function getContentObjectDocStructure(content: SchemaObject, prefix: string = ""): string[] {
   const structure: string[] = [];
 
   for (const [_key, mediaType] of Object.entries(content)) {
-    structure.push(...getSchemaObjectStructure(mediaType.schema, prefix));
+    structure.push(...getSchemaObjectDocStructure(mediaType.schema, prefix));
   }
 
   return structure;
 }
 
-function getOperationObjectStructure(schema: OpenapiRoute["schema"], prefix: string = ""): string[] {
+function getOperationObjectDocStructure(schema: OpenapiRoute["schema"], prefix: string = ""): string[] {
   const structure: string[] = [prefix];
 
   if (schema.parameters) {
@@ -132,7 +176,7 @@ function getOperationObjectStructure(schema: OpenapiRoute["schema"], prefix: str
 
   if (schema.requestBody) {
     if (!("$ref" in schema.requestBody)) {
-      structure.push(...getContentObjectStructure(schema.requestBody.content, `${prefix}.body`));
+      structure.push(...getContentObjectDocStructure(schema.requestBody.content, `${prefix}.body`));
     }
   }
 
@@ -140,7 +184,7 @@ function getOperationObjectStructure(schema: OpenapiRoute["schema"], prefix: str
     for (const [key, response] of Object.entries(schema.responses)) {
       if (key === "default" || key.startsWith("2")) {
         if (response.content) {
-          structure.push(...getContentObjectStructure(response.content, `${prefix}.response`));
+          structure.push(...getContentObjectDocStructure(response.content, `${prefix}.response`));
         } else {
           structure.push(`${prefix}.response`);
         }
@@ -156,7 +200,7 @@ describe("openapiSpec#models", () => {
     if (model.doc === null) {
       return;
     }
-    expect(getDocModelStructure(model.doc)).toEqual(getSchemaObjectStructure(model.schema));
+    expect(getDocTechnicalFieldStructure(model.doc)).toEqual(getSchemaObjectDocStructure(model.schema));
   });
 
   it.each(Object.entries(openapiSpec.models))(
@@ -208,7 +252,7 @@ describe("openapiSpec#routes", () => {
       if (operation.doc === null) {
         return;
       }
-      expect(getDocRouteStructure(operation.doc)).toEqual(getOperationObjectStructure(operation.schema));
+      expect(getDocRouteStructure(operation.doc)).toEqual(getOperationObjectDocStructure(operation.schema));
     });
   });
 

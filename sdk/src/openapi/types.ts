@@ -1,13 +1,13 @@
 import type { OperationObject, SchemaObject } from "openapi3-ts/oas31";
 import type { ZodType } from "zod";
 
-import type { DocModel, DocRoute, OpenApiText } from "../docs/types.js";
+import type { DocRoute, DocTechnicalField, OpenApiText } from "../docs/types.js";
 import type { TagOpenapi } from "./tags.openapi.js";
 
 export type OpenapiModel = {
   name: string;
   schema: SchemaObject;
-  doc: DocModel;
+  doc: DocTechnicalField;
   zod: ZodType | null;
 };
 

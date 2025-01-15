@@ -48,21 +48,17 @@ export const jobSearchRouteDoc = {
     description: { en: "Success", fr: "Succès" },
     content: {
       descriptions: null,
-      _: {
+      properties: {
         jobs: {
           descriptions: [{ en: jobs, fr: null }],
-          _: {
-            "[]": {
-              descriptions: null,
-            },
+          items: {
+            descriptions: null,
           },
         },
         recruiters: {
           descriptions: [{ en: recruiters, fr: null }],
-          _: {
-            "[]": {
-              descriptions: null,
-            },
+          items: {
+            descriptions: null,
           },
         },
         warnings: {
@@ -73,16 +69,14 @@ export const jobSearchRouteDoc = {
               code: "WARNING_CODE",
             },
           ],
-          _: {
-            "[]": {
-              descriptions: null,
-              _: {
-                message: {
-                  descriptions: null,
-                },
-                code: {
-                  descriptions: null,
-                },
+          items: {
+            descriptions: null,
+            properties: {
+              message: {
+                descriptions: null,
+              },
+              code: {
+                descriptions: null,
               },
             },
           },

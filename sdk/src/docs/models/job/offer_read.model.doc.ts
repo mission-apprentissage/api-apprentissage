@@ -6,15 +6,15 @@ import contractDescFr from "../../metier/recherche-offre/fr/contract.description
 import offerDescFr from "../../metier/recherche-offre/fr/offer.description.md.js";
 import offerPublicationDescFr from "../../metier/recherche-offre/fr/offer.publication.description.md.js";
 import offerStatusDescFr from "../../metier/recherche-offre/fr/offer.status.description.md.js";
-import type { DocModel } from "../../types.js";
+import type { DocTechnicalField } from "../../types.js";
 import { recruiterModelDoc } from "./recruiter.model.doc.js";
 
 export const offerReadModelDoc = {
-  description: { en: null, fr: "Offre d'emploi" },
-  _: {
+  descriptions: [{ en: null, fr: "Offre d'emploi" }],
+  properties: {
     identifier: {
-      ...recruiterModelDoc._.identifier,
-      _: {
+      ...recruiterModelDoc.properties.identifier,
+      properties: {
         id: {
           descriptions: [
             { en: "Identifier of the job offer in the La bonne alternance database.", fr: null },
@@ -43,7 +43,7 @@ export const offerReadModelDoc = {
     },
     contract: {
       descriptions: [{ en: contractDescEn, fr: contractDescFr }],
-      _: {
+      properties: {
         duration: {
           descriptions: [{ en: "Contract duration in months.", fr: null }],
           examples: [12],
@@ -54,11 +54,9 @@ export const offerReadModelDoc = {
         },
         type: {
           descriptions: [{ en: "Contract type (apprenticeship and/or professionalization)", fr: null }],
-          _: {
-            "[]": {
-              descriptions: [{ en: "Contract type (apprenticeship and/or professionalization)", fr: null }],
-              examples: ["Apprentissage", "Professionnalisation"],
-            },
+          items: {
+            descriptions: [{ en: "Contract type (apprenticeship and/or professionalization)", fr: null }],
+            examples: ["Apprentissage", "Professionnalisation"],
           },
         },
         remote: {
@@ -69,18 +67,16 @@ export const offerReadModelDoc = {
     },
     offer: {
       descriptions: [{ en: offerDescEn, fr: offerDescFr }],
-      _: {
+      properties: {
         access_conditions: {
           descriptions: [{ en: "The conditions for entering the profession", fr: null }],
-          _: {
-            "[]": {
-              descriptions: [{ en: "The conditions for entering the profession", fr: null }],
-              examples: [
-                "Ce métier est accessible avec un diplôme de niveau Bac+2 (BTS, DUT) à Master (MIAGE, diplôme d'ingénieur, Master professionnel, ...) en informatique.",
-                "Il est également accessible avec une expérience professionnelle en informatique, système d'exploitation ou dans un domaine applicatif.",
-                "La pratique de l'anglais (vocabulaire technique) est requise.",
-              ],
-            },
+          items: {
+            descriptions: [{ en: "The conditions for entering the profession", fr: null }],
+            examples: [
+              "Ce métier est accessible avec un diplôme de niveau Bac+2 (BTS, DUT) à Master (MIAGE, diplôme d'ingénieur, Master professionnel, ...) en informatique.",
+              "Il est également accessible avec une expérience professionnelle en informatique, système d'exploitation ou dans un domaine applicatif.",
+              "La pratique de l'anglais (vocabulaire technique) est requise.",
+            ],
           },
         },
         description: {
@@ -91,16 +87,14 @@ export const offerReadModelDoc = {
         },
         desired_skills: {
           descriptions: [{ en: "The skills or qualities expected for the position.", fr: null }],
-          _: {
-            "[]": {
-              descriptions: [{ en: "The skills or qualities expected for the position.", fr: null }],
-              examples: [
-                "Faire preuve d'autonomie",
-                "Faire preuve de créativité, d'inventivité",
-                "Faire preuve de rigueur et de précision",
-                "Travailler en équipe",
-              ],
-            },
+          items: {
+            descriptions: [{ en: "The skills or qualities expected for the position.", fr: null }],
+            examples: [
+              "Faire preuve d'autonomie",
+              "Faire preuve de créativité, d'inventivité",
+              "Faire preuve de rigueur et de précision",
+              "Travailler en équipe",
+            ],
           },
         },
         opening_count: {
@@ -109,11 +103,9 @@ export const offerReadModelDoc = {
         },
         rome_codes: {
           descriptions: [{ en: "ROME code(s) of the offer", fr: null }],
-          _: {
-            "[]": {
-              descriptions: [{ en: "ROME code", fr: null }],
-              examples: ["A1401"],
-            },
+          items: {
+            descriptions: [{ en: "ROME code", fr: null }],
+            examples: ["A1401"],
           },
         },
         status: {
@@ -125,7 +117,7 @@ export const offerReadModelDoc = {
         },
         target_diploma: {
           descriptions: [{ en: "Targeted diploma level at the end of studies.", fr: null }],
-          _: {
+          properties: {
             european: {
               descriptions: [{ en: "Targeted diploma level at the end of studies.", fr: null }],
               examples: [3],
@@ -142,20 +134,18 @@ export const offerReadModelDoc = {
         },
         to_be_acquired_skills: {
           descriptions: [{ en: "The skills or qualities to be acquired during the apprenticeship.", fr: null }],
-          _: {
-            "[]": {
-              descriptions: [{ en: "The skills or qualities to be acquired during the apprenticeship.", fr: null }],
-              examples: [
-                "Recherche, Innovation : Analyser les indicateurs pertinents sur les tendances et les usages des clients",
-                "Recherche, Innovation : Concevoir et développer une solution digitale",
-                "Nouvelles technologies : Assembler des composants logiciels",
-              ],
-            },
+          items: {
+            descriptions: [{ en: "The skills or qualities to be acquired during the apprenticeship.", fr: null }],
+            examples: [
+              "Recherche, Innovation : Analyser les indicateurs pertinents sur les tendances et les usages des clients",
+              "Recherche, Innovation : Concevoir et développer une solution digitale",
+              "Nouvelles technologies : Assembler des composants logiciels",
+            ],
           },
         },
         publication: {
           descriptions: [{ en: offerPublicationDescEn, fr: offerPublicationDescFr }],
-          _: {
+          properties: {
             creation: {
               descriptions: [{ en: "Creation date of the job opportunity.", fr: null }],
               examples: ["2024-07-23T13:23:01.000Z"],
@@ -168,7 +158,7 @@ export const offerReadModelDoc = {
         },
       },
     },
-    workplace: recruiterModelDoc._.workplace,
-    apply: recruiterModelDoc._.apply,
+    workplace: recruiterModelDoc.properties.workplace,
+    apply: recruiterModelDoc.properties.apply,
   },
-} as const satisfies DocModel;
+} as const satisfies DocTechnicalField;

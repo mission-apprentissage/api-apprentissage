@@ -21,10 +21,8 @@ export const listDepartementsRouteDoc = {
           en: "List of French departments",
         },
       ],
-      _: {
-        "[]": {
-          descriptions: null,
-        },
+      items: {
+        descriptions: null,
       },
     },
   },

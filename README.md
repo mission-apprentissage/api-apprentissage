@@ -16,4 +16,4 @@
 
 ## Guides
 
-- [Ajouter une route passe plat LBA](./docs/developpement/ajouter-route-lba.md)
+- [Ajouter une route](./docs/developpement/creer-route.md)

@@ -2,7 +2,7 @@ import { extendZodWithOpenApi as extendZodWithOpenApiBase } from "@asteasolution
 import type { ContentObject, OperationObject, ParameterObject, ReferenceObject, SchemaObject } from "openapi3-ts/oas31";
 import { z } from "zod";
 
-import type { DocModel, DocTechnicalField, OpenApiText } from "../../internal.js";
+import type { DocTechnicalField, OpenApiText } from "../../internal.js";
 import { addErrorResponseOpenApi } from "../../models/errors/errors.model.openapi.js";
 import { tagsOpenapi } from "../tags.openapi.js";
 import type { OpenapiRoute } from "../types.js";
@@ -77,16 +77,19 @@ function pickPropertiesOpenAPI<T extends Record<string, SchemaObject>, K extends
   );
 }
 
-function addSchemaModelDoc(schema: SchemaObject, doc: DocModel, lang: "en" | "fr"): SchemaObject {
-  return addSchemaDoc(
-    schema,
-    {
-      descriptions: [doc.description],
-      _: doc._,
-    },
-    lang,
-    []
-  );
+function addSchemaDocList<T extends SchemaObject | ReferenceObject>(
+  schemas: T[],
+  docs: DocTechnicalField[],
+  lang: "en" | "fr",
+  path: string[]
+): T[] {
+  if (schemas.length !== docs.length) {
+    throw new Error(`La documentation de tableau prefixe est plus longue que le tableau source: ${path.join(".")}`);
+  }
+
+  return schemas.map((schema, index) => {
+    return addSchemaDoc(schema, docs[index], lang, [...path, `[${index}]`]);
+  });
 }
 
 function addSchemaDoc<T extends SchemaObject | ReferenceObject | undefined>(
@@ -95,13 +98,13 @@ function addSchemaDoc<T extends SchemaObject | ReferenceObject | undefined>(
   lang: "en" | "fr",
   path: string[]
 ): T {
-  if (!schema || "$ref" in schema) {
+  if (!schema || "$ref" in schema || !doc) {
     return schema;
   }
 
   const output: SchemaObject = { ...schema, ...getDocOpenAPIAttributes(doc, lang) };
 
-  const docProperties = doc?._;
+  const docProperties = doc.properties;
 
   if (output.properties && docProperties) {
     const schemaProps = new Set(Object.keys(output.properties));
@@ -118,7 +121,7 @@ function addSchemaDoc<T extends SchemaObject | ReferenceObject | undefined>(
     output.properties = Object.entries(output.properties).reduce(
       (acc, [prop, propSchema]) => {
         if (prop in docProperties) {
-          acc[prop] = addSchemaDoc(propSchema, docProperties[prop], lang, [...path, prop]);
+          acc[prop] = addSchemaDoc(propSchema, docProperties[prop], lang, [...path, "properties", prop]);
         } else {
           acc[prop] = propSchema;
         }
@@ -129,31 +132,33 @@ function addSchemaDoc<T extends SchemaObject | ReferenceObject | undefined>(
     );
   }
 
-  if (output.items && docProperties) {
-    const docProps = new Set(Object.keys(docProperties));
-
-    if (docProps.size !== 1 || !docProps.has("[]")) {
-      throw new Error(
-        `La documentation des items de tableau doivent etre "[]": ${[...docProps].map((p) => `${path.join(".")}.${p}`).join(", ")}`
-      );
-    }
-
-    output.items = addSchemaDoc(output.items, docProperties["[]"], lang, [...path, "[]"]);
+  if (output.items && doc.items) {
+    output.items = addSchemaDoc(output.items, doc.items, lang, [...path, "items"]);
   }
 
-  if (output.prefixItems && docProperties) {
-    if (output.prefixItems.length < Object.keys(docProperties).length) {
-      throw new Error(
-        `La documentation des items de tableau prefixe est plus longue que le tableau: ${path.join(".")}`
-      );
-    }
-
-    output.prefixItems = output.prefixItems.map((item, index): SchemaObject | ReferenceObject => {
-      if (index in docProperties) {
-        return addSchemaDoc(item, docProperties[index], lang, [...path, `${index}`]);
-      }
-      return item;
-    });
+  if (output.allOf && doc.allOf) {
+    output.allOf = addSchemaDocList(output.allOf, doc.allOf, lang, [...path, "allOf"]);
+  }
+  if (output.oneOf && doc.oneOf) {
+    output.oneOf = addSchemaDocList(output.oneOf, doc.oneOf, lang, [...path, "oneOf"]);
+  }
+  if (output.anyOf && doc.anyOf) {
+    output.anyOf = addSchemaDocList(output.anyOf, doc.anyOf, lang, [...path, "anyOf"]);
+  }
+  if (output.not && doc.not) {
+    output.not = addSchemaDoc(output.not, doc.not, lang, [...path, "not"]);
+  }
+  if (typeof output.additionalProperties === "object" && doc.additionalProperties) {
+    output.additionalProperties = addSchemaDoc(output.additionalProperties, doc.additionalProperties, lang, [
+      ...path,
+      "additionalProperties",
+    ]);
+  }
+  if (output.propertyNames && doc.propertyNames) {
+    output.propertyNames = addSchemaDoc(output.propertyNames, doc.propertyNames, lang, [...path, "propertyNames"]);
+  }
+  if (output.prefixItems && doc.prefixItems) {
+    output.prefixItems = addSchemaDocList(output.prefixItems, doc.prefixItems, lang, [...path, "prefixItems"]);
   }
 
   return output as T;
@@ -275,11 +280,4 @@ function addOperationDoc(route: OpenapiRoute, lang: "en" | "fr"): OperationObjec
   return addErrorResponseOpenApi(output);
 }
 
-export {
-  addSchemaModelDoc,
-  addOperationDoc,
-  zodOpenApi,
-  getDocOpenAPIAttributes,
-  pickPropertiesOpenAPI,
-  getTextOpenAPI,
-};
+export { addSchemaDoc, addOperationDoc, zodOpenApi, getDocOpenAPIAttributes, pickPropertiesOpenAPI, getTextOpenAPI };

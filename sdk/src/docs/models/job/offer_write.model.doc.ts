@@ -1,20 +1,20 @@
-import type { DocModel } from "../../types.js";
+import type { DocTechnicalField } from "../../types.js";
 import { offerReadModelDoc } from "./offer_read.model.doc.js";
 import applyDescEn from "./offer_write_docs/en/apply.description.md.js";
 import applyDescFr from "./offer_write_docs/fr/apply.description.md.js";
 
 export const offerWriteModelDoc = {
-  description: { en: null, fr: "Offre d'emploi" },
-  _: {
-    contract: offerReadModelDoc._.contract,
+  descriptions: [{ en: null, fr: "Offre d'emploi" }],
+  properties: {
+    contract: offerReadModelDoc.properties.contract,
     offer: {
-      ...offerReadModelDoc._.offer,
-      _: {
-        access_conditions: offerReadModelDoc._.offer._.access_conditions,
-        description: offerReadModelDoc._.offer._.description,
-        desired_skills: offerReadModelDoc._.offer._.desired_skills,
-        opening_count: offerReadModelDoc._.offer._.opening_count,
-        publication: offerReadModelDoc._.offer._.publication,
+      ...offerReadModelDoc.properties.offer,
+      properties: {
+        access_conditions: offerReadModelDoc.properties.offer.properties.access_conditions,
+        description: offerReadModelDoc.properties.offer.properties.description,
+        desired_skills: offerReadModelDoc.properties.offer.properties.desired_skills,
+        opening_count: offerReadModelDoc.properties.offer.properties.opening_count,
+        publication: offerReadModelDoc.properties.offer.properties.publication,
         multicast: {
           descriptions: [
             {
@@ -36,13 +36,11 @@ export const offerWriteModelDoc = {
               fr: null,
             },
           ],
-          _: {
-            "[]": offerReadModelDoc._.offer._.rome_codes._["[]"],
-          },
+          items: offerReadModelDoc.properties.offer.properties.rome_codes.items,
         },
         status: {
           descriptions: [
-            ...offerReadModelDoc._.offer._.status.descriptions,
+            ...offerReadModelDoc.properties.offer.properties.status.descriptions,
             {
               en: "When creating an offer, only active offers are accepted. However, during an update, it is possible to cancel or mark an offer as filled.",
               fr: null,
@@ -51,22 +49,22 @@ export const offerWriteModelDoc = {
           examples: ["Active", "Filled", "Cancelled"],
         },
         target_diploma: {
-          ...offerReadModelDoc._.offer._.target_diploma,
-          _: {
-            european: offerReadModelDoc._.offer._.target_diploma._.european,
+          ...offerReadModelDoc.properties.offer.properties.target_diploma,
+          properties: {
+            european: offerReadModelDoc.properties.offer.properties.target_diploma.properties.european,
           },
         },
-        title: offerReadModelDoc._.offer._.title,
-        to_be_acquired_skills: offerReadModelDoc._.offer._.to_be_acquired_skills,
+        title: offerReadModelDoc.properties.offer.properties.title,
+        to_be_acquired_skills: offerReadModelDoc.properties.offer.properties.to_be_acquired_skills,
       },
     },
     workplace: {
-      ...offerReadModelDoc._.workplace,
-      _: {
-        description: offerReadModelDoc._.workplace._.description,
+      ...offerReadModelDoc.properties.workplace,
+      properties: {
+        description: offerReadModelDoc.properties.workplace.properties.description,
         location: {
-          ...offerReadModelDoc._.workplace._.location,
-          _: {
+          ...offerReadModelDoc.properties.workplace.properties.location,
+          properties: {
             address: {
               descriptions: [
                 { en: "Address of the job offer", fr: null },
@@ -79,9 +77,9 @@ export const offerWriteModelDoc = {
             },
           },
         },
-        name: offerReadModelDoc._.workplace._.name,
+        name: offerReadModelDoc.properties.workplace.properties.name,
         siret: {
-          ...offerReadModelDoc._.workplace._.siret,
+          ...offerReadModelDoc.properties.workplace.properties.siret,
           descriptions: [
             { en: "SIRET of the contract execution location", fr: null },
             {
@@ -90,18 +88,18 @@ export const offerWriteModelDoc = {
             },
           ],
         },
-        website: offerReadModelDoc._.workplace._.website,
+        website: offerReadModelDoc.properties.workplace.properties.website,
       },
     },
     apply: {
-      ...offerReadModelDoc._.apply,
+      ...offerReadModelDoc.properties.apply,
       descriptions: [{ en: applyDescEn, fr: applyDescFr }],
-      _: {
+      properties: {
         email: {
           descriptions: [{ en: "Recruiter's email adress", fr: null }],
           examples: ["jean.dupuis@beta.gouv.fr"],
         },
-        phone: offerReadModelDoc._.apply._.phone,
+        phone: offerReadModelDoc.properties.apply.properties.phone,
         url: {
           descriptions: [{ en: "Redirect URL", fr: null }],
           examples: [
@@ -111,4 +109,4 @@ export const offerWriteModelDoc = {
       },
     },
   },
-} as const satisfies DocModel;
+} as const satisfies DocTechnicalField;

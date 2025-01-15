@@ -4,9 +4,17 @@ export type OpenApiText = {
 };
 
 export interface DocTechnicalField {
-  readonly descriptions: OpenApiText[] | null;
-  readonly examples?: ReadonlyArray<unknown>;
-  readonly _?: Record<string, DocTechnicalField>;
+  descriptions: OpenApiText[] | null;
+  examples?: ReadonlyArray<unknown>;
+  allOf?: DocTechnicalField[];
+  oneOf?: DocTechnicalField[];
+  anyOf?: DocTechnicalField[];
+  not?: DocTechnicalField;
+  items?: DocTechnicalField;
+  properties?: Record<string, DocTechnicalField>;
+  additionalProperties?: DocTechnicalField;
+  propertyNames?: DocTechnicalField;
+  prefixItems?: DocTechnicalField[];
 }
 
 export type DataSource = {
@@ -14,11 +22,6 @@ export type DataSource = {
   logo: { href: string };
   providers: string[];
   href: string;
-};
-
-export type DocModel = {
-  readonly description: OpenApiText;
-  readonly _: Record<string, DocTechnicalField>;
 };
 
 export type DocModelRow = {

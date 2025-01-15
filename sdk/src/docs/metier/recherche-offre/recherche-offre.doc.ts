@@ -67,12 +67,12 @@ export const rechercheOffrePageSummaryDoc = {
 export const rechercheOffrePageDoc = {
   description: [
     {
-      en: "<strong>Access all apprenticeship job opportunities in France for free and in real-time.</strong> The job opportunities returned are those collected on {{- lienLba }}, retrieved by France Travail, and shared by our partners.",
-      fr: "<strong>Accédez gratuitement en temps réel à l'ensemble des opportunités d'emploi en alternance sur le territoire français.</strong> Les opportunités d’emploi retournées sont celles collectées sur {{- lienLba }}, récupérées par France Travail et partagées par nos partenaires.",
+      en: "**Access all apprenticeship job opportunities in France for free and in real-time.** The job opportunities returned are those collected on {{- lienLba }}, retrieved by France Travail, and shared by our partners.",
+      fr: "**Accédez gratuitement en temps réel à l'ensemble des opportunités d'emploi en alternance sur le territoire français.** Les opportunités d’emploi retournées sont celles collectées sur {{- lienLba }}, récupérées par France Travail et partagées par nos partenaires.",
     },
     {
-      en: "<strong>💡 You can search all job opportunities based on the following criteria:</strong> ROME code(s), RNCP, geolocation, diploma level, and search radius.",
-      fr: "<strong>💡 Vous pouvez rechercher dans l’ensemble opportunités d’emploi selon les critères suivants :</strong> Code(s) ROME, RNCP, géolocalisation, niveau de diplôme et rayon de recherche.",
+      en: "**💡 You can search all job opportunities based on the following criteria:** ROME code(s), RNCP, geolocation, diploma level, and search radius.",
+      fr: "**💡 Vous pouvez rechercher dans l’ensemble opportunités d’emploi selon les critères suivants :** Code(s) ROME, RNCP, géolocalisation, niveau de diplôme et rayon de recherche.",
     },
   ],
   frequenceMiseAJour: "daily",

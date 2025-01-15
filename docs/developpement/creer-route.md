@@ -48,6 +48,7 @@ Le code relatif à la définition des routes, et de la documentation se trouve d
    1. Utiliser `z.unknown()` pour les champs `body`, `response` & `querystring`. Pour `params`, vous devez les renseigner car elles sont utilisé dans le `path`.
    2. Ne pas oublier d'exporter la route dans le fichier `sdk/src/routes/index.ts`.
    3. Ne pas oublier d'ajouter la route dans la variable `zApiRoutes` du fichier `sdk/src/routes/index.ts`.
+   4. En cas de besoin de nouvelle permissions, editer le fichier `sdk/src/routes/security/permissions.ts`
 2. Ajouter la route dans le fichier `server/src/server/routes/<nom du domaine>/<nom de la route>.routes.ts` (ex: `server/src/server/routes/job/job.routes.ts`)
    1. Utiliser `forwardApiRequest` pour les routes passe-plat.
    2. Attention de bien passer le `Content-Type` adéquat, pour le parsing des data en `json` coté LBA.
@@ -83,22 +84,56 @@ La documentation technique est plus complexe à maintenir car:
 
 #### Création de la documentation technique des modeles
 
-1. Créer les spécifications des models utilisés dans la spec openapi dans un fichier `sdk/src/models/<nom>/<nom>.model.openapi.ts`
+1. Générer le schema openapi et la doc technique à partir de la specification de l'API externe
+   1. Copier le contenu de type `SchemaObject` depuis la doc openapi de l'API externe dans un fichier `./tmp/source.json`
+   2. Lancer le build `yarn typecheck && yarn build:dev`
+   3. Lancer la commande `yarn cli dev:doc:init:external:model ./tmp/source.json ./tmp/out.model.doc.json ./tmp/out.model.openapi.json`
+   4. La command génère 2 fichiers:
+      1. `./tmp/out.model.doc.json`: Contient la documentation technique des champs du model (à copier dans le fichier `sdk/src/docs/models/<nom>/<nom>.model.doc.ts`)
+      2. `./tmp/out.model.openapi.json`: Contient la définition du model openapi (à utiliser pour la propriété `schema` du model dans le fichier `sdk/src/models/<nom>/<nom>.model.openapi.ts`)
+2. Créer les spécifications des models utilisés dans la spec openapi dans un fichier `sdk/src/models/<nom>/<nom>.model.openapi.ts`
    1. La définition zod est inconnue de l'API. Ainsi il est nécessaire d'utiliser `zodOpenApi.unknown()`.
    2. Veuiller référencer le model zod pour la bonne exécution des tests `zodOpenApi.unknown().openapi(<nom>)`
-   3. Pour la création du schema initial, vous pouvez simplement copier/coller la définition issue de la définition Openapi de l'API externe. **TODO: script**
-   4. **TODO: doc part**
-2. Exporter ce fichier dans `sdk/src/models/internal.ts`
-3. Référencer le model dans la variable `openapiSpec` du fichier `sdk/src/openapi/openapiSpec.ts`
+3. Exporter ce fichier dans `sdk/src/models/internal.ts`
+4. Référencer le model dans la variable `openapiSpec` du fichier `sdk/src/openapi/openapiSpec.ts`
+5. Vérifier que la documentation technique est correcte en lançant les tests `yarn typecheck && yarn test sdk/src/openapi`
+6. Mettez à jour le snapshot `openapi` en lançant les tests `yarn typecheck && yarn test shared/src/openapi`
 
 #### Création de la documentation technique des routes
 
-- Permission `sdk/src/routes/security/permissions.ts`
+1. Générer le schema openapi et la doc technique à partir de la specification de l'API externe
+   1. Copier le contenu de type `OperationObject` depuis la doc openapi de l'API externe dans un fichier `./tmp/source.json`
+   2. Lancer le build `yarn typecheck && yarn build:dev`
+   3. Lancer la commande `yarn cli dev:doc:init:external:route ./tmp/source.json ./tmp/out.route.doc.json ./tmp/out.route.openapi.json`
+   4. La command génère 2 fichiers:
+      1. `./tmp/out.route.doc.json`: Contient la documentation technique de la route (à copier dans le fichier `sdk/src/docs/routes/<nom>/<nom>.route.doc.ts`)
+      2. `./tmp/out.route.openapi.json`: Contient la définition de la route openapi (à utiliser pour la propriété `schema` de la route dans le fichier `sdk/src/routes/<nom>/<nom>.routes.openapi.ts`)
+2. Si besoin, ajouter le tag dans le fichier `sdk/src/openapi/tags.openapi.ts`
+3. Créer les spécifications des routes utilisés dans la spec openapi dans un fichier `sdk/src/routes/<nom>/<nom>.route.openapi.ts`
+4. Exporter ce fichier dans `sdk/src/routes/internal.ts`
+5. Référencer la route dans la variable `openapiSpec` du fichier `sdk/src/openapi/openapiSpec.ts`
+6. Vérifier que la documentation technique est correcte en lançant les tests `yarn typecheck && yarn test sdk/src/openapi`
+
+#### Modification de la documentation technique
+
+Il est possible que certaines définitions générées ne soient pas correctes. Dans ce cas, il est possible de modifier les fichiers `sdk/src/docs/models/<nom>/<nom>.model.doc.ts` & `sdk/src/docs/routes/<nom>/<nom>.route.doc.ts` manuellement pour ajuster le modèle openapi (la documentation technique des champs est généré automatiquement par LBA, ainsi il y a certains points non géré correctement).
 
 #### Validation de la documentation technique
 
-- `server/src/services/documentation/checkDocumentationSync.ts`
-- `server/src/services/documentation/expectedDocumentationDelta.ts`
+Pour s'assurer que la documenatation technique est à jour avec l'API distante, nous avons mis en place un CRON job qui vérifie la cohérence de la documentation technique.
+
+Ce controle est effectué par le fichier `server/src/services/documentation/checkDocumentationSync.ts` qui compare la documentation technique avec la documentation de l'API distante.
+
+Étant donné que la documentation de l'API distante peut être modifié, il est possible de mettre à jour la documentation technique en utilisant le fichier `server/src/services/documentation/expectedDocumentationDelta.ts`.
+
+1. Mettre à jour la variable `OPERATION_MAPPING` avec le mapping de la nouvelle route dans le fichier `server/src/services/documentation/checkDocumentationSync.ts`
+2. Lancer la commande `yarn cli job:run -n doc:check_sync` pour vérifier la cohérence de la documentation technique.
+3. En cas d'erreur de synchronisation, la commande va afficher 2 variables:
+   1. `delta`: La liste des différences entre la delta attendu et la delta actuel
+   2. `result`: La liste des differences entre la documentation technique et la documentation de l'API distante actuel.
+4. Vous avez 2 possibilités pour corriger le problème:
+   1. Mettre à jour la documentation technique en utilisant le fichier `server/src/services/documentation/expectedDocumentationDelta.ts` via la valeur `result`
+   2. Mettre à jour la documentation technique pour qu'elle corresponde à la documentation de l'API distante via la valeur `delta`.
 
 ## Création d'une route native
 

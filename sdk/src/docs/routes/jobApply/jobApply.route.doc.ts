@@ -18,7 +18,7 @@ export const jobApplyRouteDoc = {
     description: { en: "Success", fr: "Succès" },
     content: {
       descriptions: null,
-      _: {
+      properties: {
         id: {
           descriptions: [{ fr: "Identifiant de la candidature.", en: "Application's identifier." }],
         },

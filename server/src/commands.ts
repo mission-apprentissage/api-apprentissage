@@ -1,10 +1,14 @@
 import { setMaxListeners } from "node:events";
+import { readFile, writeFile } from "node:fs/promises";
+import { join } from "node:path";
 
 import { captureException } from "@sentry/node";
 import { parseApiAlternanceToken } from "api-alternance-sdk";
+import { initModelTechnicalDocFromSource, initRouteTechnicalDocFromSource } from "api-alternance-sdk/internal";
 import { program } from "commander";
 import { addJob, startJobProcessor } from "job-processor";
 import HttpTerminator from "lil-http-terminator";
+import type { SchemaObject } from "openapi3-ts/oas31";
 
 import config from "./config.js";
 import createServer from "./server/server.js";
@@ -227,6 +231,40 @@ program
     logger.info({ token });
 
     logger.info(parseApiAlternanceToken({ token, publicKey: config.api.alternance.public_cert }));
+  });
+
+program
+  .command("dev:doc:init:external:model")
+  .description("Create a new model form external source")
+  .argument("<sourceFile>", "Source Openapi SchemaObject file")
+  .argument("<outputDocFile>", "Output doc file")
+  .argument("<outputSchemaFile>", "Output spec file")
+  .option("--lang <string>", "Source language", "fr")
+  .action(async (sourceFile, outputDocFile, outputSchemaFile, { lang }) => {
+    const sourceRaw = await readFile(join(process.cwd(), "..", sourceFile), "utf-8");
+    const source: SchemaObject = JSON.parse(sourceRaw);
+
+    const { schema, doc } = initModelTechnicalDocFromSource(source, lang);
+
+    await writeFile(join(process.cwd(), "..", outputDocFile), JSON.stringify(doc, null, 2));
+    await writeFile(join(process.cwd(), "..", outputSchemaFile), JSON.stringify(schema, null, 2));
+  });
+
+program
+  .command("dev:doc:init:external:route")
+  .description("Create a new model form external source")
+  .argument("<sourceFile>", "Source Openapi OperationObject file")
+  .argument("<outputDocFile>", "Output doc file")
+  .argument("<outputOperationFile>", "Output spec file")
+  .option("--lang <string>", "Source language", "fr")
+  .action(async (sourceFile, outputDocFile, outputOperationFile, { lang }) => {
+    const sourceRaw = await readFile(join(process.cwd(), "..", sourceFile), "utf-8");
+    const source: SchemaObject = JSON.parse(sourceRaw);
+
+    const { operation, doc } = initRouteTechnicalDocFromSource(source, lang);
+
+    await writeFile(join(process.cwd(), "..", outputDocFile), JSON.stringify(doc, null, 2));
+    await writeFile(join(process.cwd(), "..", outputOperationFile), JSON.stringify(operation, null, 2));
   });
 
 export async function startCLI() {

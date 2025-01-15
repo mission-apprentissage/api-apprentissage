@@ -39,9 +39,9 @@ export function CataloguePage({ lang, t, page, doc }: Props) {
         </DsfrLink>
       </Box>
 
-      <CatalogueHeadline lang={lang} t={t} doc={certificationsPageDoc} title={page.getTitle(lang, t)} />
-      <CatalogueData doc={certificationsPageDoc} lang={lang} t={t} />
-      <DataSources sources={certificationsPageDoc.sources} />
+      <CatalogueHeadline lang={lang} t={t} doc={doc} title={page.getTitle(lang, t)} />
+      <CatalogueData doc={doc} lang={lang} t={t} />
+      <DataSources sources={doc.sources} />
     </Container>
   );
 }

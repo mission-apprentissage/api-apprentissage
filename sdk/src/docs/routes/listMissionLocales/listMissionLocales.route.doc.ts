@@ -21,10 +21,8 @@ export const listMissionLocalesRouteDoc = {
           en: "List of mission locales",
         },
       ],
-      _: {
-        "[]": {
-          descriptions: null,
-        },
+      items: {
+        descriptions: null,
       },
     },
   },

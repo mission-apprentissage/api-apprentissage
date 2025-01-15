@@ -1,8 +1,8 @@
-import type { DocModel } from "../../types.js";
+import type { DocTechnicalField } from "../../types.js";
 
 export const missionLocaleModelDoc = {
-  description: { en: null, fr: "Mission Locale" },
-  _: {
+  descriptions: [{ en: null, fr: "Mission Locale" }],
+  properties: {
     id: {
       descriptions: [{ en: null, fr: "Identifiant de la Mission Locale" }],
     },
@@ -19,23 +19,19 @@ export const missionLocaleModelDoc = {
           fr: "Localisation de la mission locale",
         },
       ],
-      _: {
+      properties: {
         geopoint: {
           descriptions: [{ en: null, fr: 'Coordonnés GPS au format GeoJSON "Point"' }],
-          _: {
+          properties: {
             type: {
               descriptions: null,
             },
             coordinates: {
               descriptions: null,
-              _: {
-                0: {
-                  descriptions: [{ en: null, fr: "Longitude" }],
-                },
-                1: {
-                  descriptions: [{ en: null, fr: "Latitude" }],
-                },
-              },
+              prefixItems: [
+                { descriptions: [{ en: null, fr: "Longitude" }] },
+                { descriptions: [{ en: null, fr: "Latitude" }] },
+              ],
             },
           },
         },
@@ -52,7 +48,7 @@ export const missionLocaleModelDoc = {
     },
     contact: {
       descriptions: [{ en: null, fr: "Contact de la mission locale" }],
-      _: {
+      properties: {
         email: {
           descriptions: [{ en: null, fr: "Email de contact de la mission locale" }],
         },
@@ -65,4 +61,4 @@ export const missionLocaleModelDoc = {
       },
     },
   },
-} as const satisfies DocModel;
+} as const satisfies DocTechnicalField;

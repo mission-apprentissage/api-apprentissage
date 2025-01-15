@@ -54,8 +54,6 @@ export type DocPage = {
     body: OpenApiText;
   };
   frequenceMiseAJour: "daily" | null;
-  note: null | OpenApiText;
-  warning: null | OpenApiText;
   type: "data" | "outil";
   sources: DataSource[];
   data: DocDatum[];

@@ -23,8 +23,6 @@ export const certificationsPageDoc = {
   ],
   emailDemandeHabilitations: null,
   frequenceMiseAJour: "daily",
-  note: null,
-  warning: null,
   type: "data",
   sources: [
     {

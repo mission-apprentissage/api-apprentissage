@@ -17,8 +17,6 @@ export const candidatureOffrePageDoc = {
     },
   ],
   frequenceMiseAJour: "daily",
-  note: null,
-  warning: null,
   type: "data",
   emailDemandeHabilitations: null,
   sources: [

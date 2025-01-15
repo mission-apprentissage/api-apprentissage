@@ -1,6 +1,7 @@
 import type { DocPage, OpenApiText } from "../../types.js";
 import applyDescEn from "./en/apply.description.md.js";
 import contractDescEn from "./en/contract.description.md.js";
+import descriptionEn from "./en/description.md.js";
 import identifierDescEn from "./en/identifier.description.md.js";
 import offerDescEn from "./en/offer.description.md.js";
 import offerPublicationDescEn from "./en/offer.publication.description.md.js";
@@ -9,6 +10,7 @@ import workplaceDomainDescEn from "./en/workplace.domain.description.md.js";
 import workplaceLocationDescEn from "./en/workplace.location.description.md.js";
 import applyDescFr from "./fr/apply.description.md.js";
 import contractDescFr from "./fr/contract.description.md.js";
+import descriptionFr from "./fr/description.md.js";
 import identifierDescFr from "./fr/identifier.description.md.js";
 import offerDescFr from "./fr/offer.description.md.js";
 import offerPublicationDescFr from "./fr/offer.publication.description.md.js";
@@ -67,12 +69,8 @@ export const rechercheOffrePageSummaryDoc = {
 export const rechercheOffrePageDoc = {
   description: [
     {
-      en: "**Access all apprenticeship job opportunities in France for free and in real-time.** The job opportunities returned are those collected on {{- lienLba }}, retrieved by France Travail, and shared by our partners.",
-      fr: "**Accédez gratuitement en temps réel à l'ensemble des opportunités d'emploi en alternance sur le territoire français.** Les opportunités d’emploi retournées sont celles collectées sur {{- lienLba }}, récupérées par France Travail et partagées par nos partenaires.",
-    },
-    {
-      en: "**💡 You can search all job opportunities based on the following criteria:** ROME code(s), RNCP, geolocation, diploma level, and search radius.",
-      fr: "**💡 Vous pouvez rechercher dans l’ensemble opportunités d’emploi selon les critères suivants :** Code(s) ROME, RNCP, géolocalisation, niveau de diplôme et rayon de recherche.",
+      en: descriptionEn,
+      fr: descriptionFr,
     },
   ],
   frequenceMiseAJour: "daily",
@@ -88,7 +86,7 @@ export const rechercheOffrePageDoc = {
   ],
   data: [
     {
-      name: { en: null, fr: "Offre d'emploi" },
+      name: { en: "Job Offer", fr: "Offre d'emploi" },
       sections: {
         identifier: recruiterSections.identifier,
         contract: {

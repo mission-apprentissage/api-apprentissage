@@ -11,5 +11,3 @@ Une offre d’emploi est décrite par :
 - Les compétences ou qualités à acquérir durant l'alternance. Exemple : Recherche, Innovation (Analyser les indicateurs pertinents sur les tendances et les usages des clients ; Concevoir et développer une solution digitale ; Créer une documentation technique). Nouvelles technologies (Assembler des composants logiciels ; Concevoir une application web)
 
 - Les conditions d’accès au métier. Exemple : Ce métier est accessible avec un diplôme de niveau Bac+2 (BTS, DUT) à Master (MIAGE, diplôme d'ingénieur, Master professionnel, ...) en informatique. Il est également accessible avec une expérience professionnelle en informatique, système d'exploitation ou dans un domaine applicatif. La pratique de l'anglais (vocabulaire technique) est requise.
-
-- Le mode de travail (présentiel, télétravail ou hybride).

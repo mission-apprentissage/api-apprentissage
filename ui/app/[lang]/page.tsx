@@ -188,7 +188,8 @@ function ProtectionDesDonneeSection({ lang }: WithLang) {
   );
 }
 
-export default async function Home({ params: { lang } }: PropsWithLangParams) {
+export default async function Home({ params }: PropsWithLangParams) {
+  const { lang } = await params;
   return (
     <>
       <VousEtesSection lang={lang} />

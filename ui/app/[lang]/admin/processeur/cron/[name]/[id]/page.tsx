@@ -1,6 +1,7 @@
 "use client";
 import { Box, Typography } from "@mui/material";
 import { ProcessorStatusTaskComponent } from "job-processor/dist/react";
+import { use } from "react";
 import { useTranslation } from "react-i18next";
 
 import { ProcessorStatusProvider } from "@/app/[lang]/admin/processeur/components/ProcessorStatusProvider";
@@ -10,9 +11,9 @@ import { publicConfig } from "@/config.public";
 import { PAGES } from "@/utils/routes.utils";
 
 export default function JobInstancePage({ params }: PropsWithLangParams<{ name: string; id: string }>) {
-  const name = decodeURIComponent(params.name);
-  const id = decodeURIComponent(params.id);
-  const { lang } = params;
+  const { name: rawName, id: rawId, lang } = use(params);
+  const name = decodeURIComponent(rawName);
+  const id = decodeURIComponent(rawId);
   const { t } = useTranslation("global", { lng: lang });
 
   return (

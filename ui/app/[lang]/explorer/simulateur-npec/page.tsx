@@ -10,7 +10,8 @@ import { PAGES } from "@/utils/routes.utils";
 import { SimulateurNpecContrat } from "./components/SimulateurNpecContrat";
 import { SimulateurNpecHeadline } from "./components/SimulateurNpecHeadline";
 
-export default async function SimulateurNpecPage({ params: { lang } }: PropsWithLangParams) {
+export default async function SimulateurNpecPage({ params }: PropsWithLangParams) {
+  const { lang } = await params;
   const { t } = await getServerTranslation(lang, "global");
 
   return (

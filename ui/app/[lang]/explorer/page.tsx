@@ -28,7 +28,8 @@ import { Artwork } from "@/components/artwork/Artwork";
 import { DsfrLink } from "@/components/link/DsfrLink";
 import { PAGES } from "@/utils/routes.utils";
 
-export default async function ExplorerApiPage({ params: { lang } }: PropsWithLangParams) {
+export default async function ExplorerApiPage({ params }: PropsWithLangParams) {
+  const { lang } = await params;
   const { t } = await getServerTranslation(lang, "explorer");
 
   return (

@@ -7,7 +7,8 @@ import { PAGES } from "@/utils/routes.utils";
 
 import UserList from "./components/UserList";
 
-export default async function AdminUsersPage({ params: { lang } }: PropsWithLangParams) {
+export default async function AdminUsersPage({ params }: PropsWithLangParams) {
+  const { lang } = await params;
   const { t } = await getServerTranslation(lang, "global");
   return (
     <>

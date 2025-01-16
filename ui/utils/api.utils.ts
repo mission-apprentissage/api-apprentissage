@@ -71,7 +71,8 @@ async function getHeaders(options: IRequestOptions) {
       // By default server-side we don't use headers
       // But we need them for the api, as all routes are authenticated
       const { headers: nextHeaders } = await import("next/headers");
-      const cookie = nextHeaders().get("cookie");
+      const h = await nextHeaders();
+      const cookie = h.get("cookie");
       if (cookie) {
         headers.append("cookie", cookie);
       }

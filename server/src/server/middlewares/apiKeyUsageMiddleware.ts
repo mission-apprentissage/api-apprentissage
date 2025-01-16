@@ -16,7 +16,9 @@ async function updateIndicateur(request: FastifyRequest, reply: FastifyReply) {
     const metadata: Omit<IIndicateurUsageApi, "_id" | "usage"> = {
       user_id: request.user.value._id,
       api_key_id: request.api_key._id,
-      method: request.routeOptions.method,
+      method: Array.isArray(request.routeOptions.method)
+        ? request.routeOptions.method.join(",")
+        : request.routeOptions.method,
       path: request.routeOptions.config.url,
       date: now,
     };

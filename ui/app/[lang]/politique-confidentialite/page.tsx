@@ -7,7 +7,8 @@ import { PAGES } from "@/utils/routes.utils";
 
 import PolitiqueConfidentialite from "./components/PolitiqueConfidentialite";
 
-export default async function PolitiqueConfidentialitePage({ params: { lang } }: PropsWithLangParams) {
+export default async function PolitiqueConfidentialitePage({ params }: PropsWithLangParams) {
+  const { lang } = await params;
   const { t } = await getServerTranslation(lang, "global");
   return (
     <Container maxWidth="xl">

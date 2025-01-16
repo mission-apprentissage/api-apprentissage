@@ -11,7 +11,7 @@ import { Box, Dialog, DialogContent, Typography } from "@mui/material";
 import { captureException } from "@sentry/nextjs";
 import NextLink from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import type { FieldError, SubmitHandler } from "react-hook-form";
 import { useController, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -41,7 +41,8 @@ function getInputState(error: FieldError | undefined | null): {
 
 const defaultErrorMessage = "Une erreur est survenue lors de l'envoi du formulaire. Veuillez réessayer ultérieurement.";
 
-export default function RegisterPage({ params: { lang } }: PropsWithLangParams) {
+export default function RegisterPage({ params }: PropsWithLangParams) {
+  const { lang } = use(params);
   const {
     register,
     handleSubmit,

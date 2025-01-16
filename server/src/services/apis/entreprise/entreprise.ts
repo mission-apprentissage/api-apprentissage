@@ -1,6 +1,7 @@
 import { internal, isBoom } from "@hapi/boom";
 import type { AxiosError, AxiosInstance } from "axios";
 import { isAxiosError } from "axios";
+import type { AxiosCacheInstance } from "axios-cache-interceptor";
 import axiosRetry, { exponentialDelay, isNetworkOrIdempotentRequestError } from "axios-retry";
 import type { IApiEntEtablissement, IApiEntUniteLegale } from "shared/models/cache/cache.entreprise.model";
 import { zApiEntEtablissement, zApiEntUniteLegale } from "shared/models/cache/cache.entreprise.model";
@@ -17,7 +18,7 @@ const rawClient = getApiClient({ baseURL: config.api.entreprise.baseurl }, { cac
 
 const SAFE_HTTP_METHODS: Array<string | undefined> = ["get", "head", "options"];
 
-axiosRetry(rawClient, {
+axiosRetry(rawClient as AxiosInstance, {
   retries: 3,
   retryDelay: exponentialDelay,
   retryCondition: (error: AxiosError) => {
@@ -151,7 +152,7 @@ function dropNonDiffusibleEtablissementData(data: IApiEntEtablissement | null): 
 }
 
 async function getEtablissementDiffusionPartielle(siret: string): Promise<IApiEntEtablissement | null> {
-  const rawResult = await apiEntrepriseClient(async (client: AxiosInstance) => {
+  const rawResult = await apiEntrepriseClient(async (client: AxiosInstance | AxiosCacheInstance) => {
     try {
       const response = await client.get(`insee/sirene/etablissements/${siret}`, {
         params: apiParams,
@@ -195,7 +196,7 @@ async function getEtablissementDiffusionPartielle(siret: string): Promise<IApiEn
 }
 
 async function getUniteLegaleDiffusionPartielle(siren: string): Promise<IApiEntUniteLegale | null> {
-  const rawResult = await apiEntrepriseClient(async (client: AxiosInstance) => {
+  const rawResult = await apiEntrepriseClient(async (client: AxiosInstance | AxiosCacheInstance) => {
     try {
       const response = await client.get(`insee/sirene/unites_legales/${siren}`, {
         params: apiParams,
@@ -260,7 +261,7 @@ export async function getEtablissementDiffusible(siret: string): Promise<IApiEnt
     return cached.data.etablissement;
   }
 
-  const rawResult = await apiEntrepriseClient(async (client: AxiosInstance) => {
+  const rawResult = await apiEntrepriseClient(async (client: AxiosInstance | AxiosCacheInstance) => {
     try {
       logger.debug(`[Entreprise API] Fetching etablissement diffusible ${siret}...`);
 
@@ -320,7 +321,7 @@ export async function getUniteLegaleDiffusible(siren: string): Promise<IApiEntUn
     return cached.data.unite_legale;
   }
 
-  const rawResult = await apiEntrepriseClient(async (client: AxiosInstance) => {
+  const rawResult = await apiEntrepriseClient(async (client: AxiosInstance | AxiosCacheInstance) => {
     try {
       logger.debug(`[Entreprise API] Fetching unite legale diffusible ${siren}...`);
 

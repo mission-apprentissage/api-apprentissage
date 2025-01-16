@@ -6,9 +6,17 @@
     "paths": {
       "@/*": ["./*"]
     },
-    "noErrorTruncation": true
+    "noErrorTruncation": true,
+    "target": "ES2017"
   },
-  "references": [{ "path": "../sdk" }, { "path": "../shared" }],
+  "references": [
+    {
+      "path": "../sdk"
+    },
+    {
+      "path": "../shared"
+    }
+  ],
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["**/node_modules", "public", ".next"]
 }

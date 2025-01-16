@@ -7,7 +7,8 @@ import { PAGES } from "@/utils/routes.utils";
 
 import Cgu from "./components/Cgu";
 
-export default async function CGUPage({ params: { lang } }: PropsWithLangParams) {
+export default async function CGUPage({ params }: PropsWithLangParams) {
+  const { lang } = await params;
   const { t } = await getServerTranslation(lang, "global");
   return (
     <Container maxWidth="xl">

@@ -70,6 +70,17 @@ export const jobRoutesOpenapi = {
             name: "rncp",
             in: "query",
           },
+          {
+            schema: {
+              type: "array",
+              items: {
+                type: "string",
+              },
+            },
+            required: false,
+            name: "partners_to_exclude",
+            in: "query",
+          },
         ],
         responses: {
           "200": {

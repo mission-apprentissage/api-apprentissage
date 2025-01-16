@@ -66,10 +66,6 @@ export const certificationsPageDoc = {
                 title: { en: null, fr: "structure des codes CFD et RNCP" },
                 content: { en: null, fr: identifiantTipFr },
               },
-              notes: {
-                en: null,
-                fr: "- les fiches RNCP antérieures à la réforme de 2019 ont certaines données qui ne sont pas renseignées, elles sont identifiées par le champ `rncp_anterieur_2019` à `true`.",
-              },
             },
           },
         },
@@ -83,14 +79,9 @@ export const certificationsPageDoc = {
               },
               sample: { en: null, fr: "exemple : du 01.09.2021 au 31.08.2026" },
               tags: [".debut", ".fin"],
-              notes: {
-                en: null,
-                fr: "Les dates sont retournées au format ISO 8601 avec le fuseau horaire Europe/Paris.",
-              },
             },
             cfd: {
               description: { en: null, fr: periodeValiditeCfdDescFr },
-              notes: { en: null, fr: "- `null` lorsque le champs `identifiant.cfd` est `null`." },
               tags: [".ouverture", ".fermeture", ".premiere_session", ".derniere_session"],
             },
             rncp: {
@@ -99,7 +90,6 @@ export const certificationsPageDoc = {
                 en: null,
                 fr: "Un enregistrement au RNCP est de maximum 5 ans, dépassé ce délai toute fiche doit fait l’objet d’une demande de renouvellement.",
               },
-              notes: { en: null, fr: "- `null` lorsque le champs `identifiant.rncp` est `null`." },
               tags: [".actif", ".activation", ".debut_parcours", ".fin_enregistrement"],
             },
           },

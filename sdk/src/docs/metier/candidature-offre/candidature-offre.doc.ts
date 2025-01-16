@@ -49,12 +49,9 @@ export const candidatureOffrePageDoc = {
             },
             applicant_phone: {
               description: { en: "Applicant's phone", fr: "Numéro de téléphone du candidat" },
-              tip: {
-                title: { en: "Format", fr: "Format" },
-                content: {
-                  en: "Only European phone numbers are allowed. There is also a check on the nature of the number: only mobile and landline phones are allowed.",
-                  fr: "Seuls les numéros de téléphone européens sont autorisés. Il y a également une vérification sur la nature du numéro : seuls les téléphones mobiles et fixes sont autorisés.",
-                },
+              information: {
+                en: "Only European phone numbers are allowed. There is also a check on the nature of the number: only mobile and landline phones are allowed.",
+                fr: "Seuls les numéros de téléphone européens sont autorisés. Il y a également une vérification sur la nature du numéro : seuls les téléphones mobiles et fixes sont autorisés.",
               },
             },
           },
@@ -64,12 +61,9 @@ export const candidatureOffrePageDoc = {
           rows: {
             applicant_attachment_content: {
               description: { en: "Resume file", fr: "CV du candidat" },
-              tip: {
-                title: { en: "File restrictions", fr: "Contraintes sur le fichier" },
-                content: {
-                  en: "The file must be base64 encoded and only PDF and DOCX format are allowed. File size must be under 3MB.",
-                  fr: "Le CV encodé en base64, et seul les formats PDF et DOCX sont autorisés. La taille du fichier ne doit pas dépasser 3Mo.",
-                },
+              information: {
+                en: "The file must be base64 encoded and only PDF and DOCX format are allowed. File size must be under 3MB.",
+                fr: "Le CV encodé en base64, et seul les formats PDF et DOCX sont autorisés. La taille du fichier ne doit pas dépasser 3Mo.",
               },
             },
             applicant_attachment_name: {

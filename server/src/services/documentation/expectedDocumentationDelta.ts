@@ -15,20 +15,14 @@ export const expectedDocumentationDelta: Record<string, StructureDiff<"lba", "ap
         source: ["number", "null"],
         result: "number",
       },
-      "parameters.query:partners_to_exclude": {
+      "parameters.query:partners_to_exclude.schema.items.enum": {
         type: "removed",
-        source: {
-          name: "partners_to_exclude",
-          in: "query",
-          required: false,
-          schema: {
-            type: ["array", "null"],
-            items: {
-              type: "string",
-              enum: ["Hello work", "RH Alternance"],
-            },
-          },
-        },
+        source: ["Hello work", "RH Alternance"],
+      },
+      "parameters.query:partners_to_exclude.schema.type": {
+        type: "changed",
+        source: ["array", "null"],
+        result: "array",
       },
       "parameters.query:radius.schema.type": {
         type: "changed",
@@ -107,10 +101,6 @@ export const expectedDocumentationDelta: Record<string, StructureDiff<"lba", "ap
         type: "removed",
         source: {},
       },
-      "requestBody.content.application/json.schema.properties.offer.properties.status.default": {
-        type: "removed",
-        source: "Active",
-      },
       "requestBody.content.application/json.schema.properties.workplace.properties.location.default": {
         type: "removed",
         source: {},
@@ -149,10 +139,6 @@ export const expectedDocumentationDelta: Record<string, StructureDiff<"lba", "ap
       "requestBody.content.application/json.schema.properties.offer.properties.publication.default": {
         type: "removed",
         source: {},
-      },
-      "requestBody.content.application/json.schema.properties.offer.properties.status.default": {
-        type: "removed",
-        source: "Active",
       },
       "requestBody.content.application/json.schema.properties.workplace.properties.location.default": {
         type: "removed",

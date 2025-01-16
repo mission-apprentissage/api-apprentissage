@@ -43,6 +43,15 @@ export const jobSearchRouteDoc = {
       descriptions: [{ en: target_diploma_level, fr: null }],
       examples: ["3", "4", "5", "6", "7"],
     },
+    partners_to_exclude: {
+      descriptions: [
+        {
+          en: "List of partners labels to exclude from the search",
+          fr: "Liste des labels de partenaires à exclure de la recherche",
+        },
+      ],
+      examples: ["Hello work", "RH Alternance"],
+    },
   },
   response: {
     description: { en: "Success", fr: "Succès" },

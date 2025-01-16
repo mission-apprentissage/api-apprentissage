@@ -19,33 +19,20 @@ import workplaceDomainDescFr from "./fr/workplace.domain.description.md.js";
 import workplaceLocationDescFr from "./fr/workplace.location.description.md.js";
 
 const recruiterSections = {
-  identifier: {
-    name: { en: "Identifier", fr: null },
-    rows: {
-      identifier: {
-        metier: true,
-        description: { en: identifierDescEn, fr: identifierDescFr },
-        tags: [],
-      },
-    },
-  },
   workplace: {
     name: { en: "Workplace", fr: null },
     rows: {
       workplace: {
-        metier: true,
         description: { en: workplaceDescEn, fr: workplaceDescFr },
-        tags: [],
+        tags: [".siret", ".name", ".description", ".brand", ".legal_name", ".size", ".website"],
       },
       location: {
-        metier: true,
         description: { en: workplaceLocationDescEn, fr: workplaceLocationDescFr },
-        tags: [],
+        tags: [".address", ".geopoint"],
       },
       domain: {
-        metier: true,
         description: { en: workplaceDomainDescEn, fr: workplaceDomainDescFr },
-        tags: [],
+        tags: [".idcc", ".naf", ".opco"],
       },
     },
   },
@@ -53,9 +40,8 @@ const recruiterSections = {
     name: { en: "Apply", fr: null },
     rows: {
       apply: {
-        metier: true,
         description: { en: applyDescEn, fr: applyDescFr },
-        tags: [],
+        tags: [".recipient_id", ".phone", ".url"],
       },
     },
   },
@@ -88,13 +74,21 @@ export const rechercheOffrePageDoc = {
     {
       name: { en: "Job Offer", fr: "Offre d'emploi" },
       sections: {
-        identifier: recruiterSections.identifier,
+        identifier: {
+          name: { en: "Identifier", fr: null },
+          rows: {
+            identifier: {
+              description: { en: identifierDescEn, fr: identifierDescFr },
+              tags: [".id", ".partner_job_id", ".partner_label"],
+            },
+          },
+        },
         contract: {
           name: { en: "Contract", fr: null },
           rows: {
             contract: {
               description: { en: contractDescEn, fr: contractDescFr },
-              tags: [],
+              tags: [".duration", ".start", ".type", ".remote"],
             },
           },
         },
@@ -107,11 +101,21 @@ export const rechercheOffrePageDoc = {
                 en: "The ROME corresponds to the Operational Reference for Jobs and Occupations. Designed by France Travail (formerly Pôle Emploi), this reference system presents all professions grouped into profiles, organized by professional fields.",
                 fr: "Le ROME correspond au Référentiel Opérationnel des Métiers et des Emplois. Conçu par France Travail (anciennement Pôle Emploi), ce référentiel présente l'ensemble des métiers regroupés par fiches, organisées par domaines professionnels.",
               },
-              tags: [],
+              tags: [
+                ".access_conditions",
+                ".description",
+                ".desired_skills",
+                ".opening_count",
+                ".rome_codes",
+                ".status",
+                ".target_diploma",
+                ".title",
+                ".to_be_acquired_skills",
+              ],
             },
             publication: {
               description: { en: offerPublicationDescEn, fr: offerPublicationDescFr },
-              tags: [],
+              tags: [".creation", ".expiration"],
             },
           },
         },
@@ -121,7 +125,21 @@ export const rechercheOffrePageDoc = {
     },
     {
       name: { en: "Recruiter", fr: "Recruteur" },
-      sections: recruiterSections,
+      sections: {
+        identifier: {
+          name: { en: "Identifier", fr: null },
+          rows: {
+            identifier: {
+              description: {
+                en: "The unique identifier of the potential recruiter identified by La bonne alternance.",
+                fr: "L'identifiant unique du recruiteur potentiel identifié par La bonne alternance.",
+              },
+              tags: [".id"],
+            },
+          },
+        },
+        ...recruiterSections,
+      },
     },
   ],
 } as const satisfies DocPage;

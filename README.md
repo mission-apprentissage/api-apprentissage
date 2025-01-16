@@ -17,3 +17,4 @@
 ## Guides
 
 - [Ajouter une route](./docs/developpement/creer-route.md)
+- [Modifier la documentation](./docs/developpement/modifier-documentation.md)

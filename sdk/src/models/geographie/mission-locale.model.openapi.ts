@@ -14,21 +14,12 @@ const missionLocaleSchema = {
       type: "object",
       properties: {
         geopoint: {
-          type: ["object", "null"],
-          properties: {
-            type: { type: "string", enum: ["Point"] },
-            coordinates: {
-              type: "array",
-              prefixItems: [
-                { type: "number", minimum: -180, maximum: 180 },
-                { type: "number", minimum: -90, maximum: 90 },
-              ],
-              minItems: 2,
-              maxItems: 2,
+          oneOf: [
+            { type: "null" },
+            {
+              $ref: "#/components/schemas/GeoJsonPoint",
             },
-          },
-          additionalProperties: false,
-          required: ["type", "coordinates"],
+          ],
         },
         adresse: { type: "string" },
         cp: { type: "string" },

@@ -77,25 +77,6 @@ export const recruiterModelDoc = {
                 { en: "Geolocation linked to the address", fr: null },
                 { en: "Derived from the address.", fr: null },
               ],
-              properties: {
-                coordinates: {
-                  descriptions: [{ en: "Coordinates of the geolocation linked to the address", fr: null }],
-                  prefixItems: [
-                    {
-                      descriptions: [{ en: "Longitude", fr: null }],
-                      examples: [48.850699],
-                    },
-                    {
-                      descriptions: [{ en: "Latitude", fr: null }],
-                      examples: [2.308628],
-                    },
-                  ],
-                },
-                type: {
-                  descriptions: [{ en: "GeoJSON type related to the geolocation linked to the address", fr: null }],
-                  examples: ["Point"],
-                },
-              },
             },
           },
         },

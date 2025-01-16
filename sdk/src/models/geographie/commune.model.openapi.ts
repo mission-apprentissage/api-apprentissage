@@ -70,49 +70,16 @@ const communeSchema = {
       type: "object",
       properties: {
         centre: {
-          type: "object",
-          properties: {
-            type: { type: "string", enum: ["Point"] },
-            coordinates: {
-              type: "array",
-              prefixItems: [
-                { type: "number", minimum: -180, maximum: 180 },
-                { type: "number", minimum: -90, maximum: 90 },
-              ],
-              minItems: 2,
-              maxItems: 2,
-            },
-          },
-          required: ["type", "coordinates"],
-          additionalProperties: false,
+          $ref: "#/components/schemas/GeoJsonPoint",
         },
         bbox: {
-          type: "object",
-          properties: {
-            type: { type: "string", enum: ["Polygon"] },
-            coordinates: {
-              type: "array",
-              items: {
-                type: "array",
-                items: {
-                  type: "array",
-                  prefixItems: [
-                    { type: "number", minimum: -180, maximum: 180 },
-                    { type: "number", minimum: -90, maximum: 90 },
-                  ],
-                  minItems: 2,
-                  maxItems: 2,
-                },
-              },
-            },
-          },
-          required: ["type", "coordinates"],
+          $ref: "#/components/schemas/GeoJsonPolygon",
         },
       },
       required: ["centre", "bbox"],
     },
     mission_locale: {
-      anyOf: [{ type: "null" }, { $ref: "#/components/schemas/MissionLocale" }],
+      oneOf: [{ type: "null" }, { $ref: "#/components/schemas/MissionLocale" }],
     },
   },
   required: [

@@ -22,18 +22,7 @@ export const missionLocaleModelDoc = {
       properties: {
         geopoint: {
           descriptions: [{ en: null, fr: 'Coordonnés GPS au format GeoJSON "Point"' }],
-          properties: {
-            type: {
-              descriptions: null,
-            },
-            coordinates: {
-              descriptions: null,
-              prefixItems: [
-                { descriptions: [{ en: null, fr: "Longitude" }] },
-                { descriptions: [{ en: null, fr: "Latitude" }] },
-              ],
-            },
-          },
+          oneOf: [{ descriptions: null }, { descriptions: null }],
         },
         adresse: {
           descriptions: [{ en: null, fr: "Adresse de la Mission Locale" }],

@@ -9,6 +9,9 @@ export const depotOffrePageSummaryDoc = {
 } as OpenApiText;
 
 export const depotOffrePageDoc = {
+  tag: "job",
+  operationIds: ["jobOfferCreate", "jobOfferUpdate"],
+  habilitation: "jobs:write",
   description: [
     {
       fr: "**Déposez, modifiez ou supprimez vos offres d’emploi en alternance** pour maximiser leur visibilité en les diffusant sur la plateforme [La bonne alternance](https://labonnealternance.apprentissage.beta.gouv.fr/) ainsi que [ses sites partenaires](https://mission-apprentissage.notion.site/Liste-des-partenaires-de-La-bonne-alternance-3e9aadb0170e41339bac486399ec4ac1).",
@@ -21,16 +24,6 @@ export const depotOffrePageDoc = {
   ],
   frequenceMiseAJour: "daily",
   type: "data",
-  emailDemandeHabilitations: {
-    subject: {
-      en: "Request for authorization to post apprenticeship job offers",
-      fr: "Demande d'habilitation pour le dépôt d'offres d'emploi en alternance",
-    },
-    body: {
-      en: "Hello, I would like to obtain authorization to post apprenticeship job offers on the La bonne alternance platform.",
-      fr: "Bonjour, je souhaite obtenir une habilitation pour déposer des offres d'emploi en alternance sur la plateforme La bonne alternance.",
-    },
-  },
   sources: [
     {
       name: "La bonne alternance",

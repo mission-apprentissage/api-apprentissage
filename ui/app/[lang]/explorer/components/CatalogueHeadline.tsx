@@ -72,19 +72,9 @@ export function CatalogueHeadline({ t, doc, lang, title }: Props) {
             <DsfrMarkdown key={index}>{getTextOpenAPI(description, lang)}</DsfrMarkdown>
           ))}
 
-          {/* {note != null && (
-            <Typography sx={{ marginTop: fr.spacing("1w") }} dangerouslySetInnerHTML={{ __html: note }} />
-          )}
-
-          {warning != null && (
-            <Typography sx={{ marginTop: fr.spacing("1w") }} dangerouslySetInnerHTML={{ __html: warning }} />
-          )} */}
-
-          {doc.emailDemandeHabilitations != null && (
-            <HabilitationRequise lang={lang} t={t} {...doc.emailDemandeHabilitations} />
-          )}
+          <HabilitationRequise lang={lang} habilitation={doc.habilitation} />
         </Box>
-        <BesoinDesDonnes lang={lang} t={t} />
+        <BesoinDesDonnes doc={doc} lang={lang} habilitation={doc.habilitation} />
       </Box>
     </>
   );

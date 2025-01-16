@@ -63,13 +63,12 @@ Le code relatif à la définition des routes, et de la documentation se trouve d
 
 1. Créer un nouveau document dans `sdk/src/metier/<nom-page>/<nom-page>.doc.ts`
    1. Pour la structure partir de page existante
-   2. En cas de route nécessitant une habilitations, ne pas oublier de renseigner le champs `emailDemandeHabilitations`.
-   3. Pour du contenu markdown plus complex
+   2. Pour du contenu markdown plus complex
       1. Créer des fichier `.md`
       2. Exécuter `yarn workspace api-alternance-sdk markdown:transpile`
       3. Importer le contenu du fichier `.ts` genéré.
-   4. Les liens `href` des logos pointent vers des fichiers dans le dossier `ui/public/` et doivent donc etre créé en consequence.
-   5. Exporter le fichier dans `sdk/src/docs/metier/internal.ts`
+   3. Les liens `href` des logos pointent vers des fichiers dans le dossier `ui/public/` et doivent donc etre créé en consequence.
+   4. Exporter le fichier dans `sdk/src/docs/metier/internal.ts`
 2. Ajouter la page à créer dans la variable `PAGES` du fichier `ui/utils/routes.utils.ts`
    1. Ne pas oublier d'ajouter les traductions du titre dans les fichiers `ui/app/i18n/locales/en/global.json` & `ui/app/i18n/locales/fr/global.json`
 3. Ajouter le lien vers la nouvelle page dans le fichier `ui/app/[lang]/explorer/page.tsx`

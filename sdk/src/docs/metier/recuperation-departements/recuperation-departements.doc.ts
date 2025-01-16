@@ -7,10 +7,12 @@ export const recuperationDepartementsPageSummaryDoc = {
 } as OpenApiText;
 
 export const recuperationDepartementsPageDoc = {
+  tag: "geographie",
+  operationIds: ["listDepartements"],
+  habilitation: null,
   description: [{ en: "Retrieve the departments of France", fr: "Récupération des départements de France" }],
   frequenceMiseAJour: "daily",
   type: "data",
-  emailDemandeHabilitations: null,
   sources: [
     {
       name: "API Découpage administratif",

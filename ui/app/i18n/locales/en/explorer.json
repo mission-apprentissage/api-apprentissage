@@ -9,7 +9,8 @@
     "swagger": "View the swagger",
     "obtenirJeton": "Get an access token",
     "donneesManquantes": "Are you missing one or more data to meet your needs?",
-    "ditesLeNous": "Tell us"
+    "ditesLeNous": "Tell us",
+    "demandeHabilitation": "Request authorization"
   },
   "habilitationRequise": {
     "titre": "Using this tool requires authorization",

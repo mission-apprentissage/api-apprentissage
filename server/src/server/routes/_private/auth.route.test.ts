@@ -1,6 +1,6 @@
 import { useMongo } from "@tests/mongo.test.utils.js";
 import { ObjectId } from "mongodb";
-import { generateUserFixture } from "shared/models/fixtures/index";
+import { generateOrganisationFixture, generateUserFixture } from "shared/models/fixtures/index";
 import { beforeAll, describe, expect, it, vi } from "vitest";
 
 import { generateMagicLinkToken, generateRegisterToken } from "@/actions/auth.actions.js";
@@ -63,14 +63,66 @@ describe("Authentication", () => {
 
       expect(response.statusCode).toBe(200);
       expect(userResponse).toEqual({
-        _id: user._id.toString(),
-        email: "connected@exemple.fr",
+        user: {
+          _id: user._id.toString(),
+          email: "connected@exemple.fr",
+          organisation: null,
+          is_admin: false,
+          has_api_key: false,
+          api_key_used_at: null,
+          created_at: expect.stringMatching(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/),
+          updated_at: expect.stringMatching(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/),
+        },
         organisation: null,
+      });
+    });
+
+    it("should get the current user connected via cookie-session", async () => {
+      const organisation = generateOrganisationFixture({
+        nom: "mia",
+      });
+      const user = generateUserFixture({
+        email: "connected@exemple.fr",
         is_admin: false,
-        has_api_key: false,
-        api_key_used_at: null,
-        created_at: expect.stringMatching(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/),
-        updated_at: expect.stringMatching(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/),
+        organisation: organisation.nom,
+      });
+      await getDbCollection("organisations").insertOne(organisation);
+      await getDbCollection("users").insertOne(user);
+
+      const token = createSessionToken(user.email);
+      await createSession(user.email);
+
+      const userWithToken = await getDbCollection("users").findOne({ _id: user._id });
+
+      expect(userWithToken?.api_keys).toHaveLength(0);
+
+      const response = await app.inject({
+        method: "GET",
+        url: "/api/_private/auth/session",
+        headers: {
+          ["Cookie"]: `api_session=${token}`,
+        },
+      });
+
+      const userResponse = response.json();
+
+      expect(response.statusCode).toBe(200);
+      expect(userResponse).toEqual({
+        user: {
+          _id: user._id.toString(),
+          email: "connected@exemple.fr",
+          organisation: organisation.nom,
+          is_admin: false,
+          has_api_key: false,
+          api_key_used_at: null,
+          created_at: expect.stringMatching(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/),
+          updated_at: expect.stringMatching(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/),
+        },
+        organisation: {
+          slug: organisation.slug,
+          nom: organisation.nom,
+          habilitations: organisation.habilitations,
+        },
       });
     });
 
@@ -244,7 +296,7 @@ describe("Authentication", () => {
         email: "user@exemple.fr",
       });
       await getDbCollection("users").insertOne(user);
-      const token = generateMagicLinkToken("user@exemple.fr");
+      const token = generateMagicLinkToken("user@exemple.fr", null);
       const response = await app.inject({
         method: "POST",
         url: "/api/_private/auth/login",
@@ -264,7 +316,10 @@ describe("Authentication", () => {
         is_admin: false,
         updated_at: user.updated_at.toJSON(),
       };
-      expect(userResponse).toEqual(userData);
+      expect(userResponse).toEqual({
+        user: userData,
+        organisation: null,
+      });
 
       const cookies = response.cookies as Cookie[];
       const sessionCookie = cookies.find((cookie) => cookie.name === config.session.cookieName) as Cookie;
@@ -287,7 +342,81 @@ describe("Authentication", () => {
       });
 
       expect(responseSession.statusCode).toBe(200);
-      expect(responseSession.json()).toEqual(userData);
+      expect(responseSession.json()).toEqual({
+        user: userData,
+        organisation: null,
+      });
+    });
+
+    it("should start session with organisation", async () => {
+      const organisation = generateOrganisationFixture({
+        nom: "mia",
+      });
+
+      const user = generateUserFixture({
+        email: "user@exemple.fr",
+        organisation: organisation.nom,
+      });
+      await getDbCollection("users").insertOne(user);
+      await getDbCollection("organisations").insertOne(organisation);
+      const token = generateMagicLinkToken("user@exemple.fr", organisation.nom);
+      const response = await app.inject({
+        method: "POST",
+        url: "/api/_private/auth/login",
+        headers: { authorization: `Bearer ${token}` },
+      });
+
+      const userResponse = response.json();
+
+      expect(response.statusCode).toBe(200);
+      const userData = {
+        _id: user._id.toString(),
+        api_key_used_at: null,
+        created_at: user.created_at.toJSON(),
+        organisation: organisation.nom,
+        email: user.email,
+        has_api_key: false,
+        is_admin: false,
+        updated_at: user.updated_at.toJSON(),
+      };
+      expect(userResponse).toEqual({
+        user: userData,
+        organisation: {
+          nom: organisation.nom,
+          slug: organisation.slug,
+          habilitations: organisation.habilitations,
+        },
+      });
+
+      const cookies = response.cookies as Cookie[];
+      const sessionCookie = cookies.find((cookie) => cookie.name === config.session.cookieName) as Cookie;
+
+      const session = await getSession({ email: user.email });
+      expect(session).toEqual({
+        _id: expect.any(ObjectId),
+        email: user.email,
+        expires_at: expect.any(Date),
+        created_at: expect.any(Date),
+        updated_at: expect.any(Date),
+      });
+
+      const responseSession = await app.inject({
+        method: "GET",
+        url: "/api/_private/auth/session",
+        cookies: {
+          [sessionCookie.name]: sessionCookie.value,
+        },
+      });
+
+      expect(responseSession.statusCode).toBe(200);
+      expect(responseSession.json()).toEqual({
+        user: userData,
+        organisation: {
+          nom: organisation.nom,
+          slug: organisation.slug,
+          habilitations: organisation.habilitations,
+        },
+      });
     });
   });
 
@@ -344,7 +473,7 @@ describe("Authentication", () => {
         is_admin: false,
         updated_at: user.updated_at.toJSON(),
       };
-      expect(userResponse).toEqual(userData);
+      expect(userResponse).toEqual({ user: userData, organisation: null });
 
       const cookies = response.cookies as Cookie[];
       const sessionCookie = cookies.find((cookie) => cookie.name === config.session.cookieName) as Cookie;
@@ -367,7 +496,7 @@ describe("Authentication", () => {
       });
 
       expect(responseSession.statusCode).toBe(200);
-      expect(responseSession.json()).toEqual(userData);
+      expect(responseSession.json()).toEqual({ user: userData, organisation: null });
     });
   });
 
@@ -386,7 +515,7 @@ describe("Authentication", () => {
         email: "user@exemple.fr",
       });
       await getDbCollection("users").insertOne(user);
-      const token = generateMagicLinkToken("user@exemple.fr");
+      const token = generateMagicLinkToken("user@exemple.fr", null);
       const response = await app.inject({
         method: "POST",
         url: "/api/_private/auth/login",

@@ -1,26 +1,26 @@
 "use client";
 import type { FC, PropsWithChildren } from "react";
 import { createContext, useContext, useMemo, useState } from "react";
-import type { IUserPublic } from "shared/models/user.model";
+import type { ISessionJson } from "shared/routes/_private/auth.routes";
 
 type IAuthContext = Readonly<{
-  user: IUserPublic | null;
-  setUser: (user: IUserPublic | null) => void;
+  session: ISessionJson | null;
+  setSession: (session: ISessionJson | null) => void;
 }>;
 
 export const AuthContext = createContext<IAuthContext>({
-  user: null,
-  setUser: () => {},
+  session: null,
+  setSession: () => {},
 });
 
 interface Props extends PropsWithChildren {
-  initialUser: IUserPublic | null;
+  initialSession: ISessionJson | null;
 }
 
-export const AuthContextProvider: FC<Props> = ({ initialUser, children }) => {
-  const [user, setUser] = useState<IUserPublic | null>(initialUser);
+export const AuthContextProvider: FC<Props> = ({ initialSession, children }) => {
+  const [session, setSession] = useState<ISessionJson | null>(initialSession);
 
-  return <AuthContext.Provider value={{ user, setUser }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ session, setSession }}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = (): Readonly<IAuthContext> => {
@@ -28,18 +28,18 @@ export const useAuth = (): Readonly<IAuthContext> => {
 };
 
 export const useAuthRequired = (): Readonly<{
-  user: IUserPublic;
-  setUser: IAuthContext["setUser"];
+  session: ISessionJson;
+  setSession: IAuthContext["setSession"];
 }> => {
   const context = useAuth();
   const result = useMemo(() => {
-    if (context.user === null) {
+    if (context.session === null) {
       throw new Error("useAuth must be used within an AuthProvider");
     }
 
     return {
-      user: context.user,
-      setUser: context.setUser,
+      session: context.session,
+      setSession: context.setSession,
     };
   }, [context]);
 

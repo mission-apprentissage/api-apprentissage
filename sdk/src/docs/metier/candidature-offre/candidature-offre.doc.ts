@@ -6,6 +6,9 @@ export const candidatureOffrePageSummaryDoc = {
 } as OpenApiText;
 
 export const candidatureOffrePageDoc = {
+  tag: "job",
+  operationIds: ["jobApply"],
+  habilitation: "applications:write",
   description: [
     {
       en: "To streamline your users' journey, this API allows you to directly transmit your users' applications to recruiters without them having to leave your site.",
@@ -22,7 +25,6 @@ export const candidatureOffrePageDoc = {
   ],
   frequenceMiseAJour: "daily",
   type: "data",
-  emailDemandeHabilitations: null,
   sources: [
     {
       name: "La bonne alternance",

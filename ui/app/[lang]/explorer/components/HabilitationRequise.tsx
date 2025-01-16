@@ -1,19 +1,31 @@
+"use client";
 import { fr } from "@codegouvfr/react-dsfr";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { Box, Typography } from "@mui/material";
-import type { OpenApiText } from "api-alternance-sdk/internal";
-import { getTextOpenAPI } from "api-alternance-sdk/internal";
+import type { OpenapiSpec, Permission } from "api-alternance-sdk/internal";
+import { getTextOpenAPI, openapiSpec } from "api-alternance-sdk/internal";
+import { useTranslation } from "react-i18next";
 
-import type { WithLangAndT } from "@/app/i18n/settings";
+import type { WithLang } from "@/app/i18n/settings";
 import { Artwork } from "@/components/artwork/Artwork";
 import { DsfrLink } from "@/components/link/DsfrLink";
+import { useAuth } from "@/context/AuthContext";
 
-type Props = WithLangAndT<{
-  subject: OpenApiText;
-  body: OpenApiText;
+type Props = WithLang<{
+  habilitation: null | keyof OpenapiSpec["demandeHabilitations"];
 }>;
 
-export function HabilitationRequise({ lang, t, subject, body }: Props) {
+export function HabilitationRequise({ lang, habilitation }: Props) {
+  const { t } = useTranslation("explorer", { lng: lang });
+
+  const { session } = useAuth();
+
+  if (habilitation === null || session?.organisation?.habilitations.includes(habilitation)) {
+    return null;
+  }
+
+  const { subject, body } = openapiSpec.demandeHabilitations[habilitation];
+
   return (
     <Box
       sx={{
@@ -40,6 +52,7 @@ export function HabilitationRequise({ lang, t, subject, body }: Props) {
         <DsfrLink
           href={`mailto:support_api@apprentissage.beta.gouv.fr?subject=${encodeURIComponent(getTextOpenAPI(subject, lang))}&body=${getTextOpenAPI(body, lang)}`}
           arrow="none"
+          external={false}
         >
           <Button priority="secondary" size="small">
             {t("habilitationRequise.faireDemande", { lng: lang })}

@@ -13,7 +13,7 @@ import { dir } from "i18next";
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import type { PropsWithChildren } from "react";
-import type { IUserPublic } from "shared/models/user.model";
+import type { ISessionJson } from "shared/routes/_private/auth.routes";
 
 import type { PropsWithLangParams } from "@/app/i18n/settings";
 import { languages } from "@/app/i18n/settings";
@@ -28,16 +28,16 @@ import { apiGet } from "@/utils/api.utils";
 import NotFoundPage from "./not-found";
 import { StartDsfr } from "./StartDsfr";
 
-async function getSession(): Promise<IUserPublic | undefined> {
+async function getSession(): Promise<ISessionJson | null> {
   try {
-    const session: IUserPublic = await apiGet(`/_private/auth/session`, {}, { cache: "no-store" });
+    const session = await apiGet(`/_private/auth/session`, {}, { cache: "no-store" });
     return session;
   } catch (error) {
     if ((error as ApiError).context?.statusCode !== 401) {
       captureException(error);
     }
 
-    return;
+    return null;
   }
 }
 export const viewport: Viewport = {
@@ -89,7 +89,7 @@ export default async function LangLayout({
       </head>
       <body>
         <AppRouterCacheProvider>
-          <AuthContextProvider initialUser={session ?? null}>
+          <AuthContextProvider initialSession={session ?? null}>
             <DsfrProvider lang={lang}>
               <MuiDsfrThemeProvider>
                 <Header lang={lang} />

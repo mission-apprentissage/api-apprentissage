@@ -17,7 +17,10 @@ export const authRoutes = ({ server }: { server: Server }) => {
     },
     async (request, response) => {
       const user = getUserFromRequest(request, zRoutes.get["/_private/auth/session"]);
-      return response.status(200).send(toPublicUser(user));
+      return response.status(200).send({
+        user: toPublicUser(user),
+        organisation: request.organisation ?? null,
+      });
     }
   );
 
@@ -65,7 +68,10 @@ export const authRoutes = ({ server }: { server: Server }) => {
 
       await startSession(user.email, response);
 
-      return response.status(200).send(toPublicUser(user));
+      return response.status(200).send({
+        user: toPublicUser(user),
+        organisation: request.organisation ?? null,
+      });
     }
   );
 
@@ -88,7 +94,10 @@ export const authRoutes = ({ server }: { server: Server }) => {
 
       await startSession(user.email, response);
 
-      return response.status(200).send(toPublicUser(user));
+      return response.status(200).send({
+        user: toPublicUser(user),
+        organisation: request.organisation ?? null,
+      });
     }
   );
 

@@ -7,5 +7,12 @@ import { PAGES } from "@/utils/routes.utils";
 
 export default async function ListeDepartementsPage({ params: { lang } }: PropsWithLangParams) {
   const { t } = await getServerTranslation(lang, "explorer");
-  return <CataloguePage doc={recuperationDepartementsPageDoc} lang={lang} t={t} page={PAGES.static.depotOffre} />;
+  return (
+    <CataloguePage
+      doc={recuperationDepartementsPageDoc}
+      lang={lang}
+      t={t}
+      page={PAGES.static.recuperationDepartements}
+    />
+  );
 }

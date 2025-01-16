@@ -2,7 +2,7 @@ import { fr } from "@codegouvfr/react-dsfr";
 import { Tabs } from "@codegouvfr/react-dsfr/Tabs";
 import { Box, Container, Hidden, Typography } from "@mui/material";
 import type { DocDatum, DocModelRow, DocModelSection, DocPage } from "api-alternance-sdk/internal";
-import { getTextOpenAPI } from "api-alternance-sdk/internal";
+import { getTextOpenAPI, openapiSpec } from "api-alternance-sdk/internal";
 
 import type { WithLangAndT } from "@/app/i18n/settings";
 import { Artwork } from "@/components/artwork/Artwork";
@@ -12,6 +12,7 @@ import { Tag } from "@/components/tag/Tag";
 import { PAGES } from "@/utils/routes.utils";
 
 import { GoodToKnow } from "./GoodToKnow";
+import { SwaggerLink } from "./SwaggerLink";
 
 const threeColumns = {
   md: "1fr",
@@ -205,9 +206,7 @@ function DataSection({ doc, lang, t }: Props) {
           <Typography sx={{ textWrap: "balance" }} className={fr.cx("fr-text--lead")}>
             <strong>{t("besoinDonnees.titre", { lng: lang })}</strong>
           </Typography>
-          <DsfrLink href={PAGES.static.documentationTechnique.getPath(lang)} size="lg">
-            {t("besoinDonnees.swagger", { lng: lang })}
-          </DsfrLink>
+          <SwaggerLink lang={lang} doc={doc} />
         </Box>
       </Box>
     </Box>

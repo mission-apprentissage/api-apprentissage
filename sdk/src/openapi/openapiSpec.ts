@@ -33,4 +33,36 @@ export const openapiSpec: OpenapiSpec = {
     ...organismeRoutesOpenapi,
   },
   tags: tagsOpenapi,
+  demandeHabilitations: {
+    "applications:write": {
+      subject: {
+        en: "Request for authorization to send applications to apprenticeship job opportunities",
+        fr: "Demande d'habilitation pour l'envoi de candidature aux opportunités d'emploi en alternance",
+      },
+      body: {
+        en: "Hello, I would like to obtain authorization to send applications to apprenticeship job opportunities on the La bonne alternance platform.",
+        fr: "Bonjour, je souhaite obtenir une habilitation pour envoyer des candidature à des offres d'emploi en alternance sur la plateforme La bonne alternance.",
+      },
+    },
+    "jobs:write": {
+      subject: {
+        en: "Request for authorization to post apprenticeship job offers",
+        fr: "Demande d'habilitation pour le dépôt d'offres d'emploi en alternance",
+      },
+      body: {
+        en: "Hello, I would like to obtain authorization to post apprenticeship job offers on the La bonne alternance platform.",
+        fr: "Bonjour, je souhaite obtenir une habilitation pour déposer des offres d'emploi en alternance sur la plateforme La bonne alternance.",
+      },
+    },
+    "appointments:write": {
+      subject: {
+        en: "Request for authorization to generate appointment links with training centers",
+        fr: "Demande d'habilitation pour la génération de lien de rendez-vous avec les centres de formation",
+      },
+      body: {
+        en: "Hello, I would like to obtain authorization to post apprenticeship job offers on the La bonne alternance platform.",
+        fr: "Bonjour, je souhaite obtenir une habilitation pour déposer des offres d'emploi en alternance sur la plateforme La bonne alternance.",
+      },
+    },
+  },
 };

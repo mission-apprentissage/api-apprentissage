@@ -36,10 +36,9 @@ function sendRegisterEmail(email: string) {
   });
 }
 
-export function generateMagicLinkToken(email: string): string {
+export function generateMagicLinkToken(email: string, organisation: string | null): string {
   return generateAccessToken(
-    // No need to provided organisation for login
-    { email, organisation: null },
+    { email, organisation },
     [
       generateScope({
         schema: zRoutes.post["/_private/auth/login"],
@@ -51,11 +50,11 @@ export function generateMagicLinkToken(email: string): string {
   );
 }
 
-function sendMagicLinkEmail(email: string) {
+function sendMagicLinkEmail(email: string, organisation: string | null) {
   return sendEmail({
     name: "magic-link",
     to: email,
-    token: generateMagicLinkToken(email),
+    token: generateMagicLinkToken(email, organisation),
   });
 }
 
@@ -65,7 +64,7 @@ export async function sendRequestLoginEmail(email: string) {
   if (!user) {
     await sendRegisterEmail(email);
   } else {
-    await sendMagicLinkEmail(email);
+    await sendMagicLinkEmail(email, user.organisation);
   }
 }
 
@@ -85,7 +84,7 @@ export async function registerUser(email: string, data: IBody<IPostRoutes["/_pri
   const existingUser = await getDbCollection("users").findOne({ email });
 
   if (existingUser) {
-    await sendMagicLinkEmail(email);
+    await sendMagicLinkEmail(email, existingUser.organisation);
     throw conflict(
       "Un compte associé à cet email existe déjà. Nous vous avons envoyé un lien de connexion, veuillez consulter vos emails."
     );

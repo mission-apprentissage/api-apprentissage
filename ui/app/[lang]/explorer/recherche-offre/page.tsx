@@ -7,5 +7,5 @@ import { PAGES } from "@/utils/routes.utils";
 
 export default async function RechercheOffrePage({ params: { lang } }: PropsWithLangParams) {
   const { t } = await getServerTranslation(lang, "explorer");
-  return <CataloguePage doc={rechercheOffrePageDoc} lang={lang} t={t} page={PAGES.static.depotOffre} />;
+  return <CataloguePage doc={rechercheOffrePageDoc} lang={lang} t={t} page={PAGES.static.rechercheOffre} />;
 }

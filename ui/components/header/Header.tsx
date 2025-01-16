@@ -26,10 +26,10 @@ export const Header = ({ lang }: WithLang) => {
 
   const pathname = usePathname();
 
-  const { user } = useAuth();
+  const { session } = useAuth();
 
   const { t } = useTranslation("global", { lng: lang });
-  const navigation = useNavigationItems({ user, pathname, lang, t });
+  const navigation = useNavigationItems({ user: session?.user ?? null, pathname, lang, t });
 
   const setLang = useCallback(
     async (locale: Lang) => {

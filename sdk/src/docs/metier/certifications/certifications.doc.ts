@@ -15,13 +15,15 @@ export const certificationsPageSummaryDoc = {
 } as OpenApiText;
 
 export const certificationsPageDoc = {
+  tag: "certifications",
+  operationIds: ["getCertifications"],
+  habilitation: null,
   description: [
     {
       en: "**Use a reliable and enriched dataset for your project:** coding, validity period, title, fields, continuity, type, and legal basis.",
       fr: "**Utilisez un jeu de données fiable et enrichi pour votre projet :** codification, période de validité, intitulé, domaines, continuité, type et base légale.",
     },
   ],
-  emailDemandeHabilitations: null,
   frequenceMiseAJour: "daily",
   type: "data",
   sources: [

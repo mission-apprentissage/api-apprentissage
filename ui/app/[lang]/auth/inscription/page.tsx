@@ -54,7 +54,7 @@ export default function RegisterPage({ params: { lang } }: PropsWithLangParams) 
       objectif: null,
     },
   });
-  const { user, setUser } = useAuth();
+  const { session, setSession } = useAuth();
   const { t } = useTranslation("inscription-connexion", { lng: lang });
 
   const token = useJwtToken();
@@ -85,13 +85,13 @@ export default function RegisterPage({ params: { lang } }: PropsWithLangParams) 
       }
 
       setSubmitError(null);
-      const user = await apiPost("/_private/auth/register", {
+      const session = await apiPost("/_private/auth/register", {
         headers: {
           authorization: `Bearer ${token.value}`,
         },
         body: data,
       });
-      setUser(user);
+      setSession(session);
       push(PAGES.static.compteProfil.getPath(lang));
     } catch (error) {
       console.error(error);
@@ -105,10 +105,10 @@ export default function RegisterPage({ params: { lang } }: PropsWithLangParams) 
   };
 
   useEffect(() => {
-    if (user) {
+    if (session) {
       push(PAGES.static.compteProfil.getPath(lang));
     }
-  }, [user, push, lang]);
+  }, [session, push, lang]);
 
   return (
     <Dialog

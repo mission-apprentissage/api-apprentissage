@@ -8,6 +8,9 @@ export const rechercheCommunePageSummaryDoc = {
 } as OpenApiText;
 
 export const rechercheCommunePageDoc = {
+  tag: "geographie",
+  operationIds: ["communeSearch"],
+  habilitation: null,
   description: [
     {
       en: "Search for a municipality by INSEE code or postal code.",
@@ -16,7 +19,6 @@ export const rechercheCommunePageDoc = {
   ],
   frequenceMiseAJour: "daily",
   type: "data",
-  emailDemandeHabilitations: null,
   sources: [
     {
       name: "API Découpage administratif",
@@ -85,15 +87,9 @@ export const rechercheCommunePageDoc = {
           rows: {
             region: {
               description: { en: null, fr: "Région de la commune" },
-              tip: {
-                title: {
-                  en: null,
-                  fr: "Collectivités et territoires d'outre-mer",
-                },
-                content: {
-                  en: null,
-                  fr: "Les collectivités et territoires d'outre-mer sont assimilés à des régions pour des raisons pratiques. Le code INSEE utilisé correspond au code INSEE de la collectivité ou du territoire d'outre-mer.",
-                },
+              information: {
+                en: null,
+                fr: "Les collectivités et territoires d'outre-mer sont assimilés à des régions pour des raisons pratiques. Le code INSEE utilisé correspond au code INSEE de la collectivité ou du territoire d'outre-mer.",
               },
               tags: [".region.nom", ".region.codeInsee"],
             },
@@ -105,15 +101,9 @@ export const rechercheCommunePageDoc = {
             departement: {
               description: { en: null, fr: "Département de la commune" },
               tags: [".departement.nom", ".departement.codeInsee"],
-              tip: {
-                title: {
-                  en: null,
-                  fr: "Collectivités et territoires d'outre-mer",
-                },
-                content: {
-                  en: null,
-                  fr: "Les collectivités et territoires d'outre-mer sont assimilés à des déparements pour des raisons pratiques. Le code INSEE utilisé correspond au code INSEE de la collectivité ou du territoire d'outre-mer.",
-                },
+              information: {
+                en: null,
+                fr: "Les collectivités et territoires d'outre-mer sont assimilés à des déparements pour des raisons pratiques. Le code INSEE utilisé correspond au code INSEE de la collectivité ou du territoire d'outre-mer.",
               },
             },
           },
@@ -124,15 +114,9 @@ export const rechercheCommunePageDoc = {
             academie: {
               description: { en: null, fr: "Académie de la commune" },
               tags: [".academie.nom", ".academie.id", ".academie.code"],
-              tip: {
-                title: {
-                  en: null,
-                  fr: "Académie de l'Étranger",
-                },
-                content: {
-                  en: null,
-                  fr: "L'académie de l'Étranger correspond à **L'Agence pour l’enseignement français à l’étranger (AEFE)**, elle est associée à du territoire d'outre-mer des **Terres australes et antarctiques françaises**.",
-                },
+              information: {
+                en: null,
+                fr: "L'académie de l'Étranger correspond à **L'Agence pour l’enseignement français à l’étranger (AEFE)**, elle est associée à du territoire d'outre-mer des **Terres australes et antarctiques françaises**.",
               },
             },
           },

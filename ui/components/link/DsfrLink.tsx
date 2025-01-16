@@ -5,23 +5,30 @@ import NextLink from "next/link";
 import type { ReactNode } from "react";
 import { useMemo } from "react";
 
-import type { Lang } from "@/app/i18n/settings";
 import { publicConfig } from "@/config.public";
 
 export function DsfrLink({
   children,
   arrow = "right",
   size = "md",
+  external = "auto",
   ...props
-}: { children: ReactNode; arrow?: "right" | "left" | "none"; size?: "lg" | "sm" | "md" } & LinkProps) {
+}: {
+  children: ReactNode;
+  arrow?: "right" | "left" | "none";
+  size?: "lg" | "sm" | "md";
+  external?: "auto" | boolean;
+} & LinkProps) {
   const { href, ...rest } = props;
 
   const isExternal = useMemo(() => {
+    if (typeof external === "boolean") return external;
     if (typeof href !== "string") return false;
     const url = new URL(href, publicConfig.baseUrl);
+    if (url.protocol === "mailto:") return true;
     if (url.protocol !== "http:" && url.protocol !== "https:") return false;
     return new URL(href, publicConfig.baseUrl).hostname !== publicConfig.host;
-  }, [href]);
+  }, [href, external]);
 
   return (
     <Link

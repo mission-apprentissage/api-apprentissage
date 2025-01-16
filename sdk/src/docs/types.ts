@@ -1,3 +1,6 @@
+import type { TagOpenapi } from "../openapi/tags.openapi.js";
+import type { OpenapiSpec } from "../openapi/types.js";
+
 export type OpenApiText = {
   fr: string | null;
   en: string | null;
@@ -47,11 +50,10 @@ export type DocDatum = {
 };
 
 export type DocPage = {
+  tag: TagOpenapi;
+  operationIds: string[];
   description: OpenApiText[];
-  emailDemandeHabilitations: null | {
-    subject: OpenApiText;
-    body: OpenApiText;
-  };
+  habilitation: null | keyof OpenapiSpec["demandeHabilitations"];
   frequenceMiseAJour: "daily" | null;
   type: "data" | "outil";
   sources: DataSource[];

@@ -1783,6 +1783,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 ],
               },
               "status": {
+                "default": "Active",
                 "enum": [
                   "Active",
                   "Filled",
@@ -2514,6 +2515,17 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               "maximum": 180,
               "minimum": -180,
               "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "partners_to_exclude",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string",
+              },
+              "type": "array",
             },
           },
           {

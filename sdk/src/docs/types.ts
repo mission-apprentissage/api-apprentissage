@@ -26,7 +26,6 @@ export type DataSource = {
 
 export type DocModelRow = {
   readonly description: OpenApiText | null;
-  readonly notes?: OpenApiText | null;
   readonly examples?: ReadonlyArray<unknown>;
   readonly information?: OpenApiText | null;
   readonly sample?: OpenApiText | null;

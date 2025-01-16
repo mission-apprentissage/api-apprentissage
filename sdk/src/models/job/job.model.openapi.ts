@@ -366,7 +366,10 @@ const offerWriteSchema = {
           type: ["string", "null"],
           description: "Origine de l'offre provenant d'un aggregateur",
         },
-        status: offerReadSchema.properties.offer.properties.status,
+        status: {
+          ...offerReadSchema.properties.offer.properties.status,
+          default: "Active",
+        },
       },
       required: ["title", "description"],
     },

@@ -9,7 +9,8 @@
     "swagger": "Consulter le swagger",
     "obtenirJeton": "Obtenir un jeton d’accès",
     "donneesManquantes": "Il vous manque une ou plusieurs donnée(s) pour répondre à vos besoins ?",
-    "ditesLeNous": "Dites-le nous"
+    "ditesLeNous": "Dites-le nous",
+    "demandeHabilitation": "Demander une habilitation"
   },
   "habilitationRequise": {
     "titre": "L’utilisation de cet outil nécessite une habilitation",

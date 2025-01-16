@@ -7,10 +7,12 @@ export const recuperationMissionLocalePageSummaryDoc = {
 } as OpenApiText;
 
 export const recuperationMissionLocalesPageDoc = {
+  tag: "geographie",
+  operationIds: ["listMissionLocales"],
+  habilitation: null,
   description: [{ en: "Retrieve the Mission Locales", fr: "Récupération des Missions Locales" }],
   frequenceMiseAJour: "daily",
   type: "data",
-  emailDemandeHabilitations: null,
   sources: [
     {
       name: "Union Nationale des Missions Locales",

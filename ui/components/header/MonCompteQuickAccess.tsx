@@ -13,15 +13,15 @@ import { apiGet } from "@/utils/api.utils";
 import { PAGES } from "@/utils/routes.utils";
 
 export function MonCompteQuickAccess({ lang, t }: WithLangAndT) {
-  const { user, setUser } = useAuth();
+  const { session, setSession } = useAuth();
   const { push } = useRouter();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const handleLogout = useCallback(async () => {
     await apiGet("/_private/auth/logout", {});
-    setUser(null);
+    setSession(null);
     push(PAGES.static.home.getPath(lang));
-  }, [push, setUser, lang]);
+  }, [push, setSession, lang]);
 
   const handleOpenPopover = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -35,7 +35,7 @@ export function MonCompteQuickAccess({ lang, t }: WithLangAndT) {
   const popoverId = isPopoverOpened ? "mon-compte-popover" : undefined;
   const pathname = usePathname();
 
-  if (!user) {
+  if (!session) {
     return (
       <HeaderQuickAccessItem
         quickAccessItem={{
@@ -103,7 +103,7 @@ export function MonCompteQuickAccess({ lang, t }: WithLangAndT) {
           </Typography>
           <Box component="hr" sx={{ padding: 0, height: "1px" }} />
           <Typography sx={{ marginRight: fr.spacing("2w") }} color={fr.colors.decisions.text.mention.grey.default}>
-            <strong>{user.email}</strong>
+            <strong>{session.user.email}</strong>
           </Typography>
           <Typography>
             <Link

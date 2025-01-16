@@ -7,10 +7,10 @@ import { useSearchParams } from "next/navigation";
 import type { ComponentType } from "react";
 import { useEffect, useMemo, useState } from "react";
 import { assertUnreachable } from "shared";
-import type { IUserPublic } from "shared/models/user.model";
+import type { ISessionJson } from "shared/routes/_private/auth.routes";
 import type { IAccessToken } from "shared/routes/common.routes";
 
-import type { Lang, PropsWithLangParams } from "@/app/i18n/settings";
+import type { PropsWithLangParams } from "@/app/i18n/settings";
 import { useAuth } from "@/context/AuthContext";
 import { ApiError, apiPost } from "@/utils/api.utils";
 
@@ -57,7 +57,7 @@ function useLoginToken(): UseLoginToken {
 type UseLogin =
   | {
       status: "connected";
-      user: IUserPublic;
+      session: ISessionJson;
     }
   | {
       status: "disconnected";
@@ -72,14 +72,14 @@ type UseLogin =
 
 function useLogin() {
   const token = useLoginToken();
-  const { user, setUser } = useAuth();
+  const { session, setSession } = useAuth();
   const [status, setStatus] = useState<UseLogin>({ status: token.status === "missing" ? "disconnected" : "loading" });
 
   useEffect(() => {
     try {
-      if (user) {
+      if (session) {
         setStatus((current) =>
-          current.status === "connected" && current.user === user ? current : { status: "connected", user }
+          current.status === "connected" && current.session === session ? current : { status: "connected", session }
         );
         return;
       }
@@ -95,12 +95,12 @@ function useLogin() {
             body: null,
             signal: controller.signal,
           })
-            .then((user) => {
-              setUser(user);
-              setStatus({ status: "connected", user });
+            .then((session) => {
+              setSession(session);
+              setStatus({ status: "connected", session });
             })
             .catch((error) => {
-              setUser(null);
+              setSession(null);
               if (!controller.signal.aborted) {
                 console.error(error);
                 if (error instanceof ApiError && error.context.statusCode < 500) {
@@ -135,18 +135,18 @@ function useLogin() {
         error: "Une erreur est survenue lors de la connection. Veuillez réessayer ultérieurement.",
       });
     }
-  }, [token, user, setUser]);
+  }, [token, session, setSession]);
 
   return status;
 }
 
-export function withAuth<P extends PropsWithLangParams>(Component: ComponentType<P & { user: IUserPublic }>) {
+export function withAuth<P extends PropsWithLangParams>(Component: ComponentType<P & { session: ISessionJson }>) {
   return function AuthComponent(props: P) {
     const status = useLogin();
 
     switch (status.status) {
       case "connected":
-        return <Component {...props} user={status.user} />;
+        return <Component {...props} session={status.session} />;
       case "disconnected":
         return <LoginModal lang={props.params.lang} />;
       case "loading":

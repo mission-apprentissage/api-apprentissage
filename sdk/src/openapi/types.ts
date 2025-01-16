@@ -2,6 +2,7 @@ import type { OperationObject, SchemaObject } from "openapi3-ts/oas31";
 import type { ZodType } from "zod";
 
 import type { DocRoute, DocTechnicalField, OpenApiText } from "../docs/types.js";
+import type { Permission } from "../routes/security/permissions.js";
 import type { TagOpenapi } from "./tags.openapi.js";
 
 export type OpenapiModel = {
@@ -26,6 +27,13 @@ export type OpenapiSpec = {
     {
       name: OpenApiText;
       description: OpenApiText;
+    }
+  >;
+  demandeHabilitations: Record<
+    Exclude<Permission, "admin" | "user:manage">,
+    {
+      subject: OpenApiText;
+      body: OpenApiText;
     }
   >;
 };

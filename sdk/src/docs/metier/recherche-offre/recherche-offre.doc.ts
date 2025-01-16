@@ -53,6 +53,9 @@ export const rechercheOffrePageSummaryDoc = {
 } as OpenApiText;
 
 export const rechercheOffrePageDoc = {
+  tag: "job",
+  operationIds: ["jobSearch"],
+  habilitation: null,
   description: [
     {
       en: descriptionEn,
@@ -61,7 +64,6 @@ export const rechercheOffrePageDoc = {
   ],
   frequenceMiseAJour: "daily",
   type: "data",
-  emailDemandeHabilitations: null,
   sources: [
     {
       name: "La bonne alternance",

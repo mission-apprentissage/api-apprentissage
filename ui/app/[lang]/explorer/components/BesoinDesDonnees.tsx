@@ -1,12 +1,30 @@
+"use client";
 import { fr } from "@codegouvfr/react-dsfr";
 import { Box, Typography } from "@mui/material";
+import type { DocPage, OpenapiSpec, Permission } from "api-alternance-sdk/internal";
+import { getTextOpenAPI, openapiSpec } from "api-alternance-sdk/internal";
+import { useTranslation } from "react-i18next";
 
-import type { WithLangAndT } from "@/app/i18n/settings";
+import type { WithLang } from "@/app/i18n/settings";
 import { Artwork } from "@/components/artwork/Artwork";
 import { DsfrLink } from "@/components/link/DsfrLink";
+import { useAuth } from "@/context/AuthContext";
 import { PAGES } from "@/utils/routes.utils";
 
-export function BesoinDesDonnes({ lang, t }: WithLangAndT) {
+import { SwaggerLink } from "./SwaggerLink";
+
+export function BesoinDesDonnes({
+  doc,
+  lang,
+  habilitation,
+}: WithLang<{ doc: DocPage; habilitation: null | keyof OpenapiSpec["demandeHabilitations"] }>) {
+  const { t } = useTranslation("explorer", { lng: lang });
+
+  const { session } = useAuth();
+  const hasHabilitation = habilitation === null || session?.organisation?.habilitations.includes(habilitation);
+
+  const habilitationRequest = hasHabilitation ? null : openapiSpec.demandeHabilitations[habilitation];
+
   return (
     <Box
       sx={{
@@ -21,15 +39,25 @@ export function BesoinDesDonnes({ lang, t }: WithLangAndT) {
             {t("besoinDonnees.titre", { lng: lang })}
           </Typography>
           <Typography>
-            <DsfrLink href={PAGES.static.documentationTechnique.getPath(lang)} size="lg">
-              {t("besoinDonnees.swagger", { lng: lang })}
-            </DsfrLink>
+            <SwaggerLink lang={lang} doc={doc} />
           </Typography>
-          <Typography>
-            <DsfrLink href={PAGES.static.compteProfil.getPath(lang)} size="lg">
-              {t("besoinDonnees.obtenirJeton", { lng: lang })}
-            </DsfrLink>
-          </Typography>
+          {hasHabilitation && (
+            <Typography>
+              <DsfrLink href={PAGES.static.compteProfil.getPath(lang)} size="lg">
+                {t("besoinDonnees.obtenirJeton", { lng: lang })}
+              </DsfrLink>
+            </Typography>
+          )}
+          {habilitationRequest && (
+            <Typography>
+              <DsfrLink
+                href={`mailto:support_api@apprentissage.beta.gouv.fr?subject=${encodeURIComponent(getTextOpenAPI(habilitationRequest.subject, lang))}&body=${getTextOpenAPI(habilitationRequest.body, lang)}`}
+                size="lg"
+              >
+                {t("besoinDonnees.demandeHabilitation", { lng: lang })}
+              </DsfrLink>
+            </Typography>
+          )}
         </Box>
       </Box>
     </Box>

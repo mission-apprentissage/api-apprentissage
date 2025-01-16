@@ -7,5 +7,5 @@ import { PAGES } from "@/utils/routes.utils";
 
 export default async function RechecheCommunePage({ params: { lang } }: PropsWithLangParams) {
   const { t } = await getServerTranslation(lang, "explorer");
-  return <CataloguePage doc={rechercheCommunePageDoc} lang={lang} t={t} page={PAGES.static.depotOffre} />;
+  return <CataloguePage doc={rechercheCommunePageDoc} lang={lang} t={t} page={PAGES.static.rechercheCommune} />;
 }

@@ -43,30 +43,7 @@ const recruiterSchema = {
               type: "string",
             },
             geopoint: {
-              type: "object",
-              properties: {
-                coordinates: {
-                  type: "array",
-                  prefixItems: [
-                    {
-                      type: "number",
-                      minimum: -180,
-                      maximum: 180,
-                    },
-                    {
-                      type: "number",
-                      minimum: -90,
-                      maximum: 90,
-                    },
-                  ],
-                },
-                type: {
-                  type: "string",
-                  enum: ["Point"],
-                },
-              },
-              required: ["coordinates", "type"],
-              additionalProperties: false,
+              $ref: "#/components/schemas/GeoJsonPoint",
             },
           },
           required: ["address", "geopoint"],

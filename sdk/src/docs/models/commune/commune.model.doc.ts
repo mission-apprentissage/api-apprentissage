@@ -109,18 +109,6 @@ export const communeModelDoc = {
               fr: 'Coordonnées du centre de la commune au format GeoJSON "Point"',
             },
           ],
-          properties: {
-            type: {
-              descriptions: null,
-            },
-            coordinates: {
-              descriptions: null,
-              prefixItems: [
-                { descriptions: [{ en: null, fr: "Longitude" }] },
-                { descriptions: [{ en: null, fr: "Latitude" }] },
-              ],
-            },
-          },
         },
         bbox: {
           descriptions: [
@@ -129,30 +117,12 @@ export const communeModelDoc = {
               fr: 'Coordonnées de la boîte englobante de la commune au format GeoJSON "Polygon"',
             },
           ],
-          properties: {
-            type: {
-              descriptions: null,
-            },
-            coordinates: {
-              descriptions: null,
-              items: {
-                descriptions: null,
-                items: {
-                  descriptions: null,
-                  prefixItems: [
-                    { descriptions: [{ en: null, fr: "Longitude" }] },
-                    { descriptions: [{ en: null, fr: "Latitude" }] },
-                  ],
-                },
-              },
-            },
-          },
         },
       },
     },
     mission_locale: {
       descriptions: [{ en: null, fr: "Mission locale dont relève la commune" }],
-      anyOf: [{ descriptions: null }, { descriptions: null }],
+      oneOf: [{ descriptions: null }, { descriptions: null }],
     },
   },
 } as const satisfies DocTechnicalField;

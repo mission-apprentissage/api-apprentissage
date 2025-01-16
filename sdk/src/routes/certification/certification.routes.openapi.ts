@@ -7,8 +7,6 @@ export const certificationsRoutesOpenapi = {
     get: {
       tag: "certifications",
       schema: addErrorResponseOpenApi({
-        summary: "Récupération des certifications",
-        description: "Récupère la liste des certifications, filtrée par `identifiant.cfd` et `identifiant.rncp`",
         operationId: "getCertifications",
         security: [{ "api-key": [] }],
         parameters: [

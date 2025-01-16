@@ -16,12 +16,40 @@ export const zGeoJsonPoint = z
     coordinates: zGeoCoord,
     type: z.literal("Point"),
   })
-  .strict();
+  .strict()
+  .openapi("GeoJsonPoint");
 
-export const zGeoJsonPolygon = z.object({
-  coordinates: z.array(z.array(zGeoCoord)),
-  type: z.literal("Polygon"),
-});
+export const zGeoJsonPolygon = z
+  .object({
+    coordinates: z.array(z.array(zGeoCoord)),
+    type: z.literal("Polygon"),
+  })
+  .strict()
+  .openapi("GeoJsonPolygon");
+
+export const zAdresse = z
+  .object({
+    label: z.string().nullable(),
+    code_postal: z.string().nullable(),
+    commune: z.object({
+      nom: z.string(),
+      code_insee: z.string(),
+    }),
+    departement: z.object({
+      nom: z.string(),
+      code_insee: z.string(),
+    }),
+    region: z.object({
+      code_insee: z.string(),
+      nom: z.string(),
+    }),
+    academie: z.object({
+      id: z.string(),
+      code: z.string(),
+      nom: z.string(),
+    }),
+  })
+  .openapi("Adresse");
 
 export type IGeoJsonPoint = z.infer<typeof zGeoJsonPoint>;
 export type IGeoJsonPolygon = z.infer<typeof zGeoJsonPolygon>;

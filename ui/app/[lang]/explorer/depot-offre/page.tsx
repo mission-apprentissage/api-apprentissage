@@ -5,7 +5,8 @@ import { getServerTranslation } from "@/app/i18n";
 import type { PropsWithLangParams } from "@/app/i18n/settings";
 import { PAGES } from "@/utils/routes.utils";
 
-export default async function DepotOffrePage({ params: { lang } }: PropsWithLangParams) {
+export default async function DepotOffrePage({ params }: PropsWithLangParams) {
+  const { lang } = await params;
   const { t } = await getServerTranslation(lang, "explorer");
   return <CataloguePage doc={depotOffrePageDoc} lang={lang} t={t} page={PAGES.static.depotOffre} />;
 }

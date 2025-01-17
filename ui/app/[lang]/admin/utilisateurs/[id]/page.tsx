@@ -1,6 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
+import { use } from "react";
 import type { IOrganisationInternal } from "shared/models/organisation.model";
 import type { IUserAdminView } from "shared/models/user.model";
 import type { Jsonify } from "type-fest";
@@ -47,12 +48,13 @@ function useOrganisations(): Result<Jsonify<IOrganisationInternal[]>> {
 }
 
 export default function AdminUserViewPage({ params }: PropsWithLangParams<{ id: string }>) {
-  const userResult = useUsers(params.id);
+  const { id, lang } = use(params);
+  const userResult = useUsers(id);
   const organisationResult = useOrganisations();
 
   if (userResult.isLoading || organisationResult.isLoading) {
     return <Loading />;
   }
 
-  return <UserView user={userResult.data} organisations={organisationResult.data} lang={params.lang} />;
+  return <UserView user={userResult.data} organisations={organisationResult.data} lang={lang} />;
 }

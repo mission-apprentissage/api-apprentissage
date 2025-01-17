@@ -7,7 +7,8 @@ import { PAGES } from "@/utils/routes.utils";
 
 import DonneesPersonnelles from "./components/DonneesPersonnelles";
 
-export default async function DonneesPersonnellesPage({ params: { lang } }: PropsWithLangParams) {
+export default async function DonneesPersonnellesPage({ params }: PropsWithLangParams) {
+  const { lang } = await params;
   const { t } = await getServerTranslation(lang, "global");
   return (
     <Container maxWidth="xl">

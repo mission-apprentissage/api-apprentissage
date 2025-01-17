@@ -8,7 +8,7 @@ import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import type { TooltipProps } from "@mui/material/Tooltip";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
-import { useMemo } from "react";
+import { use, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 import type { PropsWithLangParams } from "@/app/i18n/settings";
@@ -28,7 +28,8 @@ const CustomWidthTooltip = styled(({ className, ...props }: TooltipProps) => (
   },
 });
 
-const ProfilPage = ({ params: { lang } }: PropsWithLangParams) => {
+const ProfilPage = ({ params }: PropsWithLangParams) => {
+  const { lang } = use(params);
   const apiKeys = useApiKeys();
   const statut = useApiKeysStatut();
 

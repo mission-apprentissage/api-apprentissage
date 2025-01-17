@@ -35,5 +35,5 @@ export type WithLangAndT<T = EmptyObject> = WithLang<T> & {
 };
 
 export type PropsWithLangParams<T = EmptyObject> = {
-  params: WithLang<T>;
+  params: Promise<WithLang<T>>;
 };

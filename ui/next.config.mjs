@@ -10,11 +10,9 @@ const nextConfig = {
   transpilePackages: ["shared", "api-alternance-sdk"],
   poweredByHeader: false,
   productionBrowserSourceMaps: true,
-  swcMinify: true,
+  outputFileTracingRoot: path.join(path.dirname(fileURLToPath(import.meta.url)), "../"),
   experimental: {
-    outputFileTracingRoot: path.join(path.dirname(fileURLToPath(import.meta.url)), "../"),
     typedRoutes: true,
-    instrumentationHook: true,
   },
 
   async redirects() {

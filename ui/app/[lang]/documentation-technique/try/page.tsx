@@ -5,6 +5,7 @@ import "./overwride.css";
 
 import { fr } from "@codegouvfr/react-dsfr";
 import { Box, Container, Typography } from "@mui/material";
+import { use } from "react";
 import { useTranslation } from "react-i18next";
 import SwaggerUI from "swagger-ui-react";
 
@@ -13,7 +14,8 @@ import { DsfrLink } from "@/components/link/DsfrLink";
 import { publicConfig } from "@/config.public";
 import { PAGES } from "@/utils/routes.utils";
 
-export default function TryPage({ params: { lang } }: PropsWithLangParams) {
+export default function TryPage({ params }: PropsWithLangParams) {
+  const { lang } = use(params);
   const { t } = useTranslation("documentation-technique");
 
   return (

@@ -7,7 +7,8 @@ import { PAGES } from "@/utils/routes.utils";
 
 import MentionsLegales from "./components/MentionLegales";
 
-export default async function MentionsLegalesPage({ params: { lang } }: PropsWithLangParams) {
+export default async function MentionsLegalesPage({ params }: PropsWithLangParams) {
+  const { lang } = await params;
   const { t } = await getServerTranslation(lang, "global");
   return (
     <Container maxWidth="xl">

@@ -4,6 +4,7 @@ import querystring from "node:querystring";
 import { internal } from "@hapi/boom";
 import type { AxiosInstance } from "axios";
 import { isAxiosError } from "axios";
+import type { AxiosCacheInstance } from "axios-cache-interceptor";
 
 import config from "@/config.js";
 import getApiClient from "@/services/apis/client.js";
@@ -38,7 +39,7 @@ function getFormHeaders(auth?: { Cookie: string }) {
 }
 
 export async function login() {
-  return acceClient(async (client: AxiosInstance) => {
+  return acceClient(async (client: AxiosInstance | AxiosCacheInstance) => {
     try {
       logger.debug(`Logging to ACCE...`);
 
@@ -83,7 +84,7 @@ export async function login() {
 }
 
 async function startExtraction(auth: { Cookie: string }) {
-  return acceClient(async (client: AxiosInstance) => {
+  return acceClient(async (client: AxiosInstance | AxiosCacheInstance) => {
     try {
       logger.debug(`Requesting a new extraction...`);
 
@@ -198,7 +199,7 @@ async function startExtraction(auth: { Cookie: string }) {
 }
 
 async function pollExtraction(auth: { Cookie: string }, extractionId: string) {
-  return acceClient(async (client: AxiosInstance) => {
+  return acceClient(async (client: AxiosInstance | AxiosCacheInstance) => {
     try {
       logger.debug(`Polling extraction ${extractionId}...`);
 

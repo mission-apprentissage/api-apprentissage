@@ -58,10 +58,8 @@ export function generateStaticParams() {
   return languages.map((lang) => ({ lang }));
 }
 
-export default async function LangLayout({
-  children,
-  params: { lang: requestedLang },
-}: PropsWithChildren<PropsWithLangParams>) {
+export default async function LangLayout({ children, params }: PropsWithChildren<PropsWithLangParams>) {
+  const { lang: requestedLang } = await params;
   const session = await getSession();
 
   const lang = languages.includes(requestedLang) ? requestedLang : languages[0];

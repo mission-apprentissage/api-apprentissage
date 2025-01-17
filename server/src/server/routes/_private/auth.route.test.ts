@@ -544,6 +544,7 @@ describe("Authentication", () => {
           expires: new Date(0),
           httpOnly: true,
           name: "api_session",
+          maxAge: 0,
           path: "/",
           sameSite: "Lax",
           value: "",

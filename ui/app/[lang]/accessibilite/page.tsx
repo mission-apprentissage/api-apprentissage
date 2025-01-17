@@ -7,7 +7,8 @@ import { PAGES } from "@/utils/routes.utils";
 
 import Accessibilite from "./components/Accessibilite";
 
-export default async function AccessibilitePage({ params: { lang } }: PropsWithLangParams) {
+export default async function AccessibilitePage({ params }: PropsWithLangParams) {
+  const { lang } = await params;
   const { t } = await getServerTranslation(lang, "global");
   return (
     <Container maxWidth="xl">

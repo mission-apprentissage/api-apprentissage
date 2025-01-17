@@ -1,6 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
+import { use } from "react";
 import type { IOrganisationInternal } from "shared/models/organisation.model";
 import type { Jsonify } from "type-fest";
 
@@ -32,7 +33,8 @@ function useOrganisation(id: string): Result<Jsonify<IOrganisationInternal | nul
   return { isLoading: false, data: result.data.find((o) => o._id === id) ?? null };
 }
 
-export default function AdminOrganisationViewPage({ params: { id, lang } }: PropsWithLangParams<{ id: string }>) {
+export default function AdminOrganisationViewPage({ params }: PropsWithLangParams<{ id: string }>) {
+  const { id, lang } = use(params);
   const organisationResult = useOrganisation(id);
 
   if (organisationResult.isLoading) {

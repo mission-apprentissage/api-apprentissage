@@ -1,4 +1,5 @@
 import { internal, isBoom } from "@hapi/boom";
+import type { AxiosInstance } from "axios";
 import { isAxiosError } from "axios";
 import axiosRetry, { exponentialDelay } from "axios-retry";
 import type { IInseeItem } from "shared";
@@ -21,7 +22,7 @@ const rawClient = getApiClient(
   { cache: false }
 );
 
-axiosRetry(rawClient, {
+axiosRetry(rawClient as AxiosInstance, {
   retries: 3,
   retryDelay: exponentialDelay,
 });

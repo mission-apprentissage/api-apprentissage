@@ -5,7 +5,7 @@ import { captureException } from "@sentry/nextjs";
 import { jwtDecode } from "jwt-decode";
 import { useSearchParams } from "next/navigation";
 import type { ComponentType } from "react";
-import { useEffect, useMemo, useState } from "react";
+import { use, useEffect, useMemo, useState } from "react";
 import { assertUnreachable } from "shared";
 import type { ISessionJson } from "shared/routes/_private/auth.routes";
 import type { IAccessToken } from "shared/routes/common.routes";
@@ -143,12 +143,13 @@ function useLogin() {
 export function withAuth<P extends PropsWithLangParams>(Component: ComponentType<P & { session: ISessionJson }>) {
   return function AuthComponent(props: P) {
     const status = useLogin();
+    const { lang } = use(props.params);
 
     switch (status.status) {
       case "connected":
         return <Component {...props} session={status.session} />;
       case "disconnected":
-        return <LoginModal lang={props.params.lang} />;
+        return <LoginModal lang={lang} />;
       case "loading":
         return null;
       case "error":
@@ -157,7 +158,7 @@ export function withAuth<P extends PropsWithLangParams>(Component: ComponentType
             <Snackbar open anchorOrigin={{ vertical: "top", horizontal: "center" }}>
               <Alert severity="error" description={status.error} small />
             </Snackbar>
-            <LoginModal lang={props.params.lang} />
+            <LoginModal lang={lang} />
           </>
         );
       default:

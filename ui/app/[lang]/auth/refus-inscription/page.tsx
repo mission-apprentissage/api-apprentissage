@@ -8,7 +8,7 @@ import { Box, Dialog, DialogContent, Typography } from "@mui/material";
 import { captureException } from "@sentry/nextjs";
 import NextLink from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { use, useState } from "react";
 import type { FieldError, SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import type { IBody, IPostRoutes } from "shared";
@@ -36,7 +36,8 @@ function getInputState(error: FieldError | undefined | null): {
 
 const defaultErrorMessage = "Une erreur est survenue lors de l'envoi du formulaire. Veuillez réessayer ultérieurement.";
 
-export default function RegisterFeedbackPage({ params: { lang } }: PropsWithLangParams) {
+export default function RegisterFeedbackPage({ params }: PropsWithLangParams) {
+  const { lang } = use(params);
   const {
     register,
     handleSubmit,

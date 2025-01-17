@@ -7,7 +7,8 @@ import { PAGES } from "@/utils/routes.utils";
 
 import OrganisationList from "./components/OrganisationList";
 
-export default async function AdminOrganisationPage({ params: { lang } }: PropsWithLangParams) {
+export default async function AdminOrganisationPage({ params }: PropsWithLangParams) {
+  const { lang } = await params;
   const { t } = await getServerTranslation(lang, "global");
   return (
     <>

@@ -9,8 +9,10 @@ import RedocPageClient from "./components/redoc";
 
 acceptLanguage.languages(["fr", "en"]);
 
-export default function RedocPage({ params: { lang } }: PropsWithLangParams) {
-  const nonce = headers().get("x-nonce") ?? "";
+export default async function RedocPage({ params }: PropsWithLangParams) {
+  const { lang } = await params;
+  const h = await headers();
+  const nonce = h.get("x-nonce") ?? "";
 
   return <RedocPageClient nonce={nonce} lang={lang} />;
 }

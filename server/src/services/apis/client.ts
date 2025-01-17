@@ -1,6 +1,6 @@
 import type { AxiosInstance, AxiosRequestConfig } from "axios";
 import axios from "axios";
-import type { MemoryStorage } from "axios-cache-interceptor";
+import type { AxiosCacheInstance, MemoryStorage } from "axios-cache-interceptor";
 import { buildMemoryStorage, setupCache } from "axios-cache-interceptor";
 
 const CLEANUP_INTERVAL = 1000 * 60 * 10; // 10 minutes
@@ -16,7 +16,10 @@ const closeMemoryCache = () => {
   });
 };
 
-const getApiClient = (options: AxiosRequestConfig, { cache }: { cache: boolean } = { cache: true }): AxiosInstance => {
+const getApiClient = (
+  options: AxiosRequestConfig,
+  { cache }: { cache: boolean } = { cache: true }
+): AxiosInstance | AxiosCacheInstance => {
   const client: AxiosInstance = axios.create({
     timeout: 5000,
     ...options,

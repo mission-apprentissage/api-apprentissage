@@ -8,6 +8,7 @@ import search from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/digital/searc
 import contract from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/document/contract.svg";
 import money from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/institutions/money.svg";
 import book from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/leisure/book.svg";
+import community from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/leisure/community.svg";
 import locationFrance from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/map/location-france.svg";
 import { Tag as TagDsfr } from "@codegouvfr/react-dsfr/Tag";
 import { Tile } from "@codegouvfr/react-dsfr/Tile";
@@ -16,6 +17,7 @@ import {
   candidatureOffrePageSummaryDoc,
   certificationsPageSummaryDoc,
   depotOffrePageSummaryDoc,
+  generationLienPriseRdvFormationPageSummaryDoc,
   getTextOpenAPI,
   rechercheCommunePageSummaryDoc,
   rechercheFormationPageSummaryDoc,
@@ -109,6 +111,15 @@ export default async function ExplorerApiPage({ params }: PropsWithLangParams) {
           imageUrl={school.src}
           enlargeLinkOrButton
           linkProps={{ href: PAGES.static.rechercheFormation.getPath(lang) }}
+          start={<TagDsfr>{t(`type.data`, { lng: lang })}</TagDsfr>}
+        />
+        <Tile
+          title={getTextOpenAPI(generationLienPriseRdvFormationPageSummaryDoc.title, lang)}
+          desc={getTextOpenAPI(generationLienPriseRdvFormationPageSummaryDoc.headline, lang)}
+          imageSvg
+          imageUrl={community.src}
+          enlargeLinkOrButton
+          linkProps={{ href: PAGES.static.generationLienPriseRdvFormation.getPath(lang) }}
           start={<TagDsfr>{t(`type.data`, { lng: lang })}</TagDsfr>}
         />
         <Tile

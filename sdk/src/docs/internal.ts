@@ -7,6 +7,7 @@ export * from "./models/job/offer_write.model.doc.js";
 export * from "./models/job/recruiter.model.doc.js";
 export * from "./models/mission-locale/mission-locale.model.doc.js";
 export * from "./routes/communeSearch/communeSearch.route.doc.js";
+export * from "./routes/generateFormationAppointmentLink/generateFormationAppointmentLink.doc.js";
 export * from "./routes/jobSearch/jobSearch.route.doc.js";
 export * from "./routes/jobApply/jobApply.route.doc.js";
 export * from "./routes/jobOfferCreate/jobOfferCreate.route.doc.js";

@@ -18,6 +18,7 @@ const OPERATION_MAPPING: Record<string, string> = {
   "post:/job/v1/offer": "post:/v3/jobs",
   "put:/job/v1/offer/{id}": "put:/v3/jobs/{id}",
   "post:/job/v1/apply": "post:/v2/application",
+  "post:/formation/v1/appointment/generate-link": "post:/v2/appointment",
 };
 
 async function fetchLbaOperations(): Promise<Record<string, OpenapiOperation>> {

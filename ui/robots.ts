@@ -9,6 +9,9 @@ const getRules = () => {
       return {
         userAgent: "*",
       };
+    case "local":
+    case "preview":
+    case "recette":
     default:
       return {
         userAgent: "*",

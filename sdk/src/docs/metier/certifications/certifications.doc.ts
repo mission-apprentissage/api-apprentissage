@@ -10,9 +10,15 @@ import periodeValiditeRncpDescFr from "./fr/periode_validite.rncp.description.md
 import typeDesc from "./fr/type.description.md.js";
 
 export const certificationsPageSummaryDoc = {
-  en: "Consult the data model and search the list of certifications",
-  fr: "Consulter le modèle de données et effectuer une recherche dans la liste des certifications",
-} as OpenApiText;
+  title: {
+    fr: "Liste des certifications professionnelles",
+    en: "List of professional certifications",
+  },
+  headline: {
+    en: "Consult the data model and search the list of certifications",
+    fr: "Consulter le modèle de données et effectuer une recherche dans la liste des certifications",
+  },
+} as const satisfies { title: OpenApiText; headline: OpenApiText };
 
 export const certificationsPageDoc = {
   tag: "certifications",

@@ -5,8 +5,8 @@ import { ZodUnknown } from "zod";
 import type { DocRoute, DocTechnicalField } from "../docs/types.js";
 import { zApiRoutes } from "../routes/index.js";
 import { buildOpenApiSchema } from "./builder/openapi.builder.js";
+import type { StructureDiff } from "./compare/compareOpenapiSchema.js";
 import { compareOperationObjectsStructure, compareSchemaObjectsStructure } from "./compare/compareOpenapiSchema.js";
-import type { StructureDiff } from "./internal.js";
 import { openapiSpec } from "./openapiSpec.js";
 import type { OpenapiRoute } from "./types.js";
 import {

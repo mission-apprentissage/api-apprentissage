@@ -1,8 +1,8 @@
 import { fr } from "@codegouvfr/react-dsfr";
 import { Tabs } from "@codegouvfr/react-dsfr/Tabs";
 import { Box, Container, Hidden, Typography } from "@mui/material";
-import type { DocDatum, DocModelRow, DocModelSection, DocPage } from "api-alternance-sdk/internal";
-import { getTextOpenAPI, openapiSpec } from "api-alternance-sdk/internal";
+import type { DocDatum, DocModelRow, DocModelSection, DocPage, OpenApiText } from "api-alternance-sdk/internal";
+import { getTextOpenAPI, getTextOpenAPIArray } from "api-alternance-sdk/internal";
 
 import type { WithLangAndT } from "@/app/i18n/settings";
 import { Artwork } from "@/components/artwork/Artwork";
@@ -64,6 +64,10 @@ function InformationBox({ information, lang, t }: WithLangAndT<Pick<DocModelRow,
 }
 
 function DataField({ name, row, lang, t, noHr }: WithLangAndT<{ name: string; row: DocModelRow; noHr: boolean }>) {
+  const description = Array.isArray(row.description)
+    ? getTextOpenAPIArray(row.description, lang)
+    : getTextOpenAPI(row.description as OpenApiText | null, lang);
+
   return (
     <Box
       sx={{
@@ -94,7 +98,7 @@ function DataField({ name, row, lang, t, noHr }: WithLangAndT<{ name: string; ro
               {getTextOpenAPI(row.sample, lang)}
             </Typography>
           )}
-          <DsfrMarkdown>{getTextOpenAPI(row.description, lang)}</DsfrMarkdown>
+          <DsfrMarkdown>{description}</DsfrMarkdown>
           {row.tags != null ? (
             <Box sx={{ display: "flex", gap: fr.spacing("1w"), flexWrap: "wrap" }}>
               {row.tags.map((tag) => (
@@ -128,17 +132,21 @@ function DataRows({ rows, lang, t, noHr }: WithLangAndT<{ rows: Record<string, D
 function DataTypologie({ section, lang, t, noHr }: WithLangAndT<{ section: DocModelSection; noHr: boolean }>) {
   return (
     <Box sx={{ display: "flex", gap: fr.spacing("1w"), flexDirection: "column" }}>
-      <Typography variant="h6">{getTextOpenAPI(section.name, lang)}</Typography>
-      <Box
-        sx={{
-          display: "grid",
-          gridTemplateColumns: threeColumns,
-          gap: fr.spacing("9w"),
-          flexDirection: "column",
-        }}
-      >
-        <Box component="hr" sx={{ gridColumn: "1/3", padding: 0, height: "1px" }} />
-      </Box>
+      {section.name !== null && (
+        <>
+          <Typography variant="h6">{getTextOpenAPI(section.name, lang)}</Typography>
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: threeColumns,
+              gap: fr.spacing("9w"),
+              flexDirection: "column",
+            }}
+          >
+            <Box component="hr" sx={{ gridColumn: "1/3", padding: 0, height: "1px" }} />
+          </Box>
+        </>
+      )}
       <DataRows rows={section.rows} lang={lang} t={t} noHr={noHr} />
     </Box>
   );

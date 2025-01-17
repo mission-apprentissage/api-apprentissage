@@ -91,7 +91,6 @@ export const formationRoutesOpenapi = {
         ],
         responses: {
           "200": {
-            description: "Liste des formations",
             content: {
               "application/json": {
                 schema: {

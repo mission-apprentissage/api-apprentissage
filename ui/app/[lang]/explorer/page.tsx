@@ -2,6 +2,7 @@ import { fr } from "@codegouvfr/react-dsfr";
 import { Breadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
 import cityHall from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/buildings/city-hall.svg";
 import house from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/buildings/house.svg";
+import school from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/buildings/school.svg";
 import internet from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/digital/internet.svg";
 import search from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/digital/search.svg";
 import contract from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/document/contract.svg";
@@ -17,6 +18,7 @@ import {
   depotOffrePageSummaryDoc,
   getTextOpenAPI,
   rechercheCommunePageSummaryDoc,
+  rechercheFormationPageSummaryDoc,
   rechercheOffrePageSummaryDoc,
   recuperationDepartementsPageSummaryDoc,
   recuperationMissionLocalePageSummaryDoc,
@@ -74,8 +76,44 @@ export default async function ExplorerApiPage({ params }: PropsWithLangParams) {
         gap={fr.spacing("2w")}
       >
         <Tile
-          title={PAGES.static.catalogueDesDonneesCertification.getTitle(lang, t)}
-          desc={getTextOpenAPI(certificationsPageSummaryDoc, lang)}
+          title={getTextOpenAPI(rechercheOffrePageSummaryDoc.title, lang)}
+          desc={getTextOpenAPI(rechercheOffrePageSummaryDoc.headline, lang)}
+          imageSvg
+          imageUrl={search.src}
+          enlargeLinkOrButton
+          start={<TagDsfr>{t(`type.data`, { lng: lang })}</TagDsfr>}
+          linkProps={{ href: PAGES.static.rechercheOffre.getPath(lang) }}
+        />
+        <Tile
+          title={getTextOpenAPI(depotOffrePageSummaryDoc.title, lang)}
+          desc={getTextOpenAPI(depotOffrePageSummaryDoc.headline, lang)}
+          imageSvg
+          imageUrl={internet.src}
+          enlargeLinkOrButton
+          linkProps={{ href: PAGES.static.depotOffre.getPath(lang) }}
+          start={<TagDsfr>{t(`type.outil`, { lng: lang })}</TagDsfr>}
+        />
+        <Tile
+          title={getTextOpenAPI(candidatureOffrePageSummaryDoc.title, lang)}
+          desc={getTextOpenAPI(candidatureOffrePageSummaryDoc.headline, lang)}
+          imageSvg
+          imageUrl={contract.src}
+          enlargeLinkOrButton
+          linkProps={{ href: PAGES.static.candidatureOffre.getPath(lang) }}
+          start={<TagDsfr>{t(`type.outil`, { lng: lang })}</TagDsfr>}
+        />
+        <Tile
+          title={getTextOpenAPI(rechercheFormationPageSummaryDoc.title, lang)}
+          desc={getTextOpenAPI(rechercheFormationPageSummaryDoc.headline, lang)}
+          imageSvg
+          imageUrl={school.src}
+          enlargeLinkOrButton
+          linkProps={{ href: PAGES.static.rechercheFormation.getPath(lang) }}
+          start={<TagDsfr>{t(`type.data`, { lng: lang })}</TagDsfr>}
+        />
+        <Tile
+          title={getTextOpenAPI(certificationsPageSummaryDoc.title, lang)}
+          desc={getTextOpenAPI(certificationsPageSummaryDoc.headline, lang)}
           imageSvg
           imageUrl={book.src}
           enlargeLinkOrButton
@@ -86,44 +124,8 @@ export default async function ExplorerApiPage({ params }: PropsWithLangParams) {
           start={<TagDsfr>{t(`type.data`, { lng: lang })}</TagDsfr>}
         />
         <Tile
-          title={PAGES.static.simulateurNpec.getTitle(lang, t)}
-          desc={t("simulateurNpec.desc")}
-          imageSvg
-          imageUrl={money.src}
-          enlargeLinkOrButton
-          linkProps={{ href: PAGES.static.simulateurNpec.getPath(lang) }}
-          start={<TagDsfr>{t(`type.outil`, { lng: lang })}</TagDsfr>}
-        />
-        <Tile
-          title={PAGES.static.rechercheOffre.getTitle(lang, t)}
-          desc={getTextOpenAPI(rechercheOffrePageSummaryDoc, lang)}
-          imageSvg
-          imageUrl={search.src}
-          enlargeLinkOrButton
-          start={<TagDsfr>{t(`type.data`, { lng: lang })}</TagDsfr>}
-          linkProps={{ href: PAGES.static.rechercheOffre.getPath(lang) }}
-        />
-        <Tile
-          title={PAGES.static.depotOffre.getTitle(lang, t)}
-          desc={getTextOpenAPI(depotOffrePageSummaryDoc, lang)}
-          imageSvg
-          imageUrl={internet.src}
-          enlargeLinkOrButton
-          linkProps={{ href: PAGES.static.depotOffre.getPath(lang) }}
-          start={<TagDsfr>{t(`type.outil`, { lng: lang })}</TagDsfr>}
-        />
-        <Tile
-          title={PAGES.static.candidatureOffre.getTitle(lang, t)}
-          desc={getTextOpenAPI(candidatureOffrePageSummaryDoc, lang)}
-          imageSvg
-          imageUrl={contract.src}
-          enlargeLinkOrButton
-          linkProps={{ href: PAGES.static.candidatureOffre.getPath(lang) }}
-          start={<TagDsfr>{t(`type.outil`, { lng: lang })}</TagDsfr>}
-        />
-        <Tile
-          title={PAGES.static.rechercheCommune.getTitle(lang, t)}
-          desc={getTextOpenAPI(rechercheCommunePageSummaryDoc, lang)}
+          title={getTextOpenAPI(rechercheCommunePageSummaryDoc.title, lang)}
+          desc={getTextOpenAPI(rechercheCommunePageSummaryDoc.headline, lang)}
           imageSvg
           imageUrl={cityHall.src}
           enlargeLinkOrButton
@@ -131,8 +133,8 @@ export default async function ExplorerApiPage({ params }: PropsWithLangParams) {
           start={<TagDsfr>{t(`type.data`, { lng: lang })}</TagDsfr>}
         />
         <Tile
-          title={PAGES.static.recuperationDepartements.getTitle(lang, t)}
-          desc={getTextOpenAPI(recuperationDepartementsPageSummaryDoc, lang)}
+          title={getTextOpenAPI(recuperationDepartementsPageSummaryDoc.title, lang)}
+          desc={getTextOpenAPI(recuperationDepartementsPageSummaryDoc.headline, lang)}
           imageSvg
           imageUrl={locationFrance.src}
           enlargeLinkOrButton
@@ -140,13 +142,22 @@ export default async function ExplorerApiPage({ params }: PropsWithLangParams) {
           start={<TagDsfr>{t(`type.data`, { lng: lang })}</TagDsfr>}
         />
         <Tile
-          title={PAGES.static.recuperationMissionLocales.getTitle(lang, t)}
-          desc={getTextOpenAPI(recuperationMissionLocalePageSummaryDoc, lang)}
+          title={getTextOpenAPI(recuperationMissionLocalePageSummaryDoc.title, lang)}
+          desc={getTextOpenAPI(recuperationMissionLocalePageSummaryDoc.headline, lang)}
           imageSvg
           imageUrl={house.src}
           enlargeLinkOrButton
           linkProps={{ href: PAGES.static.recuperationMissionLocales.getPath(lang) }}
           start={<TagDsfr>{t(`type.data`, { lng: lang })}</TagDsfr>}
+        />
+        <Tile
+          title={PAGES.static.simulateurNpec.getTitle(lang, t)}
+          desc={t("simulateurNpec.desc")}
+          imageSvg
+          imageUrl={money.src}
+          enlargeLinkOrButton
+          linkProps={{ href: PAGES.static.simulateurNpec.getPath(lang) }}
+          start={<TagDsfr>{t(`type.outil`, { lng: lang })}</TagDsfr>}
         />
       </Box>
       <Box sx={{ background: fr.colors.decisions.background.alt.beigeGrisGalet.default }}>

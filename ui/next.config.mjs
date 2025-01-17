@@ -15,6 +15,10 @@ const nextConfig = {
     typedRoutes: true,
   },
 
+  devIndicators: {
+    appIsrStatus: true,
+  },
+
   async redirects() {
     return [
       {

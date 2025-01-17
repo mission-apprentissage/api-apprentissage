@@ -1,10 +1,8 @@
+import { certificationsPageSummaryDoc } from "../../metier/certifications/certifications.doc.js";
 import type { DocRoute } from "../../types.js";
 
 export const getCertificationsRouteDoc = {
-  summary: {
-    en: "Search for certification by RNCP or CFD code",
-    fr: "Recherche de certification par code rncp ou cfd",
-  },
+  summary: certificationsPageSummaryDoc.title,
   description: {
     fr: "Récupère la liste des certifications, filtrée par `identifiant.cfd` et `identifiant.rncp`",
     en: "Retrieve the list of certifications, filtered by `identifiant.cfd` and `identifiant.rncp`",

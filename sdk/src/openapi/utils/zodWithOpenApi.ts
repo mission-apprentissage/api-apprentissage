@@ -2,7 +2,7 @@ import { extendZodWithOpenApi as extendZodWithOpenApiBase } from "@asteasolution
 import type { ContentObject, OperationObject, ParameterObject, ReferenceObject, SchemaObject } from "openapi3-ts/oas31";
 import { z } from "zod";
 
-import type { DocTechnicalField, OpenApiText } from "../../internal.js";
+import type { DocTechnicalField, OpenApiText } from "../../docs/types.js";
 import { addErrorResponseOpenApi } from "../../models/errors/errors.model.openapi.js";
 import { tagsOpenapi } from "../tags.openapi.js";
 import type { OpenapiRoute } from "../types.js";
@@ -36,6 +36,20 @@ function getTextOpenAPI<T extends OpenApiText | null | undefined>(
   return text.trim() as T extends null | undefined ? null : string;
 }
 
+function getTextOpenAPIArray<T extends OpenApiText[] | null | undefined>(
+  value: T,
+  lang: "fr" | "en"
+): T extends null | undefined ? null : string {
+  if (Array.isArray(value)) {
+    return value
+      .map((v) => getTextOpenAPI(v, lang))
+      .join("\n\n")
+      .trim() as T extends null | undefined ? null : string;
+  }
+
+  return null as T extends null | undefined ? null : string;
+}
+
 function getDocOpenAPIAttributes(
   field: DocTechnicalField | undefined,
   lang: "en" | "fr"
@@ -50,10 +64,7 @@ function getDocOpenAPIAttributes(
   const r: { description?: string; examples?: unknown[] } = {};
 
   if (field.descriptions && field.descriptions.length > 0) {
-    r.description = field.descriptions
-      .map((d) => getTextOpenAPI(d, lang))
-      .join("\n\n")
-      .trim();
+    r.description = getTextOpenAPIArray(field.descriptions, lang);
   }
 
   if (field.examples) {
@@ -280,4 +291,12 @@ function addOperationDoc(route: OpenapiRoute, lang: "en" | "fr"): OperationObjec
   return addErrorResponseOpenApi(output);
 }
 
-export { addSchemaDoc, addOperationDoc, zodOpenApi, getDocOpenAPIAttributes, pickPropertiesOpenAPI, getTextOpenAPI };
+export {
+  addSchemaDoc,
+  getTextOpenAPIArray,
+  addOperationDoc,
+  zodOpenApi,
+  getDocOpenAPIAttributes,
+  pickPropertiesOpenAPI,
+  getTextOpenAPI,
+};

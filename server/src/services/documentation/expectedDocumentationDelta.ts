@@ -15,14 +15,14 @@ export const expectedDocumentationDelta: Record<string, StructureDiff<"lba", "ap
         source: ["number", "null"],
         result: "number",
       },
-      "parameters.query:partners_to_exclude.schema.items.enum": {
-        type: "removed",
-        source: ["Hello work", "RH Alternance"],
-      },
       "parameters.query:partners_to_exclude.schema.type": {
         type: "changed",
         source: ["array", "null"],
         result: "array",
+      },
+      "parameters.query:partners_to_exclude.schema.items.enum": {
+        type: "removed",
+        source: ["Hello work", "RH Alternance"],
       },
       "parameters.query:radius.schema.type": {
         type: "changed",
@@ -39,6 +39,16 @@ export const expectedDocumentationDelta: Record<string, StructureDiff<"lba", "ap
         source: ["string", "null"],
         result: "string",
       },
+      "responses.200.content.application/json.schema.properties.jobs.items.properties.workplace.properties.location.properties.geopoint.properties.coordinates.maxItems":
+        {
+          type: "added",
+          result: 2,
+        },
+      "responses.200.content.application/json.schema.properties.jobs.items.properties.workplace.properties.location.properties.geopoint.properties.coordinates.minItems":
+        {
+          type: "added",
+          result: 2,
+        },
       "responses.200.content.application/json.schema.properties.jobs.items.properties.workplace.properties.domain.properties.opco.enum":
         {
           type: "removed",
@@ -64,10 +74,16 @@ export const expectedDocumentationDelta: Record<string, StructureDiff<"lba", "ap
           type: "string",
         },
       },
-      "responses.200.content.application/json.schema.properties.recruiters.items.properties.identifier.required": {
-        type: "added",
-        result: ["id"],
-      },
+      "responses.200.content.application/json.schema.properties.recruiters.items.properties.workplace.properties.location.properties.geopoint.properties.coordinates.maxItems":
+        {
+          type: "added",
+          result: 2,
+        },
+      "responses.200.content.application/json.schema.properties.recruiters.items.properties.workplace.properties.location.properties.geopoint.properties.coordinates.minItems":
+        {
+          type: "added",
+          result: 2,
+        },
       "responses.200.content.application/json.schema.properties.recruiters.items.properties.workplace.properties.domain.properties.opco.enum":
         {
           type: "removed",
@@ -111,21 +127,12 @@ export const expectedDocumentationDelta: Record<string, StructureDiff<"lba", "ap
           type: "string",
         },
       },
-      "responses.200.content.application/json.schema.required": {
-        type: "added",
-        result: ["id"],
-      },
     },
   },
   "put:/job/v1/offer/{id}": {
     source: "lba",
     result: "api",
     diff: {
-      "parameters.path:id.required": {
-        type: "changed",
-        source: false,
-        result: true,
-      },
       "parameters.path:id.schema": {
         type: "added",
         result: {

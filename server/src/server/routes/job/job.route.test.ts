@@ -47,6 +47,11 @@ const organisations = {
     slug: "org-read",
     habilitations: [],
   }),
+  appointmentsWrite: generateOrganisationFixture({
+    nom: "Org appointments Write",
+    slug: "org-appointments-write",
+    habilitations: ["appointments:write"],
+  }),
 };
 
 const users = {
@@ -70,6 +75,11 @@ const users = {
     is_admin: false,
     organisation: organisations.applicationWrite.nom,
   }),
+  appointmentsWrite: generateUserFixture({
+    email: "appointments-write@exemple.fr",
+    is_admin: false,
+    organisation: organisations.appointmentsWrite.nom,
+  }),
 };
 
 const tokens = {
@@ -77,6 +87,7 @@ const tokens = {
   read: "",
   jobWrite: "",
   applicationWrite: "",
+  appointmentsWrite: "",
 };
 
 const nockMatchUserAuthorization = (u: IUser, habilitations: string[]) => (token: string) => {
@@ -109,6 +120,7 @@ beforeEach(async () => {
   tokens.read = (await generateApiKey("", users.read)).value;
   tokens.jobWrite = (await generateApiKey("", users.jobWrite)).value;
   tokens.applicationWrite = (await generateApiKey("", users.applicationWrite)).value;
+  tokens.appointmentsWrite = (await generateApiKey("", users.appointmentsWrite)).value;
 });
 
 describe("GET /job/v1/search", () => {
@@ -256,7 +268,7 @@ describe("POST /job/v1/offer", () => {
     });
   });
 
-  it.each<[keyof typeof tokens]>([["read"], ["applicationWrite"]])(
+  it.each<[keyof typeof tokens]>([["read"], ["applicationWrite"], ["appointmentsWrite"]])(
     "should returns 403 if organisation doesn't have habilitation jobs:write (%s)",
     async (name) => {
       const response = await app.inject({

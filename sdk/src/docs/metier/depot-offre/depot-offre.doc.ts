@@ -22,7 +22,7 @@ export const depotOffrePageDoc = {
       fr: "**💡 Cette API vous permet de partager gratuitement vos offres en alternance de manière sécurisée et automatisée.** Si vous préférez déposer vos offres via une interface, vous pouvez utiliser [le formulaire de dépôt d’offre manuel proposé par La bonne alternance](https://labonnealternance.apprentissage.beta.gouv.fr/espace-pro/creation/entreprise).",
     },
   ],
-  frequenceMiseAJour: "daily",
+  frequenceMiseAJour: null,
   type: "data",
   sources: [
     {
@@ -43,10 +43,14 @@ export const depotOffrePageDoc = {
             ...rechercheOffrePageDoc.data[0].sections.offer.rows,
             multicast: {
               description: {
-                en: "By default, the posted offers are available on La bonne alternance and made available to partners. You can choose to exclude the distribution on partner sites by specifying `multidiffusion: false`.",
-                fr: "Par défaut les offres déposées sont disponible sur La bonne alternance, et mis à disposition des partenaires. Vous pouvez choisir d'exclure la diffusion sur les sites partenaires en spécifiant `multidiffusion: false`.",
+                en: "By default, the offers posted are available on La bonne alternance and redistributed to its [partner sites](https://mission-apprentissage.notion.site/Liste-des-partenaires-de-La-bonne-alternance-3e9aadb0170e41339bac486399ec4ac1). You can choose to exclude the redistribution to partner sites by specifying `multidiffusion: false`.",
+                fr: "Par défaut les offres déposées sont disponibles sur La bonne alternance, et rediffusées auprès de ses [sites partenaires](https://mission-apprentissage.notion.site/Liste-des-partenaires-de-La-bonne-alternance-3e9aadb0170e41339bac486399ec4ac1). Vous pouvez choisir d'exclure la diffusion sur les sites partenaires en spécifiant `multidiffusion: false`.",
               },
               tags: [],
+              information: {
+                fr: "Lorsque l'option `multidiffusion` est activée, l'adresse email de contact de l'entreprise n'est pas partagée avec les sites partenaires. La liste des données partagée est disponible sur la page [recherche d’opportunités d’emploi en alternance](./recherche-offre).",
+                en: "When the `multidiffusion` option is activated, the company's contact email address is not shared with partner sites. The list of shared data is available on the [alternance job opportunities search page](./recherche-offre).",
+              },
             },
           },
         },

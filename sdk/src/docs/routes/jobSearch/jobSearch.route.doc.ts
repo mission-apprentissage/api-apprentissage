@@ -12,7 +12,7 @@ import warnings from "./response/warnings.md.js";
 export const jobSearchRouteDoc = {
   summary: {
     en: "Search for apprenticeship job opportunities",
-    fr: "Recherche d'opportunités d'emploi en apprentissage",
+    fr: "Recherche d'opportunités d'emploi en alternance",
   },
   description: {
     en: "Access in real-time all apprenticeship job opportunities available in France and offer them to your users for free and under a white-label format.",

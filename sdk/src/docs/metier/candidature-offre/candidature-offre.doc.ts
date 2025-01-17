@@ -23,7 +23,7 @@ export const candidatureOffrePageDoc = {
       en: "To use this API, you must first query the [alternance job opportunities search API](./recherche-offre). This API allows you to access all the job opportunities in alternance in real time throughout France. Then, for each opportunity with a `apply.recipient_id`, you can use this route to send an application to this job opportunity, specifying `apply.recipient_id` as the recipient in the call parameters.",
     },
   ],
-  frequenceMiseAJour: "daily",
+  frequenceMiseAJour: null,
   type: "data",
   sources: [
     {
@@ -79,7 +79,7 @@ export const candidatureOffrePageDoc = {
             recipient_id: {
               description: {
                 en: "Recipient identifier retrieved from `apply.recipient_id` from search route results of the [alternance job opportunities search route](./recherche-offre).",
-                fr: "Identifiant du destinataire récupéré de `apply.recipient_id` depuis les resultas de la route de la [route de recherche d’opportunités d’emploi en alternance](./recherche-offre).",
+                fr: "Identifiant du destinataire récupéré de `apply.recipient_id` depuis les résultats de la route de la [route de recherche d’opportunités d’emploi en alternance](./recherche-offre).",
               },
             },
           },

@@ -7,4 +7,4 @@ Une offre d’emploi est décrite par :
 - Les compétences ou qualités à acquérir durant l'alternance. Exemple : Recherche, Innovation (Analyser les indicateurs pertinents sur les tendances et les usages des clients ; Concevoir et développer une solution digitale ; Créer une documentation technique). Nouvelles technologies (Assembler des composants logiciels ; Concevoir une application web)
 - Les conditions d’accès au métier. Exemple : Ce métier est accessible avec un diplôme de niveau Bac+2 (BTS, DUT) à Master (MIAGE, diplôme d'ingénieur, Master professionnel, ...) en informatique. Il est également accessible avec une expérience professionnelle en informatique, système d'exploitation ou dans un domaine applicatif. La pratique de l'anglais (vocabulaire technique) est requise.
 - Le nombre de postes à pourvoir.
-- La liste des codes ROME associés. Exemple : M1805, M1806, M1807
+- Le ou les codes ROME associés. Exemple : M1805, M1806, M1807

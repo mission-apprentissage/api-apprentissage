@@ -4,8 +4,8 @@ import descriptionFr from "./docs/fr/description.doc.md.js";
 
 export const jobApplyRouteDoc = {
   summary: {
-    en: "Send an application to a job offer or a company.",
-    fr: "Envoyer une candidature à une offre ou à une entreprise.",
+    en: "Send an application to a job opportunity in apprenticeship",
+    fr: "Envoi d’une candidature à une opportunité d’emploi en alternance",
   },
   description: {
     en: descriptionEn,

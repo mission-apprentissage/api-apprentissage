@@ -83,7 +83,7 @@ export const zApiFormationRoutes = {
       },
       securityScheme: {
         auth: "api-key",
-        access: null,
+        access: "appointments:write",
         ressources: {},
       },
     },

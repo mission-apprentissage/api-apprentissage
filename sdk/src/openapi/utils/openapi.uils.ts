@@ -1,7 +1,6 @@
 import type { ResponseConfig, RouteConfig } from "@asteasolutions/zod-to-openapi";
 import { OpenApiGeneratorV31, OpenAPIRegistry } from "@asteasolutions/zod-to-openapi";
 import { formatParamUrl } from "@fastify/swagger/lib/util/format-param-url.js";
-import OpenAPIParser from "@readme/openapi-parser";
 import type { SecurityRequirementObject } from "openapi3-ts/oas30";
 import type { OpenAPIObject, OperationObject, PathsObject, ReferenceObject, SchemaObject } from "openapi3-ts/oas31";
 import { getPath } from "openapi3-ts/oas31";
@@ -10,15 +9,6 @@ import { ZodUnknown } from "zod";
 
 import type { IApiRouteSchema, IApiRoutesDef } from "../../routes/common.routes.js";
 import type { OpenapiModel } from "../types.js";
-
-export async function dereferenceOpenapiSchema(data: OpenAPIObject): Promise<OpenAPIObject> {
-  if (data.openapi !== "3.1.0") {
-    throw new Error("Unsupported OpenAPI version");
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return (await OpenAPIParser.dereference(data as any)) as any;
-}
 
 export type OpenapiOperation = {
   id: string;

@@ -1,11 +1,8 @@
 import { internal } from "@hapi/boom";
+import OpenAPIParser from "@readme/openapi-parser";
 import type { OpenapiOperation, StructureDiff } from "api-alternance-sdk/internal";
-import {
-  compareOperationObjectsStructure,
-  dereferenceOpenapiSchema,
-  getOpenapiOperations,
-  structureDiff,
-} from "api-alternance-sdk/internal";
+import { compareOperationObjectsStructure, getOpenapiOperations, structureDiff } from "api-alternance-sdk/internal";
+import type { OpenAPIObject } from "openapi3-ts/oas31";
 import { generateOpenApiSchema } from "shared/openapi/generateOpenapi";
 
 import config from "@/config.js";
@@ -20,7 +17,14 @@ const OPERATION_MAPPING: Record<string, string> = {
   "post:/job/v1/apply": "post:/v2/application",
   "post:/formation/v1/appointment/generate-link": "post:/v2/appointment",
 };
+async function dereferenceOpenapiSchema(data: OpenAPIObject): Promise<OpenAPIObject> {
+  if (data.openapi !== "3.1.0") {
+    throw new Error("Unsupported OpenAPI version");
+  }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return (await OpenAPIParser.dereference(data as any)) as any;
+}
 async function fetchLbaOperations(): Promise<Record<string, OpenapiOperation>> {
   const response = await fetch(`${config.api.lba.endpoint}/docs/json`);
   const data = await response.json();

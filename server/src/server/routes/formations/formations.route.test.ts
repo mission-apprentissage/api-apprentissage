@@ -1,7 +1,12 @@
 import { useMongo } from "@tests/mongo.test.utils.js";
 import { parseApiAlternanceToken } from "api-alternance-sdk";
 import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
-import { generateFormationFixture, generateUserFixture, sourceCommuneFixtures } from "shared/models/fixtures/index";
+import {
+  generateFormationFixture,
+  generateOrganisationFixture,
+  generateUserFixture,
+  sourceCommuneFixtures,
+} from "shared/models/fixtures/index";
 import type { IUser } from "shared/models/user.model";
 import { beforeAll, beforeEach, describe, expect, it } from "vitest";
 
@@ -31,16 +36,64 @@ beforeAll(async () => {
   return () => app.close();
 }, 15_000);
 
-let token: string;
-const user = generateUserFixture({
-  email: "user@exemple.fr",
-  is_admin: false,
-});
+const organisations = {
+  jobWrite: generateOrganisationFixture({
+    nom: "Org Job Write",
+    slug: "org-job-write",
+    habilitations: ["jobs:write"],
+  }),
+  applicationWrite: generateOrganisationFixture({
+    nom: "Org Application Write",
+    slug: "org-application-write",
+    habilitations: ["applications:write"],
+  }),
+  read: generateOrganisationFixture({
+    nom: "Org Read",
+    slug: "org-read",
+    habilitations: [],
+  }),
+  appointmentsWrite: generateOrganisationFixture({
+    nom: "Org appointments Write",
+    slug: "org-appointments-write",
+    habilitations: ["appointments:write"],
+  }),
+};
 
-beforeEach(async () => {
-  await getDbCollection("users").insertOne(user);
-  token = (await generateApiKey("", user)).value;
-});
+const users = {
+  basic: generateUserFixture({
+    email: "basic@exemple.fr",
+    is_admin: false,
+    organisation: null,
+  }),
+  read: generateUserFixture({
+    email: "ro@exemple.fr",
+    is_admin: false,
+    organisation: organisations.read.nom,
+  }),
+  jobWrite: generateUserFixture({
+    email: "job-write@exemple.fr",
+    is_admin: false,
+    organisation: organisations.jobWrite.nom,
+  }),
+  applicationWrite: generateUserFixture({
+    email: "application-write@exemple.fr",
+    is_admin: false,
+    organisation: organisations.applicationWrite.nom,
+  }),
+  appointmentsWrite: generateUserFixture({
+    email: "appointments-write@exemple.fr",
+    is_admin: false,
+    organisation: organisations.appointmentsWrite.nom,
+  }),
+};
+
+const tokens = {
+  basic: "",
+  read: "",
+  jobWrite: "",
+  applicationWrite: "",
+  appointmentsWrite: "",
+};
 
 describe("GET /formation/v1/search", () => {
   const clichy = {
@@ -103,7 +156,7 @@ describe("GET /formation/v1/search", () => {
       method: "GET",
       url: "/api/formation/v1/search",
       headers: {
-        Authorization: `Bearer ${token}invalid`,
+        Authorization: `Bearer ${tokens.basic}invalid`,
       },
     });
     expect(response.statusCode).toBe(401);
@@ -119,7 +172,7 @@ describe("GET /formation/v1/search", () => {
       method: "GET",
       url: `/api/formation/v1/search?latitude=${clichy.latitude}&longitude=${clichy.longitude}&radius=30`,
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${tokens.basic}`,
       },
     });
     expect.soft(response.statusCode).toBe(200);
@@ -161,6 +214,16 @@ const nockMatchUserAuthorization = (u: IUser, habilitations: string[]) => (token
   return true;
 };
 
+beforeEach(async () => {
+  await getDbCollection("users").insertMany(Object.values(users));
+  await getDbCollection("organisations").insertMany(Object.values(organisations));
+  tokens.basic = (await generateApiKey("", users.basic)).value;
+  tokens.read = (await generateApiKey("", users.read)).value;
+  tokens.jobWrite = (await generateApiKey("", users.jobWrite)).value;
+  tokens.applicationWrite = (await generateApiKey("", users.applicationWrite)).value;
+  tokens.appointmentsWrite = (await generateApiKey("", users.appointmentsWrite)).value;
+});
+
 describe("POST /formation/v1/appointment/generate-link", () => {
   const body = { cle_ministere_educatif: "088281P01313885594860007038855948600070-67118#L01" };
 
@@ -168,7 +231,7 @@ describe("POST /formation/v1/appointment/generate-link", () => {
     const response = await app.inject({
       method: "POST",
       url: "/api/formation/v1/appointment/generate-link",
-      body,
+      body: body,
     });
 
     expect(response.statusCode).toBe(401);
@@ -182,9 +245,11 @@ describe("POST /formation/v1/appointment/generate-link", () => {
   it("should returns 401 if api key is invalid", async () => {
     const response = await app.inject({
       method: "POST",
-      headers: { Authorization: `Bearer ${token}invalid` },
       url: "/api/formation/v1/appointment/generate-link",
-      body,
+      body: body,
+      headers: {
+        Authorization: `Bearer ${tokens.basic}invalid`,
+      },
     });
     expect(response.statusCode).toBe(401);
     expect(response.json()).toEqual({
@@ -193,6 +258,43 @@ describe("POST /formation/v1/appointment/generate-link", () => {
       message: "Impossible de déchiffrer la clé d'API",
     });
   });
+
+  it("should returns 403 if user doesn't have organisation", async () => {
+    const response = await app.inject({
+      method: "POST",
+      url: "/api/formation/v1/appointment/generate-link",
+      body: body,
+      headers: {
+        Authorization: `Bearer ${tokens.basic}`,
+      },
+    });
+    expect(response.statusCode).toBe(403);
+    expect(response.json()).toEqual({
+      statusCode: 403,
+      message: "Vous n'êtes pas autorisé à accéder à cette ressource",
+      name: "Forbidden",
+    });
+  });
+
+  it.each<[keyof typeof tokens]>([["read"], ["applicationWrite"], ["jobWrite"]])(
+    "should returns 403 if organisation doesn't have habilitation appointment:write (%s)",
+    async (name) => {
+      const response = await app.inject({
+        method: "POST",
+        url: "/api/formation/v1/appointment/generate-link",
+        body: body,
+        headers: {
+          Authorization: `Bearer ${tokens[name]}`,
+        },
+      });
+      expect.soft(response.statusCode).toBe(403);
+      expect(response.json()).toEqual({
+        statusCode: 403,
+        message: "Vous n'êtes pas autorisé à accéder à cette ressource",
+        name: "Forbidden",
+      });
+    }
+  );
 
   it("should return result from lba", async () => {
     const data = {
@@ -213,12 +315,12 @@ describe("POST /formation/v1/appointment/generate-link", () => {
         expect.soft(b).toEqual(body);
         return true;
       })
-      .matchHeader("authorization", nockMatchUserAuthorization(user, []))
+      .matchHeader("authorization", nockMatchUserAuthorization(users.appointmentsWrite, ["appointments:write"]))
       .reply(200, data);
 
     const response = await app.inject({
       method: "POST",
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${tokens.appointmentsWrite}` },
       url: "/api/formation/v1/appointment/generate-link",
       body,
     });

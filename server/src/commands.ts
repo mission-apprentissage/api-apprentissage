@@ -8,7 +8,7 @@ import { initModelTechnicalDocFromSource, initRouteTechnicalDocFromSource } from
 import { program } from "commander";
 import { addJob, startJobProcessor } from "job-processor";
 import HttpTerminator from "lil-http-terminator";
-import type { SchemaObject } from "openapi3-ts/oas31";
+import type { OperationObject, SchemaObject } from "openapi3-ts/oas31";
 
 import config from "./config.js";
 import createServer from "./server/server.js";
@@ -259,7 +259,7 @@ program
   .option("--lang <string>", "Source language", "fr")
   .action(async (sourceFile, outputDocFile, outputOperationFile, { lang }) => {
     const sourceRaw = await readFile(join(process.cwd(), "..", sourceFile), "utf-8");
-    const source: SchemaObject = JSON.parse(sourceRaw);
+    const source: OperationObject = JSON.parse(sourceRaw);
 
     const { operation, doc } = initRouteTechnicalDocFromSource(source, lang);
 

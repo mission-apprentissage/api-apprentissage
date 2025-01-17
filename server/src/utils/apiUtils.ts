@@ -49,15 +49,14 @@ export const apiRateLimiter = (name: string, options: ApiRateLimiterOptions): Ap
 
 export async function downloadFileAsTmp(stream: Readable, filename: string): Promise<string> {
   const tmpDir = await mkdtemp(join(tmpdir(), `api-download-${config.env}-`));
+  const destFile = join(tmpDir, filename);
 
   try {
-    const destFile = join(tmpDir, filename);
-
     await writeFile(destFile, stream);
 
     return destFile;
   } catch (error) {
-    await cleanupTmp(tmpDir);
+    await cleanupTmp(destFile);
     throw withCause(internal("api.utils.downloadFileAsTmp: unable to download file"), error);
   }
 }

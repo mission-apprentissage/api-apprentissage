@@ -2688,6 +2688,140 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         ],
       },
     },
+    "/formation/v1/appointment/generate-link": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "parcoursup_id": {
+                        "type": "string",
+                      },
+                    },
+                    "required": [
+                      "parcoursup_id",
+                    ],
+                    "type": "object",
+                  },
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "onisep_id": {
+                        "type": "string",
+                      },
+                    },
+                    "required": [
+                      "onisep_id",
+                    ],
+                    "type": "object",
+                  },
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "cle_ministere_educatif": {
+                        "type": "string",
+                      },
+                    },
+                    "required": [
+                      "cle_ministere_educatif",
+                    ],
+                    "type": "object",
+                  },
+                ],
+              },
+            },
+          },
+          "required": true,
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "cfd": {
+                          "type": "string",
+                        },
+                        "cle_ministere_educatif": {
+                          "type": "string",
+                        },
+                        "code_postal": {
+                          "type": "string",
+                        },
+                        "etablissement_formateur_entreprise_raison_sociale": {
+                          "type": [
+                            "string",
+                            "null",
+                          ],
+                        },
+                        "etablissement_formateur_siret": {
+                          "pattern": "^\\d{14}$",
+                          "type": [
+                            "string",
+                            "null",
+                          ],
+                        },
+                        "form_url": {
+                          "type": "string",
+                        },
+                        "intitule_long": {
+                          "type": "string",
+                        },
+                        "lieu_formation_adresse": {
+                          "type": "string",
+                        },
+                        "localite": {
+                          "type": "string",
+                        },
+                      },
+                      "required": [
+                        "cfd",
+                        "cle_ministere_educatif",
+                        "code_postal",
+                        "etablissement_formateur_entreprise_raison_sociale",
+                        "etablissement_formateur_siret",
+                        "form_url",
+                        "intitule_long",
+                        "lieu_formation_adresse",
+                        "localite",
+                      ],
+                      "type": "object",
+                    },
+                    {
+                      "properties": {
+                        "error": {
+                          "enum": [
+                            "Appointment request not available",
+                          ],
+                          "type": "string",
+                        },
+                      },
+                      "required": [
+                        "error",
+                      ],
+                      "type": "object",
+                    },
+                  ],
+                },
+              },
+            },
+            "description": "",
+          },
+        },
+        "security": [
+          {
+            "api-key": [],
+          },
+        ],
+      },
+    },
     "/formation/v1/search": {
       "get": {
         "parameters": [

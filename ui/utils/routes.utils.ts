@@ -2,6 +2,7 @@ import {
   candidatureOffrePageSummaryDoc,
   certificationsPageSummaryDoc,
   depotOffrePageSummaryDoc,
+  generationLienPriseRdvFormationPageSummaryDoc,
   getTextOpenAPI,
   rechercheCommunePageSummaryDoc,
   rechercheFormationPageSummaryDoc,
@@ -78,6 +79,11 @@ export const PAGES = {
       getPath: (lang) => `/${lang}/explorer/recherche-formation` as string,
       index: true,
       getTitle: (lang, t) => getTextOpenAPI(rechercheFormationPageSummaryDoc.title, lang),
+    },
+    generationLienPriseRdvFormation: {
+      getPath: (lang) => `/${lang}/explorer/generation-lien-prise-rdv-formation` as string,
+      index: true,
+      getTitle: (lang, t) => getTextOpenAPI(generationLienPriseRdvFormationPageSummaryDoc.title, lang),
     },
     recuperationDepartements: {
       getPath: (lang) => `/${lang}/explorer/recuperation-departements` as string,

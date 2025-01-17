@@ -166,4 +166,200 @@ export const expectedDocumentationDelta: Record<string, StructureDiff<"lba", "ap
       },
     },
   },
+  "post:/formation/v1/appointment/generate-link": {
+    source: "lba",
+    result: "api",
+    diff: {
+      "requestBody.content.application/json.schema.anyOf": {
+        type: "removed",
+        source: [
+          {
+            type: "object",
+            additionalProperties: false,
+            required: ["parcoursup_id"],
+            properties: {
+              parcoursup_id: {
+                type: "string",
+              },
+            },
+          },
+          {
+            type: "object",
+            additionalProperties: false,
+            required: ["onisep_id"],
+            properties: {
+              onisep_id: {
+                type: "string",
+              },
+            },
+          },
+          {
+            type: "object",
+            additionalProperties: false,
+            required: ["cle_ministere_educatif"],
+            properties: {
+              cle_ministere_educatif: {
+                type: "string",
+              },
+            },
+          },
+        ],
+      },
+      "requestBody.content.application/json.schema.oneOf": {
+        type: "added",
+        result: [
+          {
+            type: "object",
+            additionalProperties: false,
+            required: ["parcoursup_id"],
+            properties: {
+              parcoursup_id: {
+                type: "string",
+              },
+            },
+          },
+          {
+            type: "object",
+            additionalProperties: false,
+            required: ["onisep_id"],
+            properties: {
+              onisep_id: {
+                type: "string",
+              },
+            },
+          },
+          {
+            type: "object",
+            additionalProperties: false,
+            required: ["cle_ministere_educatif"],
+            properties: {
+              cle_ministere_educatif: {
+                type: "string",
+              },
+            },
+          },
+        ],
+      },
+      "responses.200.content.application/json.schema.anyOf": {
+        type: "removed",
+        source: [
+          {
+            type: "object",
+            additionalProperties: false,
+            required: [
+              "cfd",
+              "cle_ministere_educatif",
+              "code_postal",
+              "etablissement_formateur_entreprise_raison_sociale",
+              "etablissement_formateur_siret",
+              "form_url",
+              "intitule_long",
+              "lieu_formation_adresse",
+              "localite",
+            ],
+            properties: {
+              etablissement_formateur_entreprise_raison_sociale: {
+                type: ["string", "null"],
+              },
+              intitule_long: {
+                type: "string",
+              },
+              lieu_formation_adresse: {
+                type: "string",
+              },
+              code_postal: {
+                type: "string",
+              },
+              etablissement_formateur_siret: {
+                type: ["string", "null"],
+                pattern: "^\\d{14}$",
+              },
+              cfd: {
+                type: "string",
+              },
+              localite: {
+                type: "string",
+              },
+              cle_ministere_educatif: {
+                type: "string",
+              },
+              form_url: {
+                type: "string",
+              },
+            },
+          },
+          {
+            type: "object",
+            required: ["error"],
+            properties: {
+              error: {
+                type: "string",
+                enum: ["Appointment request not available"],
+              },
+            },
+          },
+        ],
+      },
+      "responses.200.content.application/json.schema.oneOf": {
+        type: "added",
+        result: [
+          {
+            type: "object",
+            additionalProperties: false,
+            required: [
+              "cfd",
+              "cle_ministere_educatif",
+              "code_postal",
+              "etablissement_formateur_entreprise_raison_sociale",
+              "etablissement_formateur_siret",
+              "form_url",
+              "intitule_long",
+              "lieu_formation_adresse",
+              "localite",
+            ],
+            properties: {
+              etablissement_formateur_entreprise_raison_sociale: {
+                type: ["string", "null"],
+              },
+              intitule_long: {
+                type: "string",
+              },
+              lieu_formation_adresse: {
+                type: "string",
+              },
+              code_postal: {
+                type: "string",
+              },
+              etablissement_formateur_siret: {
+                type: ["string", "null"],
+                pattern: "^\\d{14}$",
+              },
+              cfd: {
+                type: "string",
+              },
+              localite: {
+                type: "string",
+              },
+              cle_ministere_educatif: {
+                type: "string",
+              },
+              form_url: {
+                type: "string",
+              },
+            },
+          },
+          {
+            type: "object",
+            required: ["error"],
+            properties: {
+              error: {
+                type: "string",
+                enum: ["Appointment request not available"],
+              },
+            },
+          },
+        ],
+      },
+    },
+  },
 };

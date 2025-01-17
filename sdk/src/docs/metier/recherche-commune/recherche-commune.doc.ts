@@ -3,9 +3,15 @@ import localisationDescriptionEn from "./en/localisation.description.md.js";
 import localisationDescriptionFr from "./fr/localisation.description.md.js";
 
 export const rechercheCommunePageSummaryDoc = {
-  en: "Consult the list of municipalities in France",
-  fr: "Consulter le référentiel des communes de France",
-} as OpenApiText;
+  title: {
+    fr: "Recherche de communes",
+    en: "Search for municipalities",
+  },
+  headline: {
+    en: "Consult the list of municipalities in France",
+    fr: "Consulter le référentiel des communes de France",
+  },
+} as const satisfies { title: OpenApiText; headline: OpenApiText };
 
 export const rechercheCommunePageDoc = {
   tag: "geographie",

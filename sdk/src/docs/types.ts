@@ -28,7 +28,7 @@ export type DataSource = {
 };
 
 export type DocModelRow = {
-  readonly description: OpenApiText | null;
+  readonly description: OpenApiText | ReadonlyArray<OpenApiText> | null;
   readonly examples?: ReadonlyArray<unknown>;
   readonly information?: OpenApiText | null;
   readonly sample?: OpenApiText | null;
@@ -40,7 +40,7 @@ export type DocModelRow = {
 };
 
 export type DocModelSection = {
-  name: OpenApiText;
+  name: OpenApiText | null;
   rows: Record<string, DocModelRow>;
 };
 

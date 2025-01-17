@@ -48,9 +48,15 @@ const recruiterSections = {
 };
 
 export const rechercheOffrePageSummaryDoc = {
-  en: "Access all apprenticeship job opportunities for free and in real-time",
-  fr: "Accéder gratuitement et en temps réel à l'ensemble des opportunités d'emploi en alternance",
-} as OpenApiText;
+  title: {
+    en: "Search for apprenticeship job opportunities",
+    fr: "Recherche d'opportunités d'emploi en alternance",
+  },
+  headline: {
+    en: "Access all apprenticeship job opportunities for free and in real-time",
+    fr: "Accéder gratuitement et en temps réel à l'ensemble des opportunités d'emploi en alternance",
+  },
+} as const satisfies { title: OpenApiText; headline: OpenApiText };
 
 export const rechercheOffrePageDoc = {
   tag: "job",

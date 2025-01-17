@@ -1,3 +1,14 @@
+import {
+  candidatureOffrePageSummaryDoc,
+  certificationsPageSummaryDoc,
+  depotOffrePageSummaryDoc,
+  getTextOpenAPI,
+  rechercheCommunePageSummaryDoc,
+  rechercheFormationPageSummaryDoc,
+  rechercheOffrePageSummaryDoc,
+  recuperationDepartementsPageSummaryDoc,
+  recuperationMissionLocalePageSummaryDoc,
+} from "api-alternance-sdk/internal";
 import type { TFunction } from "i18next";
 import type { MetadataRoute } from "next";
 
@@ -46,7 +57,7 @@ export const PAGES = {
     catalogueDesDonneesCertification: {
       getPath: (lang) => `/${lang}/explorer/certifications` as string,
       index: true,
-      getTitle: (lang, t) => t("pages.catalogueDesDonneesCertification", { lang, ns: "global" }),
+      getTitle: (lang, t) => getTextOpenAPI(certificationsPageSummaryDoc.title, lang),
     },
     simulateurNpec: {
       getPath: (lang) => `/${lang}/explorer/simulateur-npec` as string,
@@ -56,32 +67,37 @@ export const PAGES = {
     rechercheOffre: {
       getPath: (lang) => `/${lang}/explorer/recherche-offre` as string,
       index: true,
-      getTitle: (lang, t) => t("pages.rechercheOffre", { lang, ns: "global" }),
+      getTitle: (lang, t) => getTextOpenAPI(rechercheOffrePageSummaryDoc.title, lang),
     },
     rechercheCommune: {
       getPath: (lang) => `/${lang}/explorer/recherche-commune` as string,
       index: true,
-      getTitle: (lang, t) => t("pages.rechercheCommune", { lang, ns: "global" }),
+      getTitle: (lang, t) => getTextOpenAPI(rechercheCommunePageSummaryDoc.title, lang),
+    },
+    rechercheFormation: {
+      getPath: (lang) => `/${lang}/explorer/recherche-formation` as string,
+      index: true,
+      getTitle: (lang, t) => getTextOpenAPI(rechercheFormationPageSummaryDoc.title, lang),
     },
     recuperationDepartements: {
       getPath: (lang) => `/${lang}/explorer/recuperation-departements` as string,
       index: true,
-      getTitle: (lang, t) => t("pages.recuperationDepartements", { lang, ns: "global" }),
+      getTitle: (lang, t) => getTextOpenAPI(recuperationDepartementsPageSummaryDoc.title, lang),
     },
     recuperationMissionLocales: {
       getPath: (lang) => `/${lang}/explorer/recuperation-mission-locales` as string,
       index: true,
-      getTitle: (lang, t) => t("pages.recuperationMissionLocales", { lang, ns: "global" }),
+      getTitle: (lang, t) => getTextOpenAPI(recuperationMissionLocalePageSummaryDoc.title, lang),
     },
     depotOffre: {
       getPath: (lang) => `/${lang}/explorer/depot-offre` as string,
       index: true,
-      getTitle: (lang, t) => t("pages.depotOffre", { lang, ns: "global" }),
+      getTitle: (lang, t) => getTextOpenAPI(depotOffrePageSummaryDoc.title, lang),
     },
     candidatureOffre: {
       getPath: (lang) => `/${lang}/explorer/candidature-offre` as string,
       index: true,
-      getTitle: (lang, t) => t("pages.candidatureOffre", { lang, ns: "global" }),
+      getTitle: (lang, t) => getTextOpenAPI(candidatureOffrePageSummaryDoc.title, lang),
     },
     mentionsLegales: {
       getPath: (lang) => `/${lang}/mentions-legales` as string,

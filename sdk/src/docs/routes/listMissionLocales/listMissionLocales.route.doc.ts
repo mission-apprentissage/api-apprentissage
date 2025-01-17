@@ -1,10 +1,8 @@
+import { recuperationMissionLocalePageSummaryDoc } from "../../metier/recuperation-mission-locales/recuperation-mission-locales.doc.js";
 import type { DocRoute } from "../../types.js";
 
 export const listMissionLocalesRouteDoc = {
-  summary: {
-    en: "Retrieve the list of mission locales",
-    fr: "Récupération de la liste des missions locales",
-  },
+  summary: recuperationMissionLocalePageSummaryDoc.title,
   description: {
     fr: "Récupération de la liste des missions locales",
     en: "Retrieve the list of mission locales",

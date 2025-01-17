@@ -1,10 +1,8 @@
+import { rechercheCommunePageSummaryDoc } from "../../metier/recherche-commune/recherche-commune.doc.js";
 import type { DocRoute } from "../../types.js";
 
 export const communeSearchRouteDoc = {
-  summary: {
-    en: "Search for communes by INSEE or postal code",
-    fr: "Recherche de communes par code insee ou postal",
-  },
+  summary: rechercheCommunePageSummaryDoc.title,
   description: {
     fr: "Recherche de communes par code insee ou postal. La recherche par code INSEE, recherche également parmis les anciennes communes fusionnées (déléguées ou associées) et parmis les arrondissements municipaux. Attention, un meme code postal peut-etre associé à plusieurs communes et une commune peut avoir plusieurs code postaux.",
     en: "Search for municipalities by INSEE or postal code. Searching by INSEE code also includes merged municipalities (delegated or associated) and municipal districts. Please note that a single postal code may be associated with multiple municipalities, and a municipality may have multiple postal codes.",

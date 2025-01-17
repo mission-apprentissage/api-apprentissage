@@ -1,12 +1,10 @@
+import { candidatureOffrePageSummaryDoc } from "../../metier/candidature-offre/candidature-offre.doc.js";
 import type { DocRoute } from "../../types.js";
 import descriptionEn from "./docs/en/description.doc.md.js";
 import descriptionFr from "./docs/fr/description.doc.md.js";
 
 export const jobApplyRouteDoc = {
-  summary: {
-    en: "Send an application to a job opportunity in apprenticeship",
-    fr: "Envoi d’une candidature à une opportunité d’emploi en alternance",
-  },
+  summary: candidatureOffrePageSummaryDoc.title,
   description: {
     en: descriptionEn,
     fr: descriptionFr,

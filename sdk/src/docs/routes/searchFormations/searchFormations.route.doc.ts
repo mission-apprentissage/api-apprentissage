@@ -1,15 +1,10 @@
+import { rechercheFormationPageSummaryDoc } from "../../metier/recherche-formation/recherche-formation.doc.js";
 import type { DocRoute } from "../../types.js";
 import { jobSearchRouteDoc } from "../jobSearch/jobSearch.route.doc.js";
 
 export const searchFormationsRouteDoc = {
-  summary: {
-    en: "Search for training courses in apprenticeship",
-    fr: "Recherche de formations en apprentissage",
-  },
-  description: {
-    fr: "Recherche les formations présent dans [le catalogue réglementaire des formations en apprentissage](https://catalogue-apprentissage.intercariforef.org/recherche/formations) par localisation, code RNCP, code ROME, ou niveau de diplôme visé.",
-    en: "Searches for training courses present in [the regulatory catalog of training courses in apprenticeship](https://catalogue-apprentissage.intercariforef.org/recherche/formations) by location, RNCP code, ROME code, or level of diploma sought.",
-  },
+  summary: rechercheFormationPageSummaryDoc.title,
+  description: rechercheFormationPageSummaryDoc.headline,
   parameters: {
     longitude: jobSearchRouteDoc.parameters.longitude,
     latitude: jobSearchRouteDoc.parameters.latitude,

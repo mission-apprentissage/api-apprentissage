@@ -1,9 +1,15 @@
 import type { DocPage, OpenApiText } from "../../types.js";
 
 export const candidatureOffrePageSummaryDoc = {
-  en: "Streamline your users' journey by directly transmitting your users' applications to recruiters.",
-  fr: "Fluidifier le parcours de vos utilisateurs en transmettant directement aux recruteurs les candidatures de vos usagers.",
-} as OpenApiText;
+  title: {
+    fr: "Envoi d’une candidature à une opportunité d’emploi en alternance",
+    en: "Send an application to a job opportunity in apprenticeship",
+  },
+  headline: {
+    en: "Streamline your users' journey by directly transmitting your users' applications to recruiters.",
+    fr: "Fluidifier le parcours de vos utilisateurs en transmettant directement aux recruteurs les candidatures de vos usagers.",
+  },
+} as const satisfies { title: OpenApiText; headline: OpenApiText };
 
 export const candidatureOffrePageDoc = {
   tag: "job",

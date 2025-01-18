@@ -3,6 +3,8 @@ import ExcelJs from "exceljs";
 import { assertUnreachable } from "shared";
 import type { Stream } from "stream";
 
+import { withCause } from "@/services/errors/withCause.js";
+
 declare module "exceljs" {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace stream {
@@ -167,36 +169,40 @@ async function* parseSheet(
 
   const skippedRows: Value[][] = [];
 
-  for await (const row of worksheetReader) {
-    if (row.number <= sheetSpec.skipRows) {
-      skippedRows.push(getCells(row).map(parseCell));
-      continue;
-    }
+  try {
+    for await (const row of worksheetReader) {
+      if (row.number <= sheetSpec.skipRows) {
+        skippedRows.push(getCells(row).map(parseCell));
+        continue;
+      }
 
-    if (headers === null) {
-      const values = getCells(row).map(parseCell);
+      if (headers === null) {
+        const values = getCells(row).map(parseCell);
 
-      headers = getHeaders(
-        getCells(row).map(parseCell),
-        sheetSpec.columns,
-        ({ extra, missing }: { extra: string[]; missing: string[] }) => {
-          throw internal("Invalid header found", {
-            extra,
-            missing,
-            sheetSpec,
-            sheet: worksheetReader.name,
-            values,
-            skippedRows,
-          });
-        }
-      );
-      continue;
-    }
+        headers = getHeaders(
+          getCells(row).map(parseCell),
+          sheetSpec.columns,
+          ({ extra, missing }: { extra: string[]; missing: string[] }) => {
+            throw internal("Invalid header found", {
+              extra,
+              missing,
+              sheetSpec,
+              sheet: worksheetReader.name,
+              values,
+              skippedRows,
+            });
+          }
+        );
+        continue;
+      }
 
-    if (headers !== null && row.hasValues) {
-      hasData = true;
-      yield parseRow(row, sheetSpec.key, headers);
+      if (headers !== null && row.hasValues) {
+        hasData = true;
+        yield parseRow(row, sheetSpec.key, headers);
+      }
     }
+  } catch (error) {
+    throw withCause(internal("excel.parser: unable to parseSheet", { sheetSpec, worksheetReader }), error);
   }
 
   if (!hasData || headers === null) {
@@ -227,26 +233,30 @@ async function* parseWorkbook(
   const unusedSpecs = new Set(parseSpec);
   const unexpectedWorksheets: string[] = [];
 
-  for await (const worksheetReader of workbookReader) {
-    const spec = getParseSheetSpec(unusedSpecs, worksheetReader);
+  try {
+    for await (const worksheetReader of workbookReader) {
+      const spec = getParseSheetSpec(unusedSpecs, worksheetReader);
 
-    if (spec === null) {
-      unexpectedWorksheets.push(worksheetReader.name);
-      continue;
+      if (spec === null) {
+        unexpectedWorksheets.push(worksheetReader.name);
+        continue;
+      }
+
+      if (spec.type === "ignore") {
+        continue;
+      }
+
+      for await (const row of parseSheet(spec, worksheetReader)) {
+        yield row;
+      }
     }
 
-    if (spec.type === "ignore") {
-      continue;
+    const missingSpecs = Array.from(unusedSpecs).filter((s) => s.type === "required");
+    if (missingSpecs.length > 0 || unexpectedWorksheets.length > 0) {
+      throw internal("Unexpected worksheets", { missingSpecs, unexpectedWorksheets });
     }
-
-    for await (const row of parseSheet(spec, worksheetReader)) {
-      yield row;
-    }
-  }
-
-  const missingSpecs = Array.from(unusedSpecs).filter((s) => s.type === "required");
-  if (missingSpecs.length > 0 || unexpectedWorksheets.length > 0) {
-    throw internal("Unexpected worksheets", { missingSpecs, unexpectedWorksheets });
+  } catch (error) {
+    throw withCause(internal("excel.parser: unable to parseWorkbook", { parseSpec, workbookReader }), error);
   }
 }
 

@@ -150,6 +150,11 @@ export const PAGES = {
       index: false,
       getTitle: (lang, t) => t("pages.adminProcessor", { lang, ns: "global" }),
     },
+    adminImporters: {
+      getPath: (lang) => `/${lang}/admin/importers` as string,
+      index: false,
+      getTitle: (lang, t) => t("pages.adminImporters", { lang, ns: "global" }),
+    },
   },
   dynamic: {
     inscription: (token: string): IPage => ({
@@ -166,6 +171,11 @@ export const PAGES = {
       getPath: (lang) => `/${lang}/admin/utilisateurs/${id}`,
       index: false,
       getTitle: (lang, t) => t("pages.adminUserView", { lang, ns: "global" }),
+    }),
+    adminImporterView: (name: string): IPage => ({
+      getPath: (lang) => `/${lang}/admin/importers/${name}` as string,
+      index: false,
+      getTitle: () => name,
     }),
     adminOrganisationView: (id: string): IPage => ({
       getPath: (lang) => `/${lang}/admin/organisations/${id}`,
@@ -228,6 +238,9 @@ export function isDynamicPage(pathname: string): boolean {
     return true;
   }
   if (/^\/admin\/processeur\/cron\/[^/]+\/[^/]+$/.test(pathname)) {
+    return true;
+  }
+  if (/^\/admin\/importers\/[^/]+$/.test(pathname)) {
     return true;
   }
 

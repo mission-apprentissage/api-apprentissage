@@ -23,6 +23,7 @@
     "adminProcessorJob": "Job {{name}}",
     "adminProcessorJobInstance": "Job Task {{id}}",
     "adminProcessorCron": "CRON {{name}}",
-    "adminProcessorCronTask": "CRON Task {{id}}"
+    "adminProcessorCronTask": "CRON Task {{id}}",
+    "adminImporters": "Importers"
   }
 }

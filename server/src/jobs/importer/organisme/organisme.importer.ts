@@ -3,6 +3,7 @@ import { Transform } from "node:stream";
 import { internal } from "@hapi/boom";
 import type { AnyBulkWriteOperation } from "mongodb";
 import { ObjectId } from "mongodb";
+import type { ImportStatus } from "shared";
 import type { IImportMetaOrganismes } from "shared/models/import.meta.model";
 import type { IOrganismeInternal } from "shared/models/organisme.model";
 import type { ISourceReferentiel } from "shared/models/source/referentiel/source.referentiel.model";
@@ -234,4 +235,18 @@ export async function importOrganismes() {
 
     throw withCause(internal("import.organisme: unable to importOrganismes"), error, "fatal");
   }
+}
+
+export async function getOrganismesImporterStatus(): Promise<ImportStatus> {
+  const [lastImport, lastSuccess] = await Promise.all([
+    await getDbCollection("import.meta").findOne({ type: "organismes" }, { sort: { import_date: -1 } }),
+    await getDbCollection("import.meta").findOne({ type: "organismes", status: "done" }, { sort: { import_date: -1 } }),
+  ]);
+
+  return {
+    last_import: lastImport?.import_date ?? null,
+    last_success: lastSuccess?.import_date ?? null,
+    status: lastImport?.status ?? "pending",
+    resources: [],
+  };
 }

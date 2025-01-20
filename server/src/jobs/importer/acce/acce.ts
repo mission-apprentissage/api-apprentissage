@@ -5,6 +5,7 @@ import { pipeline } from "node:stream/promises";
 import { internal } from "@hapi/boom";
 import { parse } from "csv-parse";
 import { ObjectId } from "mongodb";
+import type { ImportStatus } from "shared";
 import type { ISourceAcce } from "shared/models/source/acce/source.acce.model";
 import { ZAcceByType } from "shared/models/source/acce/source.acce.model";
 import { Parse } from "unzipper";
@@ -108,4 +109,18 @@ export async function runAcceImporter() {
     await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "failed" } });
     throw withCause(internal("import.acce: unable to runAcceImporter"), error);
   }
+}
+
+export async function getAcceeImporterStatus(): Promise<ImportStatus> {
+  const [lastImport, lastSuccess] = await Promise.all([
+    await getDbCollection("import.meta").findOne({ type: "acce" }, { sort: { import_date: -1 } }),
+    await getDbCollection("import.meta").findOne({ type: "acce", status: "done" }, { sort: { import_date: -1 } }),
+  ]);
+
+  return {
+    last_import: lastImport?.import_date ?? null,
+    last_success: lastSuccess?.import_date ?? null,
+    status: lastImport?.status ?? "pending",
+    resources: [],
+  };
 }

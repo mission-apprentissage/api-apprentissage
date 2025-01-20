@@ -3,6 +3,7 @@ import { addAbortSignal, Duplex, Transform } from "node:stream";
 import { internal } from "@hapi/boom";
 import type { AnyBulkWriteOperation } from "mongodb";
 import { ObjectId } from "mongodb";
+import type { ImportStatus } from "shared";
 import type { IImportMetaDares } from "shared/models/import.meta.model";
 import type { ISourceDaresCcn } from "shared/models/source/dares/source.dares.ccn.model";
 import { zSourceDaresCcn } from "shared/models/source/dares/source.dares.ccn.model";
@@ -114,4 +115,18 @@ export async function runDaresConventionCollectivesImporter(signal?: AbortSignal
     }
     throw withCause(internal("import.dares_ccn: unable to runDaresConventionCollectivesImporter"), error, "fatal");
   }
+}
+
+export async function getDaresCcnImporterStatus(): Promise<ImportStatus> {
+  const [lastImport, lastSuccess] = await Promise.all([
+    await getDbCollection("import.meta").findOne({ type: "dares_ccn" }, { sort: { import_date: -1 } }),
+    await getDbCollection("import.meta").findOne({ type: "dares_ccn", status: "done" }, { sort: { import_date: -1 } }),
+  ]);
+
+  return {
+    last_import: lastImport?.import_date ?? null,
+    last_success: lastSuccess?.import_date ?? null,
+    status: lastImport?.status ?? "pending",
+    resources: [],
+  };
 }

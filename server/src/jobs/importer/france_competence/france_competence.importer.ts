@@ -5,7 +5,7 @@ import { parse } from "csv-parse";
 import { addJob } from "job-processor";
 import type { AnyBulkWriteOperation } from "mongodb";
 import { ObjectId } from "mongodb";
-import type { IDataGouvDataset, IDataGouvDatasetResource } from "shared";
+import type { IDataGouvDataset, IDataGouvDatasetResource, ImportStatus } from "shared";
 import type { IArchiveMeta, IImportMetaFranceCompetence } from "shared/models/import.meta.model";
 import type { ISourceFcStandard } from "shared/models/source/france_competence/parts/source.france_competence.standard.model";
 import type {
@@ -523,4 +523,38 @@ export async function runRncpImporter() {
   } catch (error) {
     throw withCause(internal("import.france_competence: unable to runRncpImporter"), error, "fatal");
   }
+}
+
+export async function getFranceCompetencesImporterStatus(): Promise<ImportStatus> {
+  const lastImportByResource = await getDbCollection("import.meta")
+    .aggregate<{ last: IImportMetaFranceCompetence }>([
+      {
+        $match: { type: "france_competence" },
+      },
+      {
+        $sort: { import_date: 1 },
+      },
+      {
+        $group: { _id: "$archiveMeta.resource.id", last: { $last: "$$ROOT" } },
+      },
+    ])
+    .toArray();
+
+  const lastFileSuccessResource = lastImportByResource
+    .filter((r) => r.last.status === "done")
+    .toSorted((a, b) => b.last.archiveMeta.date_publication.getTime() - a.last.archiveMeta.date_publication.getTime())
+    .at(0);
+
+  return {
+    last_import: lastImportByResource[0].last?.import_date ?? null,
+    last_success: lastFileSuccessResource?.last.archiveMeta.date_publication ?? null,
+    status: lastImportByResource[0].last?.status ?? "pending",
+    resources: lastImportByResource
+      .map((r) => ({
+        name: r.last.archiveMeta.nom,
+        status: r.last.status,
+        import_date: r.last.import_date,
+      }))
+      .toSorted((a, b) => b.name.localeCompare(a.name)),
+  };
 }

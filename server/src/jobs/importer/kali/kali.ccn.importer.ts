@@ -3,7 +3,7 @@ import { addAbortSignal, Duplex, Transform } from "node:stream";
 import { internal } from "@hapi/boom";
 import type { AnyBulkWriteOperation } from "mongodb";
 import { ObjectId } from "mongodb";
-import type { IDataGouvDataset } from "shared";
+import type { IDataGouvDataset, ImportStatus } from "shared";
 import { removeDiacritics } from "shared";
 import type { IImportMeta } from "shared/models/import.meta.model";
 import type { ISourceKaliCcn } from "shared/models/source/kali/source.kali.ccn.model";
@@ -144,4 +144,18 @@ export async function runKaliConventionCollectivesImporter(signal?: AbortSignal)
     await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "failed" } });
     throw withCause(internal("import.kali_ccn: unable to runKaliConventionCollectivesImporter"), error, "fatal");
   }
+}
+
+export async function getKaliImporterStatus(): Promise<ImportStatus> {
+  const [lastImport, lastSuccess] = await Promise.all([
+    await getDbCollection("import.meta").findOne({ type: "kali_ccn" }, { sort: { import_date: -1 } }),
+    await getDbCollection("import.meta").findOne({ type: "kali_ccn", status: "done" }, { sort: { import_date: -1 } }),
+  ]);
+
+  return {
+    last_import: lastImport?.import_date ?? null,
+    last_success: lastSuccess?.import_date ?? null,
+    status: lastImport?.status ?? "pending",
+    resources: [],
+  };
 }

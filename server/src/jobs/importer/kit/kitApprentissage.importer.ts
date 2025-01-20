@@ -6,6 +6,7 @@ import { parse } from "csv-parse";
 import { createReadStream } from "fs";
 import { addJob } from "job-processor";
 import { ObjectId } from "mongodb";
+import type { ImportStatus } from "shared";
 import type { ISourceKitApprentissage } from "shared/models/source/kitApprentissage/source.kit_apprentissage.model";
 import { pipeline } from "stream/promises";
 
@@ -172,4 +173,21 @@ export async function runKitApprentissageImporter(): Promise<number> {
     await getDbCollection("source.kit_apprentissage").deleteMany({ date: importDate });
     throw withCause(internal("import.kit_apprentissage: unable to runKitApprentissageImporter"), error, "fatal");
   }
+}
+
+export async function getKitApprentissageImporterStatus(): Promise<ImportStatus> {
+  const [lastImport, lastSuccess] = await Promise.all([
+    await getDbCollection("import.meta").findOne({ type: "kit_apprentissage" }, { sort: { import_date: -1 } }),
+    await getDbCollection("import.meta").findOne(
+      { type: "kit_apprentissage", status: "done" },
+      { sort: { import_date: -1 } }
+    ),
+  ]);
+
+  return {
+    last_import: lastImport?.import_date ?? null,
+    last_success: lastSuccess?.import_date ?? null,
+    status: lastImport?.status ?? "pending",
+    resources: [],
+  };
 }

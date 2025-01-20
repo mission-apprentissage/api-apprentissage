@@ -3,6 +3,7 @@ import { captureException } from "@sentry/node";
 import { addJob } from "job-processor";
 import type { AnyBulkWriteOperation } from "mongodb";
 import { ObjectId } from "mongodb";
+import type { ImportStatus } from "shared";
 import type { IImportMetaNpec } from "shared/models/import.meta.model";
 import type { ISourceNpec } from "shared/models/source/npec/source.npec.model";
 import { zSourceNpecIdcc } from "shared/models/source/npec/source.npec.model";
@@ -442,4 +443,33 @@ export async function runNpecImporter() {
   } catch (error) {
     throw withCause(internal("npec.importer: error while running importer"), error, "fatal");
   }
+}
+
+export async function getNpecImporterStatus(): Promise<ImportStatus> {
+  const lastImportByResource = await getDbCollection("import.meta")
+    .aggregate<{ last: IImportMetaNpec }>([
+      { $match: { type: "npec" } },
+      { $sort: { import_date: 1 } },
+      {
+        $group: { _id: "$resource", last: { $last: "$$ROOT" } },
+      },
+      { $sort: { "last.import_date": -1 } },
+    ])
+    .toArray();
+
+  const lastFileSuccessResource = lastImportByResource
+    .filter((r) => r.last.status === "done")
+    .toSorted((a, b) => b.last.file_date.getTime() - a.last.file_date.getTime())
+    .at(0);
+
+  return {
+    last_import: lastImportByResource[0].last?.import_date ?? null,
+    last_success: lastFileSuccessResource?.last.file_date ?? null,
+    status: lastImportByResource[0].last?.status ?? "pending",
+    resources: lastImportByResource.map((r) => ({
+      name: r.last.resource,
+      status: r.last.status,
+      import_date: r.last.import_date,
+    })),
+  };
 }

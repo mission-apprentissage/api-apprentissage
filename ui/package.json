@@ -40,7 +40,7 @@
     "date-fns": "^4.1.0",
     "i18next": "^24.2.1",
     "i18next-resources-to-backend": "^1.2.1",
-    "job-processor": "^1.6.5",
+    "job-processor": "^1.7.0",
     "jwt-decode": "^4.0.0",
     "match-sorter": "^8.0.0",
     "mobx": "^6.13.5",

@@ -3,6 +3,7 @@ import { pipeline } from "node:stream/promises";
 
 import { internal } from "@hapi/boom";
 import { ObjectId } from "mongodb";
+import type { ImportStatus } from "shared";
 import { zSourceCatalogue } from "shared/models/source/catalogue/source.catalogue.model";
 
 import { fetchCatalogueData } from "@/services/apis/catalogue/catalogue.js";
@@ -72,4 +73,18 @@ export async function runCatalogueImporter() {
     await getDbCollection("source.catalogue").deleteMany({ date: importDate });
     throw withCause(internal("import.catalogue: unable to runCatalogueImporter"), error);
   }
+}
+
+export async function getCatalogueImporterStatus(): Promise<ImportStatus> {
+  const [lastImport, lastSuccess] = await Promise.all([
+    await getDbCollection("import.meta").findOne({ type: "catalogue" }, { sort: { import_date: -1 } }),
+    await getDbCollection("import.meta").findOne({ type: "catalogue", status: "done" }, { sort: { import_date: -1 } }),
+  ]);
+
+  return {
+    last_import: lastImport?.import_date ?? null,
+    last_success: lastSuccess?.import_date ?? null,
+    status: lastImport?.status ?? "pending",
+    resources: [],
+  };
 }

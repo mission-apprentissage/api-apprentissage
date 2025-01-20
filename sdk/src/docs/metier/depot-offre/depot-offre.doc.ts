@@ -54,7 +54,7 @@ export const depotOffrePageDoc = {
               },
               tags: [],
               information: {
-                fr: "Lorsque l'option `multicast` est activée, l'adresse email de contact de l'entreprise n'est pas partagée avec les sites partenaires. La liste des données partagée est disponible sur la page [recherche d’opportunités d’emploi en alternance](./recherche-offre).",
+                fr: "Lorsque l'option `multicast` est activée, l'adresse email de contact de l'entreprise n'est pas partagée avec les sites partenaires. La liste des données partagées est disponible sur la page [recherche d’opportunités d’emploi en alternance](./recherche-offre).",
                 en: "When the `multicast` option is activated, the company's contact email address is not shared with partner sites. The list of shared data is available on the [alternance job opportunities search page](./recherche-offre).",
               },
             },

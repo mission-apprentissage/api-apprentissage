@@ -4,6 +4,7 @@ import { pipeline } from "node:stream/promises";
 import { internal } from "@hapi/boom";
 import type { AggregationCursor } from "mongodb";
 import { ObjectId } from "mongodb";
+import type { ImportStatus } from "shared";
 import type { IImportMetaCertifications, IImportMetaFranceCompetence } from "shared/models/import.meta.model";
 
 import { withCause } from "@/services/errors/withCause.js";
@@ -389,4 +390,21 @@ export async function importCertifications(options: ImportCertificationsOptions 
 
     throw withCause(internal("import.certifications: unable to importCertifications"), error, "fatal");
   }
+}
+
+export async function getCertificationImporterStatus(): Promise<ImportStatus> {
+  const [lastImport, lastSuccess] = await Promise.all([
+    await getDbCollection("import.meta").findOne({ type: "certifications" }, { sort: { import_date: -1 } }),
+    await getDbCollection("import.meta").findOne(
+      { type: "certifications", status: "done" },
+      { sort: { import_date: -1 } }
+    ),
+  ]);
+
+  return {
+    last_import: lastImport?.import_date ?? null,
+    last_success: lastSuccess?.import_date ?? null,
+    status: lastImport?.status ?? "pending",
+    resources: [],
+  };
 }

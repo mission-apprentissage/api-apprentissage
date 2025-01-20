@@ -3,6 +3,7 @@ import { addAbortSignal, Duplex, Transform } from "node:stream";
 import { internal } from "@hapi/boom";
 import type { AnyBulkWriteOperation } from "mongodb";
 import { ObjectId } from "mongodb";
+import type { ImportStatus } from "shared";
 import type { IImportMetaDares } from "shared/models/import.meta.model";
 import type { ISourceDaresApeIdcc } from "shared/models/source/dares/source.dares.ape_idcc.model";
 import { zSourceDaresApeIdcc } from "shared/models/source/dares/source.dares.ape_idcc.model";
@@ -122,4 +123,21 @@ export async function runDaresApeIdccImporter(signal?: AbortSignal) {
     }
     throw withCause(internal("import.dares_ape_idcc: unable to runDaresApeIdccImporter"), error, "fatal");
   }
+}
+
+export async function getDaresApiIdccImporterStatus(): Promise<ImportStatus> {
+  const [lastImport, lastSuccess] = await Promise.all([
+    await getDbCollection("import.meta").findOne({ type: "dares_ape_idcc" }, { sort: { import_date: -1 } }),
+    await getDbCollection("import.meta").findOne(
+      { type: "dares_ape_idcc", status: "done" },
+      { sort: { import_date: -1 } }
+    ),
+  ]);
+
+  return {
+    last_import: lastImport?.import_date ?? null,
+    last_success: lastSuccess?.import_date ?? null,
+    status: lastImport?.status ?? "pending",
+    resources: [],
+  };
 }

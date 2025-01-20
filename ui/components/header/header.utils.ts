@@ -1,6 +1,7 @@
 import type { MainNavigationProps } from "@codegouvfr/react-dsfr/MainNavigation";
 import { useMemo } from "react";
 import type { IUserPublic } from "shared/models/user.model";
+import { text } from "stream/consumers";
 
 import type { WithLangAndT } from "@/app/i18n/settings";
 import { PAGES } from "@/utils/routes.utils";
@@ -49,6 +50,13 @@ const getNavigationItems = ({ user, pathname, lang, t }: GetNavigationItemsProps
         isActive: pathname.startsWith(PAGES.static.adminUsers.getPath(lang)),
         linkProps: {
           href: PAGES.static.adminUsers.getPath(lang),
+        },
+      },
+      {
+        text: PAGES.static.adminImporters.getTitle(lang, t),
+        isActive: pathname.startsWith(PAGES.static.adminImporters.getPath(lang)),
+        linkProps: {
+          href: PAGES.static.adminImporters.getPath(lang),
         },
       },
       {

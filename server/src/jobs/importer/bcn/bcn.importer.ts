@@ -5,6 +5,7 @@ import { internal } from "@hapi/boom";
 import { parse } from "csv-parse";
 import { addJob } from "job-processor";
 import { ObjectId } from "mongodb";
+import type { ImportStatus } from "shared";
 import type { IBcn_N_FormationDiplome, ISourceBcn } from "shared/models/source/bcn/source.bcn.model";
 import { zBcnBySource } from "shared/models/source/bcn/source.bcn.model";
 import { ZodError } from "zod";
@@ -214,4 +215,18 @@ export async function runBcnImporter(): Promise<Record<string, unknown>> {
     await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "failed" } });
     throw withCause(internal("import.bcn: unable to runBcnImporter"), error, "fatal");
   }
+}
+
+export async function getBcnImporterStatus(): Promise<ImportStatus> {
+  const [lastImport, lastSuccess] = await Promise.all([
+    await getDbCollection("import.meta").findOne({ type: "bcn" }, { sort: { import_date: -1 } }),
+    await getDbCollection("import.meta").findOne({ type: "bcn", status: "done" }, { sort: { import_date: -1 } }),
+  ]);
+
+  return {
+    last_import: lastImport?.import_date ?? null,
+    last_success: lastSuccess?.import_date ?? null,
+    status: lastImport?.status ?? "pending",
+    resources: [],
+  };
 }

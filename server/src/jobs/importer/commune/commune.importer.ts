@@ -2,7 +2,13 @@ import { internal } from "@hapi/boom";
 import type { ICommune } from "api-alternance-sdk";
 import type { AnyBulkWriteOperation } from "mongodb";
 import { ObjectId } from "mongodb";
-import type { ISourceGeoCommune, ISourceGeoRegion, ISourceMissionLocale, ISourceUnmlPayload } from "shared";
+import type {
+  ImportStatus,
+  ISourceGeoCommune,
+  ISourceGeoRegion,
+  ISourceMissionLocale,
+  ISourceUnmlPayload,
+} from "shared";
 import type { ICommuneInternal } from "shared/models/commune.model";
 
 import { fetchAcademies } from "@/services/apis/enseignementSup/enseignementSup.js";
@@ -203,4 +209,18 @@ export async function runCommuneImporter() {
     await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "failed" } });
     throw withCause(internal("import.communes: unable to runCommuneImporter"), error, "fatal");
   }
+}
+
+export async function getCommuneImporterStatus(): Promise<ImportStatus> {
+  const [lastImport, lastSuccess] = await Promise.all([
+    await getDbCollection("import.meta").findOne({ type: "communes" }, { sort: { import_date: -1 } }),
+    await getDbCollection("import.meta").findOne({ type: "communes", status: "done" }, { sort: { import_date: -1 } }),
+  ]);
+
+  return {
+    last_import: lastImport?.import_date ?? null,
+    last_success: lastSuccess?.import_date ?? null,
+    status: lastImport?.status ?? "pending",
+    resources: [],
+  };
 }

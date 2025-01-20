@@ -1,5 +1,6 @@
 import type { Server } from "@/server/server.js";
 
+import { importerAdminRoutes } from "./_private/admin/importer.routes.js";
 import { organisationAdminRoutes } from "./_private/admin/organisations.routes.js";
 import { processorAdminRoutes } from "./_private/admin/processor.admin.routes.js";
 import { userAdminRoutes } from "./_private/admin/user.routes.js";
@@ -32,4 +33,5 @@ export const registerRoutes: RegisterRoutes = ({ server }) => {
   jobRoutes({ server });
   formationRoutes({ server });
   geographieRoutes({ server });
+  importerAdminRoutes({ server });
 };

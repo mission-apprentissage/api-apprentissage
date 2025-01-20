@@ -21,6 +21,7 @@ import {
   onImportRncpArchiveFailure,
   runRncpImporter,
 } from "./importer/france_competence/france_competence.importer.js";
+import { importers } from "./importer/importers.js";
 import { runKaliConventionCollectivesImporter } from "./importer/kali/kali.ccn.importer.js";
 import { runKitApprentissageImporter } from "./importer/kit/kitApprentissage.importer.js";
 import { importNpecResource, onImportNpecResourceFailure, runNpecImporter } from "./importer/npec/npec.importer.js";
@@ -28,12 +29,6 @@ import { importOrganismes } from "./importer/organisme/organisme.importer.js";
 import { runReferentielImporter } from "./importer/referentiel/referentiel.js";
 import { updateKitApprentissageIndicateurSource } from "./indicateurs/source/kitApprentissage.source.indicateur.js";
 import { create as createMigration, status as statusMigration, up as upMigration } from "./migrations/migrations.js";
-
-const timings = {
-  import_source: "0 4 * * *",
-  certif: "0 */2 * * *",
-  morning: "0 0 * * *",
-};
 
 export async function setupJobProcessor() {
   return initJobProcessor({
@@ -43,78 +38,9 @@ export async function setupJobProcessor() {
       config.env === "preview"
         ? {}
         : {
-            "Mise à jour acce": {
-              cron_string: timings.import_source,
-              handler: runAcceImporter,
-              resumable: true,
-            },
-            "Import des données BCN": {
-              cron_string: timings.import_source,
-              handler: runBcnImporter,
-              resumable: true,
-            },
-            "Import des données Kit Apprentissage": {
-              cron_string: timings.import_source,
-              handler: runKitApprentissageImporter,
-              resumable: true,
-            },
-            "Import des données Referentiel": {
-              cron_string: timings.import_source,
-              handler: runReferentielImporter,
-              resumable: true,
-            },
-            "Import des données Catalogue": {
-              cron_string: timings.import_source,
-              handler: runCatalogueImporter,
-              resumable: true,
-            },
-            "Import des données France Compétences": {
-              cron_string: timings.import_source,
-              handler: runRncpImporter,
-              resumable: true,
-            },
-            "Import des certifications": {
-              cron_string: timings.certif,
-              handler: async () => importCertifications(),
-              resumable: true,
-            },
-            "Import des organismes": {
-              cron_string: timings.certif,
-              handler: async () => importOrganismes(),
-              resumable: true,
-            },
-            "Import des formations": {
-              cron_string: timings.certif,
-              handler: async () => importFormations(),
-              resumable: true,
-            },
-            "Import des NPEC": {
-              cron_string: timings.import_source,
-              handler: runNpecImporter,
-              resumable: true,
-            },
-            "Import des Conventions Collective Kali": {
-              cron_string: timings.import_source,
-              handler: runKaliConventionCollectivesImporter,
-              resumable: true,
-            },
-            "Import des Conventions Collective Dares": {
-              cron_string: timings.import_source,
-              handler: runDaresConventionCollectivesImporter,
-              resumable: true,
-            },
-            "Import des APE-IDCC Dares": {
-              cron_string: timings.import_source,
-              handler: runDaresApeIdccImporter,
-              resumable: true,
-            },
-            "Import des Communes": {
-              cron_string: timings.import_source,
-              handler: runCommuneImporter,
-              resumable: true,
-            },
+            ...importers,
             "Controle synchronisation de la documentation": {
-              cron_string: timings.morning,
+              cron_string: "0 0 * * *",
               handler: checkDocumentationSync,
               resumable: true,
             },

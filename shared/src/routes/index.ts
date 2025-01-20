@@ -3,6 +3,7 @@ import { zApiRoutesDelete, zApiRoutesGet, zApiRoutesPost, zApiRoutesPut } from "
 import type { ConditionalExcept, EmptyObject, Jsonify } from "type-fest";
 import type { z, ZodType } from "zod";
 
+import { zImporterAdminRoutes } from "./_private/admin/importers.admin.routes.js";
 import { zOrganisationAdminRoutes } from "./_private/admin/organisation.admin.routes.js";
 import { zProcessorAdminRoutes } from "./_private/admin/processor.admin.routes.js";
 import { zUserAdminRoutes } from "./_private/admin/users.admin.routes.js";
@@ -24,6 +25,7 @@ const zRoutesGet = {
   ...zSourceAcceRoutes.get,
   ...zSimulateurRoutes.get,
   ...zOrganisationAdminRoutes.get,
+  ...zImporterAdminRoutes.get,
 } as const;
 
 const zRoutesPost = {
@@ -104,3 +106,5 @@ type IRequestRaw<S extends IApiRouteSchema> = {
 
 export type IRequest<S extends IApiRouteSchema> =
   ConditionalExcept<IRequestRaw<S>, never> extends EmptyObject ? EmptyObject : ConditionalExcept<IRequestRaw<S>, never>;
+
+export * from "./_private/admin/importers.admin.routes.js";

@@ -8,8 +8,8 @@ import type { Jsonify } from "type-fest";
 import type { WithLang } from "@/app/i18n/settings";
 import SearchBar from "@/components/SearchBar";
 import { Table } from "@/components/table/Table";
-import { ApiError, apiGet } from "@/utils/api.utils";
-import { formatDate, formatNullableDate } from "@/utils/date.utils";
+import { apiGet } from "@/utils/api.utils";
+import { formatNullableDate } from "@/utils/date.utils";
 import { formatUrlWithNewParams, getSearchParamsForQuery } from "@/utils/query.utils";
 import { PAGES } from "@/utils/routes.utils";
 

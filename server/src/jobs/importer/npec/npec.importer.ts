@@ -462,10 +462,16 @@ export async function getNpecImporterStatus(): Promise<ImportStatus> {
     .toSorted((a, b) => b.last.file_date.getTime() - a.last.file_date.getTime())
     .at(0);
 
+  const status = lastImportByResource.every((r) => r.last.status === "done")
+    ? "done"
+    : lastImportByResource.some((r) => r.last.status === "failed")
+      ? "failed"
+      : "pending";
+
   return {
     last_import: lastImportByResource[0].last?.import_date ?? null,
     last_success: lastFileSuccessResource?.last.file_date ?? null,
-    status: lastImportByResource[0].last?.status ?? "pending",
+    status,
     resources: lastImportByResource.map((r) => ({
       name: r.last.resource,
       status: r.last.status,

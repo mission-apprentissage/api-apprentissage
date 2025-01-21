@@ -67,6 +67,7 @@ export function generateFormationFixture(data?: IFormationFixtureInput): IFormat
       },
       precision: 15,
       siret: null,
+      uai: null,
       ...lieu,
     },
     contact: {

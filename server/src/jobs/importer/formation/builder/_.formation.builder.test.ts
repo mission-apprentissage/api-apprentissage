@@ -192,7 +192,8 @@ describe("buildFormation", () => {
     lieu_formation_adresse: "9 Sq. Michelet",
     code_postal: "13009",
     distance: 684,
-    lieu_formation_siret: "13002526500013",
+    etablissement_lieu_formation_siret: "13002526500013",
+    etablissement_lieu_formation_uai: "0694669A",
     duree: "2",
     entierement_a_distance: false,
     annee: "1",
@@ -262,7 +263,8 @@ describe("buildFormation", () => {
 
       precision: source.distance,
 
-      siret: source.lieu_formation_siret,
+      siret: source.etablissement_lieu_formation_siret,
+      uai: source.etablissement_lieu_formation_uai,
     },
     certification: {
       valeur: zCertification.parse(certification),

@@ -1370,12 +1370,20 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                   "null",
                 ],
               },
+              "uai": {
+                "pattern": "^\\d{1,7}[A-Z]$",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
             },
             "required": [
               "adresse",
               "geolocalisation",
               "precision",
               "siret",
+              "uai",
             ],
             "type": "object",
           },

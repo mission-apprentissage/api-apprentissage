@@ -128,6 +128,9 @@ export const formationModelDoc = {
         siret: {
           descriptions: [{ fr: "Numéro SIRET du lieu de formation", en: "Training place SIRET number" }],
         },
+        uai: {
+          descriptions: [{ fr: "Numéro UAI du lieu de formation", en: "Training place UAI number" }],
+        },
       },
     },
     modalite: {

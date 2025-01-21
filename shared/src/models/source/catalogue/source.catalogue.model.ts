@@ -37,7 +37,8 @@ export const zFormationCatalogue = z
     lieu_formation_geo_coordonnees: z.string(),
     lieu_formation_geo_coordonnees_computed: z.string().nullable(),
     lieu_formation_adresse: z.string(),
-    lieu_formation_siret: z.string().nullish(),
+    etablissement_lieu_formation_siret: z.string().nullish(),
+    etablissement_lieu_formation_uai: z.string().nullish(),
     tags: z.array(z.string()),
     bcn_mefs_10: z.array(
       z.object({

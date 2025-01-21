@@ -256,6 +256,7 @@ exports[`GET /formation/v1/search > should perform search correctly 1`] = `
     },
     "precision": 15,
     "siret": null,
+    "uai": null,
   },
   "modalite": {
     "annee_cycle": 1,

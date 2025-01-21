@@ -24,6 +24,7 @@ import {
   rechercheOffrePageSummaryDoc,
   recuperationDepartementsPageSummaryDoc,
   recuperationMissionLocalePageSummaryDoc,
+  recuperationOrganismesPageSummaryDoc,
 } from "api-alternance-sdk/internal";
 
 import { getServerTranslation } from "@/app/i18n";
@@ -132,6 +133,15 @@ export default async function ExplorerApiPage({ params }: PropsWithLangParams) {
           style={{
             color: fr.colors.decisions.text.title.grey.default,
           }}
+          start={<TagDsfr>{t(`type.data`, { lng: lang })}</TagDsfr>}
+        />
+        <Tile
+          title={getTextOpenAPI(recuperationOrganismesPageSummaryDoc.title, lang)}
+          desc={getTextOpenAPI(recuperationOrganismesPageSummaryDoc.headline, lang)}
+          imageSvg
+          imageUrl={school.src}
+          enlargeLinkOrButton
+          linkProps={{ href: PAGES.static.recuperationOrganismes.getPath(lang) }}
           start={<TagDsfr>{t(`type.data`, { lng: lang })}</TagDsfr>}
         />
         <Tile

@@ -1,12 +1,14 @@
 import { LRUCache } from "lru-cache";
 import { stringify } from "safe-stable-stringify";
 
+import type { IOrganisme } from "../../../models/index.js";
 import type { IApiGetRoutes, IApiQuery, IRechercheOrganismeResponse } from "../../../routes/index.js";
-import { zRechercheOrganismeResponse } from "../../../routes/index.js";
+import { zApiOrganismesRoutes, zRechercheOrganismeResponse } from "../../../routes/index.js";
 import type { ApiClient } from "../../client.js";
 import { parseApiResponse } from "../parser/response.parser.js";
 export type OrganismeModule = {
   recherche(querystring: IApiQuery<IApiGetRoutes["/organisme/v1/recherche"]>): Promise<IRechercheOrganismeResponse>;
+  export(): Promise<IOrganisme[]>;
 };
 
 export function buildOrganismeModule(apiClient: ApiClient): OrganismeModule {
@@ -30,6 +32,11 @@ export function buildOrganismeModule(apiClient: ApiClient): OrganismeModule {
       const result = parseApiResponse(data, zRechercheOrganismeResponse);
       organismeCache.set(cacheKey, result);
       return result;
+    },
+    export: async (): Promise<IOrganisme[]> => {
+      const data = await apiClient.get("/organisme/v1/export", {});
+
+      return parseApiResponse(data, zApiOrganismesRoutes.get["/organisme/v1/export"].response["200"]);
     },
   };
 }

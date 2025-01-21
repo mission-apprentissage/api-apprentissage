@@ -73,5 +73,17 @@ export const zApiOrganismesRoutes = {
         ressources: {},
       },
     },
+    "/organisme/v1/export": {
+      method: "get",
+      path: "/organisme/v1/export",
+      response: {
+        "200": zOrganisme.array(),
+      },
+      securityScheme: {
+        auth: "api-key",
+        access: null,
+        ressources: {},
+      },
+    },
   },
 } as const satisfies IApiRoutesDef;

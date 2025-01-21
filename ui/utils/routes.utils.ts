@@ -9,6 +9,7 @@ import {
   rechercheOffrePageSummaryDoc,
   recuperationDepartementsPageSummaryDoc,
   recuperationMissionLocalePageSummaryDoc,
+  recuperationOrganismesPageSummaryDoc,
 } from "api-alternance-sdk/internal";
 import type { TFunction } from "i18next";
 import type { MetadataRoute } from "next";
@@ -94,6 +95,11 @@ export const PAGES = {
       getPath: (lang) => `/${lang}/explorer/recuperation-mission-locales` as string,
       index: true,
       getTitle: (lang, t) => getTextOpenAPI(recuperationMissionLocalePageSummaryDoc.title, lang),
+    },
+    recuperationOrganismes: {
+      getPath: (lang) => `/${lang}/explorer/recuperation-organismes` as string,
+      index: true,
+      getTitle: (lang, t) => getTextOpenAPI(recuperationOrganismesPageSummaryDoc.title, lang),
     },
     depotOffre: {
       getPath: (lang) => `/${lang}/explorer/depot-offre` as string,

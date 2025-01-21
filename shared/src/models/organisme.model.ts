@@ -8,6 +8,7 @@ const collectionName = "organisme" as const;
 
 const indexes: IModelDescriptorGeneric["indexes"] = [
   [{ "identifiant.siret": 1, "identifiant.uai": 1 }, { unique: true }],
+  [{ "identifiant.uai": 1 }, {}],
 ];
 
 export const zOrganismeInternal = zOrganisme.extend({

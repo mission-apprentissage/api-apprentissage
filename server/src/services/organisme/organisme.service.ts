@@ -1,6 +1,7 @@
 import { captureException } from "@sentry/node";
-import type { IRechercheOrganismeResponse, IRechercheOrganismeResultat } from "api-alternance-sdk";
+import type { IOrganisme, IRechercheOrganismeResponse, IRechercheOrganismeResultat } from "api-alternance-sdk";
 import type { Filter } from "mongodb";
+import type { IOrganismeInternal } from "shared/models/organisme.model";
 import type { ISourceReferentiel } from "shared/models/source/referentiel/source.referentiel.model";
 
 import { getEtablissementDiffusible } from "@/services/apis/entreprise/entreprise.js";
@@ -11,6 +12,24 @@ export type OrganismeSearchQuery = {
   uai: string | null;
   siret: string | null;
 };
+
+async function findOrganismes({ uai, siret }: OrganismeSearchQuery): Promise<IOrganisme[]> {
+  const criteria: Filter<IOrganismeInternal>[] = [];
+
+  if (siret) {
+    criteria.push({ "identifiant.siret": siret });
+    // criteria.push({ "data.relations.siret": siret });
+  }
+
+  if (uai) {
+    criteria.push({ "identifiant.uai": uai });
+    // criteria.push({ "data.lieux_de_formation.uai": uai });
+  }
+
+  return await getDbCollection("organisme")
+    .find({ $or: criteria }, { sort: { "identifiant.siret": 1, "identifiant.uai": 1 } })
+    .toArray();
+}
 
 async function findReferentielOrganismes({ uai, siret }: OrganismeSearchQuery): Promise<ISourceReferentiel[]> {
   const criteria: Filter<ISourceReferentiel>[] = [];
@@ -81,22 +100,18 @@ export async function searchOrganismeMetadata({
     siret: null,
   };
 
-  const [uaiReferentiel, siretReferentiel] = await Promise.all([
-    uai === null
-      ? null
-      : getDbCollection("source.referentiel").findOne({
-          $or: [{ "data.uai": uai }, { "data.lieux_de_formation.uai": uai }],
-        }),
-    siret === null ? null : getDbCollection("source.referentiel").findOne({ "data.siret": siret }),
+  const [uaiOrganisme, siretOrganisme] = await Promise.all([
+    uai === null ? null : getDbCollection("organisme").findOne({ "identifiant.uai": uai }),
+    siret === null ? null : getDbCollection("organisme").findOne({ "identifiant.siret": siret }),
   ]);
 
   if (uai) {
-    metadata.uai = { status: uaiReferentiel ? "ok" : "inconnu" };
+    metadata.uai = { status: uaiOrganisme !== null ? "ok" : "inconnu" };
   }
 
   if (siret) {
-    if (siretReferentiel) {
-      metadata.siret = { status: siretReferentiel.data.etat_administratif === "actif" ? "ok" : "fermé" };
+    if (siretOrganisme) {
+      metadata.siret = { status: siretOrganisme.etablissement.ouvert ? "ok" : "fermé" };
     } else {
       const etablissement = await getEtablissementDiffusible(siret).catch((e) => {
         logger.error(e);

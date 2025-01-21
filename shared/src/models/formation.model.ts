@@ -13,6 +13,8 @@ const indexes: IModelDescriptorGeneric["indexes"] = [
   [{ "statut.catalogue": 1, "certification.valeur.intitule.niveau.rncp.europeen": 1 }, {}],
   [{ "statut.catalogue": 1, "certification.valeur.intitule.niveau.cfd.europeen": 1 }, {}],
   [{ "lieu.geolocalisation": "2dsphere", "statut.catalogue": 1 }, {}],
+  [{ "lieu.uai": 1 }, {}],
+  [{ "lieu.siret": 1 }, {}],
 ];
 
 export const zFormationInternal = zFormation.extend({

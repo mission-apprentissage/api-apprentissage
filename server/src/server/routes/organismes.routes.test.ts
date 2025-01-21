@@ -1,5 +1,7 @@
 import { useMongo } from "@tests/mongo.test.utils.js";
+import { DateTime } from "luxon";
 import {
+  generateOrganismeInternalFixture,
   generateOrganismeReferentielFixture,
   generateSourceReferentiel,
   generateUserFixture,
@@ -12,26 +14,25 @@ import createServer from "@/server/server.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
 useMongo();
+let app: Server;
+
+beforeAll(async () => {
+  app = await createServer();
+  await app.ready();
+
+  return () => app.close();
+}, 15_000);
+
+const uai1 = "0491801S";
+const uai2 = "0594899E";
+const uai3 = "0631408N";
+
+const siret1 = "19850144700025";
+const siret2 = "26590673500120";
+
+let token: string;
 
 describe("GET /api/organisme/v1/recherche", () => {
-  let app: Server;
-
-  beforeAll(async () => {
-    app = await createServer();
-    await app.ready();
-
-    return () => app.close();
-  }, 15_000);
-
-  const uai1 = "0491801S";
-  const uai2 = "0594899E";
-  const uai3 = "0631408N";
-
-  const siret1 = "19850144700025";
-  const siret2 = "26590673500120";
-
-  let token: string;
-
   beforeEach(async () => {
     const user = generateUserFixture({
       email: "user@exemple.fr",
@@ -208,5 +209,83 @@ describe("GET /api/organisme/v1/recherche", () => {
     expect.soft(response.statusCode).toBe(200);
     const result = response.json();
     expect.soft(result).toEqual(expected);
+  });
+});
+
+describe("GET /api/organisme/v1/export", () => {
+  const organismes = [
+    generateOrganismeInternalFixture({ identifiant: { siret: siret1, uai: uai1 } }),
+    generateOrganismeInternalFixture({ identifiant: { siret: siret2, uai: uai2 } }),
+  ];
+
+  beforeEach(async () => {
+    await getDbCollection("organisme").insertMany(organismes);
+    const user = generateUserFixture({
+      email: "user@exemple.fr",
+      is_admin: false,
+    });
+    await getDbCollection("users").insertOne(user);
+    token = (await generateApiKey("", user)).value;
+  });
+
+  it("should returns 401 if api key is not provided", async () => {
+    const response = await app.inject({
+      method: "GET",
+      url: "/api/organisme/v1/export",
+    });
+
+    expect(response.statusCode).toBe(401);
+    expect(response.json()).toEqual({
+      statusCode: 401,
+      name: "Unauthorized",
+      message: "Vous devez fournir une clé d'API valide pour accéder à cette ressource",
+    });
+  });
+
+  it("should returns 401 if api key is invalid", async () => {
+    const response = await app.inject({
+      method: "GET",
+      url: "/api/organisme/v1/export",
+      headers: {
+        Authorization: `Bearer ${token}invalid`,
+      },
+    });
+    expect(response.statusCode).toBe(401);
+    expect(response.json()).toEqual({
+      statusCode: 401,
+      name: "Unauthorized",
+      message: "Impossible de déchiffrer la clé d'API",
+    });
+  });
+
+  const toLocalDateString = (date: Date | null) =>
+    date === null ? null : DateTime.fromJSDate(date, { zone: "Europe/Paris" }).toISO();
+
+  it("should retrieve all organismes", async () => {
+    const response = await app.inject({
+      method: "GET",
+      url: `/api/organisme/v1/export`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    expect.soft(response.statusCode).toBe(200);
+    const result = response.json();
+    expect.soft(result).toHaveLength(organismes.length);
+    expect.soft(result).toEqual(
+      organismes.map(({ _id, created_at, updated_at, ...rest }) => ({
+        ...rest,
+        etablissement: {
+          ...rest.etablissement,
+          creation: toLocalDateString(rest.etablissement.creation),
+          fermeture: toLocalDateString(rest.etablissement.fermeture),
+        },
+        unite_legale: {
+          ...rest.unite_legale,
+          cessation: toLocalDateString(rest.unite_legale.cessation),
+          creation: toLocalDateString(rest.unite_legale.creation),
+        },
+      }))
+    );
   });
 });

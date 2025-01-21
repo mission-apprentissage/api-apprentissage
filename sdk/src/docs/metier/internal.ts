@@ -7,3 +7,4 @@ export * from "./recherche-formation/recherche-formation.doc.js";
 export * from "./recherche-offre/recherche-offre.doc.js";
 export * from "./recuperation-departements/recuperation-departements.doc.js";
 export * from "./recuperation-mission-locales/recuperation-mission-locales.doc.js";
+export * from "./recuperation-organismes/recuperation-organismes.doc.js";

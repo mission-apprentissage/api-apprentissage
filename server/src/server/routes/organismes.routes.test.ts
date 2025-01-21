@@ -1,4 +1,5 @@
 import { useMongo } from "@tests/mongo.test.utils.js";
+import { DateTime } from "luxon";
 import {
   generateOrganismeInternalFixture,
   generateOrganismeReferentielFixture,
@@ -257,6 +258,9 @@ describe("GET /api/organisme/v1/export", () => {
     });
   });
 
+  const toLocalDateString = (date: Date | null) =>
+    date === null ? null : DateTime.fromJSDate(date, { zone: "Europe/Paris" }).toISO();
+
   it("should retrieve all organismes", async () => {
     const response = await app.inject({
       method: "GET",
@@ -268,8 +272,20 @@ describe("GET /api/organisme/v1/export", () => {
     expect.soft(response.statusCode).toBe(200);
     const result = response.json();
     expect.soft(result).toHaveLength(organismes.length);
-    expect
-      .soft(result)
-      .toEqual(JSON.parse(JSON.stringify(organismes.map(({ _id, created_at, updated_at, ...rest }) => rest))));
+    expect.soft(result).toEqual(
+      organismes.map(({ _id, created_at, updated_at, ...rest }) => ({
+        ...rest,
+        etablissement: {
+          ...rest.etablissement,
+          creation: toLocalDateString(rest.etablissement.creation),
+          fermeture: toLocalDateString(rest.etablissement.fermeture),
+        },
+        unite_legale: {
+          ...rest.unite_legale,
+          cessation: toLocalDateString(rest.unite_legale.cessation),
+          creation: toLocalDateString(rest.unite_legale.creation),
+        },
+      }))
+    );
   });
 });

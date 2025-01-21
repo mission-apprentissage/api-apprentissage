@@ -3347,6 +3347,30 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         ],
       },
     },
+    "/organisme/v1/export": {
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Organisme",
+                  },
+                  "type": "array",
+                },
+              },
+            },
+            "description": "",
+          },
+        },
+        "security": [
+          {
+            "api-key": [],
+          },
+        ],
+      },
+    },
     "/organisme/v1/recherche": {
       "get": {
         "parameters": [

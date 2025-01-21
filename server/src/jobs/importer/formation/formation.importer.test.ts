@@ -267,7 +267,8 @@ const sourceFormation = {
   lieu_formation_adresse: "9 Sq. Michelet",
   code_postal: "13009",
   distance: 684,
-  lieu_formation_siret: "13002526500013",
+  etablissement_lieu_formation_siret: "13002526500013",
+  etablissement_lieu_formation_uai: "0694669A",
   duree: "2",
   entierement_a_distance: false,
   annee: "1",
@@ -337,7 +338,8 @@ const expected: IFormation = {
 
     precision: sourceFormation.distance,
 
-    siret: sourceFormation.lieu_formation_siret,
+    siret: sourceFormation.etablissement_lieu_formation_siret,
+    uai: sourceFormation.etablissement_lieu_formation_uai,
   },
   certification: {
     valeur: zCertification.parse(certification),

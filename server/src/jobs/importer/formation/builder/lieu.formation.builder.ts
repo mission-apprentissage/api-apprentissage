@@ -1,6 +1,6 @@
 import { internal } from "@hapi/boom";
 import type { ICommune, IFormation } from "api-alternance-sdk";
-import { zSiret } from "api-alternance-sdk";
+import { zSiret, zUai } from "api-alternance-sdk";
 import { LRUCache } from "lru-cache";
 import type { IFormationCatalogue } from "shared/models/source/catalogue/source.catalogue.model";
 
@@ -58,7 +58,8 @@ export async function buildFormationLieu(
     | "lieu_formation_adresse"
     | "code_postal"
     | "distance"
-    | "lieu_formation_siret"
+    | "etablissement_lieu_formation_siret"
+    | "etablissement_lieu_formation_uai"
   >
 ): Promise<IFormation["lieu"]> {
   let commune = await getCommune(data.code_commune_insee);
@@ -85,7 +86,8 @@ export async function buildFormationLieu(
     });
   }
 
-  const siretParse = zSiret.safeParse(data.lieu_formation_siret);
+  const siretParse = zSiret.safeParse(data.etablissement_lieu_formation_siret);
+  const uaiParse = zUai.safeParse(data.etablissement_lieu_formation_uai);
 
   return {
     adresse: {
@@ -119,5 +121,6 @@ export async function buildFormationLieu(
     precision: data.distance,
 
     siret: siretParse.success ? siretParse.data : null,
+    uai: uaiParse.success ? uaiParse.data : null,
   };
 }

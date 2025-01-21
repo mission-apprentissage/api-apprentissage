@@ -210,6 +210,9 @@ export const rechercheFormationPageDoc = {
             siret: {
               description: [{ fr: "Numéro SIRET du lieu de formation", en: "Training place SIRET number" }],
             },
+            uai: {
+              description: [{ fr: "Numéro UAI du lieu de formation", en: "Training place UAI number" }],
+            },
           },
         },
         formateur: {

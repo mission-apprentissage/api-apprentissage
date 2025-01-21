@@ -5,7 +5,7 @@ import { zCertification } from "../certification/certification.model.js";
 import { zMef10 } from "../certification/certification.primitives.js";
 import { zAdresse, zGeoJsonPoint } from "../geographie/geoJson.model.js";
 import { zOrganisme } from "../organisme/organisme.model.js";
-import { zSiret } from "../organisme/organismes.primitives.js";
+import { zSiret, zUai } from "../organisme/organismes.primitives.js";
 
 export const zFormation = z
   .object({
@@ -40,6 +40,7 @@ export const zFormation = z
       precision: z.number().nullable(),
 
       siret: zSiret.nullable(),
+      uai: zUai.nullable(),
     }),
 
     contact: z.object({

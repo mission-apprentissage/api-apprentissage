@@ -85,8 +85,12 @@ export const formationModelOpenapi = {
             pattern: "^\\d{9,14}$",
             type: ["string", "null"],
           },
+          uai: {
+            pattern: "^\\d{1,7}[A-Z]$",
+            type: ["string", "null"],
+          },
         },
-        required: ["adresse", "geolocalisation", "precision", "siret"],
+        required: ["adresse", "geolocalisation", "precision", "siret", "uai"],
         type: "object",
       },
       modalite: {

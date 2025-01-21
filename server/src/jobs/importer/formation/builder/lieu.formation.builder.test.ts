@@ -235,7 +235,8 @@ describe("buildFormationLieu", () => {
     lieu_formation_adresse: "9 Sq. Michelet",
     code_postal: "13009",
     distance: 684,
-    lieu_formation_siret: "13002526500013",
+    etablissement_lieu_formation_siret: "13002526500013",
+    etablissement_lieu_formation_uai: "0694669A",
   };
 
   const expected1 = {
@@ -269,7 +270,8 @@ describe("buildFormationLieu", () => {
 
     precision: source1.distance,
 
-    siret: source1.lieu_formation_siret,
+    siret: source1.etablissement_lieu_formation_siret,
+    uai: source1.etablissement_lieu_formation_uai,
   };
 
   it("should build formation lieu", async () => {
@@ -365,12 +367,24 @@ describe("buildFormationLieu", () => {
   it("should ignore siret if it is invalid", async () => {
     const result = await buildFormationLieu({
       ...source1,
-      lieu_formation_siret: "invalid",
+      etablissement_lieu_formation_siret: "invalid",
     });
 
     expect(result).toEqual({
       ...expected1,
       siret: null,
+    });
+  });
+
+  it("should ignore uai if it is invalid", async () => {
+    const result = await buildFormationLieu({
+      ...source1,
+      etablissement_lieu_formation_uai: "invalid",
+    });
+
+    expect(result).toEqual({
+      ...expected1,
+      uai: null,
     });
   });
 });

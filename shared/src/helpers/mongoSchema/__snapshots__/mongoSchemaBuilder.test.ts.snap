@@ -3493,12 +3493,24 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
             },
           ],
         },
+        "uai": {
+          "anyOf": [
+            {
+              "bsonType": "string",
+              "pattern": "^\\d{1,7}[A-Z]$",
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
       },
       "required": [
         "adresse",
         "geolocalisation",
         "precision",
         "siret",
+        "uai",
       ],
     },
     "modalite": {
@@ -7613,6 +7625,18 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
             "null",
           ],
         },
+        "etablissement_lieu_formation_siret": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+        "etablissement_lieu_formation_uai": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
         "lieu_formation_adresse": {
           "bsonType": "string",
         },
@@ -7620,12 +7644,6 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
           "bsonType": "string",
         },
         "lieu_formation_geo_coordonnees_computed": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "lieu_formation_siret": {
           "bsonType": [
             "string",
             "null",

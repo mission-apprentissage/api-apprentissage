@@ -66,37 +66,44 @@ export function buildMissingRncpCertification(
   chunk: ChunkRncp,
   importMeta: IImportMetaCertifications
 ): ICertificationInternal[] {
-  const missingIntervals = substractIntervals(
-    [
-      {
-        start: chunk.certifications[0].periode_validite.rncp!.activation,
-        end: chunk.certifications[0].periode_validite.rncp!.fin_enregistrement,
-      },
-    ],
-    chunk.certifications.map((c) => ({
-      start: c.periode_validite.debut,
-      end: c.periode_validite.fin,
-    }))
-  );
-
-  return missingIntervals.map((interval): ICertificationInternal => {
-    const c = buildCertification(
-      { bcn: null, france_competence: chunk.france_competence },
-      importMeta.source.france_competence.oldest_date_publication
+  try {
+    const missingIntervals = substractIntervals(
+      [
+        {
+          start: chunk.certifications[0].periode_validite.rncp!.activation,
+          end: chunk.certifications[0].periode_validite.rncp!.fin_enregistrement,
+        },
+      ],
+      chunk.certifications.map((c) => ({
+        start: c.periode_validite.debut,
+        end: c.periode_validite.fin,
+      }))
     );
 
-    return {
-      ...c,
-      periode_validite: {
-        ...c.periode_validite,
-        debut: interval.start,
-        fin: interval.end,
-      },
-      _id: new ObjectId(),
-      created_at: importMeta.import_date,
-      updated_at: importMeta.import_date,
-    };
-  });
+    return missingIntervals.map((interval): ICertificationInternal => {
+      const c = buildCertification(
+        { bcn: null, france_competence: chunk.france_competence },
+        importMeta.source.france_competence.oldest_date_publication
+      );
+
+      return {
+        ...c,
+        periode_validite: {
+          ...c.periode_validite,
+          debut: interval.start,
+          fin: interval.end,
+        },
+        _id: new ObjectId(),
+        created_at: importMeta.import_date,
+        updated_at: importMeta.import_date,
+      };
+    });
+  } catch (error) {
+    throw withCause(
+      internal("import.certifications: unable to build missing rncp certification", { chunk, importMeta }),
+      error
+    );
+  }
 }
 
 function createMapperStream<C>(mapper: (c: C) => ICertificationInternal[], type: "cfd" | "rncp") {

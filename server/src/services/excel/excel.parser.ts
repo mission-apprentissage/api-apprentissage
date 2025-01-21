@@ -135,14 +135,18 @@ function getHeaders(
   const unprocessedSpecs: Set<ColumnSpec> = new Set(columns);
 
   const extraColumns: Value[] = [];
+  const columnStatus: Array<"extra" | "valid" | "ignore"> = [];
 
   for (const value of values) {
     const column = findColumnSpec(unprocessedSpecs, value);
     if (column === null) {
+      columnStatus.push("extra");
       extraColumns.push(value);
     } else if (column.type === "ignore") {
+      columnStatus.push("ignore");
       headers.push(null);
     } else {
+      columnStatus.push("valid");
       headers.push(column.name);
     }
   }
@@ -154,7 +158,18 @@ function getHeaders(
   const validSpec = missingColumns.length === 0 && extraColumns.length === 0;
 
   if (!validSpec) {
-    throwInvalid({ extra: extraColumns.map(String), missing: missingColumns });
+    const nonEmptyExtraColumns = extraColumns.filter((v) => v !== null);
+
+    const firstValidIndex = columnStatus.indexOf("valid");
+    const firstExtraIndex = columnStatus.indexOf("extra");
+    const firstIgnoreIndex = columnStatus.indexOf("ignore");
+
+    // Allow empty extra columns, only if they are the last ones
+    const areExtraColumnsLast = firstExtraIndex > firstValidIndex && firstExtraIndex > firstIgnoreIndex;
+
+    if (nonEmptyExtraColumns.length > 0 || !areExtraColumnsLast) {
+      throwInvalid({ extra: extraColumns.map(String), missing: missingColumns });
+    }
   }
 
   return headers;

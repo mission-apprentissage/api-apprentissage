@@ -1,4 +1,4 @@
-import { internal } from "@hapi/boom";
+import { internal, isBoom } from "@hapi/boom";
 import ExcelJs from "exceljs";
 import { assertUnreachable } from "shared";
 import type { Stream } from "stream";
@@ -202,6 +202,9 @@ async function* parseSheet(
       }
     }
   } catch (error) {
+    if (isBoom(error)) {
+      throw error;
+    }
     throw withCause(internal("excel.parser: unable to parseSheet", { sheetSpec, worksheetReader }), error);
   }
 
@@ -256,6 +259,9 @@ async function* parseWorkbook(
       throw internal("Unexpected worksheets", { missingSpecs, unexpectedWorksheets });
     }
   } catch (error) {
+    if (isBoom(error)) {
+      throw error;
+    }
     throw withCause(internal("excel.parser: unable to parseWorkbook", { parseSpec, workbookReader }), error);
   }
 }

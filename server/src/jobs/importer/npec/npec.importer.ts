@@ -170,7 +170,7 @@ function getWorkbookParseSpec(name: string): ExcelParseSpec {
             { type: "required", name: "procedure", regex: [/^Procédure$/i] },
           ],
         },
-        idccCpneSheet,
+        { ...idccCpneSheet, skipRows: 2 },
         ignoredSheets,
       ];
 
@@ -193,7 +193,10 @@ function getWorkbookParseSpec(name: string): ExcelParseSpec {
             { type: "optional", name: "statut", regex: [/^Statut$/i] },
           ],
         },
-        idccCpneSheet,
+        {
+          ...idccCpneSheet,
+          skipRows: 2,
+        },
         ignoredSheets,
       ];
 

@@ -13,6 +13,8 @@ import type {
 import { ApiError } from "./internal/apiError.js";
 import type { CertificationModule } from "./internal/certification/certification.module.js";
 import { buildCertificationModule } from "./internal/certification/certification.module.js";
+import type { FormationModule } from "./internal/formation/formation.module.js";
+import { buildFormationModule } from "./internal/formation/formation.module.js";
 import type { WithQueryStringAndPathParam } from "./internal/generateUri/generateUri.js";
 import { generateUri } from "./internal/generateUri/generateUri.js";
 import type { GeographieModule } from "./internal/geographie/geographie.module.js";
@@ -56,6 +58,7 @@ class ApiClient {
   certification: CertificationModule;
   geographie: GeographieModule;
   organisme: OrganismeModule;
+  formation: FormationModule;
 
   constructor(config: ApiClientConfig) {
     this.endpoint = removeAtEnd(config.endpoint ?? "https://api.apprentissage.beta.gouv.fr/api", "/");
@@ -64,6 +67,7 @@ class ApiClient {
     this.certification = buildCertificationModule(this);
     this.geographie = buildGeographieModule(this);
     this.organisme = buildOrganismeModule(this);
+    this.formation = buildFormationModule(this);
   }
 
   private buildRequestInit(

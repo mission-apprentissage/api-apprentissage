@@ -1,3 +1,4 @@
+import { exportFormationsRouteDoc } from "../../docs/routes/exportFormations/exportFormations.route.doc.js";
 import { generateFormationAppointmentLinkRouteDoc } from "../../docs/routes/generateFormationAppointmentLink/generateFormationAppointmentLink.doc.js";
 import { searchFormationsRouteDoc } from "../../docs/routes/searchFormations/searchFormations.route.doc.js";
 import { addErrorResponseOpenApi } from "../../models/errors/errors.model.openapi.js";
@@ -121,6 +122,30 @@ export const formationRoutesOpenapi = {
         },
       }),
       doc: searchFormationsRouteDoc,
+    },
+  },
+  "/formation/v1/export": {
+    get: {
+      tag: "formation",
+      schema: addErrorResponseOpenApi({
+        operationId: "exportFormations",
+        security: [{ "api-key": [] }],
+        responses: {
+          "200": {
+            content: {
+              "application/json": {
+                schema: {
+                  type: "array",
+                  items: {
+                    $ref: "#/components/schemas/Formation",
+                  },
+                },
+              },
+            },
+          },
+        },
+      }),
+      doc: exportFormationsRouteDoc,
     },
   },
   "/formation/v1/appointment/generate-link": {

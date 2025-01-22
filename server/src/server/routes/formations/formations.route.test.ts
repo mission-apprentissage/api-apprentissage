@@ -330,3 +330,73 @@ describe("POST /formation/v1/appointment/generate-link", () => {
     expect(result).toEqual(data);
   });
 });
+
+describe("GET /api/formation/v1/export", () => {
+  const formnations = [
+    generateFormationFixture({
+      identifiant: { cle_ministere_educatif: "paris" },
+      statut: {
+        catalogue: "publié",
+      },
+    }),
+    generateFormationFixture({
+      identifiant: { cle_ministere_educatif: "clichy" },
+      statut: {
+        catalogue: "archivé",
+      },
+    }),
+    generateFormationFixture({
+      identifiant: { cle_ministere_educatif: "levallois" },
+      statut: {
+        catalogue: "supprimé",
+      },
+    }),
+  ];
+
+  beforeEach(async () => {
+    await getDbCollection("formation").insertMany(formnations);
+  });
+
+  it("should returns 401 if api key is not provided", async () => {
+    const response = await app.inject({
+      method: "GET",
+      url: "/api/formation/v1/export",
+    });
+
+    expect(response.statusCode).toBe(401);
+    expect(response.json()).toEqual({
+      statusCode: 401,
+      name: "Unauthorized",
+      message: "Vous devez fournir une clé d'API valide pour accéder à cette ressource",
+    });
+  });
+
+  it("should returns 401 if api key is invalid", async () => {
+    const response = await app.inject({
+      method: "GET",
+      url: "/api/formation/v1/export",
+      headers: {
+        Authorization: `Bearer ${tokens.basic}invalid`,
+      },
+    });
+    expect(response.statusCode).toBe(401);
+    expect(response.json()).toEqual({
+      statusCode: 401,
+      name: "Unauthorized",
+      message: "Impossible de déchiffrer la clé d'API",
+    });
+  });
+
+  it("should retrieve all formations", async () => {
+    const response = await app.inject({
+      method: "GET",
+      url: `/api/formation/v1/export`,
+      headers: {
+        Authorization: `Bearer ${tokens.basic}`,
+      },
+    });
+    expect.soft(response.statusCode).toBe(200);
+    const result = response.json();
+    expect.soft(result).toHaveLength(formnations.length);
+  });
+});

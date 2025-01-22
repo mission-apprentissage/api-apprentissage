@@ -12,7 +12,7 @@ COPY server/package.json server/package.json
 COPY shared/package.json shared/package.json
 COPY sdk/package.json sdk/package.json
 
-RUN --mount=type=cache,target=/app/.yarn/cache yarn install --immutable
+RUN yarn install --immutable
 
 COPY . .
 

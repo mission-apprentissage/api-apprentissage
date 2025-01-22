@@ -2830,6 +2830,30 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         ],
       },
     },
+    "/formation/v1/export": {
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Formation",
+                  },
+                  "type": "array",
+                },
+              },
+            },
+            "description": "",
+          },
+        },
+        "security": [
+          {
+            "api-key": [],
+          },
+        ],
+      },
+    },
     "/formation/v1/search": {
       "get": {
         "parameters": [

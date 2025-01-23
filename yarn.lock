@@ -941,16 +941,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fastify/multipart@npm:^9.0.2":
-  version: 9.0.2
-  resolution: "@fastify/multipart@npm:9.0.2"
+"@fastify/multipart@npm:^9.0.3":
+  version: 9.0.3
+  resolution: "@fastify/multipart@npm:9.0.3"
   dependencies:
     "@fastify/busboy": ^3.0.0
     "@fastify/deepmerge": ^2.0.0
     "@fastify/error": ^4.0.0
     fastify-plugin: ^5.0.0
     secure-json-parse: ^3.0.0
-  checksum: 72ccbb835cc7e88d8438d35f36712855095aacb86120295d345836267be1c6b736b7f6e8327fa47f99f7d591a379ea36f976d08d5f58e82144e427be6594220c
+  checksum: 71db6ab2c4863d48f58412b0a66ac48fed02f5d15f5a7c09b8c097ab78b5b78a2164975d209ed9edd021260efda4dea145ab824ba826f92f5f83441b2e7e0b7b
   languageName: node
   linkType: hard
 
@@ -15027,7 +15027,7 @@ __metadata:
     "@fastify/auth": ^5.0.2
     "@fastify/cookie": ^11.0.2
     "@fastify/cors": ^10.0.2
-    "@fastify/multipart": ^9.0.2
+    "@fastify/multipart": ^9.0.3
     "@fastify/rate-limit": ^10.2.2
     "@fastify/swagger": ^9.4.1
     "@fastify/swagger-ui": ^5.2.1

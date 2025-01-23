@@ -1,36 +1,38 @@
-import { LRUCache } from "lru-cache";
-import { stringify } from "safe-stable-stringify";
-
-import type { IApiGetRoutes, IApiQuery, IFormationSearchApiResult } from "../../../routes/index.js";
-import { zFormationSearchApiResult } from "../../../routes/index.js";
+import type { IFormation } from "../../../models/index.js";
+import type { IApiGetRoutes, IApiQuery } from "../../../routes/index.js";
+import { zApiFormationRoutes } from "../../../routes/index.js";
 import type { ApiClient } from "../../client.js";
 import { parseApiResponse } from "../parser/response.parser.js";
 
 export type FormationModule = {
-  recherche(querystring: IApiQuery<IApiGetRoutes["/formation/v1/search"]>): Promise<IFormationSearchApiResult>;
+  recherche(
+    querystring: Omit<IApiQuery<IApiGetRoutes["/formation/v1/search"]>, "page_index">
+  ): AsyncGenerator<IFormation[], void, void>;
 };
 
 export function buildFormationModule(apiClient: ApiClient): FormationModule {
-  const cache = new LRUCache<string, IFormationSearchApiResult>({
-    max: 500,
-    ttl: 1_000 * 60 * 60,
-  });
-
   return {
-    recherche: async (
-      querystring: IApiQuery<IApiGetRoutes["/formation/v1/search"]>
-    ): Promise<IFormationSearchApiResult> => {
-      const cacheKey = stringify(querystring);
-      const cached = cache.get(cacheKey);
-      if (cached) {
-        return cached;
+    recherche: async function* (
+      querystring: Omit<IApiQuery<IApiGetRoutes["/formation/v1/search"]>, "page_index">
+    ): AsyncGenerator<IFormation[], void, void> {
+      const {
+        data: firstPageData,
+        pagination: { page_count },
+      } = parseApiResponse(
+        await apiClient.get("/formation/v1/search", { querystring: { ...querystring, page_index: 0 } }),
+        zApiFormationRoutes.get["/formation/v1/search"].response["200"]
+      );
+
+      yield firstPageData;
+
+      for (let i = 1; i < page_count; i++) {
+        const { data } = parseApiResponse(
+          await apiClient.get("/formation/v1/search", { querystring: { ...querystring, page_index: i } }),
+          zApiFormationRoutes.get["/formation/v1/search"].response["200"]
+        );
+
+        yield data;
       }
-
-      const data = await apiClient.get("/formation/v1/search", { querystring });
-
-      const result = parseApiResponse(data, zFormationSearchApiResult);
-      cache.set(cacheKey, result);
-      return result;
     },
   };
 }

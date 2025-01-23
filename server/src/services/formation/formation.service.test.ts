@@ -28,6 +28,7 @@ describe("searchFormation", () => {
       radius: 0,
       page_size: 10,
       page_index: 0,
+      include_archived: false,
     });
     expect(page1.pagination).toEqual({
       page_count: 11,
@@ -52,6 +53,7 @@ describe("searchFormation", () => {
       radius: 0,
       page_size: 10,
       page_index: 1,
+      include_archived: false,
     });
     expect(page2.pagination).toEqual({
       page_count: 11,
@@ -76,6 +78,7 @@ describe("searchFormation", () => {
       radius: 0,
       page_size: 10,
       page_index: 10,
+      include_archived: false,
     });
     expect(page11.pagination).toEqual({
       page_count: 11,
@@ -108,6 +111,7 @@ describe("searchFormation", () => {
       radius: 0,
       page_size: 10,
       page_index: 0,
+      include_archived: false,
     });
     expect(data.pagination).toEqual({
       page_count: 1,
@@ -115,6 +119,41 @@ describe("searchFormation", () => {
       page_size: 10,
     });
     expect(data.data).toHaveLength(1);
+  });
+
+  it("should return only published and archived formations when requested", async () => {
+    const formations = [
+      generateFormationFixture({
+        identifiant: { cle_ministere_educatif: "1" },
+        statut: { catalogue: "publié" },
+      }),
+      generateFormationFixture({
+        identifiant: { cle_ministere_educatif: "2" },
+        statut: { catalogue: "archivé" },
+      }),
+      generateFormationFixture({
+        identifiant: { cle_ministere_educatif: "3" },
+        statut: { catalogue: "supprimé" },
+      }),
+    ];
+
+    await getDbCollection("formation").insertMany(formations);
+
+    const data = await searchFormation({
+      radius: 0,
+      page_size: 10,
+      page_index: 0,
+      include_archived: true,
+    });
+    expect(data.pagination).toEqual({
+      page_count: 1,
+      page_index: 0,
+      page_size: 10,
+    });
+    expect(data.data).toHaveLength(2);
+    expect(data.data.map(({ identifiant }) => identifiant.cle_ministere_educatif).toSorted()).toEqual(
+      ["1", "2"].toSorted()
+    );
   });
 
   it('should filter by "rome"', async () => {
@@ -164,6 +203,7 @@ describe("searchFormation", () => {
       romes: ["A1201"],
       page_size: 10,
       page_index: 0,
+      include_archived: false,
     });
     expect(data.pagination).toEqual({
       page_count: 1,
@@ -206,6 +246,7 @@ describe("searchFormation", () => {
       rncp: "RNCP456",
       page_size: 10,
       page_index: 0,
+      include_archived: false,
     });
 
     expect(data.pagination).toEqual({
@@ -334,6 +375,7 @@ describe("searchFormation", () => {
       rncp: "RNCP456",
       page_size: 10,
       page_index: 0,
+      include_archived: false,
     });
 
     expect(data.pagination).toEqual({
@@ -430,6 +472,7 @@ describe("searchFormation", () => {
       target_diploma_level: "3",
       page_size: 10,
       page_index: 0,
+      include_archived: false,
     });
     expect(data.pagination).toEqual({
       page_count: 1,
@@ -484,6 +527,7 @@ describe("searchFormation", () => {
       latitude: melun.coordinates[1],
       page_size: 10,
       page_index: 0,
+      include_archived: false,
     }).catch((e) => {
       console.error(e);
       throw e;
@@ -502,6 +546,7 @@ describe("searchFormation", () => {
       latitude: melun.coordinates[1],
       page_size: 10,
       page_index: 0,
+      include_archived: false,
     });
 
     expect(data2.pagination).toEqual({
@@ -606,6 +651,7 @@ describe("searchFormation", () => {
       target_diploma_level: "3",
       page_size: 10,
       page_index: 0,
+      include_archived: false,
     });
     expect(data.pagination).toEqual({
       page_count: 1,

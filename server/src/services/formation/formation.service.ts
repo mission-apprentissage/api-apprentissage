@@ -5,11 +5,7 @@ import type { IFormationInternal } from "shared/models/formation.model";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
 function resolveSearchQuery(query: IFormationSearchApiQuery, context: "count" | "find"): Filter<IFormationInternal> {
-  const conditions: Filter<IFormationInternal>[] = [
-    {
-      "statut.catalogue": "publié",
-    },
-  ];
+  const conditions: Filter<IFormationInternal>[] = [];
 
   if (query.romes || query.rncp) {
     const subCondition: Filter<IFormationInternal>[] = [];
@@ -38,7 +34,7 @@ function resolveSearchQuery(query: IFormationSearchApiQuery, context: "count" | 
   }
 
   const filter: Filter<IFormationInternal> = {
-    "statut.catalogue": "publié",
+    "statut.catalogue": query.include_archived ? { $in: ["archivé", "publié"] } : "publié",
   };
 
   if (conditions.length > 0) {

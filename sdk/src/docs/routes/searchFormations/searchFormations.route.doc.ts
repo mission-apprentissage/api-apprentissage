@@ -30,6 +30,14 @@ export const searchFormationsRouteDoc = {
       ],
       examples: [12],
     },
+    include_archived: {
+      descriptions: [
+        {
+          fr: "Inclure les formations archivées dans les résultats",
+          en: "Include archived training courses in the results",
+        },
+      ],
+    },
   },
   response: {
     description: {

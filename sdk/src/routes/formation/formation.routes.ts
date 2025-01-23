@@ -26,6 +26,7 @@ export const zFormationSearchApiQuery = z
     rncp: zRncp.optional(),
     page_size: z.number().int().min(1).max(1_000).default(100),
     page_index: z.number().int().min(0).default(0),
+    include_archived: z.boolean().default(false),
   })
   .superRefine((data, ctx) => {
     if (data.longitude == null && data.latitude != null) {
@@ -65,18 +66,6 @@ export const zApiFormationRoutes = {
       querystring: zFormationSearchApiQuery,
       response: {
         "200": zFormationSearchApiResult,
-      },
-      securityScheme: {
-        auth: "api-key",
-        access: null,
-        ressources: {},
-      },
-    },
-    "/formation/v1/export": {
-      method: "get",
-      path: "/formation/v1/export",
-      response: {
-        "200": zFormation.array(),
       },
       securityScheme: {
         auth: "api-key",

@@ -4,7 +4,7 @@ import { departementModelDoc } from "../../docs/models/departement/departement.m
 import type { OpenapiModel } from "../../openapi/types.js";
 import { zDepartement } from "./departement.model.js";
 
-const departementSchema = {
+const departementSchema: SchemaObject = {
   type: "object",
   properties: {
     nom: { type: "string" },
@@ -28,11 +28,11 @@ const departementSchema = {
     },
   },
   required: ["nom", "codeInsee", "academie", "region"],
-} as const satisfies SchemaObject;
+};
 
-export const departementModelOpenapi = {
+export const departementModelOpenapi: OpenapiModel<"Departement"> = {
   name: "Departement",
   schema: departementSchema,
   doc: departementModelDoc,
   zod: zDepartement,
-} as const satisfies OpenapiModel;
+};

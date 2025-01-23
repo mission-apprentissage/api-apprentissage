@@ -1,8 +1,9 @@
 import { exportOrganismesRouteDoc } from "../../docs/routes/exportOrganismes/exportOrganismes.route.doc.js";
 import { addErrorResponseOpenApi } from "../../models/errors/errors.model.openapi.js";
+import { paginationQueryParameterObject } from "../../models/pagination/pagination.model.openapi.js";
 import type { OpenapiRoutes } from "../../openapi/types.js";
 
-export const organismeRoutesOpenapi = {
+export const organismeRoutesOpenapi: OpenapiRoutes = {
   "/organisme/v1/recherche": {
     get: {
       tag: "organismes",
@@ -198,16 +199,25 @@ export const organismeRoutesOpenapi = {
       schema: addErrorResponseOpenApi({
         operationId: "exportOrganismes",
         security: [{ "api-key": [] }],
+        parameters: paginationQueryParameterObject,
         responses: {
           "200": {
-            description: "",
             content: {
               "application/json": {
                 schema: {
-                  type: "array",
-                  items: {
-                    $ref: "#/components/schemas/Organisme",
+                  type: "object",
+                  properties: {
+                    data: {
+                      type: "array",
+                      items: {
+                        $ref: "#/components/schemas/Organisme",
+                      },
+                    },
+                    pagination: {
+                      $ref: "#/components/schemas/Pagination",
+                    },
                   },
+                  required: ["data", "pagination"],
                 },
               },
             },
@@ -217,4 +227,4 @@ export const organismeRoutesOpenapi = {
       doc: exportOrganismesRouteDoc,
     },
   },
-} as const satisfies OpenapiRoutes;
+};

@@ -6,10 +6,11 @@ import {
   zRomeCodeCsvParam,
 } from "../../models/certification/certification.primitives.js";
 import { zFormation } from "../../models/index.js";
+import { zPaginationInfo, zPaginationQuery } from "../../models/pagination/pagination.model.js";
 import type { IApiRoutesDef } from "../common.routes.js";
 
-export const zFormationSearchApiQuery = z
-  .object({
+export const zFormationSearchApiQuery = zPaginationQuery
+  .extend({
     latitude: z.coerce
       .number()
       .min(-90, "Latitude doit être comprise entre -90 et 90")
@@ -24,8 +25,6 @@ export const zFormationSearchApiQuery = z
     target_diploma_level: zNiveauDiplomeEuropeen.optional(),
     romes: zRomeCodeCsvParam.optional(),
     rncp: zRncp.optional(),
-    page_size: z.number().int().min(1).max(1_000).default(100),
-    page_index: z.number().int().min(0).default(0),
     include_archived: z.boolean().default(false),
   })
   .superRefine((data, ctx) => {
@@ -48,11 +47,7 @@ export const zFormationSearchApiQuery = z
 
 export const zFormationSearchApiResult = z.object({
   data: zFormation.array(),
-  pagination: z.object({
-    page_count: z.number().int(),
-    page_size: z.number().int(),
-    page_index: z.number().int(),
-  }),
+  pagination: zPaginationInfo,
 });
 
 export type IFormationSearchApiQuery = z.output<typeof zFormationSearchApiQuery>;

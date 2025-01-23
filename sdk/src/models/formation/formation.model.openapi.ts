@@ -2,7 +2,7 @@ import { formationModelDoc } from "../../docs/models/formation/formation.model.d
 import type { OpenapiModel } from "../../openapi/types.js";
 import { zFormation } from "./formation.model.js";
 
-export const formationModelOpenapi = {
+export const formationModelOpenapi: OpenapiModel<"Formation"> = {
   name: "Formation",
   schema: {
     type: "object",
@@ -201,4 +201,4 @@ export const formationModelOpenapi = {
   },
   doc: formationModelDoc,
   zod: zFormation,
-} as const satisfies OpenapiModel;
+};

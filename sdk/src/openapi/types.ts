@@ -5,8 +5,8 @@ import type { DocRoute, DocTechnicalField, OpenApiText } from "../docs/types.js"
 import type { Permission } from "../routes/security/permissions.js";
 import type { TagOpenapi } from "./tags.openapi.js";
 
-export type OpenapiModel = {
-  name: string;
+export type OpenapiModel<T extends string = string> = {
+  name: T;
   schema: SchemaObject;
   doc: DocTechnicalField;
   zod: ZodType | null;

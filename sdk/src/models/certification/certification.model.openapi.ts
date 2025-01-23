@@ -430,9 +430,9 @@ const schema: SchemaObject = {
   ],
 };
 
-export const certificationModelOpenapi = {
+export const certificationModelOpenapi: OpenapiModel<"Certification"> = {
   name: "Certification",
   schema,
   doc: certificationModelDoc,
   zod: zCertification,
-} as const satisfies OpenapiModel;
+};

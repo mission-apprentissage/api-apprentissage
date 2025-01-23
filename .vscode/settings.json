@@ -12,7 +12,12 @@
     "**/.DS_Store": true,
     "**/*/lib": true,
     "**/*/build": true,
-    "**/.webpack": true
+    "**/.webpack": true,
+    "**/coverage": true,
+    "**/docs": true,
+    "**/dist": true,
+    "**/tmp": true,
+    "**/.next": true
   },
   "files.watcherExclude": {
     "**/*/lib": true,

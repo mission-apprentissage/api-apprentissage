@@ -3,7 +3,7 @@ import { listDepartementsRouteDoc } from "../../docs/routes/listDepartements/lis
 import { listMissionLocalesRouteDoc } from "../../docs/routes/listMissionLocales/listMissionLocales.route.doc.js";
 import type { OpenapiRoutes } from "../../openapi/types.js";
 
-export const geographieRoutesOpenapi = {
+export const geographieRoutesOpenapi: OpenapiRoutes = {
   "/geographie/v1/commune/search": {
     get: {
       tag: "geographie",
@@ -87,4 +87,4 @@ export const geographieRoutesOpenapi = {
       doc: listMissionLocalesRouteDoc,
     },
   },
-} as const satisfies OpenapiRoutes;
+};

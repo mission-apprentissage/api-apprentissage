@@ -2,7 +2,7 @@ import { organismeModelDoc } from "../../docs/models/organisme/organisme.model.d
 import type { OpenapiModel } from "../../openapi/types.js";
 import { zOrganisme } from "./organisme.model.js";
 
-export const organismeModelOpenapi = {
+export const organismeModelOpenapi: OpenapiModel<"Organisme"> = {
   name: "Organisme",
   schema: {
     type: "object",
@@ -98,4 +98,4 @@ export const organismeModelOpenapi = {
   },
   doc: organismeModelDoc,
   zod: zOrganisme,
-} as const satisfies OpenapiModel;
+};

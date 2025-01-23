@@ -261,7 +261,7 @@ describe("GET /api/organisme/v1/export", () => {
   const toLocalDateString = (date: Date | null) =>
     date === null ? null : DateTime.fromJSDate(date, { zone: "Europe/Paris" }).toISO();
 
-  it("should retrieve all organismes", async () => {
+  it("should retrieve first page", async () => {
     const response = await app.inject({
       method: "GET",
       url: `/api/organisme/v1/export`,
@@ -271,8 +271,13 @@ describe("GET /api/organisme/v1/export", () => {
     });
     expect.soft(response.statusCode).toBe(200);
     const result = response.json();
-    expect.soft(result).toHaveLength(organismes.length);
-    expect.soft(result).toEqual(
+    expect.soft(result.pagination).toEqual({
+      page_index: 0,
+      page_size: 100,
+      page_count: 1,
+    });
+    expect.soft(result.data).toHaveLength(organismes.length);
+    expect.soft(result.data).toEqual(
       organismes.map(({ _id, created_at, updated_at, ...rest }) => ({
         ...rest,
         etablissement: {

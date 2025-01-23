@@ -4,7 +4,7 @@ import { jobOfferUpdateRouteDoc } from "../../docs/routes/jobOfferUpdate/jobOffe
 import { jobSearchRouteDoc } from "../../docs/routes/jobSearch/jobSearch.route.doc.js";
 import type { OpenapiRoutes } from "../../openapi/types.js";
 
-export const jobRoutesOpenapi = {
+export const jobRoutesOpenapi: OpenapiRoutes = {
   "/job/v1/search": {
     get: {
       tag: "job",
@@ -228,4 +228,4 @@ export const jobRoutesOpenapi = {
       },
     },
   },
-} as const satisfies OpenapiRoutes;
+};

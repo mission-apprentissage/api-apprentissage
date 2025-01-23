@@ -1,9 +1,10 @@
 import { generateFormationAppointmentLinkRouteDoc } from "../../docs/routes/generateFormationAppointmentLink/generateFormationAppointmentLink.doc.js";
 import { searchFormationsRouteDoc } from "../../docs/routes/searchFormations/searchFormations.route.doc.js";
 import { addErrorResponseOpenApi } from "../../models/errors/errors.model.openapi.js";
+import { paginationQueryParameterObject } from "../../models/pagination/pagination.model.openapi.js";
 import type { OpenapiRoutes } from "../../openapi/types.js";
 
-export const formationRoutesOpenapi = {
+export const formationRoutesOpenapi: OpenapiRoutes = {
   "/formation/v1/search": {
     get: {
       tag: "formation",
@@ -70,27 +71,6 @@ export const formationRoutesOpenapi = {
           },
           {
             schema: {
-              type: "integer",
-              minimum: 1,
-              maximum: 1_000,
-              default: 100,
-            },
-            required: false,
-            name: "page_size",
-            in: "query",
-          },
-          {
-            schema: {
-              type: "integer",
-              minimum: 0,
-              default: 0,
-            },
-            required: false,
-            name: "page_index",
-            in: "query",
-          },
-          {
-            schema: {
               type: "boolean",
               default: false,
             },
@@ -98,6 +78,7 @@ export const formationRoutesOpenapi = {
             name: "include_archived",
             in: "query",
           },
+          ...paginationQueryParameterObject,
         ],
         responses: {
           "200": {
@@ -113,13 +94,7 @@ export const formationRoutesOpenapi = {
                       },
                     },
                     pagination: {
-                      type: "object",
-                      properties: {
-                        page_count: { type: "integer" },
-                        page_size: { type: "integer" },
-                        page_index: { type: "integer" },
-                      },
-                      required: ["page_count", "page_size", "page_index"],
+                      $ref: "#/components/schemas/Pagination",
                     },
                   },
                   required: ["data", "pagination"],
@@ -250,4 +225,4 @@ export const formationRoutesOpenapi = {
       },
     },
   },
-} as const satisfies OpenapiRoutes;
+};

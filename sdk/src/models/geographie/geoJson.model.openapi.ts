@@ -8,7 +8,7 @@ import {
 import type { OpenapiModel } from "../../openapi/types.js";
 import { zAdresse, zGeoJsonPoint, zGeoJsonPolygon } from "./geoJson.model.js";
 
-const geoJsonPointSchema = {
+const geoJsonPointSchema: SchemaObject = {
   type: "object",
   properties: {
     type: { type: "string", enum: ["Point"] },
@@ -24,16 +24,16 @@ const geoJsonPointSchema = {
   },
   required: ["type", "coordinates"],
   additionalProperties: false,
-} as const satisfies SchemaObject;
+};
 
-export const geoJsonPointModelOpenapi = {
+export const geoJsonPointModelOpenapi: OpenapiModel<"GeoJsonPoint"> = {
   name: "GeoJsonPoint",
   schema: geoJsonPointSchema,
   doc: geoJsonPointModelDoc,
   zod: zGeoJsonPoint,
-} as const satisfies OpenapiModel;
+};
 
-const geoJsonPolygonSchema = {
+const geoJsonPolygonSchema: SchemaObject = {
   type: "object",
   properties: {
     type: { type: "string", enum: ["Polygon"] },
@@ -55,16 +55,16 @@ const geoJsonPolygonSchema = {
   },
   required: ["type", "coordinates"],
   additionalProperties: false,
-} as const satisfies SchemaObject;
+};
 
-export const geoJsonPolygonModelOpenapi = {
+export const geoJsonPolygonModelOpenapi: OpenapiModel<"GeoJsonPolygon"> = {
   name: "GeoJsonPolygon",
   schema: geoJsonPolygonSchema,
   doc: geoJsonPolygonModelDoc,
   zod: zGeoJsonPolygon,
-} as const satisfies OpenapiModel;
+};
 
-const adresseSchema = {
+const adresseSchema: SchemaObject = {
   properties: {
     academie: {
       properties: {
@@ -126,11 +126,11 @@ const adresseSchema = {
   },
   required: ["academie", "code_postal", "commune", "departement", "label", "region"],
   type: "object",
-} as const satisfies SchemaObject;
+};
 
-export const adresseModelOpenapi = {
+export const adresseModelOpenapi: OpenapiModel<"Adresse"> = {
   name: "Adresse",
   schema: adresseSchema,
   doc: adresseModelDoc,
   zod: zAdresse,
-} as const satisfies OpenapiModel;
+};

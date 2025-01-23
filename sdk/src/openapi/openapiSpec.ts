@@ -15,6 +15,7 @@ import {
   recruiterModelOpenapi,
 } from "../models/job/job.model.openapi.js";
 import { organismeModelOpenapi } from "../models/organisme/organisme.model.openapi.js";
+import { paginationModelOpenapi } from "../models/pagination/pagination.model.openapi.js";
 import { certificationsRoutesOpenapi } from "../routes/certification/certification.routes.openapi.js";
 import { formationRoutesOpenapi } from "../routes/formation/formation.routes.openapi.js";
 import { geographieRoutesOpenapi } from "../routes/geographie/geographie.routes.openapi.js";
@@ -38,6 +39,7 @@ export const openapiSpec: OpenapiSpec = {
     [geoJsonPointModelOpenapi.name]: geoJsonPointModelOpenapi,
     [geoJsonPolygonModelOpenapi.name]: geoJsonPolygonModelOpenapi,
     [adresseModelOpenapi.name]: adresseModelOpenapi,
+    [paginationModelOpenapi.name]: paginationModelOpenapi,
   },
   routes: {
     ...jobRoutesOpenapi,

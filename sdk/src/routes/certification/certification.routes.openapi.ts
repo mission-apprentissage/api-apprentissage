@@ -2,7 +2,7 @@ import { getCertificationsRouteDoc } from "../../docs/routes/getCertifications/g
 import { addErrorResponseOpenApi } from "../../models/errors/errors.model.openapi.js";
 import type { OpenapiRoutes } from "../../openapi/types.js";
 
-export const certificationsRoutesOpenapi = {
+export const certificationsRoutesOpenapi: OpenapiRoutes = {
   "/certification/v1": {
     get: {
       tag: "certifications",
@@ -50,4 +50,4 @@ export const certificationsRoutesOpenapi = {
       doc: getCertificationsRouteDoc,
     },
   },
-} as const satisfies OpenapiRoutes;
+};

@@ -2625,6 +2625,25 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         ],
         "type": "object",
       },
+      "Pagination": {
+        "properties": {
+          "page_count": {
+            "type": "integer",
+          },
+          "page_index": {
+            "type": "integer",
+          },
+          "page_size": {
+            "type": "integer",
+          },
+        },
+        "required": [
+          "page_count",
+          "page_index",
+          "page_size",
+        ],
+        "type": "object",
+      },
     },
     "securitySchemes": {
       "api-key": {
@@ -2943,23 +2962,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                       "type": "array",
                     },
                     "pagination": {
-                      "properties": {
-                        "page_count": {
-                          "type": "integer",
-                        },
-                        "page_index": {
-                          "type": "integer",
-                        },
-                        "page_size": {
-                          "type": "integer",
-                        },
-                      },
-                      "required": [
-                        "page_count",
-                        "page_index",
-                        "page_size",
-                      ],
-                      "type": "object",
+                      "$ref": "#/components/schemas/Pagination",
                     },
                   },
                   "required": [
@@ -3358,15 +3361,50 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
     },
     "/organisme/v1/export": {
       "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page_index",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "type": "integer",
+            },
+          },
+          {
+            "in": "query",
+            "name": "page_size",
+            "required": false,
+            "schema": {
+              "default": 100,
+              "maximum": 1000,
+              "minimum": 1,
+              "type": "integer",
+            },
+          },
+        ],
         "responses": {
           "200": {
             "content": {
               "application/json": {
                 "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/Organisme",
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/Organisme",
+                      },
+                      "type": "array",
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/Pagination",
+                    },
                   },
-                  "type": "array",
+                  "required": [
+                    "data",
+                    "pagination",
+                  ],
+                  "type": "object",
                 },
               },
             },

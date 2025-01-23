@@ -1,4 +1,5 @@
 import { rechercheFormationPageSummaryDoc } from "../../metier/recherche-formation/recherche-formation.doc.js";
+import { paginationQueryParameterDoc } from "../../models/pagination/pagination.model.doc.js";
 import type { DocRoute } from "../../types.js";
 import { jobSearchRouteDoc } from "../jobSearch/jobSearch.route.doc.js";
 
@@ -12,24 +13,7 @@ export const searchFormationsRouteDoc = {
     rncp: jobSearchRouteDoc.parameters.rncp,
     romes: jobSearchRouteDoc.parameters.romes,
     target_diploma_level: jobSearchRouteDoc.parameters.target_diploma_level,
-    page_size: {
-      descriptions: [
-        {
-          fr: "Nombre d'éléments par page",
-          en: "Number of items per page",
-        },
-      ],
-      examples: [10],
-    },
-    page_index: {
-      descriptions: [
-        {
-          fr: "Numéro de la page actuelle (commence à 0)",
-          en: "Current page number (starts at 0)",
-        },
-      ],
-      examples: [12],
-    },
+    ...paginationQueryParameterDoc,
     include_archived: {
       descriptions: [
         {
@@ -59,18 +43,7 @@ export const searchFormationsRouteDoc = {
           },
         },
         pagination: {
-          descriptions: [{ en: "Pagination information", fr: "Informations de pagination" }],
-          properties: {
-            page_index: {
-              descriptions: [{ en: "Current page number", fr: "Numéro de la page actuelle" }],
-            },
-            page_size: {
-              descriptions: [{ en: "Number of items per page", fr: "Nombre d'éléments par page" }],
-            },
-            page_count: {
-              descriptions: [{ en: "Total number of pages", fr: "Nombre total de pages" }],
-            },
-          },
+          descriptions: null,
         },
       },
     },

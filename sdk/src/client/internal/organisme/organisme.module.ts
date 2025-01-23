@@ -8,7 +8,9 @@ import type { ApiClient } from "../../client.js";
 import { parseApiResponse } from "../parser/response.parser.js";
 export type OrganismeModule = {
   recherche(querystring: IApiQuery<IApiGetRoutes["/organisme/v1/recherche"]>): Promise<IRechercheOrganismeResponse>;
-  export(): Promise<IOrganisme[]>;
+  export(
+    querystring: Omit<IApiQuery<IApiGetRoutes["/organisme/v1/recherche"]>, "page_index">
+  ): AsyncGenerator<IOrganisme[], void, void>;
 };
 
 export function buildOrganismeModule(apiClient: ApiClient): OrganismeModule {
@@ -33,10 +35,27 @@ export function buildOrganismeModule(apiClient: ApiClient): OrganismeModule {
       organismeCache.set(cacheKey, result);
       return result;
     },
-    export: async (): Promise<IOrganisme[]> => {
-      const data = await apiClient.get("/organisme/v1/export", {});
+    export: async function* (
+      querystring: Omit<IApiQuery<IApiGetRoutes["/organisme/v1/recherche"]>, "page_index">
+    ): AsyncGenerator<IOrganisme[], void, void> {
+      const {
+        data: firstPageData,
+        pagination: { page_count },
+      } = parseApiResponse(
+        await apiClient.get("/organisme/v1/export", { querystring: { ...querystring, page_index: 0 } }),
+        zApiOrganismesRoutes.get["/organisme/v1/export"].response["200"]
+      );
 
-      return parseApiResponse(data, zApiOrganismesRoutes.get["/organisme/v1/export"].response["200"]);
+      yield firstPageData;
+
+      for (let i = 1; i < page_count; i++) {
+        const { data } = parseApiResponse(
+          await apiClient.get("/organisme/v1/export", { querystring: { ...querystring, page_index: i } }),
+          zApiOrganismesRoutes.get["/organisme/v1/export"].response["200"]
+        );
+
+        yield data;
+      }
     },
   };
 }

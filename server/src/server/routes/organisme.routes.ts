@@ -3,7 +3,7 @@ import { zRoutes } from "shared";
 import type { Server } from "@/server/server.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 import { searchOrganisme, searchOrganismeMetadata } from "@/services/organisme/organisme.service.js";
-import { createResponseStream } from "@/utils/streamUtils.js";
+import { paginate } from "@/services/pagination/pagination.service.js";
 
 export const organismeRoutes = ({ server }: { server: Server }) => {
   server.get(
@@ -28,13 +28,10 @@ export const organismeRoutes = ({ server }: { server: Server }) => {
       schema: zRoutes.get["/organisme/v1/export"],
       onRequest: [server.auth(zRoutes.get["/organisme/v1/export"])],
     },
-    async (_request, response) => {
-      const cursor = getDbCollection("organisme").find({});
+    async (request, response) => {
+      const result = await paginate(getDbCollection("organisme"), request.query, {});
 
-      return response
-        .status(200)
-        .header("Content-Type", "application/json")
-        .send(createResponseStream(cursor, zRoutes.get["/organisme/v1/export"].response["200"]));
+      return response.status(200).send(result);
     }
   );
 };

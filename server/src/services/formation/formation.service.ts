@@ -3,6 +3,7 @@ import type { Filter } from "mongodb";
 import type { IFormationInternal } from "shared/models/formation.model";
 
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import { paginate } from "@/services/pagination/pagination.service.js";
 
 function resolveSearchQuery(query: IFormationSearchApiQuery, context: "count" | "find"): Filter<IFormationInternal> {
   const conditions: Filter<IFormationInternal>[] = [];
@@ -59,22 +60,10 @@ function resolveSearchQuery(query: IFormationSearchApiQuery, context: "count" | 
 }
 
 export async function searchFormation(query: IFormationSearchApiQuery): Promise<IFormationSearchApiResult> {
-  const [data, count] = await Promise.all([
-    getDbCollection("formation")
-      .find(resolveSearchQuery(query, "find"), {
-        limit: query.page_size,
-        skip: query.page_size * query.page_index,
-      })
-      .toArray(),
-    getDbCollection("formation").countDocuments(resolveSearchQuery(query, "count")),
-  ]);
-
-  return {
-    data,
-    pagination: {
-      page_count: Math.ceil(count / query.page_size),
-      page_size: query.page_size,
-      page_index: query.page_index,
-    },
-  };
+  return paginate(
+    getDbCollection("formation"),
+    query,
+    resolveSearchQuery(query, "find"),
+    resolveSearchQuery(query, "count")
+  );
 }

@@ -405,30 +405,30 @@ const applicationWriteSchema = {
   additionalProperties: false,
 } as const satisfies SchemaObject;
 
-export const recruiterModelOpenapi = {
+export const recruiterModelOpenapi: OpenapiModel<"JobRecruiter"> = {
   name: "JobRecruiter",
   schema: recruiterSchema,
   doc: recruiterModelDoc,
   zod: zodOpenApi.unknown().openapi("JobRecruiter"),
-} as const satisfies OpenapiModel;
+};
 
-export const offerReadModelOpenapi = {
+export const offerReadModelOpenapi: OpenapiModel<"JobOfferRead"> = {
   name: "JobOfferRead",
   schema: offerReadSchema,
   doc: offerReadModelDoc,
   zod: zodOpenApi.unknown().openapi("JobOfferRead"),
-} as const satisfies OpenapiModel;
+};
 
-export const offerWriteModelOpenapi = {
+export const offerWriteModelOpenapi: OpenapiModel<"JobOfferWrite"> = {
   name: "JobOfferWrite",
   schema: offerWriteSchema,
   doc: offerWriteModelDoc,
   zod: zodOpenApi.unknown().openapi("JobOfferWrite"),
-} as const satisfies OpenapiModel;
+};
 
-export const applicationWriteModelOpenapi = {
+export const applicationWriteModelOpenapi: OpenapiModel<"JobApplicationWrite"> = {
   name: "JobApplicationWrite",
   schema: applicationWriteSchema,
   doc: applicationModelDoc,
   zod: zodOpenApi.unknown().openapi("JobApplicationWrite"),
-} as const satisfies OpenapiModel;
+};

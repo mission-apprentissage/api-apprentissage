@@ -4,7 +4,7 @@ import { communeModelDoc } from "../../docs/models/commune/commune.model.doc.js"
 import type { OpenapiModel } from "../../openapi/types.js";
 import { zCommune } from "./commune.model.js";
 
-const communeSchema = {
+const communeSchema: SchemaObject = {
   type: "object",
   properties: {
     nom: { type: "string" },
@@ -93,11 +93,11 @@ const communeSchema = {
     "arrondissements",
     "anciennes",
   ],
-} as const satisfies SchemaObject;
+};
 
-export const communeModelOpenapi = {
+export const communeModelOpenapi: OpenapiModel<"Commune"> = {
   name: "Commune",
   schema: communeSchema,
   doc: communeModelDoc,
   zod: zCommune,
-} as const satisfies OpenapiModel;
+};

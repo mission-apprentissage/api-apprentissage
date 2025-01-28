@@ -11,6 +11,19 @@ export const sourceReferentielFixtures: IOrganismeReferentiel[] = [
     numero_declaration_activite: "32591104359",
     qualiopi: true,
     uai: "0597114M",
+    contacts: [
+      {
+        email: "contact@mail.com",
+        confirmé: true,
+        sources: ["source1", "source2"],
+      },
+      {
+        email: "invalideEmail",
+      },
+      {
+        email: "notConfirmed@mail.com",
+      },
+    ],
   }),
   generateOrganismeReferentielFixture({
     siret: "26220009000278",
@@ -366,6 +379,18 @@ export const communesFixture: ICommuneInternal[] = [
 
 export const expectedOrganismes: IOrganisme[] = [
   {
+    contacts: [
+      {
+        email: "contact@mail.com",
+        confirmation_referentiel: true,
+        sources: ["source1", "source2"],
+      },
+      {
+        email: "notConfirmed@mail.com",
+        confirmation_referentiel: false,
+        sources: [],
+      },
+    ],
     identifiant: {
       siret: "13002975400020",
       uai: "0597114M",
@@ -414,6 +439,7 @@ export const expectedOrganismes: IOrganisme[] = [
     },
   },
   {
+    contacts: [],
     identifiant: {
       siret: "26220009000278",
       uai: "0932751K",

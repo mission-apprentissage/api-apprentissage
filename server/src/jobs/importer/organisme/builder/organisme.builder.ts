@@ -3,6 +3,7 @@ import { zOrganisme } from "api-alternance-sdk";
 import { ParisDate } from "api-alternance-sdk/internal";
 import type { IApiEntEtablissement, IApiEntUniteLegale } from "shared/models/cache/cache.entreprise.model";
 import type { ISourceReferentiel } from "shared/models/source/referentiel/source.referentiel.model";
+import { z } from "zod";
 
 import {
   getEtablissementDiffusible,
@@ -69,7 +70,7 @@ function getAdresse(context: OrganismeBuilderContext): IOrganisme["etablissement
 }
 
 export function buildOrganisme(
-  source: Pick<ISourceReferentiel["data"], "siret" | "uai" | "qualiopi" | "numero_declaration_activite">,
+  source: Pick<ISourceReferentiel["data"], "siret" | "uai" | "qualiopi" | "numero_declaration_activite" | "contacts">,
   context: OrganismeBuilderContext,
   statutReferentiel: IOrganisme["statut"]["referentiel"]
 ): IOrganisme {
@@ -88,6 +89,22 @@ export function buildOrganisme(
     statut: {
       referentiel: statutReferentiel,
     },
+
+    contacts: source.contacts
+      .map((contact) => {
+        const email = z.string().email().safeParse(contact.email);
+
+        if (email.success === false) {
+          return null;
+        }
+
+        return {
+          email: email.data,
+          sources: contact.sources?.filter((c) => c != null) ?? [],
+          confirmation_referentiel: contact.confirmé ?? false,
+        };
+      })
+      .filter((c) => c !== null),
   };
 
   return zOrganisme.parse(data);

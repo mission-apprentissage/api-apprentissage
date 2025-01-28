@@ -111,6 +111,7 @@ describe("buildFormationOrganisme", () => {
         statut: {
           referentiel: "supprimé",
         },
+        contacts: [],
       },
       connu: false,
     });

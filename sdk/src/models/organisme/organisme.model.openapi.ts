@@ -7,6 +7,28 @@ export const organismeModelOpenapi: OpenapiModel<"Organisme"> = {
   schema: {
     type: "object",
     properties: {
+      contacts: {
+        type: "array",
+        items: {
+          type: "object",
+          properties: {
+            email: {
+              type: "string",
+              format: "email",
+            },
+            sources: {
+              type: "array",
+              items: {
+                type: "string",
+              },
+            },
+            confirmation_referentiel: {
+              type: "boolean",
+            },
+          },
+          required: ["email", "sources", "confirmation_referentiel"],
+        },
+      },
       etablissement: {
         properties: {
           adresse: {

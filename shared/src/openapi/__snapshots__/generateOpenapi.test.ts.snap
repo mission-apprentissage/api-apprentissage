@@ -2483,6 +2483,32 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
       },
       "Organisme": {
         "properties": {
+          "contacts": {
+            "items": {
+              "properties": {
+                "confirmation_referentiel": {
+                  "type": "boolean",
+                },
+                "email": {
+                  "format": "email",
+                  "type": "string",
+                },
+                "sources": {
+                  "items": {
+                    "type": "string",
+                  },
+                  "type": "array",
+                },
+              },
+              "required": [
+                "confirmation_referentiel",
+                "email",
+                "sources",
+              ],
+              "type": "object",
+            },
+            "type": "array",
+          },
           "etablissement": {
             "properties": {
               "adresse": {

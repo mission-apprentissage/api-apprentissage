@@ -41,6 +41,14 @@ export const zOrganisme = z
     statut: z.object({
       referentiel: z.enum(["présent", "supprimé"]),
     }),
+
+    contacts: z.array(
+      z.object({
+        email: z.string().email(),
+        sources: z.array(z.string()),
+        confirmation_referentiel: z.boolean(),
+      })
+    ),
   })
   .openapi("Organisme");
 

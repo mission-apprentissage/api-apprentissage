@@ -88,6 +88,19 @@ export const recuperationOrganismesPageDoc = {
               ],
               tags: ["qualiopi", "numero_activite"],
             },
+            contacts: {
+              description: [
+                {
+                  fr: "Liste des emails de contact de l'organisme de formation.",
+                  en: "List of contact emails of the training organization.",
+                },
+              ],
+              information: {
+                fr: "Les contacts sont issus de différentes sources, nous ne sommes pas en mesure de garantir la validité des emails.",
+                en: "The contacts come from different sources, we are not able to guarantee the validity of the emails.",
+              },
+              tags: ["email", "sources", "confirmation_referentiel"],
+            },
           },
         },
         etablissement: {

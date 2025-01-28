@@ -18,6 +18,7 @@ export function generateOrganismeFixture(data?: IOrganismeInput<IOrganisme>): IO
       siret: "19350030300014",
       ...identifiant,
     },
+    contacts: [],
     etablissement: {
       siret: "19350030300014",
       ouvert: true,

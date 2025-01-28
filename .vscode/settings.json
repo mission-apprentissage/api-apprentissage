@@ -14,7 +14,6 @@
     "**/*/build": true,
     "**/.webpack": true,
     "**/coverage": true,
-    "**/docs": true,
     "**/dist": true,
     "**/tmp": true,
     "**/.next": true

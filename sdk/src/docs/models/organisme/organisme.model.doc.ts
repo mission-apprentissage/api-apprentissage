@@ -3,6 +3,31 @@ import type { DocTechnicalField } from "../../types.js";
 export const organismeModelDoc = {
   descriptions: null,
   properties: {
+    contacts: {
+      descriptions: [{ fr: "Contacts de l'organisme", en: "Organism's contacts" }],
+      items: {
+        descriptions: null,
+        properties: {
+          confirmation_referentiel: {
+            descriptions: [
+              {
+                fr: 'Indique si le contact a un statut "confirmé" sur le référentiel des organismes de formation',
+                en: 'Indicates if the contact has a "confirmed" status on the training organizations repository',
+              },
+            ],
+          },
+          email: {
+            descriptions: [{ fr: "Email du contact", en: "Contact's email" }],
+          },
+          sources: {
+            descriptions: [{ fr: "Sources du contact", en: "Contact's sources" }],
+            items: {
+              descriptions: null,
+            },
+          },
+        },
+      },
+    },
     etablissement: {
       descriptions: [{ fr: "Etablissement de l'organisme", en: "Organism's establishment" }],
       properties: {

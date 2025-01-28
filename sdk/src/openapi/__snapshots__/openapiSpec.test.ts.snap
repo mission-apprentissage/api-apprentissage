@@ -172,6 +172,35 @@ exports[`openapiSpec#models > should generate schema in sync with zod definition
         ],
         "type": "added",
       },
+      "required.0": {
+        "result": "etablissement",
+        "source": "contacts",
+        "type": "changed",
+      },
+      "required.1": {
+        "result": "identifiant",
+        "source": "etablissement",
+        "type": "changed",
+      },
+      "required.2": {
+        "result": "renseignements_specifiques",
+        "source": "identifiant",
+        "type": "changed",
+      },
+      "required.3": {
+        "result": "statut",
+        "source": "renseignements_specifiques",
+        "type": "changed",
+      },
+      "required.4": {
+        "result": "unite_legale",
+        "source": "statut",
+        "type": "changed",
+      },
+      "required.5": {
+        "source": "unite_legale",
+        "type": "removed",
+      },
       "type": {
         "result": "object",
         "source": [

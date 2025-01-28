@@ -416,6 +416,7 @@ describe("importOrganismes", () => {
         raison_sociale: "EMMENO PRESTIGE SCHOOL",
         siren: "130029754",
       },
+      contacts: [],
       created_at: yesterday,
       updated_at: yesterday,
     };
@@ -590,6 +591,7 @@ describe("importOrganismes", () => {
       },
       created_at: yesterday,
       updated_at: yesterday,
+      contacts: [],
     };
 
     beforeEach(async () => {

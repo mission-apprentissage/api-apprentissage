@@ -55,6 +55,7 @@ async function buildFormationOrganismeRaw(identifiant: IOrganisme["identifiant"]
       {
         siret: identifiant.siret,
         uai: zUai.safeParse(identifiant.uai).success ? identifiant.uai : null,
+        contacts: [],
       },
       context,
       "supprimé"

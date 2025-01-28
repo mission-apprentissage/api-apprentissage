@@ -3040,6 +3040,32 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
               "additionalProperties": false,
               "bsonType": "object",
               "properties": {
+                "contacts": {
+                  "bsonType": "array",
+                  "items": {
+                    "additionalProperties": false,
+                    "bsonType": "object",
+                    "properties": {
+                      "confirmation_referentiel": {
+                        "bsonType": "bool",
+                      },
+                      "email": {
+                        "bsonType": "string",
+                      },
+                      "sources": {
+                        "bsonType": "array",
+                        "items": {
+                          "bsonType": "string",
+                        },
+                      },
+                    },
+                    "required": [
+                      "email",
+                      "sources",
+                      "confirmation_referentiel",
+                    ],
+                  },
+                },
                 "etablissement": {
                   "additionalProperties": false,
                   "bsonType": "object",
@@ -3323,6 +3349,7 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
                 "unite_legale",
                 "renseignements_specifiques",
                 "statut",
+                "contacts",
               ],
             },
             {
@@ -3619,6 +3646,32 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
               "additionalProperties": false,
               "bsonType": "object",
               "properties": {
+                "contacts": {
+                  "bsonType": "array",
+                  "items": {
+                    "additionalProperties": false,
+                    "bsonType": "object",
+                    "properties": {
+                      "confirmation_referentiel": {
+                        "bsonType": "bool",
+                      },
+                      "email": {
+                        "bsonType": "string",
+                      },
+                      "sources": {
+                        "bsonType": "array",
+                        "items": {
+                          "bsonType": "string",
+                        },
+                      },
+                    },
+                    "required": [
+                      "email",
+                      "sources",
+                      "confirmation_referentiel",
+                    ],
+                  },
+                },
                 "etablissement": {
                   "additionalProperties": false,
                   "bsonType": "object",
@@ -3902,6 +3955,7 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
                 "unite_legale",
                 "renseignements_specifiques",
                 "statut",
+                "contacts",
               ],
             },
             {
@@ -4595,6 +4649,32 @@ exports[`zodToMongoSchema > should convert organisme schema 1`] = `
     "_id": {
       "bsonType": "objectId",
     },
+    "contacts": {
+      "bsonType": "array",
+      "items": {
+        "additionalProperties": false,
+        "bsonType": "object",
+        "properties": {
+          "confirmation_referentiel": {
+            "bsonType": "bool",
+          },
+          "email": {
+            "bsonType": "string",
+          },
+          "sources": {
+            "bsonType": "array",
+            "items": {
+              "bsonType": "string",
+            },
+          },
+        },
+        "required": [
+          "email",
+          "sources",
+          "confirmation_referentiel",
+        ],
+      },
+    },
     "created_at": {
       "bsonType": "date",
     },
@@ -4884,6 +4964,7 @@ exports[`zodToMongoSchema > should convert organisme schema 1`] = `
     "unite_legale",
     "renseignements_specifiques",
     "statut",
+    "contacts",
     "_id",
     "created_at",
     "updated_at",

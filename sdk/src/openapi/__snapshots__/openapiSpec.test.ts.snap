@@ -213,36 +213,6 @@ exports[`openapiSpec#models > should generate schema in sync with zod definition
     "result": "api",
     "source": "zod",
   },
-  "Pagination": {
-    "diff": {
-      "properties.page_count.type": {
-        "result": "integer",
-        "source": [
-          "integer",
-          "null",
-        ],
-        "type": "changed",
-      },
-      "properties.page_index.type": {
-        "result": "integer",
-        "source": [
-          "integer",
-          "null",
-        ],
-        "type": "changed",
-      },
-      "properties.page_size.type": {
-        "result": "integer",
-        "source": [
-          "integer",
-          "null",
-        ],
-        "type": "changed",
-      },
-    },
-    "result": "api",
-    "source": "zod",
-  },
 }
 `;
 
@@ -280,6 +250,14 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
         ],
         "type": "changed",
       },
+      "parameters.query:page_index.schema.type": {
+        "result": "integer",
+        "source": [
+          "integer",
+          "null",
+        ],
+        "type": "changed",
+      },
       "parameters.query:radius.schema.type": {
         "result": "number",
         "source": [
@@ -308,6 +286,20 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           },
         ],
         "type": "removed",
+      },
+    },
+    "result": "api",
+    "source": "zod",
+  },
+  "get:/organisme/v1/export": {
+    "diff": {
+      "parameters.query:page_index.schema.type": {
+        "result": "integer",
+        "source": [
+          "integer",
+          "null",
+        ],
+        "type": "changed",
       },
     },
     "result": "api",

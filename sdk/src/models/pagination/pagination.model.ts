@@ -1,15 +1,15 @@
 import { z } from "zod";
 
 export const zPaginationQuery = z.object({
-  page_size: z.number().int().min(1).max(1_000).default(100),
-  page_index: z.number().int().min(0).default(0),
+  page_size: z.coerce.number().int().min(1).max(1_000).default(100),
+  page_index: z.coerce.number().int().min(0).default(0),
 });
 
 export const zPaginationInfo = z
   .object({
-    page_count: z.coerce.number().int(),
-    page_size: z.coerce.number().int(),
-    page_index: z.coerce.number().int(),
+    page_count: z.number().int(),
+    page_size: z.number().int(),
+    page_index: z.number().int(),
   })
   .openapi("Pagination");
 

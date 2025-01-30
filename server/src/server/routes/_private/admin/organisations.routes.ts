@@ -3,6 +3,7 @@ import { ObjectId } from "mongodb";
 import { zRoutes } from "shared";
 import type { IOrganisationInternal } from "shared/models/organisation.model";
 
+import { removeOrganisationFromUsers } from "@/actions/users.actions.js";
 import type { Server } from "@/server/server.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
@@ -68,6 +69,24 @@ export const organisationAdminRoutes = ({ server }: { server: Server }) => {
       }
 
       return response.status(200).send(organisation);
+    }
+  );
+
+  server.delete(
+    "/_private/admin/organisations/:id",
+    {
+      schema: zRoutes.delete["/_private/admin/organisations/:id"],
+      onRequest: [server.auth(zRoutes.delete["/_private/admin/organisations/:id"])],
+    },
+    async (request, response) => {
+      const organisation = await getDbCollection("organisations").findOne(
+        { _id: request.params.id },
+        { projection: { nom: 1 } }
+      );
+      if (!organisation?.nom) throw notFound();
+      await removeOrganisationFromUsers(organisation.nom);
+      await getDbCollection("organisations").deleteOne({ _id: request.params.id });
+      return response.status(200).send({ success: true });
     }
   );
 };

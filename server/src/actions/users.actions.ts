@@ -75,3 +75,13 @@ export async function deleteApiKey(id: ObjectId, user: IUser) {
     }
   );
 }
+
+export async function removeOrganisationFromUsers(organisationName: string) {
+  await getDbCollection("users").updateMany(
+    { organisation: organisationName },
+    {
+      $unset: { organisation: "" },
+      $set: { updated_at: new Date() },
+    }
+  );
+}

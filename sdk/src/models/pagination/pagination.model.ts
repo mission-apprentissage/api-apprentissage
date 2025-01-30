@@ -7,9 +7,9 @@ export const zPaginationQuery = z.object({
 
 export const zPaginationInfo = z
   .object({
-    page_count: z.number().int(),
-    page_size: z.number().int(),
-    page_index: z.number().int(),
+    page_count: z.coerce.number().int(),
+    page_size: z.coerce.number().int(),
+    page_index: z.coerce.number().int(),
   })
   .openapi("Pagination");
 

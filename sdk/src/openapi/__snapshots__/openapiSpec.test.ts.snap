@@ -213,6 +213,36 @@ exports[`openapiSpec#models > should generate schema in sync with zod definition
     "result": "api",
     "source": "zod",
   },
+  "Pagination": {
+    "diff": {
+      "properties.page_count.type": {
+        "result": "integer",
+        "source": [
+          "integer",
+          "null",
+        ],
+        "type": "changed",
+      },
+      "properties.page_index.type": {
+        "result": "integer",
+        "source": [
+          "integer",
+          "null",
+        ],
+        "type": "changed",
+      },
+      "properties.page_size.type": {
+        "result": "integer",
+        "source": [
+          "integer",
+          "null",
+        ],
+        "type": "changed",
+      },
+    },
+    "result": "api",
+    "source": "zod",
+  },
 }
 `;
 

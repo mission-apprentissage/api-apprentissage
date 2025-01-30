@@ -45,6 +45,7 @@ const zRoutesPut = {
 
 const zRoutesDelete = {
   ...zUserRoutes.delete,
+  ...zOrganisationAdminRoutes.delete,
   ...zApiRoutesDelete,
 } as const;
 

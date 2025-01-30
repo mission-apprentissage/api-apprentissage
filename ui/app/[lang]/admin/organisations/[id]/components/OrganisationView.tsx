@@ -4,16 +4,20 @@ import { fr } from "@codegouvfr/react-dsfr";
 import { Alert } from "@codegouvfr/react-dsfr/Alert";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { Input } from "@codegouvfr/react-dsfr/Input";
+import { createModal } from "@codegouvfr/react-dsfr/Modal";
 import { ToggleSwitch } from "@codegouvfr/react-dsfr/ToggleSwitch";
 import { Box, Snackbar, Typography } from "@mui/material";
+import { Grid } from "@mui/system";
 import { captureException } from "@sentry/nextjs";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useMemo } from "react";
+import { ApiError } from "api-alternance-sdk";
+import { useCallback, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import type { IOrganisationInternal } from "shared/models/organisation.model";
 import type { Jsonify } from "type-fest";
 
+import { useDeleteOrganisationMutation } from "@/app/[lang]/admin/organisations/[id]/hooks/useDeleteOrganisationMutation";
 import type { WithLang } from "@/app/i18n/settings";
 import Breadcrumb from "@/components/breadcrumb/Breadcrumb";
 import { apiPut } from "@/utils/api.utils";
@@ -88,6 +92,42 @@ export function OrganisationView({ organisation, lang }: Props) {
     },
   });
 
+  const modal = useMemo(
+    () =>
+      createModal({
+        id: `confirm-delete-modal-${organisation._id}`,
+        isOpenedByDefault: false,
+      }),
+    [organisation._id]
+  );
+
+  const deleteMutation = useDeleteOrganisationMutation();
+  const { error } = deleteMutation;
+
+  const onDeleteConfirm = useCallback(() => {
+    deleteMutation.mutate(
+      { id: organisation._id },
+      {
+        onSuccess: () => {
+          modal.close();
+        },
+      }
+    );
+  }, [deleteMutation, organisation._id, modal]);
+
+  const deleteError = useMemo(() => {
+    const defaultErrorMessage =
+      "Une erreur est survenue lors de la suppression de l'organisation. Veuillez réessayer ultérieurement.";
+    if (error) {
+      if (error instanceof ApiError && error.context.statusCode < 500) {
+        return error.context.message ?? defaultErrorMessage;
+      }
+      captureException(error);
+
+      return defaultErrorMessage;
+    }
+  }, [error]);
+
   if (mutation.isError) {
     captureException(mutation.error);
   }
@@ -159,6 +199,32 @@ export function OrganisationView({ organisation, lang }: Props) {
           <Button size="large" type="submit" disabled={isSubmitting}>
             Sauvegarder
           </Button>
+          <Box sx={{ width: "50px" }} />
+          <Button size="large" disabled={isSubmitting} nativeButtonProps={modal.buttonProps}>
+            Supprimer
+          </Button>
+          <modal.Component
+            title={`Supprimer "${organisation.nom}"`}
+            buttons={[
+              {
+                children: "Annuler",
+                disabled: deleteMutation.isPending,
+              },
+              {
+                onClick: onDeleteConfirm,
+                children: "Supprimer",
+                disabled: deleteMutation.isPending,
+                doClosesModal: false,
+              },
+            ]}
+          >
+            <Typography>{"Etes-vous sur de vouloir supprimer cette organisation ?"}</Typography>
+            {deleteError && (
+              <Box sx={{ marginTop: fr.spacing("2w") }}>
+                <Alert description={deleteError} severity="error" small />
+              </Box>
+            )}
+          </modal.Component>
         </Box>
       </Box>
     </>

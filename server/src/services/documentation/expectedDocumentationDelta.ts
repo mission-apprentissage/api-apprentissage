@@ -22,7 +22,7 @@ export const expectedDocumentationDelta: Record<string, StructureDiff<"lba", "ap
       },
       "parameters.query:partners_to_exclude.schema.items.enum": {
         type: "removed",
-        source: ["Hello work", "RH Alternance"],
+        source: ["Hellowork", "RH Alternance"],
       },
       "parameters.query:radius.schema.type": {
         type: "changed",

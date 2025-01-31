@@ -9,7 +9,7 @@ export const rechercheFormationPageSummaryDoc = {
     fr: "Recherche de formations en apprentissage",
   },
   headline: {
-    fr: "Recherche les formations présent dans le catalogue réglementaire des formations en apprentissage.",
+    fr: "Recherche les formations présentes dans le catalogue réglementaire des formations en apprentissage.",
     en: "Searches for training courses present in the regulatory catalog of training courses in apprenticeship.",
   },
 } as const satisfies { title: OpenApiText; headline: OpenApiText };
@@ -24,15 +24,15 @@ export const rechercheFormationPageDoc = {
       en: "**Access all training courses available in apprenticeship for free and in real-time on the French territory.** ",
     },
     {
-      fr: "Les formations retournée sont celles collectées par [le catalogue des formations en apprentissage](https://catalogue-apprentissage.intercariforef.org/recherche/formations)",
+      fr: "Les formations retournées sont celles collectées par [le catalogue des formations en apprentissage](https://catalogue-apprentissage.intercariforef.org/recherche/formations) **du réseau des Carif-Oref**",
       en: "The returned training courses are those collected by [the apprenticeship training catalog](https://catalogue-apprentissage.intercariforef.org/recherche/formations)",
     },
     {
-      fr: "**💡 Vous pouvez rechercher dans l’ensemble des formations selon les critères suivants : Code(s) ROME, RNCP, géolocalisation, niveau de diplôme et rayon de recherche.**",
-      en: "**💡 You can search for all job training courses according to the following criteria: ROME code(s), RNCP, geolocation, diploma level and search radius.**",
+      fr: "**💡 Vous pouvez rechercher dans l’ensemble des formations selon les critères suivants : Code(s) ROME, Code(s) RNCP, géolocalisation, niveau de diplôme et rayon de recherche.**",
+      en: "**💡 You can search for all job training courses according to the following criteria: ROME code(s), RNCP code(s), geolocation, diploma level and search radius.**",
     },
     {
-      fr: "Les résulats sont retournés par distance croissante au lieu de recherche si ce dernier a été fourni.",
+      fr: "Les résultats sont retournés par distance croissante au lieu de recherche si ce dernier a été fourni.",
       en: "Results are returned in increasing distance from the search location if it was provided.",
     },
   ],
@@ -63,6 +63,10 @@ export const rechercheFormationPageDoc = {
                   en: "Unique identifier to identify a training on [the apprenticeship training catalog](https://catalogue-apprentissage.intercariforef.org/recherche/formations)",
                 },
               ],
+              information: {
+                en: "This catalog is produced by RCO (the Carif-Oref network), which is responsible for nationally aggregating the training offer collected regionally by the Carif-Oref.",
+                fr: "Ce catalogue est produit par RCO (le réseau des Carif-Oref), qui se charge de collecter nationalement l'offre de formation collectée régionalement par les Carif-Oref.",
+              },
               tags: ["cle_ministere_educatif"],
             },
             statut: {
@@ -74,7 +78,7 @@ export const rechercheFormationPageDoc = {
                   en: "for published training courses",
                 },
                 {
-                  fr: "- `archivé` pour les formations disponible sur le catalogue mais non publiées",
+                  fr: "- `archivé` pour les formations disponibles sur le catalogue mais non publiées",
                   en: "for training courses available in the catalogue but not published",
                 },
                 {
@@ -87,7 +91,7 @@ export const rechercheFormationPageDoc = {
             contact: {
               description: [
                 {
-                  fr: "Coordonnées de contact des pour toute demande d'information liée à la formation. Ces coordonnées sont fournis par l'organisme de formation ou l'organisme responsable.",
+                  fr: "Coordonnées de contact pour toute demande d'information liée à la formation. Ces coordonnées sont fournies par l'organisme de formation ou l'organisme responsable.",
                   en: "Contact details for any information related to the training. This information is provided by the training organism or the responsible organism.",
                 },
               ],

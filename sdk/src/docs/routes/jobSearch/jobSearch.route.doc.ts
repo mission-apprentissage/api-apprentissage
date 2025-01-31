@@ -48,7 +48,7 @@ export const jobSearchRouteDoc = {
           fr: "Liste des labels de partenaires à exclure de la recherche",
         },
       ],
-      examples: ["Hello work", "RH Alternance"],
+      examples: ["Hellowork", "RH Alternance"],
     },
   },
   response: {

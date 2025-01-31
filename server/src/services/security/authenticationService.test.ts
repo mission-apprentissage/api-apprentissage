@@ -22,15 +22,15 @@ describe("authenticationMiddleware", () => {
   const userWithOrg = generateUserFixture({
     email: "userOrg@email.com",
     is_admin: false,
-    organisation: "Hello Work",
+    organisation: "HelloWork",
   });
   let otherUser = generateUserFixture({
     email: "other@email.com",
     is_admin: false,
   });
   const organisation = generateOrganisationFixture({
-    nom: "Hello Work",
-    slug: "hello work",
+    nom: "HelloWork",
+    slug: "hellowork",
   });
 
   beforeEach(async () => {

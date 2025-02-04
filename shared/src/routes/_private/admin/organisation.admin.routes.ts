@@ -44,4 +44,19 @@ export const zOrganisationAdminRoutes = {
       },
     },
   },
+  delete: {
+    "/_private/admin/organisations/:id": {
+      method: "delete",
+      path: "/_private/admin/organisations/:id",
+      params: z.object({ id: zObjectId }),
+      response: {
+        "200": z.object({ success: z.literal(true) }).strict(),
+      },
+      securityScheme: {
+        auth: "cookie-session",
+        access: "admin",
+        ressources: {},
+      },
+    },
+  },
 } as const satisfies IApiRoutesDef;

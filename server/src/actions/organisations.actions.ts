@@ -8,7 +8,7 @@ export async function deleteOrganisation(organisationIdToDelete: ObjectId) {
     { _id: organisationIdToDelete },
     { projection: { nom: 1 } }
   );
-  if (!organisation?.nom) throw notFound();
+  if (!organisation) throw notFound();
   await removeOrganisationFromUsers(organisation.nom);
   await getDbCollection("organisations").deleteOne({ _id: organisationIdToDelete });
 }

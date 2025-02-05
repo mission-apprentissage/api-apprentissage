@@ -11,7 +11,7 @@ export type IDeleteOrganisationInput = Jsonify<IParam<IDeleteRoutes["/_private/a
 
 export function useDeleteOrganisation() {
   const queryClient = useQueryClient();
-  const { push } = useRouter();
+  const { push, refresh } = useRouter();
 
   const mutation = useMutation({
     mutationFn: async (data: IDeleteOrganisationInput) => {
@@ -27,6 +27,7 @@ export function useDeleteOrganisation() {
     },
     onSuccess: () => {
       push("/admin/organisations");
+      refresh();
     },
   });
 

@@ -14,24 +14,24 @@ function getToday(): Date {
 
 async function updateKitApprentissageIndicateurSourceCfd() {
   const indicateurs = await getDbCollection("source.kit_apprentissage")
-    .aggregate<{ _id: string; count: number }>([
+    .aggregate<{ count: number }>([
       {
-        $match: { "data.Code Diplôme": { $ne: "NR" } },
+        $match: { cfd: { $ne: null } },
       },
       {
-        $group: { _id: { cfd: "$data.Code Diplôme", version: "$version" } },
+        $group: { _id: "$cfd" },
       },
       {
         $lookup: {
           from: "source.bcn",
-          localField: "_id.cfd",
+          localField: "_id",
           foreignField: "data.FORMATION_DIPLOME",
           as: "bcn",
         },
       },
       {
         $group: {
-          _id: "$_id.version",
+          _id: null,
           count: {
             $sum: {
               $cond: {
@@ -51,15 +51,14 @@ async function updateKitApprentissageIndicateurSourceCfd() {
   const today = getToday();
 
   await Promise.all(
-    indicateurs.map(({ _id: version, count }) => {
+    indicateurs.map(({ count }) => {
       return getDbCollection("indicateurs.source_kit_apprentissage").updateOne(
         {
-          version,
           date: today,
         },
         {
           $set: { missingCfd: count },
-          $setOnInsert: { _id: new ObjectId(), date: today, version, missingRncp: 0 },
+          $setOnInsert: { _id: new ObjectId(), date: today, missingRncp: 0 },
         },
         { upsert: true }
       );
@@ -69,24 +68,24 @@ async function updateKitApprentissageIndicateurSourceCfd() {
 
 async function updateKitApprentissageIndicateurSourceRncp() {
   const indicateurs = await getDbCollection("source.kit_apprentissage")
-    .aggregate<{ _id: string; count: number }>([
+    .aggregate<{ count: number }>([
       {
-        $match: { "data.FicheRNCP": { $ne: "NR" } },
+        $match: { rncp: { $ne: null } },
       },
       {
-        $group: { _id: { rncp: "$data.FicheRNCP", version: "$version" } },
+        $group: { _id: "$rncp" },
       },
       {
         $lookup: {
           from: "source.france_competence",
-          localField: "_id.rncp",
+          localField: "_id",
           foreignField: "numero_fiche",
           as: "france_competence",
         },
       },
       {
         $group: {
-          _id: "$_id.version",
+          _id: null,
           count: {
             $sum: {
               $cond: {
@@ -106,15 +105,14 @@ async function updateKitApprentissageIndicateurSourceRncp() {
   const today = getToday();
 
   await Promise.all(
-    indicateurs.map(({ _id: version, count }) => {
+    indicateurs.map(({ count }) => {
       return getDbCollection("indicateurs.source_kit_apprentissage").updateOne(
         {
-          version,
           date: today,
         },
         {
           $set: { missingRncp: count },
-          $setOnInsert: { _id: new ObjectId(), date: today, version, missingCfd: 0 },
+          $setOnInsert: { _id: new ObjectId(), date: today, missingCfd: 0 },
         },
         { upsert: true }
       );

@@ -6,10 +6,7 @@ import {
   generateSourceBcn_V_FormationDiplomeFixture,
 } from "shared/models/fixtures/source.bcn.model.fixture";
 import { generateSourceFranceCompetenceFixture } from "shared/models/fixtures/source.france_competence.model.fixture";
-import {
-  generateKitApprentissageFixture,
-  generateKitApprentissageFixtureData,
-} from "shared/models/fixtures/source.kit_apprentissage.model.fixture";
+import { generateKitApprentissageFixture } from "shared/models/fixtures/source.kit_apprentissage.model.fixture";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
@@ -32,62 +29,38 @@ describe("updateKitApprentissageIndicateurSource", () => {
 
   const kitApprentissageData = [
     generateKitApprentissageFixture({
-      version: "00000001",
-      data: generateKitApprentissageFixtureData({
-        "Code Diplôme": "10000001",
-        FicheRNCP: "RNCP00100",
-      }),
+      cfd: "10000001",
+      rncp: "RNCP00100",
     }),
     generateKitApprentissageFixture({
-      version: "00000001",
-      data: generateKitApprentissageFixtureData({
-        "Code Diplôme": "10000001",
-        FicheRNCP: "RNCP00000", // missing RNCP
-      }),
+      cfd: "10000001",
+      rncp: "RNCP00000", // missing RNCP
     }),
     generateKitApprentissageFixture({
-      version: "00000001",
-      data: generateKitApprentissageFixtureData({
-        "Code Diplôme": "20000001",
-        FicheRNCP: "RNCP00000", // missing RNCP
-      }),
+      cfd: "20000001",
+      rncp: "RNCP00000", // missing RNCP
     }),
     generateKitApprentissageFixture({
-      version: "00000001",
-      data: generateKitApprentissageFixtureData({
-        "Code Diplôme": "20000001",
-        FicheRNCP: "RNCP00001", // missing RNCP
-      }),
+      cfd: "20000001",
+      rncp: "RNCP00001", // missing RNCP
     }),
 
     generateKitApprentissageFixture({
-      version: "00000002",
-      data: generateKitApprentissageFixtureData({
-        "Code Diplôme": "00000000", // Missing CFD
-        FicheRNCP: "RNCP00100",
-      }),
+      cfd: "00000000", // Missing CFD
+      rncp: "RNCP00100",
     }),
     generateKitApprentissageFixture({
-      version: "00000002",
-      data: generateKitApprentissageFixtureData({
-        "Code Diplôme": "20000001",
-        FicheRNCP: "RNCP00200",
-      }),
+      cfd: "20000001",
+      rncp: "RNCP00200",
     }),
     generateKitApprentissageFixture({
-      version: "00000002",
-      data: generateKitApprentissageFixtureData({
-        "Code Diplôme": "00000000", // Missing CFD
-        FicheRNCP: "RNCP00201",
-      }),
+      cfd: "00000000", // Missing CFD
+      rncp: "RNCP00201",
     }),
 
     generateKitApprentissageFixture({
-      version: "00000003",
-      data: generateKitApprentissageFixtureData({
-        "Code Diplôme": "30000001",
-        FicheRNCP: "RNCP00300",
-      }),
+      cfd: "30000001",
+      rncp: "RNCP00300",
     }),
   ];
 
@@ -152,23 +125,8 @@ describe("updateKitApprentissageIndicateurSource", () => {
       {
         _id: expect.any(ObjectId),
         date: new Date("2024-03-07T00:00:00.000Z"),
-        missingCfd: 0,
-        missingRncp: 2,
-        version: "00000001",
-      },
-      {
-        _id: expect.any(ObjectId),
-        date: new Date("2024-03-07T00:00:00.000Z"),
         missingCfd: 1,
-        missingRncp: 0,
-        version: "00000002",
-      },
-      {
-        _id: expect.any(ObjectId),
-        date: new Date("2024-03-07T00:00:00.000Z"),
-        missingCfd: 0,
-        missingRncp: 0,
-        version: "00000003",
+        missingRncp: 2,
       },
     ]);
   });
@@ -180,28 +138,12 @@ describe("updateKitApprentissageIndicateurSource", () => {
         date: new Date("2024-03-06T00:00:00.000Z"),
         missingCfd: 42,
         missingRncp: 6,
-        version: "00000001",
-      },
-      {
-        _id: new ObjectId(),
-        date: new Date("2024-03-07T00:00:00.000Z"),
-        missingCfd: 100,
-        missingRncp: 0,
-        version: "00000001",
-      },
-      {
-        _id: new ObjectId(),
-        date: new Date("2024-03-07T00:00:00.000Z"),
-        missingCfd: 0,
-        missingRncp: 100,
-        version: "00000002",
       },
       {
         _id: new ObjectId(),
         date: new Date("2024-03-07T00:00:00.000Z"),
         missingCfd: 100,
         missingRncp: 100,
-        version: "00000003",
       },
     ];
 
@@ -215,7 +157,6 @@ describe("updateKitApprentissageIndicateurSource", () => {
         {
           sort: {
             date: 1,
-            version: 1,
           },
         }
       )
@@ -225,18 +166,8 @@ describe("updateKitApprentissageIndicateurSource", () => {
       previousIndicateurs[0],
       {
         ...previousIndicateurs[1],
-        missingCfd: 0,
-        missingRncp: 2,
-      },
-      {
-        ...previousIndicateurs[2],
         missingCfd: 1,
-        missingRncp: 0,
-      },
-      {
-        ...previousIndicateurs[3],
-        missingCfd: 0,
-        missingRncp: 0,
+        missingRncp: 2,
       },
     ]);
   });

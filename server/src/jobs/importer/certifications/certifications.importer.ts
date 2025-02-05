@@ -160,7 +160,7 @@ export function getSourceAggregatedDataFromBcn(): AggregationCursor<ISourceAggre
       $lookup: {
         from: "source.kit_apprentissage",
         localField: "_id",
-        foreignField: "data.Code Diplôme",
+        foreignField: "cfd",
         as: "kit_apprentissage",
       },
     },
@@ -173,7 +173,7 @@ export function getSourceAggregatedDataFromBcn(): AggregationCursor<ISourceAggre
     {
       $lookup: {
         from: "source.france_competence",
-        localField: "kit_apprentissage.data.FicheRNCP",
+        localField: "kit_apprentissage.rncp",
         foreignField: "numero_fiche",
         as: "france_competence",
       },
@@ -208,7 +208,7 @@ export function getSourceAggregatedDataFromFranceCompetence(): AggregationCursor
       $lookup: {
         from: "source.kit_apprentissage",
         localField: "numero_fiche",
-        foreignField: "data.FicheRNCP",
+        foreignField: "rncp",
         as: "kit_apprentissage",
       },
     },
@@ -221,7 +221,7 @@ export function getSourceAggregatedDataFromFranceCompetence(): AggregationCursor
     {
       $lookup: {
         from: "source.bcn",
-        let: { cfd: "$kit_apprentissage.data.Code Diplôme" },
+        let: { cfd: "$kit_apprentissage.cfd" },
         as: "bcn",
         pipeline: [
           {

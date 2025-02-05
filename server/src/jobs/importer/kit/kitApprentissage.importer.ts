@@ -7,7 +7,6 @@ import { createReadStream } from "fs";
 import { addJob } from "job-processor";
 import { ObjectId } from "mongodb";
 import type { ImportStatus } from "shared";
-import type { ISourceKitApprentissage } from "shared/models/source/kitApprentissage/source.kit_apprentissage.model";
 import { pipeline } from "stream/promises";
 
 import { withCause } from "@/services/errors/withCause.js";
@@ -17,19 +16,10 @@ import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 import { getStaticFilePath } from "@/utils/getStaticFilePath.js";
 import { createBatchTransformStream } from "@/utils/streamUtils.js";
 
-import {
-  buildKitApprentissageEntry,
-  buildKitApprentissageFromExcelParsedRow,
-  getVersionNumber,
-} from "./builder/kit_apprentissage.builder.js";
+import { buildKitApprentissageEntry, getVersionNumber } from "./builder/kit_apprentissage.builder.js";
 
-async function importKitApprentissageSourceCsv(
-  importDate: Date,
-  filename: ISourceKitApprentissage["source"]
-): Promise<void> {
+async function importKitApprentissageSourceCsv(filename: string): Promise<void> {
   try {
-    const version = getVersionNumber(filename);
-
     await pipeline(
       createReadStream(getStaticFilePath(`kit_apprentissage/${filename}`)),
       parse({
@@ -39,17 +29,14 @@ async function importKitApprentissageSourceCsv(
         delimiter: ";",
         trim: true,
         quote: true,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        onRecord: (record, { columns }: any) => {
-          return buildKitApprentissageEntry(columns, record, filename, importDate, version);
-        },
+        onRecord: buildKitApprentissageEntry,
       }),
       createBatchTransformStream({ size: 100 }),
       new Transform({
         objectMode: true,
         async transform(chunk, _encoding, callback) {
           try {
-            await getDbCollection("source.kit_apprentissage").insertMany(chunk);
+            await getDbCollection("source.kit_apprentissage").bulkWrite(chunk);
             callback();
           } catch (error) {
             callback(withCause(internal("import.kit_apprentissage: error when inserting"), error));
@@ -88,10 +75,7 @@ function getExcelParserSpec(): ExcelParseSpec {
   ];
 }
 
-async function importKitApprentissageSourceXlsx(
-  importDate: Date,
-  filename: ISourceKitApprentissage["source"]
-): Promise<void> {
+async function importKitApprentissageSourceXlsx(filename: string): Promise<void> {
   try {
     const version = getVersionNumber(filename);
 
@@ -103,7 +87,7 @@ async function importKitApprentissageSourceXlsx(
         objectMode: true,
         async transform(row: ExcelParsedRow, _encoding, callback) {
           try {
-            callback(null, buildKitApprentissageFromExcelParsedRow(row, filename, importDate, version));
+            callback(null, buildKitApprentissageEntry(row.data));
           } catch (error) {
             callback(
               withCause(internal("import.kit_apprentissage: error when parsing row", { row, filename, version }), error)
@@ -116,7 +100,7 @@ async function importKitApprentissageSourceXlsx(
         objectMode: true,
         async transform(chunk, _encoding, callback) {
           try {
-            await getDbCollection("source.kit_apprentissage").insertMany(chunk);
+            await getDbCollection("source.kit_apprentissage").bulkWrite(chunk);
             callback();
           } catch (error) {
             callback(withCause(internal("import.kit_apprentissage: error when inserting"), error));
@@ -125,7 +109,6 @@ async function importKitApprentissageSourceXlsx(
       })
     );
   } catch (error) {
-    console.error(error);
     throw withCause(
       internal("import.kit_apprentissage: unable to importKitApprentissageSourceXlsx", { filename }),
       error
@@ -152,25 +135,21 @@ export async function runKitApprentissageImporter(): Promise<number> {
     const files = await listKitApprentissageFiles();
     for (const file of files) {
       if (file.endsWith(".csv")) {
-        await importKitApprentissageSourceCsv(importDate, file);
+        await importKitApprentissageSourceCsv(file);
       } else if (file.endsWith(".xlsx")) {
-        await importKitApprentissageSourceXlsx(importDate, file);
+        await importKitApprentissageSourceXlsx(file);
       } else {
         throw internal("import.kit_apprentissage: unsupported source file format", { file });
       }
     }
 
-    await getDbCollection("source.kit_apprentissage").deleteMany({
-      date: { $ne: importDate },
-    });
     await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "done" } });
 
     await addJob({ name: "indicateurs:source_kit_apprentissage:update" });
 
-    return await getDbCollection("source.kit_apprentissage").countDocuments({ date: importDate });
+    return await getDbCollection("source.kit_apprentissage").countDocuments();
   } catch (error) {
     await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "failed" } });
-    await getDbCollection("source.kit_apprentissage").deleteMany({ date: importDate });
     throw withCause(internal("import.kit_apprentissage: unable to runKitApprentissageImporter"), error, "fatal");
   }
 }

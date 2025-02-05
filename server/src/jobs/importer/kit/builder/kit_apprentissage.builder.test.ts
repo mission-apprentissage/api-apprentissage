@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { buildKitApprentissageEntry, getVersionNumber } from "./kit_apprentissage.builder.js";
+import { buildKitApprentissageEntry } from "./kit_apprentissage.builder.js";
 
 const kitApprentissageSourceMap = {
   v1_0: "Kit apprentissage et RNCP v1.0.csv",
@@ -44,7 +44,7 @@ describe("Kit Apprentissage Builder", () => {
     ["RNCP432"],
     ["RNCP813"],
   ])("should keep RNCP writting errors", async (inputValue) => {
-    for (const source of Object.values(kitApprentissageSourceMap)) {
+    for (const _source of Object.values(kitApprentissageSourceMap)) {
       const record = {
         FicheRNCP: inputValue,
         "Code Diplôme": "00000000",
@@ -52,11 +52,14 @@ describe("Kit Apprentissage Builder", () => {
         "Niveau fiche RNCP": "",
         "Abrégé de diplôme (RNCP)": "",
       };
-      const columns = Object.keys(record).map((k) => ({ name: k }));
-      const version = getVersionNumber(source);
-      const getResult = () =>
-        buildKitApprentissageEntry(columns, record, source, new Date("2024-04-04T00:00:00.000Z"), version);
-      expect.soft(getResult().data["FicheRNCP"]).toBe(inputValue);
+      const getResult = () => buildKitApprentissageEntry(record);
+      expect.soft(getResult()).toEqual({
+        updateOne: {
+          filter: { cfd: "00000000", rncp: inputValue },
+          update: { $setOnInsert: { _id: expect.anything() } },
+          upsert: true,
+        },
+      });
     }
   });
 
@@ -68,19 +71,18 @@ describe("Kit Apprentissage Builder", () => {
       "Niveau fiche RNCP": "",
       "Abrégé de diplôme (RNCP)": "",
     };
-    const columns = Object.keys(record).map((k) => ({ name: k }));
-    const result = buildKitApprentissageEntry(
-      columns,
-      record,
-      "Kit_apprentissage_20240223.csv",
-      new Date("2024-04-04T00:00:00.000Z"),
-      "20240223"
-    );
-    expect(result.data["Code Diplôme"]).toBe("01025409");
+    const result = buildKitApprentissageEntry(record);
+    expect(result).toEqual({
+      updateOne: {
+        filter: { cfd: "01025409", rncp: "RNCP12803" },
+        update: { $setOnInsert: { _id: expect.anything() } },
+        upsert: true,
+      },
+    });
   });
 
   it('should fix SQWQ speeling errors in "Code Diplôme" field', async () => {
-    for (const source of Object.values(kitApprentissageSourceMap)) {
+    for (const _source of Object.values(kitApprentissageSourceMap)) {
       const record = {
         FicheRNCP: "RNCP00000",
         "Code Diplôme": "SQWQ",
@@ -88,12 +90,15 @@ describe("Kit Apprentissage Builder", () => {
         "Niveau fiche RNCP": "",
         "Abrégé de diplôme (RNCP)": "",
       };
-      const columns = Object.keys(record).map((k) => ({ name: k }));
-      const version = getVersionNumber(source);
-      const getResult = () =>
-        buildKitApprentissageEntry(columns, record, source, new Date("2024-04-04T00:00:00.000Z"), version);
+      const getResult = () => buildKitApprentissageEntry(record);
 
-      expect.soft(getResult().data["Code Diplôme"]).toBe("NR");
+      expect(getResult()).toEqual({
+        updateOne: {
+          filter: { cfd: null, rncp: "RNCP00000" },
+          update: { $setOnInsert: { _id: expect.anything() } },
+          upsert: true,
+        },
+      });
     }
     const record = {
       FicheRNCP: "RNCP12803",
@@ -102,14 +107,14 @@ describe("Kit Apprentissage Builder", () => {
       "Niveau fiche RNCP": "",
       "Abrégé de diplôme (RNCP)": "",
     };
-    const columns = Object.keys(record).map((k) => ({ name: k }));
-    const result = buildKitApprentissageEntry(
-      columns,
-      record,
-      "Kit_apprentissage_20240223.csv",
-      new Date("2024-04-04T00:00:00.000Z"),
-      "20240223"
-    );
-    expect(result.data["Code Diplôme"]).toBe("01025409");
+    const result = buildKitApprentissageEntry(record);
+
+    expect(result).toEqual({
+      updateOne: {
+        filter: { cfd: "01025409", rncp: "RNCP12803" },
+        update: { $setOnInsert: { _id: expect.anything() } },
+        upsert: true,
+      },
+    });
   });
 });

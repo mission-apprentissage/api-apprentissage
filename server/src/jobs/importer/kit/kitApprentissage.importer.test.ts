@@ -158,137 +158,39 @@ describe("runKitApprentissageImporter", () => {
 
     const result = await runKitApprentissageImporter();
 
-    expect(result).toBe(50);
+    expect(result).toBe(7);
 
     const coll = getDbCollection("source.kit_apprentissage");
-    const stats = await coll
-      .aggregate([
-        {
-          $group: {
-            _id: { cfd: "$data.Code Diplôme", rncp: "$data.FicheRNCP" },
-            sources: {
-              $addToSet: "$source",
-            },
-            count: { $sum: 1 },
-          },
-        },
-        {
-          $sort: { "_id.cfd": 1, "_id.rncp": 1 },
-        },
-        {
-          $project: {
-            _id: 1,
-            count: 1,
-            sources: {
-              $sortArray: {
-                input: "$sources",
-                sortBy: 1,
-              },
-            },
-          },
-        },
-      ])
-      .toArray();
+    const stats = await coll.find({}, { projection: { _id: 0 }, sort: { cfd: 1, rncp: 1 } }).toArray();
 
     expect(stats).toEqual([
       {
-        _id: {
-          cfd: "17021006",
-          rncp: "RNCP11532",
-        },
-        count: 31,
-        sources: [
-          "Kit apprentissage et RNCP v1.0.csv",
-          "Kit apprentissage et RNCP v1.1.csv",
-          "Kit apprentissage et RNCP v1.2.csv",
-          "Kit apprentissage et RNCP v1.3.csv",
-          "Kit apprentissage et RNCP v1.4.csv",
-          "Kit apprentissage et RNCP v1.5.csv",
-          "Kit apprentissage et RNCP v1.6.csv",
-          "Kit apprentissage et RNCP v1.7.csv",
-          "Kit apprentissage et RNCP v1.8.csv",
-          "Kit apprentissage et RNCP v1.9.csv",
-          "Kit apprentissage et RNCP v2.0.csv",
-          "Kit apprentissage et RNCP v2.1.csv",
-          "Kit apprentissage et RNCP v2.2.csv",
-          "Kit apprentissage et RNCP v2.3.csv",
-          "Kit apprentissage et RNCP v2.4.csv",
-          "Kit apprentissage et RNCP v2.5.csv",
-          "Kit apprentissage et RNCP v2.6.csv",
-          "Kit apprentissage et RNCP v2.7.csv",
-          "Kit apprentissage et RNCP v2.8.csv",
-          "Kit apprentissage et RNCP v2.9.csv",
-          "Kit apprentissage et RNCP v3.0.csv",
-          "Kit_apprentissage_20240119.csv",
-          "Kit_apprentissage_20240223.csv",
-          "Kit_apprentissage_20240329.csv",
-        ],
+        cfd: "17021006",
+        rncp: "RNCP11532",
       },
       {
-        _id: {
-          cfd: "17021006",
-          rncp: "RNCP1997",
-        },
-        count: 3,
-        sources: [
-          "Kit apprentissage et RNCP v1.0.csv",
-          "Kit apprentissage et RNCP v1.1.csv",
-          "Kit apprentissage et RNCP v1.2.csv",
-        ],
+        cfd: "17021006",
+        rncp: "RNCP1997",
       },
       {
-        _id: {
-          cfd: "17021006",
-          rncp: "RNCP5912",
-        },
-        count: 3,
-        sources: [
-          "Kit apprentissage et RNCP v1.0.csv",
-          "Kit apprentissage et RNCP v1.1.csv",
-          "Kit apprentissage et RNCP v1.2.csv",
-        ],
+        cfd: "17021006",
+        rncp: "RNCP5912",
       },
       {
-        _id: {
-          cfd: "46X33608",
-          rncp: "RNCP36906",
-        },
-        count: 2,
-        sources: ["Kit apprentissage et RNCP v2.9.csv", "Kit apprentissage et RNCP v3.0.csv"],
+        cfd: "46X33608",
+        rncp: "RNCP36906",
       },
       {
-        _id: {
-          cfd: "46X33608",
-          rncp: "RNCP38447",
-        },
-        count: 3,
-        sources: ["Kit_apprentissage_20240119.csv", "Kit_apprentissage_20240223.csv", "Kit_apprentissage_20240329.csv"],
+        cfd: "46X33608",
+        rncp: "RNCP38447",
       },
       {
-        _id: {
-          cfd: "56T23207",
-          rncp: "RNCP25720",
-        },
-        count: 3,
-        sources: [
-          "Kit apprentissage et RNCP v1.3.csv",
-          "Kit apprentissage et RNCP v1.4.csv",
-          "Kit apprentissage et RNCP v1.5.csv",
-        ],
+        cfd: "56T23207",
+        rncp: "RNCP25720",
       },
       {
-        _id: {
-          cfd: "56T23207",
-          rncp: "RNCP35507",
-        },
-        count: 5,
-        sources: [
-          "Kit apprentissage et RNCP v1.6.csv",
-          "Kit apprentissage et RNCP v1.7.csv",
-          "Kit apprentissage et RNCP v1.8.csv",
-          "Kit apprentissage et RNCP v1.9.csv",
-          "Kit apprentissage et RNCP v2.0.csv",
-        ],
+        cfd: "56T23207",
+        rncp: "RNCP35507",
       },
     ]);
 

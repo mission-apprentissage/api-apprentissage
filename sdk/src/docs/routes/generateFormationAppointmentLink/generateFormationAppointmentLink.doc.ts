@@ -6,8 +6,8 @@ export const generateFormationAppointmentLinkRouteDoc = {
   description: generationLienPriseRdvFormationPageSummaryDoc.headline,
   body: {
     description: {
-      fr: "Identifiant de la formation",
-      en: "Training identifier",
+      fr: "Identifiant de la formation, permettant de générer un lien de prise de rendez-vous pour la formation. Possibilité de fournir 1 paramètre parmi 3 types possibles : parcoursup_id, onisep_id, cle_ministere_educatif",
+      en: "Training identifier, allowing to generate an appointment request link for the training. Possibility to provide 1 parameter among 3 possible types: parcoursup_id, onisep_id, cle_ministere_educatif",
     },
     content: {
       descriptions: null,
@@ -16,7 +16,9 @@ export const generateFormationAppointmentLinkRouteDoc = {
           descriptions: [{ fr: "Identifiant Parcoursup de la formation", en: "Parcoursup identifier of the training" }],
           properties: {
             parcoursup_id: {
-              descriptions: null,
+              descriptions: [
+                { fr: "Identifiant Parcoursup de la formation", en: "Parcoursup identifier of the training" },
+              ],
             },
           },
         },
@@ -26,7 +28,7 @@ export const generateFormationAppointmentLinkRouteDoc = {
             onisep_id: {
               descriptions: [
                 {
-                  en: null,
+                  en: "ONISEP identifier of the training",
                   fr: "Identifiant ONISEP utilisé avec le mapping de la collection referentielonisep",
                 },
               ],
@@ -42,7 +44,12 @@ export const generateFormationAppointmentLinkRouteDoc = {
           ],
           properties: {
             cle_ministere_educatif: {
-              descriptions: null,
+              descriptions: [
+                {
+                  fr: "Identifiant unique de la formation au sein du ministère de l'éducation",
+                  en: "Unique identifier of the training within the Ministry of Education",
+                },
+              ],
             },
           },
         },

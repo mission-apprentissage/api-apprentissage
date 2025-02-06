@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`runKitApprentissageImporter > should import Kit Apprentissage multiple_files source 1`] = `
+exports[`runKitApprentissageImporter > Legacy files > should import Kit Apprentissage multiple_files source 1`] = `
 [
   {
     "_id": "ObjectId",
@@ -40,7 +40,7 @@ exports[`runKitApprentissageImporter > should import Kit Apprentissage multiple_
 ]
 `;
 
-exports[`runKitApprentissageImporter > should import Kit Apprentissage single_file source 1`] = `
+exports[`runKitApprentissageImporter > Legacy files > should import Kit Apprentissage single_file source 1`] = `
 [
   {
     "_id": "ObjectId",
@@ -95,7 +95,7 @@ exports[`runKitApprentissageImporter > should import Kit Apprentissage single_fi
 ]
 `;
 
-exports[`runKitApprentissageImporter > should import XLSX file 1`] = `
+exports[`runKitApprentissageImporter > Legacy files > should import XLSX file 1`] = `
 [
   {
     "_id": "ObjectId",
@@ -150,7 +150,7 @@ exports[`runKitApprentissageImporter > should import XLSX file 1`] = `
 ]
 `;
 
-exports[`runKitApprentissageImporter > should support june 2024 new sheets 1`] = `
+exports[`runKitApprentissageImporter > Legacy files > should support june 2024 new sheets 1`] = `
 [
   {
     "_id": "ObjectId",

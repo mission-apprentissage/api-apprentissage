@@ -2,7 +2,7 @@ import { internal } from "@hapi/boom";
 import type { AnyBulkWriteOperation } from "mongodb";
 import { ObjectId } from "mongodb";
 import type { ISourceKitApprentissage } from "shared/models/source/kitApprentissage/source.kit_apprentissage.model";
-import { zKitApprentissage } from "shared/models/source/kitApprentissage/source.kit_apprentissage.model";
+import { z } from "zod";
 
 export function getVersionNumber(source: string): string {
   const matchVersion = /^Kit_apprentissage_(\d{8})\.(csv|xlsx)$/.exec(source);
@@ -58,7 +58,7 @@ export function getVersionNumber(source: string): string {
   }
 }
 
-function getRNCP(record: Record<string, unknown>): unknown {
+function getRNCP(record: Record<string, unknown>): string | null {
   const value = record["CodeRNCP"] ?? record["Code RNCP"] ?? record["Fiche RNCP"] ?? record["FicheRNCP"];
 
   return typeof value === "string" || typeof value === "number" ? String(value).trim() : null;
@@ -70,20 +70,40 @@ function getCFD(record: Record<string, unknown>): unknown {
   return typeof value === "string" || typeof value === "number" ? String(value).trim() : null;
 }
 
-export function buildKitApprentissageEntry(
-  record: Record<string, unknown>
-): AnyBulkWriteOperation<ISourceKitApprentissage> {
-  const { _id, cfd, rncp } = zKitApprentissage.parse({
-    _id: new ObjectId(),
-    cfd: getCFD(record),
-    rncp: getRNCP(record),
-  });
+export function buildKitApprentissageEntry(record: Record<string, unknown>): {
+  cfd: string | null;
+  rncp: string | null;
+} {
+  const cfd = z
+    .string()
+    .transform((value) => {
+      if (["SQWQ", "NR"].includes(value.trim())) return null;
+      return value.trim().padStart(8, "0");
+    })
+    .parse(getCFD(record));
+  const rncp = getRNCP(record);
 
+  return {
+    cfd,
+    rncp,
+  };
+}
+
+export function buildKitApprentissageOp({
+  cfd,
+  rncp,
+}: {
+  cfd: string | null;
+  rncp: string | null;
+}): AnyBulkWriteOperation<ISourceKitApprentissage> | null {
+  if (!cfd || !rncp) {
+    return null;
+  }
   return {
     updateOne: {
       filter: { cfd, rncp },
       update: {
-        $setOnInsert: { _id },
+        $setOnInsert: { _id: new ObjectId() },
       },
       upsert: true,
     },

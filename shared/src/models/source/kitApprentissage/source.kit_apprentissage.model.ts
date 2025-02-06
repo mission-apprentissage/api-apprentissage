@@ -12,14 +12,8 @@ const indexes: IModelDescriptorGeneric["indexes"] = [
 
 export const zKitApprentissage = z.object({
   _id: zObjectId,
-  rncp: z.string().nullable(),
-  cfd: z
-    .string()
-    .transform((value) => {
-      if (["SQWQ", "NR"].includes(value.trim())) return null;
-      return value.trim().padStart(8, "0");
-    })
-    .nullable(),
+  rncp: z.string(),
+  cfd: z.string(),
 });
 
 export const sourceKitApprentissageModelDescriptor = {

@@ -104,6 +104,10 @@ const config = {
     lba: {
       endpoint: env.get("LBA_API_ENDPOINT").required().asString(),
     },
+    kit_apprentissage: {
+      endpoint: "https://api-kit-apprentissage.intercariforef.org",
+      token: env.get("API_KIT_APPRENTISSAGE_TOKEN").required().asString(),
+    },
   },
 };
 

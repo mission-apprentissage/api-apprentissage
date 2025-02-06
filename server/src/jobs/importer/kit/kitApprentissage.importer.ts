@@ -1,5 +1,5 @@
 import { readdir } from "node:fs/promises";
-import { Duplex, Transform } from "node:stream";
+import { Duplex, Transform, Writable } from "node:stream";
 
 import { internal } from "@hapi/boom";
 import { parse } from "csv-parse";
@@ -9,6 +9,7 @@ import { ObjectId } from "mongodb";
 import type { ImportStatus } from "shared";
 import { pipeline } from "stream/promises";
 
+import { getKitApprentissageData } from "@/services/apis/kit_apprentissage/kit_apprentissage.api.js";
 import { withCause } from "@/services/errors/withCause.js";
 import type { ExcelParsedRow, ExcelParseSpec } from "@/services/excel/excel.parser.js";
 import { parseExcelFileStream } from "@/services/excel/excel.parser.js";
@@ -16,7 +17,53 @@ import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 import { getStaticFilePath } from "@/utils/getStaticFilePath.js";
 import { createBatchTransformStream } from "@/utils/streamUtils.js";
 
-import { buildKitApprentissageEntry, getVersionNumber } from "./builder/kit_apprentissage.builder.js";
+import {
+  buildKitApprentissageEntry,
+  buildKitApprentissageOp,
+  getVersionNumber,
+} from "./builder/kit_apprentissage.builder.js";
+
+function createBuildBulkOpAndWriteStreams(): [Transform, Transform, Writable] {
+  return [
+    new Transform({
+      objectMode: true,
+      async transform(
+        row: {
+          cfd: string | null;
+          rncp: string | null;
+        },
+        _encoding,
+        callback
+      ) {
+        try {
+          const op = buildKitApprentissageOp(row);
+          if (op === null) {
+            callback();
+            return;
+          }
+          callback(null, op);
+        } catch (error) {
+          callback(withCause(internal("import.kit_apprentissage: error when building operation", { row }), error));
+        }
+      },
+    }),
+    createBatchTransformStream({ size: 100 }),
+    new Writable({
+      objectMode: true,
+      async write(chunk, _encoding, callback) {
+        try {
+          const ops = chunk.filter((op: unknown) => op !== null);
+          if (ops.length > 0) {
+            await getDbCollection("source.kit_apprentissage").bulkWrite(ops);
+          }
+          callback();
+        } catch (error) {
+          callback(withCause(internal("import.kit_apprentissage: error when updating"), error));
+        }
+      },
+    }),
+  ];
+}
 
 async function importKitApprentissageSourceCsv(filename: string): Promise<void> {
   try {
@@ -31,18 +78,7 @@ async function importKitApprentissageSourceCsv(filename: string): Promise<void> 
         quote: true,
         onRecord: buildKitApprentissageEntry,
       }),
-      createBatchTransformStream({ size: 100 }),
-      new Transform({
-        objectMode: true,
-        async transform(chunk, _encoding, callback) {
-          try {
-            await getDbCollection("source.kit_apprentissage").bulkWrite(chunk);
-            callback();
-          } catch (error) {
-            callback(withCause(internal("import.kit_apprentissage: error when inserting"), error));
-          }
-        },
-      })
+      ...createBuildBulkOpAndWriteStreams()
     );
   } catch (error) {
     throw withCause(
@@ -95,24 +131,21 @@ async function importKitApprentissageSourceXlsx(filename: string): Promise<void>
           }
         },
       }),
-      createBatchTransformStream({ size: 100 }),
-      new Transform({
-        objectMode: true,
-        async transform(chunk, _encoding, callback) {
-          try {
-            await getDbCollection("source.kit_apprentissage").bulkWrite(chunk);
-            callback();
-          } catch (error) {
-            callback(withCause(internal("import.kit_apprentissage: error when inserting"), error));
-          }
-        },
-      })
+      ...createBuildBulkOpAndWriteStreams()
     );
   } catch (error) {
     throw withCause(
       internal("import.kit_apprentissage: unable to importKitApprentissageSourceXlsx", { filename }),
       error
     );
+  }
+}
+
+async function importKitApprentissageSourceApi(): Promise<void> {
+  try {
+    await pipeline(getKitApprentissageData(), ...createBuildBulkOpAndWriteStreams());
+  } catch (error) {
+    throw withCause(internal("import.kit_apprentissage: unable to importKitApprentissageSourceApi", {}), error);
   }
 }
 
@@ -132,16 +165,19 @@ export async function runKitApprentissageImporter(): Promise<number> {
       status: "pending",
     });
 
+    // Kit apprentissage data prior to 2024-06-30 is stored in files
     const files = await listKitApprentissageFiles();
     for (const file of files) {
       if (file.endsWith(".csv")) {
         await importKitApprentissageSourceCsv(file);
       } else if (file.endsWith(".xlsx")) {
         await importKitApprentissageSourceXlsx(file);
-      } else {
+      } else if (file !== ".gitkeep") {
         throw internal("import.kit_apprentissage: unsupported source file format", { file });
       }
     }
+
+    await importKitApprentissageSourceApi();
 
     await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "done" } });
 

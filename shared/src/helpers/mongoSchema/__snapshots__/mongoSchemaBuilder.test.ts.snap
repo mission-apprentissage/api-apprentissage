@@ -8647,20 +8647,10 @@ exports[`zodToMongoSchema > should convert source.kit_apprentissage schema 1`] =
       "bsonType": "objectId",
     },
     "cfd": {
-      "anyOf": [
-        {
-          "bsonType": "string",
-        },
-        {
-          "bsonType": "null",
-        },
-      ],
+      "bsonType": "string",
     },
     "rncp": {
-      "bsonType": [
-        "string",
-        "null",
-      ],
+      "bsonType": "string",
     },
   },
   "required": [

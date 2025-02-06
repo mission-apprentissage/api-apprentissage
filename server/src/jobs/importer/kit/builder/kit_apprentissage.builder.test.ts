@@ -53,13 +53,7 @@ describe("Kit Apprentissage Builder", () => {
         "Abrégé de diplôme (RNCP)": "",
       };
       const getResult = () => buildKitApprentissageEntry(record);
-      expect.soft(getResult()).toEqual({
-        updateOne: {
-          filter: { cfd: "00000000", rncp: inputValue },
-          update: { $setOnInsert: { _id: expect.anything() } },
-          upsert: true,
-        },
-      });
+      expect.soft(getResult()).toEqual({ cfd: "00000000", rncp: inputValue });
     }
   });
 
@@ -72,13 +66,7 @@ describe("Kit Apprentissage Builder", () => {
       "Abrégé de diplôme (RNCP)": "",
     };
     const result = buildKitApprentissageEntry(record);
-    expect(result).toEqual({
-      updateOne: {
-        filter: { cfd: "01025409", rncp: "RNCP12803" },
-        update: { $setOnInsert: { _id: expect.anything() } },
-        upsert: true,
-      },
-    });
+    expect(result).toEqual({ cfd: "01025409", rncp: "RNCP12803" });
   });
 
   it('should fix SQWQ speeling errors in "Code Diplôme" field', async () => {
@@ -92,13 +80,7 @@ describe("Kit Apprentissage Builder", () => {
       };
       const getResult = () => buildKitApprentissageEntry(record);
 
-      expect(getResult()).toEqual({
-        updateOne: {
-          filter: { cfd: null, rncp: "RNCP00000" },
-          update: { $setOnInsert: { _id: expect.anything() } },
-          upsert: true,
-        },
-      });
+      expect(getResult()).toEqual({ cfd: null, rncp: "RNCP00000" });
     }
     const record = {
       FicheRNCP: "RNCP12803",
@@ -109,12 +91,6 @@ describe("Kit Apprentissage Builder", () => {
     };
     const result = buildKitApprentissageEntry(record);
 
-    expect(result).toEqual({
-      updateOne: {
-        filter: { cfd: "01025409", rncp: "RNCP12803" },
-        update: { $setOnInsert: { _id: expect.anything() } },
-        upsert: true,
-      },
-    });
+    expect(result).toEqual({ cfd: "01025409", rncp: "RNCP12803" });
   });
 });

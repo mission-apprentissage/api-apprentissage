@@ -2,7 +2,6 @@ import type { ICertification } from "api-alternance-sdk";
 import {
   generateCertificationInternalFixture,
   generateKitApprentissageFixture,
-  generateKitApprentissageFixtureData,
   generateSourceBcn_N_FormationDiplomeFixture,
   generateSourceBcn_N51_FormationDiplomeFixture,
   generateSourceFranceCompetenceFixture,
@@ -108,10 +107,8 @@ describe("buildCertification", () => {
   });
 
   const kitApprentissage = generateKitApprentissageFixture({
-    data: generateKitApprentissageFixtureData({
-      "Code Diplôme": "20512008",
-      FicheRNCP: "RNCP24420",
-    }),
+    cfd: "20512008",
+    rncp: "RNCP24420",
   });
 
   const franceCompetence = generateSourceFranceCompetenceFixture({ numero_fiche: "RNCP24420" });

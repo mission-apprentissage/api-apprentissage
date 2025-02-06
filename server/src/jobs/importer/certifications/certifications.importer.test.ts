@@ -4,7 +4,6 @@ import { ObjectId } from "mongodb";
 import {
   generateCertificationInternalFixture,
   generateKitApprentissageFixture,
-  generateKitApprentissageFixtureData,
   generateSourceBcn_N_FormationDiplomeDataFixture,
   generateSourceBcn_N_FormationDiplomeFixture,
   generateSourceBcn_N_NiveauFormationDiplomeFixtureList,
@@ -309,10 +308,8 @@ describe("importCertifications", () => {
       beforeEach(async () => {
         await getDbCollection("source.kit_apprentissage").insertOne(
           generateKitApprentissageFixture({
-            data: generateKitApprentissageFixtureData({
-              "Code Diplôme": "36T23301",
-              FicheRNCP: "RNCP1796",
-            }),
+            cfd: "36T23301",
+            rncp: "RNCP1796",
           })
         );
         await getDbCollection("source.france_competence").insertOne(
@@ -340,10 +337,8 @@ describe("importCertifications", () => {
       beforeEach(async () => {
         await getDbCollection("source.kit_apprentissage").insertOne(
           generateKitApprentissageFixture({
-            data: generateKitApprentissageFixtureData({
-              "Code Diplôme": "36T23301",
-              FicheRNCP: "RNCP1796",
-            }),
+            cfd: "36T23301",
+            rncp: "RNCP1796",
           })
         );
         await getDbCollection("source.bcn").insertOne(
@@ -455,23 +450,17 @@ describe("importCertifications", () => {
 
     const kitApprentissageData = [
       generateKitApprentissageFixture({
-        data: generateKitApprentissageFixtureData({
-          "Code Diplôme": existingCertifications.updated[0].identifiant.cfd!,
-          FicheRNCP: existingCertifications.updated[0].identifiant.rncp!,
-        }),
+        cfd: existingCertifications.updated[0].identifiant.cfd!,
+        rncp: existingCertifications.updated[0].identifiant.rncp!,
       }),
       generateKitApprentissageFixture({
         // Couple updated
-        data: generateKitApprentissageFixtureData({
-          "Code Diplôme": existingCertifications.removed[1].identifiant.cfd!,
-          FicheRNCP: existingCertifications.removed[2].identifiant.rncp!,
-        }),
+        cfd: existingCertifications.removed[1].identifiant.cfd!,
+        rncp: existingCertifications.removed[2].identifiant.rncp!,
       }),
       generateKitApprentissageFixture({
-        data: generateKitApprentissageFixtureData({
-          "Code Diplôme": newCertifications[0].identifiant.cfd!,
-          FicheRNCP: newCertifications[0].identifiant.rncp!,
-        }),
+        cfd: newCertifications[0].identifiant.cfd!,
+        rncp: newCertifications[0].identifiant.rncp!,
       }),
     ];
 
@@ -666,10 +655,8 @@ describe("importCertifications", () => {
 
     const kitApprentissageData = [
       generateKitApprentissageFixture({
-        data: generateKitApprentissageFixtureData({
-          "Code Diplôme": existingCertification.identifiant.cfd!,
-          FicheRNCP: existingCertification.identifiant.rncp!,
-        }),
+        cfd: existingCertification.identifiant.cfd!,
+        rncp: existingCertification.identifiant.rncp!,
       }),
     ];
 
@@ -844,22 +831,16 @@ describe("importCertifications", () => {
 
     const kitApprentissageData = [
       generateKitApprentissageFixture({
-        data: generateKitApprentissageFixtureData({
-          "Code Diplôme": "10000001",
-          FicheRNCP: "RNCP00100",
-        }),
+        cfd: "10000001",
+        rncp: "RNCP00100",
       }),
       generateKitApprentissageFixture({
-        data: generateKitApprentissageFixtureData({
-          "Code Diplôme": "10000002",
-          FicheRNCP: "RNCP00102",
-        }),
+        cfd: "10000002",
+        rncp: "RNCP00102",
       }),
       generateKitApprentissageFixture({
-        data: generateKitApprentissageFixtureData({
-          "Code Diplôme": "20000001",
-          FicheRNCP: "RNCP00200",
-        }),
+        cfd: "20000001",
+        rncp: "RNCP00200",
       }),
     ];
 
@@ -1024,34 +1005,24 @@ describe("importCertifications", () => {
 
     const kitApprentissageData = [
       generateKitApprentissageFixture({
-        data: generateKitApprentissageFixtureData({
-          "Code Diplôme": "10000001",
-          FicheRNCP: "RNCP00100",
-        }),
+        cfd: "10000001",
+        rncp: "RNCP00100",
       }),
       generateKitApprentissageFixture({
-        data: generateKitApprentissageFixtureData({
-          "Code Diplôme": "10000001",
-          FicheRNCP: "RNCP00101",
-        }),
+        cfd: "10000001",
+        rncp: "RNCP00101",
       }),
       generateKitApprentissageFixture({
-        data: generateKitApprentissageFixtureData({
-          "Code Diplôme": "20000001",
-          FicheRNCP: "RNCP00200",
-        }),
+        cfd: "20000001",
+        rncp: "RNCP00200",
       }),
       generateKitApprentissageFixture({
-        data: generateKitApprentissageFixtureData({
-          "Code Diplôme": "20000001",
-          FicheRNCP: "RNCP00201",
-        }),
+        cfd: "20000001",
+        rncp: "RNCP00201",
       }),
       generateKitApprentissageFixture({
-        data: generateKitApprentissageFixtureData({
-          "Code Diplôme": "30000001",
-          FicheRNCP: "RNCP00300",
-        }),
+        cfd: "30000001",
+        rncp: "RNCP00300",
       }),
     ];
 

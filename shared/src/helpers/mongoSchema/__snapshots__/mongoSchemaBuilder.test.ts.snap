@@ -4534,13 +4534,9 @@ exports[`zodToMongoSchema > should convert indicateurs.source_kit_apprentissage 
     "missingRncp": {
       "bsonType": "number",
     },
-    "version": {
-      "bsonType": "string",
-    },
   },
   "required": [
     "_id",
-    "version",
     "date",
     "missingRncp",
     "missingCfd",
@@ -8650,145 +8646,17 @@ exports[`zodToMongoSchema > should convert source.kit_apprentissage schema 1`] =
     "_id": {
       "bsonType": "objectId",
     },
-    "data": {
-      "additionalProperties": false,
-      "bsonType": "object",
-      "properties": {
-        "Abrégé de diplôme (RNCP)": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "Accès à l'apprentissage de la fiche RNCP (oui/non)": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "Ancienne Certification (RNCP)": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "Code Diplôme": {
-          "bsonType": "string",
-        },
-        "Date d'échéance de la fiche RNCP": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "Date de début des parcours certifiants": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "Date de décision": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "Date de publication de la fiche": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "Date limite de la délivrance": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "Dernière MaJ": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "Fiche ACTIVE/INACTIVE": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "FicheRNCP": {
-          "bsonType": "string",
-        },
-        "Intitulé certification (RNCP)": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "Intitulé diplôme (DEPP)": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "Niveau fiche RNCP": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "Nouvelle Certification rempla (RNCP)": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-        "Type d'enregistrement": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
-      },
-      "required": [
-        "Code Diplôme",
-        "Intitulé diplôme (DEPP)",
-        "FicheRNCP",
-        "Niveau fiche RNCP",
-        "Abrégé de diplôme (RNCP)",
-        "Dernière MaJ",
-        "Accès à l'apprentissage de la fiche RNCP (oui/non)",
-        "Date d'échéance de la fiche RNCP",
-        "Fiche ACTIVE/INACTIVE",
-        "Intitulé certification (RNCP)",
-        "Type d'enregistrement",
-        "Date de publication de la fiche",
-        "Date de décision",
-        "Date de début des parcours certifiants",
-        "Date limite de la délivrance",
-        "Nouvelle Certification rempla (RNCP)",
-        "Ancienne Certification (RNCP)",
-      ],
-    },
-    "date": {
-      "bsonType": "date",
-    },
-    "source": {
+    "cfd": {
       "bsonType": "string",
-      "pattern": "^((Kit_apprentissage_\\d{8})|(Kit apprentissage et RNCP v\\d\\.\\d))\\.(csv|xlsx)$",
     },
-    "version": {
+    "rncp": {
       "bsonType": "string",
-      "pattern": "^\\d{8}$",
     },
   },
   "required": [
     "_id",
-    "source",
-    "date",
-    "data",
-    "version",
+    "rncp",
+    "cfd",
   ],
 }
 `;

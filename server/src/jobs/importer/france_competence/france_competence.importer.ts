@@ -537,12 +537,17 @@ export async function getFranceCompetencesImporterStatus(): Promise<ImportStatus
       {
         $group: { _id: "$archiveMeta.resource.id", last: { $last: "$$ROOT" } },
       },
+      {
+        $sort: {
+          "last.import_date": -1,
+        },
+      },
     ])
     .toArray();
 
   const lastFileSuccessResource = lastImportByResource
     .filter((r) => r.last.status === "done")
-    .toSorted((a, b) => b.last.archiveMeta.date_publication.getTime() - a.last.archiveMeta.date_publication.getTime())
+    .toSorted((a, b) => a.last.archiveMeta.date_publication.getTime() - b.last.archiveMeta.date_publication.getTime())
     .at(0);
 
   const status = lastImportByResource.every((r) => r.last.status === "done")

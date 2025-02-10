@@ -1,8 +1,11 @@
 "use client";
 
+import Badge from "@codegouvfr/react-dsfr/Badge";
 import { Header as DSFRHeader, HeaderQuickAccessItem } from "@codegouvfr/react-dsfr/Header";
 import { LanguageSelect } from "@codegouvfr/react-dsfr/LanguageSelect";
 import { useIsDark } from "@codegouvfr/react-dsfr/useIsDark";
+import { margin } from "@mui/system";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -78,7 +81,18 @@ export const Header = ({ lang }: WithLang) => {
           />,
           <MonCompteQuickAccess key="mon-compte-quick-access" lang={lang} t={t} />,
         ]}
-        serviceTitle={publicConfig.productMeta.brandName}
+        serviceTitle={
+          <>
+            <Image
+              src="/images/logo_LBA.svg"
+              width={160}
+              height={40}
+              style={{ marginRight: 50 }}
+              alt="Illustration d'un groupe de personnes faisant une réunion de travail autour d'un tableau"
+            />
+            {publicConfig.productMeta.brandName}
+          </>
+        }
         navigation={navigation}
       />
     </>

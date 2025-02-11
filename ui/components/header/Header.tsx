@@ -81,18 +81,12 @@ export const Header = ({ lang }: WithLang) => {
           />,
           <MonCompteQuickAccess key="mon-compte-quick-access" lang={lang} t={t} />,
         ]}
-        serviceTitle={
-          <>
-            <Image
-              src="/images/logo_LBA.svg"
-              width={160}
-              height={40}
-              style={{ marginRight: 50 }}
-              alt="Illustration d'un groupe de personnes faisant une réunion de travail autour d'un tableau"
-            />
-            {publicConfig.productMeta.brandName}
-          </>
-        }
+        operatorLogo={{
+          alt: "Retour à l'accueil",
+          imgUrl: "/images/logo_LBA.svg",
+          orientation: "horizontal",
+        }}
+        serviceTitle={<>Espace développeurs</>}
         navigation={navigation}
       />
     </>

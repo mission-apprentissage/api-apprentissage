@@ -10,7 +10,9 @@ export function buildOpenApiSchema(version: string, env: string, publicUrl: stri
     openapi: "3.1.0",
     info: {
       title:
-        lang === "fr" ? "Documentation technique de l'API Apprentissage" : "API Apprentissage technical documentation",
+        lang === "fr"
+          ? "Documentation technique de l'espace développeurs La bonne alternance"
+          : "Developer Space La bonne alternance technical documentation",
       version,
       license: {
         name: "Etalab-2.0",
@@ -18,7 +20,10 @@ export function buildOpenApiSchema(version: string, env: string, publicUrl: stri
       },
       termsOfService: "https://api.apprentissage.beta.gouv.fr/cgu",
       contact: {
-        name: lang === "fr" ? "Équipe API Apprentissage" : "API Apprentissage team",
+        name:
+          lang === "fr"
+            ? "Équipe Espace développeurs La bonne alternance"
+            : "Espace développeurs La bonne alternance team",
         email: "support_api@apprentissage.beta.gouv.fr",
       },
     },
@@ -40,7 +45,7 @@ export function buildOpenApiSchema(version: string, env: string, publicUrl: stri
     bearerFormat: "Bearer",
     description:
       lang === "fr"
-        ? "Clé d'API à fournir dans le header `Authorization`. Si la route nécessite une habiliation particulière veuillez contacter le support pour en faire la demande à [support_api@apprentissage.beta.gouv.fr](mailto:support_api@apprentissage.beta.gouv.fr)"
+        ? "Clé d'API à fournir dans le header `Authorization`. Si la route nécessite une habilitation particulière veuillez contacter le support pour en faire la demande à [support_api@apprentissage.beta.gouv.fr](mailto:support_api@apprentissage.beta.gouv.fr)"
         : "API key to provide in the `Authorization` header. If the route requires a particular authorization, please contact support to request it at [support_api@apprentissage.beta.gouv.fr](mailto:support_api@apprentissage.beta.gouv.fr)",
   });
 

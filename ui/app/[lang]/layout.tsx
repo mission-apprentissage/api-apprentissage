@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     icon: [{ url: "/favicon.ico" }, { url: "/favicon.svg" }],
     apple: [{ url: "/apple-touch-icon.png" }],
   },
-  title: "API Apprentissage",
+  title: "Espace développeurs La bonne alternance",
   description: "Un service de la Mission Apprentissage",
 };
 

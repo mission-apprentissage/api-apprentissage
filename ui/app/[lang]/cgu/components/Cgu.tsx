@@ -89,8 +89,8 @@ const Cgu: FC<Props> = ({ onLoad }) => {
             Article 2 – Objet
           </Typography>
           <Typography>
-            API Apprentissage est destiné notamment aux opérateurs publics et privés, aux organismes de formation, aux
-            entreprises, chefs de projets, développeurs ou apprenants. <br />
+            Espace développeurs La bonne alternance est destiné notamment aux opérateurs publics et privés, aux
+            organismes de formation, aux entreprises, chefs de projets, développeurs ou apprenants. <br />
             L’objectif est de simplifier l’accès à des données de l’apprentissage fiables et à jour grâce à un point
             d’entrée unique et documenté.
           </Typography>
@@ -108,7 +108,7 @@ const Cgu: FC<Props> = ({ onLoad }) => {
             finalités.
             <br />
             <br />
-            <strong>« Plateforme »</strong> : désigne le service numérique API Apprentissage.
+            <strong>« Plateforme »</strong> : désigne le service numérique Espace développeurs La bonne alternance.
             <br />
             <br />
             <strong>« Éditeur »</strong> : désigne la Délégation générale à l’emploi et à la formation professionnelle
@@ -122,8 +122,8 @@ const Cgu: FC<Props> = ({ onLoad }) => {
           <Typography>
             Chaque Utilisateur peut s’inscrire sur la Plateforme en renseignant son adresse e-mail.
             <br />
-            Il reçoit un lien lui permettant de se connecter à son compte API apprentissage et de compléter ses
-            informations personnelles.
+            Il reçoit un lien lui permettant de se connecter à son compte Espace développeurs La bonne alternance et de
+            compléter ses informations personnelles.
             <br />
             Un code technique d’accès est créé à l’Utilisateur pour qu’il puisse profiter des Services.
             <br />
@@ -140,8 +140,8 @@ const Cgu: FC<Props> = ({ onLoad }) => {
           </Typography>
           <Typography>
             <br />
-            Les sources des informations diffusées sur API Apprentissage sont réputées fiables mais la Plateforme ne
-            garantit pas qu’elle soit exempte de défauts, d’erreurs ou d’omissions. <br />
+            Les sources des informations diffusées sur Espace développeurs La bonne alternance sont réputées fiables
+            mais la Plateforme ne garantit pas qu’elle soit exempte de défauts, d’erreurs ou d’omissions. <br />
             L’Éditeur s’engage à la sécurisation de la Plateforme, notamment en prenant toutes les mesures nécessaires
             permettant de garantir la sécurité et la confidentialité des informations fournies. <br />
             L’Éditeur fournit les moyens nécessaires et raisonnables pour assurer un accès continu à la Plateforme.

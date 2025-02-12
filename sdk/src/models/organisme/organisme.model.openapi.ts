@@ -34,6 +34,9 @@ export const organismeModelOpenapi: OpenapiModel<"Organisme"> = {
           adresse: {
             oneOf: [{ $ref: "#/components/schemas/Adresse" }, { type: "null" }],
           },
+          geopoint: {
+            oneOf: [{ $ref: "#/components/schemas/GeoJsonPoint" }, { type: "null" }],
+          },
           creation: {
             format: "date-time",
             type: "string",
@@ -53,7 +56,7 @@ export const organismeModelOpenapi: OpenapiModel<"Organisme"> = {
             type: "string",
           },
         },
-        required: ["adresse", "creation", "enseigne", "fermeture", "ouvert", "siret"],
+        required: ["adresse", "geopoint", "creation", "enseigne", "fermeture", "ouvert", "siret"],
         type: "object",
       },
       identifiant: {

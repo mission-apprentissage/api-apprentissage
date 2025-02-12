@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { zParisLocalDate, zParisLocalDateNullable } from "../../utils/date.primitives.js";
-import { zAdresse } from "../geographie/geoJson.model.js";
+import { zAdresse, zGeoJsonPoint } from "../geographie/geoJson.model.js";
 import { zSiret, zUai } from "./organismes.primitives.js";
 
 export const zOrganisme = z
@@ -18,6 +18,7 @@ export const zOrganisme = z
       enseigne: z.string().nullable(),
 
       adresse: zAdresse.nullable(),
+      geopoint: zGeoJsonPoint.nullable(),
 
       creation: zParisLocalDate,
       fermeture: zParisLocalDateNullable,

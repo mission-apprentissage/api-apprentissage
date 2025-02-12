@@ -396,6 +396,10 @@ describe("importOrganismes", () => {
             nom: "Hauts-de-France",
           },
         },
+        geopoint: {
+          type: "Point",
+          coordinates: [3.064205, 50.637859],
+        },
         creation: new Date("1970-01-19T23:49:51.600Z"),
         enseigne: "EMMENO - LE SUCCES EST LE FRUIT DE LA PERSEVERANCE",
         fermeture: null,
@@ -568,6 +572,10 @@ describe("importOrganismes", () => {
             code_insee: "32",
             nom: "Hauts-de-France",
           },
+        },
+        geopoint: {
+          type: "Point",
+          coordinates: [3.064205, 50.637859],
         },
         creation: new Date("1970-01-19T23:49:51.600Z"),
         enseigne: "EMMENO - LE SUCCES EST LE FRUIT DE LA PERSEVERANCE",
@@ -776,6 +784,7 @@ describe("importOrganismes", () => {
         identifiant: { siret: etablissementNotFoundSiret, uai: null },
         etablissement: {
           adresse: null,
+          geopoint: null,
           creation: new Date("1900-01-01T00:00:00.000Z"),
           enseigne: null,
           fermeture: null,

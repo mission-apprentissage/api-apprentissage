@@ -119,6 +119,9 @@ export const recuperationOrganismesPageDoc = {
               ],
               tags: ["label", "code_postal", "commune", "departement", "region", "academie"],
             },
+            geopoint: {
+              description: [{ fr: "Coordonnées GPS de l'établissement", en: "Establishment's GPS coordinates" }],
+            },
             ouvert: {
               description: [
                 {

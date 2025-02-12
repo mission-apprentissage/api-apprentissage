@@ -1,10 +1,11 @@
-import type { ICommune, IOrganisme } from "api-alternance-sdk";
+import type { ICommune, IGeoJsonPoint, IOrganisme } from "api-alternance-sdk";
 import { zOrganisme } from "api-alternance-sdk";
 import { ParisDate } from "api-alternance-sdk/internal";
 import type { IApiEntEtablissement, IApiEntUniteLegale } from "shared/models/cache/cache.entreprise.model";
 import type { ISourceReferentiel } from "shared/models/source/referentiel/source.referentiel.model";
 import { z } from "zod";
 
+import { searchAdresseGeopoint } from "@/services/apis/adresse/adresse.js";
 import {
   getEtablissementDiffusible,
   getSirenFromSiret,
@@ -16,7 +17,18 @@ type OrganismeBuilderContext = {
   etablissement: IApiEntEtablissement | null;
   uniteLegale: IApiEntUniteLegale;
   commune: ICommune | null;
+  geopoint: IGeoJsonPoint | null;
 };
+
+function buildAdresseLabel(adresse: IApiEntEtablissement["adresse"]): string | null {
+  if (adresse.type_voie === null && adresse.libelle_voie === null) {
+    return null;
+  }
+
+  return [adresse.numero_voie, adresse.indice_repetition_voie, adresse.type_voie, adresse.libelle_voie]
+    .filter(Boolean)
+    .join(" ");
+}
 
 export async function buildOrganismeContext(siret: string): Promise<OrganismeBuilderContext | null> {
   const [etablissement, uniteLegale] = await Promise.all([
@@ -28,13 +40,32 @@ export async function buildOrganismeContext(siret: string): Promise<OrganismeBui
     return null;
   }
 
-  const codeCommune = etablissement?.adresse == null ? null : etablissement.adresse.code_commune;
-  const commune = codeCommune === null ? null : await getDbCollection("commune").findOne({ "code.insee": codeCommune });
+  const codeCommune = etablissement?.adresse.code_commune ?? null;
+
+  if (etablissement?.adresse == null || codeCommune == null) {
+    return {
+      etablissement,
+      uniteLegale,
+      commune: null,
+      geopoint: null,
+    };
+  }
+
+  const codePostal = etablissement.adresse.code_postal;
+  const adresse = buildAdresseLabel(etablissement.adresse);
+
+  const [commune, geopoint] = await Promise.all([
+    getDbCollection("commune").findOne({ "code.insee": codeCommune }),
+    codePostal === null || adresse === null
+      ? null
+      : searchAdresseGeopoint({ codePostal, codeInsee: codeCommune, adresse }),
+  ]);
 
   return {
     etablissement,
     uniteLegale,
     commune,
+    geopoint,
   };
 }
 
@@ -44,14 +75,7 @@ function getAdresse(context: OrganismeBuilderContext): IOrganisme["etablissement
   }
 
   return {
-    label: [
-      context.etablissement.adresse.numero_voie,
-      context.etablissement.adresse.indice_repetition_voie,
-      context.etablissement.adresse.type_voie,
-      context.etablissement.adresse.libelle_voie,
-    ]
-      .filter(Boolean)
-      .join(" "),
+    label: buildAdresseLabel(context.etablissement.adresse),
     code_postal: context.etablissement.adresse.code_postal,
     commune: {
       code_insee: context.commune.code.insee,
@@ -128,6 +152,7 @@ export function buildOrganismeEntrepriseParts(
       ouvert: context.etablissement?.etat_administratif === "A",
       enseigne: context.etablissement?.enseigne ?? null,
       adresse: getAdresse(context),
+      geopoint: context.geopoint,
       // D'après l'API Entreprise: "Pour certains établissements très anciens, tous fermés et dont l’unité légale est cessée la date de création peut être nulle."
       // Dans ce cas, on fixe la date de création à 1990-01-01.
       creation: new ParisDate(context.etablissement?.date_creation ?? "1900-01-01"),

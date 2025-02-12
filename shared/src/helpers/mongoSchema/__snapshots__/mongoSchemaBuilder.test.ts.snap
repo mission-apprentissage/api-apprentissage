@@ -3210,6 +3210,43 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
                         },
                       ],
                     },
+                    "geopoint": {
+                      "anyOf": [
+                        {
+                          "additionalProperties": false,
+                          "bsonType": "object",
+                          "properties": {
+                            "coordinates": {
+                              "bsonType": "array",
+                              "items": [
+                                {
+                                  "bsonType": "number",
+                                  "maximum": 180,
+                                  "minimum": -180,
+                                },
+                                {
+                                  "bsonType": "number",
+                                  "maximum": 90,
+                                  "minimum": -90,
+                                },
+                              ],
+                              "maxItems": 2,
+                              "minItems": 2,
+                            },
+                            "type": {
+                              "bsonType": "string",
+                            },
+                          },
+                          "required": [
+                            "coordinates",
+                            "type",
+                          ],
+                        },
+                        {
+                          "bsonType": "null",
+                        },
+                      ],
+                    },
                     "ouvert": {
                       "bsonType": "bool",
                     },
@@ -3223,6 +3260,7 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
                     "ouvert",
                     "enseigne",
                     "adresse",
+                    "geopoint",
                     "creation",
                     "fermeture",
                   ],
@@ -3816,6 +3854,43 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
                         },
                       ],
                     },
+                    "geopoint": {
+                      "anyOf": [
+                        {
+                          "additionalProperties": false,
+                          "bsonType": "object",
+                          "properties": {
+                            "coordinates": {
+                              "bsonType": "array",
+                              "items": [
+                                {
+                                  "bsonType": "number",
+                                  "maximum": 180,
+                                  "minimum": -180,
+                                },
+                                {
+                                  "bsonType": "number",
+                                  "maximum": 90,
+                                  "minimum": -90,
+                                },
+                              ],
+                              "maxItems": 2,
+                              "minItems": 2,
+                            },
+                            "type": {
+                              "bsonType": "string",
+                            },
+                          },
+                          "required": [
+                            "coordinates",
+                            "type",
+                          ],
+                        },
+                        {
+                          "bsonType": "null",
+                        },
+                      ],
+                    },
                     "ouvert": {
                       "bsonType": "bool",
                     },
@@ -3829,6 +3904,7 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
                     "ouvert",
                     "enseigne",
                     "adresse",
+                    "geopoint",
                     "creation",
                     "fermeture",
                   ],
@@ -4818,6 +4894,43 @@ exports[`zodToMongoSchema > should convert organisme schema 1`] = `
             },
           ],
         },
+        "geopoint": {
+          "anyOf": [
+            {
+              "additionalProperties": false,
+              "bsonType": "object",
+              "properties": {
+                "coordinates": {
+                  "bsonType": "array",
+                  "items": [
+                    {
+                      "bsonType": "number",
+                      "maximum": 180,
+                      "minimum": -180,
+                    },
+                    {
+                      "bsonType": "number",
+                      "maximum": 90,
+                      "minimum": -90,
+                    },
+                  ],
+                  "maxItems": 2,
+                  "minItems": 2,
+                },
+                "type": {
+                  "bsonType": "string",
+                },
+              },
+              "required": [
+                "coordinates",
+                "type",
+              ],
+            },
+            {
+              "bsonType": "null",
+            },
+          ],
+        },
         "ouvert": {
           "bsonType": "bool",
         },
@@ -4831,6 +4944,7 @@ exports[`zodToMongoSchema > should convert organisme schema 1`] = `
         "ouvert",
         "enseigne",
         "adresse",
+        "geopoint",
         "creation",
         "fermeture",
       ],

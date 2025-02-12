@@ -42,7 +42,7 @@ export function buildGeographieModule(apiClient: ApiClient): GeographieModule {
       return parseApiResponse(data, zDepartement.array());
     },
     listMissionLocales: async (): Promise<IMissionLocale[]> => {
-      const data = await apiClient.get("/geographie/v1/mission-locale", {});
+      const data = await apiClient.get("/geographie/v1/mission-locale", { querystring: {} });
 
       return parseApiResponse(data, zMissionLocale.array());
     },

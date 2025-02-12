@@ -69,6 +69,39 @@ export const geographieRoutesOpenapi: OpenapiRoutes = {
       schema: {
         operationId: "listMissionLocales",
         security: [{ "api-key": [] }],
+        parameters: [
+          {
+            schema: {
+              type: "number",
+              minimum: -180,
+              maximum: 180,
+            },
+            required: false,
+            name: "longitude",
+            in: "query",
+          },
+          {
+            schema: {
+              type: "number",
+              minimum: -90,
+              maximum: 90,
+            },
+            required: false,
+            name: "latitude",
+            in: "query",
+          },
+          {
+            schema: {
+              type: "number",
+              minimum: 0,
+              maximum: 200,
+              default: 30,
+            },
+            required: false,
+            name: "radius",
+            in: "query",
+          },
+        ],
         responses: {
           "200": {
             content: {

@@ -272,6 +272,30 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
   },
   "get:/geographie/v1/mission-locale": {
     "diff": {
+      "parameters.query:latitude.schema.type": {
+        "result": "number",
+        "source": [
+          "number",
+          "null",
+        ],
+        "type": "changed",
+      },
+      "parameters.query:longitude.schema.type": {
+        "result": "number",
+        "source": [
+          "number",
+          "null",
+        ],
+        "type": "changed",
+      },
+      "parameters.query:radius.schema.type": {
+        "result": "number",
+        "source": [
+          "number",
+          "null",
+        ],
+        "type": "changed",
+      },
       "responses.200.content.application/json.schema.items.$ref": {
         "result": "#/components/schemas/MissionLocale",
         "type": "added",

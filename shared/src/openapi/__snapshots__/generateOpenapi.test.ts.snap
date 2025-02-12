@@ -3070,6 +3070,39 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
     },
     "/geographie/v1/mission-locale": {
       "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "latitude",
+            "required": false,
+            "schema": {
+              "maximum": 90,
+              "minimum": -90,
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "longitude",
+            "required": false,
+            "schema": {
+              "maximum": 180,
+              "minimum": -180,
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "radius",
+            "required": false,
+            "schema": {
+              "default": 30,
+              "maximum": 200,
+              "minimum": 0,
+              "type": "number",
+            },
+          },
+        ],
         "responses": {
           "200": {
             "content": {

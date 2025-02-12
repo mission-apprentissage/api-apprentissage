@@ -9,8 +9,8 @@ export const rechercheFormationPageSummaryDoc = {
     fr: "Recherche de formations en apprentissage",
   },
   headline: {
-    fr: "Recherche les formations présentes dans le catalogue réglementaire des formations en apprentissage.",
-    en: "Searches for training courses present in the regulatory catalog of training courses in apprenticeship.",
+    fr: "Accédez gratuitement à l’ensemble des formations accessibles en apprentissage.",
+    en: "Access free access to all training programs available through apprenticeships.",
   },
 } as const satisfies { title: OpenApiText; headline: OpenApiText };
 
@@ -20,8 +20,8 @@ export const rechercheFormationPageDoc = {
   habilitation: null,
   description: [
     {
-      fr: "**Accédez gratuitement et en temps réel à l'ensemble des formations en apprentissage disponibles sur le territoire français.** ",
-      en: "**Access all training courses available in apprenticeship for free and in real-time on the French territory.** ",
+      fr: "**Accédez gratuitement à l'ensemble des formations en apprentissage disponibles sur le territoire français.** ",
+      en: "**Access all training courses available in apprenticeship for free on the French territory.** ",
     },
     {
       fr: "Les formations retournées sont celles collectées par [le catalogue des formations en apprentissage](https://catalogue-apprentissage.intercariforef.org/recherche/formations) **du réseau des Carif-Oref**",
@@ -59,8 +59,8 @@ export const rechercheFormationPageDoc = {
             identifiant: {
               description: [
                 {
-                  fr: "Identifiant unique pour identifier une formation sur [le catalogue des formations en apprentissage](https://catalogue-apprentissage.intercariforef.org/recherche/formations)",
-                  en: "Unique identifier to identify a training on [the apprenticeship training catalog](https://catalogue-apprentissage.intercariforef.org/recherche/formations)",
+                  fr: "Identifiant unique de la formation sur [le catalogue des formations en apprentissage](https://catalogue-apprentissage.intercariforef.org/recherche/formations)",
+                  en: "Unique training identifier on [the apprenticeship training catalog](https://catalogue-apprentissage.intercariforef.org/recherche/formations)",
                 },
               ],
               information: {
@@ -71,14 +71,14 @@ export const rechercheFormationPageDoc = {
             },
             statut: {
               description: [
-                { fr: "Statut de la formation dans le catalogue des formations", en: "Training status" },
-                { fr: "Les valeurs possibles sont: ", en: "Possible values are: " },
+                { fr: "Statut de la formation", en: "Training status" },
+                { fr: "Les valeurs possibles sont : ", en: "Possible values are: " },
                 {
                   fr: "- `publié` pour les formations publiées sur le catalogue",
                   en: "for published training courses",
                 },
                 {
-                  fr: "- `archivé` pour les formations disponibles sur le catalogue mais non publiées",
+                  fr: "- `archivé` pour les formations non publiées mais tout de même visibles",
                   en: "for training courses available in the catalogue but not published",
                 },
                 {
@@ -106,7 +106,7 @@ export const rechercheFormationPageDoc = {
             },
             modalite: {
               description: [
-                { fr: "Modalité de la formation composé de:", en: "Training modality" },
+                { fr: "Modalités de la formation composées de:", en: "Training modality" },
                 { fr: "- L'année du cycle de la formation", en: "The year of the training cycle" },
                 { fr: "- La durée indicative de la formation", en: "The indicative duration of the training" },
                 { fr: "- Si la formation est entièrement à distance", en: "If the training is entirely remote" },
@@ -116,7 +116,7 @@ export const rechercheFormationPageDoc = {
             },
             onisep: {
               description: {
-                fr: "Informations lié à la formation issue de l'ONISEP",
+                fr: "Informations liées à la formation issue de l'ONISEP",
                 en: "Information related to the training from the ONISEP",
               },
               tags: ["discipline", "domaine_sousdomaine", "intitule", "libelle_poursuite", "lien_site_onisepfr", "url"],
@@ -215,7 +215,7 @@ export const rechercheFormationPageDoc = {
             connu: {
               description: [
                 {
-                  fr: "Indique si le formateur est connu de l'API",
+                  fr: "Indique si l'organisme formateur est connu de l'API",
                   en: "Indicates if the trainer is known to the API",
                 },
                 {
@@ -239,7 +239,7 @@ export const rechercheFormationPageDoc = {
                   en: "The training organism is responsible for educational monitoring.",
                 },
                 {
-                  fr: "Lorsque l'organisme n'est pas connu, les informations sont récupérées depuis [l'API Entreprise](https://entreprise.api.gouv.fr/). Lorsque le SIRET associé n'est pas retrourvé, est invalide ou non diffusible alors la valeur sera `null`.",
+                  fr: "Lorsque l'organisme n'est pas connu, les informations sont récupérées depuis [l'API Entreprise](https://entreprise.api.gouv.fr/). Lorsque le SIRET associé n'est pas retrouvé, est invalide ou non diffusible alors la valeur sera `null`.",
                   en: "When the organism is not known, the information is retrieved from [the Entreprise API](https://entreprise.api.gouv.fr/). When the associated SIRET is not found, is invalid or not distributable then the value will be `null`.",
                 },
                 {
@@ -276,7 +276,7 @@ export const rechercheFormationPageDoc = {
                   en: "The administrative responsible organism of the training",
                 },
                 {
-                  fr: "Lorsque l'organisme n'est pas connu, les informations sont récupérées depuis [l'API Entreprise](https://entreprise.api.gouv.fr/). Lorsque le SIRET associé n'est pas retrourvé, est invalide ou non diffusible alors la valeur sera `null`.",
+                  fr: "Lorsque l'organisme n'est pas connu, les informations sont récupérées depuis [l'API Entreprise](https://entreprise.api.gouv.fr/). Lorsque le SIRET associé n'est pas retrouvé, est invalide ou non diffusible alors la valeur sera `null`.",
                   en: "When the organism is not known, the information is retrieved from [the Entreprise API](https://entreprise.api.gouv.fr/). When the associated SIRET is not found, is invalid or not distributable then the value will be `null`.",
                 },
                 {

@@ -96,7 +96,7 @@ export const certificationsPageDoc = {
               description: { en: null, fr: periodeValiditeRncpDescFr },
               information: {
                 en: null,
-                fr: "Un enregistrement au RNCP est de maximum 5 ans, dépassé ce délai toute fiche doit fait l’objet d’une demande de renouvellement.",
+                fr: "Un enregistrement au RNCP est de maximum 5 ans, dépassé ce délai toute fiche doit faire l’objet d’une demande de renouvellement.",
               },
               tags: [".actif", ".activation", ".debut_parcours", ".fin_enregistrement"],
             },

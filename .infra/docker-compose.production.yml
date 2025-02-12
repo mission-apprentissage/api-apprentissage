@@ -27,7 +27,7 @@ services:
       <<: *deploy-default
       resources:
         limits:
-          memory: 2g
+          memory: 768m
       replicas: 4
     stop_grace_period: 60s
     volumes:
@@ -53,7 +53,7 @@ services:
       <<: *deploy-default
       resources:
         limits:
-          memory: 2g
+          memory: 1g
       replicas: 2
     command: ["yarn", "cli", "job_processor:start"]
     stop_grace_period: 2h

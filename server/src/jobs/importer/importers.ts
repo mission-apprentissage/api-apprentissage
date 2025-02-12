@@ -25,83 +25,111 @@ export const importers: Record<string, Importer> = {
     handler: runAcceImporter,
     resumable: true,
     getStatus: getAcceeImporterStatus,
+    checkinMargin: 60, // 1h
+    maxRuntimeInMinutes: 30,
   },
   "Import des données BCN": {
     cron_string: timings.import_source,
     handler: runBcnImporter,
     resumable: true,
     getStatus: getBcnImporterStatus,
+    checkinMargin: 60, // 1h
+    maxRuntimeInMinutes: 30,
   },
   "Import des données Kit Apprentissage": {
     cron_string: timings.import_source,
     handler: runKitApprentissageImporter,
     resumable: true,
     getStatus: getKitApprentissageImporterStatus,
+    checkinMargin: 60, // 1h
+    maxRuntimeInMinutes: 30,
   },
   "Import des données Referentiel": {
     cron_string: timings.import_source,
     handler: runReferentielImporter,
     resumable: true,
     getStatus: getReferentielImporterStatus,
+    checkinMargin: 60, // 1h
+    maxRuntimeInMinutes: 30,
   },
   "Import des données Catalogue": {
     cron_string: timings.import_source,
     handler: runCatalogueImporter,
     resumable: true,
     getStatus: getCatalogueImporterStatus,
+    checkinMargin: 60, // 1h
+    maxRuntimeInMinutes: 30,
   },
   "Import des données France Compétences": {
     cron_string: timings.import_source,
     handler: runRncpImporter,
     resumable: true,
     getStatus: getFranceCompetencesImporterStatus,
+    checkinMargin: 60, // 1h
+    maxRuntimeInMinutes: 30,
   },
   "Import des certifications": {
     cron_string: timings.certif,
     handler: async () => importCertifications(),
     resumable: true,
     getStatus: getCertificationImporterStatus,
+    checkinMargin: 60, // 1h
+    maxRuntimeInMinutes: 30,
   },
   "Import des organismes": {
     cron_string: timings.certif,
     handler: importOrganismes,
     resumable: true,
     getStatus: getOrganismesImporterStatus,
+    checkinMargin: 60, // 1h
+    maxRuntimeInMinutes: 30,
   },
   "Import des formations": {
     cron_string: timings.certif,
     handler: importFormations,
     resumable: true,
     getStatus: getFormationsImporterStatus,
+    checkinMargin: 60, // 1h
+    maxRuntimeInMinutes: 30,
   },
   "Import des NPEC": {
     cron_string: timings.import_source,
     handler: runNpecImporter,
     resumable: true,
     getStatus: getNpecImporterStatus,
+    checkinMargin: 60, // 1h
+    maxRuntimeInMinutes: 30,
   },
   "Import des Conventions Collective Kali": {
     cron_string: timings.import_source,
     handler: runKaliConventionCollectivesImporter,
     resumable: true,
     getStatus: getKaliImporterStatus,
+    checkinMargin: 60, // 1h
+    maxRuntimeInMinutes: 30,
   },
   "Import des Conventions Collective Dares": {
     cron_string: timings.import_source,
     handler: runDaresConventionCollectivesImporter,
     resumable: true,
     getStatus: getDaresCcnImporterStatus,
+    checkinMargin: 60, // 1h
+    maxRuntimeInMinutes: 30,
   },
   "Import des APE-IDCC Dares": {
     cron_string: timings.import_source,
     handler: runDaresApeIdccImporter,
     resumable: true,
     getStatus: getDaresApiIdccImporterStatus,
+    checkinMargin: 60, // 1h
+    maxRuntimeInMinutes: 30,
   },
   "Import des Communes": {
     cron_string: timings.import_source,
     handler: runCommuneImporter,
     resumable: true,
     getStatus: getCommuneImporterStatus,
+    checkinMargin: 60, // 1h
+    maxRuntimeInMinutes: 30,
   },
 };

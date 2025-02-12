@@ -172,6 +172,31 @@ exports[`openapiSpec#models > should generate schema in sync with zod definition
         ],
         "type": "added",
       },
+      "properties.etablissement.properties.geopoint.allOf": {
+        "source": [
+          {
+            "$ref": "#/components/schemas/GeoJsonPoint",
+          },
+          {
+            "type": [
+              "object",
+              "null",
+            ],
+          },
+        ],
+        "type": "removed",
+      },
+      "properties.etablissement.properties.geopoint.oneOf": {
+        "result": [
+          {
+            "$ref": "#/components/schemas/GeoJsonPoint",
+          },
+          {
+            "type": "null",
+          },
+        ],
+        "type": "added",
+      },
       "required.0": {
         "result": "etablissement",
         "source": "contacts",

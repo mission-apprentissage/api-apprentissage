@@ -72,6 +72,9 @@ const config = {
     geo: {
       endpoint: "https://geo.api.gouv.fr",
     },
+    adresse: {
+      endpoint: "https://api-adresse.data.gouv.fr",
+    },
     unml: {
       endpoint: "https://api.unml.info",
     },

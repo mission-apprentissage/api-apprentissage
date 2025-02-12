@@ -417,6 +417,10 @@ export const expectedOrganismes: IOrganisme[] = [
           nom: "Hauts-de-France",
         },
       },
+      geopoint: {
+        type: "Point",
+        coordinates: [3.082828, 50.611461],
+      },
       creation: new Date("1970-01-19T23:49:51.600Z"),
       enseigne: "FACULTE SCIENCES SPORT ET EDUCATION PHYSIQUE",
       fermeture: null,
@@ -465,6 +469,10 @@ export const expectedOrganismes: IOrganisme[] = [
           code_insee: "53",
           nom: "Bretagne",
         },
+      },
+      geopoint: {
+        type: "Point",
+        coordinates: [-3.2232, 48.783214],
       },
       creation: new Date("1970-01-20T17:21:03.600Z"),
       enseigne: "ECOLE D'AIDE SOIGNANTS",

@@ -44,6 +44,10 @@ export function generateOrganismeFixture(data?: IOrganismeInput<IOrganisme>): IO
           nom: "Rennes",
         },
       },
+      geopoint: {
+        type: "Point",
+        coordinates: [-1.6864, 48.1337],
+      },
       creation: new Date("1970-01-05T19:22:01.200Z"),
       fermeture: null,
     },

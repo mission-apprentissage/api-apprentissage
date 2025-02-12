@@ -2538,6 +2538,16 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                   "null",
                 ],
               },
+              "geopoint": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/GeoJsonPoint",
+                  },
+                  {
+                    "type": "null",
+                  },
+                ],
+              },
               "ouvert": {
                 "type": "boolean",
               },
@@ -2551,6 +2561,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               "creation",
               "enseigne",
               "fermeture",
+              "geopoint",
               "ouvert",
               "siret",
             ],

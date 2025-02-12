@@ -35,6 +35,10 @@ export const organismeModelDoc = {
           descriptions: [{ fr: "Adresse de l'établissement", en: "Establishment's address" }],
           oneOf: [{ descriptions: null }, { descriptions: null }],
         },
+        geopoint: {
+          descriptions: [{ fr: "Coordonnées GPS de l'établissement", en: "GPS coordinates of the establishment" }],
+          oneOf: [{ descriptions: null }, { descriptions: null }],
+        },
         creation: {
           descriptions: [{ fr: "Date de création de l'établissement", en: "Establishment's creation date" }],
         },

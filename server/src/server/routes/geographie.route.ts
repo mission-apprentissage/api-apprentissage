@@ -1,7 +1,8 @@
-import type { ICommune, IMissionLocale } from "api-alternance-sdk";
+import type { ICommune } from "api-alternance-sdk";
 import { zRoutes } from "shared";
 
 import type { Server } from "@/server/server.js";
+import { searchMissionLocales } from "@/services/geographie/geographie.service.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
 type IDepartementAggDatum = {
@@ -83,33 +84,10 @@ export const geographieRoutes = ({ server }: { server: Server }) => {
       schema: zRoutes.get["/geographie/v1/mission-locale"],
       onRequest: [server.auth(zRoutes.get["/geographie/v1/mission-locale"])],
     },
-    async (_request, response) => {
-      const missionLocales = await getDbCollection("commune")
-        .aggregate<{ mission_locale: IMissionLocale }>([
-          {
-            $sort: {
-              "mission_locale.id": 1,
-            },
-          },
-          {
-            $group: {
-              _id: "$mission_locale.id",
-              mission_locale: {
-                $first: "$mission_locale",
-              },
-            },
-          },
-          {
-            $match: {
-              _id: {
-                $ne: null,
-              },
-            },
-          },
-        ])
-        .toArray();
+    async (request, response) => {
+      const missionLocales = await searchMissionLocales(request.query);
 
-      return response.send(missionLocales.map(({ mission_locale }) => mission_locale));
+      return response.send(missionLocales);
     }
   );
 };

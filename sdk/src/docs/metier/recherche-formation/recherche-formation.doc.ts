@@ -9,7 +9,7 @@ export const rechercheFormationPageSummaryDoc = {
     fr: "Recherche de formations en apprentissage",
   },
   headline: {
-    fr: "Accédez gratuitement à l’ensemble des formations accessibles en apprentissage.",
+    fr: "Accédez gratuitement à l’ensemble des formations disponibles en apprentissage.",
     en: "Access free access to all training programs available through apprenticeships.",
   },
 } as const satisfies { title: OpenApiText; headline: OpenApiText };
@@ -24,7 +24,7 @@ export const rechercheFormationPageDoc = {
       en: "**Access all training courses available in apprenticeship for free on the French territory.** ",
     },
     {
-      fr: "Les formations retournées sont celles collectées par [le catalogue des formations en apprentissage](https://catalogue-apprentissage.intercariforef.org/recherche/formations) **du réseau des Carif-Oref**",
+      fr: "Les formations retournées sont celles collectées par [le catalogue des formations en apprentissage](https://catalogue-apprentissage.intercariforef.org/recherche/formations) **du réseau des Carif-Oref.**",
       en: "The returned training courses are those collected by [the apprenticeship training catalog](https://catalogue-apprentissage.intercariforef.org/recherche/formations)",
     },
     {
@@ -59,30 +59,30 @@ export const rechercheFormationPageDoc = {
             identifiant: {
               description: [
                 {
-                  fr: "Identifiant unique de la formation sur [le catalogue des formations en apprentissage](https://catalogue-apprentissage.intercariforef.org/recherche/formations)",
+                  fr: "Identifiant unique de la formation sur [le catalogue des formations en apprentissage](https://catalogue-apprentissage.intercariforef.org/recherche/formations).",
                   en: "Unique training identifier on [the apprenticeship training catalog](https://catalogue-apprentissage.intercariforef.org/recherche/formations)",
                 },
               ],
               information: {
                 en: "This catalog is produced by RCO (the Carif-Oref network), which is responsible for nationally aggregating the training offer collected regionally by the Carif-Oref.",
-                fr: "Ce catalogue est produit par RCO (le réseau des Carif-Oref), qui se charge de collecter nationalement l'offre de formation collectée régionalement par les Carif-Oref.",
+                fr: "Ce catalogue est produit par RCO (le réseau des Carif-Oref), qui se charge de collecter au niveau national l'offre de formation collectée régionalement par les Carif-Oref.",
               },
               tags: ["cle_ministere_educatif"],
             },
             statut: {
               description: [
-                { fr: "Statut de la formation", en: "Training status" },
+                { fr: "Statut de la formation.", en: "Training status" },
                 { fr: "Les valeurs possibles sont : ", en: "Possible values are: " },
                 {
-                  fr: "- `publié` pour les formations publiées sur le catalogue",
+                  fr: "- `publié` pour les formations publiées sur le catalogue.",
                   en: "for published training courses",
                 },
                 {
-                  fr: "- `archivé` pour les formations non publiées mais tout de même visibles",
+                  fr: "- `archivé` pour les formations non publiées mais tout de même visibles.",
                   en: "for training courses available in the catalogue but not published",
                 },
                 {
-                  fr: "- `supprimé` pour les formations supprimées du catalogue",
+                  fr: "- `supprimé` pour les formations supprimées du catalogue.",
                   en: "for training courses deleted from the catalogue",
                 },
               ],
@@ -91,7 +91,7 @@ export const rechercheFormationPageDoc = {
             contact: {
               description: [
                 {
-                  fr: "Coordonnées de contact pour toute demande d'information liée à la formation. Ces coordonnées sont fournies par l'organisme de formation ou l'organisme responsable.",
+                  fr: "Coordonnées de contact pour toute demande d'information liée à la formation. Ces coordonnées sont fournies soit par l'organisme formateur soit l'organisme responsable.",
                   en: "Contact details for any information related to the training. This information is provided by the training organism or the responsible organism.",
                 },
               ],
@@ -106,17 +106,17 @@ export const rechercheFormationPageDoc = {
             },
             modalite: {
               description: [
-                { fr: "Modalités de la formation composées de:", en: "Training modality" },
-                { fr: "- L'année du cycle de la formation", en: "The year of the training cycle" },
-                { fr: "- La durée indicative de la formation", en: "The indicative duration of the training" },
-                { fr: "- Si la formation est entièrement à distance", en: "If the training is entirely remote" },
-                { fr: "- Le code MEF 10 de la formation", en: "The training MEF 10 code" },
+                { fr: "Modalités de la formation composées de :", en: "Training modality" },
+                { fr: "- L'année du cycle de la formation.", en: "The year of the training cycle" },
+                { fr: "- La durée indicative de la formation.", en: "The indicative duration of the training" },
+                { fr: "- Si la formation est entièrement à distance.", en: "If the training is entirely remote" },
+                { fr: "- Le code MEF 10 de la formation.", en: "The training MEF 10 code" },
               ],
               tags: ["annee_cycle", "duree_indicative", "entierement_a_distance", "mef_10"],
             },
             onisep: {
               description: {
-                fr: "Informations liées à la formation issue de l'ONISEP",
+                fr: "Informations liées à la formation issue de l'ONISEP.",
                 en: "Information related to the training from the ONISEP",
               },
               tags: ["discipline", "domaine_sousdomaine", "intitule", "libelle_poursuite", "lien_site_onisepfr", "url"],
@@ -129,15 +129,15 @@ export const rechercheFormationPageDoc = {
             connue: {
               description: [
                 {
-                  fr: "Indique si la certification est connue de l'API",
+                  fr: "Indique si la certification est connue de l'API.",
                   en: "Is the certification known?",
                 },
                 {
-                  fr: "Lorsque la certification est connue, alors la certification est disponible dans l'API certifications",
-                  en: "When the certification is known, then the certification is available in the certifications API",
+                  fr: "Lorsque la certification est connue, alors la certification est disponible dans l'API certifications.",
+                  en: "When the certification is known, then the certification is available in the certifications API.",
                 },
                 {
-                  fr: "Dans le cas contraire, la certification est construite à partir des informations issue du RNCP et du CFD indépendemment.",
+                  fr: "Dans le cas contraire, la certification est construite à partir des informations issues du RNCP et du CFD indépendamment.",
                   en: "Otherwise, the certification is built from the information from the RNCP and the CFD independently.",
                 },
               ],
@@ -145,12 +145,12 @@ export const rechercheFormationPageDoc = {
             valeur: {
               description: [
                 {
-                  fr: "Certification associée à la formation",
-                  en: "Certification associated with the training",
+                  fr: "Certification associée à la formation.",
+                  en: "Certification associated with the training.",
                 },
                 {
-                  fr: "Pour le détail de la certification, consulter l'onglet `Certification`",
-                  en: "For certification details, see the `Certification` tab",
+                  fr: "Pour plus de détails sur la certification, consulter l'onglet `Certification`.",
+                  en: "For certification details, see the `Certification` tab.",
                 },
               ],
             },
@@ -181,28 +181,28 @@ export const rechercheFormationPageDoc = {
           },
           rows: {
             adresse: {
-              description: [{ fr: "Adresse du lieu de formation", en: "Training place address" }],
+              description: [{ fr: "Adresse du lieu de formation.", en: "Training place address" }],
             },
             geolocalisation: {
               description: [
-                { fr: "Coordonnées GPS du lieu de formation", en: "GPS coordinates of the training place" },
+                { fr: "Coordonnées GPS du lieu de formation.", en: "GPS coordinates of the training place" },
               ],
             },
             precision: {
               description: [
                 {
-                  fr: "Précision de la géolocalisation du lieu de formation",
-                  en: "Precision of the geolocation of the training place",
+                  fr: "Précision de la géolocalisation du lieu de formation.",
+                  en: "Precision of the geolocation of the training place.",
                 },
-                { fr: "La précision est exprimée en mètre", en: "The precision is expressed in meters" },
+                { fr: "La précision est exprimée en mètres.", en: "The precision is expressed in meters." },
                 {
-                  fr: "Il s'agit de la distance entre le point géolocalisé et la locasation déduite de l'adresse",
-                  en: "This is the distance between the geolocated point and the location deduced from the address",
+                  fr: "Il s'agit de la distance entre le point géolocalisé et la localisation déduite de l'adresse.",
+                  en: "This is the distance between the geolocated point and the location deduced from the address.",
                 },
               ],
             },
             siret: {
-              description: [{ fr: "Numéro SIRET du lieu de formation", en: "Training place SIRET number" }],
+              description: [{ fr: "Numéro SIRET du lieu de formation.", en: "Training place SIRET number." }],
             },
             uai: {
               description: [{ fr: "Numéro UAI du lieu de formation", en: "Training place UAI number" }],
@@ -215,12 +215,8 @@ export const rechercheFormationPageDoc = {
             connu: {
               description: [
                 {
-                  fr: "Indique si l'organisme formateur est connu de l'API",
-                  en: "Indicates if the trainer is known to the API",
-                },
-                {
-                  fr: "L'organisme est connu lorsqu'il est présent dans [le référentiel des organismes de formation](https://referentiel.apprentissage.onisep.fr/organismes) ou s'il l'a été dans le passé.",
-                  en: "The organism is known when it is present in [the training organisms repository](https://referentiel.apprentissage.onisep.fr/organismes) or if it has been in the past.",
+                  fr: "Vaut TRUE lorsqu'il est présent dans [le référentiel des organismes de formation](https://referentiel.apprentissage.onisep.fr/organismes) ou s'il l'a été dans le passé.",
+                  en: "TRUE when it is present in [the training organisms repository](https://referentiel.apprentissage.onisep.fr/organismes) or if it has been in the past.",
                 },
                 {
                   fr: "Il peut s'agir d'un organisme qui n'est plus sur le référentiel des organismes de formation. Veuillez vérifier le statut de l'organisme.",
@@ -231,11 +227,7 @@ export const rechercheFormationPageDoc = {
             organisme: {
               description: [
                 {
-                  fr: "L'organisme formateur de la formation",
-                  en: "The training organism is responsible for providing the training",
-                },
-                {
-                  fr: "L'organisme formateur est en charge du suivi éducatif.",
+                  fr: "Informations relatives à l’organisme formateur, en charge du suivi éducatif.",
                   en: "The training organism is responsible for educational monitoring.",
                 },
                 {
@@ -243,7 +235,7 @@ export const rechercheFormationPageDoc = {
                   en: "When the organism is not known, the information is retrieved from [the Entreprise API](https://entreprise.api.gouv.fr/). When the associated SIRET is not found, is invalid or not distributable then the value will be `null`.",
                 },
                 {
-                  fr: "Pour le détail de l'organisme, consulter l'onglet `Organisme`",
+                  fr: "Pour plus de détails sur l'organisme, consulter l'onglet `Organisme`.",
                   en: "For organism details, see the `Organism` tab",
                 },
               ],
@@ -256,12 +248,8 @@ export const rechercheFormationPageDoc = {
             connu: {
               description: [
                 {
-                  fr: "Indique si l'organisme est connu de l'API",
-                  en: "Indicates if the organism is known to the API",
-                },
-                {
-                  fr: "L'organisme est connu lorsqu'il est présent dans [le référentiel des organismes de formation](https://referentiel.apprentissage.onisep.fr/organismes) ou s'il l'a été dans le passé.",
-                  en: "The organism is known when it is present in [the training organisms repository](https://referentiel.apprentissage.onisep.fr/organismes) or if it has been in the past.",
+                  fr: "Vaut TRUE lorsqu'il est présent dans [le référentiel des organismes de formation](https://referentiel.apprentissage.onisep.fr/organismes) ou s'il l'a été dans le passé.",
+                  en: "TRUE when it is present in [the training organisms repository](https://referentiel.apprentissage.onisep.fr/organismes) or if it has been in the past.",
                 },
                 {
                   fr: "Il peut s'agir d'un organisme qui n'est plus sur le référentiel des organismes de formation. Veuillez vérifier le statut de l'organisme.",
@@ -272,7 +260,7 @@ export const rechercheFormationPageDoc = {
             organisme: {
               description: [
                 {
-                  fr: "L'organisme responsable administratif de la formation",
+                  fr: "Informations relatives à l’organisme responsable administrativement de la formation.",
                   en: "The administrative responsible organism of the training",
                 },
                 {
@@ -280,7 +268,7 @@ export const rechercheFormationPageDoc = {
                   en: "When the organism is not known, the information is retrieved from [the Entreprise API](https://entreprise.api.gouv.fr/). When the associated SIRET is not found, is invalid or not distributable then the value will be `null`.",
                 },
                 {
-                  fr: "Pour le détail de l'organisme, consulter l'onglet `Organisme`",
+                  fr: "Pour le détail de l'organisme, consulter l'onglet `Organisme`.",
                   en: "For organism details, see the `Organism` tab",
                 },
               ],

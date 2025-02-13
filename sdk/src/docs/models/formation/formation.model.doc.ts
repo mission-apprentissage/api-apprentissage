@@ -96,7 +96,7 @@ export const formationModelDoc = {
         cle_ministere_educatif: {
           descriptions: [
             {
-              fr: "Identifiant unique pour identifier une formation sur [le catalogue des formations en apprentissage](https://catalogue-apprentissage.intercariforef.org/recherche/formations)",
+              fr: "Identifiant unique de la formation sur [le catalogue des formations en apprentissage](https://catalogue-apprentissage.intercariforef.org/recherche/formations)",
               en: "Unique identifier to identify a training on [the apprenticeship training catalog](https://catalogue-apprentissage.intercariforef.org/recherche/formations)",
             },
           ],

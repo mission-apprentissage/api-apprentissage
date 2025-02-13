@@ -15,7 +15,7 @@ const Accessibilite = ({ lang, t }: WithLangAndT) => {
       </Typography>
       <Section>
         <Typography>
-          L&apos;initiative internationale pour l&apos;accessibilité du Web (Web Accessiblility Initiative) définit
+          L&apos;initiative internationale pour l&apos;accessibilité du Web (Web Accessibility Initiative) définit
           l&apos;accessibilité du Web comme suit :<br />
           <br />
           L&apos;accessibilité du Web signifie que les personnes en situation de handicap peuvent utiliser le Web. Plus

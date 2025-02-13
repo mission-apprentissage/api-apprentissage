@@ -109,7 +109,7 @@ export default async function ExplorerApiPage({ params }: PropsWithLangParams) {
           title={getTextOpenAPI(rechercheFormationPageSummaryDoc.title, lang)}
           desc={getTextOpenAPI(rechercheFormationPageSummaryDoc.headline, lang)}
           imageSvg
-          imageUrl={school.src}
+          imageUrl={search.src}
           enlargeLinkOrButton
           linkProps={{ href: PAGES.static.rechercheFormation.getPath(lang) }}
           start={<TagDsfr>{t(`type.data`, { lng: lang })}</TagDsfr>}
@@ -148,7 +148,7 @@ export default async function ExplorerApiPage({ params }: PropsWithLangParams) {
           title={getTextOpenAPI(rechercheCommunePageSummaryDoc.title, lang)}
           desc={getTextOpenAPI(rechercheCommunePageSummaryDoc.headline, lang)}
           imageSvg
-          imageUrl={cityHall.src}
+          imageUrl={search.src}
           enlargeLinkOrButton
           linkProps={{ href: PAGES.static.rechercheCommune.getPath(lang) }}
           start={<TagDsfr>{t(`type.data`, { lng: lang })}</TagDsfr>}

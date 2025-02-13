@@ -412,7 +412,7 @@ export const certificationModelDoc = {
       descriptions: [
         {
           en: null,
-          fr: "Liste du (ou des) code (s) et intitulé(s) des blocs de compétences validées par la certification",
+          fr: "Liste du (ou des) code (s) et intitulé(s) des blocs de compétences validés par la certification",
         },
       ],
       properties: {

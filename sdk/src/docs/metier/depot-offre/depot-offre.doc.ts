@@ -9,8 +9,8 @@ export const depotOffrePageSummaryDoc = {
     en: "Submit apprenticeship job offers",
   },
   headline: {
-    en: "Maximize the visibility of your apprenticeship job offers by posting them on the La bonne alternance platform and its partner sites.",
-    fr: "Maximiser la visibilité de vos offres d’emploi en alternance en les diffusant sur la plateforme La bonne alternance ainsi que ses sites partenaires.",
+    en: "Maximize the visibility of your apprenticeship job offers by posting them on the La bonne alternance platform and its partner sites",
+    fr: "Maximiser la visibilité de vos offres d’emploi en alternance en les diffusant sur la plateforme La bonne alternance ainsi que ses sites partenaires",
   },
 } as const satisfies { title: OpenApiText; headline: OpenApiText };
 

@@ -88,7 +88,7 @@ const PolitiqueDeConfidentialite = () => {
             cadre de l’utilisation de l’API Apprentissage pour :
           </Typography>
           <ul>
-            <li>Gérer les comptes utilisateur de l’API et la gestion des jetons d’accès.</li>
+            <li>Gérer les comptes utilisateurs et les jetons d’accès de l’API.</li>
           </ul>
         </Section>
 
@@ -138,7 +138,7 @@ const PolitiqueDeConfidentialite = () => {
             <li>Droit d’information et droit d’accès aux données ;</li>
             <li>Droit de rectification des données ;</li>
             <li>Droit à la limitation du traitement de vos données ;</li>
-            <li>Droit d’opposition ;</li>
+            <li>Droit d’opposition.</li>
           </ul>
           <Typography>
             Vous pouvez exercer vos droits en adressant un courrier à la Déléguée à la protection des données à

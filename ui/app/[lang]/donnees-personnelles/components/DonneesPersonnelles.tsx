@@ -71,12 +71,12 @@ const DonneesPersonnelles = () => {
             <li>Le consentement des personnes ;</li>
             <li>Une obligation légale ;</li>
             <li>L'existence d'un contrat ;</li>
-            <li>Une mission d'intérêt public, etc...</li>
+            <li>Une mission d'intérêt public, etc.</li>
           </ul>
           <Typography gutterBottom>
             C'est sur cette dernière base légale que se fonde notre traitement. En effet, la Mission a accès à certaines
             données à caractère personnel (état civil, coordonnées, code formation, statut inscrit, apprenti, ou
-            abandon) enregistrées dans les systèmes de gestion des CFA pour les années n et n-1, afin de proposer des
+            abandon) enregistrées dans les systèmes de gestion des CFA pour les années n et n-1, afin de proposer de
             nouveaux services, de réaliser des études de cohorte et des analyses de données pour améliorer la qualité du
             service public rendu.
           </Typography>
@@ -119,7 +119,7 @@ const DonneesPersonnelles = () => {
               ou en risque de décrochage ;
             </li>
             <li>
-              <strong>D&apos;évaluer l'impact</strong> des plans d'actions régionaux.
+              <strong>D&apos;évaluer l'impact</strong> des plans d'action régionaux.
             </li>
           </ul>
         </Section>
@@ -145,11 +145,12 @@ const DonneesPersonnelles = () => {
           <Typography>Données concernant l'apprenant :</Typography>
           <ul>
             <li>
-              <strong>Identification</strong> : nom, prénom, date de naissance, tel, e-mail, Code Insee résidence, INE ;
+              <strong>Identification</strong> : nom, prénom, date de naissance, téléphone, e-mail, Code INSEE résidence,
+              INE ;
             </li>
             <li>
               <strong>Formation suivie</strong> : Code Formation Diplôme, RNCP, libellé, période de la formation, année
-              dans la formation, année scolaire, date début de formation ;
+              dans la formation, année scolaire, date de début de formation ;
             </li>
             <li>
               <strong>Le statut de l'apprenant</strong> : apprenti, inscrit sans contrat, rupturant, abandon
@@ -158,7 +159,7 @@ const DonneesPersonnelles = () => {
           <Typography>Données concernant l'organisme :</Typography>
           <ul>
             <li>
-              <strong>Identification</strong> : UAI, SIRET, Nom, Code Insee CFA Formateur
+              <strong>Identification</strong> : UAI, SIRET, Nom, Code INSEE CFA Formateur
             </li>
           </ul>
           <Typography>Données concernant le contrat d&apos;apprentissage :</Typography>

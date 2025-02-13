@@ -65,7 +65,7 @@ export const certificationsPageDoc = {
             identifiant: {
               description: {
                 en: null,
-                fr: "**Une certification correspond à un couple CFD-RNCP sur une période donnée.** Le Code Formation Diplôme (CFD) ou code scolarité référence la certification dans la Base Centrale des Nomenclature. Le code RNCP référence la certification dans le Répertoire National des Certifications Professionnelle.",
+                fr: "**Une certification correspond à un couple CFD-RNCP sur une période donnée.** Le Code Formation Diplôme (CFD) ou code scolarité référence la certification dans la Base Centrale des Nomenclature. Le code RNCP référence la certification dans le Répertoire National des Certifications Professionnelles.",
               },
               information: { en: null, fr: identifiantInfoFr },
               sample: { en: null, fr: "exemple : La certification correspond au couple CFD 50022137 - RNCP37537" },
@@ -96,7 +96,7 @@ export const certificationsPageDoc = {
               description: { en: null, fr: periodeValiditeRncpDescFr },
               information: {
                 en: null,
-                fr: "Un enregistrement au RNCP est de maximum 5 ans, dépassé ce délai toute fiche doit fait l’objet d’une demande de renouvellement.",
+                fr: "Un enregistrement au RNCP est pour une durée maximale de 5 ans, passé ce délai toute fiche doit faire l’objet d’une demande de renouvellement.",
               },
               tags: [".actif", ".activation", ".debut_parcours", ".fin_enregistrement"],
             },
@@ -111,7 +111,7 @@ export const certificationsPageDoc = {
               tags: [".cfd.court", ".cfd.long", ".rncp"],
             },
             niveau: {
-              description: { en: null, fr: "Niveau de qualification de la certification professionnelle" },
+              description: { en: null, fr: "Niveau de qualification de la certification professionnelle." },
               sample: { en: null, fr: "exemple : CAP et/ou Niveau 3" },
               tags: [".cfd.sigle", ".cfd.europeen", ".cfd.formation_diplome", ".cfd.libelle"],
               tip: {
@@ -146,7 +146,7 @@ export const certificationsPageDoc = {
             blocs_competences: {
               description: {
                 en: null,
-                fr: "Liste du (ou des) code (s) et intitulé(s) des blocs de compétences validées par la certification",
+                fr: "Liste du(des) code(s) et intitulé(s) des blocs de compétences validés par la certification.",
               },
               tags: [".rncp[].code", ".rncp[].intitule"],
             },
@@ -191,7 +191,7 @@ export const certificationsPageDoc = {
           name: { en: null, fr: "Base légale" },
           rows: {
             base_legale: {
-              description: { en: null, fr: "Dates de création et d’abrogation des diplômes crées par arrêtés" },
+              description: { en: null, fr: "Dates de création et d’abrogation des diplômes créés par arrêtés." },
               tags: [".cfd.creation", ".cfd.abrogation"],
             },
           },
@@ -202,7 +202,7 @@ export const certificationsPageDoc = {
             convention_collectives: {
               description: {
                 en: null,
-                fr: "Liste(s) de la ou des convention(s) collective(s) rattachées à la certification",
+                fr: "Liste des conventions collectives rattachées à la certification.",
               },
               tags: [".rncp[].numero", ".rncp[].libelle"],
             },

@@ -64,7 +64,7 @@ const MentionsLegales = () => {
           <Typography variant="h2" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default}>
             Date de la dernière mise à jour
           </Typography>
-          <Typography>Ces mentions légales ont été mise à jour le 27/03/2024.</Typography>
+          <Typography>Ces mentions légales ont été mises à jour le 27/03/2024.</Typography>
         </Section>
 
         <Section id={anchors.EditeurPlateforme}>
@@ -106,7 +106,7 @@ const MentionsLegales = () => {
             Standard : 09.72.10.07
             <br />
             <br />
-            La conception et la réalisation du site sont effectuée par La Mission Interministérielle pour
+            La conception et la réalisation du site sont effectuées par La Mission Interministérielle pour
             l'apprentissage, située à l'adresse suivante :
             <br />
             Beta.gouv

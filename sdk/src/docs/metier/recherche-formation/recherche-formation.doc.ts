@@ -9,8 +9,8 @@ export const rechercheFormationPageSummaryDoc = {
     fr: "Recherche de formations en apprentissage",
   },
   headline: {
-    fr: "Accédez gratuitement à l’ensemble des formations disponibles en apprentissage.",
-    en: "Access free access to all training programs available through apprenticeships.",
+    fr: "Accédez gratuitement à l’ensemble des formations disponibles en apprentissage",
+    en: "Access free access to all training programs available through apprenticeships",
   },
 } as const satisfies { title: OpenApiText; headline: OpenApiText };
 

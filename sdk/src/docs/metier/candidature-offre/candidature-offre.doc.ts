@@ -6,8 +6,8 @@ export const candidatureOffrePageSummaryDoc = {
     en: "Send an application to a job opportunity in apprenticeship",
   },
   headline: {
-    en: "Streamline your users' journey by directly transmitting your users' applications to recruiters.",
-    fr: "Fluidifier le parcours de vos utilisateurs en transmettant directement aux recruteurs les candidatures de vos usagers.",
+    en: "Streamline your users' journey by directly transmitting your users' applications to recruiters",
+    fr: "Fluidifier le parcours de vos utilisateurs en transmettant directement aux recruteurs les candidatures de vos usagers",
   },
 } as const satisfies { title: OpenApiText; headline: OpenApiText };
 

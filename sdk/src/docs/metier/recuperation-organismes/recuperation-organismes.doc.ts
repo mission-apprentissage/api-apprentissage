@@ -6,8 +6,8 @@ export const recuperationOrganismesPageSummaryDoc = {
     en: "Retrieve all training organizations in apprenticeship",
   },
   headline: {
-    en: "Retrieve the list of all organizations from the Onisep repository historized.",
-    fr: "Récupère la liste de tous les organismes issus du référentiel Onisep historisé.",
+    en: "Retrieve the list of all organizations from the Onisep repository historized",
+    fr: "Récupère la liste de tous les organismes issus du référentiel Onisep historisé",
   },
 } as const satisfies { title: OpenApiText; headline: OpenApiText };
 

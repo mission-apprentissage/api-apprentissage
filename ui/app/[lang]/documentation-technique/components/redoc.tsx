@@ -17,11 +17,15 @@ export default function RedocPageClient({ nonce, lang }: { nonce: string; lang: 
         sortEnumValuesAlphabetically: true,
         sortOperationsAlphabetically: false,
         sortTagsAlphabetically: false,
+        schemaExpansionLevel: 3,
+        expandDefaultServerVariables: true,
+        expandResponses: "200,201,203,204,205",
+        jsonSampleExpandLevel: 3,
+        expandSingleSchemaField: true,
         menuToggle: true,
         simpleOneOfTypeLabel: true,
         hideSchemaTitles: false,
         pathInMiddlePanel: true,
-        expandResponses: "200,201,203,204,205",
         requiredPropsFirst: true,
         theme: {
           typography: {
@@ -30,7 +34,6 @@ export default function RedocPageClient({ nonce, lang }: { nonce: string; lang: 
             },
           },
         },
-        jsonSampleExpandLevel: 3,
         labels:
           lang === "fr"
             ? {

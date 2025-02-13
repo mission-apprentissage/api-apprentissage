@@ -1,5 +1,5 @@
 La période de validité d’une fiche RNCP est décrite par :
 
 - **La date d’activation** correspond à la date à laquelle la fiche RNCP est passée au **statut actif : les inscriptions à la formation sont ouvertes** jusqu'à la date limite de délivrance de la certification.
-- La **date de début des parcours certifiants** (anciennement appelée “**date d’effet**” pour les enregistrements de droits, et “**date de décision**” pour les enregistrements sur demande)
+- La **date de début des parcours certifiants** (anciennement appelée “**date d’effet**” pour les enregistrements de droits, et “**date de décision**” pour les enregistrements sur demande).
 - La **date de fin d’enregistrement** : le lendemain, la fiche RNCP passe du statut “**actif**” à “**inactif**”. Pour les enregistrements de droit, cette date est renseignée par le certificateur, et pour les enregistrements sur demande, elle est déterminée par commission au moment de la décision d’enregistrement. À cette date, l'accès à la certification n'est plus possible (les inscriptions sont fermées) mais elle peut continuer à être délivrée pour les parcours en cours (formation ou VAE) ou pour la signature d'un contrat d'apprentissage suite à un nouveau contrat consécutif à une rupture du contrat.

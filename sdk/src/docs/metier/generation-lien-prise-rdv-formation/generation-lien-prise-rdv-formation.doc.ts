@@ -7,7 +7,7 @@ export const generationLienPriseRdvFormationPageSummaryDoc = {
   },
   headline: {
     en: "Generate links for appointment requests for training via the La bonne alternance service",
-    fr: "Obtenir un lien d’accès à un formulaire de prise de rendez-vous auprès d’un centre de formation via le service La bonne alternance",
+    fr: "Obtenir un lien d’accès à un formulaire de prise de rendez-vous auprès d’un centre de formation",
   },
 } as const satisfies { title: OpenApiText; headline: OpenApiText };
 

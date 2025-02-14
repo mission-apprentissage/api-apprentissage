@@ -146,7 +146,10 @@ export async function setupJobProcessor() {
         resumable: true,
       },
       "import:organismes": {
-        handler: async () => importOrganismes(),
+        handler: async (job) => {
+          const options = z.object({ force: z.boolean().optional() }).nullish().parse(job.payload);
+          return importOrganismes(options?.force ?? false);
+        },
         resumable: true,
       },
       "indicateurs:source_kit_apprentissage:update": {

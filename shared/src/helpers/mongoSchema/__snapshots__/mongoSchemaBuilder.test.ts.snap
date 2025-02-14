@@ -1,5 +1,93 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`zodToMongoSchema > should convert cache.adresse schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "data": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "coordinates": {
+              "bsonType": "array",
+              "items": [
+                {
+                  "bsonType": "number",
+                  "maximum": 180,
+                  "minimum": -180,
+                },
+                {
+                  "bsonType": "number",
+                  "maximum": 90,
+                  "minimum": -90,
+                },
+              ],
+              "maxItems": 2,
+              "minItems": 2,
+            },
+            "type": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "coordinates",
+            "type",
+          ],
+        },
+        {
+          "bsonType": "null",
+        },
+      ],
+    },
+    "identifiant": {
+      "additionalProperties": false,
+      "bsonType": "object",
+      "properties": {
+        "adresse": {
+          "bsonType": "string",
+        },
+        "codeInsee": {
+          "bsonType": "string",
+        },
+        "codePostal": {
+          "bsonType": [
+            "string",
+            "null",
+          ],
+        },
+      },
+      "required": [
+        "codePostal",
+        "codeInsee",
+        "adresse",
+      ],
+    },
+    "ttl": {
+      "anyOf": [
+        {
+          "bsonType": "date",
+        },
+        {
+          "bsonType": "null",
+        },
+      ],
+    },
+  },
+  "required": [
+    "_id",
+    "identifiant",
+    "ttl",
+    "data",
+  ],
+}
+`;
+
 exports[`zodToMongoSchema > should convert cache.entreprise schema 1`] = `
 {
   "additionalProperties": false,

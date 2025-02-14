@@ -14,7 +14,7 @@ export const jobSearchRouteDoc = {
   summary: rechercheOffrePageSummaryDoc.title,
   description: {
     en: "Access in real-time all apprenticeship job opportunities available in France and offer them to your users for free and under a white-label format.",
-    fr: "Accédez en temps réel à toutes les opportunités d'emploi en apprentissage disponibles en France et proposez-les à vos utilisateurs gratuitement et sous un format white-label.",
+    fr: "Accéder en temps réel à toutes les opportunités d'emploi en apprentissage disponibles en France et proposez-les à vos utilisateurs gratuitement et sous un format white-label.",
   },
   parameters: {
     longitude: {

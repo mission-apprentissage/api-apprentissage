@@ -9,7 +9,7 @@ export const rechercheFormationPageSummaryDoc = {
     fr: "Recherche de formations en apprentissage",
   },
   headline: {
-    fr: "Accédez gratuitement à l’ensemble des formations disponibles en apprentissage",
+    fr: "Accéder gratuitement à l’ensemble des formations disponibles en apprentissage",
     en: "Access free access to all training programs available through apprenticeships",
   },
 } as const satisfies { title: OpenApiText; headline: OpenApiText };
@@ -20,7 +20,7 @@ export const rechercheFormationPageDoc = {
   habilitation: null,
   description: [
     {
-      fr: "**Accédez gratuitement à l'ensemble des formations en apprentissage disponibles sur le territoire français.** ",
+      fr: "**Accéder gratuitement à l'ensemble des formations en apprentissage disponibles sur le territoire français.** ",
       en: "**Access all training courses available in apprenticeship for free on the French territory.** ",
     },
     {

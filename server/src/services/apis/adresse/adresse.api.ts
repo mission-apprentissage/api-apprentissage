@@ -35,7 +35,7 @@ axiosRetry(rawClient as AxiosInstance, {
       return false;
     }
 
-    return error.response?.status === 409;
+    return error.response?.status === 409 || error.response?.status === 500;
   },
 });
 

@@ -5,7 +5,7 @@ import type { IApiEntEtablissement, IApiEntUniteLegale } from "shared/models/cac
 import type { ISourceReferentiel } from "shared/models/source/referentiel/source.referentiel.model";
 import { z } from "zod";
 
-import { searchAdresseGeopoint } from "@/services/apis/adresse/adresse.js";
+import { searchAdresseGeopoint } from "@/services/apis/adresse/adresse.api.js";
 import {
   getEtablissementDiffusible,
   getSirenFromSiret,
@@ -152,7 +152,8 @@ export function buildOrganismeEntrepriseParts(
       ouvert: context.etablissement?.etat_administratif === "A",
       enseigne: context.etablissement?.enseigne ?? null,
       adresse: getAdresse(context),
-      geopoint: context.geopoint,
+      // Dans le cas où l'adresse n'est pas trouvée, on utilise celui de la commune.
+      geopoint: context.geopoint ?? context.commune?.localisation.centre ?? null,
       // D'après l'API Entreprise: "Pour certains établissements très anciens, tous fermés et dont l’unité légale est cessée la date de création peut être nulle."
       // Dans ce cas, on fixe la date de création à 1990-01-01.
       creation: new ParisDate(context.etablissement?.date_creation ?? "1900-01-01"),

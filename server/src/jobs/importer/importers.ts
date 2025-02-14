@@ -78,7 +78,7 @@ export const importers: Record<string, Importer> = {
   },
   "Import des organismes": {
     cron_string: timings.certif,
-    handler: importOrganismes,
+    handler: async () => importOrganismes(false),
     resumable: true,
     getStatus: getOrganismesImporterStatus,
     checkinMargin: 60, // 1h

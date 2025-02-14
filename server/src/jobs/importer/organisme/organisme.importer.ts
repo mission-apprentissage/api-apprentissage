@@ -43,7 +43,7 @@ async function getLatestImportMeta(): Promise<IImportMetaOrganismes | null> {
   return importMeta;
 }
 
-async function getImportMeta(): Promise<IImportMetaOrganismes | null> {
+async function getImportMeta(force: boolean): Promise<IImportMetaOrganismes | null> {
   const [latestImportMeta, sourceImportMeta] = await Promise.all([getLatestImportMeta(), getSourceImportMeta()]);
 
   if (!sourceImportMeta) {
@@ -59,7 +59,7 @@ async function getImportMeta(): Promise<IImportMetaOrganismes | null> {
     source: sourceImportMeta,
   };
 
-  if (!latestImportMeta) {
+  if (!latestImportMeta || force) {
     return importMeta;
   }
 
@@ -212,8 +212,8 @@ async function updateHistoricalOrganismes(importMeta: IImportMetaOrganismes) {
   );
 }
 
-export async function importOrganismes() {
-  const importMeta = await getImportMeta();
+export async function importOrganismes(force: boolean = false) {
+  const importMeta = await getImportMeta(force);
 
   if (importMeta === null) {
     logger.info("import.organismes: skipping import");

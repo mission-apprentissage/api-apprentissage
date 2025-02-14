@@ -38,17 +38,45 @@ export const zApiEntEtablissement = z.object({
     date_cessation: true,
   }),
   adresse: z.object({
-    numero_voie: z.string().nullable().default(null),
-    indice_repetition_voie: z.string().nullable(),
-    type_voie: z.string().nullable(),
-    libelle_voie: z.string().nullable(),
-    complement_adresse: z.string().nullable(),
+    numero_voie: z
+      .string()
+      .nullable()
+      .default(null)
+      .transform((v) => (v === "[ND]" ? null : v)),
+    indice_repetition_voie: z
+      .string()
+      .nullable()
+      .transform((v) => (v === "[ND]" ? null : v)),
+    type_voie: z
+      .string()
+      .nullable()
+      .transform((v) => (v === "[ND]" ? null : v)),
+    libelle_voie: z
+      .string()
+      .nullable()
+      .transform((v) => (v === "[ND]" ? null : v)),
+    complement_adresse: z
+      .string()
+      .nullable()
+      .transform((v) => (v === "[ND]" ? null : v)),
     code_commune: z.string().nullable(),
-    code_postal: z.string().nullable(),
+    code_postal: z
+      .string()
+      .nullable()
+      .transform((v) => (v === "[ND]" ? null : v)),
     libelle_commune: z.string().nullable(),
-    libelle_commune_etranger: z.string().nullable(),
-    code_pays_etranger: z.string().nullable(),
-    libelle_pays_etranger: z.string().nullable(),
+    libelle_commune_etranger: z
+      .string()
+      .nullable()
+      .transform((v) => (v === "[ND]" ? null : v)),
+    code_pays_etranger: z
+      .string()
+      .nullable()
+      .transform((v) => (v === "[ND]" ? null : v)),
+    libelle_pays_etranger: z
+      .string()
+      .nullable()
+      .transform((v) => (v === "[ND]" ? null : v)),
   }),
 });
 

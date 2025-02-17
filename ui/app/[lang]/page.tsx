@@ -72,7 +72,7 @@ function VousEtesSection({ lang }: WithLang) {
               sx={{ color: fr.colors.decisions.artwork.minor.blueEcume.default, fontWeight: "normal" }}
             >
               <Box component="span" sx={{ color: fr.colors.decisions.text.label.blueEcume.default }}>
-                L’<strong>API Apprentissage</strong>
+                L’<strong>Espace développeurs La bonne alternance</strong>
               </Box>
               &nbsp;est le <strong>point d’entrée unique</strong> et documenté pour <strong>faciliter l’accès</strong> à
               toutes les <strong>données relatives à l’apprentissage</strong>
@@ -81,7 +81,7 @@ function VousEtesSection({ lang }: WithLang) {
 
           <Link component={NextLink} href={PAGES.static.explorerApi.getPath(lang)}>
             <Button iconId="fr-icon-arrow-right-line" iconPosition="right" priority="primary" size="large">
-              Explorer l'API
+              Explorer les API
             </Button>
           </Link>
         </Box>
@@ -126,10 +126,10 @@ function CommentUtiliserApiSection({ lang }: WithLang) {
           </Box>
           <Box display="grid" gap={fr.spacing("3w")} padding={fr.spacing("3w")}>
             <Typography variant="h2" sx={{ color: fr.colors.decisions.text.label.blueEcume.default }}>
-              Comment utiliser l’API ?
+              Comment utiliser nos API
             </Typography>
             <Typography>
-              L’API est ouverte à tous et à toutes, <strong>créez votre compte</strong> pour obtenir et gérer{" "}
+              Nos API sont ouvertes à tous et à toutes, <strong>créez votre compte</strong> pour obtenir et gérer{" "}
               <strong>vos jetons d’accès !</strong>
             </Typography>
             <Box display="grid" gap={fr.spacing("2v")}>
@@ -160,8 +160,9 @@ function ProtectionDesDonneeSection({ lang }: WithLang) {
               Protection des données
             </Typography>
             <Typography variant="h4">
-              L’API apprentissage est construite dans le <strong>respect strict de la vie privée des personnes</strong>{" "}
-              et <strong>applique les standards de sécurité de l'État.</strong>
+              L’espace développeurs La bonne alternance est construit dans le{" "}
+              <strong>respect strict de la vie privée des personnes</strong> et{" "}
+              <strong>applique les standards de sécurité de l'État.</strong>
             </Typography>
             <Box display="grid" gap={fr.spacing("2v")}>
               <Typography>

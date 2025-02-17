@@ -72,8 +72,9 @@ const PolitiqueDeConfidentialite = () => {
           </Typography>
           <Typography>
             Le ministère du Travail, du Plein emploi et de l’insertion traite des données à caractère personnel dans le
-            cadre de “l’API Apprentissage” en qualité de responsable de traitement. L’API Apprentissage est développée
-            au sein de la Mission Interministérielle pour l’Apprentissage. <br />
+            cadre de “l’espace développeurs La bonne alternance” en qualité de responsable de traitement. L’espace
+            développeurs La bonne alternance est développé au sein de la Mission Interministérielle pour
+            l’Apprentissage. <br />
             L’objectif poursuivi est de simplifier l’accès à des données de l’apprentissage fiables et à jour grâce à un
             point d’entrée unique et documenté.
           </Typography>
@@ -85,7 +86,7 @@ const PolitiqueDeConfidentialite = () => {
           </Typography>
           <Typography>
             Le ministère du Travail, du Plein emploi et de l’insertion traite des données à caractère personnel dans le
-            cadre de l’utilisation de l’API Apprentissage pour :
+            cadre de l’utilisation de l’espace développeurs La bonne alternance pour :
           </Typography>
           <ul>
             <li>Gérer les comptes utilisateurs et les jetons d’accès de l’API.</li>
@@ -98,7 +99,7 @@ const PolitiqueDeConfidentialite = () => {
           </Typography>
           <Typography>Les données à caractère personnel concernées sont les suivantes :</Typography>
           <ul>
-            <li>Données du compte utilisateur API Apprentissage : adresse e-mail.</li>
+            <li>Données du compte utilisateur Espace développeurs La bonne alternance : adresse e-mail.</li>
           </ul>
         </Section>
 
@@ -120,7 +121,7 @@ const PolitiqueDeConfidentialite = () => {
           <Table
             data={[
               [
-                "Données du compte utilisateur API Apprentissage",
+                "Données du compte utilisateur Espace développeurs La bonne alternance",
                 "2 ans à compter de la dernière utilisation du compte par l’utilisateur",
               ],
             ]}
@@ -175,7 +176,8 @@ const PolitiqueDeConfidentialite = () => {
           <ul>
             <li>
               La Délégation générale à l’emploi et à la formation professionnelle (DGEFP) et les membres de la Mission
-              interministérielle pour l’Apprentissage et plus spécifiquement de l’équipe API Apprentissage ;
+              interministérielle pour l’Apprentissage et plus spécifiquement de l’équipe Espace développeurs La bonne
+              alternance ;
             </li>
           </ul>
         </Section>
@@ -216,8 +218,8 @@ const PolitiqueDeConfidentialite = () => {
             </li>
           </ul>
           <Typography>
-            API apprentissage utilise notamment l’outil de mesure d’audience Plausible, qui ne dépose aucun cookie ou
-            traceur et ne traite pas de données à caractère personnel.
+            L'espace développeurs La bonne alternance utilise notamment l’outil de mesure d’audience Plausible, qui ne
+            dépose aucun cookie ou traceur et ne traite pas de données à caractère personnel.
           </Typography>
         </Section>
       </Grid>

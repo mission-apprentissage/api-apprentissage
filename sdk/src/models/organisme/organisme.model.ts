@@ -15,7 +15,10 @@ export const zOrganisme = z
       siret: zSiret,
       ouvert: z.boolean(),
 
-      enseigne: z.string().nullable(),
+      enseigne: z
+        .string()
+        .nullable()
+        .transform((v) => (v === "" ? null : v)),
 
       adresse: zAdresse.nullable(),
       geopoint: zGeoJsonPoint.nullable(),

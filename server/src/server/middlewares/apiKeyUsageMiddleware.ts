@@ -4,6 +4,25 @@ import type { IIndicateurUsageApi } from "shared/models/indicateurs/usage_api.mo
 import type { Server } from "@/server/server.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
+export function getStatusCodeType(statusCode: number) {
+  if (statusCode >= 100 && statusCode < 200) {
+    return "informational";
+  }
+  if (statusCode >= 200 && statusCode < 300) {
+    return "success";
+  }
+  if (statusCode >= 300 && statusCode < 400) {
+    return "redirection";
+  }
+  if (statusCode >= 400 && statusCode < 500) {
+    return "client_error";
+  }
+  if (statusCode >= 500 && statusCode < 600) {
+    return "server_error";
+  }
+  return "unknown";
+}
+
 async function updateIndicateur(request: FastifyRequest, reply: FastifyReply) {
   if (request.user && request.user.type === "user" && request.api_key) {
     // We group usage by day
@@ -13,28 +32,25 @@ async function updateIndicateur(request: FastifyRequest, reply: FastifyReply) {
     now.setUTCMinutes(0);
     now.setUTCHours(0);
 
-    const metadata: Omit<IIndicateurUsageApi, "_id" | "usage"> = {
+    const metadata: Omit<IIndicateurUsageApi, "_id" | "count" | "type"> = {
       user_id: request.user.value._id,
       api_key_id: request.api_key._id,
       method: Array.isArray(request.routeOptions.method)
         ? request.routeOptions.method.join(",")
         : request.routeOptions.method,
       path: request.routeOptions.config.url,
+      code: reply.statusCode,
       date: now,
     };
 
     await getDbCollection("indicateurs.usage_api").updateOne(
       metadata,
-      { $setOnInsert: { ...metadata, usage: {} } },
+      { $setOnInsert: { ...metadata, type: getStatusCodeType(reply.statusCode), count: 0 } },
       { upsert: true }
     );
-    await getDbCollection("indicateurs.usage_api").updateOne(metadata, [
-      {
-        $set: {
-          [`usage.${reply.statusCode}`]: { $add: [{ $ifNull: [`$usage.${reply.statusCode}`, 0] }, 1] },
-        },
-      },
-    ]);
+    await getDbCollection("indicateurs.usage_api").updateOne(metadata, [{ $set: { count: { $add: ["$count", 1] } } }], {
+      upsert: true,
+    });
   }
 }
 

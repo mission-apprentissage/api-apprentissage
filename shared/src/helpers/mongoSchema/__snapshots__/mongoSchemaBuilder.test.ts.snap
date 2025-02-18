@@ -4719,6 +4719,12 @@ exports[`zodToMongoSchema > should convert indicateurs.usage_api schema 1`] = `
     "api_key_id": {
       "bsonType": "objectId",
     },
+    "code": {
+      "bsonType": "number",
+    },
+    "count": {
+      "bsonType": "number",
+    },
     "date": {
       "bsonType": "date",
     },
@@ -4728,11 +4734,16 @@ exports[`zodToMongoSchema > should convert indicateurs.usage_api schema 1`] = `
     "path": {
       "bsonType": "string",
     },
-    "usage": {
-      "additionalProperties": {
-        "bsonType": "number",
-      },
-      "bsonType": "object",
+    "type": {
+      "bsonType": "string",
+      "enum": [
+        "informational",
+        "success",
+        "redirection",
+        "client_error",
+        "server_error",
+        "unknown",
+      ],
     },
     "user_id": {
       "bsonType": "objectId",
@@ -4745,7 +4756,9 @@ exports[`zodToMongoSchema > should convert indicateurs.usage_api schema 1`] = `
     "date",
     "user_id",
     "api_key_id",
-    "usage",
+    "code",
+    "type",
+    "count",
   ],
 }
 `;

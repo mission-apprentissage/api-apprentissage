@@ -120,7 +120,7 @@ export const offerReadModelDoc = {
           properties: {
             european: {
               descriptions: [{ en: "Targeted diploma level at the end of studies.", fr: null }],
-              examples: [3],
+              examples: ["3"],
             },
             label: {
               descriptions: [{ en: "The title of the targeted diploma level at the end of studies.", fr: null }],

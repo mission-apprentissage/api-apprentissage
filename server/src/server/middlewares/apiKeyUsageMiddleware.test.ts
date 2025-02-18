@@ -137,7 +137,7 @@ describe("apiKeyUsageMiddleware", () => {
     // We advance time by 23 hours
     await vi.waitFor(async () => {
       expect(await getDbCollection("indicateurs.usage_api").find().toArray()).toEqual([
-        { ...attributes, date: new Date("2024-03-21T00:00:00Z"), usage: { "200": 1 } },
+        { ...attributes, date: new Date("2024-03-21T00:00:00Z"), code: 200, type: "success", count: 1 },
       ]);
       const u = await getDbCollection("users").findOne({ _id: user._id });
       expect(u?.api_keys).toEqual([
@@ -159,7 +159,7 @@ describe("apiKeyUsageMiddleware", () => {
 
     await vi.waitFor(async () => {
       expect(await getDbCollection("indicateurs.usage_api").find().toArray()).toEqual([
-        { ...attributes, date: new Date("2024-03-21T00:00:00Z"), usage: { "200": 3 } },
+        { ...attributes, date: new Date("2024-03-21T00:00:00Z"), code: 200, type: "success", count: 3 },
       ]);
       const u = await getDbCollection("users").findOne({ _id: user._id });
       expect(u?.api_keys).toEqual([
@@ -180,12 +180,14 @@ describe("apiKeyUsageMiddleware", () => {
 
     await vi.waitFor(async () => {
       expect(await getDbCollection("indicateurs.usage_api").find().toArray()).toEqual([
-        { ...attributes, date: new Date("2024-03-21T00:00:00Z"), usage: { "200": 3 } },
+        { ...attributes, date: new Date("2024-03-21T00:00:00Z"), code: 200, type: "success", count: 3 },
         {
           ...attributes,
           api_key_id: user.api_keys[1]._id,
           date: new Date("2024-03-22T00:00:00Z"),
-          usage: { "200": 1 },
+          code: 200,
+          type: "success",
+          count: 1,
         },
       ]);
       const u = await getDbCollection("users").findOne({ _id: user._id });
@@ -217,7 +219,8 @@ describe("apiKeyUsageMiddleware", () => {
 
     await vi.waitFor(async () => {
       expect(await getDbCollection("indicateurs.usage_api").find().toArray()).toEqual([
-        { ...attributes, date: new Date("2024-03-21T00:00:00Z"), usage: { "200": 2, 400: 1 } },
+        { ...attributes, date: new Date("2024-03-21T00:00:00Z"), code: 200, type: "success", count: 2 },
+        { ...attributes, date: new Date("2024-03-21T00:00:00Z"), code: 400, type: "client_error", count: 1 },
       ]);
     });
   });
@@ -242,7 +245,9 @@ describe("apiKeyUsageMiddleware", () => {
           method: "GET",
           path: "/",
           date: new Date("2024-03-21T00:00:00Z"),
-          usage: { "200": 50 },
+          code: 200,
+          type: "success",
+          count: 50,
         },
       ]);
     });

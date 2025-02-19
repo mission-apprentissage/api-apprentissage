@@ -264,6 +264,12 @@ exports[`zodToMongoSchema > should convert cache.entreprise schema 1`] = `
                           "additionalProperties": false,
                           "bsonType": "object",
                           "properties": {
+                            "nom_naissance": {
+                              "bsonType": [
+                                "string",
+                                "null",
+                              ],
+                            },
                             "nom_usage": {
                               "bsonType": [
                                 "string",
@@ -280,6 +286,7 @@ exports[`zodToMongoSchema > should convert cache.entreprise schema 1`] = `
                           "required": [
                             "prenom_usuel",
                             "nom_usage",
+                            "nom_naissance",
                           ],
                         },
                         "siren": {
@@ -385,6 +392,12 @@ exports[`zodToMongoSchema > should convert cache.entreprise schema 1`] = `
                       "additionalProperties": false,
                       "bsonType": "object",
                       "properties": {
+                        "nom_naissance": {
+                          "bsonType": [
+                            "string",
+                            "null",
+                          ],
+                        },
                         "nom_usage": {
                           "bsonType": [
                             "string",
@@ -401,6 +414,7 @@ exports[`zodToMongoSchema > should convert cache.entreprise schema 1`] = `
                       "required": [
                         "prenom_usuel",
                         "nom_usage",
+                        "nom_naissance",
                       ],
                     },
                     "siren": {

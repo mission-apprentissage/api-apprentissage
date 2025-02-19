@@ -22,6 +22,7 @@ export const zApiEntUniteLegale = z.object({
   personne_physique_attributs: z.object({
     prenom_usuel: z.string().nullable(),
     nom_usage: z.string().nullable(),
+    nom_naissance: z.string().nullable(),
   }),
   etat_administratif: z.enum(["A", "C"]),
   date_creation: z.number().nullable(),

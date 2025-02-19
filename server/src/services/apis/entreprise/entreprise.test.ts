@@ -48,6 +48,7 @@ describe("getEtablissementDiffusible", () => {
       personne_physique_attributs: {
         prenom_usuel: null,
         nom_usage: null,
+        nom_naissance: null,
       },
       date_creation: 1495576800,
       etat_administratif: "A",
@@ -205,6 +206,7 @@ describe("getEtablissementDiffusible", () => {
           personne_physique_attributs: {
             prenom_usuel: "AURELIE",
             nom_usage: "MOREAU",
+            nom_naissance: "MOREAU",
           },
           date_creation: 1495576800,
           etat_administratif: "A",
@@ -274,6 +276,7 @@ describe("getEtablissementDiffusible", () => {
           personne_physique_attributs: {
             prenom_usuel: null,
             nom_usage: null,
+            nom_naissance: null,
           },
           date_creation: 1495576800,
           etat_administratif: "A",
@@ -435,6 +438,7 @@ describe("getUniteLegaleDiffusible", () => {
     personne_physique_attributs: {
       prenom_usuel: null,
       nom_usage: null,
+      nom_naissance: null,
     },
     date_cessation: null,
     date_creation: 1495576800,
@@ -541,7 +545,7 @@ describe("getUniteLegaleDiffusible", () => {
         siren,
         type: "personne_morale",
         personne_morale_attributs: { raison_sociale: null, sigle: null },
-        personne_physique_attributs: { prenom_usuel: null, nom_usage: null },
+        personne_physique_attributs: { prenom_usuel: null, nom_usage: null, nom_naissance: null },
         etat_administratif: "C",
         date_creation: null,
         date_cessation: new Date("1990-01-01").getTime(),
@@ -574,6 +578,7 @@ describe("getUniteLegaleDiffusible", () => {
         personne_physique_attributs: {
           prenom_usuel: "AURELIE",
           nom_usage: "MOREAU",
+          nom_naissance: "MOREAU",
         },
         date_cessation: null,
         date_creation: 1495576800,
@@ -624,6 +629,7 @@ describe("getUniteLegaleDiffusible", () => {
         personne_physique_attributs: {
           prenom_usuel: null,
           nom_usage: null,
+          nom_naissance: null,
         },
         date_cessation: null,
         date_creation: 1495576800,

@@ -134,6 +134,20 @@ export function buildOrganisme(
   return zOrganisme.parse(data);
 }
 
+function getRaisonSociale(context: OrganismeBuilderContext): string {
+  if (context.uniteLegale.type === "personne_morale") {
+    return context.uniteLegale.personne_morale_attributs.raison_sociale ?? "[ND]";
+  }
+
+  const parts = [
+    context.uniteLegale.personne_physique_attributs.prenom_usuel,
+    context.uniteLegale.personne_physique_attributs.nom_usage ??
+      context.uniteLegale.personne_physique_attributs.nom_naissance,
+  ].filter(Boolean);
+
+  return parts.length === 0 ? "[ND]" : parts.join(" ");
+}
+
 export function buildOrganismeEntrepriseParts(
   siret: string,
   context: OrganismeBuilderContext
@@ -141,7 +155,7 @@ export function buildOrganismeEntrepriseParts(
   const uniteLegale = {
     siren: context.uniteLegale.siren,
     actif: context.uniteLegale.etat_administratif === "A",
-    raison_sociale: context.uniteLegale.personne_morale_attributs.raison_sociale ?? "",
+    raison_sociale: getRaisonSociale(context),
     creation: new ParisDate(context.uniteLegale.date_creation ?? "1990-01-01"),
     cessation: context.uniteLegale.date_cessation === null ? null : new ParisDate(context.uniteLegale.date_cessation),
   };

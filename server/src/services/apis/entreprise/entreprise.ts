@@ -110,6 +110,7 @@ function dropNonDiffusibleUniteLegaleData<T extends IApiEntUniteLegale | IApiEnt
     personne_physique_attributs: {
       prenom_usuel: null,
       nom_usage: null,
+      nom_naissance: null,
     },
     etat_administratif: data.etat_administratif,
     date_creation: data.date_creation,
@@ -222,7 +223,7 @@ async function getUniteLegaleDiffusionPartielle(siren: string): Promise<IApiEntU
             siren,
             type: "personne_morale",
             personne_morale_attributs: { raison_sociale: null, sigle: null },
-            personne_physique_attributs: { prenom_usuel: null, nom_usage: null },
+            personne_physique_attributs: { prenom_usuel: null, nom_usage: null, nom_naissance: null },
             etat_administratif: "C",
             date_creation: null,
             date_cessation: new Date("1990-01-01").getTime(),

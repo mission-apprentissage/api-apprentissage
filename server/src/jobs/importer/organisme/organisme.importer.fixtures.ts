@@ -48,6 +48,7 @@ export const etablissementsFixture: IApiEntEtablissement[] = [
       personne_physique_attributs: {
         prenom_usuel: null,
         nom_usage: null,
+        nom_naissance: null,
       },
       date_creation: 1632261600,
       etat_administratif: "A",
@@ -82,6 +83,7 @@ export const etablissementsFixture: IApiEntEtablissement[] = [
       personne_physique_attributs: {
         prenom_usuel: null,
         nom_usage: null,
+        nom_naissance: null,
       },
       date_creation: -2177453361,
       etat_administratif: "A",
@@ -116,6 +118,7 @@ export const etablissementsFixture: IApiEntEtablissement[] = [
       personne_physique_attributs: {
         prenom_usuel: null,
         nom_usage: null,
+        nom_naissance: null,
       },
       date_creation: 1641769200,
       etat_administratif: "A",
@@ -150,6 +153,7 @@ export const etablissementsFixture: IApiEntEtablissement[] = [
       personne_physique_attributs: {
         prenom_usuel: null,
         nom_usage: null,
+        nom_naissance: null,
       },
       date_creation: 1591826400,
       etat_administratif: "C",
@@ -199,6 +203,7 @@ export const uniteLegaleFixture: IApiEntUniteLegale[] = [
     personne_physique_attributs: {
       prenom_usuel: null,
       nom_usage: null,
+      nom_naissance: null,
     },
     etat_administratif: "A",
     date_cessation: null,

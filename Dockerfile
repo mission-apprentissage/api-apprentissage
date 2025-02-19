@@ -30,8 +30,6 @@ FROM root AS builder_server
 WORKDIR /app
 
 RUN yarn workspace server build
-# Removing dev dependencies
-RUN yarn workspaces focus --all --production
 
 RUN mkdir -p /app/shared/node_modules && mkdir -p /app/sdk/node_modules && mkdir -p /app/server/node_modules
 

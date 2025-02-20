@@ -13,6 +13,10 @@
     "./internal": {
       "import": "./dist/src/internal.js",
       "types": "./dist/src/internal.d.ts"
+    },
+    "./fixtures": {
+      "import": "./dist/src/fixtures.js",
+      "types": "./dist/src/fixtures.d.ts"
     }
   },
   "engines": {

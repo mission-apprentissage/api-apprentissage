@@ -372,7 +372,7 @@ describe("importCertifications", () => {
       debut: debut.date,
       fin: fin.date,
       cfd: { ouverture: debut.date, fermeture: fin.date },
-      zRncp: { activation: debut.date, fin_enregistrement: fin.date },
+      rncp: { activation: debut.date, fin_enregistrement: fin.date },
     };
 
     const existingCertifications = {
@@ -642,7 +642,7 @@ describe("importCertifications", () => {
       debut: debut.date,
       fin: fin.date,
       cfd: { ouverture: debut.date, fermeture: fin.date },
-      zRncp: { activation: debut.date, fin_enregistrement: fin.date },
+      rncp: { activation: debut.date, fin_enregistrement: fin.date },
     };
 
     const existingCertification = generateCertificationInternalFixture({

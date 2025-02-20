@@ -2,7 +2,7 @@ import { useMongo } from "@tests/mongo.test.utils.js";
 import { parseApiAlternanceToken } from "api-alternance-sdk";
 import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
 import {
-  generateFormationFixture,
+  generateFormationInternalFixture,
   generateOrganisationFixture,
   generateUserFixture,
   sourceCommuneFixtures,
@@ -107,13 +107,13 @@ describe("GET /formation/v1/search", () => {
   };
 
   const formations = [
-    generateFormationFixture({
+    generateFormationInternalFixture({
       identifiant: { cle_ministere_educatif: "paris" },
       lieu: {
         geolocalisation: sourceCommuneFixtures["75"][0].centre,
       },
     }),
-    generateFormationFixture({
+    generateFormationInternalFixture({
       identifiant: { cle_ministere_educatif: "clichy" },
       lieu: {
         geolocalisation: {
@@ -122,7 +122,7 @@ describe("GET /formation/v1/search", () => {
         },
       },
     }),
-    generateFormationFixture({
+    generateFormationInternalFixture({
       identifiant: { cle_ministere_educatif: "levallois" },
       lieu: {
         geolocalisation: {

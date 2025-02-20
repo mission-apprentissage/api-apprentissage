@@ -1,8 +1,7 @@
 import { useMongo } from "@tests/mongo.test.utils.js";
-import type { ICertificationFixtureInput } from "shared/models/fixtures/certification.model.fixture";
+import type { ICertificationFixtureInput, IFormationFixtureInput } from "api-alternance-sdk/fixtures";
 import { sourceCommuneFixtures } from "shared/models/fixtures/commune.model.fixture";
-import type { IFormationFixtureInput } from "shared/models/fixtures/formation.model.fixture";
-import { generateFormationFixture } from "shared/models/fixtures/formation.model.fixture";
+import { generateFormationInternalFixture } from "shared/models/fixtures/formation.model.fixture";
 import { describe, expect, it } from "vitest";
 
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
@@ -16,7 +15,7 @@ describe("searchFormation", () => {
     const formations = [];
     for (let i = 0; i < 101; i++) {
       formations.push(
-        generateFormationFixture({
+        generateFormationInternalFixture({
           identifiant: { cle_ministere_educatif: i.toString() },
         })
       );
@@ -91,15 +90,15 @@ describe("searchFormation", () => {
 
   it("should return only published formations", async () => {
     const formations = [
-      generateFormationFixture({
+      generateFormationInternalFixture({
         identifiant: { cle_ministere_educatif: "1" },
         statut: { catalogue: "publié" },
       }),
-      generateFormationFixture({
+      generateFormationInternalFixture({
         identifiant: { cle_ministere_educatif: "2" },
         statut: { catalogue: "archivé" },
       }),
-      generateFormationFixture({
+      generateFormationInternalFixture({
         identifiant: { cle_ministere_educatif: "3" },
         statut: { catalogue: "supprimé" },
       }),
@@ -123,15 +122,15 @@ describe("searchFormation", () => {
 
   it("should return only published and archived formations when requested", async () => {
     const formations = [
-      generateFormationFixture({
+      generateFormationInternalFixture({
         identifiant: { cle_ministere_educatif: "1" },
         statut: { catalogue: "publié" },
       }),
-      generateFormationFixture({
+      generateFormationInternalFixture({
         identifiant: { cle_ministere_educatif: "2" },
         statut: { catalogue: "archivé" },
       }),
-      generateFormationFixture({
+      generateFormationInternalFixture({
         identifiant: { cle_ministere_educatif: "3" },
         statut: { catalogue: "supprimé" },
       }),
@@ -158,7 +157,7 @@ describe("searchFormation", () => {
 
   it('should filter by "rome"', async () => {
     const formations = [
-      generateFormationFixture({
+      generateFormationInternalFixture({
         identifiant: { cle_ministere_educatif: "1" },
         certification: {
           connue: true,
@@ -176,7 +175,7 @@ describe("searchFormation", () => {
           },
         },
       }),
-      generateFormationFixture({
+      generateFormationInternalFixture({
         identifiant: { cle_ministere_educatif: "2" },
         certification: {
           connue: true,
@@ -216,7 +215,7 @@ describe("searchFormation", () => {
 
   it('should filter by "rncp"', async () => {
     const formations = [
-      generateFormationFixture({
+      generateFormationInternalFixture({
         identifiant: { cle_ministere_educatif: "1" },
         certification: {
           connue: true,
@@ -227,7 +226,7 @@ describe("searchFormation", () => {
           },
         },
       }),
-      generateFormationFixture({
+      generateFormationInternalFixture({
         identifiant: { cle_ministere_educatif: "2" },
         certification: {
           connue: true,
@@ -260,7 +259,7 @@ describe("searchFormation", () => {
 
   it("should filter by rome OR rncp", async () => {
     const formations = [
-      generateFormationFixture({
+      generateFormationInternalFixture({
         identifiant: { cle_ministere_educatif: "1" },
         certification: {
           connue: true,
@@ -281,7 +280,7 @@ describe("searchFormation", () => {
           },
         },
       }),
-      generateFormationFixture({
+      generateFormationInternalFixture({
         identifiant: { cle_ministere_educatif: "2" },
         certification: {
           connue: true,
@@ -302,7 +301,7 @@ describe("searchFormation", () => {
           },
         },
       }),
-      generateFormationFixture({
+      generateFormationInternalFixture({
         identifiant: { cle_ministere_educatif: "3" },
         certification: {
           connue: true,
@@ -323,7 +322,7 @@ describe("searchFormation", () => {
           },
         },
       }),
-      generateFormationFixture({
+      generateFormationInternalFixture({
         identifiant: { cle_ministere_educatif: "4" },
         certification: {
           connue: true,
@@ -344,7 +343,7 @@ describe("searchFormation", () => {
           },
         },
       }),
-      generateFormationFixture({
+      generateFormationInternalFixture({
         identifiant: { cle_ministere_educatif: "5" },
         certification: {
           connue: true,
@@ -392,7 +391,7 @@ describe("searchFormation", () => {
 
   it('should filter by "target_diploma_level"', async () => {
     const formations = [
-      generateFormationFixture({
+      generateFormationInternalFixture({
         identifiant: { cle_ministere_educatif: "1" },
         certification: {
           connue: true,
@@ -408,7 +407,7 @@ describe("searchFormation", () => {
           },
         },
       }),
-      generateFormationFixture({
+      generateFormationInternalFixture({
         identifiant: { cle_ministere_educatif: "2" },
         certification: {
           connue: true,
@@ -424,7 +423,7 @@ describe("searchFormation", () => {
           },
         },
       }),
-      generateFormationFixture({
+      generateFormationInternalFixture({
         identifiant: { cle_ministere_educatif: "3" },
         certification: {
           connue: true,
@@ -444,7 +443,7 @@ describe("searchFormation", () => {
           },
         },
       }),
-      generateFormationFixture({
+      generateFormationInternalFixture({
         identifiant: { cle_ministere_educatif: "4" },
         certification: {
           connue: true,
@@ -500,19 +499,19 @@ describe("searchFormation", () => {
     // Melun --> Amilis: 41.5km
     // Melun --> Paris: 41.9km
     const formations = [
-      generateFormationFixture({
+      generateFormationInternalFixture({
         identifiant: { cle_ministere_educatif: "1" },
         lieu: {
           geolocalisation: sourceCommuneFixtures["77"][0].centre, // Achères-la-Forêt
         },
       }),
-      generateFormationFixture({
+      generateFormationInternalFixture({
         identifiant: { cle_ministere_educatif: "3" },
         lieu: {
           geolocalisation: sourceCommuneFixtures["75"][0].centre, // Paris
         },
       }),
-      generateFormationFixture({
+      generateFormationInternalFixture({
         identifiant: { cle_ministere_educatif: "2" },
         lieu: {
           geolocalisation: sourceCommuneFixtures["77"][1].centre, // Amillis
@@ -625,7 +624,7 @@ describe("searchFormation", () => {
             for (let m = 0; m < status.length; m++) {
               const statut = status[m];
               formations.push(
-                generateFormationFixture({
+                generateFormationInternalFixture({
                   identifiant: { cle_ministere_educatif: `${i}-${j}-${k}-${l}-${m}` },
                   lieu,
                   certification: {

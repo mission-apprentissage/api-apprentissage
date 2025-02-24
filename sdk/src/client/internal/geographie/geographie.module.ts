@@ -10,7 +10,7 @@ import { parseApiResponse } from "../parser/response.parser.js";
 export type GeographieModule = {
   rechercheCommune(querystring: IApiQuery<IApiGetRoutes["/geographie/v1/commune/search"]>): Promise<ICommune[]>;
   listDepartements(): Promise<IDepartement[]>;
-  listMissionLocales(): Promise<IMissionLocale[]>;
+  listMissionLocales(querystring: IApiQuery<IApiGetRoutes["/geographie/v1/mission-locale"]>): Promise<IMissionLocale[]>;
 };
 
 export function buildGeographieModule(apiClient: ApiClient): GeographieModule {
@@ -41,9 +41,10 @@ export function buildGeographieModule(apiClient: ApiClient): GeographieModule {
 
       return parseApiResponse(data, zDepartement.array());
     },
-    listMissionLocales: async (): Promise<IMissionLocale[]> => {
-      const data = await apiClient.get("/geographie/v1/mission-locale", { querystring: {} });
-
+    listMissionLocales: async (
+      querystring: IApiQuery<IApiGetRoutes["/geographie/v1/mission-locale"]> = {}
+    ): Promise<IMissionLocale[]> => {
+      const data = await apiClient.get("/geographie/v1/mission-locale", { querystring });
       return parseApiResponse(data, zMissionLocale.array());
     },
   };

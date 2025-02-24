@@ -16,24 +16,24 @@ export const zSourceMissionLocale = z.object({
   adresse2: z.string(),
   cp: z.string().min(1),
   ville: z.string(),
-  telephones: z.string().transform((value) => (value === "" ? null : value)),
+  telephones: z.string().transform((value) => (value.trim() === "" ? null : value.trim())),
   fax: z.string(),
   siret: z.string(),
   siteWeb: z
     .string()
-    .transform((value) => (value === "" ? null : value))
+    .transform((value) => (value.trim() === "" ? null : value.trim()))
     .pipe(z.string().nullable()),
   emailAccueil: z
     .string()
-    .transform((value) => (value === "" ? null : value))
+    .transform((value) => (value.trim() === "" ? null : value.trim()))
     .pipe(z.string().email().nullable()),
   geoloc_lng: z
     .string()
-    .transform((value) => (value === "" ? null : value))
+    .transform((value) => (value.trim() === "" ? null : value.trim()))
     .pipe(z.string().nullable()),
   geoloc_lat: z
     .string()
-    .transform((value) => (value === "" ? null : value))
+    .transform((value) => (value.trim() === "" ? null : value.trim()))
     .pipe(z.string().nullable()),
   linkedin: z.string(),
   twitter: z.string(),

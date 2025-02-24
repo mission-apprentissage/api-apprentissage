@@ -356,6 +356,9 @@ describe("listDepartements", () => {
 });
 
 describe("listMissionLocale", () => {
+  const latitude = 48.8566;
+  const longitude = 2.3522;
+  const radius = 30;
   const response = [
     {
       id: 1,
@@ -402,11 +405,16 @@ describe("listMissionLocale", () => {
       reqheaders: { authorization: "Bearer api-key" },
     })
       .get("/geographie/v1/mission-locale")
+      .query({ latitude, longitude, radius })
       .reply(200, response);
 
     const apiClient = new ApiClient({ key: "api-key" });
 
-    const data = await apiClient.geographie.listMissionLocales();
+    const data = await apiClient.geographie.listMissionLocales({
+      latitude,
+      longitude,
+      radius,
+    });
 
     expectTypeOf(data).toEqualTypeOf<IMissionLocale[]>();
 
@@ -419,6 +427,7 @@ describe("listMissionLocale", () => {
       reqheaders: { authorization: "Bearer api-key" },
     })
       .get("/geographie/v1/mission-locale")
+      .query({ latitude, longitude, radius })
       .reply(401, {
         statusCode: 401,
         name: "Unauthorized",
@@ -427,7 +436,11 @@ describe("listMissionLocale", () => {
 
     const apiClient = new ApiClient({ key: "api-key" });
     const err = await apiClient.geographie
-      .listMissionLocales()
+      .listMissionLocales({
+        latitude,
+        longitude,
+        radius,
+      })
       .then(() => {
         expect.unreachable("should throw an error");
       })
@@ -446,11 +459,16 @@ describe("listMissionLocale", () => {
       reqheaders: { authorization: "Bearer api-key" },
     })
       .get("/geographie/v1/mission-locale")
+      .query({ latitude, longitude, radius })
       .reply(200, { breaking: "schema" });
 
     const apiClient = new ApiClient({ key: "api-key" });
     const err = await apiClient.geographie
-      .listMissionLocales()
+      .listMissionLocales({
+        latitude,
+        longitude,
+        radius,
+      })
       .then(() => {
         expect.unreachable("should throw an error");
       })
@@ -470,6 +488,7 @@ describe("listMissionLocale", () => {
       reqheaders: { authorization: "Bearer api-key" },
     })
       .get("/geographie/v1/mission-locale")
+      .query({ latitude, longitude, radius })
       .reply(
         200,
         response.map((c) => ({
@@ -480,7 +499,11 @@ describe("listMissionLocale", () => {
 
     const apiClient = new ApiClient({ key: "api-key" });
 
-    const data = await apiClient.geographie.listMissionLocales();
+    const data = await apiClient.geographie.listMissionLocales({
+      latitude,
+      longitude,
+      radius,
+    });
 
     expectTypeOf(data).toEqualTypeOf<IMissionLocale[]>();
 

@@ -25,7 +25,11 @@ export const zFormationSearchApiQuery = zPaginationQuery
     target_diploma_level: zNiveauDiplomeEuropeen.optional(),
     romes: zRomeCodeCsvParam.optional(),
     rncp: zRncp.optional(),
-    include_archived: z.boolean().default(false),
+    include_archived: z
+      .enum(["true", "false"])
+      .default("false")
+      .transform((v) => v === "true")
+      .pipe(z.boolean()),
   })
   .superRefine((data, ctx) => {
     if (data.longitude == null && data.latitude != null) {

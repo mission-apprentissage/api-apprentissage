@@ -2894,8 +2894,12 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "include_archived",
             "required": false,
             "schema": {
-              "default": false,
-              "type": "boolean",
+              "default": "false",
+              "enum": [
+                "true",
+                "false",
+              ],
+              "type": "string",
             },
           },
           {

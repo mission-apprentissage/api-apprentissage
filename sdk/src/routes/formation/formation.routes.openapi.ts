@@ -71,8 +71,9 @@ export const formationRoutesOpenapi: OpenapiRoutes = {
           },
           {
             schema: {
-              type: "boolean",
-              default: false,
+              type: "string",
+              default: "false",
+              enum: ["true", "false"],
             },
             required: false,
             name: "include_archived",

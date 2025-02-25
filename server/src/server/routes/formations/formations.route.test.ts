@@ -131,6 +131,18 @@ describe("GET /formation/v1/search", () => {
         },
       },
     }),
+    generateFormationInternalFixture({
+      identifiant: { cle_ministere_educatif: "archived" },
+      lieu: {
+        geolocalisation: {
+          type: "Point",
+          coordinates: [levallois.longitude, levallois.latitude],
+        },
+      },
+      statut: {
+        catalogue: "archivé",
+      },
+    }),
   ];
 
   beforeEach(async () => {
@@ -182,12 +194,48 @@ describe("GET /formation/v1/search", () => {
       page_size: 100,
       page_index: 0,
     });
-    expect.soft(result.data).toHaveLength(formations.length);
+    expect.soft(result.data).toHaveLength(3);
     expect
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .soft(result.data.map((r: any) => r.identifiant))
       .toEqual([formations[1].identifiant, formations[2].identifiant, formations[0].identifiant]);
     expect(result.data[0]).toMatchSnapshot();
+  });
+
+  it("should support include_archived param", async () => {
+    const response = await app.inject({
+      method: "GET",
+      url: `/api/formation/v1/search?include_archived=true`,
+      headers: {
+        Authorization: `Bearer ${tokens.basic}`,
+      },
+    });
+    expect.soft(response.statusCode).toBe(200);
+    const result = response.json();
+    expect.soft(result.pagination).toEqual({
+      page_count: 1,
+      page_size: 100,
+      page_index: 0,
+    });
+    expect.soft(result.data).toHaveLength(formations.length);
+  });
+
+  it("should support include_archived param", async () => {
+    const response = await app.inject({
+      method: "GET",
+      url: `/api/formation/v1/search?include_archived=false`,
+      headers: {
+        Authorization: `Bearer ${tokens.basic}`,
+      },
+    });
+    expect.soft(response.statusCode).toBe(200);
+    const result = response.json();
+    expect.soft(result.pagination).toEqual({
+      page_count: 1,
+      page_size: 100,
+      page_index: 0,
+    });
+    expect.soft(result.data).toHaveLength(3);
   });
 });
 

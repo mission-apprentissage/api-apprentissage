@@ -16,7 +16,7 @@ import type { Importer } from "./types.js";
 
 const timings = {
   import_source: "0 4 * * *",
-  certif: "0 */2 * * *",
+  import_source_main: "0 */4 * * *",
 };
 
 export const importers: Record<string, Importer> = {
@@ -29,7 +29,7 @@ export const importers: Record<string, Importer> = {
     maxRuntimeInMinutes: 30,
   },
   "Import des données BCN": {
-    cron_string: timings.import_source,
+    cron_string: timings.import_source_main,
     handler: runBcnImporter,
     resumable: true,
     getStatus: getBcnImporterStatus,
@@ -37,7 +37,7 @@ export const importers: Record<string, Importer> = {
     maxRuntimeInMinutes: 30,
   },
   "Import des données Kit Apprentissage": {
-    cron_string: timings.import_source,
+    cron_string: timings.import_source_main,
     handler: runKitApprentissageImporter,
     resumable: true,
     getStatus: getKitApprentissageImporterStatus,
@@ -45,7 +45,7 @@ export const importers: Record<string, Importer> = {
     maxRuntimeInMinutes: 30,
   },
   "Import des données Referentiel": {
-    cron_string: timings.import_source,
+    cron_string: timings.import_source_main,
     handler: runReferentielImporter,
     resumable: true,
     getStatus: getReferentielImporterStatus,
@@ -53,7 +53,7 @@ export const importers: Record<string, Importer> = {
     maxRuntimeInMinutes: 30,
   },
   "Import des données Catalogue": {
-    cron_string: timings.import_source,
+    cron_string: timings.import_source_main,
     handler: runCatalogueImporter,
     resumable: true,
     getStatus: getCatalogueImporterStatus,
@@ -69,7 +69,7 @@ export const importers: Record<string, Importer> = {
     maxRuntimeInMinutes: 30,
   },
   "Import des certifications": {
-    cron_string: timings.certif,
+    cron_string: timings.import_source_main,
     handler: async () => importCertifications(),
     resumable: true,
     getStatus: getCertificationImporterStatus,
@@ -77,7 +77,7 @@ export const importers: Record<string, Importer> = {
     maxRuntimeInMinutes: 30,
   },
   "Import des organismes": {
-    cron_string: timings.certif,
+    cron_string: timings.import_source_main,
     handler: async () => importOrganismes(false),
     resumable: true,
     getStatus: getOrganismesImporterStatus,
@@ -85,7 +85,7 @@ export const importers: Record<string, Importer> = {
     maxRuntimeInMinutes: 30,
   },
   "Import des formations": {
-    cron_string: timings.certif,
+    cron_string: timings.import_source_main,
     handler: importFormations,
     resumable: true,
     getStatus: getFormationsImporterStatus,

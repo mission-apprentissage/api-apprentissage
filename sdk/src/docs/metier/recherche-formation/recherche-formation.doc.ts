@@ -91,8 +91,8 @@ export const rechercheFormationPageDoc = {
             contact: {
               description: [
                 {
-                  fr: "Coordonnées de contact pour toute demande d'information liée à la formation. Ces coordonnées sont fournies soit par l'organisme formateur soit l'organisme responsable.",
-                  en: "Contact details for any information related to the training. This information is provided by the training organism or the responsible organism.",
+                  fr: "Coordonnées de contact du lieu de formation.",
+                  en: "Contact details of the training location.",
                 },
               ],
               tags: ["email", "telephone"],
@@ -133,8 +133,8 @@ export const rechercheFormationPageDoc = {
                   en: "Is the certification known?",
                 },
                 {
-                  fr: "Lorsque la certification est connue, alors la certification est disponible dans l'API certifications.",
-                  en: "When the certification is known, then the certification is available in the certifications API.",
+                  fr: "Indique si la certification est connue de l'API Liste des Certifications Professionnelles [https://api.apprentissage.beta.gouv.fr/fr/explorer/certifications].",
+                  en: "Indicates whether the certification is recognized by the API List of Professional Certifications [https://api.apprentissage.beta.gouv.fr/fr/explorer/certifications]",
                 },
                 {
                   fr: "Dans le cas contraire, la certification est construite à partir des informations issues du RNCP et du CFD indépendamment.",
@@ -149,7 +149,7 @@ export const rechercheFormationPageDoc = {
                   en: "Certification associated with the training.",
                 },
                 {
-                  fr: "Pour plus de détails sur la certification, consulter l'onglet `Certification`.",
+                  fr: "Pour plus de détails sur la certification, consulter l'onglet ``Certification``.",
                   en: "For certification details, see the `Certification` tab.",
                 },
               ],
@@ -235,7 +235,7 @@ export const rechercheFormationPageDoc = {
                   en: "When the organism is not known, the information is retrieved from [the Entreprise API](https://entreprise.api.gouv.fr/). When the associated SIRET is not found, is invalid or not distributable then the value will be `null`.",
                 },
                 {
-                  fr: "Pour plus de détails sur l'organisme, consulter l'onglet `Organisme`.",
+                  fr: "Pour plus de détails sur l'organisme, consulter l'onglet ``Organisme``.",
                   en: "For organism details, see the `Organism` tab",
                 },
               ],
@@ -248,7 +248,7 @@ export const rechercheFormationPageDoc = {
             connu: {
               description: [
                 {
-                  fr: "Vaut TRUE lorsqu'il est présent dans [le référentiel des organismes de formation](https://referentiel.apprentissage.onisep.fr/organismes) ou s'il l'a été dans le passé.",
+                  fr: "Vaut TRUE si présent dans [le référentiel des organismes de formation](https://referentiel.apprentissage.onisep.fr/organismes) ou s'il l'a été dans le passé.",
                   en: "TRUE when it is present in [the training organisms repository](https://referentiel.apprentissage.onisep.fr/organismes) or if it has been in the past.",
                 },
                 {

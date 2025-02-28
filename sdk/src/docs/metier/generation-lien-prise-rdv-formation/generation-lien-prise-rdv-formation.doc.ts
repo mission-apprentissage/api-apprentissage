@@ -2,8 +2,8 @@ import type { DocPage, OpenApiText } from "../../types.js";
 
 export const generationLienPriseRdvFormationPageSummaryDoc = {
   title: {
-    en: "Generate a training appointment request link",
-    fr: "Obtenir un lien d’accès à un formulaire de prise de rendez-vous pour une formation",
+    en: "Contact a training center via a dedicated link",
+    fr: "Contacter un centre de formation via un lien dédié",
   },
   headline: {
     en: "Generate links for appointment requests for training via the La bonne alternance service",

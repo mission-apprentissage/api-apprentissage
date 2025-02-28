@@ -9,6 +9,7 @@ import type { IOrganismeInternal } from "shared/models/organisme.model";
 import type { ISourceReferentiel } from "shared/models/source/referentiel/source.referentiel.model";
 import { pipeline } from "stream/promises";
 
+import { areSourcesSuccess, areSourcesUpdated } from "@/jobs/importer/utils/areSourcesUpdated.js";
 import { withCause } from "@/services/errors/withCause.js";
 import parentLogger from "@/services/logger.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
@@ -20,17 +21,17 @@ const logger = parentLogger.child({ module: "import:organismes" });
 
 async function getSourceImportMeta(): Promise<IImportMetaOrganismes["source"] | null> {
   const [referentielImport, communesImport] = await Promise.all([
-    getDbCollection("import.meta").findOne({ type: "referentiel", status: "done" }, { sort: { import_date: -1 } }),
-    getDbCollection("import.meta").findOne({ type: "communes", status: "done" }, { sort: { import_date: -1 } }),
+    getDbCollection("import.meta").findOne({ type: "referentiel" }, { sort: { import_date: -1 } }),
+    getDbCollection("import.meta").findOne({ type: "communes" }, { sort: { import_date: -1 } }),
   ]);
 
-  if (!referentielImport || !communesImport) {
+  if (!areSourcesSuccess([referentielImport, communesImport])) {
     return null;
   }
 
   return {
-    referentiel: { import_date: referentielImport.import_date },
-    communes: { import_date: communesImport.import_date },
+    referentiel: { import_date: referentielImport!.import_date },
+    communes: { import_date: communesImport!.import_date },
   };
 }
 
@@ -59,19 +60,7 @@ async function getImportMeta(force: boolean): Promise<IImportMetaOrganismes | nu
     source: sourceImportMeta,
   };
 
-  if (!latestImportMeta || force) {
-    return importMeta;
-  }
-
-  if (latestImportMeta.source.referentiel.import_date < sourceImportMeta.referentiel.import_date) {
-    return importMeta;
-  }
-
-  if (latestImportMeta.source.communes.import_date < sourceImportMeta.communes.import_date) {
-    return importMeta;
-  }
-
-  return null;
+  return force || areSourcesUpdated(latestImportMeta?.source, sourceImportMeta) ? importMeta : null;
 }
 
 async function buildOrganismeUpdateOperation(

@@ -7,7 +7,7 @@ import type { IImportMetaFormations } from "shared/models/import.meta.model";
 import type { ISourceCatalogue } from "shared/models/source/catalogue/source.catalogue.model";
 import { pipeline } from "stream/promises";
 
-import { areSourcesUpdated } from "@/jobs/importer/utils/areSourcesUpdated.js";
+import { areSourcesSuccess, areSourcesUpdated } from "@/jobs/importer/utils/areSourcesUpdated.js";
 import { withCause } from "@/services/errors/withCause.js";
 import parentLogger from "@/services/logger.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
@@ -39,11 +39,11 @@ async function getSourceImportMeta(): Promise<IImportMetaFormations["source"] | 
 
 async function getLatestImportMeta(): Promise<IImportMetaFormations | null> {
   const importMeta = await getDbCollection("import.meta").findOne<IImportMetaFormations>(
-    { type: "formations", status: "done" },
+    { type: "formations" },
     { sort: { import_date: -1 } }
   );
 
-  return importMeta;
+  return areSourcesSuccess([importMeta]) ? importMeta : null;
 }
 
 async function getImportMeta(): Promise<IImportMetaFormations | null> {

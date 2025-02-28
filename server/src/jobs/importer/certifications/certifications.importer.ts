@@ -7,6 +7,7 @@ import { ObjectId } from "mongodb";
 import type { ImportStatus } from "shared";
 import type { IImportMetaCertifications, IImportMetaFranceCompetence } from "shared/models/import.meta.model";
 
+import { areSourcesSuccess, areSourcesUpdated } from "@/jobs/importer/utils/areSourcesUpdated.js";
 import { withCause } from "@/services/errors/withCause.js";
 import parentLogger from "@/services/logger.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
@@ -38,13 +39,10 @@ type ImportCertificationsOptions = {
 
 async function getSourceImportMeta(): Promise<IImportMetaCertifications["source"] | null> {
   const [kitApprentissage, bcn, franceCompetenceLatest, oldestFranceCompetence] = await Promise.all([
-    getDbCollection("import.meta").findOne(
-      { type: "kit_apprentissage", status: "done" },
-      { sort: { import_date: -1 } }
-    ),
-    getDbCollection("import.meta").findOne({ type: "bcn", status: "done" }, { sort: { import_date: -1 } }),
+    getDbCollection("import.meta").findOne({ type: "kit_apprentissage" }, { sort: { import_date: -1 } }),
+    getDbCollection("import.meta").findOne({ type: "bcn" }, { sort: { import_date: -1 } }),
     getDbCollection("import.meta").findOne<IImportMetaFranceCompetence>(
-      { type: "france_competence", status: "done" },
+      { type: "france_competence" },
       { sort: { import_date: -1, "archiveMeta.nom": -1 } }
     ),
     getDbCollection("import.meta").findOne<IImportMetaFranceCompetence>(
@@ -53,17 +51,17 @@ async function getSourceImportMeta(): Promise<IImportMetaCertifications["source"
     ),
   ]);
 
-  if (!kitApprentissage || !bcn || !franceCompetenceLatest || !oldestFranceCompetence) {
+  if (!areSourcesSuccess([kitApprentissage, bcn, franceCompetenceLatest, oldestFranceCompetence])) {
     return null;
   }
 
   return {
-    kit_apprentissage: { import_date: kitApprentissage.import_date },
-    bcn: { import_date: bcn.import_date },
+    kit_apprentissage: { import_date: kitApprentissage!.import_date },
+    bcn: { import_date: bcn!.import_date },
     france_competence: {
-      import_date: franceCompetenceLatest.import_date,
-      nom: franceCompetenceLatest.archiveMeta.nom,
-      oldest_date_publication: oldestFranceCompetence.archiveMeta.date_publication,
+      import_date: franceCompetenceLatest!.import_date,
+      nom: franceCompetenceLatest!.archiveMeta.nom,
+      oldest_date_publication: oldestFranceCompetence!.archiveMeta.date_publication,
     },
   };
 }
@@ -93,22 +91,7 @@ async function getImportMeta(options: ImportCertificationsOptions | null): Promi
     source: sourceImportMeta,
   };
 
-  if (!latestImportMeta || options?.force === true) {
-    // Initial import
-    return importMeta;
-  }
-
-  if (latestImportMeta.source.kit_apprentissage.import_date < sourceImportMeta.kit_apprentissage.import_date) {
-    return importMeta;
-  }
-  if (latestImportMeta.source.bcn.import_date < sourceImportMeta.bcn.import_date) {
-    return importMeta;
-  }
-  if (latestImportMeta.source.france_competence.import_date < sourceImportMeta.france_competence.import_date) {
-    return importMeta;
-  }
-
-  return null;
+  return options?.force || areSourcesUpdated(latestImportMeta?.source, sourceImportMeta) ? importMeta : null;
 }
 
 export function buildCertificationUpdateOperation(data: ISourceAggregatedData, importMeta: IImportMetaCertifications) {

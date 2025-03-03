@@ -1,8 +1,5 @@
 {
   "summary": "<strong>The Apprenticeship API centralizes, enriches</strong> and<strong> provides</strong> datasets and tools related to the entire apprenticeship training offer",
-  "simulateurNpec": {
-    "desc": "Calculate the coverage level of a contract, create a budget forecast"
-  },
   "back": "Back to the list",
   "besoinDonnees": {
     "titre": "Need this data for your project?",

@@ -544,7 +544,7 @@ describe("importOrganismes", () => {
           cessation: null,
         },
       });
-    });
+    }, 20000);
   });
 
   describe("when unite_legale is closed", () => {

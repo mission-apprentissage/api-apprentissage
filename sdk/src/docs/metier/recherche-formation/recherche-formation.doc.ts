@@ -78,15 +78,14 @@ export const rechercheFormationPageDoc = {
                   en: "for published training courses",
                 },
                 {
-                  fr: "- `archivé` pour les formations non publiées mais tout de même visibles.",
-                  en: "for training courses available in the catalogue but not published",
+                  fr: "- `archivé` pour les anciennes formations du catalogue.",
+                  en: "for old training courses in the catalog",
                 },
                 {
                   fr: "- `supprimé` pour les formations supprimées du catalogue.",
                   en: "for training courses deleted from the catalogue",
                 },
               ],
-              tags: ["catalogue"],
             },
             contact: {
               description: [

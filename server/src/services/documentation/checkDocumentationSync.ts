@@ -29,7 +29,7 @@ async function fetchLbaOperations(): Promise<Record<string, OpenapiOperation>> {
   const response = await fetch(`${config.api.lba.endpoint}/docs/json`);
   const data = await response.json();
 
-  const doc = await dereferenceOpenapiSchema(data);
+  const doc = await dereferenceOpenapiSchema(data as OpenAPIObject);
 
   if (doc.openapi !== "3.1.0") {
     throw new Error("Unsupported OpenAPI version");
@@ -72,10 +72,7 @@ export async function checkDocumentationSync() {
   }
 
   const delta = structureDiff(
-    {
-      name: "expected",
-      value: expectedDocumentationDelta,
-    },
+    { name: "expected", value: expectedDocumentationDelta },
     { name: "actual", value: result }
   );
 

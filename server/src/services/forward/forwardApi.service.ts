@@ -8,17 +8,9 @@ import type { IUser } from "shared/models/user.model";
 import config from "@/config.js";
 import { withCause } from "@/services/errors/withCause.js";
 
-type ForwardApiRequestConfig = {
-  endpoint: string;
-  path: string;
-  querystring?: string;
-  requestInit: RequestInit;
-};
+type ForwardApiRequestConfig = { endpoint: string; path: string; querystring?: string; requestInit: RequestInit };
 
-type Identity = {
-  user: IUser;
-  organisation: IOrganisationInternal | null;
-};
+type Identity = { user: IUser; organisation: IOrganisationInternal | null };
 
 function hasHabilitation(
   organisation: IOrganisationInternal | null,

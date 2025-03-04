@@ -73,7 +73,7 @@ WORKDIR /app
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line in case you want to disable telemetry during the build.
-ENV NEXT_TELEMETRY_DISABLED 1
+ENV NEXT_TELEMETRY_DISABLED=1
 
 ARG PUBLIC_REPO_NAME
 ENV NEXT_PUBLIC_PRODUCT_REPO=$PUBLIC_REPO_NAME
@@ -98,7 +98,7 @@ RUN apt-get update && apt-get install -y ca-certificates curl && update-ca-certi
 
 ENV NODE_ENV=production
 # Uncomment the following line in case you want to disable telemetry during runtime.
-ENV NEXT_TELEMETRY_DISABLED 1
+ENV NEXT_TELEMETRY_DISABLED=1
 
 ARG PUBLIC_REPO_NAME
 ENV NEXT_PUBLIC_PRODUCT_REPO=$PUBLIC_REPO_NAME

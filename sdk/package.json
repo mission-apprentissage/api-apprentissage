@@ -34,16 +34,16 @@
   },
   "devDependencies": {
     "@tsconfig/node22": "^22.0.0",
-    "@types/node": "^22.10.7",
-    "nock": "^14.0.0-beta.16",
-    "type-fest": "^4.32.0",
-    "typescript": "^5.7.3",
-    "vitest": "^3.0.1"
+    "@types/node": "^22.13.9",
+    "nock": "^14.0.1",
+    "type-fest": "^4.36.0",
+    "typescript": "^5.8.2",
+    "vitest": "^3.0.7"
   },
   "dependencies": {
     "@asteasolutions/zod-to-openapi": "^7.3.0",
-    "@fastify/swagger": "^9.4.1",
-    "@readme/openapi-parser": "^2.6.0",
+    "@fastify/swagger": "^9.4.2",
+    "@readme/openapi-parser": "^2.7.0",
     "jsonwebtoken": "^9.0.2",
     "lru-cache": "^11.0.2",
     "luhn": "^2.4.1",
@@ -51,6 +51,6 @@
     "microdiff": "^1.5.0",
     "openapi3-ts": "^4.4.0",
     "safe-stable-stringify": "^2.5.0",
-    "zod": "^3.24.1"
+    "zod": "^3.24.2"
   }
 }

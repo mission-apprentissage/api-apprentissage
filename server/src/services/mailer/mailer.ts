@@ -3,10 +3,8 @@ import { captureException } from "@sentry/node";
 import { renderFile } from "ejs";
 import { omit } from "lodash-es";
 import mjml from "mjml";
-import type { Transporter } from "nodemailer";
+import type { SendMailOptions, SentMessageInfo, Transporter } from "nodemailer";
 import { createTransport } from "nodemailer";
-import type Mail from "nodemailer/lib/mailer";
-import type SMTPTransport from "nodemailer/lib/smtp-transport";
 import { htmlToText } from "nodemailer-html-to-text";
 import { zRoutes } from "shared";
 import type { IEmailEvent } from "shared/models/email_event.model";
@@ -20,7 +18,7 @@ import { generateAccessToken, generateScope } from "@/services/security/accessTo
 import { getStaticFilePath } from "@/utils/getStaticFilePath.js";
 import { serializeEmailTemplate } from "@/utils/jwtUtils.js";
 
-let transporter: Transporter<SMTPTransport.SentMessageInfo> | null = null;
+let transporter: Transporter<SentMessageInfo> | null = null;
 
 export function closeMailer() {
   transporter?.close?.();
@@ -56,7 +54,7 @@ async function sendEmailMessage(template: ITemplate, emailEvent: IEmailEvent | n
     throw internal("mailer is not initialised");
   }
 
-  const list: Mail.Options["list"] = {
+  const list: SendMailOptions["list"] = {
     help: "https://mission-apprentissage.gitbook.io/general/les-services-en-devenir/accompagner-les-futurs-apprentis",
   };
 
@@ -86,10 +84,7 @@ export async function sendEmail<T extends ITemplate>(template: T): Promise<void>
   } catch (err) {
     captureException(err);
     logger.error({ err, template: template.name }, "error sending email");
-    await addEmailError(emailEvent, {
-      type: "fatal",
-      message: err.message,
-    });
+    await addEmailError(emailEvent, { type: "fatal", message: err.message });
   }
 }
 
@@ -131,11 +126,7 @@ function getMarkAsOpenedActionLink(emailEvent: IEmailEvent | null) {
 
   // organisation is not needed for this token
   const token = generateAccessToken({ email: emailEvent.template.to, organisation: null }, [
-    generateScope({
-      schema: zRoutes.get["/_private/emails/:id/markAsOpened"],
-      options: "all",
-      resources: {},
-    }),
+    generateScope({ schema: zRoutes.get["/_private/emails/:id/markAsOpened"], options: "all", resources: {} }),
   ]);
 
   return getApiPublicUrl(

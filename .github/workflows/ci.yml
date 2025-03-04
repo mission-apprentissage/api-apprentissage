@@ -44,7 +44,7 @@ jobs:
           yarn setup:mongodb
 
       - name: test
-        run: yarn test:ci
+        run: yarn test:ci --maxWorkers=3
 
       - name: prettier
         run: yarn prettier:check

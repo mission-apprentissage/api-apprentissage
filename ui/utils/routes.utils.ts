@@ -61,11 +61,6 @@ export const PAGES = {
       index: true,
       getTitle: (lang, t) => getTextOpenAPI(certificationsPageSummaryDoc.title, lang),
     },
-    simulateurNpec: {
-      getPath: (lang) => `/${lang}/explorer/simulateur-npec` as string,
-      index: true,
-      getTitle: (lang, t) => t("pages.simulateurNpec", { lang, ns: "global" }),
-    },
     rechercheOffre: {
       getPath: (lang) => `/${lang}/explorer/recherche-offre` as string,
       index: true,

@@ -1,8 +1,6 @@
 {
   "summary": "<strong>L’API Apprentissage centralise, enrichit</strong> et<strong> met à disposition</strong> des jeux de données et des outils relatifs à l’ensemble de l’offre de formation en apprentissage",
-  "simulateurNpec": {
-    "desc": "Calculer le niveau de prise en charge d’un contrat, réaliser un budget prévisionnel"
-  },
+
   "back": "Revenir à la liste",
   "besoinDonnees": {
     "titre": "Besoin de ces données pour votre projet ?",

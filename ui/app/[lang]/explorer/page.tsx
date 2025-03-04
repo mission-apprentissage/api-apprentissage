@@ -171,15 +171,6 @@ export default async function ExplorerApiPage({ params }: PropsWithLangParams) {
           linkProps={{ href: PAGES.static.recuperationMissionLocales.getPath(lang) }}
           start={<TagDsfr>{t(`type.data`, { lng: lang })}</TagDsfr>}
         />
-        <Tile
-          title={PAGES.static.simulateurNpec.getTitle(lang, t)}
-          desc={t("simulateurNpec.desc")}
-          imageSvg
-          imageUrl={money.src}
-          enlargeLinkOrButton
-          linkProps={{ href: PAGES.static.simulateurNpec.getPath(lang) }}
-          start={<TagDsfr>{t(`type.outil`, { lng: lang })}</TagDsfr>}
-        />
       </Box>
       <Box sx={{ background: fr.colors.decisions.background.alt.beigeGrisGalet.default }}>
         <Container maxWidth="xl" disableGutters>

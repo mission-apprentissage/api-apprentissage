@@ -1,3 +1,30 @@
 .redoc-wrap a:empty {
   background: none;
 }
+
+/* Augmenter la taille des flèches */
+.openapi-explorer .arrow {
+  font-size: 18px !important; /* Augmente la taille de l'icône */
+  color: #007bff !important; /* Change la couleur (bleu ici) */
+  font-weight: bold;
+}
+
+/* Ajouter un effet au survol */
+.openapi-explorer .arrow:hover {
+  color: #ff5733 !important; /* Change la couleur au survol (orange ici) */
+  transform: scale(1.2); /* Légère augmentation de taille */
+}
+
+/* Ajouter une bordure ou un fond pour plus de visibilité */
+.openapi-explorer .arrow-container {
+  background-color: rgba(0, 123, 255, 0.1); /* Fond léger bleu */
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.openapi-explorer .arrow::after {
+  content: " ⬇️ Déplier";
+  font-size: 14px;
+  color: #007bff;
+  margin-left: 5px;
+}

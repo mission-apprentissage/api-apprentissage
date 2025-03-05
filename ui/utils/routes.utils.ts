@@ -8,6 +8,7 @@ import {
   rechercheFormationPageSummaryDoc,
   rechercheOffrePageSummaryDoc,
   recuperationDepartementsPageSummaryDoc,
+  recuperationDetailOffrePageSummaryDoc,
   recuperationMissionLocalePageSummaryDoc,
   recuperationOrganismesPageSummaryDoc,
 } from "api-alternance-sdk/internal";
@@ -65,6 +66,11 @@ export const PAGES = {
       getPath: (lang) => `/${lang}/explorer/recherche-offre` as string,
       index: true,
       getTitle: (lang, t) => getTextOpenAPI(rechercheOffrePageSummaryDoc.title, lang),
+    },
+    recuperationDetailOffre: {
+      getPath: (lang) => `/${lang}/explorer/recuperation-detail-offre` as string,
+      index: true,
+      getTitle: (lang, t) => getTextOpenAPI(recuperationDetailOffrePageSummaryDoc.title, lang),
     },
     rechercheCommune: {
       getPath: (lang) => `/${lang}/explorer/recherche-commune` as string,

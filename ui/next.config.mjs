@@ -11,13 +11,6 @@ const nextConfig = {
   poweredByHeader: false,
   productionBrowserSourceMaps: true,
   outputFileTracingRoot: path.join(path.dirname(fileURLToPath(import.meta.url)), "../"),
-  experimental: {
-    typedRoutes: true,
-  },
-
-  devIndicators: {
-    appIsrStatus: true,
-  },
 
   async redirects() {
     return [
@@ -29,9 +22,6 @@ const nextConfig = {
     ];
   },
   output: "standalone",
-  sentry: {
-    hideSourceMaps: false,
-  },
   webpack: (config) => {
     config.module.rules.push({
       test: /\.woff2$/,

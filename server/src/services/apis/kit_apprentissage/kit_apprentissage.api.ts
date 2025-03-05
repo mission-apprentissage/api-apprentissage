@@ -12,7 +12,7 @@ import { apiRateLimiter } from "@/utils/apiUtils.js";
 const kitClient = apiRateLimiter("kit_apprentissage", {
   nbRequests: 5,
   durationInSeconds: 1,
-  client: getApiClient({ baseURL: config.api.kit_apprentissage.endpoint }, { cache: false }),
+  client: getApiClient({ baseURL: config.api.kit_apprentissage.endpoint, timeout: 120_000 }, { cache: false }),
 });
 
 const zKitApprentissageResponse = z.object({

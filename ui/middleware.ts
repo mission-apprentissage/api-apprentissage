@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 
 import type { Lang } from "./app/i18n/settings";
 import { cookieName, isValidLang, languages } from "./app/i18n/settings";
-import { isPage, PAGES } from "./utils/routes.utils";
+import { isPage } from "./utils/routes.utils";
 
 acceptLanguage.languages([...languages]);
 

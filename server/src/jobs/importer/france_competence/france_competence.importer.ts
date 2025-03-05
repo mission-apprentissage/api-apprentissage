@@ -474,7 +474,15 @@ async function getUnprocessedImportMeta(dataset: IDataGouvDataset): Promise<IImp
     const successfullyOrPendingByResourceId = successfullyOrPendingImported.reduce<
       Map<string, IImportMetaFranceCompetence>
     >((acc, meta) => {
-      acc.set(meta.archiveMeta.resource.id, meta);
+      if (meta.status === "done") {
+        acc.set(meta.archiveMeta.resource.id, meta);
+      }
+
+      // If the import is pending and older than 48h, we consider it as unprocessed
+      if (meta.status === "pending" && meta.import_date.getTime() < new Date().getTime() - 48 * 3_600_000) {
+        acc.set(meta.archiveMeta.resource.id, meta);
+      }
+
       return acc;
     }, new Map());
 

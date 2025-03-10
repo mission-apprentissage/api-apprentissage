@@ -1,12 +1,10 @@
 import { fr } from "@codegouvfr/react-dsfr";
 import { Breadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
-import cityHall from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/buildings/city-hall.svg";
 import house from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/buildings/house.svg";
 import school from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/buildings/school.svg";
 import internet from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/digital/internet.svg";
 import search from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/digital/search.svg";
 import contract from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/document/contract.svg";
-import money from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/institutions/money.svg";
 import book from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/leisure/book.svg";
 import community from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/leisure/community.svg";
 import locationFrance from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/map/location-france.svg";
@@ -23,6 +21,7 @@ import {
   rechercheFormationPageSummaryDoc,
   rechercheOffrePageSummaryDoc,
   recuperationDepartementsPageSummaryDoc,
+  recuperationDetailOffrePageSummaryDoc,
   recuperationMissionLocalePageSummaryDoc,
   recuperationOrganismesPageSummaryDoc,
 } from "api-alternance-sdk/internal";
@@ -86,6 +85,15 @@ export default async function ExplorerApiPage({ params }: PropsWithLangParams) {
           enlargeLinkOrButton
           start={<TagDsfr>{t(`type.data`, { lng: lang })}</TagDsfr>}
           linkProps={{ href: PAGES.static.rechercheOffre.getPath(lang) }}
+        />
+        <Tile
+          title={getTextOpenAPI(recuperationDetailOffrePageSummaryDoc.title, lang)}
+          desc={getTextOpenAPI(recuperationDetailOffrePageSummaryDoc.headline, lang)}
+          imageSvg
+          imageUrl={search.src}
+          enlargeLinkOrButton
+          start={<TagDsfr>{t(`type.data`, { lng: lang })}</TagDsfr>}
+          linkProps={{ href: PAGES.static.recuperationDetailOffre.getPath(lang) }}
         />
         <Tile
           title={getTextOpenAPI(depotOffrePageSummaryDoc.title, lang)}

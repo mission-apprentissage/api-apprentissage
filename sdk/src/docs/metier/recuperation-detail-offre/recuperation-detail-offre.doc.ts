@@ -49,12 +49,12 @@ const recruiterSections = {
 
 export const recuperationDetailOffrePageSummaryDoc = {
   title: {
-    en: "Retrieval of the details of an apprenticeship job offer",
-    fr: "Récupération du détail d'une opportunité d'emploi en alternance",
+    en: "View an apprenticeship job offer",
+    fr: "Consulter une opportunité d'emploi en alternance",
   },
   headline: {
-    en: "Access the details of a work-study job offer",
-    fr: "Accéder au détail d'une opportunité d'emploi en alternance",
+    en: "Access the details of a work-study job offer from its identifier",
+    fr: "Accéder au détail d'une opportunité d'emploi en alternance à partir de son identifiant",
   },
 } as const satisfies { title: OpenApiText; headline: OpenApiText };
 

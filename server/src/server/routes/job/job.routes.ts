@@ -104,4 +104,25 @@ export const jobRoutes = ({ server }: { server: Server }) => {
       );
     }
   );
+
+  server.get(
+    "/job/v1/offer/:id",
+    {
+      schema: zRoutes.get["/job/v1/offer/:id"],
+      onRequest: [server.auth(zRoutes.get["/job/v1/offer/:id"])],
+    },
+    async (request, response) => {
+      const user = getUserFromRequest(request, zRoutes.get["/job/v1/offer/:id"]);
+
+      return forwardApiRequest(
+        {
+          endpoint: config.api.lba.endpoint,
+          path: `/v3/jobs/${encodeURIComponent(request.params.id)}`,
+          requestInit: { method: "GET" },
+        },
+        response,
+        { user, organisation: request.organisation ?? null }
+      );
+    }
+  );
 };

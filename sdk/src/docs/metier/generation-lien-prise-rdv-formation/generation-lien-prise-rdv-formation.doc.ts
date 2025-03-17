@@ -21,8 +21,8 @@ export const generationLienPriseRdvFormationPageDoc = {
       en: "Generate a training appointment request link",
     },
     {
-      fr: "Le lien récupéré permet de prendre rendez-vous pour une formation via le service La bonne alternance.",
-      en: "The generated link allows you to make an appointment for training via the La bonne alternance service",
+      fr: "Le lien récupéré est à mettre à disposition de vos usagers pour leur permettre de contacter le centre de formation proposant des formations qui les intéressent.",
+      en: "The retrieved link should be made available to your users so they can contact the training center offering the courses they are interested in.",
     },
     {
       fr: "**Vous devez fournir un identifiant de formation**, qui peut être un identifiant Parcoursup, ONISEP ou une clé ministère éducatif.",
@@ -38,7 +38,7 @@ export const generationLienPriseRdvFormationPageDoc = {
   sources: [
     {
       name: "La bonne alternance",
-      logo: { href: "/asset/logo/labonnealternance.svg" },
+      logo: { href: "/asset/logo/la_bonne_alternance.svg" },
       providers: ["La bonne alternance"],
       href: "https://labonnealternance.pole-emploi.fr/",
     },
@@ -58,7 +58,7 @@ export const generationLienPriseRdvFormationPageDoc = {
                 },
               ],
               information: {
-                fr: "Le lien est généré uniquement si l'établissement permet la prise de rendez-vous en ligne. Sinon, une erreur sera retournée.",
+                fr: "Le lien est généré uniquement si l'établissement permet la prise de rendez-vous en ligne. Sinon, une erreur est retournée.",
                 en: "The link is generated only if the establishment allows online appointment scheduling. Otherwise, the result will be an error.",
               },
             },

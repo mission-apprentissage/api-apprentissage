@@ -6,7 +6,7 @@ export const generateFormationAppointmentLinkRouteDoc = {
   description: generationLienPriseRdvFormationPageSummaryDoc.headline,
   body: {
     description: {
-      fr: "Identifiant de la formation, permettant de générer un lien de prise de rendez-vous pour la formation. Possibilité de fournir 1 paramètre parmi 3 types possibles : parcoursup_id, onisep_id, cle_ministere_educatif",
+      fr: "Identifiant de la formation, permettant de générer un lien de prise de rendez-vous pour la formation. Possibilité de fournir 1 paramètre parmi 3 types possibles : cle_ministere_educatif, parcoursup_id, onisep_id",
       en: "Training identifier, allowing to generate an appointment request link for the training. Possibility to provide 1 parameter among 3 possible types: parcoursup_id, onisep_id, cle_ministere_educatif",
     },
     content: {

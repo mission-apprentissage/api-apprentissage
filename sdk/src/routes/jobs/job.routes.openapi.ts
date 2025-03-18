@@ -128,7 +128,7 @@ export const jobRoutesOpenapi: OpenapiRoutes = {
       },
     },
   },
-  "/job/v1/{1}": {
+  "/job/v1/{id}": {
     get: {
       tag: "job",
       doc: jobSearchByIdRouteDoc,

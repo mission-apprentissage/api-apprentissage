@@ -3433,6 +3433,37 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         ],
       },
     },
+    "/job/v1/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobOfferRead",
+                },
+              },
+            },
+            "description": "",
+          },
+        },
+        "security": [
+          {
+            "api-key": [],
+          },
+        ],
+      },
+    },
     "/organisme/v1/export": {
       "get": {
         "parameters": [

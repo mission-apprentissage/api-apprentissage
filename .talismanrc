@@ -47,6 +47,8 @@ fileignoreconfig:
   checksum: 79162968dc111206592c35c9bdbfc1babae88ad1390a190d6c7b5108ebb82b9d
 - filename: ui/app/[lang]/explorer/depot-offre/page.tsx
   checksum: 764fcfac0c4242d1b22a812798db3a661392d72688d80f7898b6e82714efe457
+- filename: sdk/src/docs/routes/jobSearchById/jobSearchById.route.doc.ts
+  checksum: e53bd587cfcf423a01cdbf9cf4d3c5c44d598ff472ac88e718d8b9a4bb5da462
 scopeconfig:
 - scope: node
 custom_patterns:

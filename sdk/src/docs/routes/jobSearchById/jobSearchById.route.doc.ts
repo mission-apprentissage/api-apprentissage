@@ -16,17 +16,12 @@ export const jobSearchByIdRouteDoc = {
   response: {
     description: { en: "Success", fr: "Succès" },
     content: {
-      descriptions: null,
-      properties: {
-        job: {
-          descriptions: [
-            {
-              en: "Job offer corresponding to the search.",
-              fr: "Détail de l'offre correspondant à l'identifiant fourni",
-            },
-          ],
+      descriptions: [
+        {
+          en: "Job offer corresponding to the search.",
+          fr: "Détail de l'offre correspondant à l'identifiant fourni",
         },
-      },
+      ],
     },
   },
 } as const satisfies DocRoute;

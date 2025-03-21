@@ -91,9 +91,9 @@ export async function sendEmail<T extends ITemplate>(template: T): Promise<void>
 export function getEmailSubject<T extends ITemplate>(template: T): string {
   switch (template.name) {
     case "register":
-      return "Vous avez demandé à recevoir un lien de connexion au service API Apprentissage.";
+      return "Vous avez demandé à recevoir un lien de connexion à l'espace développeurs La bonne alternance.";
     case "magic-link":
-      return "Vous avez demandé à recevoir un lien de connexion au service API Apprentissage.";
+      return "Vous avez demandé à recevoir un lien de connexion à l'espace développeurs La bonne alternance.";
     case "register-feedback":
       return "Feedback de refus de création de compte";
     default:

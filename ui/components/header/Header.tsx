@@ -3,6 +3,8 @@
 import { Header as DSFRHeader, HeaderQuickAccessItem } from "@codegouvfr/react-dsfr/Header";
 import { LanguageSelect } from "@codegouvfr/react-dsfr/LanguageSelect";
 import { useIsDark } from "@codegouvfr/react-dsfr/useIsDark";
+import { margin } from "@mui/system";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -78,7 +80,12 @@ export const Header = ({ lang }: WithLang) => {
           />,
           <MonCompteQuickAccess key="mon-compte-quick-access" lang={lang} t={t} />,
         ]}
-        serviceTitle={publicConfig.productMeta.brandName}
+        operatorLogo={{
+          alt: "Retour à l'accueil",
+          imgUrl: "/images/logo_LBA.svg",
+          orientation: "horizontal",
+        }}
+        serviceTitle={<>Espace développeurs</>}
         navigation={navigation}
       />
     </>

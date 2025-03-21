@@ -169,7 +169,7 @@ export function generateOpenApiDocFromZod(
   return openApiGenerator.generateDocument({
     openapi: "3",
     info: {
-      title: "Documentation technique de l'espace développeurs La bonne alternance",
+      title: "Documentation technique",
       version: "1.0.0",
     },
   });
@@ -190,7 +190,7 @@ export function generateOpenApiPathsObjectFromZod(routes: IApiRoutesDef, tag: st
   const doc = openApiGenerator.generateDocument({
     openapi: "3",
     info: {
-      title: "Documentation technique de l'espace développeurs La bonne alternance",
+      title: "Documentation technique",
       version: "1.0.0",
     },
   });
@@ -217,7 +217,7 @@ export function generateOpenApiComponentSchemasFromZod(
   const doc = openApiGenerator.generateDocument({
     openapi: "3",
     info: {
-      title: "Documentation technique de l'espace développeurs La bonne alternance",
+      title: "Documentation technique",
       version: "1.0.0",
     },
   });

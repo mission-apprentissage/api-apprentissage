@@ -9,10 +9,7 @@ export function buildOpenApiSchema(version: string, env: string, publicUrl: stri
   const builder = new OpenApiBuilder({
     openapi: "3.1.0",
     info: {
-      title:
-        lang === "fr"
-          ? "Documentation technique de l'espace développeurs La bonne alternance"
-          : "Developer Space La bonne alternance technical documentation",
+      title: lang === "fr" ? "Documentation technique" : "Technical documentation",
       version,
       license: {
         name: "Etalab-2.0",
@@ -23,7 +20,7 @@ export function buildOpenApiSchema(version: string, env: string, publicUrl: stri
         name:
           lang === "fr"
             ? "Équipe Espace développeurs La bonne alternance"
-            : "Espace développeurs La bonne alternance team",
+            : "The 'La bonne alternance' developer space team",
         email: "support_api@apprentissage.beta.gouv.fr",
       },
     },

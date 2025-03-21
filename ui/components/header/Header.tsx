@@ -1,6 +1,5 @@
 "use client";
 
-import Badge from "@codegouvfr/react-dsfr/Badge";
 import { Header as DSFRHeader, HeaderQuickAccessItem } from "@codegouvfr/react-dsfr/Header";
 import { LanguageSelect } from "@codegouvfr/react-dsfr/LanguageSelect";
 import { useIsDark } from "@codegouvfr/react-dsfr/useIsDark";

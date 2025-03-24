@@ -19,6 +19,18 @@ export const formationRoutes = ({ server }: { server: Server }) => {
     }
   );
 
+  server.get(
+    "/formation/v1/:id",
+    {
+      schema: zRoutes.get["/formation/v1/:id"],
+      onRequest: [server.auth(zRoutes.get["/formation/v1/:id"])],
+    },
+    async (request, response) => {
+      const result = await getFormationByCleMe(request.params.id);
+      return response.status(200).send(result);
+    }
+  );
+
   server.post(
     "/formation/v1/appointment/generate-link",
     {

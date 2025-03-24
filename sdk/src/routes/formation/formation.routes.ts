@@ -72,6 +72,19 @@ export const zApiFormationRoutes = {
         ressources: {},
       },
     },
+    "/formation/v1/:id": {
+      method: "get",
+      path: "/formation/v1/:id",
+      params: z.object({ id: z.string() }),
+      response: {
+        "200": zFormation,
+      },
+      securityScheme: {
+        auth: "api-key",
+        access: null,
+        ressources: {},
+      },
+    },
   },
   post: {
     "/formation/v1/appointment/generate-link": {

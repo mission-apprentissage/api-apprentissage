@@ -5,6 +5,7 @@ import type { IInseeItem } from "../../apis/insee.js";
 import type { ISourceMissionLocale, ISourceUnmlPayload } from "../../apis/unml.js";
 import { zSourceMissionLocale } from "../../apis/unml.js";
 import type { ICommuneInternal } from "../commune.model.js";
+import type { ISourceCodeInseeToMissionLocale } from "../source/mission_locale/source.mission_locale.model.js";
 
 export const sourceRegionsFixtures: ISourceGeoRegion[] = [
   {
@@ -555,10 +556,43 @@ export const academieFixtures = [
   },
 ];
 
+export const sourceCodeInseeToMissionLocaleFixture: Omit<ISourceCodeInseeToMissionLocale, "_id" | "import_id">[] = [
+  ...[
+    "75101",
+    "75102",
+    "75103",
+    "75104",
+    "75105",
+    "75106",
+    "75107",
+    "75108",
+    "75109",
+    "75110",
+    "75111",
+    "75112",
+    "75113",
+    "75114",
+    "75115",
+    "75116",
+    "75117",
+    "75118",
+    "75119",
+    "75120",
+  ].map((code_insee) => ({
+    code_insee,
+    ml: getMissionLocaleFixtureFromSource(missionLocaleFixtures[226]),
+  })),
+  {
+    code_insee: "77001",
+    ml: getMissionLocaleFixtureFromSource(missionLocaleFixtures[374]),
+  },
+];
+
 export function getMissionLocaleFixtureFromSource(sourceMl: ISourceMissionLocale): ICommuneInternal["mission_locale"] {
   const data = zSourceMissionLocale.parse(sourceMl);
   return {
     id: data.id,
+    code: data.codeStructure,
     nom: data.nomStructure,
     siret: data.siret,
     localisation: {

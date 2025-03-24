@@ -1,0 +1,590 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`runMissionLocaleImporter > should import initial ml 1`] = `
+[
+  {
+    "code_insee": "18288",
+    "ml": null,
+  },
+  {
+    "code_insee": "18289",
+    "ml": null,
+  },
+  {
+    "code_insee": "75101",
+    "ml": {
+      "code": "75119",
+      "contact": {
+        "email": "contact@mail.fr",
+        "siteWeb": "https://www.missionlocale.paris/",
+        "telephone": "0179970000",
+      },
+      "id": 226,
+      "localisation": {
+        "adresse": "22 rue Pajol ",
+        "cp": "75018",
+        "geopoint": {
+          "coordinates": [
+            2.3740736,
+            48.8848179,
+          ],
+          "type": "Point",
+        },
+        "ville": "PARIS",
+      },
+      "nom": "DE PARIS",
+      "siret": "53132862300149",
+    },
+  },
+  {
+    "code_insee": "75102",
+    "ml": {
+      "code": "75119",
+      "contact": {
+        "email": "contact@mail.fr",
+        "siteWeb": "https://www.missionlocale.paris/",
+        "telephone": "0179970000",
+      },
+      "id": 226,
+      "localisation": {
+        "adresse": "22 rue Pajol ",
+        "cp": "75018",
+        "geopoint": {
+          "coordinates": [
+            2.3740736,
+            48.8848179,
+          ],
+          "type": "Point",
+        },
+        "ville": "PARIS",
+      },
+      "nom": "DE PARIS",
+      "siret": "53132862300149",
+    },
+  },
+  {
+    "code_insee": "75103",
+    "ml": {
+      "code": "75119",
+      "contact": {
+        "email": "contact@mail.fr",
+        "siteWeb": "https://www.missionlocale.paris/",
+        "telephone": "0179970000",
+      },
+      "id": 226,
+      "localisation": {
+        "adresse": "22 rue Pajol ",
+        "cp": "75018",
+        "geopoint": {
+          "coordinates": [
+            2.3740736,
+            48.8848179,
+          ],
+          "type": "Point",
+        },
+        "ville": "PARIS",
+      },
+      "nom": "DE PARIS",
+      "siret": "53132862300149",
+    },
+  },
+  {
+    "code_insee": "75104",
+    "ml": {
+      "code": "75119",
+      "contact": {
+        "email": "contact@mail.fr",
+        "siteWeb": "https://www.missionlocale.paris/",
+        "telephone": "0179970000",
+      },
+      "id": 226,
+      "localisation": {
+        "adresse": "22 rue Pajol ",
+        "cp": "75018",
+        "geopoint": {
+          "coordinates": [
+            2.3740736,
+            48.8848179,
+          ],
+          "type": "Point",
+        },
+        "ville": "PARIS",
+      },
+      "nom": "DE PARIS",
+      "siret": "53132862300149",
+    },
+  },
+  {
+    "code_insee": "75105",
+    "ml": {
+      "code": "75119",
+      "contact": {
+        "email": "contact@mail.fr",
+        "siteWeb": "https://www.missionlocale.paris/",
+        "telephone": "0179970000",
+      },
+      "id": 226,
+      "localisation": {
+        "adresse": "22 rue Pajol ",
+        "cp": "75018",
+        "geopoint": {
+          "coordinates": [
+            2.3740736,
+            48.8848179,
+          ],
+          "type": "Point",
+        },
+        "ville": "PARIS",
+      },
+      "nom": "DE PARIS",
+      "siret": "53132862300149",
+    },
+  },
+  {
+    "code_insee": "75106",
+    "ml": {
+      "code": "75119",
+      "contact": {
+        "email": "contact@mail.fr",
+        "siteWeb": "https://www.missionlocale.paris/",
+        "telephone": "0179970000",
+      },
+      "id": 226,
+      "localisation": {
+        "adresse": "22 rue Pajol ",
+        "cp": "75018",
+        "geopoint": {
+          "coordinates": [
+            2.3740736,
+            48.8848179,
+          ],
+          "type": "Point",
+        },
+        "ville": "PARIS",
+      },
+      "nom": "DE PARIS",
+      "siret": "53132862300149",
+    },
+  },
+  {
+    "code_insee": "75107",
+    "ml": {
+      "code": "75119",
+      "contact": {
+        "email": "contact@mail.fr",
+        "siteWeb": "https://www.missionlocale.paris/",
+        "telephone": "0179970000",
+      },
+      "id": 226,
+      "localisation": {
+        "adresse": "22 rue Pajol ",
+        "cp": "75018",
+        "geopoint": {
+          "coordinates": [
+            2.3740736,
+            48.8848179,
+          ],
+          "type": "Point",
+        },
+        "ville": "PARIS",
+      },
+      "nom": "DE PARIS",
+      "siret": "53132862300149",
+    },
+  },
+  {
+    "code_insee": "75108",
+    "ml": {
+      "code": "75119",
+      "contact": {
+        "email": "contact@mail.fr",
+        "siteWeb": "https://www.missionlocale.paris/",
+        "telephone": "0179970000",
+      },
+      "id": 226,
+      "localisation": {
+        "adresse": "22 rue Pajol ",
+        "cp": "75018",
+        "geopoint": {
+          "coordinates": [
+            2.3740736,
+            48.8848179,
+          ],
+          "type": "Point",
+        },
+        "ville": "PARIS",
+      },
+      "nom": "DE PARIS",
+      "siret": "53132862300149",
+    },
+  },
+  {
+    "code_insee": "75109",
+    "ml": {
+      "code": "75119",
+      "contact": {
+        "email": "contact@mail.fr",
+        "siteWeb": "https://www.missionlocale.paris/",
+        "telephone": "0179970000",
+      },
+      "id": 226,
+      "localisation": {
+        "adresse": "22 rue Pajol ",
+        "cp": "75018",
+        "geopoint": {
+          "coordinates": [
+            2.3740736,
+            48.8848179,
+          ],
+          "type": "Point",
+        },
+        "ville": "PARIS",
+      },
+      "nom": "DE PARIS",
+      "siret": "53132862300149",
+    },
+  },
+  {
+    "code_insee": "75110",
+    "ml": {
+      "code": "75119",
+      "contact": {
+        "email": "contact@mail.fr",
+        "siteWeb": "https://www.missionlocale.paris/",
+        "telephone": "0179970000",
+      },
+      "id": 226,
+      "localisation": {
+        "adresse": "22 rue Pajol ",
+        "cp": "75018",
+        "geopoint": {
+          "coordinates": [
+            2.3740736,
+            48.8848179,
+          ],
+          "type": "Point",
+        },
+        "ville": "PARIS",
+      },
+      "nom": "DE PARIS",
+      "siret": "53132862300149",
+    },
+  },
+  {
+    "code_insee": "75111",
+    "ml": {
+      "code": "75119",
+      "contact": {
+        "email": "contact@mail.fr",
+        "siteWeb": "https://www.missionlocale.paris/",
+        "telephone": "0179970000",
+      },
+      "id": 226,
+      "localisation": {
+        "adresse": "22 rue Pajol ",
+        "cp": "75018",
+        "geopoint": {
+          "coordinates": [
+            2.3740736,
+            48.8848179,
+          ],
+          "type": "Point",
+        },
+        "ville": "PARIS",
+      },
+      "nom": "DE PARIS",
+      "siret": "53132862300149",
+    },
+  },
+  {
+    "code_insee": "75112",
+    "ml": {
+      "code": "75119",
+      "contact": {
+        "email": "contact@mail.fr",
+        "siteWeb": "https://www.missionlocale.paris/",
+        "telephone": "0179970000",
+      },
+      "id": 226,
+      "localisation": {
+        "adresse": "22 rue Pajol ",
+        "cp": "75018",
+        "geopoint": {
+          "coordinates": [
+            2.3740736,
+            48.8848179,
+          ],
+          "type": "Point",
+        },
+        "ville": "PARIS",
+      },
+      "nom": "DE PARIS",
+      "siret": "53132862300149",
+    },
+  },
+  {
+    "code_insee": "75113",
+    "ml": {
+      "code": "75119",
+      "contact": {
+        "email": "contact@mail.fr",
+        "siteWeb": "https://www.missionlocale.paris/",
+        "telephone": "0179970000",
+      },
+      "id": 226,
+      "localisation": {
+        "adresse": "22 rue Pajol ",
+        "cp": "75018",
+        "geopoint": {
+          "coordinates": [
+            2.3740736,
+            48.8848179,
+          ],
+          "type": "Point",
+        },
+        "ville": "PARIS",
+      },
+      "nom": "DE PARIS",
+      "siret": "53132862300149",
+    },
+  },
+  {
+    "code_insee": "75114",
+    "ml": {
+      "code": "75119",
+      "contact": {
+        "email": "contact@mail.fr",
+        "siteWeb": "https://www.missionlocale.paris/",
+        "telephone": "0179970000",
+      },
+      "id": 226,
+      "localisation": {
+        "adresse": "22 rue Pajol ",
+        "cp": "75018",
+        "geopoint": {
+          "coordinates": [
+            2.3740736,
+            48.8848179,
+          ],
+          "type": "Point",
+        },
+        "ville": "PARIS",
+      },
+      "nom": "DE PARIS",
+      "siret": "53132862300149",
+    },
+  },
+  {
+    "code_insee": "75115",
+    "ml": {
+      "code": "75119",
+      "contact": {
+        "email": "contact@mail.fr",
+        "siteWeb": "https://www.missionlocale.paris/",
+        "telephone": "0179970000",
+      },
+      "id": 226,
+      "localisation": {
+        "adresse": "22 rue Pajol ",
+        "cp": "75018",
+        "geopoint": {
+          "coordinates": [
+            2.3740736,
+            48.8848179,
+          ],
+          "type": "Point",
+        },
+        "ville": "PARIS",
+      },
+      "nom": "DE PARIS",
+      "siret": "53132862300149",
+    },
+  },
+  {
+    "code_insee": "75116",
+    "ml": {
+      "code": "75119",
+      "contact": {
+        "email": "contact@mail.fr",
+        "siteWeb": "https://www.missionlocale.paris/",
+        "telephone": "0179970000",
+      },
+      "id": 226,
+      "localisation": {
+        "adresse": "22 rue Pajol ",
+        "cp": "75018",
+        "geopoint": {
+          "coordinates": [
+            2.3740736,
+            48.8848179,
+          ],
+          "type": "Point",
+        },
+        "ville": "PARIS",
+      },
+      "nom": "DE PARIS",
+      "siret": "53132862300149",
+    },
+  },
+  {
+    "code_insee": "75117",
+    "ml": {
+      "code": "75119",
+      "contact": {
+        "email": "contact@mail.fr",
+        "siteWeb": "https://www.missionlocale.paris/",
+        "telephone": "0179970000",
+      },
+      "id": 226,
+      "localisation": {
+        "adresse": "22 rue Pajol ",
+        "cp": "75018",
+        "geopoint": {
+          "coordinates": [
+            2.3740736,
+            48.8848179,
+          ],
+          "type": "Point",
+        },
+        "ville": "PARIS",
+      },
+      "nom": "DE PARIS",
+      "siret": "53132862300149",
+    },
+  },
+  {
+    "code_insee": "75118",
+    "ml": {
+      "code": "75119",
+      "contact": {
+        "email": "contact@mail.fr",
+        "siteWeb": "https://www.missionlocale.paris/",
+        "telephone": "0179970000",
+      },
+      "id": 226,
+      "localisation": {
+        "adresse": "22 rue Pajol ",
+        "cp": "75018",
+        "geopoint": {
+          "coordinates": [
+            2.3740736,
+            48.8848179,
+          ],
+          "type": "Point",
+        },
+        "ville": "PARIS",
+      },
+      "nom": "DE PARIS",
+      "siret": "53132862300149",
+    },
+  },
+  {
+    "code_insee": "75119",
+    "ml": {
+      "code": "75119",
+      "contact": {
+        "email": "contact@mail.fr",
+        "siteWeb": "https://www.missionlocale.paris/",
+        "telephone": "0179970000",
+      },
+      "id": 226,
+      "localisation": {
+        "adresse": "22 rue Pajol ",
+        "cp": "75018",
+        "geopoint": {
+          "coordinates": [
+            2.3740736,
+            48.8848179,
+          ],
+          "type": "Point",
+        },
+        "ville": "PARIS",
+      },
+      "nom": "DE PARIS",
+      "siret": "53132862300149",
+    },
+  },
+  {
+    "code_insee": "75120",
+    "ml": {
+      "code": "75119",
+      "contact": {
+        "email": "contact@mail.fr",
+        "siteWeb": "https://www.missionlocale.paris/",
+        "telephone": "0179970000",
+      },
+      "id": 226,
+      "localisation": {
+        "adresse": "22 rue Pajol ",
+        "cp": "75018",
+        "geopoint": {
+          "coordinates": [
+            2.3740736,
+            48.8848179,
+          ],
+          "type": "Point",
+        },
+        "ville": "PARIS",
+      },
+      "nom": "DE PARIS",
+      "siret": "53132862300149",
+    },
+  },
+  {
+    "code_insee": "77001",
+    "ml": {
+      "code": "77333",
+      "contact": {
+        "email": "",
+        "siteWeb": "https://www.mlseineetloing.fr/",
+        "telephone": "01 64 28 51 58",
+      },
+      "id": 374,
+      "localisation": {
+        "adresse": "17 Rue des Tanneurs ",
+        "cp": "77140",
+        "geopoint": {
+          "coordinates": [
+            2.6988983,
+            48.2655271,
+          ],
+          "type": "Point",
+        },
+        "ville": "NEMOURS",
+      },
+      "nom": "DE LA SEINE ET DU LOING",
+      "siret": "44270199100014",
+    },
+  },
+  {
+    "code_insee": "77002",
+    "ml": null,
+  },
+  {
+    "code_insee": "77003",
+    "ml": {
+      "code": "77333",
+      "contact": {
+        "email": "",
+        "siteWeb": "https://www.mlseineetloing.fr/",
+        "telephone": "01 64 28 51 58",
+      },
+      "id": 374,
+      "localisation": {
+        "adresse": "17 Rue des Tanneurs ",
+        "cp": "77140",
+        "geopoint": {
+          "coordinates": [
+            2.6988983,
+            48.2655271,
+          ],
+          "type": "Point",
+        },
+        "ville": "NEMOURS",
+      },
+      "nom": "DE LA SEINE ET DU LOING",
+      "siret": "44270199100014",
+    },
+  },
+]
+`;

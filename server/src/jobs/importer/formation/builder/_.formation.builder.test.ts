@@ -69,6 +69,7 @@ describe("buildFormation", () => {
       },
       mission_locale: {
         id: 323,
+        code: "13201",
         nom: "DE MARSEILLE",
         siret: "41035534100042",
         localisation: {

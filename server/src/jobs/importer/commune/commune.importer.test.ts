@@ -5,11 +5,11 @@ import {
   inseeAnciennesFixtures,
   inseeArrondissementFixtures,
   inseeCollectiviteFixtures,
+  sourceCodeInseeToMissionLocaleFixture,
   sourceCommuneFixtures,
   sourceDepartementFixtures,
   sourceRegionExtendedFixtures,
   sourceRegionsFixtures,
-  sourceUnmlResultsFixtures,
 } from "shared/models/fixtures/commune.model.fixture";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -20,7 +20,6 @@ import {
   fetchArrondissementIndexedByCodeCommune,
   fetchCollectivitesOutreMer,
 } from "@/services/apis/insee/insee.js";
-import { fetchDepartementMissionLocale } from "@/services/apis/unml/unml.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
 import { runCommuneImporter } from "./commune.importer.js";
@@ -30,15 +29,23 @@ useMongo();
 vi.mock("@/services/apis/geo/geo.js");
 vi.mock("@/services/apis/enseignementSup/enseignementSup.js");
 vi.mock("@/services/apis/insee/insee.js");
-vi.mock("@/services/apis/unml/unml.js");
 
 describe("runCommuneImporter", () => {
   const now = new Date("2024-10-03T21:53:08.141Z");
   const yesterday = new Date("2024-10-02T21:53:08.141Z");
 
-  beforeEach(() => {
+  beforeEach(async () => {
     vi.useFakeTimers();
     vi.setSystemTime(now);
+
+    const import_id = new ObjectId();
+    await getDbCollection("source.insee_to_ml").insertMany(
+      sourceCodeInseeToMissionLocaleFixture.map((d) => ({
+        ...d,
+        _id: new ObjectId(),
+        import_id,
+      }))
+    );
 
     return () => vi.useRealTimers();
   });
@@ -53,10 +60,6 @@ describe("runCommuneImporter", () => {
     );
     vi.mocked(fetchGeoCommunes).mockImplementation(
       async (codeDepartement: string) => sourceCommuneFixtures[codeDepartement as keyof typeof sourceCommuneFixtures]
-    );
-    vi.mocked(fetchDepartementMissionLocale).mockImplementation(
-      async (codeDepartement: string) =>
-        sourceUnmlResultsFixtures[codeDepartement as keyof typeof sourceUnmlResultsFixtures]
     );
     vi.mocked(fetchCollectivitesOutreMer).mockResolvedValue(inseeCollectiviteFixtures);
     vi.mocked(fetchAcademies).mockResolvedValue(academieFixtures);
@@ -182,10 +185,7 @@ describe("runCommuneImporter", () => {
     vi.mocked(fetchGeoCommunes).mockImplementation(
       async (codeDepartement: string) => sourceCommuneFixtures[codeDepartement as keyof typeof sourceCommuneFixtures]
     );
-    vi.mocked(fetchDepartementMissionLocale).mockImplementation(
-      async (codeDepartement: string) =>
-        sourceUnmlResultsFixtures[codeDepartement as keyof typeof sourceUnmlResultsFixtures]
-    );
+
     vi.mocked(fetchCollectivitesOutreMer).mockResolvedValue(inseeCollectiviteFixtures);
     vi.mocked(fetchAcademies).mockResolvedValue(academieFixtures);
     vi.mocked(fetchArrondissementIndexedByCodeCommune).mockResolvedValue(inseeArrondissementFixtures);

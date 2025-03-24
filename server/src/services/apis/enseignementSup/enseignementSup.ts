@@ -13,6 +13,7 @@ const apiEnseignementSup = apiRateLimiter("insee", {
   client: getApiClient(
     {
       baseURL: config.api.enseignementSup.endpoint,
+      timeout: 300_000,
     },
     { cache: false }
   ),

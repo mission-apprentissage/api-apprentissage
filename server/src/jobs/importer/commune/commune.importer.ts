@@ -2,13 +2,7 @@ import { internal } from "@hapi/boom";
 import type { ICommune } from "api-alternance-sdk";
 import type { AnyBulkWriteOperation } from "mongodb";
 import { ObjectId } from "mongodb";
-import type {
-  ImportStatus,
-  ISourceGeoCommune,
-  ISourceGeoRegion,
-  ISourceMissionLocale,
-  ISourceUnmlPayload,
-} from "shared";
+import type { ImportStatus, ISourceGeoCommune, ISourceGeoRegion } from "shared";
 import type { ICommuneInternal } from "shared/models/commune.model";
 
 import { fetchAcademies } from "@/services/apis/enseignementSup/enseignementSup.js";
@@ -18,44 +12,25 @@ import {
   fetchArrondissementIndexedByCodeCommune,
   fetchCollectivitesOutreMer,
 } from "@/services/apis/insee/insee.js";
-import { fetchDepartementMissionLocale } from "@/services/apis/unml/unml.js";
 import { withCause } from "@/services/errors/withCause.js";
 import parentLogger from "@/services/logger.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
 const logger = parentLogger.child({ module: "import:communes" });
 
-// Supprime les accents et les caractères spéciaux
-function normaliseNomCommune(nom: string) {
-  return nom
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toUpperCase()
-    .replace(/[^A-Z0-9]/g, "");
-}
-
-function findCommuneMissionLocale(
+async function findCommuneMissionLocale(
   commune: ISourceGeoCommune,
-  payload: ISourceUnmlPayload
-): ISourceMissionLocale | null {
-  const missionLocaleFromCodePostal = payload.results.filter((r) => commune.codesPostaux.includes(r.codePostal));
+  anciennes: ICommune["anciennes"],
+  arrondissements: ICommune["arrondissements"]
+): Promise<ICommune["mission_locale"]> {
+  const result = await getDbCollection("source.insee_to_ml").findOne({
+    code_insee: {
+      $in: [commune.code, ...anciennes.map((a) => a.codeInsee), ...arrondissements.map((a) => a.code)],
+    },
+  });
 
-  if (missionLocaleFromCodePostal.length === 0) {
-    return null;
-  }
-
-  const structureIds = new Set(missionLocaleFromCodePostal.map((ml) => ml.structureId));
-  if (structureIds.size === 1) {
-    return missionLocaleFromCodePostal[0].structure;
-  }
-
-  const normalizedNomCommune = normaliseNomCommune(commune.nom);
-  const mlCommuneByNom = missionLocaleFromCodePostal.filter(
-    (ml) => normaliseNomCommune(ml.ville) === normalizedNomCommune
-  );
-
-  if (mlCommuneByNom.length === 1) {
-    return mlCommuneByNom[0].structure;
+  if (result !== null) {
+    return result.ml;
   }
 
   return null;
@@ -75,10 +50,11 @@ export async function runCommuneImporter() {
       status: "pending",
     });
 
-    const [regions, collectivites, academies, arrondissementsInsee, anciennes] = await Promise.all([
+    const [regions, collectivites, academies, arrondissementsInsee, anciennesMap] = await Promise.all([
       fetchGeoRegions(),
       fetchCollectivitesOutreMer().then(async (collectivites) =>
-        Promise.all(collectivites.map((c) => fetchGeoRegion(c.code)))
+        // On exclus les "Île des Faisans"
+        Promise.all(collectivites.filter((c) => c.code !== "981").map((c) => fetchGeoRegion(c.code)))
       ),
       fetchAcademies(),
       fetchArrondissementIndexedByCodeCommune(),
@@ -101,11 +77,7 @@ export async function runCommuneImporter() {
       const departements = await fetchGeoDepartements(region.code);
       for (const departement of departements) {
         logger.info(`Importing communes for departement ${departement.nom} ...`);
-        const [geoCommunes, missionLocalePayload] = await Promise.all([
-          fetchGeoCommunes(departement.code),
-          fetchDepartementMissionLocale(departement.code),
-        ]);
-
+        const geoCommunes = await fetchGeoCommunes(departement.code);
         const academie = academieByDep.get(departement.code);
         if (!academie) {
           throw internal("import.communes: unable to find academy for departement", { departement });
@@ -120,32 +92,9 @@ export async function runCommuneImporter() {
                 nom: intitule,
               };
             }) ?? [];
-          const sourceMl = findCommuneMissionLocale(geoCommune, missionLocalePayload);
-          const mission_locale: ICommune["mission_locale"] =
-            sourceMl == null
-              ? null
-              : {
-                  id: sourceMl.id,
-                  nom: sourceMl.nomStructure,
-                  siret: sourceMl.siret,
-                  localisation: {
-                    geopoint:
-                      sourceMl.geoloc_lng == null || sourceMl.geoloc_lat == null
-                        ? null
-                        : {
-                            type: "Point",
-                            coordinates: [parseFloat(sourceMl.geoloc_lng), parseFloat(sourceMl.geoloc_lat)],
-                          },
-                    adresse: sourceMl.adresse1,
-                    cp: sourceMl.cp,
-                    ville: sourceMl.ville,
-                  },
-                  contact: {
-                    email: sourceMl.emailAccueil,
-                    telephone: sourceMl.telephones,
-                    siteWeb: sourceMl.siteWeb,
-                  },
-                };
+          const anciennes: ICommune["anciennes"] =
+            anciennesMap[geoCommune.code]?.map(({ code, intitule }) => ({ codeInsee: code, nom: intitule })) ?? [];
+          const mission_locale = await findCommuneMissionLocale(geoCommune, anciennes, arrondissements);
 
           communes.push({
             nom: geoCommune.nom,
@@ -154,8 +103,7 @@ export async function runCommuneImporter() {
               nom: departement.nom,
               codeInsee: departement.code,
             },
-            anciennes:
-              anciennes[geoCommune.code]?.map(({ code, intitule }) => ({ codeInsee: code, nom: intitule })) ?? [],
+            anciennes,
             arrondissements,
             region: {
               codeInsee: region.code,

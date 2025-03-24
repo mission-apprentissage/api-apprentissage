@@ -339,6 +339,7 @@ exports[`runCommuneImporter > should import communes with existing regions and d
       },
     },
     "mission_locale": {
+      "code": "75119",
       "contact": {
         "email": "contact@mail.fr",
         "siteWeb": "https://www.missionlocale.paris/",
@@ -423,8 +424,9 @@ exports[`runCommuneImporter > should import communes with existing regions and d
       },
     },
     "mission_locale": {
+      "code": "77333",
       "contact": {
-        "email": "",
+        "email": null,
         "siteWeb": "https://www.mlseineetloing.fr/",
         "telephone": "01 64 28 51 58",
       },
@@ -991,6 +993,7 @@ exports[`runCommuneImporter > should import initial communes 1`] = `
       },
     },
     "mission_locale": {
+      "code": "75119",
       "contact": {
         "email": "contact@mail.fr",
         "siteWeb": "https://www.missionlocale.paris/",
@@ -1075,8 +1078,9 @@ exports[`runCommuneImporter > should import initial communes 1`] = `
       },
     },
     "mission_locale": {
+      "code": "77333",
       "contact": {
-        "email": "",
+        "email": null,
         "siteWeb": "https://www.mlseineetloing.fr/",
         "telephone": "01 64 28 51 58",
       },

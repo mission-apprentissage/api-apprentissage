@@ -6,6 +6,7 @@ import { zGeoJsonPoint } from "./geoJson.model.js";
 export const zMissionLocale = zodOpenApi
   .object({
     id: z.number(),
+    code: z.string(),
     nom: z.string(),
     siret: z.string(),
     localisation: z.object({

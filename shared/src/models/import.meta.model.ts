@@ -45,14 +45,21 @@ export const zImportMetaNpec = z.object({
   file_date: z.date(),
 });
 
-export const zImportMetaSimple = z
-  .object({
-    _id: zObjectId,
-    import_date: z.date(),
-    type: z.enum(["bcn", "kit_apprentissage", "acce", "kali_ccn", "communes", "referentiel", "catalogue"]),
-    status: z.enum(["pending", "done", "failed"]),
-  })
-  .strict();
+export const zImportMetaSimple = z.object({
+  _id: zObjectId,
+  import_date: z.date(),
+  type: z.enum([
+    "bcn",
+    "kit_apprentissage",
+    "acce",
+    "kali_ccn",
+    "communes",
+    "referentiel",
+    "catalogue",
+    "mission_locale",
+  ]),
+  status: z.enum(["pending", "done", "failed"]),
+});
 
 export const zImportMetaDares = z
   .object({

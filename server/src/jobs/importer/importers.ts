@@ -9,6 +9,7 @@ import { getFormationsImporterStatus, importFormations } from "./formation/forma
 import { getFranceCompetencesImporterStatus, runRncpImporter } from "./france_competence/france_competence.importer.js";
 import { getKaliImporterStatus, runKaliConventionCollectivesImporter } from "./kali/kali.ccn.importer.js";
 import { getKitApprentissageImporterStatus, runKitApprentissageImporter } from "./kit/kitApprentissage.importer.js";
+import { getMissionLocaleImporterStatus, runMissionLocaleImporter } from "./mission_locale/mission_locale.importer.js";
 import { getNpecImporterStatus, runNpecImporter } from "./npec/npec.importer.js";
 import { getOrganismesImporterStatus, importOrganismes } from "./organisme/organisme.importer.js";
 import { getReferentielImporterStatus, runReferentielImporter } from "./referentiel/referentiel.js";
@@ -121,6 +122,14 @@ export const importers: Record<string, Importer> = {
     handler: runDaresApeIdccImporter,
     resumable: true,
     getStatus: getDaresApiIdccImporterStatus,
+    checkinMargin: 60, // 1h
+    maxRuntimeInMinutes: 30,
+  },
+  "Import des Missions Locales": {
+    cron_string: timings.import_source,
+    handler: runMissionLocaleImporter,
+    resumable: true,
+    getStatus: getMissionLocaleImporterStatus,
     checkinMargin: 60, // 1h
     maxRuntimeInMinutes: 30,
   },

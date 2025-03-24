@@ -1699,6 +1699,9 @@ exports[`zodToMongoSchema > should convert commune schema 1`] = `
           "additionalProperties": false,
           "bsonType": "object",
           "properties": {
+            "code": {
+              "bsonType": "string",
+            },
             "contact": {
               "additionalProperties": false,
               "bsonType": "object",
@@ -1802,6 +1805,7 @@ exports[`zodToMongoSchema > should convert commune schema 1`] = `
           },
           "required": [
             "id",
+            "code",
             "nom",
             "siret",
             "localisation",
@@ -4343,6 +4347,7 @@ exports[`zodToMongoSchema > should convert import.meta schema 1`] = `
             "communes",
             "referentiel",
             "catalogue",
+            "mission_locale",
           ],
         },
       },
@@ -8671,6 +8676,154 @@ exports[`zodToMongoSchema > should convert source.france_competence schema 1`] =
     "date_derniere_activation",
     "source",
     "data",
+  ],
+}
+`;
+
+exports[`zodToMongoSchema > should convert source.insee_to_ml schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "code_insee": {
+      "bsonType": "string",
+    },
+    "import_id": {
+      "bsonType": "objectId",
+    },
+    "ml": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "code": {
+              "bsonType": "string",
+            },
+            "contact": {
+              "additionalProperties": false,
+              "bsonType": "object",
+              "properties": {
+                "email": {
+                  "anyOf": [
+                    {
+                      "bsonType": "string",
+                    },
+                    {
+                      "bsonType": "null",
+                    },
+                  ],
+                },
+                "siteWeb": {
+                  "bsonType": [
+                    "string",
+                    "null",
+                  ],
+                },
+                "telephone": {
+                  "bsonType": [
+                    "string",
+                    "null",
+                  ],
+                },
+              },
+              "required": [
+                "email",
+                "telephone",
+                "siteWeb",
+              ],
+            },
+            "id": {
+              "bsonType": "number",
+            },
+            "localisation": {
+              "additionalProperties": false,
+              "bsonType": "object",
+              "properties": {
+                "adresse": {
+                  "bsonType": "string",
+                },
+                "cp": {
+                  "bsonType": "string",
+                },
+                "geopoint": {
+                  "anyOf": [
+                    {
+                      "additionalProperties": false,
+                      "bsonType": "object",
+                      "properties": {
+                        "coordinates": {
+                          "bsonType": "array",
+                          "items": [
+                            {
+                              "bsonType": "number",
+                              "maximum": 180,
+                              "minimum": -180,
+                            },
+                            {
+                              "bsonType": "number",
+                              "maximum": 90,
+                              "minimum": -90,
+                            },
+                          ],
+                          "maxItems": 2,
+                          "minItems": 2,
+                        },
+                        "type": {
+                          "bsonType": "string",
+                        },
+                      },
+                      "required": [
+                        "coordinates",
+                        "type",
+                      ],
+                    },
+                    {
+                      "bsonType": "null",
+                    },
+                  ],
+                },
+                "ville": {
+                  "bsonType": "string",
+                },
+              },
+              "required": [
+                "geopoint",
+                "adresse",
+                "cp",
+                "ville",
+              ],
+            },
+            "nom": {
+              "bsonType": "string",
+            },
+            "siret": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "id",
+            "code",
+            "nom",
+            "siret",
+            "localisation",
+            "contact",
+          ],
+        },
+        {
+          "bsonType": "null",
+        },
+      ],
+    },
+  },
+  "required": [
+    "_id",
+    "code_insee",
+    "ml",
+    "import_id",
   ],
 }
 `;

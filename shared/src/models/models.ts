@@ -22,6 +22,7 @@ import { sourceDaresCcnModelDescriptor } from "./source/dares/source.dares.ccn.m
 import { sourceFranceCompetenceModelDescriptor } from "./source/france_competence/source.france_competence.model.js";
 import { sourceKaliCcnModelDescriptor } from "./source/kali/source.kali.ccn.model.js";
 import { sourceKitApprentissageModelDescriptor } from "./source/kitApprentissage/source.kit_apprentissage.model.js";
+import { zSourceCodeInseeToMissionLocaleDescriptor } from "./source/mission_locale/source.mission_locale.model.js";
 import { sourceNpecModelDescriptor } from "./source/npec/source.npec.model.js";
 import { sourceNpecNormalizedModelDescriptor } from "./source/npec/source.npec.normalized.model.js";
 import sourcReferentielModelDescriptor from "./source/referentiel/source.referentiel.model.js";
@@ -53,6 +54,7 @@ export const modelDescriptorMap = {
   [organismeModelDescriptor.collectionName]: organismeModelDescriptor,
   [cacheEntrepriseModelDescriptor.collectionName]: cacheEntrepriseModelDescriptor,
   [cacheAdresseModelDescriptor.collectionName]: cacheAdresseModelDescriptor,
+  [zSourceCodeInseeToMissionLocaleDescriptor.collectionName]: zSourceCodeInseeToMissionLocaleDescriptor,
 };
 
 export type IModelDescriptorMap = typeof modelDescriptorMap;

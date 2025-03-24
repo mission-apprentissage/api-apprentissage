@@ -47,6 +47,7 @@ describe("buildFormationLieu", () => {
       },
       mission_locale: {
         id: 418,
+        code: "77379",
         nom: "DU PROVINOIS",
         siret: "42180445100035",
         localisation: {
@@ -131,6 +132,7 @@ describe("buildFormationLieu", () => {
       },
       mission_locale: {
         id: 323,
+        code: "13201",
         nom: "DE MARSEILLE",
         siret: "41035534100042",
         localisation: {

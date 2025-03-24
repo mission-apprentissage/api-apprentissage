@@ -58,6 +58,7 @@ describe("rechercheCommune", () => {
       mission_locale: {
         id: 346,
         nom: "DE MONTARGIS - GIEN - AIJAM",
+        code: "45208",
         siret: "43410235600012",
         localisation: {
           geopoint: {
@@ -362,6 +363,7 @@ describe("listMissionLocale", () => {
   const response = [
     {
       id: 1,
+      code: "80001",
       nom: "DE LA PICARDIE MARITIME",
       siret: "43012526000017",
       localisation: {
@@ -381,6 +383,7 @@ describe("listMissionLocale", () => {
     },
     {
       id: 2,
+      code: "47001",
       nom: "DE L'AGENAIS, DE L'ALBRET ET DU CONFLUENT",
       siret: "38988650800040",
       localisation: {

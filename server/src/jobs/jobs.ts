@@ -24,6 +24,7 @@ import {
 import { importers } from "./importer/importers.js";
 import { runKaliConventionCollectivesImporter } from "./importer/kali/kali.ccn.importer.js";
 import { runKitApprentissageImporter } from "./importer/kit/kitApprentissage.importer.js";
+import { runMissionLocaleImporter } from "./importer/mission_locale/mission_locale.importer.js";
 import { importNpecResource, onImportNpecResourceFailure, runNpecImporter } from "./importer/npec/npec.importer.js";
 import { importOrganismes } from "./importer/organisme/organisme.importer.js";
 import { runReferentielImporter } from "./importer/referentiel/referentiel.js";
@@ -99,6 +100,9 @@ export async function setupJobProcessor() {
       },
       "import:france_competence": {
         handler: runRncpImporter,
+      },
+      "import:mission_locale": {
+        handler: runMissionLocaleImporter,
       },
       "import:kali_ccn": {
         handler: async (_job, signal) => runKaliConventionCollectivesImporter(signal),

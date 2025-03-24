@@ -8,6 +8,7 @@ const missionLocaleSchema: SchemaObject = {
   type: "object",
   properties: {
     id: { type: "number" },
+    code: { type: "string" },
     nom: { type: "string" },
     siret: { type: "string" },
     localisation: {
@@ -37,7 +38,7 @@ const missionLocaleSchema: SchemaObject = {
       required: ["email", "telephone", "siteWeb"],
     },
   },
-  required: ["id", "nom", "siret", "localisation", "contact"],
+  required: ["id", "code", "nom", "siret", "localisation", "contact"],
 };
 
 export const missionLocaleModelOpenapi: OpenapiModel<"MissionLocale"> = {

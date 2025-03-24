@@ -248,6 +248,7 @@ export const communesFixture: ICommuneInternal[] = [
     },
     mission_locale: {
       id: 191,
+      code: "59220",
       nom: "IMPULSIONS METROPOLE SUD",
       siret: "40300668700020",
       localisation: {
@@ -310,6 +311,7 @@ export const communesFixture: ICommuneInternal[] = [
     },
     mission_locale: {
       id: 256,
+      code: "22113",
       nom: "OUEST COTES D'ARMOR",
       siret: "32678184600042",
       localisation: {

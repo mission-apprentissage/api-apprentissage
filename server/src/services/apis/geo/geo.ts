@@ -42,7 +42,7 @@ export const fetchGeoRegion = async (code: string): Promise<ISourceGeoRegion> =>
       return sourceGeoRegion.parse(data);
     } catch (error) {
       if (isAxiosError(error)) {
-        throw internal("api.geo: unable to fetchGeoRegion", { data: error.toJSON() });
+        throw internal("api.geo: unable to fetchGeoRegion", { data: error.toJSON(), code });
       }
       throw withCause(internal("api.geo: unable to fetchGeoRegion"), error);
     }

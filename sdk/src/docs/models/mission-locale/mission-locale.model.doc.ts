@@ -6,6 +6,9 @@ export const missionLocaleModelDoc = {
     id: {
       descriptions: [{ en: null, fr: "Identifiant de la Mission Locale" }],
     },
+    code: {
+      descriptions: [{ en: null, fr: "Code de la mission locale" }],
+    },
     nom: {
       descriptions: [{ en: null, fr: "Nom de la mission locale" }],
     },

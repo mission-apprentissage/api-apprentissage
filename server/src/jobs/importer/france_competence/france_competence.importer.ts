@@ -478,8 +478,10 @@ async function getUnprocessedImportMeta(dataset: IDataGouvDataset): Promise<IImp
         acc.set(meta.archiveMeta.resource.id, meta);
       }
 
-      // If the import is pending and older than 48h, we consider it as unprocessed
-      if (meta.status === "pending" && meta.import_date.getTime() < new Date().getTime() - 48 * 3_600_000) {
+      const isImportDateWithin48Hours = meta.import_date.getTime() > new Date().getTime() - 48 * 3_600_000;
+
+      // If the import is pending and less than 48h, we consider it as pending
+      if (meta.status === "pending" && isImportDateWithin48Hours) {
         acc.set(meta.archiveMeta.resource.id, meta);
       }
 

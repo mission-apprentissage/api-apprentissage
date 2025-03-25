@@ -1,3 +1,4 @@
+import { notFound } from "@hapi/boom";
 import type { IFormation, IFormationSearchApiQuery, IFormationSearchApiResult } from "api-alternance-sdk";
 import type { Filter } from "mongodb";
 import type { IFormationInternal } from "shared/models/formation.model";
@@ -71,7 +72,7 @@ export async function searchFormation(query: IFormationSearchApiQuery): Promise<
 export async function getFormationByCleMe(cleMe: string): Promise<IFormation> {
   const formation = await getDbCollection("formation").findOne({ "identifiant.cle_ministere_educatif": cleMe });
   if (!formation) {
-    throw new Error(`Formation with cleMe ${cleMe} not found`);
+    throw notFound(`Aucune formation trouvée pour l'identifiant ${cleMe}`);
   }
   return formation;
 }

@@ -2,7 +2,7 @@ import { zRoutes } from "shared";
 
 import config from "@/config.js";
 import type { Server } from "@/server/server.js";
-import { searchFormation } from "@/services/formation/formation.service.js";
+import { getFormationByCleMe, searchFormation } from "@/services/formation/formation.service.js";
 import { forwardApiRequest } from "@/services/forward/forwardApi.service.js";
 import { getUserFromRequest } from "@/services/security/authenticationService.js";
 

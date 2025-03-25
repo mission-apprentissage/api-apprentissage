@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`GET /formation/v1/search > should perform search correctly 1`] = `
+exports[`GET /formation/v1/:id > should return formation by id 1`] = `
 {
   "certification": {
     "connue": true,
@@ -231,7 +231,7 @@ exports[`GET /formation/v1/search > should perform search correctly 1`] = `
     },
   },
   "identifiant": {
-    "cle_ministere_educatif": "clichy",
+    "cle_ministere_educatif": "cle-me-test",
   },
   "lieu": {
     "adresse": {
@@ -257,8 +257,8 @@ exports[`GET /formation/v1/search > should perform search correctly 1`] = `
     },
     "geolocalisation": {
       "coordinates": [
-        2.3041,
-        48.9041,
+        2.2874,
+        48.8946,
       ],
       "type": "Point",
     },

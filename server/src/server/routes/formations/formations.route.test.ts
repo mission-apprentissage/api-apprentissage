@@ -1,5 +1,5 @@
 import { useMongo } from "@tests/mongo.test.utils.js";
-import { parseApiAlternanceToken } from "api-alternance-sdk";
+import { parseApiAlternanceToken, zFormation } from "api-alternance-sdk";
 import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
 import {
   generateFormationInternalFixture,
@@ -376,5 +376,90 @@ describe("POST /formation/v1/appointment/generate-link", () => {
     expect.soft(response.statusCode).toBe(200);
     const result = response.json();
     expect(result).toEqual(data);
+  });
+});
+
+describe("GET /formation/v1/:id", () => {
+  beforeEach(async () => {
+    await getDbCollection("formation").deleteMany({});
+  });
+
+  it("should returns 401 if api key is not provided", async () => {
+    const response = await app.inject({
+      method: "GET",
+      url: "/api/formation/v1/23",
+    });
+
+    expect(response.statusCode).toBe(401);
+    expect(response.json()).toEqual({
+      statusCode: 401,
+      name: "Unauthorized",
+      message: "Vous devez fournir une clé d'API valide pour accéder à cette ressource",
+    });
+  });
+
+  it("should returns 401 if api key is invalid", async () => {
+    const response = await app.inject({
+      method: "GET",
+      url: "/api/formation/v1/23",
+      headers: {
+        Authorization: `Bearer ${tokens.basic}invalid`,
+      },
+    });
+    expect(response.statusCode).toBe(401);
+    expect(response.json()).toEqual({
+      statusCode: 401,
+      name: "Unauthorized",
+      message: "Impossible de déchiffrer la clé d'API",
+    });
+  });
+
+  it("should return 404 if formation id does not exist", async () => {
+    const invalidId = "paris"; // ou un autre ID qui ne sera pas trouvé
+    const response = await app.inject({
+      method: "GET",
+      url: `/api/formation/v1/${invalidId}`,
+      headers: {
+        Authorization: `Bearer ${tokens.basic}`,
+      },
+    });
+
+    expect(response.statusCode).toBe(404);
+    expect(response.json()).toEqual({
+      statusCode: 404,
+      name: "Not Found",
+      message: `Aucune formation trouvée pour l'identifiant ${invalidId}`,
+    });
+  });
+
+  it("should return formation by id", async () => {
+    const validId = "cle-me-test";
+
+    const formation = generateFormationInternalFixture({
+      identifiant: { cle_ministere_educatif: validId },
+      lieu: {
+        geolocalisation: {
+          type: "Point",
+          coordinates: [2.2874, 48.8946],
+        },
+      },
+    });
+    await getDbCollection("formation").insertOne(formation);
+
+    const response = await app.inject({
+      method: "GET",
+      url: `/api/formation/v1/${validId}`,
+      headers: {
+        Authorization: `Bearer ${tokens.basic}`,
+      },
+    });
+
+    expect(response.statusCode).toBe(200);
+
+    const result = response.json();
+
+    expect(() => zFormation.parse(result)).not.toThrow();
+    expect(result.identifiant.cle_ministere_educatif).toBe(validId);
+    expect(result).toMatchSnapshot();
   });
 });

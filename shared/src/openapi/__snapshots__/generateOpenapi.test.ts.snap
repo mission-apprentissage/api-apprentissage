@@ -3028,6 +3028,37 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         ],
       },
     },
+    "/formation/v1/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Formation",
+                },
+              },
+            },
+            "description": "",
+          },
+        },
+        "security": [
+          {
+            "api-key": [],
+          },
+        ],
+      },
+    },
     "/geographie/v1/commune/search": {
       "get": {
         "parameters": [

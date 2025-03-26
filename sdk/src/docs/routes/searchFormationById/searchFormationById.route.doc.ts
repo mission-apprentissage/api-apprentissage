@@ -16,23 +16,12 @@ export const searchFormationByIdRouteDoc = {
       fr: "Succès",
     },
     content: {
-      descriptions: null,
-      properties: {
-        data: {
-          descriptions: [
-            {
-              en: "Training course matching the identifier",
-              fr: "Formations correspondant à l'identifiant de recherche (clé ME)",
-            },
-          ],
-          items: {
-            descriptions: null,
-          },
+      descriptions: [
+        {
+          en: "Training course matching the identifier",
+          fr: "Formations correspondant à l'identifiant de recherche (clé ME)",
         },
-        pagination: {
-          descriptions: null,
-        },
-      },
+      ],
     },
   },
 } as const satisfies DocRoute;

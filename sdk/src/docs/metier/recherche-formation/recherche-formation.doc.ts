@@ -115,7 +115,7 @@ export const rechercheFormationPageDoc = {
             },
             onisep: {
               description: {
-                fr: "Informations liées à la formation issue de l'ONISEP.",
+                fr: "Informations liées à la formation issues de l'ONISEP.",
                 en: "Information related to the training from the ONISEP",
               },
               tags: ["discipline", "domaine_sousdomaine", "intitule", "libelle_poursuite", "lien_site_onisepfr", "url"],
@@ -144,7 +144,7 @@ export const rechercheFormationPageDoc = {
                   en: "Certification associated with the training.",
                 },
                 {
-                  fr: "Pour plus de détails sur la certification, consulter l'onglet ``Certification``.",
+                  fr: "Pour plus de détail sur la certification, consulter l'onglet ``Certification``.",
                   en: "For certification details, see the `Certification` tab.",
                 },
               ],
@@ -157,8 +157,8 @@ export const rechercheFormationPageDoc = {
             session: {
               description: [
                 {
-                  fr: "Une session de formation est définie par une date de début et une date de fin.",
-                  en: "A training session is defined by a start date and an end date.",
+                  fr: "Une session est caractérisée par une date de début, une date de fin, ainsi qu’une capacité d’accueil en nombre d’élèves.",
+                  en: "A session is defined by a start date, an end date, and a maximum number of students it can accommodate.",
                 },
               ],
               information: {
@@ -186,10 +186,9 @@ export const rechercheFormationPageDoc = {
             precision: {
               description: [
                 {
-                  fr: "Précision de la géolocalisation du lieu de formation.",
-                  en: "Precision of the geolocation of the training place.",
+                  fr: "Précision de la géolocalisation du lieu de formation en mètres.",
+                  en: "Geolocation accuracy of the training location in meters.",
                 },
-                { fr: "La précision est exprimée en mètres.", en: "The precision is expressed in meters." },
                 {
                   fr: "Il s'agit de la distance entre le point géolocalisé et la localisation déduite de l'adresse.",
                   en: "This is the distance between the geolocated point and the location deduced from the address.",
@@ -210,8 +209,8 @@ export const rechercheFormationPageDoc = {
             connu: {
               description: [
                 {
-                  fr: "Vaut TRUE lorsqu'il est présent dans [le référentiel des organismes de formation](https://referentiel.apprentissage.onisep.fr/organismes) ou s'il l'a été dans le passé.",
-                  en: "TRUE when it is present in [the training organisms repository](https://referentiel.apprentissage.onisep.fr/organismes) or if it has been in the past.",
+                  fr: "Vaut true s’il est ou a été présent dans [le référentiel des organismes de formation](https://referentiel.apprentissage.onisep.fr/organismes).",
+                  en: "Returns true if it is or has been listed in the [the training organisms repository](https://referentiel.apprentissage.onisep.fr/organismes).",
                 },
                 {
                   fr: "Il peut s'agir d'un organisme qui n'est plus sur le référentiel des organismes de formation. Veuillez vérifier le statut de l'organisme.",
@@ -226,8 +225,8 @@ export const rechercheFormationPageDoc = {
                   en: "The training organism is responsible for educational monitoring.",
                 },
                 {
-                  fr: "Lorsque l'organisme n'est pas connu, les informations sont récupérées depuis [l'API Entreprise](https://entreprise.api.gouv.fr/). Lorsque le SIRET associé n'est pas retrouvé, est invalide ou non diffusible alors la valeur sera `null`.",
-                  en: "When the organism is not known, the information is retrieved from [the Entreprise API](https://entreprise.api.gouv.fr/). When the associated SIRET is not found, is invalid or not distributable then the value will be `null`.",
+                  fr: "Lorsque l'organisme est inconnu, les informations sont récupérées depuis [l'API Entreprise](https://entreprise.api.gouv.fr/). Lorsque le SIRET associé n'est pas retrouvé, est invalide ou non diffusible alors la valeur sera `null`.",
+                  en: "When the organism is unknown, the information is retrieved from [the Entreprise API](https://entreprise.api.gouv.fr/). When the associated SIRET is not found, is invalid or not distributable then the value will be `null`.",
                 },
                 {
                   fr: "Pour plus de détails sur l'organisme, consulter l'onglet ``Organisme``.",
@@ -259,8 +258,8 @@ export const rechercheFormationPageDoc = {
                   en: "The administrative responsible organism of the training",
                 },
                 {
-                  fr: "Lorsque l'organisme n'est pas connu, les informations sont récupérées depuis [l'API Entreprise](https://entreprise.api.gouv.fr/). Lorsque le SIRET associé n'est pas retrouvé, est invalide ou non diffusible alors la valeur sera `null`.",
-                  en: "When the organism is not known, the information is retrieved from [the Entreprise API](https://entreprise.api.gouv.fr/). When the associated SIRET is not found, is invalid or not distributable then the value will be `null`.",
+                  fr: "Lorsque l'organisme est inconnu, les informations sont récupérées depuis [l'API Entreprise](https://entreprise.api.gouv.fr/). Lorsque le SIRET associé n'est pas retrouvé, est invalide ou non diffusible alors la valeur sera `null`.",
+                  en: "When the organism is unknown, the information is retrieved from [the Entreprise API](https://entreprise.api.gouv.fr/). When the associated SIRET is not found, is invalid or not distributable then the value will be `null`.",
                 },
                 {
                   fr: "Pour le détail de l'organisme, consulter l'onglet `Organisme`.",

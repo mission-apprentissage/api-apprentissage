@@ -3268,6 +3268,35 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
       },
     },
     "/job/v1/offer/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobOfferRead",
+                },
+              },
+            },
+            "description": "",
+          },
+        },
+        "security": [
+          {
+            "api-key": [],
+          },
+        ],
+      },
       "put": {
         "parameters": [
           {
@@ -3424,37 +3453,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                     "warnings",
                   ],
                   "type": "object",
-                },
-              },
-            },
-            "description": "",
-          },
-        },
-        "security": [
-          {
-            "api-key": [],
-          },
-        ],
-      },
-    },
-    "/job/v1/{id}": {
-      "get": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "string",
-            },
-          },
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/JobOfferRead",
                 },
               },
             },

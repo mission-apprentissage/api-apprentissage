@@ -29,7 +29,7 @@ export const depotOffrePageDoc = {
     },
     {
       en: "**💡 The job postings published through this API must be linked to the SIRET number of the employer where the contract will be carried out.**",
-      fr: "**💡 Les offres diffusées via cette API doivent être rattachées au SIRET de l'employeur où s'exécutera le contrat.",
+      fr: "**💡 Les offres diffusées via cette API doivent être rattachées au SIRET de l'employeur où s'exécutera le contrat.**",
     },
   ],
   frequenceMiseAJour: null,

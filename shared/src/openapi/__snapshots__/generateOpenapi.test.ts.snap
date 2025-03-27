@@ -2689,7 +2689,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
     "securitySchemes": {
       "api-key": {
         "bearerFormat": "Bearer",
-        "description": "Clé d'API à fournir dans le header \`Authorization\`. Si la route nécessite une habiliation particulière veuillez contacter le support pour en faire la demande à [support_api@apprentissage.beta.gouv.fr](mailto:support_api@apprentissage.beta.gouv.fr)",
+        "description": "Clé d'API à fournir dans le header \`Authorization\`. Si la route nécessite une habilitation particulière veuillez contacter le support pour en faire la demande à [support_api@apprentissage.beta.gouv.fr](mailto:support_api@apprentissage.beta.gouv.fr)",
         "scheme": "bearer",
         "type": "http",
       },
@@ -2698,14 +2698,14 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
   "info": {
     "contact": {
       "email": "support_api@apprentissage.beta.gouv.fr",
-      "name": "Équipe API Apprentissage",
+      "name": "Équipe Espace développeurs La bonne alternance",
     },
     "license": {
       "name": "Etalab-2.0",
       "url": "https://github.com/etalab/licence-ouverte/blob/master/LO.md",
     },
     "termsOfService": "https://api.apprentissage.beta.gouv.fr/cgu",
-    "title": "Documentation technique de l'API Apprentissage",
+    "title": "Documentation technique",
     "version": "V1.0",
   },
   "openapi": "3.1.0",

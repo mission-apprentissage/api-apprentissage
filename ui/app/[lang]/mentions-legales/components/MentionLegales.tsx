@@ -72,8 +72,8 @@ const MentionsLegales = () => {
             Éditeur de la plateforme
           </Typography>
           <Typography>
-            La plateforme “API Apprentissage” est éditée par la Délégation générale à l’emploi et à la formation
-            professionnelle (DGEFP), située :
+            La plateforme “Espace développeurs La bonne alternance” est éditée par la Délégation générale à l’emploi et
+            à la formation professionnelle (DGEFP), située :
             <br />
             <br />
             14 avenue Duquesne

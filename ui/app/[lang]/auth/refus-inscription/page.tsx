@@ -110,7 +110,7 @@ export default function RegisterFeedbackPage({ params }: PropsWithLangParams) {
         <Box sx={{ textAlign: "right", marginBottom: fr.spacing("2w") }}>
           <Button priority="tertiary">
             <Box component={NextLink} href={PAGES.static.home.getPath(lang)} sx={{ backgroundImage: "none" }}>
-              Retourner sur le site API Apprentissage
+              Retourner sur l'espace développeurs La bonne alternance
             </Box>
           </Button>
         </Box>

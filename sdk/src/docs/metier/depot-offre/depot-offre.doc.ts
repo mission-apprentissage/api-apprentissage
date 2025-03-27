@@ -27,6 +27,10 @@ export const depotOffrePageDoc = {
       en: "**💡 This API allows you to share your apprenticeship job offers for free in a secure and automated way.** If you prefer to post your offers via an interface, you can use [the manual offer posting form offered by La bonne alternance](https://labonnealternance.apprentissage.beta.gouv.fr/espace-pro/creation/entreprise).",
       fr: "**💡 Cette API vous permet de partager gratuitement vos offres en alternance de manière sécurisée et automatisée.** Si vous préférez déposer vos offres via une interface, vous pouvez utiliser [le formulaire de dépôt d’offre manuel proposé par La bonne alternance](https://labonnealternance.apprentissage.beta.gouv.fr/espace-pro/creation/entreprise).",
     },
+    {
+      en: "**💡 The job postings published through this API must be linked to the SIRET number of the employer where the contract will be carried out.**",
+      fr: "**💡 Les offres diffusées via cette API doivent être rattachées au SIRET de l'employeur où s'exécutera le contrat.",
+    },
   ],
   frequenceMiseAJour: null,
   type: "data",

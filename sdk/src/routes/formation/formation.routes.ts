@@ -49,13 +49,16 @@ export const zFormationSearchApiQuery = zPaginationQuery
     }
   });
 
+export const zFormationExternal = zFormation.omit({ contact: true });
+
 export const zFormationSearchApiResult = z.object({
-  data: zFormation.array(),
+  data: zFormationExternal.array(),
   pagination: zPaginationInfo,
 });
 
 export type IFormationSearchApiQuery = z.output<typeof zFormationSearchApiQuery>;
 export type IFormationSearchApiResult = z.output<typeof zFormationSearchApiResult>;
+export type IFormationExternal = z.output<typeof zFormationExternal>;
 
 export const zApiFormationRoutes = {
   get: {
@@ -65,6 +68,19 @@ export const zApiFormationRoutes = {
       querystring: zFormationSearchApiQuery,
       response: {
         "200": zFormationSearchApiResult,
+      },
+      securityScheme: {
+        auth: "api-key",
+        access: null,
+        ressources: {},
+      },
+    },
+    "/formation/v1/:id": {
+      method: "get",
+      path: "/formation/v1/:id",
+      params: z.object({ id: z.string() }),
+      response: {
+        "200": zFormationExternal,
       },
       securityScheme: {
         auth: "api-key",

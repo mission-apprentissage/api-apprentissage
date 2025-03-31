@@ -1,4 +1,5 @@
-import type { IFormationSearchApiQuery, IFormationSearchApiResult } from "api-alternance-sdk";
+import { notFound } from "@hapi/boom";
+import type { IFormationExternal, IFormationSearchApiQuery, IFormationSearchApiResult } from "api-alternance-sdk";
 import type { Filter } from "mongodb";
 import type { IFormationInternal } from "shared/models/formation.model";
 
@@ -60,10 +61,26 @@ function resolveSearchQuery(query: IFormationSearchApiQuery, context: "count" | 
 }
 
 export async function searchFormation(query: IFormationSearchApiQuery): Promise<IFormationSearchApiResult> {
-  return paginate(
+  const result = await paginate(
     getDbCollection("formation"),
     query,
     resolveSearchQuery(query, "find"),
     resolveSearchQuery(query, "count")
   );
+
+  return {
+    data: result.data.map(({ contact, ...rest }) => rest),
+    pagination: result.pagination,
+  };
+}
+
+export async function getFormationByCleMe(cleMe: string): Promise<IFormationExternal> {
+  const formation = await getDbCollection("formation").findOne({ "identifiant.cle_ministere_educatif": cleMe });
+
+  if (!formation) {
+    throw notFound(`Aucune formation trouvée pour l'identifiant ${cleMe}`);
+  }
+
+  const { contact, ...formationWithoutContact } = formation;
+  return formationWithoutContact as IFormationExternal;
 }

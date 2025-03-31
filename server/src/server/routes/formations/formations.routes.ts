@@ -2,7 +2,7 @@ import { zRoutes } from "shared";
 
 import config from "@/config.js";
 import type { Server } from "@/server/server.js";
-import { searchFormation } from "@/services/formation/formation.service.js";
+import { getFormationByCleMe, searchFormation } from "@/services/formation/formation.service.js";
 import { forwardApiRequest } from "@/services/forward/forwardApi.service.js";
 import { getUserFromRequest } from "@/services/security/authenticationService.js";
 
@@ -15,6 +15,18 @@ export const formationRoutes = ({ server }: { server: Server }) => {
     },
     async (request, response) => {
       const result = await searchFormation(request.query);
+      return response.status(200).send(result);
+    }
+  );
+
+  server.get(
+    "/formation/v1/:id",
+    {
+      schema: zRoutes.get["/formation/v1/:id"],
+      onRequest: [server.auth(zRoutes.get["/formation/v1/:id"])],
+    },
+    async (request, response) => {
+      const result = await getFormationByCleMe(request.params.id);
       return response.status(200).send(result);
     }
   );

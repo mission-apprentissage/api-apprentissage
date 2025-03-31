@@ -163,10 +163,6 @@ exports[`GET /formation/v1/search > should perform search correctly 1`] = `
       },
     },
   },
-  "contact": {
-    "email": "mail@mail.fr",
-    "telephone": "0123456789",
-  },
   "contenu_educatif": {
     "contenu": "Contenu éducatif",
     "objectif": "Apprendre",

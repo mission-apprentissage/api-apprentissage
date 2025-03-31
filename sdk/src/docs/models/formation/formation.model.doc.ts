@@ -9,10 +9,6 @@ export const formationModelDoc = {
         connue: {
           descriptions: [
             {
-              fr: "Indique si la certification est connue de l'API",
-              en: "Is the certification known?",
-            },
-            {
               fr: "Lorsque la certification est connue, alors la certification est disponible dans l'API certifications",
               en: "When the certification is known, then the certification is available in the certifications API",
             },
@@ -115,10 +111,9 @@ export const formationModelDoc = {
         precision: {
           descriptions: [
             {
-              fr: "Précision de la géolocalisation du lieu de formation",
-              en: "Precision of the geolocation of the training place",
+              fr: "Précision de la géolocalisation du lieu de formation en mètres.",
+              en: "Geolocation accuracy of the training location in meters.",
             },
-            { fr: "La précision est exprimée en mètre", en: "The precision is expressed in meters" },
             {
               fr: "Il s'agit de la distance entre le point géolocalisé et la locasation déduite de l'adresse",
               en: "This is the distance between the geolocated point and the location deduced from the address",
@@ -137,7 +132,12 @@ export const formationModelDoc = {
       descriptions: [{ fr: "Modalité de la formation", en: "Training modality" }],
       properties: {
         annee_cycle: {
-          descriptions: [{ fr: "Année du cycle de la formation", en: "Training cycle year" }],
+          descriptions: [
+            {
+              fr: "- L'année de démarrage de la session de formation.",
+              en: "The start year of the training session.",
+            },
+          ],
         },
         duree_indicative: {
           descriptions: [{ fr: "Durée indicative de la formation", en: "Indicative duration of the training" }],
@@ -158,7 +158,7 @@ export const formationModelDoc = {
     onisep: {
       descriptions: [
         {
-          fr: "Informations lié à la formation issue de l'ONISEP",
+          fr: "Informations lié à la formation issues de l'ONISEP",
           en: "Information related to the training from the ONISEP",
         },
       ],

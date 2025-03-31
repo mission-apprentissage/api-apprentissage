@@ -128,36 +128,6 @@ export const jobRoutesOpenapi: OpenapiRoutes = {
       },
     },
   },
-  "/job/v1/{id}": {
-    get: {
-      tag: "job",
-      doc: jobSearchByIdRouteDoc,
-      schema: {
-        operationId: "jobSearchById",
-        security: [{ "api-key": [] }],
-        parameters: [
-          {
-            schema: { type: "string" },
-            required: true,
-            name: "id",
-            in: "path",
-          },
-        ],
-        responses: {
-          "200": {
-            description: jobSearchByIdRouteDoc.response.description,
-            content: {
-              "application/json": {
-                schema: {
-                  $ref: "#/components/schemas/JobOfferRead",
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-  },
   "/job/v1/offer": {
     post: {
       tag: "job",
@@ -220,6 +190,34 @@ export const jobRoutesOpenapi: OpenapiRoutes = {
         },
         responses: {
           "204": {},
+        },
+      },
+    },
+    get: {
+      tag: "job",
+      doc: jobSearchByIdRouteDoc,
+      schema: {
+        operationId: "jobSearchById",
+        security: [{ "api-key": [] }],
+        parameters: [
+          {
+            schema: { type: "string" },
+            required: true,
+            name: "id",
+            in: "path",
+          },
+        ],
+        responses: {
+          "200": {
+            description: jobSearchByIdRouteDoc.response.description,
+            content: {
+              "application/json": {
+                schema: {
+                  $ref: "#/components/schemas/JobOfferRead",
+                },
+              },
+            },
+          },
         },
       },
     },

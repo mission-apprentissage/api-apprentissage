@@ -106,7 +106,10 @@ export const rechercheFormationPageDoc = {
             modalite: {
               description: [
                 { fr: "Modalités de la formation composées de :", en: "Training modality" },
-                { fr: "- L'année du cycle de la formation.", en: "The year of the training cycle" },
+                {
+                  fr: "- L'année de démarrage de la session de formation.",
+                  en: "The start year of the training session.",
+                },
                 { fr: "- La durée indicative de la formation.", en: "The indicative duration of the training" },
                 { fr: "- Si la formation est entièrement à distance.", en: "If the training is entirely remote" },
                 { fr: "- Le code MEF 10 de la formation.", en: "The training MEF 10 code" },

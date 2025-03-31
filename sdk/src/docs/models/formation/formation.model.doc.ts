@@ -132,7 +132,12 @@ export const formationModelDoc = {
       descriptions: [{ fr: "Modalité de la formation", en: "Training modality" }],
       properties: {
         annee_cycle: {
-          descriptions: [{ fr: "Année du cycle de la formation", en: "Training cycle year" }],
+          descriptions: [
+            {
+              fr: "- L'année de démarrage de la session de formation.",
+              en: "The start year of the training session.",
+            },
+          ],
         },
         duree_indicative: {
           descriptions: [{ fr: "Durée indicative de la formation", en: "Indicative duration of the training" }],

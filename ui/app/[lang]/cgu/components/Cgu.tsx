@@ -69,8 +69,9 @@ const Cgu: FC<Props> = ({ onLoad }) => {
         </Typography>
         <Typography>Dernière mise à jour le : 23 mars 2024 - {cguVersion} </Typography>
         <Typography>
-          Les présentes conditions générales d’utilisation (dites “CGU”) fixent le cadre juridique de “API
-          apprentissage” et définissent les conditions d’accès et d’utilisation des services par l’Utilisateur.
+          Les présentes conditions générales d’utilisation (dites “CGU”) fixent le cadre juridique de “L'espace
+          développeurs La bonne alternance” et définissent les conditions d’accès et d’utilisation des services par
+          l’Utilisateur.
         </Typography>
 
         <Section id={anchors.ChampApplication}>

@@ -94,3 +94,12 @@ export function generateFormationFixture<T extends IFormation>(data?: IFormation
     },
   };
 }
+
+export function generateFormationFixtureWithoutContact<T extends IFormation>(
+  data?: Omit<IFormationFixtureInput<T>, "contact">
+): IFormation {
+  return generateFormationFixture({
+    ...data,
+    contact: undefined,
+  });
+}

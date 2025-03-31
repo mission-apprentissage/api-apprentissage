@@ -67,7 +67,7 @@ const Cgu: FC<Props> = ({ onLoad }) => {
         <Typography variant="h1" gutterBottom color={fr.colors.decisions.text.actionHigh.blueEcume.default}>
           Conditions générales d&apos;utilisation
         </Typography>
-        <Typography>Dernière mise à jour le : 23 mars 2024 - {cguVersion} </Typography>
+        <Typography>Dernière mise à jour le : 31 mars 2025 - {cguVersion} </Typography>
         <Typography>
           Les présentes conditions générales d’utilisation (dites “CGU”) fixent le cadre juridique de “L'espace
           développeurs La bonne alternance” et définissent les conditions d’accès et d’utilisation des services par

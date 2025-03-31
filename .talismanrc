@@ -10,7 +10,7 @@ fileignoreconfig:
 - filename: sdk/src/client/internal/geographie/geographie.module.test.ts
   checksum: 520b2ba0cac171d714a8cf8c7a4fdb349e280416aeaff419a94d423898674b0e
 - filename: sdk/src/docs/metier/depot-offre/depot-offre.doc.ts
-  checksum: 1f5464e56aed9bce421b7f589a64f90ef0aa28e52b0c1092ceaef1cb7de0d19a
+  checksum: 4f53b2048a9d7bda6fa2b5c72c1ebcfd353bf678958dc1d76d885e1226a03701
 - filename: sdk/src/docs/models/job/application.model.doc.ts
   checksum: 9eb6c1fff24b532a002385705e293152a0e74a357c8d0071a500383c3c17c50b
 - filename: sdk/src/docs/models/job/offer_read.model.doc.ts

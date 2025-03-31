@@ -20,12 +20,12 @@ export const depotOffrePageDoc = {
   habilitation: "jobs:write",
   description: [
     {
-      fr: "**Déposez, modifiez ou supprimez vos offres d’emploi en alternance** pour maximiser leur visibilité en les diffusant sur la plateforme [La bonne alternance](https://labonnealternance.apprentissage.beta.gouv.fr/) ainsi que [ses sites partenaires](https://mission-apprentissage.notion.site/Liste-des-partenaires-de-La-bonne-alternance-3e9aadb0170e41339bac486399ec4ac1).",
-      en: "**Post, modify, or delete your apprenticeship job offers** to maximize their visibility by posting them on the [La bonne alternance](https://labonnealternance.apprentissage.beta.gouv.fr/) platform and [its partner sites](https://mission-apprentissage.notion.site/Liste-des-partenaires-de-La-bonne-alternance-3e9aadb0170e41339bac486399ec4ac1).",
+      fr: "Déposez, modifiez ou supprimez vos offres d’emploi en alternance pour maximiser leur visibilité en les diffusant sur la plateforme [La bonne alternance](https://labonnealternance.apprentissage.beta.gouv.fr/) ainsi que [ses sites partenaires](https://mission-apprentissage.notion.site/Liste-des-partenaires-de-La-bonne-alternance-3e9aadb0170e41339bac486399ec4ac1).",
+      en: "Post, modify, or delete your apprenticeship job offers to maximize their visibility by posting them on the [La bonne alternance](https://labonnealternance.apprentissage.beta.gouv.fr/) platform and [its partner sites](https://mission-apprentissage.notion.site/Liste-des-partenaires-de-La-bonne-alternance-3e9aadb0170e41339bac486399ec4ac1).",
     },
     {
-      en: "**💡 This API allows you to share your apprenticeship job offers for free in a secure and automated way.** If you prefer to post your offers via an interface, you can use [the manual offer posting form offered by La bonne alternance](https://labonnealternance.apprentissage.beta.gouv.fr/espace-pro/creation/entreprise).",
-      fr: "**💡 Cette API vous permet de partager gratuitement vos offres en alternance de manière sécurisée et automatisée.** Si vous préférez déposer vos offres via une interface, vous pouvez utiliser [le formulaire de dépôt d’offre manuel proposé par La bonne alternance](https://labonnealternance.apprentissage.beta.gouv.fr/espace-pro/creation/entreprise).",
+      en: "💡 This API allows you to share your apprenticeship job offers for free in a secure and automated way. If you prefer to post your offers via an interface, you can use [the manual offer posting form offered by La bonne alternance](https://labonnealternance.apprentissage.beta.gouv.fr/espace-pro/creation/entreprise).",
+      fr: "💡 Cette API vous permet de partager gratuitement vos offres en alternance de manière sécurisée et automatisée. Si vous préférez déposer vos offres via une interface, vous pouvez utiliser [le formulaire de dépôt d’offre manuel proposé par La bonne alternance](https://labonnealternance.apprentissage.beta.gouv.fr/espace-pro/creation/entreprise).",
     },
     {
       en: "**💡 The job postings published through this API must be linked to the SIRET number of the employer where the contract will be carried out.**",

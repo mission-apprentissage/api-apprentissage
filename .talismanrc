@@ -1,6 +1,6 @@
 fileignoreconfig:
 - filename: .infra/files/configs/mongodb/seed.gpg
-  checksum: 8d3a165f9e8959e793dad8584fb2d0f1a798924e3b78e678558300fcfd32ba1c
+  checksum: c7e59fcdeca98b65d4ef4d92183b6dacae9a9df202ef4e931196976133f240af
 - filename: .infra/vault/vault.yml
   checksum: dd537b08d5b29e8cc7e3736ac4bba619d6d302f4d9e68916ebcdb83f3a43461c
 - filename: .yarn/patches/exceljs-npm-4.4.0-15bcfdd142.patch
@@ -21,6 +21,8 @@ fileignoreconfig:
   checksum: 01876f404d0d1ec92cc4ba83c1b869a32fe08621ed249b04d09609d3170f96f4
 - filename: sdk/src/docs/routes/jobOfferUpdate/jobOfferUpdate.route.doc.ts
   checksum: 4c6e64beba2f719da577a0aae1c9642e6e2e8712dc909dc62c64c081a2c612a8
+- filename: sdk/src/docs/routes/jobSearchById/jobSearchById.route.doc.ts
+  checksum: e53bd587cfcf423a01cdbf9cf4d3c5c44d598ff472ac88e718d8b9a4bb5da462
 - filename: server/.env.test
   checksum: 65357f150bfedfebea511b1007eed941983484abf990d87e91fd7477360ad280
 - filename: server/src/jobs/importer/catalogue/fixtures/sample.ts
@@ -47,8 +49,6 @@ fileignoreconfig:
   checksum: 79162968dc111206592c35c9bdbfc1babae88ad1390a190d6c7b5108ebb82b9d
 - filename: ui/app/[lang]/explorer/depot-offre/page.tsx
   checksum: 764fcfac0c4242d1b22a812798db3a661392d72688d80f7898b6e82714efe457
-- filename: sdk/src/docs/routes/jobSearchById/jobSearchById.route.doc.ts
-  checksum: e53bd587cfcf423a01cdbf9cf4d3c5c44d598ff472ac88e718d8b9a4bb5da462
 scopeconfig:
 - scope: node
 custom_patterns:

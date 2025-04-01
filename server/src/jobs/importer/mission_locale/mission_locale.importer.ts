@@ -10,6 +10,7 @@ import { z } from "zod";
 
 import { fetchDepartementMissionLocale } from "@/services/apis/unml/unml.js";
 import { withCause } from "@/services/errors/withCause.js";
+import logger from "@/services/logger.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 import { getStaticFilePath } from "@/utils/getStaticFilePath.js";
 import { createBatchTransformStream } from "@/utils/streamUtils.js";
@@ -25,6 +26,15 @@ const zRecord = z.object({
   "Ville ML": z.string(),
 });
 
+function fixInvalidUnmlCodeStructures(codeStructure: string) {
+  switch (codeStructure) {
+    case "21131":
+      return "21231";
+    default:
+      return codeStructure;
+  }
+}
+
 async function fetchDepartementStructures(
   codeDepartement: string,
   store: Map<string, ISourceCodeInseeToMissionLocale["ml"]>
@@ -32,10 +42,11 @@ async function fetchDepartementStructures(
   const { results } = await fetchDepartementMissionLocale(codeDepartement);
 
   for (const { structure } of results) {
-    if (!store.has(structure.codeStructure)) {
-      store.set(structure.codeStructure, {
+    const codeStructure = fixInvalidUnmlCodeStructures(structure.codeStructure);
+    if (!store.has(codeStructure)) {
+      store.set(codeStructure, {
         id: structure.id,
-        code: structure.codeStructure,
+        code: codeStructure,
         nom: structure.nomStructure,
         siret: structure.siret,
         localisation: {
@@ -139,6 +150,7 @@ export async function runMissionLocaleImporter() {
         });
 
         await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "done" } });
+        logger.info({ importId, notFoundUnml: [...notFoundUnml.values()] }, "Mission locale import done");
         yield;
       }
     );

@@ -1,0 +1,3888 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`generateOpenApiSchema > should generate proper schema 1`] = `
+{
+  "components": {
+    "parameters": {},
+    "requestBodies": {},
+    "responses": {
+      "BadGateway": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "additionalProperties": false,
+              "properties": {
+                "message": {
+                  "type": "string",
+                },
+                "name": {
+                  "type": "string",
+                },
+                "statusCode": {
+                  "enum": [
+                    502,
+                  ],
+                  "type": "number",
+                },
+              },
+              "required": [
+                "message",
+                "name",
+                "statusCode",
+              ],
+              "type": "object",
+            },
+          },
+        },
+        "description": "",
+      },
+      "BadRequest": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "additionalProperties": false,
+              "properties": {
+                "message": {
+                  "type": "string",
+                },
+                "name": {
+                  "type": "string",
+                },
+                "statusCode": {
+                  "enum": [
+                    400,
+                  ],
+                  "type": "number",
+                },
+              },
+              "required": [
+                "message",
+                "name",
+                "statusCode",
+              ],
+              "type": "object",
+            },
+          },
+        },
+        "description": "",
+      },
+      "Conflict": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "additionalProperties": false,
+              "properties": {
+                "message": {
+                  "type": "string",
+                },
+                "name": {
+                  "type": "string",
+                },
+                "statusCode": {
+                  "enum": [
+                    409,
+                  ],
+                  "type": "number",
+                },
+              },
+              "required": [
+                "message",
+                "name",
+                "statusCode",
+              ],
+              "type": "object",
+            },
+          },
+        },
+        "description": "",
+      },
+      "Forbidden": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "additionalProperties": false,
+              "properties": {
+                "message": {
+                  "type": "string",
+                },
+                "name": {
+                  "type": "string",
+                },
+                "statusCode": {
+                  "enum": [
+                    403,
+                  ],
+                  "type": "number",
+                },
+              },
+              "required": [
+                "message",
+                "name",
+                "statusCode",
+              ],
+              "type": "object",
+            },
+          },
+        },
+        "description": "",
+      },
+      "InternalServerError": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "additionalProperties": false,
+              "properties": {
+                "message": {
+                  "type": "string",
+                },
+                "name": {
+                  "type": "string",
+                },
+                "statusCode": {
+                  "enum": [
+                    500,
+                  ],
+                  "type": "number",
+                },
+              },
+              "required": [
+                "message",
+                "name",
+                "statusCode",
+              ],
+              "type": "object",
+            },
+          },
+        },
+        "description": "",
+      },
+      "NotFound": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "additionalProperties": false,
+              "properties": {
+                "message": {
+                  "type": "string",
+                },
+                "name": {
+                  "type": "string",
+                },
+                "statusCode": {
+                  "enum": [
+                    404,
+                  ],
+                  "type": "number",
+                },
+              },
+              "required": [
+                "message",
+                "name",
+                "statusCode",
+              ],
+              "type": "object",
+            },
+          },
+        },
+        "description": "",
+      },
+      "ServiceUnavailable": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "additionalProperties": false,
+              "properties": {
+                "message": {
+                  "type": "string",
+                },
+                "name": {
+                  "type": "string",
+                },
+                "statusCode": {
+                  "enum": [
+                    502,
+                  ],
+                  "type": "number",
+                },
+              },
+              "required": [
+                "message",
+                "name",
+                "statusCode",
+              ],
+              "type": "object",
+            },
+          },
+        },
+        "description": "",
+      },
+      "TooManyRequests": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "additionalProperties": false,
+              "properties": {
+                "message": {
+                  "type": "string",
+                },
+                "name": {
+                  "type": "string",
+                },
+                "statusCode": {
+                  "enum": [
+                    419,
+                  ],
+                  "type": "number",
+                },
+              },
+              "required": [
+                "message",
+                "name",
+                "statusCode",
+              ],
+              "type": "object",
+            },
+          },
+        },
+        "description": "",
+      },
+      "Unauthorized": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "additionalProperties": false,
+              "properties": {
+                "message": {
+                  "type": "string",
+                },
+                "name": {
+                  "type": "string",
+                },
+                "statusCode": {
+                  "enum": [
+                    401,
+                  ],
+                  "type": "number",
+                },
+              },
+              "required": [
+                "message",
+                "name",
+                "statusCode",
+              ],
+              "type": "object",
+            },
+          },
+        },
+        "description": "",
+      },
+    },
+    "schemas": {
+      "Adresse": {
+        "properties": {
+          "academie": {
+            "properties": {
+              "code": {
+                "type": "string",
+              },
+              "id": {
+                "type": "string",
+              },
+              "nom": {
+                "type": "string",
+              },
+            },
+            "required": [
+              "code",
+              "id",
+              "nom",
+            ],
+            "type": "object",
+          },
+          "code_postal": {
+            "type": [
+              "string",
+              "null",
+            ],
+          },
+          "commune": {
+            "properties": {
+              "code_insee": {
+                "type": "string",
+              },
+              "nom": {
+                "type": "string",
+              },
+            },
+            "required": [
+              "code_insee",
+              "nom",
+            ],
+            "type": "object",
+          },
+          "departement": {
+            "properties": {
+              "code_insee": {
+                "type": "string",
+              },
+              "nom": {
+                "type": "string",
+              },
+            },
+            "required": [
+              "code_insee",
+              "nom",
+            ],
+            "type": "object",
+          },
+          "label": {
+            "type": [
+              "string",
+              "null",
+            ],
+          },
+          "region": {
+            "properties": {
+              "code_insee": {
+                "type": "string",
+              },
+              "nom": {
+                "type": "string",
+              },
+            },
+            "required": [
+              "code_insee",
+              "nom",
+            ],
+            "type": "object",
+          },
+        },
+        "required": [
+          "academie",
+          "code_postal",
+          "commune",
+          "departement",
+          "label",
+          "region",
+        ],
+        "type": "object",
+      },
+      "Certification": {
+        "properties": {
+          "base_legale": {
+            "properties": {
+              "cfd": {
+                "properties": {
+                  "abrogation": {
+                    "format": "date-time",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "creation": {
+                    "format": "date-time",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                },
+                "required": [
+                  "abrogation",
+                  "creation",
+                ],
+                "type": [
+                  "object",
+                  "null",
+                ],
+              },
+            },
+            "required": [
+              "cfd",
+            ],
+            "type": "object",
+          },
+          "blocs_competences": {
+            "properties": {
+              "rncp": {
+                "items": {
+                  "properties": {
+                    "code": {
+                      "pattern": "^(RNCP\\d{3,5}BC)?\\d{1,2}$",
+                      "type": "string",
+                    },
+                    "intitule": {
+                      "type": [
+                        "string",
+                        "null",
+                      ],
+                    },
+                  },
+                  "required": [
+                    "code",
+                    "intitule",
+                  ],
+                  "type": "object",
+                },
+                "type": [
+                  "array",
+                  "null",
+                ],
+              },
+            },
+            "required": [
+              "rncp",
+            ],
+            "type": "object",
+          },
+          "continuite": {
+            "properties": {
+              "cfd": {
+                "items": {
+                  "properties": {
+                    "code": {
+                      "pattern": "^[A-Z0-9]{3}\\d{3}[A-Z0-9]{2}$",
+                      "type": "string",
+                    },
+                    "courant": {
+                      "type": "boolean",
+                    },
+                    "fermeture": {
+                      "format": "date-time",
+                      "type": [
+                        "string",
+                        "null",
+                      ],
+                    },
+                    "ouverture": {
+                      "format": "date-time",
+                      "type": [
+                        "string",
+                        "null",
+                      ],
+                    },
+                  },
+                  "required": [
+                    "code",
+                    "courant",
+                    "fermeture",
+                    "ouverture",
+                  ],
+                  "type": "object",
+                },
+                "type": [
+                  "array",
+                  "null",
+                ],
+              },
+              "rncp": {
+                "items": {
+                  "properties": {
+                    "actif": {
+                      "type": "boolean",
+                    },
+                    "activation": {
+                      "format": "date-time",
+                      "type": [
+                        "string",
+                        "null",
+                      ],
+                    },
+                    "code": {
+                      "pattern": "^RNCP\\d{3,5}$",
+                      "type": "string",
+                    },
+                    "courant": {
+                      "type": "boolean",
+                    },
+                    "fin_enregistrement": {
+                      "format": "date-time",
+                      "type": [
+                        "string",
+                        "null",
+                      ],
+                    },
+                  },
+                  "required": [
+                    "actif",
+                    "activation",
+                    "code",
+                    "courant",
+                    "fin_enregistrement",
+                  ],
+                  "type": "object",
+                },
+                "type": [
+                  "array",
+                  "null",
+                ],
+              },
+            },
+            "required": [
+              "cfd",
+              "rncp",
+            ],
+            "type": "object",
+          },
+          "convention_collectives": {
+            "properties": {
+              "rncp": {
+                "items": {
+                  "properties": {
+                    "intitule": {
+                      "type": "string",
+                    },
+                    "numero": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "intitule",
+                    "numero",
+                  ],
+                  "type": "object",
+                },
+                "type": [
+                  "array",
+                  "null",
+                ],
+              },
+            },
+            "required": [
+              "rncp",
+            ],
+            "type": "object",
+          },
+          "domaines": {
+            "properties": {
+              "formacodes": {
+                "properties": {
+                  "rncp": {
+                    "items": {
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                        },
+                        "intitule": {
+                          "type": "string",
+                        },
+                      },
+                      "required": [
+                        "code",
+                        "intitule",
+                      ],
+                      "type": "object",
+                    },
+                    "type": [
+                      "array",
+                      "null",
+                    ],
+                  },
+                },
+                "required": [
+                  "rncp",
+                ],
+                "type": "object",
+              },
+              "nsf": {
+                "properties": {
+                  "cfd": {
+                    "properties": {
+                      "code": {
+                        "type": "string",
+                      },
+                      "intitule": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                    },
+                    "required": [
+                      "code",
+                      "intitule",
+                    ],
+                    "type": [
+                      "object",
+                      "null",
+                    ],
+                  },
+                  "rncp": {
+                    "items": {
+                      "properties": {
+                        "code": {
+                          "pattern": "^\\d{2,3}[a-z]?$",
+                          "type": "string",
+                        },
+                        "intitule": {
+                          "type": [
+                            "string",
+                            "null",
+                          ],
+                        },
+                      },
+                      "required": [
+                        "code",
+                        "intitule",
+                      ],
+                      "type": "object",
+                    },
+                    "type": [
+                      "array",
+                      "null",
+                    ],
+                  },
+                },
+                "required": [
+                  "cfd",
+                  "rncp",
+                ],
+                "type": "object",
+              },
+              "rome": {
+                "properties": {
+                  "rncp": {
+                    "items": {
+                      "properties": {
+                        "code": {
+                          "pattern": "^[A-Z]{1}\\d{0,4}$",
+                          "type": "string",
+                        },
+                        "intitule": {
+                          "type": "string",
+                        },
+                      },
+                      "required": [
+                        "code",
+                        "intitule",
+                      ],
+                      "type": "object",
+                    },
+                    "type": [
+                      "array",
+                      "null",
+                    ],
+                  },
+                },
+                "required": [
+                  "rncp",
+                ],
+                "type": "object",
+              },
+            },
+            "required": [
+              "formacodes",
+              "nsf",
+              "rome",
+            ],
+            "type": "object",
+          },
+          "identifiant": {
+            "properties": {
+              "cfd": {
+                "pattern": "^[A-Z0-9]{3}\\d{3}[A-Z0-9]{2}$",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "rncp": {
+                "pattern": "^RNCP\\d{3,5}$",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "rncp_anterieur_2019": {
+                "type": [
+                  "boolean",
+                  "null",
+                ],
+              },
+            },
+            "required": [
+              "cfd",
+              "rncp",
+              "rncp_anterieur_2019",
+            ],
+            "type": "object",
+          },
+          "intitule": {
+            "properties": {
+              "cfd": {
+                "properties": {
+                  "court": {
+                    "type": "string",
+                  },
+                  "long": {
+                    "type": "string",
+                  },
+                },
+                "required": [
+                  "court",
+                  "long",
+                ],
+                "type": [
+                  "object",
+                  "null",
+                ],
+              },
+              "niveau": {
+                "properties": {
+                  "cfd": {
+                    "properties": {
+                      "europeen": {
+                        "enum": [
+                          "1",
+                          "2",
+                          "3",
+                          "4",
+                          "5",
+                          "6",
+                          "7",
+                          "8",
+                        ],
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "formation_diplome": {
+                        "type": "string",
+                      },
+                      "interministeriel": {
+                        "type": "string",
+                      },
+                      "libelle": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "sigle": {
+                        "type": "string",
+                      },
+                    },
+                    "required": [
+                      "europeen",
+                      "formation_diplome",
+                      "interministeriel",
+                      "libelle",
+                      "sigle",
+                    ],
+                    "type": [
+                      "object",
+                      "null",
+                    ],
+                  },
+                  "rncp": {
+                    "properties": {
+                      "europeen": {
+                        "enum": [
+                          "1",
+                          "2",
+                          "3",
+                          "4",
+                          "5",
+                          "6",
+                          "7",
+                          "8",
+                        ],
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                    },
+                    "required": [
+                      "europeen",
+                    ],
+                    "type": [
+                      "object",
+                      "null",
+                    ],
+                  },
+                },
+                "required": [
+                  "cfd",
+                  "rncp",
+                ],
+                "type": "object",
+              },
+              "rncp": {
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+            },
+            "required": [
+              "cfd",
+              "niveau",
+              "rncp",
+            ],
+            "type": "object",
+          },
+          "periode_validite": {
+            "properties": {
+              "cfd": {
+                "properties": {
+                  "derniere_session": {
+                    "type": [
+                      "integer",
+                      "null",
+                    ],
+                  },
+                  "fermeture": {
+                    "format": "date-time",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "ouverture": {
+                    "format": "date-time",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "premiere_session": {
+                    "type": [
+                      "integer",
+                      "null",
+                    ],
+                  },
+                },
+                "required": [
+                  "derniere_session",
+                  "fermeture",
+                  "ouverture",
+                  "premiere_session",
+                ],
+                "type": [
+                  "object",
+                  "null",
+                ],
+              },
+              "debut": {
+                "format": "date-time",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "fin": {
+                "format": "date-time",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "rncp": {
+                "properties": {
+                  "actif": {
+                    "type": "boolean",
+                  },
+                  "activation": {
+                    "format": "date-time",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "debut_parcours": {
+                    "format": "date-time",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "fin_enregistrement": {
+                    "format": "date-time",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                },
+                "required": [
+                  "actif",
+                  "activation",
+                  "debut_parcours",
+                  "fin_enregistrement",
+                ],
+                "type": [
+                  "object",
+                  "null",
+                ],
+              },
+            },
+            "required": [
+              "cfd",
+              "debut",
+              "fin",
+              "rncp",
+            ],
+            "type": "object",
+          },
+          "type": {
+            "properties": {
+              "certificateurs_rncp": {
+                "items": {
+                  "properties": {
+                    "nom": {
+                      "type": "string",
+                    },
+                    "siret": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "nom",
+                    "siret",
+                  ],
+                  "type": "object",
+                },
+                "type": [
+                  "array",
+                  "null",
+                ],
+              },
+              "enregistrement_rncp": {
+                "enum": [
+                  "Enregistrement de droit",
+                  "Enregistrement sur demande",
+                ],
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "gestionnaire_diplome": {
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "nature": {
+                "properties": {
+                  "cfd": {
+                    "properties": {
+                      "code": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                      "libelle": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                    },
+                    "required": [
+                      "code",
+                      "libelle",
+                    ],
+                    "type": [
+                      "object",
+                      "null",
+                    ],
+                  },
+                },
+                "required": [
+                  "cfd",
+                ],
+                "type": "object",
+              },
+              "voie_acces": {
+                "properties": {
+                  "rncp": {
+                    "properties": {
+                      "apprentissage": {
+                        "type": "boolean",
+                      },
+                      "candidature_individuelle": {
+                        "type": "boolean",
+                      },
+                      "contrat_professionnalisation": {
+                        "type": "boolean",
+                      },
+                      "experience": {
+                        "type": "boolean",
+                      },
+                      "formation_continue": {
+                        "type": "boolean",
+                      },
+                      "formation_statut_eleve": {
+                        "type": "boolean",
+                      },
+                    },
+                    "required": [
+                      "apprentissage",
+                      "candidature_individuelle",
+                      "contrat_professionnalisation",
+                      "experience",
+                      "formation_continue",
+                      "formation_statut_eleve",
+                    ],
+                    "type": [
+                      "object",
+                      "null",
+                    ],
+                  },
+                },
+                "required": [
+                  "rncp",
+                ],
+                "type": "object",
+              },
+            },
+            "required": [
+              "certificateurs_rncp",
+              "enregistrement_rncp",
+              "gestionnaire_diplome",
+              "nature",
+              "voie_acces",
+            ],
+            "type": "object",
+          },
+        },
+        "required": [
+          "base_legale",
+          "blocs_competences",
+          "continuite",
+          "convention_collectives",
+          "domaines",
+          "identifiant",
+          "intitule",
+          "periode_validite",
+          "type",
+        ],
+        "type": "object",
+      },
+      "Commune": {
+        "properties": {
+          "academie": {
+            "properties": {
+              "code": {
+                "type": "string",
+              },
+              "id": {
+                "type": "string",
+              },
+              "nom": {
+                "type": "string",
+              },
+            },
+            "required": [
+              "code",
+              "id",
+              "nom",
+            ],
+            "type": "object",
+          },
+          "anciennes": {
+            "items": {
+              "properties": {
+                "codeInsee": {
+                  "type": "string",
+                },
+                "nom": {
+                  "type": "string",
+                },
+              },
+              "required": [
+                "codeInsee",
+                "nom",
+              ],
+              "type": "object",
+            },
+            "type": "array",
+          },
+          "arrondissements": {
+            "items": {
+              "properties": {
+                "code": {
+                  "type": "string",
+                },
+                "nom": {
+                  "type": "string",
+                },
+              },
+              "required": [
+                "code",
+                "nom",
+              ],
+              "type": "object",
+            },
+            "type": "array",
+          },
+          "code": {
+            "properties": {
+              "insee": {
+                "type": "string",
+              },
+              "postaux": {
+                "items": {
+                  "type": "string",
+                },
+                "type": "array",
+              },
+            },
+            "required": [
+              "insee",
+              "postaux",
+            ],
+            "type": "object",
+          },
+          "departement": {
+            "properties": {
+              "codeInsee": {
+                "type": "string",
+              },
+              "nom": {
+                "type": "string",
+              },
+            },
+            "required": [
+              "codeInsee",
+              "nom",
+            ],
+            "type": "object",
+          },
+          "localisation": {
+            "properties": {
+              "bbox": {
+                "$ref": "#/components/schemas/GeoJsonPolygon",
+              },
+              "centre": {
+                "$ref": "#/components/schemas/GeoJsonPoint",
+              },
+            },
+            "required": [
+              "bbox",
+              "centre",
+            ],
+            "type": "object",
+          },
+          "mission_locale": {
+            "oneOf": [
+              {
+                "type": "null",
+              },
+              {
+                "$ref": "#/components/schemas/MissionLocale",
+              },
+            ],
+          },
+          "nom": {
+            "type": "string",
+          },
+          "region": {
+            "properties": {
+              "codeInsee": {
+                "type": "string",
+              },
+              "nom": {
+                "type": "string",
+              },
+            },
+            "required": [
+              "codeInsee",
+              "nom",
+            ],
+            "type": "object",
+          },
+        },
+        "required": [
+          "academie",
+          "anciennes",
+          "arrondissements",
+          "code",
+          "departement",
+          "localisation",
+          "mission_locale",
+          "nom",
+          "region",
+        ],
+        "type": "object",
+      },
+      "Departement": {
+        "properties": {
+          "academie": {
+            "properties": {
+              "code": {
+                "type": "string",
+              },
+              "id": {
+                "type": "string",
+              },
+              "nom": {
+                "type": "string",
+              },
+            },
+            "required": [
+              "code",
+              "id",
+              "nom",
+            ],
+            "type": "object",
+          },
+          "codeInsee": {
+            "type": "string",
+          },
+          "nom": {
+            "type": "string",
+          },
+          "region": {
+            "properties": {
+              "codeInsee": {
+                "type": "string",
+              },
+              "nom": {
+                "type": "string",
+              },
+            },
+            "required": [
+              "codeInsee",
+              "nom",
+            ],
+            "type": "object",
+          },
+        },
+        "required": [
+          "academie",
+          "codeInsee",
+          "nom",
+          "region",
+        ],
+        "type": "object",
+      },
+      "Formation": {
+        "properties": {
+          "certification": {
+            "properties": {
+              "connue": {
+                "type": "boolean",
+              },
+              "valeur": {
+                "$ref": "#/components/schemas/Certification",
+              },
+            },
+            "required": [
+              "connue",
+              "valeur",
+            ],
+            "type": "object",
+          },
+          "contact": {
+            "properties": {
+              "email": {
+                "format": "email",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "telephone": {
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+            },
+            "required": [
+              "email",
+              "telephone",
+            ],
+            "type": "object",
+          },
+          "contenu_educatif": {
+            "properties": {
+              "contenu": {
+                "type": "string",
+              },
+              "objectif": {
+                "type": "string",
+              },
+            },
+            "required": [
+              "contenu",
+              "objectif",
+            ],
+            "type": "object",
+          },
+          "formateur": {
+            "properties": {
+              "connu": {
+                "type": "boolean",
+              },
+              "organisme": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/Organisme",
+                  },
+                  {
+                    "type": "null",
+                  },
+                ],
+              },
+            },
+            "required": [
+              "connu",
+              "organisme",
+            ],
+            "type": "object",
+          },
+          "identifiant": {
+            "properties": {
+              "cle_ministere_educatif": {
+                "type": "string",
+              },
+            },
+            "required": [
+              "cle_ministere_educatif",
+            ],
+            "type": "object",
+          },
+          "lieu": {
+            "properties": {
+              "adresse": {
+                "$ref": "#/components/schemas/Adresse",
+              },
+              "geolocalisation": {
+                "$ref": "#/components/schemas/GeoJsonPoint",
+              },
+              "precision": {
+                "type": [
+                  "number",
+                  "null",
+                ],
+              },
+              "siret": {
+                "pattern": "^\\d{9,14}$",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "uai": {
+                "pattern": "^\\d{1,7}[A-Z]$",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+            },
+            "required": [
+              "adresse",
+              "geolocalisation",
+              "precision",
+              "siret",
+              "uai",
+            ],
+            "type": "object",
+          },
+          "modalite": {
+            "properties": {
+              "annee_cycle": {
+                "type": [
+                  "integer",
+                  "null",
+                ],
+              },
+              "duree_indicative": {
+                "type": "number",
+              },
+              "entierement_a_distance": {
+                "type": "boolean",
+              },
+              "mef_10": {
+                "pattern": "^\\d{10}$",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+            },
+            "required": [
+              "annee_cycle",
+              "duree_indicative",
+              "entierement_a_distance",
+              "mef_10",
+            ],
+            "type": "object",
+          },
+          "onisep": {
+            "properties": {
+              "discipline": {
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "domaine_sousdomaine": {
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "intitule": {
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "libelle_poursuite": {
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "lien_site_onisepfr": {
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "url": {
+                "format": "uri",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+            },
+            "required": [
+              "discipline",
+              "domaine_sousdomaine",
+              "intitule",
+              "libelle_poursuite",
+              "lien_site_onisepfr",
+              "url",
+            ],
+            "type": "object",
+          },
+          "responsable": {
+            "properties": {
+              "connu": {
+                "type": "boolean",
+              },
+              "organisme": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/Organisme",
+                  },
+                  {
+                    "type": "null",
+                  },
+                ],
+              },
+            },
+            "required": [
+              "connu",
+              "organisme",
+            ],
+            "type": "object",
+          },
+          "sessions": {
+            "items": {
+              "properties": {
+                "capacite": {
+                  "type": [
+                    "number",
+                    "null",
+                  ],
+                },
+                "debut": {
+                  "format": "date-time",
+                  "type": "string",
+                },
+                "fin": {
+                  "format": "date-time",
+                  "type": "string",
+                },
+              },
+              "required": [
+                "capacite",
+                "debut",
+                "fin",
+              ],
+              "type": "object",
+            },
+            "type": "array",
+          },
+          "statut": {
+            "properties": {
+              "catalogue": {
+                "enum": [
+                  "publié",
+                  "supprimé",
+                  "archivé",
+                ],
+                "type": "string",
+              },
+            },
+            "required": [
+              "catalogue",
+            ],
+            "type": "object",
+          },
+        },
+        "required": [
+          "certification",
+          "contact",
+          "contenu_educatif",
+          "formateur",
+          "identifiant",
+          "lieu",
+          "modalite",
+          "onisep",
+          "responsable",
+          "sessions",
+          "statut",
+        ],
+        "type": "object",
+      },
+      "GeoJsonPoint": {
+        "additionalProperties": false,
+        "properties": {
+          "coordinates": {
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "maximum": 180,
+                "minimum": -180,
+                "type": "number",
+              },
+              {
+                "maximum": 90,
+                "minimum": -90,
+                "type": "number",
+              },
+            ],
+            "type": "array",
+          },
+          "type": {
+            "enum": [
+              "Point",
+            ],
+            "type": "string",
+          },
+        },
+        "required": [
+          "coordinates",
+          "type",
+        ],
+        "type": "object",
+      },
+      "GeoJsonPolygon": {
+        "additionalProperties": false,
+        "properties": {
+          "coordinates": {
+            "items": {
+              "items": {
+                "maxItems": 2,
+                "minItems": 2,
+                "prefixItems": [
+                  {
+                    "maximum": 180,
+                    "minimum": -180,
+                    "type": "number",
+                  },
+                  {
+                    "maximum": 90,
+                    "minimum": -90,
+                    "type": "number",
+                  },
+                ],
+                "type": "array",
+              },
+              "type": "array",
+            },
+            "type": "array",
+          },
+          "type": {
+            "enum": [
+              "Polygon",
+            ],
+            "type": "string",
+          },
+        },
+        "required": [
+          "coordinates",
+          "type",
+        ],
+        "type": "object",
+      },
+      "JobApplicationWrite": {
+        "additionalProperties": false,
+        "properties": {
+          "applicant_attachment_content": {
+            "format": "byte",
+            "maxLength": 4215276,
+            "type": "string",
+          },
+          "applicant_attachment_name": {
+            "minLength": 1,
+            "pattern": "((.*?))(\\.)+([Dd][Oo][Cc][Xx]|[Pp][Dd][Ff])$",
+            "type": "string",
+          },
+          "applicant_email": {
+            "format": "email",
+            "type": "string",
+          },
+          "applicant_first_name": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string",
+          },
+          "applicant_last_name": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string",
+          },
+          "applicant_message": {
+            "type": [
+              "string",
+              "null",
+            ],
+          },
+          "applicant_phone": {
+            "type": "string",
+          },
+          "recipient_id": {
+            "type": "string",
+          },
+        },
+        "required": [
+          "applicant_attachment_content",
+          "applicant_attachment_name",
+          "applicant_email",
+          "applicant_first_name",
+          "applicant_last_name",
+          "applicant_phone",
+          "recipient_id",
+        ],
+        "type": "object",
+      },
+      "JobOfferRead": {
+        "properties": {
+          "apply": {
+            "properties": {
+              "phone": {
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "recipient_id": {
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "url": {
+                "format": "uri",
+                "type": "string",
+              },
+            },
+            "required": [
+              "phone",
+              "url",
+            ],
+            "type": "object",
+          },
+          "contract": {
+            "properties": {
+              "duration": {
+                "minimum": 0,
+                "type": [
+                  "integer",
+                  "null",
+                ],
+              },
+              "remote": {
+                "enum": [
+                  "onsite",
+                  "remote",
+                  "hybrid",
+                ],
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "start": {
+                "format": "date-time",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "type": {
+                "items": {
+                  "enum": [
+                    "Apprentissage",
+                    "Professionnalisation",
+                  ],
+                  "type": "string",
+                },
+                "type": "array",
+              },
+            },
+            "required": [
+              "duration",
+              "remote",
+              "start",
+              "type",
+            ],
+            "type": "object",
+          },
+          "identifier": {
+            "properties": {
+              "id": {
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "partner_job_id": {
+                "type": "string",
+              },
+              "partner_label": {
+                "type": "string",
+              },
+            },
+            "required": [
+              "id",
+              "partner_job_id",
+              "partner_label",
+            ],
+            "type": "object",
+          },
+          "offer": {
+            "properties": {
+              "access_conditions": {
+                "items": {
+                  "type": "string",
+                },
+                "type": "array",
+              },
+              "description": {
+                "type": "string",
+              },
+              "desired_skills": {
+                "items": {
+                  "type": "string",
+                },
+                "type": "array",
+              },
+              "opening_count": {
+                "type": "number",
+              },
+              "publication": {
+                "properties": {
+                  "creation": {
+                    "format": "date-time",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "expiration": {
+                    "format": "date-time",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                },
+                "required": [
+                  "creation",
+                  "expiration",
+                ],
+                "type": "object",
+              },
+              "rome_codes": {
+                "items": {
+                  "pattern": "^[A-Z]\\d{4}$",
+                  "type": "string",
+                },
+                "type": "array",
+              },
+              "status": {
+                "enum": [
+                  "Active",
+                  "Filled",
+                  "Cancelled",
+                ],
+                "type": "string",
+              },
+              "target_diploma": {
+                "properties": {
+                  "european": {
+                    "enum": [
+                      "3",
+                      "4",
+                      "5",
+                      "6",
+                      "7",
+                    ],
+                    "type": "string",
+                  },
+                  "label": {
+                    "type": "string",
+                  },
+                },
+                "required": [
+                  "european",
+                  "label",
+                ],
+                "type": [
+                  "object",
+                  "null",
+                ],
+              },
+              "title": {
+                "minLength": 3,
+                "type": "string",
+              },
+              "to_be_acquired_skills": {
+                "items": {
+                  "type": "string",
+                },
+                "type": "array",
+              },
+            },
+            "required": [
+              "access_conditions",
+              "description",
+              "desired_skills",
+              "opening_count",
+              "publication",
+              "rome_codes",
+              "status",
+              "target_diploma",
+              "title",
+              "to_be_acquired_skills",
+            ],
+            "type": "object",
+          },
+          "workplace": {
+            "properties": {
+              "brand": {
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "description": {
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "domain": {
+                "properties": {
+                  "idcc": {
+                    "type": [
+                      "number",
+                      "null",
+                    ],
+                  },
+                  "naf": {
+                    "properties": {
+                      "code": {
+                        "type": "string",
+                      },
+                      "label": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                    },
+                    "required": [
+                      "code",
+                      "label",
+                    ],
+                    "type": [
+                      "object",
+                      "null",
+                    ],
+                  },
+                  "opco": {
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                },
+                "required": [
+                  "idcc",
+                  "naf",
+                  "opco",
+                ],
+                "type": "object",
+              },
+              "legal_name": {
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "location": {
+                "properties": {
+                  "address": {
+                    "type": "string",
+                  },
+                  "geopoint": {
+                    "$ref": "#/components/schemas/GeoJsonPoint",
+                  },
+                },
+                "required": [
+                  "address",
+                  "geopoint",
+                ],
+                "type": "object",
+              },
+              "name": {
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "siret": {
+                "pattern": "^\\d{14}$",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "size": {
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "website": {
+                "format": "uri",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+            },
+            "required": [
+              "brand",
+              "description",
+              "domain",
+              "legal_name",
+              "location",
+              "name",
+              "siret",
+              "size",
+              "website",
+            ],
+            "type": "object",
+          },
+        },
+        "required": [
+          "apply",
+          "contract",
+          "identifier",
+          "offer",
+          "workplace",
+        ],
+        "type": "object",
+      },
+      "JobOfferWrite": {
+        "properties": {
+          "apply": {
+            "properties": {
+              "email": {
+                "format": "email",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "phone": {
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "url": {
+                "format": "uri",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+            },
+            "type": "object",
+          },
+          "contract": {
+            "properties": {
+              "duration": {
+                "minimum": 0,
+                "type": [
+                  "integer",
+                  "null",
+                ],
+              },
+              "remote": {
+                "enum": [
+                  "onsite",
+                  "remote",
+                  "hybrid",
+                ],
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "start": {
+                "format": "date-time",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "type": {
+                "default": [
+                  "Apprentissage",
+                  "Professionnalisation",
+                ],
+                "items": {
+                  "enum": [
+                    "Apprentissage",
+                    "Professionnalisation",
+                  ],
+                  "type": "string",
+                },
+                "type": "array",
+              },
+            },
+            "type": "object",
+          },
+          "offer": {
+            "properties": {
+              "access_conditions": {
+                "default": [],
+                "items": {
+                  "type": "string",
+                },
+                "type": "array",
+              },
+              "description": {
+                "minLength": 30,
+                "type": "string",
+              },
+              "desired_skills": {
+                "default": [],
+                "items": {
+                  "type": "string",
+                },
+                "type": "array",
+              },
+              "multicast": {
+                "default": true,
+                "type": "boolean",
+              },
+              "opening_count": {
+                "default": 1,
+                "type": "number",
+              },
+              "origin": {
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "publication": {
+                "properties": {
+                  "creation": {
+                    "format": "date-time",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                  "expiration": {
+                    "format": "date-time",
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                },
+                "type": "object",
+              },
+              "rome_codes": {
+                "items": {
+                  "pattern": "^[A-Z]\\d{4}$",
+                  "type": "string",
+                },
+                "type": [
+                  "array",
+                  "null",
+                ],
+              },
+              "status": {
+                "default": "Active",
+                "enum": [
+                  "Active",
+                  "Filled",
+                  "Cancelled",
+                ],
+                "type": "string",
+              },
+              "target_diploma": {
+                "properties": {
+                  "european": {
+                    "enum": [
+                      "3",
+                      "4",
+                      "5",
+                      "6",
+                      "7",
+                    ],
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                },
+                "type": [
+                  "object",
+                  "null",
+                ],
+              },
+              "title": {
+                "minLength": 3,
+                "type": "string",
+              },
+              "to_be_acquired_skills": {
+                "default": [],
+                "items": {
+                  "type": "string",
+                },
+                "type": "array",
+              },
+            },
+            "required": [
+              "description",
+              "title",
+            ],
+            "type": "object",
+          },
+          "workplace": {
+            "properties": {
+              "description": {
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "location": {
+                "properties": {
+                  "address": {
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                },
+                "type": [
+                  "object",
+                  "null",
+                ],
+              },
+              "name": {
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "siret": {
+                "pattern": "^\\d{14}$",
+                "type": "string",
+              },
+              "website": {
+                "format": "uri",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+            },
+            "required": [
+              "siret",
+            ],
+            "type": "object",
+          },
+        },
+        "required": [
+          "apply",
+          "offer",
+          "workplace",
+        ],
+        "type": "object",
+      },
+      "JobRecruiter": {
+        "properties": {
+          "apply": {
+            "properties": {
+              "phone": {
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "recipient_id": {
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "url": {
+                "format": "uri",
+                "type": "string",
+              },
+            },
+            "required": [
+              "phone",
+              "url",
+            ],
+            "type": "object",
+          },
+          "identifier": {
+            "properties": {
+              "id": {
+                "type": "string",
+              },
+            },
+            "required": [
+              "id",
+            ],
+            "type": "object",
+          },
+          "workplace": {
+            "properties": {
+              "brand": {
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "description": {
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "domain": {
+                "properties": {
+                  "idcc": {
+                    "type": [
+                      "number",
+                      "null",
+                    ],
+                  },
+                  "naf": {
+                    "properties": {
+                      "code": {
+                        "type": "string",
+                      },
+                      "label": {
+                        "type": [
+                          "string",
+                          "null",
+                        ],
+                      },
+                    },
+                    "required": [
+                      "code",
+                      "label",
+                    ],
+                    "type": [
+                      "object",
+                      "null",
+                    ],
+                  },
+                  "opco": {
+                    "type": [
+                      "string",
+                      "null",
+                    ],
+                  },
+                },
+                "required": [
+                  "idcc",
+                  "naf",
+                  "opco",
+                ],
+                "type": "object",
+              },
+              "legal_name": {
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "location": {
+                "properties": {
+                  "address": {
+                    "type": "string",
+                  },
+                  "geopoint": {
+                    "$ref": "#/components/schemas/GeoJsonPoint",
+                  },
+                },
+                "required": [
+                  "address",
+                  "geopoint",
+                ],
+                "type": "object",
+              },
+              "name": {
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "siret": {
+                "pattern": "^\\d{14}$",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "size": {
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "website": {
+                "format": "uri",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+            },
+            "required": [
+              "brand",
+              "description",
+              "domain",
+              "legal_name",
+              "location",
+              "name",
+              "siret",
+              "size",
+              "website",
+            ],
+            "type": "object",
+          },
+        },
+        "required": [
+          "apply",
+          "identifier",
+          "workplace",
+        ],
+        "type": "object",
+      },
+      "MissionLocale": {
+        "properties": {
+          "code": {
+            "type": "string",
+          },
+          "contact": {
+            "properties": {
+              "email": {
+                "format": "email",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "siteWeb": {
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "telephone": {
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+            },
+            "required": [
+              "email",
+              "siteWeb",
+              "telephone",
+            ],
+            "type": "object",
+          },
+          "id": {
+            "type": "number",
+          },
+          "localisation": {
+            "properties": {
+              "adresse": {
+                "type": "string",
+              },
+              "cp": {
+                "type": "string",
+              },
+              "geopoint": {
+                "oneOf": [
+                  {
+                    "type": "null",
+                  },
+                  {
+                    "$ref": "#/components/schemas/GeoJsonPoint",
+                  },
+                ],
+              },
+              "ville": {
+                "type": "string",
+              },
+            },
+            "required": [
+              "adresse",
+              "cp",
+              "geopoint",
+              "ville",
+            ],
+            "type": "object",
+          },
+          "nom": {
+            "type": "string",
+          },
+          "siret": {
+            "type": "string",
+          },
+        },
+        "required": [
+          "code",
+          "contact",
+          "id",
+          "localisation",
+          "nom",
+          "siret",
+        ],
+        "type": "object",
+      },
+      "Organisme": {
+        "properties": {
+          "contacts": {
+            "items": {
+              "properties": {
+                "confirmation_referentiel": {
+                  "type": "boolean",
+                },
+                "email": {
+                  "format": "email",
+                  "type": "string",
+                },
+                "sources": {
+                  "items": {
+                    "type": "string",
+                  },
+                  "type": "array",
+                },
+              },
+              "required": [
+                "confirmation_referentiel",
+                "email",
+                "sources",
+              ],
+              "type": "object",
+            },
+            "type": "array",
+          },
+          "etablissement": {
+            "properties": {
+              "adresse": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/Adresse",
+                  },
+                  {
+                    "type": "null",
+                  },
+                ],
+              },
+              "creation": {
+                "format": "date-time",
+                "type": "string",
+              },
+              "enseigne": {
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "fermeture": {
+                "format": "date-time",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "geopoint": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/GeoJsonPoint",
+                  },
+                  {
+                    "type": "null",
+                  },
+                ],
+              },
+              "ouvert": {
+                "type": "boolean",
+              },
+              "siret": {
+                "pattern": "^\\d{9,14}$",
+                "type": "string",
+              },
+            },
+            "required": [
+              "adresse",
+              "creation",
+              "enseigne",
+              "fermeture",
+              "geopoint",
+              "ouvert",
+              "siret",
+            ],
+            "type": "object",
+          },
+          "identifiant": {
+            "properties": {
+              "siret": {
+                "pattern": "^\\d{9,14}$",
+                "type": "string",
+              },
+              "uai": {
+                "pattern": "^\\d{1,7}[A-Z]$",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+            },
+            "required": [
+              "siret",
+              "uai",
+            ],
+            "type": "object",
+          },
+          "renseignements_specifiques": {
+            "properties": {
+              "numero_activite": {
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "qualiopi": {
+                "type": "boolean",
+              },
+            },
+            "required": [
+              "numero_activite",
+              "qualiopi",
+            ],
+            "type": "object",
+          },
+          "statut": {
+            "properties": {
+              "referentiel": {
+                "enum": [
+                  "présent",
+                  "supprimé",
+                ],
+                "type": "string",
+              },
+            },
+            "required": [
+              "referentiel",
+            ],
+            "type": "object",
+          },
+          "unite_legale": {
+            "properties": {
+              "actif": {
+                "type": "boolean",
+              },
+              "cessation": {
+                "format": "date-time",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
+              "creation": {
+                "format": "date-time",
+                "type": "string",
+              },
+              "raison_sociale": {
+                "type": "string",
+              },
+              "siren": {
+                "type": "string",
+              },
+            },
+            "required": [
+              "actif",
+              "cessation",
+              "creation",
+              "raison_sociale",
+              "siren",
+            ],
+            "type": "object",
+          },
+        },
+        "required": [
+          "etablissement",
+          "identifiant",
+          "renseignements_specifiques",
+          "statut",
+          "unite_legale",
+        ],
+        "type": "object",
+      },
+      "Pagination": {
+        "properties": {
+          "page_count": {
+            "type": "integer",
+          },
+          "page_index": {
+            "type": "integer",
+          },
+          "page_size": {
+            "type": "integer",
+          },
+        },
+        "required": [
+          "page_count",
+          "page_index",
+          "page_size",
+        ],
+        "type": "object",
+      },
+    },
+    "securitySchemes": {
+      "api-key": {
+        "bearerFormat": "Bearer",
+        "description": "Clé d'API à fournir dans le header \`Authorization\`. Si la route nécessite une habilitation particulière veuillez contacter le support pour en faire la demande à [support_api@apprentissage.beta.gouv.fr](mailto:support_api@apprentissage.beta.gouv.fr)",
+        "scheme": "bearer",
+        "type": "http",
+      },
+    },
+  },
+  "info": {
+    "contact": {
+      "email": "support_api@apprentissage.beta.gouv.fr",
+      "name": "Équipe Espace développeurs La bonne alternance",
+    },
+    "license": {
+      "name": "Etalab-2.0",
+      "url": "https://github.com/etalab/licence-ouverte/blob/master/LO.md",
+    },
+    "termsOfService": "https://api.apprentissage.beta.gouv.fr/cgu",
+    "title": "Documentation technique",
+    "version": "V1.0",
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/certification/v1": {
+      "get": {
+        "parameters": [
+          {
+            "allowEmptyValue": true,
+            "in": "query",
+            "name": "identifiant.cfd",
+            "required": false,
+            "schema": {
+              "pattern": "^([A-Z0-9]{3}\\d{3}[A-Z0-9]{2}|null)?$",
+              "type": "string",
+            },
+          },
+          {
+            "allowEmptyValue": true,
+            "in": "query",
+            "name": "identifiant.rncp",
+            "required": false,
+            "schema": {
+              "pattern": "^(RNCP\\d{3,5}|null)?$",
+              "type": "string",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Certification",
+                  },
+                  "type": "array",
+                },
+              },
+            },
+            "description": "",
+          },
+        },
+        "security": [
+          {
+            "api-key": [],
+          },
+        ],
+      },
+    },
+    "/formation/v1/appointment/generate-link": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "cle_ministere_educatif": {
+                        "type": "string",
+                      },
+                    },
+                    "required": [
+                      "cle_ministere_educatif",
+                    ],
+                    "type": "object",
+                  },
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "parcoursup_id": {
+                        "type": "string",
+                      },
+                    },
+                    "required": [
+                      "parcoursup_id",
+                    ],
+                    "type": "object",
+                  },
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "onisep_id": {
+                        "type": "string",
+                      },
+                    },
+                    "required": [
+                      "onisep_id",
+                    ],
+                    "type": "object",
+                  },
+                ],
+              },
+            },
+          },
+          "required": true,
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "cfd": {
+                          "type": "string",
+                        },
+                        "cle_ministere_educatif": {
+                          "type": "string",
+                        },
+                        "code_postal": {
+                          "type": "string",
+                        },
+                        "etablissement_formateur_entreprise_raison_sociale": {
+                          "type": [
+                            "string",
+                            "null",
+                          ],
+                        },
+                        "etablissement_formateur_siret": {
+                          "pattern": "^\\d{14}$",
+                          "type": [
+                            "string",
+                            "null",
+                          ],
+                        },
+                        "form_url": {
+                          "type": "string",
+                        },
+                        "intitule_long": {
+                          "type": "string",
+                        },
+                        "lieu_formation_adresse": {
+                          "type": "string",
+                        },
+                        "localite": {
+                          "type": "string",
+                        },
+                      },
+                      "required": [
+                        "cfd",
+                        "cle_ministere_educatif",
+                        "code_postal",
+                        "etablissement_formateur_entreprise_raison_sociale",
+                        "etablissement_formateur_siret",
+                        "form_url",
+                        "intitule_long",
+                        "lieu_formation_adresse",
+                        "localite",
+                      ],
+                      "type": "object",
+                    },
+                    {
+                      "properties": {
+                        "error": {
+                          "enum": [
+                            "Appointment request not available",
+                          ],
+                          "type": "string",
+                        },
+                      },
+                      "required": [
+                        "error",
+                      ],
+                      "type": "object",
+                    },
+                  ],
+                },
+              },
+            },
+            "description": "",
+          },
+        },
+        "security": [
+          {
+            "api-key": [],
+          },
+        ],
+      },
+    },
+    "/formation/v1/search": {
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "include_archived",
+            "required": false,
+            "schema": {
+              "default": "false",
+              "enum": [
+                "true",
+                "false",
+              ],
+              "type": "string",
+            },
+          },
+          {
+            "in": "query",
+            "name": "latitude",
+            "required": false,
+            "schema": {
+              "maximum": 90,
+              "minimum": -90,
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "longitude",
+            "required": false,
+            "schema": {
+              "maximum": 180,
+              "minimum": -180,
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "page_index",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "type": "integer",
+            },
+          },
+          {
+            "in": "query",
+            "name": "page_size",
+            "required": false,
+            "schema": {
+              "default": 100,
+              "maximum": 1000,
+              "minimum": 1,
+              "type": "integer",
+            },
+          },
+          {
+            "in": "query",
+            "name": "radius",
+            "required": false,
+            "schema": {
+              "default": 30,
+              "maximum": 200,
+              "minimum": 0,
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "rncp",
+            "required": false,
+            "schema": {
+              "pattern": "^RNCP\\d{3,5}$",
+              "type": "string",
+            },
+          },
+          {
+            "in": "query",
+            "name": "romes",
+            "required": false,
+            "schema": {
+              "type": "string",
+            },
+          },
+          {
+            "in": "query",
+            "name": "target_diploma_level",
+            "required": false,
+            "schema": {
+              "enum": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+              ],
+              "type": "string",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/Formation",
+                      },
+                      "type": "array",
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/Pagination",
+                    },
+                  },
+                  "required": [
+                    "data",
+                    "pagination",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "",
+          },
+        },
+        "security": [
+          {
+            "api-key": [],
+          },
+        ],
+      },
+    },
+    "/geographie/v1/commune/search": {
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "code",
+            "required": true,
+            "schema": {
+              "pattern": "^\\d{5}$",
+              "type": "string",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Commune",
+                  },
+                  "type": "array",
+                },
+              },
+            },
+            "description": "",
+          },
+        },
+        "security": [
+          {
+            "api-key": [],
+          },
+        ],
+      },
+    },
+    "/geographie/v1/departement": {
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Departement",
+                  },
+                  "type": "array",
+                },
+              },
+            },
+            "description": "",
+          },
+        },
+        "security": [
+          {
+            "api-key": [],
+          },
+        ],
+      },
+    },
+    "/geographie/v1/mission-locale": {
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "latitude",
+            "required": false,
+            "schema": {
+              "maximum": 90,
+              "minimum": -90,
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "longitude",
+            "required": false,
+            "schema": {
+              "maximum": 180,
+              "minimum": -180,
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "radius",
+            "required": false,
+            "schema": {
+              "default": 30,
+              "maximum": 200,
+              "minimum": 0,
+              "type": "number",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/MissionLocale",
+                  },
+                  "type": "array",
+                },
+              },
+            },
+            "description": "",
+          },
+        },
+        "security": [
+          {
+            "api-key": [],
+          },
+        ],
+      },
+    },
+    "/healthcheck": {
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "env": {
+                      "enum": [
+                        "local",
+                        "recette",
+                        "production",
+                        "preview",
+                        "test",
+                      ],
+                      "type": "string",
+                    },
+                    "name": {
+                      "type": "string",
+                    },
+                    "version": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "env",
+                    "name",
+                    "version",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "",
+          },
+        },
+        "security": [],
+      },
+    },
+    "/job/v1/apply": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JobApplicationWrite",
+              },
+            },
+          },
+          "required": true,
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "id",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "",
+          },
+        },
+        "security": [
+          {
+            "api-key": [
+              "applications:write",
+            ],
+          },
+        ],
+      },
+    },
+    "/job/v1/offer": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JobOfferWrite",
+              },
+            },
+          },
+          "required": true,
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "id",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "",
+          },
+        },
+        "security": [
+          {
+            "api-key": [
+              "jobs:write",
+            ],
+          },
+        ],
+      },
+    },
+    "/job/v1/offer/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobOfferRead",
+                },
+              },
+            },
+            "description": "",
+          },
+        },
+        "security": [
+          {
+            "api-key": [],
+          },
+        ],
+      },
+      "put": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JobOfferWrite",
+              },
+            },
+          },
+          "required": true,
+        },
+        "responses": {
+          "204": {
+            "description": "",
+          },
+        },
+        "security": [
+          {
+            "api-key": [
+              "jobs:write",
+            ],
+          },
+        ],
+      },
+    },
+    "/job/v1/search": {
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "latitude",
+            "required": false,
+            "schema": {
+              "maximum": 90,
+              "minimum": -90,
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "longitude",
+            "required": false,
+            "schema": {
+              "maximum": 180,
+              "minimum": -180,
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "partners_to_exclude",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string",
+              },
+              "type": "array",
+            },
+          },
+          {
+            "in": "query",
+            "name": "radius",
+            "required": false,
+            "schema": {
+              "default": 30,
+              "maximum": 200,
+              "minimum": 0,
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "rncp",
+            "required": false,
+            "schema": {
+              "pattern": "^RNCP\\d{3,5}$",
+              "type": "string",
+            },
+          },
+          {
+            "in": "query",
+            "name": "romes",
+            "required": false,
+            "schema": {
+              "type": "string",
+            },
+          },
+          {
+            "in": "query",
+            "name": "target_diploma_level",
+            "required": false,
+            "schema": {
+              "enum": [
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+              ],
+              "type": "string",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "jobs": {
+                      "items": {
+                        "$ref": "#/components/schemas/JobOfferRead",
+                      },
+                      "type": "array",
+                    },
+                    "recruiters": {
+                      "items": {
+                        "$ref": "#/components/schemas/JobRecruiter",
+                      },
+                      "type": "array",
+                    },
+                    "warnings": {
+                      "items": {
+                        "properties": {
+                          "code": {
+                            "type": "string",
+                          },
+                          "message": {
+                            "type": "string",
+                          },
+                        },
+                        "required": [
+                          "code",
+                          "message",
+                        ],
+                        "type": "object",
+                      },
+                      "type": "array",
+                    },
+                  },
+                  "required": [
+                    "jobs",
+                    "recruiters",
+                    "warnings",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "",
+          },
+        },
+        "security": [
+          {
+            "api-key": [],
+          },
+        ],
+      },
+    },
+    "/organisme/v1/export": {
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page_index",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "type": "integer",
+            },
+          },
+          {
+            "in": "query",
+            "name": "page_size",
+            "required": false,
+            "schema": {
+              "default": 100,
+              "maximum": 1000,
+              "minimum": 1,
+              "type": "integer",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/Organisme",
+                      },
+                      "type": "array",
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/Pagination",
+                    },
+                  },
+                  "required": [
+                    "data",
+                    "pagination",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "",
+          },
+        },
+        "security": [
+          {
+            "api-key": [],
+          },
+        ],
+      },
+    },
+    "/organisme/v1/recherche": {
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "siret",
+            "required": false,
+            "schema": {
+              "pattern": "^\\d{9,14}$",
+              "type": [
+                "string",
+                "null",
+              ],
+            },
+          },
+          {
+            "in": "query",
+            "name": "uai",
+            "required": false,
+            "schema": {
+              "pattern": "^\\d{1,7}[A-Z]$",
+              "type": [
+                "string",
+                "null",
+              ],
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "candidats": {
+                      "items": {
+                        "properties": {
+                          "correspondances": {
+                            "properties": {
+                              "siret": {
+                                "properties": {
+                                  "lui_meme": {
+                                    "type": "boolean",
+                                  },
+                                  "son_formateur": {
+                                    "type": "boolean",
+                                  },
+                                  "son_responsable": {
+                                    "type": "boolean",
+                                  },
+                                },
+                                "required": [
+                                  "lui_meme",
+                                  "son_formateur",
+                                  "son_responsable",
+                                ],
+                                "type": [
+                                  "object",
+                                  "null",
+                                ],
+                              },
+                              "uai": {
+                                "properties": {
+                                  "lui_meme": {
+                                    "type": "boolean",
+                                  },
+                                  "son_lieu": {
+                                    "type": "boolean",
+                                  },
+                                },
+                                "required": [
+                                  "lui_meme",
+                                  "son_lieu",
+                                ],
+                                "type": [
+                                  "object",
+                                  "null",
+                                ],
+                              },
+                            },
+                            "required": [
+                              "siret",
+                              "uai",
+                            ],
+                            "type": "object",
+                          },
+                          "organisme": {
+                            "properties": {
+                              "identifiant": {
+                                "properties": {
+                                  "siret": {
+                                    "pattern": "^\\d{9,14}$",
+                                    "type": "string",
+                                  },
+                                  "uai": {
+                                    "pattern": "^\\d{1,7}[A-Z]$",
+                                    "type": [
+                                      "string",
+                                      "null",
+                                    ],
+                                  },
+                                },
+                                "required": [
+                                  "siret",
+                                  "uai",
+                                ],
+                                "type": "object",
+                              },
+                            },
+                            "required": [
+                              "identifiant",
+                            ],
+                            "type": "object",
+                          },
+                          "status": {
+                            "properties": {
+                              "declaration_catalogue": {
+                                "type": "boolean",
+                              },
+                              "ouvert": {
+                                "type": "boolean",
+                              },
+                              "validation_uai": {
+                                "type": "boolean",
+                              },
+                            },
+                            "required": [
+                              "declaration_catalogue",
+                              "ouvert",
+                              "validation_uai",
+                            ],
+                            "type": "object",
+                          },
+                        },
+                        "required": [
+                          "correspondances",
+                          "organisme",
+                          "status",
+                        ],
+                        "type": "object",
+                      },
+                      "type": "array",
+                    },
+                    "metadata": {
+                      "properties": {
+                        "siret": {
+                          "properties": {
+                            "status": {
+                              "enum": [
+                                "inconnu",
+                                "fermé",
+                                "ok",
+                              ],
+                              "type": "string",
+                            },
+                          },
+                          "required": [
+                            "status",
+                          ],
+                          "type": [
+                            "object",
+                            "null",
+                          ],
+                        },
+                        "uai": {
+                          "properties": {
+                            "status": {
+                              "enum": [
+                                "inconnu",
+                                "ok",
+                              ],
+                              "type": "string",
+                            },
+                          },
+                          "required": [
+                            "status",
+                          ],
+                          "type": [
+                            "object",
+                            "null",
+                          ],
+                        },
+                      },
+                      "required": [
+                        "siret",
+                        "uai",
+                      ],
+                      "type": "object",
+                    },
+                    "resultat": {
+                      "properties": {
+                        "correspondances": {
+                          "properties": {
+                            "siret": {
+                              "properties": {
+                                "lui_meme": {
+                                  "type": "boolean",
+                                },
+                                "son_formateur": {
+                                  "type": "boolean",
+                                },
+                                "son_responsable": {
+                                  "type": "boolean",
+                                },
+                              },
+                              "required": [
+                                "lui_meme",
+                                "son_formateur",
+                                "son_responsable",
+                              ],
+                              "type": [
+                                "object",
+                                "null",
+                              ],
+                            },
+                            "uai": {
+                              "properties": {
+                                "lui_meme": {
+                                  "type": "boolean",
+                                },
+                                "son_lieu": {
+                                  "type": "boolean",
+                                },
+                              },
+                              "required": [
+                                "lui_meme",
+                                "son_lieu",
+                              ],
+                              "type": [
+                                "object",
+                                "null",
+                              ],
+                            },
+                          },
+                          "required": [
+                            "siret",
+                            "uai",
+                          ],
+                          "type": "object",
+                        },
+                        "organisme": {
+                          "properties": {
+                            "identifiant": {
+                              "properties": {
+                                "siret": {
+                                  "pattern": "^\\d{9,14}$",
+                                  "type": "string",
+                                },
+                                "uai": {
+                                  "pattern": "^\\d{1,7}[A-Z]$",
+                                  "type": [
+                                    "string",
+                                    "null",
+                                  ],
+                                },
+                              },
+                              "required": [
+                                "siret",
+                                "uai",
+                              ],
+                              "type": "object",
+                            },
+                          },
+                          "required": [
+                            "identifiant",
+                          ],
+                          "type": "object",
+                        },
+                        "status": {
+                          "properties": {
+                            "declaration_catalogue": {
+                              "type": "boolean",
+                            },
+                            "ouvert": {
+                              "type": "boolean",
+                            },
+                            "validation_uai": {
+                              "type": "boolean",
+                            },
+                          },
+                          "required": [
+                            "declaration_catalogue",
+                            "ouvert",
+                            "validation_uai",
+                          ],
+                          "type": "object",
+                        },
+                      },
+                      "required": [
+                        "correspondances",
+                        "organisme",
+                        "status",
+                      ],
+                      "type": [
+                        "object",
+                        "null",
+                      ],
+                    },
+                  },
+                  "required": [
+                    "candidats",
+                    "metadata",
+                    "resultat",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "",
+          },
+        },
+        "security": [
+          {
+            "api-key": [],
+          },
+        ],
+      },
+    },
+  },
+  "servers": [
+    {
+      "description": "Production",
+      "url": "https://api.apprentissage.beta.gouv.fr",
+    },
+  ],
+  "tags": [
+    {
+      "description": "Pour essayer l'API [vous pouvez utiliser le swagger UI](/documentation-technique/try)",
+      "name": "Essayer l'API",
+    },
+    {
+      "description": "Opportunités d'emploi en alternance",
+      "name": "Offre Emploi",
+    },
+    {
+      "description": "Liste des opérations sur les formations en apprentissage",
+      "name": "Formation",
+    },
+    {
+      "description": "Liste des opérations sur les certifications.",
+      "name": "Certifications",
+    },
+    {
+      "description": "Liste des organismes",
+      "name": "Organismes",
+    },
+    {
+      "description": "Référentiel Géographique",
+      "name": "Géographie",
+    },
+    {
+      "description": "Liste des routes expérimentales. Attention: ces routes peuvent changer sans préavis.",
+      "name": "Expérimental",
+    },
+    {
+      "description": "Routes système",
+      "name": "Système",
+    },
+  ],
+}
+`;

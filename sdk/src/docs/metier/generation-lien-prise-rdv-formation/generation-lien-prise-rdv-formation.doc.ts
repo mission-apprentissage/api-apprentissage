@@ -38,9 +38,9 @@ export const generationLienPriseRdvFormationPageDoc = {
   sources: [
     {
       name: "La bonne alternance",
-      logo: { href: "/asset/logo/la_bonne_alternance.svg" },
+      logo: { href: "/asset/logo/la_bonne_alternance.png" },
       providers: ["La bonne alternance"],
-      href: "https://labonnealternance.pole-emploi.fr/",
+      href: "https://labonnealternance.apprentissage.beta.gouv.fr/",
     },
   ],
   data: [

@@ -200,7 +200,18 @@ describe("openapiSpec#models", () => {
     if (model.doc === null) {
       return;
     }
-    expect(getDocTechnicalFieldStructure(model.doc)).toEqual(getSchemaObjectDocStructure(model.schema));
+    const docStructure = getDocTechnicalFieldStructure(model.doc);
+    const schemaStructure = getSchemaObjectDocStructure(model.schema);
+
+    if (docStructure.join() !== schemaStructure.join()) {
+      printDiffStructure({
+        name: model.name,
+        docStructure,
+        schemaStructure,
+      });
+    }
+
+    expect(docStructure).toEqual(schemaStructure);
   });
 
   it.each(Object.entries(openapiSpec.models))(
@@ -291,3 +302,41 @@ describe("openapiSpec#routes", () => {
     expect(diff).toMatchSnapshot();
   });
 });
+
+function printDiffStructure({
+  name,
+  docStructure,
+  schemaStructure,
+}: {
+  name: string;
+  docStructure: string[];
+  schemaStructure: string[];
+}) {
+  const docSet = new Set(docStructure);
+  const schemaSet = new Set(schemaStructure);
+
+  const onlyInSchema = [...schemaSet].filter((s) => !docSet.has(s));
+  const onlyInDoc = [...docSet].filter((s) => !schemaSet.has(s));
+
+  if (onlyInSchema.length === 0 && onlyInDoc.length === 0) {
+    console.log(`✅ [${name}] - Doc et schéma en parfait accord.`);
+    return;
+  }
+
+  console.group(`❌ Diff trouvé dans "${name}"`);
+  if (onlyInSchema.length > 0) {
+    console.log("→ Présent uniquement dans le schéma (et manquant dans la doc) :");
+    for (const path of onlyInSchema) {
+      console.log("  +", path);
+    }
+  }
+
+  if (onlyInDoc.length > 0) {
+    console.log("→ Présent uniquement dans la doc (et absent du schéma) :");
+    for (const path of onlyInDoc) {
+      console.log("  -", path);
+    }
+  }
+
+  console.groupEnd();
+}

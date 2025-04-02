@@ -7,11 +7,29 @@ export const generateFormationAppointmentLinkRouteDoc = {
   body: {
     description: {
       fr: "Identifiant de la formation, permettant de générer un lien de prise de rendez-vous pour la formation. Possibilité de fournir 1 paramètre parmi 3 types possibles : cle_ministere_educatif, parcoursup_id, onisep_id",
-      en: "Training identifier, allowing to generate an appointment request link for the training. Possibility to provide 1 parameter among 3 possible types: parcoursup_id, onisep_id, cle_ministere_educatif",
+      en: "Training identifier, allowing to generate an appointment request link for the training. Possibility to provide 1 parameter among 3 possible types: cle_ministere_educatif, parcoursup_id, onisep_id",
     },
     content: {
       descriptions: null,
       oneOf: [
+        {
+          descriptions: [
+            {
+              fr: "Identifiant unique de la formation au sein du ministère de l'éducation",
+              en: "Unique identifier of the training within the Ministry of Education",
+            },
+          ],
+          properties: {
+            cle_ministere_educatif: {
+              descriptions: [
+                {
+                  fr: "Identifiant unique de la formation au sein du ministère de l'éducation",
+                  en: "Unique identifier of the training within the Ministry of Education",
+                },
+              ],
+            },
+          },
+        },
         {
           descriptions: [{ fr: "Identifiant Parcoursup de la formation", en: "Parcoursup identifier of the training" }],
           properties: {
@@ -30,24 +48,6 @@ export const generateFormationAppointmentLinkRouteDoc = {
                 {
                   en: "ONISEP identifier of the training",
                   fr: "Identifiant ONISEP utilisé avec le mapping de la collection referentielonisep",
-                },
-              ],
-            },
-          },
-        },
-        {
-          descriptions: [
-            {
-              fr: "Identifiant unique de la formation au sein du ministère de l'éducation",
-              en: "Unique identifier of the training within the Ministry of Education",
-            },
-          ],
-          properties: {
-            cle_ministere_educatif: {
-              descriptions: [
-                {
-                  fr: "Identifiant unique de la formation au sein du ministère de l'éducation",
-                  en: "Unique identifier of the training within the Ministry of Education",
                 },
               ],
             },

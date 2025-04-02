@@ -123,6 +123,16 @@ export const formationRoutesOpenapi: OpenapiRoutes = {
                 oneOf: [
                   {
                     type: "object",
+                    required: ["cle_ministere_educatif"],
+                    properties: {
+                      cle_ministere_educatif: {
+                        type: "string",
+                      },
+                    },
+                    additionalProperties: false,
+                  },
+                  {
+                    type: "object",
                     required: ["parcoursup_id"],
                     properties: {
                       parcoursup_id: {
@@ -136,16 +146,6 @@ export const formationRoutesOpenapi: OpenapiRoutes = {
                     required: ["onisep_id"],
                     properties: {
                       onisep_id: {
-                        type: "string",
-                      },
-                    },
-                    additionalProperties: false,
-                  },
-                  {
-                    type: "object",
-                    required: ["cle_ministere_educatif"],
-                    properties: {
-                      cle_ministere_educatif: {
                         type: "string",
                       },
                     },

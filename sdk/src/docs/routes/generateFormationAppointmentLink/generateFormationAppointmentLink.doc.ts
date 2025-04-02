@@ -13,6 +13,24 @@ export const generateFormationAppointmentLinkRouteDoc = {
       descriptions: null,
       oneOf: [
         {
+          descriptions: [
+            {
+              fr: "Identifiant unique de la formation au sein du ministère de l'éducation",
+              en: "Unique identifier of the training within the Ministry of Education",
+            },
+          ],
+          properties: {
+            cle_ministere_educatif: {
+              descriptions: [
+                {
+                  fr: "Identifiant unique de la formation au sein du ministère de l'éducation",
+                  en: "Unique identifier of the training within the Ministry of Education",
+                },
+              ],
+            },
+          },
+        },
+        {
           descriptions: [{ fr: "Identifiant Parcoursup de la formation", en: "Parcoursup identifier of the training" }],
           properties: {
             parcoursup_id: {
@@ -30,24 +48,6 @@ export const generateFormationAppointmentLinkRouteDoc = {
                 {
                   en: "ONISEP identifier of the training",
                   fr: "Identifiant ONISEP utilisé avec le mapping de la collection referentielonisep",
-                },
-              ],
-            },
-          },
-        },
-        {
-          descriptions: [
-            {
-              fr: "Identifiant unique de la formation au sein du ministère de l'éducation",
-              en: "Unique identifier of the training within the Ministry of Education",
-            },
-          ],
-          properties: {
-            cle_ministere_educatif: {
-              descriptions: [
-                {
-                  fr: "Identifiant unique de la formation au sein du ministère de l'éducation",
-                  en: "Unique identifier of the training within the Ministry of Education",
                 },
               ],
             },

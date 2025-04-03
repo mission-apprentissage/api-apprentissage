@@ -38,6 +38,8 @@ function isTransactionalTemplate(template: ITemplate): boolean {
     case "register":
     case "magic-link":
     case "register-feedback":
+    case "api-key-expiration-15-days":
+    case "api-key-expiration-30-days":
       return true;
     default:
       assertUnreachable(template);

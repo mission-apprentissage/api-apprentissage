@@ -7,6 +7,7 @@ import { checkDocumentationSync } from "@/services/documentation/checkDocumentat
 import logger, { createJobProcessorLogger } from "@/services/logger.js";
 import { createIndexes, getDatabase } from "@/services/mongodb/mongodbService.js";
 
+import { notifyUsersAboutExpiringApiKeys } from "./apiKey/apiKeyExpiration.notifier.js";
 import { validateModels } from "./db/schemaValidation.js";
 import { runAcceImporter } from "./importer/acce/acce.js";
 import { runBcnImporter } from "./importer/bcn/bcn.importer.js";
@@ -43,6 +44,11 @@ export async function setupJobProcessor() {
             "Controle synchronisation de la documentation": {
               cron_string: "0 0 * * *",
               handler: checkDocumentationSync,
+              resumable: true,
+            },
+            "Notification expiration clés API": {
+              cron_string: "0 8 * * *",
+              handler: notifyUsersAboutExpiringApiKeys,
               resumable: true,
             },
           },
@@ -162,6 +168,12 @@ export async function setupJobProcessor() {
       },
       "doc:check_sync": {
         handler: checkDocumentationSync,
+      },
+      "check:api_key_expiration": {
+        handler: async () => {
+          await notifyUsersAboutExpiringApiKeys();
+        },
+        resumable: true,
       },
     },
   });

@@ -204,7 +204,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.17.8, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.2.0, @babel/runtime@npm:^7.21.0, @babel/runtime@npm:^7.22.5, @babel/runtime@npm:^7.23.2, @babel/runtime@npm:^7.23.8, @babel/runtime@npm:^7.23.9, @babel/runtime@npm:^7.25.0, @babel/runtime@npm:^7.25.7, @babel/runtime@npm:^7.26.0, @babel/runtime@npm:^7.26.9, @babel/runtime@npm:^7.3.1, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.8.7":
+"@babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.17.8, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.2.0, @babel/runtime@npm:^7.22.5, @babel/runtime@npm:^7.23.2, @babel/runtime@npm:^7.23.8, @babel/runtime@npm:^7.23.9, @babel/runtime@npm:^7.25.0, @babel/runtime@npm:^7.25.7, @babel/runtime@npm:^7.26.0, @babel/runtime@npm:^7.26.9, @babel/runtime@npm:^7.3.1, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.8.7":
   version: 7.26.9
   resolution: "@babel/runtime@npm:7.26.9"
   dependencies:
@@ -6214,12 +6214,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cron-parser@npm:^4.9.0":
-  version: 4.9.0
-  resolution: "cron-parser@npm:4.9.0"
+"cron-parser@npm:^5.1.0":
+  version: 5.1.1
+  resolution: "cron-parser@npm:5.1.1"
   dependencies:
-    luxon: ^3.2.1
-  checksum: 3cf248fc5cae6c19ec7124962b1cd84b76f02b9bc4f58976b3bd07624db3ef10aaf1548efcc2d2dcdab0dad4f12029d640a55ecce05ea5e1596af9db585502cf
+    luxon: ^3.6.1
+  checksum: d8f629933b36f3dcb9237e80cfc548cfc7990fd839054188908e15271d67e84798ad40337c5e5688e036dced8e5b800530dacb0ad2d547c30eb4b7335af95438
   languageName: node
   linkType: hard
 
@@ -6416,15 +6416,6 @@ __metadata:
     es-errors: ^1.3.0
     is-data-view: ^1.0.1
   checksum: 8dd492cd51d19970876626b5b5169fbb67ca31ec1d1d3238ee6a71820ca8b80cafb141c485999db1ee1ef02f2cc3b99424c5eda8d59e852d9ebb79ab290eb5ee
-  languageName: node
-  linkType: hard
-
-"date-fns@npm:^2.30.0":
-  version: 2.30.0
-  resolution: "date-fns@npm:2.30.0"
-  dependencies:
-    "@babel/runtime": ^7.21.0
-  checksum: f7be01523282e9bb06c0cd2693d34f245247a29098527d4420628966a2d9aad154bd0e90a6b1cf66d37adcb769cd108cf8a7bd49d76db0fb119af5cdd13644f4
   languageName: node
   linkType: hard
 
@@ -9978,20 +9969,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"job-processor@npm:^1.10.1":
-  version: 1.10.1
-  resolution: "job-processor@npm:1.10.1"
+"job-processor@npm:^1.10.3":
+  version: 1.10.3
+  resolution: "job-processor@npm:1.10.3"
   dependencies:
-    cron-parser: ^4.9.0
-    date-fns: ^2.30.0
-    type-fest: ^4.18.2
+    cron-parser: ^5.1.0
+    date-fns: ^4.1.0
+    type-fest: ^4.39.0
   peerDependencies:
     "@codegouvfr/react-dsfr": ^1.9.11
     "@mui/material": ^5.15.18
     "@mui/x-data-grid": ^7.5.0
     "@sentry/node": ^7.51.1 || ^8.0.0
     mongodb: "*"
-    react: ^18.0.0
+    react: ^18.0.0 || ^19.0.0
     zod: ^3.0.0
     zod-mongodb-schema: ^1.0.0
   peerDependenciesMeta:
@@ -10003,7 +9994,7 @@ __metadata:
       optional: true
     react:
       optional: true
-  checksum: 45f4f44b1dddf6a4a9bedafd7e1f7175bc75bede0e864d03904914110b17206b6ff9973d97a68f1e9c93ba732b472dcdd04b4b361a5d740c796939842a715f59
+  checksum: 1ec02b3fc8b159755cb7ae8c9119d9daff1e76912cb0e6d27286aee6bb036fc03ff3c82678c4e61061c8e095defd27cbeb134abe307e9016ab30bb04dc978d0b
   languageName: node
   linkType: hard
 
@@ -10811,10 +10802,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"luxon@npm:^3.2.1, luxon@npm:^3.5.0":
-  version: 3.5.0
-  resolution: "luxon@npm:3.5.0"
-  checksum: f290fe5788c8e51e748744f05092160d4be12150dca70f9fadc0d233e53d60ce86acd82e7d909a114730a136a77e56f0d3ebac6141bbb82fd310969a4704825b
+"luxon@npm:^3.5.0, luxon@npm:^3.6.1":
+  version: 3.6.1
+  resolution: "luxon@npm:3.6.1"
+  checksum: bc6c24dde90f4263f548cc5a4ea3328e9c9511bee0b2255bd319639712862f1eb14a39c1b2dcbff8a8bf6686996d28f45b8fc902994a72dd05a29cef1269a6a4
   languageName: node
   linkType: hard
 
@@ -15304,7 +15295,7 @@ __metadata:
     exceljs: ^4.4.0
     fastify: ^5.2.1
     fastify-type-provider-zod: ^4.0.2
-    job-processor: ^1.10.1
+    job-processor: ^1.10.3
     jsonwebtoken: ^9.0.2
     lil-http-terminator: ^1.2.3
     lodash-es: ^4.17.21
@@ -15425,7 +15416,7 @@ __metadata:
     "@types/node": ^22.13.9
     api-alternance-sdk: "workspace:^"
     bson: ^6.10.3
-    job-processor: ^1.10.1
+    job-processor: ^1.10.3
     lodash-es: ^4.17.21
     luhn: ^2.4.1
     luxon: ^3.5.0
@@ -16980,10 +16971,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"type-fest@npm:^4.18.2, type-fest@npm:^4.36.0":
-  version: 4.36.0
-  resolution: "type-fest@npm:4.36.0"
-  checksum: 9d01b057ed66ac7ea360bf05b6052040c68fd0fe21140ffd1c8570629583d9176669d09212c55c6ce8eccbe214d6b6c8b5a9f784adac04d321d0c73539145986
+"type-fest@npm:^4.36.0, type-fest@npm:^4.39.0":
+  version: 4.39.1
+  resolution: "type-fest@npm:4.39.1"
+  checksum: 71ce0e25822d5d984c8882e3243c42c741f089c003d89222dc361a133698d8ac021c18a9139ba3baf0fee2f523383422b8c5aaa390b1b3a98140f23dd0f44795
   languageName: node
   linkType: hard
 
@@ -17110,7 +17101,7 @@ __metadata:
     dotenv: ^16.4.7
     i18next: ^24.2.2
     i18next-resources-to-backend: ^1.2.1
-    job-processor: ^1.10.1
+    job-processor: ^1.10.3
     jwt-decode: ^4.0.0
     match-sorter: ^8.0.0
     mobx: ^6.13.6

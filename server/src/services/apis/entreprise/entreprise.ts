@@ -356,9 +356,9 @@ export async function getUniteLegaleDiffusible(siren: string): Promise<IApiEntUn
           return null;
         }
 
-        throw internal("api.entreprise: unable to get unite legale diffusible", { data: error.toJSON() });
+        throw internal("api.entreprise: unable to get unite legale diffusible", { data: error.toJSON(), siren });
       }
-      throw withCause(internal("api.entreprise: unable to get unite legale diffusible"), error);
+      throw withCause(internal("api.entreprise: unable to get unite legale diffusible", { siren }), error);
     }
   });
 

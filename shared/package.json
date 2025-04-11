@@ -30,7 +30,7 @@
     "@asteasolutions/zod-to-openapi": "^7.3.0",
     "@fastify/swagger": "^9.4.2",
     "api-alternance-sdk": "workspace:^",
-    "job-processor": "^1.10.1",
+    "job-processor": "^1.10.3",
     "lodash-es": "^4.17.21",
     "luhn": "^2.4.1",
     "luxon": "^3.5.0",

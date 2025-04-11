@@ -14,6 +14,7 @@ const geoClient = apiRateLimiter("geo", {
   client: getApiClient(
     {
       baseURL: config.api.geo.endpoint,
+      timeout: 30_000,
     },
     { cache: false }
   ),

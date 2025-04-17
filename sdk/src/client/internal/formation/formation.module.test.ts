@@ -1,8 +1,9 @@
 import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
 import { beforeEach, describe, expect, expectTypeOf, it } from "vitest";
 
-import { generateFormationFixtureWithoutContact } from "../../../fixtures.js";
-import type { IFormationExternal, IFormationSearchApiResult } from "../../../routes/index.js";
+import { generateFormationFixture } from "../../../fixtures.js";
+import type { IFormation } from "../../../models/index.js";
+import type { IFormationSearchApiResult } from "../../../routes/index.js";
 import { ApiClient } from "../../client.js";
 import { ApiError } from "../apiError.js";
 import { ApiParseError } from "../parser/response.parser.js";
@@ -19,7 +20,7 @@ beforeEach(() => {
 describe("recherche", () => {
   it("should call the API with the correct querystring", async () => {
     const response: IFormationSearchApiResult = {
-      data: [generateFormationFixtureWithoutContact()],
+      data: [generateFormationFixture()],
       pagination: {
         page_count: 1,
         page_index: 0,
@@ -42,7 +43,7 @@ describe("recherche", () => {
       data.push(...page);
     }
 
-    expectTypeOf(data).toEqualTypeOf<IFormationExternal[]>();
+    expectTypeOf(data).toEqualTypeOf<IFormation[]>();
 
     expect(scope.isDone()).toBe(true);
     expect(data).toEqual(response.data);
@@ -50,9 +51,9 @@ describe("recherche", () => {
 
   it("should support multiple pages conserving query string", async () => {
     const expectedData = [
-      generateFormationFixtureWithoutContact({ identifiant: { cle_ministere_educatif: "#1" } }),
-      generateFormationFixtureWithoutContact({ identifiant: { cle_ministere_educatif: "#2" } }),
-      generateFormationFixtureWithoutContact({ identifiant: { cle_ministere_educatif: "#3" } }),
+      generateFormationFixture({ identifiant: { cle_ministere_educatif: "#1" } }),
+      generateFormationFixture({ identifiant: { cle_ministere_educatif: "#2" } }),
+      generateFormationFixture({ identifiant: { cle_ministere_educatif: "#3" } }),
     ];
     const responses: IFormationSearchApiResult[] = [
       {
@@ -112,7 +113,7 @@ describe("recherche", () => {
       data.push(...page);
     }
 
-    expectTypeOf(data).toEqualTypeOf<IFormationExternal[]>();
+    expectTypeOf(data).toEqualTypeOf<IFormation[]>();
 
     expect(data).toEqual(expectedData);
     expect(scope.isDone()).toBe(true);
@@ -120,7 +121,7 @@ describe("recherche", () => {
 
   it("should support include_archived=true query param", async () => {
     const response: IFormationSearchApiResult = {
-      data: [generateFormationFixtureWithoutContact()],
+      data: [generateFormationFixture()],
       pagination: {
         page_count: 1,
         page_index: 0,
@@ -149,7 +150,7 @@ describe("recherche", () => {
       data.push(...page);
     }
 
-    expectTypeOf(data).toEqualTypeOf<IFormationExternal[]>();
+    expectTypeOf(data).toEqualTypeOf<IFormation[]>();
 
     expect(data).toEqual(response.data);
     expect(scope.isDone()).toBe(true);

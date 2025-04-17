@@ -1,4 +1,5 @@
-import type { IApiGetRoutes, IApiQuery, IFormationExternal } from "../../../routes/index.js";
+import type { IFormation } from "../../../models/index.js";
+import type { IApiGetRoutes, IApiQuery } from "../../../routes/index.js";
 import { zApiFormationRoutes } from "../../../routes/index.js";
 import type { ApiClient } from "../../client.js";
 import { parseApiResponse } from "../parser/response.parser.js";
@@ -6,14 +7,14 @@ import { parseApiResponse } from "../parser/response.parser.js";
 export type FormationModule = {
   recherche(
     querystring: Omit<IApiQuery<IApiGetRoutes["/formation/v1/search"]>, "page_index">
-  ): AsyncGenerator<IFormationExternal[], void, void>;
+  ): AsyncGenerator<IFormation[], void, void>;
 };
 
 export function buildFormationModule(apiClient: ApiClient): FormationModule {
   return {
     recherche: async function* (
       querystring: Omit<IApiQuery<IApiGetRoutes["/formation/v1/search"]>, "page_index">
-    ): AsyncGenerator<IFormationExternal[], void, void> {
+    ): AsyncGenerator<IFormation[], void, void> {
       const {
         data: firstPageData,
         pagination: { page_count },

@@ -1,5 +1,5 @@
 import { useMongo } from "@tests/mongo.test.utils.js";
-import { parseApiAlternanceToken, zFormationExternal } from "api-alternance-sdk";
+import { parseApiAlternanceToken, zFormation } from "api-alternance-sdk";
 import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
 import {
   generateFormationInternalFixture,
@@ -458,7 +458,8 @@ describe("GET /formation/v1/:id", () => {
 
     const result = response.json();
 
-    expect(() => zFormationExternal.parse(result)).not.toThrow();
+    expect(() => zFormation.parse(result)).not.toThrow();
     expect(result.identifiant.cle_ministere_educatif).toBe(validId);
+    expect(result).toMatchSnapshot();
   });
 });

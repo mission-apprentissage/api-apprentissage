@@ -9,3 +9,4 @@ export * from "./recuperation-detail-offre/recuperation-detail-offre.doc.js";
 export * from "./recuperation-departements/recuperation-departements.doc.js";
 export * from "./recuperation-mission-locales/recuperation-mission-locales.doc.js";
 export * from "./recuperation-organismes/recuperation-organismes.doc.js";
+export * from "./recuperation-formation/recuperation-formation.doc.js";

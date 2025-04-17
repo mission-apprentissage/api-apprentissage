@@ -9,6 +9,7 @@ import {
   rechercheOffrePageSummaryDoc,
   recuperationDepartementsPageSummaryDoc,
   recuperationDetailOffrePageSummaryDoc,
+  recuperationFormationPageSummaryDoc,
   recuperationMissionLocalePageSummaryDoc,
   recuperationOrganismesPageSummaryDoc,
 } from "api-alternance-sdk/internal";
@@ -81,6 +82,11 @@ export const PAGES = {
       getPath: (lang) => `/${lang}/explorer/recherche-formation` as string,
       index: true,
       getTitle: (lang, t) => getTextOpenAPI(rechercheFormationPageSummaryDoc.title, lang),
+    },
+    recuperationFormation: {
+      getPath: (lang) => `/${lang}/explorer/recuperation-formation` as string,
+      index: true,
+      getTitle: (lang, t) => getTextOpenAPI(recuperationFormationPageSummaryDoc.title, lang),
     },
     generationLienPriseRdvFormation: {
       getPath: (lang) => `/${lang}/explorer/generation-lien-prise-rdv-formation` as string,

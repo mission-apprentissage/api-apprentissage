@@ -22,6 +22,7 @@ import {
   rechercheOffrePageSummaryDoc,
   recuperationDepartementsPageSummaryDoc,
   recuperationDetailOffrePageSummaryDoc,
+  recuperationFormationPageSummaryDoc,
   recuperationMissionLocalePageSummaryDoc,
   recuperationOrganismesPageSummaryDoc,
 } from "api-alternance-sdk/internal";
@@ -120,6 +121,15 @@ export default async function ExplorerApiPage({ params }: PropsWithLangParams) {
           imageUrl={search.src}
           enlargeLinkOrButton
           linkProps={{ href: PAGES.static.rechercheFormation.getPath(lang) }}
+          start={<TagDsfr>{t(`type.data`, { lng: lang })}</TagDsfr>}
+        />
+        <Tile
+          title={getTextOpenAPI(recuperationFormationPageSummaryDoc.title, lang)}
+          desc={getTextOpenAPI(recuperationFormationPageSummaryDoc.headline, lang)}
+          imageSvg
+          imageUrl={search.src}
+          enlargeLinkOrButton
+          linkProps={{ href: PAGES.static.recuperationFormation.getPath(lang) }}
           start={<TagDsfr>{t(`type.data`, { lng: lang })}</TagDsfr>}
         />
         <Tile

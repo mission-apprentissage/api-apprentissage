@@ -3,37 +3,33 @@ import { certificationsPageDoc } from "../certifications/certifications.doc.js";
 import { rechercheCommunePageDoc } from "../recherche-commune/recherche-commune.doc.js";
 import { recuperationOrganismesPageDoc } from "../recuperation-organismes/recuperation-organismes.doc.js";
 
-export const rechercheFormationPageSummaryDoc = {
+export const recuperationFormationPageSummaryDoc = {
   title: {
-    en: "Search for training courses in apprenticeship",
-    fr: "Recherche de formations en apprentissage",
+    en: "View an training course",
+    fr: "Consulter le détail d'une formation",
   },
   headline: {
-    fr: "Accéder gratuitement à l’ensemble des formations disponibles en apprentissage",
-    en: "Access free access to all training programs available through apprenticeships",
+    en: "Access the details of a training course from its identifier",
+    fr: "Accéder au détail d'une formation en apprentissage à partir de son identifiant",
   },
 } as const satisfies { title: OpenApiText; headline: OpenApiText };
 
-export const rechercheFormationPageDoc = {
+export const recuperationFormationPageDoc = {
   tag: "formation",
   operationIds: ["searchFormations"],
   habilitation: null,
   description: [
     {
-      fr: "**Accéder gratuitement à l'ensemble des formations en apprentissage disponibles sur le territoire français.** ",
-      en: "**Access all training courses available in apprenticeship for free on the French territory.** ",
+      fr: "**Accédez gratuitement et en temps réel au détail d'une formation en apprentissage.** ",
+      en: "**Access real-time, detailed information about an apprenticeship training program — for free.** ",
     },
     {
       fr: "Les formations retournées sont celles collectées par [le catalogue des formations en apprentissage](https://catalogue-apprentissage.intercariforef.org/recherche/formations) **du réseau des Carif-Oref.**",
       en: "The returned training courses are those collected by [the apprenticeship training catalog](https://catalogue-apprentissage.intercariforef.org/recherche/formations)",
     },
     {
-      fr: "**💡 Vous pouvez rechercher dans l’ensemble des formations selon les critères suivants : Code(s) ROME, Code(s) RNCP, géolocalisation, niveau de diplôme et rayon de recherche.**",
-      en: "**💡 You can search for all job training courses according to the following criteria: ROME code(s), RNCP code(s), geolocation, diploma level and search radius.**",
-    },
-    {
-      fr: "Les résultats sont retournés par distance croissante au lieu de recherche si ce dernier a été fourni.",
-      en: "Results are returned in increasing distance from the search location if it was provided.",
+      fr: "**💡 Cette API est utilisée en complément de la [route d'API de recherche de formations en apprentissage](https://api.apprentissage.beta.gouv.fr/fr/explorer/recherche-formation). Elle permet de récupérer une formation à partir de son identifiant (fourni par la route d'API de recherche).**",
+      en: "**💡 This API is used in conjunction with the [apprenticeship training search API route](https://api.apprentissage.beta.gouv.fr/fr/explorer/recherche-formation). It allows you to retrieve detailed information about a training program using its identifier (provided by the search API route).**",
     },
   ],
   frequenceMiseAJour: "daily",
@@ -106,10 +102,7 @@ export const rechercheFormationPageDoc = {
             modalite: {
               description: [
                 { fr: "Modalités de la formation composées de :", en: "Training modality" },
-                {
-                  fr: "- L'année de démarrage de la session de formation.",
-                  en: "The start year of the training session.",
-                },
+                { fr: "- L'année du cycle de la formation.", en: "The year of the training cycle" },
                 { fr: "- La durée indicative de la formation.", en: "The indicative duration of the training" },
                 { fr: "- Si la formation est entièrement à distance.", en: "If the training is entirely remote" },
                 { fr: "- Le code MEF 10 de la formation.", en: "The training MEF 10 code" },
@@ -131,8 +124,8 @@ export const rechercheFormationPageDoc = {
             connue: {
               description: [
                 {
-                  fr: "Indique si la certification est connue de l'API Liste des Certifications Professionnelles [ici](https://api.apprentissage.beta.gouv.fr/fr/explorer/certifications).",
-                  en: "Indicates whether the certification is recognized by the API List of Professional Certifications [here](https://api.apprentissage.beta.gouv.fr/fr/explorer/certifications).",
+                  fr: "Indique si la certification est connue de l'API Liste des Certifications Professionnelles [https://api.apprentissage.beta.gouv.fr/fr/explorer/certifications].",
+                  en: "Indicates whether the certification is recognized by the API List of Professional Certifications [https://api.apprentissage.beta.gouv.fr/fr/explorer/certifications]",
                 },
                 {
                   fr: "Dans le cas contraire, la certification est construite à partir des informations issues du RNCP et du CFD indépendamment.",
@@ -147,7 +140,7 @@ export const rechercheFormationPageDoc = {
                   en: "Certification associated with the training.",
                 },
                 {
-                  fr: "Pour plus de détail sur la certification, consulter l'onglet ``Certification``.",
+                  fr: "Pour plus de détails sur la certification, consulter l'onglet ``Certification``.",
                   en: "For certification details, see the `Certification` tab.",
                 },
               ],
@@ -212,8 +205,8 @@ export const rechercheFormationPageDoc = {
             connu: {
               description: [
                 {
-                  fr: "Vaut true s’il est ou a été présent dans [le référentiel des organismes de formation](https://referentiel.apprentissage.onisep.fr/organismes).",
-                  en: "Returns true if it is or has been listed in the [the training organisms repository](https://referentiel.apprentissage.onisep.fr/organismes).",
+                  fr: "Vaut TRUE lorsqu'il est présent dans [le référentiel des organismes de formation](https://referentiel.apprentissage.onisep.fr/organismes) ou s'il l'a été dans le passé.",
+                  en: "TRUE when it is present in [the training organisms repository](https://referentiel.apprentissage.onisep.fr/organismes) or if it has been in the past.",
                 },
                 {
                   fr: "Il peut s'agir d'un organisme qui n'est plus sur le référentiel des organismes de formation. Veuillez vérifier le statut de l'organisme.",
@@ -274,7 +267,5 @@ export const rechercheFormationPageDoc = {
         },
       },
     },
-    certificationsPageDoc.data[0],
-    recuperationOrganismesPageDoc.data[0],
   ],
 } as const satisfies DocPage;

@@ -13,7 +13,7 @@ jobs:
       environment: "recette"
       skip: false
     secrets:
-      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      SLACK_WEBHOOK_NOTIF: ${{ secrets.SLACK_WEBHOOK_NOTIF }}
       VAULT_PWD: ${{ secrets.VAULT_PWD }}
 
   docker-scout:
@@ -75,5 +75,6 @@ jobs:
     secrets:
       DEPLOY_SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}
       DEPLOY_PASS: ${{ secrets.DEPLOY_PASS }}
-      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      SLACK_WEBHOOK_NOTIF: ${{ secrets.SLACK_WEBHOOK_NOTIF }}
+      SLACK_WEBHOOK_ALERT: ${{ secrets.SLACK_WEBHOOK_ALERT }}
       VAULT_PWD: ${{ secrets.VAULT_PWD }}

@@ -47,7 +47,7 @@ jobs:
           notify_when: "failure"
           mention_groups: "!channel"
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_ALERT }}
 
       - name: Notify success on Slack
         uses: ravsamhq/notify-slack-action@v2
@@ -57,4 +57,4 @@ jobs:
           notification_title: "Version ${{ github.event.release.tag_name }} a été publiée avec succès"
           notify_when: "success"
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_NOTIF }}

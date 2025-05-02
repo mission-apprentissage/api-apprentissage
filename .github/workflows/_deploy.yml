@@ -31,7 +31,10 @@ on:
       DEPLOY_PASS:
         description: SSH PWD TO DEPLOY
         required: true
-      SLACK_WEBHOOK:
+      SLACK_WEBHOOK_NOTIF:
+        description: Slack webhook URL
+        required: true
+      SLACK_WEBHOOK_ALERT:
         description: Slack webhook URL
         required: true
       VAULT_PWD:
@@ -45,7 +48,7 @@ jobs:
       environment: ${{ inputs.environment }}
       skip: ${{ !inputs.build }}
     secrets:
-      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      SLACK_WEBHOOK_NOTIF: ${{ secrets.SLACK_WEBHOOK_NOTIF }}
       VAULT_PWD: ${{ secrets.VAULT_PWD }}
 
   deploy:
@@ -59,7 +62,7 @@ jobs:
           status: ${{ job.status }}
           notification_title: "Déploiement ${{ github.ref_name }}(${{ github.sha}}) en ${{ inputs.environment }} initié..."
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_NOTIF }}
 
       - name: Checkout project
         uses: actions/checkout@v4
@@ -116,7 +119,7 @@ jobs:
           notify_when: "failure"
           mention_groups: "!channel"
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_ALERT }}
 
       - name: Notify success on Slack
         uses: ravsamhq/notify-slack-action@v2
@@ -126,4 +129,4 @@ jobs:
           notification_title: "Déploiement ${{ github.ref_name }}(${{ github.sha}}) en ${{ inputs.environment }} terminé avec succès"
           notify_when: "success"
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_NOTIF }}

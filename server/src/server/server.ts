@@ -85,14 +85,28 @@ export async function bind(app: Server) {
   app.decorate("auth", <S extends IApiRouteSchema & WithSecurityScheme>(scheme: S) => auth(scheme));
 
   app.register(fastifyMultipart);
-  app.register(fastifyCors, {
-    ...(config.env === "local"
-      ? {
-          origin: true,
-          credentials: true,
+
+  if (config.env === "local") {
+    app.register(fastifyCors, {
+      origin: true,
+      credentials: true,
+    });
+  } else {
+    app.register(fastifyCors, {
+      origin: (origin, cb) => {
+        const allowedOrigins = ["https://www.data.gouv.fr"];
+
+        if (!origin || allowedOrigins.includes(origin)) {
+          cb(null, true);
+        } else {
+          cb(new Error("Not allowed by CORS"), false);
         }
-      : {}),
-  });
+      },
+      methods: ["GET", "POST", "OPTIONS"],
+      allowedHeaders: ["Content-Type", "Authorization"],
+      credentials: false,
+    });
+  }
 
   app.register(
     async (instance: Server) => {

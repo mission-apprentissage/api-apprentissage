@@ -1,4 +1,5 @@
 import { generateFormationAppointmentLinkRouteDoc } from "../../docs/routes/generateFormationAppointmentLink/generateFormationAppointmentLink.doc.js";
+import { searchFormationByIdRouteDoc } from "../../docs/routes/searchFormationById/searchFormationById.route.doc.js";
 import { searchFormationsRouteDoc } from "../../docs/routes/searchFormations/searchFormations.route.doc.js";
 import { addErrorResponseOpenApi } from "../../models/errors/errors.model.openapi.js";
 import { paginationQueryParameterObject } from "../../models/pagination/pagination.model.openapi.js";
@@ -106,6 +107,36 @@ export const formationRoutesOpenapi: OpenapiRoutes = {
         },
       }),
       doc: searchFormationsRouteDoc,
+    },
+  },
+  "/formation/v1/{id}": {
+    get: {
+      tag: "formation",
+      schema: addErrorResponseOpenApi({
+        operationId: "searchFormationById",
+        security: [{ "api-key": [] }],
+        parameters: [
+          {
+            schema: { type: "string" },
+            required: true,
+            name: "id",
+            in: "path",
+          },
+        ],
+        responses: {
+          "200": {
+            description: searchFormationByIdRouteDoc.response.description,
+            content: {
+              "application/json": {
+                schema: {
+                  $ref: "#/components/schemas/Formation",
+                },
+              },
+            },
+          },
+        },
+      }),
+      doc: searchFormationByIdRouteDoc,
     },
   },
   "/formation/v1/appointment/generate-link": {

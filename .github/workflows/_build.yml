@@ -11,7 +11,7 @@ on:
         type: boolean
         required: false
     secrets:
-      SLACK_WEBHOOK:
+      SLACK_WEBHOOK_NOTIF:
         description: Slack webhook URL
         required: true
       VAULT_PWD:
@@ -73,7 +73,7 @@ jobs:
         run: .bin/mna build:image "${{ env.VERSION }}" push "${{ inputs.environment }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_NOTIF }}
 
       - name: Create vault pwd file
         run: echo ${{ secrets.VAULT_PWD }} > .infra/.vault_pwd.txt

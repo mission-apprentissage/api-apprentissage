@@ -89,6 +89,7 @@ describe("User Routes", () => {
         expires_at: in365Days.toJSON(),
         created_at: now.toJSON(),
         value: expect.any(String),
+        expiration_warning_sent: null,
       });
 
       userFromDb = await getDbCollection("users").findOne({ _id: user._id });
@@ -100,6 +101,7 @@ describe("User Routes", () => {
           key: expect.any(String),
           last_used_at: null,
           name: "My key",
+          expiration_warning_sent: null,
         },
       ]);
 
@@ -226,6 +228,7 @@ describe("User Routes", () => {
           expires_at: in365Days.toJSON(),
           created_at: now.toJSON(),
           value: null,
+          expiration_warning_sent: null,
         },
         {
           _id: expect.any(String),
@@ -234,6 +237,7 @@ describe("User Routes", () => {
           expires_at: in365Days.toJSON(),
           created_at: now.toJSON(),
           value: null,
+          expiration_warning_sent: null,
         },
         {
           _id: expect.any(String),
@@ -242,6 +246,7 @@ describe("User Routes", () => {
           expires_at: in365Days.toJSON(),
           created_at: now.toJSON(),
           value: null,
+          expiration_warning_sent: null,
         },
       ]);
     });
@@ -296,6 +301,7 @@ describe("User Routes", () => {
           expires_at: in365Days,
           created_at: now,
           key: key1.key,
+          expiration_warning_sent: null,
         },
         {
           _id: key3._id,
@@ -304,6 +310,7 @@ describe("User Routes", () => {
           expires_at: in365Days,
           created_at: now,
           key: key3.key,
+          expiration_warning_sent: null,
         },
       ]);
     });

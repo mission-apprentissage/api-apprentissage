@@ -169,12 +169,6 @@ export async function setupJobProcessor() {
       "doc:check_sync": {
         handler: checkDocumentationSync,
       },
-      "check:api_key_expiration": {
-        handler: async () => {
-          await notifyUsersAboutExpiringApiKeys();
-        },
-        resumable: true,
-      },
     },
   });
 }

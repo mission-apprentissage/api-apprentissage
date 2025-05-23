@@ -38,8 +38,7 @@ function isTransactionalTemplate(template: ITemplate): boolean {
     case "register":
     case "magic-link":
     case "register-feedback":
-    case "api-key-expiration-15-days":
-    case "api-key-expiration-30-days":
+    case "api-key-will-expire":
       return true;
     default:
       assertUnreachable(template);
@@ -98,6 +97,8 @@ export function getEmailSubject<T extends ITemplate>(template: T): string {
       return "Vous avez demandé à recevoir un lien de connexion à l'espace développeurs La bonne alternance.";
     case "register-feedback":
       return "Feedback de refus de création de compte";
+    case "api-key-will-expire":
+      return `📅 Votre clé API ${template.key_name} est sur le point d'expirer | Your API key ${template.key_name} is about to expire`;
     default:
       assertUnreachable(template);
   }

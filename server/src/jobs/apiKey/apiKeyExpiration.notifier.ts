@@ -1,50 +1,78 @@
-import { subDays } from "date-fns";
+import { addDays, differenceInDays, endOfDay, startOfDay } from "date-fns";
 import type { IUser } from "shared/models/user.model";
 
-import { zUser } from "@/jobs/user.model.js";
 import { sendEmail } from "@/services/mailer/mailer.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
-// Constantes modifiables
-const REMINDER_DAYS = {
-  FIRST: 30,
-  SECOND: 15,
-};
+function shouldSendNotification(
+  apiKey: IUser["api_keys"][number],
+  today: Date
+): { type: "30-days" | "15-days"; days_left: number } | null {
+  const days_left = differenceInDays(startOfDay(apiKey.expires_at), today);
 
-export async function notifyUsersAboutExpiringApiKeys() {
-  const today = new Date();
+  if (days_left <= 15) {
+    return apiKey.expiration_warning_sent === "15-days" ? null : { days_left, type: "15-days" };
+  }
 
-  const usersEligibles = await getDbCollection("users")
-    .find({
-      "api_keys.expires_at": {
-        $gte: subDays(today, 1),
-        $lte: new Date(today.getTime() + REMINDER_DAYS.FIRST * 24 * 60 * 60 * 1000),
+  if (days_left <= 30) {
+    return apiKey.expiration_warning_sent === "30-days" ? null : { days_left, type: "30-days" };
+  }
+
+  return null;
+}
+
+export async function notifyUsersAboutExpiringApiKeys(signal: AbortSignal) {
+  const today = startOfDay(new Date());
+
+  const in30Days = endOfDay(addDays(today, 30));
+
+  const cursor = getDbCollection("users").aggregate([
+    {
+      $match: {
+        "api_keys.expires_at": { $lte: in30Days },
       },
-    })
-    .toArray();
+    },
+  ]);
 
-  const parsedUsers = usersEligibles.map((u: IUser) => zUser.parse(u));
+  for await (const user of cursor) {
+    if (signal.aborted) {
+      cursor.close();
+      break;
+    }
 
-  for (const user of parsedUsers) {
     for (const apiKey of user.api_keys) {
-      if (!apiKey.expires_at) continue;
+      const decision = shouldSendNotification(apiKey, today);
+      if (!decision) continue;
 
-      const daysLeft = Math.ceil((apiKey.expires_at.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+      await sendEmail({
+        name: "api-key-will-expire",
+        to: user.email,
+        days_left: decision.days_left,
+        expires_at: {
+          fr: apiKey.expires_at.toLocaleDateString("fr-FR", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          }),
+          en: apiKey.expires_at.toLocaleDateString("en-US", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          }),
+        },
+        key_name: apiKey.name,
+      });
 
-      if (daysLeft === REMINDER_DAYS.FIRST || daysLeft === REMINDER_DAYS.SECOND) {
-        const templateName = daysLeft === REMINDER_DAYS.FIRST ? "api-key-30-days" : "api-key-15-days";
-
-        await sendEmail({
-          name: templateName,
-          to: user.email,
-          data: {
-            expires_at: apiKey.expires_at.toLocaleDateString("fr-FR"),
-            days_left: daysLeft,
+      await getDbCollection("users").updateOne(
+        { "api_keys._id": apiKey._id },
+        {
+          $set: {
+            "api_keys.$.expiration_warning_sent": decision.type,
           },
-        });
-
-        console.log(`Email envoyé à ${user.email} pour une expiration dans ${daysLeft} jours.`);
-      }
+        }
+      );
     }
   }
 }

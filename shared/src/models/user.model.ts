@@ -35,6 +35,7 @@ export const zApiKey = z.object({
   last_used_at: z.date().nullable(),
   expires_at: z.date(),
   created_at: z.date(),
+  expiration_warning_sent: z.enum(["30-days", "15-days"]).nullable(),
 });
 
 export type IApiKey = z.output<typeof zApiKey>;

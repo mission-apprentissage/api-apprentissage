@@ -20,29 +20,24 @@ const zTemplateRegisterFeedback = z.object({
   from: z.string().email(),
   comment: z.string(),
 });
-const zTemplateApiKeyExpiration30days = z.object({
-  name: z.literal("api-key-expiration-30-days"),
+const zTemplateApiKeyWillExpire = z.object({
+  name: z.literal("api-key-will-expire"),
   to: z.string().email(),
-  from: z.string().email(),
-});
-const zTemplateApiKeyExpiration15days = z.object({
-  name: z.literal("api-key-expiration-15-days"),
-  to: z.string().email(),
-  from: z.string().email(),
+  days_left: z.number(),
+  expires_at: z.object({ fr: z.string(), en: z.string() }),
+  key_name: z.string(),
 });
 
 type ITemplateRegister = z.output<typeof zTemplateRegister>;
 type ITemplateMagicLink = z.output<typeof zTemplateMagicLink>;
 type ITemplateRegisterFeedback = z.output<typeof zTemplateRegisterFeedback>;
-type ITemplateApiKeyExpiration30days = z.output<typeof zTemplateApiKeyExpiration30days>;
-type ITemplateApiKeyExpiration15days = z.output<typeof zTemplateApiKeyExpiration15days>;
+type ITemplateApiKeyWillExpire = z.output<typeof zTemplateApiKeyWillExpire>;
 
 export const zTemplate = z.discriminatedUnion("name", [
   zTemplateRegister,
   zTemplateMagicLink,
   zTemplateRegisterFeedback,
-  zTemplateApiKeyExpiration30days,
-  zTemplateApiKeyExpiration15days,
+  zTemplateApiKeyWillExpire,
 ]);
 
 export type ITemplate = z.output<typeof zTemplate>;
@@ -51,8 +46,7 @@ export type TemplatePayloads = {
   register: ITemplateRegister;
   "magic-link": ITemplateMagicLink;
   "register-feedback": ITemplateRegisterFeedback;
-  "api-key-expiration-30-days": ITemplateApiKeyExpiration30days;
-  "api-key-expiration-15-days": ITemplateApiKeyExpiration15days;
+  "api-key-will-expire": ITemplateApiKeyWillExpire;
 };
 
 export type TemplateName = keyof TemplatePayloads;

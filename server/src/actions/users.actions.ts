@@ -25,7 +25,7 @@ export const generateApiKey = async (
   const now = new Date();
   const generatedKey = generateKey();
 
-  const data = {
+  const data: IUser["api_keys"][number] = {
     _id: new ObjectId(),
     name:
       name ||
@@ -37,6 +37,7 @@ export const generateApiKey = async (
     last_used_at: null,
     expires_at: new Date(now.getTime() + config.api_key.expiresIn),
     created_at: now,
+    expiration_warning_sent: null,
   };
 
   await getDbCollection("users").findOneAndUpdate(

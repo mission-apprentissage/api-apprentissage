@@ -2024,6 +2024,47 @@ exports[`zodToMongoSchema > should convert email_events schema 1`] = `
             "comment",
           ],
         },
+        {
+          "additionalProperties": false,
+          "bsonType": "object",
+          "properties": {
+            "days_left": {
+              "bsonType": "number",
+            },
+            "expires_at": {
+              "additionalProperties": false,
+              "bsonType": "object",
+              "properties": {
+                "en": {
+                  "bsonType": "string",
+                },
+                "fr": {
+                  "bsonType": "string",
+                },
+              },
+              "required": [
+                "fr",
+                "en",
+              ],
+            },
+            "key_name": {
+              "bsonType": "string",
+            },
+            "name": {
+              "bsonType": "string",
+            },
+            "to": {
+              "bsonType": "string",
+            },
+          },
+          "required": [
+            "name",
+            "to",
+            "days_left",
+            "expires_at",
+            "key_name",
+          ],
+        },
       ],
     },
     "updated_at": {
@@ -9958,6 +9999,20 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
           "created_at": {
             "bsonType": "date",
           },
+          "expiration_warning_sent": {
+            "anyOf": [
+              {
+                "bsonType": "string",
+                "enum": [
+                  "30-days",
+                  "15-days",
+                ],
+              },
+              {
+                "bsonType": "null",
+              },
+            ],
+          },
           "expires_at": {
             "bsonType": "date",
           },
@@ -9988,6 +10043,7 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
           "last_used_at",
           "expires_at",
           "created_at",
+          "expiration_warning_sent",
         ],
       },
     },

@@ -17,11 +17,11 @@
     "server"
   ],
   "dependencies": {
-    "@sentry/cli": "^2.40.0",
-    "dotenv": "^16.4.5",
-    "eslint-plugin-react": "^7.37.1",
+    "@sentry/cli": "^2.45.0",
+    "dotenv": "^16.5.0",
+    "eslint-plugin-react": "^7.37.5",
     "global": "4.4.0",
-    "husky": "^9.1.6"
+    "husky": "^9.1.7"
   },
   "scripts": {
     "setup": ".bin/mna init:env",
@@ -61,29 +61,29 @@
   },
   "devDependencies": {
     "@cypress/chrome-recorder": "^2.3.1",
-    "@dword-design/eslint-plugin-import-alias": "^5.1.1",
-    "@types/node": "^22.13.9",
-    "@typescript-eslint/eslint-plugin": "^8.26.0",
-    "@typescript-eslint/parser": "^8.26.0",
+    "@dword-design/eslint-plugin-import-alias": "^5.1.2",
+    "@types/node": "^22.15.21",
+    "@typescript-eslint/eslint-plugin": "^8.32.1",
+    "@typescript-eslint/parser": "^8.32.1",
     "commander": "^13.1.0",
-    "cypress": "^14.1.0",
+    "cypress": "^14.4.0",
     "eslint": "^8.57.1",
-    "eslint-config-next": "^15.2.0",
-    "eslint-import-resolver-typescript": "^3.8.3",
+    "eslint-config-next": "^15.3.2",
+    "eslint-import-resolver-typescript": "^3.10.1",
     "eslint-plugin-esm-import": "^0.0.1",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
-    "eslint-plugin-n": "^17.16.1",
+    "eslint-plugin-n": "^17.18.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-require-extensions": "^0.1.3",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "eslint-plugin-zod": "^1.4.0",
-    "lint-staged": "^15.4.3",
-    "node-talisman": "^1.29.11",
+    "lint-staged": "^15.5.2",
+    "node-talisman": "^1.29.22",
     "prettier": "^3.5.3",
-    "typescript": "^5.8.2",
+    "typescript": "^5.8.3",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.0.7"
+    "vitest": "^3.1.4"
   },
   "prettier": {
     "printWidth": 120,

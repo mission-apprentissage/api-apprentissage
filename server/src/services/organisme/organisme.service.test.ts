@@ -10,8 +10,8 @@ import { z } from "zod";
 
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
-import tdbFiabResultData from "./fixtures/tdb/fiabilisation.fixture.json";
-import tdbReferentielFixtureData from "./fixtures/tdb/referentiel.fixture.json";
+import tdbFiabResultData from "./fixtures/tdb/fiabilisation.fixture.json" with { type: "json" };
+import tdbReferentielFixtureData from "./fixtures/tdb/referentiel.fixture.json" with { type: "json" };
 import type { OrganismeSearchQuery } from "./organisme.service.js";
 import { searchOrganisme, searchOrganismeMetadata } from "./organisme.service.js";
 

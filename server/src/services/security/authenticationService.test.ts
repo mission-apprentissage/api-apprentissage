@@ -195,6 +195,7 @@ describe("authenticationMiddleware", () => {
             last_used_at: null,
             name: token.name,
             created_at: now,
+            expiration_warning_sent: null,
           },
         ],
       };
@@ -239,6 +240,7 @@ describe("authenticationMiddleware", () => {
             last_used_at: null,
             name: token1.name,
             created_at: now,
+            expiration_warning_sent: null,
           },
           {
             _id: token2._id,
@@ -247,6 +249,7 @@ describe("authenticationMiddleware", () => {
             last_used_at: null,
             name: token2.name,
             created_at: tomorrow,
+            expiration_warning_sent: null,
           },
         ],
         // Last time we updated token
@@ -334,6 +337,7 @@ describe("authenticationMiddleware", () => {
             last_used_at: null,
             name: token.name,
             created_at: now,
+            expiration_warning_sent: null,
           },
         ],
         updated_at: tomorrow,

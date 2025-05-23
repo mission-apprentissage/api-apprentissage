@@ -17,8 +17,8 @@
       "type": "node-terminal",
       "request": "launch",
       "command": "npm run dev",
-      "cwd": "${workspaceFolder}/ui",
-      "skipFiles": ["<node_internals>/**", "**/node_modules/**", "**/$KNOWN_TOOLS$/**"]
+      "cwd": "${workspaceFolder}/ui"
+      // "skipFiles": ["<node_internals>/**", "**/$KNOWN_TOOLS$/**"]
     },
     {
       "name": "Cli: Debug",

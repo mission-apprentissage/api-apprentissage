@@ -3,9 +3,7 @@ import "react-notion-x/src/styles.css";
 import { fr } from "@codegouvfr/react-dsfr";
 // eslint-disable-next-line import/no-named-as-default
 import MuiDsfrThemeProvider from "@codegouvfr/react-dsfr/mui";
-import { DsfrHead } from "@codegouvfr/react-dsfr/next-appdir/DsfrHead";
-import { DsfrProvider } from "@codegouvfr/react-dsfr/next-appdir/DsfrProvider";
-import { getHtmlAttributes } from "@codegouvfr/react-dsfr/next-appdir/getHtmlAttributes";
+import { createGetHtmlAttributes, DsfrHeadBase } from "@codegouvfr/react-dsfr/next-app-router/server-only-index";
 import { Box } from "@mui/material";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import { captureException } from "@sentry/nextjs";
@@ -25,8 +23,10 @@ import { defaultColorScheme } from "@/theme/defaultColorScheme";
 import type { ApiError } from "@/utils/api.utils";
 import { apiGet } from "@/utils/api.utils";
 
+import { DsfrProvider, StartDsfrOnHydration } from "./DsfrProvider";
 import NotFoundPage from "./not-found";
-import { StartDsfr } from "./StartDsfr";
+
+const { getHtmlAttributes } = createGetHtmlAttributes({ defaultColorScheme });
 
 async function getSession(): Promise<ISessionJson | null> {
   try {
@@ -65,11 +65,10 @@ export default async function LangLayout({ children, params }: PropsWithChildren
   const lang = languages.includes(requestedLang) ? requestedLang : languages[0];
 
   return (
-    <html {...getHtmlAttributes({ defaultColorScheme, lang })} dir={dir(lang)}>
+    <html {...getHtmlAttributes({ lang })} dir={dir(lang)}>
       <head>
-        <StartDsfr />
         <StartIntl lang={lang} />
-        <DsfrHead
+        <DsfrHeadBase
           Link={Link}
           preloadFonts={[
             //"Marianne-Light",
@@ -89,6 +88,7 @@ export default async function LangLayout({ children, params }: PropsWithChildren
         <AppRouterCacheProvider>
           <AuthContextProvider initialSession={session ?? null}>
             <DsfrProvider lang={lang}>
+              <StartDsfrOnHydration />
               <MuiDsfrThemeProvider>
                 <Header lang={lang} />
                 <Box

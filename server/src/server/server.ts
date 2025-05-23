@@ -91,7 +91,10 @@ export async function bind(app: Server) {
           origin: true,
           credentials: true,
         }
-      : {}),
+      : {
+          origin: [config.publicUrl, /\.data\.gouv\.fr$/],
+          credentials: true,
+        }),
   });
 
   app.register(

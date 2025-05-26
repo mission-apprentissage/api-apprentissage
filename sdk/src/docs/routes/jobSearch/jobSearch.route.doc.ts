@@ -1,5 +1,6 @@
 import { rechercheOffrePageSummaryDoc } from "../../metier/recherche-offre/recherche-offre.doc.js";
 import type { DocRoute } from "../../types.js";
+import department from "./parameters/department.md.js";
 import latitude from "./parameters/latitude.md.js";
 import longitude from "./parameters/longitude.md.js";
 import radius from "./parameters/radius.md.js";
@@ -36,6 +37,10 @@ export const jobSearchRouteDoc = {
     romes: {
       descriptions: [{ en: romes, fr: null }],
       examples: ["F1601,F1201,F1106", "M1806"],
+    },
+    department: {
+      descriptions: [{ en: department, fr: null }],
+      examples: ["75", "06"],
     },
     target_diploma_level: {
       descriptions: [{ en: target_diploma_level, fr: null }],

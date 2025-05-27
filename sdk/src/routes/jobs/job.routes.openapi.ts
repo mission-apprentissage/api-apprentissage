@@ -79,6 +79,17 @@ export const jobRoutesOpenapi: OpenapiRoutes = {
               },
             },
             required: false,
+            name: "department",
+            in: "query",
+          },
+          {
+            schema: {
+              type: "array",
+              items: {
+                type: "string",
+              },
+            },
+            required: false,
             name: "partners_to_exclude",
             in: "query",
           },

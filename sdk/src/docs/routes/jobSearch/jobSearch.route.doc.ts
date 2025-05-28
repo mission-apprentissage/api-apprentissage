@@ -3,6 +3,7 @@ import type { DocRoute } from "../../types.js";
 import department from "./en/parameters/department.md.js";
 import latitude from "./en/parameters/latitude.md.js";
 import longitude from "./en/parameters/longitude.md.js";
+import opco from "./en/parameters/opco.md.js";
 import radius from "./en/parameters/radius.md.js";
 import rncp from "./en/parameters/rncp.md.js";
 import romes from "./en/parameters/romes.md.js";
@@ -13,6 +14,7 @@ import warnings from "./en/response/warnings.md.js";
 import departmentFr from "./fr/parameters/department.md.js";
 import latitudeFr from "./fr/parameters/latitude.md.js";
 import longitudeFr from "./fr/parameters/longitude.md.js";
+import opcoFr from "./fr/parameters/opco.md.js";
 import radiusFr from "./fr/parameters/radius.md.js";
 import rncpFr from "./fr/parameters/rncp.md.js";
 import romesFr from "./fr/parameters/romes.md.js";
@@ -51,6 +53,10 @@ export const jobSearchRouteDoc = {
     department: {
       descriptions: [{ en: department, fr: departmentFr }],
       examples: ["['75', '06']", "['06']"],
+    },
+    opco: {
+      descriptions: [{ en: opco, fr: opcoFr }],
+      examples: ["AKTO"],
     },
     target_diploma_level: {
       descriptions: [{ en: target_diploma_level, fr: target_diploma_levelFr }],

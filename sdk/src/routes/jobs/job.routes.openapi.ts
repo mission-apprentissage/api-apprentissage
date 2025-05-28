@@ -73,6 +73,14 @@ export const jobRoutesOpenapi: OpenapiRoutes = {
           },
           {
             schema: {
+              type: "string",
+            },
+            required: false,
+            name: "opco",
+            in: "query",
+          },
+          {
+            schema: {
               type: "array",
               items: {
                 type: "string",

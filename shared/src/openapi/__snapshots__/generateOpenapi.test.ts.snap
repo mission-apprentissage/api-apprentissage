@@ -3399,6 +3399,14 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
           },
           {
             "in": "query",
+            "name": "opco",
+            "required": false,
+            "schema": {
+              "type": "string",
+            },
+          },
+          {
+            "in": "query",
             "name": "partners_to_exclude",
             "required": false,
             "schema": {

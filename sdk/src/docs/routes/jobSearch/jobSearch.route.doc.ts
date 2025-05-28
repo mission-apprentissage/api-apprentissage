@@ -10,6 +10,16 @@ import target_diploma_level from "./en/parameters/target_diploma_level.md.js";
 import jobs from "./en/response/jobs.md.js";
 import recruiters from "./en/response/recruiters.md.js";
 import warnings from "./en/response/warnings.md.js";
+import departmentFr from "./fr/parameters/department.md.js";
+import latitudeFr from "./fr/parameters/latitude.md.js";
+import longitudeFr from "./fr/parameters/longitude.md.js";
+import radiusFr from "./fr/parameters/radius.md.js";
+import rncpFr from "./fr/parameters/rncp.md.js";
+import romesFr from "./fr/parameters/romes.md.js";
+import target_diploma_levelFr from "./fr/parameters/target_diploma_level.md.js";
+import jobsFr from "./fr/response/jobs.md.js";
+import recruitersFr from "./fr/response/recruiters.md.js";
+import warningsFr from "./fr/response/warnings.md.js";
 
 export const jobSearchRouteDoc = {
   summary: rechercheOffrePageSummaryDoc.title,
@@ -19,31 +29,31 @@ export const jobSearchRouteDoc = {
   },
   parameters: {
     longitude: {
-      descriptions: [{ en: longitude, fr: null }],
+      descriptions: [{ en: longitude, fr: longitudeFr }],
       examples: [48.8566],
     },
     latitude: {
-      descriptions: [{ en: latitude, fr: null }],
+      descriptions: [{ en: latitude, fr: latitudeFr }],
       examples: [2.3522],
     },
     radius: {
-      descriptions: [{ en: radius, fr: null }],
+      descriptions: [{ en: radius, fr: radiusFr }],
       examples: [30],
     },
     rncp: {
-      descriptions: [{ en: rncp, fr: null }],
+      descriptions: [{ en: rncp, fr: rncpFr }],
       examples: ["RNCP34436", "RNCP183"],
     },
     romes: {
-      descriptions: [{ en: romes, fr: null }],
+      descriptions: [{ en: romes, fr: romesFr }],
       examples: ["F1601,F1201,F1106", "M1806"],
     },
     department: {
-      descriptions: [{ en: department, fr: null }],
+      descriptions: [{ en: department, fr: departmentFr }],
       examples: ["['75', '06']", "['06']"],
     },
     target_diploma_level: {
-      descriptions: [{ en: target_diploma_level, fr: null }],
+      descriptions: [{ en: target_diploma_level, fr: target_diploma_levelFr }],
       examples: ["3", "4", "5", "6", "7"],
     },
     partners_to_exclude: {
@@ -62,19 +72,19 @@ export const jobSearchRouteDoc = {
       descriptions: null,
       properties: {
         jobs: {
-          descriptions: [{ en: jobs, fr: null }],
+          descriptions: [{ en: jobs, fr: jobsFr }],
           items: {
             descriptions: null,
           },
         },
         recruiters: {
-          descriptions: [{ en: recruiters, fr: null }],
+          descriptions: [{ en: recruiters, fr: recruitersFr }],
           items: {
             descriptions: null,
           },
         },
         warnings: {
-          descriptions: [{ en: warnings, fr: null }],
+          descriptions: [{ en: warnings, fr: warningsFr }],
           examples: [
             {
               message: "Some warning message",

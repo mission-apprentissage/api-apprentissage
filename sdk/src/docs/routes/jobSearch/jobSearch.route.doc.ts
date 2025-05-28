@@ -40,7 +40,7 @@ export const jobSearchRouteDoc = {
     },
     department: {
       descriptions: [{ en: department, fr: null }],
-      examples: ["75", "06"],
+      examples: ["['75', '06']", "['06']"],
     },
     target_diploma_level: {
       descriptions: [{ en: target_diploma_level, fr: null }],
@@ -53,7 +53,7 @@ export const jobSearchRouteDoc = {
           fr: "Liste des labels de partenaires à exclure de la recherche",
         },
       ],
-      examples: ["Hellowork", "RH Alternance"],
+      examples: ["['Hellowork', 'RH Alternance']", "['Hellowork']"],
     },
   },
   response: {

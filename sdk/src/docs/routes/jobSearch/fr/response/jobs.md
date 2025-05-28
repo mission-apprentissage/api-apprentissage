@@ -5,6 +5,7 @@ Les offres proviennent de:
 - collection sur la plateforme La bonne alternance
 - France Travail
 - publication via API par nos partenaires
+- partenaire via flux spécifique.
 
 Actuellement, les résultats sont triés par :
 

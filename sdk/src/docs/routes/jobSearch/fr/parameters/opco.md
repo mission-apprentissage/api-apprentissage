@@ -1,1 +1,1 @@
-Autoriser le filtrage des offres d’emploi par opco.
+Filtrer les offres d’emploi par opco. voir la liste des valeurs possibles.

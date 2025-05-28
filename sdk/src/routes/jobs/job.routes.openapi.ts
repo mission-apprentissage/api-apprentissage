@@ -73,6 +73,38 @@ export const jobRoutesOpenapi: OpenapiRoutes = {
           },
           {
             schema: {
+              type: "string",
+              enum: [
+                "AFDAS",
+                "AKTO",
+                "ATLAS",
+                "CONSTRUCTYS",
+                "OPCOMMERCE",
+                "OCAPIAT",
+                "OPCO2I",
+                "EP",
+                "MOBILITE",
+                "SANTE",
+                "UNIFORMATION",
+              ],
+            },
+            required: false,
+            name: "opco",
+            in: "query",
+          },
+          {
+            schema: {
+              type: "array",
+              items: {
+                type: "string",
+              },
+            },
+            required: false,
+            name: "department",
+            in: "query",
+          },
+          {
+            schema: {
               type: "array",
               items: {
                 type: "string",

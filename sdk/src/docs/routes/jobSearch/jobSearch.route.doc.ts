@@ -1,15 +1,15 @@
 import { rechercheOffrePageSummaryDoc } from "../../metier/recherche-offre/recherche-offre.doc.js";
 import type { DocRoute } from "../../types.js";
-import department from "./parameters/department.md.js";
-import latitude from "./parameters/latitude.md.js";
-import longitude from "./parameters/longitude.md.js";
-import radius from "./parameters/radius.md.js";
-import rncp from "./parameters/rncp.md.js";
-import romes from "./parameters/romes.md.js";
-import target_diploma_level from "./parameters/target_diploma_level.md.js";
-import jobs from "./response/jobs.md.js";
-import recruiters from "./response/recruiters.md.js";
-import warnings from "./response/warnings.md.js";
+import department from "./en/parameters/department.md.js";
+import latitude from "./en/parameters/latitude.md.js";
+import longitude from "./en/parameters/longitude.md.js";
+import radius from "./en/parameters/radius.md.js";
+import rncp from "./en/parameters/rncp.md.js";
+import romes from "./en/parameters/romes.md.js";
+import target_diploma_level from "./en/parameters/target_diploma_level.md.js";
+import jobs from "./en/response/jobs.md.js";
+import recruiters from "./en/response/recruiters.md.js";
+import warnings from "./en/response/warnings.md.js";
 
 export const jobSearchRouteDoc = {
   summary: rechercheOffrePageSummaryDoc.title,

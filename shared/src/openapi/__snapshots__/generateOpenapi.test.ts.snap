@@ -1671,6 +1671,37 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         ],
         "type": "object",
       },
+      "JobOfferPublishing": {
+        "properties": {
+          "error": {
+            "properties": {
+              "code": {
+                "type": "string",
+              },
+              "label": {
+                "type": "string",
+              },
+            },
+            "required": [
+              "code",
+              "label",
+            ],
+            "type": "object",
+          },
+          "status": {
+            "enum": [
+              "WILL_BE_PUBLISHED",
+              "PUBLISHED",
+              "WILL_NOT_BE_PUBLISHED",
+            ],
+            "type": "string",
+          },
+        },
+        "required": [
+          "status",
+        ],
+        "type": "object",
+      },
       "JobOfferRead": {
         "properties": {
           "apply": {
@@ -3363,20 +3394,48 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         ],
       },
     },
-    "/job/v1/search": {
+    "/job/v1/offer/{id}/publishing-informations": {
       "get": {
         "parameters": [
           {
-            "in": "query",
-            "name": "department",
-            "required": false,
+            "in": "path",
+            "name": "id",
+            "required": true,
             "schema": {
-              "items": {
-                "type": "string",
-              },
-              "type": "array",
+              "type": "string",
             },
           },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "publishing": {
+                      "$ref": "#/components/schemas/JobOfferPublishing",
+                    },
+                  },
+                  "required": [
+                    "publishing",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "",
+          },
+        },
+        "security": [
+          {
+            "api-key": [],
+          },
+        ],
+      },
+    },
+    "/job/v1/search": {
+      "get": {
+        "parameters": [
           {
             "in": "query",
             "name": "latitude",
@@ -3395,27 +3454,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               "maximum": 180,
               "minimum": -180,
               "type": "number",
-            },
-          },
-          {
-            "in": "query",
-            "name": "opco",
-            "required": false,
-            "schema": {
-              "enum": [
-                "AFDAS",
-                "AKTO",
-                "ATLAS",
-                "CONSTRUCTYS",
-                "OPCOMMERCE",
-                "OCAPIAT",
-                "OPCO2I",
-                "EP",
-                "MOBILITE",
-                "SANTE",
-                "UNIFORMATION",
-              ],
-              "type": "string",
             },
           },
           {

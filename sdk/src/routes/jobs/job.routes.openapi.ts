@@ -278,13 +278,7 @@ export const jobRoutesOpenapi: OpenapiRoutes = {
             content: {
               "application/json": {
                 schema: {
-                  type: "object",
-                  properties: {
-                    publishing: {
-                      $ref: "#/components/schemas/JobOfferPublishing",
-                    },
-                  },
-                  required: ["publishing"],
+                  $ref: "#/components/schemas/JobOfferPublishing",
                 },
               },
             },

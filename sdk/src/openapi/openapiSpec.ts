@@ -14,6 +14,7 @@ import {
   offerWriteModelOpenapi,
   recruiterModelOpenapi,
 } from "../models/job/job.model.openapi.js";
+import { offerPublishingModelOpenapi } from "../models/job/job.publishing.model.openapi.js";
 import { organismeModelOpenapi } from "../models/organisme/organisme.model.openapi.js";
 import { paginationModelOpenapi } from "../models/pagination/pagination.model.openapi.js";
 import { certificationsRoutesOpenapi } from "../routes/certification/certification.routes.openapi.js";
@@ -32,6 +33,7 @@ export const openapiSpec: OpenapiSpec = {
     [missionLocaleModelOpenapi.name]: missionLocaleModelOpenapi,
     [recruiterModelOpenapi.name]: recruiterModelOpenapi,
     [offerReadModelOpenapi.name]: offerReadModelOpenapi,
+    [offerPublishingModelOpenapi.name]: offerPublishingModelOpenapi,
     [offerWriteModelOpenapi.name]: offerWriteModelOpenapi,
     [applicationWriteModelOpenapi.name]: applicationWriteModelOpenapi,
     [formationModelOpenapi.name]: formationModelOpenapi,

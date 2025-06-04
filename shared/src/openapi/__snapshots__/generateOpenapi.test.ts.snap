@@ -1671,45 +1671,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         ],
         "type": "object",
       },
-      "JobOfferPublishing": {
-        "properties": {
-          "publishing": {
-            "properties": {
-              "error": {
-                "properties": {
-                  "code": {
-                    "type": "string",
-                  },
-                  "label": {
-                    "type": "string",
-                  },
-                },
-                "required": [
-                  "code",
-                  "label",
-                ],
-                "type": "object",
-              },
-              "status": {
-                "enum": [
-                  "WILL_BE_PUBLISHED",
-                  "PUBLISHED",
-                  "WILL_NOT_BE_PUBLISHED",
-                ],
-                "type": "string",
-              },
-            },
-            "required": [
-              "status",
-            ],
-            "type": "object",
-          },
-        },
-        "required": [
-          "publishing",
-        ],
-        "type": "object",
-      },
       "JobOfferRead": {
         "properties": {
           "apply": {
@@ -3398,37 +3359,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "api-key": [
               "jobs:write",
             ],
-          },
-        ],
-      },
-    },
-    "/job/v1/offer/{id}/publishing-informations": {
-      "get": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "string",
-            },
-          },
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/JobOfferPublishing",
-                },
-              },
-            },
-            "description": "",
-          },
-        },
-        "security": [
-          {
-            "api-key": [],
           },
         ],
       },

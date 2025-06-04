@@ -11,7 +11,7 @@ import target_diploma_level from "./en/parameters/target_diploma_level.md.js";
 import jobs from "./en/response/jobs.md.js";
 import recruiters from "./en/response/recruiters.md.js";
 import warnings from "./en/response/warnings.md.js";
-import departmentFr from "./fr/parameters/department.md.js";
+import departmentFr from "./fr/parameters/departements.md.js";
 import latitudeFr from "./fr/parameters/latitude.md.js";
 import longitudeFr from "./fr/parameters/longitude.md.js";
 import opcoFr from "./fr/parameters/opco.md.js";
@@ -50,7 +50,7 @@ export const jobSearchRouteDoc = {
       descriptions: [{ en: romes, fr: romesFr }],
       examples: ["F1601,F1201,F1106", "M1806"],
     },
-    department: {
+    departements: {
       descriptions: [{ en: department, fr: departmentFr }],
       examples: ["['75', '06']", "['06']"],
     },

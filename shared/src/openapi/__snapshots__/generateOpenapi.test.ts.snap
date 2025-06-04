@@ -3438,7 +3438,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         "parameters": [
           {
             "in": "query",
-            "name": "department",
+            "name": "departements",
             "required": false,
             "schema": {
               "items": {

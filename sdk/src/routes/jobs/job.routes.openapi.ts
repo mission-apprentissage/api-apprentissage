@@ -103,7 +103,7 @@ export const jobRoutesOpenapi: OpenapiRoutes = {
               },
             },
             required: false,
-            name: "department",
+            name: "departements",
             in: "query",
           },
           {

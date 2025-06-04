@@ -52,11 +52,11 @@ export const jobSearchRouteDoc = {
     },
     departements: {
       descriptions: [{ en: department, fr: departmentFr }],
-      examples: ["['75', '06']", "['06']"],
+      examples: ["departements=75&departements=06", "departements=06"],
     },
     opco: {
       descriptions: [{ en: opco, fr: opcoFr }],
-      examples: ["AKTO"],
+      examples: ["AFDAS"],
     },
     target_diploma_level: {
       descriptions: [{ en: target_diploma_level, fr: target_diploma_levelFr }],
@@ -69,7 +69,7 @@ export const jobSearchRouteDoc = {
           fr: "Liste des labels de partenaires à exclure de la recherche",
         },
       ],
-      examples: ["['Hellowork', 'RH Alternance']", "['Hellowork']"],
+      examples: ["partners_to_exclude=Hellowork&partners_to_exclude=RH Alternance", "partners_to_exclude=Hellowork"],
     },
   },
   response: {

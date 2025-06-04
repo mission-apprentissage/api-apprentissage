@@ -22,7 +22,9 @@ fileignoreconfig:
 - filename: sdk/src/docs/routes/jobOfferUpdate/jobOfferUpdate.route.doc.ts
   checksum: 4c6e64beba2f719da577a0aae1c9642e6e2e8712dc909dc62c64c081a2c612a8
 - filename: sdk/src/docs/routes/jobSearchById/jobSearchById.route.doc.ts
-  checksum: e53bd587cfcf423a01cdbf9cf4d3c5c44d598ff472ac88e718d8b9a4bb5da462
+  checksum: 80c0210a17eec9ef5cf1dd197e8e059167994ab6eeae57060e7b38554ff83dd4
+- filename: sdk/src/docs/routes/searchFormationById/searchFormationById.route.doc.ts
+  checksum: c9c21285a42458dbaf264b7894cfd2418b813fb540ead95c718fcc941409a32f
 - filename: server/.env.test
   checksum: 65357f150bfedfebea511b1007eed941983484abf990d87e91fd7477360ad280
 - filename: server/src/jobs/importer/catalogue/fixtures/sample.ts
@@ -49,10 +51,6 @@ fileignoreconfig:
   checksum: 79162968dc111206592c35c9bdbfc1babae88ad1390a190d6c7b5108ebb82b9d
 - filename: ui/app/[lang]/explorer/depot-offre/page.tsx
   checksum: 764fcfac0c4242d1b22a812798db3a661392d72688d80f7898b6e82714efe457
-- filename: sdk/src/docs/routes/jobSearchById/jobSearchById.route.doc.ts
-  checksum: e53bd587cfcf423a01cdbf9cf4d3c5c44d598ff472ac88e718d8b9a4bb5da462
-- filename: sdk/src/docs/routes/searchFormationById/searchFormationById.route.doc.ts
-  checksum: c9c21285a42458dbaf264b7894cfd2418b813fb540ead95c718fcc941409a32f
 scopeconfig:
 - scope: node
 custom_patterns:

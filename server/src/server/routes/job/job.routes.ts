@@ -125,4 +125,25 @@ export const jobRoutes = ({ server }: { server: Server }) => {
       );
     }
   );
+
+  server.get(
+    "/job/v1/offer/:id/publishing-informations",
+    {
+      schema: zRoutes.get["/job/v1/offer/:id/publishing-informations"],
+      onRequest: [server.auth(zRoutes.get["/job/v1/offer/:id/publishing-informations"])],
+    },
+    async (request, response) => {
+      const user = getUserFromRequest(request, zRoutes.get["/job/v1/offer/:id/publishing-informations"]);
+
+      return forwardApiRequest(
+        {
+          endpoint: config.api.lba.endpoint,
+          path: `/v3/jobs/${encodeURIComponent(request.params.id)}/publishing-informations`,
+          requestInit: { method: "GET" },
+        },
+        response,
+        { user, organisation: request.organisation ?? null }
+      );
+    }
+  );
 };

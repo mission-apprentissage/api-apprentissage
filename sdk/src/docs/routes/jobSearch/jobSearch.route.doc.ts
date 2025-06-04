@@ -52,7 +52,7 @@ export const jobSearchRouteDoc = {
     },
     departements: {
       descriptions: [{ en: department, fr: departmentFr }],
-      examples: ["departements=75&departements=06", "departements=06"],
+      examples: ["75&departements=06", "06"],
     },
     opco: {
       descriptions: [{ en: opco, fr: opcoFr }],
@@ -69,7 +69,7 @@ export const jobSearchRouteDoc = {
           fr: "Liste des labels de partenaires à exclure de la recherche",
         },
       ],
-      examples: ["partners_to_exclude=Hellowork&partners_to_exclude=RH Alternance", "partners_to_exclude=Hellowork"],
+      examples: ["Hellowork&partners_to_exclude=RH Alternance", "Hellowork"],
     },
   },
   response: {

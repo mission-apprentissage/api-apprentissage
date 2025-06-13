@@ -1,5 +1,6 @@
 import { addAbortSignal, Duplex, Transform } from "node:stream";
 
+import { pipeline } from "stream/promises";
 import { internal } from "@hapi/boom";
 import type { AnyBulkWriteOperation } from "mongodb";
 import { ObjectId } from "mongodb";
@@ -7,15 +8,13 @@ import type { ImportStatus } from "shared";
 import type { IImportMetaDares } from "shared/models/import.meta.model";
 import type { ISourceDaresApeIdcc } from "shared/models/source/dares/source.dares.ape_idcc.model";
 import { zSourceDaresApeIdcc } from "shared/models/source/dares/source.dares.ape_idcc.model";
-import { pipeline } from "stream/promises";
 
+import { downloadResourceApeIdccFile, scrapeRessourceApeIdcc } from "./scraper/dares.ape_idcc.scraper.js";
 import { withCause } from "@/services/errors/withCause.js";
 import type { ExcelParsedRow } from "@/services/excel/excel.parser.js";
 import { parseExcelFileStream } from "@/services/excel/excel.parser.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 import { createBatchTransformStream } from "@/utils/streamUtils.js";
-
-import { downloadResourceApeIdccFile, scrapeRessourceApeIdcc } from "./scraper/dares.ape_idcc.scraper.js";
 
 async function importResource(importMeta: IImportMetaDares, signal?: AbortSignal) {
   const readStream = await downloadResourceApeIdccFile(importMeta.resource);

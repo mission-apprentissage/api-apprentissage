@@ -8,14 +8,12 @@ import { Box, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { useCallback, useMemo, useState } from "react";
 
+import { CreateOrganisation } from "./CreateOrganisation";
 import { useDeleteOrganisation } from "@/app/[lang]/admin/hooks/useDeleteOrganisation";
-import Loading from "@/app/[lang]/loading";
 import type { WithLang } from "@/app/i18n/settings";
 import { Table } from "@/components/table/Table";
 import { apiGet } from "@/utils/api.utils";
 import { PAGES } from "@/utils/routes.utils";
-
-import { CreateOrganisation } from "./CreateOrganisation";
 
 export default function OrganisationList({ lang }: WithLang) {
   const deleteOrganisation = useDeleteOrganisation();

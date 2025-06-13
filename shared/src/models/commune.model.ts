@@ -1,6 +1,5 @@
-import { zCommune } from "api-alternance-sdk";
 import { z } from "zod";
-
+import { zCommune } from "api-alternance-sdk";
 import type { IModelDescriptorGeneric } from "./common.js";
 import { zObjectId } from "./common.js";
 

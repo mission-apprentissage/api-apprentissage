@@ -1,11 +1,10 @@
 import { Typography } from "@mui/material";
 
+import OrganisationList from "./components/OrganisationList";
 import { getServerTranslation } from "@/app/i18n";
 import type { PropsWithLangParams } from "@/app/i18n/settings";
 import Breadcrumb from "@/components/breadcrumb/Breadcrumb";
 import { PAGES } from "@/utils/routes.utils";
-
-import OrganisationList from "./components/OrganisationList";
 
 export default async function AdminOrganisationPage({ params }: PropsWithLangParams) {
   const { lang } = await params;

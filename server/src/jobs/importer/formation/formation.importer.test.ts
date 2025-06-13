@@ -1,4 +1,3 @@
-import { useMongo } from "@tests/mongo.test.utils.js";
 import type { IFormation } from "api-alternance-sdk";
 import { zCertification, zOrganisme } from "api-alternance-sdk";
 import { ObjectId } from "mongodb";
@@ -9,9 +8,10 @@ import type { IImportMeta, IImportMetaFormations } from "shared/models/import.me
 import type { IFormationCatalogue } from "shared/models/source/catalogue/source.catalogue.model";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import { importFormations } from "./formation.importer.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
-import { importFormations } from "./formation.importer.js";
+import { useMongo } from "@tests/mongo.test.utils.js";
 
 const now = new Date("2024-03-07T10:00:00Z");
 const twoHoursAgo = new Date(now.getTime() - 2 * 3600 * 1000);

@@ -1,16 +1,16 @@
-import { useMongo } from "@tests/mongo.test.utils.js";
 import { createReadStream } from "fs";
 import { readFile } from "fs/promises";
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
 import { ObjectId } from "mongodb";
 import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
-import { dirname, join } from "path";
 import type { IImportMetaDares } from "shared/models/import.meta.model";
-import { fileURLToPath } from "url";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import { runDaresConventionCollectivesImporter } from "./dares.ccn.importer.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
-import { runDaresConventionCollectivesImporter } from "./dares.ccn.importer.js";
+import { useMongo } from "@tests/mongo.test.utils.js";
 
 describe("runConventionCollectivesImporter", () => {
   useMongo();

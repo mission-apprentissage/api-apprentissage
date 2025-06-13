@@ -1,4 +1,3 @@
-import { useMongo } from "@tests/mongo.test.utils.js";
 import { ObjectId } from "mongodb";
 import nock from "nock";
 import type { IApiEntEtablissement } from "shared/models/cache/cache.entreprise.model";
@@ -6,9 +5,10 @@ import { zApiEntEtablissement, zApiEntUniteLegale } from "shared/models/cache/ca
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { z } from "zod";
 
+import { getEtablissementDiffusible, getUniteLegaleDiffusible } from "./entreprise.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
-import { getEtablissementDiffusible, getUniteLegaleDiffusible } from "./entreprise.js";
+import { useMongo } from "@tests/mongo.test.utils.js";
 
 useMongo();
 

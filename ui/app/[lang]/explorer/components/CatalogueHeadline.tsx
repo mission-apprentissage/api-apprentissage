@@ -4,12 +4,12 @@ import { Box, Typography } from "@mui/material";
 import type { DocPage } from "api-alternance-sdk/internal";
 import { getTextOpenAPI } from "api-alternance-sdk/internal";
 
+import { BesoinDesDonnes } from "./BesoinDesDonnees";
+import { HabilitationRequise } from "./HabilitationRequise";
 import type { WithLangAndT } from "@/app/i18n/settings";
 import { DsfrMarkdown } from "@/components/markdown/DsfrMarkdown";
 import { Tag } from "@/components/tag/Tag";
 
-import { BesoinDesDonnes } from "./BesoinDesDonnees";
-import { HabilitationRequise } from "./HabilitationRequise";
 const threeColumns = {
   md: "1fr",
   lg: "1fr 1fr 1fr",

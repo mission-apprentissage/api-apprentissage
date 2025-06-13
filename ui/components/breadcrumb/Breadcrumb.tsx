@@ -1,5 +1,4 @@
-import { addBreadcrumbTranslations, Breadcrumb as DSFRBreadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
-import type { FC } from "react";
+import { Breadcrumb as DSFRBreadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
 
 import type { WithLangAndT } from "@/app/i18n/settings";
 import type { IPage } from "@/utils/routes.utils";

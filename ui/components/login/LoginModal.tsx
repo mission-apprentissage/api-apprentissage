@@ -14,12 +14,11 @@ import { useTranslation } from "react-i18next";
 import type { IBody, IPostRoutes } from "shared";
 import { zRoutes } from "shared";
 
+import { LoginEmailSentModal } from "./LoginEmailSent";
 import type { WithLang } from "@/app/i18n/settings";
 import { Artwork } from "@/components/artwork/Artwork";
 import { ApiError, apiPost } from "@/utils/api.utils";
 import { PAGES } from "@/utils/routes.utils";
-
-import { LoginEmailSentModal } from "./LoginEmailSent";
 
 type Inputs = IBody<IPostRoutes["/_private/auth/login-request"]>;
 

@@ -1,12 +1,12 @@
-import { useMongo } from "@tests/mongo.test.utils.js";
 import type { ICertificationFixtureInput, IFormationFixtureInput } from "api-alternance-sdk/fixtures";
 import { sourceCommuneFixtures } from "shared/models/fixtures/commune.model.fixture";
 import { generateFormationInternalFixture } from "shared/models/fixtures/formation.model.fixture";
 import { describe, expect, it } from "vitest";
 
+import { searchFormation } from "./formation.service.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
-import { searchFormation } from "./formation.service.js";
+import { useMongo } from "@tests/mongo.test.utils.js";
 
 useMongo();
 

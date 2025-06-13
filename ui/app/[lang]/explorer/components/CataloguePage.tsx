@@ -3,14 +3,13 @@ import { Breadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
 import { Box, Container } from "@mui/material";
 import type { DocPage } from "api-alternance-sdk/internal";
 
+import { CatalogueData } from "./CatalogueData";
+import { CatalogueHeadline } from "./CatalogueHeadline";
+import { DataSources } from "./DataSources";
 import type { WithLangAndT } from "@/app/i18n/settings";
 import { DsfrLink } from "@/components/link/DsfrLink";
 import type { IPage } from "@/utils/routes.utils";
 import { PAGES } from "@/utils/routes.utils";
-
-import { CatalogueData } from "./CatalogueData";
-import { CatalogueHeadline } from "./CatalogueHeadline";
-import { DataSources } from "./DataSources";
 
 type Props = WithLangAndT<{
   page: IPage;

@@ -2,7 +2,7 @@
 
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { Box, Container, Typography } from "@mui/material";
-import * as Sentry from "@sentry/nextjs";
+import { captureException } from "@sentry/nextjs";
 import { useEffect } from "react";
 
 import { DsfrLink } from "@/components/link/DsfrLink";
@@ -34,7 +34,7 @@ function getErrorDescription(error: unknown): string | null {
 
 export default function ErrorComponent({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   useEffect(() => {
-    Sentry.captureException(error);
+    captureException(error);
     console.error(error);
   }, [error]);
 

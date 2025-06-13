@@ -1,4 +1,3 @@
-import { useMongo } from "@tests/mongo.test.utils.js";
 import { ObjectId } from "mongodb";
 import {
   generateSourceBcn_N_FormationDiplomeFixture,
@@ -9,9 +8,10 @@ import { generateSourceFranceCompetenceFixture } from "shared/models/fixtures/so
 import { generateKitApprentissageFixture } from "shared/models/fixtures/source.kit_apprentissage.model.fixture";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import { updateKitApprentissageIndicateurSource } from "./kitApprentissage.source.indicateur.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
-import { updateKitApprentissageIndicateurSource } from "./kitApprentissage.source.indicateur.js";
+import { useMongo } from "@tests/mongo.test.utils.js";
 
 describe("updateKitApprentissageIndicateurSource", () => {
   useMongo();

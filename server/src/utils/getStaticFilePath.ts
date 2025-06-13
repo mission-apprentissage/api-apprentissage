@@ -1,5 +1,5 @@
-import { __dirname } from "api-alternance-sdk/internal";
 import path from "path";
+import { __dirname } from "api-alternance-sdk/internal";
 
 export function getStaticDirPath(): string {
   // tsup build project into a single file to dist/index.js

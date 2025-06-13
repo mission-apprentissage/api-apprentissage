@@ -1,4 +1,3 @@
-import { useMongo } from "@tests/mongo.test.utils.js";
 import { parseApiAlternanceToken, zFormation } from "api-alternance-sdk";
 import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
 import {
@@ -9,6 +8,7 @@ import {
 } from "shared/models/fixtures/index";
 import type { IUser } from "shared/models/user.model";
 import { beforeAll, beforeEach, describe, expect, it } from "vitest";
+import { useMongo } from "@tests/mongo.test.utils.js";
 
 import { generateApiKey } from "@/actions/users.actions.js";
 import config from "@/config.js";

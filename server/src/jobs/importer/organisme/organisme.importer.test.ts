@@ -1,11 +1,7 @@
-import { useMongo } from "@tests/mongo.test.utils.js";
 import { ObjectId } from "mongodb";
 import { generateOrganismeReferentielFixture } from "shared/models/fixtures/index";
 import type { IOrganismeInternal } from "shared/models/organisme.model";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-
-import { getEtablissementDiffusible, getUniteLegaleDiffusible } from "@/services/apis/entreprise/entreprise.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
 import {
   communesFixture,
@@ -16,6 +12,10 @@ import {
   uniteLegaleFixture,
 } from "./organisme.importer.fixtures.js";
 import { importOrganismes } from "./organisme.importer.js";
+import { getEtablissementDiffusible, getUniteLegaleDiffusible } from "@/services/apis/entreprise/entreprise.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+
+import { useMongo } from "@tests/mongo.test.utils.js";
 
 vi.mock("@/services/apis/entreprise/entreprise.js", async (importOriginal) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

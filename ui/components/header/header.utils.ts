@@ -1,7 +1,6 @@
 import type { MainNavigationProps } from "@codegouvfr/react-dsfr/MainNavigation";
 import { useMemo } from "react";
 import type { IUserPublic } from "shared/models/user.model";
-import { text } from "stream/consumers";
 
 import type { WithLangAndT } from "@/app/i18n/settings";
 import { PAGES } from "@/utils/routes.utils";

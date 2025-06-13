@@ -11,14 +11,13 @@ import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import { use, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
-import type { PropsWithLangParams } from "@/app/i18n/settings";
-import { DsfrLink } from "@/components/link/DsfrLink";
-import { PAGES } from "@/utils/routes.utils";
-
 import { ApiKeyAction } from "./components/ApiKeyAction";
 import { GenerateApiKey } from "./components/GenerateApiKey";
 import { ManageApiKeysBanner } from "./components/ManageApiKeysBanner";
 import { useApiKeys, useApiKeysStatut } from "./hooks/useApiKeys";
+import { PAGES } from "@/utils/routes.utils";
+import { DsfrLink } from "@/components/link/DsfrLink";
+import type { PropsWithLangParams } from "@/app/i18n/settings";
 
 const CustomWidthTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />

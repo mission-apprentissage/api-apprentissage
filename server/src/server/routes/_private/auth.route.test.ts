@@ -1,7 +1,7 @@
-import { useMongo } from "@tests/mongo.test.utils.js";
 import { ObjectId } from "mongodb";
 import { generateOrganisationFixture, generateUserFixture } from "shared/models/fixtures/index";
 import { beforeAll, describe, expect, it, vi } from "vitest";
+import { useMongo } from "@tests/mongo.test.utils.js";
 
 import { generateMagicLinkToken, generateRegisterToken } from "@/actions/auth.actions.js";
 import { createSession, createSessionToken, getSession } from "@/actions/sessions.actions.js";

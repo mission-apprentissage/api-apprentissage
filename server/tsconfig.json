@@ -9,6 +9,7 @@
       "@/*": ["./src/*"],
       "@tests/*": ["./tests/*"]
     },
+    "composite": true,
     "resolveJsonModule": true,
     "typeRoots": ["./types", "./node_modules/@types/", "../node_modules/@types/"],
     /* JavaScript Support */

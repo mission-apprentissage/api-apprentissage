@@ -1,14 +1,19 @@
 import { readdir } from "node:fs/promises";
 import { Duplex, Transform, Writable } from "node:stream";
 
+import { createReadStream } from "fs";
+import { pipeline } from "stream/promises";
 import { internal } from "@hapi/boom";
 import { parse } from "csv-parse";
-import { createReadStream } from "fs";
 import { addJob } from "job-processor";
 import { ObjectId } from "mongodb";
 import type { ImportStatus } from "shared";
-import { pipeline } from "stream/promises";
 
+import {
+  buildKitApprentissageEntry,
+  buildKitApprentissageOp,
+  getVersionNumber,
+} from "./builder/kit_apprentissage.builder.js";
 import { getKitApprentissageData } from "@/services/apis/kit_apprentissage/kit_apprentissage.api.js";
 import { withCause } from "@/services/errors/withCause.js";
 import type { ExcelParsedRow, ExcelParseSpec } from "@/services/excel/excel.parser.js";
@@ -16,12 +21,6 @@ import { parseExcelFileStream } from "@/services/excel/excel.parser.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 import { getStaticFilePath } from "@/utils/getStaticFilePath.js";
 import { createBatchTransformStream } from "@/utils/streamUtils.js";
-
-import {
-  buildKitApprentissageEntry,
-  buildKitApprentissageOp,
-  getVersionNumber,
-} from "./builder/kit_apprentissage.builder.js";
 
 function createBuildBulkOpAndWriteStreams(): [Transform, Transform, Writable] {
   return [

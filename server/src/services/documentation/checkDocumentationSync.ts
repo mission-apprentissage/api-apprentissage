@@ -5,10 +5,9 @@ import { compareOperationObjectsStructure, getOpenapiOperations, structureDiff }
 import type { OpenAPIObject } from "openapi3-ts/oas31";
 import { generateOpenApiSchema } from "shared/openapi/generateOpenapi";
 
+import { expectedDocumentationDelta } from "./expectedDocumentationDelta.js";
 import config from "@/config.js";
 import logger from "@/services/logger.js";
-
-import { expectedDocumentationDelta } from "./expectedDocumentationDelta.js";
 
 const OPERATION_MAPPING: Record<string, string> = {
   "get:/job/v1/search": "get:/v3/jobs/search",

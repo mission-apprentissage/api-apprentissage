@@ -1,17 +1,17 @@
-import { useMongo } from "@tests/mongo.test.utils.js";
 import { createReadStream } from "fs";
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
 import { ObjectId } from "mongodb";
 import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
-import { dirname, join } from "path";
 import type { IDataGouvDataset } from "shared";
 import type { IImportMeta } from "shared/models/import.meta.model";
-import { fileURLToPath } from "url";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import { runKaliConventionCollectivesImporter } from "./kali.ccn.importer.js";
 import { fetchDataGouvDataSet } from "@/services/apis/data_gouv/data_gouv.api.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
-import { runKaliConventionCollectivesImporter } from "./kali.ccn.importer.js";
+import { useMongo } from "@tests/mongo.test.utils.js";
 
 vi.mock("@/services/apis/data_gouv/data_gouv.api", async (importOriginal) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

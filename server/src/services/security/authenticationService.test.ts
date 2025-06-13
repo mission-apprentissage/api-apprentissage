@@ -1,16 +1,15 @@
-import { useMongo } from "@tests/mongo.test.utils.js";
 import type { ISecuredRouteSchema } from "api-alternance-sdk";
 import { generateOrganisationFixture, generateUserFixture } from "shared/models/fixtures/index";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { z } from "zod";
+import { authenticationMiddleware } from "./authenticationService.js";
+import { useMongo } from "@tests/mongo.test.utils.js";
 
 import { createSession, createSessionToken } from "@/actions/sessions.actions.js";
 import { generateApiKey } from "@/actions/users.actions.js";
 import config from "@/config.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 import { generateSecretHash } from "@/utils/cryptoUtils.js";
-
-import { authenticationMiddleware } from "./authenticationService.js";
 
 useMongo();
 

@@ -1,14 +1,13 @@
-import { useMongo } from "@tests/mongo.test.utils.js";
-import { addJob } from "job-processor";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
+import { addJob } from "job-processor";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { runKitApprentissageImporter } from "./kitApprentissage.importer.js";
+import { useMongo } from "@tests/mongo.test.utils.js";
 
 import { getKitApprentissageData } from "@/services/apis/kit_apprentissage/kit_apprentissage.api.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 import { getStaticFilePath } from "@/utils/getStaticFilePath.js";
-
-import { runKitApprentissageImporter } from "./kitApprentissage.importer.js";
 
 vi.mock("@/utils/getStaticFilePath", () => ({
   getStaticFilePath: vi.fn(),

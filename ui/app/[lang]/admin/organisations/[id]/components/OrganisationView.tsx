@@ -58,7 +58,7 @@ export function OrganisationView({ organisation, lang }: Props) {
 
   const {
     handleSubmit,
-    formState: { isSubmitting, errors },
+    formState: { isSubmitting },
     getValues,
     setValue,
     trigger,
@@ -140,14 +140,14 @@ export function OrganisationView({ organisation, lang }: Props) {
           Habilitations
         </Typography>
         {HABILITATIONS.map((habilitation) => {
-          const { name, ref, onChange } = register(habilitation);
+          const { name } = register(habilitation);
           return (
             <ToggleSwitch
               key={habilitation}
               label={habilitation}
               defaultChecked={getValues(habilitation)}
               inputTitle={name}
-              onChange={(checked: boolean, e: React.ChangeEvent<HTMLInputElement>) => {
+              onChange={(checked: boolean) => {
                 setValue(habilitation, checked);
                 trigger(habilitation);
               }}

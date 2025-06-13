@@ -1,16 +1,15 @@
+import { gzipSync } from "zlib";
 import { parseApiAlternanceToken } from "api-alternance-sdk";
 import type { FastifyInstance } from "fastify";
-import fastify from "fastify";
+import { fastify } from "fastify";
 import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
 import { generateOrganisationFixture } from "shared/models/fixtures/organisation.model.fixture";
 import { generateUserFixture } from "shared/models/fixtures/user.model.fixture";
 import { beforeEach, describe, expect, it } from "vitest";
-import { gzipSync } from "zlib";
-
-import config from "@/config.js";
-import { errorMiddleware } from "@/server/middlewares/errorMiddleware.js";
 
 import { forwardApiRequest } from "./forwardApi.service.js";
+import config from "@/config.js";
+import { errorMiddleware } from "@/server/middlewares/errorMiddleware.js";
 
 describe("forwardApi.service", () => {
   const baseUrl = "http://example.com/api";

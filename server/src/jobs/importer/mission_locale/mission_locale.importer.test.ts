@@ -1,15 +1,14 @@
-import { useMongo } from "@tests/mongo.test.utils.js";
-import { ObjectId } from "mongodb";
 import { dirname, join } from "path";
-import { sourceUnmlResultsFixtures } from "shared/models/fixtures/commune.model.fixture";
 import { fileURLToPath } from "url";
+import { ObjectId } from "mongodb";
+import { sourceUnmlResultsFixtures } from "shared/models/fixtures/commune.model.fixture";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { runMissionLocaleImporter } from "./mission_locale.importer.js";
+import { useMongo } from "@tests/mongo.test.utils.js";
 
 import { fetchDepartementMissionLocale } from "@/services/apis/unml/unml.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 import { getStaticFilePath } from "@/utils/getStaticFilePath.js";
-
-import { runMissionLocaleImporter } from "./mission_locale.importer.js";
 
 useMongo();
 

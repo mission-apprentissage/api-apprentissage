@@ -1,17 +1,16 @@
 "use client";
 import { fr } from "@codegouvfr/react-dsfr";
 import { Box, Typography } from "@mui/material";
-import type { DocPage, OpenapiSpec, Permission } from "api-alternance-sdk/internal";
+import type { DocPage, OpenapiSpec } from "api-alternance-sdk/internal";
 import { getTextOpenAPI, openapiSpec } from "api-alternance-sdk/internal";
 import { useTranslation } from "react-i18next";
 
+import { SwaggerLink } from "./SwaggerLink";
 import type { WithLang } from "@/app/i18n/settings";
 import { Artwork } from "@/components/artwork/Artwork";
 import { DsfrLink } from "@/components/link/DsfrLink";
 import { useAuth } from "@/context/AuthContext";
 import { PAGES } from "@/utils/routes.utils";
-
-import { SwaggerLink } from "./SwaggerLink";
 
 export function BesoinDesDonnes({
   doc,

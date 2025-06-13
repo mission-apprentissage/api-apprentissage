@@ -1,10 +1,10 @@
-import { useMongo } from "@tests/mongo.test.utils.js";
 import { generateCertificationInternalFixture } from "shared/models/fixtures/certification.model.fixture";
 import { beforeEach, describe, expect, it } from "vitest";
 
+import { buildFormationCertification } from "./certification.formation.builder.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
-import { buildFormationCertification } from "./certification.formation.builder.js";
+import { useMongo } from "@tests/mongo.test.utils.js";
 
 useMongo();
 

@@ -1,9 +1,8 @@
-import { startAndConnectMongodb, stopMongodb } from "@tests/mongo.test.utils.js";
 import { beforeAll, beforeEach, describe, expect, it } from "vitest";
+import { clearAllCollections, getDatabase } from "./mongodbService.js";
+import { startAndConnectMongodb, stopMongodb } from "@tests/mongo.test.utils.js";
 
 import { countInvalidDocuments, validateDocuments } from "@/jobs/db/schemaValidation.js";
-
-import { clearAllCollections, getDatabase } from "./mongodbService.js";
 
 describe("schemaValidation", () => {
   beforeEach(async () => {

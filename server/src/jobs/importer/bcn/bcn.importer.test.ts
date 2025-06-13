@@ -1,15 +1,15 @@
-import { useMongo } from "@tests/mongo.test.utils.js";
 import { createReadStream } from "fs";
-import { addJob } from "job-processor";
 import { dirname, join } from "path";
-import type { ISourceBcn } from "shared/models/source/bcn/source.bcn.model";
 import { fileURLToPath } from "url";
+import { addJob } from "job-processor";
+import type { ISourceBcn } from "shared/models/source/bcn/source.bcn.model";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
+import { runBcnImporter } from "./bcn.importer.js";
 import { fetchBcnData } from "@/services/apis/bcn/bcn.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
-import { runBcnImporter } from "./bcn.importer.js";
+import { useMongo } from "@tests/mongo.test.utils.js";
 
 vi.mock("@/services/apis/bcn/bcn", async (importOriginal) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -10,11 +10,10 @@ import { assertUnreachable } from "shared";
 import type { ISessionJson } from "shared/routes/_private/auth.routes";
 import type { IAccessToken } from "shared/routes/common.routes";
 
+import { LoginModal } from "./LoginModal";
 import type { PropsWithLangParams } from "@/app/i18n/settings";
 import { useAuth } from "@/context/AuthContext";
 import { ApiError, apiPost } from "@/utils/api.utils";
-
-import { LoginModal } from "./LoginModal";
 
 type UseLoginToken =
   | {

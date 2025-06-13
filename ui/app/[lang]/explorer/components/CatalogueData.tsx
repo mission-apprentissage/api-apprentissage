@@ -4,15 +4,13 @@ import { Box, Container, Hidden, Typography } from "@mui/material";
 import type { DocDatum, DocModelRow, DocModelSection, DocPage, OpenApiText } from "api-alternance-sdk/internal";
 import { getTextOpenAPI, getTextOpenAPIArray } from "api-alternance-sdk/internal";
 
+import { GoodToKnow } from "./GoodToKnow";
+import { SwaggerLink } from "./SwaggerLink";
 import type { WithLangAndT } from "@/app/i18n/settings";
 import { Artwork } from "@/components/artwork/Artwork";
 import { DsfrLink } from "@/components/link/DsfrLink";
 import { DsfrMarkdown } from "@/components/markdown/DsfrMarkdown";
 import { Tag } from "@/components/tag/Tag";
-import { PAGES } from "@/utils/routes.utils";
-
-import { GoodToKnow } from "./GoodToKnow";
-import { SwaggerLink } from "./SwaggerLink";
 
 const threeColumns = {
   md: "1fr",

@@ -1,12 +1,12 @@
-import { useMongo } from "@tests/mongo.test.utils.js";
 import { ObjectId } from "mongodb";
 import { generateUserFixture } from "shared/models/fixtures/user.model.fixture";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import { notifyUsersAboutExpiringApiKeys } from "./apiKeyExpiration.notifier.js";
 import { sendEmail } from "@/services/mailer/mailer.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
-import { notifyUsersAboutExpiringApiKeys } from "./apiKeyExpiration.notifier.js";
+import { useMongo } from "@tests/mongo.test.utils.js";
 
 useMongo();
 

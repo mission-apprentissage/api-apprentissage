@@ -1,11 +1,10 @@
 import { Typography } from "@mui/material";
 
+import UserList from "./components/UserList";
 import { getServerTranslation } from "@/app/i18n";
 import type { PropsWithLangParams } from "@/app/i18n/settings";
 import Breadcrumb from "@/components/breadcrumb/Breadcrumb";
 import { PAGES } from "@/utils/routes.utils";
-
-import UserList from "./components/UserList";
 
 export default async function AdminUsersPage({ params }: PropsWithLangParams) {
   const { lang } = await params;

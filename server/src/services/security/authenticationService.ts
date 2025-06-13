@@ -10,12 +10,11 @@ import type { IApiKey, IUser } from "shared/models/user.model";
 import type { IAccessToken } from "shared/routes/common.routes";
 import { assertUnreachable } from "shared/utils/assertUnreachable";
 
+import { parseAccessToken } from "./accessTokenService.js";
 import { authCookieSession } from "@/actions/sessions.actions.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 import { compareKeys } from "@/utils/cryptoUtils.js";
 import { decodeToken } from "@/utils/jwtUtils.js";
-
-import { parseAccessToken } from "./accessTokenService.js";
 
 export type IUserWithType = UserWithType<"token", IAccessToken> | UserWithType<"user", IUser>;
 

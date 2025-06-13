@@ -21,14 +21,13 @@ import { serializerCompiler, validatorCompiler } from "fastify-type-provider-zod
 import { generateOpenApiSchema } from "shared/openapi/generateOpenapi";
 import { z } from "zod";
 
-import config from "@/config.js";
-import { initSentryFastify } from "@/services/sentry/sentry.fastify.js";
-
 import { apiKeyUsageMiddleware } from "./middlewares/apiKeyUsageMiddleware.js";
 import { auth } from "./middlewares/authMiddleware.js";
 import { errorMiddleware } from "./middlewares/errorMiddleware.js";
 import { logMiddleware } from "./middlewares/logMiddleware.js";
 import { registerRoutes } from "./routes/routes.js";
+import { initSentryFastify } from "@/services/sentry/sentry.fastify.js";
+import config from "@/config.js";
 
 export type Server = FastifyInstance<
   RawServerDefault,

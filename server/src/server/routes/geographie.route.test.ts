@@ -1,4 +1,3 @@
-import { useMongo } from "@tests/mongo.test.utils.js";
 import {
   communeFixtures,
   generateUserFixture,
@@ -7,6 +6,7 @@ import {
   sourceDepartementFixtures,
 } from "shared/models/fixtures/index";
 import { beforeAll, beforeEach, describe, expect, it } from "vitest";
+import { useMongo } from "@tests/mongo.test.utils.js";
 
 import { generateApiKey } from "@/actions/users.actions.js";
 import type { Server } from "@/server/server.js";

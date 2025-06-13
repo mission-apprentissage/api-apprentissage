@@ -7,17 +7,16 @@ import { ObjectId } from "mongodb";
 import type { ImportStatus } from "shared";
 import type { IImportMetaCertifications, IImportMetaFranceCompetence } from "shared/models/import.meta.model";
 
-import { areSourcesSuccess, areSourcesUpdated } from "@/jobs/importer/utils/areSourcesUpdated.js";
-import { withCause } from "@/services/errors/withCause.js";
-import parentLogger from "@/services/logger.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
-import { createBatchTransformStream } from "@/utils/streamUtils.js";
-
 import type { ISourceAggregatedData } from "./builder/certification.builder.js";
 import { buildCertification } from "./builder/certification.builder.js";
 import { validateNiveauFormationDiplomeToInterministerielRule } from "./builder/intitule/certification.intitule.builder.js";
 import { processContinuite } from "./process/continuite.process.js";
 import { processCertificationCoverage } from "./process/coverage.process.js";
+import { areSourcesSuccess, areSourcesUpdated } from "@/jobs/importer/utils/areSourcesUpdated.js";
+import { withCause } from "@/services/errors/withCause.js";
+import parentLogger from "@/services/logger.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import { createBatchTransformStream } from "@/utils/streamUtils.js";
 
 const logger = parentLogger.child({ module: "import:certifications" });
 

@@ -6,11 +6,10 @@ import type { IOrganisationInternal } from "shared/models/organisation.model";
 import type { IUserAdminView } from "shared/models/user.model";
 import type { Jsonify } from "type-fest";
 
+import UserView from "./components/UserView";
 import Loading from "@/app/[lang]/loading";
 import type { PropsWithLangParams } from "@/app/i18n/settings";
 import { apiGet } from "@/utils/api.utils";
-
-import UserView from "./components/UserView";
 
 type Result<T> = { isLoading: true } | { isLoading: false; data: T };
 

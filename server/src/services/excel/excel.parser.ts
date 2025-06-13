@@ -1,7 +1,7 @@
+import type { Stream } from "stream";
 import { internal, isBoom } from "@hapi/boom";
 import ExcelJs from "exceljs";
 import { assertUnreachable } from "shared";
-import type { Stream } from "stream";
 
 import { withCause } from "@/services/errors/withCause.js";
 

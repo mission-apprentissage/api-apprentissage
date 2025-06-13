@@ -51,6 +51,6 @@
     "microdiff": "^1.5.0",
     "openapi3-ts": "^4.4.0",
     "safe-stable-stringify": "^2.5.0",
-    "zod": "^3.25.61"
+    "zod": "^3.25.64"
   }
 }

@@ -36,7 +36,7 @@
     "noUncheckedSideEffectImports": true
   },
   "references": [{ "path": "../sdk" }, { "path": "../shared" }],
-  "include": ["./**/*.ts", "./**/*.js", "**/*.md"],
+  "include": ["./**/*.ts", "./**/*.js", "**/*.md", "**/*.json"],
   "exclude": ["**/node_modules", "coverage", "dist"],
   "typeAcquisition": {
     "enable": true,

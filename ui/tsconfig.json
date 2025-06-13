@@ -2,8 +2,6 @@
   "extends": "@tsconfig/next/tsconfig.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "composite": true,
-    "noEmit": false,
     "forceConsistentCasingInFileNames": true,
     "paths": {
       "@/*": ["./*"]

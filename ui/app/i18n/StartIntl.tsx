@@ -13,7 +13,7 @@ const runsOnServerSide = typeof window === "undefined";
 
 // This is not a hook, it's a function that must be called at the root of the app.
 // eslint-disable-next-line react-hooks/rules-of-hooks
-const i18n = use(initReactI18next)
+use(initReactI18next)
   .use(
     resourcesToBackend(async (language: Lang, namespace: Namespace) => {
       if (namespace === "zod") {

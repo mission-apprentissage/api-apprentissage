@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 /** @type {import('next').NextConfig} */
 
-import { withSentryConfig } from "@sentry/nextjs";
-import { withPlausibleProxy } from "next-plausible";
 import path from "path";
 import { fileURLToPath } from "url";
+import { withSentryConfig } from "@sentry/nextjs";
+import { withPlausibleProxy } from "next-plausible";
 
 const nextConfig = {
   transpilePackages: ["shared", "api-alternance-sdk"],

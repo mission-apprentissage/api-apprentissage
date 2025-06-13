@@ -1,19 +1,18 @@
 import { Transform } from "node:stream";
 
+import { pipeline } from "stream/promises";
 import { internal } from "@hapi/boom";
 import { ObjectId } from "mongodb";
 import type { ImportStatus } from "shared";
 import type { IImportMetaFormations } from "shared/models/import.meta.model";
 import type { ISourceCatalogue } from "shared/models/source/catalogue/source.catalogue.model";
-import { pipeline } from "stream/promises";
 
+import { buildFormation } from "./builder/_.formation.builder.js";
 import { areSourcesSuccess, areSourcesUpdated } from "@/jobs/importer/utils/areSourcesUpdated.js";
 import { withCause } from "@/services/errors/withCause.js";
 import parentLogger from "@/services/logger.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 import { createBatchTransformStream } from "@/utils/streamUtils.js";
-
-import { buildFormation } from "./builder/_.formation.builder.js";
 
 const logger = parentLogger.child({ module: "import:organismes" });
 

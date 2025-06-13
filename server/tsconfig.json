@@ -9,6 +9,7 @@
       "@/*": ["./src/*"],
       "@tests/*": ["./tests/*"]
     },
+    "composite": true,
     "resolveJsonModule": true,
     "typeRoots": ["./types", "./node_modules/@types/", "../node_modules/@types/"],
     /* JavaScript Support */
@@ -35,7 +36,7 @@
     "noUncheckedSideEffectImports": true
   },
   "references": [{ "path": "../sdk" }, { "path": "../shared" }],
-  "include": ["./**/*.ts", "./**/*.js", "**/*.md"],
+  "include": ["./**/*.ts", "./**/*.js", "**/*.md", "**/*.json"],
   "exclude": ["**/node_modules", "coverage", "dist"],
   "typeAcquisition": {
     "enable": true,

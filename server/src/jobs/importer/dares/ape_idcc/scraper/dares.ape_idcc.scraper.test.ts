@@ -1,7 +1,7 @@
 import { readFile } from "fs/promises";
-import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
+import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
 import { scrapeRessourceApeIdcc } from "./dares.ape_idcc.scraper.js";

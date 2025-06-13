@@ -1,5 +1,5 @@
-import nock, { cleanAll } from "nock";
 import { Readable } from "stream";
+import nock, { cleanAll } from "nock";
 import { afterEach, describe, expect, it } from "vitest";
 
 import { fetchCatalogueData } from "./catalogue.js";

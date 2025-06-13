@@ -1,4 +1,3 @@
-import { useMongo } from "@tests/mongo.test.utils.js";
 import { ObjectId } from "mongodb";
 import type { ICertificationInternal } from "shared/models/certification.model";
 import {
@@ -10,9 +9,10 @@ import type { IImportMetaCertifications } from "shared/models/import.meta.model"
 import { parseParisLocalDate } from "shared/zod/date.primitives";
 import { describe, expect, it } from "vitest";
 
+import { processCertificationCoverage } from "./coverage.process.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
-import { processCertificationCoverage } from "./coverage.process.js";
+import { useMongo } from "@tests/mongo.test.utils.js";
 
 const today = new Date("2023-12-25T02:00:00.000Z");
 const yesterday = new Date("2023-12-24T02:00:00.000Z");

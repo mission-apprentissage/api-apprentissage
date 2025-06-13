@@ -1,12 +1,12 @@
-import { useMongo } from "@tests/mongo.test.utils.js";
 import type { IGeoJsonPoint } from "api-alternance-sdk";
 import { ObjectId } from "mongodb";
 import nock from "nock";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import { searchAdresseGeopoint } from "./adresse.api.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
-import { searchAdresseGeopoint } from "./adresse.api.js";
+import { useMongo } from "@tests/mongo.test.utils.js";
 
 const now = new Date("2024-12-04T00:00:00Z");
 const inOneYear = new Date("2025-12-04T00:00:00Z");

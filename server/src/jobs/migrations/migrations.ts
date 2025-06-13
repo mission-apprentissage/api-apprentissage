@@ -1,9 +1,9 @@
 import { readdir, writeFile } from "node:fs/promises";
 
+import path from "path";
 import { internal } from "@hapi/boom";
 import { __dirname } from "api-alternance-sdk/internal";
 import { format } from "date-fns";
-import path from "path";
 
 import { withCause } from "@/services/errors/withCause.js";
 import { getDatabase, getMongodbClient } from "@/services/mongodb/mongodbService.js";

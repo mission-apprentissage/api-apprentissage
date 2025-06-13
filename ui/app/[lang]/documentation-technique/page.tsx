@@ -3,9 +3,8 @@ import "./overwride.css";
 import acceptLanguage from "accept-language";
 import { headers } from "next/headers";
 
-import type { PropsWithLangParams } from "@/app/i18n/settings";
-
 import RedocPageClient from "./components/redoc";
+import type { PropsWithLangParams } from "@/app/i18n/settings";
 
 acceptLanguage.languages(["fr", "en"]);
 

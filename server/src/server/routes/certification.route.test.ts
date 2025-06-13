@@ -1,8 +1,8 @@
-import { useMongo } from "@tests/mongo.test.utils.js";
 import { DateTime } from "luxon";
 import type { ICertificationInternal } from "shared/models/certification.model";
 import { generateCertificationInternalFixture, generateUserFixture } from "shared/models/fixtures/index";
 import { beforeAll, beforeEach, describe, expect, it } from "vitest";
+import { useMongo } from "@tests/mongo.test.utils.js";
 
 import { generateApiKey } from "@/actions/users.actions.js";
 import type { Server } from "@/server/server.js";

@@ -1,5 +1,3 @@
-import type { Server } from "@/server/server.js";
-
 import { importerAdminRoutes } from "./_private/admin/importer.routes.js";
 import { organisationAdminRoutes } from "./_private/admin/organisations.routes.js";
 import { processorAdminRoutes } from "./_private/admin/processor.admin.routes.js";
@@ -15,6 +13,7 @@ import { geographieRoutes } from "./geographie.route.js";
 import { healthcheckRoutes } from "./healthcheck.routes.js";
 import { jobRoutes } from "./job/job.routes.js";
 import { organismeRoutes } from "./organisme.routes.js";
+import type { Server } from "@/server/server.js";
 
 type RegisterRoutes = (opts: { server: Server }) => void;
 

@@ -1,4 +1,4 @@
-import { candidatureOffrePageDoc, generationLienPriseRdvFormationPageDoc } from "api-alternance-sdk/internal";
+import { generationLienPriseRdvFormationPageDoc } from "api-alternance-sdk/internal";
 
 import { CataloguePage } from "@/app/[lang]/explorer/components/CataloguePage";
 import { getServerTranslation } from "@/app/i18n";

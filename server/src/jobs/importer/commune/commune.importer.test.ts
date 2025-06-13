@@ -1,4 +1,3 @@
-import { useMongo } from "@tests/mongo.test.utils.js";
 import { ObjectId } from "mongodb";
 import {
   academieFixtures,
@@ -12,6 +11,8 @@ import {
   sourceRegionsFixtures,
 } from "shared/models/fixtures/commune.model.fixture";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { runCommuneImporter } from "./commune.importer.js";
+import { useMongo } from "@tests/mongo.test.utils.js";
 
 import { fetchAcademies } from "@/services/apis/enseignementSup/enseignementSup.js";
 import { fetchGeoCommunes, fetchGeoDepartements, fetchGeoRegion, fetchGeoRegions } from "@/services/apis/geo/geo.js";
@@ -21,8 +22,6 @@ import {
   fetchCollectivitesOutreMer,
 } from "@/services/apis/insee/insee.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
-
-import { runCommuneImporter } from "./commune.importer.js";
 
 useMongo();
 

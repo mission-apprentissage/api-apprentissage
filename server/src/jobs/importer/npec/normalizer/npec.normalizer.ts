@@ -1,3 +1,5 @@
+import { Transform } from "stream";
+import { pipeline } from "stream/promises";
 import { internal } from "@hapi/boom";
 import { DateTime } from "luxon";
 import type { AnyBulkWriteOperation } from "mongodb";
@@ -9,8 +11,6 @@ import type {
   ISourceNpecNormalizedFlat,
 } from "shared/models/source/npec/source.npec.normalized.model";
 import { zSourceNpecNormalizedFlatData } from "shared/models/source/npec/source.npec.normalized.model";
-import { Transform } from "stream";
-import { pipeline } from "stream/promises";
 
 import { getNpecFilename } from "@/jobs/importer/npec/scraper/npec.scraper.js";
 import { withCause } from "@/services/errors/withCause.js";

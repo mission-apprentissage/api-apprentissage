@@ -1,13 +1,12 @@
-import archiver from "archiver";
-import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
 import { dirname, join } from "path";
 import type { Stream } from "stream";
 import { fileURLToPath } from "url";
+import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
+import archiver from "archiver";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { getStaticFilePath } from "@/utils/getStaticFilePath.js";
-
 import { downloadXlsxNPECFile, scrapeRessourceNPEC } from "./npec.scraper.js";
+import { getStaticFilePath } from "@/utils/getStaticFilePath.js";
 
 vi.mock("@/utils/getStaticFilePath", () => ({
   getStaticFilePath: vi.fn(),

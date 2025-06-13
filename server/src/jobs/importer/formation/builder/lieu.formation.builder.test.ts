@@ -1,11 +1,11 @@
-import { useMongo } from "@tests/mongo.test.utils.js";
 import { ObjectId } from "mongodb";
 import type { ICommuneInternal } from "shared/models/commune.model";
 import { beforeEach, describe, expect, it } from "vitest";
 
+import { buildFormationLieu } from "./lieu.formation.builder.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
-import { buildFormationLieu } from "./lieu.formation.builder.js";
+import { useMongo } from "@tests/mongo.test.utils.js";
 
 useMongo();
 

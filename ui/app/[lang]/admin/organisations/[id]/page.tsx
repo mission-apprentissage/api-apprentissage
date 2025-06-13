@@ -5,12 +5,11 @@ import { use } from "react";
 import type { IOrganisationInternal } from "shared/models/organisation.model";
 import type { Jsonify } from "type-fest";
 
+import { OrganisationView } from "./components/OrganisationView";
 import Loading from "@/app/[lang]/loading";
 import type { PropsWithLangParams } from "@/app/i18n/settings";
 import { NotFound } from "@/icons/NotFound";
 import { apiGet } from "@/utils/api.utils";
-
-import { OrganisationView } from "./components/OrganisationView";
 
 type Result<T> = { isLoading: true } | { isLoading: false; data: T };
 

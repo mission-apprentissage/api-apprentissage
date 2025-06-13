@@ -4,12 +4,11 @@ import { ProcessorStatusIndexComponent } from "job-processor/dist/react";
 import { use } from "react";
 import { useTranslation } from "react-i18next";
 
+import { ProcessorStatusProvider } from "./components/ProcessorStatusProvider";
 import type { PropsWithLangParams } from "@/app/i18n/settings";
 import Breadcrumb from "@/components/breadcrumb/Breadcrumb";
 import { publicConfig } from "@/config.public";
 import { PAGES } from "@/utils/routes.utils";
-
-import { ProcessorStatusProvider } from "./components/ProcessorStatusProvider";
 
 export default function AdminProcessorPage({ params }: PropsWithLangParams) {
   const { lang } = use(params);

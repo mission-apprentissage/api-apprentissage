@@ -1,11 +1,11 @@
-import { generateMock } from "@anatine/zod-mock";
-import { useMongo } from "@tests/mongo.test.utils.js";
-import { stringify } from "csv-stringify";
 import { createReadStream } from "fs";
+import { dirname, join } from "path";
+import { Readable } from "stream";
+import { fileURLToPath } from "url";
+import { stringify } from "csv-stringify";
 import { addJob } from "job-processor";
 import { ObjectId } from "mongodb";
 import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
-import { dirname, join } from "path";
 import type { IDataGouvDataset } from "shared";
 import type { IImportMetaFranceCompetence } from "shared/models/import.meta.model";
 import type { ISourceFcStandard } from "shared/models/source/france_competence/parts/source.france_competence.standard.model";
@@ -15,13 +15,9 @@ import type {
   ISourceFranceCompetenceDataKey,
 } from "shared/models/source/france_competence/source.france_competence.model";
 import { zFranceCompetenceDataBySource } from "shared/models/source/france_competence/source.france_competence.model";
-import { Readable } from "stream";
 import type { Entry } from "unzipper";
-import { fileURLToPath } from "url";
+import { generateMock } from "@anatine/zod-mock";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-
-import { fetchDataGouvDataSet } from "@/services/apis/data_gouv/data_gouv.api.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
 import {
   importRncpArchive,
@@ -30,6 +26,10 @@ import {
   processRecord,
   runRncpImporter,
 } from "./france_competence.importer.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+
+import { useMongo } from "@tests/mongo.test.utils.js";
+import { fetchDataGouvDataSet } from "@/services/apis/data_gouv/data_gouv.api.js";
 
 vi.mock("job-processor", async (importOriginal) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

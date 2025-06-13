@@ -11,10 +11,9 @@ import { assertUnreachable } from "shared/utils/assertUnreachable";
 import type { Primitive } from "zod";
 import { zObjectId } from "zod-mongodb-schema";
 
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
-
 import { getAccessTokenScope } from "./accessTokenService.js";
 import { getUserFromRequest } from "./authenticationService.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
 export type Ressources = {
   users: Array<IUser>;

@@ -12,10 +12,9 @@ import type { AxiosInstance } from "axios";
 import type { AxiosCacheInstance } from "axios-cache-interceptor";
 import { RateLimiterMemory, RateLimiterQueue } from "rate-limiter-flexible";
 
+import { timeout } from "./asyncUtils.js";
 import config from "@/config.js";
 import { withCause } from "@/services/errors/withCause.js";
-
-import { timeout } from "./asyncUtils.js";
 
 interface ApiRateLimiterOptions {
   nbRequests?: number;

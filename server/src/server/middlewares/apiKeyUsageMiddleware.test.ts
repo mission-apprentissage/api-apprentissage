@@ -1,4 +1,3 @@
-import { useMongo } from "@tests/mongo.test.utils.js";
 import type { IApiRouteSchema, ISecuredRouteSchema, WithSecurityScheme } from "api-alternance-sdk";
 import { fastify } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
@@ -9,13 +8,14 @@ import type { IUser } from "shared/models/user.model";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { z } from "zod";
 
+import { apiKeyUsageMiddleware } from "./apiKeyUsageMiddleware.js";
+import { auth } from "./authMiddleware.js";
+import { errorMiddleware } from "./errorMiddleware.js";
 import { generateApiKey } from "@/actions/users.actions.js";
 import type { Server } from "@/server/server.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
-import { apiKeyUsageMiddleware } from "./apiKeyUsageMiddleware.js";
-import { auth } from "./authMiddleware.js";
-import { errorMiddleware } from "./errorMiddleware.js";
+import { useMongo } from "@tests/mongo.test.utils.js";
 
 useMongo();
 

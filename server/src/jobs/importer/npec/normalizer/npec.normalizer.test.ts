@@ -1,11 +1,11 @@
-import { useMongo } from "@tests/mongo.test.utils.js";
 import { ObjectId } from "mongodb";
 import { generateNpecFixture } from "shared/models/fixtures/index";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import { buildCpneIdccMap, runNpecNormalizer } from "./npec.normalizer.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
-import { buildCpneIdccMap, runNpecNormalizer } from "./npec.normalizer.js";
+import { useMongo } from "@tests/mongo.test.utils.js";
 
 useMongo();
 

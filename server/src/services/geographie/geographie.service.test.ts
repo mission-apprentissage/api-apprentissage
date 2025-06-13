@@ -1,4 +1,3 @@
-import { useMongo } from "@tests/mongo.test.utils.js";
 import {
   communeFixtures,
   getMissionLocaleFixtureFromSource,
@@ -6,9 +5,10 @@ import {
 } from "shared/models/fixtures/commune.model.fixture";
 import { beforeEach, describe, expect, it } from "vitest";
 
+import { searchMissionLocales } from "./geographie.service.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
-import { searchMissionLocales } from "./geographie.service.js";
+import { useMongo } from "@tests/mongo.test.utils.js";
 
 useMongo();
 

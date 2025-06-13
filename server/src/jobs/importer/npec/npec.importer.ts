@@ -1,3 +1,5 @@
+import { addAbortSignal, Duplex, Transform } from "stream";
+import { pipeline } from "stream/promises";
 import { internal } from "@hapi/boom";
 import { captureException } from "@sentry/node";
 import { addJob } from "job-processor";
@@ -7,17 +9,14 @@ import type { ImportStatus } from "shared";
 import type { IImportMetaNpec } from "shared/models/import.meta.model";
 import type { ISourceNpec } from "shared/models/source/npec/source.npec.model";
 import { zSourceNpecIdcc } from "shared/models/source/npec/source.npec.model";
-import { addAbortSignal, Duplex, Transform } from "stream";
-import { pipeline } from "stream/promises";
 
+import { runNpecNormalizer } from "./normalizer/npec.normalizer.js";
+import { downloadXlsxNPECFile, getNpecFilename, scrapeRessourceNPEC } from "./scraper/npec.scraper.js";
 import { withCause } from "@/services/errors/withCause.js";
 import type { ExcelParsedRow, ExcelParseSpec } from "@/services/excel/excel.parser.js";
 import { parseExcelFileStream } from "@/services/excel/excel.parser.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 import { createBatchTransformStream } from "@/utils/streamUtils.js";
-
-import { runNpecNormalizer } from "./normalizer/npec.normalizer.js";
-import { downloadXlsxNPECFile, getNpecFilename, scrapeRessourceNPEC } from "./scraper/npec.scraper.js";
 
 function getWorkbookParseSpec(name: string): ExcelParseSpec {
   const ignoredSheets = {

@@ -1,4 +1,3 @@
-import { useMongo } from "@tests/mongo.test.utils.js";
 import { ObjectId } from "mongodb";
 import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
 import type { IOrganismeReferentielDataInput } from "shared/models/fixtures/index";
@@ -8,12 +7,12 @@ import { zSourceReferentiel } from "shared/models/source/referentiel/source.refe
 import { beforeEach, describe, expect, it } from "vitest";
 import { z } from "zod";
 
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
-
 import tdbFiabResultData from "./fixtures/tdb/fiabilisation.fixture.json" with { type: "json" };
 import tdbReferentielFixtureData from "./fixtures/tdb/referentiel.fixture.json" with { type: "json" };
 import type { OrganismeSearchQuery } from "./organisme.service.js";
 import { searchOrganisme, searchOrganismeMetadata } from "./organisme.service.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import { useMongo } from "@tests/mongo.test.utils.js";
 
 const _zTdbFiabResult = z.discriminatedUnion("type", [
   z.object({

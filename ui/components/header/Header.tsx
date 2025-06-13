@@ -3,19 +3,16 @@
 import { Header as DSFRHeader, HeaderQuickAccessItem } from "@codegouvfr/react-dsfr/Header";
 import { LanguageSelect } from "@codegouvfr/react-dsfr/LanguageSelect";
 import { useIsDark } from "@codegouvfr/react-dsfr/useIsDark";
-import { margin } from "@mui/system";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
+import { useNavigationItems } from "./header.utils";
+import { MonCompteQuickAccess } from "./MonCompteQuickAccess";
 import type { Lang, WithLang } from "@/app/i18n/settings";
 import { languages } from "@/app/i18n/settings";
 import { publicConfig } from "@/config.public";
 import { useAuth } from "@/context/AuthContext";
-
-import { useNavigationItems } from "./header.utils";
-import { MonCompteQuickAccess } from "./MonCompteQuickAccess";
 
 export const Header = ({ lang }: WithLang) => {
   // Force light mode

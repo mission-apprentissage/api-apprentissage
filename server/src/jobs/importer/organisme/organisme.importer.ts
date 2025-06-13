@@ -1,5 +1,6 @@
 import { Transform } from "node:stream";
 
+import { pipeline } from "stream/promises";
 import { internal } from "@hapi/boom";
 import type { AnyBulkWriteOperation } from "mongodb";
 import { ObjectId } from "mongodb";
@@ -7,15 +8,13 @@ import type { ImportStatus } from "shared";
 import type { IImportMetaOrganismes } from "shared/models/import.meta.model";
 import type { IOrganismeInternal } from "shared/models/organisme.model";
 import type { ISourceReferentiel } from "shared/models/source/referentiel/source.referentiel.model";
-import { pipeline } from "stream/promises";
 
+import { buildOrganisme, buildOrganismeContext, buildOrganismeEntrepriseParts } from "./builder/organisme.builder.js";
 import { areSourcesSuccess, areSourcesUpdated } from "@/jobs/importer/utils/areSourcesUpdated.js";
 import { withCause } from "@/services/errors/withCause.js";
 import parentLogger from "@/services/logger.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 import { createBatchTransformStream } from "@/utils/streamUtils.js";
-
-import { buildOrganisme, buildOrganismeContext, buildOrganismeEntrepriseParts } from "./builder/organisme.builder.js";
 
 const logger = parentLogger.child({ module: "import:organismes" });
 

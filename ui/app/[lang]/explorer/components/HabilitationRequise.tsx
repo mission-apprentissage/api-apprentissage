@@ -2,7 +2,7 @@
 import { fr } from "@codegouvfr/react-dsfr";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { Box, Typography } from "@mui/material";
-import type { OpenapiSpec, Permission } from "api-alternance-sdk/internal";
+import type { OpenapiSpec } from "api-alternance-sdk/internal";
 import { getTextOpenAPI, openapiSpec } from "api-alternance-sdk/internal";
 import { useTranslation } from "react-i18next";
 

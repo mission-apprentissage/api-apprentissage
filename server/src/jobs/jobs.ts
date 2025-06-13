@@ -2,11 +2,6 @@ import { addJob, initJobProcessor } from "job-processor";
 import { zImportMetaFranceCompetence, zImportMetaNpec } from "shared/models/import.meta.model";
 import { z } from "zod";
 
-import config from "@/config.js";
-import { checkDocumentationSync } from "@/services/documentation/checkDocumentationSync.js";
-import logger, { createJobProcessorLogger } from "@/services/logger.js";
-import { createIndexes, getDatabase } from "@/services/mongodb/mongodbService.js";
-
 import { notifyUsersAboutExpiringApiKeys } from "./apiKey/apiKeyExpiration.notifier.js";
 import { validateModels } from "./db/schemaValidation.js";
 import { runAcceImporter } from "./importer/acce/acce.js";
@@ -31,6 +26,10 @@ import { importOrganismes } from "./importer/organisme/organisme.importer.js";
 import { runReferentielImporter } from "./importer/referentiel/referentiel.js";
 import { updateKitApprentissageIndicateurSource } from "./indicateurs/source/kitApprentissage.source.indicateur.js";
 import { create as createMigration, status as statusMigration, up as upMigration } from "./migrations/migrations.js";
+import { createIndexes, getDatabase } from "@/services/mongodb/mongodbService.js";
+import logger, { createJobProcessorLogger } from "@/services/logger.js";
+import { checkDocumentationSync } from "@/services/documentation/checkDocumentationSync.js";
+import config from "@/config.js";
 
 export async function setupJobProcessor() {
   return initJobProcessor({

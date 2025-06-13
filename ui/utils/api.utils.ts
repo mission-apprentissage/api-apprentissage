@@ -77,7 +77,7 @@ async function getHeaders(options: IRequestOptions) {
         headers.append("cookie", cookie);
       }
     }
-  } catch (error) {
+  } catch (_error) {
     // We're in client, cookies will be includes
   }
 
@@ -137,7 +137,7 @@ export class ApiError extends Error {
           message = data.message;
           errorData = data.data;
         }
-      } catch (error) {
+      } catch (_error) {
         // ignore
       }
     }

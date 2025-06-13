@@ -1,4 +1,3 @@
-import { useMongo } from "@tests/mongo.test.utils.js";
 import { ObjectId } from "mongodb";
 import {
   generateSourceBcn_N_FormationDiplomeFixture,
@@ -9,12 +8,13 @@ import {
 } from "shared/models/fixtures/index";
 import { beforeEach, describe, expect, it } from "vitest";
 
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
-
 import {
   buildCertificationIntitule,
   validateNiveauFormationDiplomeToInterministerielRule,
 } from "./certification.intitule.builder.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+
+import { useMongo } from "@tests/mongo.test.utils.js";
 
 describe("buildCertificationIntitule", () => {
   describe("intitule.cfd", () => {

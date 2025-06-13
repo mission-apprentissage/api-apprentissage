@@ -1,11 +1,10 @@
 import { Container } from "@mui/material";
 
+import DonneesPersonnelles from "./components/DonneesPersonnelles";
 import { getServerTranslation } from "@/app/i18n";
 import type { PropsWithLangParams } from "@/app/i18n/settings";
 import Breadcrumb from "@/components/breadcrumb/Breadcrumb";
 import { PAGES } from "@/utils/routes.utils";
-
-import DonneesPersonnelles from "./components/DonneesPersonnelles";
 
 export default async function DonneesPersonnellesPage({ params }: PropsWithLangParams) {
   const { lang } = await params;

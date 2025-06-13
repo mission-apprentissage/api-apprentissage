@@ -1,5 +1,6 @@
 import { addAbortSignal, Transform } from "node:stream";
 
+import { pipeline } from "stream/promises";
 import { internal } from "@hapi/boom";
 import { parse } from "csv-parse";
 import { addJob } from "job-processor";
@@ -14,7 +15,6 @@ import type {
 } from "shared/models/source/france_competence/source.france_competence.model";
 import { zFranceCompetenceDataBySource } from "shared/models/source/france_competence/source.france_competence.model";
 import { parisTimezoneDate } from "shared/zod/date.primitives";
-import { pipeline } from "stream/promises";
 import type { Entry } from "unzipper";
 import { Parse } from "unzipper";
 

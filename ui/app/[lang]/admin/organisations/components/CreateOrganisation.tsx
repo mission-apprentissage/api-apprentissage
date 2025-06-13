@@ -39,7 +39,6 @@ export function CreateOrganisation() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    reset,
   } = useForm<IOrganisationCreate>({
     resolver: zodResolver(zRoutes.post["/_private/admin/organisations"].body),
   });

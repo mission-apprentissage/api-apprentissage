@@ -1,4 +1,3 @@
-import { useMongo } from "@tests/mongo.test.utils.js";
 import { DateTime } from "luxon";
 import { ObjectId } from "mongodb";
 import {
@@ -15,9 +14,10 @@ import type { ParisDate } from "shared/zod/date.primitives";
 import { parseParisLocalDate } from "shared/zod/date.primitives";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import { importCertifications } from "./certifications.importer.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
-import { importCertifications } from "./certifications.importer.js";
+import { useMongo } from "@tests/mongo.test.utils.js";
 
 const now = new Date("2024-03-07T10:00:00Z");
 const twoHoursAgo = new Date(now.getTime() - 2 * 3600 * 1000);

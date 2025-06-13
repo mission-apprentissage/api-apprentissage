@@ -1,11 +1,10 @@
 import { Container } from "@mui/material";
 
+import Cgu from "./components/Cgu";
 import { getServerTranslation } from "@/app/i18n";
 import type { PropsWithLangParams } from "@/app/i18n/settings";
 import Breadcrumb from "@/components/breadcrumb/Breadcrumb";
 import { PAGES } from "@/utils/routes.utils";
-
-import Cgu from "./components/Cgu";
 
 export default async function CGUPage({ params }: PropsWithLangParams) {
   const { lang } = await params;

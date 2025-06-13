@@ -1,4 +1,3 @@
-import { useMongo } from "@tests/mongo.test.utils.js";
 import type { IFormation } from "api-alternance-sdk";
 import { zCertification, zOrganisme } from "api-alternance-sdk";
 import { ObjectId } from "mongodb";
@@ -8,9 +7,10 @@ import { generateOrganismeInternalFixture } from "shared/models/fixtures/organis
 import type { IFormationCatalogue } from "shared/models/source/catalogue/source.catalogue.model";
 import { beforeEach, describe, expect, it } from "vitest";
 
+import { buildFormation } from "./_.formation.builder.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
-import { buildFormation } from "./_.formation.builder.js";
+import { useMongo } from "@tests/mongo.test.utils.js";
 
 useMongo();
 

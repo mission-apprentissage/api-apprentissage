@@ -1,7 +1,6 @@
 import "react-notion-x/src/styles.css";
 
 import { fr } from "@codegouvfr/react-dsfr";
-// eslint-disable-next-line import/no-named-as-default
 import MuiDsfrThemeProvider from "@codegouvfr/react-dsfr/mui";
 import { createGetHtmlAttributes, DsfrHeadBase } from "@codegouvfr/react-dsfr/next-app-router/server-only-index";
 import { Box } from "@mui/material";
@@ -13,6 +12,8 @@ import Link from "next/link";
 import type { PropsWithChildren } from "react";
 import type { ISessionJson } from "shared/routes/_private/auth.routes";
 
+import { DsfrProvider, StartDsfrOnHydration } from "./DsfrProvider";
+import NotFoundPage from "./not-found";
 import type { PropsWithLangParams } from "@/app/i18n/settings";
 import { languages } from "@/app/i18n/settings";
 import { StartIntl } from "@/app/i18n/StartIntl";
@@ -22,9 +23,6 @@ import { AuthContextProvider } from "@/context/AuthContext";
 import { defaultColorScheme } from "@/theme/defaultColorScheme";
 import type { ApiError } from "@/utils/api.utils";
 import { apiGet } from "@/utils/api.utils";
-
-import { DsfrProvider, StartDsfrOnHydration } from "./DsfrProvider";
-import NotFoundPage from "./not-found";
 
 const { getHtmlAttributes } = createGetHtmlAttributes({ defaultColorScheme });
 

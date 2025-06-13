@@ -1,7 +1,7 @@
-import type { QualifiedAttribute } from "sax";
-import { createStream } from "sax";
 import type { Readable } from "stream";
 import { Transform } from "stream";
+import type { QualifiedAttribute } from "sax";
+import { createStream } from "sax";
 
 interface XmlJson {
   attributes: Record<string, string | QualifiedAttribute>;

@@ -30,7 +30,7 @@ describe("zUai", () => {
     const result = zUai.safeParse(uai);
     expect(result.success).toBe(false);
     expect(result.error?.format()).toEqual({
-      _errors: ["UAI does not match the format /^\\d{1,7}[A-Z]$/", "UAI checksum is invalid"],
+      _errors: ["UAI does not match the format /^\\d{1,7}[A-Z]$/"],
     });
   });
 
@@ -74,14 +74,14 @@ describe("zSiret", () => {
     const result = zUai.safeParse(siret);
     expect(result.success).toBe(false);
     expect(result.error?.format()).toEqual({
-      _errors: ["UAI does not match the format /^\\d{1,7}[A-Z]$/", "UAI checksum is invalid"],
+      _errors: ["UAI does not match the format /^\\d{1,7}[A-Z]$/"],
     });
   });
   it.each([["35600000009090"]])("should fail with SIREN LaPoste not following own algo", (siret) => {
     const result = zUai.safeParse(siret);
     expect(result.success).toBe(false);
     expect(result.error?.format()).toEqual({
-      _errors: ["UAI does not match the format /^\\d{1,7}[A-Z]$/", "UAI checksum is invalid"],
+      _errors: ["UAI does not match the format /^\\d{1,7}[A-Z]$/"],
     });
   });
 });

@@ -1,6 +1,6 @@
 import { internal } from "@hapi/boom";
 import { isAxiosError } from "axios";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 import config from "@/config.js";
 import getApiClient from "@/services/apis/client.js";
@@ -62,7 +62,7 @@ export async function fetchAcademies(): Promise<IEnseignementSupAcademieData[]> 
         }
       );
 
-      return fixGuadeloupeAcademie(zAcademieData.array().parse(data));
+      return fixGuadeloupeAcademie(z.parse(z.array(zAcademieData), data));
     } catch (error) {
       if (isAxiosError(error)) {
         throw internal("api.enseignementSup: unable to fetchAcademies", { data: error.toJSON() });

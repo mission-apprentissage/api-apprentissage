@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 import type { IModelDescriptorGeneric } from "../../common.js";
 import { zObjectId } from "../../common.js";
@@ -15,12 +15,12 @@ export const zSourceDaresApeIdccData = z.object({
     code: z.string(),
     intitule: z.string(),
   }),
-  convention_collective: z
-    .object({
+  convention_collective: z.nullable(
+    z.object({
       idcc: z.coerce.number(),
       titre: z.string(),
     })
-    .nullable(),
+  ),
 });
 
 export const zSourceDaresApeIdcc = z.object({

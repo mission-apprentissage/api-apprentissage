@@ -10,7 +10,7 @@ import { getFranceCompetencesImporterStatus, runRncpImporter } from "./france_co
 import { getKaliImporterStatus, runKaliConventionCollectivesImporter } from "./kali/kali.ccn.importer.js";
 import { getKitApprentissageImporterStatus, runKitApprentissageImporter } from "./kit/kitApprentissage.importer.js";
 import { getMissionLocaleImporterStatus, runMissionLocaleImporter } from "./mission_locale/mission_locale.importer.js";
-import { getNpecImporterStatus, runNpecImporter } from "./npec/npec.importer.js";
+// import { getNpecImporterStatus, runNpecImporter } from "./npec/npec.importer.js";
 import { getOrganismesImporterStatus, importOrganismes } from "./organisme/organisme.importer.js";
 import { getReferentielImporterStatus, runReferentielImporter } from "./referentiel/referentiel.js";
 import type { Importer } from "./types.js";
@@ -90,14 +90,6 @@ export const importers: Record<string, Importer> = {
     handler: importFormations,
     resumable: true,
     getStatus: getFormationsImporterStatus,
-    checkinMargin: 60, // 1h
-    maxRuntimeInMinutes: 30,
-  },
-  "Import des NPEC": {
-    cron_string: timings.import_source,
-    handler: runNpecImporter,
-    resumable: true,
-    getStatus: getNpecImporterStatus,
     checkinMargin: 60, // 1h
     maxRuntimeInMinutes: 30,
   },

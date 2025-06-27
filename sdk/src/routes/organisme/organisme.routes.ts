@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 import { zOrganisme } from "../../models/organisme/organisme.model.js";
 import { zSiret, zUai } from "../../models/organisme/organismes.primitives.js";
@@ -12,8 +12,8 @@ const zRechercheOrganismeResultat = z.object({
     validation_uai: z.boolean(),
   }),
   correspondances: z.object({
-    uai: z
-      .object({
+    uai: z.nullable(
+      z.object({
         lui_meme: z.boolean(),
         son_lieu: z.boolean(),
         // Following cannot be checked with referentiel only
@@ -23,32 +23,32 @@ const zRechercheOrganismeResultat = z.object({
         // lieu_de_son_responsable: z.boolean(),
         // lieu_de_son_formateur: z.boolean(),
       })
-      .nullable(),
-    siret: z
-      .object({
+    ),
+    siret: z.nullable(
+      z.object({
         son_formateur: z.boolean(),
         son_responsable: z.boolean(),
         lui_meme: z.boolean(),
       })
-      .nullable(),
+    ),
   }),
-  organisme: zOrganisme.pick({ identifiant: true }),
+  organisme: z.pick(zOrganisme, { identifiant: true }),
 });
 
 export const zRechercheOrganismeResponse = z.object({
   metadata: z.object({
-    uai: z
-      .object({
+    uai: z.nullable(
+      z.object({
         status: z.enum(["inconnu", "ok"]),
       })
-      .nullable(),
-    siret: z
-      .object({
+    ),
+    siret: z.nullable(
+      z.object({
         status: z.enum(["inconnu", "fermé", "ok"]),
       })
-      .nullable(),
+    ),
   }),
-  resultat: zRechercheOrganismeResultat.nullable(),
+  resultat: z.nullable(zRechercheOrganismeResultat),
   candidats: z.array(zRechercheOrganismeResultat),
 });
 
@@ -62,8 +62,8 @@ export const zApiOrganismesRoutes = {
       method: "get",
       path: "/organisme/v1/recherche",
       querystring: z.object({
-        uai: zUai.nullable().default(null),
-        siret: zSiret.nullable().default(null),
+        uai: z._default(z.nullable(zUai), null),
+        siret: z._default(z.nullable(zSiret), null),
       }),
       response: {
         "200": zRechercheOrganismeResponse,
@@ -80,7 +80,7 @@ export const zApiOrganismesRoutes = {
       querystring: zPaginationQuery,
       response: {
         "200": z.object({
-          data: zOrganisme.array(),
+          data: z.array(zOrganisme),
           pagination: zPaginationInfo,
         }),
       },

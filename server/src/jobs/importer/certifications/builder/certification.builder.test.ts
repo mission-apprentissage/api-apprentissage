@@ -7,8 +7,8 @@ import {
   generateSourceFranceCompetenceFixture,
 } from "shared/models/fixtures/index";
 import { describe, expect, it, vi } from "vitest";
-import { ZodError } from "zod";
 
+import { $ZodError } from "zod/v4/core";
 import { buildCertificationBaseLegale } from "./base_legale/certification.base_legale.builder.js";
 import { buildCertificationBlocsCompetences } from "./blocs_competences/certification.blocs_competences.builder.js";
 import { buildCertification } from "./certification.builder.js";
@@ -172,6 +172,6 @@ describe("buildCertification", () => {
     mockBuildCertificationParts(expectedCertification);
     const oldestFranceCompetenceDatePublication = new Date("2021-12-24T02:00:00.000Z");
 
-    expect(() => buildCertification(data, oldestFranceCompetenceDatePublication)).toThrow(ZodError);
+    expect(() => buildCertification(data, oldestFranceCompetenceDatePublication)).toThrow($ZodError);
   });
 });

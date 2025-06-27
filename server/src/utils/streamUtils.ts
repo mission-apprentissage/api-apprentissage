@@ -5,7 +5,8 @@ import type { AbstractCursor } from "mongodb";
 import { compose as _compose } from "oleoduc";
 import streamJson from "stream-json";
 import streamers from "stream-json/streamers/StreamArray.js";
-import type { z, ZodArray, ZodType, ZodTypeAny } from "zod";
+import { z } from "zod/v4-mini";
+import type { $ZodArray, $ZodType } from "zod/v4/core";
 
 type Options = {
   size: number;
@@ -84,7 +85,7 @@ export function createJsonLineTransformStream(): Transform {
   );
 }
 
-function createToJsonTransformStream<T extends ZodTypeAny>(schema: ZodArray<T, "many">): Transform {
+function createToJsonTransformStream<T extends $ZodType>(schema: $ZodArray<T>): Transform {
   let inited = false;
   return new Transform({
     writableObjectMode: true,
@@ -97,7 +98,7 @@ function createToJsonTransformStream<T extends ZodTypeAny>(schema: ZodArray<T, "
         } else {
           this.push(",\n");
         }
-        this.push(JSON.stringify(schema.element.parse(chunk)));
+        this.push(JSON.stringify(z.parse(schema._zod.def.element, chunk)));
         callback();
       } catch (error) {
         callback(error);
@@ -113,9 +114,9 @@ function createToJsonTransformStream<T extends ZodTypeAny>(schema: ZodArray<T, "
   });
 }
 
-export function createResponseStream<Z extends ZodType>(
+export function createResponseStream<Z extends $ZodType>(
   cursor: AbstractCursor<z.output<Z>>,
-  schema: ZodArray<Z>
+  schema: $ZodArray<Z>
 ): z.output<Z>[] {
   const transformStream = createToJsonTransformStream(schema);
 

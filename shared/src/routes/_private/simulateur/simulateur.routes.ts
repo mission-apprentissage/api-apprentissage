@@ -1,6 +1,6 @@
 import type { IApiRoutesDef } from "api-alternance-sdk";
 import { zRncp } from "api-alternance-sdk/internal";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 import { zSourceNpecNormalizedData } from "../../../models/source/npec/source.npec.normalized.model.js";
 import { zParisLocalDate } from "../../../zod/date.primitives.js";
@@ -29,16 +29,16 @@ export const zSimulateurRoutes = {
         date_signature: zParisLocalDate,
       }),
       response: {
-        200: z
-          .object({
+        200: z.nullable(
+          z.object({
             npec: zSourceNpecNormalizedData,
             metadata: z.object({
               title: z.string(),
               description: z.string(),
-              resource: z.string().url(),
+              resource: z.string().check(z.url()),
             }),
           })
-          .nullable(),
+        ),
       },
       securityScheme: null,
     },

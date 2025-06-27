@@ -1,4 +1,4 @@
-import type { z } from "zod";
+import type { z } from "zod/v4-mini";
 
 import cacheAdresseModelDescriptor from "./cache/cache.adresse.model.js";
 import cacheEntrepriseModelDescriptor from "./cache/cache.entreprise.model.js";

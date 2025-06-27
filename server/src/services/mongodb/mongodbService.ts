@@ -6,6 +6,8 @@ import type { CollectionName, IDocument, IModelDescriptor } from "shared/models/
 import { modelDescriptors } from "shared/models/models";
 import { zodToMongoSchema } from "zod-mongodb-schema";
 
+import { zParisLocalDate } from "api-alternance-sdk/internal";
+import type { $ZodType, JSONSchema } from "zod/v4/core";
 import config from "@/config.js";
 import logger from "@/services/logger.js";
 import { sleep } from "@/utils/asyncUtils.js";
@@ -148,7 +150,16 @@ export const configureDbSchemaValidation = async (modelDescriptors: IModelDescri
     modelDescriptors.map(async ({ collectionName, zod }) => {
       await createCollectionIfDoesNotExist(collectionName);
 
-      const convertedSchema = zodToMongoSchema(zod);
+      const convertedSchema = zodToMongoSchema(zod, (z: $ZodType): JSONSchema.Schema | null => {
+        if (z === zParisLocalDate) {
+          return {
+            type: "string",
+            format: "date-time",
+          };
+        }
+
+        return null;
+      });
 
       try {
         await db.command({

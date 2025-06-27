@@ -18,6 +18,7 @@ const communeSchema: SchemaObject = {
         },
       },
       required: ["insee", "postaux"],
+      additionalProperties: false,
     },
     anciennes: {
       type: "array",
@@ -28,6 +29,7 @@ const communeSchema: SchemaObject = {
           nom: { type: "string" },
         },
         required: ["codeInsee", "nom"],
+        additionalProperties: false,
       },
     },
     arrondissements: {
@@ -39,6 +41,7 @@ const communeSchema: SchemaObject = {
           nom: { type: "string" },
         },
         required: ["code", "nom"],
+        additionalProperties: false,
       },
     },
     region: {
@@ -48,6 +51,7 @@ const communeSchema: SchemaObject = {
         nom: { type: "string" },
       },
       required: ["codeInsee", "nom"],
+      additionalProperties: false,
     },
     departement: {
       type: "object",
@@ -56,6 +60,7 @@ const communeSchema: SchemaObject = {
         codeInsee: { type: "string" },
       },
       required: ["codeInsee", "nom"],
+      additionalProperties: false,
     },
     academie: {
       type: "object",
@@ -65,6 +70,7 @@ const communeSchema: SchemaObject = {
         nom: { type: "string" },
       },
       required: ["id", "code", "nom"],
+      additionalProperties: false,
     },
     localisation: {
       type: "object",
@@ -77,9 +83,10 @@ const communeSchema: SchemaObject = {
         },
       },
       required: ["centre", "bbox"],
+      additionalProperties: false,
     },
     mission_locale: {
-      oneOf: [{ type: "null" }, { $ref: "#/components/schemas/MissionLocale" }],
+      anyOf: [{ $ref: "#/components/schemas/MissionLocale" }, { type: "null" }],
     },
   },
   required: [
@@ -93,6 +100,7 @@ const communeSchema: SchemaObject = {
     "arrondissements",
     "anciennes",
   ],
+  additionalProperties: false,
 };
 
 export const communeModelOpenapi: OpenapiModel<"Commune"> = {

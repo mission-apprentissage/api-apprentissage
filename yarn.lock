@@ -22,33 +22,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@anatine/zod-mock@npm:^3.14.0":
-  version: 3.14.0
-  resolution: "@anatine/zod-mock@npm:3.14.0"
+"@apidevtools/json-schema-ref-parser@npm:^13.0.1":
+  version: 13.0.5
+  resolution: "@apidevtools/json-schema-ref-parser@npm:13.0.5"
   dependencies:
-    randexp: ^0.5.3
-  peerDependencies:
-    "@faker-js/faker": ^7.0.0 || ^8.0.0 || ^9.0.0
-    zod: ^3.21.4
-  checksum: 4b986016401eabf668cb9f6a6646df3ee707aa9739b1e922d2a30c5ec14d2d287d8e626256f1da543c59ff85bb30a723759ecedfc7ea85faf5b5268a70c6180d
-  languageName: node
-  linkType: hard
-
-"@apidevtools/swagger-methods@npm:^3.0.2":
-  version: 3.0.2
-  resolution: "@apidevtools/swagger-methods@npm:3.0.2"
-  checksum: d06b1ac5c1956613c4c6be695612ef860cd4e962b93a509ca551735a328a856cae1e33399cac1dcbf8333ba22b231746f3586074769ef0e172cf549ec9e7eaae
-  languageName: node
-  linkType: hard
-
-"@asteasolutions/zod-to-openapi@npm:^7.3.3":
-  version: 7.3.3
-  resolution: "@asteasolutions/zod-to-openapi@npm:7.3.3"
-  dependencies:
-    openapi3-ts: ^4.1.2
-  peerDependencies:
-    zod: ^3.20.2
-  checksum: ca951f84f3978c8c62c6fcb11868e514d9da0ea91a7d664d6f1c3ccafcd095482b2c2005aa77508ccca9e88464e8b785516ef166465c676761328dabdc33272e
+    "@types/json-schema": ^7.0.15
+    js-yaml: ^4.1.0
+  checksum: e501ad22a491d828937deed40fed38bdd40c25cc1f3c6544fa91306e9aa362928a727ef25c0237dc86269956aa6dc3b4addf7683b40685f82701d0bb09f96ad4
   languageName: node
   linkType: hard
 
@@ -829,13 +809,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@faker-js/faker@npm:^9.8.0":
-  version: 9.8.0
-  resolution: "@faker-js/faker@npm:9.8.0"
-  checksum: c5d44043205ad6a05eda294adb08470eed8a5e26f68ae91df6ad10848ed2cbe7dfeadf197452e39fadda06475a0e457e2a44b41b494a42d465b7533179fd121a
-  languageName: node
-  linkType: hard
-
 "@fast-csv/format@npm:4.3.5":
   version: 4.3.5
   resolution: "@fast-csv/format@npm:4.3.5"
@@ -910,13 +883,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fastify/cors@npm:^10.1.0":
-  version: 10.1.0
-  resolution: "@fastify/cors@npm:10.1.0"
+"@fastify/cors@npm:^11.0.1":
+  version: 11.0.1
+  resolution: "@fastify/cors@npm:11.0.1"
   dependencies:
     fastify-plugin: ^5.0.0
-    mnemonist: 0.40.0
-  checksum: 156eacb706e2224e6ed1cf32d946d03334b8e3f99cdb210ab2f7ff67e61ed1a74e5267ff7d53d5a831aff68a1dc6b5aa0d5d1ac4d0ca4e905fca568774ea8533
+    toad-cache: ^3.7.0
+  checksum: ef6d0f4b43d346cb439afa6e8de67cbe463704e1332b45be7a797e7d4db76667f2ec97a0d569905b872e8c3952a24d57fd64ec4834ff1cc1d3861d324ba4e6bf
   languageName: node
   linkType: hard
 
@@ -927,10 +900,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fastify/error@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "@fastify/error@npm:4.0.0"
-  checksum: b18f5b067cf27e7c53f51c98c630f673dd5c0ada4d587b55e8865307fdf2be0c3f0ae395e271b3fb7545dc3fb9ba9e102b8c84b41ba4de8952066397f18a44fc
+"@fastify/error@npm:^4.0.0, @fastify/error@npm:^4.1.0":
+  version: 4.2.0
+  resolution: "@fastify/error@npm:4.2.0"
+  checksum: 92b1b368bf100fd78786d212515f481670f8102ffbbb4d43a561c3e9841fa57ef2b6af3360cad6770440a5548a1ec20e6e48e1784d7d45794ae88a2458abe962
   languageName: node
   linkType: hard
 
@@ -1069,12 +1042,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hookform/resolvers@npm:^3.10.0":
-  version: 3.10.0
-  resolution: "@hookform/resolvers@npm:3.10.0"
+"@hookform/resolvers@npm:^5.1.1":
+  version: 5.1.1
+  resolution: "@hookform/resolvers@npm:5.1.1"
+  dependencies:
+    "@standard-schema/utils": ^0.3.0
   peerDependencies:
-    react-hook-form: ^7.0.0
-  checksum: e062f10bebff696a669fe37388f64f6b7c322eb524e99008c0e157e7adf68d2cee4d86fce1a7304a80d7f6fdd6d92facc37320a539cb195235a31a680415760c
+    react-hook-form: ^7.55.0
+  checksum: e6182147c400c7951dc3ac3eec7bf7518b5d6bbc90168b0d8b1190c30983ad31ad004cf7ae946af7ceb0339455eb699326edaef255d897819769e32ae99663d2
   languageName: node
   linkType: hard
 
@@ -1368,13 +1343,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jsdevtools/ono@npm:^7.1.3":
-  version: 7.1.3
-  resolution: "@jsdevtools/ono@npm:7.1.3"
-  checksum: 2297fcd472ba810bffe8519d2249171132844c7174f3a16634f9260761c8c78bc0428a4190b5b6d72d45673c13918ab9844d706c3ed4ef8f62ab11a2627a08ad
-  languageName: node
-  linkType: hard
-
 "@lukeed/ms@npm:^2.0.2":
   version: 2.0.2
   resolution: "@lukeed/ms@npm:2.0.2"
@@ -1398,6 +1366,19 @@ __metadata:
   dependencies:
     sparse-bitfield: ^3.0.3
   checksum: 6f13983e41c9fbd5273eeae9135e47e5b7a19125a63287bea69e33a618f8e034cfcf2258c77d0f5d6dcf386dfe2bb520bc01613afd1528c52f82c71172629242
+  languageName: node
+  linkType: hard
+
+"@moroine/fastify-type-provider-zod@npm:^5.1.0-moroine.3":
+  version: 5.1.0-moroine.3
+  resolution: "@moroine/fastify-type-provider-zod@npm:5.1.0-moroine.3"
+  dependencies:
+    "@fastify/error": ^4.1.0
+  peerDependencies:
+    "@fastify/swagger": ">=9.5.1"
+    fastify: ^5.0.0
+    zod: ">=3.25.56"
+  checksum: 29785af6b3f08a7374c99e95856d3268fb179f4ca77b6dd457423466914712beaf32140e84aba709dafc9a59cc3278dcdafbaee27a88537cda3f3f87316c43a7
   languageName: node
   linkType: hard
 
@@ -2509,7 +2490,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@readme/better-ajv-errors@npm:^2.0.0":
+"@readme/better-ajv-errors@npm:^2.3.2":
   version: 2.3.2
   resolution: "@readme/better-ajv-errors@npm:2.3.2"
   dependencies:
@@ -2525,33 +2506,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@readme/json-schema-ref-parser@npm:^1.2.0":
-  version: 1.2.1
-  resolution: "@readme/json-schema-ref-parser@npm:1.2.1"
+"@readme/openapi-parser@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "@readme/openapi-parser@npm:4.1.0"
   dependencies:
-    "@jsdevtools/ono": ^7.1.3
-    "@types/json-schema": ^7.0.12
-    call-me-maybe: ^1.0.1
-    js-yaml: ^4.1.0
-  checksum: c96c06da3ad60678cb4bed6ae9472ee9018d0407a78b4efb7c418c19ad2ee895a72fe228b29d771b0c8fd3cde1dfc3030f3777ca2e736e36b8db88c132725d4e
-  languageName: node
-  linkType: hard
-
-"@readme/openapi-parser@npm:^2.7.0":
-  version: 2.7.0
-  resolution: "@readme/openapi-parser@npm:2.7.0"
-  dependencies:
-    "@apidevtools/swagger-methods": ^3.0.2
-    "@jsdevtools/ono": ^7.1.3
-    "@readme/better-ajv-errors": ^2.0.0
-    "@readme/json-schema-ref-parser": ^1.2.0
+    "@apidevtools/json-schema-ref-parser": ^13.0.1
+    "@readme/better-ajv-errors": ^2.3.2
     "@readme/openapi-schemas": ^3.1.0
+    "@types/json-schema": ^7.0.15
     ajv: ^8.12.0
     ajv-draft-04: ^1.0.0
-    call-me-maybe: ^1.0.1
   peerDependencies:
     openapi-types: ">=7"
-  checksum: 81b7aa80f70f29ac9a27743ccea0cce885c1f561d3a59e678133f2e5615c592a8c84a29197e74fd0819a1f05f879f231d13e5ce9b24a629cf48fc7160f29c104
+  checksum: 0168ab891a870a58f5aa7c748b6c8f20650a3ba3d3b4712b28a13c973e26713c4c5f68bf7b52ae52fdedd20c6968d429c9c97ff1b3347d0b842e66ca34b173ba
   languageName: node
   linkType: hard
 
@@ -3176,6 +3143,13 @@ __metadata:
   peerDependencies:
     webpack: ">=4.40.0"
   checksum: 9da65db85df3c0df34c9d89ece0ff1d621a2e0fee67d0a72adb957b1fb311192a848324500528013d2756a278c0064296df100b5cd23667d3056c3cf777e580a
+  languageName: node
+  linkType: hard
+
+"@standard-schema/utils@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "@standard-schema/utils@npm:0.3.0"
+  checksum: 7084f875d322792f2e0a5904009434c8374b9345b09ba89828b68fd56fa3c2b366d35bf340d9e8c72736ef01793c2f70d350c372ed79845dc3566c58d34b4b51
   languageName: node
   linkType: hard
 
@@ -3898,7 +3872,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/json-schema@npm:^7.0.12, @types/json-schema@npm:^7.0.15, @types/json-schema@npm:^7.0.7":
+"@types/json-schema@npm:^7.0.15, @types/json-schema@npm:^7.0.7":
   version: 7.0.15
   resolution: "@types/json-schema@npm:7.0.15"
   checksum: 97ed0cb44d4070aecea772b7b2e2ed971e10c81ec87dd4ecc160322ffa55ff330dace1793489540e3e318d90942064bb697cc0f8989391797792d919737b3b98
@@ -4854,9 +4828,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "api-alternance-sdk@workspace:sdk"
   dependencies:
-    "@asteasolutions/zod-to-openapi": ^7.3.3
     "@fastify/swagger": ^9.5.1
-    "@readme/openapi-parser": ^2.7.0
+    "@readme/openapi-parser": ^4.1.0
     "@tsconfig/node22": ^22.0.2
     "@types/node": ^22.15.31
     jsonwebtoken: ^9.0.2
@@ -4870,7 +4843,7 @@ __metadata:
     type-fest: ^4.41.0
     typescript: ^5.8.3
     vitest: ^3.2.3
-    zod: ^3.25.64
+    zod: ^3.25.67
   languageName: unknown
   linkType: soft
 
@@ -5231,14 +5204,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.9.0":
-  version: 1.9.0
-  resolution: "axios@npm:1.9.0"
+"axios@npm:^1.10.0, axios@npm:^1.9.0":
+  version: 1.10.0
+  resolution: "axios@npm:1.10.0"
   dependencies:
     follow-redirects: ^1.15.6
     form-data: ^4.0.0
     proxy-from-env: ^1.1.0
-  checksum: 631f02c9c279f2ae90637a4989cc9d75c1c27aefd16b6e8eb90f98a4d0bddaccfd1cb1387be12101d1ab0f9bbf0c47e2451b4de0cf2870462a7d9ed3de8da3f2
+  checksum: b5fd840d499469bf968e44b8ac96f4b363c6aa4c791a50834c086a7cffbc2d77fe24f27af1aba46c3e1f4840aaf991461fc27537990596b93dea0f4df3245a86
   languageName: node
   linkType: hard
 
@@ -6319,12 +6292,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cron-parser@npm:^5.1.0":
-  version: 5.1.1
-  resolution: "cron-parser@npm:5.1.1"
+"cron-parser@npm:^5.3.0":
+  version: 5.3.0
+  resolution: "cron-parser@npm:5.3.0"
   dependencies:
     luxon: ^3.6.1
-  checksum: d8f629933b36f3dcb9237e80cfc548cfc7990fd839054188908e15271d67e84798ad40337c5e5688e036dced8e5b800530dacb0ad2d547c30eb4b7335af95438
+  checksum: 1d503657d71c2663f9370fed78db0e0aba5136e39e90a880a2118ffec664a67f4bbf0b7ed53f3ed42ef9f5958d9a2744798a328da0784ebd85093a647045d504
   languageName: node
   linkType: hard
 
@@ -8001,19 +7974,6 @@ __metadata:
   version: 5.0.1
   resolution: "fastify-plugin@npm:5.0.1"
   checksum: 2c207716fe02b00ce73449b102b890b434af21299fef35f37a34b491bd2f9ee1d95c753b11041ffbbe845411260cf4b547440bc2c3c3203ab4e2837825600961
-  languageName: node
-  linkType: hard
-
-"fastify-type-provider-zod@npm:^4.0.2":
-  version: 4.0.2
-  resolution: "fastify-type-provider-zod@npm:4.0.2"
-  dependencies:
-    "@fastify/error": ^4.0.0
-    zod-to-json-schema: ^3.23.3
-  peerDependencies:
-    fastify: ^5.0.0
-    zod: ^3.14.2
-  checksum: 9da4d86dcee88c318ca4699221c49a32a4fc7f5416136994d90399d4920da3208d8aebb370bb402f2be5f47faaf77f0861a96f9be610c4e07fb62a7d749be83a
   languageName: node
   linkType: hard
 
@@ -9850,22 +9810,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"job-processor@npm:^1.10.3":
-  version: 1.10.3
-  resolution: "job-processor@npm:1.10.3"
+"job-processor@npm:^2.0.0-next.1":
+  version: 2.0.0-next.1
+  resolution: "job-processor@npm:2.0.0-next.1"
   dependencies:
-    cron-parser: ^5.1.0
+    cron-parser: ^5.3.0
     date-fns: ^4.1.0
-    type-fest: ^4.39.0
+    type-fest: ^4.41.0
   peerDependencies:
-    "@codegouvfr/react-dsfr": ^1.9.11
-    "@mui/material": ^5.15.18
-    "@mui/x-data-grid": ^7.5.0
-    "@sentry/node": ^7.51.1 || ^8.0.0
+    "@codegouvfr/react-dsfr": ^1.25.3
+    "@mui/material": ^7.1.1
+    "@mui/x-data-grid": ^8.5.2
+    "@sentry/node": ^9.29.0
     mongodb: "*"
-    react: ^18.0.0 || ^19.0.0
-    zod: ^3.0.0
-    zod-mongodb-schema: ^1.0.0
+    react: ^19.1.0
+    zod: ^3.25.64
+    zod-mongodb-schema: ^2.0.0-next.1
   peerDependenciesMeta:
     "@codegouvfr/react-dsfr":
       optional: true
@@ -9875,7 +9835,7 @@ __metadata:
       optional: true
     react:
       optional: true
-  checksum: 1ec02b3fc8b159755cb7ae8c9119d9daff1e76912cb0e6d27286aee6bb036fc03ff3c82678c4e61061c8e095defd27cbeb134abe307e9016ab30bb04dc978d0b
+  checksum: a04300f98e2af7d99de7fc803291b25b5e300159995657930c26313b736c65948d5370158656a582b50f0d0de7693c2d0eb44a29584c6c7d376301fdc143706f
   languageName: node
   linkType: hard
 
@@ -10014,7 +9974,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"json-schema@npm:0.4.0, json-schema@npm:^0.4.0":
+"json-schema@npm:0.4.0":
   version: 0.4.0
   resolution: "json-schema@npm:0.4.0"
   checksum: 66389434c3469e698da0df2e7ac5a3281bcff75e797a5c127db7c5b56270e01ae13d9afa3c03344f76e32e81678337a8c912bdbb75101c62e487dc3778461d72
@@ -12141,15 +12101,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"mnemonist@npm:0.40.0":
-  version: 0.40.0
-  resolution: "mnemonist@npm:0.40.0"
-  dependencies:
-    obliterator: ^2.0.4
-  checksum: 8621717bc045736bd9a52cf558521c28480e43ee1d33a0464408c35e45772cfb4047874e6dcfe937c499a3e34ef3ad165e2922361e3233ba9f8ab250992fa8b3
-  languageName: node
-  linkType: hard
-
 "mobx-react-lite@npm:^4.0.7":
   version: 4.0.7
   resolution: "mobx-react-lite@npm:4.0.7"
@@ -12850,13 +12801,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"obliterator@npm:^2.0.4":
-  version: 2.0.5
-  resolution: "obliterator@npm:2.0.5"
-  checksum: 49575c428d66941326f265b8962bbce05c2a209c180e6ebf49d07e6d6cf2e6ab3f805289ad58aec49e74825344c97e790e5658b55e226a8cb4f57d866db3adf5
-  languageName: node
-  linkType: hard
-
 "obuf@npm:~1.1.2":
   version: 1.1.2
   resolution: "obuf@npm:1.1.2"
@@ -12953,7 +12897,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"openapi3-ts@npm:^4.1.2, openapi3-ts@npm:^4.4.0":
+"openapi3-ts@npm:^4.4.0":
   version: 4.4.0
   resolution: "openapi3-ts@npm:4.4.0"
   dependencies:
@@ -15104,17 +15048,16 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "server@workspace:server"
   dependencies:
-    "@anatine/zod-mock": ^3.14.0
-    "@faker-js/faker": ^9.8.0
     "@fastify/auth": ^5.0.2
     "@fastify/cookie": ^11.0.2
-    "@fastify/cors": ^10.1.0
+    "@fastify/cors": ^11.0.1
     "@fastify/multipart": ^9.0.3
     "@fastify/rate-limit": ^10.3.0
     "@fastify/swagger": ^9.5.1
     "@fastify/swagger-ui": ^5.2.3
     "@hapi/boom": ^10.0.1
-    "@readme/openapi-parser": ^2.7.0
+    "@moroine/fastify-type-provider-zod": ^5.1.0-moroine.3
+    "@readme/openapi-parser": ^4.1.0
     "@sentry/node": ^8.55.0
     "@sentry/profiling-node": ^8.55.0
     "@tsconfig/node22": ^22.0.2
@@ -15133,7 +15076,7 @@ __metadata:
     "@types/unzipper": ^0.10.11
     api-alternance-sdk: "workspace:^"
     archiver: ^7.0.1
-    axios: ^1.9.0
+    axios: ^1.10.0
     axios-cache-interceptor: ^1.8.0
     axios-retry: ^4.5.0
     commander: ^13.1.0
@@ -15145,8 +15088,7 @@ __metadata:
     env-var: ^7.5.0
     exceljs: ^4.4.0
     fastify: ^5.4.0
-    fastify-type-provider-zod: ^4.0.2
-    job-processor: ^1.10.3
+    job-processor: ^2.0.0-next.1
     jsonwebtoken: ^9.0.2
     lil-http-terminator: ^1.2.3
     lodash-es: ^4.17.21
@@ -15173,8 +15115,8 @@ __metadata:
     unique-names-generator: ^4.7.1
     unzipper: ^0.12.3
     vitest: ^3.2.3
-    zod: ^3.25.64
-    zod-mongodb-schema: ^1.0.2
+    zod: ^3.25.67
+    zod-mongodb-schema: ^2.0.0-next.5
   languageName: unknown
   linkType: soft
 
@@ -15259,15 +15201,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "shared@workspace:shared"
   dependencies:
-    "@asteasolutions/zod-to-openapi": ^7.3.3
     "@fastify/swagger": ^9.5.1
-    "@readme/openapi-parser": ^2.7.0
+    "@readme/openapi-parser": ^4.1.0
     "@tsconfig/node22": ^22.0.2
     "@types/luxon": ^3.6.2
     "@types/node": ^22.15.31
     api-alternance-sdk: "workspace:^"
     bson: ^6.10.4
-    job-processor: ^1.10.3
+    job-processor: ^2.0.0-next.1
     lodash-es: ^4.17.21
     luhn: ^2.4.1
     luxon: ^3.6.1
@@ -15278,8 +15219,8 @@ __metadata:
     type-fest: ^4.41.0
     typescript: ^5.8.3
     vitest: ^3.2.3
-    zod: ^3.25.64
-    zod-mongodb-schema: ^1.0.2
+    zod: ^3.25.67
+    zod-mongodb-schema: ^2.0.0-next.5
     zod-to-json-schema: ^3.24.5
   languageName: unknown
   linkType: soft
@@ -16798,7 +16739,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"type-fest@npm:^4.39.0, type-fest@npm:^4.41.0":
+"type-fest@npm:^4.41.0":
   version: 4.41.0
   resolution: "type-fest@npm:4.41.0"
   checksum: 7055c0e3eb188425d07403f1d5dc175ca4c4f093556f26871fe22041bc93d137d54bef5851afa320638ca1379106c594f5aa153caa654ac1a7f22c71588a4e80
@@ -16927,7 +16868,7 @@ __metadata:
     "@emotion/react": ^11.14.0
     "@emotion/server": ^11.11.0
     "@emotion/styled": ^11.14.0
-    "@hookform/resolvers": ^3.10.0
+    "@hookform/resolvers": ^5.1.1
     "@mui/material": ^6.4.12
     "@mui/material-nextjs": ^6.4.12
     "@mui/system": ^6.4.12
@@ -16949,7 +16890,7 @@ __metadata:
     dotenv: ^16.5.0
     i18next: ^24.2.3
     i18next-resources-to-backend: ^1.2.1
-    job-processor: ^1.10.3
+    job-processor: ^2.0.0-next.1
     jwt-decode: ^4.0.0
     match-sorter: ^8.0.2
     mobx: ^6.13.7
@@ -16973,7 +16914,7 @@ __metadata:
     type-fest: ^4.41.0
     typescript: ^5.8.3
     vitest: ^3.2.3
-    zod: ^3.25.64
+    zod: ^3.25.67
     zod-i18n-map: ^2.27.0
   languageName: unknown
   linkType: soft
@@ -17964,20 +17905,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod-mongodb-schema@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "zod-mongodb-schema@npm:1.0.2"
-  dependencies:
-    json-schema: ^0.4.0
-    zod-to-json-schema: ^3.21.4
+"zod-mongodb-schema@npm:^2.0.0-next.5":
+  version: 2.0.0-next.5
+  resolution: "zod-mongodb-schema@npm:2.0.0-next.5"
   peerDependencies:
-    bson: " ^5.0.0 || ^6.0.0"
-    zod: ^3.22.4
-  checksum: 63f872bfcfdaeb83061452e7137d7763a93b89a8f423a0dc2b5e904d295b7e7f3d204bec0691a0c344ef7cc1afb0a3d84a1508e66f472d16e3401f3db4f8d31f
+    bson: ^6.0.0
+    zod: ^3.25.64
+  checksum: 76e9967dbf82fd7eb00e117f12fc0379e33a31da3416ffd7663819086b9c1158978edc0eb256e56d86f400438386b063d5cd3ea08932755c4fd4aeae5bafb5f2
   languageName: node
   linkType: hard
 
-"zod-to-json-schema@npm:^3.21.4, zod-to-json-schema@npm:^3.23.3, zod-to-json-schema@npm:^3.24.5":
+"zod-to-json-schema@npm:^3.24.5":
   version: 3.24.5
   resolution: "zod-to-json-schema@npm:3.24.5"
   peerDependencies:
@@ -17986,10 +17924,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod@npm:^3.25.64":
-  version: 3.25.64
-  resolution: "zod@npm:3.25.64"
-  checksum: 9f0e86430ed52ef56930712485573454f9b8d64697e24e3139581489520993658d2dee5e939e9e820c1c720afa202fdca58a3ef096f8d91b0d04eb4285bc00ca
+"zod@npm:^3.25.67":
+  version: 3.25.67
+  resolution: "zod@npm:3.25.67"
+  checksum: 56ab904d33b1cd00041ce64ae05b0628fcbfeb7e707fa31cd498a97b540135e4dfe685200c9c62aea307695ee132870b4bc34f035228ea728aa75cc96a4954cb
   languageName: node
   linkType: hard
 

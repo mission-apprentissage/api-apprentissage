@@ -1,5 +1,5 @@
 import { zFormation } from "api-alternance-sdk";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 import type { IModelDescriptorGeneric } from "./common.js";
 import { zObjectId } from "./common.js";
@@ -15,7 +15,7 @@ const indexes: IModelDescriptorGeneric["indexes"] = [
   [{ "lieu.geolocalisation": "2dsphere", "statut.catalogue": 1 }, {}],
 ];
 
-export const zFormationInternal = zFormation.extend({
+export const zFormationInternal = z.extend(zFormation, {
   _id: zObjectId,
   created_at: z.date(),
   updated_at: z.date(),

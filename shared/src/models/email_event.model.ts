@@ -1,5 +1,5 @@
 import type { Jsonify } from "type-fest";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 import type { IModelDescriptorGeneric } from "./common.js";
 import { zObjectId } from "./common.js";
@@ -9,28 +9,23 @@ const collectionName = "email_events" as const;
 
 const indexes: IModelDescriptorGeneric["indexes"] = [[{ type: 1, messageId: 1 }, {}]];
 
-const zEmailError = z
-  .object({
-    type: z.enum(["fatal", "soft_bounce", "hard_bounce", "complaint", "invalid_email", "blocked", "error"]).optional(),
-    message: z.string().optional(),
-  })
-  .strict();
-
+const zEmailError = z.object({
+  type: z.optional(z.enum(["fatal", "soft_bounce", "hard_bounce", "complaint", "invalid_email", "blocked", "error"])),
+  message: z.optional(z.string()),
+});
 export type IEmailError = z.output<typeof zEmailError>;
 
-export const ZEmailEvent = z
-  .object({
-    _id: zObjectId,
-    email: z.string().describe("Addresse email"),
-    template: zTemplate,
-    created_at: z.date(),
-    updated_at: z.date(),
-    opened_at: z.date().nullable(),
-    delivered_at: z.date().nullable(),
-    messageId: z.string().nullable(),
-    errors: z.array(zEmailError),
-  })
-  .strict();
+export const ZEmailEvent = z.object({
+  _id: zObjectId,
+  email: z.string(),
+  template: zTemplate,
+  created_at: z.date(),
+  updated_at: z.date(),
+  opened_at: z.nullable(z.date()),
+  delivered_at: z.nullable(z.date()),
+  messageId: z.nullable(z.string()),
+  errors: z.array(zEmailError),
+});
 
 export type IEmailEvent = z.output<typeof ZEmailEvent>;
 export type IEventJsonJson = Jsonify<z.output<typeof ZEmailEvent>>;

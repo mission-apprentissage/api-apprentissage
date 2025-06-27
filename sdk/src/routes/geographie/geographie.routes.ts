@@ -1,40 +1,48 @@
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 import { zCommune } from "../../models/geographie/commune.model.js";
 import { zDepartement } from "../../models/geographie/departement.model.js";
 import { zMissionLocale } from "../../models/geographie/mission-locale.model.js";
 import type { IApiRoutesDef } from "../common.routes.js";
 
-const zCode = z.string().regex(/^\d{5}$/);
+const zCode = z.string().check(z.regex(/^\d{5}$/));
 
 const zMissionLocaleSearchApiQuery = z
   .object({
-    latitude: z.coerce
-      .number()
-      .min(-90, "Latitude doit être comprise entre -90 et 90")
-      .max(90, "Latitude doit être comprise entre -90 et 90")
-      .optional(),
-    longitude: z.coerce
-      .number()
-      .min(-180, "Longitude doit être comprise entre -180 et 180")
-      .max(180, "Longitude doit être comprise entre -180 et 180")
-      .optional(),
-    radius: z.coerce.number().min(0).max(200).default(30),
+    latitude: z.optional(
+      z.coerce
+        .number()
+        .check(
+          z.gte(-90, "Latitude doit être comprise entre -90 et 90"),
+          z.lte(90, "Latitude doit être comprise entre -90 et 90")
+        )
+    ),
+    longitude: z.optional(
+      z.coerce
+        .number()
+        .check(
+          z.gte(-180, "Longitude doit être comprise entre -180 et 180"),
+          z.lte(180, "Longitude doit être comprise entre -180 et 180")
+        )
+    ),
+    radius: z._default(z.coerce.number().check(z.gte(0), z.lte(200)), 30),
   })
-  .superRefine((data, ctx) => {
-    if (data.longitude == null && data.latitude != null) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+  .check((ctx) => {
+    if (ctx.value.longitude == null && ctx.value.latitude != null) {
+      ctx.issues.push({
+        code: "custom",
         path: ["longitude"],
         message: "La longitude est requise lorsque la latitude est fournie",
+        input: ctx.value,
       });
     }
 
-    if (data.longitude != null && data.latitude == null) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+    if (ctx.value.longitude != null && ctx.value.latitude == null) {
+      ctx.issues.push({
+        code: "custom",
         path: ["latitude"],
         message: "La latitude est requise lorsque la longitude est fournie",
+        input: ctx.value,
       });
     }
   });
@@ -50,7 +58,7 @@ export const zApiGeographieRoutes = {
         code: zCode,
       }),
       response: {
-        "200": zCommune.array(),
+        "200": z.array(zCommune),
       },
       securityScheme: {
         auth: "api-key",
@@ -62,7 +70,7 @@ export const zApiGeographieRoutes = {
       method: "get",
       path: "/geographie/v1/departement",
       response: {
-        "200": zDepartement.array(),
+        "200": z.array(zDepartement),
       },
       securityScheme: {
         auth: "api-key",

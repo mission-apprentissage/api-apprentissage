@@ -1,12 +1,12 @@
 import type { IApiRouteSchema, ISecuredRouteSchema, WithSecurityScheme } from "api-alternance-sdk";
 import { fastify } from "fastify";
-import type { ZodTypeProvider } from "fastify-type-provider-zod";
-import { serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
+import type { ZodTypeProvider } from "@moroine/fastify-type-provider-zod";
+import { serializerCompiler, validatorCompiler } from "@moroine/fastify-type-provider-zod";
 import { ObjectId } from "mongodb";
 import { generateUserFixture } from "shared/models/fixtures/index";
 import type { IUser } from "shared/models/user.model";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 import { apiKeyUsageMiddleware } from "./apiKeyUsageMiddleware.js";
 import { auth } from "./authMiddleware.js";

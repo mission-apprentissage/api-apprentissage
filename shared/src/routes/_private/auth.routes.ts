@@ -1,14 +1,14 @@
 import type { IApiRoutesDef } from "api-alternance-sdk";
 import { zOrganisation } from "api-alternance-sdk";
 import type { Jsonify } from "type-fest";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 import { zUser, zUserPublic } from "../../models/user.model.js";
 import { ZReqHeadersAuthorization, ZResOk } from "../common.routes.js";
 
 const zSession = z.object({
   user: zUserPublic,
-  organisation: zOrganisation.nullable(),
+  organisation: z.nullable(zOrganisation),
 });
 
 export type ISession = z.output<typeof zSession>;
@@ -42,11 +42,9 @@ export const zAuthRoutes = {
     "/_private/auth/register-feedback": {
       method: "post",
       path: "/_private/auth/register-feedback",
-      body: z
-        .object({
-          comment: z.string(),
-        })
-        .strict(),
+      body: z.object({
+        comment: z.string(),
+      }),
       response: {
         "200": z.object({ success: z.literal(true) }),
       },
@@ -59,17 +57,17 @@ export const zAuthRoutes = {
     "/_private/auth/register": {
       method: "post",
       path: "/_private/auth/register",
-      body: zUser
-        .pick({
+      body: z.extend(
+        z.pick(zUser, {
           type: true,
           activite: true,
           objectif: true,
           cas_usage: true,
-        })
-        .extend({
+        }),
+        {
           cgu: z.literal(true),
-        })
-        .strict(),
+        }
+      ),
       response: {
         "200": zSession,
       },
@@ -82,11 +80,9 @@ export const zAuthRoutes = {
     "/_private/auth/login-request": {
       method: "post",
       path: "/_private/auth/login-request",
-      body: z
-        .object({
-          email: zUser.shape.email,
-        })
-        .strict(),
+      body: z.object({
+        email: zUser.shape.email,
+      }),
       response: {
         "200": z.object({
           success: z.literal(true),

@@ -15,6 +15,8 @@ export const organismeModelOpenapi: OpenapiModel<"Organisme"> = {
             email: {
               type: "string",
               format: "email",
+              pattern:
+                "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
             },
             sources: {
               type: "array",
@@ -27,63 +29,54 @@ export const organismeModelOpenapi: OpenapiModel<"Organisme"> = {
             },
           },
           required: ["email", "sources", "confirmation_referentiel"],
+          additionalProperties: false,
         },
       },
       etablissement: {
         properties: {
           adresse: {
-            oneOf: [{ $ref: "#/components/schemas/Adresse" }, { type: "null" }],
+            anyOf: [{ $ref: "#/components/schemas/Adresse" }, { type: "null" }],
           },
           geopoint: {
-            oneOf: [{ $ref: "#/components/schemas/GeoJsonPoint" }, { type: "null" }],
+            anyOf: [{ $ref: "#/components/schemas/GeoJsonPoint" }, { type: "null" }],
           },
           creation: {
             format: "date-time",
             type: "string",
           },
-          enseigne: {
-            type: ["string", "null"],
-          },
-          fermeture: {
-            format: "date-time",
-            type: ["string", "null"],
-          },
+          enseigne: { anyOf: [{ type: "string", minLength: 1 }, { type: "null" }] },
+          fermeture: { anyOf: [{ type: "string", format: "date-time" }, { type: "null" }] },
           ouvert: {
             type: "boolean",
           },
           siret: {
-            pattern: "^\\d{9,14}$",
+            pattern: "^\\d{14}$",
             type: "string",
           },
         },
         required: ["adresse", "geopoint", "creation", "enseigne", "fermeture", "ouvert", "siret"],
         type: "object",
+        additionalProperties: false,
       },
       identifiant: {
         properties: {
-          siret: {
-            pattern: "^\\d{9,14}$",
-            type: "string",
-          },
-          uai: {
-            pattern: "^\\d{1,7}[A-Z]$",
-            type: ["string", "null"],
-          },
+          siret: { type: "string", pattern: "^\\d{14}$" },
+          uai: { anyOf: [{ type: "string", pattern: "^\\d{7}[A-Z]$" }, { type: "null" }] },
         },
         required: ["siret", "uai"],
         type: "object",
+        additionalProperties: false,
       },
       renseignements_specifiques: {
         properties: {
-          numero_activite: {
-            type: ["string", "null"],
-          },
+          numero_activite: { anyOf: [{ type: "string" }, { type: "null" }] },
           qualiopi: {
             type: "boolean",
           },
         },
         required: ["numero_activite", "qualiopi"],
         type: "object",
+        additionalProperties: false,
       },
       statut: {
         properties: {
@@ -94,6 +87,7 @@ export const organismeModelOpenapi: OpenapiModel<"Organisme"> = {
         },
         required: ["referentiel"],
         type: "object",
+        additionalProperties: false,
       },
       unite_legale: {
         properties: {
@@ -101,13 +95,9 @@ export const organismeModelOpenapi: OpenapiModel<"Organisme"> = {
             type: "boolean",
           },
           cessation: {
-            format: "date-time",
-            type: ["string", "null"],
+            anyOf: [{ type: "string", format: "date-time" }, { type: "null" }],
           },
-          creation: {
-            format: "date-time",
-            type: "string",
-          },
+          creation: { type: "string", format: "date-time" },
           raison_sociale: {
             type: "string",
           },
@@ -117,9 +107,11 @@ export const organismeModelOpenapi: OpenapiModel<"Organisme"> = {
         },
         required: ["actif", "cessation", "creation", "raison_sociale", "siren"],
         type: "object",
+        additionalProperties: false,
       },
     },
-    required: ["etablissement", "identifiant", "renseignements_specifiques", "statut", "unite_legale"],
+    required: ["contacts", "etablissement", "identifiant", "renseignements_specifiques", "statut", "unite_legale"],
+    additionalProperties: false,
   },
   doc: organismeModelDoc,
   zod: zOrganisme,

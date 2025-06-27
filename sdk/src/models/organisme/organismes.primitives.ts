@@ -1,5 +1,5 @@
 import luhn from "luhn";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 export const validateSIRET = (siret: string): boolean => {
   if (!siret) {
@@ -54,29 +54,37 @@ const ALPHABET_23_LETTERS = [
 ];
 
 // https://blog.juliendelmas.fr/?qu-est-ce-que-le-code-rne-ou-uai
-export const zUai = z
-  .string()
-  .toUpperCase()
-  .regex(/^\d{1,7}[A-Z]$/, "UAI does not match the format /^\\d{1,7}[A-Z]$/")
-  .transform((value) => value.padStart(8, "0"))
-  .refine(
-    (value) => {
-      const [uai, checksum] = [value.slice(0, -1), value.slice(-1)];
-      const uaiValue = parseInt(uai, 10);
+export const zUai = z.pipe(
+  z
+    .pipe(
+      z.string().check(z.toUpperCase(), z.regex(/^\d{1,7}[A-Z]$/, "UAI does not match the format /^\\d{1,7}[A-Z]$/")),
+      z.transform((value) => value.padStart(8, "0"))
+    )
+    .check(
+      z.refine((value) => {
+        const [uai, checksum] = [value.slice(0, -1), value.slice(-1)];
+        const uaiValue = parseInt(uai, 10);
 
-      if (isNaN(uaiValue)) {
-        return false;
-      }
+        if (isNaN(uaiValue)) {
+          return false;
+        }
 
-      const expectedChecksum = ALPHABET_23_LETTERS[uaiValue % 23];
+        const expectedChecksum = ALPHABET_23_LETTERS[uaiValue % 23];
 
-      return checksum === expectedChecksum;
-    },
-    { message: "UAI checksum is invalid" }
-  );
+        return checksum === expectedChecksum;
+      }, "UAI checksum is invalid")
+    ),
+  // Defines the `output` type of the zod (helps with type inference and schema generation)
+  z.string().check(z.regex(/^\d{7}[A-Z]$/, "UAI does not match the format /^\\d{7}[A-Z]$/"))
+);
 
-export const zSiret = z
-  .string()
-  .regex(/^\d{9,14}$/, "SIRET does not match the format /^\\d{14}$/")
-  .transform((value) => value.padStart(14, "0"))
-  .refine(validateSIRET, { message: "SIRET does not pass the Luhn algorithm" });
+export const zSiret = z.pipe(
+  z
+    .pipe(
+      z.string().check(z.regex(/^\d{9,14}$/, "SIRET does not match the format /^\\d{14}$/")),
+      z.transform((value) => value.padStart(14, "0"))
+    )
+    .check(z.refine(validateSIRET, "SIRET does not pass the Luhn algorithm")),
+  // Defines the `output` type of the zod (helps with type inference and schema generation)
+  z.string().check(z.regex(/^\d{14}$/, "SIRET does not match the format /^\\d{14}$/"))
+);

@@ -12,6 +12,7 @@ import type {
 } from "shared/models/source/npec/source.npec.normalized.model";
 import { zSourceNpecNormalizedFlatData } from "shared/models/source/npec/source.npec.normalized.model";
 
+import { z } from "zod/v4-mini";
 import { getNpecFilename } from "@/jobs/importer/npec/scraper/npec.scraper.js";
 import { withCause } from "@/services/errors/withCause.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
@@ -110,7 +111,7 @@ function normalizeNpecDocument(
       .split("/")
       .filter(Boolean)
       .map((rncp) => {
-        return zSourceNpecNormalizedFlatData.omit({ _id: true }).parse({
+        return z.parse(z.omit(zSourceNpecNormalizedFlatData, { _id: true }), {
           rncp: normaliseRncpCode(rncp),
           cpne_code,
           cpne_libelle,

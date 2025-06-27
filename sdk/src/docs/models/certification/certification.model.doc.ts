@@ -28,7 +28,7 @@ export const certificationModelDoc = {
             { en: null, fr: "Notes:" },
             { en: null, fr: identifiantCfdNotes },
           ],
-          examples: ["50022137"],
+          anyOf: [{ descriptions: null, examples: ["50022137"] }, { descriptions: null }],
         },
         rncp: {
           descriptions: [
@@ -39,7 +39,7 @@ export const certificationModelDoc = {
             { en: null, fr: "Notes:" },
             { en: null, fr: identifiantRncpNotes },
           ],
-          examples: ["RNCP37537"],
+          anyOf: [{ descriptions: null, examples: ["RNCP37537"] }, { descriptions: null }],
         },
         rncp_anterieur_2019: {
           descriptions: [
@@ -50,6 +50,7 @@ export const certificationModelDoc = {
             { en: null, fr: "Notes:" },
             { en: null, fr: identiantRncpAnterieur2019Notes },
           ],
+          anyOf: [{ descriptions: null }, { descriptions: null }],
         },
       },
     },
@@ -76,6 +77,7 @@ export const certificationModelDoc = {
             },
           ],
           examples: ["2021-09-01T00:00:00.000+02:00", "2022-01-01T00:00:00.000+01:00"],
+          anyOf: [{ descriptions: null }, { descriptions: null }],
         },
         fin: {
           descriptions: [
@@ -85,86 +87,114 @@ export const certificationModelDoc = {
             },
           ],
           examples: ["2022-08-31T23:59:59.000+02:00", "2022-12-31T23:59:59.000+01:00"],
+          anyOf: [{ descriptions: null }, { descriptions: null }],
         },
         cfd: {
           descriptions: [{ en: null, fr: "- `null` lorsque le champs `identifiant.cfd` est `null`." }],
-          properties: {
-            ouverture: {
-              descriptions: [
-                { en: null, fr: "Date d'ouverture du diplôme." },
-                { en: null, fr: "Notes:" },
-                {
-                  en: null,
-                  fr: "- La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '00:00:00' sur le fuseau horaire 'Europe/Paris'.",
+          anyOf: [
+            {
+              descriptions: null,
+              properties: {
+                ouverture: {
+                  descriptions: [
+                    { en: null, fr: "Date d'ouverture du diplôme." },
+                    { en: null, fr: "Notes:" },
+                    {
+                      en: null,
+                      fr: "- La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '00:00:00' sur le fuseau horaire 'Europe/Paris'.",
+                    },
+                  ],
+                  anyOf: [
+                    {
+                      descriptions: null,
+                      examples: ["2021-09-01T00:00:00.000+02:00", "2022-01-01T00:00:00.000+01:00"],
+                    },
+                    { descriptions: null },
+                  ],
                 },
-              ],
-              examples: ["2021-09-01T00:00:00.000+02:00", "2022-01-01T00:00:00.000+01:00"],
-            },
-            fermeture: {
-              descriptions: [
-                { en: null, fr: "Date de fermeture du diplôme." },
-                { en: null, fr: "Notes:" },
-                {
-                  en: null,
-                  fr: "- La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.",
+                fermeture: {
+                  descriptions: [
+                    { en: null, fr: "Date de fermeture du diplôme." },
+                    { en: null, fr: "Notes:" },
+                    {
+                      en: null,
+                      fr: "- La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.",
+                    },
+                  ],
+                  anyOf: [
+                    {
+                      descriptions: null,
+                      examples: ["2022-08-31T23:59:59.000+02:00", "2022-12-31T23:59:59.000+01:00"],
+                    },
+                    { descriptions: null },
+                  ],
                 },
-              ],
-              examples: ["2022-08-31T23:59:59.000+02:00", "2022-12-31T23:59:59.000+01:00"],
+                premiere_session: {
+                  descriptions: [{ en: null, fr: "Année de sortie des premiers diplômés." }],
+                  anyOf: [{ descriptions: null, examples: [2022] }, { descriptions: null }],
+                },
+                derniere_session: {
+                  descriptions: [{ en: null, fr: "Année de sortie des derniers diplômés." }],
+                  anyOf: [{ descriptions: null, examples: [2025] }, { descriptions: null }],
+                },
+              },
             },
-            premiere_session: {
-              descriptions: [{ en: null, fr: "Année de sortie des premiers diplômés." }],
-              examples: [2022],
-            },
-            derniere_session: {
-              descriptions: [{ en: null, fr: "Année de sortie des derniers diplômés." }],
-              examples: [2025],
-            },
-          },
+            { descriptions: null },
+          ],
         },
         rncp: {
           descriptions: [{ en: null, fr: "- `null` lorsque le champs `identifiant.rncp` est `null`." }],
-          properties: {
-            actif: {
-              descriptions: [
-                {
-                  en: null,
-                  fr: "Lorsque la fiche est active, les inscriptions à la formation sont ouvertes, à l’inverse, lorsque la fiche est inactive, les inscriptions sont fermées.",
+          anyOf: [
+            {
+              descriptions: null,
+              properties: {
+                actif: {
+                  descriptions: [
+                    {
+                      en: null,
+                      fr: "Lorsque la fiche est active, les inscriptions à la formation sont ouvertes, à l’inverse, lorsque la fiche est inactive, les inscriptions sont fermées.",
+                    },
+                  ],
                 },
-              ],
-            },
-            activation: {
-              descriptions: [
-                { en: null, fr: "Date à laquelle la fiche RNCP est passée au statut `actif`." },
-                { en: null, fr: "Notes:" },
-                { en: null, fr: periodeValiditeRncpActivationNotes },
-              ],
-              examples: ["2021-09-01T00:00:00.000+02:00", "2022-01-01T00:00:00.000+01:00"],
-            },
-            debut_parcours: {
-              descriptions: [
-                {
-                  en: null,
-                  fr: "Date de début des parcours certifiants. Anciennement appelée 'date d'effet' pour les enregistrements de droit et correspondant à la date de décision pour les enregistrements sur demande.",
+                activation: {
+                  descriptions: [
+                    { en: null, fr: "Date à laquelle la fiche RNCP est passée au statut `actif`." },
+                    { en: null, fr: "Notes:" },
+                    { en: null, fr: periodeValiditeRncpActivationNotes },
+                  ],
+                  examples: ["2021-09-01T00:00:00.000+02:00", "2022-01-01T00:00:00.000+01:00"],
+                  anyOf: [{ descriptions: null }, { descriptions: null }],
                 },
-                { en: null, fr: "Notes:" },
-                {
-                  en: null,
-                  fr: "La date est retournée au format ISO 8601 avec le fuseau horaire Europe/Paris.",
+                debut_parcours: {
+                  descriptions: [
+                    {
+                      en: null,
+                      fr: "Date de début des parcours certifiants. Anciennement appelée 'date d'effet' pour les enregistrements de droit et correspondant à la date de décision pour les enregistrements sur demande.",
+                    },
+                    { en: null, fr: "Notes:" },
+                    {
+                      en: null,
+                      fr: "La date est retournée au format ISO 8601 avec le fuseau horaire Europe/Paris.",
+                    },
+                  ],
+                  anyOf: [{ descriptions: null }, { descriptions: null }],
                 },
-              ],
-            },
-            fin_enregistrement: {
-              descriptions: [
-                { en: null, fr: "Date de fin d’enregistrement d’une fiche au RNCP." },
-                { en: null, fr: "Notes:" },
-                {
-                  en: null,
-                  fr: "- France Compétence fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.",
+                fin_enregistrement: {
+                  descriptions: [
+                    { en: null, fr: "Date de fin d’enregistrement d’une fiche au RNCP." },
+                    { en: null, fr: "Notes:" },
+                    {
+                      en: null,
+                      fr: "- France Compétence fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.",
+                    },
+                  ],
+                  examples: ["2021-09-01T00:00:00.000+02:00", "2022-01-01T00:00:00.000+01:00"],
+                  anyOf: [{ descriptions: null }, { descriptions: null }],
                 },
-              ],
-              examples: ["2021-09-01T00:00:00.000+02:00", "2022-01-01T00:00:00.000+01:00"],
+              },
             },
-          },
+            { descriptions: null },
+          ],
         },
       },
     },
@@ -180,16 +210,22 @@ export const certificationModelDoc = {
             { en: null, fr: "Notes:" },
             { en: null, fr: "- `null` lorsque le champs `identifiant.cfd` est `null`." },
           ],
-          properties: {
-            court: {
-              descriptions: [{ en: null, fr: "**Intitulé court du diplôme.**" }],
-              examples: ["BOULANGER", "GENIE BIO - AGRONOMIE"],
+          anyOf: [
+            {
+              descriptions: null,
+              properties: {
+                court: {
+                  descriptions: [{ en: null, fr: "**Intitulé court du diplôme.**" }],
+                  examples: ["BOULANGER", "GENIE BIO - AGRONOMIE"],
+                },
+                long: {
+                  descriptions: [{ en: null, fr: "**Intitulé long du diplôme.**" }],
+                  examples: ["BOULANGER (CAP)", "GENIE BIOLOGIQUE OPTION AGRONOMIE (DUT)"],
+                },
+              },
             },
-            long: {
-              descriptions: [{ en: null, fr: "**Intitulé long du diplôme.**" }],
-              examples: ["BOULANGER (CAP)", "GENIE BIOLOGIQUE OPTION AGRONOMIE (DUT)"],
-            },
-          },
+            { descriptions: null },
+          ],
         },
         rncp: {
           descriptions: [
@@ -197,7 +233,7 @@ export const certificationModelDoc = {
             { en: null, fr: "Notes:" },
             { en: null, fr: "- `null` lorsque le champs `identifiant.rncp` est `null`." },
           ],
-          examples: ["Boulanger"],
+          anyOf: [{ descriptions: null, examples: ["Boulanger"] }, { descriptions: null }],
         },
         niveau: {
           descriptions: [{ en: null, fr: "Niveau de qualification de la certification professionnelle" }],
@@ -211,49 +247,58 @@ export const certificationModelDoc = {
                 { en: null, fr: "Notes:" },
                 { en: null, fr: "- `null` lorsque le champs `identifiant.cfd` est `null`." },
               ],
-              properties: {
-                sigle: {
+              anyOf: [
+                {
                   descriptions: null,
-                  examples: ["CAP", "DUT", "BTS", "CPGE"],
-                },
-                europeen: {
-                  descriptions: [
-                    {
-                      en: null,
-                      fr: "Niveau de qualification de la certification (de 1 à 8) utilisés dans les référentiels nationaux européens.",
+                  properties: {
+                    sigle: {
+                      descriptions: null,
+                      examples: ["CAP", "DUT", "BTS", "CPGE"],
                     },
-                    { en: null, fr: "Notes:" },
-                    { en: null, fr: intituleNiveauCfdEuropeenNotes },
-                  ],
-                  examples: ["3", "5"],
-                },
-                formation_diplome: {
-                  descriptions: [
-                    {
-                      en: null,
-                      fr: "Code à 3 caractères qui renseigne sur le niveau du diplôme suivant le référentiel de l'Éducation Nationale.",
+                    europeen: {
+                      descriptions: [
+                        {
+                          en: null,
+                          fr: "Niveau de qualification de la certification (de 1 à 8) utilisés dans les référentiels nationaux européens.",
+                        },
+                        { en: null, fr: "Notes:" },
+                        { en: null, fr: intituleNiveauCfdEuropeenNotes },
+                      ],
+                      anyOf: [{ descriptions: null, examples: ["3", "5"] }, { descriptions: null }],
                     },
-                    { en: null, fr: "Notes:" },
-                    { en: null, fr: "- correspond aux 3 premiers caractères du code CFD." },
-                  ],
-                  examples: ["500", "370"],
-                },
-                libelle: {
-                  descriptions: null,
-                  examples: ["CLASSE PREPA", "TITRE PROFESSIONNEL HOMOLOGUE OU CERTIFIE"],
-                },
-                interministeriel: {
-                  descriptions: [
-                    {
-                      en: null,
-                      fr: "code interministériel du niveau de la formation suivant le référentiel de l'Éducation Nationale.",
+                    formation_diplome: {
+                      descriptions: [
+                        {
+                          en: null,
+                          fr: "Code à 3 caractères qui renseigne sur le niveau du diplôme suivant le référentiel de l'Éducation Nationale.",
+                        },
+                        { en: null, fr: "Notes:" },
+                        { en: null, fr: "- correspond aux 3 premiers caractères du code CFD." },
+                      ],
+                      examples: ["500", "370"],
                     },
-                    { en: null, fr: "Notes:" },
-                    { en: null, fr: "- correspond au premier caractère du code CFD, sauf pour le CFD `01321401`" },
-                  ],
-                  examples: ["3", "6"],
+                    libelle: {
+                      descriptions: null,
+                      anyOf: [
+                        { descriptions: null, examples: ["CLASSE PREPA", "TITRE PROFESSIONNEL HOMOLOGUE OU CERTIFIE"] },
+                        { descriptions: null },
+                      ],
+                    },
+                    interministeriel: {
+                      descriptions: [
+                        {
+                          en: null,
+                          fr: "code interministériel du niveau de la formation suivant le référentiel de l'Éducation Nationale.",
+                        },
+                        { en: null, fr: "Notes:" },
+                        { en: null, fr: "- correspond au premier caractère du code CFD, sauf pour le CFD `01321401`" },
+                      ],
+                      examples: ["3", "6"],
+                    },
+                  },
                 },
-              },
+                { descriptions: null },
+              ],
             },
             rncp: {
               descriptions: [
@@ -261,22 +306,28 @@ export const certificationModelDoc = {
                 { en: null, fr: "Notes:" },
                 { en: null, fr: "- `null` lorsque le champs `identifiant.rncp` est `null`." },
               ],
-              properties: {
-                europeen: {
-                  descriptions: [
-                    {
-                      en: null,
-                      fr: "Niveau de qualification de la certification (de 1 à 8) utilisés dans les référentiels nationaux européens.",
+              anyOf: [
+                {
+                  descriptions: null,
+                  properties: {
+                    europeen: {
+                      descriptions: [
+                        {
+                          en: null,
+                          fr: "Niveau de qualification de la certification (de 1 à 8) utilisés dans les référentiels nationaux européens.",
+                        },
+                        { en: null, fr: "Notes:" },
+                        {
+                          en: null,
+                          fr: "- `null` lorsque le niveau de diplôme n'a pas de correspondance avec les niveaux européens.",
+                        },
+                      ],
+                      anyOf: [{ descriptions: null, examples: ["3"] }, { descriptions: null }],
                     },
-                    { en: null, fr: "Notes:" },
-                    {
-                      en: null,
-                      fr: "- `null` lorsque le niveau de diplôme n'a pas de correspondance avec les niveaux européens.",
-                    },
-                  ],
-                  examples: ["3"],
+                  },
                 },
-              },
+                { descriptions: null },
+              ],
             },
           },
         },
@@ -294,117 +345,153 @@ export const certificationModelDoc = {
             { en: null, fr: "Notes:" },
             { en: null, fr: continuiteDescCfdNotes },
           ],
-          items: {
-            descriptions: null,
-            properties: {
-              ouverture: {
-                descriptions: [
-                  {
-                    en: null,
-                    fr: "Date d'ouverture du diplôme.",
-                  },
-                  {
-                    en: null,
-                    fr: "Notes:",
-                  },
-                  {
-                    en: null,
-                    fr: "- La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '00:00:00' sur le fuseau horaire 'Europe/Paris'.",
-                  },
-                ],
-                examples: ["2021-09-01T00:00:00.000+02:00", "2022-01-01T00:00:00.000+01:00"],
-              },
-              fermeture: {
-                descriptions: [
-                  {
-                    en: null,
-                    fr: "Date de fermeture du diplôme.",
-                  },
-                  {
-                    en: null,
-                    fr: "Notes:",
-                  },
-                  {
-                    en: null,
-                    fr: "- La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.",
-                  },
-                ],
-                examples: ["2022-08-31T23:59:59.000+02:00", "2022-12-31T23:59:59.000+01:00"],
-              },
-              code: {
+          anyOf: [
+            {
+              descriptions: null,
+              items: {
                 descriptions: null,
-              },
-              courant: {
-                descriptions: [
-                  {
-                    en: null,
-                    fr: "Indique si le diplôme correspond au diplôme courant, i.e `identifiant.cfd` est égal au `code`.",
+                properties: {
+                  ouverture: {
+                    descriptions: [
+                      {
+                        en: null,
+                        fr: "Date d'ouverture du diplôme.",
+                      },
+                      {
+                        en: null,
+                        fr: "Notes:",
+                      },
+                      {
+                        en: null,
+                        fr: "- La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '00:00:00' sur le fuseau horaire 'Europe/Paris'.",
+                      },
+                    ],
+                    anyOf: [
+                      {
+                        descriptions: null,
+                        examples: ["2021-09-01T00:00:00.000+02:00", "2022-01-01T00:00:00.000+01:00"],
+                      },
+                      { descriptions: null },
+                    ],
                   },
-                ],
+                  fermeture: {
+                    descriptions: [
+                      {
+                        en: null,
+                        fr: "Date de fermeture du diplôme.",
+                      },
+                      {
+                        en: null,
+                        fr: "Notes:",
+                      },
+                      {
+                        en: null,
+                        fr: "- La base centrale des nomenclatures (BCN) fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.",
+                      },
+                    ],
+                    anyOf: [
+                      {
+                        descriptions: null,
+                        examples: ["2022-08-31T23:59:59.000+02:00", "2022-12-31T23:59:59.000+01:00"],
+                      },
+                      { descriptions: null },
+                    ],
+                  },
+                  code: {
+                    descriptions: null,
+                  },
+                  courant: {
+                    descriptions: [
+                      {
+                        en: null,
+                        fr: "Indique si le diplôme correspond au diplôme courant, i.e `identifiant.cfd` est égal au `code`.",
+                      },
+                    ],
+                  },
+                },
               },
             },
-          },
+            { descriptions: null },
+          ],
         },
         rncp: {
           descriptions: [{ en: null, fr: continuiteRncpNotes }],
-          items: {
-            descriptions: null,
-            properties: {
-              activation: {
-                descriptions: [
-                  {
-                    en: null,
-                    fr: "Date à laquelle la fiche RNCP est passée au statut `actif`.",
-                  },
-                  {
-                    en: null,
-                    fr: "Notes:",
-                  },
-                  {
-                    en: null,
-                    fr: "- La couverture de ce champ est partiel car nous ne sommes pas en mesure pour le moment de récupérer les dates d'activation antérieures au 24 décembre 2021.\n\n- France Compétence ne fournie pas l'information, nous le déduisons de la date de premiere apparation de la fiche RNCP avec le statut `actif`.",
-                  },
-                ],
-                examples: ["2021-09-01T00:00:00.000+02:00", "2022-01-01T00:00:00.000+01:00"],
-              },
-              fin_enregistrement: {
-                descriptions: [
-                  {
-                    en: null,
-                    fr: "Date de fin d’enregistrement d’une fiche au RNCP.",
-                  },
-                  {
-                    en: null,
-                    fr: "Notes:",
-                  },
-                  {
-                    en: null,
-                    fr: "- France Compétence fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.",
-                  },
-                ],
-                examples: ["2021-09-01T00:00:00.000+02:00", "2022-01-01T00:00:00.000+01:00"],
-              },
-              code: {
-                descriptions: [
-                  {
-                    en: null,
-                    fr: "Indique si la fiche correspond à la fiche courante, i.e `identifiant.rncp` est égal au `code`.",
-                  },
-                ],
-              },
-              courant: {
+          anyOf: [
+            {
+              descriptions: null,
+              items: {
                 descriptions: null,
-              },
-              actif: {
-                descriptions: [
-                  {
-                    en: null,
-                    fr: "Lorsque la fiche est active, les inscriptions à la formation sont ouvertes, à l’inverse, lorsque la fiche est inactive, les inscriptions sont fermées.",
+                properties: {
+                  activation: {
+                    descriptions: [
+                      {
+                        en: null,
+                        fr: "Date à laquelle la fiche RNCP est passée au statut `actif`.",
+                      },
+                      {
+                        en: null,
+                        fr: "Notes:",
+                      },
+                      {
+                        en: null,
+                        fr: "- La couverture de ce champ est partiel car nous ne sommes pas en mesure pour le moment de récupérer les dates d'activation antérieures au 24 décembre 2021.\n\n- France Compétence ne fournie pas l'information, nous le déduisons de la date de premiere apparation de la fiche RNCP avec le statut `actif`.",
+                      },
+                    ],
+                    anyOf: [
+                      {
+                        descriptions: null,
+                        examples: ["2021-09-01T00:00:00.000+02:00", "2022-01-01T00:00:00.000+01:00"],
+                      },
+                      { descriptions: null },
+                    ],
                   },
-                ],
+                  fin_enregistrement: {
+                    descriptions: [
+                      {
+                        en: null,
+                        fr: "Date de fin d’enregistrement d’une fiche au RNCP.",
+                      },
+                      {
+                        en: null,
+                        fr: "Notes:",
+                      },
+                      {
+                        en: null,
+                        fr: "- France Compétence fournie cette date sans l'information de l'heure, nous interprétons arbitrairement l'heure à '23:59:59' sur le fuseau horaire 'Europe/Paris'.",
+                      },
+                    ],
+                    anyOf: [
+                      {
+                        descriptions: null,
+                        examples: ["2021-09-01T00:00:00.000+02:00", "2022-01-01T00:00:00.000+01:00"],
+                      },
+                      { descriptions: null },
+                    ],
+                  },
+                  code: {
+                    descriptions: [
+                      {
+                        en: null,
+                        fr: "Indique si la fiche correspond à la fiche courante, i.e `identifiant.rncp` est égal au `code`.",
+                      },
+                    ],
+                  },
+                  courant: {
+                    descriptions: null,
+                  },
+                  actif: {
+                    descriptions: [
+                      {
+                        en: null,
+                        fr: "Lorsque la fiche est active, les inscriptions à la formation sont ouvertes, à l’inverse, lorsque la fiche est inactive, les inscriptions sont fermées.",
+                      },
+                    ],
+                  },
+                },
               },
             },
-          },
+            { descriptions: null },
+          ],
         },
       },
     },
@@ -422,19 +509,31 @@ export const certificationModelDoc = {
             { en: null, fr: "Notes:" },
             { en: null, fr: "- `null` lorsque le champs `identifiant.rncp` est `null`." },
           ],
-          items: {
-            descriptions: null,
-            properties: {
-              code: {
+          anyOf: [
+            {
+              descriptions: null,
+              items: {
                 descriptions: null,
-                examples: ["RNCP37537BC01"],
-              },
-              intitule: {
-                descriptions: null,
-                examples: ["Approvisionnement, communication, sécurité alimentaire et hygiène en boulangerie"],
+                properties: {
+                  code: {
+                    descriptions: null,
+                    examples: ["RNCP37537BC01"],
+                  },
+                  intitule: {
+                    descriptions: null,
+                    anyOf: [
+                      {
+                        descriptions: null,
+                        examples: ["Approvisionnement, communication, sécurité alimentaire et hygiène en boulangerie"],
+                      },
+                      { descriptions: null },
+                    ],
+                  },
+                },
               },
             },
-          },
+            { descriptions: null },
+          ],
         },
       },
     },
@@ -450,16 +549,31 @@ export const certificationModelDoc = {
                 { en: null, fr: "Notes:" },
                 { en: null, fr: domainesNsfCfdNotes },
               ],
-              properties: {
-                code: {
+              anyOf: [
+                {
                   descriptions: null,
-                  examples: ["221", "310"],
+                  properties: {
+                    code: {
+                      descriptions: null,
+                      examples: ["221", "310"],
+                    },
+                    intitule: {
+                      descriptions: null,
+                      anyOf: [
+                        {
+                          descriptions: null,
+                          examples: [
+                            "AGRO-ALIMENTAIRE, ALIMENTATION, CUISINE",
+                            "SPECIALIT.PLURIV.DES ECHANGES & GESTION",
+                          ],
+                        },
+                        { descriptions: null },
+                      ],
+                    },
+                  },
                 },
-                intitule: {
-                  descriptions: null,
-                  examples: ["AGRO-ALIMENTAIRE, ALIMENTATION, CUISINE", "SPECIALIT.PLURIV.DES ECHANGES & GESTION"],
-                },
-              },
+                { descriptions: null },
+              ],
             },
             rncp: {
               descriptions: [
@@ -467,19 +581,28 @@ export const certificationModelDoc = {
                 { en: null, fr: "Notes:" },
                 { en: null, fr: "- `null` lorsque le champs `identifiant.rncp` est `null`." },
               ],
-              items: {
-                descriptions: null,
-                properties: {
-                  code: {
+              anyOf: [
+                {
+                  descriptions: null,
+                  items: {
                     descriptions: null,
-                    examples: ["221"],
-                  },
-                  intitule: {
-                    descriptions: null,
-                    examples: ["221 : Agro-alimentaire, alimentation, cuisine"],
+                    properties: {
+                      code: {
+                        descriptions: null,
+                        examples: ["221"],
+                      },
+                      intitule: {
+                        descriptions: null,
+                        anyOf: [
+                          { descriptions: null, examples: ["221 : Agro-alimentaire, alimentation, cuisine"] },
+                          { descriptions: null },
+                        ],
+                      },
+                    },
                   },
                 },
-              },
+                { descriptions: null },
+              ],
             },
           },
         },
@@ -492,19 +615,25 @@ export const certificationModelDoc = {
                 { en: null, fr: "Notes:" },
                 { en: null, fr: "- `null` lorsque le champs `identifiant.rncp` est `null`." },
               ],
-              items: {
-                descriptions: null,
-                properties: {
-                  code: {
+              anyOf: [
+                {
+                  descriptions: null,
+                  items: {
                     descriptions: null,
-                    examples: ["D1102"],
-                  },
-                  intitule: {
-                    descriptions: null,
-                    examples: ["Boulangerie - viennoiserie"],
+                    properties: {
+                      code: {
+                        descriptions: null,
+                        examples: ["D1102"],
+                      },
+                      intitule: {
+                        descriptions: null,
+                        examples: ["Boulangerie - viennoiserie"],
+                      },
+                    },
                   },
                 },
-              },
+                { descriptions: null },
+              ],
             },
           },
         },
@@ -524,19 +653,25 @@ export const certificationModelDoc = {
                 { en: null, fr: "Notes:" },
                 { en: null, fr: "- `null` lorsque le champs `identifiant.rncp` est `null`." },
               ],
-              items: {
-                descriptions: null,
-                properties: {
-                  code: {
+              anyOf: [
+                {
+                  descriptions: null,
+                  items: {
                     descriptions: null,
-                    examples: ["21538"],
-                  },
-                  intitule: {
-                    descriptions: null,
-                    examples: ["21538 : Boulangerie"],
+                    properties: {
+                      code: {
+                        descriptions: null,
+                        examples: ["21538"],
+                      },
+                      intitule: {
+                        descriptions: null,
+                        examples: ["21538 : Boulangerie"],
+                      },
+                    },
                   },
                 },
-              },
+                { descriptions: null },
+              ],
             },
           },
         },
@@ -554,20 +689,28 @@ export const certificationModelDoc = {
                 { en: null, fr: "Notes:" },
                 { en: null, fr: "- `null` lorsque le champs `identifiant.cfd` est `null`." },
               ],
-              properties: {
-                code: {
+              anyOf: [
+                {
                   descriptions: null,
-                  examples: ["1", "2", "P"],
+                  properties: {
+                    code: {
+                      descriptions: null,
+                      examples: ["1", "2", "P"],
+                      anyOf: [{ descriptions: null }, { descriptions: null }],
+                    },
+                    libelle: {
+                      descriptions: null,
+                      examples: [
+                        "DIPLOME NATIONAL / DIPLOME D'ETAT",
+                        "TITRE PROFESSIONNEL HOMOLOGUE OU CERTIFIE",
+                        "CLASSE PREPA",
+                      ],
+                      anyOf: [{ descriptions: null }, { descriptions: null }],
+                    },
+                  },
                 },
-                libelle: {
-                  descriptions: null,
-                  examples: [
-                    "DIPLOME NATIONAL / DIPLOME D'ETAT",
-                    "TITRE PROFESSIONNEL HOMOLOGUE OU CERTIFIE",
-                    "CLASSE PREPA",
-                  ],
-                },
-              },
+                { descriptions: null },
+              ],
             },
           },
         },
@@ -578,6 +721,7 @@ export const certificationModelDoc = {
             { en: null, fr: "- `null` lorsque le champs `identifiant.cfd` est `null`." },
           ],
           examples: ["DGESCO A2-3"],
+          anyOf: [{ descriptions: null }, { descriptions: null }],
         },
         enregistrement_rncp: {
           descriptions: [
@@ -588,6 +732,7 @@ export const certificationModelDoc = {
             { en: null, fr: "- `null` lorsque le champs `identifiant.rncp` est `null`." },
           ],
           examples: ["Enregistrement de droit"],
+          anyOf: [{ descriptions: null }, { descriptions: null }],
         },
         voie_acces: {
           descriptions: [{ en: null, fr: "Voie d’accès à la certification." }],
@@ -598,36 +743,42 @@ export const certificationModelDoc = {
                 { en: null, fr: "Notes:" },
                 { en: null, fr: "- `null` lorsque le champs `identifiant.rncp` est `null`." },
               ],
-              properties: {
-                apprentissage: {
-                  descriptions: [{ en: null, fr: "Certification accessible en contrat d’apprentissage." }],
-                },
-                experience: {
-                  descriptions: [{ en: null, fr: "Certification accessible par expérience." }],
-                },
-                candidature_individuelle: {
-                  descriptions: [{ en: null, fr: "Certification accessible par candidature individuelle." }],
-                },
-                contrat_professionnalisation: {
-                  descriptions: [{ en: null, fr: "Certification accessible en contrat de professionnalisation." }],
-                },
-                formation_continue: {
-                  descriptions: [
-                    {
-                      en: null,
-                      fr: "Certification accessible après un parcours de formation continue.",
+              anyOf: [
+                {
+                  descriptions: null,
+                  properties: {
+                    apprentissage: {
+                      descriptions: [{ en: null, fr: "Certification accessible en contrat d’apprentissage." }],
                     },
-                  ],
-                },
-                formation_statut_eleve: {
-                  descriptions: [
-                    {
-                      en: null,
-                      fr: "Certification accessible après un parcours de formation sous statut d’élève ou d’étudiant.",
+                    experience: {
+                      descriptions: [{ en: null, fr: "Certification accessible par expérience." }],
                     },
-                  ],
+                    candidature_individuelle: {
+                      descriptions: [{ en: null, fr: "Certification accessible par candidature individuelle." }],
+                    },
+                    contrat_professionnalisation: {
+                      descriptions: [{ en: null, fr: "Certification accessible en contrat de professionnalisation." }],
+                    },
+                    formation_continue: {
+                      descriptions: [
+                        {
+                          en: null,
+                          fr: "Certification accessible après un parcours de formation continue.",
+                        },
+                      ],
+                    },
+                    formation_statut_eleve: {
+                      descriptions: [
+                        {
+                          en: null,
+                          fr: "Certification accessible après un parcours de formation sous statut d’élève ou d’étudiant.",
+                        },
+                      ],
+                    },
+                  },
                 },
-              },
+                { descriptions: null },
+              ],
             },
           },
         },
@@ -637,17 +788,23 @@ export const certificationModelDoc = {
             { en: null, fr: "Notes:" },
             { en: null, fr: "- `null` lorsque le champs `identifiant.rncp` est `null`." },
           ],
-          items: {
-            descriptions: null,
-            properties: {
-              siret: {
-                descriptions: [{ en: null, fr: "Numéro SIRET du certificateur renseigné dans le RNCP." }],
-              },
-              nom: {
-                descriptions: [{ en: null, fr: "Nom du certificateur renseigné dans le RNCP." }],
+          anyOf: [
+            {
+              descriptions: null,
+              items: {
+                descriptions: null,
+                properties: {
+                  siret: {
+                    descriptions: [{ en: null, fr: "Numéro SIRET du certificateur renseigné dans le RNCP." }],
+                  },
+                  nom: {
+                    descriptions: [{ en: null, fr: "Nom du certificateur renseigné dans le RNCP." }],
+                  },
+                },
               },
             },
-          },
+            { descriptions: null },
+          ],
         },
       },
     },
@@ -655,32 +812,40 @@ export const certificationModelDoc = {
       descriptions: [{ en: null, fr: "Dates de création et d’abrogation des diplômes crées par arrêtés" }],
       properties: {
         cfd: {
-          descriptions: [
+          descriptions: null,
+          anyOf: [
             {
-              en: null,
-              fr: "Informations légales issue de la base centrale des nomenclatures (BCN) relatives au diplôme.",
+              descriptions: [
+                {
+                  en: null,
+                  fr: "Informations légales issue de la base centrale des nomenclatures (BCN) relatives au diplôme.",
+                },
+                { en: null, fr: "Notes:" },
+                { en: null, fr: "- `null` lorsque le champs `identifiant.cfd` est `null`." },
+              ],
+              properties: {
+                creation: {
+                  descriptions: [
+                    { en: null, fr: "Date d'arrêté de création du diplôme." },
+                    { en: null, fr: "Notes:" },
+                    { en: null, fr: baseLegaleCfdCreationNotes },
+                  ],
+                  examples: ["2014-02-21T00:00:00.000+01:00", "2018-05-11T00:00:00.000+02:00"],
+                  anyOf: [{ descriptions: null }, { descriptions: null }],
+                },
+                abrogation: {
+                  descriptions: [
+                    { en: null, fr: "Date d'arrêté d'abrogation du diplôme." },
+                    { en: null, fr: "Notes:" },
+                    { en: null, fr: baseLegaleCfdAbrogationNotes },
+                  ],
+                  examples: ["2022-08-31T23:59:59.000+02:00", "2022-12-31T23:59:59.000+01:00"],
+                  anyOf: [{ descriptions: null }, { descriptions: null }],
+                },
+              },
             },
-            { en: null, fr: "Notes:" },
-            { en: null, fr: "- `null` lorsque le champs `identifiant.cfd` est `null`." },
+            { descriptions: null },
           ],
-          properties: {
-            creation: {
-              descriptions: [
-                { en: null, fr: "Date d'arrêté de création du diplôme." },
-                { en: null, fr: "Notes:" },
-                { en: null, fr: baseLegaleCfdCreationNotes },
-              ],
-              examples: ["2014-02-21T00:00:00.000+01:00", "2018-05-11T00:00:00.000+02:00"],
-            },
-            abrogation: {
-              descriptions: [
-                { en: null, fr: "Date d'arrêté d'abrogation du diplôme." },
-                { en: null, fr: "Notes:" },
-                { en: null, fr: baseLegaleCfdAbrogationNotes },
-              ],
-              examples: ["2022-08-31T23:59:59.000+02:00", "2022-12-31T23:59:59.000+01:00"],
-            },
-          },
         },
       },
     },
@@ -698,19 +863,27 @@ export const certificationModelDoc = {
             { en: null, fr: "Notes:" },
             { en: null, fr: "- `null` lorsque le champs `identifiant.rncp` est `null`." },
           ],
-          items: {
-            descriptions: null,
-            properties: {
-              numero: {
+          anyOf: [
+            {
+              descriptions: null,
+              items: {
                 descriptions: null,
-                examples: ["3002"],
-              },
-              intitule: {
-                descriptions: null,
-                examples: ["Bâtiment (Employés, techniciens et agents de maîtrise, ingénieurs, assimilés et cadres)"],
+                properties: {
+                  numero: {
+                    descriptions: null,
+                    examples: ["3002"],
+                  },
+                  intitule: {
+                    descriptions: null,
+                    examples: [
+                      "Bâtiment (Employés, techniciens et agents de maîtrise, ingénieurs, assimilés et cadres)",
+                    ],
+                  },
+                },
               },
             },
-          },
+            { descriptions: null },
+          ],
         },
       },
     },

@@ -8,7 +8,7 @@ const testCase: [string][] = await readdir(__dirname(import.meta), {
   withFileTypes: true,
   recursive: true,
 }).then((files) =>
-  files.filter((file) => file.isFile() && file.name.endsWith(".md")).map((file) => [join(file.path, file.name)])
+  files.filter((file) => file.isFile() && file.name.endsWith(".md")).map((file) => [join(file.parentPath, file.name)])
 );
 
 it.each<[string]>(testCase)("should markdown file %s be in sync", async (file) => {

@@ -1,5 +1,5 @@
 import { DateTime } from "luxon";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 import type { IModelDescriptorGeneric } from "../../common.js";
 import { zObjectId } from "../../common.js";
@@ -22,9 +22,12 @@ const zEtat = z.enum([
   "VIGUEUR_NON_ETEN",
 ]);
 
-const zDate = z.date().transform((val) => {
-  return DateTime.fromJSDate(val, { zone: "UTC" }).setZone("Europe/Paris", { keepLocalTime: true }).toJSDate();
-});
+const zDate = z.pipe(
+  z.date(),
+  z.transform((val) => {
+    return DateTime.fromJSDate(val, { zone: "UTC" }).setZone("Europe/Paris", { keepLocalTime: true }).toJSDate();
+  })
+);
 
 export const zSourceKaliConventionCollectionData = z.object({
   type: z.literal("IDCC"),
@@ -43,8 +46,8 @@ export const zSourceKaliConventionCollectionData = z.object({
   ]),
   etat: zEtat,
   debut: zDate,
-  fin: zDate.nullable(),
-  url: z.string().url(),
+  fin: z.nullable(zDate),
+  url: z.string().check(z.url()),
 });
 
 export const zSourceKaliTextIndependentData = z.object({
@@ -93,8 +96,8 @@ export const zSourceKaliTextIndependentData = z.object({
   ]),
   etat: zEtat,
   debut: zDate,
-  fin: zDate.nullable(),
-  url: z.string().url(),
+  fin: z.nullable(zDate),
+  url: z.string().check(z.url()),
 });
 
 export const zSourceKaliCcn = z.object({

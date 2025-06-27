@@ -1,5 +1,5 @@
 import { DateTime } from "luxon";
-import { z } from "zod";
+import { regex, iso, string, pipe, transform, date, union } from "zod/v4-mini";
 
 interface IDateParts {
   year: number;
@@ -40,17 +40,23 @@ export function parseNullableParisLocalDate(
   return parseParisLocalDate(date, time ?? "00:00:00", dateOffset);
 }
 
-export const zParisLocalDateString = z
-  .string()
-  .regex(/^\d{2}\/\d{2}\/\d{4}$/)
-  .transform((val) => {
+export const zParisLocalDateString = pipe(
+  string().check(regex(/^\d{2}\/\d{2}\/\d{4}$/)),
+  transform((val) => {
     return parseParisLocalDate(val);
-  });
+  })
+);
 
-export const zLocalDate = z.date().transform((val) => {
-  return ParisDate.fromDate(val);
-});
+export const zLocalDate = pipe(
+  date(),
+  transform((val) => {
+    return ParisDate.fromDate(val);
+  })
+);
 
-export const zParisLocalDate = z.union([z.string().datetime({ offset: true }), z.string().date()]).transform((val) => {
-  return ParisDate.fromDate(DateTime.fromISO(val, { zone: "Europe/Paris" }).toJSDate());
-});
+export const zParisLocalDate = pipe(
+  union([iso.datetime({ offset: true }), iso.date()]),
+  transform((val) => {
+    return ParisDate.fromDate(DateTime.fromISO(val, { zone: "Europe/Paris" }).toJSDate());
+  })
+);

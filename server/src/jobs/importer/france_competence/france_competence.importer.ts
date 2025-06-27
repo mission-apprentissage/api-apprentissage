@@ -13,7 +13,7 @@ import type {
   ISourceFranceCompetence,
   ISourceFranceCompetenceDataPart,
 } from "shared/models/source/france_competence/source.france_competence.model";
-import { zFranceCompetenceDataBySource } from "shared/models/source/france_competence/source.france_competence.model";
+import { zFranceCompetenceDataBySourceShape } from "shared/models/source/france_competence/source.france_competence.model";
 import { parisTimezoneDate } from "shared/zod/date.primitives";
 import type { Entry } from "unzipper";
 import { Parse } from "unzipper";
@@ -96,7 +96,7 @@ export function processRecord(
     return acc;
   }, {});
 
-  const zod = zFranceCompetenceDataBySource[fichierMeta.source];
+  const zod = zFranceCompetenceDataBySourceShape[fichierMeta.source];
   const data: ISourceFranceCompetenceDataPart = zod.parse(rawData);
 
   const operations: AnyBulkWriteOperation<ISourceFranceCompetence>[] = [];

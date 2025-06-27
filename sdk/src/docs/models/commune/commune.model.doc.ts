@@ -122,7 +122,7 @@ export const communeModelDoc = {
     },
     mission_locale: {
       descriptions: [{ en: null, fr: "Mission locale dont relève la commune" }],
-      oneOf: [{ descriptions: null }, { descriptions: null }],
+      anyOf: [{ descriptions: null }, { descriptions: null }],
     },
   },
 } as const satisfies DocTechnicalField;

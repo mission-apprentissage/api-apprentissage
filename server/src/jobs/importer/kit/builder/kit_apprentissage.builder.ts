@@ -2,7 +2,7 @@ import { internal } from "@hapi/boom";
 import type { AnyBulkWriteOperation } from "mongodb";
 import { ObjectId } from "mongodb";
 import type { ISourceKitApprentissage } from "shared/models/source/kitApprentissage/source.kit_apprentissage.model";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 export function getVersionNumber(source: string): string {
   const matchVersion = /^Kit_apprentissage_(\d{8})\.(csv|xlsx)$/.exec(source);
@@ -74,13 +74,17 @@ export function buildKitApprentissageEntry(record: Record<string, unknown>): {
   cfd: string | null;
   rncp: string | null;
 } {
-  const cfd = z
-    .string()
-    .transform((value) => {
-      if (["SQWQ", "NR"].includes(value.trim())) return null;
-      return value.trim().padStart(8, "0");
-    })
-    .parse(getCFD(record));
+  const cfd = z.parse(
+    z.pipe(
+      z.string(),
+      z.transform((value) => {
+        if (["SQWQ", "NR"].includes(value.trim())) return null;
+        return value.trim().padStart(8, "0");
+      })
+    ),
+    getCFD(record)
+  );
+
   const rncp = getRNCP(record);
 
   return {

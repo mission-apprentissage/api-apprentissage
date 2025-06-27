@@ -1,5 +1,5 @@
 import { zOrganisation } from "api-alternance-sdk";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 import type { IModelDescriptorGeneric } from "./common.js";
 import { zObjectId } from "./common.js";
@@ -11,17 +11,17 @@ const indexes: IModelDescriptorGeneric["indexes"] = [
   [{ slug: 1 }, { unique: true }],
 ];
 
-export const zOrganisationInternal = zOrganisation.extend({
+export const zOrganisationInternal = z.extend(zOrganisation, {
   _id: zObjectId,
-  updated_at: z.date().describe("Date de mise à jour en base de données"),
-  created_at: z.date().describe("Date d'ajout en base de données"),
+  updated_at: z.date(),
+  created_at: z.date(),
 });
 
-export const zOrganisationCreate = zOrganisation.pick({
+export const zOrganisationCreate = z.pick(zOrganisation, {
   nom: true,
 });
 
-export const zOrganisationEdit = zOrganisation.pick({
+export const zOrganisationEdit = z.pick(zOrganisation, {
   habilitations: true,
 });
 

@@ -3,8 +3,8 @@ import type { ReadStream } from "node:fs";
 import { internal } from "@hapi/boom";
 import type { IDataGouvDataset, IDataGouvDatasetResource } from "shared";
 import { zDataGouvDataset } from "shared";
-import { ZodError } from "zod";
 
+import { $ZodError, prettifyError } from "zod/v4/core";
 import getApiClient from "@/services/apis/client.js";
 import { withCause } from "@/services/errors/withCause.js";
 import logger from "@/services/logger.js";
@@ -25,16 +25,16 @@ export async function fetchDataGouvDataSet(datasetId: string): Promise<IDataGouv
     data = result.data;
     return zDataGouvDataset.parse(data);
   } catch (error) {
-    if (error instanceof ZodError) {
+    if (error instanceof $ZodError) {
       logger.error("api.data_gouv: unable to fetchDataGouvDataSet; unexpected api data", {
         datasetId,
-        formattedError: error.format(),
+        formattedError: prettifyError(error),
       });
       throw withCause(
         internal("api.data_gouv: unable to fetchDataGouvDataSet; unexpected api data", {
           datasetId,
           data,
-          formattedError: error.format(),
+          formattedError: prettifyError(error),
         }),
         error
       );

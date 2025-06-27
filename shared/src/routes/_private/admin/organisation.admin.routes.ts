@@ -1,5 +1,5 @@
 import type { IApiRoutesDef } from "api-alternance-sdk";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 import { zObjectId } from "zod-mongodb-schema";
 
 import { zOrganisationCreate, zOrganisationEdit, zOrganisationInternal } from "../../../models/organisation.model.js";
@@ -50,7 +50,7 @@ export const zOrganisationAdminRoutes = {
       path: "/_private/admin/organisations/:id",
       params: z.object({ id: zObjectId }),
       response: {
-        "200": z.object({ success: z.literal(true) }).strict(),
+        "200": z.object({ success: z.literal(true) }),
       },
       securityScheme: {
         auth: "cookie-session",

@@ -3,6 +3,7 @@ import { isAxiosError } from "axios";
 import type { ISourceGeoCommune, ISourceGeoDepartement, ISourceGeoRegion } from "shared";
 import { sourceGeoCommune, sourceGeoDepartement, sourceGeoRegion } from "shared";
 
+import { z } from "zod/v4-mini";
 import config from "@/config.js";
 import getApiClient from "@/services/apis/client.js";
 import { withCause } from "@/services/errors/withCause.js";
@@ -25,7 +26,7 @@ export const fetchGeoRegions = async (): Promise<ISourceGeoRegion[]> => {
     try {
       const { data } = await client.get("/regions");
 
-      return sourceGeoRegion.array().parse(data);
+      return z.parse(z.array(sourceGeoRegion), data);
     } catch (error) {
       if (isAxiosError(error)) {
         throw internal("api.geo: unable to fetchGeoRegions", { data: error.toJSON() });
@@ -55,7 +56,7 @@ export const fetchGeoDepartements = async (codeRegion: string): Promise<ISourceG
     try {
       const { data } = await client.get(`/regions/${codeRegion}/departements`);
 
-      return sourceGeoDepartement.array().parse(data);
+      return z.parse(z.array(sourceGeoDepartement), data);
     } catch (error) {
       if (isAxiosError(error)) {
         throw internal("api.geo: unable to fetchGeoDepartements", { data: error.toJSON() });
@@ -75,7 +76,7 @@ export const fetchGeoCommunes = async (codeDepartement: string): Promise<ISource
         },
       });
 
-      return sourceGeoCommune.array().parse(data);
+      return z.parse(z.array(sourceGeoCommune), data);
     } catch (error) {
       if (isAxiosError(error)) {
         throw internal("api.geo: unable to fetchGeoCommunes", { data: error.toJSON() });

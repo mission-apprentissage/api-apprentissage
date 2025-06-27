@@ -1,11 +1,11 @@
 import jwt from "jsonwebtoken";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 const { JsonWebTokenError, TokenExpiredError } = jwt;
 
 export const zApiAlternanceTokenData = z.object({
-  email: z.string().email(),
-  organisation: z.string().nullable(),
+  email: z.string().check(z.email()),
+  organisation: z.nullable(z.string()),
   habilitations: z.record(z.string(), z.boolean()),
 });
 

@@ -1,31 +1,27 @@
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 import { zObjectId } from "../../common.js";
 
-export const zBcn_N_NiveauFormationDiplomeData = z
-  .object({
-    NIVEAU_FORMATION_DIPLOME: z.string().nullable(),
-    LIBELLE_COURT: z.string().nullable(),
-    DATE_OUVERTURE: z.string().nullable(),
-    DATE_FERMETURE: z.string().nullable(),
-    DATE_INTERVENTION: z.string().nullable(),
-    NIVEAU_QUALIFICATION_RNCP: z.string().nullable(),
-    N_NIVEAU_QUALIFICATION_RNCP_LIBELLE_LONG: z.string().nullable(),
-    N_COMMENTAIRE: z.string().nullable(),
-    NIVEAU_INTERMINISTERIEL: z.string(),
-    N_NIVEAU_INTERMINISTERIEL_LIBELLE_LONG: z.string().nullable(),
-    LIBELLE_100: z.string().nullable(),
-    ANCIEN_NIVEAU: z.string().nullable(),
-  })
-  .strict();
+export const zBcn_N_NiveauFormationDiplomeData = z.object({
+  NIVEAU_FORMATION_DIPLOME: z.nullable(z.string()),
+  LIBELLE_COURT: z.nullable(z.string()),
+  DATE_OUVERTURE: z.nullable(z.string()),
+  DATE_FERMETURE: z.nullable(z.string()),
+  DATE_INTERVENTION: z.nullable(z.string()),
+  NIVEAU_QUALIFICATION_RNCP: z.nullable(z.string()),
+  N_NIVEAU_QUALIFICATION_RNCP_LIBELLE_LONG: z.nullable(z.string()),
+  N_COMMENTAIRE: z.nullable(z.string()),
+  NIVEAU_INTERMINISTERIEL: z.string(),
+  N_NIVEAU_INTERMINISTERIEL_LIBELLE_LONG: z.nullable(z.string()),
+  LIBELLE_100: z.nullable(z.string()),
+  ANCIEN_NIVEAU: z.nullable(z.string()),
+});
 
-export const zBcn_N_NiveauFormationDiplome = z
-  .object({
-    _id: zObjectId,
-    source: z.literal("N_NIVEAU_FORMATION_DIPLOME"),
-    date: z.date(),
-    data: zBcn_N_NiveauFormationDiplomeData,
-  })
-  .strict();
+export const zBcn_N_NiveauFormationDiplome = z.object({
+  _id: zObjectId,
+  source: z.literal("N_NIVEAU_FORMATION_DIPLOME"),
+  date: z.date(),
+  data: zBcn_N_NiveauFormationDiplomeData,
+});
 
 export type IBcn_N_NiveauFormationDiplome = z.output<typeof zBcn_N_NiveauFormationDiplome>;

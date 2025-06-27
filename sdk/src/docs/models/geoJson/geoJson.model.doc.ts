@@ -75,6 +75,7 @@ export const adresseModelDoc = {
     },
     code_postal: {
       descriptions: [{ fr: "Code postal", en: "Postal code" }],
+      anyOf: [{ descriptions: null }, { descriptions: null }],
     },
     commune: {
       descriptions: [{ fr: "Ville", en: "City" }],
@@ -115,6 +116,7 @@ export const adresseModelDoc = {
     },
     label: {
       descriptions: [{ fr: "Libellé de l'adresse", en: "address label" }],
+      anyOf: [{ descriptions: null }, { descriptions: null }],
     },
     region: {
       descriptions: [{ fr: "Région", en: "Region" }],

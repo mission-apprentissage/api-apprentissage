@@ -3,7 +3,7 @@ import { zOrganisme } from "api-alternance-sdk";
 import { ParisDate } from "api-alternance-sdk/internal";
 import type { IApiEntEtablissement, IApiEntUniteLegale } from "shared/models/cache/cache.entreprise.model";
 import type { ISourceReferentiel } from "shared/models/source/referentiel/source.referentiel.model";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 import { searchAdresseGeopoint } from "@/services/apis/adresse/adresse.api.js";
 import {
@@ -116,7 +116,7 @@ export function buildOrganisme(
 
     contacts: source.contacts
       .map((contact) => {
-        const email = z.string().email().safeParse(contact.email);
+        const email = z.string().check(z.email()).safeParse(contact.email);
 
         if (email.success === false) {
           return null;
@@ -180,10 +180,11 @@ export function buildOrganismeEntrepriseParts(
     unite_legale: uniteLegale,
   };
 
-  return zOrganisme
-    .pick({
+  return z.parse(
+    z.pick(zOrganisme, {
       etablissement: true,
       unite_legale: true,
-    })
-    .parse(data);
+    }),
+    data
+  );
 }

@@ -1,7 +1,7 @@
 import type { IApiRoutesDef } from "api-alternance-sdk";
 import { addErrorResponseOpenApi, addOperationDoc } from "api-alternance-sdk/internal";
 import type { OpenApiBuilder } from "openapi3-ts/oas31";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 export const zCoreRoutes = {
   get: {
@@ -9,14 +9,11 @@ export const zCoreRoutes = {
       method: "get",
       path: "/healthcheck",
       response: {
-        "200": z
-          .object({
-            name: z.string(),
-            version: z.string(),
-            env: z.enum(["local", "recette", "production", "preview", "test"]),
-          })
-          .describe("Statut de l'application")
-          .strict(),
+        "200": z.object({
+          name: z.string(),
+          version: z.string(),
+          env: z.enum(["local", "recette", "production", "preview", "test"]),
+        }),
       },
       securityScheme: null,
     },

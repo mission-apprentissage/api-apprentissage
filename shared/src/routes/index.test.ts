@@ -1,9 +1,8 @@
 import assert from "node:assert";
 
-import type { IApiRouteSchema, IApiRouteSchemaGet, IApiRouteSchemaWrite, IApiRoutesDef } from "api-alternance-sdk";
+import type { IApiRouteSchema, IApiRouteSchemaGet, IApiRouteSchemaWrite } from "api-alternance-sdk";
 import { ZResError } from "api-alternance-sdk";
 import { describe, it } from "vitest";
-import { ZodEffects, ZodUnknown } from "zod";
 
 import { zRoutes } from "./index.js";
 
@@ -40,7 +39,7 @@ describe("zRoutes", () => {
   });
 
   it("should access ressources be defined correctly", () => {
-    for (const [method, zMethodRoutes] of Object.entries(zRoutes as IApiRoutesDef)) {
+    for (const [method, zMethodRoutes] of Object.entries(zRoutes)) {
       for (const [path, def] of Object.entries(zMethodRoutes)) {
         const typedDef = def as IApiRouteSchemaWrite | IApiRouteSchemaGet;
         if (typedDef.securityScheme) {
@@ -49,11 +48,11 @@ describe("zRoutes", () => {
               for (const [, access] of Object.entries(resourceAccess)) {
                 const zodInputShape = access.type === "params" ? typedDef.params : typedDef.querystring;
                 assert.notEqual(
-                  zodInputShape instanceof ZodUnknown
+                  zodInputShape?._zod.def.type === "unknown"
                     ? undefined
-                    : zodInputShape instanceof ZodEffects
-                      ? zodInputShape.sourceType().shape[access.key]
-                      : zodInputShape?.shape?.[access.key],
+                    : zodInputShape?._zod.def.type === "pipe"
+                      ? zodInputShape._zod.def.in.shape[access.key]
+                      : zodInputShape?._zod.def.shape?.[access.key],
                   undefined,
                   `${method} ${path} ${resourceType}.${access.type}.${access.key}: does not exists`
                 );

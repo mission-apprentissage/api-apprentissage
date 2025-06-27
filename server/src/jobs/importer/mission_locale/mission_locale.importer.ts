@@ -6,7 +6,7 @@ import type { AnyBulkWriteOperation } from "mongodb";
 import { ObjectId } from "mongodb";
 import type { ImportStatus } from "shared";
 import type { ISourceCodeInseeToMissionLocale } from "shared/models/source/mission_locale/source.mission_locale.model";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 import { fetchDepartementMissionLocale } from "@/services/apis/unml/unml.js";
 import { withCause } from "@/services/errors/withCause.js";
@@ -16,13 +16,13 @@ import { getStaticFilePath } from "@/utils/getStaticFilePath.js";
 import { createBatchTransformStream } from "@/utils/streamUtils.js";
 
 const zRecord = z.object({
-  "Code INSEE": z.string().regex(/\d{1}(\d|[A-B])\d{3}/),
+  "Code INSEE": z.string().check(z.regex(/\d{1}(\d|[A-B])\d{3}/)),
   "Nom Commune": z.string(),
-  "Code ML": z.string().regex(/\d{1}(\d|[A-B])\d{3}/),
+  "Code ML": z.string().check(z.regex(/\d{1}(\d|[A-B])\d{3}/)),
   "Nom Officiel ML": z.string(),
   "Commune présente sur plusieurs ML": z.literal("Non"),
   "Adresse ML": z.string(),
-  "Code Postal ML": z.string().regex(/\d{5}/),
+  "Code Postal ML": z.string().check(z.regex(/\d{5}/)),
   "Ville ML": z.string(),
 });
 

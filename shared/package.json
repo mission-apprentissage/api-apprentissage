@@ -37,7 +37,7 @@
     "react": "19.1.0",
     "type-fest": "^4.41.0",
     "zod": "^3.25.67",
-    "zod-mongodb-schema": "^2.0.0-next.4",
+    "zod-mongodb-schema": "^2.0.0-next.5",
     "zod-to-json-schema": "^3.24.5"
   },
   "devDependencies": {

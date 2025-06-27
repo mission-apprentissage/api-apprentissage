@@ -15220,7 +15220,7 @@ __metadata:
     typescript: ^5.8.3
     vitest: ^3.2.3
     zod: ^3.25.67
-    zod-mongodb-schema: ^2.0.0-next.4
+    zod-mongodb-schema: ^2.0.0-next.5
     zod-to-json-schema: ^3.24.5
   languageName: unknown
   linkType: soft
@@ -17905,13 +17905,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod-mongodb-schema@npm:^2.0.0-next.4":
-  version: 2.0.0-next.4
-  resolution: "zod-mongodb-schema@npm:2.0.0-next.4"
+"zod-mongodb-schema@npm:^2.0.0-next.4, zod-mongodb-schema@npm:^2.0.0-next.5":
+  version: 2.0.0-next.5
+  resolution: "zod-mongodb-schema@npm:2.0.0-next.5"
   peerDependencies:
     bson: ^6.0.0
     zod: ^3.25.64
-  checksum: a960841397a4470a98a53036ce505ab26beff45f686959f55189df3fadb170dfca53c3432b9c2ffb8793dda9c07b21890115e9110fa37a7adb52a7b8f78f66d2
+  checksum: 76e9967dbf82fd7eb00e117f12fc0379e33a31da3416ffd7663819086b9c1158978edc0eb256e56d86f400438386b063d5cd3ea08932755c4fd4aeae5bafb5f2
   languageName: node
   linkType: hard
 

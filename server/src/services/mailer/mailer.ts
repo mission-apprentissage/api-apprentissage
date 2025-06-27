@@ -122,13 +122,13 @@ function getUnsubscribeActionLink(template: ITemplate) {
   );
 }
 
-function getMarkAsOpenedActionLink(emailEvent: IEmailEvent | null) {
+async function getMarkAsOpenedActionLink(emailEvent: IEmailEvent | null) {
   if (!emailEvent) {
     return null;
   }
 
   // organisation is not needed for this token
-  const token = generateAccessToken({ email: emailEvent.template.to, organisation: null }, [
+  const token = await generateAccessToken({ email: emailEvent.template.to, organisation: null }, [
     generateScope({ schema: zRoutes.get["/_private/emails/:id/markAsOpened"], options: "all", resources: {} }),
   ]);
 
@@ -146,7 +146,7 @@ export async function renderEmail(template: ITemplate, emailEvent: IEmailEvent |
     actions: {
       unsubscribe: isTransactional ? null : getUnsubscribeActionLink(template),
       preview: getPreviewActionLink(template),
-      markAsOpened: getMarkAsOpenedActionLink(emailEvent),
+      markAsOpened: await getMarkAsOpenedActionLink(emailEvent),
     },
     utils: { getPublicUrl },
   });

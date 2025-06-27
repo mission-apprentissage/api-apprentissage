@@ -12,7 +12,7 @@ import { getOptions, languages } from "./settings";
 const runsOnServerSide = typeof window === "undefined";
 
 // This is not a hook, it's a function that must be called at the root of the app.
-// eslint-disable-next-line react-hooks/rules-of-hooks
+// eslint-disable-next-line react-hooks/rules-of-hooks,  @typescript-eslint/no-floating-promises
 use(initReactI18next)
   .use(
     resourcesToBackend(async (language: Lang, namespace: Namespace) => {
@@ -30,6 +30,7 @@ use(initReactI18next)
 z.setErrorMap(zodI18nMap);
 
 export function StartIntl({ lang }: { lang: Lang }) {
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
   changeLanguage(lang);
   //Yes, leave null here.
   return null;

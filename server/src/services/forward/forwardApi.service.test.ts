@@ -21,10 +21,10 @@ describe("forwardApi.service", () => {
     errorMiddleware(app);
     disableNetConnect();
 
-    return () => {
+    return async () => {
       cleanAll();
       enableNetConnect();
-      app.close();
+      await app.close();
     };
   });
 
@@ -34,28 +34,50 @@ describe("forwardApi.service", () => {
 
   const orgUser = generateUserFixture({ email: "user@exemple.fr", is_admin: false, organisation: org.nom });
 
-  const nockMatchBasicUserAuthorization = (token: string) => {
-    expect.soft(parseApiAlternanceToken({ token, publicKey: config.api.alternance.public_cert })).toEqual({
-      data: {
-        email: "basic@exemple.fr",
-        habilitations: { "applications:write": false, "appointments:write": false, "jobs:write": false },
-        organisation: null,
+  const nockMatchBasicUserAuthorization = () => {
+    let token: string = "";
+
+    return {
+      matchHeader: (t: string) => {
+        token = t;
+        return true;
       },
-      success: true,
-    });
-    return true;
+      expectAuth: async () => {
+        return expect
+          .soft(parseApiAlternanceToken({ token, publicKey: config.api.alternance.public_cert }))
+          .resolves.toEqual({
+            data: {
+              email: "basic@exemple.fr",
+              habilitations: { "applications:write": false, "appointments:write": false, "jobs:write": false },
+              organisation: null,
+            },
+            success: true,
+          });
+      },
+    };
   };
 
-  const nockMatchOrgUserAuthorization = (token: string) => {
-    expect.soft(parseApiAlternanceToken({ token, publicKey: config.api.alternance.public_cert })).toEqual({
-      data: {
-        email: "user@exemple.fr",
-        habilitations: { "applications:write": false, "appointments:write": false, "jobs:write": true },
-        organisation: "Org",
+  const nockMatchOrgUserAuthorization = () => {
+    let token: string = "";
+
+    return {
+      matchHeader: (t: string) => {
+        token = t;
+        return true;
       },
-      success: true,
-    });
-    return true;
+      expectAuth: async () => {
+        return expect
+          .soft(parseApiAlternanceToken({ token, publicKey: config.api.alternance.public_cert }))
+          .resolves.toEqual({
+            data: {
+              email: "user@exemple.fr",
+              habilitations: { "applications:write": false, "appointments:write": false, "jobs:write": true },
+              organisation: "Org",
+            },
+            success: true,
+          });
+      },
+    };
   };
 
   it("should forward the API request and return the response", async () => {
@@ -71,16 +93,18 @@ describe("forwardApi.service", () => {
       );
     });
 
+    const { matchHeader, expectAuth } = nockMatchBasicUserAuthorization();
     nock(baseUrl)
       .get("/v3/jobs/search")
       .query({ param: "value" })
-      .matchHeader("Authorization", nockMatchBasicUserAuthorization)
+      .matchHeader("Authorization", matchHeader)
       .reply(200, responseBody);
 
     const response = await app.inject({ method: "GET", url: "/test", query: { param: "value" } });
-
+    await expectAuth();
     expect.soft(response.statusCode).toBe(200);
     expect.soft(response.json()).toEqual(responseBody);
+    expect.assertions(3);
   });
 
   it("should create proper authorization token", async () => {
@@ -96,13 +120,15 @@ describe("forwardApi.service", () => {
       );
     });
 
+    const { matchHeader, expectAuth } = nockMatchOrgUserAuthorization();
     nock(baseUrl)
       .get("/v3/jobs/search")
       .query({ param: "value" })
-      .matchHeader("Authorization", nockMatchOrgUserAuthorization)
+      .matchHeader("Authorization", matchHeader)
       .reply(200, responseBody);
 
     const response = await app.inject({ method: "GET", url: "/test", query: { param: "value" } });
+    await expectAuth();
 
     expect.soft(response.statusCode).toBe(200);
     expect.soft(response.json()).toEqual(responseBody);
@@ -121,13 +147,15 @@ describe("forwardApi.service", () => {
       );
     });
 
+    const { matchHeader, expectAuth } = nockMatchBasicUserAuthorization();
     nock(baseUrl)
       .get("/v3/jobs/search")
       .query({ param: "value" })
-      .matchHeader("Authorization", nockMatchBasicUserAuthorization)
+      .matchHeader("Authorization", matchHeader)
       .reply(200, responseBody, { "content-type": "text/plain" });
 
     const response = await app.inject({ method: "GET", url: "/test", query: { param: "value" } });
+    await expectAuth();
 
     expect.soft(response.statusCode).toBe(200);
     expect.soft(response.headers).toMatchObject({ "content-type": "text/plain" });
@@ -149,13 +177,15 @@ describe("forwardApi.service", () => {
       );
     });
 
+    const { matchHeader, expectAuth } = nockMatchBasicUserAuthorization();
     nock(baseUrl)
       .get("/v3/jobs/search")
       .query({ param: "value" })
-      .matchHeader("Authorization", nockMatchBasicUserAuthorization)
+      .matchHeader("Authorization", matchHeader)
       .reply(200, compressedResponse, { "content-type": "application/json", "content-encoding": "gzip" });
 
     const response = await app.inject({ method: "GET", url: "/test", query: { param: "value" } });
+    await expectAuth();
 
     expect.soft(response.statusCode).toBe(200);
     expect.soft(response.headers).toMatchObject({ "content-type": "application/json" });
@@ -173,12 +203,14 @@ describe("forwardApi.service", () => {
       );
     });
 
+    const { matchHeader, expectAuth } = nockMatchBasicUserAuthorization();
     nock(baseUrl)
       .get("/v3/jobs/search")
-      .matchHeader("Authorization", nockMatchBasicUserAuthorization)
+      .matchHeader("Authorization", matchHeader)
       .reply(204, undefined, { "content-type": "text/plain", "x-rate-limit": "100" });
 
     const response = await app.inject({ method: "GET", url: "/test" });
+    await expectAuth();
 
     expect.soft(response.statusCode).toBe(204);
     expect.soft(response.body).toEqual("");
@@ -196,12 +228,11 @@ describe("forwardApi.service", () => {
       );
     });
 
-    nock(baseUrl)
-      .post("/v3/jobs/search", payload)
-      .matchHeader("Authorization", nockMatchBasicUserAuthorization)
-      .reply(200, responseBody);
+    const { matchHeader, expectAuth } = nockMatchBasicUserAuthorization();
+    nock(baseUrl).post("/v3/jobs/search", payload).matchHeader("Authorization", matchHeader).reply(200, responseBody);
 
     const response = await app.inject({ method: "POST", url: "/test", body: payload });
+    await expectAuth();
 
     expect.soft(response.statusCode).toBe(200);
     expect.soft(response.json()).toEqual(responseBody);
@@ -210,9 +241,10 @@ describe("forwardApi.service", () => {
   it("should handle unauthorized error", async () => {
     const responseBody = { error: "Forbidden", message: "Invalid JWT token", statusCode: 401 };
 
+    const { matchHeader, expectAuth } = nockMatchBasicUserAuthorization();
     nock(baseUrl)
       .get("/v3/jobs/search")
-      .matchHeader("Authorization", nockMatchBasicUserAuthorization)
+      .matchHeader("Authorization", matchHeader)
       .reply(401, responseBody, { "content-type": "text/plain", "x-rate-limit": "100" });
 
     app.get("/test", async (req, reply) => {
@@ -226,6 +258,7 @@ describe("forwardApi.service", () => {
     });
 
     const response = await app.inject({ method: "GET", url: "/test" });
+    await expectAuth();
 
     expect(response.statusCode).toBe(500);
     expect(response.json()).toEqual({
@@ -238,9 +271,10 @@ describe("forwardApi.service", () => {
   it("should forward other errors", async () => {
     const responseBody = { error: "Forbidden", message: "You are not allowed to create a job offer", statusCode: 403 };
 
+    const { matchHeader, expectAuth } = nockMatchBasicUserAuthorization();
     nock(baseUrl)
       .get("/v3/jobs/search")
-      .matchHeader("Authorization", nockMatchBasicUserAuthorization)
+      .matchHeader("Authorization", matchHeader)
       .reply(403, responseBody, { "content-type": "text/plain", "x-rate-limit": "100" });
 
     app.get("/test", async (req, reply) => {
@@ -254,6 +288,7 @@ describe("forwardApi.service", () => {
     });
 
     const response = await app.inject({ method: "GET", url: "/test" });
+    await expectAuth();
 
     expect(response.statusCode).toBe(403);
     expect(response.json()).toEqual(responseBody);

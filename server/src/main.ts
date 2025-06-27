@@ -8,6 +8,7 @@ import logger from "./services/logger.js";
 import { initMailer } from "./services/mailer/mailer.js";
 import { configureDbSchemaValidation, connectToMongodb } from "./services/mongodb/mongodbService.js";
 
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
 (async function () {
   try {
     await connectToMongodb(config.mongodb.uri);

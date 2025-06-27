@@ -90,27 +90,37 @@ const tokens = {
   appointmentsWrite: "",
 };
 
-const nockMatchUserAuthorization = (u: IUser, habilitations: string[]) => (token: string) => {
-  expect
-    .soft(
-      parseApiAlternanceToken({
-        token,
-        publicKey: config.api.alternance.public_cert,
-      })
-    )
-    .toEqual({
-      data: {
-        email: u.email,
-        habilitations: habilitations.reduce((acc, h) => ({ ...acc, [h]: true }), {
-          "applications:write": false,
-          "appointments:write": false,
-          "jobs:write": false,
-        }),
-        organisation: u.organisation,
-      },
-      success: true,
-    });
-  return true;
+const nockMatchUserAuthorization = (u: IUser, habilitations: string[]) => {
+  let token: string = "";
+
+  return {
+    matchHeader: (t: string) => {
+      token = t;
+      return true;
+    },
+    expectAuth: async () => {
+      return expect
+        .soft(
+          parseApiAlternanceToken({
+            token,
+            publicKey: config.api.alternance.public_cert,
+          })
+        )
+        .resolves.toEqual({
+          data: {
+            email: u.email,
+            habilitations: habilitations.reduce((acc, h) => ({ ...acc, [h]: true }), {
+              "applications:write": false,
+              "appointments:write": false,
+              "jobs:write": false,
+            }),
+            organisation: u.organisation,
+          },
+          success: true,
+        });
+      return true;
+    },
+  };
 };
 
 beforeEach(async () => {
@@ -180,6 +190,8 @@ describe("GET /job/v1/search", () => {
       ],
     };
 
+    const { matchHeader, expectAuth } = nockMatchUserAuthorization(users.basic, []);
+
     nock("https://labonnealternance-recette.apprentissage.beta.gouv.fr/api")
       .get("/v3/jobs/search")
       .query({
@@ -190,7 +202,7 @@ describe("GET /job/v1/search", () => {
         romes: "I1401,I1306",
         rncp: "RNCP38654",
       })
-      .matchHeader("authorization", nockMatchUserAuthorization(users.basic, []))
+      .matchHeader("authorization", matchHeader)
       .reply(200, data);
 
     const response = await app.inject({
@@ -201,6 +213,7 @@ describe("GET /job/v1/search", () => {
       },
     });
 
+    await expectAuth();
     expect.soft(response.statusCode).toBe(200);
     const result = response.json();
     expect(result).toEqual(data);
@@ -289,12 +302,13 @@ describe("POST /job/v1/offer", () => {
   );
 
   it("should support valid request", async () => {
+    const { matchHeader, expectAuth } = nockMatchUserAuthorization(users.jobWrite, ["jobs:write"]);
     nock("https://labonnealternance-recette.apprentissage.beta.gouv.fr/api")
       .post("/v3/jobs", (b) => {
         expect.soft(b).toEqual(body);
         return true;
       })
-      .matchHeader("authorization", nockMatchUserAuthorization(users.jobWrite, ["jobs:write"]))
+      .matchHeader("authorization", matchHeader)
       .reply(200, { id: "1" });
 
     const response = await app.inject({
@@ -306,6 +320,7 @@ describe("POST /job/v1/offer", () => {
       },
     });
 
+    await expectAuth();
     expect.soft(response.statusCode).toBe(200);
     const result = response.json();
     expect(result).toEqual({ id: "1" });
@@ -395,12 +410,14 @@ describe("POST /job/v1/apply", () => {
   );
 
   it("should support valid request", async () => {
+    const { matchHeader, expectAuth } = nockMatchUserAuthorization(users.applicationWrite, ["applications:write"]);
+
     nock("https://labonnealternance-recette.apprentissage.beta.gouv.fr/api")
       .post("/v2/application", (b) => {
         expect.soft(b).toEqual(body);
         return true;
       })
-      .matchHeader("authorization", nockMatchUserAuthorization(users.applicationWrite, ["applications:write"]))
+      .matchHeader("authorization", matchHeader)
       .reply(200, { id: "1" });
 
     const response = await app.inject({
@@ -412,6 +429,7 @@ describe("POST /job/v1/apply", () => {
       },
     });
 
+    await expectAuth();
     expect.soft(response.statusCode).toBe(200);
     const result = response.json();
     expect(result).toEqual({ id: "1" });
@@ -500,12 +518,14 @@ describe("PUT /job/v1/offer/:id", () => {
   );
 
   it("should support valid request", async () => {
+    const { matchHeader, expectAuth } = nockMatchUserAuthorization(users.jobWrite, ["jobs:write"]);
+
     nock("https://labonnealternance-recette.apprentissage.beta.gouv.fr/api")
       .put("/v3/jobs/42", (b) => {
         expect.soft(b).toEqual(body);
         return true;
       })
-      .matchHeader("authorization", nockMatchUserAuthorization(users.jobWrite, ["jobs:write"]))
+      .matchHeader("authorization", matchHeader)
       .reply(204);
 
     const response = await app.inject({
@@ -517,6 +537,7 @@ describe("PUT /job/v1/offer/:id", () => {
       },
     });
 
+    await expectAuth();
     expect.soft(response.statusCode).toBe(204);
     expect(response.body).toEqual("");
   });
@@ -568,9 +589,11 @@ describe("GET /job/v1/offer/:id", () => {
       warnings: [],
     };
 
+    const { matchHeader, expectAuth } = nockMatchUserAuthorization(users.basic, []);
+
     nock("https://labonnealternance-recette.apprentissage.beta.gouv.fr/api")
       .get("/v3/jobs/44")
-      .matchHeader("authorization", nockMatchUserAuthorization(users.basic, []))
+      .matchHeader("authorization", matchHeader)
       .reply(200, data);
 
     const response = await app.inject({
@@ -581,6 +604,7 @@ describe("GET /job/v1/offer/:id", () => {
       },
     });
 
+    await expectAuth();
     expect.soft(response.statusCode).toBe(200);
     const result = response.json();
     expect(result).toEqual(data);

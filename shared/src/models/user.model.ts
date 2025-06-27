@@ -117,7 +117,7 @@ export const zUserAdminView = z.extend(
 );
 
 export const zUserAdminUpdate = z.partial(
-  z.pick(zUserAdminView, {
+  z.pick(zUser, {
     email: true,
     is_admin: true,
     organisation: true,

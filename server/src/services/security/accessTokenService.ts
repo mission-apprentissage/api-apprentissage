@@ -2,7 +2,7 @@ import { forbidden, internal } from "@hapi/boom";
 import { captureException } from "@sentry/node";
 import type { ISecuredRouteSchema, SchemaWithSecurity } from "api-alternance-sdk";
 import type { PathParam, QueryString } from "api-alternance-sdk/internal";
-import * as jwt from "jsonwebtoken";
+import { jwtVerify, SignJWT } from "jose";
 import type { IUser } from "shared/models/user.model";
 import type { IAccessToken, IAccessTokenScope, IAccessTokenScopeParam } from "shared/routes/common.routes";
 
@@ -36,19 +36,23 @@ export const generateScope = <Schema extends SchemaWithSecurity>(
   return { options, resources, path: schema.path, method: schema.method };
 };
 
-export function generateAccessToken<S extends ReadonlyArray<IAccessTokenScope<ISecuredRouteSchema>>>(
+const secret = new TextEncoder().encode(config.auth.user.jwtSecret);
+
+export async function generateAccessToken<S extends ReadonlyArray<IAccessTokenScope<ISecuredRouteSchema>>>(
   user: IUser | IAccessToken["identity"],
   scopes: S,
   options: { expiresIn?: string } = {}
-): string {
+): Promise<string> {
   const identity: IAccessToken["identity"] = { email: user.email.toLowerCase(), organisation: user.organisation };
 
   const data: IAccessToken<ISecuredRouteSchema> = { identity, scopes };
 
-  const token = jwt.sign(data, config.auth.user.jwtSecret, {
-    expiresIn: options.expiresIn ?? config.auth.user.expiresIn,
-    issuer: config.publicUrl,
-  });
+  const token = await new SignJWT(JSON.parse(JSON.stringify(data)))
+    .setProtectedHeader({ alg: "HS256" })
+    .setExpirationTime(options.expiresIn ?? `${config.auth.user.expiresIn}s`)
+    .setIssuer(config.publicUrl)
+    .setIssuedAt()
+    .sign(secret);
 
   if (token.length > TOKEN_MAX_LENGTH) {
     captureException(internal(`Token généré trop long : ${token.length}`));
@@ -106,23 +110,22 @@ export function getAccessTokenScope<S extends SchemaWithSecurity>(
   );
 }
 
-export function parseAccessToken<S extends SchemaWithSecurity>(
+export async function parseAccessToken<S extends SchemaWithSecurity>(
   accessToken: null | string,
   schema: Pick<S, "method" | "path">,
   params: PathParam | undefined,
   querystring: QueryString | undefined
-): IAccessToken<S> | null {
+): Promise<IAccessToken<S> | null> {
   if (!accessToken) {
     return null;
   }
 
   try {
-    const data = jwt.verify(accessToken, config.auth.user.jwtSecret, {
-      complete: true,
+    const data = await jwtVerify<IAccessToken<S>>(accessToken, secret, {
       issuer: config.publicUrl,
     });
 
-    const token = data.payload as IAccessToken<S>;
+    const token = data.payload;
 
     const scope = getAccessTokenScope(token, schema, params, querystring);
 

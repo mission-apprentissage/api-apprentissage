@@ -52,9 +52,9 @@ export const generateApiKey = async (
     }
   );
 
-  const token = createUserTokenSimple({
+  const token = await createUserTokenSimple({
     payload: { _id: user._id, api_key: generatedKey, organisation: user.organisation, email: user.email },
-    expiresIn: config.api_key.expiresIn / 1_000,
+    expiresIn: `${config.api_key.expiresIn / 1_000}s`,
   });
 
   return {

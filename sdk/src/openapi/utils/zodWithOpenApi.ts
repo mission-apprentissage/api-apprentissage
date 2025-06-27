@@ -1,19 +1,9 @@
-import { extendZodWithOpenApi as extendZodWithOpenApiBase } from "@asteasolutions/zod-to-openapi";
 import type { ContentObject, OperationObject, ParameterObject, ReferenceObject, SchemaObject } from "openapi3-ts/oas31";
-import { z } from "zod";
 
 import type { DocTechnicalField, OpenApiText } from "../../docs/types.js";
 import { addErrorResponseOpenApi } from "../../models/errors/errors.model.openapi.js";
 import { tagsOpenapi } from "../tags.openapi.js";
 import type { OpenapiRoute } from "../types.js";
-
-function extendZodWithOpenApi<T extends typeof z>(zod: T): T {
-  extendZodWithOpenApiBase(zod);
-
-  return zod;
-}
-
-const zodOpenApi = extendZodWithOpenApi(z);
 
 function getTextOpenAPI<T extends OpenApiText | null | undefined>(
   value: T,
@@ -295,7 +285,6 @@ export {
   addSchemaDoc,
   getTextOpenAPIArray,
   addOperationDoc,
-  zodOpenApi,
   getDocOpenAPIAttributes,
   pickPropertiesOpenAPI,
   getTextOpenAPI,

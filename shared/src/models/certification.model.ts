@@ -1,5 +1,5 @@
 import { zCertification } from "api-alternance-sdk";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 import type { IModelDescriptorGeneric } from "./common.js";
 import { zObjectId } from "./common.js";
@@ -11,7 +11,7 @@ const indexes: IModelDescriptorGeneric["indexes"] = [
   [{ "identifiant.rncp": 1, "identifiant.cfd": 1 }, {}],
 ];
 
-export const zCertificationInternal = zCertification.extend({
+export const zCertificationInternal = z.extend(zCertification, {
   _id: zObjectId,
   created_at: z.date(),
   updated_at: z.date(),

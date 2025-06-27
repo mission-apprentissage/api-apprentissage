@@ -279,8 +279,10 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
     },
     "schemas": {
       "Adresse": {
+        "additionalProperties": false,
         "properties": {
           "academie": {
+            "additionalProperties": false,
             "properties": {
               "code": {
                 "type": "string",
@@ -306,6 +308,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             ],
           },
           "commune": {
+            "additionalProperties": false,
             "properties": {
               "code_insee": {
                 "type": "string",
@@ -321,6 +324,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "type": "object",
           },
           "departement": {
+            "additionalProperties": false,
             "properties": {
               "code_insee": {
                 "type": "string",
@@ -342,6 +346,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             ],
           },
           "region": {
+            "additionalProperties": false,
             "properties": {
               "code_insee": {
                 "type": "string",
@@ -368,33 +373,48 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         "type": "object",
       },
       "Certification": {
+        "additionalProperties": false,
         "properties": {
           "base_legale": {
+            "additionalProperties": false,
             "properties": {
               "cfd": {
-                "properties": {
-                  "abrogation": {
-                    "format": "date-time",
-                    "type": [
-                      "string",
-                      "null",
+                "anyOf": [
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "abrogation": {
+                        "anyOf": [
+                          {
+                            "format": "date-time",
+                            "type": "string",
+                          },
+                          {
+                            "type": "null",
+                          },
+                        ],
+                      },
+                      "creation": {
+                        "anyOf": [
+                          {
+                            "format": "date-time",
+                            "type": "string",
+                          },
+                          {
+                            "type": "null",
+                          },
+                        ],
+                      },
+                    },
+                    "required": [
+                      "abrogation",
+                      "creation",
                     ],
+                    "type": "object",
                   },
-                  "creation": {
-                    "format": "date-time",
-                    "type": [
-                      "string",
-                      "null",
-                    ],
+                  {
+                    "type": "null",
                   },
-                },
-                "required": [
-                  "abrogation",
-                  "creation",
-                ],
-                "type": [
-                  "object",
-                  "null",
                 ],
               },
             },
@@ -404,215 +424,16 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "type": "object",
           },
           "blocs_competences": {
+            "additionalProperties": false,
             "properties": {
               "rncp": {
-                "items": {
-                  "properties": {
-                    "code": {
-                      "pattern": "^(RNCP\\d{3,5}BC)?\\d{1,2}$",
-                      "type": "string",
-                    },
-                    "intitule": {
-                      "type": [
-                        "string",
-                        "null",
-                      ],
-                    },
-                  },
-                  "required": [
-                    "code",
-                    "intitule",
-                  ],
-                  "type": "object",
-                },
-                "type": [
-                  "array",
-                  "null",
-                ],
-              },
-            },
-            "required": [
-              "rncp",
-            ],
-            "type": "object",
-          },
-          "continuite": {
-            "properties": {
-              "cfd": {
-                "items": {
-                  "properties": {
-                    "code": {
-                      "pattern": "^[A-Z0-9]{3}\\d{3}[A-Z0-9]{2}$",
-                      "type": "string",
-                    },
-                    "courant": {
-                      "type": "boolean",
-                    },
-                    "fermeture": {
-                      "format": "date-time",
-                      "type": [
-                        "string",
-                        "null",
-                      ],
-                    },
-                    "ouverture": {
-                      "format": "date-time",
-                      "type": [
-                        "string",
-                        "null",
-                      ],
-                    },
-                  },
-                  "required": [
-                    "code",
-                    "courant",
-                    "fermeture",
-                    "ouverture",
-                  ],
-                  "type": "object",
-                },
-                "type": [
-                  "array",
-                  "null",
-                ],
-              },
-              "rncp": {
-                "items": {
-                  "properties": {
-                    "actif": {
-                      "type": "boolean",
-                    },
-                    "activation": {
-                      "format": "date-time",
-                      "type": [
-                        "string",
-                        "null",
-                      ],
-                    },
-                    "code": {
-                      "pattern": "^RNCP\\d{3,5}$",
-                      "type": "string",
-                    },
-                    "courant": {
-                      "type": "boolean",
-                    },
-                    "fin_enregistrement": {
-                      "format": "date-time",
-                      "type": [
-                        "string",
-                        "null",
-                      ],
-                    },
-                  },
-                  "required": [
-                    "actif",
-                    "activation",
-                    "code",
-                    "courant",
-                    "fin_enregistrement",
-                  ],
-                  "type": "object",
-                },
-                "type": [
-                  "array",
-                  "null",
-                ],
-              },
-            },
-            "required": [
-              "cfd",
-              "rncp",
-            ],
-            "type": "object",
-          },
-          "convention_collectives": {
-            "properties": {
-              "rncp": {
-                "items": {
-                  "properties": {
-                    "intitule": {
-                      "type": "string",
-                    },
-                    "numero": {
-                      "type": "string",
-                    },
-                  },
-                  "required": [
-                    "intitule",
-                    "numero",
-                  ],
-                  "type": "object",
-                },
-                "type": [
-                  "array",
-                  "null",
-                ],
-              },
-            },
-            "required": [
-              "rncp",
-            ],
-            "type": "object",
-          },
-          "domaines": {
-            "properties": {
-              "formacodes": {
-                "properties": {
-                  "rncp": {
+                "anyOf": [
+                  {
                     "items": {
+                      "additionalProperties": false,
                       "properties": {
                         "code": {
-                          "type": "string",
-                        },
-                        "intitule": {
-                          "type": "string",
-                        },
-                      },
-                      "required": [
-                        "code",
-                        "intitule",
-                      ],
-                      "type": "object",
-                    },
-                    "type": [
-                      "array",
-                      "null",
-                    ],
-                  },
-                },
-                "required": [
-                  "rncp",
-                ],
-                "type": "object",
-              },
-              "nsf": {
-                "properties": {
-                  "cfd": {
-                    "properties": {
-                      "code": {
-                        "type": "string",
-                      },
-                      "intitule": {
-                        "type": [
-                          "string",
-                          "null",
-                        ],
-                      },
-                    },
-                    "required": [
-                      "code",
-                      "intitule",
-                    ],
-                    "type": [
-                      "object",
-                      "null",
-                    ],
-                  },
-                  "rncp": {
-                    "items": {
-                      "properties": {
-                        "code": {
-                          "pattern": "^\\d{2,3}[a-z]?$",
+                          "pattern": "^(RNCP\\d{3,5}BC)?\\d{1,2}$",
                           "type": "string",
                         },
                         "intitule": {
@@ -628,9 +449,265 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                       ],
                       "type": "object",
                     },
-                    "type": [
-                      "array",
-                      "null",
+                    "type": "array",
+                  },
+                  {
+                    "type": "null",
+                  },
+                ],
+              },
+            },
+            "required": [
+              "rncp",
+            ],
+            "type": "object",
+          },
+          "continuite": {
+            "additionalProperties": false,
+            "properties": {
+              "cfd": {
+                "anyOf": [
+                  {
+                    "items": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "code": {
+                          "pattern": "^[A-Z0-9]{3}\\d{3}[A-Z0-9]{2}$",
+                          "type": "string",
+                        },
+                        "courant": {
+                          "type": "boolean",
+                        },
+                        "fermeture": {
+                          "anyOf": [
+                            {
+                              "format": "date-time",
+                              "type": "string",
+                            },
+                            {
+                              "type": "null",
+                            },
+                          ],
+                        },
+                        "ouverture": {
+                          "anyOf": [
+                            {
+                              "format": "date-time",
+                              "type": "string",
+                            },
+                            {
+                              "type": "null",
+                            },
+                          ],
+                        },
+                      },
+                      "required": [
+                        "code",
+                        "courant",
+                        "fermeture",
+                        "ouverture",
+                      ],
+                      "type": "object",
+                    },
+                    "type": "array",
+                  },
+                  {
+                    "type": "null",
+                  },
+                ],
+              },
+              "rncp": {
+                "anyOf": [
+                  {
+                    "items": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "actif": {
+                          "type": "boolean",
+                        },
+                        "activation": {
+                          "anyOf": [
+                            {
+                              "format": "date-time",
+                              "type": "string",
+                            },
+                            {
+                              "type": "null",
+                            },
+                          ],
+                        },
+                        "code": {
+                          "pattern": "^RNCP\\d{3,5}$",
+                          "type": "string",
+                        },
+                        "courant": {
+                          "type": "boolean",
+                        },
+                        "fin_enregistrement": {
+                          "anyOf": [
+                            {
+                              "format": "date-time",
+                              "type": "string",
+                            },
+                            {
+                              "type": "null",
+                            },
+                          ],
+                        },
+                      },
+                      "required": [
+                        "actif",
+                        "activation",
+                        "code",
+                        "courant",
+                        "fin_enregistrement",
+                      ],
+                      "type": "object",
+                    },
+                    "type": "array",
+                  },
+                  {
+                    "type": "null",
+                  },
+                ],
+              },
+            },
+            "required": [
+              "cfd",
+              "rncp",
+            ],
+            "type": "object",
+          },
+          "convention_collectives": {
+            "additionalProperties": false,
+            "properties": {
+              "rncp": {
+                "anyOf": [
+                  {
+                    "items": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "intitule": {
+                          "type": "string",
+                        },
+                        "numero": {
+                          "type": "string",
+                        },
+                      },
+                      "required": [
+                        "intitule",
+                        "numero",
+                      ],
+                      "type": "object",
+                    },
+                    "type": "array",
+                  },
+                  {
+                    "type": "null",
+                  },
+                ],
+              },
+            },
+            "required": [
+              "rncp",
+            ],
+            "type": "object",
+          },
+          "domaines": {
+            "additionalProperties": false,
+            "properties": {
+              "formacodes": {
+                "additionalProperties": false,
+                "properties": {
+                  "rncp": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "code": {
+                              "type": "string",
+                            },
+                            "intitule": {
+                              "type": "string",
+                            },
+                          },
+                          "required": [
+                            "code",
+                            "intitule",
+                          ],
+                          "type": "object",
+                        },
+                        "type": "array",
+                      },
+                      {
+                        "type": "null",
+                      },
+                    ],
+                  },
+                },
+                "required": [
+                  "rncp",
+                ],
+                "type": "object",
+              },
+              "nsf": {
+                "additionalProperties": false,
+                "properties": {
+                  "cfd": {
+                    "anyOf": [
+                      {
+                        "additionalProperties": false,
+                        "properties": {
+                          "code": {
+                            "type": "string",
+                          },
+                          "intitule": {
+                            "type": [
+                              "string",
+                              "null",
+                            ],
+                          },
+                        },
+                        "required": [
+                          "code",
+                          "intitule",
+                        ],
+                        "type": "object",
+                      },
+                      {
+                        "type": "null",
+                      },
+                    ],
+                  },
+                  "rncp": {
+                    "anyOf": [
+                      {
+                        "items": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "code": {
+                              "pattern": "^\\d{2,3}[a-z]?$",
+                              "type": "string",
+                            },
+                            "intitule": {
+                              "type": [
+                                "string",
+                                "null",
+                              ],
+                            },
+                          },
+                          "required": [
+                            "code",
+                            "intitule",
+                          ],
+                          "type": "object",
+                        },
+                        "type": "array",
+                      },
+                      {
+                        "type": "null",
+                      },
                     ],
                   },
                 },
@@ -641,27 +718,33 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 "type": "object",
               },
               "rome": {
+                "additionalProperties": false,
                 "properties": {
                   "rncp": {
-                    "items": {
-                      "properties": {
-                        "code": {
-                          "pattern": "^[A-Z]{1}\\d{0,4}$",
-                          "type": "string",
+                    "anyOf": [
+                      {
+                        "items": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "code": {
+                              "pattern": "^[A-Z]{1}\\d{0,4}$",
+                              "type": "string",
+                            },
+                            "intitule": {
+                              "type": "string",
+                            },
+                          },
+                          "required": [
+                            "code",
+                            "intitule",
+                          ],
+                          "type": "object",
                         },
-                        "intitule": {
-                          "type": "string",
-                        },
+                        "type": "array",
                       },
-                      "required": [
-                        "code",
-                        "intitule",
-                      ],
-                      "type": "object",
-                    },
-                    "type": [
-                      "array",
-                      "null",
+                      {
+                        "type": "null",
+                      },
                     ],
                   },
                 },
@@ -679,19 +762,28 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "type": "object",
           },
           "identifiant": {
+            "additionalProperties": false,
             "properties": {
               "cfd": {
-                "pattern": "^[A-Z0-9]{3}\\d{3}[A-Z0-9]{2}$",
-                "type": [
-                  "string",
-                  "null",
+                "anyOf": [
+                  {
+                    "pattern": "^[A-Z0-9]{3}\\d{3}[A-Z0-9]{2}$",
+                    "type": "string",
+                  },
+                  {
+                    "type": "null",
+                  },
                 ],
               },
               "rncp": {
-                "pattern": "^RNCP\\d{3,5}$",
-                "type": [
-                  "string",
-                  "null",
+                "anyOf": [
+                  {
+                    "pattern": "^RNCP\\d{3,5}$",
+                    "type": "string",
+                  },
+                  {
+                    "type": "null",
+                  },
                 ],
               },
               "rncp_anterieur_2019": {
@@ -709,98 +801,123 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "type": "object",
           },
           "intitule": {
+            "additionalProperties": false,
             "properties": {
               "cfd": {
-                "properties": {
-                  "court": {
-                    "type": "string",
+                "anyOf": [
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "court": {
+                        "type": "string",
+                      },
+                      "long": {
+                        "type": "string",
+                      },
+                    },
+                    "required": [
+                      "court",
+                      "long",
+                    ],
+                    "type": "object",
                   },
-                  "long": {
-                    "type": "string",
+                  {
+                    "type": "null",
                   },
-                },
-                "required": [
-                  "court",
-                  "long",
-                ],
-                "type": [
-                  "object",
-                  "null",
                 ],
               },
               "niveau": {
+                "additionalProperties": false,
                 "properties": {
                   "cfd": {
-                    "properties": {
-                      "europeen": {
-                        "enum": [
-                          "1",
-                          "2",
-                          "3",
-                          "4",
-                          "5",
-                          "6",
-                          "7",
-                          "8",
+                    "anyOf": [
+                      {
+                        "additionalProperties": false,
+                        "properties": {
+                          "europeen": {
+                            "anyOf": [
+                              {
+                                "enum": [
+                                  "1",
+                                  "2",
+                                  "3",
+                                  "4",
+                                  "5",
+                                  "6",
+                                  "7",
+                                  "8",
+                                ],
+                                "type": "string",
+                              },
+                              {
+                                "type": "null",
+                              },
+                            ],
+                          },
+                          "formation_diplome": {
+                            "type": "string",
+                          },
+                          "interministeriel": {
+                            "type": "string",
+                          },
+                          "libelle": {
+                            "type": [
+                              "string",
+                              "null",
+                            ],
+                          },
+                          "sigle": {
+                            "type": "string",
+                          },
+                        },
+                        "required": [
+                          "europeen",
+                          "formation_diplome",
+                          "interministeriel",
+                          "libelle",
+                          "sigle",
                         ],
-                        "type": [
-                          "string",
-                          "null",
-                        ],
+                        "type": "object",
                       },
-                      "formation_diplome": {
-                        "type": "string",
+                      {
+                        "type": "null",
                       },
-                      "interministeriel": {
-                        "type": "string",
-                      },
-                      "libelle": {
-                        "type": [
-                          "string",
-                          "null",
-                        ],
-                      },
-                      "sigle": {
-                        "type": "string",
-                      },
-                    },
-                    "required": [
-                      "europeen",
-                      "formation_diplome",
-                      "interministeriel",
-                      "libelle",
-                      "sigle",
-                    ],
-                    "type": [
-                      "object",
-                      "null",
                     ],
                   },
                   "rncp": {
-                    "properties": {
-                      "europeen": {
-                        "enum": [
-                          "1",
-                          "2",
-                          "3",
-                          "4",
-                          "5",
-                          "6",
-                          "7",
-                          "8",
+                    "anyOf": [
+                      {
+                        "additionalProperties": false,
+                        "properties": {
+                          "europeen": {
+                            "anyOf": [
+                              {
+                                "enum": [
+                                  "1",
+                                  "2",
+                                  "3",
+                                  "4",
+                                  "5",
+                                  "6",
+                                  "7",
+                                  "8",
+                                ],
+                                "type": "string",
+                              },
+                              {
+                                "type": "null",
+                              },
+                            ],
+                          },
+                        },
+                        "required": [
+                          "europeen",
                         ],
-                        "type": [
-                          "string",
-                          "null",
-                        ],
+                        "type": "object",
                       },
-                    },
-                    "required": [
-                      "europeen",
-                    ],
-                    "type": [
-                      "object",
-                      "null",
+                      {
+                        "type": "null",
+                      },
                     ],
                   },
                 },
@@ -825,97 +942,136 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "type": "object",
           },
           "periode_validite": {
+            "additionalProperties": false,
             "properties": {
               "cfd": {
-                "properties": {
-                  "derniere_session": {
-                    "type": [
-                      "integer",
-                      "null",
+                "anyOf": [
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "derniere_session": {
+                        "type": [
+                          "integer",
+                          "null",
+                        ],
+                      },
+                      "fermeture": {
+                        "anyOf": [
+                          {
+                            "format": "date-time",
+                            "type": "string",
+                          },
+                          {
+                            "type": "null",
+                          },
+                        ],
+                      },
+                      "ouverture": {
+                        "anyOf": [
+                          {
+                            "format": "date-time",
+                            "type": "string",
+                          },
+                          {
+                            "type": "null",
+                          },
+                        ],
+                      },
+                      "premiere_session": {
+                        "type": [
+                          "integer",
+                          "null",
+                        ],
+                      },
+                    },
+                    "required": [
+                      "derniere_session",
+                      "fermeture",
+                      "ouverture",
+                      "premiere_session",
                     ],
+                    "type": "object",
                   },
-                  "fermeture": {
-                    "format": "date-time",
-                    "type": [
-                      "string",
-                      "null",
-                    ],
+                  {
+                    "type": "null",
                   },
-                  "ouverture": {
-                    "format": "date-time",
-                    "type": [
-                      "string",
-                      "null",
-                    ],
-                  },
-                  "premiere_session": {
-                    "type": [
-                      "integer",
-                      "null",
-                    ],
-                  },
-                },
-                "required": [
-                  "derniere_session",
-                  "fermeture",
-                  "ouverture",
-                  "premiere_session",
-                ],
-                "type": [
-                  "object",
-                  "null",
                 ],
               },
               "debut": {
-                "format": "date-time",
-                "type": [
-                  "string",
-                  "null",
+                "anyOf": [
+                  {
+                    "format": "date-time",
+                    "type": "string",
+                  },
+                  {
+                    "type": "null",
+                  },
                 ],
               },
               "fin": {
-                "format": "date-time",
-                "type": [
-                  "string",
-                  "null",
+                "anyOf": [
+                  {
+                    "format": "date-time",
+                    "type": "string",
+                  },
+                  {
+                    "type": "null",
+                  },
                 ],
               },
               "rncp": {
-                "properties": {
-                  "actif": {
-                    "type": "boolean",
-                  },
-                  "activation": {
-                    "format": "date-time",
-                    "type": [
-                      "string",
-                      "null",
+                "anyOf": [
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "actif": {
+                        "type": "boolean",
+                      },
+                      "activation": {
+                        "anyOf": [
+                          {
+                            "format": "date-time",
+                            "type": "string",
+                          },
+                          {
+                            "type": "null",
+                          },
+                        ],
+                      },
+                      "debut_parcours": {
+                        "anyOf": [
+                          {
+                            "format": "date-time",
+                            "type": "string",
+                          },
+                          {
+                            "type": "null",
+                          },
+                        ],
+                      },
+                      "fin_enregistrement": {
+                        "anyOf": [
+                          {
+                            "format": "date-time",
+                            "type": "string",
+                          },
+                          {
+                            "type": "null",
+                          },
+                        ],
+                      },
+                    },
+                    "required": [
+                      "actif",
+                      "activation",
+                      "debut_parcours",
+                      "fin_enregistrement",
                     ],
+                    "type": "object",
                   },
-                  "debut_parcours": {
-                    "format": "date-time",
-                    "type": [
-                      "string",
-                      "null",
-                    ],
+                  {
+                    "type": "null",
                   },
-                  "fin_enregistrement": {
-                    "format": "date-time",
-                    "type": [
-                      "string",
-                      "null",
-                    ],
-                  },
-                },
-                "required": [
-                  "actif",
-                  "activation",
-                  "debut_parcours",
-                  "fin_enregistrement",
-                ],
-                "type": [
-                  "object",
-                  "null",
                 ],
               },
             },
@@ -928,36 +1084,46 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "type": "object",
           },
           "type": {
+            "additionalProperties": false,
             "properties": {
               "certificateurs_rncp": {
-                "items": {
-                  "properties": {
-                    "nom": {
-                      "type": "string",
+                "anyOf": [
+                  {
+                    "items": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "nom": {
+                          "type": "string",
+                        },
+                        "siret": {
+                          "type": "string",
+                        },
+                      },
+                      "required": [
+                        "nom",
+                        "siret",
+                      ],
+                      "type": "object",
                     },
-                    "siret": {
-                      "type": "string",
-                    },
+                    "type": "array",
                   },
-                  "required": [
-                    "nom",
-                    "siret",
-                  ],
-                  "type": "object",
-                },
-                "type": [
-                  "array",
-                  "null",
+                  {
+                    "type": "null",
+                  },
                 ],
               },
               "enregistrement_rncp": {
-                "enum": [
-                  "Enregistrement de droit",
-                  "Enregistrement sur demande",
-                ],
-                "type": [
-                  "string",
-                  "null",
+                "anyOf": [
+                  {
+                    "enum": [
+                      "Enregistrement de droit",
+                      "Enregistrement sur demande",
+                    ],
+                    "type": "string",
+                  },
+                  {
+                    "type": "null",
+                  },
                 ],
               },
               "gestionnaire_diplome": {
@@ -967,29 +1133,35 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 ],
               },
               "nature": {
+                "additionalProperties": false,
                 "properties": {
                   "cfd": {
-                    "properties": {
-                      "code": {
-                        "type": [
-                          "string",
-                          "null",
+                    "anyOf": [
+                      {
+                        "additionalProperties": false,
+                        "properties": {
+                          "code": {
+                            "type": [
+                              "string",
+                              "null",
+                            ],
+                          },
+                          "libelle": {
+                            "type": [
+                              "string",
+                              "null",
+                            ],
+                          },
+                        },
+                        "required": [
+                          "code",
+                          "libelle",
                         ],
+                        "type": "object",
                       },
-                      "libelle": {
-                        "type": [
-                          "string",
-                          "null",
-                        ],
+                      {
+                        "type": "null",
                       },
-                    },
-                    "required": [
-                      "code",
-                      "libelle",
-                    ],
-                    "type": [
-                      "object",
-                      "null",
                     ],
                   },
                 },
@@ -999,39 +1171,45 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 "type": "object",
               },
               "voie_acces": {
+                "additionalProperties": false,
                 "properties": {
                   "rncp": {
-                    "properties": {
-                      "apprentissage": {
-                        "type": "boolean",
+                    "anyOf": [
+                      {
+                        "additionalProperties": false,
+                        "properties": {
+                          "apprentissage": {
+                            "type": "boolean",
+                          },
+                          "candidature_individuelle": {
+                            "type": "boolean",
+                          },
+                          "contrat_professionnalisation": {
+                            "type": "boolean",
+                          },
+                          "experience": {
+                            "type": "boolean",
+                          },
+                          "formation_continue": {
+                            "type": "boolean",
+                          },
+                          "formation_statut_eleve": {
+                            "type": "boolean",
+                          },
+                        },
+                        "required": [
+                          "apprentissage",
+                          "candidature_individuelle",
+                          "contrat_professionnalisation",
+                          "experience",
+                          "formation_continue",
+                          "formation_statut_eleve",
+                        ],
+                        "type": "object",
                       },
-                      "candidature_individuelle": {
-                        "type": "boolean",
+                      {
+                        "type": "null",
                       },
-                      "contrat_professionnalisation": {
-                        "type": "boolean",
-                      },
-                      "experience": {
-                        "type": "boolean",
-                      },
-                      "formation_continue": {
-                        "type": "boolean",
-                      },
-                      "formation_statut_eleve": {
-                        "type": "boolean",
-                      },
-                    },
-                    "required": [
-                      "apprentissage",
-                      "candidature_individuelle",
-                      "contrat_professionnalisation",
-                      "experience",
-                      "formation_continue",
-                      "formation_statut_eleve",
-                    ],
-                    "type": [
-                      "object",
-                      "null",
                     ],
                   },
                 },
@@ -1065,8 +1243,10 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         "type": "object",
       },
       "Commune": {
+        "additionalProperties": false,
         "properties": {
           "academie": {
+            "additionalProperties": false,
             "properties": {
               "code": {
                 "type": "string",
@@ -1087,6 +1267,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
           },
           "anciennes": {
             "items": {
+              "additionalProperties": false,
               "properties": {
                 "codeInsee": {
                   "type": "string",
@@ -1105,6 +1286,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
           },
           "arrondissements": {
             "items": {
+              "additionalProperties": false,
               "properties": {
                 "code": {
                   "type": "string",
@@ -1122,6 +1304,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "type": "array",
           },
           "code": {
+            "additionalProperties": false,
             "properties": {
               "insee": {
                 "type": "string",
@@ -1140,6 +1323,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "type": "object",
           },
           "departement": {
+            "additionalProperties": false,
             "properties": {
               "codeInsee": {
                 "type": "string",
@@ -1155,6 +1339,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "type": "object",
           },
           "localisation": {
+            "additionalProperties": false,
             "properties": {
               "bbox": {
                 "$ref": "#/components/schemas/GeoJsonPolygon",
@@ -1170,12 +1355,12 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "type": "object",
           },
           "mission_locale": {
-            "oneOf": [
-              {
-                "type": "null",
-              },
+            "anyOf": [
               {
                 "$ref": "#/components/schemas/MissionLocale",
+              },
+              {
+                "type": "null",
               },
             ],
           },
@@ -1183,6 +1368,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "type": "string",
           },
           "region": {
+            "additionalProperties": false,
             "properties": {
               "codeInsee": {
                 "type": "string",
@@ -1212,8 +1398,10 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         "type": "object",
       },
       "Departement": {
+        "additionalProperties": false,
         "properties": {
           "academie": {
+            "additionalProperties": false,
             "properties": {
               "code": {
                 "type": "string",
@@ -1239,6 +1427,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "type": "string",
           },
           "region": {
+            "additionalProperties": false,
             "properties": {
               "codeInsee": {
                 "type": "string",
@@ -1263,8 +1452,10 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         "type": "object",
       },
       "Formation": {
+        "additionalProperties": false,
         "properties": {
           "certification": {
+            "additionalProperties": false,
             "properties": {
               "connue": {
                 "type": "boolean",
@@ -1280,12 +1471,18 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "type": "object",
           },
           "contact": {
+            "additionalProperties": false,
             "properties": {
               "email": {
-                "format": "email",
-                "type": [
-                  "string",
-                  "null",
+                "anyOf": [
+                  {
+                    "format": "email",
+                    "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
+                    "type": "string",
+                  },
+                  {
+                    "type": "null",
+                  },
                 ],
               },
               "telephone": {
@@ -1302,6 +1499,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "type": "object",
           },
           "contenu_educatif": {
+            "additionalProperties": false,
             "properties": {
               "contenu": {
                 "type": "string",
@@ -1317,12 +1515,13 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "type": "object",
           },
           "formateur": {
+            "additionalProperties": false,
             "properties": {
               "connu": {
                 "type": "boolean",
               },
               "organisme": {
-                "oneOf": [
+                "anyOf": [
                   {
                     "$ref": "#/components/schemas/Organisme",
                   },
@@ -1339,6 +1538,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "type": "object",
           },
           "identifiant": {
+            "additionalProperties": false,
             "properties": {
               "cle_ministere_educatif": {
                 "type": "string",
@@ -1350,6 +1550,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "type": "object",
           },
           "lieu": {
+            "additionalProperties": false,
             "properties": {
               "adresse": {
                 "$ref": "#/components/schemas/Adresse",
@@ -1364,17 +1565,25 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 ],
               },
               "siret": {
-                "pattern": "^\\d{9,14}$",
-                "type": [
-                  "string",
-                  "null",
+                "anyOf": [
+                  {
+                    "pattern": "^\\d{14}$",
+                    "type": "string",
+                  },
+                  {
+                    "type": "null",
+                  },
                 ],
               },
               "uai": {
-                "pattern": "^\\d{1,7}[A-Z]$",
-                "type": [
-                  "string",
-                  "null",
+                "anyOf": [
+                  {
+                    "pattern": "^\\d{7}[A-Z]$",
+                    "type": "string",
+                  },
+                  {
+                    "type": "null",
+                  },
                 ],
               },
             },
@@ -1388,6 +1597,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "type": "object",
           },
           "modalite": {
+            "additionalProperties": false,
             "properties": {
               "annee_cycle": {
                 "type": [
@@ -1402,10 +1612,14 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 "type": "boolean",
               },
               "mef_10": {
-                "pattern": "^\\d{10}$",
-                "type": [
-                  "string",
-                  "null",
+                "anyOf": [
+                  {
+                    "pattern": "^\\d{10}$",
+                    "type": "string",
+                  },
+                  {
+                    "type": "null",
+                  },
                 ],
               },
             },
@@ -1418,6 +1632,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "type": "object",
           },
           "onisep": {
+            "additionalProperties": false,
             "properties": {
               "discipline": {
                 "type": [
@@ -1450,10 +1665,14 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 ],
               },
               "url": {
-                "format": "uri",
-                "type": [
-                  "string",
-                  "null",
+                "anyOf": [
+                  {
+                    "format": "uri",
+                    "type": "string",
+                  },
+                  {
+                    "type": "null",
+                  },
                 ],
               },
             },
@@ -1468,12 +1687,13 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "type": "object",
           },
           "responsable": {
+            "additionalProperties": false,
             "properties": {
               "connu": {
                 "type": "boolean",
               },
               "organisme": {
-                "oneOf": [
+                "anyOf": [
                   {
                     "$ref": "#/components/schemas/Organisme",
                   },
@@ -1491,6 +1711,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
           },
           "sessions": {
             "items": {
+              "additionalProperties": false,
               "properties": {
                 "capacite": {
                   "type": [
@@ -1517,6 +1738,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "type": "array",
           },
           "statut": {
+            "additionalProperties": false,
             "properties": {
               "catalogue": {
                 "enum": [
@@ -1552,8 +1774,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         "additionalProperties": false,
         "properties": {
           "coordinates": {
-            "maxItems": 2,
-            "minItems": 2,
             "prefixItems": [
               {
                 "maximum": 180,
@@ -1569,9 +1789,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "type": "array",
           },
           "type": {
-            "enum": [
-              "Point",
-            ],
+            "const": "Point",
             "type": "string",
           },
         },
@@ -1587,8 +1805,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
           "coordinates": {
             "items": {
               "items": {
-                "maxItems": 2,
-                "minItems": 2,
                 "prefixItems": [
                   {
                     "maximum": 180,
@@ -1608,9 +1824,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "type": "array",
           },
           "type": {
-            "enum": [
-              "Polygon",
-            ],
+            "const": "Polygon",
             "type": "string",
           },
         },
@@ -2441,17 +2655,24 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         "type": "object",
       },
       "MissionLocale": {
+        "additionalProperties": false,
         "properties": {
           "code": {
             "type": "string",
           },
           "contact": {
+            "additionalProperties": false,
             "properties": {
               "email": {
-                "format": "email",
-                "type": [
-                  "string",
-                  "null",
+                "anyOf": [
+                  {
+                    "format": "email",
+                    "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
+                    "type": "string",
+                  },
+                  {
+                    "type": "null",
+                  },
                 ],
               },
               "siteWeb": {
@@ -2478,6 +2699,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "type": "number",
           },
           "localisation": {
+            "additionalProperties": false,
             "properties": {
               "adresse": {
                 "type": "string",
@@ -2486,12 +2708,12 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 "type": "string",
               },
               "geopoint": {
-                "oneOf": [
-                  {
-                    "type": "null",
-                  },
+                "anyOf": [
                   {
                     "$ref": "#/components/schemas/GeoJsonPoint",
+                  },
+                  {
+                    "type": "null",
                   },
                 ],
               },
@@ -2525,15 +2747,18 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         "type": "object",
       },
       "Organisme": {
+        "additionalProperties": false,
         "properties": {
           "contacts": {
             "items": {
+              "additionalProperties": false,
               "properties": {
                 "confirmation_referentiel": {
                   "type": "boolean",
                 },
                 "email": {
                   "format": "email",
+                  "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
                   "type": "string",
                 },
                 "sources": {
@@ -2553,9 +2778,10 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "type": "array",
           },
           "etablissement": {
+            "additionalProperties": false,
             "properties": {
               "adresse": {
-                "oneOf": [
+                "anyOf": [
                   {
                     "$ref": "#/components/schemas/Adresse",
                   },
@@ -2569,20 +2795,29 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 "type": "string",
               },
               "enseigne": {
-                "type": [
-                  "string",
-                  "null",
+                "anyOf": [
+                  {
+                    "minLength": 1,
+                    "type": "string",
+                  },
+                  {
+                    "type": "null",
+                  },
                 ],
               },
               "fermeture": {
-                "format": "date-time",
-                "type": [
-                  "string",
-                  "null",
+                "anyOf": [
+                  {
+                    "format": "date-time",
+                    "type": "string",
+                  },
+                  {
+                    "type": "null",
+                  },
                 ],
               },
               "geopoint": {
-                "oneOf": [
+                "anyOf": [
                   {
                     "$ref": "#/components/schemas/GeoJsonPoint",
                   },
@@ -2595,7 +2830,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 "type": "boolean",
               },
               "siret": {
-                "pattern": "^\\d{9,14}$",
+                "pattern": "^\\d{14}$",
                 "type": "string",
               },
             },
@@ -2611,16 +2846,21 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "type": "object",
           },
           "identifiant": {
+            "additionalProperties": false,
             "properties": {
               "siret": {
-                "pattern": "^\\d{9,14}$",
+                "pattern": "^\\d{14}$",
                 "type": "string",
               },
               "uai": {
-                "pattern": "^\\d{1,7}[A-Z]$",
-                "type": [
-                  "string",
-                  "null",
+                "anyOf": [
+                  {
+                    "pattern": "^\\d{7}[A-Z]$",
+                    "type": "string",
+                  },
+                  {
+                    "type": "null",
+                  },
                 ],
               },
             },
@@ -2631,6 +2871,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "type": "object",
           },
           "renseignements_specifiques": {
+            "additionalProperties": false,
             "properties": {
               "numero_activite": {
                 "type": [
@@ -2649,6 +2890,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "type": "object",
           },
           "statut": {
+            "additionalProperties": false,
             "properties": {
               "referentiel": {
                 "enum": [
@@ -2664,15 +2906,20 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "type": "object",
           },
           "unite_legale": {
+            "additionalProperties": false,
             "properties": {
               "actif": {
                 "type": "boolean",
               },
               "cessation": {
-                "format": "date-time",
-                "type": [
-                  "string",
-                  "null",
+                "anyOf": [
+                  {
+                    "format": "date-time",
+                    "type": "string",
+                  },
+                  {
+                    "type": "null",
+                  },
                 ],
               },
               "creation": {
@@ -2697,6 +2944,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
           },
         },
         "required": [
+          "contacts",
           "etablissement",
           "identifiant",
           "renseignements_specifiques",
@@ -2706,14 +2954,19 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         "type": "object",
       },
       "Pagination": {
+        "additionalProperties": false,
         "properties": {
           "page_count": {
+            "minimum": 0,
             "type": "integer",
           },
           "page_index": {
+            "minimum": 0,
             "type": "integer",
           },
           "page_size": {
+            "maximum": 1000,
+            "minimum": 1,
             "type": "integer",
           },
         },
@@ -2946,6 +3199,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             },
           },
           {
+            "allowEmptyValue": true,
             "in": "query",
             "name": "latitude",
             "required": false,
@@ -2956,6 +3210,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             },
           },
           {
+            "allowEmptyValue": true,
             "in": "query",
             "name": "longitude",
             "required": false,
@@ -2966,6 +3221,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             },
           },
           {
+            "allowEmptyValue": true,
             "in": "query",
             "name": "page_index",
             "required": false,
@@ -2987,6 +3243,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             },
           },
           {
+            "allowEmptyValue": true,
             "in": "query",
             "name": "radius",
             "required": false,
@@ -3038,6 +3295,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "content": {
               "application/json": {
                 "schema": {
+                  "additionalProperties": false,
                   "properties": {
                     "data": {
                       "items": {
@@ -3161,6 +3419,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
       "get": {
         "parameters": [
           {
+            "allowEmptyValue": true,
             "in": "query",
             "name": "latitude",
             "required": false,
@@ -3171,6 +3430,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             },
           },
           {
+            "allowEmptyValue": true,
             "in": "query",
             "name": "longitude",
             "required": false,
@@ -3181,6 +3441,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             },
           },
           {
+            "allowEmptyValue": true,
             "in": "query",
             "name": "radius",
             "required": false,
@@ -3603,6 +3864,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
       "get": {
         "parameters": [
           {
+            "allowEmptyValue": true,
             "in": "query",
             "name": "page_index",
             "required": false,
@@ -3629,6 +3891,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "content": {
               "application/json": {
                 "schema": {
+                  "additionalProperties": false,
                   "properties": {
                     "data": {
                       "items": {
@@ -3666,10 +3929,14 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "siret",
             "required": false,
             "schema": {
-              "pattern": "^\\d{9,14}$",
-              "type": [
-                "string",
-                "null",
+              "anyOf": [
+                {
+                  "pattern": "^\\d{14}$",
+                  "type": "string",
+                },
+                {
+                  "type": "null",
+                },
               ],
             },
           },
@@ -3678,10 +3945,14 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "uai",
             "required": false,
             "schema": {
-              "pattern": "^\\d{1,7}[A-Z]$",
-              "type": [
-                "string",
-                "null",
+              "anyOf": [
+                {
+                  "pattern": "^\\d{7}[A-Z]$",
+                  "type": "string",
+                },
+                {
+                  "type": "null",
+                },
               ],
             },
           },
@@ -3691,50 +3962,63 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "content": {
               "application/json": {
                 "schema": {
+                  "additionalProperties": false,
                   "properties": {
                     "candidats": {
                       "items": {
+                        "additionalProperties": false,
                         "properties": {
                           "correspondances": {
+                            "additionalProperties": false,
                             "properties": {
                               "siret": {
-                                "properties": {
-                                  "lui_meme": {
-                                    "type": "boolean",
+                                "anyOf": [
+                                  {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "lui_meme": {
+                                        "type": "boolean",
+                                      },
+                                      "son_formateur": {
+                                        "type": "boolean",
+                                      },
+                                      "son_responsable": {
+                                        "type": "boolean",
+                                      },
+                                    },
+                                    "required": [
+                                      "lui_meme",
+                                      "son_formateur",
+                                      "son_responsable",
+                                    ],
+                                    "type": "object",
                                   },
-                                  "son_formateur": {
-                                    "type": "boolean",
+                                  {
+                                    "type": "null",
                                   },
-                                  "son_responsable": {
-                                    "type": "boolean",
-                                  },
-                                },
-                                "required": [
-                                  "lui_meme",
-                                  "son_formateur",
-                                  "son_responsable",
-                                ],
-                                "type": [
-                                  "object",
-                                  "null",
                                 ],
                               },
                               "uai": {
-                                "properties": {
-                                  "lui_meme": {
-                                    "type": "boolean",
+                                "anyOf": [
+                                  {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "lui_meme": {
+                                        "type": "boolean",
+                                      },
+                                      "son_lieu": {
+                                        "type": "boolean",
+                                      },
+                                    },
+                                    "required": [
+                                      "lui_meme",
+                                      "son_lieu",
+                                    ],
+                                    "type": "object",
                                   },
-                                  "son_lieu": {
-                                    "type": "boolean",
+                                  {
+                                    "type": "null",
                                   },
-                                },
-                                "required": [
-                                  "lui_meme",
-                                  "son_lieu",
-                                ],
-                                "type": [
-                                  "object",
-                                  "null",
                                 ],
                               },
                             },
@@ -3745,18 +4029,24 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                             "type": "object",
                           },
                           "organisme": {
+                            "additionalProperties": false,
                             "properties": {
                               "identifiant": {
+                                "additionalProperties": false,
                                 "properties": {
                                   "siret": {
-                                    "pattern": "^\\d{9,14}$",
+                                    "pattern": "^\\d{14}$",
                                     "type": "string",
                                   },
                                   "uai": {
-                                    "pattern": "^\\d{1,7}[A-Z]$",
-                                    "type": [
-                                      "string",
-                                      "null",
+                                    "anyOf": [
+                                      {
+                                        "pattern": "^\\d{7}[A-Z]$",
+                                        "type": "string",
+                                      },
+                                      {
+                                        "type": "null",
+                                      },
                                     ],
                                   },
                                 },
@@ -3773,6 +4063,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                             "type": "object",
                           },
                           "status": {
+                            "additionalProperties": false,
                             "properties": {
                               "declaration_catalogue": {
                                 "type": "boolean",
@@ -3802,42 +4093,53 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                       "type": "array",
                     },
                     "metadata": {
+                      "additionalProperties": false,
                       "properties": {
                         "siret": {
-                          "properties": {
-                            "status": {
-                              "enum": [
-                                "inconnu",
-                                "fermé",
-                                "ok",
+                          "anyOf": [
+                            {
+                              "additionalProperties": false,
+                              "properties": {
+                                "status": {
+                                  "enum": [
+                                    "inconnu",
+                                    "fermé",
+                                    "ok",
+                                  ],
+                                  "type": "string",
+                                },
+                              },
+                              "required": [
+                                "status",
                               ],
-                              "type": "string",
+                              "type": "object",
                             },
-                          },
-                          "required": [
-                            "status",
-                          ],
-                          "type": [
-                            "object",
-                            "null",
+                            {
+                              "type": "null",
+                            },
                           ],
                         },
                         "uai": {
-                          "properties": {
-                            "status": {
-                              "enum": [
-                                "inconnu",
-                                "ok",
+                          "anyOf": [
+                            {
+                              "additionalProperties": false,
+                              "properties": {
+                                "status": {
+                                  "enum": [
+                                    "inconnu",
+                                    "ok",
+                                  ],
+                                  "type": "string",
+                                },
+                              },
+                              "required": [
+                                "status",
                               ],
-                              "type": "string",
+                              "type": "object",
                             },
-                          },
-                          "required": [
-                            "status",
-                          ],
-                          "type": [
-                            "object",
-                            "null",
+                            {
+                              "type": "null",
+                            },
                           ],
                         },
                       },
@@ -3848,69 +4150,61 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                       "type": "object",
                     },
                     "resultat": {
-                      "properties": {
-                        "correspondances": {
+                      "anyOf": [
+                        {
+                          "additionalProperties": false,
                           "properties": {
-                            "siret": {
-                              "properties": {
-                                "lui_meme": {
-                                  "type": "boolean",
-                                },
-                                "son_formateur": {
-                                  "type": "boolean",
-                                },
-                                "son_responsable": {
-                                  "type": "boolean",
-                                },
-                              },
-                              "required": [
-                                "lui_meme",
-                                "son_formateur",
-                                "son_responsable",
-                              ],
-                              "type": [
-                                "object",
-                                "null",
-                              ],
-                            },
-                            "uai": {
-                              "properties": {
-                                "lui_meme": {
-                                  "type": "boolean",
-                                },
-                                "son_lieu": {
-                                  "type": "boolean",
-                                },
-                              },
-                              "required": [
-                                "lui_meme",
-                                "son_lieu",
-                              ],
-                              "type": [
-                                "object",
-                                "null",
-                              ],
-                            },
-                          },
-                          "required": [
-                            "siret",
-                            "uai",
-                          ],
-                          "type": "object",
-                        },
-                        "organisme": {
-                          "properties": {
-                            "identifiant": {
+                            "correspondances": {
+                              "additionalProperties": false,
                               "properties": {
                                 "siret": {
-                                  "pattern": "^\\d{9,14}$",
-                                  "type": "string",
+                                  "anyOf": [
+                                    {
+                                      "additionalProperties": false,
+                                      "properties": {
+                                        "lui_meme": {
+                                          "type": "boolean",
+                                        },
+                                        "son_formateur": {
+                                          "type": "boolean",
+                                        },
+                                        "son_responsable": {
+                                          "type": "boolean",
+                                        },
+                                      },
+                                      "required": [
+                                        "lui_meme",
+                                        "son_formateur",
+                                        "son_responsable",
+                                      ],
+                                      "type": "object",
+                                    },
+                                    {
+                                      "type": "null",
+                                    },
+                                  ],
                                 },
                                 "uai": {
-                                  "pattern": "^\\d{1,7}[A-Z]$",
-                                  "type": [
-                                    "string",
-                                    "null",
+                                  "anyOf": [
+                                    {
+                                      "additionalProperties": false,
+                                      "properties": {
+                                        "lui_meme": {
+                                          "type": "boolean",
+                                        },
+                                        "son_lieu": {
+                                          "type": "boolean",
+                                        },
+                                      },
+                                      "required": [
+                                        "lui_meme",
+                                        "son_lieu",
+                                      ],
+                                      "type": "object",
+                                    },
+                                    {
+                                      "type": "null",
+                                    },
                                   ],
                                 },
                               },
@@ -3920,40 +4214,71 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                               ],
                               "type": "object",
                             },
+                            "organisme": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "identifiant": {
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "siret": {
+                                      "pattern": "^\\d{14}$",
+                                      "type": "string",
+                                    },
+                                    "uai": {
+                                      "anyOf": [
+                                        {
+                                          "pattern": "^\\d{7}[A-Z]$",
+                                          "type": "string",
+                                        },
+                                        {
+                                          "type": "null",
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  "required": [
+                                    "siret",
+                                    "uai",
+                                  ],
+                                  "type": "object",
+                                },
+                              },
+                              "required": [
+                                "identifiant",
+                              ],
+                              "type": "object",
+                            },
+                            "status": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "declaration_catalogue": {
+                                  "type": "boolean",
+                                },
+                                "ouvert": {
+                                  "type": "boolean",
+                                },
+                                "validation_uai": {
+                                  "type": "boolean",
+                                },
+                              },
+                              "required": [
+                                "declaration_catalogue",
+                                "ouvert",
+                                "validation_uai",
+                              ],
+                              "type": "object",
+                            },
                           },
                           "required": [
-                            "identifiant",
+                            "correspondances",
+                            "organisme",
+                            "status",
                           ],
                           "type": "object",
                         },
-                        "status": {
-                          "properties": {
-                            "declaration_catalogue": {
-                              "type": "boolean",
-                            },
-                            "ouvert": {
-                              "type": "boolean",
-                            },
-                            "validation_uai": {
-                              "type": "boolean",
-                            },
-                          },
-                          "required": [
-                            "declaration_catalogue",
-                            "ouvert",
-                            "validation_uai",
-                          ],
-                          "type": "object",
+                        {
+                          "type": "null",
                         },
-                      },
-                      "required": [
-                        "correspondances",
-                        "organisme",
-                        "status",
-                      ],
-                      "type": [
-                        "object",
-                        "null",
                       ],
                     },
                   },

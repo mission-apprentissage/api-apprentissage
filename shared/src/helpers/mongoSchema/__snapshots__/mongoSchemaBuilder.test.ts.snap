@@ -28,8 +28,6 @@ exports[`zodToMongoSchema > should convert cache.adresse schema 1`] = `
                   "minimum": -90,
                 },
               ],
-              "maxItems": 2,
-              "minItems": 2,
             },
             "type": {
               "bsonType": "string",
@@ -69,13 +67,9 @@ exports[`zodToMongoSchema > should convert cache.adresse schema 1`] = `
       ],
     },
     "ttl": {
-      "anyOf": [
-        {
-          "bsonType": "date",
-        },
-        {
-          "bsonType": "null",
-        },
+      "bsonType": [
+        "date",
+        "null",
       ],
     },
   },
@@ -180,6 +174,7 @@ exports[`zodToMongoSchema > should convert cache.entreprise schema 1`] = `
                         },
                       },
                       "required": [
+                        "numero_voie",
                         "indice_repetition_voie",
                         "type_voie",
                         "libelle_voie",
@@ -219,7 +214,7 @@ exports[`zodToMongoSchema > should convert cache.entreprise schema 1`] = `
                     },
                     "siret": {
                       "bsonType": "string",
-                      "pattern": "^\\d{9,14}$",
+                      "pattern": "^\\d{14}$",
                     },
                     "unite_legale": {
                       "additionalProperties": false,
@@ -453,16 +448,11 @@ exports[`zodToMongoSchema > should convert cache.entreprise schema 1`] = `
     },
     "identifiant": {
       "bsonType": "string",
-      "description": "SIRET ou SIREN de l'entité",
     },
     "ttl": {
-      "anyOf": [
-        {
-          "bsonType": "date",
-        },
-        {
-          "bsonType": "null",
-        },
+      "bsonType": [
+        "date",
+        "null",
       ],
     },
   },
@@ -1148,6 +1138,8 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
                   "anyOf": [
                     {
                       "bsonType": "int",
+                      "maximum": 9007199254740991,
+                      "minimum": -9007199254740991,
                     },
                     {
                       "bsonType": "null",
@@ -1198,6 +1190,8 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
                   "anyOf": [
                     {
                       "bsonType": "int",
+                      "maximum": 9007199254740991,
+                      "minimum": -9007199254740991,
                     },
                     {
                       "bsonType": "null",
@@ -1643,8 +1637,6 @@ exports[`zodToMongoSchema > should convert commune schema 1`] = `
                       "minimum": -90,
                     },
                   ],
-                  "maxItems": 2,
-                  "minItems": 2,
                 },
               },
             },
@@ -1675,8 +1667,6 @@ exports[`zodToMongoSchema > should convert commune schema 1`] = `
                   "minimum": -90,
                 },
               ],
-              "maxItems": 2,
-              "minItems": 2,
             },
             "type": {
               "bsonType": "string",
@@ -1710,6 +1700,7 @@ exports[`zodToMongoSchema > should convert commune schema 1`] = `
                   "anyOf": [
                     {
                       "bsonType": "string",
+                      "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
                     },
                     {
                       "bsonType": "null",
@@ -1768,8 +1759,6 @@ exports[`zodToMongoSchema > should convert commune schema 1`] = `
                               "minimum": -90,
                             },
                           ],
-                          "maxItems": 2,
-                          "minItems": 2,
                         },
                         "type": {
                           "bsonType": "string",
@@ -1867,11 +1856,9 @@ exports[`zodToMongoSchema > should convert email_denied schema 1`] = `
     },
     "created_at": {
       "bsonType": "date",
-      "description": "Date d'ajout en base de données",
     },
     "email": {
       "bsonType": "string",
-      "description": "L'email rejetée",
     },
     "reason": {
       "bsonType": "string",
@@ -1881,7 +1868,6 @@ exports[`zodToMongoSchema > should convert email_denied schema 1`] = `
     },
     "updated_at": {
       "bsonType": "date",
-      "description": "Date de mise à jour en base de données",
     },
   },
   "required": [
@@ -1905,18 +1891,13 @@ exports[`zodToMongoSchema > should convert email_events schema 1`] = `
       "bsonType": "date",
     },
     "delivered_at": {
-      "anyOf": [
-        {
-          "bsonType": "date",
-        },
-        {
-          "bsonType": "null",
-        },
+      "bsonType": [
+        "date",
+        "null",
       ],
     },
     "email": {
       "bsonType": "string",
-      "description": "Addresse email",
     },
     "errors": {
       "bsonType": "array",
@@ -1949,13 +1930,9 @@ exports[`zodToMongoSchema > should convert email_events schema 1`] = `
       ],
     },
     "opened_at": {
-      "anyOf": [
-        {
-          "bsonType": "date",
-        },
-        {
-          "bsonType": "null",
-        },
+      "bsonType": [
+        "date",
+        "null",
       ],
     },
     "template": {
@@ -1969,6 +1946,7 @@ exports[`zodToMongoSchema > should convert email_events schema 1`] = `
             },
             "to": {
               "bsonType": "string",
+              "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
             },
             "token": {
               "bsonType": "string",
@@ -1989,6 +1967,7 @@ exports[`zodToMongoSchema > should convert email_events schema 1`] = `
             },
             "to": {
               "bsonType": "string",
+              "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
             },
             "token": {
               "bsonType": "string",
@@ -2009,12 +1988,14 @@ exports[`zodToMongoSchema > should convert email_events schema 1`] = `
             },
             "from": {
               "bsonType": "string",
+              "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
             },
             "name": {
               "bsonType": "string",
             },
             "to": {
               "bsonType": "string",
+              "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
             },
           },
           "required": [
@@ -2055,6 +2036,7 @@ exports[`zodToMongoSchema > should convert email_events schema 1`] = `
             },
             "to": {
               "bsonType": "string",
+              "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
             },
           },
           "required": [
@@ -2766,6 +2748,8 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
                           "anyOf": [
                             {
                               "bsonType": "int",
+                              "maximum": 9007199254740991,
+                              "minimum": -9007199254740991,
                             },
                             {
                               "bsonType": "null",
@@ -2816,6 +2800,8 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
                           "anyOf": [
                             {
                               "bsonType": "int",
+                              "maximum": 9007199254740991,
+                              "minimum": -9007199254740991,
                             },
                             {
                               "bsonType": "null",
@@ -3137,6 +3123,7 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
           "anyOf": [
             {
               "bsonType": "string",
+              "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
             },
             {
               "bsonType": "null",
@@ -3198,6 +3185,7 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
                       },
                       "email": {
                         "bsonType": "string",
+                        "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
                       },
                       "sources": {
                         "bsonType": "array",
@@ -3377,8 +3365,6 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
                                   "minimum": -90,
                                 },
                               ],
-                              "maxItems": 2,
-                              "minItems": 2,
                             },
                             "type": {
                               "bsonType": "string",
@@ -3399,7 +3385,7 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
                     },
                     "siret": {
                       "bsonType": "string",
-                      "pattern": "^\\d{9,14}$",
+                      "pattern": "^\\d{14}$",
                     },
                   },
                   "required": [
@@ -3418,13 +3404,13 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
                   "properties": {
                     "siret": {
                       "bsonType": "string",
-                      "pattern": "^\\d{9,14}$",
+                      "pattern": "^\\d{14}$",
                     },
                     "uai": {
                       "anyOf": [
                         {
                           "bsonType": "string",
-                          "pattern": "^\\d{1,7}[A-Z]$",
+                          "pattern": "^\\d{7}[A-Z]$",
                         },
                         {
                           "bsonType": "null",
@@ -3676,8 +3662,6 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
                   "minimum": -90,
                 },
               ],
-              "maxItems": 2,
-              "minItems": 2,
             },
             "type": {
               "bsonType": "string",
@@ -3698,7 +3682,7 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
           "anyOf": [
             {
               "bsonType": "string",
-              "pattern": "^\\d{9,14}$",
+              "pattern": "^\\d{14}$",
             },
             {
               "bsonType": "null",
@@ -3709,7 +3693,7 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
           "anyOf": [
             {
               "bsonType": "string",
-              "pattern": "^\\d{1,7}[A-Z]$",
+              "pattern": "^\\d{7}[A-Z]$",
             },
             {
               "bsonType": "null",
@@ -3733,6 +3717,8 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
           "anyOf": [
             {
               "bsonType": "int",
+              "maximum": 9007199254740991,
+              "minimum": -9007199254740991,
             },
             {
               "bsonType": "null",
@@ -3799,13 +3785,9 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
           ],
         },
         "url": {
-          "anyOf": [
-            {
-              "bsonType": "string",
-            },
-            {
-              "bsonType": "null",
-            },
+          "bsonType": [
+            "string",
+            "null",
           ],
         },
       },
@@ -3842,6 +3824,7 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
                       },
                       "email": {
                         "bsonType": "string",
+                        "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
                       },
                       "sources": {
                         "bsonType": "array",
@@ -4021,8 +4004,6 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
                                   "minimum": -90,
                                 },
                               ],
-                              "maxItems": 2,
-                              "minItems": 2,
                             },
                             "type": {
                               "bsonType": "string",
@@ -4043,7 +4024,7 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
                     },
                     "siret": {
                       "bsonType": "string",
-                      "pattern": "^\\d{9,14}$",
+                      "pattern": "^\\d{14}$",
                     },
                   },
                   "required": [
@@ -4062,13 +4043,13 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
                   "properties": {
                     "siret": {
                       "bsonType": "string",
-                      "pattern": "^\\d{9,14}$",
+                      "pattern": "^\\d{14}$",
                     },
                     "uai": {
                       "anyOf": [
                         {
                           "bsonType": "string",
-                          "pattern": "^\\d{1,7}[A-Z]$",
+                          "pattern": "^\\d{7}[A-Z]$",
                         },
                         {
                           "bsonType": "null",
@@ -4833,7 +4814,6 @@ exports[`zodToMongoSchema > should convert organisations schema 1`] = `
     },
     "created_at": {
       "bsonType": "date",
-      "description": "Date d'ajout en base de données",
     },
     "habilitations": {
       "bsonType": "array",
@@ -4848,19 +4828,16 @@ exports[`zodToMongoSchema > should convert organisations schema 1`] = `
     },
     "nom": {
       "bsonType": "string",
-      "description": "Nom de l'organisation",
       "maxLength": 100,
       "minLength": 2,
     },
     "slug": {
       "bsonType": "string",
-      "description": "Slug de l'organisation",
       "maxLength": 100,
       "minLength": 2,
     },
     "updated_at": {
       "bsonType": "date",
-      "description": "Date de mise à jour en base de données",
     },
   },
   "required": [
@@ -4893,6 +4870,7 @@ exports[`zodToMongoSchema > should convert organisme schema 1`] = `
           },
           "email": {
             "bsonType": "string",
+            "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
           },
           "sources": {
             "bsonType": "array",
@@ -5075,8 +5053,6 @@ exports[`zodToMongoSchema > should convert organisme schema 1`] = `
                       "minimum": -90,
                     },
                   ],
-                  "maxItems": 2,
-                  "minItems": 2,
                 },
                 "type": {
                   "bsonType": "string",
@@ -5097,7 +5073,7 @@ exports[`zodToMongoSchema > should convert organisme schema 1`] = `
         },
         "siret": {
           "bsonType": "string",
-          "pattern": "^\\d{9,14}$",
+          "pattern": "^\\d{14}$",
         },
       },
       "required": [
@@ -5116,13 +5092,13 @@ exports[`zodToMongoSchema > should convert organisme schema 1`] = `
       "properties": {
         "siret": {
           "bsonType": "string",
-          "pattern": "^\\d{9,14}$",
+          "pattern": "^\\d{14}$",
         },
         "uai": {
           "anyOf": [
             {
               "bsonType": "string",
-              "pattern": "^\\d{1,7}[A-Z]$",
+              "pattern": "^\\d{7}[A-Z]$",
             },
             {
               "bsonType": "null",
@@ -5253,18 +5229,15 @@ exports[`zodToMongoSchema > should convert sessions schema 1`] = `
     },
     "created_at": {
       "bsonType": "date",
-      "description": "Date d'ajout en base de données",
     },
     "email": {
       "bsonType": "string",
     },
     "expires_at": {
       "bsonType": "date",
-      "description": "Date d'expiration",
     },
     "updated_at": {
       "bsonType": "date",
-      "description": "Date de mise à jour en base de données",
     },
   },
   "required": [
@@ -5374,17 +5347,17 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
             "contrat_etablissement": {
               "bsonType": "string",
               "enum": [
-                "99",
                 "10",
-                "30",
                 "20",
-                "50",
-                "31",
                 "21",
-                "!!",
+                "30",
+                "31",
                 "40",
                 "41",
+                "50",
                 "60",
+                "99",
+                "!!",
               ],
             },
             "contrat_etablissement_libe": {
@@ -5535,8 +5508,8 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
               "bsonType": "string",
               "enum": [
                 "1",
-                "3",
                 "2",
+                "3",
                 "4",
               ],
             },
@@ -5695,6 +5668,7 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
             "hebergement_etablissement_libe",
             "numero_siren_siret_uai",
             "numero_finess_uai",
+            "date_ouverture",
             "date_fermeture",
             "date_derniere_mise_a_jour",
             "lieu_dit_uai",
@@ -5947,17 +5921,17 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
             "contrat_etablissement": {
               "bsonType": "string",
               "enum": [
-                "99",
                 "10",
-                "30",
                 "20",
-                "50",
-                "31",
                 "21",
-                "!!",
+                "30",
+                "31",
                 "40",
                 "41",
+                "50",
                 "60",
+                "99",
+                "!!",
               ],
             },
             "contrat_etablissement_libe": {
@@ -6108,8 +6082,8 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
               "bsonType": "string",
               "enum": [
                 "1",
-                "3",
                 "2",
+                "3",
                 "4",
               ],
             },
@@ -6274,6 +6248,7 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
             "hebergement_etablissement_libe",
             "numero_siren_siret_uai",
             "numero_finess_uai",
+            "date_ouverture",
             "date_fermeture",
             "date_derniere_mise_a_jour",
             "lieu_dit_uai",
@@ -6409,17 +6384,17 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
             "contrat_etablissement": {
               "bsonType": "string",
               "enum": [
-                "99",
                 "10",
-                "30",
                 "20",
-                "50",
-                "31",
                 "21",
-                "!!",
+                "30",
+                "31",
                 "40",
                 "41",
+                "50",
                 "60",
+                "99",
+                "!!",
               ],
             },
             "contrat_etablissement_libe": {
@@ -6570,8 +6545,8 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
               "bsonType": "string",
               "enum": [
                 "1",
-                "3",
                 "2",
+                "3",
                 "4",
               ],
             },
@@ -6736,6 +6711,7 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
             "hebergement_etablissement_libe",
             "numero_siren_siret_uai",
             "numero_finess_uai",
+            "date_ouverture",
             "date_fermeture",
             "date_derniere_mise_a_jour",
             "lieu_dit_uai",
@@ -8006,7 +7982,6 @@ exports[`zodToMongoSchema > should convert source.catalogue schema 1`] = `
             "string",
             "null",
           ],
-          "description": "Numéro de téléphone de contact",
         },
         "objectif": {
           "bsonType": [
@@ -8655,43 +8630,27 @@ exports[`zodToMongoSchema > should convert source.france_competence schema 1`] =
       ],
     },
     "date_derniere_activation": {
-      "anyOf": [
-        {
-          "bsonType": "date",
-        },
-        {
-          "bsonType": "null",
-        },
+      "bsonType": [
+        "date",
+        "null",
       ],
     },
     "date_derniere_publication": {
-      "anyOf": [
-        {
-          "bsonType": "date",
-        },
-        {
-          "bsonType": "null",
-        },
+      "bsonType": [
+        "date",
+        "null",
       ],
     },
     "date_premiere_activation": {
-      "anyOf": [
-        {
-          "bsonType": "date",
-        },
-        {
-          "bsonType": "null",
-        },
+      "bsonType": [
+        "date",
+        "null",
       ],
     },
     "date_premiere_publication": {
-      "anyOf": [
-        {
-          "bsonType": "date",
-        },
-        {
-          "bsonType": "null",
-        },
+      "bsonType": [
+        "date",
+        "null",
       ],
     },
     "numero_fiche": {
@@ -8752,6 +8711,7 @@ exports[`zodToMongoSchema > should convert source.insee_to_ml schema 1`] = `
                   "anyOf": [
                     {
                       "bsonType": "string",
+                      "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
                     },
                     {
                       "bsonType": "null",
@@ -8810,8 +8770,6 @@ exports[`zodToMongoSchema > should convert source.insee_to_ml schema 1`] = `
                               "minimum": -90,
                             },
                           ],
-                          "maxItems": 2,
-                          "minItems": 2,
                         },
                         "type": {
                           "bsonType": "string",
@@ -9117,13 +9075,9 @@ exports[`zodToMongoSchema > should convert source.npec schema 1`] = `
               ],
             },
             "date_applicabilite": {
-              "anyOf": [
-                {
-                  "bsonType": "date",
-                },
-                {
-                  "bsonType": "null",
-                },
+              "bsonType": [
+                "date",
+                "null",
               ],
             },
             "diplome_code": {
@@ -9180,9 +9134,18 @@ exports[`zodToMongoSchema > should convert source.npec schema 1`] = `
           },
           "required": [
             "type",
+            "rncp",
+            "formation_libelle",
+            "certificateur",
+            "diplome_code",
+            "diplome_libelle",
+            "cpne_code",
+            "cpne_libelle",
             "npec",
+            "statut",
             "date_applicabilite",
             "procedure",
+            "idcc",
           ],
         },
         {
@@ -9213,6 +9176,9 @@ exports[`zodToMongoSchema > should convert source.npec schema 1`] = `
           },
           "required": [
             "type",
+            "idcc",
+            "cpne_code",
+            "cpne_libelle",
           ],
         },
       ],
@@ -9446,6 +9412,7 @@ exports[`zodToMongoSchema > should convert source.referentiel schema 1`] = `
                   },
                   "required": [
                     "type",
+                    "coordinates",
                   ],
                 },
                 "properties": {
@@ -9698,6 +9665,7 @@ exports[`zodToMongoSchema > should convert source.referentiel schema 1`] = `
                         },
                         "required": [
                           "type",
+                          "coordinates",
                         ],
                       },
                       "properties": {
@@ -9981,6 +9949,7 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
       "anyOf": [
         {
           "bsonType": "string",
+          "minLength": 1,
         },
         {
           "bsonType": "null",
@@ -10020,13 +9989,9 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
             "bsonType": "string",
           },
           "last_used_at": {
-            "anyOf": [
-              {
-                "bsonType": "date",
-              },
-              {
-                "bsonType": "null",
-              },
+            "bsonType": [
+              "date",
+              "null",
             ],
           },
           "name": {
@@ -10051,6 +10016,7 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
       "anyOf": [
         {
           "bsonType": "string",
+          "minLength": 1,
         },
         {
           "bsonType": "null",
@@ -10062,11 +10028,10 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
     },
     "created_at": {
       "bsonType": "date",
-      "description": "Date d'ajout en base de données",
     },
     "email": {
       "bsonType": "string",
-      "description": "Email de l'utilisateur",
+      "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
     },
     "is_admin": {
       "bsonType": "bool",
@@ -10106,7 +10071,6 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
     },
     "updated_at": {
       "bsonType": "date",
-      "description": "Date de mise à jour en base de données",
     },
   },
   "required": [

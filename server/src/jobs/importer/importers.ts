@@ -93,14 +93,6 @@ export const importers: Record<string, Importer> = {
     checkinMargin: 60, // 1h
     maxRuntimeInMinutes: 30,
   },
-  "Import des NPEC": {
-    cron_string: timings.import_source,
-    handler: runNpecImporter,
-    resumable: true,
-    getStatus: getNpecImporterStatus,
-    checkinMargin: 60, // 1h
-    maxRuntimeInMinutes: 30,
-  },
   "Import des Conventions Collective Kali": {
     cron_string: timings.import_source,
     handler: runKaliConventionCollectivesImporter,

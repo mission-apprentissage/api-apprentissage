@@ -16,10 +16,10 @@ import type {
   RawServerDefault,
 } from "fastify";
 import { fastify } from "fastify";
-import type { ZodTypeProvider } from "fastify-type-provider-zod";
-import { serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
+import type { ZodTypeProvider } from "@moroine/fastify-type-provider-zod";
+import { serializerCompiler, validatorCompiler } from "@moroine/fastify-type-provider-zod";
 import { generateOpenApiSchema } from "shared/openapi/generateOpenapi";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 import { apiKeyUsageMiddleware } from "./middlewares/apiKeyUsageMiddleware.js";
 import { auth } from "./middlewares/authMiddleware.js";
@@ -72,7 +72,7 @@ export async function bind(app: Server) {
     "/api/swagger.json",
     {
       schema: {
-        querystring: z.object({ lang: z.string().optional() }),
+        querystring: z.object({ lang: z.optional(z.string()) }),
       },
     },
     async (req, res) => {

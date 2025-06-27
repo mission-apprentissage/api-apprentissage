@@ -1,5 +1,5 @@
 import { ObjectId } from "bson";
-import type { z } from "zod";
+import type { z } from "zod/v4-mini";
 
 import type { IUser } from "../user.model.js";
 import { zUser } from "../user.model.js";

@@ -17,19 +17,33 @@ export const formationModelOpenapi: OpenapiModel<"Formation"> = {
           },
         },
         required: ["connue", "valeur"],
+        additionalProperties: false,
         type: "object",
       },
       contact: {
         properties: {
           email: {
-            format: "email",
-            type: ["string", "null"],
+            anyOf: [
+              {
+                format: "email",
+                type: "string",
+                pattern:
+                  "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
+              },
+              { type: "null" },
+            ],
           },
           telephone: {
-            type: ["string", "null"],
+            anyOf: [
+              {
+                type: "string",
+              },
+              { type: "null" },
+            ],
           },
         },
         required: ["email", "telephone"],
+        additionalProperties: false,
         type: "object",
       },
       contenu_educatif: {
@@ -42,6 +56,7 @@ export const formationModelOpenapi: OpenapiModel<"Formation"> = {
           },
         },
         required: ["contenu", "objectif"],
+        additionalProperties: false,
         type: "object",
       },
       formateur: {
@@ -50,7 +65,7 @@ export const formationModelOpenapi: OpenapiModel<"Formation"> = {
             type: "boolean",
           },
           organisme: {
-            oneOf: [
+            anyOf: [
               {
                 $ref: "#/components/schemas/Organisme",
               },
@@ -59,6 +74,7 @@ export const formationModelOpenapi: OpenapiModel<"Formation"> = {
           },
         },
         required: ["connu", "organisme"],
+        additionalProperties: false,
         type: "object",
       },
       identifiant: {
@@ -68,6 +84,7 @@ export const formationModelOpenapi: OpenapiModel<"Formation"> = {
           },
         },
         required: ["cle_ministere_educatif"],
+        additionalProperties: false,
         type: "object",
       },
       lieu: {
@@ -79,24 +96,23 @@ export const formationModelOpenapi: OpenapiModel<"Formation"> = {
             $ref: "#/components/schemas/GeoJsonPoint",
           },
           precision: {
-            type: ["number", "null"],
+            anyOf: [{ type: "number" }, { type: "null" }],
           },
           siret: {
-            pattern: "^\\d{9,14}$",
-            type: ["string", "null"],
+            anyOf: [{ type: "string", pattern: "^\\d{14}$" }, { type: "null" }],
           },
           uai: {
-            pattern: "^\\d{1,7}[A-Z]$",
-            type: ["string", "null"],
+            anyOf: [{ type: "string", pattern: "^\\d{7}[A-Z]$" }, { type: "null" }],
           },
         },
         required: ["adresse", "geolocalisation", "precision", "siret", "uai"],
+        additionalProperties: false,
         type: "object",
       },
       modalite: {
         properties: {
           annee_cycle: {
-            type: ["integer", "null"],
+            anyOf: [{ type: "integer" }, { type: "null" }],
           },
           duree_indicative: {
             type: "number",
@@ -105,36 +121,36 @@ export const formationModelOpenapi: OpenapiModel<"Formation"> = {
             type: "boolean",
           },
           mef_10: {
-            pattern: "^\\d{10}$",
-            type: ["string", "null"],
+            anyOf: [{ type: "string", pattern: "^\\d{10}$" }, { type: "null" }],
           },
         },
         required: ["annee_cycle", "duree_indicative", "entierement_a_distance", "mef_10"],
+        additionalProperties: false,
         type: "object",
       },
       onisep: {
         properties: {
           discipline: {
-            type: ["string", "null"],
+            anyOf: [{ type: "string" }, { type: "null" }],
           },
           domaine_sousdomaine: {
-            type: ["string", "null"],
+            anyOf: [{ type: "string" }, { type: "null" }],
           },
           intitule: {
-            type: ["string", "null"],
+            anyOf: [{ type: "string" }, { type: "null" }],
           },
           libelle_poursuite: {
-            type: ["string", "null"],
+            anyOf: [{ type: "string" }, { type: "null" }],
           },
           lien_site_onisepfr: {
-            type: ["string", "null"],
+            anyOf: [{ type: "string" }, { type: "null" }],
           },
           url: {
-            format: "uri",
-            type: ["string", "null"],
+            anyOf: [{ type: "string", format: "uri" }, { type: "null" }],
           },
         },
         required: ["discipline", "domaine_sousdomaine", "intitule", "libelle_poursuite", "lien_site_onisepfr", "url"],
+        additionalProperties: false,
         type: "object",
       },
       responsable: {
@@ -143,7 +159,7 @@ export const formationModelOpenapi: OpenapiModel<"Formation"> = {
             type: "boolean",
           },
           organisme: {
-            oneOf: [
+            anyOf: [
               {
                 $ref: "#/components/schemas/Organisme",
               },
@@ -152,13 +168,14 @@ export const formationModelOpenapi: OpenapiModel<"Formation"> = {
           },
         },
         required: ["connu", "organisme"],
+        additionalProperties: false,
         type: "object",
       },
       sessions: {
         items: {
           properties: {
             capacite: {
-              type: ["number", "null"],
+              anyOf: [{ type: "number" }, { type: "null" }],
             },
             debut: {
               format: "date-time",
@@ -170,6 +187,7 @@ export const formationModelOpenapi: OpenapiModel<"Formation"> = {
             },
           },
           required: ["capacite", "debut", "fin"],
+          additionalProperties: false,
           type: "object",
         },
         type: "array",
@@ -182,6 +200,7 @@ export const formationModelOpenapi: OpenapiModel<"Formation"> = {
           },
         },
         required: ["catalogue"],
+        additionalProperties: false,
         type: "object",
       },
     },
@@ -198,6 +217,7 @@ export const formationModelOpenapi: OpenapiModel<"Formation"> = {
       "sessions",
       "statut",
     ],
+    additionalProperties: false,
   },
   doc: formationModelDoc,
   zod: zFormation,

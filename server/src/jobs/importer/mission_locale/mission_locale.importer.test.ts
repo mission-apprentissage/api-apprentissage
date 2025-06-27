@@ -3,6 +3,7 @@ import { fileURLToPath } from "url";
 import { ObjectId } from "mongodb";
 import { sourceUnmlResultsFixtures } from "shared/models/fixtures/commune.model.fixture";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { zSourceUnmlPayload } from "shared";
 import { runMissionLocaleImporter } from "./mission_locale.importer.js";
 import { useMongo } from "@tests/mongo.test.utils.js";
 
@@ -31,9 +32,8 @@ describe("runMissionLocaleImporter", () => {
     vi.mocked(getStaticFilePath).mockImplementation(() =>
       join(dirname(fileURLToPath(import.meta.url)), `fixtures/couverture.csv`)
     );
-    vi.mocked(fetchDepartementMissionLocale).mockImplementation(
-      async (codeDepartement: string) =>
-        sourceUnmlResultsFixtures[codeDepartement as keyof typeof sourceUnmlResultsFixtures]
+    vi.mocked(fetchDepartementMissionLocale).mockImplementation(async (codeDepartement: string) =>
+      zSourceUnmlPayload.parse(sourceUnmlResultsFixtures[codeDepartement as keyof typeof sourceUnmlResultsFixtures])
     );
 
     await runMissionLocaleImporter();

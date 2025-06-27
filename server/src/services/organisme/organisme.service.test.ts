@@ -5,7 +5,7 @@ import { generateOrganismeReferentielFixture, generateSourceReferentiel } from "
 import type { ISourceReferentiel } from "shared/models/source/referentiel/source.referentiel.model";
 import { zSourceReferentiel } from "shared/models/source/referentiel/source.referentiel.model";
 import { beforeEach, describe, expect, it } from "vitest";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 import tdbFiabResultData from "./fixtures/tdb/fiabilisation.fixture.json" with { type: "json" };
 import tdbReferentielFixtureData from "./fixtures/tdb/referentiel.fixture.json" with { type: "json" };

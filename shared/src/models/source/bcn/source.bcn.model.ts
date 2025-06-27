@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 import type { IModelDescriptorGeneric } from "../../common.js";
 import { zBcn_N_FormationDiplome } from "./bcn.n_formation_diplome.model.js";

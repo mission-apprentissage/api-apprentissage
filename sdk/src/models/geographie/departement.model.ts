@@ -1,21 +1,17 @@
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
-import { zodOpenApi } from "../../openapi/utils/zodWithOpenApi.js";
-
-export const zDepartement = zodOpenApi
-  .object({
-    nom: z.string(),
+export const zDepartement = z.object({
+  nom: z.string(),
+  codeInsee: z.string(),
+  region: z.object({
     codeInsee: z.string(),
-    region: z.object({
-      codeInsee: z.string(),
-      nom: z.string(),
-    }),
-    academie: z.object({
-      id: z.string(),
-      code: z.string(),
-      nom: z.string(),
-    }),
-  })
-  .openapi("Departement");
+    nom: z.string(),
+  }),
+  academie: z.object({
+    id: z.string(),
+    code: z.string(),
+    nom: z.string(),
+  }),
+});
 
 export type IDepartement = z.infer<typeof zDepartement>;

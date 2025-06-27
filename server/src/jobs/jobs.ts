@@ -1,6 +1,6 @@
 import { addJob, initJobProcessor } from "job-processor";
 import { zImportMetaFranceCompetence, zImportMetaNpec } from "shared/models/import.meta.model";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 import { notifyUsersAboutExpiringApiKeys } from "./apiKey/apiKeyExpiration.notifier.js";
 import { validateModels } from "./db/schemaValidation.js";
@@ -145,18 +145,20 @@ export async function setupJobProcessor() {
       "import:certifications": {
         handler: async (job) =>
           importCertifications(
-            z
-              .object({
-                force: z.boolean().optional(),
-              })
-              .nullish()
-              .parse(job.payload)
+            z.parse(
+              z.nullish(
+                z.object({
+                  force: z.optional(z.boolean()),
+                })
+              ),
+              job.payload
+            )
           ),
         resumable: true,
       },
       "import:organismes": {
         handler: async (job) => {
-          const options = z.object({ force: z.boolean().optional() }).nullish().parse(job.payload);
+          const options = z.parse(z.nullish(z.object({ force: z.optional(z.boolean()) })), job.payload);
           return importOrganismes(options?.force ?? false);
         },
         resumable: true,

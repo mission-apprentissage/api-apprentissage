@@ -49,7 +49,7 @@ export default function UserView({ user, organisations, lang }: Props) {
     getValues,
     setValue,
     trigger,
-  } = useForm<Props["user"]>({
+  } = useForm<Jsonify<IUserAdminView>>({
     mode: "all",
     resolver: zodResolver(zRoutes.put["/_private/admin/users/:id"].body),
     defaultValues: {

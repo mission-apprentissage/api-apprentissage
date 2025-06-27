@@ -104,9 +104,9 @@ describe("get", () => {
         message: "Request validation failed",
         data: {
           validationError: {
-            _errors: [],
+            errors: [],
             "identifiant.rncp": {
-              _errors: ["Invalid"],
+              errors: ["Invalid"],
             },
           },
         },
@@ -130,9 +130,9 @@ describe("get", () => {
     expect(err.context).toEqual({
       errorData: {
         validationError: {
-          _errors: [],
+          errors: [],
           "identifiant.rncp": {
-            _errors: ["Invalid"],
+            errors: ["Invalid"],
           },
         },
       },

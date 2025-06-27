@@ -1,7 +1,7 @@
 import type { SchemaWithSecurity } from "api-alternance-sdk";
 import { generateOrganisationFixture, generateUserFixture } from "shared/models/fixtures/index";
 import { describe, expect, it } from "vitest";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 import { zObjectId } from "zod-mongodb-schema";
 
 import { generateAccessToken, generateScope, parseAccessToken } from "./accessTokenService.js";
@@ -26,8 +26,8 @@ describe("isAuthorizedToken", () => {
   const schema: SchemaWithSecurity = {
     method: "get",
     path: "/users/:id/status",
-    params: z.object({ id: zObjectId }).strict(),
-    querystring: z.object({ ids: z.array(zObjectId) }).strict(),
+    params: z.object({ id: zObjectId }),
+    querystring: z.object({ ids: z.array(zObjectId) }),
     securityScheme: {
       auth: "cookie-session",
       access: "user:manage",

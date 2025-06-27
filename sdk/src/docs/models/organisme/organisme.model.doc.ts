@@ -33,20 +33,22 @@ export const organismeModelDoc = {
       properties: {
         adresse: {
           descriptions: [{ fr: "Adresse de l'établissement", en: "Establishment's address" }],
-          oneOf: [{ descriptions: null }, { descriptions: null }],
+          anyOf: [{ descriptions: null }, { descriptions: null }],
         },
         geopoint: {
           descriptions: [{ fr: "Coordonnées GPS de l'établissement", en: "GPS coordinates of the establishment" }],
-          oneOf: [{ descriptions: null }, { descriptions: null }],
+          anyOf: [{ descriptions: null }, { descriptions: null }],
         },
         creation: {
           descriptions: [{ fr: "Date de création de l'établissement", en: "Establishment's creation date" }],
         },
         enseigne: {
           descriptions: [{ fr: "Enseigne de l'établissement", en: "Establishment's brand" }],
+          anyOf: [{ descriptions: null }, { descriptions: null }],
         },
         fermeture: {
           descriptions: [{ fr: "Date de fermeture de l'établissement", en: "Establishment's closing date" }],
+          anyOf: [{ descriptions: null }, { descriptions: null }],
         },
         ouvert: {
           descriptions: [{ fr: "Etablissement ouvert", en: "Establishment open" }],
@@ -64,6 +66,7 @@ export const organismeModelDoc = {
         },
         uai: {
           descriptions: [{ fr: "Numéro UAI de l'organisme", en: "Organism's UAI number" }],
+          anyOf: [{ descriptions: null }, { descriptions: null }],
         },
       },
     },
@@ -72,6 +75,7 @@ export const organismeModelDoc = {
       properties: {
         numero_activite: {
           descriptions: [{ fr: "Numéro d'activité", en: "Activity number" }],
+          anyOf: [{ descriptions: null }, { descriptions: null }],
         },
         qualiopi: {
           descriptions: [{ fr: "Qualiopi", en: "Qualiopi" }],
@@ -99,6 +103,7 @@ export const organismeModelDoc = {
         },
         cessation: {
           descriptions: [{ fr: "Date de cessation de l'unité légale", en: "Legal unit cessation date" }],
+          anyOf: [{ descriptions: null }, { descriptions: null }],
         },
         creation: {
           descriptions: [{ fr: "Date de création de l'unité légale", en: "Legal unit creation date" }],

@@ -535,7 +535,7 @@ exports[`runMissionLocaleImporter > should import initial ml 1`] = `
     "ml": {
       "code": "77333",
       "contact": {
-        "email": "",
+        "email": null,
         "siteWeb": "https://www.mlseineetloing.fr/",
         "telephone": "01 64 28 51 58",
       },
@@ -565,7 +565,7 @@ exports[`runMissionLocaleImporter > should import initial ml 1`] = `
     "ml": {
       "code": "77333",
       "contact": {
-        "email": "",
+        "email": null,
         "siteWeb": "https://www.mlseineetloing.fr/",
         "telephone": "01 64 28 51 58",
       },

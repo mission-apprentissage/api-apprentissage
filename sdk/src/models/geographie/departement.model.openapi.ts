@@ -16,6 +16,7 @@ const departementSchema: SchemaObject = {
         nom: { type: "string" },
       },
       required: ["codeInsee", "nom"],
+      additionalProperties: false,
     },
     academie: {
       type: "object",
@@ -25,9 +26,11 @@ const departementSchema: SchemaObject = {
         nom: { type: "string" },
       },
       required: ["id", "code", "nom"],
+      additionalProperties: false,
     },
   },
   required: ["nom", "codeInsee", "academie", "region"],
+  additionalProperties: false,
 };
 
 export const departementModelOpenapi: OpenapiModel<"Departement"> = {

@@ -1,10 +1,10 @@
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 export const zDataGouvDatasetResource = z.object({
-  created_at: z.string().datetime({ offset: true }).pipe(z.coerce.date()),
+  created_at: z.pipe(z.iso.datetime({ offset: true }), z.coerce.date()),
   id: z.string(),
-  last_modified: z.string().datetime({ offset: true }).pipe(z.coerce.date()),
-  latest: z.string().url(),
+  last_modified: z.pipe(z.iso.datetime({ offset: true }), z.coerce.date()),
+  latest: z.string().check(z.url()),
   title: z.string(),
 });
 

@@ -1,4 +1,14 @@
-import { z } from "zod";
+import { z } from "zod/v4-mini";
+
+const zStringTrimmed = z.string().check(z.trim(), z.minLength(1));
+
+const zStringTrimmedNullable = z.pipe(
+  z.pipe(
+    z.nullable(z.string().check(z.trim())),
+    z.transform((value) => value || null)
+  ),
+  z.nullable(zStringTrimmed.check(z.minLength(1)))
+);
 
 export const zSourceMissionLocale = z.object({
   id: z.number(),
@@ -6,38 +16,23 @@ export const zSourceMissionLocale = z.object({
   numAdherent: z.number(),
   structureStatutId: z.number(),
   structureTypeId: z.number(),
-  nomStructure: z.string().transform((v) => v.trim()),
+  nomStructure: zStringTrimmed,
   porteusePLIE: z.boolean(),
   porteuseMDE: z.boolean(),
   porteuseML: z.boolean(),
   effectif: z.string(),
   effectifETP: z.string(),
-  adresse1: z
-    .string()
-    .min(1)
-    .transform((v) => v.trim()),
-  adresse2: z.string().transform((v) => v.trim()),
-  cp: z.string().min(1),
+  adresse1: zStringTrimmed.check(z.minLength(1)),
+  adresse2: z.string().check(z.trim()),
+  cp: z.string().check(z.minLength(1)),
   ville: z.string(),
-  telephones: z.string().transform((value) => (value.trim() === "" ? null : value.trim())),
+  telephones: zStringTrimmedNullable,
   fax: z.string(),
   siret: z.string(),
-  siteWeb: z
-    .string()
-    .transform((value) => (value.trim() === "" ? null : value.trim()))
-    .pipe(z.string().nullable()),
-  emailAccueil: z
-    .string()
-    .transform((value) => (value.trim() === "" ? null : value.trim()))
-    .pipe(z.string().email().nullable()),
-  geoloc_lng: z
-    .string()
-    .transform((value) => (value.trim() === "" ? null : value.trim()))
-    .pipe(z.string().nullable()),
-  geoloc_lat: z
-    .string()
-    .transform((value) => (value.trim() === "" ? null : value.trim()))
-    .pipe(z.string().nullable()),
+  siteWeb: zStringTrimmedNullable,
+  emailAccueil: zStringTrimmedNullable,
+  geoloc_lng: zStringTrimmedNullable,
+  geoloc_lat: zStringTrimmedNullable,
   linkedin: z.string(),
   twitter: z.string(),
   reseau: z.boolean(),
@@ -48,7 +43,7 @@ export const zSourceMissionLocale = z.object({
   codeRegion: z.string(),
   dateModification: z.number(),
   nbAntennes: z.number(),
-  codeStructure: z.string().transform((v) => v.trim()),
+  codeStructure: zStringTrimmed,
   serviceCivique: z.boolean(),
   isPartenaire: z.boolean(),
   label: z.boolean(),

@@ -41,9 +41,8 @@
     "vitest": "^3.2.3"
   },
   "dependencies": {
-    "@asteasolutions/zod-to-openapi": "^7.3.3",
     "@fastify/swagger": "^9.5.1",
-    "@readme/openapi-parser": "^2.7.0",
+    "@readme/openapi-parser": "^4.1.0",
     "jsonwebtoken": "^9.0.2",
     "lru-cache": "^11.1.0",
     "luhn": "^2.4.1",
@@ -51,6 +50,6 @@
     "microdiff": "^1.5.0",
     "openapi3-ts": "^4.4.0",
     "safe-stable-stringify": "^2.5.0",
-    "zod": "^3.25.64"
+    "zod": "^3.25.67"
   }
 }

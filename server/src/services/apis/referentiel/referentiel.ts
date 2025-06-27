@@ -1,7 +1,7 @@
 import { internal, isBoom } from "@hapi/boom";
 import { isAxiosError } from "axios";
 import { zOrganismeReferentiel } from "shared/models/source/referentiel/source.referentiel.model";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 import config from "@/config.js";
 import getApiClient from "@/services/apis/client.js";
@@ -34,7 +34,7 @@ export const fetchReferentielOrganismes = async () => {
           nombre_de_page: z.number(),
           total: z.number(),
         }),
-        organismes: zOrganismeReferentiel.array(),
+        organismes: z.array(zOrganismeReferentiel),
       })
       .parse(data);
 

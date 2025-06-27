@@ -1,5 +1,6 @@
 import type { EmptyObject } from "type-fest";
-import type { z, ZodType } from "zod";
+import type { $ZodType } from "zod/v4/core";
+import type { z } from "zod/v4-mini";
 
 import type { IApiRouteSchema, IApiRouteSchemaWrite } from "../routes/common.routes.js";
 import type {
@@ -23,7 +24,7 @@ import type { OrganismeModule } from "./internal/organisme/organisme.module.js";
 import { buildOrganismeModule } from "./internal/organisme/organisme.module.js";
 
 type OptionsGet = {
-  [Prop in keyof Pick<IApiRouteSchema, "params" | "querystring" | "headers">]: IApiRouteSchema[Prop] extends ZodType
+  [Prop in keyof Pick<IApiRouteSchema, "params" | "querystring" | "headers">]: IApiRouteSchema[Prop] extends $ZodType
     ? z.input<IApiRouteSchema[Prop]>
     : never;
 };
@@ -32,7 +33,7 @@ type OptionsWrite = {
   [Prop in keyof Pick<
     IApiRouteSchemaWrite,
     "params" | "querystring" | "headers" | "body"
-  >]: IApiRouteSchemaWrite[Prop] extends ZodType ? z.input<IApiRouteSchemaWrite[Prop]> : never;
+  >]: IApiRouteSchemaWrite[Prop] extends $ZodType ? z.input<IApiRouteSchemaWrite[Prop]> : never;
 };
 
 type IRequestOptions = OptionsGet | OptionsWrite | EmptyObject;

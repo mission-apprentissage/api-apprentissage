@@ -1,5 +1,5 @@
 import type { IApiRoutesDef } from "api-alternance-sdk";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 import { zObjectId } from "../../../models/common.js";
 import { zUserAdminUpdate, zUserAdminView } from "../../../models/user.model.js";
@@ -21,7 +21,7 @@ export const zUserAdminRoutes = {
     "/_private/admin/users/:id": {
       method: "get",
       path: "/_private/admin/users/:id",
-      params: z.object({ id: zObjectId }).strict(),
+      params: z.object({ id: zObjectId }),
       response: { "200": zUserAdminView },
       securityScheme: {
         auth: "cookie-session",
@@ -35,7 +35,7 @@ export const zUserAdminRoutes = {
     "/_private/admin/users/:id": {
       method: "put",
       path: "/_private/admin/users/:id",
-      params: z.object({ id: zObjectId }).strict(),
+      params: z.object({ id: zObjectId }),
       body: zUserAdminUpdate,
       response: { "200": zUserAdminView },
       securityScheme: {

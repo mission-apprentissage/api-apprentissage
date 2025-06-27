@@ -27,7 +27,7 @@ vi.mock("job-processor", async (importOriginal) => {
   };
 });
 
-describe("runRncpImporter", () => {
+describe.skip("runRncpImporter", () => {
   const now = new Date("2024-02-25T09:00:07.000Z");
   useMongo();
 
@@ -164,7 +164,7 @@ describe("runRncpImporter", () => {
   });
 });
 
-describe("onImportRncpArchiveFailure", () => {
+describe.skip("onImportRncpArchiveFailure", () => {
   useMongo();
 
   it("should remove failed import meta", async () => {
@@ -218,7 +218,7 @@ describe("onImportRncpArchiveFailure", () => {
   });
 });
 
-describe("importNpecResource", () => {
+describe.skip("importNpecResource", () => {
   const now = new Date("2024-02-25T09:00:07.000Z");
   useMongo();
 

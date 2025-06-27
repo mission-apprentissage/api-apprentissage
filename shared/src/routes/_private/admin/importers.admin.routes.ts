@@ -1,9 +1,9 @@
 import type { IApiRoutesDef } from "api-alternance-sdk";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 export const zImportStatus = z.object({
-  last_import: z.date().nullable(),
-  last_success: z.date().nullable(),
+  last_import: z.nullable(z.date()),
+  last_success: z.nullable(z.date()),
   status: z.enum(["done", "failed", "pending"]),
   resources: z.array(
     z.object({
@@ -21,7 +21,7 @@ export const zImporterAdminRoutes = {
     "/_private/importers/status": {
       method: "get",
       path: "/_private/importers/status",
-      response: { "200": z.record(zImportStatus) },
+      response: { "200": z.record(z.string(), zImportStatus) },
       securityScheme: {
         auth: "cookie-session",
         access: "admin",

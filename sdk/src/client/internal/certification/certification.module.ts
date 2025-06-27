@@ -1,6 +1,6 @@
 import { LRUCache } from "lru-cache";
 import { stringify } from "safe-stable-stringify";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 import type { ICertification } from "../../../models/index.js";
 import { zCertification } from "../../../models/index.js";

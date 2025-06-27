@@ -38,9 +38,11 @@ export const formationModelDoc = {
       properties: {
         email: {
           descriptions: [{ fr: "Email de contact de la formation", en: "Training contact email" }],
+          anyOf: [{ descriptions: null }, { descriptions: null }],
         },
         telephone: {
           descriptions: [{ fr: "Téléphone de contact de la formation", en: "Training contact phone" }],
+          anyOf: [{ descriptions: null }, { descriptions: null }],
         },
       },
     },
@@ -82,7 +84,7 @@ export const formationModelDoc = {
         },
         organisme: {
           descriptions: [{ fr: "L'organisme de formation", en: "Training organism" }],
-          oneOf: [{ descriptions: null }, { descriptions: null }],
+          anyOf: [{ descriptions: null }, { descriptions: null }],
         },
       },
     },
@@ -119,12 +121,15 @@ export const formationModelDoc = {
               en: "This is the distance between the geolocated point and the location deduced from the address",
             },
           ],
+          anyOf: [{ descriptions: null }, { descriptions: null }],
         },
         siret: {
           descriptions: [{ fr: "Numéro SIRET du lieu de formation", en: "Training place SIRET number" }],
+          anyOf: [{ descriptions: null }, { descriptions: null }],
         },
         uai: {
           descriptions: [{ fr: "Numéro UAI du lieu de formation", en: "Training place UAI number" }],
+          anyOf: [{ descriptions: null }, { descriptions: null }],
         },
       },
     },
@@ -138,6 +143,7 @@ export const formationModelDoc = {
               en: "The start year of the training session.",
             },
           ],
+          anyOf: [{ descriptions: null }, { descriptions: null }],
         },
         duree_indicative: {
           descriptions: [{ fr: "Durée indicative de la formation", en: "Indicative duration of the training" }],
@@ -152,6 +158,7 @@ export const formationModelDoc = {
         },
         mef_10: {
           descriptions: [{ fr: "Code MEF 10 de la formation", en: "Training MEF 10 code" }],
+          anyOf: [{ descriptions: null }, { descriptions: null }],
         },
       },
     },
@@ -163,12 +170,12 @@ export const formationModelDoc = {
         },
       ],
       properties: {
-        discipline: { descriptions: null },
-        domaine_sousdomaine: { descriptions: null },
-        intitule: { descriptions: null },
-        libelle_poursuite: { descriptions: null },
-        lien_site_onisepfr: { descriptions: null },
-        url: { descriptions: null },
+        discipline: { descriptions: null, anyOf: [{ descriptions: null }, { descriptions: null }] },
+        domaine_sousdomaine: { descriptions: null, anyOf: [{ descriptions: null }, { descriptions: null }] },
+        intitule: { descriptions: null, anyOf: [{ descriptions: null }, { descriptions: null }] },
+        libelle_poursuite: { descriptions: null, anyOf: [{ descriptions: null }, { descriptions: null }] },
+        lien_site_onisepfr: { descriptions: null, anyOf: [{ descriptions: null }, { descriptions: null }] },
+        url: { descriptions: null, anyOf: [{ descriptions: null }, { descriptions: null }] },
       },
     },
     responsable: {
@@ -201,7 +208,7 @@ export const formationModelDoc = {
         },
         organisme: {
           descriptions: [{ fr: "L'organisme responsable", en: "Responsible organism" }],
-          oneOf: [{ descriptions: null }, { descriptions: null }],
+          anyOf: [{ descriptions: null }, { descriptions: null }],
         },
       },
     },
@@ -212,6 +219,7 @@ export const formationModelDoc = {
         properties: {
           capacite: {
             descriptions: [{ fr: "Capacité de la session", en: "Session capacity" }],
+            anyOf: [{ descriptions: null }, { descriptions: null }],
           },
           debut: {
             descriptions: [{ fr: "Date de début de la session", en: "Session start date" }],

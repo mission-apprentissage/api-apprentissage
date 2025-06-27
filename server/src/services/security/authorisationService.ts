@@ -8,7 +8,6 @@ import type { IOrganisationInternal } from "shared/models/organisation.model";
 import type { IUser } from "shared/models/user.model";
 import type { IAccessToken } from "shared/routes/common.routes";
 import { assertUnreachable } from "shared/utils/assertUnreachable";
-import type { Primitive } from "zod";
 import { zObjectId } from "zod-mongodb-schema";
 
 import { getAccessTokenScope } from "./accessTokenService.js";
@@ -23,7 +22,7 @@ export type Ressources = {
 type IRequest = Pick<FastifyRequest, "user" | "params" | "query" | "organisation">;
 
 function getAccessResourcePathValue(path: AccessResourcePath, req: IRequest) {
-  const obj = req[path.type] as Record<string, Primitive>;
+  const obj = req[path.type] as Record<string, string | number | symbol | bigint | boolean | null | undefined>;
   return obj[path.key];
 }
 

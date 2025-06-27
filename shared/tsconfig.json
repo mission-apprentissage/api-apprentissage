@@ -23,7 +23,7 @@
   },
   "references": [{ "path": "../sdk" }],
   "include": ["./src/**/*.ts"],
-  "exclude": ["**/node_modules"],
+  "exclude": ["**/node_modules", "**/dist"],
   "typeAcquisition": {
     "enable": true,
     "include": ["@types/node"]

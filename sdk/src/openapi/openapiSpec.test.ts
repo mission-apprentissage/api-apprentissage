@@ -1,7 +1,7 @@
 import type { ReferenceObject, SchemaObject } from "openapi3-ts/oas31";
 import { describe, expect, it } from "vitest";
-import { ZodUnknown } from "zod";
 
+import { ZodMiniUnknown } from "zod/v4-mini";
 import type { DocRoute, DocTechnicalField } from "../docs/types.js";
 import { zApiRoutes } from "../routes/index.js";
 import { buildOpenApiSchema } from "./builder/openapi.builder.js";
@@ -9,11 +9,7 @@ import type { StructureDiff } from "./compare/compareOpenapiSchema.js";
 import { compareOperationObjectsStructure, compareSchemaObjectsStructure } from "./compare/compareOpenapiSchema.js";
 import { openapiSpec } from "./openapiSpec.js";
 import type { OpenapiRoute } from "./types.js";
-import {
-  generateOpenApiComponentSchemasFromZod,
-  generateOpenApiPathsObjectFromZod,
-  getOpenapiOperations,
-} from "./utils/openapi.uils.js";
+import { generateOpenApiDocFromZod, getOpenapiOperations } from "./utils/openapi.uils.js";
 
 function getDocTechnicalFieldListStructure(docs: DocTechnicalField[], prefix: string = ""): string[] {
   const structure: string[] = [prefix];
@@ -203,17 +199,6 @@ describe("openapiSpec#models", () => {
     expect(getDocTechnicalFieldStructure(model.doc)).toEqual(getSchemaObjectDocStructure(model.schema));
   });
 
-  it.each(Object.entries(openapiSpec.models))(
-    "should zod model defined with zodOpenapi for %s",
-    (_modelName, model) => {
-      if (model.zod === null) {
-        return;
-      }
-
-      expect(model.zod._def.openapi?._internal?.refId).toEqual(model.name);
-    }
-  );
-
   it("should generate schema in sync with zod definition", async () => {
     const builder = buildOpenApiSchema("0.0.0", "test", "https://api-test.apprentissage.beta.houv.fr", "fr");
     const doc = builder.getSpec();
@@ -222,15 +207,14 @@ describe("openapiSpec#models", () => {
       throw new Error("Unsupported OpenAPI version");
     }
 
-    const zodSchema = generateOpenApiComponentSchemasFromZod(openapiSpec.models);
-
+    const zodSchema = generateOpenApiDocFromZod({}, openapiSpec.models, "").components?.schemas ?? {};
     const diff = Object.entries(openapiSpec.models).reduce<Record<string, StructureDiff<"zod", "api">>>(
       (acc, [name, model]) => {
-        if (model.zod instanceof ZodUnknown) {
+        if (model.zod instanceof ZodMiniUnknown) {
           return acc;
         }
 
-        const zodModel = zodSchema[name] as SchemaObject;
+        const zodModel = zodSchema[`#/components/schemas/${name}`];
         const d = compareSchemaObjectsStructure({ name: "zod", s: zodModel }, { name: "api", s: model.schema });
 
         if (d !== null) {
@@ -242,14 +226,14 @@ describe("openapiSpec#models", () => {
       {}
     );
 
-    expect(diff).toMatchSnapshot();
+    expect(diff).toEqual({});
   });
 });
 
 describe("openapiSpec#routes", () => {
   describe.each(Object.entries(openapiSpec.routes))("route %s", (_routeName, route) => {
     it.each(Object.entries(route))("should have doc in sync with schema %s", (_key, operation) => {
-      if (operation.doc === null) {
+      if (operation?.doc == null) {
         return;
       }
       expect(getDocRouteStructure(operation.doc)).toEqual(getOperationObjectDocStructure(operation.schema));
@@ -265,7 +249,9 @@ describe("openapiSpec#routes", () => {
     }
 
     const resultOperations = getOpenapiOperations(doc.paths);
-    const zodOperations = getOpenapiOperations(generateOpenApiPathsObjectFromZod(zApiRoutes, "test"));
+
+    const zodPaths = generateOpenApiDocFromZod(zApiRoutes, openapiSpec.models, "test").paths ?? {};
+    const zodOperations = getOpenapiOperations(zodPaths);
 
     const operationIds = Object.entries(openapiSpec.routes).flatMap(([path, route]) => {
       return Object.keys(route).map((method) => `${method}:${path}`);
@@ -288,6 +274,6 @@ describe("openapiSpec#routes", () => {
       return acc;
     }, {});
 
-    expect(diff).toMatchSnapshot();
+    expect(diff).toEqual({});
   });
 });

@@ -2,33 +2,5 @@
 
 exports[`recherche > should throw if the response does not match the schema 1`] = `
 "api-alternance-sdk: Error while parsing API response, this is either a bug in the SDK or a change in the API response. Please report this issue.
-	ZodErrors: [
-	  {
-	    "code": "invalid_type",
-	    "expected": "object",
-	    "received": "undefined",
-	    "path": [
-	      "metadata"
-	    ],
-	    "message": "Required"
-	  },
-	  {
-	    "code": "invalid_type",
-	    "expected": "object",
-	    "received": "undefined",
-	    "path": [
-	      "resultat"
-	    ],
-	    "message": "Required"
-	  },
-	  {
-	    "code": "invalid_type",
-	    "expected": "array",
-	    "received": "undefined",
-	    "path": [
-	      "candidats"
-	    ],
-	    "message": "Required"
-	  }
-	]"
+{"errors":[],"properties":{"metadata":{"errors":["Invalid input"]},"resultat":{"errors":["Invalid input"]},"candidats":{"errors":["Invalid input"]}}}"
 `;

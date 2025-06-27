@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 import type { IModelDescriptorGeneric } from "./common.js";
 import { zObjectId } from "./common.js";
@@ -7,15 +7,13 @@ const collectionName = "email_denied" as const;
 
 const indexes: IModelDescriptorGeneric["indexes"] = [[{ email: 1 }, {}]];
 
-export const ZEmailDenied = z
-  .object({
-    _id: zObjectId,
-    email: z.string().describe("L'email rejetée"),
-    reason: z.enum(["unsubscribe"]),
-    updated_at: z.date().optional().describe("Date de mise à jour en base de données"),
-    created_at: z.date().describe("Date d'ajout en base de données"),
-  })
-  .strict();
+export const ZEmailDenied = z.object({
+  _id: zObjectId,
+  email: z.string(),
+  reason: z.enum(["unsubscribe"]),
+  updated_at: z.optional(z.date()),
+  created_at: z.date(),
+});
 
 export type IEmailDenied = z.output<typeof ZEmailDenied>;
 

@@ -1,5 +1,5 @@
 import type { Jsonify } from "type-fest";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 import type { IModelDescriptorGeneric } from "./common.js";
 import { zObjectId } from "./common.js";
@@ -30,27 +30,37 @@ const indexes: IModelDescriptorGeneric["indexes"] = [
 
 export const zApiKey = z.object({
   _id: zObjectId,
-  name: z.string().nullable(),
+  name: z.nullable(z.string()),
   key: z.string(),
-  last_used_at: z.date().nullable(),
+  last_used_at: z.nullable(z.date()),
   expires_at: z.date(),
   created_at: z.date(),
-  expiration_warning_sent: z.enum(["30-days", "15-days"]).nullable(),
+  expiration_warning_sent: z.nullable(z.enum(["30-days", "15-days"])),
 });
 
 export type IApiKey = z.output<typeof zApiKey>;
 
-export const zApiKeyPrivate = zApiKey.omit({ key: true }).extend({
-  value: z.string().nullable(),
+export const zApiKeyPrivate = z.extend(z.omit(zApiKey, { key: true }), {
+  value: z.nullable(z.string()),
 });
 
 export type IApiKeyPrivate = z.output<typeof zApiKeyPrivate>;
 export type IApiKeyPrivateJson = Jsonify<IApiKeyPrivate>;
 
+const zStringTrimmed = z.string().check(z.trim());
+
+const zStringTrimmedNullable = z.pipe(
+  z.pipe(
+    z.nullable(zStringTrimmed),
+    z.transform((value) => value || null)
+  ),
+  z.nullable(zStringTrimmed.check(z.minLength(1)))
+);
+
 export const zUser = z.object({
   _id: zObjectId,
-  organisation: z.string().nullable(),
-  email: z.string().email().describe("Email de l'utilisateur").toLowerCase(),
+  organisation: z.nullable(z.string()),
+  email: z.string().check(z.email(), z.toLowerCase()),
   type: z.enum([
     "operateur_public",
     "organisme_formation",
@@ -61,25 +71,17 @@ export const zUser = z.object({
     "mission_apprentissage",
     "autre",
   ]),
-  activite: z
-    .string()
-    .trim()
-    .nullable()
-    .transform((v) => v || null),
-  objectif: z.enum(["fiabiliser", "concevoir"]).nullable(),
-  cas_usage: z
-    .string()
-    .trim()
-    .nullable()
-    .transform((v) => v || null),
+  activite: zStringTrimmedNullable,
+  objectif: z.nullable(z.enum(["fiabiliser", "concevoir"])),
+  cas_usage: zStringTrimmedNullable,
   cgu_accepted_at: z.date(),
   is_admin: z.boolean(),
   api_keys: z.array(zApiKey),
-  updated_at: z.date().describe("Date de mise à jour en base de données"),
-  created_at: z.date().describe("Date d'ajout en base de données"),
+  updated_at: z.date(),
+  created_at: z.date(),
 });
 
-export const zUserCreate = zUser.pick({
+export const zUserCreate = z.pick(zUser, {
   email: true,
   is_admin: true,
 });
@@ -87,16 +89,16 @@ export const zUserCreate = zUser.pick({
 export const zUserPublic = z.object({
   _id: zObjectId,
   email: zUser.shape.email,
-  organisation: z.string().nullable(),
+  organisation: z.nullable(z.string()),
   is_admin: zUser.shape.is_admin,
   has_api_key: z.boolean(),
-  api_key_used_at: z.date().nullable(),
+  api_key_used_at: z.nullable(z.date()),
   updated_at: zUser.shape.updated_at,
   created_at: zUser.shape.created_at,
 });
 
-export const zUserAdminView = zUser
-  .pick({
+export const zUserAdminView = z.extend(
+  z.pick(zUser, {
     _id: true,
     email: true,
     organisation: true,
@@ -108,19 +110,20 @@ export const zUserAdminView = zUser
     cgu_accepted_at: true,
     updated_at: true,
     created_at: true,
-  })
-  .extend({
-    api_keys: z.array(zApiKey.omit({ key: true })),
-  });
+  }),
+  {
+    api_keys: z.array(z.omit(zApiKey, { key: true })),
+  }
+);
 
-export const zUserAdminUpdate = zUserAdminView
-  .pick({
+export const zUserAdminUpdate = z.partial(
+  z.pick(zUserAdminView, {
     email: true,
     is_admin: true,
     organisation: true,
     type: true,
   })
-  .partial();
+);
 
 export type IUser = z.output<typeof zUser>;
 export type IUserPublic = Jsonify<z.output<typeof zUserPublic>>;

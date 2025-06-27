@@ -1,13 +1,13 @@
-import type { AnyZodObject, ZodEffects, ZodType, ZodUnknown } from "zod";
-
+import type { ZodMiniObject, ZodMiniPipe, ZodMiniUnknown } from "zod/v4-mini";
+import type { $ZodType } from "zod/v4/core";
 import type { AccessPermission, AccessRessouces } from "./security/permissions.js";
 
 export interface IApiRouteSchemaCommon {
   path: string;
-  querystring?: AnyZodObject | ZodUnknown | ZodEffects<AnyZodObject>;
-  headers?: AnyZodObject;
-  params?: AnyZodObject;
-  response: { [statuscode: `${1 | 2 | 3 | 4 | 5}${string}`]: ZodType };
+  querystring?: ZodMiniObject | ZodMiniUnknown | ZodMiniPipe<ZodMiniObject>;
+  headers?: ZodMiniObject;
+  params?: ZodMiniObject;
+  response: { [statuscode: `${1 | 2 | 3 | 4 | 5}${string}`]: $ZodType };
   securityScheme: SecurityScheme | null;
 }
 
@@ -33,7 +33,7 @@ export interface IApiRouteSchemaGet extends IApiRouteSchemaCommon {
 
 export interface IApiRouteSchemaWrite extends IApiRouteSchemaCommon {
   method: "post" | "put" | "patch" | "delete";
-  body?: ZodType;
+  body?: $ZodType;
 }
 
 export type IApiRouteSchema = IApiRouteSchemaGet | IApiRouteSchemaWrite;

@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 import {
   zNiveauDiplomeEuropeen,
@@ -9,48 +9,61 @@ import { zFormation } from "../../models/index.js";
 import { zPaginationInfo, zPaginationQuery } from "../../models/pagination/pagination.model.js";
 import type { IApiRoutesDef } from "../common.routes.js";
 
-export const zFormationSearchApiQuery = zPaginationQuery
-  .extend({
-    latitude: z.coerce
-      .number()
-      .min(-90, "Latitude doit être comprise entre -90 et 90")
-      .max(90, "Latitude doit être comprise entre -90 et 90")
-      .optional(),
-    longitude: z.coerce
-      .number()
-      .min(-180, "Longitude doit être comprise entre -180 et 180")
-      .max(180, "Longitude doit être comprise entre -180 et 180")
-      .optional(),
-    radius: z.coerce.number().min(0).max(200).default(30),
-    target_diploma_level: zNiveauDiplomeEuropeen.optional(),
-    romes: zRomeCodeCsvParam.optional(),
-    rncp: zRncp.optional(),
-    include_archived: z
-      .enum(["true", "false"])
-      .default("false")
-      .transform((v) => v === "true")
-      .pipe(z.boolean()),
+export const zFormationSearchApiQuery = z
+  .extend(zPaginationQuery, {
+    latitude: z.optional(
+      z.coerce
+        .number()
+        .check(
+          z.gte(-90, "Latitude doit être comprise entre -90 et 90"),
+          z.lte(90, "Latitude doit être comprise entre -90 et 90")
+        )
+    ),
+    longitude: z.optional(
+      z.coerce
+        .number()
+        .check(
+          z.gte(-180, "Longitude doit être comprise entre -180 et 180"),
+          z.lte(180, "Longitude doit être comprise entre -180 et 180")
+        )
+    ),
+    radius: z._default(z.coerce.number().check(z.gte(0), z.lte(200)), 30),
+    target_diploma_level: z.optional(zNiveauDiplomeEuropeen),
+    romes: z.optional(zRomeCodeCsvParam),
+    rncp: z.optional(zRncp),
+    include_archived: z.prefault(
+      z.pipe(
+        z.pipe(
+          z.enum(["true", "false"]),
+          z.transform((v) => v === "true")
+        ),
+        z.boolean()
+      ),
+      "false"
+    ),
   })
-  .superRefine((data, ctx) => {
-    if (data.longitude == null && data.latitude != null) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+  .check((ctx) => {
+    if (ctx.value.longitude == null && ctx.value.latitude != null) {
+      ctx.issues.push({
+        code: "custom",
         path: ["longitude"],
         message: "La longitude est requise lorsque la latitude est fournie",
+        input: ctx.value,
       });
     }
 
-    if (data.longitude != null && data.latitude == null) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+    if (ctx.value.longitude != null && ctx.value.latitude == null) {
+      ctx.issues.push({
+        code: "custom",
         path: ["latitude"],
         message: "La latitude est requise lorsque la longitude est fournie",
+        input: ctx.value,
       });
     }
   });
 
 export const zFormationSearchApiResult = z.object({
-  data: zFormation.array(),
+  data: z.array(zFormation),
   pagination: zPaginationInfo,
 });
 

@@ -4,12 +4,13 @@ import { generateUri } from "api-alternance-sdk/internal";
 import type { IDeleteRoutes, IGetRoutes, IPostRoutes, IPutRoutes, IRequest, IResponse } from "shared";
 import type { IResErrorJson } from "shared/routes/common.routes";
 import type { EmptyObject } from "type-fest";
-import type { z, ZodType } from "zod";
+import type { z } from "zod/v4-mini";
 
+import type { $ZodType } from "zod/v4/core";
 import { publicConfig } from "@/config.public";
 
 type OptionsGet = {
-  [Prop in keyof Pick<IApiRouteSchema, "params" | "querystring" | "headers">]: IApiRouteSchema[Prop] extends ZodType
+  [Prop in keyof Pick<IApiRouteSchema, "params" | "querystring" | "headers">]: IApiRouteSchema[Prop] extends $ZodType
     ? z.input<IApiRouteSchema[Prop]>
     : never;
 };
@@ -18,7 +19,7 @@ type OptionsWrite = {
   [Prop in keyof Pick<
     IApiRouteSchemaWrite,
     "params" | "querystring" | "headers" | "body"
-  >]: IApiRouteSchemaWrite[Prop] extends ZodType ? z.input<IApiRouteSchemaWrite[Prop]> : never;
+  >]: IApiRouteSchemaWrite[Prop] extends $ZodType ? z.input<IApiRouteSchemaWrite[Prop]> : never;
 };
 
 type IRequestOptions = OptionsGet | OptionsWrite | EmptyObject;

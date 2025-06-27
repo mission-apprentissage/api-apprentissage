@@ -207,7 +207,7 @@ describe("openapiSpec#models", () => {
       throw new Error("Unsupported OpenAPI version");
     }
 
-    const zodSchema = generateOpenApiDocFromZod({}, openapiSpec.models, "").components?.schemas ?? {};
+    const zodSchema = (await generateOpenApiDocFromZod({}, openapiSpec.models, "")).components?.schemas ?? {};
     const diff = Object.entries(openapiSpec.models).reduce<Record<string, StructureDiff<"zod", "api">>>(
       (acc, [name, model]) => {
         if (model.zod instanceof ZodMiniUnknown) {
@@ -250,7 +250,7 @@ describe("openapiSpec#routes", () => {
 
     const resultOperations = getOpenapiOperations(doc.paths);
 
-    const zodPaths = generateOpenApiDocFromZod(zApiRoutes, openapiSpec.models, "test").paths ?? {};
+    const zodPaths = (await generateOpenApiDocFromZod(zApiRoutes, openapiSpec.models, "test")).paths ?? {};
     const zodOperations = getOpenapiOperations(zodPaths);
 
     const operationIds = Object.entries(openapiSpec.routes).flatMap(([path, route]) => {

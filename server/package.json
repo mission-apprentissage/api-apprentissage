@@ -67,7 +67,7 @@
     "unique-names-generator": "^4.7.1",
     "unzipper": "^0.12.3",
     "zod": "^3.25.67",
-    "zod-mongodb-schema": "^2.0.0-next.4"
+    "zod-mongodb-schema": "^2.0.0-next.5"
   },
   "devDependencies": {
     "@tsconfig/node22": "^22.0.2",

@@ -16,7 +16,7 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { zRoutes } from "shared";
 import type { IOrganisationInternal } from "shared/models/organisation.model";
-import type { IUserAdminView } from "shared/models/user.model";
+import type { IUserAdminUpdate, IUserAdminView } from "shared/models/user.model";
 import type { Jsonify } from "type-fest";
 
 import type { WithLang } from "@/app/i18n/settings";
@@ -49,14 +49,14 @@ export default function UserView({ user, organisations, lang }: Props) {
     getValues,
     setValue,
     trigger,
-  } = useForm<Jsonify<IUserAdminView>>({
+  } = useForm<IUserAdminUpdate>({
     mode: "all",
     resolver: zodResolver(zRoutes.put["/_private/admin/users/:id"].body),
     defaultValues: {
-      ...user,
-      cgu_accepted_at: formatNullableDate(user.cgu_accepted_at, "PPP à p"),
-      updated_at: formatDate(user.updated_at, "PPP à p"),
-      created_at: formatDate(user.created_at, "PPP à p"),
+      email: user.email,
+      is_admin: user.is_admin,
+      organisation: user.organisation ?? "",
+      type: user.type,
     },
   });
 
@@ -65,7 +65,7 @@ export default function UserView({ user, organisations, lang }: Props) {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: async (data: Props["user"]) => {
+    mutationFn: async (data: IUserAdminUpdate) => {
       await apiPut("/_private/admin/users/:id", {
         params: { id: user._id },
         body: {
@@ -78,8 +78,8 @@ export default function UserView({ user, organisations, lang }: Props) {
       captureException(error);
       console.error(error);
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/_private/admin/users"] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["/_private/admin/users"] });
     },
   });
 
@@ -139,18 +139,36 @@ export default function UserView({ user, organisations, lang }: Props) {
           showCheckedHint={false}
           inputTitle={isAdminControl.name}
           checked={getValues("is_admin")}
-          onChange={(v) => {
+          onChange={async (v) => {
             setValue("is_admin", v, { shouldTouch: true });
-            trigger("is_admin");
+            await trigger("is_admin");
           }}
         />
         <Input label="Type" nativeInputProps={control.register("type")} {...getInputState(errors?.type)} />
-        <Input label="Activite" textArea nativeTextAreaProps={control.register("activite")} disabled />
-        <Input label="Objectif" nativeInputProps={control.register("objectif")} disabled />
-        <Input label="Cas Usage" textArea nativeTextAreaProps={control.register("cas_usage")} disabled />
-        <Input label="CGU Accépté le" nativeInputProps={control.register("cgu_accepted_at")} disabled />
-        <Input label="Mise à jour le" nativeInputProps={control.register("updated_at")} disabled />
-        <Input label="Créé le" nativeInputProps={control.register("created_at")} disabled />
+        <Input
+          label="Activite"
+          textArea
+          nativeTextAreaProps={{ value: user.activite ?? "", name: "activite" }}
+          disabled
+        />
+        <Input label="Objectif" nativeInputProps={{ value: user.objectif ?? "", name: "objectif" }} disabled />
+        <Input
+          label="Cas Usage"
+          textArea
+          nativeTextAreaProps={{ value: user.cas_usage ?? "", name: "cas_usage" }}
+          disabled
+        />
+        <Input
+          label="CGU Accépté le"
+          nativeInputProps={{ value: formatNullableDate(user.cgu_accepted_at), name: "cgu_accepted_at" }}
+          disabled
+        />
+        <Input
+          label="Mise à jour le"
+          nativeInputProps={{ value: formatDate(user.updated_at), name: "updated_at" }}
+          disabled
+        />
+        <Input label="Créé le" nativeInputProps={{ value: formatDate(user.created_at), name: "created_at" }} disabled />
 
         <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
           <Button size="large" type="submit" disabled={isSubmitting}>

@@ -70,7 +70,8 @@ export function getOpenapiOperations(paths: PathsObject | undefined): Record<str
 function getZodSchema(
   zod: $ZodType,
   registry: $ZodRegistry<RegistryMeta>,
-  io: "input" | "output"
+  io: "input" | "output",
+  randomUUID: () => string
 ): SchemaObject | ReferenceObject {
   const meta = registry.get(zod) ?? null;
 
@@ -78,7 +79,7 @@ function getZodSchema(
     return { $ref: meta.id as string };
   }
 
-  const id = globalThis.crypto.randomUUID();
+  const id = randomUUID();
   registry.add(zod, { id, ...meta });
 
   const components = generateComponents(registry, io);
@@ -95,7 +96,8 @@ function getZodSchema(
 
 function generateOpenApiResponsesObject<R extends IApiRouteSchema["response"]>(
   response: R,
-  registry: $ZodRegistry<RegistryMeta>
+  registry: $ZodRegistry<RegistryMeta>,
+  randomUUID: () => string
 ): ResponsesObject | null {
   const result = Object.entries(response).reduce<ResponsesObject>((acc, [code, main]) => {
     if (main._zod.def.type === "unknown") {
@@ -107,7 +109,7 @@ function generateOpenApiResponsesObject<R extends IApiRouteSchema["response"]>(
         description: "",
         content: {
           "application/json": {
-            schema: getZodSchema(main, registry, "output"),
+            schema: getZodSchema(main, registry, "output", randomUUID),
           },
         },
       };
@@ -178,7 +180,8 @@ function isEmptyValueAllowedZod(zod: $ZodType): true | undefined {
 
 function generateOpenApiRequest(
   route: IApiRouteSchema,
-  registry: $ZodRegistry<RegistryMeta>
+  registry: $ZodRegistry<RegistryMeta>,
+  randomUUID: () => string
 ): Pick<OperationObject, "requestBody" | "parameters"> {
   const requestParams: Pick<OperationObject, "requestBody" | "parameters"> = {};
   const parameters: ParameterObject[] = [];
@@ -186,7 +189,7 @@ function generateOpenApiRequest(
   if (route.method !== "get" && route.body) {
     requestParams.requestBody = {
       content: {
-        "application/json": { schema: getZodSchema(route.body, registry, "input") },
+        "application/json": { schema: getZodSchema(route.body, registry, "input", randomUUID) },
       },
       required: true,
     };
@@ -199,7 +202,7 @@ function generateOpenApiRequest(
         in: "path",
         required: isRequiredZod(schema),
         allowEmptyValue: isEmptyValueAllowedZod(schema),
-        schema: getZodSchema(schema, registry, "input"),
+        schema: getZodSchema(schema, registry, "input", randomUUID),
       };
       parameters.push(param);
     });
@@ -215,7 +218,7 @@ function generateOpenApiRequest(
             in: "query",
             required: isRequiredZod(schema),
             allowEmptyValue: isEmptyValueAllowedZod(schema),
-            schema: getZodSchema(schema, registry, "input"),
+            schema: getZodSchema(schema, registry, "input", randomUUID),
           };
           parameters.push(param);
         });
@@ -226,7 +229,7 @@ function generateOpenApiRequest(
             name: String(name),
             in: "query",
             required: isRequiredZod(schema),
-            schema: getZodSchema(schema, registry, "input"),
+            schema: getZodSchema(schema, registry, "input", randomUUID),
           };
           parameters.push(param);
         });
@@ -241,7 +244,7 @@ function generateOpenApiRequest(
         in: "header",
         required: isRequiredZod(schema),
 
-        schema: getZodSchema(schema, registry, "input"),
+        schema: getZodSchema(schema, registry, "input", randomUUID),
       };
       parameters.push(param);
     });
@@ -271,15 +274,16 @@ function getSecurityRequirementObject(route: IApiRouteSchema): SecurityRequireme
 function generateOpenApiOperationObjectFromZod(
   route: IApiRouteSchema,
   registry: $ZodRegistry<RegistryMeta>,
-  tag: string
+  tag: string,
+  randomUUID: () => string
 ): OperationObject | null {
   try {
-    const responses = generateOpenApiResponsesObject(route.response, registry);
+    const responses = generateOpenApiResponsesObject(route.response, registry, randomUUID);
 
     if (responses) {
       return {
         tags: [tag],
-        ...generateOpenApiRequest(route, registry),
+        ...generateOpenApiRequest(route, registry, randomUUID),
         responses,
         security: getSecurityRequirementObject(route),
       };
@@ -315,12 +319,13 @@ function generateComponents(registry: $ZodRegistry<RegistryMeta>, io: "input" | 
   });
 }
 
-export function generateOpenApiDocFromZod(
+export async function generateOpenApiDocFromZod(
   routes: IApiRoutesDef,
   models: Record<string, OpenapiModel>,
   tag: string
-): OpenAPIObject {
+): Promise<OpenAPIObject> {
   const zodRegistry = registry<RegistryMeta>();
+  const { randomUUID } = await import("node:crypto");
 
   for (const [, model] of Object.entries(models)) {
     if (model.zod !== null) {
@@ -337,7 +342,7 @@ export function generateOpenApiDocFromZod(
   zodRegistry.add(zSiret, { openapi: { type: "string", pattern: "^\\d{14}$" } });
   zodRegistry.add(zUai, { openapi: { type: "string", pattern: "^\\d{7}[A-Z]$" } });
 
-  const paths = generateOpenApiPathsObjectFromZod(routes, tag, zodRegistry);
+  const paths = generateOpenApiPathsObjectFromZod(routes, tag, zodRegistry, randomUUID);
 
   const components = generateComponents(zodRegistry, "output");
 
@@ -352,13 +357,13 @@ export function generateOpenApiDocFromZod(
   };
 }
 
-export function generateOpenApiPathsObjectFromZod(
+function generateOpenApiPathsObjectFromZod(
   routes: IApiRoutesDef,
   tag: string,
-  registry: $ZodRegistry<RegistryMeta>
+  registry: $ZodRegistry<RegistryMeta>,
+  randomUUID: () => string
 ): PathsObject {
   const paths: PathsObject = {};
-
   for (const [, pathRoutes] of Object.entries(routes)) {
     if (!pathRoutes) continue;
 
@@ -369,7 +374,7 @@ export function generateOpenApiPathsObjectFromZod(
       const p = paths[path];
 
       if (!path.startsWith("/_private")) {
-        const op = generateOpenApiOperationObjectFromZod(route, registry, tag);
+        const op = generateOpenApiOperationObjectFromZod(route, registry, tag, randomUUID);
         if (op !== null) {
           p[route.method] = op;
         }

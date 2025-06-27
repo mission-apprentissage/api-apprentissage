@@ -15116,7 +15116,7 @@ __metadata:
     unzipper: ^0.12.3
     vitest: ^3.2.3
     zod: ^3.25.67
-    zod-mongodb-schema: ^2.0.0-next.4
+    zod-mongodb-schema: ^2.0.0-next.5
   languageName: unknown
   linkType: soft
 
@@ -17905,7 +17905,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod-mongodb-schema@npm:^2.0.0-next.4, zod-mongodb-schema@npm:^2.0.0-next.5":
+"zod-mongodb-schema@npm:^2.0.0-next.5":
   version: 2.0.0-next.5
   resolution: "zod-mongodb-schema@npm:2.0.0-next.5"
   peerDependencies:

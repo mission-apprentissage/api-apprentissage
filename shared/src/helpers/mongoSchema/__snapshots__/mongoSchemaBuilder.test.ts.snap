@@ -484,43 +484,15 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
               "bsonType": "object",
               "properties": {
                 "abrogation": {
-                  "anyOf": [
-                    {
-                      "anyOf": [
-                        {
-                          "bsonType": "date",
-                        },
-                        {
-                          "bsonType": "string",
-                        },
-                        {
-                          "bsonType": "date",
-                        },
-                      ],
-                    },
-                    {
-                      "bsonType": "null",
-                    },
+                  "bsonType": [
+                    "date",
+                    "null",
                   ],
                 },
                 "creation": {
-                  "anyOf": [
-                    {
-                      "anyOf": [
-                        {
-                          "bsonType": "date",
-                        },
-                        {
-                          "bsonType": "string",
-                        },
-                        {
-                          "bsonType": "date",
-                        },
-                      ],
-                    },
-                    {
-                      "bsonType": "null",
-                    },
+                  "bsonType": [
+                    "date",
+                    "null",
                   ],
                 },
               },
@@ -598,57 +570,15 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
                     "bsonType": "bool",
                   },
                   "fermeture": {
-                    "anyOf": [
-                      {
-                        "anyOf": [
-                          {
-                            "anyOf": [
-                              {
-                                "bsonType": "date",
-                              },
-                              {
-                                "bsonType": "string",
-                              },
-                              {
-                                "bsonType": "date",
-                              },
-                            ],
-                          },
-                          {
-                            "bsonType": "null",
-                          },
-                        ],
-                      },
-                      {
-                        "bsonType": "null",
-                      },
+                    "bsonType": [
+                      "date",
+                      "null",
                     ],
                   },
                   "ouverture": {
-                    "anyOf": [
-                      {
-                        "anyOf": [
-                          {
-                            "anyOf": [
-                              {
-                                "bsonType": "date",
-                              },
-                              {
-                                "bsonType": "string",
-                              },
-                              {
-                                "bsonType": "date",
-                              },
-                            ],
-                          },
-                          {
-                            "bsonType": "null",
-                          },
-                        ],
-                      },
-                      {
-                        "bsonType": "null",
-                      },
+                    "bsonType": [
+                      "date",
+                      "null",
                     ],
                   },
                 },
@@ -677,30 +607,9 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
                     "bsonType": "bool",
                   },
                   "activation": {
-                    "anyOf": [
-                      {
-                        "anyOf": [
-                          {
-                            "anyOf": [
-                              {
-                                "bsonType": "date",
-                              },
-                              {
-                                "bsonType": "string",
-                              },
-                              {
-                                "bsonType": "date",
-                              },
-                            ],
-                          },
-                          {
-                            "bsonType": "null",
-                          },
-                        ],
-                      },
-                      {
-                        "bsonType": "null",
-                      },
+                    "bsonType": [
+                      "date",
+                      "null",
                     ],
                   },
                   "code": {
@@ -711,30 +620,9 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
                     "bsonType": "bool",
                   },
                   "fin_enregistrement": {
-                    "anyOf": [
-                      {
-                        "anyOf": [
-                          {
-                            "anyOf": [
-                              {
-                                "bsonType": "date",
-                              },
-                              {
-                                "bsonType": "string",
-                              },
-                              {
-                                "bsonType": "date",
-                              },
-                            ],
-                          },
-                          {
-                            "bsonType": "null",
-                          },
-                        ],
-                      },
-                      {
-                        "bsonType": "null",
-                      },
+                    "bsonType": [
+                      "date",
+                      "null",
                     ],
                   },
                 },
@@ -1147,43 +1035,15 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
                   ],
                 },
                 "fermeture": {
-                  "anyOf": [
-                    {
-                      "anyOf": [
-                        {
-                          "bsonType": "date",
-                        },
-                        {
-                          "bsonType": "string",
-                        },
-                        {
-                          "bsonType": "date",
-                        },
-                      ],
-                    },
-                    {
-                      "bsonType": "null",
-                    },
+                  "bsonType": [
+                    "date",
+                    "null",
                   ],
                 },
                 "ouverture": {
-                  "anyOf": [
-                    {
-                      "anyOf": [
-                        {
-                          "bsonType": "date",
-                        },
-                        {
-                          "bsonType": "string",
-                        },
-                        {
-                          "bsonType": "date",
-                        },
-                      ],
-                    },
-                    {
-                      "bsonType": "null",
-                    },
+                  "bsonType": [
+                    "date",
+                    "null",
                   ],
                 },
                 "premiere_session": {
@@ -1212,43 +1072,15 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
           ],
         },
         "debut": {
-          "anyOf": [
-            {
-              "anyOf": [
-                {
-                  "bsonType": "date",
-                },
-                {
-                  "bsonType": "string",
-                },
-                {
-                  "bsonType": "date",
-                },
-              ],
-            },
-            {
-              "bsonType": "null",
-            },
+          "bsonType": [
+            "date",
+            "null",
           ],
         },
         "fin": {
-          "anyOf": [
-            {
-              "anyOf": [
-                {
-                  "bsonType": "date",
-                },
-                {
-                  "bsonType": "string",
-                },
-                {
-                  "bsonType": "date",
-                },
-              ],
-            },
-            {
-              "bsonType": "null",
-            },
+          "bsonType": [
+            "date",
+            "null",
           ],
         },
         "rncp": {
@@ -1261,63 +1093,21 @@ exports[`zodToMongoSchema > should convert certifications schema 1`] = `
                   "bsonType": "bool",
                 },
                 "activation": {
-                  "anyOf": [
-                    {
-                      "anyOf": [
-                        {
-                          "bsonType": "date",
-                        },
-                        {
-                          "bsonType": "string",
-                        },
-                        {
-                          "bsonType": "date",
-                        },
-                      ],
-                    },
-                    {
-                      "bsonType": "null",
-                    },
+                  "bsonType": [
+                    "date",
+                    "null",
                   ],
                 },
                 "debut_parcours": {
-                  "anyOf": [
-                    {
-                      "anyOf": [
-                        {
-                          "bsonType": "date",
-                        },
-                        {
-                          "bsonType": "string",
-                        },
-                        {
-                          "bsonType": "date",
-                        },
-                      ],
-                    },
-                    {
-                      "bsonType": "null",
-                    },
+                  "bsonType": [
+                    "date",
+                    "null",
                   ],
                 },
                 "fin_enregistrement": {
-                  "anyOf": [
-                    {
-                      "anyOf": [
-                        {
-                          "bsonType": "date",
-                        },
-                        {
-                          "bsonType": "string",
-                        },
-                        {
-                          "bsonType": "date",
-                        },
-                      ],
-                    },
-                    {
-                      "bsonType": "null",
-                    },
+                  "bsonType": [
+                    "date",
+                    "null",
                   ],
                 },
               },
@@ -2097,43 +1887,15 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
                       "bsonType": "object",
                       "properties": {
                         "abrogation": {
-                          "anyOf": [
-                            {
-                              "anyOf": [
-                                {
-                                  "bsonType": "date",
-                                },
-                                {
-                                  "bsonType": "string",
-                                },
-                                {
-                                  "bsonType": "date",
-                                },
-                              ],
-                            },
-                            {
-                              "bsonType": "null",
-                            },
+                          "bsonType": [
+                            "date",
+                            "null",
                           ],
                         },
                         "creation": {
-                          "anyOf": [
-                            {
-                              "anyOf": [
-                                {
-                                  "bsonType": "date",
-                                },
-                                {
-                                  "bsonType": "string",
-                                },
-                                {
-                                  "bsonType": "date",
-                                },
-                              ],
-                            },
-                            {
-                              "bsonType": "null",
-                            },
+                          "bsonType": [
+                            "date",
+                            "null",
                           ],
                         },
                       },
@@ -2211,57 +1973,15 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
                             "bsonType": "bool",
                           },
                           "fermeture": {
-                            "anyOf": [
-                              {
-                                "anyOf": [
-                                  {
-                                    "anyOf": [
-                                      {
-                                        "bsonType": "date",
-                                      },
-                                      {
-                                        "bsonType": "string",
-                                      },
-                                      {
-                                        "bsonType": "date",
-                                      },
-                                    ],
-                                  },
-                                  {
-                                    "bsonType": "null",
-                                  },
-                                ],
-                              },
-                              {
-                                "bsonType": "null",
-                              },
+                            "bsonType": [
+                              "date",
+                              "null",
                             ],
                           },
                           "ouverture": {
-                            "anyOf": [
-                              {
-                                "anyOf": [
-                                  {
-                                    "anyOf": [
-                                      {
-                                        "bsonType": "date",
-                                      },
-                                      {
-                                        "bsonType": "string",
-                                      },
-                                      {
-                                        "bsonType": "date",
-                                      },
-                                    ],
-                                  },
-                                  {
-                                    "bsonType": "null",
-                                  },
-                                ],
-                              },
-                              {
-                                "bsonType": "null",
-                              },
+                            "bsonType": [
+                              "date",
+                              "null",
                             ],
                           },
                         },
@@ -2290,30 +2010,9 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
                             "bsonType": "bool",
                           },
                           "activation": {
-                            "anyOf": [
-                              {
-                                "anyOf": [
-                                  {
-                                    "anyOf": [
-                                      {
-                                        "bsonType": "date",
-                                      },
-                                      {
-                                        "bsonType": "string",
-                                      },
-                                      {
-                                        "bsonType": "date",
-                                      },
-                                    ],
-                                  },
-                                  {
-                                    "bsonType": "null",
-                                  },
-                                ],
-                              },
-                              {
-                                "bsonType": "null",
-                              },
+                            "bsonType": [
+                              "date",
+                              "null",
                             ],
                           },
                           "code": {
@@ -2324,30 +2023,9 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
                             "bsonType": "bool",
                           },
                           "fin_enregistrement": {
-                            "anyOf": [
-                              {
-                                "anyOf": [
-                                  {
-                                    "anyOf": [
-                                      {
-                                        "bsonType": "date",
-                                      },
-                                      {
-                                        "bsonType": "string",
-                                      },
-                                      {
-                                        "bsonType": "date",
-                                      },
-                                    ],
-                                  },
-                                  {
-                                    "bsonType": "null",
-                                  },
-                                ],
-                              },
-                              {
-                                "bsonType": "null",
-                              },
+                            "bsonType": [
+                              "date",
+                              "null",
                             ],
                           },
                         },
@@ -2757,43 +2435,15 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
                           ],
                         },
                         "fermeture": {
-                          "anyOf": [
-                            {
-                              "anyOf": [
-                                {
-                                  "bsonType": "date",
-                                },
-                                {
-                                  "bsonType": "string",
-                                },
-                                {
-                                  "bsonType": "date",
-                                },
-                              ],
-                            },
-                            {
-                              "bsonType": "null",
-                            },
+                          "bsonType": [
+                            "date",
+                            "null",
                           ],
                         },
                         "ouverture": {
-                          "anyOf": [
-                            {
-                              "anyOf": [
-                                {
-                                  "bsonType": "date",
-                                },
-                                {
-                                  "bsonType": "string",
-                                },
-                                {
-                                  "bsonType": "date",
-                                },
-                              ],
-                            },
-                            {
-                              "bsonType": "null",
-                            },
+                          "bsonType": [
+                            "date",
+                            "null",
                           ],
                         },
                         "premiere_session": {
@@ -2822,43 +2472,15 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
                   ],
                 },
                 "debut": {
-                  "anyOf": [
-                    {
-                      "anyOf": [
-                        {
-                          "bsonType": "date",
-                        },
-                        {
-                          "bsonType": "string",
-                        },
-                        {
-                          "bsonType": "date",
-                        },
-                      ],
-                    },
-                    {
-                      "bsonType": "null",
-                    },
+                  "bsonType": [
+                    "date",
+                    "null",
                   ],
                 },
                 "fin": {
-                  "anyOf": [
-                    {
-                      "anyOf": [
-                        {
-                          "bsonType": "date",
-                        },
-                        {
-                          "bsonType": "string",
-                        },
-                        {
-                          "bsonType": "date",
-                        },
-                      ],
-                    },
-                    {
-                      "bsonType": "null",
-                    },
+                  "bsonType": [
+                    "date",
+                    "null",
                   ],
                 },
                 "rncp": {
@@ -2871,63 +2493,21 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
                           "bsonType": "bool",
                         },
                         "activation": {
-                          "anyOf": [
-                            {
-                              "anyOf": [
-                                {
-                                  "bsonType": "date",
-                                },
-                                {
-                                  "bsonType": "string",
-                                },
-                                {
-                                  "bsonType": "date",
-                                },
-                              ],
-                            },
-                            {
-                              "bsonType": "null",
-                            },
+                          "bsonType": [
+                            "date",
+                            "null",
                           ],
                         },
                         "debut_parcours": {
-                          "anyOf": [
-                            {
-                              "anyOf": [
-                                {
-                                  "bsonType": "date",
-                                },
-                                {
-                                  "bsonType": "string",
-                                },
-                                {
-                                  "bsonType": "date",
-                                },
-                              ],
-                            },
-                            {
-                              "bsonType": "null",
-                            },
+                          "bsonType": [
+                            "date",
+                            "null",
                           ],
                         },
                         "fin_enregistrement": {
-                          "anyOf": [
-                            {
-                              "anyOf": [
-                                {
-                                  "bsonType": "date",
-                                },
-                                {
-                                  "bsonType": "string",
-                                },
-                                {
-                                  "bsonType": "date",
-                                },
-                              ],
-                            },
-                            {
-                              "bsonType": "null",
-                            },
+                          "bsonType": [
+                            "date",
+                            "null",
                           ],
                         },
                       },
@@ -3307,42 +2887,13 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
                       ],
                     },
                     "creation": {
-                      "anyOf": [
-                        {
-                          "bsonType": "date",
-                        },
-                        {
-                          "bsonType": "string",
-                        },
-                        {
-                          "bsonType": "date",
-                        },
-                      ],
+                      "bsonType": "date",
                     },
-                    "enseigne": {
-                      "bsonType": [
-                        "string",
-                        "null",
-                      ],
-                    },
+                    "enseigne": {},
                     "fermeture": {
-                      "anyOf": [
-                        {
-                          "anyOf": [
-                            {
-                              "bsonType": "date",
-                            },
-                            {
-                              "bsonType": "string",
-                            },
-                            {
-                              "bsonType": "date",
-                            },
-                          ],
-                        },
-                        {
-                          "bsonType": "null",
-                        },
+                      "bsonType": [
+                        "date",
+                        "null",
                       ],
                     },
                     "geopoint": {
@@ -3466,37 +3017,13 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
                       "bsonType": "bool",
                     },
                     "cessation": {
-                      "anyOf": [
-                        {
-                          "anyOf": [
-                            {
-                              "bsonType": "date",
-                            },
-                            {
-                              "bsonType": "string",
-                            },
-                            {
-                              "bsonType": "date",
-                            },
-                          ],
-                        },
-                        {
-                          "bsonType": "null",
-                        },
+                      "bsonType": [
+                        "date",
+                        "null",
                       ],
                     },
                     "creation": {
-                      "anyOf": [
-                        {
-                          "bsonType": "date",
-                        },
-                        {
-                          "bsonType": "string",
-                        },
-                        {
-                          "bsonType": "date",
-                        },
-                      ],
+                      "bsonType": "date",
                     },
                     "raison_sociale": {
                       "bsonType": "string",
@@ -3946,42 +3473,13 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
                       ],
                     },
                     "creation": {
-                      "anyOf": [
-                        {
-                          "bsonType": "date",
-                        },
-                        {
-                          "bsonType": "string",
-                        },
-                        {
-                          "bsonType": "date",
-                        },
-                      ],
+                      "bsonType": "date",
                     },
-                    "enseigne": {
-                      "bsonType": [
-                        "string",
-                        "null",
-                      ],
-                    },
+                    "enseigne": {},
                     "fermeture": {
-                      "anyOf": [
-                        {
-                          "anyOf": [
-                            {
-                              "bsonType": "date",
-                            },
-                            {
-                              "bsonType": "string",
-                            },
-                            {
-                              "bsonType": "date",
-                            },
-                          ],
-                        },
-                        {
-                          "bsonType": "null",
-                        },
+                      "bsonType": [
+                        "date",
+                        "null",
                       ],
                     },
                     "geopoint": {
@@ -4105,37 +3603,13 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
                       "bsonType": "bool",
                     },
                     "cessation": {
-                      "anyOf": [
-                        {
-                          "anyOf": [
-                            {
-                              "bsonType": "date",
-                            },
-                            {
-                              "bsonType": "string",
-                            },
-                            {
-                              "bsonType": "date",
-                            },
-                          ],
-                        },
-                        {
-                          "bsonType": "null",
-                        },
+                      "bsonType": [
+                        "date",
+                        "null",
                       ],
                     },
                     "creation": {
-                      "anyOf": [
-                        {
-                          "bsonType": "date",
-                        },
-                        {
-                          "bsonType": "string",
-                        },
-                        {
-                          "bsonType": "date",
-                        },
-                      ],
+                      "bsonType": "date",
                     },
                     "raison_sociale": {
                       "bsonType": "string",
@@ -4186,30 +3660,10 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
             ],
           },
           "debut": {
-            "anyOf": [
-              {
-                "bsonType": "date",
-              },
-              {
-                "bsonType": "string",
-              },
-              {
-                "bsonType": "date",
-              },
-            ],
+            "bsonType": "date",
           },
           "fin": {
-            "anyOf": [
-              {
-                "bsonType": "date",
-              },
-              {
-                "bsonType": "string",
-              },
-              {
-                "bsonType": "date",
-              },
-            ],
+            "bsonType": "date",
           },
         },
         "required": [
@@ -4995,42 +4449,13 @@ exports[`zodToMongoSchema > should convert organisme schema 1`] = `
           ],
         },
         "creation": {
-          "anyOf": [
-            {
-              "bsonType": "date",
-            },
-            {
-              "bsonType": "string",
-            },
-            {
-              "bsonType": "date",
-            },
-          ],
+          "bsonType": "date",
         },
-        "enseigne": {
-          "bsonType": [
-            "string",
-            "null",
-          ],
-        },
+        "enseigne": {},
         "fermeture": {
-          "anyOf": [
-            {
-              "anyOf": [
-                {
-                  "bsonType": "date",
-                },
-                {
-                  "bsonType": "string",
-                },
-                {
-                  "bsonType": "date",
-                },
-              ],
-            },
-            {
-              "bsonType": "null",
-            },
+          "bsonType": [
+            "date",
+            "null",
           ],
         },
         "geopoint": {
@@ -5154,37 +4579,13 @@ exports[`zodToMongoSchema > should convert organisme schema 1`] = `
           "bsonType": "bool",
         },
         "cessation": {
-          "anyOf": [
-            {
-              "anyOf": [
-                {
-                  "bsonType": "date",
-                },
-                {
-                  "bsonType": "string",
-                },
-                {
-                  "bsonType": "date",
-                },
-              ],
-            },
-            {
-              "bsonType": "null",
-            },
+          "bsonType": [
+            "date",
+            "null",
           ],
         },
         "creation": {
-          "anyOf": [
-            {
-              "bsonType": "date",
-            },
-            {
-              "bsonType": "string",
-            },
-            {
-              "bsonType": "date",
-            },
-          ],
+          "bsonType": "date",
         },
         "raison_sociale": {
           "bsonType": "string",
@@ -8841,9 +8242,7 @@ exports[`zodToMongoSchema > should convert source.kali.ccn schema 1`] = `
           "additionalProperties": false,
           "bsonType": "object",
           "properties": {
-            "debut": {
-              "bsonType": "date",
-            },
+            "debut": {},
             "etat": {
               "bsonType": "string",
               "enum": [
@@ -8859,9 +8258,7 @@ exports[`zodToMongoSchema > should convert source.kali.ccn schema 1`] = `
             },
             "fin": {
               "anyOf": [
-                {
-                  "bsonType": "date",
-                },
+                {},
                 {
                   "bsonType": "null",
                 },
@@ -8912,9 +8309,7 @@ exports[`zodToMongoSchema > should convert source.kali.ccn schema 1`] = `
           "additionalProperties": false,
           "bsonType": "object",
           "properties": {
-            "debut": {
-              "bsonType": "date",
-            },
+            "debut": {},
             "etat": {
               "bsonType": "string",
               "enum": [
@@ -8930,9 +8325,7 @@ exports[`zodToMongoSchema > should convert source.kali.ccn schema 1`] = `
             },
             "fin": {
               "anyOf": [
-                {
-                  "bsonType": "date",
-                },
+                {},
                 {
                   "bsonType": "null",
                 },
@@ -9312,14 +8705,7 @@ exports[`zodToMongoSchema > should convert source.referentiel schema 1`] = `
                   "sources": {
                     "bsonType": "array",
                     "items": {
-                      "anyOf": [
-                        {
-                          "not": {},
-                        },
-                        {
-                          "bsonType": "string",
-                        },
-                      ],
+                      "bsonType": "string",
                     },
                   },
                   "type": {
@@ -9486,14 +8872,7 @@ exports[`zodToMongoSchema > should convert source.referentiel schema 1`] = `
               "sources": {
                 "bsonType": "array",
                 "items": {
-                  "anyOf": [
-                    {
-                      "not": {},
-                    },
-                    {
-                      "bsonType": "string",
-                    },
-                  ],
+                  "bsonType": "string",
                 },
               },
               "type": {
@@ -9523,14 +8902,7 @@ exports[`zodToMongoSchema > should convert source.referentiel schema 1`] = `
               "sources": {
                 "bsonType": "array",
                 "items": {
-                  "anyOf": [
-                    {
-                      "not": {},
-                    },
-                    {
-                      "bsonType": "string",
-                    },
-                  ],
+                  "bsonType": "string",
                 },
               },
             },
@@ -9557,14 +8929,7 @@ exports[`zodToMongoSchema > should convert source.referentiel schema 1`] = `
               "sources": {
                 "bsonType": "array",
                 "items": {
-                  "anyOf": [
-                    {
-                      "not": {},
-                    },
-                    {
-                      "bsonType": "string",
-                    },
-                  ],
+                  "bsonType": "string",
                 },
               },
               "type": {
@@ -9733,14 +9098,7 @@ exports[`zodToMongoSchema > should convert source.referentiel schema 1`] = `
               "sources": {
                 "bsonType": "array",
                 "items": {
-                  "anyOf": [
-                    {
-                      "not": {},
-                    },
-                    {
-                      "bsonType": "string",
-                    },
-                  ],
+                  "bsonType": "string",
                 },
               },
               "uai": {
@@ -9773,14 +9131,7 @@ exports[`zodToMongoSchema > should convert source.referentiel schema 1`] = `
         "referentiels": {
           "bsonType": "array",
           "items": {
-            "anyOf": [
-              {
-                "not": {},
-              },
-              {
-                "bsonType": "string",
-              },
-            ],
+            "bsonType": "string",
           },
         },
         "relations": {
@@ -9804,14 +9155,7 @@ exports[`zodToMongoSchema > should convert source.referentiel schema 1`] = `
               "sources": {
                 "bsonType": "array",
                 "items": {
-                  "anyOf": [
-                    {
-                      "not": {},
-                    },
-                    {
-                      "bsonType": "string",
-                    },
-                  ],
+                  "bsonType": "string",
                 },
               },
               "type": {
@@ -9852,14 +9196,7 @@ exports[`zodToMongoSchema > should convert source.referentiel schema 1`] = `
               "sources": {
                 "bsonType": "array",
                 "items": {
-                  "anyOf": [
-                    {
-                      "not": {},
-                    },
-                    {
-                      "bsonType": "string",
-                    },
-                  ],
+                  "bsonType": "string",
                 },
               },
             },
@@ -9893,14 +9230,7 @@ exports[`zodToMongoSchema > should convert source.referentiel schema 1`] = `
               "sources": {
                 "bsonType": "array",
                 "items": {
-                  "anyOf": [
-                    {
-                      "not": {},
-                    },
-                    {
-                      "bsonType": "string",
-                    },
-                  ],
+                  "bsonType": "string",
                 },
               },
               "uai": {

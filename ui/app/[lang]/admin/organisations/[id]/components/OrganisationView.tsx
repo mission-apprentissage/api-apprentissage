@@ -83,8 +83,8 @@ export function OrganisationView({ organisation, lang }: Props) {
       captureException(error);
       console.error(error);
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/_private/admin/organisations"] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["/_private/admin/organisations"] });
     },
   });
 
@@ -147,9 +147,9 @@ export function OrganisationView({ organisation, lang }: Props) {
               label={habilitation}
               defaultChecked={getValues(habilitation)}
               inputTitle={name}
-              onChange={(checked: boolean) => {
+              onChange={async (checked: boolean) => {
                 setValue(habilitation, checked);
-                trigger(habilitation);
+                await trigger(habilitation);
               }}
             />
           );

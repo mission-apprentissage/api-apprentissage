@@ -1,7 +1,7 @@
 import { addJob } from "job-processor";
 
 export const up = async () => {
-  addJob({
+  return addJob({
     name: "import:certifications",
     payload: {
       force: true,

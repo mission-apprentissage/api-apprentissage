@@ -1,7 +1,6 @@
-import jwt from "jsonwebtoken";
+import { importSPKI, jwtVerify, SignJWT } from "jose";
+import { JWSSignatureVerificationFailed, JWTExpired } from "jose/errors";
 import { z } from "zod/v4-mini";
-
-const { JsonWebTokenError, TokenExpiredError } = jwt;
 
 export const zApiAlternanceTokenData = z.object({
   email: z.string().check(z.email()),
@@ -32,7 +31,9 @@ function extractBearerToken(authorization: string): null | string {
   return matches === null ? null : matches[1];
 }
 
-export function parseApiAlternanceToken(params: IParseApiAlternanceTokenParams): IParseApiAlternanceTokenResult {
+export async function parseApiAlternanceToken(
+  params: IParseApiAlternanceTokenParams
+): Promise<IParseApiAlternanceTokenResult> {
   try {
     const token = extractBearerToken(params.token);
 
@@ -43,10 +44,8 @@ export function parseApiAlternanceToken(params: IParseApiAlternanceTokenParams):
       };
     }
 
-    const { payload } = jwt.verify(token, params.publicKey, {
-      complete: true,
-      algorithms: ["ES512"],
-    });
+    const publicKey = await importSPKI(params.publicKey, "ES512");
+    const { payload } = await jwtVerify(token, publicKey);
 
     const parseResult = zApiAlternanceTokenData.safeParse(payload);
     if (!parseResult.success) {
@@ -61,14 +60,14 @@ export function parseApiAlternanceToken(params: IParseApiAlternanceTokenParams):
       data: parseResult.data,
     };
   } catch (err: unknown) {
-    if (err instanceof TokenExpiredError) {
+    if (err instanceof JWTExpired) {
       return {
         success: false,
         reason: "token-expired",
       };
     }
 
-    if (err instanceof JsonWebTokenError) {
+    if (err instanceof JWSSignatureVerificationFailed) {
       return {
         success: false,
         reason: "invalid-signature",
@@ -85,9 +84,15 @@ type ICreateApiAlternanceTokenParams = {
   expiresIn?: string | null;
 };
 
-export function createApiAlternanceToken({ data, privateKey, expiresIn }: ICreateApiAlternanceTokenParams): string {
-  return jwt.sign(data, privateKey, {
-    algorithm: "ES512",
-    expiresIn: expiresIn || "1h",
-  });
+export async function createApiAlternanceToken({
+  data,
+  privateKey,
+  expiresIn,
+}: ICreateApiAlternanceTokenParams): Promise<string> {
+  const key = await import("node:crypto").then((mod) => mod.createPrivateKey(privateKey));
+  return new SignJWT(JSON.parse(JSON.stringify(data)))
+    .setProtectedHeader({ alg: "ES512" })
+    .setExpirationTime(expiresIn || "1h")
+    .setIssuedAt()
+    .sign(key);
 }

@@ -37,8 +37,8 @@ describe("isAuthorizedToken", () => {
     },
   };
 
-  it("should allow when all required ressources are allowed", () => {
-    const tokenString = generateAccessToken(otherUsers[0], [
+  it("should allow when all required ressources are allowed", async () => {
+    const tokenString = await generateAccessToken(otherUsers[0], [
       generateScope({
         schema,
         resources: {
@@ -56,7 +56,7 @@ describe("isAuthorizedToken", () => {
       params: { id: first._id.toString() },
       querystring: { ids: rest.map((u) => u._id.toString()) },
     };
-    const token = parseAccessToken(tokenString, schema, options.params, options.querystring);
+    const token = await parseAccessToken(tokenString, schema, options.params, options.querystring);
     if (!token) {
       throw new Error("Unexpected");
     }
@@ -64,10 +64,10 @@ describe("isAuthorizedToken", () => {
     expect(isAuthorizedToken(token, resources, schema, options.params, options.querystring)).toBe(true);
   });
 
-  it("should denied when one required ressources from param is not allowed", () => {
+  it("should denied when one required ressources from param is not allowed", async () => {
     const [first, ...rest] = requiredUsers;
 
-    const tokenString = generateAccessToken(otherUsers[0], [
+    const tokenString = await generateAccessToken(otherUsers[0], [
       generateScope({
         schema,
         resources: {
@@ -84,7 +84,7 @@ describe("isAuthorizedToken", () => {
       params: { id: first._id.toString() },
       querystring: { ids: rest.map((u) => u._id.toString()) },
     };
-    const token = parseAccessToken(tokenString, schema, options.params, options.querystring);
+    const token = await parseAccessToken(tokenString, schema, options.params, options.querystring);
     if (!token) {
       throw new Error("Unexpected");
     }
@@ -92,10 +92,10 @@ describe("isAuthorizedToken", () => {
     expect(isAuthorizedToken(token, resources, schema, options.params, options.querystring)).toBe(false);
   });
 
-  it("should denied when one required ressources from questring is not allowed", () => {
+  it("should denied when one required ressources from questring is not allowed", async () => {
     const [first, ...rest] = requiredUsers;
 
-    const tokenString = generateAccessToken(otherUsers[0], [
+    const tokenString = await generateAccessToken(otherUsers[0], [
       generateScope({
         schema,
         resources: {
@@ -112,7 +112,7 @@ describe("isAuthorizedToken", () => {
       params: { id: first._id.toString() },
       querystring: { ids: rest.map((u) => u._id.toString()) },
     };
-    const token = parseAccessToken(tokenString, schema, options.params, options.querystring);
+    const token = await parseAccessToken(tokenString, schema, options.params, options.querystring);
     if (!token) {
       throw new Error("Unexpected");
     }

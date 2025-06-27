@@ -1,16 +1,17 @@
 import { internal } from "@hapi/boom";
 import type { UserWithType } from "api-alternance-sdk/internal";
 import type { FastifyReply, FastifyRequest } from "fastify";
-import type { JwtPayload } from "jsonwebtoken";
-import jwt from "jsonwebtoken";
+import { jwtVerify, SignJWT } from "jose";
 import type { Filter, FindOptions } from "mongodb";
 import { ObjectId } from "mongodb";
 import type { ISession } from "shared/models/session.model";
 import type { IUser } from "shared/models/user.model";
-
+import { JOSEError } from "jose/errors";
 import config from "@/config.js";
 import { withCause } from "@/services/errors/withCause.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+
+const secret = new TextEncoder().encode(config.auth.user.jwtSecret);
 
 export async function authCookieSession(req: FastifyRequest): Promise<UserWithType<"user", IUser> | null> {
   const token = req.cookies?.[config.session.cookieName];
@@ -20,7 +21,9 @@ export async function authCookieSession(req: FastifyRequest): Promise<UserWithTy
   }
 
   try {
-    const { email } = jwt.verify(token, config.auth.user.jwtSecret) as JwtPayload;
+    const {
+      payload: { email },
+    } = await jwtVerify<{ email: string }>(token, secret);
 
     const session = await getSession({ email });
 
@@ -32,7 +35,7 @@ export async function authCookieSession(req: FastifyRequest): Promise<UserWithTy
 
     return user ? { type: "user", value: user } : user;
   } catch (error) {
-    if (error instanceof jwt.JsonWebTokenError) {
+    if (error instanceof JOSEError) {
       return null;
     }
 
@@ -65,18 +68,20 @@ async function deleteSession({ email }: { email: string }) {
   await getDbCollection("sessions").deleteMany({ email });
 }
 
-function createSessionToken(email: string) {
-  return jwt.sign({ email }, config.auth.user.jwtSecret, {
-    issuer: config.publicUrl,
-    expiresIn: config.session.cookie.maxAge / 1_000,
-    subject: email,
-  });
+async function createSessionToken(email: string): Promise<string> {
+  return new SignJWT({ email })
+    .setProtectedHeader({ alg: "HS256" })
+    .setIssuer(config.publicUrl)
+    .setIssuedAt()
+    .setExpirationTime(`${config.session.cookie.maxAge / 1_000}s`)
+    .setSubject(email)
+    .sign(secret);
 }
 
 async function startSession(email: string, res: FastifyReply) {
   const token = createSessionToken(email);
   await createSession(email);
-  res.setCookie(config.session.cookieName, token, config.session.cookie);
+  res.setCookie(config.session.cookieName, await token, config.session.cookie);
 }
 
 async function stopSession(req: FastifyRequest, res: FastifyReply) {

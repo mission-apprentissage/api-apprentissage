@@ -105,24 +105,24 @@ describe("accessTokenService", () => {
     },
   };
 
-  const expectTokenValid = (token: string) =>
-    expect(parseAccessToken(token, schema, options.params, options.querystring)).toBeTruthy();
-  const expectTokenInvalid = (token: string) =>
-    expect(() => parseAccessToken(token, schema, options.params, options.querystring)).toThrow();
+  const expectTokenValid = async (token: string) =>
+    await expect(parseAccessToken(token, schema, options.params, options.querystring)).resolves.toBeTruthy();
+  const expectTokenInvalid = async (token: string) =>
+    expect(parseAccessToken(token, schema, options.params, options.querystring)).rejects.toThrow();
 
   describe("valid tokens", () => {
-    it("should generate a token valid for a specific route", () => {
-      const token = generateAccessToken(user, [
+    it("should generate a token valid for a specific route", async () => {
+      const token = await generateAccessToken(user, [
         generateScope({
           schema,
           options: "all",
           resources: { user: ids },
         }),
       ]);
-      expectTokenValid(token);
+      await expectTokenValid(token);
     });
-    it("should generate a token valid for a generic route", () => {
-      const token = generateAccessToken(user, [
+    it("should generate a token valid for a generic route", async () => {
+      const token = await generateAccessToken(user, [
         generateScope({
           schema,
           resources: { user: ids },
@@ -132,12 +132,12 @@ describe("accessTokenService", () => {
           },
         }),
       ]);
-      expectTokenValid(token);
+      await expectTokenValid(token);
     });
   });
   describe("invalid tokens", () => {
-    it("should detect an invalid token that has a different param", () => {
-      const token = generateAccessToken(user, [
+    it("should detect an invalid token that has a different param", async () => {
+      const token = await generateAccessToken(user, [
         generateScope({
           schema,
           resources: { user: ids },
@@ -151,17 +151,17 @@ describe("accessTokenService", () => {
           },
         }),
       ]);
-      expectTokenInvalid(token);
+      await expectTokenInvalid(token);
     });
-    it("should detect an invalid token that is for a different route", () => {
-      const token = generateAccessToken(user, [
+    it("should detect an invalid token that is for a different route", async () => {
+      const token = await generateAccessToken(user, [
         generateScope({
           schema: zRoutes.get["/_private/admin/users"],
           resources: {},
           options: "all",
         }),
       ]);
-      expectTokenInvalid(token);
+      await expectTokenInvalid(token);
     });
 
     it("should throw when missing/extra resource", () => {

@@ -62,7 +62,7 @@ export default defineConfig([
             "**/tests/*.ts",
             "**/fixtures/**/*.ts",
             "**/tsup.config.ts",
-            "**/vitest.workspace.ts",
+            "**/vitest.config.ts",
             "**/eslint.config.mjs",
           ],
         },
@@ -109,6 +109,7 @@ export default defineConfig([
       ],
 
       "@typescript-eslint/ban-ts-comment": ["off"],
+      "@typescript-eslint/no-floating-promises": "error",
       "@typescript-eslint/no-import-type-side-effects": "error",
       "@typescript-eslint/promise-function-async": "error",
       "@typescript-eslint/switch-exhaustiveness-check": "error",

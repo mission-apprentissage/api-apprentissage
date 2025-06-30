@@ -12,138 +12,182 @@ const schema: SchemaObject = {
       type: "object",
       properties: {
         cfd: {
-          type: ["string", "null"],
-          pattern: CFD_REGEX.source,
+          anyOf: [
+            {
+              type: "string",
+              pattern: CFD_REGEX.source,
+            },
+            { type: "null" },
+          ],
         },
         rncp: {
-          type: ["string", "null"],
-          pattern: RNCP_REGEX.source,
+          anyOf: [
+            {
+              type: "string",
+              pattern: RNCP_REGEX.source,
+            },
+            { type: "null" },
+          ],
         },
         rncp_anterieur_2019: {
-          type: ["boolean", "null"],
+          anyOf: [{ type: "boolean" }, { type: "null" }],
         },
       },
       required: ["cfd", "rncp", "rncp_anterieur_2019"],
+      additionalProperties: false,
     },
     intitule: {
       type: "object",
       properties: {
         cfd: {
-          type: ["object", "null"],
-          properties: {
-            long: {
-              type: "string",
+          anyOf: [
+            {
+              type: "object",
+              properties: {
+                long: {
+                  type: "string",
+                },
+                court: {
+                  type: "string",
+                },
+              },
+              required: ["long", "court"],
+              additionalProperties: false,
             },
-            court: {
-              type: "string",
-            },
-          },
-          required: ["long", "court"],
+            { type: "null" },
+          ],
         },
         rncp: {
-          type: ["string", "null"],
+          anyOf: [{ type: "string" }, { type: "null" }],
         },
         niveau: {
           type: "object",
           properties: {
             cfd: {
-              type: ["object", "null"],
-              properties: {
-                europeen: {
-                  type: ["string", "null"],
-                  enum: ["1", "2", "3", "4", "5", "6", "7", "8"],
+              anyOf: [
+                {
+                  type: "object",
+                  properties: {
+                    europeen: {
+                      anyOf: [{ type: "string", enum: ["1", "2", "3", "4", "5", "6", "7", "8"] }, { type: "null" }],
+                    },
+                    formation_diplome: {
+                      type: "string",
+                    },
+                    interministeriel: {
+                      type: "string",
+                    },
+                    libelle: {
+                      anyOf: [{ type: "string" }, { type: "null" }],
+                    },
+                    sigle: {
+                      type: "string",
+                    },
+                  },
+                  required: ["europeen", "formation_diplome", "interministeriel", "libelle", "sigle"],
+                  additionalProperties: false,
                 },
-                formation_diplome: {
-                  type: "string",
-                },
-                interministeriel: {
-                  type: "string",
-                },
-                libelle: {
-                  type: ["string", "null"],
-                },
-                sigle: {
-                  type: "string",
-                },
-              },
-              required: ["europeen", "formation_diplome", "interministeriel", "libelle", "sigle"],
+                { type: "null" },
+              ],
             },
             rncp: {
-              type: ["object", "null"],
-              properties: {
-                europeen: {
-                  type: ["string", "null"],
-                  enum: ["1", "2", "3", "4", "5", "6", "7", "8"],
+              anyOf: [
+                {
+                  type: "object",
+                  properties: {
+                    europeen: {
+                      anyOf: [{ type: "string", enum: ["1", "2", "3", "4", "5", "6", "7", "8"] }, { type: "null" }],
+                    },
+                  },
+                  required: ["europeen"],
+                  additionalProperties: false,
                 },
-              },
-              required: ["europeen"],
+                { type: "null" },
+              ],
             },
           },
           required: ["cfd", "rncp"],
+          additionalProperties: false,
         },
       },
       required: ["cfd", "niveau", "rncp"],
+      additionalProperties: false,
     },
     base_legale: {
       type: "object",
       properties: {
         cfd: {
-          type: ["object", "null"],
-          properties: {
-            creation: {
-              type: ["string", "null"],
-              format: "date-time",
+          anyOf: [
+            {
+              type: "object",
+              properties: {
+                creation: { anyOf: [{ type: "string", format: "date-time" }, { type: "null" }] },
+                abrogation: { anyOf: [{ type: "string", format: "date-time" }, { type: "null" }] },
+              },
+              required: ["creation", "abrogation"],
+              additionalProperties: false,
             },
-            abrogation: {
-              type: ["string", "null"],
-              format: "date-time",
-            },
-          },
-          required: ["creation", "abrogation"],
+            { type: "null" },
+          ],
         },
       },
       required: ["cfd"],
+      additionalProperties: false,
     },
     blocs_competences: {
       type: "object",
       properties: {
         rncp: {
-          type: ["array", "null"],
-          items: {
-            type: "object",
-            properties: {
-              code: {
-                type: "string",
-                pattern: "^(RNCP\\d{3,5}BC)?\\d{1,2}$",
-              },
-              intitule: {
-                type: ["string", "null"],
+          anyOf: [
+            {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  code: {
+                    type: "string",
+                    pattern: "^(RNCP\\d{3,5}BC)?\\d{1,2}$",
+                  },
+                  intitule: {
+                    anyOf: [{ type: "string" }, { type: "null" }],
+                  },
+                },
+                required: ["code", "intitule"],
+                additionalProperties: false,
               },
             },
-            required: ["code", "intitule"],
-          },
+            { type: "null" },
+          ],
         },
       },
       required: ["rncp"],
+      additionalProperties: false,
     },
     convention_collectives: {
       type: "object",
       properties: {
         rncp: {
-          type: ["array", "null"],
-          items: {
-            type: "object",
-            properties: {
-              numero: { type: "string" },
-              intitule: {
-                type: "string",
+          anyOf: [
+            {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  numero: { type: "string" },
+                  intitule: {
+                    type: "string",
+                  },
+                },
+                required: ["numero", "intitule"],
+                additionalProperties: false,
               },
             },
-            required: ["numero", "intitule"],
-          },
+            { type: "null" },
+          ],
         },
       },
       required: ["rncp"],
+      additionalProperties: false,
     },
     domaines: {
       type: "object",
@@ -152,132 +196,166 @@ const schema: SchemaObject = {
           type: "object",
           properties: {
             rncp: {
-              type: ["array", "null"],
-              items: {
-                type: "object",
-                properties: {
-                  code: { type: "string" },
-                  intitule: {
-                    type: "string",
+              anyOf: [
+                {
+                  type: "array",
+                  items: {
+                    type: "object",
+                    properties: {
+                      code: { type: "string" },
+                      intitule: {
+                        type: "string",
+                      },
+                    },
+                    required: ["code", "intitule"],
+                    additionalProperties: false,
                   },
                 },
-                required: ["code", "intitule"],
-              },
+                { type: "null" },
+              ],
             },
           },
           required: ["rncp"],
+          additionalProperties: false,
         },
         nsf: {
           type: "object",
           properties: {
             cfd: {
-              type: ["object", "null"],
-              properties: {
-                code: { type: "string" },
-                intitule: {
-                  type: ["string", "null"],
+              anyOf: [
+                {
+                  type: "object",
+                  properties: {
+                    code: { type: "string" },
+                    intitule: {
+                      anyOf: [{ type: "string" }, { type: "null" }],
+                    },
+                  },
+                  required: ["code", "intitule"],
+                  additionalProperties: false,
                 },
-              },
-              required: ["code", "intitule"],
+                { type: "null" },
+              ],
             },
             rncp: {
-              type: ["array", "null"],
-              items: {
-                type: "object",
-                properties: {
-                  code: {
-                    type: "string",
-                    pattern: "^\\d{2,3}[a-z]?$",
-                  },
-                  intitule: {
-                    type: ["string", "null"],
+              anyOf: [
+                {
+                  type: "array",
+                  items: {
+                    type: "object",
+                    properties: {
+                      code: {
+                        type: "string",
+                        pattern: "^\\d{2,3}[a-z]?$",
+                      },
+                      intitule: {
+                        anyOf: [{ type: "string" }, { type: "null" }],
+                      },
+                    },
+                    required: ["code", "intitule"],
+                    additionalProperties: false,
                   },
                 },
-                required: ["code", "intitule"],
-              },
+                { type: "null" },
+              ],
             },
           },
           required: ["cfd", "rncp"],
+          additionalProperties: false,
         },
         rome: {
           type: "object",
           properties: {
             rncp: {
-              type: ["array", "null"],
-              items: {
-                type: "object",
-                properties: {
-                  code: {
-                    type: "string",
-                    pattern: "^[A-Z]{1}\\d{0,4}$",
-                  },
-                  intitule: {
-                    type: "string",
+              anyOf: [
+                {
+                  type: "array",
+                  items: {
+                    type: "object",
+                    properties: {
+                      code: {
+                        type: "string",
+                        pattern: "^[A-Z]{1}\\d{0,4}$",
+                      },
+                      intitule: {
+                        type: "string",
+                      },
+                    },
+                    required: ["code", "intitule"],
+                    additionalProperties: false,
                   },
                 },
-                required: ["code", "intitule"],
-              },
+                { type: "null" },
+              ],
             },
           },
           required: ["rncp"],
+          additionalProperties: false,
         },
       },
       required: ["formacodes", "nsf", "rome"],
+      additionalProperties: false,
     },
     periode_validite: {
       type: "object",
       properties: {
         debut: {
-          type: ["string", "null"],
-          format: "date-time",
+          anyOf: [{ type: "string", format: "date-time" }, { type: "null" }],
         },
         fin: {
-          type: ["string", "null"],
-          format: "date-time",
+          anyOf: [{ type: "string", format: "date-time" }, { type: "null" }],
         },
         cfd: {
-          type: ["object", "null"],
-          properties: {
-            ouverture: {
-              type: ["string", "null"],
-              format: "date-time",
+          anyOf: [
+            {
+              type: "object",
+              properties: {
+                ouverture: {
+                  anyOf: [{ type: "string", format: "date-time" }, { type: "null" }],
+                },
+                fermeture: {
+                  anyOf: [{ type: "string", format: "date-time" }, { type: "null" }],
+                },
+                premiere_session: {
+                  anyOf: [{ type: "integer" }, { type: "null" }],
+                },
+                derniere_session: {
+                  anyOf: [{ type: "integer" }, { type: "null" }],
+                },
+              },
+              required: ["ouverture", "fermeture", "premiere_session", "derniere_session"],
+              additionalProperties: false,
             },
-            fermeture: {
-              type: ["string", "null"],
-              format: "date-time",
-            },
-            premiere_session: {
-              type: ["integer", "null"],
-            },
-            derniere_session: {
-              type: ["integer", "null"],
-            },
-          },
-          required: ["ouverture", "fermeture", "premiere_session", "derniere_session"],
+            { type: "null" },
+          ],
         },
         rncp: {
-          type: ["object", "null"],
-          properties: {
-            actif: {
-              type: "boolean",
+          anyOf: [
+            {
+              type: "object",
+              properties: {
+                actif: {
+                  type: "boolean",
+                },
+                activation: {
+                  anyOf: [{ type: "string", format: "date-time" }, { type: "null" }],
+                },
+                debut_parcours: {
+                  anyOf: [{ type: "string", format: "date-time" }, { type: "null" }],
+                },
+                fin_enregistrement: {
+                  anyOf: [{ type: "string", format: "date-time" }, { type: "null" }],
+                },
+              },
+              required: ["actif", "activation", "debut_parcours", "fin_enregistrement"],
+              additionalProperties: false,
             },
-            activation: {
-              type: ["string", "null"],
-              format: "date-time",
-            },
-            debut_parcours: {
-              type: ["string", "null"],
-              format: "date-time",
-            },
-            fin_enregistrement: {
-              type: ["string", "null"],
-              format: "date-time",
-            },
-          },
-          required: ["actif", "activation", "debut_parcours", "fin_enregistrement"],
+            { type: "null" },
+          ],
         },
       },
       required: ["debut", "fin", "cfd", "rncp"],
+      additionalProperties: false,
     },
     type: {
       type: "object",
@@ -286,135 +364,161 @@ const schema: SchemaObject = {
           type: "object",
           properties: {
             cfd: {
-              type: ["object", "null"],
-              properties: {
-                code: {
-                  type: ["string", "null"],
+              anyOf: [
+                {
+                  type: "object",
+                  properties: {
+                    code: {
+                      anyOf: [{ type: "string" }, { type: "null" }],
+                    },
+                    libelle: {
+                      anyOf: [{ type: "string" }, { type: "null" }],
+                    },
+                  },
+                  required: ["code", "libelle"],
+                  additionalProperties: false,
                 },
-                libelle: {
-                  type: ["string", "null"],
-                },
-              },
-              required: ["code", "libelle"],
+                { type: "null" },
+              ],
             },
           },
           required: ["cfd"],
+          additionalProperties: false,
         },
         gestionnaire_diplome: {
-          type: ["string", "null"],
+          anyOf: [{ type: "string" }, { type: "null" }],
         },
         enregistrement_rncp: {
-          type: ["string", "null"],
-          enum: ["Enregistrement de droit", "Enregistrement sur demande"],
+          anyOf: [
+            { type: "string", enum: ["Enregistrement de droit", "Enregistrement sur demande"] },
+            { type: "null" },
+          ],
         },
         voie_acces: {
           type: "object",
           properties: {
             rncp: {
-              type: ["object", "null"],
-              properties: {
-                apprentissage: {
-                  type: "boolean",
+              anyOf: [
+                {
+                  type: "object",
+                  properties: {
+                    apprentissage: {
+                      type: "boolean",
+                    },
+                    experience: {
+                      type: "boolean",
+                    },
+                    candidature_individuelle: {
+                      type: "boolean",
+                    },
+                    contrat_professionnalisation: {
+                      type: "boolean",
+                    },
+                    formation_continue: {
+                      type: "boolean",
+                    },
+                    formation_statut_eleve: {
+                      type: "boolean",
+                    },
+                  },
+                  required: [
+                    "apprentissage",
+                    "experience",
+                    "candidature_individuelle",
+                    "contrat_professionnalisation",
+                    "formation_continue",
+                    "formation_statut_eleve",
+                  ],
+                  additionalProperties: false,
                 },
-                experience: {
-                  type: "boolean",
-                },
-                candidature_individuelle: {
-                  type: "boolean",
-                },
-                contrat_professionnalisation: {
-                  type: "boolean",
-                },
-                formation_continue: {
-                  type: "boolean",
-                },
-                formation_statut_eleve: {
-                  type: "boolean",
-                },
-              },
-              required: [
-                "apprentissage",
-                "experience",
-                "candidature_individuelle",
-                "contrat_professionnalisation",
-                "formation_continue",
-                "formation_statut_eleve",
+                { type: "null" },
               ],
             },
           },
           required: ["rncp"],
+          additionalProperties: false,
         },
         certificateurs_rncp: {
-          type: ["array", "null"],
-          items: {
-            type: "object",
-            properties: {
-              siret: {
-                type: "string",
-              },
-              nom: {
-                type: "string",
+          anyOf: [
+            {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  siret: {
+                    type: "string",
+                  },
+                  nom: {
+                    type: "string",
+                  },
+                },
+                required: ["siret", "nom"],
+                additionalProperties: false,
               },
             },
-            required: ["siret", "nom"],
-          },
+            { type: "null" },
+          ],
         },
       },
       required: ["nature", "gestionnaire_diplome", "enregistrement_rncp", "voie_acces", "certificateurs_rncp"],
+      additionalProperties: false,
     },
     continuite: {
       type: "object",
       properties: {
         cfd: {
-          type: ["array", "null"],
-          items: {
-            type: "object",
-            properties: {
-              ouverture: {
-                type: ["string", "null"],
-                format: "date-time",
-              },
-              fermeture: {
-                type: ["string", "null"],
-                format: "date-time",
-              },
-              code: {
-                type: "string",
-                pattern: "^[A-Z0-9]{3}\\d{3}[A-Z0-9]{2}$",
-              },
-              courant: {
-                type: "boolean",
+          anyOf: [
+            {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  ouverture: {
+                    anyOf: [{ type: "string", format: "date-time" }, { type: "null" }],
+                  },
+                  fermeture: { anyOf: [{ type: "string", format: "date-time" }, { type: "null" }] },
+                  code: {
+                    type: "string",
+                    pattern: "^[A-Z0-9]{3}\\d{3}[A-Z0-9]{2}$",
+                  },
+                  courant: {
+                    type: "boolean",
+                  },
+                },
+                required: ["ouverture", "fermeture", "code", "courant"],
+                additionalProperties: false,
               },
             },
-            required: ["ouverture", "fermeture", "code", "courant"],
-          },
+            { type: "null" },
+          ],
         },
         rncp: {
-          type: ["array", "null"],
-          items: {
-            type: "object",
-            properties: {
-              activation: {
-                type: ["string", "null"],
-                format: "date-time",
-              },
-              fin_enregistrement: {
-                type: ["string", "null"],
-                format: "date-time",
-              },
-              code: { type: "string", pattern: "^RNCP\\d{3,5}$" },
-              courant: {
-                type: "boolean",
-              },
-              actif: {
-                type: "boolean",
+          anyOf: [
+            {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  activation: { anyOf: [{ type: "string", format: "date-time" }, { type: "null" }] },
+                  fin_enregistrement: { anyOf: [{ type: "string", format: "date-time" }, { type: "null" }] },
+                  code: { type: "string", pattern: "^RNCP\\d{3,5}$" },
+                  courant: {
+                    type: "boolean",
+                  },
+                  actif: {
+                    type: "boolean",
+                  },
+                },
+                required: ["activation", "fin_enregistrement", "code", "courant", "actif"],
+                additionalProperties: false,
               },
             },
-            required: ["activation", "fin_enregistrement", "code", "courant", "actif"],
-          },
+            { type: "null" },
+          ],
         },
       },
       required: ["cfd", "rncp"],
+      additionalProperties: false,
     },
   },
   required: [
@@ -428,6 +532,7 @@ const schema: SchemaObject = {
     "type",
     "continuite",
   ],
+  additionalProperties: false,
 };
 
 export const certificationModelOpenapi: OpenapiModel<"Certification"> = {

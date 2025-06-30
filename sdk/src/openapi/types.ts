@@ -1,6 +1,6 @@
 import type { OperationObject, SchemaObject } from "openapi3-ts/oas31";
-import type { ZodType } from "zod";
 
+import type { $ZodType } from "zod/v4/core";
 import type { DocRoute, DocTechnicalField, OpenApiText } from "../docs/types.js";
 import type { Permission } from "../routes/security/permissions.js";
 import type { TagOpenapi } from "./tags.openapi.js";
@@ -9,7 +9,7 @@ export type OpenapiModel<T extends string = string> = {
   name: T;
   schema: SchemaObject;
   doc: DocTechnicalField;
-  zod: ZodType | null;
+  zod: $ZodType | null;
 };
 
 export type OpenapiRoute = { tag: TagOpenapi; schema: Omit<OperationObject, "tag">; doc: DocRoute | null };

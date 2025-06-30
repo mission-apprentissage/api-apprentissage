@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 import type { IModelDescriptorGeneric } from "../../common.js";
 import { zObjectId } from "../../common.js";
@@ -10,45 +10,39 @@ const indexes: IModelDescriptorGeneric["indexes"] = [
   [{ filename: 1, "data.type": 1 }, {}],
 ];
 
-export const zSourceNpecReferentielData = z
-  .object({
-    type: z.literal("npec"),
-    rncp: z.coerce.string().nullable(),
-    formation_libelle: z.coerce.string().nullable(),
-    certificateur: z.coerce.string().nullable(),
-    diplome_code: z.coerce.string().nullable(),
-    diplome_libelle: z.coerce.string().nullable(),
-    cpne_code: z.coerce.string().nullable(),
-    cpne_libelle: z.coerce.string().nullable(),
-    npec: z.coerce.number().nullable(),
-    statut: z.coerce.string().nullable(),
-    date_applicabilite: z.date().nullable(),
-    procedure: z.coerce.number().nullable(),
-    idcc: z.coerce.string().nullable(),
-  })
-  .strict();
+export const zSourceNpecReferentielData = z.object({
+  type: z.literal("npec"),
+  rncp: z.nullable(z.coerce.string()),
+  formation_libelle: z.nullable(z.coerce.string()),
+  certificateur: z.nullable(z.coerce.string()),
+  diplome_code: z.nullable(z.coerce.string()),
+  diplome_libelle: z.nullable(z.coerce.string()),
+  cpne_code: z.nullable(z.coerce.string()),
+  cpne_libelle: z.nullable(z.coerce.string()),
+  npec: z.nullable(z.coerce.number()),
+  statut: z.nullable(z.coerce.string()),
+  date_applicabilite: z.nullable(z.date()),
+  procedure: z.nullable(z.coerce.number()),
+  idcc: z.nullable(z.coerce.string()),
+});
 
-export const zSourceNpecIdccCpneData = z
-  .object({
-    type: z.literal("cpne-idcc"),
-    idcc: z.coerce.string().nullable(),
-    cpne_code: z.coerce.string().nullable(),
-    cpne_libelle: z.coerce.string().nullable(),
-  })
-  .strict();
+export const zSourceNpecIdccCpneData = z.object({
+  type: z.literal("cpne-idcc"),
+  idcc: z.nullable(z.coerce.string()),
+  cpne_code: z.nullable(z.coerce.string()),
+  cpne_libelle: z.nullable(z.coerce.string()),
+});
 
 export const zSourceNpecData = z.discriminatedUnion("type", [zSourceNpecReferentielData, zSourceNpecIdccCpneData]);
 
-export const zSourceNpecIdcc = z
-  .object({
-    _id: zObjectId,
-    filename: z.string(),
-    date_import: z.date(),
-    date_file: z.date(),
-    import_id: zObjectId,
-    data: zSourceNpecData,
-  })
-  .strict();
+export const zSourceNpecIdcc = z.object({
+  _id: zObjectId,
+  filename: z.string(),
+  date_import: z.date(),
+  date_file: z.date(),
+  import_id: zObjectId,
+  data: zSourceNpecData,
+});
 
 export const sourceNpecModelDescriptor = {
   zod: zSourceNpecIdcc,

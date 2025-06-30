@@ -1,10 +1,9 @@
-import { z } from "zod";
+import { object, string, nullable } from "zod/v4-mini";
+import type { z } from "zod/v4-mini";
 
-export const zSourceFcVoixAcces = z
-  .object({
-    Numero_Fiche: z.string(),
-    Si_Jury: z.string().nullable(),
-  })
-  .strict();
+export const zSourceFcVoixAcces = object({
+  Numero_Fiche: string(),
+  Si_Jury: nullable(string()),
+});
 
 export type ISourceFcVoixAcces = z.infer<typeof zSourceFcVoixAcces>;

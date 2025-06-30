@@ -44,7 +44,7 @@ describe("Authentication", () => {
       });
       await getDbCollection("users").insertOne(user);
 
-      const token = createSessionToken(user.email);
+      const token = await createSessionToken(user.email);
       await createSession(user.email);
 
       const userWithToken = await getDbCollection("users").findOne({ _id: user._id });
@@ -89,7 +89,7 @@ describe("Authentication", () => {
       await getDbCollection("organisations").insertOne(organisation);
       await getDbCollection("users").insertOne(user);
 
-      const token = createSessionToken(user.email);
+      const token = await createSessionToken(user.email);
       await createSession(user.email);
 
       const userWithToken = await getDbCollection("users").findOne({ _id: user._id });
@@ -162,7 +162,7 @@ describe("Authentication", () => {
         token: expect.any(String),
       });
 
-      const accessToken = parseAccessToken(
+      const accessToken = await parseAccessToken(
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (vi.mocked(sendEmail).mock.calls[0][0] as any).token,
         { method: "post", path: "/_private/auth/register" },
@@ -220,7 +220,7 @@ describe("Authentication", () => {
         token: expect.any(String),
       });
 
-      const accessToken = parseAccessToken(
+      const accessToken = await parseAccessToken(
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (vi.mocked(sendEmail).mock.calls[0][0] as any).token,
         { method: "post", path: "/_private/auth/login" },
@@ -252,7 +252,7 @@ describe("Authentication", () => {
 
   describe("POST /_private/auth/register-feedback", () => {
     it("should send feedback email", async () => {
-      const token = generateRegisterToken("user@exemple.fr");
+      const token = await generateRegisterToken("user@exemple.fr");
       const response = await app.inject({
         method: "POST",
         url: "/api/_private/auth/register-feedback",
@@ -296,7 +296,7 @@ describe("Authentication", () => {
         email: "user@exemple.fr",
       });
       await getDbCollection("users").insertOne(user);
-      const token = generateMagicLinkToken("user@exemple.fr", null);
+      const token = await generateMagicLinkToken("user@exemple.fr", null);
       const response = await app.inject({
         method: "POST",
         url: "/api/_private/auth/login",
@@ -359,7 +359,7 @@ describe("Authentication", () => {
       });
       await getDbCollection("users").insertOne(user);
       await getDbCollection("organisations").insertOne(organisation);
-      const token = generateMagicLinkToken("user@exemple.fr", organisation.nom);
+      const token = await generateMagicLinkToken("user@exemple.fr", organisation.nom);
       const response = await app.inject({
         method: "POST",
         url: "/api/_private/auth/login",
@@ -438,7 +438,7 @@ describe("Authentication", () => {
     });
 
     it("should create user", async () => {
-      const token = generateRegisterToken("user@exemple.fr");
+      const token = await generateRegisterToken("user@exemple.fr");
       const response = await app.inject({
         method: "POST",
         url: "/api/_private/auth/register",
@@ -515,7 +515,7 @@ describe("Authentication", () => {
         email: "user@exemple.fr",
       });
       await getDbCollection("users").insertOne(user);
-      const token = generateMagicLinkToken("user@exemple.fr", null);
+      const token = await generateMagicLinkToken("user@exemple.fr", null);
       const response = await app.inject({
         method: "POST",
         url: "/api/_private/auth/login",

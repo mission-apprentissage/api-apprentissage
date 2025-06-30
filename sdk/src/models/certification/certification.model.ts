@@ -1,7 +1,5 @@
 import type { Jsonify } from "type-fest";
-import { z } from "zod";
-
-import { zodOpenApi } from "../../openapi/utils/zodWithOpenApi.js";
+import { z } from "zod/v4-mini";
 import { zParisLocalDateNullable } from "../../utils/date.primitives.js";
 import {
   zCfd,
@@ -14,122 +12,122 @@ import {
 } from "./certification.primitives.js";
 
 const zCertifIdentifiant = z.object({
-  cfd: zCfd.nullable(),
-  rncp: zRncp.nullable(),
-  rncp_anterieur_2019: z.boolean().nullable(),
+  cfd: z.nullable(zCfd),
+  rncp: z.nullable(zRncp),
+  rncp_anterieur_2019: z.nullable(z.boolean()),
 });
 
 const zCertifPeriodeValidite = z.object({
   debut: zParisLocalDateNullable,
   fin: zParisLocalDateNullable,
-  cfd: z
-    .object({
+  cfd: z.nullable(
+    z.object({
       ouverture: zParisLocalDateNullable,
       fermeture: zParisLocalDateNullable,
-      premiere_session: z.number().int().nullable(),
-      derniere_session: z.number().int().nullable(),
+      premiere_session: z.nullable(z.int()),
+      derniere_session: z.nullable(z.int()),
     })
-    .nullable(),
-  rncp: z
-    .object({
+  ),
+  rncp: z.nullable(
+    z.object({
       actif: z.boolean(),
       activation: zParisLocalDateNullable,
       debut_parcours: zParisLocalDateNullable,
       fin_enregistrement: zParisLocalDateNullable,
     })
-    .nullable(),
+  ),
 });
 
 const zCertifIntitule = z.object({
-  cfd: z
-    .object({
+  cfd: z.nullable(
+    z.object({
       long: z.string(),
       court: z.string(),
     })
-    .nullable(),
+  ),
   niveau: z.object({
-    cfd: z
-      .object({
-        europeen: zNiveauDiplomeEuropeen.nullable(),
+    cfd: z.nullable(
+      z.object({
+        europeen: z.nullable(zNiveauDiplomeEuropeen),
         formation_diplome: z.string(),
         interministeriel: z.string(),
-        libelle: z.string().nullable(),
+        libelle: z.nullable(z.string()),
         sigle: z.string(),
       })
-      .nullable(),
-    rncp: z
-      .object({
-        europeen: zNiveauDiplomeEuropeen.nullable(),
+    ),
+    rncp: z.nullable(
+      z.object({
+        europeen: z.nullable(zNiveauDiplomeEuropeen),
       })
-      .nullable(),
+    ),
   }),
-  rncp: z.string().nullable(),
+  rncp: z.nullable(z.string()),
 });
 
 const zCertifBlocsCompetences = z.object({
-  rncp: z
-    .array(
+  rncp: z.nullable(
+    z.array(
       z.object({
         code: zRncpBlocCompetenceCode,
-        intitule: z.string().nullable(),
+        intitule: z.nullable(z.string()),
       })
     )
-    .nullable(),
+  ),
 });
 
 const zCertifDomaines = z.object({
   formacodes: z.object({
-    rncp: z
-      .array(
+    rncp: z.nullable(
+      z.array(
         z.object({
           code: z.string(),
           intitule: z.string(),
         })
       )
-      .nullable(),
+    ),
   }),
   nsf: z.object({
-    cfd: z
-      .object({
+    cfd: z.nullable(
+      z.object({
         code: z.string(),
-        intitule: z.string().nullable(),
+        intitule: z.nullable(z.string()),
       })
-      .nullable(),
-    rncp: z
-      .array(
+    ),
+    rncp: z.nullable(
+      z.array(
         z.object({
           code: zNsfCode,
-          intitule: z.string().nullable(),
+          intitule: z.nullable(z.string()),
         })
       )
-      .nullable(),
+    ),
   }),
   rome: z.object({
-    rncp: z
-      .array(
+    rncp: z.nullable(
+      z.array(
         z.object({
           code: zRomeCodeFlex,
           intitule: z.string(),
         })
       )
-      .nullable(),
+    ),
   }),
 });
 
 const zCertifType = z.object({
   nature: z.object({
-    cfd: z
-      .object({
-        code: z.string().nullable(),
-        libelle: z.string().nullable(),
+    cfd: z.nullable(
+      z.object({
+        code: z.nullable(z.string()),
+        libelle: z.nullable(z.string()),
       })
-      .nullable(),
+    ),
   }),
-  gestionnaire_diplome: z.string().nullable(),
-  enregistrement_rncp: zTypeEnregistrement.nullable(),
+  gestionnaire_diplome: z.nullable(z.string()),
+  enregistrement_rncp: z.nullable(zTypeEnregistrement),
   voie_acces: z.object({
-    rncp: z
-      .object({
+    rncp: z.nullable(
+      z.object({
         apprentissage: z.boolean(),
         experience: z.boolean(),
         candidature_individuelle: z.boolean(),
@@ -137,75 +135,73 @@ const zCertifType = z.object({
         formation_continue: z.boolean(),
         formation_statut_eleve: z.boolean(),
       })
-      .nullable(),
+    ),
   }),
-  certificateurs_rncp: z
-    .array(
+  certificateurs_rncp: z.nullable(
+    z.array(
       z.object({
         siret: z.string(),
         nom: z.string(),
       })
     )
-    .nullable(),
+  ),
 });
 
 const zCertifBaseLegale = z.object({
-  cfd: z
-    .object({
+  cfd: z.nullable(
+    z.object({
       creation: zParisLocalDateNullable,
       abrogation: zParisLocalDateNullable,
     })
-    .nullable(),
+  ),
 });
 
 const zCertifConventionCollectives = z.object({
-  rncp: z
-    .array(
+  rncp: z.nullable(
+    z.array(
       z.object({
         numero: z.string(),
         intitule: z.string(),
       })
     )
-    .nullable(),
+  ),
 });
 
 const zContinuite = z.object({
-  cfd: z
-    .array(
+  cfd: z.nullable(
+    z.array(
       z.object({
-        ouverture: zCertifPeriodeValidite.shape.cfd.unwrap().shape.ouverture.nullable(),
-        fermeture: zCertifPeriodeValidite.shape.cfd.unwrap().shape.fermeture.nullable(),
-        code: zCertifIdentifiant.shape.cfd.unwrap(),
+        ouverture: zParisLocalDateNullable,
+        fermeture: zParisLocalDateNullable,
+        code: zCertifIdentifiant.shape.cfd.def.innerType,
         courant: z.boolean(),
       })
     )
-    .nullable(),
-  rncp: z
-    .array(
+  ),
+  rncp: z.nullable(
+    z.array(
       z.object({
-        activation: zCertifPeriodeValidite.shape.rncp.unwrap().shape.activation.nullable(),
-        fin_enregistrement: zCertifPeriodeValidite.shape.rncp.unwrap().shape.fin_enregistrement.nullable(),
-        code: zCertifIdentifiant.shape.rncp.unwrap(),
+        activation: zParisLocalDateNullable,
+        fin_enregistrement: zParisLocalDateNullable,
+        code: zCertifIdentifiant.shape.rncp.def.innerType,
         courant: z.boolean(),
-        actif: zCertifPeriodeValidite.shape.rncp.unwrap().shape.actif,
+        actif: zCertifPeriodeValidite.shape.rncp.def.innerType.shape.actif,
       })
     )
-    .nullable(),
+  ),
 });
 
-export const zCertification = zodOpenApi
-  .object({
-    identifiant: zCertifIdentifiant,
-    intitule: zCertifIntitule,
-    base_legale: zCertifBaseLegale,
-    blocs_competences: zCertifBlocsCompetences,
-    convention_collectives: zCertifConventionCollectives,
-    domaines: zCertifDomaines,
-    periode_validite: zCertifPeriodeValidite,
-    type: zCertifType,
-    continuite: zContinuite,
-  })
-  .openapi("Certification");
+export const zCertification = z.object({
+  identifiant: zCertifIdentifiant,
+  intitule: zCertifIntitule,
+  base_legale: zCertifBaseLegale,
+  blocs_competences: zCertifBlocsCompetences,
+  convention_collectives: zCertifConventionCollectives,
+  domaines: zCertifDomaines,
+  periode_validite: zCertifPeriodeValidite,
+  type: zCertifType,
+  continuite: zContinuite,
+});
 
 export type ICertification = z.output<typeof zCertification>;
 export type ICertificationJson = Jsonify<ICertification>;

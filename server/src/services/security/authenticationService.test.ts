@@ -1,7 +1,7 @@
 import type { ISecuredRouteSchema } from "api-alternance-sdk";
 import { generateOrganisationFixture, generateUserFixture } from "shared/models/fixtures/index";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 import { authenticationMiddleware } from "./authenticationService.js";
 import { useMongo } from "@tests/mongo.test.utils.js";
 
@@ -61,7 +61,7 @@ describe("authenticationMiddleware", () => {
     });
 
     it("should set req.user if cookie is valid", async () => {
-      const token = createSessionToken("user@email.com");
+      const token = await createSessionToken("user@email.com");
       await createSession("user@email.com");
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -76,7 +76,7 @@ describe("authenticationMiddleware", () => {
     });
 
     it("should set req.organisation if cookie is valid", async () => {
-      const token = createSessionToken(userWithOrg.email);
+      const token = await createSessionToken(userWithOrg.email);
       await createSession(userWithOrg.email);
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -109,7 +109,7 @@ describe("authenticationMiddleware", () => {
     });
 
     it("should throw unauthorized if cookie is expired", async () => {
-      const token = createSessionToken("user@email.com");
+      const token = await createSessionToken("user@email.com");
       await createSession("user@email.com");
       await vi.advanceTimersByTimeAsync(config.session.cookie.maxAge + 1);
 
@@ -122,7 +122,7 @@ describe("authenticationMiddleware", () => {
     });
 
     it("should throw unauthorized if session is not found", async () => {
-      const token = createSessionToken("user@email.com");
+      const token = await createSessionToken("user@email.com");
       await createSession("other-user-session@email.com");
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -134,7 +134,7 @@ describe("authenticationMiddleware", () => {
     });
 
     it("should throw unauthorized if user is not found", async () => {
-      const token = createSessionToken("user-not-found@email.com");
+      const token = await createSessionToken("user-not-found@email.com");
       await createSession("user-not-found@email.com");
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -2,7 +2,7 @@ import { internal, isBoom } from "@hapi/boom";
 import type { AxiosInstance } from "axios";
 import { isAxiosError } from "axios";
 import type { AxiosCacheInstance } from "axios-cache-interceptor";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 import config from "@/config.js";
 import getApiClient from "@/services/apis/client.js";
@@ -19,8 +19,8 @@ const zKitApprentissageResponse = z.object({
   total: z.number(),
   data: z.array(
     z.object({
-      cfd: z.string().nullable(),
-      rncp: z.string().nullable(),
+      cfd: z.nullable(z.string()),
+      rncp: z.nullable(z.string()),
     })
   ),
 });

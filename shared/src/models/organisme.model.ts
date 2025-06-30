@@ -1,5 +1,5 @@
 import { zOrganisme } from "api-alternance-sdk";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 import type { IModelDescriptorGeneric } from "./common.js";
 import { zObjectId } from "./common.js";
@@ -10,7 +10,7 @@ const indexes: IModelDescriptorGeneric["indexes"] = [
   [{ "identifiant.siret": 1, "identifiant.uai": 1 }, { unique: true }],
 ];
 
-export const zOrganismeInternal = zOrganisme.extend({
+export const zOrganismeInternal = z.extend(zOrganisme, {
   _id: zObjectId,
   created_at: z.date(),
   updated_at: z.date(),

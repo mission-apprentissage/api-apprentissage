@@ -3,13 +3,13 @@ import { captureException } from "@sentry/node";
 import type { ISecuredRouteSchema, WithSecurityScheme } from "api-alternance-sdk";
 import type { PathParam, QueryString, UserWithType } from "api-alternance-sdk/internal";
 import type { FastifyRequest } from "fastify";
-import jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
 import type { IOrganisationInternal } from "shared/models/organisation.model";
 import type { IApiKey, IUser } from "shared/models/user.model";
 import type { IAccessToken } from "shared/routes/common.routes";
 import { assertUnreachable } from "shared/utils/assertUnreachable";
 
+import { JOSEError, JWTExpired } from "jose/errors";
 import { parseAccessToken } from "./accessTokenService.js";
 import { authCookieSession } from "@/actions/sessions.actions.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
@@ -63,7 +63,7 @@ async function authApiKey(req: FastifyRequest): Promise<UserWithType<"user", IUs
   }
 
   try {
-    const { _id, api_key } = await decodeToken(token);
+    const { _id, api_key } = (await decodeToken(token)) as any; // eslint-disable-line @typescript-eslint/no-explicit-any
 
     const user = await getDbCollection("users").findOne({ _id: new ObjectId(`${_id}`) });
 
@@ -101,8 +101,8 @@ async function authApiKey(req: FastifyRequest): Promise<UserWithType<"user", IUs
       },
     };
   } catch (error) {
-    if (error instanceof jwt.JsonWebTokenError) {
-      if (error instanceof jwt.TokenExpiredError) {
+    if (error instanceof JOSEError) {
+      if (error instanceof JWTExpired) {
         throw unauthorized("La clé d'API a expirée");
       }
 
@@ -140,7 +140,7 @@ async function authAccessToken<S extends ISecuredRouteSchema>(
   req: FastifyRequest,
   schema: S
 ): Promise<UserWithType<"token", IAccessToken> | null> {
-  const token = parseAccessToken(
+  const token = await parseAccessToken(
     extractBearerTokenFromHeader(req) ?? extractTokenFromQuery(req),
     schema,
     req.params as PathParam,

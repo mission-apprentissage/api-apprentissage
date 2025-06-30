@@ -1,12 +1,12 @@
 import { internal } from "@hapi/boom";
 import type { IFormation } from "api-alternance-sdk";
 import type { IFormationCatalogue } from "shared/models/source/catalogue/source.catalogue.model";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 export function buildFormationModalite(
   data: Pick<IFormationCatalogue, "duree" | "entierement_a_distance" | "annee" | "bcn_mefs_10">
 ): IFormation["modalite"] {
-  const duree = z.coerce.number().positive().int().safeParse(data.duree);
+  const duree = z.safeParse(z.coerce.number().check(z.positive(), z.int()), data.duree);
 
   if (!duree.success) {
     throw internal(`buildModalite: invalid duree`, { duree: data.duree });
@@ -21,7 +21,7 @@ export function buildFormationModalite(
     };
   }
 
-  const annee = z.coerce.number().positive().int().safeParse(data.annee);
+  const annee = z.safeParse(z.coerce.number().check(z.positive(), z.int()), data.annee);
   if (!annee.success) {
     throw internal(`buildModalite: invalid annee`, { annee: data.annee });
   }

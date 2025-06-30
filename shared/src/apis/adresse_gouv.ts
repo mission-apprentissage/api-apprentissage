@@ -1,5 +1,5 @@
 import { zGeoJsonPoint } from "api-alternance-sdk";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 export const zSourceAdresseFeature = z.object({
   type: z.literal("Feature"),
@@ -7,7 +7,7 @@ export const zSourceAdresseFeature = z.object({
 });
 
 export const zSourceAdresseResponse = z.object({
-  features: zSourceAdresseFeature.array(),
+  features: z.array(zSourceAdresseFeature),
 });
 
 export type ISourceAdresseFeature = z.infer<typeof zSourceAdresseFeature>;

@@ -1,26 +1,22 @@
 import type { SchemaWithSecurity } from "api-alternance-sdk";
 import type { Jsonify } from "type-fest";
-import type { AnyZodObject } from "zod";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
+import type { $ZodObject } from "zod/v4/core";
 
-export const ZResOk = z.object({}).strict();
+export const ZResOk = z.object({});
 
 export type { IResError, IResErrorJson } from "api-alternance-sdk";
 
-export const ZReqParamsSearchPagination = z
-  .object({
-    page: z.preprocess((v) => parseInt(v as string, 10), z.number().positive().optional()),
-    limit: z.preprocess((v) => parseInt(v as string, 10), z.number().positive().optional()),
-    q: z.string().optional(),
-  })
-  .strict();
+export const ZReqParamsSearchPagination = z.object({
+  page: z.optional(z.coerce.number().check(z.int(), z.gte(0))),
+  limit: z.optional(z.coerce.number().check(z.int(), z.gte(0))),
+  q: z.optional(z.string()),
+});
 export type IReqParamsSearchPagination = z.input<typeof ZReqParamsSearchPagination>;
 
-export const ZReqHeadersAuthorization = z
-  .object({
-    Authorization: z.string().describe("Bearer token").optional(),
-  })
-  .passthrough();
+export const ZReqHeadersAuthorization = z.object({
+  Authorization: z.optional(z.string()),
+});
 
 export type IAccessTokenScope<S extends SchemaWithSecurity> = {
   path: S["path"];
@@ -28,8 +24,8 @@ export type IAccessTokenScope<S extends SchemaWithSecurity> = {
   options:
     | "all"
     | {
-        params: S["params"] extends AnyZodObject ? Partial<Jsonify<z.input<S["params"]>>> : undefined;
-        querystring: S["querystring"] extends AnyZodObject ? Partial<Jsonify<z.input<S["querystring"]>>> : undefined;
+        params: S["params"] extends $ZodObject ? Partial<Jsonify<z.input<S["params"]>>> : undefined;
+        querystring: S["querystring"] extends $ZodObject ? Partial<Jsonify<z.input<S["querystring"]>>> : undefined;
       };
   resources: {
     [key in keyof S["securityScheme"]["ressources"]]: ReadonlyArray<string>;

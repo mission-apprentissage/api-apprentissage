@@ -227,7 +227,7 @@ program
     const organisation =
       user.organisation === null ? null : await getDbCollection("organisations").findOne({ nom: user.organisation });
 
-    const token = createAuthToken({ user, organisation }, expiresIn);
+    const token = await createAuthToken({ user, organisation }, expiresIn);
     logger.info({ token });
 
     logger.info(parseApiAlternanceToken({ token, publicKey: config.api.alternance.public_cert }));

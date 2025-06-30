@@ -79,6 +79,7 @@ export const geographieRoutesOpenapi: OpenapiRoutes = {
             required: false,
             name: "longitude",
             in: "query",
+            allowEmptyValue: true,
           },
           {
             schema: {
@@ -89,6 +90,7 @@ export const geographieRoutesOpenapi: OpenapiRoutes = {
             required: false,
             name: "latitude",
             in: "query",
+            allowEmptyValue: true,
           },
           {
             schema: {
@@ -100,6 +102,7 @@ export const geographieRoutesOpenapi: OpenapiRoutes = {
             required: false,
             name: "radius",
             in: "query",
+            allowEmptyValue: true,
           },
         ],
         responses: {

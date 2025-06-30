@@ -3,7 +3,7 @@ import nock from "nock";
 import type { IApiEntEtablissement } from "shared/models/cache/cache.entreprise.model";
 import { zApiEntEtablissement, zApiEntUniteLegale } from "shared/models/cache/cache.entreprise.model";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { z } from "zod";
+import type { z } from "zod/v4-mini";
 
 import { getEtablissementDiffusible, getUniteLegaleDiffusible } from "./entreprise.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";

@@ -8,8 +8,8 @@ import { ObjectId } from "mongodb";
 import type { ImportStatus } from "shared";
 import type { IBcn_N_FormationDiplome, ISourceBcn } from "shared/models/source/bcn/source.bcn.model";
 import { zBcnBySource } from "shared/models/source/bcn/source.bcn.model";
-import { ZodError } from "zod";
-
+import { $ZodError } from "zod/v4/core";
+import { z } from "zod/v4-mini";
 import { fetchBcnData } from "@/services/apis/bcn/bcn.js";
 import { withCause } from "@/services/errors/withCause.js";
 import parentLogger from "@/services/logger.js";
@@ -89,10 +89,10 @@ async function importBcnSource(source: ISourceBcn["source"], date: Date): Promis
               data,
             });
           } catch (error) {
-            if (error instanceof ZodError) {
+            if (error instanceof $ZodError) {
               throw internal("import.bcn: error when parsing", {
                 source,
-                error: error.format(),
+                error: z.treeifyError(error),
                 record,
                 data,
                 columns,

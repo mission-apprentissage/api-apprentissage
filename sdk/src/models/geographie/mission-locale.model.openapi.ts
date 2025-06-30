@@ -15,11 +15,11 @@ const missionLocaleSchema: SchemaObject = {
       type: "object",
       properties: {
         geopoint: {
-          oneOf: [
-            { type: "null" },
+          anyOf: [
             {
               $ref: "#/components/schemas/GeoJsonPoint",
             },
+            { type: "null" },
           ],
         },
         adresse: { type: "string" },
@@ -27,18 +27,31 @@ const missionLocaleSchema: SchemaObject = {
         ville: { type: "string" },
       },
       required: ["geopoint", "adresse", "cp", "ville"],
+      additionalProperties: false,
     },
     contact: {
       type: "object",
       properties: {
-        email: { type: ["string", "null"], format: "email" },
-        telephone: { type: ["string", "null"] },
-        siteWeb: { type: ["string", "null"] },
+        email: {
+          anyOf: [
+            {
+              type: "string",
+              format: "email",
+              pattern:
+                "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
+            },
+            { type: "null" },
+          ],
+        },
+        telephone: { anyOf: [{ type: "string" }, { type: "null" }] },
+        siteWeb: { anyOf: [{ type: "string" }, { type: "null" }] },
       },
       required: ["email", "telephone", "siteWeb"],
+      additionalProperties: false,
     },
   },
   required: ["id", "code", "nom", "siret", "localisation", "contact"],
+  additionalProperties: false,
 };
 
 export const missionLocaleModelOpenapi: OpenapiModel<"MissionLocale"> = {

@@ -11,12 +11,12 @@ import type { IImportMetaFranceCompetence } from "shared/models/import.meta.mode
 import type { ISourceFcStandard } from "shared/models/source/france_competence/parts/source.france_competence.standard.model";
 import { zSourceFcStandard } from "shared/models/source/france_competence/parts/source.france_competence.standard.model";
 import type {
+  IFranceCompetenceDataBySource,
   ISourceFranceCompetence,
   ISourceFranceCompetenceDataKey,
 } from "shared/models/source/france_competence/source.france_competence.model";
-import { zFranceCompetenceDataBySource } from "shared/models/source/france_competence/source.france_competence.model";
+import { zFranceCompetenceDataBySourceShape } from "shared/models/source/france_competence/source.france_competence.model";
 import type { Entry } from "unzipper";
-import { generateMock } from "@anatine/zod-mock";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import {
@@ -49,7 +49,233 @@ vi.mock("@/services/apis/data_gouv/data_gouv.api", async (importOriginal) => {
   };
 });
 
-const seed = 20240227;
+const mockSourceData = {
+  ccn: [
+    {
+      Numero_Fiche: "RNCP001",
+      Ccn_1_Numero: null,
+      Ccn_1_Libelle: null,
+      Ccn_2_Numero: null,
+      Ccn_2_Libelle: null,
+      Ccn_3_Numero: null,
+      Ccn_3_Libelle: null,
+    },
+  ],
+  partenaires: [
+    {
+      Numero_Fiche: "RNCP001",
+      Nom_Partenaire: null,
+      Siret_Partenaire: null,
+      Habilitation_Partenaire: null,
+    },
+  ],
+  blocs_de_competences: [
+    {
+      Numero_Fiche: "RNCP001",
+      Bloc_Competences_Code: "RNCP001BC1",
+      Bloc_Competences_Libelle: null,
+    },
+  ],
+  nsf: [
+    {
+      Numero_Fiche: "RNCP001",
+      Nsf_Code: "123456",
+      Nsf_Intitule: null,
+    },
+  ],
+  formacode: [
+    {
+      Numero_Fiche: "RNCP001",
+      Formacode_Code: "123456",
+      Formacode_Libelle: "Intitulé Formacode",
+    },
+  ],
+  ancienne_nouvelle_certification: [
+    {
+      Numero_Fiche: "RNCP001",
+      Ancienne_Certification: null,
+      Nouvelle_Certification: null,
+    },
+  ],
+  voies_d_acces: [
+    {
+      Numero_Fiche: "RNCP001",
+      Si_Jury: null,
+    },
+  ],
+  rome: [
+    {
+      Numero_Fiche: "RNCP001",
+      Codes_Rome_Code: "12345",
+      Codes_Rome_Libelle: "Intitulé ROME",
+    },
+  ],
+  certificateurs: [
+    {
+      Numero_Fiche: "RNCP001",
+      Siret_Certificateur: "12345678901234",
+      Nom_Certificateur: "Certificateur Test",
+    },
+  ],
+  standard: {
+    Id_Fiche: "Id_Fiche",
+    Intitule: "Intitule",
+    Abrege_Libelle: null,
+    Abrege_Intitule: null,
+    Nomenclature_Europe_Niveau: null,
+    Nomenclature_Europe_Intitule: null,
+    Accessible_Nouvelle_Caledonie: null,
+    Accessible_Polynesie_Francaise: null,
+    Date_dernier_jo: null,
+    Date_Decision: null,
+    Date_Fin_Enregistrement: null,
+    Date_Effet: null,
+    Type_Enregistrement: "Enregistrement de droit",
+    Validation_Partielle: null,
+    Numero_Fiche: "RNCP001",
+    Actif: "ACTIVE",
+  },
+} as const satisfies IFranceCompetenceDataBySource;
+
+const mockSourceData2 = {
+  ccn: [
+    {
+      Numero_Fiche: "RNCP001",
+      Ccn_1_Numero: "3090",
+      Ccn_1_Libelle: "Ccn_1_Libelle",
+      Ccn_2_Numero: null,
+      Ccn_2_Libelle: null,
+      Ccn_3_Numero: null,
+      Ccn_3_Libelle: null,
+    },
+  ],
+  partenaires: [
+    {
+      Numero_Fiche: "RNCP001",
+      Nom_Partenaire: "GROUPE QUEGUINER",
+      Siret_Partenaire: "48261176100016",
+      Habilitation_Partenaire: "HABILITATION_ORGA_FORM",
+    },
+    {
+      Numero_Fiche: "RNCP001",
+      Nom_Partenaire: "ANAKAE",
+      Siret_Partenaire: "89456004400014",
+      Habilitation_Partenaire: "HABILITATION_ORGA_FORM",
+    },
+  ],
+  blocs_de_competences: [
+    {
+      Numero_Fiche: "RNCP001",
+      Bloc_Competences_Code: "RNCP001BC02",
+      Bloc_Competences_Libelle:
+        "Organisation, information et communication autour de ses activités d’animation et d’encadrement physique et sportif",
+    },
+    {
+      Numero_Fiche: "RNCP001",
+      Bloc_Competences_Code: "RNCP001BC03",
+      Bloc_Competences_Libelle:
+        "Préparation et entretien du matériel et des bateaux à moteur spécifiques aux différents modes de pratique du parachutisme ascensionnel nautique",
+    },
+    {
+      Numero_Fiche: "RNCP001",
+      Bloc_Competences_Code: "RNCP001BC01",
+      Bloc_Competences_Libelle:
+        "Préparation et animation d’une séance en sécurité de parachutisme ascensionnel nautique",
+    },
+  ],
+  nsf: [
+    {
+      Numero_Fiche: "RNCP001",
+      Nsf_Code: "335",
+      Nsf_Intitule: "335 : Animation sportive, culturelle et de Loisirs",
+    },
+    {
+      Numero_Fiche: "RNCP001",
+      Nsf_Code: "411",
+      Nsf_Intitule: "411 : Pratiques sportives (y compris : arts martiaux)",
+    },
+  ],
+  formacode: [
+    {
+      Numero_Fiche: "RNCP001",
+      Formacode_Code: "15472",
+      Formacode_Libelle: "Sport nautique",
+    },
+    {
+      Numero_Fiche: "RNCP001",
+      Formacode_Code: "15436",
+      Formacode_Libelle: "Éducation sportive",
+    },
+  ],
+  ancienne_nouvelle_certification: [
+    {
+      Numero_Fiche: "RNCP001",
+      Ancienne_Certification: "RNCP27857",
+      Nouvelle_Certification: null,
+    },
+    {
+      Numero_Fiche: "RNCP001",
+      Ancienne_Certification: "RNCP27853",
+      Nouvelle_Certification: null,
+    },
+  ],
+  voies_d_acces: [
+    {
+      Numero_Fiche: "RNCP001",
+      Si_Jury: "Après un parcours de formation continue",
+    },
+    {
+      Numero_Fiche: "RNCP001",
+      Si_Jury: "Par expérience",
+    },
+    {
+      Numero_Fiche: "RNCP001",
+      Si_Jury: "En contrat de professionnalisation",
+    },
+  ],
+  rome: [
+    {
+      Numero_Fiche: "RNCP001",
+      Codes_Rome_Code: "I1203",
+      Codes_Rome_Libelle: "Maintenance des bâtiments et des locaux",
+    },
+    {
+      Numero_Fiche: "RNCP001",
+      Codes_Rome_Code: "K2501",
+      Codes_Rome_Libelle: "Gardiennage de locaux",
+    },
+  ],
+  certificateurs: [
+    {
+      Numero_Fiche: "RNCP001",
+      Siret_Certificateur: "19753471200017",
+      Nom_Certificateur: "CONSERVATOIRE NATIONAL DES ARTS ET METIERS",
+    },
+    {
+      Numero_Fiche: "RNCP001",
+      Siret_Certificateur: "11004401300040",
+      Nom_Certificateur: "MINISTERE DE L'ENSEIGNEMENT SUPERIEUR ET DE LA RECHERCHE",
+    },
+  ],
+  standard: {
+    Id_Fiche: "4637",
+    Numero_Fiche: "RNCP001",
+    Intitule: "Assistant de structure vétérinaire",
+    Abrege_Libelle: null,
+    Abrege_Intitule: null,
+    Nomenclature_Europe_Niveau: "NIV4",
+    Nomenclature_Europe_Intitule: "niveau4",
+    Accessible_Nouvelle_Caledonie: "Non",
+    Accessible_Polynesie_Francaise: "Non",
+    Date_dernier_jo: "21/07/2018",
+    Date_Decision: null,
+    Date_Fin_Enregistrement: "21/07/2021",
+    Date_Effet: null,
+    Type_Enregistrement: "Enregistrement sur demande",
+    Validation_Partielle: null,
+    Actif: "INACTIVE",
+  },
+} as const satisfies IFranceCompetenceDataBySource;
 
 // Spec de l'algorithme https://www.notion.so/mission-apprentissage/Job-d-import-des-donn-es-RNCP-via-France-Comp-tences-v1-0-66efcd3edce84bd09db34a9e7f8a0d73
 describe("processRecord", () => {
@@ -175,9 +401,7 @@ describe("processRecord", () => {
     describe("when fiche is active", () => {
       it("should create a new record properly", () => {
         const record = {
-          ...generateMock(zSourceFcStandard, {
-            seed,
-          }),
+          ...mockSourceData.standard,
           Numero_Fiche: "RNCP123",
           Actif: "ACTIVE",
         };
@@ -254,9 +478,7 @@ describe("processRecord", () => {
     describe("when fiche is inactive", () => {
       it("should create a new record properly", () => {
         const record = {
-          ...generateMock(zSourceFcStandard, {
-            seed,
-          }),
+          ...mockSourceData.standard,
           Numero_Fiche: "RNCP123",
           Actif: "INACTIVE",
         };
@@ -290,43 +512,44 @@ describe("processRecord", () => {
     });
   });
 
-  describe.each<[keyof ISourceFranceCompetence["data"]]>([["ccn"]])("when fichier is %s", (source) => {
-    const fichierMeta = { source } as const;
-    const columns = Object.keys(zFranceCompetenceDataBySource[source].shape).map((key) => ({ name: key }));
+  describe.each<[Exclude<keyof ISourceFranceCompetence["data"], "standard">]>([["ccn"]])(
+    "when fichier is %s",
+    (source) => {
+      const fichierMeta = { source } as const;
+      const columns = Object.keys(zFranceCompetenceDataBySourceShape[source].shape).map((key) => ({ name: key }));
 
-    it("should create a new record properly", () => {
-      const record = {
-        ...generateMock(zFranceCompetenceDataBySource[source], {
-          seed,
-        }),
-        Numero_Fiche: "RNCP123",
-      };
+      it("should create a new record properly", () => {
+        const record = {
+          ...mockSourceData[source][0],
+          Numero_Fiche: "RNCP123",
+        };
 
-      const result = processRecord(importMeta, fichierMeta, record, columns);
+        const result = processRecord(importMeta, fichierMeta, record, columns);
 
-      expect(result).toEqual([
-        expectedCreateRecord,
-        expectedUpdateDateDernierePublication,
-        expectedUpdateDatePremierePublication,
-        {
-          updateOne: {
-            filter: {
-              numero_fiche: record.Numero_Fiche,
-              date_derniere_publication: archiveMeta.date_publication,
-            },
-            update: {
-              $set: {
-                updated_at: importMeta.import_date,
+        expect(result).toEqual([
+          expectedCreateRecord,
+          expectedUpdateDateDernierePublication,
+          expectedUpdateDatePremierePublication,
+          {
+            updateOne: {
+              filter: {
+                numero_fiche: record.Numero_Fiche,
+                date_derniere_publication: archiveMeta.date_publication,
               },
-              $addToSet: {
-                [`data.${source}`]: record,
+              update: {
+                $set: {
+                  updated_at: importMeta.import_date,
+                },
+                $addToSet: {
+                  [`data.${source}`]: record,
+                },
               },
             },
           },
-        },
-      ]);
-    });
-  });
+        ]);
+      });
+    }
+  );
 });
 
 function mockEntry<T extends object>(path: string, data: T[]): Entry {
@@ -370,7 +593,7 @@ describe("importRncpFile", () => {
       it("it should create fiche", async () => {
         const data = [
           {
-            ...generateMock(zSourceFcStandard, { seed }),
+            ...mockSourceData.standard,
             Numero_Fiche: "RNCP001",
             Actif: "ACTIVE",
           },
@@ -422,19 +645,9 @@ describe("importRncpFile", () => {
         date_derniere_activation: new Date("2024-02-21T09:00:00.000Z"),
         source: "rncp",
         data: {
-          ccn: [generateMock(zFranceCompetenceDataBySource.ccn, { seed })],
-          partenaires: [generateMock(zFranceCompetenceDataBySource.partenaires, { seed: seed + 1 })],
-          blocs_de_competences: [generateMock(zFranceCompetenceDataBySource.blocs_de_competences, { seed: seed + 2 })],
-          nsf: [generateMock(zFranceCompetenceDataBySource.nsf, { seed: seed + 3 })],
-          formacode: [generateMock(zFranceCompetenceDataBySource.formacode, { seed: seed + 4 })],
-          ancienne_nouvelle_certification: [
-            generateMock(zFranceCompetenceDataBySource.ancienne_nouvelle_certification, { seed: seed + 5 }),
-          ],
-          voies_d_acces: [generateMock(zFranceCompetenceDataBySource.voies_d_acces, { seed: seed + 6 })],
-          rome: [generateMock(zFranceCompetenceDataBySource.rome, { seed: seed + 7 })],
-          certificateurs: [generateMock(zFranceCompetenceDataBySource.certificateurs, { seed: seed + 8 })],
+          ...mockSourceData,
           standard: {
-            ...generateMock(zSourceFcStandard, { seed }),
+            ...mockSourceData.standard,
             Numero_Fiche: "RNCP001",
             Actif: "ACTIVE",
           },
@@ -449,7 +662,7 @@ describe("importRncpFile", () => {
         data: {
           ...initialFicheActive.data,
           standard: {
-            ...generateMock(zSourceFcStandard, { seed }),
+            ...mockSourceData.standard,
             Numero_Fiche: "RNCP001",
             Actif: "ACTIVE",
           },
@@ -457,13 +670,13 @@ describe("importRncpFile", () => {
       };
 
       const activeStandardData: ISourceFcStandard = {
-        ...generateMock(zSourceFcStandard, { seed }),
+        ...mockSourceData.standard,
         Numero_Fiche: "RNCP001",
         Actif: "ACTIVE",
       };
 
       const inactiveStandardData: ISourceFcStandard = {
-        ...generateMock(zSourceFcStandard, { seed }),
+        ...mockSourceData.standard,
         Numero_Fiche: "RNCP001",
         Actif: "INACTIVE",
       };
@@ -608,25 +821,13 @@ describe("importRncpFile", () => {
           date_derniere_activation: null,
           source: "rncp",
           data: {
-            ccn: [generateMock(zFranceCompetenceDataBySource.ccn, { seed })],
-            partenaires: [generateMock(zFranceCompetenceDataBySource.partenaires, { seed: seed + 1 })],
-            blocs_de_competences: [
-              generateMock(zFranceCompetenceDataBySource.blocs_de_competences, { seed: seed + 2 }),
-            ],
-            nsf: [generateMock(zFranceCompetenceDataBySource.nsf, { seed: seed + 3 })],
-            formacode: [generateMock(zFranceCompetenceDataBySource.formacode, { seed: seed + 4 })],
-            ancienne_nouvelle_certification: [
-              generateMock(zFranceCompetenceDataBySource.ancienne_nouvelle_certification, { seed: seed + 5 }),
-            ],
-            voies_d_acces: [generateMock(zFranceCompetenceDataBySource.voies_d_acces, { seed: seed + 6 })],
-            rome: [generateMock(zFranceCompetenceDataBySource.rome, { seed: seed + 7 })],
-            certificateurs: [generateMock(zFranceCompetenceDataBySource.certificateurs, { seed: seed + 8 })],
+            ...mockSourceData,
             standard: null,
           },
         };
 
         const standardData: ISourceFcStandard = {
-          ...generateMock(zSourceFcStandard, { seed }),
+          ...mockSourceData.standard,
           Numero_Fiche: "RNCP001",
           Actif: "ACTIVE",
         };
@@ -679,19 +880,9 @@ describe("importRncpFile", () => {
         date_derniere_activation: new Date("2024-02-21T09:00:00.000Z"),
         source: "rncp",
         data: {
-          ccn: [generateMock(zFranceCompetenceDataBySource.ccn, { seed })],
-          partenaires: [generateMock(zFranceCompetenceDataBySource.partenaires, { seed: seed + 1 })],
-          blocs_de_competences: [generateMock(zFranceCompetenceDataBySource.blocs_de_competences, { seed: seed + 2 })],
-          nsf: [generateMock(zFranceCompetenceDataBySource.nsf, { seed: seed + 3 })],
-          formacode: [generateMock(zFranceCompetenceDataBySource.formacode, { seed: seed + 4 })],
-          ancienne_nouvelle_certification: [
-            generateMock(zFranceCompetenceDataBySource.ancienne_nouvelle_certification, { seed: seed + 5 }),
-          ],
-          voies_d_acces: [generateMock(zFranceCompetenceDataBySource.voies_d_acces, { seed: seed + 6 })],
-          rome: [generateMock(zFranceCompetenceDataBySource.rome, { seed: seed + 7 })],
-          certificateurs: [generateMock(zFranceCompetenceDataBySource.certificateurs, { seed: seed + 8 })],
+          ...mockSourceData,
           standard: {
-            ...generateMock(zSourceFcStandard, { seed }),
+            ...mockSourceData.standard,
             Numero_Fiche: "RNCP001",
             Actif: "ACTIVE",
           },
@@ -706,7 +897,7 @@ describe("importRncpFile", () => {
         data: {
           ...initialFicheActive.data,
           standard: {
-            ...generateMock(zSourceFcStandard, { seed }),
+            ...mockSourceData.standard,
             Numero_Fiche: "RNCP001",
             Actif: "ACTIVE",
           },
@@ -714,13 +905,13 @@ describe("importRncpFile", () => {
       };
 
       const activeStandardData: ISourceFcStandard = {
-        ...generateMock(zSourceFcStandard, { seed }),
+        ...mockSourceData.standard,
         Numero_Fiche: "RNCP001",
         Actif: "ACTIVE",
       };
 
       const inactiveStandardData: ISourceFcStandard = {
-        ...generateMock(zSourceFcStandard, { seed }),
+        ...mockSourceData.standard,
         Numero_Fiche: "RNCP001",
         Actif: "INACTIVE",
       };
@@ -834,19 +1025,9 @@ describe("importRncpFile", () => {
       status: "pending",
     } as const;
 
-    const data = [
-      {
-        ...generateMock(zFranceCompetenceDataBySource[source], { seed: seed + 10 }),
-        Numero_Fiche: "RNCP001",
-      },
-      {
-        ...generateMock(zFranceCompetenceDataBySource[source], { seed: seed + 11 }),
-        Numero_Fiche: "RNCP001",
-      },
-    ];
-
     describe("when fiche does not exist", () => {
       it("it should create fiche", async () => {
+        const data = [...mockSourceData[source]];
         const entry = mockEntry(filename, data);
 
         await importRncpFile(entry, importMeta);
@@ -894,19 +1075,9 @@ describe("importRncpFile", () => {
         date_derniere_activation: new Date("2024-02-21T09:00:00.000Z"),
         source: "rncp",
         data: {
-          ccn: [generateMock(zFranceCompetenceDataBySource.ccn, { seed })],
-          partenaires: [generateMock(zFranceCompetenceDataBySource.partenaires, { seed: seed + 1 })],
-          blocs_de_competences: [generateMock(zFranceCompetenceDataBySource.blocs_de_competences, { seed: seed + 2 })],
-          nsf: [generateMock(zFranceCompetenceDataBySource.nsf, { seed: seed + 3 })],
-          formacode: [generateMock(zFranceCompetenceDataBySource.formacode, { seed: seed + 4 })],
-          ancienne_nouvelle_certification: [
-            generateMock(zFranceCompetenceDataBySource.ancienne_nouvelle_certification, { seed: seed + 5 }),
-          ],
-          voies_d_acces: [generateMock(zFranceCompetenceDataBySource.voies_d_acces, { seed: seed + 6 })],
-          rome: [generateMock(zFranceCompetenceDataBySource.rome, { seed: seed + 7 })],
-          certificateurs: [generateMock(zFranceCompetenceDataBySource.certificateurs, { seed: seed + 8 })],
+          ...mockSourceData,
           standard: {
-            ...generateMock(zSourceFcStandard, { seed }),
+            ...mockSourceData.standard,
             Numero_Fiche: "RNCP001",
             Actif: "ACTIVE",
           },
@@ -916,6 +1087,7 @@ describe("importRncpFile", () => {
       it("it should update fiche", async () => {
         await getDbCollection("source.france_competence").insertOne(initialFiche);
 
+        const data = [...mockSourceData2[source]];
         const entry = mockEntry(filename, data);
 
         await importRncpFile(entry, importMeta);
@@ -957,25 +1129,13 @@ describe("importRncpFile", () => {
           date_derniere_activation: archiveMeta.date_publication,
           source: "rncp",
           data: {
-            ccn: [generateMock(zFranceCompetenceDataBySource.ccn, { seed })],
-            partenaires: [generateMock(zFranceCompetenceDataBySource.partenaires, { seed: seed + 1 })],
-            blocs_de_competences: [
-              generateMock(zFranceCompetenceDataBySource.blocs_de_competences, { seed: seed + 2 }),
-            ],
-            nsf: [generateMock(zFranceCompetenceDataBySource.nsf, { seed: seed + 3 })],
-            formacode: [generateMock(zFranceCompetenceDataBySource.formacode, { seed: seed + 4 })],
-            ancienne_nouvelle_certification: [
-              generateMock(zFranceCompetenceDataBySource.ancienne_nouvelle_certification, { seed: seed + 5 }),
-            ],
-            voies_d_acces: [generateMock(zFranceCompetenceDataBySource.voies_d_acces, { seed: seed + 6 })],
-            rome: [generateMock(zFranceCompetenceDataBySource.rome, { seed: seed + 7 })],
-            certificateurs: [generateMock(zFranceCompetenceDataBySource.certificateurs, { seed: seed + 8 })],
-            standard: generateMock(zSourceFcStandard, { seed: seed + 9 }),
+            ...mockSourceData,
           },
         };
 
         await getDbCollection("source.france_competence").insertOne(initialFiche);
 
+        const data = [...mockSourceData2[source]];
         const entry = mockEntry(filename, data);
 
         await importRncpFile(entry, importMeta);
@@ -1021,19 +1181,88 @@ describe("importRncpFile", () => {
         date_derniere_activation: new Date("2024-02-21T09:00:00.000Z"),
         source: "rncp",
         data: {
-          ccn: [generateMock(zFranceCompetenceDataBySource.ccn, { seed })],
-          partenaires: [generateMock(zFranceCompetenceDataBySource.partenaires, { seed: seed + 1 })],
-          blocs_de_competences: [generateMock(zFranceCompetenceDataBySource.blocs_de_competences, { seed: seed + 2 })],
-          nsf: [generateMock(zFranceCompetenceDataBySource.nsf, { seed: seed + 3 })],
-          formacode: [generateMock(zFranceCompetenceDataBySource.formacode, { seed: seed + 4 })],
-          ancienne_nouvelle_certification: [
-            generateMock(zFranceCompetenceDataBySource.ancienne_nouvelle_certification, { seed: seed + 5 }),
+          ccn: [
+            {
+              Numero_Fiche: "RNCP001",
+              Ccn_1_Numero: null,
+              Ccn_1_Libelle: null,
+              Ccn_2_Numero: null,
+              Ccn_2_Libelle: null,
+              Ccn_3_Numero: null,
+              Ccn_3_Libelle: null,
+            },
           ],
-          voies_d_acces: [generateMock(zFranceCompetenceDataBySource.voies_d_acces, { seed: seed + 6 })],
-          rome: [generateMock(zFranceCompetenceDataBySource.rome, { seed: seed + 7 })],
-          certificateurs: [generateMock(zFranceCompetenceDataBySource.certificateurs, { seed: seed + 8 })],
+          partenaires: [
+            {
+              Numero_Fiche: "RNCP001",
+              Nom_Partenaire: null,
+              Siret_Partenaire: null,
+              Habilitation_Partenaire: null,
+            },
+          ],
+          blocs_de_competences: [
+            {
+              Numero_Fiche: "RNCP001",
+              Bloc_Competences_Code: "RNCP001BC1",
+              Bloc_Competences_Libelle: null,
+            },
+          ],
+          nsf: [
+            {
+              Numero_Fiche: "RNCP001",
+              Nsf_Code: "123456",
+              Nsf_Intitule: null,
+            },
+          ],
+          formacode: [
+            {
+              Numero_Fiche: "RNCP001",
+              Formacode_Code: "123456",
+              Formacode_Libelle: "Intitulé Formacode",
+            },
+          ],
+          ancienne_nouvelle_certification: [
+            {
+              Numero_Fiche: "RNCP001",
+              Ancienne_Certification: null,
+              Nouvelle_Certification: null,
+            },
+          ],
+          voies_d_acces: [
+            {
+              Numero_Fiche: "RNCP001",
+              Si_Jury: null,
+            },
+          ],
+          rome: [
+            {
+              Numero_Fiche: "RNCP001",
+              Codes_Rome_Code: "12345",
+              Codes_Rome_Libelle: "Intitulé ROME",
+            },
+          ],
+          certificateurs: [
+            {
+              Numero_Fiche: "RNCP001",
+              Siret_Certificateur: "12345678901234",
+              Nom_Certificateur: "Certificateur Test",
+            },
+          ],
           standard: {
-            ...generateMock(zSourceFcStandard, { seed }),
+            Id_Fiche: "Id_Fiche",
+            Intitule: "Intitule",
+            Abrege_Libelle: null,
+            Abrege_Intitule: null,
+            Nomenclature_Europe_Niveau: null,
+            Nomenclature_Europe_Intitule: null,
+            Accessible_Nouvelle_Caledonie: null,
+            Accessible_Polynesie_Francaise: null,
+            Date_dernier_jo: null,
+            Date_Decision: null,
+            Date_Fin_Enregistrement: null,
+            Date_Effet: null,
+            Type_Enregistrement: "Enregistrement de droit",
+            Validation_Partielle: null,
             Numero_Fiche: "RNCP001",
             Actif: "ACTIVE",
           },
@@ -1043,6 +1272,7 @@ describe("importRncpFile", () => {
       it("it should update fiche", async () => {
         await getDbCollection("source.france_competence").insertOne(initialFiche);
 
+        const data = [...mockSourceData2[source]];
         const entry = mockEntry(filename, data);
 
         await importRncpFile(entry, { ...importMeta, archiveMeta: archiveMetaOlder });

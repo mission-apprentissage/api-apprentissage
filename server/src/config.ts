@@ -40,10 +40,6 @@ const config = {
       // 1 mois: meme valeur que le cookie de session
       expiresIn: 30 * 24 * 3600,
     },
-    resetPasswordToken: {
-      jwtSecret: env.get("AUTH_PASSWORD_JWT_SECRET").required().asString(),
-      expiresIn: "1h",
-    },
     hashRounds: env.get("AUTH_HASH_ROUNDS").required().asIntPositive(),
   },
   smtp: {

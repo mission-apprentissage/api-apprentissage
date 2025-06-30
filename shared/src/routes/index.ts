@@ -1,7 +1,8 @@
 import type { IApiRouteSchema, IApiRouteSchemaWrite } from "api-alternance-sdk";
 import { zApiRoutesDelete, zApiRoutesGet, zApiRoutesPost, zApiRoutesPut } from "api-alternance-sdk";
 import type { ConditionalExcept, EmptyObject, Jsonify } from "type-fest";
-import type { z, ZodType } from "zod";
+import type { z } from "zod/v4-mini";
+import type { $ZodType } from "zod/v4/core";
 
 import { zImporterAdminRoutes } from "./_private/admin/importers.admin.routes.js";
 import { zOrganisationAdminRoutes } from "./_private/admin/organisation.admin.routes.js";
@@ -75,17 +76,17 @@ export const zRoutes: IRoutes = {
   delete: zRoutesDelete,
 } as const;
 
-export type IResponse<S extends IApiRouteSchema> = S["response"][`200`] extends ZodType
+export type IResponse<S extends IApiRouteSchema> = S["response"][`200`] extends $ZodType
   ? Jsonify<z.output<S["response"][`200`]>>
-  : S["response"][`2${string}`] extends ZodType
+  : S["response"][`2${string}`] extends $ZodType
     ? Jsonify<z.output<S["response"][`2${string}`]>>
     : never;
 
-export type IBody<S extends IApiRouteSchemaWrite> = S["body"] extends ZodType ? z.input<S["body"]> : never;
+export type IBody<S extends IApiRouteSchemaWrite> = S["body"] extends $ZodType ? z.input<S["body"]> : never;
 
-export type IQuery<S extends IApiRouteSchema> = S["querystring"] extends ZodType ? z.input<S["querystring"]> : never;
+export type IQuery<S extends IApiRouteSchema> = S["querystring"] extends $ZodType ? z.input<S["querystring"]> : never;
 
-export type IParam<S extends IApiRouteSchema> = S["params"] extends ZodType ? z.input<S["params"]> : never;
+export type IParam<S extends IApiRouteSchema> = S["params"] extends $ZodType ? z.input<S["params"]> : never;
 
 type IHeadersAuth<S extends IApiRouteSchema> = S extends { securityScheme: { auth: infer A } }
   ? A extends "access-token" | "api-key"
@@ -93,7 +94,7 @@ type IHeadersAuth<S extends IApiRouteSchema> = S extends { securityScheme: { aut
     : object
   : object;
 
-export type IHeaders<S extends IApiRouteSchema> = S["headers"] extends ZodType
+export type IHeaders<S extends IApiRouteSchema> = S["headers"] extends $ZodType
   ? Omit<z.input<S["headers"]>, "referrer">
   : object;
 

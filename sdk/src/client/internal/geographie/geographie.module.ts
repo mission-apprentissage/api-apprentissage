@@ -1,6 +1,7 @@
 import { LRUCache } from "lru-cache";
 import { stringify } from "safe-stable-stringify";
 
+import { z } from "zod/v4-mini";
 import type { ICommune, IDepartement, IMissionLocale } from "../../../models/index.js";
 import { zCommune, zDepartement, zMissionLocale } from "../../../models/index.js";
 import type { IApiGetRoutes, IApiQuery } from "../../../routes/index.js";
@@ -31,7 +32,7 @@ export function buildGeographieModule(apiClient: ApiClient): GeographieModule {
 
       const data = await apiClient.get("/geographie/v1/commune/search", { querystring });
 
-      const result = parseApiResponse(data, zCommune.array());
+      const result = parseApiResponse(data, z.array(zCommune));
       communeCache.set(cacheKey, result);
 
       return result;
@@ -39,13 +40,13 @@ export function buildGeographieModule(apiClient: ApiClient): GeographieModule {
     listDepartements: async (): Promise<IDepartement[]> => {
       const data = await apiClient.get("/geographie/v1/departement", {});
 
-      return parseApiResponse(data, zDepartement.array());
+      return parseApiResponse(data, z.array(zDepartement));
     },
     listMissionLocales: async (
       querystring: IApiQuery<IApiGetRoutes["/geographie/v1/mission-locale"]> = {}
     ): Promise<IMissionLocale[]> => {
       const data = await apiClient.get("/geographie/v1/mission-locale", { querystring });
-      return parseApiResponse(data, zMissionLocale.array());
+      return parseApiResponse(data, z.array(zMissionLocale));
     },
   };
 }

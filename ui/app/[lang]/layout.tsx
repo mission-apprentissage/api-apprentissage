@@ -28,7 +28,7 @@ const { getHtmlAttributes } = createGetHtmlAttributes({ defaultColorScheme });
 
 async function getSession(): Promise<ISessionJson | null> {
   try {
-    const session = await apiGet(`/_private/auth/session`, {}, { cache: "no-store" });
+    const session = await apiGet(`/_private/auth/session`, { headers: {} }, { cache: "no-store" });
     return session;
   } catch (error) {
     if ((error as ApiError).context?.statusCode !== 401) {

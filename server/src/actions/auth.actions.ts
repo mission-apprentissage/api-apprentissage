@@ -8,7 +8,7 @@ import { sendEmail } from "@/services/mailer/mailer.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 import { generateAccessToken, generateScope } from "@/services/security/accessTokenService.js";
 
-export function generateRegisterToken(email: string): string {
+export async function generateRegisterToken(email: string): Promise<string> {
   // No need to provided organisation for register
   return generateAccessToken(
     { email, organisation: null },
@@ -28,15 +28,15 @@ export function generateRegisterToken(email: string): string {
   );
 }
 
-function sendRegisterEmail(email: string) {
+async function sendRegisterEmail(email: string) {
   return sendEmail({
     name: "register",
     to: email,
-    token: generateRegisterToken(email),
+    token: await generateRegisterToken(email),
   });
 }
 
-export function generateMagicLinkToken(email: string, organisation: string | null): string {
+export async function generateMagicLinkToken(email: string, organisation: string | null): Promise<string> {
   return generateAccessToken(
     { email, organisation },
     [
@@ -50,11 +50,11 @@ export function generateMagicLinkToken(email: string, organisation: string | nul
   );
 }
 
-function sendMagicLinkEmail(email: string, organisation: string | null) {
+async function sendMagicLinkEmail(email: string, organisation: string | null) {
   return sendEmail({
     name: "magic-link",
     to: email,
-    token: generateMagicLinkToken(email, organisation),
+    token: await generateMagicLinkToken(email, organisation),
   });
 }
 

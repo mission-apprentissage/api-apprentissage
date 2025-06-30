@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 import { zCertification } from "../../models/certification/certification.model.js";
 import { zCfdParam, zRncpParam } from "../../models/certification/certification.primitives.js";
@@ -10,8 +10,8 @@ export const zApiCertificationsRoutes = {
       method: "get",
       path: "/certification/v1",
       querystring: z.object({
-        "identifiant.cfd": zCfdParam.optional(),
-        "identifiant.rncp": zRncpParam.optional(),
+        "identifiant.cfd": zCfdParam,
+        "identifiant.rncp": zRncpParam,
       }),
       response: {
         "200": z.array(zCertification),

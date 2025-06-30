@@ -1,5 +1,5 @@
 import { internal } from "@hapi/boom";
-import OpenAPIParser from "@readme/openapi-parser";
+import { dereference } from "@readme/openapi-parser";
 import type { OpenapiOperation, StructureDiff } from "api-alternance-sdk/internal";
 import { compareOperationObjectsStructure, getOpenapiOperations, structureDiff } from "api-alternance-sdk/internal";
 import type { OpenAPIObject } from "openapi3-ts/oas31";
@@ -22,7 +22,7 @@ async function dereferenceOpenapiSchema(data: OpenAPIObject): Promise<OpenAPIObj
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return (await OpenAPIParser.dereference(data as any)) as any;
+  return (await dereference(data as any)) as any;
 }
 async function fetchLbaOperations(): Promise<Record<string, OpenapiOperation>> {
   const response = await fetch(`${config.api.lba.endpoint}/docs/json`);

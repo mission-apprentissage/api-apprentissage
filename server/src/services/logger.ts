@@ -9,8 +9,8 @@ import {
 } from "mongodb";
 import type { Logger as PinoLogger } from "pino";
 import { pino } from "pino";
-import { ZodError } from "zod";
-
+import { $ZodError } from "zod/v4/core";
+import { z } from "zod/v4-mini";
 import config from "@/config.js";
 
 function logFormatter(obj: unknown, seen: Set<unknown>): unknown {
@@ -49,8 +49,8 @@ function logFormatter(obj: unknown, seen: Set<unknown>): unknown {
       data.data = logFormatter(obj.data, seen);
     }
 
-    if (obj instanceof ZodError) {
-      data.data = obj.format();
+    if (obj instanceof $ZodError) {
+      data.data = z.prettifyError(obj);
     }
 
     if (obj instanceof MongoError) {

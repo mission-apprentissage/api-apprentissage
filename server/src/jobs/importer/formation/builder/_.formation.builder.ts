@@ -1,7 +1,7 @@
 import type { IFormation } from "api-alternance-sdk";
 import { zFormation } from "api-alternance-sdk";
 import type { ISourceCatalogue } from "shared/models/source/catalogue/source.catalogue.model";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 import { buildFormationCertification } from "./certification.formation.builder.js";
 import { buildFormationLieu } from "./lieu.formation.builder.js";
@@ -45,13 +45,13 @@ export async function buildFormation(source: ISourceCatalogue): Promise<IFormati
 
     contact: {
       // Some emails are not valid
-      email: z.string().email().safeParse(source.data.email).success ? source.data.email : null,
+      email: z.string().check(z.email()).safeParse(source.data.email).success ? source.data.email : null,
       telephone: source.data.num_tel,
     },
 
     onisep: {
       // Some onisep are not valid URL
-      url: z.string().url().safeParse(source.data.onisep_url).success ? source.data.onisep_url : null,
+      url: z.string().check(z.url()).safeParse(source.data.onisep_url).success ? source.data.onisep_url : null,
       intitule: source.data.onisep_intitule,
       libelle_poursuite: source.data.onisep_libelle_poursuite,
       lien_site_onisepfr: source.data.onisep_lien_site_onisepfr,

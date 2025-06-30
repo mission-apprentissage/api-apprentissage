@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 import { zCommune } from "api-alternance-sdk";
 import type { IModelDescriptorGeneric } from "./common.js";
 import { zObjectId } from "./common.js";
@@ -15,7 +15,7 @@ const indexes: IModelDescriptorGeneric["indexes"] = [
   [{ "mission_locale.localisation.geopoint": "2dsphere", "mission_locale.id": 1 }, {}],
 ];
 
-export const zCommuneInternal = zCommune.extend({
+export const zCommuneInternal = z.extend(zCommune, {
   _id: zObjectId,
   created_at: z.date(),
   updated_at: z.date(),

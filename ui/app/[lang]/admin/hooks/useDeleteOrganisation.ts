@@ -22,8 +22,8 @@ export function useDeleteOrganisation() {
       captureException(error);
       console.error(error);
     },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: [zRoutes.get["/_private/admin/organisations"]] });
+    onSettled: async () => {
+      await queryClient.invalidateQueries({ queryKey: [zRoutes.get["/_private/admin/organisations"]] });
     },
     onSuccess: () => {
       push("/admin/organisations");

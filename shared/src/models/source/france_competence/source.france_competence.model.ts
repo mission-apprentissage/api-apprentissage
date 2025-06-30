@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 import type { IModelDescriptorGeneric } from "../../common.js";
 import { zObjectId } from "../../common.js";
@@ -36,7 +36,7 @@ const indexes: IModelDescriptorGeneric["indexes"] = [
   [{ numero_fiche: 1, date_derniere_activation: 1 }, {}],
 ];
 
-export const zFranceCompetenceDataBySource = {
+export const zFranceCompetenceDataBySourceShape = {
   ccn: zSourceFcCcn,
   partenaires: zSourceFcPartenaires,
   blocs_de_competences: zSourceFcBlocDeCompetences,
@@ -49,7 +49,21 @@ export const zFranceCompetenceDataBySource = {
   standard: zSourceFcStandard,
 } as const;
 
-export type ISourceFranceCompetenceDataKey = keyof typeof zFranceCompetenceDataBySource;
+const zFranceCompetenceDataBySource = z.object({
+  ccn: z.array(zFranceCompetenceDataBySourceShape.ccn),
+  partenaires: z.array(zFranceCompetenceDataBySourceShape.partenaires),
+  blocs_de_competences: z.array(zFranceCompetenceDataBySourceShape.blocs_de_competences),
+  nsf: z.array(zFranceCompetenceDataBySourceShape.nsf),
+  formacode: z.array(zFranceCompetenceDataBySourceShape.formacode),
+  ancienne_nouvelle_certification: z.array(zFranceCompetenceDataBySourceShape.ancienne_nouvelle_certification),
+  voies_d_acces: z.array(zFranceCompetenceDataBySourceShape.voies_d_acces),
+  rome: z.array(zFranceCompetenceDataBySourceShape.rome),
+  certificateurs: z.array(zFranceCompetenceDataBySourceShape.certificateurs),
+  standard: z.nullable(zSourceFcStandard),
+});
+
+export type IFranceCompetenceDataBySource = z.output<typeof zFranceCompetenceDataBySource>;
+export type ISourceFranceCompetenceDataKey = keyof typeof zFranceCompetenceDataBySourceShape;
 
 export type ISourceFranceCompetenceDataPart =
   | ISourceFcAncienneNouvelle
@@ -63,34 +77,19 @@ export type ISourceFranceCompetenceDataPart =
   | ISourceFcStandard
   | ISourceFcVoixAcces;
 
-export const zFranceCompetence = z
-  .object({
-    _id: zObjectId,
-    created_at: z.date(),
-    updated_at: z.date(),
-    numero_fiche: z.string().regex(/^(RNCP|RS)\d+$/),
-    active: z.boolean().nullable(),
-    date_premiere_publication: z.date().nullable(),
-    date_derniere_publication: z.date().nullable(),
-    date_premiere_activation: z.date().nullable(),
-    date_derniere_activation: z.date().nullable(),
-    source: z.literal("rncp"),
-    data: z
-      .object({
-        ccn: z.array(zFranceCompetenceDataBySource.ccn),
-        partenaires: z.array(zFranceCompetenceDataBySource.partenaires),
-        blocs_de_competences: z.array(zFranceCompetenceDataBySource.blocs_de_competences),
-        nsf: z.array(zFranceCompetenceDataBySource.nsf),
-        formacode: z.array(zFranceCompetenceDataBySource.formacode),
-        ancienne_nouvelle_certification: z.array(zFranceCompetenceDataBySource.ancienne_nouvelle_certification),
-        voies_d_acces: z.array(zFranceCompetenceDataBySource.voies_d_acces),
-        rome: z.array(zFranceCompetenceDataBySource.rome),
-        certificateurs: z.array(zFranceCompetenceDataBySource.certificateurs),
-        standard: zSourceFcStandard.nullable(),
-      })
-      .strict(),
-  })
-  .strict();
+export const zFranceCompetence = z.object({
+  _id: zObjectId,
+  created_at: z.date(),
+  updated_at: z.date(),
+  numero_fiche: z.string().check(z.regex(/^(RNCP|RS)\d+$/)),
+  active: z.nullable(z.boolean()),
+  date_premiere_publication: z.nullable(z.date()),
+  date_derniere_publication: z.nullable(z.date()),
+  date_premiere_activation: z.nullable(z.date()),
+  date_derniere_activation: z.nullable(z.date()),
+  source: z.literal("rncp"),
+  data: zFranceCompetenceDataBySource,
+});
 
 export const sourceFranceCompetenceModelDescriptor = {
   zod: zFranceCompetence,

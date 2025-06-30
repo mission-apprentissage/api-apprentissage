@@ -1,7 +1,7 @@
-import jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
 import { generateUserFixture } from "shared/models/fixtures/index";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
+import { decodeJwt } from "jose";
 import { useMongo } from "@tests/mongo.test.utils.js";
 
 import { createSession, createSessionToken } from "@/actions/sessions.actions.js";
@@ -54,7 +54,7 @@ describe("User Routes", () => {
     await generateApiKey("", otherUser);
     await generateApiKey("", otherUser);
 
-    sessionToken = createSessionToken(user.email);
+    sessionToken = await createSessionToken(user.email);
     await createSession(user.email);
 
     return () => {
@@ -105,7 +105,7 @@ describe("User Routes", () => {
         },
       ]);
 
-      const decodedToken = jwt.decode(data.value);
+      const decodedToken = decodeJwt(data.value);
       expect(decodedToken).toEqual({
         _id: user._id.toString(),
         api_key: expect.any(String),
@@ -170,7 +170,7 @@ describe("User Routes", () => {
       userFromDb = await getDbCollection("users").findOne({ _id: user._id });
       expect(userFromDb?.api_keys).toHaveLength(3);
 
-      const decodedToken1 = jwt.decode(data1.value);
+      const decodedToken1 = decodeJwt(data1.value);
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       expect(userFromDb!.api_keys[0].key === (decodedToken1 as any)!.api_key).toBe(true);

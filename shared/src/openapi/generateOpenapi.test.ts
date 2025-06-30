@@ -1,4 +1,4 @@
-import OpenAPIParser from "@readme/openapi-parser";
+import { validate } from "@readme/openapi-parser";
 import { stripOpenAPIObjectDescriptions } from "api-alternance-sdk/internal";
 import { describe, expect, it } from "vitest";
 
@@ -13,7 +13,7 @@ describe("generateOpenApiSchema", () => {
   });
 
   it("should be valid OpenAPI schema", async () => {
-    const validationResult = await OpenAPIParser.validate(openapi)
+    const validationResult = await validate(openapi)
       .then(() => ({ success: true, error: null }))
       .catch((e) => ({ success: false, error: e }));
 

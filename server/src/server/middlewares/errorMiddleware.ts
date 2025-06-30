@@ -1,31 +1,33 @@
 import { badRequest, Boom, internal, isBoom } from "@hapi/boom";
 import { captureException } from "@sentry/node";
 import type { FastifyError } from "fastify";
-import { ResponseSerializationError } from "fastify-type-provider-zod";
+import { hasZodFastifySchemaValidationErrors, isResponseSerializationError } from "@moroine/fastify-type-provider-zod";
 import type { IResError } from "shared/routes/common.routes";
-import { ZodError } from "zod";
 
+import { $ZodError, treeifyError } from "zod/v4/core";
 import config from "@/config.js";
 import type { Server } from "@/server/server.js";
 
-export function boomify(rawError: FastifyError | Boom<unknown> | Error | ZodError): Boom<unknown> {
+export function boomify(rawError: FastifyError | Boom<unknown> | Error | $ZodError): Boom<unknown> {
   if (isBoom(rawError)) {
     return rawError;
   }
 
-  if (rawError instanceof ResponseSerializationError) {
+  if (isResponseSerializationError(rawError)) {
     if (config.env === "local") {
       const zodError = rawError.cause;
       return internal(rawError.message, {
-        validationError: zodError.format(),
+        validationError: treeifyError(zodError),
       });
     }
 
     return internal();
   }
 
-  if (rawError instanceof ZodError) {
-    return badRequest("Request validation failed", { validationError: rawError.format() });
+  if (hasZodFastifySchemaValidationErrors(rawError)) {
+    return badRequest("Request validation failed", {
+      validationError: rawError.validation,
+    });
   }
 
   if ((rawError as FastifyError).statusCode) {
@@ -42,7 +44,7 @@ export function boomify(rawError: FastifyError | Boom<unknown> | Error | ZodErro
   return internal();
 }
 
-export function formatResponseError(rawError: FastifyError | Boom<unknown> | Error | ZodError): IResError {
+export function formatResponseError(rawError: FastifyError | Boom<unknown> | Error | $ZodError): IResError {
   const error = boomify(rawError);
 
   const result: IResError = {
@@ -65,12 +67,12 @@ export function formatResponseError(rawError: FastifyError | Boom<unknown> | Err
 }
 
 export function errorMiddleware(server: Server) {
-  server.setErrorHandler<FastifyError | Boom<unknown> | Error | ZodError, { Reply: IResError }>(
+  server.setErrorHandler<FastifyError | Boom<unknown> | Error | $ZodError, { Reply: IResError }>(
     (rawError, _request, reply) => {
       const payload: IResError = formatResponseError(rawError);
 
       if (payload.statusCode >= 500) {
-        server.log.error(rawError instanceof ZodError ? rawError.format() : rawError);
+        server.log.error(rawError instanceof $ZodError ? treeifyError(rawError) : rawError);
         captureException(rawError);
       }
 

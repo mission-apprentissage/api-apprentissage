@@ -11,15 +11,13 @@ import { zAdresse, zGeoJsonPoint, zGeoJsonPolygon } from "./geoJson.model.js";
 const geoJsonPointSchema: SchemaObject = {
   type: "object",
   properties: {
-    type: { type: "string", enum: ["Point"] },
+    type: { type: "string", const: "Point" },
     coordinates: {
       type: "array",
       prefixItems: [
         { type: "number", minimum: -180, maximum: 180 },
         { type: "number", minimum: -90, maximum: 90 },
       ],
-      minItems: 2,
-      maxItems: 2,
     },
   },
   required: ["type", "coordinates"],
@@ -36,7 +34,7 @@ export const geoJsonPointModelOpenapi: OpenapiModel<"GeoJsonPoint"> = {
 const geoJsonPolygonSchema: SchemaObject = {
   type: "object",
   properties: {
-    type: { type: "string", enum: ["Polygon"] },
+    type: { type: "string", const: "Polygon" },
     coordinates: {
       type: "array",
       items: {
@@ -47,8 +45,6 @@ const geoJsonPolygonSchema: SchemaObject = {
             { type: "number", minimum: -180, maximum: 180 },
             { type: "number", minimum: -90, maximum: 90 },
           ],
-          minItems: 2,
-          maxItems: 2,
         },
       },
     },
@@ -80,21 +76,21 @@ const adresseSchema: SchemaObject = {
       },
       required: ["code", "id", "nom"],
       type: "object",
+      additionalProperties: false,
     },
     code_postal: {
-      type: ["string", "null"],
+      anyOf: [{ type: "string" }, { type: "null" }],
     },
     commune: {
       properties: {
-        code_insee: {
-          type: "string",
-        },
+        code_insee: { type: "string" },
         nom: {
           type: "string",
         },
       },
       required: ["code_insee", "nom"],
       type: "object",
+      additionalProperties: false,
     },
     departement: {
       properties: {
@@ -107,9 +103,10 @@ const adresseSchema: SchemaObject = {
       },
       required: ["code_insee", "nom"],
       type: "object",
+      additionalProperties: false,
     },
     label: {
-      type: ["string", "null"],
+      anyOf: [{ type: "string" }, { type: "null" }],
     },
     region: {
       properties: {
@@ -122,10 +119,12 @@ const adresseSchema: SchemaObject = {
       },
       required: ["code_insee", "nom"],
       type: "object",
+      additionalProperties: false,
     },
   },
   required: ["academie", "code_postal", "commune", "departement", "label", "region"],
   type: "object",
+  additionalProperties: false,
 };
 
 export const adresseModelOpenapi: OpenapiModel<"Adresse"> = {

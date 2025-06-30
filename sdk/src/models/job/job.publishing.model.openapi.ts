@@ -1,8 +1,8 @@
 import type { SchemaObject } from "openapi3-ts/oas31";
 
+import { z } from "zod/v4-mini";
 import { offerPublishingModelDoc } from "../../docs/models/job/JobOfferPublishing.doc.js";
 import type { OpenapiModel } from "../../openapi/types.js";
-import { zodOpenApi } from "../../openapi/utils/zodWithOpenApi.js";
 
 const offerPublishingSchema = {
   type: "object",
@@ -37,5 +37,5 @@ export const offerPublishingModelOpenapi: OpenapiModel<"JobOfferPublishing"> = {
   name: "JobOfferPublishing",
   schema: offerPublishingSchema,
   doc: offerPublishingModelDoc,
-  zod: zodOpenApi.unknown().openapi("JobOfferPublishing"),
+  zod: z.unknown(),
 };

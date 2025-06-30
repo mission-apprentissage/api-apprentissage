@@ -1,5 +1,5 @@
 import { zMissionLocale } from "api-alternance-sdk";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 import type { IModelDescriptorGeneric } from "../../common.js";
 import { zObjectId } from "../../common.js";
@@ -11,7 +11,7 @@ const indexes: IModelDescriptorGeneric["indexes"] = [[{ code_insee: 1 }, { uniqu
 const zSourceCodeInseeToMissionLocale = z.object({
   _id: zObjectId,
   code_insee: z.string(),
-  ml: zMissionLocale.nullable(),
+  ml: z.nullable(zMissionLocale),
   import_id: zObjectId,
 });
 

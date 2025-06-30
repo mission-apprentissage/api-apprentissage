@@ -239,27 +239,36 @@ describe("GET /formation/v1/search", () => {
   });
 });
 
-const nockMatchUserAuthorization = (u: IUser, habilitations: string[]) => (token: string) => {
-  expect
-    .soft(
-      parseApiAlternanceToken({
-        token,
-        publicKey: config.api.alternance.public_cert,
-      })
-    )
-    .toEqual({
-      data: {
-        email: u.email,
-        habilitations: habilitations.reduce((acc, h) => ({ ...acc, [h]: true }), {
-          "applications:write": false,
-          "appointments:write": false,
-          "jobs:write": false,
-        }),
-        organisation: u.organisation,
-      },
-      success: true,
-    });
-  return true;
+const nockMatchUserAuthorization = (u: IUser, habilitations: string[]) => {
+  let token: string = "";
+
+  return {
+    matchHeader: (t: string) => {
+      token = t;
+      return true;
+    },
+    expectAuth: async () => {
+      return expect
+        .soft(
+          parseApiAlternanceToken({
+            token,
+            publicKey: config.api.alternance.public_cert,
+          })
+        )
+        .resolves.toEqual({
+          data: {
+            email: u.email,
+            habilitations: habilitations.reduce((acc, h) => ({ ...acc, [h]: true }), {
+              "applications:write": false,
+              "appointments:write": false,
+              "jobs:write": false,
+            }),
+            organisation: u.organisation,
+          },
+          success: true,
+        });
+    },
+  };
 };
 
 beforeEach(async () => {
@@ -358,12 +367,13 @@ describe("POST /formation/v1/appointment/generate-link", () => {
       localite: "Tremblay-en-France",
     };
 
+    const { matchHeader, expectAuth } = nockMatchUserAuthorization(users.appointmentsWrite, ["appointments:write"]);
     nock("https://labonnealternance-recette.apprentissage.beta.gouv.fr/api")
       .post("/v2/appointment", (b) => {
         expect.soft(b).toEqual(body);
         return true;
       })
-      .matchHeader("authorization", nockMatchUserAuthorization(users.appointmentsWrite, ["appointments:write"]))
+      .matchHeader("authorization", matchHeader)
       .reply(200, data);
 
     const response = await app.inject({
@@ -373,6 +383,7 @@ describe("POST /formation/v1/appointment/generate-link", () => {
       body,
     });
 
+    await expectAuth();
     expect.soft(response.statusCode).toBe(200);
     const result = response.json();
     expect(result).toEqual(data);

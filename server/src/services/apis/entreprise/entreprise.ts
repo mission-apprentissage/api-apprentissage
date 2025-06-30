@@ -6,6 +6,7 @@ import axiosRetry, { exponentialDelay, isNetworkOrIdempotentRequestError } from 
 import type { IApiEntEtablissement, IApiEntUniteLegale } from "shared/models/cache/cache.entreprise.model";
 import { zApiEntEtablissement, zApiEntUniteLegale } from "shared/models/cache/cache.entreprise.model";
 
+import { z } from "zod/v4-mini";
 import config from "@/config.js";
 import getApiClient from "@/services/apis/client.js";
 import { withCause } from "@/services/errors/withCause.js";
@@ -187,7 +188,7 @@ async function getEtablissementDiffusionPartielle(siret: string): Promise<IApiEn
     }
   });
 
-  const result = zApiEntEtablissement.nullable().safeParse(rawResult);
+  const result = z.nullable(zApiEntEtablissement).safeParse(rawResult);
 
   if (!result.success) {
     throw internal("api.entreprise: unable to parse etablissement diffusible", { data: rawResult, result });
@@ -243,7 +244,7 @@ async function getUniteLegaleDiffusionPartielle(siren: string): Promise<IApiEntU
     }
   });
 
-  const result = zApiEntUniteLegale.nullable().safeParse(rawResult);
+  const result = z.safeParse(z.nullable(zApiEntUniteLegale), rawResult);
 
   if (!result.success) {
     throw internal("api.entreprise: unable to parse etablissement unites_legales", { data: rawResult, result });
@@ -301,7 +302,7 @@ export async function getEtablissementDiffusible(siret: string): Promise<IApiEnt
     }
   });
 
-  const result = zApiEntEtablissement.nullable().safeParse(rawResult);
+  const result = z.safeParse(z.nullable(zApiEntEtablissement), rawResult);
 
   if (!result.success) {
     throw internal("api.entreprise: unable to parse etablissement diffusible", { data: rawResult, result });
@@ -362,7 +363,7 @@ export async function getUniteLegaleDiffusible(siren: string): Promise<IApiEntUn
     }
   });
 
-  const result = zApiEntUniteLegale.nullable().parse(rawResult);
+  const result = z.parse(z.nullable(zApiEntUniteLegale), rawResult);
 
   await saveUniteLegaleCache(siren, result);
 

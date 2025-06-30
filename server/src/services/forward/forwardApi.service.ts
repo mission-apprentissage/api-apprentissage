@@ -19,8 +19,11 @@ function hasHabilitation(
   return organisation != null && organisation.habilitations.includes(habilitation);
 }
 
-export function createAuthToken({ user, organisation }: Identity, expiresIn: string | null = null): string {
-  const token = createApiAlternanceToken({
+export async function createAuthToken(
+  { user, organisation }: Identity,
+  expiresIn: string | null = null
+): Promise<string> {
+  const token = await createApiAlternanceToken({
     data: {
       email: user.email,
       organisation: user.organisation,
@@ -44,7 +47,7 @@ async function getResponse(request: ForwardApiRequestConfig, identity: Identity)
     const headers =
       request.requestInit instanceof Headers ? request.requestInit : new Headers(request.requestInit.headers);
 
-    headers.append("Authorization", createAuthToken(identity));
+    headers.append("Authorization", await createAuthToken(identity));
 
     const response = await fetch(url, { ...request.requestInit, headers });
 

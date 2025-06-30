@@ -1,5 +1,5 @@
 import { zGeoJsonPoint } from "api-alternance-sdk";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 import type { IModelDescriptorGeneric } from "../common.js";
 import { zObjectId } from "../common.js";
@@ -12,19 +12,17 @@ const indexes: IModelDescriptorGeneric["indexes"] = [
 ];
 
 export const zAdresseQuery = z.object({
-  codePostal: z.string().nullable(),
+  codePostal: z.nullable(z.string()),
   codeInsee: z.string(),
   adresse: z.string(),
 });
 
-export const zCacheApiAdresse = z
-  .object({
-    _id: zObjectId,
-    identifiant: zAdresseQuery,
-    ttl: z.date().nullable(),
-    data: zGeoJsonPoint.nullable(),
-  })
-  .strict();
+export const zCacheApiAdresse = z.object({
+  _id: zObjectId,
+  identifiant: zAdresseQuery,
+  ttl: z.nullable(z.date()),
+  data: z.nullable(zGeoJsonPoint),
+});
 
 export type IAdresseQuery = z.output<typeof zAdresseQuery>;
 

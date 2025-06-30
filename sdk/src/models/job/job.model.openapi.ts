@@ -1,11 +1,12 @@
 import type { SchemaObject } from "openapi3-ts/oas31";
 
+import { z } from "zod/v4-mini";
 import { applicationModelDoc } from "../../docs/models/job/application.model.doc.js";
 import { offerReadModelDoc } from "../../docs/models/job/offer_read.model.doc.js";
 import { offerWriteModelDoc } from "../../docs/models/job/offer_write.model.doc.js";
 import { recruiterModelDoc } from "../../docs/models/job/recruiter.model.doc.js";
 import type { OpenapiModel } from "../../openapi/types.js";
-import { pickPropertiesOpenAPI, zodOpenApi } from "../../openapi/utils/zodWithOpenApi.js";
+import { pickPropertiesOpenAPI } from "../../openapi/utils/zodWithOpenApi.js";
 
 const recruiterSchema = {
   type: "object",
@@ -409,26 +410,26 @@ export const recruiterModelOpenapi: OpenapiModel<"JobRecruiter"> = {
   name: "JobRecruiter",
   schema: recruiterSchema,
   doc: recruiterModelDoc,
-  zod: zodOpenApi.unknown().openapi("JobRecruiter"),
+  zod: z.unknown(),
 };
 
 export const offerReadModelOpenapi: OpenapiModel<"JobOfferRead"> = {
   name: "JobOfferRead",
   schema: offerReadSchema,
   doc: offerReadModelDoc,
-  zod: zodOpenApi.unknown().openapi("JobOfferRead"),
+  zod: z.unknown(),
 };
 
 export const offerWriteModelOpenapi: OpenapiModel<"JobOfferWrite"> = {
   name: "JobOfferWrite",
   schema: offerWriteSchema,
   doc: offerWriteModelDoc,
-  zod: zodOpenApi.unknown().openapi("JobOfferWrite"),
+  zod: z.unknown(),
 };
 
 export const applicationWriteModelOpenapi: OpenapiModel<"JobApplicationWrite"> = {
   name: "JobApplicationWrite",
   schema: applicationWriteSchema,
   doc: applicationModelDoc,
-  zod: zodOpenApi.unknown().openapi("JobApplicationWrite"),
+  zod: z.unknown(),
 };

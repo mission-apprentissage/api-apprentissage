@@ -1,5 +1,5 @@
 import type { IApiRoutesDef } from "api-alternance-sdk";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 
 import {
   zAcceUai,
@@ -10,12 +10,9 @@ import {
 } from "../../../models/source/acce/source.acce.model.js";
 
 const zQuery = z.object({
-  uai: z.string().optional(),
-  limit: z.coerce
-    .number()
-    .optional()
-    .describe("Si renseigné, limite le nombre de résultats retournés. Sinon retourne tous les résultats."),
-  skip: z.coerce.number().optional().describe("Si renseigné, ignore les N premiers résultats."),
+  uai: z.optional(z.string()),
+  limit: z.optional(z.coerce.number()),
+  skip: z.optional(z.coerce.number()),
 });
 
 export type ISourceAcceQuerystring = z.output<typeof zQuery>;

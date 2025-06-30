@@ -1,3 +1,4 @@
+import { createPrivateKey } from "crypto";
 import { importSPKI, jwtVerify, SignJWT } from "jose";
 import { JWSSignatureVerificationFailed, JWTExpired } from "jose/errors";
 import { z } from "zod/v4-mini";
@@ -89,7 +90,7 @@ export async function createApiAlternanceToken({
   privateKey,
   expiresIn,
 }: ICreateApiAlternanceTokenParams): Promise<string> {
-  const key = await import("node:crypto").then((mod) => mod.createPrivateKey(privateKey));
+  const key = createPrivateKey(privateKey);
   return new SignJWT(JSON.parse(JSON.stringify(data)))
     .setProtectedHeader({ alg: "ES512" })
     .setExpirationTime(expiresIn || "1h")

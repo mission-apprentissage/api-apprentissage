@@ -1,3 +1,4 @@
+import { randomUUID } from "crypto";
 import type { SecurityRequirementObject } from "openapi3-ts/oas30";
 import type {
   OpenAPIObject,
@@ -70,8 +71,7 @@ export function getOpenapiOperations(paths: PathsObject | undefined): Record<str
 function getZodSchema(
   zod: $ZodType,
   registry: $ZodRegistry<RegistryMeta>,
-  io: "input" | "output",
-  randomUUID: () => string
+  io: "input" | "output"
 ): SchemaObject | ReferenceObject {
   const meta = registry.get(zod) ?? null;
 
@@ -96,8 +96,7 @@ function getZodSchema(
 
 function generateOpenApiResponsesObject<R extends IApiRouteSchema["response"]>(
   response: R,
-  registry: $ZodRegistry<RegistryMeta>,
-  randomUUID: () => string
+  registry: $ZodRegistry<RegistryMeta>
 ): ResponsesObject | null {
   const result = Object.entries(response).reduce<ResponsesObject>((acc, [code, main]) => {
     if (main._zod.def.type === "unknown") {
@@ -109,7 +108,7 @@ function generateOpenApiResponsesObject<R extends IApiRouteSchema["response"]>(
         description: "",
         content: {
           "application/json": {
-            schema: getZodSchema(main, registry, "output", randomUUID),
+            schema: getZodSchema(main, registry, "output"),
           },
         },
       };
@@ -180,8 +179,7 @@ function isEmptyValueAllowedZod(zod: $ZodType): true | undefined {
 
 function generateOpenApiRequest(
   route: IApiRouteSchema,
-  registry: $ZodRegistry<RegistryMeta>,
-  randomUUID: () => string
+  registry: $ZodRegistry<RegistryMeta>
 ): Pick<OperationObject, "requestBody" | "parameters"> {
   const requestParams: Pick<OperationObject, "requestBody" | "parameters"> = {};
   const parameters: ParameterObject[] = [];
@@ -189,7 +187,7 @@ function generateOpenApiRequest(
   if (route.method !== "get" && route.body) {
     requestParams.requestBody = {
       content: {
-        "application/json": { schema: getZodSchema(route.body, registry, "input", randomUUID) },
+        "application/json": { schema: getZodSchema(route.body, registry, "input") },
       },
       required: true,
     };
@@ -202,7 +200,7 @@ function generateOpenApiRequest(
         in: "path",
         required: isRequiredZod(schema),
         allowEmptyValue: isEmptyValueAllowedZod(schema),
-        schema: getZodSchema(schema, registry, "input", randomUUID),
+        schema: getZodSchema(schema, registry, "input"),
       };
       parameters.push(param);
     });
@@ -218,7 +216,7 @@ function generateOpenApiRequest(
             in: "query",
             required: isRequiredZod(schema),
             allowEmptyValue: isEmptyValueAllowedZod(schema),
-            schema: getZodSchema(schema, registry, "input", randomUUID),
+            schema: getZodSchema(schema, registry, "input"),
           };
           parameters.push(param);
         });
@@ -229,7 +227,7 @@ function generateOpenApiRequest(
             name: String(name),
             in: "query",
             required: isRequiredZod(schema),
-            schema: getZodSchema(schema, registry, "input", randomUUID),
+            schema: getZodSchema(schema, registry, "input"),
           };
           parameters.push(param);
         });
@@ -244,7 +242,7 @@ function generateOpenApiRequest(
         in: "header",
         required: isRequiredZod(schema),
 
-        schema: getZodSchema(schema, registry, "input", randomUUID),
+        schema: getZodSchema(schema, registry, "input"),
       };
       parameters.push(param);
     });
@@ -274,16 +272,15 @@ function getSecurityRequirementObject(route: IApiRouteSchema): SecurityRequireme
 function generateOpenApiOperationObjectFromZod(
   route: IApiRouteSchema,
   registry: $ZodRegistry<RegistryMeta>,
-  tag: string,
-  randomUUID: () => string
+  tag: string
 ): OperationObject | null {
   try {
-    const responses = generateOpenApiResponsesObject(route.response, registry, randomUUID);
+    const responses = generateOpenApiResponsesObject(route.response, registry);
 
     if (responses) {
       return {
         tags: [tag],
-        ...generateOpenApiRequest(route, registry, randomUUID),
+        ...generateOpenApiRequest(route, registry),
         responses,
         security: getSecurityRequirementObject(route),
       };
@@ -325,7 +322,6 @@ export async function generateOpenApiDocFromZod(
   tag: string
 ): Promise<OpenAPIObject> {
   const zodRegistry = registry<RegistryMeta>();
-  const { randomUUID } = await import("node:crypto");
 
   for (const [, model] of Object.entries(models)) {
     if (model.zod !== null) {
@@ -342,7 +338,7 @@ export async function generateOpenApiDocFromZod(
   zodRegistry.add(zSiret, { openapi: { type: "string", pattern: "^\\d{14}$" } });
   zodRegistry.add(zUai, { openapi: { type: "string", pattern: "^\\d{7}[A-Z]$" } });
 
-  const paths = generateOpenApiPathsObjectFromZod(routes, tag, zodRegistry, randomUUID);
+  const paths = generateOpenApiPathsObjectFromZod(routes, tag, zodRegistry);
 
   const components = generateComponents(zodRegistry, "output");
 
@@ -360,8 +356,7 @@ export async function generateOpenApiDocFromZod(
 function generateOpenApiPathsObjectFromZod(
   routes: IApiRoutesDef,
   tag: string,
-  registry: $ZodRegistry<RegistryMeta>,
-  randomUUID: () => string
+  registry: $ZodRegistry<RegistryMeta>
 ): PathsObject {
   const paths: PathsObject = {};
   for (const [, pathRoutes] of Object.entries(routes)) {
@@ -374,7 +369,7 @@ function generateOpenApiPathsObjectFromZod(
       const p = paths[path];
 
       if (!path.startsWith("/_private")) {
-        const op = generateOpenApiOperationObjectFromZod(route, registry, tag, randomUUID);
+        const op = generateOpenApiOperationObjectFromZod(route, registry, tag);
         if (op !== null) {
           p[route.method] = op;
         }

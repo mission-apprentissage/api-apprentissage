@@ -63,6 +63,8 @@ async function updateLastUsedAt(request: FastifyRequest) {
       {
         $set: {
           "api_keys.$.last_used_at": now,
+          // This is very important to keep the user updated_at value as it will be used to determine if the user is inactive
+          // and should be removed after 2 years of inactivity.
           updated_at: now,
         },
       }

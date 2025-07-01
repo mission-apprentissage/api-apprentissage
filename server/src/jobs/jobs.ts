@@ -2,6 +2,7 @@ import { addJob, initJobProcessor } from "job-processor";
 import { zImportMetaFranceCompetence, zImportMetaNpec } from "shared/models/import.meta.model";
 import { z } from "zod/v4-mini";
 
+import { removeInactiveAccounts } from "../services/inactiveAccounts/inactiveAccounts.service.js";
 import { notifyUsersAboutExpiringApiKeys } from "./apiKey/apiKeyExpiration.notifier.js";
 import { validateModels } from "./db/schemaValidation.js";
 import { runAcceImporter } from "./importer/acce/acce.js";
@@ -48,6 +49,11 @@ export async function setupJobProcessor() {
             "Notification expiration clés API": {
               cron_string: "0 8 * * *",
               handler: notifyUsersAboutExpiringApiKeys,
+              resumable: true,
+            },
+            "Suppression des comptes inactifs": {
+              cron_string: "0 10 * * 1",
+              handler: removeInactiveAccounts,
               resumable: true,
             },
           },

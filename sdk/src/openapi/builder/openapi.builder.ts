@@ -5,11 +5,51 @@ import { registerOpenApiErrorsSchema } from "../../models/errors/errors.model.op
 import { openapiSpec } from "../openapiSpec.js";
 import { addOperationDoc, addSchemaDoc, getTextOpenAPI } from "../utils/zodWithOpenApi.js";
 
-export function buildOpenApiSchema(version: string, env: string, publicUrl: string, lang: "en" | "fr"): OpenApiBuilder {
+function getTitle(lang: "en" | "fr" | null): string {
+  switch (lang) {
+    case "fr":
+      return "Documentation technique";
+    case "en":
+      return "Technical documentation";
+    default:
+      return "";
+  }
+}
+
+function getContactName(lang: "en" | "fr" | null): string {
+  switch (lang) {
+    case "fr":
+      return "Équipe Espace développeurs La bonne alternance";
+    case "en":
+      return "The 'La bonne alternance' developer space team";
+    default:
+      return "";
+  }
+}
+
+function getSecuritySchemeDescription(lang: "en" | "fr" | null): string {
+  switch (lang) {
+    case "fr":
+      return "Clé d'API à fournir dans le header `Authorization`. Si la route nécessite une habilitation particulière veuillez contacter le support pour en faire la demande à [support_api@apprentissage.beta.gouv.fr](mailto:support_api@apprentissage.beta.gouv.fr)";
+    case "en":
+      return "API key to provide in the `Authorization` header. If the route requires a particular authorization, please contact support to request it at [support_api@apprentissage.beta.gouv.fr](mailto:support_api@apprentissage.beta.gouv.fr)";
+    default:
+      return "";
+  }
+}
+
+// Using the lang null is mainly used for testing purposes, it allows to generate the OpenAPI spec without text
+// The text can be changed anytime, so it is useful to test the OpenAPI generation without worrying about the text
+export function buildOpenApiSchema(
+  version: string,
+  env: string,
+  publicUrl: string,
+  lang: "en" | "fr" | null
+): OpenApiBuilder {
   const builder = new OpenApiBuilder({
     openapi: "3.1.0",
     info: {
-      title: lang === "fr" ? "Documentation technique" : "Technical documentation",
+      title: getTitle(lang),
       version,
       license: {
         name: "Etalab-2.0",
@@ -17,10 +57,7 @@ export function buildOpenApiSchema(version: string, env: string, publicUrl: stri
       },
       termsOfService: "https://api.apprentissage.beta.gouv.fr/cgu",
       contact: {
-        name:
-          lang === "fr"
-            ? "Équipe Espace développeurs La bonne alternance"
-            : "The 'La bonne alternance' developer space team",
+        name: getContactName(lang),
         email: "support_api@apprentissage.beta.gouv.fr",
       },
     },
@@ -31,7 +68,7 @@ export function buildOpenApiSchema(version: string, env: string, publicUrl: stri
       },
     ],
     tags: Object.values(openapiSpec.tags).map(({ name, description }) => ({
-      name: getTextOpenAPI(name, lang),
+      name: getTextOpenAPI(name, lang ?? "en"), // Exception: keep tags
       description: getTextOpenAPI(description, lang),
     })),
   });
@@ -40,10 +77,7 @@ export function buildOpenApiSchema(version: string, env: string, publicUrl: stri
     type: "http",
     scheme: "bearer",
     bearerFormat: "Bearer",
-    description:
-      lang === "fr"
-        ? "Clé d'API à fournir dans le header `Authorization`. Si la route nécessite une habilitation particulière veuillez contacter le support pour en faire la demande à [support_api@apprentissage.beta.gouv.fr](mailto:support_api@apprentissage.beta.gouv.fr)"
-        : "API key to provide in the `Authorization` header. If the route requires a particular authorization, please contact support to request it at [support_api@apprentissage.beta.gouv.fr](mailto:support_api@apprentissage.beta.gouv.fr)",
+    description: getSecuritySchemeDescription(lang),
   });
 
   for (const [name, s] of Object.entries(openapiSpec.models)) {

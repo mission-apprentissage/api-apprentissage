@@ -7,10 +7,14 @@ import type { OpenapiRoute } from "../types.js";
 
 function getTextOpenAPI<T extends OpenApiText | null | undefined>(
   value: T,
-  lang: "fr" | "en"
+  lang: "fr" | "en" | null
 ): T extends null | undefined ? null : string {
   if (value == null) {
     return null as T extends null | undefined ? null : string;
+  }
+
+  if (lang === null) {
+    return "" as T extends null | undefined ? null : string;
   }
 
   if (value[lang]) {
@@ -28,7 +32,7 @@ function getTextOpenAPI<T extends OpenApiText | null | undefined>(
 
 function getTextOpenAPIArray<T extends OpenApiText[] | null | undefined>(
   value: T,
-  lang: "fr" | "en"
+  lang: "fr" | "en" | null
 ): T extends null | undefined ? null : string {
   if (Array.isArray(value)) {
     return value
@@ -42,7 +46,7 @@ function getTextOpenAPIArray<T extends OpenApiText[] | null | undefined>(
 
 function getDocOpenAPIAttributes(
   field: DocTechnicalField | undefined,
-  lang: "en" | "fr"
+  lang: "en" | "fr" | null
 ): {
   description?: string;
   examples?: unknown[];
@@ -81,7 +85,7 @@ function pickPropertiesOpenAPI<T extends Record<string, SchemaObject>, K extends
 function addSchemaDocList<T extends SchemaObject | ReferenceObject>(
   schemas: T[],
   docs: DocTechnicalField[],
-  lang: "en" | "fr",
+  lang: "en" | "fr" | null,
   path: string[]
 ): T[] {
   if (schemas.length !== docs.length) {
@@ -96,7 +100,7 @@ function addSchemaDocList<T extends SchemaObject | ReferenceObject>(
 function addSchemaDoc<T extends SchemaObject | ReferenceObject | undefined>(
   schema: T,
   doc: DocTechnicalField | undefined,
-  lang: "en" | "fr",
+  lang: "en" | "fr" | null,
   path: string[]
 ): T {
   if (!schema || "$ref" in schema || !doc) {
@@ -168,7 +172,7 @@ function addSchemaDoc<T extends SchemaObject | ReferenceObject | undefined>(
 function addContentObjectDoc(
   content: ContentObject,
   doc: DocTechnicalField | undefined,
-  lang: "en" | "fr"
+  lang: "en" | "fr" | null
 ): ContentObject {
   if (!doc) {
     return content;
@@ -189,11 +193,13 @@ function addContentObjectDoc(
   }, {} as ContentObject);
 }
 
-function addOperationDoc(route: OpenapiRoute, lang: "en" | "fr"): OperationObject {
+function addOperationDoc(route: OpenapiRoute, lang: "en" | "fr" | null): OperationObject {
   const { schema, doc, tag } = route;
   const output = structuredClone(schema);
 
-  output.tags = [getTextOpenAPI(tagsOpenapi[tag].name, lang)];
+  output.tags = [
+    getTextOpenAPI(tagsOpenapi[tag].name, lang ?? "en"), // Exception: keep tags
+  ];
 
   if (!doc) {
     return output;

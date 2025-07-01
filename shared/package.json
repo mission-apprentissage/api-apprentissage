@@ -33,23 +33,23 @@
     "lodash-es": "^4.17.21",
     "luhn": "^2.4.1",
     "luxon": "^3.6.1",
-    "openapi3-ts": "^4.4.0",
+    "openapi3-ts": "^4.5.0",
     "react": "19.1.0",
     "type-fest": "^4.41.0",
     "zod": "^3.25.67",
     "zod-mongodb-schema": "^2.0.0-next.5",
-    "zod-to-json-schema": "^3.24.5"
+    "zod-to-json-schema": "^3.24.6"
   },
   "devDependencies": {
     "@readme/openapi-parser": "^4.1.0",
     "@tsconfig/node22": "^22.0.2",
     "@types/luxon": "^3.6.2",
-    "@types/node": "^22.15.31",
+    "@types/node": "^22.15.34",
     "bson": "^6.10.4",
     "microdiff": "^1.5.0",
     "mongodb": "^6.17.0",
     "typescript": "^5.8.3",
-    "vitest": "^3.2.3",
+    "vitest": "^3.2.4",
     "zod": "^3.25.67"
   }
 }

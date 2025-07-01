@@ -46,7 +46,7 @@ export function useApiKeysStatut(): "none" | "actif-encrypted" | "actif-ready" |
     }
 
     const lastCreatedApiKey = result.apiKeys.findLast((apiKey) => apiKey.value);
-    if (lastCreatedApiKey) {
+    if (lastCreatedApiKey && new Date(lastCreatedApiKey.created_at).getTime() > Date.now() - 300_000) {
       return "actif-ready";
     }
 

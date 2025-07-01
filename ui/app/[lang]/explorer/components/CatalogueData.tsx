@@ -1,6 +1,6 @@
 import { fr } from "@codegouvfr/react-dsfr";
 import { Tabs } from "@codegouvfr/react-dsfr/Tabs";
-import { Box, Container, Hidden, Typography } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import type { DocDatum, DocModelRow, DocModelSection, DocPage, OpenApiText } from "api-alternance-sdk/internal";
 import { getTextOpenAPI, getTextOpenAPIArray } from "api-alternance-sdk/internal";
 
@@ -247,9 +247,9 @@ function ContactSection({ t, lang }: WithLangAndT) {
             </Box>
           </Box>
           <Box display="flex" alignItems="center" justifyContent="center" position="relative">
-            <Hidden mdDown>
+            <Box sx={{ display: { xs: "none", md: "block" } }}>
               <Artwork name="not-found-solid-iii-0" />
-            </Hidden>
+            </Box>
           </Box>
         </Box>
       </Container>

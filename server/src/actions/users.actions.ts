@@ -53,8 +53,8 @@ export const generateApiKey = async (
   );
 
   const token = await createUserTokenSimple({
-    payload: { _id: user._id, api_key: generatedKey, organisation: user.organisation, email: user.email },
-    expiresIn: `${config.api_key.expiresIn / 1_000}s`,
+    payload: { _id: user._id, api_key: data.key, organisation: user.organisation, email: user.email },
+    expiresIn: data.expires_at,
   });
 
   return {
@@ -62,6 +62,22 @@ export const generateApiKey = async (
     value: token,
   };
 };
+
+export async function addTokenValue(user: IUser, data: IUser["api_keys"][number]): Promise<IApiKeyPrivate> {
+  if (data.expires_at.getTime() < Date.now()) {
+    return { ...data, value: null };
+  }
+
+  const token = await createUserTokenSimple({
+    payload: { _id: user._id, api_key: data.key, organisation: user.organisation, email: user.email },
+    expiresIn: data.expires_at,
+  });
+
+  return {
+    ...data,
+    value: token,
+  };
+}
 
 export async function deleteApiKey(id: ObjectId, user: IUser) {
   await getDbCollection("users").findOneAndUpdate(

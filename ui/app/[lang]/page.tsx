@@ -1,7 +1,7 @@
 import { fr } from "@codegouvfr/react-dsfr";
 import { Badge } from "@codegouvfr/react-dsfr/Badge";
 import { Button } from "@codegouvfr/react-dsfr/Button";
-import { Box, Container, Hidden, Link, Typography } from "@mui/material";
+import { Box, Container, Link, Typography } from "@mui/material";
 import Image from "next/image";
 import NextLink from "next/link";
 import type { PropsWithChildren } from "react";
@@ -33,11 +33,16 @@ function VousEtesSection({ lang }: WithLang) {
     <Container maxWidth="xl" sx={{ overflowX: "clip" }} disableGutters>
       <Box my={fr.spacing("9w")} display="grid" gridTemplateColumns="1fr auto 1fr" overflow="visible" maxWidth="100vw">
         <Box position="relative">
-          <Hidden mdDown>
-            <Box position="absolute" right="35px" top="35px">
-              <Artwork name="thinking-woman-2" />
-            </Box>
-          </Hidden>
+          <Box
+            sx={{
+              display: { xs: "none", md: "block" },
+              position: "absolute",
+              right: "35px",
+              top: "35px",
+            }}
+          >
+            <Artwork name="thinking-woman-2" />
+          </Box>
         </Box>
         <Box
           position="relative"
@@ -86,11 +91,15 @@ function VousEtesSection({ lang }: WithLang) {
           </Link>
         </Box>
         <Box position="relative">
-          <Hidden mdDown>
-            <Box position="absolute" top="-35px">
-              <Artwork name="solide_II" />
-            </Box>
-          </Hidden>
+          <Box
+            sx={{
+              display: { xs: "none", md: "block" },
+              position: "absolute",
+              top: "-35px",
+            }}
+          >
+            <Artwork name="solide_II" />
+          </Box>
         </Box>
 
         <Box gridColumn="span 3" display="grid" gridTemplateColumns="1fr 1fr" height="98px">
@@ -116,13 +125,13 @@ function CommentUtiliserApiSection({ lang }: WithLang) {
       <Container maxWidth="xl" disableGutters>
         <Box display="grid" gridTemplateColumns={{ sm: "1fr", md: "1fr 1fr" }} padding={{ md: fr.spacing("6w") }}>
           <Box display="flex" alignItems="center" justifyContent="center" position="relative">
-            <Hidden mdDown>
+            <Box sx={{ display: { xs: "none", md: "block" } }}>
               <Image
                 fill
                 src="/asset/artwork/brainstorming.svg"
                 alt="Illustration d'un groupe de personnes faisant une réunion de travail autour d'un tableau"
               />
-            </Hidden>
+            </Box>
           </Box>
           <Box display="grid" gap={fr.spacing("3w")} padding={fr.spacing("3w")}>
             <Typography variant="h2" sx={{ color: fr.colors.decisions.text.label.blueEcume.default }}>
@@ -179,9 +188,9 @@ function ProtectionDesDonneeSection({ lang }: WithLang) {
             </Box>
           </Box>
           <Box display="flex" alignItems="center" justifyContent="center" position="relative">
-            <Hidden mdDown>
+            <Box sx={{ display: { xs: "none", md: "block" } }}>
               <Artwork name="data-security" />
-            </Hidden>
+            </Box>
           </Box>
         </Box>
       </Container>

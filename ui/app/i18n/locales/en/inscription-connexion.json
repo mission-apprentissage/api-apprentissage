@@ -74,7 +74,6 @@
     "nommezJeton": "Name your token (optional)",
     "nomJetonDefault": "If you do not name your token, a name will be assigned by default",
     "votreJetonCree": "Your token has been successfully created.",
-    "jetonCopie": "It will be encrypted once you leave this page, so you will no longer be able to copy it.",
     "copierJeton": "Copy token",
     "supprimerJeton": "Delete the access token",
     "supprimer": "Delete",

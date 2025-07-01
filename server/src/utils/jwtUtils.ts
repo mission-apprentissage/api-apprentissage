@@ -7,7 +7,7 @@ import type { JWTPayload } from "jose";
 import config from "@/config.js";
 
 interface ICreateTokenOptions {
-  expiresIn: string;
+  expiresIn: string | Date;
   payload: JWTPayload;
 }
 

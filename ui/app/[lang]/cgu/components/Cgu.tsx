@@ -53,7 +53,12 @@ const Cgu: FC<Props> = ({ onLoad }) => {
 
   return (
     <Grid container spacing={8}>
-      <Grid item xs={12} lg={3}>
+      <Grid
+        size={{
+          xs: 12,
+          lg: 3,
+        }}
+      >
         <Summary
           links={summaryData.map((item) => ({
             linkProps: {
@@ -63,7 +68,12 @@ const Cgu: FC<Props> = ({ onLoad }) => {
           }))}
         />
       </Grid>
-      <Grid item xs={12} lg={9}>
+      <Grid
+        size={{
+          xs: 12,
+          lg: 9,
+        }}
+      >
         <Typography variant="h1" gutterBottom color={fr.colors.decisions.text.actionHigh.blueEcume.default}>
           Conditions générales d&apos;utilisation
         </Typography>

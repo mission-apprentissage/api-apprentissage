@@ -10,7 +10,7 @@ import community from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/leisure/co
 import locationFrance from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/map/location-france.svg";
 import { Tag as TagDsfr } from "@codegouvfr/react-dsfr/Tag";
 import { Tile } from "@codegouvfr/react-dsfr/Tile";
-import { Box, Container, Hidden, Typography } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import {
   candidatureOffrePageSummaryDoc,
   certificationsPageSummaryDoc,
@@ -194,9 +194,9 @@ export default async function ExplorerApiPage({ params }: PropsWithLangParams) {
         <Container maxWidth="xl" disableGutters>
           <Box display="grid" gridTemplateColumns={["1fr", "1fr", "1fr 1fr 1fr"]} padding={{ md: fr.spacing("6w") }}>
             <Box display="flex" alignItems="center" justifyContent="center" position="relative">
-              <Hidden mdDown>
+              <Box sx={{ display: { xs: "none", md: "block" } }}>
                 <Artwork name="not-found-solid-iii-0" />
-              </Hidden>
+              </Box>
             </Box>
             <Box
               display="grid"

@@ -74,7 +74,6 @@
     "nommezJeton": "Nommez votre jeton (optionnel)",
     "nomJetonDefault": "Si vous ne nommez pas votre jeton, un nom lui sera attribué par défaut",
     "votreJetonCree": "Votre jeton a bien été crée.",
-    "jetonCopie": "Il sera crypté une fois que vous aurez quitté cette page, vous n’aurez donc plus la possibilité de le copier.",
     "copierJeton": "Copier le jeton",
     "supprimerJeton": "Supprimer le jeton d’accès",
     "supprimer": "Supprimer",

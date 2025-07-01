@@ -4,3 +4,10 @@ config({
   path: "./server/.env.test",
   quiet: process.env.NODE_ENV === "test",
 });
+
+process.on("unhandledRejection", (reason) => {
+  console.log(`FAILED TO HANDLE PROMISE REJECTION`);
+  console.error(reason);
+  if (reason instanceof Error) console.log(reason.stack);
+  throw reason;
+});

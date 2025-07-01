@@ -1,7 +1,7 @@
 import { config } from "dotenv";
 
-config({ path: ".env" });
-config({ path: ".env.local", override: true });
+config({ path: ".env", quiet: process.env.NODE_ENV === "test" });
+config({ path: ".env.local", override: true, quiet: process.env.NODE_ENV === "test" });
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 import("./services/sentry/sentry.js")

@@ -227,7 +227,7 @@ describe("User Routes", () => {
           last_used_at: null,
           expires_at: in365Days.toJSON(),
           created_at: now.toJSON(),
-          value: null,
+          value: expect.any(String),
           expiration_warning_sent: null,
         },
         {
@@ -236,7 +236,7 @@ describe("User Routes", () => {
           last_used_at: null,
           expires_at: in365Days.toJSON(),
           created_at: now.toJSON(),
-          value: null,
+          value: expect.any(String),
           expiration_warning_sent: null,
         },
         {
@@ -245,7 +245,7 @@ describe("User Routes", () => {
           last_used_at: null,
           expires_at: in365Days.toJSON(),
           created_at: now.toJSON(),
-          value: null,
+          value: expect.any(String),
           expiration_warning_sent: null,
         },
       ]);

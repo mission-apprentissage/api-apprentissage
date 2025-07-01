@@ -3,7 +3,7 @@ import { MongoClient } from "mongodb";
 
 export default async () => {
   return async () => {
-    config({ path: "./server/.env.test" });
+    config({ path: "./server/.env.test", quiet: process.env.NODE_ENV === "test" });
 
     const uri = process.env.MONGODB_URI?.replace("VITEST_POOL_ID", "") ?? "";
     const client = new MongoClient(uri, {

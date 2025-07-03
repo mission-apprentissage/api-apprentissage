@@ -9,7 +9,12 @@ export const offerExportModelDoc = {
   ],
   properties: {
     url: {
-      descriptions: [{ en: "URL of the export", fr: "URL de l'export" }],
+      descriptions: [
+        {
+          en: "URL of the export. \n\nOffers are returned using the JSON format. The data structure of the offers is identical to the response of the [search route](/fr/documentation-technique#tag/Offre-Emploi/operation/jobSearch)",
+          fr: "URL de l'export. \n\nLes offres sont au format JSON. La structure de données des offres est identique à la réponse de la [route de recherche](/fr/documentation-technique#tag/Offre-Emploi/operation/jobSearch)",
+        },
+      ],
       examples: [
         "https://s3.rbx.io.cloud.ovh.net/bucket/file.json?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD",
       ],

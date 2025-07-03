@@ -1885,6 +1885,22 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         ],
         "type": "object",
       },
+      "JobOfferExport": {
+        "properties": {
+          "lastUpdate": {
+            "format": "date-time",
+            "type": "string",
+          },
+          "url": {
+            "type": "string",
+          },
+        },
+        "required": [
+          "lastUpdate",
+          "url",
+        ],
+        "type": "object",
+      },
       "JobOfferPublishing": {
         "properties": {
           "publishing": {
@@ -3553,6 +3569,27 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "api-key": [
               "applications:write",
             ],
+          },
+        ],
+      },
+    },
+    "/job/v1/export": {
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobOfferExport",
+                },
+              },
+            },
+            "description": "",
+          },
+        },
+        "security": [
+          {
+            "api-key": [],
           },
         ],
       },

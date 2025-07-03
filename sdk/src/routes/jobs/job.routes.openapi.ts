@@ -6,6 +6,7 @@ import {
   jobSearchByIdPublishingRouteDoc,
   jobSearchByIdRouteDoc,
 } from "../../docs/routes/jobSearchById/jobSearchById.route.doc.js";
+import { jobsExportRouteDoc } from "../../docs/routes/jobsExport/jobsExport.route.doc.js";
 import type { OpenapiRoutes } from "../../openapi/types.js";
 
 export const jobRoutesOpenapi: OpenapiRoutes = {
@@ -314,6 +315,27 @@ export const jobRoutesOpenapi: OpenapiRoutes = {
                     id: { type: "string" },
                   },
                   required: ["id"],
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+  "/job/v1/export": {
+    get: {
+      tag: "job",
+      doc: jobsExportRouteDoc,
+      schema: {
+        operationId: "jobsExport",
+        security: [{ "api-key": [] }],
+        responses: {
+          "200": {
+            content: {
+              "application/json": {
+                schema: {
+                  $ref: "#/components/schemas/JobOfferExport",
                 },
               },
             },

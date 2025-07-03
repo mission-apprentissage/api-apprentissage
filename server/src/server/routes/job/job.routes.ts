@@ -146,4 +146,25 @@ export const jobRoutes = ({ server }: { server: Server }) => {
       );
     }
   );
+
+  server.get(
+    "/job/v1/export",
+    {
+      schema: zRoutes.get["/job/v1/export"],
+      onRequest: [server.auth(zRoutes.get["/job/v1/export"])],
+    },
+    async (request, response) => {
+      const user = getUserFromRequest(request, zRoutes.get["/job/v1/export"]);
+
+      return forwardApiRequest(
+        {
+          endpoint: config.api.lba.endpoint,
+          path: `/v3/jobs/export`,
+          requestInit: { method: "GET" },
+        },
+        response,
+        { user, organisation: request.organisation ?? null }
+      );
+    }
+  );
 };

@@ -8,6 +8,7 @@ import {
   geoJsonPolygonModelOpenapi,
 } from "../models/geographie/geoJson.model.openapi.js";
 import { missionLocaleModelOpenapi } from "../models/geographie/mission-locale.model.openapi.js";
+import { offerExportModelOpenapi } from "../models/job/job.export.model.openapi.js";
 import {
   applicationWriteModelOpenapi,
   offerReadModelOpenapi,
@@ -34,6 +35,7 @@ export const openapiSpec: OpenapiSpec = {
     [recruiterModelOpenapi.name]: recruiterModelOpenapi,
     [offerReadModelOpenapi.name]: offerReadModelOpenapi,
     [offerPublishingModelOpenapi.name]: offerPublishingModelOpenapi,
+    [offerExportModelOpenapi.name]: offerExportModelOpenapi,
     [offerWriteModelOpenapi.name]: offerWriteModelOpenapi,
     [applicationWriteModelOpenapi.name]: applicationWriteModelOpenapi,
     [formationModelOpenapi.name]: formationModelOpenapi,

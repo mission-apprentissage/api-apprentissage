@@ -2,9 +2,9 @@
 
 Trois types d’opportunités d’emploi sont disponibles :
 
-1. offres_emploi_lba : offres déposées directement via notre dépôt d’offres (4 915 offres actives ce vendredi 13 juin)
-2. recruteurs_lba : entreprises identifiées comme ayant un fort potentiel d’embauche mais n’ayant pas déposé d’offres, nous suggérons aux candidats d’envoyer des candidatures spontanées (357 072 offres actives ce vendredi 13 juin)
-3. offres_emploi_partenaires : offres issues de nos partenaires tels que France Travail, Hellowork, Météojob, Veritone ... (36 703 offres actives ce vendredi 13 juin) il est possible de filtrer ces offres afin d'exclure certains partenaires vous permettant ainsi d'exclure certains concurrents par exemple.
+1. _offres_emploi_lba_ : offres déposées directement via notre dépôt d’offres
+2. _recruteurs_lba_ : entreprises identifiées comme ayant un fort potentiel d’embauche mais n’ayant pas déposé d’offres, nous suggérons aux candidats d’envoyer des candidatures spontanées
+3. _offres_emploi_partenaires_ : offres issues de nos partenaires tel que France Travail.
 
 **💡 Vous pouvez rechercher dans l’ensemble opportunités d’emploi selon les critères suivants : Code(s) ROME, RNCP, géolocalisation, niveau de diplôme et rayon de recherche.**
 
@@ -12,4 +12,4 @@ Les résultats sont retournés par priorité de source (La bonne alternance puis
 
 Vous pouvez télécharger l’ensemble de ces offres au format JSON en utilisant [cette route](/fr/documentation-technique#tag/Offre-Emploi/operation/jobsExport).
 
-L'utilisation de cette API est gratuite et réservée à des usages non lucratifs. Notez que toute utilisation de ces données à des fins commerciales, telles que la revente ou la facturation de l'accès pour des tiers comme des candidats, entreprises ou écoles, est interdite.
+L'utilisation de cette API est gratuite et réservée à des usages non lucratifs. Notez que toute utilisation de ces données à des fins commerciales, telles que la revente ou la facturation de l'accès pour des tiers comme des candidats est interdite.

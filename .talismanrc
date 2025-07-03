@@ -12,7 +12,7 @@ fileignoreconfig:
 - filename: sdk/src/docs/metier/depot-offre/depot-offre.doc.ts
   checksum: 4f53b2048a9d7bda6fa2b5c72c1ebcfd353bf678958dc1d76d885e1226a03701
 - filename: sdk/src/docs/metier/recherche-offre/fr/description.md.ts
-  checksum: 0bdc2d8f28c0f8be1e3ebfd4be33ea69a5278d59223b0ed140bd80f5c44a2666
+  checksum: f9c8dbc76805c0d6ec9e2bf565b69a5a691f183261260b52a5b6dcfe36935c43
 - filename: sdk/src/docs/models/job/application.model.doc.ts
   checksum: 9eb6c1fff24b532a002385705e293152a0e74a357c8d0071a500383c3c17c50b
 - filename: sdk/src/docs/models/job/offer_read.model.doc.ts

@@ -47,10 +47,7 @@ export const zApiJobRoutes = {
       method: "get",
       path: "/job/v1/export",
       response: {
-        "200": z.object({
-          url: z.string(),
-          lastUpdate: z.date(),
-        }),
+        "200": z.unknown(),
       },
       securityScheme: {
         auth: "api-key",

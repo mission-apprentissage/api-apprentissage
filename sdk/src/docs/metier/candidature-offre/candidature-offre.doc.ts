@@ -70,8 +70,8 @@ export const candidatureOffrePageDoc = {
             applicant_attachment_content: {
               description: { en: "Resume file", fr: "CV du candidat." },
               information: {
-                en: "The file must be base64 encoded and only PDF and DOCX format are allowed. File size must be under 3MB.",
-                fr: "Le CV doit être encodé en base64, et seuls les formats PDF et DOCX sont autorisés. La taille du fichier ne doit pas dépasser 3 Mo.",
+                en: "The file must be base64 encoded and only PDF and DOCX format are allowed. File size must be under 3MB. File content-type and base64 encoding must prefix the Base64 encoded content. Ex : data:application/pdf;base64,<base64_encoded_content>",
+                fr: "Le CV doit être encodé en base64, et seuls les formats PDF et DOCX sont autorisés. La taille du fichier ne doit pas dépasser 3 Mo. Le content-type du fichier et la mention de l'encodage en Base64 doivent préfixer le contenu encodé. Ex : data:application/pdf;base64,<contenu_encodé_base64>",
               },
             },
             applicant_attachment_name: {

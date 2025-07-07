@@ -187,11 +187,20 @@ function getOperationObjectDocStructure(schema: OpenapiRoute["schema"], prefix: 
 }
 
 describe("openapiSpec#models", () => {
-  it.each(Object.entries(openapiSpec.models))("should have doc in sync with schema %s", (_modelName, model) => {
+  it.each(Object.entries(openapiSpec.models))("should have doc in sync with schema %s", (modelName, model) => {
     if (model.doc === null) {
       return;
     }
-    expect(getDocTechnicalFieldStructure(model.doc)).toEqual(getSchemaObjectDocStructure(model.schema));
+    const builder = buildOpenApiSchema("0.0.0", "test", "https://api-test.apprentissage.beta.houv.fr", null);
+    const doc = builder.getSpec();
+
+    if (doc.openapi !== "3.1.0") {
+      throw new Error("Unsupported OpenAPI version");
+    }
+
+    expect(getDocTechnicalFieldStructure(model.doc)).toEqual(
+      getSchemaObjectDocStructure(model.schema ?? doc.components?.schemas?.[modelName])
+    );
   });
 
   it("should generate schema in sync with zod definition", async () => {});

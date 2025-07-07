@@ -7,7 +7,7 @@ import type { TagOpenapi } from "./tags.openapi.js";
 
 export type OpenapiModel<T extends string = string> = {
   name: T;
-  schema: SchemaObject;
+  schema?: SchemaObject;
   doc: DocTechnicalField;
   zod: $ZodType | null;
 };

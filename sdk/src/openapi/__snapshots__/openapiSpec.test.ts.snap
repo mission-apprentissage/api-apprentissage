@@ -2,6 +2,7 @@
 
 exports[`openapiSpec#models > should generate proper schema Adresse 1`] = `
 {
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "properties": {
     "academie": {
@@ -27,8 +28,8 @@ exports[`openapiSpec#models > should generate proper schema Adresse 1`] = `
         },
       },
       "required": [
-        "code",
         "id",
+        "code",
         "nom",
       ],
       "type": "object",
@@ -54,8 +55,8 @@ exports[`openapiSpec#models > should generate proper schema Adresse 1`] = `
         },
       },
       "required": [
-        "code_insee",
         "nom",
+        "code_insee",
       ],
       "type": "object",
     },
@@ -70,8 +71,8 @@ exports[`openapiSpec#models > should generate proper schema Adresse 1`] = `
         },
       },
       "required": [
-        "code_insee",
         "nom",
+        "code_insee",
       ],
       "type": "object",
     },
@@ -103,12 +104,12 @@ exports[`openapiSpec#models > should generate proper schema Adresse 1`] = `
     },
   },
   "required": [
-    "academie",
+    "label",
     "code_postal",
     "commune",
     "departement",
-    "label",
     "region",
+    "academie",
   ],
   "type": "object",
 }
@@ -116,6 +117,7 @@ exports[`openapiSpec#models > should generate proper schema Adresse 1`] = `
 
 exports[`openapiSpec#models > should generate proper schema Certification 1`] = `
 {
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "properties": {
     "base_legale": {
@@ -1183,6 +1185,7 @@ exports[`openapiSpec#models > should generate proper schema Certification 1`] = 
 
 exports[`openapiSpec#models > should generate proper schema Commune 1`] = `
 {
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "properties": {
     "academie": {
@@ -1217,8 +1220,8 @@ exports[`openapiSpec#models > should generate proper schema Commune 1`] = `
           },
         },
         "required": [
-          "codeInsee",
           "nom",
+          "codeInsee",
         ],
         "type": "object",
       },
@@ -1273,8 +1276,8 @@ exports[`openapiSpec#models > should generate proper schema Commune 1`] = `
         },
       },
       "required": [
-        "codeInsee",
         "nom",
+        "codeInsee",
       ],
       "type": "object",
     },
@@ -1327,13 +1330,13 @@ exports[`openapiSpec#models > should generate proper schema Commune 1`] = `
   "required": [
     "nom",
     "code",
+    "anciennes",
+    "arrondissements",
     "departement",
-    "academie",
     "region",
+    "academie",
     "localisation",
     "mission_locale",
-    "arrondissements",
-    "anciennes",
   ],
   "type": "object",
 }
@@ -1341,6 +1344,7 @@ exports[`openapiSpec#models > should generate proper schema Commune 1`] = `
 
 exports[`openapiSpec#models > should generate proper schema Departement 1`] = `
 {
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "properties": {
     "academie": {
@@ -1389,8 +1393,8 @@ exports[`openapiSpec#models > should generate proper schema Departement 1`] = `
   "required": [
     "nom",
     "codeInsee",
-    "academie",
     "region",
+    "academie",
   ],
   "type": "object",
 }
@@ -1398,6 +1402,7 @@ exports[`openapiSpec#models > should generate proper schema Departement 1`] = `
 
 exports[`openapiSpec#models > should generate proper schema Formation 1`] = `
 {
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "properties": {
     "certification": {
@@ -1411,8 +1416,8 @@ exports[`openapiSpec#models > should generate proper schema Formation 1`] = `
         },
       },
       "required": [
-        "connue",
         "valeur",
+        "connue",
       ],
       "type": "object",
     },
@@ -1482,8 +1487,8 @@ exports[`openapiSpec#models > should generate proper schema Formation 1`] = `
         },
       },
       "required": [
-        "connu",
         "organisme",
+        "connu",
       ],
       "type": "object",
     },
@@ -1582,9 +1587,9 @@ exports[`openapiSpec#models > should generate proper schema Formation 1`] = `
         },
       },
       "required": [
-        "annee_cycle",
-        "duree_indicative",
         "entierement_a_distance",
+        "duree_indicative",
+        "annee_cycle",
         "mef_10",
       ],
       "type": "object",
@@ -1655,12 +1660,12 @@ exports[`openapiSpec#models > should generate proper schema Formation 1`] = `
         },
       },
       "required": [
-        "discipline",
-        "domaine_sousdomaine",
+        "url",
         "intitule",
         "libelle_poursuite",
         "lien_site_onisepfr",
-        "url",
+        "discipline",
+        "domaine_sousdomaine",
       ],
       "type": "object",
     },
@@ -1682,8 +1687,8 @@ exports[`openapiSpec#models > should generate proper schema Formation 1`] = `
         },
       },
       "required": [
-        "connu",
         "organisme",
+        "connu",
       ],
       "type": "object",
     },
@@ -1711,9 +1716,9 @@ exports[`openapiSpec#models > should generate proper schema Formation 1`] = `
           },
         },
         "required": [
-          "capacite",
           "debut",
           "fin",
+          "capacite",
         ],
         "type": "object",
       },
@@ -1738,17 +1743,17 @@ exports[`openapiSpec#models > should generate proper schema Formation 1`] = `
     },
   },
   "required": [
-    "certification",
-    "contact",
-    "contenu_educatif",
-    "formateur",
     "identifiant",
-    "lieu",
-    "modalite",
-    "onisep",
-    "responsable",
-    "sessions",
     "statut",
+    "formateur",
+    "responsable",
+    "certification",
+    "lieu",
+    "contact",
+    "onisep",
+    "modalite",
+    "contenu_educatif",
+    "sessions",
   ],
   "type": "object",
 }
@@ -1756,6 +1761,7 @@ exports[`openapiSpec#models > should generate proper schema Formation 1`] = `
 
 exports[`openapiSpec#models > should generate proper schema GeoJsonPoint 1`] = `
 {
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "properties": {
     "coordinates": {
@@ -1785,8 +1791,8 @@ exports[`openapiSpec#models > should generate proper schema GeoJsonPoint 1`] = `
     },
   },
   "required": [
-    "type",
     "coordinates",
+    "type",
   ],
   "type": "object",
 }
@@ -1794,6 +1800,7 @@ exports[`openapiSpec#models > should generate proper schema GeoJsonPoint 1`] = `
 
 exports[`openapiSpec#models > should generate proper schema GeoJsonPolygon 1`] = `
 {
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "properties": {
     "coordinates": {
@@ -1829,8 +1836,8 @@ exports[`openapiSpec#models > should generate proper schema GeoJsonPolygon 1`] =
     },
   },
   "required": [
-    "type",
     "coordinates",
+    "type",
   ],
   "type": "object",
 }
@@ -2931,6 +2938,7 @@ exports[`openapiSpec#models > should generate proper schema JobRecruiter 1`] = `
 
 exports[`openapiSpec#models > should generate proper schema MissionLocale 1`] = `
 {
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "properties": {
     "code": {
@@ -3034,6 +3042,7 @@ exports[`openapiSpec#models > should generate proper schema MissionLocale 1`] = 
 
 exports[`openapiSpec#models > should generate proper schema Organisme 1`] = `
 {
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "properties": {
     "contacts": {
@@ -3122,13 +3131,13 @@ exports[`openapiSpec#models > should generate proper schema Organisme 1`] = `
         },
       },
       "required": [
+        "siret",
+        "ouvert",
+        "enseigne",
         "adresse",
         "geopoint",
         "creation",
-        "enseigne",
         "fermeture",
-        "ouvert",
-        "siret",
       ],
       "type": "object",
     },
@@ -3152,8 +3161,8 @@ exports[`openapiSpec#models > should generate proper schema Organisme 1`] = `
         },
       },
       "required": [
-        "siret",
         "uai",
+        "siret",
       ],
       "type": "object",
     },
@@ -3175,8 +3184,8 @@ exports[`openapiSpec#models > should generate proper schema Organisme 1`] = `
         },
       },
       "required": [
-        "numero_activite",
         "qualiopi",
+        "numero_activite",
       ],
       "type": "object",
     },
@@ -3225,22 +3234,22 @@ exports[`openapiSpec#models > should generate proper schema Organisme 1`] = `
         },
       },
       "required": [
-        "actif",
-        "cessation",
-        "creation",
-        "raison_sociale",
         "siren",
+        "actif",
+        "raison_sociale",
+        "creation",
+        "cessation",
       ],
       "type": "object",
     },
   },
   "required": [
-    "contacts",
-    "etablissement",
     "identifiant",
+    "etablissement",
+    "unite_legale",
     "renseignements_specifiques",
     "statut",
-    "unite_legale",
+    "contacts",
   ],
   "type": "object",
 }

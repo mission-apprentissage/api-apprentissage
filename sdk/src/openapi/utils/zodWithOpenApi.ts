@@ -1,5 +1,6 @@
 import type { ContentObject, OperationObject, ParameterObject, ReferenceObject, SchemaObject } from "openapi3-ts/oas31";
 
+import type { JSONSchema } from "zod/v4/core";
 import type { DocTechnicalField, OpenApiText } from "../../docs/types.js";
 import { addErrorResponseOpenApi } from "../../models/errors/errors.model.openapi.js";
 import { tagsOpenapi } from "../tags.openapi.js";
@@ -100,7 +101,7 @@ function addSchemaDocList<T extends SchemaObject | ReferenceObject>(
   });
 }
 
-function addSchemaDoc<T extends SchemaObject | ReferenceObject | undefined>(
+function addSchemaDoc<T extends SchemaObject | ReferenceObject | undefined | JSONSchema.BaseSchema>(
   schema: T,
   doc: DocTechnicalField | undefined,
   lang: "en" | "fr" | null,
@@ -110,7 +111,7 @@ function addSchemaDoc<T extends SchemaObject | ReferenceObject | undefined>(
     return schema;
   }
 
-  const output: SchemaObject = { ...schema, ...getDocOpenAPIAttributes(doc, lang) };
+  const output: SchemaObject | JSONSchema.BaseSchema = { ...schema, ...getDocOpenAPIAttributes(doc, lang) };
 
   const docProperties = doc.properties;
 

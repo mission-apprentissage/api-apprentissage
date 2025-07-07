@@ -312,11 +312,4 @@ function addOperationDoc(route: OpenapiRoute, schema: OperationObject, lang: "en
   return addErrorResponseOpenApi(output);
 }
 
-export {
-  addSchemaDoc,
-  getTextOpenAPIArray,
-  addOperationDoc,
-  getDocOpenAPIAttributes,
-  pickPropertiesOpenAPI,
-  getTextOpenAPI,
-};
+export { addSchemaDoc, getTextOpenAPIArray, addOperationDoc, pickPropertiesOpenAPI, getTextOpenAPI };

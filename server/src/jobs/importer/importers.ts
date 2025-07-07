@@ -10,7 +10,6 @@ import { getFranceCompetencesImporterStatus, runRncpImporter } from "./france_co
 import { getKaliImporterStatus, runKaliConventionCollectivesImporter } from "./kali/kali.ccn.importer.js";
 import { getKitApprentissageImporterStatus, runKitApprentissageImporter } from "./kit/kitApprentissage.importer.js";
 import { getMissionLocaleImporterStatus, runMissionLocaleImporter } from "./mission_locale/mission_locale.importer.js";
-// import { getNpecImporterStatus, runNpecImporter } from "./npec/npec.importer.js";
 import { getOrganismesImporterStatus, importOrganismes } from "./organisme/organisme.importer.js";
 import { getReferentielImporterStatus, runReferentielImporter } from "./referentiel/referentiel.js";
 import type { Importer } from "./types.js";

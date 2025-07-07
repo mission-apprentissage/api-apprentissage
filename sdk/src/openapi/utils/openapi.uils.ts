@@ -1,7 +1,6 @@
 import { randomUUID } from "crypto";
 import type { SecurityRequirementObject } from "openapi3-ts/oas30";
 import type {
-  OpenAPIObject,
   OperationObject,
   ParameterObject,
   PathsObject,
@@ -11,13 +10,9 @@ import type {
 } from "openapi3-ts/oas31";
 import { getPath } from "openapi3-ts/oas31";
 
-import { registry, safeParse, toJSONSchema } from "zod/v4-mini";
+import { safeParse, toJSONSchema } from "zod/v4-mini";
 import type { $ZodRegistry, $ZodType, JSONSchema } from "zod/v4/core";
-import type { IApiRouteSchema, IApiRoutesDef } from "../../routes/common.routes.js";
-import type { OpenapiModel } from "../types.js";
-import { zTransformNullIfEmptyString } from "../../models/primitives/primitives.model.js";
-import { zSiret, zUai } from "../../models/organisme/organismes.primitives.js";
-import { zParisLocalDate } from "../../utils/date.primitives.js";
+import type { IApiRouteSchema } from "../../routes/common.routes.js";
 
 export type OpenapiOperation = {
   id: string;
@@ -30,10 +25,6 @@ type RegistryMeta = { id?: string | undefined; openapi?: Partial<SchemaObject> }
 
 function isOperationMethod(method: string): method is OpenapiOperation["method"] {
   return ["get", "post", "put", "delete", "patch", "head", "options", "trace"].includes(method);
-}
-
-export function getOperationObjectId({ method, path }: { method: string; path: string }): string {
-  return `${method}:${path}`;
 }
 
 export function getOpenapiOperations(paths: PathsObject | undefined): Record<string, OpenapiOperation> {
@@ -335,68 +326,4 @@ function generateComponents(registry: $ZodRegistry<RegistryMeta>, io: "input" | 
       }
     },
   });
-}
-
-export async function generateOpenApiDocFromZod(
-  routes: IApiRoutesDef,
-  models: Record<string, OpenapiModel>,
-  tag: string
-): Promise<OpenAPIObject> {
-  const zodRegistry = registry<RegistryMeta>();
-
-  for (const [, model] of Object.entries(models)) {
-    if (model.zod !== null) {
-      zodRegistry.add(model.zod, {
-        id: `#/components/schemas/${model.name}`,
-      });
-    }
-  }
-
-  zodRegistry.add(zParisLocalDate, { openapi: { type: "string", format: "date-time" } });
-  zodRegistry.add(zTransformNullIfEmptyString, {
-    openapi: { anyOf: [{ type: "string", minLength: 1 }, { type: "null" }] },
-  });
-  zodRegistry.add(zSiret, { openapi: { type: "string", pattern: "^\\d{14}$" } });
-  zodRegistry.add(zUai, { openapi: { type: "string", pattern: "^\\d{7}[A-Z]$" } });
-
-  const paths = generateOpenApiPathsObjectFromZod(routes, tag, zodRegistry);
-
-  const components = generateComponents(zodRegistry, "output");
-
-  return {
-    openapi: "3",
-    info: {
-      title: "Documentation technique",
-      version: "1.0.0",
-    },
-    paths,
-    components: { schemas: components.schemas as Record<string, SchemaObject> },
-  };
-}
-
-function generateOpenApiPathsObjectFromZod(
-  routes: IApiRoutesDef,
-  tag: string,
-  registry: $ZodRegistry<RegistryMeta>
-): PathsObject {
-  const paths: PathsObject = {};
-  for (const [m, pathRoutes] of Object.entries(routes)) {
-    if (!pathRoutes) continue;
-
-    for (const [path, route] of Object.entries(pathRoutes)) {
-      if (!paths[path]) {
-        paths[path] = {};
-      }
-      const p = paths[path];
-
-      if (!path.startsWith("/_private")) {
-        const op = generateOpenApiOperationObjectFromZod(route, registry, path, m, tag);
-        if (op !== null) {
-          p[route.method] = op;
-        }
-      }
-    }
-  }
-
-  return paths;
 }

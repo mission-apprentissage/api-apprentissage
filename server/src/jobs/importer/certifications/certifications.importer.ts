@@ -93,7 +93,7 @@ async function getImportMeta(options: ImportCertificationsOptions | null): Promi
   return options?.force || areSourcesUpdated(latestImportMeta?.source, sourceImportMeta) ? importMeta : null;
 }
 
-export function buildCertificationUpdateOperation(data: ISourceAggregatedData, importMeta: IImportMetaCertifications) {
+function buildCertificationUpdateOperation(data: ISourceAggregatedData, importMeta: IImportMetaCertifications) {
   const { identifiant, ...value } = buildCertification(
     data,
     importMeta.source.france_competence.oldest_date_publication
@@ -115,7 +115,7 @@ export function buildCertificationUpdateOperation(data: ISourceAggregatedData, i
   };
 }
 
-export function getSourceAggregatedDataFromBcn(): AggregationCursor<ISourceAggregatedData> {
+function getSourceAggregatedDataFromBcn(): AggregationCursor<ISourceAggregatedData> {
   return getDbCollection("source.bcn").aggregate<ISourceAggregatedData>([
     {
       $match: {
@@ -175,7 +175,7 @@ export function getSourceAggregatedDataFromBcn(): AggregationCursor<ISourceAggre
   ]);
 }
 
-export function getSourceAggregatedDataFromFranceCompetence(): AggregationCursor<ISourceAggregatedData> {
+function getSourceAggregatedDataFromFranceCompetence(): AggregationCursor<ISourceAggregatedData> {
   return getDbCollection("source.france_competence").aggregate<ISourceAggregatedData>([
     {
       $match: {
@@ -230,7 +230,7 @@ export function getSourceAggregatedDataFromFranceCompetence(): AggregationCursor
   ]);
 }
 
-export async function importSourceAggregatedData(
+async function importSourceAggregatedData(
   cursor: AggregationCursor<ISourceAggregatedData>,
   importMeta: IImportMetaCertifications
 ) {

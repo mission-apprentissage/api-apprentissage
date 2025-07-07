@@ -5,7 +5,6 @@ import { OpenApiBuilder } from "openapi3-ts/oas31";
 import { zParisLocalDate } from "../../utils/date.primitives.js";
 import { zSiret, zUai } from "../../models/organisme/organismes.primitives.js";
 import { zTransformNullIfEmptyString } from "../../models/primitives/primitives.model.js";
-
 import { registerOpenApiErrorsSchema } from "../../models/errors/errors.model.openapi.js";
 import { openapiSpec } from "../openapiSpec.js";
 import { addOperationDoc, addSchemaDoc, getTextOpenAPI } from "../utils/zodWithOpenApi.js";
@@ -81,11 +80,9 @@ export function buildOpenApiSchema(
   const zodRegistry = registry<RegistryMeta>();
 
   for (const [, model] of Object.entries(openapiSpec.models)) {
-    if (model.zod !== null) {
-      zodRegistry.add(model.zod, {
-        id: `#/components/schemas/${model.name}`,
-      });
-    }
+    zodRegistry.add(model.zod, {
+      id: `#/components/schemas/${model.name}`,
+    });
   }
 
   zodRegistry.add(zParisLocalDate, { openapi: { type: "string", format: "date-time" } });
@@ -134,7 +131,10 @@ export function buildOpenApiSchema(
   for (const [name, s] of Object.entries(openapiSpec.models)) {
     builder.addSchema(
       name,
-      addSchemaDoc(s.schema ?? components.schemas[`#/components/schemas/${name}`], s.doc, lang, ["models", name])
+      addSchemaDoc("schema" in s ? s.schema : components.schemas[`#/components/schemas/${name}`], s.doc, lang, [
+        "models",
+        name,
+      ])
     );
   }
 

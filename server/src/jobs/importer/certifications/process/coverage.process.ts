@@ -25,7 +25,7 @@ type ChunkRncp = {
   france_competence: ISourceFranceCompetence;
 };
 
-export function buildMissingCfdCertification(
+function buildMissingCfdCertification(
   chunk: ChunkCfd,
   importMeta: IImportMetaCertifications
 ): ICertificationInternal[] {
@@ -62,7 +62,7 @@ export function buildMissingCfdCertification(
   });
 }
 
-export function buildMissingRncpCertification(
+function buildMissingRncpCertification(
   chunk: ChunkRncp,
   importMeta: IImportMetaCertifications
 ): ICertificationInternal[] {

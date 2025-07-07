@@ -14,7 +14,7 @@ const catalogueEducatifClient = getApiClient(
 
 let cookieAuthCatalogueEducatif = "";
 
-export async function authCatalogueEducatif(): Promise<string | null> {
+async function authCatalogueEducatif(): Promise<string | null> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const response = await catalogueEducatifClient.post<any>("/api/v1/auth/login", {
     username: config.api.catalogueEducatif.username,

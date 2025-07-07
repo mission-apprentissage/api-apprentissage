@@ -8,7 +8,7 @@ import { $ZodError, treeifyError } from "zod/v4/core";
 import config from "@/config.js";
 import type { Server } from "@/server/server.js";
 
-export function boomify(rawError: FastifyError | Boom<unknown> | Error | $ZodError): Boom<unknown> {
+function boomify(rawError: FastifyError | Boom<unknown> | Error | $ZodError): Boom<unknown> {
   if (isBoom(rawError)) {
     return rawError;
   }
@@ -44,7 +44,7 @@ export function boomify(rawError: FastifyError | Boom<unknown> | Error | $ZodErr
   return internal();
 }
 
-export function formatResponseError(rawError: FastifyError | Boom<unknown> | Error | $ZodError): IResError {
+function formatResponseError(rawError: FastifyError | Boom<unknown> | Error | $ZodError): IResError {
   const error = boomify(rawError);
 
   const result: IResError = {

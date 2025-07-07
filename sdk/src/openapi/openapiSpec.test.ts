@@ -202,11 +202,10 @@ describe("openapiSpec#models", () => {
     }
 
     expect(getDocTechnicalFieldStructure(model.doc)).toEqual(
-      getSchemaObjectDocStructure(model.schema ?? doc.components?.schemas?.[modelName])
+      getSchemaObjectDocStructure("schema" in model ? model.schema : doc.components?.schemas?.[modelName])
     );
   });
 
-  it("should generate schema in sync with zod definition", async () => {});
   it.each(Object.entries(openapiSpec.models))("should generate proper schema %s", (modelName) => {
     const builder = buildOpenApiSchema("0.0.0", "test", "https://api-test.apprentissage.beta.houv.fr", null);
     const doc = builder.getSpec();

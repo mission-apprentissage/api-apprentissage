@@ -1,10 +1,8 @@
 import type {
   ContentObject,
   MediaTypeObject,
-  OpenAPIObject,
   OperationObject,
   ParameterObject,
-  PathItemObject,
   ReferenceObject,
   RequestBodyObject,
   ResponseObject,
@@ -236,55 +234,10 @@ export function stripOperationObjectDescriptions(operation: OperationObject | un
   });
 }
 
-function stripPathItemObjectDescriptions(item: PathItemObject): PathItemObject {
-  return stripEmptyFields({
-    $ref: item.$ref,
-    get: stripOperationObjectDescriptions(item.get),
-    put: stripOperationObjectDescriptions(item.put),
-    post: stripOperationObjectDescriptions(item.post),
-    delete: stripOperationObjectDescriptions(item.delete),
-    options: stripOperationObjectDescriptions(item.options),
-    head: stripOperationObjectDescriptions(item.head),
-    patch: stripOperationObjectDescriptions(item.patch),
-    trace: stripOperationObjectDescriptions(item.trace),
-    servers: item.servers,
-    parameters: item.parameters?.map(stripParameterObjectDescriptions).filter((p) => p != null),
-  });
-}
-
 function cleanRecord<T>(record: Record<string, T>, mapper: (v: T) => T | undefined): Record<string, T> {
   return Object.fromEntries(
     Object.entries(record)
       .map(([k, v]) => [k, mapper(v)])
       .filter(([_k, v]) => v != null)
   );
-}
-
-export function stripOpenAPIObjectDescriptions(doc: OpenAPIObject): OpenAPIObject {
-  return stripEmptyFields({
-    openapi: doc.openapi,
-    info: stripEmptyFields({
-      title: doc.info.title,
-      termsOfService: doc.info.termsOfService,
-      contact: doc.info.contact,
-      license: doc.info.license,
-      version: doc.info.version,
-    }),
-    servers: doc.servers,
-    paths: Object.fromEntries(Object.entries(doc.paths ?? {}).map(([k, v]) => [k, stripPathItemObjectDescriptions(v)])),
-    components: stripEmptyFields({
-      schemas: cleanRecord(doc.components?.schemas ?? {}, stripSchemaObjectDescriptions),
-      responses: cleanRecord(doc.components?.responses ?? {}, cleanResponseObject),
-      parameters: cleanRecord(doc.components?.parameters ?? {}, stripParameterObjectDescriptions),
-      requestBodies: cleanRecord(doc.components?.requestBodies ?? {}, stripRequestBodyObjectDescriptions),
-      headers: doc.components?.headers,
-      securitySchemes: doc.components?.securitySchemes,
-      links: doc.components?.links,
-      callbacks: doc.components?.callbacks,
-    }),
-    security: doc.security,
-    tags: doc.tags,
-    externalDocs: doc.externalDocs,
-    webhooks: doc.webhooks,
-  });
 }

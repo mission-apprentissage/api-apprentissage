@@ -155,6 +155,23 @@ export function buildOpenApiSchema(
     );
   }
 
+  builder.addPath("/healthcheck", {
+    get: addOperationDoc(
+      {
+        tag: "system",
+        doc: null,
+        schema: generateOpenApiOperationObjectFromZod(
+          zApiRoutes.get["/healthcheck"],
+          zodRegistry,
+          "/healthcheck",
+          "get",
+          "system"
+        ),
+      },
+      lang
+    ),
+  });
+
   registerOpenApiErrorsSchema(builder, lang);
 
   return builder;

@@ -3329,6 +3329,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
       "get": {
         "parameters": [
           {
+            "allowEmptyValue": true,
             "in": "path",
             "name": "id",
             "required": true,

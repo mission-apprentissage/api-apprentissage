@@ -13,14 +13,12 @@ import { zEmailRoutes } from "./_private/emails.routes.js";
 import { zSimulateurRoutes } from "./_private/simulateur/simulateur.routes.js";
 import { zUserRoutes } from "./_private/user.routes.js";
 import { zSourceAcceRoutes } from "./experimental/source/acce.routes.js";
-import { zCoreRoutes } from "./healthcheck.routes.js";
 
 const zRoutesGet = {
   ...zUserAdminRoutes.get,
   ...zProcessorAdminRoutes.get,
   ...zUserRoutes.get,
   ...zAuthRoutes.get,
-  ...zCoreRoutes.get,
   ...zEmailRoutes.get,
   ...zApiRoutesGet,
   ...zSourceAcceRoutes.get,

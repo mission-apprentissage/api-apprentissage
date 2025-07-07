@@ -15,7 +15,7 @@ export const rechercheCommunePageSummaryDoc = {
 
 export const rechercheCommunePageDoc = {
   tag: "geographie",
-  operationIds: ["communeSearch"],
+  operationIds: ["get_geographie_v1_commune_search"],
   habilitation: null,
   description: [
     {

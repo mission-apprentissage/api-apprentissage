@@ -12,7 +12,7 @@ export type OpenapiModel<T extends string = string> = {
   zod: $ZodType | null;
 };
 
-export type OpenapiRoute = { tag: TagOpenapi; schema: Omit<OperationObject, "tag">; doc: DocRoute | null };
+export type OpenapiRoute = { tag: TagOpenapi; schema?: Omit<OperationObject, "tag">; doc: DocRoute | null };
 
 export type OpenapiRoutes = Record<
   string,

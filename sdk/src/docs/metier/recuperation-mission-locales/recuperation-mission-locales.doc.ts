@@ -14,7 +14,7 @@ export const recuperationMissionLocalePageSummaryDoc = {
 
 export const recuperationMissionLocalesPageDoc = {
   tag: "geographie",
-  operationIds: ["listMissionLocales"],
+  operationIds: ["get_geographie_v1_mission_locale"],
   habilitation: null,
   description: [{ en: "Retrieve the Mission Locales", fr: "Récupération des Missions Locales" }],
   frequenceMiseAJour: "daily",

@@ -199,9 +199,11 @@ function generateOpenApiRequest(
         name: String(name),
         in: "path",
         required: isRequiredZod(schema),
-        allowEmptyValue: isEmptyValueAllowedZod(schema),
         schema: getZodSchema(schema, registry, "input"),
       };
+      if (isEmptyValueAllowedZod(schema)) {
+        param.allowEmptyValue = true;
+      }
       parameters.push(param);
     });
   }
@@ -215,9 +217,11 @@ function generateOpenApiRequest(
             name: String(name),
             in: "query",
             required: isRequiredZod(schema),
-            allowEmptyValue: isEmptyValueAllowedZod(schema),
             schema: getZodSchema(schema, registry, "input"),
           };
+          if (isEmptyValueAllowedZod(schema)) {
+            param.allowEmptyValue = true;
+          }
           parameters.push(param);
         });
         break;
@@ -241,7 +245,6 @@ function generateOpenApiRequest(
         name: String(name),
         in: "header",
         required: isRequiredZod(schema),
-
         schema: getZodSchema(schema, registry, "input"),
       };
       parameters.push(param);
@@ -269,9 +272,11 @@ function getSecurityRequirementObject(route: IApiRouteSchema): SecurityRequireme
   return [{ [route.securityScheme.auth]: habiliations }];
 }
 
-function generateOpenApiOperationObjectFromZod(
+export function generateOpenApiOperationObjectFromZod(
   route: IApiRouteSchema,
   registry: $ZodRegistry<RegistryMeta>,
+  path: string,
+  method: string,
   tag: string
 ): OperationObject | null {
   try {
@@ -280,8 +285,20 @@ function generateOpenApiOperationObjectFromZod(
     if (responses) {
       return {
         tags: [tag],
+        operationId: `${method}${path.replaceAll(/[^\w\s]/gi, "_")}`,
         ...generateOpenApiRequest(route, registry),
-        responses,
+        responses: {
+          ...responses,
+          "400": { $ref: "#/components/responses/BadRequest" },
+          "401": { $ref: "#/components/responses/Unauthorized" },
+          "403": { $ref: "#/components/responses/Forbidden" },
+          "404": { $ref: "#/components/responses/NotFound" },
+          "409": { $ref: "#/components/responses/Conflict" },
+          "419": { $ref: "#/components/responses/TooManyRequests" },
+          "500": { $ref: "#/components/responses/InternalServerError" },
+          "502": { $ref: "#/components/responses/BadGateway" },
+          "503": { $ref: "#/components/responses/ServiceUnavailable" },
+        },
         security: getSecurityRequirementObject(route),
       };
     }
@@ -359,7 +376,7 @@ function generateOpenApiPathsObjectFromZod(
   registry: $ZodRegistry<RegistryMeta>
 ): PathsObject {
   const paths: PathsObject = {};
-  for (const [, pathRoutes] of Object.entries(routes)) {
+  for (const [m, pathRoutes] of Object.entries(routes)) {
     if (!pathRoutes) continue;
 
     for (const [path, route] of Object.entries(pathRoutes)) {
@@ -369,7 +386,7 @@ function generateOpenApiPathsObjectFromZod(
       const p = paths[path];
 
       if (!path.startsWith("/_private")) {
-        const op = generateOpenApiOperationObjectFromZod(route, registry, tag);
+        const op = generateOpenApiOperationObjectFromZod(route, registry, path, m, tag);
         if (op !== null) {
           p[route.method] = op;
         }

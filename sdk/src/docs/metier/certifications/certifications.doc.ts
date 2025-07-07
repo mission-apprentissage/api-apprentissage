@@ -22,7 +22,7 @@ export const certificationsPageSummaryDoc = {
 
 export const certificationsPageDoc = {
   tag: "certifications",
-  operationIds: ["getCertifications"],
+  operationIds: ["get_certification_v1"],
   habilitation: null,
   description: [
     {

@@ -217,12 +217,21 @@ describe("openapiSpec#models", () => {
 });
 
 describe("openapiSpec#routes", () => {
-  describe.each(Object.entries(openapiSpec.routes))("route %s", (_routeName, route) => {
-    it.each(Object.entries(route))("should have doc in sync with schema %s", (_key, operation) => {
+  describe.each(Object.entries(openapiSpec.routes))("route %s", (path, route) => {
+    it.each(Object.entries(route))("should have doc in sync with schema %s", (method, operation) => {
       if (operation?.doc == null) {
         return;
       }
-      expect(getDocRouteStructure(operation.doc)).toEqual(getOperationObjectDocStructure(operation.schema));
+      const builder = buildOpenApiSchema("0.0.0", "test", "https://api-test.apprentissage.beta.houv.fr", null);
+      const doc = builder.getSpec();
+
+      if (doc.openapi !== "3.1.0") {
+        throw new Error("Unsupported OpenAPI version");
+      }
+
+      expect(getDocRouteStructure(operation.doc)).toEqual(
+        getOperationObjectDocStructure(operation.schema ?? doc.paths?.[path.replaceAll(/:([^:/]+)/g, "{$1}")]?.[method])
+      );
     });
   });
 

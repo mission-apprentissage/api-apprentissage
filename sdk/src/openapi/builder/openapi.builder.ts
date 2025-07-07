@@ -9,6 +9,8 @@ import { zTransformNullIfEmptyString } from "../../models/primitives/primitives.
 import { registerOpenApiErrorsSchema } from "../../models/errors/errors.model.openapi.js";
 import { openapiSpec } from "../openapiSpec.js";
 import { addOperationDoc, addSchemaDoc, getTextOpenAPI } from "../utils/zodWithOpenApi.js";
+import { zApiRoutes } from "../../routes/index.js";
+import { generateOpenApiOperationObjectFromZod } from "../utils/openapi.uils.js";
 
 type RegistryMeta = { id?: string | undefined; openapi?: Partial<SchemaObject> };
 
@@ -137,10 +139,15 @@ export function buildOpenApiSchema(
 
   for (const [path, operations] of Object.entries(openapiSpec.routes)) {
     builder.addPath(
-      path,
+      path.replaceAll(/:([^:/]+)/g, "{$1}"), // Replace :param with {param} for OpenAPI
       Object.entries(operations).reduce<PathItemObject>((acc, [method, operation]) => {
         acc[method as "get" | "put" | "post" | "delete" | "options" | "head" | "patch" | "trace"] = addOperationDoc(
-          operation,
+          {
+            ...operation,
+            schema:
+              operation.schema ??
+              generateOpenApiOperationObjectFromZod(zApiRoutes[method][path], zodRegistry, path, method, operation.tag),
+          },
           lang
         );
         return acc;

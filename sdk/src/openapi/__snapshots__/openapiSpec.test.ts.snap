@@ -8,12 +8,21 @@ exports[`openapiSpec#models > should generate proper schema Adresse 1`] = `
       "additionalProperties": false,
       "properties": {
         "code": {
+          "examples": [
+            "A1",
+          ],
           "type": "string",
         },
         "id": {
+          "examples": [
+            "1",
+          ],
           "type": "string",
         },
         "nom": {
+          "examples": [
+            "Académie de Paris",
+          ],
           "type": "string",
         },
       },
@@ -127,6 +136,10 @@ exports[`openapiSpec#models > should generate proper schema Certification 1`] = 
                       "type": "null",
                     },
                   ],
+                  "examples": [
+                    "2022-08-31T23:59:59.000+02:00",
+                    "2022-12-31T23:59:59.000+01:00",
+                  ],
                 },
                 "creation": {
                   "anyOf": [
@@ -137,6 +150,10 @@ exports[`openapiSpec#models > should generate proper schema Certification 1`] = 
                     {
                       "type": "null",
                     },
+                  ],
+                  "examples": [
+                    "2014-02-21T00:00:00.000+01:00",
+                    "2018-05-11T00:00:00.000+02:00",
                   ],
                 },
               },
@@ -167,12 +184,18 @@ exports[`openapiSpec#models > should generate proper schema Certification 1`] = 
                 "additionalProperties": false,
                 "properties": {
                   "code": {
+                    "examples": [
+                      "RNCP37537BC01",
+                    ],
                     "pattern": "^(RNCP\\d{3,5}BC)?\\d{1,2}$",
                     "type": "string",
                   },
                   "intitule": {
                     "anyOf": [
                       {
+                        "examples": [
+                          "Approvisionnement, communication, sécurité alimentaire et hygiène en boulangerie",
+                        ],
                         "type": "string",
                       },
                       {
@@ -219,6 +242,10 @@ exports[`openapiSpec#models > should generate proper schema Certification 1`] = 
                   "fermeture": {
                     "anyOf": [
                       {
+                        "examples": [
+                          "2022-08-31T23:59:59.000+02:00",
+                          "2022-12-31T23:59:59.000+01:00",
+                        ],
                         "format": "date-time",
                         "type": "string",
                       },
@@ -230,6 +257,10 @@ exports[`openapiSpec#models > should generate proper schema Certification 1`] = 
                   "ouverture": {
                     "anyOf": [
                       {
+                        "examples": [
+                          "2021-09-01T00:00:00.000+02:00",
+                          "2022-01-01T00:00:00.000+01:00",
+                        ],
                         "format": "date-time",
                         "type": "string",
                       },
@@ -266,6 +297,10 @@ exports[`openapiSpec#models > should generate proper schema Certification 1`] = 
                   "activation": {
                     "anyOf": [
                       {
+                        "examples": [
+                          "2021-09-01T00:00:00.000+02:00",
+                          "2022-01-01T00:00:00.000+01:00",
+                        ],
                         "format": "date-time",
                         "type": "string",
                       },
@@ -284,6 +319,10 @@ exports[`openapiSpec#models > should generate proper schema Certification 1`] = 
                   "fin_enregistrement": {
                     "anyOf": [
                       {
+                        "examples": [
+                          "2021-09-01T00:00:00.000+02:00",
+                          "2022-01-01T00:00:00.000+01:00",
+                        ],
                         "format": "date-time",
                         "type": "string",
                       },
@@ -326,9 +365,15 @@ exports[`openapiSpec#models > should generate proper schema Certification 1`] = 
                 "additionalProperties": false,
                 "properties": {
                   "intitule": {
+                    "examples": [
+                      "Bâtiment (Employés, techniciens et agents de maîtrise, ingénieurs, assimilés et cadres)",
+                    ],
                     "type": "string",
                   },
                   "numero": {
+                    "examples": [
+                      "3002",
+                    ],
                     "type": "string",
                   },
                 },
@@ -364,9 +409,15 @@ exports[`openapiSpec#models > should generate proper schema Certification 1`] = 
                     "additionalProperties": false,
                     "properties": {
                       "code": {
+                        "examples": [
+                          "21538",
+                        ],
                         "type": "string",
                       },
                       "intitule": {
+                        "examples": [
+                          "21538 : Boulangerie",
+                        ],
                         "type": "string",
                       },
                     },
@@ -398,11 +449,19 @@ exports[`openapiSpec#models > should generate proper schema Certification 1`] = 
                   "additionalProperties": false,
                   "properties": {
                     "code": {
+                      "examples": [
+                        "221",
+                        "310",
+                      ],
                       "type": "string",
                     },
                     "intitule": {
                       "anyOf": [
                         {
+                          "examples": [
+                            "AGRO-ALIMENTAIRE, ALIMENTATION, CUISINE",
+                            "SPECIALIT.PLURIV.DES ECHANGES & GESTION",
+                          ],
                           "type": "string",
                         },
                         {
@@ -429,12 +488,18 @@ exports[`openapiSpec#models > should generate proper schema Certification 1`] = 
                     "additionalProperties": false,
                     "properties": {
                       "code": {
+                        "examples": [
+                          "221",
+                        ],
                         "pattern": "^\\d{2,3}[a-z]?$",
                         "type": "string",
                       },
                       "intitule": {
                         "anyOf": [
                           {
+                            "examples": [
+                              "221 : Agro-alimentaire, alimentation, cuisine",
+                            ],
                             "type": "string",
                           },
                           {
@@ -473,10 +538,16 @@ exports[`openapiSpec#models > should generate proper schema Certification 1`] = 
                     "additionalProperties": false,
                     "properties": {
                       "code": {
+                        "examples": [
+                          "D1102",
+                        ],
                         "pattern": "^[A-Z]{1}\\d{0,4}$",
                         "type": "string",
                       },
                       "intitule": {
+                        "examples": [
+                          "Boulangerie - viennoiserie",
+                        ],
                         "type": "string",
                       },
                     },
@@ -513,6 +584,9 @@ exports[`openapiSpec#models > should generate proper schema Certification 1`] = 
         "cfd": {
           "anyOf": [
             {
+              "examples": [
+                "50022137",
+              ],
               "pattern": "^[A-Z0-9]{3}\\d{3}[A-Z0-9]{2}$",
               "type": "string",
             },
@@ -524,6 +598,9 @@ exports[`openapiSpec#models > should generate proper schema Certification 1`] = 
         "rncp": {
           "anyOf": [
             {
+              "examples": [
+                "RNCP37537",
+              ],
               "pattern": "^RNCP\\d{3,5}$",
               "type": "string",
             },
@@ -559,9 +636,17 @@ exports[`openapiSpec#models > should generate proper schema Certification 1`] = 
               "additionalProperties": false,
               "properties": {
                 "court": {
+                  "examples": [
+                    "BOULANGER",
+                    "GENIE BIO - AGRONOMIE",
+                  ],
                   "type": "string",
                 },
                 "long": {
+                  "examples": [
+                    "BOULANGER (CAP)",
+                    "GENIE BIOLOGIQUE OPTION AGRONOMIE (DUT)",
+                  ],
                   "type": "string",
                 },
               },
@@ -597,6 +682,10 @@ exports[`openapiSpec#models > should generate proper schema Certification 1`] = 
                             "7",
                             "8",
                           ],
+                          "examples": [
+                            "3",
+                            "5",
+                          ],
                           "type": "string",
                         },
                         {
@@ -605,14 +694,26 @@ exports[`openapiSpec#models > should generate proper schema Certification 1`] = 
                       ],
                     },
                     "formation_diplome": {
+                      "examples": [
+                        "500",
+                        "370",
+                      ],
                       "type": "string",
                     },
                     "interministeriel": {
+                      "examples": [
+                        "3",
+                        "6",
+                      ],
                       "type": "string",
                     },
                     "libelle": {
                       "anyOf": [
                         {
+                          "examples": [
+                            "CLASSE PREPA",
+                            "TITRE PROFESSIONNEL HOMOLOGUE OU CERTIFIE",
+                          ],
                           "type": "string",
                         },
                         {
@@ -621,6 +722,12 @@ exports[`openapiSpec#models > should generate proper schema Certification 1`] = 
                       ],
                     },
                     "sigle": {
+                      "examples": [
+                        "CAP",
+                        "DUT",
+                        "BTS",
+                        "CPGE",
+                      ],
                       "type": "string",
                     },
                   },
@@ -656,6 +763,9 @@ exports[`openapiSpec#models > should generate proper schema Certification 1`] = 
                             "7",
                             "8",
                           ],
+                          "examples": [
+                            "3",
+                          ],
                           "type": "string",
                         },
                         {
@@ -684,6 +794,9 @@ exports[`openapiSpec#models > should generate proper schema Certification 1`] = 
         "rncp": {
           "anyOf": [
             {
+              "examples": [
+                "Boulanger",
+              ],
               "type": "string",
             },
             {
@@ -710,6 +823,9 @@ exports[`openapiSpec#models > should generate proper schema Certification 1`] = 
                 "derniere_session": {
                   "anyOf": [
                     {
+                      "examples": [
+                        2025,
+                      ],
                       "type": "integer",
                     },
                     {
@@ -720,6 +836,10 @@ exports[`openapiSpec#models > should generate proper schema Certification 1`] = 
                 "fermeture": {
                   "anyOf": [
                     {
+                      "examples": [
+                        "2022-08-31T23:59:59.000+02:00",
+                        "2022-12-31T23:59:59.000+01:00",
+                      ],
                       "format": "date-time",
                       "type": "string",
                     },
@@ -731,6 +851,10 @@ exports[`openapiSpec#models > should generate proper schema Certification 1`] = 
                 "ouverture": {
                   "anyOf": [
                     {
+                      "examples": [
+                        "2021-09-01T00:00:00.000+02:00",
+                        "2022-01-01T00:00:00.000+01:00",
+                      ],
                       "format": "date-time",
                       "type": "string",
                     },
@@ -742,6 +866,9 @@ exports[`openapiSpec#models > should generate proper schema Certification 1`] = 
                 "premiere_session": {
                   "anyOf": [
                     {
+                      "examples": [
+                        2022,
+                      ],
                       "type": "integer",
                     },
                     {
@@ -773,6 +900,10 @@ exports[`openapiSpec#models > should generate proper schema Certification 1`] = 
               "type": "null",
             },
           ],
+          "examples": [
+            "2021-09-01T00:00:00.000+02:00",
+            "2022-01-01T00:00:00.000+01:00",
+          ],
         },
         "fin": {
           "anyOf": [
@@ -783,6 +914,10 @@ exports[`openapiSpec#models > should generate proper schema Certification 1`] = 
             {
               "type": "null",
             },
+          ],
+          "examples": [
+            "2022-08-31T23:59:59.000+02:00",
+            "2022-12-31T23:59:59.000+01:00",
           ],
         },
         "rncp": {
@@ -802,6 +937,10 @@ exports[`openapiSpec#models > should generate proper schema Certification 1`] = 
                     {
                       "type": "null",
                     },
+                  ],
+                  "examples": [
+                    "2021-09-01T00:00:00.000+02:00",
+                    "2022-01-01T00:00:00.000+01:00",
                   ],
                 },
                 "debut_parcours": {
@@ -824,6 +963,10 @@ exports[`openapiSpec#models > should generate proper schema Certification 1`] = 
                     {
                       "type": "null",
                     },
+                  ],
+                  "examples": [
+                    "2021-09-01T00:00:00.000+02:00",
+                    "2022-01-01T00:00:00.000+01:00",
                   ],
                 },
               },
@@ -891,6 +1034,9 @@ exports[`openapiSpec#models > should generate proper schema Certification 1`] = 
               "type": "null",
             },
           ],
+          "examples": [
+            "Enregistrement de droit",
+          ],
         },
         "gestionnaire_diplome": {
           "anyOf": [
@@ -900,6 +1046,9 @@ exports[`openapiSpec#models > should generate proper schema Certification 1`] = 
             {
               "type": "null",
             },
+          ],
+          "examples": [
+            "DGESCO A2-3",
           ],
         },
         "nature": {
@@ -919,6 +1068,11 @@ exports[`openapiSpec#models > should generate proper schema Certification 1`] = 
                           "type": "null",
                         },
                       ],
+                      "examples": [
+                        "1",
+                        "2",
+                        "P",
+                      ],
                     },
                     "libelle": {
                       "anyOf": [
@@ -928,6 +1082,11 @@ exports[`openapiSpec#models > should generate proper schema Certification 1`] = 
                         {
                           "type": "null",
                         },
+                      ],
+                      "examples": [
+                        "DIPLOME NATIONAL / DIPLOME D'ETAT",
+                        "TITRE PROFESSIONNEL HOMOLOGUE OU CERTIFIE",
+                        "CLASSE PREPA",
                       ],
                     },
                   },
@@ -1602,11 +1761,17 @@ exports[`openapiSpec#models > should generate proper schema GeoJsonPoint 1`] = `
     "coordinates": {
       "prefixItems": [
         {
+          "examples": [
+            48.850699,
+          ],
           "maximum": 180,
           "minimum": -180,
           "type": "number",
         },
         {
+          "examples": [
+            2.308628,
+          ],
           "maximum": 90,
           "minimum": -90,
           "type": "number",
@@ -1636,11 +1801,17 @@ exports[`openapiSpec#models > should generate proper schema GeoJsonPolygon 1`] =
         "items": {
           "prefixItems": [
             {
+              "examples": [
+                48.850699,
+              ],
               "maximum": 180,
               "minimum": -180,
               "type": "number",
             },
             {
+              "examples": [
+                2.308628,
+              ],
               "maximum": 90,
               "minimum": -90,
               "type": "number",
@@ -1728,9 +1899,24 @@ exports[`openapiSpec#models > should generate proper schema JobOfferPublishing 1
         "error": {
           "properties": {
             "code": {
+              "examples": [
+                "CLOSED_COMPANY",
+                "DUPLICATE",
+                "STAGE",
+                "EXPIRED",
+                "CFA",
+                "ROME_BLACKLISTED",
+                "WRONG_DATA",
+                "NON_DIFFUSIBLE",
+              ],
               "type": "string",
             },
             "label": {
+              "examples": [
+                "WILL_BE_PUBLISHED",
+                "PUBLISHED",
+                "WILL_NOT_BE_PUBLISHED",
+              ],
               "type": "string",
             },
           },
@@ -1742,6 +1928,11 @@ exports[`openapiSpec#models > should generate proper schema JobOfferPublishing 1
         },
         "status": {
           "enum": [
+            "WILL_BE_PUBLISHED",
+            "PUBLISHED",
+            "WILL_NOT_BE_PUBLISHED",
+          ],
+          "examples": [
             "WILL_BE_PUBLISHED",
             "PUBLISHED",
             "WILL_NOT_BE_PUBLISHED",
@@ -1768,6 +1959,9 @@ exports[`openapiSpec#models > should generate proper schema JobOfferRead 1`] = `
     "apply": {
       "properties": {
         "phone": {
+          "examples": [
+            "0199000000",
+          ],
           "type": [
             "string",
             "null",
@@ -1780,6 +1974,9 @@ exports[`openapiSpec#models > should generate proper schema JobOfferRead 1`] = `
           ],
         },
         "url": {
+          "examples": [
+            "https://labonnealternance.apprentissage.beta.gouv.fr/recherche-apprentissage?display=list&page=fiche&type=matcha&itemId=664752a2ebe24062b758c641",
+          ],
           "format": "uri",
           "type": "string",
         },
@@ -1793,6 +1990,9 @@ exports[`openapiSpec#models > should generate proper schema JobOfferRead 1`] = `
     "contract": {
       "properties": {
         "duration": {
+          "examples": [
+            12,
+          ],
           "minimum": 0,
           "type": [
             "integer",
@@ -1805,12 +2005,20 @@ exports[`openapiSpec#models > should generate proper schema JobOfferRead 1`] = `
             "remote",
             "hybrid",
           ],
+          "examples": [
+            "onsite",
+            "remote",
+            "hybrid",
+          ],
           "type": [
             "string",
             "null",
           ],
         },
         "start": {
+          "examples": [
+            "2024-09-23T10:00:00.000Z",
+          ],
           "format": "date-time",
           "type": [
             "string",
@@ -1820,6 +2028,10 @@ exports[`openapiSpec#models > should generate proper schema JobOfferRead 1`] = `
         "type": {
           "items": {
             "enum": [
+              "Apprentissage",
+              "Professionnalisation",
+            ],
+            "examples": [
               "Apprentissage",
               "Professionnalisation",
             ],
@@ -1839,15 +2051,25 @@ exports[`openapiSpec#models > should generate proper schema JobOfferRead 1`] = `
     "identifier": {
       "properties": {
         "id": {
+          "examples": [
+            "6687165396d52b5e01b409545",
+          ],
           "type": [
             "string",
             "null",
           ],
         },
         "partner_job_id": {
+          "examples": [
+            "b16a546a-e61f-4028-b5a3-1a7bbfaa4e3d",
+          ],
           "type": "string",
         },
         "partner_label": {
+          "examples": [
+            "France Travail",
+            "La bonne alternance",
+          ],
           "type": "string",
         },
       },
@@ -1862,25 +2084,46 @@ exports[`openapiSpec#models > should generate proper schema JobOfferRead 1`] = `
       "properties": {
         "access_conditions": {
           "items": {
+            "examples": [
+              "Ce métier est accessible avec un diplôme de niveau Bac+2 (BTS, DUT) à Master (MIAGE, diplôme d'ingénieur, Master professionnel, ...) en informatique.",
+              "Il est également accessible avec une expérience professionnelle en informatique, système d'exploitation ou dans un domaine applicatif.",
+              "La pratique de l'anglais (vocabulaire technique) est requise.",
+            ],
             "type": "string",
           },
           "type": "array",
         },
         "description": {
+          "examples": [
+            "Conçoit, développe et met au point un projet d'application informatique, de la phase d'étude à son intégration, pour un client ou une entreprise selon des besoins fonctionnels et un cahier des charges. Peut conduire des projets de développement. Peut coordonner une équipe.",
+          ],
           "type": "string",
         },
         "desired_skills": {
           "items": {
+            "examples": [
+              "Faire preuve d'autonomie",
+              "Faire preuve de créativité, d'inventivité",
+              "Faire preuve de rigueur et de précision",
+              "Travailler en équipe",
+            ],
             "type": "string",
           },
           "type": "array",
         },
         "opening_count": {
+          "examples": [
+            1,
+            3,
+          ],
           "type": "number",
         },
         "publication": {
           "properties": {
             "creation": {
+              "examples": [
+                "2024-07-23T13:23:01.000Z",
+              ],
               "format": "date-time",
               "type": [
                 "string",
@@ -1888,6 +2131,9 @@ exports[`openapiSpec#models > should generate proper schema JobOfferRead 1`] = `
               ],
             },
             "expiration": {
+              "examples": [
+                "2027-05-14T00:00:00Z",
+              ],
               "format": "date-time",
               "type": [
                 "string",
@@ -1903,6 +2149,9 @@ exports[`openapiSpec#models > should generate proper schema JobOfferRead 1`] = `
         },
         "rome_codes": {
           "items": {
+            "examples": [
+              "A1401",
+            ],
             "pattern": "^[A-Z]\\d{4}$",
             "type": "string",
           },
@@ -1913,6 +2162,9 @@ exports[`openapiSpec#models > should generate proper schema JobOfferRead 1`] = `
             "Active",
             "Filled",
             "Cancelled",
+          ],
+          "examples": [
+            "Active",
           ],
           "type": "string",
         },
@@ -1926,9 +2178,15 @@ exports[`openapiSpec#models > should generate proper schema JobOfferRead 1`] = `
                 "6",
                 "7",
               ],
+              "examples": [
+                "3",
+              ],
               "type": "string",
             },
             "label": {
+              "examples": [
+                "BP, Bac, autres formations niveau (Bac)",
+              ],
               "type": "string",
             },
           },
@@ -1942,11 +2200,19 @@ exports[`openapiSpec#models > should generate proper schema JobOfferRead 1`] = `
           ],
         },
         "title": {
+          "examples": [
+            "Développeur / Développeuse web",
+          ],
           "minLength": 3,
           "type": "string",
         },
         "to_be_acquired_skills": {
           "items": {
+            "examples": [
+              "Recherche, Innovation : Analyser les indicateurs pertinents sur les tendances et les usages des clients",
+              "Recherche, Innovation : Concevoir et développer une solution digitale",
+              "Nouvelles technologies : Assembler des composants logiciels",
+            ],
             "type": "string",
           },
           "type": "array",
@@ -1969,12 +2235,18 @@ exports[`openapiSpec#models > should generate proper schema JobOfferRead 1`] = `
     "workplace": {
       "properties": {
         "brand": {
+          "examples": [
+            "Enseigne (todo)",
+          ],
           "type": [
             "string",
             "null",
           ],
         },
         "description": {
+          "examples": [
+            "Service du Premier ministre, placé sous l’autorité du ministre de la Transformation et de la Fonction publiques, la direction interministérielle du numérique (DINUM) a pour mission d’élaborer la stratégie numérique de l’État et de piloter sa mise en œuvre. Notre objectif : un État plus efficace, plus simple et plus souverain grâce au numérique.",
+          ],
           "type": [
             "string",
             "null",
@@ -1983,6 +2255,9 @@ exports[`openapiSpec#models > should generate proper schema JobOfferRead 1`] = `
         "domain": {
           "properties": {
             "idcc": {
+              "examples": [
+                1979,
+              ],
               "type": [
                 "number",
                 "null",
@@ -1991,9 +2266,15 @@ exports[`openapiSpec#models > should generate proper schema JobOfferRead 1`] = `
             "naf": {
               "properties": {
                 "code": {
+                  "examples": [
+                    "8411Z",
+                  ],
                   "type": "string",
                 },
                 "label": {
+                  "examples": [
+                    "Administration publique générale",
+                  ],
                   "type": [
                     "string",
                     "null",
@@ -2010,6 +2291,9 @@ exports[`openapiSpec#models > should generate proper schema JobOfferRead 1`] = `
               ],
             },
             "opco": {
+              "examples": [
+                "OPCO 2i",
+              ],
               "type": [
                 "string",
                 "null",
@@ -2032,6 +2316,9 @@ exports[`openapiSpec#models > should generate proper schema JobOfferRead 1`] = `
         "location": {
           "properties": {
             "address": {
+              "examples": [
+                "20 AVENUE DE SEGUR 75007 PARIS",
+              ],
               "type": "string",
             },
             "geopoint": {
@@ -2045,12 +2332,18 @@ exports[`openapiSpec#models > should generate proper schema JobOfferRead 1`] = `
           "type": "object",
         },
         "name": {
+          "examples": [
+            "DIRECTION INTERMINISTERIELLE DU NUMERIQUE (DINUM)",
+          ],
           "type": [
             "string",
             "null",
           ],
         },
         "siret": {
+          "examples": [
+            "13002526500013",
+          ],
           "pattern": "^\\d{14}$",
           "type": [
             "string",
@@ -2058,12 +2351,18 @@ exports[`openapiSpec#models > should generate proper schema JobOfferRead 1`] = `
           ],
         },
         "size": {
+          "examples": [
+            "100-199",
+          ],
           "type": [
             "string",
             "null",
           ],
         },
         "website": {
+          "examples": [
+            "https://beta.gouv.fr/startups/",
+          ],
           "format": "uri",
           "type": [
             "string",
@@ -2103,6 +2402,9 @@ exports[`openapiSpec#models > should generate proper schema JobOfferWrite 1`] = 
       "properties": {
         "email": {
           "description": "Email de contact",
+          "examples": [
+            "jean.dupuis@beta.gouv.fr",
+          ],
           "format": "email",
           "type": [
             "string",
@@ -2111,6 +2413,9 @@ exports[`openapiSpec#models > should generate proper schema JobOfferWrite 1`] = 
         },
         "phone": {
           "description": "Téléphone de contact",
+          "examples": [
+            "0199000000",
+          ],
           "type": [
             "string",
             "null",
@@ -2118,6 +2423,9 @@ exports[`openapiSpec#models > should generate proper schema JobOfferWrite 1`] = 
         },
         "url": {
           "description": "URL pour candidater",
+          "examples": [
+            "https://labonnealternance.apprentissage.beta.gouv.fr/recherche-apprentissage?display=list&page=fiche&type=matcha&itemId=664752a2ebe24062b758c641",
+          ],
           "format": "uri",
           "type": [
             "string",
@@ -2130,6 +2438,9 @@ exports[`openapiSpec#models > should generate proper schema JobOfferWrite 1`] = 
     "contract": {
       "properties": {
         "duration": {
+          "examples": [
+            12,
+          ],
           "minimum": 0,
           "type": [
             "integer",
@@ -2142,12 +2453,20 @@ exports[`openapiSpec#models > should generate proper schema JobOfferWrite 1`] = 
             "remote",
             "hybrid",
           ],
+          "examples": [
+            "onsite",
+            "remote",
+            "hybrid",
+          ],
           "type": [
             "string",
             "null",
           ],
         },
         "start": {
+          "examples": [
+            "2024-09-23T10:00:00.000Z",
+          ],
           "format": "date-time",
           "type": [
             "string",
@@ -2164,6 +2483,10 @@ exports[`openapiSpec#models > should generate proper schema JobOfferWrite 1`] = 
               "Apprentissage",
               "Professionnalisation",
             ],
+            "examples": [
+              "Apprentissage",
+              "Professionnalisation",
+            ],
             "type": "string",
           },
           "type": "array",
@@ -2176,17 +2499,31 @@ exports[`openapiSpec#models > should generate proper schema JobOfferWrite 1`] = 
         "access_conditions": {
           "default": [],
           "items": {
+            "examples": [
+              "Ce métier est accessible avec un diplôme de niveau Bac+2 (BTS, DUT) à Master (MIAGE, diplôme d'ingénieur, Master professionnel, ...) en informatique.",
+              "Il est également accessible avec une expérience professionnelle en informatique, système d'exploitation ou dans un domaine applicatif.",
+              "La pratique de l'anglais (vocabulaire technique) est requise.",
+            ],
             "type": "string",
           },
           "type": "array",
         },
         "description": {
+          "examples": [
+            "Conçoit, développe et met au point un projet d'application informatique, de la phase d'étude à son intégration, pour un client ou une entreprise selon des besoins fonctionnels et un cahier des charges. Peut conduire des projets de développement. Peut coordonner une équipe.",
+          ],
           "minLength": 30,
           "type": "string",
         },
         "desired_skills": {
           "default": [],
           "items": {
+            "examples": [
+              "Faire preuve d'autonomie",
+              "Faire preuve de créativité, d'inventivité",
+              "Faire preuve de rigueur et de précision",
+              "Travailler en équipe",
+            ],
             "type": "string",
           },
           "type": "array",
@@ -2198,6 +2535,10 @@ exports[`openapiSpec#models > should generate proper schema JobOfferWrite 1`] = 
         },
         "opening_count": {
           "default": 1,
+          "examples": [
+            1,
+            3,
+          ],
           "type": "number",
         },
         "origin": {
@@ -2210,6 +2551,9 @@ exports[`openapiSpec#models > should generate proper schema JobOfferWrite 1`] = 
         "publication": {
           "properties": {
             "creation": {
+              "examples": [
+                "2024-07-23T13:23:01.000Z",
+              ],
               "format": "date-time",
               "type": [
                 "string",
@@ -2217,6 +2561,9 @@ exports[`openapiSpec#models > should generate proper schema JobOfferWrite 1`] = 
               ],
             },
             "expiration": {
+              "examples": [
+                "2027-05-14T00:00:00Z",
+              ],
               "format": "date-time",
               "type": [
                 "string",
@@ -2228,6 +2575,9 @@ exports[`openapiSpec#models > should generate proper schema JobOfferWrite 1`] = 
         },
         "rome_codes": {
           "items": {
+            "examples": [
+              "A1401",
+            ],
             "pattern": "^[A-Z]\\d{4}$",
             "type": "string",
           },
@@ -2239,6 +2589,11 @@ exports[`openapiSpec#models > should generate proper schema JobOfferWrite 1`] = 
         "status": {
           "default": "Active",
           "enum": [
+            "Active",
+            "Filled",
+            "Cancelled",
+          ],
+          "examples": [
             "Active",
             "Filled",
             "Cancelled",
@@ -2255,6 +2610,9 @@ exports[`openapiSpec#models > should generate proper schema JobOfferWrite 1`] = 
                 "6",
                 "7",
               ],
+              "examples": [
+                "3",
+              ],
               "type": [
                 "string",
                 "null",
@@ -2267,12 +2625,20 @@ exports[`openapiSpec#models > should generate proper schema JobOfferWrite 1`] = 
           ],
         },
         "title": {
+          "examples": [
+            "Développeur / Développeuse web",
+          ],
           "minLength": 3,
           "type": "string",
         },
         "to_be_acquired_skills": {
           "default": [],
           "items": {
+            "examples": [
+              "Recherche, Innovation : Analyser les indicateurs pertinents sur les tendances et les usages des clients",
+              "Recherche, Innovation : Concevoir et développer une solution digitale",
+              "Nouvelles technologies : Assembler des composants logiciels",
+            ],
             "type": "string",
           },
           "type": "array",
@@ -2287,6 +2653,9 @@ exports[`openapiSpec#models > should generate proper schema JobOfferWrite 1`] = 
     "workplace": {
       "properties": {
         "description": {
+          "examples": [
+            "Service du Premier ministre, placé sous l’autorité du ministre de la Transformation et de la Fonction publiques, la direction interministérielle du numérique (DINUM) a pour mission d’élaborer la stratégie numérique de l’État et de piloter sa mise en œuvre. Notre objectif : un État plus efficace, plus simple et plus souverain grâce au numérique.",
+          ],
           "type": [
             "string",
             "null",
@@ -2295,6 +2664,9 @@ exports[`openapiSpec#models > should generate proper schema JobOfferWrite 1`] = 
         "location": {
           "properties": {
             "address": {
+              "examples": [
+                "20 AVENUE DE SEGUR 75007 PARIS",
+              ],
               "type": [
                 "string",
                 "null",
@@ -2307,16 +2679,25 @@ exports[`openapiSpec#models > should generate proper schema JobOfferWrite 1`] = 
           ],
         },
         "name": {
+          "examples": [
+            "DIRECTION INTERMINISTERIELLE DU NUMERIQUE (DINUM)",
+          ],
           "type": [
             "string",
             "null",
           ],
         },
         "siret": {
+          "examples": [
+            "13002526500013",
+          ],
           "pattern": "^\\d{14}$",
           "type": "string",
         },
         "website": {
+          "examples": [
+            "https://beta.gouv.fr/startups/",
+          ],
           "format": "uri",
           "type": [
             "string",
@@ -2345,6 +2726,9 @@ exports[`openapiSpec#models > should generate proper schema JobRecruiter 1`] = `
     "apply": {
       "properties": {
         "phone": {
+          "examples": [
+            "0199000000",
+          ],
           "type": [
             "string",
             "null",
@@ -2357,6 +2741,9 @@ exports[`openapiSpec#models > should generate proper schema JobRecruiter 1`] = `
           ],
         },
         "url": {
+          "examples": [
+            "https://labonnealternance.apprentissage.beta.gouv.fr/recherche-apprentissage?display=list&page=fiche&type=matcha&itemId=664752a2ebe24062b758c641",
+          ],
           "format": "uri",
           "type": "string",
         },
@@ -2370,6 +2757,9 @@ exports[`openapiSpec#models > should generate proper schema JobRecruiter 1`] = `
     "identifier": {
       "properties": {
         "id": {
+          "examples": [
+            "6687165396d52b5e01b409545",
+          ],
           "type": "string",
         },
       },
@@ -2381,12 +2771,18 @@ exports[`openapiSpec#models > should generate proper schema JobRecruiter 1`] = `
     "workplace": {
       "properties": {
         "brand": {
+          "examples": [
+            "Enseigne (todo)",
+          ],
           "type": [
             "string",
             "null",
           ],
         },
         "description": {
+          "examples": [
+            "Service du Premier ministre, placé sous l’autorité du ministre de la Transformation et de la Fonction publiques, la direction interministérielle du numérique (DINUM) a pour mission d’élaborer la stratégie numérique de l’État et de piloter sa mise en œuvre. Notre objectif : un État plus efficace, plus simple et plus souverain grâce au numérique.",
+          ],
           "type": [
             "string",
             "null",
@@ -2395,6 +2791,9 @@ exports[`openapiSpec#models > should generate proper schema JobRecruiter 1`] = `
         "domain": {
           "properties": {
             "idcc": {
+              "examples": [
+                1979,
+              ],
               "type": [
                 "number",
                 "null",
@@ -2403,9 +2802,15 @@ exports[`openapiSpec#models > should generate proper schema JobRecruiter 1`] = `
             "naf": {
               "properties": {
                 "code": {
+                  "examples": [
+                    "8411Z",
+                  ],
                   "type": "string",
                 },
                 "label": {
+                  "examples": [
+                    "Administration publique générale",
+                  ],
                   "type": [
                     "string",
                     "null",
@@ -2422,6 +2827,9 @@ exports[`openapiSpec#models > should generate proper schema JobRecruiter 1`] = `
               ],
             },
             "opco": {
+              "examples": [
+                "OPCO 2i",
+              ],
               "type": [
                 "string",
                 "null",
@@ -2444,6 +2852,9 @@ exports[`openapiSpec#models > should generate proper schema JobRecruiter 1`] = `
         "location": {
           "properties": {
             "address": {
+              "examples": [
+                "20 AVENUE DE SEGUR 75007 PARIS",
+              ],
               "type": "string",
             },
             "geopoint": {
@@ -2457,12 +2868,18 @@ exports[`openapiSpec#models > should generate proper schema JobRecruiter 1`] = `
           "type": "object",
         },
         "name": {
+          "examples": [
+            "DIRECTION INTERMINISTERIELLE DU NUMERIQUE (DINUM)",
+          ],
           "type": [
             "string",
             "null",
           ],
         },
         "siret": {
+          "examples": [
+            "13002526500013",
+          ],
           "pattern": "^\\d{14}$",
           "type": [
             "string",
@@ -2470,12 +2887,18 @@ exports[`openapiSpec#models > should generate proper schema JobRecruiter 1`] = `
           ],
         },
         "size": {
+          "examples": [
+            "100-199",
+          ],
           "type": [
             "string",
             "null",
           ],
         },
         "website": {
+          "examples": [
+            "https://beta.gouv.fr/startups/",
+          ],
           "format": "uri",
           "type": [
             "string",
@@ -2856,7 +3279,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
     "id": "get:/certification/v1",
     "method": "get",
     "operation": {
-      "description": "",
       "operationId": "getCertifications",
       "parameters": [
         {
@@ -2865,7 +3287,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "identifiant.cfd",
           "required": false,
           "schema": {
-            "description": "",
             "examples": [
               "46X32402",
               "",
@@ -2881,7 +3302,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "identifiant.rncp",
           "required": false,
           "schema": {
-            "description": "",
             "examples": [
               "RNCP12345",
               "",
@@ -2897,7 +3317,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "content": {
             "application/json": {
               "schema": {
-                "description": "",
                 "items": {
                   "$ref": "#/components/schemas/Certification",
                 },
@@ -2940,7 +3359,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "api-key": [],
         },
       ],
-      "summary": "",
       "tags": [
         "Certifications",
       ],
@@ -2951,7 +3369,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
     "id": "get:/formation/v1/search",
     "method": "get",
     "operation": {
-      "description": "",
       "operationId": "searchFormations",
       "parameters": [
         {
@@ -2960,7 +3377,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "longitude",
           "required": false,
           "schema": {
-            "description": "",
             "examples": [
               48.8566,
             ],
@@ -2975,7 +3391,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "latitude",
           "required": false,
           "schema": {
-            "description": "",
             "examples": [
               2.3522,
             ],
@@ -2991,7 +3406,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "required": false,
           "schema": {
             "default": 30,
-            "description": "",
             "examples": [
               30,
             ],
@@ -3005,7 +3419,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "target_diploma_level",
           "required": false,
           "schema": {
-            "description": "",
             "enum": [
               "1",
               "2",
@@ -3031,7 +3444,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "romes",
           "required": false,
           "schema": {
-            "description": "",
             "examples": [
               "F1601,F1201,F1106",
               "M1806",
@@ -3044,7 +3456,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "rncp",
           "required": false,
           "schema": {
-            "description": "",
             "examples": [
               "RNCP34436",
               "RNCP183",
@@ -3059,7 +3470,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "required": false,
           "schema": {
             "default": "false",
-            "description": "",
             "enum": [
               "true",
               "false",
@@ -3073,7 +3483,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "required": false,
           "schema": {
             "default": 100,
-            "description": "",
             "examples": [
               10,
             ],
@@ -3089,7 +3498,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "required": false,
           "schema": {
             "default": 0,
-            "description": "",
             "examples": [
               12,
             ],
@@ -3106,7 +3514,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
                 "additionalProperties": false,
                 "properties": {
                   "data": {
-                    "description": "",
                     "items": {
                       "$ref": "#/components/schemas/Formation",
                     },
@@ -3159,7 +3566,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "api-key": [],
         },
       ],
-      "summary": "",
       "tags": [
         "Training",
       ],
@@ -3170,7 +3576,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
     "id": "get:/formation/v1/{id}",
     "method": "get",
     "operation": {
-      "description": "",
       "operationId": "searchFormationById",
       "parameters": [
         {
@@ -3178,7 +3583,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "id",
           "required": true,
           "schema": {
-            "description": "",
             "examples": [
               "049510P01118838776490001178615112600012-49099#L01",
             ],
@@ -3230,7 +3634,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "api-key": [],
         },
       ],
-      "summary": "",
       "tags": [
         "Training",
       ],
@@ -3241,7 +3644,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
     "id": "get:/geographie/v1/commune/search",
     "method": "get",
     "operation": {
-      "description": "",
       "operationId": "communeSearch",
       "parameters": [
         {
@@ -3249,7 +3651,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "code",
           "required": true,
           "schema": {
-            "description": "",
             "examples": [
               "75056",
               "75000",
@@ -3264,7 +3665,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "content": {
             "application/json": {
               "schema": {
-                "description": "",
                 "items": {
                   "$ref": "#/components/schemas/Commune",
                 },
@@ -3307,7 +3707,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "api-key": [],
         },
       ],
-      "summary": "",
       "tags": [
         "Geography",
       ],
@@ -3318,14 +3717,12 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
     "id": "get:/geographie/v1/departement",
     "method": "get",
     "operation": {
-      "description": "",
       "operationId": "listDepartements",
       "responses": {
         "200": {
           "content": {
             "application/json": {
               "schema": {
-                "description": "",
                 "items": {
                   "$ref": "#/components/schemas/Departement",
                 },
@@ -3368,7 +3765,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "api-key": [],
         },
       ],
-      "summary": "",
       "tags": [
         "Geography",
       ],
@@ -3379,7 +3775,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
     "id": "get:/geographie/v1/mission-locale",
     "method": "get",
     "operation": {
-      "description": "",
       "operationId": "listMissionLocales",
       "parameters": [
         {
@@ -3388,7 +3783,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "longitude",
           "required": false,
           "schema": {
-            "description": "",
             "examples": [
               48.8566,
             ],
@@ -3403,7 +3797,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "latitude",
           "required": false,
           "schema": {
-            "description": "",
             "examples": [
               2.3522,
             ],
@@ -3419,7 +3812,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "required": false,
           "schema": {
             "default": 30,
-            "description": "",
             "examples": [
               30,
             ],
@@ -3434,7 +3826,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "content": {
             "application/json": {
               "schema": {
-                "description": "",
                 "items": {
                   "$ref": "#/components/schemas/MissionLocale",
                 },
@@ -3477,7 +3868,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "api-key": [],
         },
       ],
-      "summary": "",
       "tags": [
         "Geography",
       ],
@@ -3488,7 +3878,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
     "id": "get:/job/v1/offer/{id}",
     "method": "get",
     "operation": {
-      "description": "",
       "operationId": "jobSearchById",
       "parameters": [
         {
@@ -3496,7 +3885,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "id",
           "required": true,
           "schema": {
-            "description": "",
             "examples": [
               "6687165396d52b5e01b409545",
             ],
@@ -3548,7 +3936,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "api-key": [],
         },
       ],
-      "summary": "",
       "tags": [
         "Job",
       ],
@@ -3559,7 +3946,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
     "id": "get:/job/v1/offer/{id}/publishing-informations",
     "method": "get",
     "operation": {
-      "description": "",
       "operationId": "jobPublisingInfos",
       "parameters": [
         {
@@ -3567,7 +3953,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "id",
           "required": true,
           "schema": {
-            "description": "",
             "examples": [
               "6687165396d52b5e01b409545",
             ],
@@ -3619,7 +4004,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "api-key": [],
         },
       ],
-      "summary": "",
       "tags": [
         "Job",
       ],
@@ -3630,7 +4014,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
     "id": "get:/job/v1/search",
     "method": "get",
     "operation": {
-      "description": "",
       "operationId": "jobSearch",
       "parameters": [
         {
@@ -3638,7 +4021,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "longitude",
           "required": false,
           "schema": {
-            "description": "",
             "examples": [
               48.8566,
             ],
@@ -3652,7 +4034,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "latitude",
           "required": false,
           "schema": {
-            "description": "",
             "examples": [
               2.3522,
             ],
@@ -3667,7 +4048,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "required": false,
           "schema": {
             "default": 30,
-            "description": "",
             "examples": [
               30,
             ],
@@ -3681,7 +4061,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "target_diploma_level",
           "required": false,
           "schema": {
-            "description": "",
             "enum": [
               "3",
               "4",
@@ -3704,7 +4083,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "romes",
           "required": false,
           "schema": {
-            "description": "",
             "examples": [
               "F1601,F1201,F1106",
               "M1806",
@@ -3717,7 +4095,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "rncp",
           "required": false,
           "schema": {
-            "description": "",
             "examples": [
               "RNCP34436",
               "RNCP183",
@@ -3731,7 +4108,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "opco",
           "required": false,
           "schema": {
-            "description": "",
             "enum": [
               "AFDAS",
               "AKTO / Opco entreprises et salariés des services à forte intensité de main d'oeuvre",
@@ -3756,7 +4132,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "departements",
           "required": false,
           "schema": {
-            "description": "",
             "examples": [
               "75&departements=06",
               "06",
@@ -3772,7 +4147,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "partners_to_exclude",
           "required": false,
           "schema": {
-            "description": "",
             "examples": [
               "Hellowork&partners_to_exclude=RH Alternance",
               "Hellowork",
@@ -3791,21 +4165,18 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
               "schema": {
                 "properties": {
                   "jobs": {
-                    "description": "",
                     "items": {
                       "$ref": "#/components/schemas/JobOfferRead",
                     },
                     "type": "array",
                   },
                   "recruiters": {
-                    "description": "",
                     "items": {
                       "$ref": "#/components/schemas/JobRecruiter",
                     },
                     "type": "array",
                   },
                   "warnings": {
-                    "description": "",
                     "examples": [
                       {
                         "code": "WARNING_CODE",
@@ -3874,7 +4245,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "api-key": [],
         },
       ],
-      "summary": "",
       "tags": [
         "Job",
       ],
@@ -3885,7 +4255,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
     "id": "get:/organisme/v1/export",
     "method": "get",
     "operation": {
-      "description": "",
       "operationId": "exportOrganismes",
       "parameters": [
         {
@@ -3894,7 +4263,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "required": false,
           "schema": {
             "default": 100,
-            "description": "",
             "examples": [
               10,
             ],
@@ -3910,7 +4278,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "required": false,
           "schema": {
             "default": 0,
-            "description": "",
             "examples": [
               12,
             ],
@@ -3927,7 +4294,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
                 "additionalProperties": false,
                 "properties": {
                   "data": {
-                    "description": "",
                     "items": {
                       "$ref": "#/components/schemas/Organisme",
                     },
@@ -3980,7 +4346,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "api-key": [],
         },
       ],
-      "summary": "",
       "tags": [
         "Organisms",
       ],
@@ -4407,7 +4772,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
     "id": "post:/formation/v1/appointment/generate-link",
     "method": "post",
     "operation": {
-      "description": "",
       "operationId": "generateFormationAppointmentLink",
       "requestBody": {
         "content": {
@@ -4416,10 +4780,8 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
               "oneOf": [
                 {
                   "additionalProperties": false,
-                  "description": "",
                   "properties": {
                     "cle_ministere_educatif": {
-                      "description": "",
                       "type": "string",
                     },
                   },
@@ -4430,10 +4792,8 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
                 },
                 {
                   "additionalProperties": false,
-                  "description": "",
                   "properties": {
                     "parcoursup_id": {
-                      "description": "",
                       "type": "string",
                     },
                   },
@@ -4444,10 +4804,8 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
                 },
                 {
                   "additionalProperties": false,
-                  "description": "",
                   "properties": {
                     "onisep_id": {
-                      "description": "",
                       "type": "string",
                     },
                   },
@@ -4470,29 +4828,23 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
                 "oneOf": [
                   {
                     "additionalProperties": false,
-                    "description": "",
                     "properties": {
                       "cfd": {
-                        "description": "",
                         "type": "string",
                       },
                       "cle_ministere_educatif": {
-                        "description": "",
                         "type": "string",
                       },
                       "code_postal": {
-                        "description": "",
                         "type": "string",
                       },
                       "etablissement_formateur_entreprise_raison_sociale": {
-                        "description": "",
                         "type": [
                           "string",
                           "null",
                         ],
                       },
                       "etablissement_formateur_siret": {
-                        "description": "",
                         "examples": [
                           "78424186100011",
                         ],
@@ -4503,19 +4855,15 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
                         ],
                       },
                       "form_url": {
-                        "description": "",
                         "type": "string",
                       },
                       "intitule_long": {
-                        "description": "",
                         "type": "string",
                       },
                       "lieu_formation_adresse": {
-                        "description": "",
                         "type": "string",
                       },
                       "localite": {
-                        "description": "",
                         "type": "string",
                       },
                     },
@@ -4533,7 +4881,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
                     "type": "object",
                   },
                   {
-                    "description": "",
                     "properties": {
                       "error": {
                         "enum": [
@@ -4586,7 +4933,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "api-key": [],
         },
       ],
-      "summary": "",
       "tags": [
         "Training",
       ],
@@ -4597,7 +4943,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
     "id": "post:/job/v1/apply",
     "method": "post",
     "operation": {
-      "description": "",
       "operationId": "jobApply",
       "requestBody": {
         "content": {
@@ -4616,7 +4961,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
               "schema": {
                 "properties": {
                   "id": {
-                    "description": "",
                     "type": "string",
                   },
                 },
@@ -4664,7 +5008,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           ],
         },
       ],
-      "summary": "",
       "tags": [
         "Job",
       ],
@@ -4675,7 +5018,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
     "id": "post:/job/v1/offer",
     "method": "post",
     "operation": {
-      "description": "",
       "operationId": "jobOfferCreate",
       "requestBody": {
         "content": {
@@ -4694,7 +5036,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
               "schema": {
                 "properties": {
                   "id": {
-                    "description": "",
                     "type": "string",
                   },
                 },
@@ -4742,7 +5083,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           ],
         },
       ],
-      "summary": "",
       "tags": [
         "Job",
       ],
@@ -4753,7 +5093,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
     "id": "put:/job/v1/offer/{id}",
     "method": "put",
     "operation": {
-      "description": "",
       "operationId": "jobOfferUpdate",
       "parameters": [
         {
@@ -4761,7 +5100,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "id",
           "required": true,
           "schema": {
-            "description": "",
             "examples": [
               "6687165396d52b5e01b409545",
             ],
@@ -4818,7 +5156,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           ],
         },
       ],
-      "summary": "",
       "tags": [
         "Job",
       ],

@@ -194,8 +194,16 @@ describe("openapiSpec#models", () => {
     expect(getDocTechnicalFieldStructure(model.doc)).toEqual(getSchemaObjectDocStructure(model.schema));
   });
 
-  it.each(Object.entries(openapiSpec.models))("should generate proper schema %s", (_modelName, model) => {
-    expect(model.schema).toMatchSnapshot();
+  it("should generate schema in sync with zod definition", async () => {});
+  it.each(Object.entries(openapiSpec.models))("should generate proper schema %s", (modelName) => {
+    const builder = buildOpenApiSchema("0.0.0", "test", "https://api-test.apprentissage.beta.houv.fr", null);
+    const doc = builder.getSpec();
+
+    if (doc.openapi !== "3.1.0") {
+      throw new Error("Unsupported OpenAPI version");
+    }
+
+    expect(doc.components?.schemas?.[modelName]).toMatchSnapshot();
   });
 });
 

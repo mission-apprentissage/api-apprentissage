@@ -26,7 +26,7 @@ fileignoreconfig:
 - filename: sdk/src/docs/routes/searchFormationById/searchFormationById.route.doc.ts
   checksum: c9c21285a42458dbaf264b7894cfd2418b813fb540ead95c718fcc941409a32f
 - filename: sdk/src/openapi/__snapshots__/openapiSpec.test.ts.snap
-  checksum: daf68e96948acc854351001b18ffb9d260271b2a53f2596fcd5c1cf1e8894780
+  checksum: 284171c0363887ae1e119800e17aafb6cad92ae6ca7037aaa59704d2b3f368a8
 - filename: server/.env.test
   checksum: 65357f150bfedfebea511b1007eed941983484abf990d87e91fd7477360ad280
 - filename: server/src/jobs/importer/catalogue/fixtures/sample.ts

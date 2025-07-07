@@ -58,7 +58,10 @@ function getDocOpenAPIAttributes(
   const r: { description?: string; examples?: unknown[] } = {};
 
   if (field.descriptions && field.descriptions.length > 0) {
-    r.description = getTextOpenAPIArray(field.descriptions, lang);
+    const description = getTextOpenAPIArray(field.descriptions, lang);
+    if (description) {
+      r.description = description;
+    }
   }
 
   if (field.examples) {
@@ -205,8 +208,14 @@ function addOperationDoc(route: OpenapiRoute, lang: "en" | "fr" | null): Operati
     return output;
   }
 
-  output.summary = getTextOpenAPI(doc.summary, lang);
-  output.description = getTextOpenAPI(doc.description, lang);
+  const summary = getTextOpenAPI(doc.summary, lang);
+  if (summary) {
+    output.summary = summary;
+  }
+  const description = getTextOpenAPI(doc.description, lang);
+  if (description) {
+    output.description = description;
+  }
 
   if (doc.parameters) {
     if (!output.parameters) {

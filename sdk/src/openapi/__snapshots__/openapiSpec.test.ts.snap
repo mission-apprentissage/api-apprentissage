@@ -3905,6 +3905,82 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
     },
     "path": "/geographie/v1/mission-locale",
   },
+  "get:/healthcheck": {
+    "id": "get:/healthcheck",
+    "method": "get",
+    "operation": {
+      "operationId": "get_healthcheck",
+      "responses": {
+        "200": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "additionalProperties": false,
+                "properties": {
+                  "env": {
+                    "enum": [
+                      "local",
+                      "recette",
+                      "production",
+                      "preview",
+                      "test",
+                    ],
+                    "type": "string",
+                  },
+                  "name": {
+                    "type": "string",
+                  },
+                  "version": {
+                    "type": "string",
+                  },
+                },
+                "required": [
+                  "name",
+                  "version",
+                  "env",
+                ],
+                "type": "object",
+              },
+            },
+          },
+          "description": "",
+        },
+        "400": {
+          "$ref": "#/components/responses/BadRequest",
+        },
+        "401": {
+          "$ref": "#/components/responses/Unauthorized",
+        },
+        "403": {
+          "$ref": "#/components/responses/Forbidden",
+        },
+        "404": {
+          "$ref": "#/components/responses/NotFound",
+        },
+        "409": {
+          "$ref": "#/components/responses/Conflict",
+        },
+        "419": {
+          "$ref": "#/components/responses/TooManyRequests",
+        },
+        "500": {
+          "$ref": "#/components/responses/InternalServerError",
+        },
+        "502": {
+          "$ref": "#/components/responses/BadGateway",
+        },
+        "503": {
+          "$ref": "#/components/responses/ServiceUnavailable",
+        },
+      },
+      "security": [],
+      "tags": [
+        "System",
+      ],
+    },
+    "path": "/healthcheck",
+  },
   "get:/job/v1/offer/{id}": {
     "id": "get:/job/v1/offer/{id}",
     "method": "get",

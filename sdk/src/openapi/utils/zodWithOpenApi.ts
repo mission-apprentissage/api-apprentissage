@@ -1,6 +1,5 @@
 import type { ContentObject, OperationObject, ParameterObject, ReferenceObject, SchemaObject } from "openapi3-ts/oas31";
 
-import type { JSONSchema } from "zod/v4/core";
 import type { DocTechnicalField, OpenApiText } from "../../docs/types.js";
 import { addErrorResponseOpenApi } from "../../models/errors/errors.model.openapi.js";
 import { tagsOpenapi } from "../tags.openapi.js";
@@ -87,7 +86,7 @@ function pickPropertiesOpenAPI<T extends Record<string, SchemaObject>, K extends
 }
 
 function addSchemaDocList<T extends SchemaObject | ReferenceObject>(
-  schemas: T[],
+  schemas: ReadonlyArray<T>,
   docs: DocTechnicalField[],
   lang: "en" | "fr" | null,
   path: string[]
@@ -101,7 +100,7 @@ function addSchemaDocList<T extends SchemaObject | ReferenceObject>(
   });
 }
 
-function addSchemaDoc<T extends SchemaObject | ReferenceObject | undefined | JSONSchema.BaseSchema>(
+function addSchemaDoc<T extends SchemaObject | ReferenceObject | undefined>(
   schema: T,
   doc: DocTechnicalField | undefined,
   lang: "en" | "fr" | null,
@@ -111,7 +110,11 @@ function addSchemaDoc<T extends SchemaObject | ReferenceObject | undefined | JSO
     return schema;
   }
 
-  const output: SchemaObject | JSONSchema.BaseSchema = { ...schema, ...getDocOpenAPIAttributes(doc, lang) };
+  if (typeof schema === "boolean") {
+    return schema;
+  }
+
+  const output: SchemaObject = { ...schema, ...getDocOpenAPIAttributes(doc, lang) };
 
   const docProperties = doc.properties;
 
@@ -146,13 +149,22 @@ function addSchemaDoc<T extends SchemaObject | ReferenceObject | undefined | JSO
   }
 
   if (output.allOf && doc.allOf) {
-    output.allOf = addSchemaDocList(output.allOf, doc.allOf, lang, [...path, "allOf"]);
+    output.allOf =
+      typeof output.allOf === "boolean"
+        ? output.allOf
+        : addSchemaDocList(output.allOf, doc.allOf, lang, [...path, "allOf"]);
   }
   if (output.oneOf && doc.oneOf) {
-    output.oneOf = addSchemaDocList(output.oneOf, doc.oneOf, lang, [...path, "oneOf"]);
+    output.oneOf =
+      typeof output.oneOf === "boolean"
+        ? output.oneOf
+        : addSchemaDocList(output.oneOf, doc.oneOf, lang, [...path, "oneOf"]);
   }
   if (output.anyOf && doc.anyOf) {
-    output.anyOf = addSchemaDocList(output.anyOf, doc.anyOf, lang, [...path, "anyOf"]);
+    output.anyOf =
+      typeof output.anyOf === "boolean"
+        ? output.anyOf
+        : addSchemaDocList(output.anyOf, doc.anyOf, lang, [...path, "anyOf"]);
   }
   if (output.not && doc.not) {
     output.not = addSchemaDoc(output.not, doc.not, lang, [...path, "not"]);
@@ -167,7 +179,10 @@ function addSchemaDoc<T extends SchemaObject | ReferenceObject | undefined | JSO
     output.propertyNames = addSchemaDoc(output.propertyNames, doc.propertyNames, lang, [...path, "propertyNames"]);
   }
   if (output.prefixItems && doc.prefixItems) {
-    output.prefixItems = addSchemaDocList(output.prefixItems, doc.prefixItems, lang, [...path, "prefixItems"]);
+    output.prefixItems =
+      typeof output.prefixItems === "boolean"
+        ? output.prefixItems
+        : addSchemaDocList(output.prefixItems, doc.prefixItems, lang, [...path, "prefixItems"]);
   }
 
   return output as T;
@@ -197,8 +212,8 @@ function addContentObjectDoc(
   }, {} as ContentObject);
 }
 
-function addOperationDoc(route: OpenapiRoute, lang: "en" | "fr" | null): OperationObject {
-  const { schema, doc, tag } = route;
+function addOperationDoc(route: OpenapiRoute, schema: OperationObject, lang: "en" | "fr" | null): OperationObject {
+  const { doc, tag } = route;
   const output = structuredClone(schema);
 
   output.tags = [

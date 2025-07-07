@@ -1,9 +1,8 @@
-import type { ReferenceObject, SchemaObject } from "openapi3-ts/oas31";
+import type { OperationObject, PathItemObject, ReferenceObject, SchemaObject } from "openapi3-ts/oas31";
 import { describe, expect, it } from "vitest";
 import type { DocRoute, DocTechnicalField } from "../docs/types.js";
 import { buildOpenApiSchema } from "./builder/openapi.builder.js";
 import { openapiSpec } from "./openapiSpec.js";
-import type { OpenapiRoute } from "./types.js";
 import { getOpenapiOperations } from "./utils/openapi.uils.js";
 
 function getDocTechnicalFieldListStructure(docs: DocTechnicalField[], prefix: string = ""): string[] {
@@ -154,7 +153,11 @@ function getContentObjectDocStructure(content: SchemaObject, prefix: string = ""
   return structure;
 }
 
-function getOperationObjectDocStructure(schema: OpenapiRoute["schema"], prefix: string = ""): string[] {
+function getOperationObjectDocStructure(schema: OperationObject | undefined, prefix: string = ""): string[] {
+  if (!schema) {
+    return [];
+  }
+
   const structure: string[] = [prefix];
 
   if (schema.parameters) {
@@ -230,7 +233,9 @@ describe("openapiSpec#routes", () => {
       }
 
       expect(getDocRouteStructure(operation.doc)).toEqual(
-        getOperationObjectDocStructure(operation.schema ?? doc.paths?.[path.replaceAll(/:([^:/]+)/g, "{$1}")]?.[method])
+        getOperationObjectDocStructure(
+          operation.schema ?? doc.paths?.[path.replaceAll(/:([^:/]+)/g, "{$1}")]?.[method as keyof PathItemObject]
+        )
       );
     });
   });

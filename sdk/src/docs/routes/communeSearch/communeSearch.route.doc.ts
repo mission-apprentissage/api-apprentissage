@@ -9,7 +9,7 @@ export const communeSearchRouteDoc = {
   },
   parameters: {
     code: {
-      descriptions: [{ en: null, fr: "Code INSEE ou postal recherché" }],
+      descriptions: [{ fr: "Code INSEE ou postal recherché", en: "INSEE or postal code searched" }],
       examples: ["75056", "75000"],
     },
   },

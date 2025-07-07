@@ -1,6 +1,6 @@
 import { registry, toJSONSchema } from "zod/v4-mini";
 import type { $ZodRegistry, $ZodType, JSONSchema } from "zod/v4/core";
-import type { PathItemObject, SchemaObject } from "openapi3-ts/oas31";
+import type { PathItemObject, SchemaObject, SchemasObject } from "openapi3-ts/oas31";
 import { OpenApiBuilder } from "openapi3-ts/oas31";
 import { zParisLocalDate } from "../../utils/date.primitives.js";
 import { zSiret, zUai } from "../../models/organisme/organismes.primitives.js";
@@ -9,6 +9,7 @@ import { zTransformNullIfEmptyString } from "../../models/primitives/primitives.
 import { registerOpenApiErrorsSchema } from "../../models/errors/errors.model.openapi.js";
 import { openapiSpec } from "../openapiSpec.js";
 import { addOperationDoc, addSchemaDoc, getTextOpenAPI } from "../utils/zodWithOpenApi.js";
+import type { IApiRoutesDef } from "../../routes/index.js";
 import { zApiRoutes } from "../../routes/index.js";
 import { generateOpenApiOperationObjectFromZod } from "../utils/openapi.uils.js";
 
@@ -47,7 +48,7 @@ function getSecuritySchemeDescription(lang: "en" | "fr" | null): string {
   }
 }
 
-function generateComponents(registry: $ZodRegistry<RegistryMeta>, io: "input" | "output") {
+function generateComponents(registry: $ZodRegistry<RegistryMeta>, io: "input" | "output"): { schemas: SchemasObject } {
   return toJSONSchema(registry, {
     unrepresentable: "any",
     uri: (id: string) => id,
@@ -66,7 +67,7 @@ function generateComponents(registry: $ZodRegistry<RegistryMeta>, io: "input" | 
         delete ctx.jsonSchema.minimum;
       }
     },
-  });
+  }) as { schemas: SchemasObject };
 }
 
 // Using the lang null is mainly used for testing purposes, it allows to generate the OpenAPI spec without text
@@ -141,13 +142,12 @@ export function buildOpenApiSchema(
     builder.addPath(
       path.replaceAll(/:([^:/]+)/g, "{$1}"), // Replace :param with {param} for OpenAPI
       Object.entries(operations).reduce<PathItemObject>((acc, [method, operation]) => {
-        acc[method as "get" | "put" | "post" | "delete" | "options" | "head" | "patch" | "trace"] = addOperationDoc(
-          {
-            ...operation,
-            schema:
-              operation.schema ??
-              generateOpenApiOperationObjectFromZod(zApiRoutes[method][path], zodRegistry, path, method, operation.tag),
-          },
+        const r: IApiRoutesDef = zApiRoutes;
+        const m = method as "get" | "put" | "post" | "delete";
+        acc[m] = addOperationDoc(
+          operation,
+          operation.schema ??
+            generateOpenApiOperationObjectFromZod(r?.[m]?.[path], zodRegistry, path, method, operation.tag),
           lang
         );
         return acc;
@@ -160,14 +160,14 @@ export function buildOpenApiSchema(
       {
         tag: "system",
         doc: null,
-        schema: generateOpenApiOperationObjectFromZod(
-          zApiRoutes.get["/healthcheck"],
-          zodRegistry,
-          "/healthcheck",
-          "get",
-          "system"
-        ),
       },
+      generateOpenApiOperationObjectFromZod(
+        zApiRoutes.get["/healthcheck"],
+        zodRegistry,
+        "/healthcheck",
+        "get",
+        "system"
+      ),
       lang
     ),
   });

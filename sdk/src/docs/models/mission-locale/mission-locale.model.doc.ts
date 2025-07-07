@@ -1,56 +1,58 @@
 import type { DocTechnicalField } from "../../types.js";
 
 export const missionLocaleModelDoc = {
-  descriptions: [{ en: null, fr: "Mission Locale" }],
+  descriptions: [{ fr: "Mission Locale", en: '"Mission Locale"' }],
   properties: {
     id: {
-      descriptions: [{ en: null, fr: "Identifiant de la Mission Locale" }],
+      descriptions: [{ fr: "Identifiant de la Mission Locale", en: '"Mission Locale" ID' }],
     },
     code: {
-      descriptions: [{ en: null, fr: "Code de la mission locale" }],
+      descriptions: [{ fr: "Code de la mission locale", en: '"Mission Locale" Code' }],
     },
     nom: {
-      descriptions: [{ en: null, fr: "Nom de la mission locale" }],
+      descriptions: [{ fr: "Nom de la mission locale", en: '"Mission Locale" Name' }],
     },
     siret: {
-      descriptions: [{ en: null, fr: "Numéro SIRET de la mission locale" }],
+      descriptions: [{ fr: "Numéro SIRET de la mission locale", en: '"Mission Locale" SIRET Number' }],
     },
     localisation: {
       descriptions: [
         {
-          en: null,
           fr: "Localisation de la mission locale",
+          en: '"Mission Locale" Location',
         },
       ],
       properties: {
         geopoint: {
-          descriptions: [{ en: null, fr: 'Coordonnés GPS au format GeoJSON "Point"' }],
+          descriptions: [
+            { fr: 'Coordonnés GPS au format GeoJSON "Point"', en: 'GPS coordinates in GeoJSON "Point" format' },
+          ],
           anyOf: [{ descriptions: null }, { descriptions: null }],
         },
         adresse: {
-          descriptions: [{ en: null, fr: "Adresse de la Mission Locale" }],
+          descriptions: [{ fr: "Adresse de la Mission Locale", en: '"Mission Locale" Address' }],
         },
         cp: {
-          descriptions: [{ en: null, fr: "Code postal de la Mission Locale" }],
+          descriptions: [{ fr: "Code postal de la Mission Locale", en: '"Mission Locale" Postal Code' }],
         },
         ville: {
-          descriptions: [{ en: null, fr: "Ville de la Mission Locale" }],
+          descriptions: [{ fr: "Ville de la Mission Locale", en: '"Mission Locale" City' }],
         },
       },
     },
     contact: {
-      descriptions: [{ en: null, fr: "Contact de la mission locale" }],
+      descriptions: [{ fr: "Contact de la mission locale", en: '"Mission Locale" Contact Information' }],
       properties: {
         email: {
-          descriptions: [{ en: null, fr: "Email de contact de la mission locale" }],
+          descriptions: [{ fr: "Email de contact de la mission locale", en: '"Mission Locale" Contact Email' }],
           anyOf: [{ descriptions: null }, { descriptions: null }],
         },
         telephone: {
-          descriptions: [{ en: null, fr: "Téléphone de contact de la mission locale" }],
+          descriptions: [{ fr: "Téléphone de contact de la mission locale", en: '"Mission Locale" Contact Phone' }],
           anyOf: [{ descriptions: null }, { descriptions: null }],
         },
         siteWeb: {
-          descriptions: [{ en: null, fr: "Site web de la mission locale" }],
+          descriptions: [{ fr: "Site web de la mission locale", en: '"Mission Locale" Website' }],
           anyOf: [{ descriptions: null }, { descriptions: null }],
         },
       },

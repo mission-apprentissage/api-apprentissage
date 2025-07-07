@@ -273,39 +273,43 @@ function getSecurityRequirementObject(route: IApiRouteSchema): SecurityRequireme
 }
 
 export function generateOpenApiOperationObjectFromZod(
-  route: IApiRouteSchema,
+  route: IApiRouteSchema | undefined,
   registry: $ZodRegistry<RegistryMeta>,
   path: string,
   method: string,
   tag: string
-): OperationObject | null {
+): OperationObject {
   try {
-    const responses = generateOpenApiResponsesObject(route.response, registry);
-
-    if (responses) {
-      return {
-        tags: [tag],
-        operationId: `${method}${path.replaceAll(/[^\w\s]/gi, "_")}`,
-        ...generateOpenApiRequest(route, registry),
-        responses: {
-          ...responses,
-          "400": { $ref: "#/components/responses/BadRequest" },
-          "401": { $ref: "#/components/responses/Unauthorized" },
-          "403": { $ref: "#/components/responses/Forbidden" },
-          "404": { $ref: "#/components/responses/NotFound" },
-          "409": { $ref: "#/components/responses/Conflict" },
-          "419": { $ref: "#/components/responses/TooManyRequests" },
-          "500": { $ref: "#/components/responses/InternalServerError" },
-          "502": { $ref: "#/components/responses/BadGateway" },
-          "503": { $ref: "#/components/responses/ServiceUnavailable" },
-        },
-        security: getSecurityRequirementObject(route),
-      };
+    if (!route) {
+      throw new Error(`Invalid route or method: ${method} ${path}`);
     }
 
-    return null;
+    const responses = generateOpenApiResponsesObject(route.response, registry);
+
+    if (!responses) {
+      throw new Error(`No response defined for route ${route.method.toUpperCase()} ${route.path}`);
+    }
+
+    return {
+      tags: [tag],
+      operationId: `${method}${path.replaceAll(/[^\w\s]/gi, "_")}`,
+      ...generateOpenApiRequest(route, registry),
+      responses: {
+        ...responses,
+        "400": { $ref: "#/components/responses/BadRequest" },
+        "401": { $ref: "#/components/responses/Unauthorized" },
+        "403": { $ref: "#/components/responses/Forbidden" },
+        "404": { $ref: "#/components/responses/NotFound" },
+        "409": { $ref: "#/components/responses/Conflict" },
+        "419": { $ref: "#/components/responses/TooManyRequests" },
+        "500": { $ref: "#/components/responses/InternalServerError" },
+        "502": { $ref: "#/components/responses/BadGateway" },
+        "503": { $ref: "#/components/responses/ServiceUnavailable" },
+      },
+      security: getSecurityRequirementObject(route),
+    };
   } catch (e) {
-    const message = `Error while generating OpenAPI for route ${route.method.toUpperCase()} ${route.path}`;
+    const message = `Error while generating OpenAPI for route ${method.toUpperCase()} ${path}`;
     console.error(message, e);
     throw new Error(message, { cause: e });
   }

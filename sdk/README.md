@@ -4,7 +4,7 @@ Ce SDK est une bibliothèque NodeJs 22+ qui fournit un moyen simple d'interagir 
 
 ## Pré-requis
 
-- NodeJs 22+: nous utilisons l'api `fetch` en natif sur NodeKS 22+. Si vous avez besoin d'élargir le support de la librairie à des versions antérieures, veuillez nous contacter.
+- NodeJs 24+: nous utilisons l'api `fetch` en natif sur NodeJS 24+. Si vous avez besoin d'élargir le support de la librairie à des versions antérieures, veuillez nous contacter.
 - Un jeton d'accès à l'API Alternance. Pour obtenir un jeton d'accès, veuillez [vous créer un compte][https://api.apprentissage.beta.gouv.fr/docs/](https://api.apprentissage.beta.gouv.fr/compte/profil).
 
 ## Installation

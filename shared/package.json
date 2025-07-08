@@ -19,7 +19,7 @@
     }
   },
   "engines": {
-    "node": ">=22",
+    "node": ">=24",
     "npm": "please-use-yarn"
   },
   "scripts": {
@@ -32,18 +32,18 @@
     "luxon": "^3.6.1",
     "react": "19.1.0",
     "type-fest": "^4.41.0",
-    "zod": "^3.25.67",
+    "zod": "^3.25.75",
     "zod-mongodb-schema": "^2.0.0-next.5"
   },
   "devDependencies": {
     "@readme/openapi-parser": "^4.1.0",
-    "@tsconfig/node22": "^22.0.2",
+    "@tsconfig/node24": "^24.0.1",
     "@types/luxon": "^3.6.2",
-    "@types/node": "^22.15.34",
+    "@types/node": "^24.0.10",
     "bson": "^6.10.4",
     "mongodb": "^6.17.0",
     "typescript": "^5.8.3",
     "vitest": "^3.2.4",
-    "zod": "^3.25.67"
+    "zod": "^3.25.75"
   }
 }

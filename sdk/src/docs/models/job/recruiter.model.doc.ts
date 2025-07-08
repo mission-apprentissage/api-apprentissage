@@ -151,8 +151,8 @@ export const recruiterModelDoc = {
         recipient_id: {
           descriptions: [
             {
-              en: "Identifier to use for applying to the job offer using /v3/jobs/apply route",
-              fr: "Identifiant à utiliser pour postuler à l'offre d'emploi via la route /v3/jobs/apply",
+              en: "Identifier to use for applying to the job offer using /v3/jobs/apply route or to display the apply /postuler widget. If null applying is not available for this offer by apply_route nor by /postuler widget.",
+              fr: "Identifiant à utiliser pour postuler à l'offre d'emploi via la route /v3/jobs/apply ou pour afficher le widget postuler. Si null, la candidature n'est pas disponible pour cette offre par la route apply_route ni par le widget /postuler.",
             },
           ],
         },

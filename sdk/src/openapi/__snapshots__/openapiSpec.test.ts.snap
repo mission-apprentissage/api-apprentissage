@@ -1898,6 +1898,31 @@ exports[`openapiSpec#models > should generate proper schema JobApplicationWrite 
 }
 `;
 
+exports[`openapiSpec#models > should generate proper schema JobOfferExport 1`] = `
+{
+  "properties": {
+    "lastUpdate": {
+      "examples": [
+        "2025-06-26T08:28:05.000Z",
+      ],
+      "format": "date-time",
+      "type": "string",
+    },
+    "url": {
+      "examples": [
+        "https://s3.rbx.io.cloud.ovh.net/bucket/file.json?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD",
+      ],
+      "type": "string",
+    },
+  },
+  "required": [
+    "url",
+    "lastUpdate",
+  ],
+  "type": "object",
+}
+`;
+
 exports[`openapiSpec#models > should generate proper schema JobOfferPublishing 1`] = `
 {
   "properties": {
@@ -3980,6 +4005,61 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
       ],
     },
     "path": "/healthcheck",
+  },
+  "get:/job/v1/export": {
+    "id": "get:/job/v1/export",
+    "method": "get",
+    "operation": {
+      "operationId": "jobsExport",
+      "responses": {
+        "200": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JobOfferExport",
+              },
+            },
+          },
+          "description": "",
+        },
+        "400": {
+          "$ref": "#/components/responses/BadRequest",
+        },
+        "401": {
+          "$ref": "#/components/responses/Unauthorized",
+        },
+        "403": {
+          "$ref": "#/components/responses/Forbidden",
+        },
+        "404": {
+          "$ref": "#/components/responses/NotFound",
+        },
+        "409": {
+          "$ref": "#/components/responses/Conflict",
+        },
+        "419": {
+          "$ref": "#/components/responses/TooManyRequests",
+        },
+        "500": {
+          "$ref": "#/components/responses/InternalServerError",
+        },
+        "502": {
+          "$ref": "#/components/responses/BadGateway",
+        },
+        "503": {
+          "$ref": "#/components/responses/ServiceUnavailable",
+        },
+      },
+      "security": [
+        {
+          "api-key": [],
+        },
+      ],
+      "tags": [
+        "Job",
+      ],
+    },
+    "path": "/job/v1/export",
   },
   "get:/job/v1/offer/{id}": {
     "id": "get:/job/v1/offer/{id}",

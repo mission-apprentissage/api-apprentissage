@@ -3,22 +3,29 @@
 exports[`generateOpenApiSchema > should generate proper schema 1`] = `
 {
   "components": {
-    "parameters": {},
-    "requestBodies": {},
     "responses": {
       "BadGateway": {
         "content": {
           "application/json": {
             "schema": {
               "additionalProperties": false,
+              "description": "",
               "properties": {
+                "data": {
+                  "description": "",
+                },
                 "message": {
+                  "description": "",
+                  "example": "The server was unable to complete your request",
                   "type": "string",
                 },
                 "name": {
+                  "description": "",
+                  "example": "Bad Gateway",
                   "type": "string",
                 },
                 "statusCode": {
+                  "description": "",
                   "enum": [
                     502,
                   ],
@@ -41,14 +48,27 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
           "application/json": {
             "schema": {
               "additionalProperties": false,
+              "description": "",
               "properties": {
+                "data": {
+                  "description": "",
+                },
                 "message": {
+                  "description": "",
+                  "examples": [
+                    "Request validation failed",
+                  ],
                   "type": "string",
                 },
                 "name": {
+                  "description": "",
+                  "examples": [
+                    "Bad Request",
+                  ],
                   "type": "string",
                 },
                 "statusCode": {
+                  "description": "",
                   "enum": [
                     400,
                   ],
@@ -71,14 +91,23 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
           "application/json": {
             "schema": {
               "additionalProperties": false,
+              "description": "",
               "properties": {
+                "data": {
+                  "description": "",
+                },
                 "message": {
+                  "description": "",
+                  "example": "La ressource exite déjà",
                   "type": "string",
                 },
                 "name": {
+                  "description": "",
+                  "example": "Conflict",
                   "type": "string",
                 },
                 "statusCode": {
+                  "description": "",
                   "enum": [
                     409,
                   ],
@@ -101,14 +130,23 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
           "application/json": {
             "schema": {
               "additionalProperties": false,
+              "description": "",
               "properties": {
+                "data": {
+                  "description": "",
+                },
                 "message": {
+                  "description": "",
+                  "example": "Le jeton d'accès est invalide",
                   "type": "string",
                 },
                 "name": {
+                  "description": "",
+                  "example": "Forbidden",
                   "type": "string",
                 },
                 "statusCode": {
+                  "description": "",
                   "enum": [
                     403,
                   ],
@@ -131,14 +169,23 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
           "application/json": {
             "schema": {
               "additionalProperties": false,
+              "description": "",
               "properties": {
+                "data": {
+                  "description": "",
+                },
                 "message": {
+                  "description": "",
+                  "example": "The server was unable to complete your request",
                   "type": "string",
                 },
                 "name": {
+                  "description": "",
+                  "example": "Internal Server Error",
                   "type": "string",
                 },
                 "statusCode": {
+                  "description": "",
                   "enum": [
                     500,
                   ],
@@ -161,14 +208,23 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
           "application/json": {
             "schema": {
               "additionalProperties": false,
+              "description": "",
               "properties": {
+                "data": {
+                  "description": "",
+                },
                 "message": {
+                  "description": "",
+                  "example": "Resource non trouvée",
                   "type": "string",
                 },
                 "name": {
+                  "description": "",
+                  "example": "Not Found",
                   "type": "string",
                 },
                 "statusCode": {
+                  "description": "",
                   "enum": [
                     404,
                   ],
@@ -191,14 +247,23 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
           "application/json": {
             "schema": {
               "additionalProperties": false,
+              "description": "",
               "properties": {
+                "data": {
+                  "description": "",
+                },
                 "message": {
+                  "description": "",
+                  "example": "The server was unable to complete your request",
                   "type": "string",
                 },
                 "name": {
+                  "description": "",
+                  "example": "Service Unavailable",
                   "type": "string",
                 },
                 "statusCode": {
+                  "description": "",
                   "enum": [
                     502,
                   ],
@@ -221,14 +286,23 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
           "application/json": {
             "schema": {
               "additionalProperties": false,
+              "description": "",
               "properties": {
+                "data": {
+                  "description": "",
+                },
                 "message": {
+                  "description": "",
+                  "example": "Limite de requêtes atteinte",
                   "type": "string",
                 },
                 "name": {
+                  "description": "",
+                  "example": "Too Many Requests",
                   "type": "string",
                 },
                 "statusCode": {
+                  "description": "",
                   "enum": [
                     419,
                   ],
@@ -251,14 +325,23 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
           "application/json": {
             "schema": {
               "additionalProperties": false,
+              "description": "",
               "properties": {
+                "data": {
+                  "description": "",
+                },
                 "message": {
+                  "description": "",
+                  "example": "Vous devez être connecté pour accéder à cette ressource",
                   "type": "string",
                 },
                 "name": {
+                  "description": "",
+                  "example": "Unauthorized",
                   "type": "string",
                 },
                 "statusCode": {
+                  "description": "",
                   "enum": [
                     401,
                   ],
@@ -279,32 +362,46 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
     },
     "schemas": {
       "Adresse": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "additionalProperties": false,
         "properties": {
           "academie": {
             "additionalProperties": false,
             "properties": {
               "code": {
+                "examples": [
+                  "A1",
+                ],
                 "type": "string",
               },
               "id": {
+                "examples": [
+                  "1",
+                ],
                 "type": "string",
               },
               "nom": {
+                "examples": [
+                  "Académie de Paris",
+                ],
                 "type": "string",
               },
             },
             "required": [
-              "code",
               "id",
+              "code",
               "nom",
             ],
             "type": "object",
           },
           "code_postal": {
-            "type": [
-              "string",
-              "null",
+            "anyOf": [
+              {
+                "type": "string",
+              },
+              {
+                "type": "null",
+              },
             ],
           },
           "commune": {
@@ -318,8 +415,8 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               },
             },
             "required": [
-              "code_insee",
               "nom",
+              "code_insee",
             ],
             "type": "object",
           },
@@ -334,15 +431,19 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               },
             },
             "required": [
-              "code_insee",
               "nom",
+              "code_insee",
             ],
             "type": "object",
           },
           "label": {
-            "type": [
-              "string",
-              "null",
+            "anyOf": [
+              {
+                "type": "string",
+              },
+              {
+                "type": "null",
+              },
             ],
           },
           "region": {
@@ -363,16 +464,17 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
           },
         },
         "required": [
-          "academie",
+          "label",
           "code_postal",
           "commune",
           "departement",
-          "label",
           "region",
+          "academie",
         ],
         "type": "object",
       },
       "Certification": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "additionalProperties": false,
         "properties": {
           "base_legale": {
@@ -393,6 +495,10 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                             "type": "null",
                           },
                         ],
+                        "examples": [
+                          "2022-08-31T23:59:59.000+02:00",
+                          "2022-12-31T23:59:59.000+01:00",
+                        ],
                       },
                       "creation": {
                         "anyOf": [
@@ -404,11 +510,15 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                             "type": "null",
                           },
                         ],
+                        "examples": [
+                          "2014-02-21T00:00:00.000+01:00",
+                          "2018-05-11T00:00:00.000+02:00",
+                        ],
                       },
                     },
                     "required": [
-                      "abrogation",
                       "creation",
+                      "abrogation",
                     ],
                     "type": "object",
                   },
@@ -433,13 +543,23 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                       "additionalProperties": false,
                       "properties": {
                         "code": {
+                          "examples": [
+                            "RNCP37537BC01",
+                          ],
                           "pattern": "^(RNCP\\d{3,5}BC)?\\d{1,2}$",
                           "type": "string",
                         },
                         "intitule": {
-                          "type": [
-                            "string",
-                            "null",
+                          "anyOf": [
+                            {
+                              "examples": [
+                                "Approvisionnement, communication, sécurité alimentaire et hygiène en boulangerie",
+                              ],
+                              "type": "string",
+                            },
+                            {
+                              "type": "null",
+                            },
                           ],
                         },
                       },
@@ -481,6 +601,10 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                         "fermeture": {
                           "anyOf": [
                             {
+                              "examples": [
+                                "2022-08-31T23:59:59.000+02:00",
+                                "2022-12-31T23:59:59.000+01:00",
+                              ],
                               "format": "date-time",
                               "type": "string",
                             },
@@ -492,6 +616,10 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                         "ouverture": {
                           "anyOf": [
                             {
+                              "examples": [
+                                "2021-09-01T00:00:00.000+02:00",
+                                "2022-01-01T00:00:00.000+01:00",
+                              ],
                               "format": "date-time",
                               "type": "string",
                             },
@@ -502,10 +630,10 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                         },
                       },
                       "required": [
+                        "ouverture",
+                        "fermeture",
                         "code",
                         "courant",
-                        "fermeture",
-                        "ouverture",
                       ],
                       "type": "object",
                     },
@@ -528,6 +656,10 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                         "activation": {
                           "anyOf": [
                             {
+                              "examples": [
+                                "2021-09-01T00:00:00.000+02:00",
+                                "2022-01-01T00:00:00.000+01:00",
+                              ],
                               "format": "date-time",
                               "type": "string",
                             },
@@ -546,6 +678,10 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                         "fin_enregistrement": {
                           "anyOf": [
                             {
+                              "examples": [
+                                "2021-09-01T00:00:00.000+02:00",
+                                "2022-01-01T00:00:00.000+01:00",
+                              ],
                               "format": "date-time",
                               "type": "string",
                             },
@@ -556,11 +692,11 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                         },
                       },
                       "required": [
-                        "actif",
                         "activation",
+                        "fin_enregistrement",
                         "code",
                         "courant",
-                        "fin_enregistrement",
+                        "actif",
                       ],
                       "type": "object",
                     },
@@ -588,15 +724,21 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                       "additionalProperties": false,
                       "properties": {
                         "intitule": {
+                          "examples": [
+                            "Bâtiment (Employés, techniciens et agents de maîtrise, ingénieurs, assimilés et cadres)",
+                          ],
                           "type": "string",
                         },
                         "numero": {
+                          "examples": [
+                            "3002",
+                          ],
                           "type": "string",
                         },
                       },
                       "required": [
-                        "intitule",
                         "numero",
+                        "intitule",
                       ],
                       "type": "object",
                     },
@@ -626,9 +768,15 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                           "additionalProperties": false,
                           "properties": {
                             "code": {
+                              "examples": [
+                                "21538",
+                              ],
                               "type": "string",
                             },
                             "intitule": {
+                              "examples": [
+                                "21538 : Boulangerie",
+                              ],
                               "type": "string",
                             },
                           },
@@ -660,12 +808,24 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                         "additionalProperties": false,
                         "properties": {
                           "code": {
+                            "examples": [
+                              "221",
+                              "310",
+                            ],
                             "type": "string",
                           },
                           "intitule": {
-                            "type": [
-                              "string",
-                              "null",
+                            "anyOf": [
+                              {
+                                "examples": [
+                                  "AGRO-ALIMENTAIRE, ALIMENTATION, CUISINE",
+                                  "SPECIALIT.PLURIV.DES ECHANGES & GESTION",
+                                ],
+                                "type": "string",
+                              },
+                              {
+                                "type": "null",
+                              },
                             ],
                           },
                         },
@@ -687,13 +847,23 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                           "additionalProperties": false,
                           "properties": {
                             "code": {
+                              "examples": [
+                                "221",
+                              ],
                               "pattern": "^\\d{2,3}[a-z]?$",
                               "type": "string",
                             },
                             "intitule": {
-                              "type": [
-                                "string",
-                                "null",
+                              "anyOf": [
+                                {
+                                  "examples": [
+                                    "221 : Agro-alimentaire, alimentation, cuisine",
+                                  ],
+                                  "type": "string",
+                                },
+                                {
+                                  "type": "null",
+                                },
                               ],
                             },
                           },
@@ -727,10 +897,16 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                           "additionalProperties": false,
                           "properties": {
                             "code": {
+                              "examples": [
+                                "D1102",
+                              ],
                               "pattern": "^[A-Z]{1}\\d{0,4}$",
                               "type": "string",
                             },
                             "intitule": {
+                              "examples": [
+                                "Boulangerie - viennoiserie",
+                              ],
                               "type": "string",
                             },
                           },
@@ -767,6 +943,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               "cfd": {
                 "anyOf": [
                   {
+                    "examples": [
+                      "50022137",
+                    ],
                     "pattern": "^[A-Z0-9]{3}\\d{3}[A-Z0-9]{2}$",
                     "type": "string",
                   },
@@ -778,6 +957,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               "rncp": {
                 "anyOf": [
                   {
+                    "examples": [
+                      "RNCP37537",
+                    ],
                     "pattern": "^RNCP\\d{3,5}$",
                     "type": "string",
                   },
@@ -787,9 +969,13 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 ],
               },
               "rncp_anterieur_2019": {
-                "type": [
-                  "boolean",
-                  "null",
+                "anyOf": [
+                  {
+                    "type": "boolean",
+                  },
+                  {
+                    "type": "null",
+                  },
                 ],
               },
             },
@@ -809,15 +995,23 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                     "additionalProperties": false,
                     "properties": {
                       "court": {
+                        "examples": [
+                          "BOULANGER",
+                          "GENIE BIO - AGRONOMIE",
+                        ],
                         "type": "string",
                       },
                       "long": {
+                        "examples": [
+                          "BOULANGER (CAP)",
+                          "GENIE BIOLOGIQUE OPTION AGRONOMIE (DUT)",
+                        ],
                         "type": "string",
                       },
                     },
                     "required": [
-                      "court",
                       "long",
+                      "court",
                     ],
                     "type": "object",
                   },
@@ -847,6 +1041,10 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                                   "7",
                                   "8",
                                 ],
+                                "examples": [
+                                  "3",
+                                  "5",
+                                ],
                                 "type": "string",
                               },
                               {
@@ -855,18 +1053,40 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                             ],
                           },
                           "formation_diplome": {
+                            "examples": [
+                              "500",
+                              "370",
+                            ],
                             "type": "string",
                           },
                           "interministeriel": {
+                            "examples": [
+                              "3",
+                              "6",
+                            ],
                             "type": "string",
                           },
                           "libelle": {
-                            "type": [
-                              "string",
-                              "null",
+                            "anyOf": [
+                              {
+                                "examples": [
+                                  "CLASSE PREPA",
+                                  "TITRE PROFESSIONNEL HOMOLOGUE OU CERTIFIE",
+                                ],
+                                "type": "string",
+                              },
+                              {
+                                "type": "null",
+                              },
                             ],
                           },
                           "sigle": {
+                            "examples": [
+                              "CAP",
+                              "DUT",
+                              "BTS",
+                              "CPGE",
+                            ],
                             "type": "string",
                           },
                         },
@@ -902,6 +1122,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                                   "7",
                                   "8",
                                 ],
+                                "examples": [
+                                  "3",
+                                ],
                                 "type": "string",
                               },
                               {
@@ -928,9 +1151,16 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 "type": "object",
               },
               "rncp": {
-                "type": [
-                  "string",
-                  "null",
+                "anyOf": [
+                  {
+                    "examples": [
+                      "Boulanger",
+                    ],
+                    "type": "string",
+                  },
+                  {
+                    "type": "null",
+                  },
                 ],
               },
             },
@@ -950,14 +1180,25 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                     "additionalProperties": false,
                     "properties": {
                       "derniere_session": {
-                        "type": [
-                          "integer",
-                          "null",
+                        "anyOf": [
+                          {
+                            "examples": [
+                              2025,
+                            ],
+                            "type": "integer",
+                          },
+                          {
+                            "type": "null",
+                          },
                         ],
                       },
                       "fermeture": {
                         "anyOf": [
                           {
+                            "examples": [
+                              "2022-08-31T23:59:59.000+02:00",
+                              "2022-12-31T23:59:59.000+01:00",
+                            ],
                             "format": "date-time",
                             "type": "string",
                           },
@@ -969,6 +1210,10 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                       "ouverture": {
                         "anyOf": [
                           {
+                            "examples": [
+                              "2021-09-01T00:00:00.000+02:00",
+                              "2022-01-01T00:00:00.000+01:00",
+                            ],
                             "format": "date-time",
                             "type": "string",
                           },
@@ -978,17 +1223,24 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                         ],
                       },
                       "premiere_session": {
-                        "type": [
-                          "integer",
-                          "null",
+                        "anyOf": [
+                          {
+                            "examples": [
+                              2022,
+                            ],
+                            "type": "integer",
+                          },
+                          {
+                            "type": "null",
+                          },
                         ],
                       },
                     },
                     "required": [
-                      "derniere_session",
-                      "fermeture",
                       "ouverture",
+                      "fermeture",
                       "premiere_session",
+                      "derniere_session",
                     ],
                     "type": "object",
                   },
@@ -1007,6 +1259,10 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                     "type": "null",
                   },
                 ],
+                "examples": [
+                  "2021-09-01T00:00:00.000+02:00",
+                  "2022-01-01T00:00:00.000+01:00",
+                ],
               },
               "fin": {
                 "anyOf": [
@@ -1017,6 +1273,10 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                   {
                     "type": "null",
                   },
+                ],
+                "examples": [
+                  "2022-08-31T23:59:59.000+02:00",
+                  "2022-12-31T23:59:59.000+01:00",
                 ],
               },
               "rncp": {
@@ -1036,6 +1296,10 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                           {
                             "type": "null",
                           },
+                        ],
+                        "examples": [
+                          "2021-09-01T00:00:00.000+02:00",
+                          "2022-01-01T00:00:00.000+01:00",
                         ],
                       },
                       "debut_parcours": {
@@ -1059,6 +1323,10 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                             "type": "null",
                           },
                         ],
+                        "examples": [
+                          "2021-09-01T00:00:00.000+02:00",
+                          "2022-01-01T00:00:00.000+01:00",
+                        ],
                       },
                     },
                     "required": [
@@ -1076,9 +1344,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               },
             },
             "required": [
-              "cfd",
               "debut",
               "fin",
+              "cfd",
               "rncp",
             ],
             "type": "object",
@@ -1100,8 +1368,8 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                         },
                       },
                       "required": [
-                        "nom",
                         "siret",
+                        "nom",
                       ],
                       "type": "object",
                     },
@@ -1125,11 +1393,21 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                     "type": "null",
                   },
                 ],
+                "examples": [
+                  "Enregistrement de droit",
+                ],
               },
               "gestionnaire_diplome": {
-                "type": [
-                  "string",
-                  "null",
+                "anyOf": [
+                  {
+                    "type": "string",
+                  },
+                  {
+                    "type": "null",
+                  },
+                ],
+                "examples": [
+                  "DGESCO A2-3",
                 ],
               },
               "nature": {
@@ -1141,15 +1419,33 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                         "additionalProperties": false,
                         "properties": {
                           "code": {
-                            "type": [
-                              "string",
-                              "null",
+                            "anyOf": [
+                              {
+                                "type": "string",
+                              },
+                              {
+                                "type": "null",
+                              },
+                            ],
+                            "examples": [
+                              "1",
+                              "2",
+                              "P",
                             ],
                           },
                           "libelle": {
-                            "type": [
-                              "string",
-                              "null",
+                            "anyOf": [
+                              {
+                                "type": "string",
+                              },
+                              {
+                                "type": "null",
+                              },
+                            ],
+                            "examples": [
+                              "DIPLOME NATIONAL / DIPLOME D'ETAT",
+                              "TITRE PROFESSIONNEL HOMOLOGUE OU CERTIFIE",
+                              "CLASSE PREPA",
                             ],
                           },
                         },
@@ -1199,9 +1495,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                         },
                         "required": [
                           "apprentissage",
+                          "experience",
                           "candidature_individuelle",
                           "contrat_professionnalisation",
-                          "experience",
                           "formation_continue",
                           "formation_statut_eleve",
                         ],
@@ -1220,29 +1516,30 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               },
             },
             "required": [
-              "certificateurs_rncp",
-              "enregistrement_rncp",
-              "gestionnaire_diplome",
               "nature",
+              "gestionnaire_diplome",
+              "enregistrement_rncp",
               "voie_acces",
+              "certificateurs_rncp",
             ],
             "type": "object",
           },
         },
         "required": [
-          "base_legale",
-          "blocs_competences",
-          "continuite",
-          "convention_collectives",
-          "domaines",
           "identifiant",
           "intitule",
+          "base_legale",
+          "blocs_competences",
+          "convention_collectives",
+          "domaines",
           "periode_validite",
           "type",
+          "continuite",
         ],
         "type": "object",
       },
       "Commune": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "additionalProperties": false,
         "properties": {
           "academie": {
@@ -1259,8 +1556,8 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               },
             },
             "required": [
-              "code",
               "id",
+              "code",
               "nom",
             ],
             "type": "object",
@@ -1277,8 +1574,8 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 },
               },
               "required": [
-                "codeInsee",
                 "nom",
+                "codeInsee",
               ],
               "type": "object",
             },
@@ -1333,8 +1630,8 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               },
             },
             "required": [
-              "codeInsee",
               "nom",
+              "codeInsee",
             ],
             "type": "object",
           },
@@ -1349,8 +1646,8 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               },
             },
             "required": [
-              "bbox",
               "centre",
+              "bbox",
             ],
             "type": "object",
           },
@@ -1385,19 +1682,20 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
           },
         },
         "required": [
-          "academie",
+          "nom",
+          "code",
           "anciennes",
           "arrondissements",
-          "code",
           "departement",
+          "region",
+          "academie",
           "localisation",
           "mission_locale",
-          "nom",
-          "region",
         ],
         "type": "object",
       },
       "Departement": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "additionalProperties": false,
         "properties": {
           "academie": {
@@ -1414,8 +1712,8 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               },
             },
             "required": [
-              "code",
               "id",
+              "code",
               "nom",
             ],
             "type": "object",
@@ -1444,14 +1742,15 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
           },
         },
         "required": [
-          "academie",
-          "codeInsee",
           "nom",
+          "codeInsee",
           "region",
+          "academie",
         ],
         "type": "object",
       },
       "Formation": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "additionalProperties": false,
         "properties": {
           "certification": {
@@ -1465,8 +1764,8 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               },
             },
             "required": [
-              "connue",
               "valeur",
+              "connue",
             ],
             "type": "object",
           },
@@ -1486,9 +1785,13 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 ],
               },
               "telephone": {
-                "type": [
-                  "string",
-                  "null",
+                "anyOf": [
+                  {
+                    "type": "string",
+                  },
+                  {
+                    "type": "null",
+                  },
                 ],
               },
             },
@@ -1532,8 +1835,8 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               },
             },
             "required": [
-              "connu",
               "organisme",
+              "connu",
             ],
             "type": "object",
           },
@@ -1559,9 +1862,13 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 "$ref": "#/components/schemas/GeoJsonPoint",
               },
               "precision": {
-                "type": [
-                  "number",
-                  "null",
+                "anyOf": [
+                  {
+                    "type": "number",
+                  },
+                  {
+                    "type": "null",
+                  },
                 ],
               },
               "siret": {
@@ -1600,9 +1907,13 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "additionalProperties": false,
             "properties": {
               "annee_cycle": {
-                "type": [
-                  "integer",
-                  "null",
+                "anyOf": [
+                  {
+                    "type": "integer",
+                  },
+                  {
+                    "type": "null",
+                  },
                 ],
               },
               "duree_indicative": {
@@ -1624,9 +1935,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               },
             },
             "required": [
-              "annee_cycle",
-              "duree_indicative",
               "entierement_a_distance",
+              "duree_indicative",
+              "annee_cycle",
               "mef_10",
             ],
             "type": "object",
@@ -1635,33 +1946,53 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "additionalProperties": false,
             "properties": {
               "discipline": {
-                "type": [
-                  "string",
-                  "null",
+                "anyOf": [
+                  {
+                    "type": "string",
+                  },
+                  {
+                    "type": "null",
+                  },
                 ],
               },
               "domaine_sousdomaine": {
-                "type": [
-                  "string",
-                  "null",
+                "anyOf": [
+                  {
+                    "type": "string",
+                  },
+                  {
+                    "type": "null",
+                  },
                 ],
               },
               "intitule": {
-                "type": [
-                  "string",
-                  "null",
+                "anyOf": [
+                  {
+                    "type": "string",
+                  },
+                  {
+                    "type": "null",
+                  },
                 ],
               },
               "libelle_poursuite": {
-                "type": [
-                  "string",
-                  "null",
+                "anyOf": [
+                  {
+                    "type": "string",
+                  },
+                  {
+                    "type": "null",
+                  },
                 ],
               },
               "lien_site_onisepfr": {
-                "type": [
-                  "string",
-                  "null",
+                "anyOf": [
+                  {
+                    "type": "string",
+                  },
+                  {
+                    "type": "null",
+                  },
                 ],
               },
               "url": {
@@ -1677,12 +2008,12 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               },
             },
             "required": [
-              "discipline",
-              "domaine_sousdomaine",
+              "url",
               "intitule",
               "libelle_poursuite",
               "lien_site_onisepfr",
-              "url",
+              "discipline",
+              "domaine_sousdomaine",
             ],
             "type": "object",
           },
@@ -1704,8 +2035,8 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               },
             },
             "required": [
-              "connu",
               "organisme",
+              "connu",
             ],
             "type": "object",
           },
@@ -1714,9 +2045,13 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               "additionalProperties": false,
               "properties": {
                 "capacite": {
-                  "type": [
-                    "number",
-                    "null",
+                  "anyOf": [
+                    {
+                      "type": "number",
+                    },
+                    {
+                      "type": "null",
+                    },
                   ],
                 },
                 "debut": {
@@ -1729,9 +2064,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 },
               },
               "required": [
-                "capacite",
                 "debut",
                 "fin",
+                "capacite",
               ],
               "type": "object",
             },
@@ -1756,31 +2091,38 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
           },
         },
         "required": [
-          "certification",
-          "contact",
-          "contenu_educatif",
-          "formateur",
           "identifiant",
-          "lieu",
-          "modalite",
-          "onisep",
-          "responsable",
-          "sessions",
           "statut",
+          "formateur",
+          "responsable",
+          "certification",
+          "lieu",
+          "contact",
+          "onisep",
+          "modalite",
+          "contenu_educatif",
+          "sessions",
         ],
         "type": "object",
       },
       "GeoJsonPoint": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "additionalProperties": false,
         "properties": {
           "coordinates": {
             "prefixItems": [
               {
+                "examples": [
+                  48.850699,
+                ],
                 "maximum": 180,
                 "minimum": -180,
                 "type": "number",
               },
               {
+                "examples": [
+                  2.308628,
+                ],
                 "maximum": 90,
                 "minimum": -90,
                 "type": "number",
@@ -1800,6 +2142,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         "type": "object",
       },
       "GeoJsonPolygon": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "additionalProperties": false,
         "properties": {
           "coordinates": {
@@ -1807,11 +2150,17 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               "items": {
                 "prefixItems": [
                   {
+                    "examples": [
+                      48.850699,
+                    ],
                     "maximum": 180,
                     "minimum": -180,
                     "type": "number",
                   },
                   {
+                    "examples": [
+                      2.308628,
+                    ],
                     "maximum": 90,
                     "minimum": -90,
                     "type": "number",
@@ -1871,17 +2220,40 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "type": "string",
           },
           "recipient_id": {
+            "description": "Identifiant unique de la ressource vers laquelle la candidature est faite, préfixé par le nom de la collection",
             "type": "string",
           },
         },
         "required": [
-          "applicant_attachment_content",
-          "applicant_attachment_name",
-          "applicant_email",
           "applicant_first_name",
           "applicant_last_name",
+          "applicant_email",
           "applicant_phone",
+          "applicant_attachment_name",
+          "applicant_attachment_content",
           "recipient_id",
+        ],
+        "type": "object",
+      },
+      "JobOfferExport": {
+        "properties": {
+          "lastUpdate": {
+            "examples": [
+              "2025-06-26T08:28:05.000Z",
+            ],
+            "format": "date-time",
+            "type": "string",
+          },
+          "url": {
+            "examples": [
+              "https://s3.rbx.io.cloud.ovh.net/bucket/file.json?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD",
+            ],
+            "type": "string",
+          },
+        },
+        "required": [
+          "url",
+          "lastUpdate",
         ],
         "type": "object",
       },
@@ -1892,9 +2264,24 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               "error": {
                 "properties": {
                   "code": {
+                    "examples": [
+                      "CLOSED_COMPANY",
+                      "DUPLICATE",
+                      "STAGE",
+                      "EXPIRED",
+                      "CFA",
+                      "ROME_BLACKLISTED",
+                      "WRONG_DATA",
+                      "NON_DIFFUSIBLE",
+                    ],
                     "type": "string",
                   },
                   "label": {
+                    "examples": [
+                      "WILL_BE_PUBLISHED",
+                      "PUBLISHED",
+                      "WILL_NOT_BE_PUBLISHED",
+                    ],
                     "type": "string",
                   },
                 },
@@ -1906,6 +2293,11 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               },
               "status": {
                 "enum": [
+                  "WILL_BE_PUBLISHED",
+                  "PUBLISHED",
+                  "WILL_NOT_BE_PUBLISHED",
+                ],
+                "examples": [
                   "WILL_BE_PUBLISHED",
                   "PUBLISHED",
                   "WILL_NOT_BE_PUBLISHED",
@@ -1929,6 +2321,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
           "apply": {
             "properties": {
               "phone": {
+                "examples": [
+                  "0199000000",
+                ],
                 "type": [
                   "string",
                   "null",
@@ -1941,6 +2336,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 ],
               },
               "url": {
+                "examples": [
+                  "https://labonnealternance.apprentissage.beta.gouv.fr/recherche-apprentissage?display=list&page=fiche&type=matcha&itemId=664752a2ebe24062b758c641",
+                ],
                 "format": "uri",
                 "type": "string",
               },
@@ -1954,6 +2352,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
           "contract": {
             "properties": {
               "duration": {
+                "examples": [
+                  12,
+                ],
                 "minimum": 0,
                 "type": [
                   "integer",
@@ -1966,12 +2367,20 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                   "remote",
                   "hybrid",
                 ],
+                "examples": [
+                  "onsite",
+                  "remote",
+                  "hybrid",
+                ],
                 "type": [
                   "string",
                   "null",
                 ],
               },
               "start": {
+                "examples": [
+                  "2024-09-23T10:00:00.000Z",
+                ],
                 "format": "date-time",
                 "type": [
                   "string",
@@ -1984,37 +2393,51 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                     "Apprentissage",
                     "Professionnalisation",
                   ],
+                  "examples": [
+                    "Apprentissage",
+                    "Professionnalisation",
+                  ],
                   "type": "string",
                 },
                 "type": "array",
               },
             },
             "required": [
-              "duration",
-              "remote",
               "start",
+              "duration",
               "type",
+              "remote",
             ],
             "type": "object",
           },
           "identifier": {
             "properties": {
               "id": {
+                "examples": [
+                  "6687165396d52b5e01b409545",
+                ],
                 "type": [
                   "string",
                   "null",
                 ],
               },
               "partner_job_id": {
+                "examples": [
+                  "b16a546a-e61f-4028-b5a3-1a7bbfaa4e3d",
+                ],
                 "type": "string",
               },
               "partner_label": {
+                "examples": [
+                  "France Travail",
+                  "La bonne alternance",
+                ],
                 "type": "string",
               },
             },
             "required": [
-              "id",
               "partner_job_id",
+              "id",
               "partner_label",
             ],
             "type": "object",
@@ -2023,25 +2446,46 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "properties": {
               "access_conditions": {
                 "items": {
+                  "examples": [
+                    "Ce métier est accessible avec un diplôme de niveau Bac+2 (BTS, DUT) à Master (MIAGE, diplôme d'ingénieur, Master professionnel, ...) en informatique.",
+                    "Il est également accessible avec une expérience professionnelle en informatique, système d'exploitation ou dans un domaine applicatif.",
+                    "La pratique de l'anglais (vocabulaire technique) est requise.",
+                  ],
                   "type": "string",
                 },
                 "type": "array",
               },
               "description": {
+                "examples": [
+                  "Conçoit, développe et met au point un projet d'application informatique, de la phase d'étude à son intégration, pour un client ou une entreprise selon des besoins fonctionnels et un cahier des charges. Peut conduire des projets de développement. Peut coordonner une équipe.",
+                ],
                 "type": "string",
               },
               "desired_skills": {
                 "items": {
+                  "examples": [
+                    "Faire preuve d'autonomie",
+                    "Faire preuve de créativité, d'inventivité",
+                    "Faire preuve de rigueur et de précision",
+                    "Travailler en équipe",
+                  ],
                   "type": "string",
                 },
                 "type": "array",
               },
               "opening_count": {
+                "examples": [
+                  1,
+                  3,
+                ],
                 "type": "number",
               },
               "publication": {
                 "properties": {
                   "creation": {
+                    "examples": [
+                      "2024-07-23T13:23:01.000Z",
+                    ],
                     "format": "date-time",
                     "type": [
                       "string",
@@ -2049,6 +2493,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                     ],
                   },
                   "expiration": {
+                    "examples": [
+                      "2027-05-14T00:00:00Z",
+                    ],
                     "format": "date-time",
                     "type": [
                       "string",
@@ -2064,6 +2511,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               },
               "rome_codes": {
                 "items": {
+                  "examples": [
+                    "A1401",
+                  ],
                   "pattern": "^[A-Z]\\d{4}$",
                   "type": "string",
                 },
@@ -2074,6 +2524,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                   "Active",
                   "Filled",
                   "Cancelled",
+                ],
+                "examples": [
+                  "Active",
                 ],
                 "type": "string",
               },
@@ -2087,9 +2540,15 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                       "6",
                       "7",
                     ],
+                    "examples": [
+                      "3",
+                    ],
                     "type": "string",
                   },
                   "label": {
+                    "examples": [
+                      "BP, Bac, autres formations niveau (Bac)",
+                    ],
                     "type": "string",
                   },
                 },
@@ -2103,39 +2562,53 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 ],
               },
               "title": {
+                "examples": [
+                  "Développeur / Développeuse web",
+                ],
                 "minLength": 3,
                 "type": "string",
               },
               "to_be_acquired_skills": {
                 "items": {
+                  "examples": [
+                    "Recherche, Innovation : Analyser les indicateurs pertinents sur les tendances et les usages des clients",
+                    "Recherche, Innovation : Concevoir et développer une solution digitale",
+                    "Nouvelles technologies : Assembler des composants logiciels",
+                  ],
                   "type": "string",
                 },
                 "type": "array",
               },
             },
             "required": [
-              "access_conditions",
-              "description",
+              "title",
               "desired_skills",
+              "to_be_acquired_skills",
+              "access_conditions",
               "opening_count",
               "publication",
               "rome_codes",
-              "status",
+              "description",
               "target_diploma",
-              "title",
-              "to_be_acquired_skills",
+              "status",
             ],
             "type": "object",
           },
           "workplace": {
             "properties": {
               "brand": {
+                "examples": [
+                  "Enseigne (todo)",
+                ],
                 "type": [
                   "string",
                   "null",
                 ],
               },
               "description": {
+                "examples": [
+                  "Service du Premier ministre, placé sous l’autorité du ministre de la Transformation et de la Fonction publiques, la direction interministérielle du numérique (DINUM) a pour mission d’élaborer la stratégie numérique de l’État et de piloter sa mise en œuvre. Notre objectif : un État plus efficace, plus simple et plus souverain grâce au numérique.",
+                ],
                 "type": [
                   "string",
                   "null",
@@ -2144,6 +2617,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               "domain": {
                 "properties": {
                   "idcc": {
+                    "examples": [
+                      1979,
+                    ],
                     "type": [
                       "number",
                       "null",
@@ -2152,9 +2628,15 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                   "naf": {
                     "properties": {
                       "code": {
+                        "examples": [
+                          "8411Z",
+                        ],
                         "type": "string",
                       },
                       "label": {
+                        "examples": [
+                          "Administration publique générale",
+                        ],
                         "type": [
                           "string",
                           "null",
@@ -2171,6 +2653,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                     ],
                   },
                   "opco": {
+                    "examples": [
+                      "OPCO 2i",
+                    ],
                     "type": [
                       "string",
                       "null",
@@ -2179,8 +2664,8 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 },
                 "required": [
                   "idcc",
-                  "naf",
                   "opco",
+                  "naf",
                 ],
                 "type": "object",
               },
@@ -2193,6 +2678,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               "location": {
                 "properties": {
                   "address": {
+                    "examples": [
+                      "20 AVENUE DE SEGUR 75007 PARIS",
+                    ],
                     "type": "string",
                   },
                   "geopoint": {
@@ -2206,12 +2694,18 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 "type": "object",
               },
               "name": {
+                "examples": [
+                  "DIRECTION INTERMINISTERIELLE DU NUMERIQUE (DINUM)",
+                ],
                 "type": [
                   "string",
                   "null",
                 ],
               },
               "siret": {
+                "examples": [
+                  "13002526500013",
+                ],
                 "pattern": "^\\d{14}$",
                 "type": [
                   "string",
@@ -2219,12 +2713,18 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 ],
               },
               "size": {
+                "examples": [
+                  "100-199",
+                ],
                 "type": [
                   "string",
                   "null",
                 ],
               },
               "website": {
+                "examples": [
+                  "https://beta.gouv.fr/startups/",
+                ],
                 "format": "uri",
                 "type": [
                   "string",
@@ -2233,25 +2733,25 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               },
             },
             "required": [
-              "brand",
-              "description",
-              "domain",
-              "legal_name",
-              "location",
               "name",
-              "siret",
-              "size",
+              "description",
               "website",
+              "siret",
+              "location",
+              "brand",
+              "legal_name",
+              "size",
+              "domain",
             ],
             "type": "object",
           },
         },
         "required": [
+          "identifier",
+          "workplace",
           "apply",
           "contract",
-          "identifier",
           "offer",
-          "workplace",
         ],
         "type": "object",
       },
@@ -2260,6 +2760,10 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
           "apply": {
             "properties": {
               "email": {
+                "description": "Email de contact",
+                "examples": [
+                  "jean.dupuis@beta.gouv.fr",
+                ],
                 "format": "email",
                 "type": [
                   "string",
@@ -2267,12 +2771,20 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 ],
               },
               "phone": {
+                "description": "Téléphone de contact",
+                "examples": [
+                  "0199000000",
+                ],
                 "type": [
                   "string",
                   "null",
                 ],
               },
               "url": {
+                "description": "URL pour candidater",
+                "examples": [
+                  "https://labonnealternance.apprentissage.beta.gouv.fr/recherche-apprentissage?display=list&page=fiche&type=matcha&itemId=664752a2ebe24062b758c641",
+                ],
                 "format": "uri",
                 "type": [
                   "string",
@@ -2285,6 +2797,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
           "contract": {
             "properties": {
               "duration": {
+                "examples": [
+                  12,
+                ],
                 "minimum": 0,
                 "type": [
                   "integer",
@@ -2297,12 +2812,20 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                   "remote",
                   "hybrid",
                 ],
+                "examples": [
+                  "onsite",
+                  "remote",
+                  "hybrid",
+                ],
                 "type": [
                   "string",
                   "null",
                 ],
               },
               "start": {
+                "examples": [
+                  "2024-09-23T10:00:00.000Z",
+                ],
                 "format": "date-time",
                 "type": [
                   "string",
@@ -2319,6 +2842,10 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                     "Apprentissage",
                     "Professionnalisation",
                   ],
+                  "examples": [
+                    "Apprentissage",
+                    "Professionnalisation",
+                  ],
                   "type": "string",
                 },
                 "type": "array",
@@ -2331,30 +2858,50 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               "access_conditions": {
                 "default": [],
                 "items": {
+                  "examples": [
+                    "Ce métier est accessible avec un diplôme de niveau Bac+2 (BTS, DUT) à Master (MIAGE, diplôme d'ingénieur, Master professionnel, ...) en informatique.",
+                    "Il est également accessible avec une expérience professionnelle en informatique, système d'exploitation ou dans un domaine applicatif.",
+                    "La pratique de l'anglais (vocabulaire technique) est requise.",
+                  ],
                   "type": "string",
                 },
                 "type": "array",
               },
               "description": {
+                "examples": [
+                  "Conçoit, développe et met au point un projet d'application informatique, de la phase d'étude à son intégration, pour un client ou une entreprise selon des besoins fonctionnels et un cahier des charges. Peut conduire des projets de développement. Peut coordonner une équipe.",
+                ],
                 "minLength": 30,
                 "type": "string",
               },
               "desired_skills": {
                 "default": [],
                 "items": {
+                  "examples": [
+                    "Faire preuve d'autonomie",
+                    "Faire preuve de créativité, d'inventivité",
+                    "Faire preuve de rigueur et de précision",
+                    "Travailler en équipe",
+                  ],
                   "type": "string",
                 },
                 "type": "array",
               },
               "multicast": {
                 "default": true,
+                "description": "Si l'offre peut être diffusé sur l'ensemble des plateformes partenaires",
                 "type": "boolean",
               },
               "opening_count": {
                 "default": 1,
+                "examples": [
+                  1,
+                  3,
+                ],
                 "type": "number",
               },
               "origin": {
+                "description": "Origine de l'offre provenant d'un aggregateur",
                 "type": [
                   "string",
                   "null",
@@ -2363,6 +2910,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               "publication": {
                 "properties": {
                   "creation": {
+                    "examples": [
+                      "2024-07-23T13:23:01.000Z",
+                    ],
                     "format": "date-time",
                     "type": [
                       "string",
@@ -2370,6 +2920,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                     ],
                   },
                   "expiration": {
+                    "examples": [
+                      "2027-05-14T00:00:00Z",
+                    ],
                     "format": "date-time",
                     "type": [
                       "string",
@@ -2381,6 +2934,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               },
               "rome_codes": {
                 "items": {
+                  "examples": [
+                    "A1401",
+                  ],
                   "pattern": "^[A-Z]\\d{4}$",
                   "type": "string",
                 },
@@ -2392,6 +2948,11 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               "status": {
                 "default": "Active",
                 "enum": [
+                  "Active",
+                  "Filled",
+                  "Cancelled",
+                ],
+                "examples": [
                   "Active",
                   "Filled",
                   "Cancelled",
@@ -2408,6 +2969,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                       "6",
                       "7",
                     ],
+                    "examples": [
+                      "3",
+                    ],
                     "type": [
                       "string",
                       "null",
@@ -2420,26 +2984,37 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 ],
               },
               "title": {
+                "examples": [
+                  "Développeur / Développeuse web",
+                ],
                 "minLength": 3,
                 "type": "string",
               },
               "to_be_acquired_skills": {
                 "default": [],
                 "items": {
+                  "examples": [
+                    "Recherche, Innovation : Analyser les indicateurs pertinents sur les tendances et les usages des clients",
+                    "Recherche, Innovation : Concevoir et développer une solution digitale",
+                    "Nouvelles technologies : Assembler des composants logiciels",
+                  ],
                   "type": "string",
                 },
                 "type": "array",
               },
             },
             "required": [
-              "description",
               "title",
+              "description",
             ],
             "type": "object",
           },
           "workplace": {
             "properties": {
               "description": {
+                "examples": [
+                  "Service du Premier ministre, placé sous l’autorité du ministre de la Transformation et de la Fonction publiques, la direction interministérielle du numérique (DINUM) a pour mission d’élaborer la stratégie numérique de l’État et de piloter sa mise en œuvre. Notre objectif : un État plus efficace, plus simple et plus souverain grâce au numérique.",
+                ],
                 "type": [
                   "string",
                   "null",
@@ -2448,6 +3023,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               "location": {
                 "properties": {
                   "address": {
+                    "examples": [
+                      "20 AVENUE DE SEGUR 75007 PARIS",
+                    ],
                     "type": [
                       "string",
                       "null",
@@ -2460,16 +3038,25 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 ],
               },
               "name": {
+                "examples": [
+                  "DIRECTION INTERMINISTERIELLE DU NUMERIQUE (DINUM)",
+                ],
                 "type": [
                   "string",
                   "null",
                 ],
               },
               "siret": {
+                "examples": [
+                  "13002526500013",
+                ],
                 "pattern": "^\\d{14}$",
                 "type": "string",
               },
               "website": {
+                "examples": [
+                  "https://beta.gouv.fr/startups/",
+                ],
                 "format": "uri",
                 "type": [
                   "string",
@@ -2484,9 +3071,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
           },
         },
         "required": [
+          "workplace",
           "apply",
           "offer",
-          "workplace",
         ],
         "type": "object",
       },
@@ -2495,6 +3082,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
           "apply": {
             "properties": {
               "phone": {
+                "examples": [
+                  "0199000000",
+                ],
                 "type": [
                   "string",
                   "null",
@@ -2507,6 +3097,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 ],
               },
               "url": {
+                "examples": [
+                  "https://labonnealternance.apprentissage.beta.gouv.fr/recherche-apprentissage?display=list&page=fiche&type=matcha&itemId=664752a2ebe24062b758c641",
+                ],
                 "format": "uri",
                 "type": "string",
               },
@@ -2520,6 +3113,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
           "identifier": {
             "properties": {
               "id": {
+                "examples": [
+                  "6687165396d52b5e01b409545",
+                ],
                 "type": "string",
               },
             },
@@ -2531,12 +3127,18 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
           "workplace": {
             "properties": {
               "brand": {
+                "examples": [
+                  "Enseigne (todo)",
+                ],
                 "type": [
                   "string",
                   "null",
                 ],
               },
               "description": {
+                "examples": [
+                  "Service du Premier ministre, placé sous l’autorité du ministre de la Transformation et de la Fonction publiques, la direction interministérielle du numérique (DINUM) a pour mission d’élaborer la stratégie numérique de l’État et de piloter sa mise en œuvre. Notre objectif : un État plus efficace, plus simple et plus souverain grâce au numérique.",
+                ],
                 "type": [
                   "string",
                   "null",
@@ -2545,6 +3147,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               "domain": {
                 "properties": {
                   "idcc": {
+                    "examples": [
+                      1979,
+                    ],
                     "type": [
                       "number",
                       "null",
@@ -2553,9 +3158,15 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                   "naf": {
                     "properties": {
                       "code": {
+                        "examples": [
+                          "8411Z",
+                        ],
                         "type": "string",
                       },
                       "label": {
+                        "examples": [
+                          "Administration publique générale",
+                        ],
                         "type": [
                           "string",
                           "null",
@@ -2572,6 +3183,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                     ],
                   },
                   "opco": {
+                    "examples": [
+                      "OPCO 2i",
+                    ],
                     "type": [
                       "string",
                       "null",
@@ -2580,8 +3194,8 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 },
                 "required": [
                   "idcc",
-                  "naf",
                   "opco",
+                  "naf",
                 ],
                 "type": "object",
               },
@@ -2594,6 +3208,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               "location": {
                 "properties": {
                   "address": {
+                    "examples": [
+                      "20 AVENUE DE SEGUR 75007 PARIS",
+                    ],
                     "type": "string",
                   },
                   "geopoint": {
@@ -2607,12 +3224,18 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 "type": "object",
               },
               "name": {
+                "examples": [
+                  "DIRECTION INTERMINISTERIELLE DU NUMERIQUE (DINUM)",
+                ],
                 "type": [
                   "string",
                   "null",
                 ],
               },
               "siret": {
+                "examples": [
+                  "13002526500013",
+                ],
                 "pattern": "^\\d{14}$",
                 "type": [
                   "string",
@@ -2620,12 +3243,18 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 ],
               },
               "size": {
+                "examples": [
+                  "100-199",
+                ],
                 "type": [
                   "string",
                   "null",
                 ],
               },
               "website": {
+                "examples": [
+                  "https://beta.gouv.fr/startups/",
+                ],
                 "format": "uri",
                 "type": [
                   "string",
@@ -2634,27 +3263,28 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               },
             },
             "required": [
-              "brand",
-              "description",
-              "domain",
-              "legal_name",
-              "location",
               "name",
-              "siret",
-              "size",
+              "description",
               "website",
+              "siret",
+              "location",
+              "brand",
+              "legal_name",
+              "size",
+              "domain",
             ],
             "type": "object",
           },
         },
         "required": [
-          "apply",
           "identifier",
           "workplace",
+          "apply",
         ],
         "type": "object",
       },
       "MissionLocale": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "additionalProperties": false,
         "properties": {
           "code": {
@@ -2676,22 +3306,30 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 ],
               },
               "siteWeb": {
-                "type": [
-                  "string",
-                  "null",
+                "anyOf": [
+                  {
+                    "type": "string",
+                  },
+                  {
+                    "type": "null",
+                  },
                 ],
               },
               "telephone": {
-                "type": [
-                  "string",
-                  "null",
+                "anyOf": [
+                  {
+                    "type": "string",
+                  },
+                  {
+                    "type": "null",
+                  },
                 ],
               },
             },
             "required": [
               "email",
-              "siteWeb",
               "telephone",
+              "siteWeb",
             ],
             "type": "object",
           },
@@ -2722,9 +3360,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               },
             },
             "required": [
+              "geopoint",
               "adresse",
               "cp",
-              "geopoint",
               "ville",
             ],
             "type": "object",
@@ -2737,16 +3375,17 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
           },
         },
         "required": [
-          "code",
-          "contact",
           "id",
-          "localisation",
+          "code",
           "nom",
           "siret",
+          "localisation",
+          "contact",
         ],
         "type": "object",
       },
       "Organisme": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "additionalProperties": false,
         "properties": {
           "contacts": {
@@ -2769,9 +3408,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 },
               },
               "required": [
-                "confirmation_referentiel",
                 "email",
                 "sources",
+                "confirmation_referentiel",
               ],
               "type": "object",
             },
@@ -2835,13 +3474,13 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               },
             },
             "required": [
-              "adresse",
-              "creation",
-              "enseigne",
-              "fermeture",
-              "geopoint",
-              "ouvert",
               "siret",
+              "ouvert",
+              "enseigne",
+              "adresse",
+              "geopoint",
+              "creation",
+              "fermeture",
             ],
             "type": "object",
           },
@@ -2865,8 +3504,8 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               },
             },
             "required": [
-              "siret",
               "uai",
+              "siret",
             ],
             "type": "object",
           },
@@ -2874,9 +3513,13 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "additionalProperties": false,
             "properties": {
               "numero_activite": {
-                "type": [
-                  "string",
-                  "null",
+                "anyOf": [
+                  {
+                    "type": "string",
+                  },
+                  {
+                    "type": "null",
+                  },
                 ],
               },
               "qualiopi": {
@@ -2884,8 +3527,8 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               },
             },
             "required": [
-              "numero_activite",
               "qualiopi",
+              "numero_activite",
             ],
             "type": "object",
           },
@@ -2934,22 +3577,22 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               },
             },
             "required": [
-              "actif",
-              "cessation",
-              "creation",
-              "raison_sociale",
               "siren",
+              "actif",
+              "raison_sociale",
+              "creation",
+              "cessation",
             ],
             "type": "object",
           },
         },
         "required": [
-          "contacts",
-          "etablissement",
           "identifiant",
+          "etablissement",
+          "unite_legale",
           "renseignements_specifiques",
           "statut",
-          "unite_legale",
+          "contacts",
         ],
         "type": "object",
       },
@@ -2972,8 +3615,8 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         },
         "required": [
           "page_count",
-          "page_index",
           "page_size",
+          "page_index",
         ],
         "type": "object",
       },
@@ -2981,7 +3624,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
     "securitySchemes": {
       "api-key": {
         "bearerFormat": "Bearer",
-        "description": "Clé d'API à fournir dans le header \`Authorization\`. Si la route nécessite une habilitation particulière veuillez contacter le support pour en faire la demande à [support_api@apprentissage.beta.gouv.fr](mailto:support_api@apprentissage.beta.gouv.fr)",
+        "description": "",
         "scheme": "bearer",
         "type": "http",
       },
@@ -2990,20 +3633,21 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
   "info": {
     "contact": {
       "email": "support_api@apprentissage.beta.gouv.fr",
-      "name": "Équipe Espace développeurs La bonne alternance",
+      "name": "",
     },
     "license": {
       "name": "Etalab-2.0",
       "url": "https://github.com/etalab/licence-ouverte/blob/master/LO.md",
     },
     "termsOfService": "https://api.apprentissage.beta.gouv.fr/cgu",
-    "title": "Documentation technique",
+    "title": "",
     "version": "V1.0",
   },
   "openapi": "3.1.0",
   "paths": {
     "/certification/v1": {
       "get": {
+        "operationId": "get_certification_v1",
         "parameters": [
           {
             "allowEmptyValue": true,
@@ -3011,6 +3655,12 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "identifiant.cfd",
             "required": false,
             "schema": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "examples": [
+                "46X32402",
+                "",
+                "null",
+              ],
               "pattern": "^([A-Z0-9]{3}\\d{3}[A-Z0-9]{2}|null)?$",
               "type": "string",
             },
@@ -3021,6 +3671,12 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "identifiant.rncp",
             "required": false,
             "schema": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "examples": [
+                "RNCP12345",
+                "",
+                "null",
+              ],
               "pattern": "^(RNCP\\d{3,5}|null)?$",
               "type": "string",
             },
@@ -3031,6 +3687,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "content": {
               "application/json": {
                 "schema": {
+                  "$schema": "https://json-schema.org/draft/2020-12/schema",
                   "items": {
                     "$ref": "#/components/schemas/Certification",
                   },
@@ -3040,16 +3697,47 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             },
             "description": "",
           },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict",
+          },
+          "419": {
+            "$ref": "#/components/responses/TooManyRequests",
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+          },
+          "502": {
+            "$ref": "#/components/responses/BadGateway",
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable",
+          },
         },
         "security": [
           {
             "api-key": [],
           },
         ],
+        "tags": [
+          "Certifications",
+        ],
       },
     },
     "/formation/v1/appointment/generate-link": {
       "post": {
+        "operationId": "generateFormationAppointmentLink",
         "requestBody": {
           "content": {
             "application/json": {
@@ -3122,6 +3810,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                           ],
                         },
                         "etablissement_formateur_siret": {
+                          "examples": [
+                            "78424186100011",
+                          ],
                           "pattern": "^\\d{14}$",
                           "type": [
                             "string",
@@ -3142,15 +3833,15 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                         },
                       },
                       "required": [
-                        "cfd",
-                        "cle_ministere_educatif",
-                        "code_postal",
                         "etablissement_formateur_entreprise_raison_sociale",
-                        "etablissement_formateur_siret",
-                        "form_url",
                         "intitule_long",
                         "lieu_formation_adresse",
+                        "code_postal",
+                        "etablissement_formateur_siret",
+                        "cfd",
                         "localite",
+                        "cle_ministere_educatif",
+                        "form_url",
                       ],
                       "type": "object",
                     },
@@ -3174,28 +3865,76 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             },
             "description": "",
           },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict",
+          },
+          "419": {
+            "$ref": "#/components/responses/TooManyRequests",
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+          },
+          "502": {
+            "$ref": "#/components/responses/BadGateway",
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable",
+          },
         },
         "security": [
           {
             "api-key": [],
           },
         ],
+        "tags": [
+          "Training",
+        ],
       },
     },
     "/formation/v1/search": {
       "get": {
+        "operationId": "get_formation_v1_search",
         "parameters": [
           {
             "in": "query",
-            "name": "include_archived",
+            "name": "page_size",
             "required": false,
             "schema": {
-              "default": "false",
-              "enum": [
-                "true",
-                "false",
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "default": 100,
+              "examples": [
+                10,
               ],
-              "type": "string",
+              "maximum": 1000,
+              "minimum": 1,
+              "type": "integer",
+            },
+          },
+          {
+            "allowEmptyValue": true,
+            "in": "query",
+            "name": "page_index",
+            "required": false,
+            "schema": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "default": 0,
+              "examples": [
+                12,
+              ],
+              "minimum": 0,
+              "type": "integer",
             },
           },
           {
@@ -3204,6 +3943,10 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "latitude",
             "required": false,
             "schema": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "examples": [
+                2.3522,
+              ],
               "maximum": 90,
               "minimum": -90,
               "type": "number",
@@ -3215,6 +3958,10 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "longitude",
             "required": false,
             "schema": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "examples": [
+                48.8566,
+              ],
               "maximum": 180,
               "minimum": -180,
               "type": "number",
@@ -3223,32 +3970,14 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
           {
             "allowEmptyValue": true,
             "in": "query",
-            "name": "page_index",
-            "required": false,
-            "schema": {
-              "default": 0,
-              "minimum": 0,
-              "type": "integer",
-            },
-          },
-          {
-            "in": "query",
-            "name": "page_size",
-            "required": false,
-            "schema": {
-              "default": 100,
-              "maximum": 1000,
-              "minimum": 1,
-              "type": "integer",
-            },
-          },
-          {
-            "allowEmptyValue": true,
-            "in": "query",
             "name": "radius",
             "required": false,
             "schema": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
               "default": 30,
+              "examples": [
+                30,
+              ],
               "maximum": 200,
               "minimum": 0,
               "type": "number",
@@ -3256,26 +3985,10 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
           },
           {
             "in": "query",
-            "name": "rncp",
-            "required": false,
-            "schema": {
-              "pattern": "^RNCP\\d{3,5}$",
-              "type": "string",
-            },
-          },
-          {
-            "in": "query",
-            "name": "romes",
-            "required": false,
-            "schema": {
-              "type": "string",
-            },
-          },
-          {
-            "in": "query",
             "name": "target_diploma_level",
             "required": false,
             "schema": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
               "enum": [
                 "1",
                 "2",
@@ -3286,6 +3999,54 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 "7",
                 "8",
               ],
+              "examples": [
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+              ],
+              "type": "string",
+            },
+          },
+          {
+            "in": "query",
+            "name": "romes",
+            "required": false,
+            "schema": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "examples": [
+                "F1601,F1201,F1106",
+                "M1806",
+              ],
+              "type": "string",
+            },
+          },
+          {
+            "in": "query",
+            "name": "rncp",
+            "required": false,
+            "schema": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "examples": [
+                "RNCP34436",
+                "RNCP183",
+              ],
+              "pattern": "^RNCP\\d{3,5}$",
+              "type": "string",
+            },
+          },
+          {
+            "in": "query",
+            "name": "include_archived",
+            "required": false,
+            "schema": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "default": "false",
+              "enum": [
+                "true",
+                "false",
+              ],
               "type": "string",
             },
           },
@@ -3295,6 +4056,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "content": {
               "application/json": {
                 "schema": {
+                  "$schema": "https://json-schema.org/draft/2020-12/schema",
                   "additionalProperties": false,
                   "properties": {
                     "data": {
@@ -3317,16 +4079,47 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             },
             "description": "",
           },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict",
+          },
+          "419": {
+            "$ref": "#/components/responses/TooManyRequests",
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+          },
+          "502": {
+            "$ref": "#/components/responses/BadGateway",
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable",
+          },
         },
         "security": [
           {
             "api-key": [],
           },
         ],
+        "tags": [
+          "Training",
+        ],
       },
     },
     "/formation/v1/{id}": {
       "get": {
+        "operationId": "get_formation_v1__id",
         "parameters": [
           {
             "allowEmptyValue": true,
@@ -3334,6 +4127,10 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "id",
             "required": true,
             "schema": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "examples": [
+                "049510P01118838776490001178615112600012-49099#L01",
+              ],
               "type": "string",
             },
           },
@@ -3349,22 +4146,58 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             },
             "description": "",
           },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict",
+          },
+          "419": {
+            "$ref": "#/components/responses/TooManyRequests",
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+          },
+          "502": {
+            "$ref": "#/components/responses/BadGateway",
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable",
+          },
         },
         "security": [
           {
             "api-key": [],
           },
         ],
+        "tags": [
+          "Training",
+        ],
       },
     },
     "/geographie/v1/commune/search": {
       "get": {
+        "operationId": "get_geographie_v1_commune_search",
         "parameters": [
           {
             "in": "query",
             "name": "code",
             "required": true,
             "schema": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "examples": [
+                "75056",
+                "75000",
+              ],
               "pattern": "^\\d{5}$",
               "type": "string",
             },
@@ -3375,6 +4208,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "content": {
               "application/json": {
                 "schema": {
+                  "$schema": "https://json-schema.org/draft/2020-12/schema",
                   "items": {
                     "$ref": "#/components/schemas/Commune",
                   },
@@ -3384,21 +4218,53 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             },
             "description": "",
           },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict",
+          },
+          "419": {
+            "$ref": "#/components/responses/TooManyRequests",
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+          },
+          "502": {
+            "$ref": "#/components/responses/BadGateway",
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable",
+          },
         },
         "security": [
           {
             "api-key": [],
           },
         ],
+        "tags": [
+          "Geography",
+        ],
       },
     },
     "/geographie/v1/departement": {
       "get": {
+        "operationId": "get_geographie_v1_departement",
         "responses": {
           "200": {
             "content": {
               "application/json": {
                 "schema": {
+                  "$schema": "https://json-schema.org/draft/2020-12/schema",
                   "items": {
                     "$ref": "#/components/schemas/Departement",
                   },
@@ -3408,16 +4274,47 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             },
             "description": "",
           },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict",
+          },
+          "419": {
+            "$ref": "#/components/responses/TooManyRequests",
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+          },
+          "502": {
+            "$ref": "#/components/responses/BadGateway",
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable",
+          },
         },
         "security": [
           {
             "api-key": [],
           },
         ],
+        "tags": [
+          "Geography",
+        ],
       },
     },
     "/geographie/v1/mission-locale": {
       "get": {
+        "operationId": "get_geographie_v1_mission_locale",
         "parameters": [
           {
             "allowEmptyValue": true,
@@ -3425,6 +4322,10 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "latitude",
             "required": false,
             "schema": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "examples": [
+                2.3522,
+              ],
               "maximum": 90,
               "minimum": -90,
               "type": "number",
@@ -3436,6 +4337,10 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "longitude",
             "required": false,
             "schema": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "examples": [
+                48.8566,
+              ],
               "maximum": 180,
               "minimum": -180,
               "type": "number",
@@ -3447,7 +4352,11 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "radius",
             "required": false,
             "schema": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
               "default": 30,
+              "examples": [
+                30,
+              ],
               "maximum": 200,
               "minimum": 0,
               "type": "number",
@@ -3459,6 +4368,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "content": {
               "application/json": {
                 "schema": {
+                  "$schema": "https://json-schema.org/draft/2020-12/schema",
                   "items": {
                     "$ref": "#/components/schemas/MissionLocale",
                   },
@@ -3468,21 +4378,53 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             },
             "description": "",
           },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict",
+          },
+          "419": {
+            "$ref": "#/components/responses/TooManyRequests",
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+          },
+          "502": {
+            "$ref": "#/components/responses/BadGateway",
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable",
+          },
         },
         "security": [
           {
             "api-key": [],
           },
         ],
+        "tags": [
+          "Geography",
+        ],
       },
     },
     "/healthcheck": {
       "get": {
+        "operationId": "get_healthcheck",
         "responses": {
           "200": {
             "content": {
               "application/json": {
                 "schema": {
+                  "$schema": "https://json-schema.org/draft/2020-12/schema",
                   "additionalProperties": false,
                   "properties": {
                     "env": {
@@ -3503,9 +4445,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                     },
                   },
                   "required": [
-                    "env",
                     "name",
                     "version",
+                    "env",
                   ],
                   "type": "object",
                 },
@@ -3513,12 +4455,43 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             },
             "description": "",
           },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict",
+          },
+          "419": {
+            "$ref": "#/components/responses/TooManyRequests",
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+          },
+          "502": {
+            "$ref": "#/components/responses/BadGateway",
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable",
+          },
         },
         "security": [],
+        "tags": [
+          "System",
+        ],
       },
     },
     "/job/v1/apply": {
       "post": {
+        "operationId": "jobApply",
         "requestBody": {
           "content": {
             "application/json": {
@@ -3548,6 +4521,33 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             },
             "description": "",
           },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict",
+          },
+          "419": {
+            "$ref": "#/components/responses/TooManyRequests",
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+          },
+          "502": {
+            "$ref": "#/components/responses/BadGateway",
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable",
+          },
         },
         "security": [
           {
@@ -3556,10 +4556,66 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             ],
           },
         ],
+        "tags": [
+          "Job",
+        ],
+      },
+    },
+    "/job/v1/export": {
+      "get": {
+        "operationId": "jobsExport",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobOfferExport",
+                },
+              },
+            },
+            "description": "",
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict",
+          },
+          "419": {
+            "$ref": "#/components/responses/TooManyRequests",
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+          },
+          "502": {
+            "$ref": "#/components/responses/BadGateway",
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable",
+          },
+        },
+        "security": [
+          {
+            "api-key": [],
+          },
+        ],
+        "tags": [
+          "Job",
+        ],
       },
     },
     "/job/v1/offer": {
       "post": {
+        "operationId": "jobOfferCreate",
         "requestBody": {
           "content": {
             "application/json": {
@@ -3589,6 +4645,33 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             },
             "description": "",
           },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict",
+          },
+          "419": {
+            "$ref": "#/components/responses/TooManyRequests",
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+          },
+          "502": {
+            "$ref": "#/components/responses/BadGateway",
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable",
+          },
         },
         "security": [
           {
@@ -3597,16 +4680,23 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             ],
           },
         ],
+        "tags": [
+          "Job",
+        ],
       },
     },
     "/job/v1/offer/{id}": {
       "get": {
+        "operationId": "jobSearchById",
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
             "schema": {
+              "examples": [
+                "6687165396d52b5e01b409545",
+              ],
               "type": "string",
             },
           },
@@ -3622,20 +4712,54 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             },
             "description": "",
           },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict",
+          },
+          "419": {
+            "$ref": "#/components/responses/TooManyRequests",
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+          },
+          "502": {
+            "$ref": "#/components/responses/BadGateway",
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable",
+          },
         },
         "security": [
           {
             "api-key": [],
           },
         ],
+        "tags": [
+          "Job",
+        ],
       },
       "put": {
+        "operationId": "jobOfferUpdate",
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
             "schema": {
+              "examples": [
+                "6687165396d52b5e01b409545",
+              ],
               "type": "string",
             },
           },
@@ -3654,6 +4778,33 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
           "204": {
             "description": "",
           },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict",
+          },
+          "419": {
+            "$ref": "#/components/responses/TooManyRequests",
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+          },
+          "502": {
+            "$ref": "#/components/responses/BadGateway",
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable",
+          },
         },
         "security": [
           {
@@ -3662,16 +4813,23 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             ],
           },
         ],
+        "tags": [
+          "Job",
+        ],
       },
     },
     "/job/v1/offer/{id}/publishing-informations": {
       "get": {
+        "operationId": "jobPublisingInfos",
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
             "schema": {
+              "examples": [
+                "6687165396d52b5e01b409545",
+              ],
               "type": "string",
             },
           },
@@ -3687,26 +4845,59 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             },
             "description": "",
           },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict",
+          },
+          "419": {
+            "$ref": "#/components/responses/TooManyRequests",
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+          },
+          "502": {
+            "$ref": "#/components/responses/BadGateway",
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable",
+          },
         },
         "security": [
           {
             "api-key": [],
           },
         ],
+        "tags": [
+          "Job",
+        ],
       },
     },
     "/job/v1/search": {
       "get": {
+        "operationId": "jobSearch",
         "parameters": [
           {
             "in": "query",
-            "name": "departements",
+            "name": "longitude",
             "required": false,
             "schema": {
-              "items": {
-                "type": "string",
-              },
-              "type": "array",
+              "examples": [
+                48.8566,
+              ],
+              "maximum": 180,
+              "minimum": -180,
+              "type": "number",
             },
           },
           {
@@ -3714,6 +4905,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "latitude",
             "required": false,
             "schema": {
+              "examples": [
+                2.3522,
+              ],
               "maximum": 90,
               "minimum": -90,
               "type": "number",
@@ -3721,12 +4915,63 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
           },
           {
             "in": "query",
-            "name": "longitude",
+            "name": "radius",
             "required": false,
             "schema": {
-              "maximum": 180,
-              "minimum": -180,
+              "default": 30,
+              "examples": [
+                30,
+              ],
+              "maximum": 200,
+              "minimum": 0,
               "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "target_diploma_level",
+            "required": false,
+            "schema": {
+              "enum": [
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+              ],
+              "examples": [
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+              ],
+              "type": "string",
+            },
+          },
+          {
+            "in": "query",
+            "name": "romes",
+            "required": false,
+            "schema": {
+              "examples": [
+                "F1601,F1201,F1106",
+                "M1806",
+              ],
+              "type": "string",
+            },
+          },
+          {
+            "in": "query",
+            "name": "rncp",
+            "required": false,
+            "schema": {
+              "examples": [
+                "RNCP34436",
+                "RNCP183",
+              ],
+              "pattern": "^RNCP\\d{3,5}$",
+              "type": "string",
             },
           },
           {
@@ -3747,14 +4992,21 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 "Opco Santé",
                 "Uniformation, l'Opco de la Cohésion sociale",
               ],
+              "examples": [
+                "AFDAS",
+              ],
               "type": "string",
             },
           },
           {
             "in": "query",
-            "name": "partners_to_exclude",
+            "name": "departements",
             "required": false,
             "schema": {
+              "examples": [
+                "75&departements=06",
+                "06",
+              ],
               "items": {
                 "type": "string",
               },
@@ -3763,45 +5015,17 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
           },
           {
             "in": "query",
-            "name": "radius",
+            "name": "partners_to_exclude",
             "required": false,
             "schema": {
-              "default": 30,
-              "maximum": 200,
-              "minimum": 0,
-              "type": "number",
-            },
-          },
-          {
-            "in": "query",
-            "name": "rncp",
-            "required": false,
-            "schema": {
-              "pattern": "^RNCP\\d{3,5}$",
-              "type": "string",
-            },
-          },
-          {
-            "in": "query",
-            "name": "romes",
-            "required": false,
-            "schema": {
-              "type": "string",
-            },
-          },
-          {
-            "in": "query",
-            "name": "target_diploma_level",
-            "required": false,
-            "schema": {
-              "enum": [
-                "3",
-                "4",
-                "5",
-                "6",
-                "7",
+              "examples": [
+                "Hellowork&partners_to_exclude=RH Alternance",
+                "Hellowork",
               ],
-              "type": "string",
+              "items": {
+                "type": "string",
+              },
+              "type": "array",
             },
           },
         ],
@@ -3824,6 +5048,12 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                       "type": "array",
                     },
                     "warnings": {
+                      "examples": [
+                        {
+                          "code": "WARNING_CODE",
+                          "message": "Some warning message",
+                        },
+                      ],
                       "items": {
                         "properties": {
                           "code": {
@@ -3834,8 +5064,8 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                           },
                         },
                         "required": [
-                          "code",
                           "message",
+                          "code",
                         ],
                         "type": "object",
                       },
@@ -3853,36 +5083,75 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             },
             "description": "",
           },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict",
+          },
+          "419": {
+            "$ref": "#/components/responses/TooManyRequests",
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+          },
+          "502": {
+            "$ref": "#/components/responses/BadGateway",
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable",
+          },
         },
         "security": [
           {
             "api-key": [],
           },
         ],
+        "tags": [
+          "Job",
+        ],
       },
     },
     "/organisme/v1/export": {
       "get": {
+        "operationId": "get_organisme_v1_export",
         "parameters": [
+          {
+            "in": "query",
+            "name": "page_size",
+            "required": false,
+            "schema": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "default": 100,
+              "examples": [
+                10,
+              ],
+              "maximum": 1000,
+              "minimum": 1,
+              "type": "integer",
+            },
+          },
           {
             "allowEmptyValue": true,
             "in": "query",
             "name": "page_index",
             "required": false,
             "schema": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
               "default": 0,
+              "examples": [
+                12,
+              ],
               "minimum": 0,
-              "type": "integer",
-            },
-          },
-          {
-            "in": "query",
-            "name": "page_size",
-            "required": false,
-            "schema": {
-              "default": 100,
-              "maximum": 1000,
-              "minimum": 1,
               "type": "integer",
             },
           },
@@ -3892,6 +5161,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "content": {
               "application/json": {
                 "schema": {
+                  "$schema": "https://json-schema.org/draft/2020-12/schema",
                   "additionalProperties": false,
                   "properties": {
                     "data": {
@@ -3914,25 +5184,57 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             },
             "description": "",
           },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict",
+          },
+          "419": {
+            "$ref": "#/components/responses/TooManyRequests",
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+          },
+          "502": {
+            "$ref": "#/components/responses/BadGateway",
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable",
+          },
         },
         "security": [
           {
             "api-key": [],
           },
         ],
+        "tags": [
+          "Organisms",
+        ],
       },
     },
     "/organisme/v1/recherche": {
       "get": {
+        "operationId": "get_organisme_v1_recherche",
         "parameters": [
           {
             "in": "query",
-            "name": "siret",
+            "name": "uai",
             "required": false,
             "schema": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
               "anyOf": [
                 {
-                  "pattern": "^\\d{14}$",
+                  "pattern": "^\\d{7}[A-Z]$",
                   "type": "string",
                 },
                 {
@@ -3943,12 +5245,13 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
           },
           {
             "in": "query",
-            "name": "uai",
+            "name": "siret",
             "required": false,
             "schema": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
               "anyOf": [
                 {
-                  "pattern": "^\\d{7}[A-Z]$",
+                  "pattern": "^\\d{14}$",
                   "type": "string",
                 },
                 {
@@ -3963,6 +5266,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "content": {
               "application/json": {
                 "schema": {
+                  "$schema": "https://json-schema.org/draft/2020-12/schema",
                   "additionalProperties": false,
                   "properties": {
                     "candidats": {
@@ -3988,9 +5292,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                                       },
                                     },
                                     "required": [
-                                      "lui_meme",
                                       "son_formateur",
                                       "son_responsable",
+                                      "lui_meme",
                                     ],
                                     "type": "object",
                                   },
@@ -4024,8 +5328,8 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                               },
                             },
                             "required": [
-                              "siret",
                               "uai",
+                              "siret",
                             ],
                             "type": "object",
                           },
@@ -4052,8 +5356,8 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                                   },
                                 },
                                 "required": [
-                                  "siret",
                                   "uai",
+                                  "siret",
                                 ],
                                 "type": "object",
                               },
@@ -4077,17 +5381,17 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                               },
                             },
                             "required": [
-                              "declaration_catalogue",
                               "ouvert",
+                              "declaration_catalogue",
                               "validation_uai",
                             ],
                             "type": "object",
                           },
                         },
                         "required": [
+                          "status",
                           "correspondances",
                           "organisme",
-                          "status",
                         ],
                         "type": "object",
                       },
@@ -4145,8 +5449,8 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                         },
                       },
                       "required": [
-                        "siret",
                         "uai",
+                        "siret",
                       ],
                       "type": "object",
                     },
@@ -4174,9 +5478,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                                         },
                                       },
                                       "required": [
-                                        "lui_meme",
                                         "son_formateur",
                                         "son_responsable",
+                                        "lui_meme",
                                       ],
                                       "type": "object",
                                     },
@@ -4210,8 +5514,8 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                                 },
                               },
                               "required": [
-                                "siret",
                                 "uai",
+                                "siret",
                               ],
                               "type": "object",
                             },
@@ -4238,8 +5542,8 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                                     },
                                   },
                                   "required": [
-                                    "siret",
                                     "uai",
+                                    "siret",
                                   ],
                                   "type": "object",
                                 },
@@ -4263,17 +5567,17 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                                 },
                               },
                               "required": [
-                                "declaration_catalogue",
                                 "ouvert",
+                                "declaration_catalogue",
                                 "validation_uai",
                               ],
                               "type": "object",
                             },
                           },
                           "required": [
+                            "status",
                             "correspondances",
                             "organisme",
-                            "status",
                           ],
                           "type": "object",
                         },
@@ -4284,9 +5588,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                     },
                   },
                   "required": [
-                    "candidats",
                     "metadata",
                     "resultat",
+                    "candidats",
                   ],
                   "type": "object",
                 },
@@ -4294,11 +5598,41 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             },
             "description": "",
           },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict",
+          },
+          "419": {
+            "$ref": "#/components/responses/TooManyRequests",
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+          },
+          "502": {
+            "$ref": "#/components/responses/BadGateway",
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable",
+          },
         },
         "security": [
           {
             "api-key": [],
           },
+        ],
+        "tags": [
+          "Organisms",
         ],
       },
     },
@@ -4311,36 +5645,36 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
   ],
   "tags": [
     {
-      "description": "Pour essayer l'API [vous pouvez utiliser le swagger UI](/documentation-technique/try)",
-      "name": "Essayer l'API",
+      "description": "",
+      "name": "Try the API",
     },
     {
-      "description": "Opportunités d'emploi en alternance",
-      "name": "Offre Emploi",
+      "description": "",
+      "name": "Job",
     },
     {
-      "description": "Liste des opérations sur les formations en apprentissage",
-      "name": "Formation",
+      "description": "",
+      "name": "Training",
     },
     {
-      "description": "Liste des opérations sur les certifications.",
+      "description": "",
       "name": "Certifications",
     },
     {
-      "description": "Liste des organismes",
-      "name": "Organismes",
+      "description": "",
+      "name": "Organisms",
     },
     {
-      "description": "Référentiel Géographique",
-      "name": "Géographie",
+      "description": "",
+      "name": "Geography",
     },
     {
-      "description": "Liste des routes expérimentales. Attention: ces routes peuvent changer sans préavis.",
-      "name": "Expérimental",
+      "description": "",
+      "name": "Experimental",
     },
     {
-      "description": "Routes système",
-      "name": "Système",
+      "description": "",
+      "name": "System",
     },
   ],
 }

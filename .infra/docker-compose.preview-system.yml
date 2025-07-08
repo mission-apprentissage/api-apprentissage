@@ -41,7 +41,7 @@ services:
 
   mongodb:
     <<: *default
-    image: mongo:6.0.2-focal
+    image: mongo:7
     hostname: mongodb
     container_name: "{{product_name}}_mongodb"
     deploy:
@@ -65,7 +65,7 @@ services:
 
   smtp:
     <<: *default
-    image: axllent/mailpit:v1.5.5
+    image: axllent/mailpit:latest
     container_name: "{{product_name}}_smtp"
     ports:
       - 1025:1025
@@ -83,7 +83,7 @@ services:
 
   nodeexporter:
     <<: *default
-    image: prom/node-exporter:v1.5.0
+    image: prom/node-exporter:latest
     hostname: "{{host_name}}"
     user: root
     command:
@@ -107,7 +107,7 @@ services:
 
   cadvisor:
     <<: *default
-    image: gcr.io/cadvisor/cadvisor:v0.46.0
+    image: gcr.io/cadvisor/cadvisor:v0.53.0
     hostname: "{{host_name}}"
     privileged: true
     devices:

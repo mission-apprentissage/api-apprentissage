@@ -2,7 +2,7 @@ import type { TagOpenapi } from "../openapi/tags.openapi.js";
 import type { OpenapiSpec } from "../openapi/types.js";
 
 export type OpenApiText = {
-  fr: string | null;
+  fr: string;
   en: string | null;
 };
 

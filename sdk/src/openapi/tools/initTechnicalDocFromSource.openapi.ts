@@ -161,7 +161,7 @@ export function initModelTechnicalDocFromSource(
   };
 
   if (source.description) {
-    result.doc.descriptions = [{ en: null, fr: null, [sourceLang]: source.description }];
+    result.doc.descriptions = [{ en: "", fr: "", [sourceLang]: source.description }];
   }
 
   if ("$ref" in source) {

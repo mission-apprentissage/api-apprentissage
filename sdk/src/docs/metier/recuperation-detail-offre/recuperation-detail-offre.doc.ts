@@ -20,7 +20,7 @@ import workplaceLocationDescFr from "./fr/workplace.location.description.md.js";
 
 const recruiterSections = {
   workplace: {
-    name: { en: "Workplace", fr: null },
+    name: { en: "Workplace", fr: "Lieu de travail" },
     rows: {
       workplace: {
         description: { en: workplaceDescEn, fr: workplaceDescFr },
@@ -37,7 +37,7 @@ const recruiterSections = {
     },
   },
   apply: {
-    name: { en: "Apply", fr: null },
+    name: { en: "Apply", fr: "Postuler" },
     rows: {
       apply: {
         description: { en: applyDescEn, fr: applyDescFr },
@@ -83,7 +83,7 @@ export const recuperationDetailOffrePageDoc = {
       name: { en: "Job Offer", fr: "Offre d'emploi" },
       sections: {
         identifier: {
-          name: { en: "Identifier", fr: null },
+          name: { en: "Identifier", fr: "Identifiant" },
           rows: {
             identifier: {
               description: { en: identifierDescEn, fr: identifierDescFr },
@@ -92,7 +92,7 @@ export const recuperationDetailOffrePageDoc = {
           },
         },
         contract: {
-          name: { en: "Contract", fr: null },
+          name: { en: "Contract", fr: "Contrat" },
           rows: {
             contract: {
               description: { en: contractDescEn, fr: contractDescFr },
@@ -101,7 +101,7 @@ export const recuperationDetailOffrePageDoc = {
           },
         },
         offer: {
-          name: { en: "Offer", fr: null },
+          name: { en: "Offer", fr: "Offre" },
           rows: {
             offer: {
               description: { en: offerDescEn, fr: offerDescFr },

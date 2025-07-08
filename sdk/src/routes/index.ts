@@ -8,6 +8,7 @@ import { zApiFormationRoutes } from "./formation/formation.routes.js";
 import { zApiGeographieRoutes } from "./geographie/geographie.routes.js";
 import { zApiJobRoutes } from "./jobs/job.routes.js";
 import { zApiOrganismesRoutes } from "./organisme/organisme.routes.js";
+import { zCoreRoutes } from "./healthcheck.routes.js";
 
 export * from "./common.routes.js";
 export * from "./certification/certification.routes.js";
@@ -23,6 +24,7 @@ export const zApiRoutesGet = {
   ...zApiJobRoutes.get,
   ...zApiGeographieRoutes.get,
   ...zApiFormationRoutes.get,
+  ...zCoreRoutes.get,
 } as const;
 
 export const zApiRoutesPost = {

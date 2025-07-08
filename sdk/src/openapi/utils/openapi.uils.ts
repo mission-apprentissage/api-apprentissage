@@ -1,7 +1,6 @@
 import { randomUUID } from "crypto";
 import type { SecurityRequirementObject } from "openapi3-ts/oas30";
 import type {
-  OpenAPIObject,
   OperationObject,
   ParameterObject,
   PathsObject,
@@ -11,13 +10,9 @@ import type {
 } from "openapi3-ts/oas31";
 import { getPath } from "openapi3-ts/oas31";
 
-import { registry, safeParse, toJSONSchema } from "zod/v4-mini";
+import { safeParse, toJSONSchema } from "zod/v4-mini";
 import type { $ZodRegistry, $ZodType, JSONSchema } from "zod/v4/core";
-import type { IApiRouteSchema, IApiRoutesDef } from "../../routes/common.routes.js";
-import type { OpenapiModel } from "../types.js";
-import { zTransformNullIfEmptyString } from "../../models/primitives/primitives.model.js";
-import { zSiret, zUai } from "../../models/organisme/organismes.primitives.js";
-import { zParisLocalDate } from "../../utils/date.primitives.js";
+import type { IApiRouteSchema } from "../../routes/common.routes.js";
 
 export type OpenapiOperation = {
   id: string;
@@ -30,10 +25,6 @@ type RegistryMeta = { id?: string | undefined; openapi?: Partial<SchemaObject> }
 
 function isOperationMethod(method: string): method is OpenapiOperation["method"] {
   return ["get", "post", "put", "delete", "patch", "head", "options", "trace"].includes(method);
-}
-
-export function getOperationObjectId({ method, path }: { method: string; path: string }): string {
-  return `${method}:${path}`;
 }
 
 export function getOpenapiOperations(paths: PathsObject | undefined): Record<string, OpenapiOperation> {
@@ -199,9 +190,11 @@ function generateOpenApiRequest(
         name: String(name),
         in: "path",
         required: isRequiredZod(schema),
-        allowEmptyValue: isEmptyValueAllowedZod(schema),
         schema: getZodSchema(schema, registry, "input"),
       };
+      if (isEmptyValueAllowedZod(schema)) {
+        param.allowEmptyValue = true;
+      }
       parameters.push(param);
     });
   }
@@ -215,9 +208,11 @@ function generateOpenApiRequest(
             name: String(name),
             in: "query",
             required: isRequiredZod(schema),
-            allowEmptyValue: isEmptyValueAllowedZod(schema),
             schema: getZodSchema(schema, registry, "input"),
           };
+          if (isEmptyValueAllowedZod(schema)) {
+            param.allowEmptyValue = true;
+          }
           parameters.push(param);
         });
         break;
@@ -241,7 +236,6 @@ function generateOpenApiRequest(
         name: String(name),
         in: "header",
         required: isRequiredZod(schema),
-
         schema: getZodSchema(schema, registry, "input"),
       };
       parameters.push(param);
@@ -269,26 +263,44 @@ function getSecurityRequirementObject(route: IApiRouteSchema): SecurityRequireme
   return [{ [route.securityScheme.auth]: habiliations }];
 }
 
-function generateOpenApiOperationObjectFromZod(
-  route: IApiRouteSchema,
+export function generateOpenApiOperationObjectFromZod(
+  route: IApiRouteSchema | undefined,
   registry: $ZodRegistry<RegistryMeta>,
+  path: string,
+  method: string,
   tag: string
-): OperationObject | null {
+): OperationObject {
   try {
-    const responses = generateOpenApiResponsesObject(route.response, registry);
-
-    if (responses) {
-      return {
-        tags: [tag],
-        ...generateOpenApiRequest(route, registry),
-        responses,
-        security: getSecurityRequirementObject(route),
-      };
+    if (!route) {
+      throw new Error(`Invalid route or method: ${method} ${path}`);
     }
 
-    return null;
+    const responses = generateOpenApiResponsesObject(route.response, registry);
+
+    if (!responses) {
+      throw new Error(`No response defined for route ${route.method.toUpperCase()} ${route.path}`);
+    }
+
+    return {
+      tags: [tag],
+      operationId: `${method}${path.replaceAll(/[^\w\s]/gi, "_")}`,
+      ...generateOpenApiRequest(route, registry),
+      responses: {
+        ...responses,
+        "400": { $ref: "#/components/responses/BadRequest" },
+        "401": { $ref: "#/components/responses/Unauthorized" },
+        "403": { $ref: "#/components/responses/Forbidden" },
+        "404": { $ref: "#/components/responses/NotFound" },
+        "409": { $ref: "#/components/responses/Conflict" },
+        "419": { $ref: "#/components/responses/TooManyRequests" },
+        "500": { $ref: "#/components/responses/InternalServerError" },
+        "502": { $ref: "#/components/responses/BadGateway" },
+        "503": { $ref: "#/components/responses/ServiceUnavailable" },
+      },
+      security: getSecurityRequirementObject(route),
+    };
   } catch (e) {
-    const message = `Error while generating OpenAPI for route ${route.method.toUpperCase()} ${route.path}`;
+    const message = `Error while generating OpenAPI for route ${method.toUpperCase()} ${path}`;
     console.error(message, e);
     throw new Error(message, { cause: e });
   }
@@ -314,68 +326,4 @@ function generateComponents(registry: $ZodRegistry<RegistryMeta>, io: "input" | 
       }
     },
   });
-}
-
-export async function generateOpenApiDocFromZod(
-  routes: IApiRoutesDef,
-  models: Record<string, OpenapiModel>,
-  tag: string
-): Promise<OpenAPIObject> {
-  const zodRegistry = registry<RegistryMeta>();
-
-  for (const [, model] of Object.entries(models)) {
-    if (model.zod !== null) {
-      zodRegistry.add(model.zod, {
-        id: `#/components/schemas/${model.name}`,
-      });
-    }
-  }
-
-  zodRegistry.add(zParisLocalDate, { openapi: { type: "string", format: "date-time" } });
-  zodRegistry.add(zTransformNullIfEmptyString, {
-    openapi: { anyOf: [{ type: "string", minLength: 1 }, { type: "null" }] },
-  });
-  zodRegistry.add(zSiret, { openapi: { type: "string", pattern: "^\\d{14}$" } });
-  zodRegistry.add(zUai, { openapi: { type: "string", pattern: "^\\d{7}[A-Z]$" } });
-
-  const paths = generateOpenApiPathsObjectFromZod(routes, tag, zodRegistry);
-
-  const components = generateComponents(zodRegistry, "output");
-
-  return {
-    openapi: "3",
-    info: {
-      title: "Documentation technique",
-      version: "1.0.0",
-    },
-    paths,
-    components: { schemas: components.schemas as Record<string, SchemaObject> },
-  };
-}
-
-function generateOpenApiPathsObjectFromZod(
-  routes: IApiRoutesDef,
-  tag: string,
-  registry: $ZodRegistry<RegistryMeta>
-): PathsObject {
-  const paths: PathsObject = {};
-  for (const [, pathRoutes] of Object.entries(routes)) {
-    if (!pathRoutes) continue;
-
-    for (const [path, route] of Object.entries(pathRoutes)) {
-      if (!paths[path]) {
-        paths[path] = {};
-      }
-      const p = paths[path];
-
-      if (!path.startsWith("/_private")) {
-        const op = generateOpenApiOperationObjectFromZod(route, registry, tag);
-        if (op !== null) {
-          p[route.method] = op;
-        }
-      }
-    }
-  }
-
-  return paths;
 }

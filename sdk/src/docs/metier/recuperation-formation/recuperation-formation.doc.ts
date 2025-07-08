@@ -16,7 +16,7 @@ export const recuperationFormationPageSummaryDoc = {
 
 export const recuperationFormationPageDoc = {
   tag: "formation",
-  operationIds: ["searchFormations"],
+  operationIds: ["get_formation_v1_search"],
   habilitation: null,
   description: [
     {

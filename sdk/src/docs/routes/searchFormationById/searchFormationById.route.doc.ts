@@ -6,7 +6,9 @@ export const searchFormationByIdRouteDoc = {
   description: recuperationFormationPageSummaryDoc.headline,
   parameters: {
     id: {
-      descriptions: [{ en: null, fr: "Identifiant unique de la formation - clé ME" }],
+      descriptions: [
+        { fr: "Identifiant unique de la formation - clé ME", en: "Unique identifier of the training - ME key" },
+      ],
       examples: ["049510P01118838776490001178615112600012-49099#L01"],
     },
   },

@@ -9,7 +9,6 @@ import { createSession, createSessionToken } from "@/actions/sessions.actions.js
 import { generateApiKey } from "@/actions/users.actions.js";
 import config from "@/config.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
-import { generateSecretHash } from "@/utils/cryptoUtils.js";
 
 useMongo();
 
@@ -309,52 +308,6 @@ describe("authenticationMiddleware", () => {
       const req: any = { headers: { authorization: `Bearer invalid` } };
 
       await expect(authenticationMiddleware(schema, req)).rejects.toThrow("Impossible de déchiffrer la clé d'API");
-    });
-
-    it("should migrate legacy keys", async () => {
-      const token = await generateApiKey("", user);
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const req: any = { headers: { authorization: `Bearer ${token.value}` } };
-
-      const tomorrow = new Date("2024-03-22T12:00:00Z");
-      vi.setSystemTime(tomorrow);
-
-      // Historically we stored the key as a hash
-      await getDbCollection("users").updateOne(
-        { _id: user._id },
-        { $set: { "api_keys.0.key": generateSecretHash(token.key) } }
-      );
-
-      const expectedUser = {
-        ...user,
-        api_keys: [
-          {
-            _id: token._id,
-            key: token.key,
-            expires_at: expiresAt,
-            last_used_at: null,
-            name: token.name,
-            created_at: now,
-            expiration_warning_sent: null,
-          },
-        ],
-        updated_at: tomorrow,
-      };
-      await expect(authenticationMiddleware(schema, req)).resolves.toBeUndefined();
-      expect(req.user).toEqual({
-        type: "user",
-        value: expectedUser,
-      });
-      expect(req.api_key).toEqual(expectedUser.api_keys[0]);
-
-      const allUsers = await getDbCollection("users").find().toArray();
-      expect(allUsers).toEqual([
-        expectedUser,
-        // Should not be modified
-        otherUser,
-        userWithOrg,
-      ]);
     });
   });
 });

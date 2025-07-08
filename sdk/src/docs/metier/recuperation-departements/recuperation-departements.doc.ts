@@ -14,7 +14,7 @@ export const recuperationDepartementsPageSummaryDoc = {
 
 export const recuperationDepartementsPageDoc = {
   tag: "geographie",
-  operationIds: ["listDepartements"],
+  operationIds: ["get_geographie_v1_departement"],
   habilitation: null,
   description: [{ en: "Retrieve the departments of France", fr: "Récupération des départements de France" }],
   frequenceMiseAJour: "daily",

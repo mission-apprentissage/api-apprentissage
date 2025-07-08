@@ -9,7 +9,7 @@ export const jobSearchByIdRouteDoc = {
   },
   parameters: {
     id: {
-      descriptions: [{ en: null, fr: "Identifiant unique de l’opportunité d’emploi" }],
+      descriptions: [{ en: "Unique identifier of the job offer", fr: "Identifiant unique de l’opportunité d’emploi" }],
       examples: ["6687165396d52b5e01b409545"],
     },
   },
@@ -34,7 +34,7 @@ export const jobSearchByIdPublishingRouteDoc = {
   },
   parameters: {
     id: {
-      descriptions: [{ en: null, fr: "Identifiant unique de l’opportunité d’emploi" }],
+      descriptions: [{ en: "Unique identifier of the job offer", fr: "Identifiant unique de l’opportunité d’emploi" }],
       examples: ["6687165396d52b5e01b409545"],
     },
   },

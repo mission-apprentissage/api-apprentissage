@@ -1,7 +1,7 @@
 import diff from "microdiff";
-import type { OperationObject, ReferenceObject, SchemaObject } from "openapi3-ts/oas31";
+import type { OperationObject } from "openapi3-ts/oas31";
 
-import { stripOperationObjectDescriptions, stripSchemaObjectDescriptions } from "../utils/stripDescriptions.openapi.js";
+import { stripOperationObjectDescriptions } from "../utils/stripDescriptions.openapi.js";
 
 export type StructureDiff<SourceName extends string, ResultName extends string> = {
   result: ResultName;
@@ -89,18 +89,5 @@ export function compareOperationObjectsStructure<SourceName extends string, Resu
   return structureDiff(
     { name: operationSource.name, value: structSource },
     { name: operationResult.name, value: structResult }
-  );
-}
-
-export function compareSchemaObjectsStructure<SourceName extends string, ResultName extends string>(
-  schemaSource: { name: SourceName; s: SchemaObject | ReferenceObject | undefined },
-  schemaResult: { name: ResultName; s: SchemaObject | ReferenceObject | undefined }
-): StructureDiff<SourceName, ResultName> | null {
-  const structSource = stripSchemaObjectDescriptions(schemaSource.s);
-  const structResult = stripSchemaObjectDescriptions(schemaResult.s);
-
-  return structureDiff(
-    { name: schemaSource.name, value: structSource },
-    { name: schemaResult.name, value: structResult }
   );
 }

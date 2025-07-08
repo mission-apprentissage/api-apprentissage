@@ -13,7 +13,7 @@ export const recuperationOrganismesPageSummaryDoc = {
 
 export const recuperationOrganismesPageDoc = {
   tag: "organismes",
-  operationIds: ["exportOrganismes"],
+  operationIds: ["get_organisme_v1_export"],
   habilitation: null,
   description: [recuperationOrganismesPageSummaryDoc.headline],
   frequenceMiseAJour: "daily",

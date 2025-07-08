@@ -4,7 +4,7 @@ import applyDescEn from "./offer_write_docs/en/apply.description.md.js";
 import applyDescFr from "./offer_write_docs/fr/apply.description.md.js";
 
 export const offerWriteModelDoc = {
-  descriptions: [{ en: null, fr: "Offre d'emploi" }],
+  descriptions: [{ fr: "Offre d'emploi", en: "Job offer" }],
   properties: {
     contract: offerReadModelDoc.properties.contract,
     offer: {
@@ -30,10 +30,10 @@ export const offerWriteModelDoc = {
         },
         rome_codes: {
           descriptions: [
-            { en: "ROME code(s) of the offer", fr: null },
+            { en: "ROME code(s) of the offer", fr: "Code(s) ROME de l'offre" },
             {
               en: "If the published offer does not have a ROME code provided, we deduce the ROME codes from the job offer title.",
-              fr: null,
+              fr: "Si l'offre publiée ne dispose pas de code ROME fourni, nous déduisons les codes ROME à partir du titre de l'offre d'emploi.",
             },
           ],
           items: offerReadModelDoc.properties.offer.properties.rome_codes.items,
@@ -43,7 +43,7 @@ export const offerWriteModelDoc = {
             ...offerReadModelDoc.properties.offer.properties.status.descriptions,
             {
               en: "When creating an offer, only active offers are accepted. However, during an update, it is possible to cancel or mark an offer as filled.",
-              fr: null,
+              fr: "Lors de la création d'une offre, seules les offres actives sont acceptées. Cependant, lors d'une mise à jour, il est possible d'annuler ou de marquer une offre comme remplie.",
             },
           ],
           examples: ["Active", "Filled", "Cancelled"],
@@ -67,10 +67,10 @@ export const offerWriteModelDoc = {
           properties: {
             address: {
               descriptions: [
-                { en: "Address of the job offer", fr: null },
+                { en: "Address of the job offer", fr: "Adresse de l'offre d'emploi" },
                 {
                   en: "In the case of job offer publication, a custom address can be provided; otherwise, the establishment's address will be used.\n\nThe geopoint field is derived from the address.",
-                  fr: null,
+                  fr: "Dans le cas de la publication d'une offre d'emploi, une adresse personnalisée peut être fournie ; sinon, l'adresse de l'établissement sera utilisée.\n\nLe champ geopoint est dérivé de l'adresse.",
                 },
               ],
               examples: ["20 AVENUE DE SEGUR 75007 PARIS"],
@@ -81,10 +81,10 @@ export const offerWriteModelDoc = {
         siret: {
           ...offerReadModelDoc.properties.workplace.properties.siret,
           descriptions: [
-            { en: "SIRET of the contract execution location", fr: null },
+            { en: "SIRET of the contract execution location", fr: "SIRET du lieu d'exécution du contrat" },
             {
               en: "The information `brand` `legal_name` `size` `idcc` `opco` `naf` is automatically deduced from the SIRET.",
-              fr: null,
+              fr: "La marque, le nom légal, la taille, l'IDCC, l'OPCO et le NAF sont automatiquement déduits du SIRET.",
             },
           ],
         },
@@ -96,12 +96,12 @@ export const offerWriteModelDoc = {
       descriptions: [{ en: applyDescEn, fr: applyDescFr }],
       properties: {
         email: {
-          descriptions: [{ en: "Recruiter's email adress", fr: null }],
+          descriptions: [{ en: "Recruiter's email adress", fr: "Adresse email du recruteur" }],
           examples: ["jean.dupuis@beta.gouv.fr"],
         },
         phone: offerReadModelDoc.properties.apply.properties.phone,
         url: {
-          descriptions: [{ en: "Redirect URL", fr: null }],
+          descriptions: [{ en: "Redirect URL", fr: "URL de redirection" }],
           examples: [
             "https://labonnealternance.apprentissage.beta.gouv.fr/recherche-apprentissage?display=list&page=fiche&type=matcha&itemId=664752a2ebe24062b758c641",
           ],

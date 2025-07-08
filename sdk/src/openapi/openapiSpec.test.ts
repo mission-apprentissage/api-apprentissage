@@ -1,15 +1,9 @@
-import type { ReferenceObject, SchemaObject } from "openapi3-ts/oas31";
+import type { OperationObject, PathItemObject, ReferenceObject, SchemaObject } from "openapi3-ts/oas31";
 import { describe, expect, it } from "vitest";
-
-import { ZodMiniUnknown } from "zod/v4-mini";
 import type { DocRoute, DocTechnicalField } from "../docs/types.js";
-import { zApiRoutes } from "../routes/index.js";
 import { buildOpenApiSchema } from "./builder/openapi.builder.js";
-import type { StructureDiff } from "./compare/compareOpenapiSchema.js";
-import { compareOperationObjectsStructure, compareSchemaObjectsStructure } from "./compare/compareOpenapiSchema.js";
 import { openapiSpec } from "./openapiSpec.js";
-import type { OpenapiRoute } from "./types.js";
-import { generateOpenApiDocFromZod, getOpenapiOperations } from "./utils/openapi.uils.js";
+import { getOpenapiOperations } from "./utils/openapi.uils.js";
 
 function getDocTechnicalFieldListStructure(docs: DocTechnicalField[], prefix: string = ""): string[] {
   const structure: string[] = [prefix];
@@ -159,7 +153,11 @@ function getContentObjectDocStructure(content: SchemaObject, prefix: string = ""
   return structure;
 }
 
-function getOperationObjectDocStructure(schema: OpenapiRoute["schema"], prefix: string = ""): string[] {
+function getOperationObjectDocStructure(schema: OperationObject | undefined, prefix: string = ""): string[] {
+  if (!schema) {
+    return [];
+  }
+
   const structure: string[] = [prefix];
 
   if (schema.parameters) {
@@ -192,56 +190,57 @@ function getOperationObjectDocStructure(schema: OpenapiRoute["schema"], prefix: 
 }
 
 describe("openapiSpec#models", () => {
-  it.each(Object.entries(openapiSpec.models))("should have doc in sync with schema %s", (_modelName, model) => {
+  it.each(Object.entries(openapiSpec.models))("should have doc in sync with schema %s", (modelName, model) => {
     if (model.doc === null) {
       return;
     }
-    expect(getDocTechnicalFieldStructure(model.doc)).toEqual(getSchemaObjectDocStructure(model.schema));
-  });
-
-  it("should generate schema in sync with zod definition", async () => {
-    const builder = buildOpenApiSchema("0.0.0", "test", "https://api-test.apprentissage.beta.houv.fr", "fr");
+    const builder = buildOpenApiSchema("0.0.0", "test", "https://api-test.apprentissage.beta.houv.fr", null);
     const doc = builder.getSpec();
 
     if (doc.openapi !== "3.1.0") {
       throw new Error("Unsupported OpenAPI version");
     }
 
-    const zodSchema = (await generateOpenApiDocFromZod({}, openapiSpec.models, "")).components?.schemas ?? {};
-    const diff = Object.entries(openapiSpec.models).reduce<Record<string, StructureDiff<"zod", "api">>>(
-      (acc, [name, model]) => {
-        if (model.zod instanceof ZodMiniUnknown) {
-          return acc;
-        }
-
-        const zodModel = zodSchema[`#/components/schemas/${name}`];
-        const d = compareSchemaObjectsStructure({ name: "zod", s: zodModel }, { name: "api", s: model.schema });
-
-        if (d !== null) {
-          acc[name] = d;
-        }
-
-        return acc;
-      },
-      {}
+    expect(getDocTechnicalFieldStructure(model.doc)).toEqual(
+      getSchemaObjectDocStructure("schema" in model ? model.schema : doc.components?.schemas?.[modelName])
     );
+  });
 
-    expect(diff).toEqual({});
+  it.each(Object.entries(openapiSpec.models))("should generate proper schema %s", (modelName) => {
+    const builder = buildOpenApiSchema("0.0.0", "test", "https://api-test.apprentissage.beta.houv.fr", null);
+    const doc = builder.getSpec();
+
+    if (doc.openapi !== "3.1.0") {
+      throw new Error("Unsupported OpenAPI version");
+    }
+
+    expect(doc.components?.schemas?.[modelName]).toMatchSnapshot();
   });
 });
 
 describe("openapiSpec#routes", () => {
-  describe.each(Object.entries(openapiSpec.routes))("route %s", (_routeName, route) => {
-    it.each(Object.entries(route))("should have doc in sync with schema %s", (_key, operation) => {
+  describe.each(Object.entries(openapiSpec.routes))("route %s", (path, route) => {
+    it.each(Object.entries(route))("should have doc in sync with schema %s", (method, operation) => {
       if (operation?.doc == null) {
         return;
       }
-      expect(getDocRouteStructure(operation.doc)).toEqual(getOperationObjectDocStructure(operation.schema));
+      const builder = buildOpenApiSchema("0.0.0", "test", "https://api-test.apprentissage.beta.houv.fr", null);
+      const doc = builder.getSpec();
+
+      if (doc.openapi !== "3.1.0") {
+        throw new Error("Unsupported OpenAPI version");
+      }
+
+      expect(getDocRouteStructure(operation.doc)).toEqual(
+        getOperationObjectDocStructure(
+          operation.schema ?? doc.paths?.[path.replaceAll(/:([^:/]+)/g, "{$1}")]?.[method as keyof PathItemObject]
+        )
+      );
     });
   });
 
   it("should generate schema in sync with zod definition", async () => {
-    const builder = buildOpenApiSchema("0.0.0", "test", "https://api-test.apprentissage.beta.houv.fr", "fr");
+    const builder = buildOpenApiSchema("0.0.0", "test", "https://api-test.apprentissage.beta.houv.fr", null);
     const doc = builder.getSpec();
 
     if (doc.openapi !== "3.1.0") {
@@ -249,31 +248,6 @@ describe("openapiSpec#routes", () => {
     }
 
     const resultOperations = getOpenapiOperations(doc.paths);
-
-    const zodPaths = (await generateOpenApiDocFromZod(zApiRoutes, openapiSpec.models, "test")).paths ?? {};
-    const zodOperations = getOpenapiOperations(zodPaths);
-
-    const operationIds = Object.entries(openapiSpec.routes).flatMap(([path, route]) => {
-      return Object.keys(route).map((method) => `${method}:${path}`);
-    });
-
-    const diff = Object.keys(zodOperations).reduce<Record<string, StructureDiff<"zod", "api">>>((acc, id) => {
-      if (!operationIds.includes(id)) {
-        return acc;
-      }
-
-      const d = compareOperationObjectsStructure(
-        { name: "zod", op: zodOperations[id]?.operation },
-        { name: "api", op: resultOperations[id]?.operation }
-      );
-
-      if (d !== null) {
-        acc[id] = d;
-      }
-
-      return acc;
-    }, {});
-
-    expect(diff).toEqual({});
+    expect(resultOperations).toMatchSnapshot();
   });
 });

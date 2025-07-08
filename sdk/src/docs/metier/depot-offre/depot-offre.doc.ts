@@ -72,7 +72,7 @@ export const depotOffrePageDoc = {
           },
         },
         apply: {
-          name: { en: "Apply", fr: null },
+          name: { en: "Apply", fr: "Postuler" },
           rows: {
             apply: {
               description: { en: applyDescEn, fr: applyDescFr },

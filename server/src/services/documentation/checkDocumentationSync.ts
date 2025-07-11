@@ -14,6 +14,8 @@ const OPERATION_MAPPING: Record<string, string> = {
   "post:/job/v1/offer": "post:/v3/jobs",
   "put:/job/v1/offer/{id}": "put:/v3/jobs/{id}",
   "post:/job/v1/apply": "post:/v2/application",
+  "get:/job/v1/offer/{id}/publishing-informations": "get:/v3/jobs/{id}/publishing-informations",
+  "get:/job/v1/export": "get:/v3/jobs/export",
   "post:/formation/v1/appointment/generate-link": "post:/v2/appointment",
 };
 async function dereferenceOpenapiSchema(data: OpenAPIObject): Promise<OpenAPIObject> {

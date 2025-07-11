@@ -11,25 +11,7 @@ export const generateFormationAppointmentLinkRouteDoc = {
     },
     content: {
       descriptions: null,
-      oneOf: [
-        {
-          descriptions: [
-            {
-              fr: "Identifiant unique de la formation au sein du ministère de l'éducation",
-              en: "Unique identifier of the training within the Ministry of Education",
-            },
-          ],
-          properties: {
-            cle_ministere_educatif: {
-              descriptions: [
-                {
-                  fr: "Identifiant unique de la formation au sein du ministère de l'éducation",
-                  en: "Unique identifier of the training within the Ministry of Education",
-                },
-              ],
-            },
-          },
-        },
+      anyOf: [
         {
           descriptions: [{ fr: "Identifiant Parcoursup de la formation", en: "Parcoursup identifier of the training" }],
           properties: {
@@ -53,6 +35,24 @@ export const generateFormationAppointmentLinkRouteDoc = {
             },
           },
         },
+        {
+          descriptions: [
+            {
+              fr: "Identifiant unique de la formation au sein du ministère de l'éducation",
+              en: "Unique identifier of the training within the Ministry of Education",
+            },
+          ],
+          properties: {
+            cle_ministere_educatif: {
+              descriptions: [
+                {
+                  fr: "Identifiant unique de la formation au sein du ministère de l'éducation",
+                  en: "Unique identifier of the training within the Ministry of Education",
+                },
+              ],
+            },
+          },
+        },
       ],
     },
   },
@@ -63,7 +63,7 @@ export const generateFormationAppointmentLinkRouteDoc = {
     },
     content: {
       descriptions: null,
-      oneOf: [
+      anyOf: [
         {
           descriptions: [{ fr: "Résultat en cas de succès", en: "Success result" }],
           properties: {

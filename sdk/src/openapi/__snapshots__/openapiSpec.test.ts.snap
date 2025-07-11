@@ -4339,6 +4339,22 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
               "Hellowork",
             ],
             "items": {
+              "enum": [
+                "offres_emploi_lba",
+                "recruteurs_lba",
+                "Hellowork",
+                "France Travail",
+                "RH Alternance",
+                "PASS",
+                "Monster",
+                "Meteojob",
+                "Kelio",
+                "La Poste",
+                "annonces Atlas",
+                "Nos Talents Nos Emplois",
+                "Vite un emploi",
+                "Toulouse metropole",
+              ],
               "type": "string",
             },
             "type": "array",
@@ -4968,19 +4984,7 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
         "content": {
           "application/json": {
             "schema": {
-              "oneOf": [
-                {
-                  "additionalProperties": false,
-                  "properties": {
-                    "cle_ministere_educatif": {
-                      "type": "string",
-                    },
-                  },
-                  "required": [
-                    "cle_ministere_educatif",
-                  ],
-                  "type": "object",
-                },
+              "anyOf": [
                 {
                   "additionalProperties": false,
                   "properties": {
@@ -5005,6 +5009,18 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
                   ],
                   "type": "object",
                 },
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "cle_ministere_educatif": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "cle_ministere_educatif",
+                  ],
+                  "type": "object",
+                },
               ],
             },
           },
@@ -5016,7 +5032,7 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "content": {
             "application/json": {
               "schema": {
-                "oneOf": [
+                "anyOf": [
                   {
                     "additionalProperties": false,
                     "properties": {

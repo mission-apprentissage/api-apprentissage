@@ -5,6 +5,33 @@ export const expectedDocumentationDelta: Record<string, StructureDiff<"lba", "ap
     source: "lba",
     result: "api",
     diff: {
+      "parameters.query:departements.schema.anyOf": {
+        type: "removed",
+        source: [
+          {
+            type: "string",
+          },
+          {
+            type: "array",
+            items: {
+              type: "string",
+            },
+          },
+          {
+            type: "null",
+          },
+        ],
+      },
+      "parameters.query:departements.schema.type": {
+        type: "added",
+        result: "array",
+      },
+      "parameters.query:departements.schema.items": {
+        type: "added",
+        result: {
+          type: "string",
+        },
+      },
       "parameters.query:latitude.schema.type": {
         type: "changed",
         source: ["number", "null"],
@@ -15,14 +42,93 @@ export const expectedDocumentationDelta: Record<string, StructureDiff<"lba", "ap
         source: ["number", "null"],
         result: "number",
       },
-      "parameters.query:partners_to_exclude.schema.type": {
+      "parameters.query:opco.schema.type": {
         type: "changed",
-        source: ["array", "null"],
+        source: ["string", "null"],
+        result: "string",
+      },
+      "parameters.query:opco.schema.enum.11": {
+        type: "removed",
+        source: "inconnu",
+      },
+      "parameters.query:opco.schema.enum.12": {
+        type: "removed",
+        source: "OPCO multiple",
+      },
+      "parameters.query:partners_to_exclude.schema.anyOf": {
+        type: "removed",
+        source: [
+          {
+            type: "string",
+            enum: [
+              "offres_emploi_lba",
+              "recruteurs_lba",
+              "Hellowork",
+              "France Travail",
+              "RH Alternance",
+              "PASS",
+              "Monster",
+              "Meteojob",
+              "Kelio",
+              "La Poste",
+              "annonces Atlas",
+              "Nos Talents Nos Emplois",
+              "Vite un emploi",
+              "Toulouse metropole",
+            ],
+          },
+          {
+            type: "array",
+            items: {
+              type: "string",
+              enum: [
+                "offres_emploi_lba",
+                "recruteurs_lba",
+                "Hellowork",
+                "France Travail",
+                "RH Alternance",
+                "PASS",
+                "Monster",
+                "Meteojob",
+                "Kelio",
+                "La Poste",
+                "annonces Atlas",
+                "Nos Talents Nos Emplois",
+                "Vite un emploi",
+                "Toulouse metropole",
+              ],
+            },
+          },
+          {
+            type: "null",
+          },
+        ],
+      },
+      "parameters.query:partners_to_exclude.schema.type": {
+        type: "added",
         result: "array",
       },
-      "parameters.query:partners_to_exclude.schema.items.enum": {
-        type: "removed",
-        source: ["Hellowork", "RH Alternance"],
+      "parameters.query:partners_to_exclude.schema.items": {
+        type: "added",
+        result: {
+          type: "string",
+          enum: [
+            "offres_emploi_lba",
+            "recruteurs_lba",
+            "Hellowork",
+            "France Travail",
+            "RH Alternance",
+            "PASS",
+            "Monster",
+            "Meteojob",
+            "Kelio",
+            "La Poste",
+            "annonces Atlas",
+            "Nos Talents Nos Emplois",
+            "Vite un emploi",
+            "Toulouse metropole",
+          ],
+        },
       },
       "parameters.query:radius.schema.type": {
         type: "changed",
@@ -39,15 +145,15 @@ export const expectedDocumentationDelta: Record<string, StructureDiff<"lba", "ap
         source: ["string", "null"],
         result: "string",
       },
-      "responses.200.content.application/json.schema.properties.jobs.items.properties.workplace.properties.location.properties.geopoint.properties.coordinates.maxItems":
+      "responses.200.content.application/json.schema.properties.jobs.items.properties.workplace.properties.location.properties.geopoint.properties.type.enum":
         {
-          type: "added",
-          result: 2,
+          type: "removed",
+          source: ["Point"],
         },
-      "responses.200.content.application/json.schema.properties.jobs.items.properties.workplace.properties.location.properties.geopoint.properties.coordinates.minItems":
+      "responses.200.content.application/json.schema.properties.jobs.items.properties.workplace.properties.location.properties.geopoint.properties.type.const":
         {
           type: "added",
-          result: 2,
+          result: "Point",
         },
       "responses.200.content.application/json.schema.properties.jobs.items.properties.workplace.properties.domain.properties.opco.enum":
         {
@@ -74,15 +180,15 @@ export const expectedDocumentationDelta: Record<string, StructureDiff<"lba", "ap
           type: "string",
         },
       },
-      "responses.200.content.application/json.schema.properties.recruiters.items.properties.workplace.properties.location.properties.geopoint.properties.coordinates.maxItems":
+      "responses.200.content.application/json.schema.properties.recruiters.items.properties.workplace.properties.location.properties.geopoint.properties.type.enum":
         {
-          type: "added",
-          result: 2,
+          type: "removed",
+          source: ["Point"],
         },
-      "responses.200.content.application/json.schema.properties.recruiters.items.properties.workplace.properties.location.properties.geopoint.properties.coordinates.minItems":
+      "responses.200.content.application/json.schema.properties.recruiters.items.properties.workplace.properties.location.properties.geopoint.properties.type.const":
         {
           type: "added",
-          result: 2,
+          result: "Point",
         },
       "responses.200.content.application/json.schema.properties.recruiters.items.properties.workplace.properties.domain.properties.opco.enum":
         {
@@ -173,199 +279,30 @@ export const expectedDocumentationDelta: Record<string, StructureDiff<"lba", "ap
       },
     },
   },
-  "post:/formation/v1/appointment/generate-link": {
+  "get:/job/v1/offer/{id}/publishing-informations": {
     source: "lba",
     result: "api",
     diff: {
-      "requestBody.content.application/json.schema.anyOf": {
-        type: "removed",
-        source: [
-          {
-            type: "object",
-            additionalProperties: false,
-            required: ["parcoursup_id"],
-            properties: {
-              parcoursup_id: {
-                type: "string",
-              },
-            },
-          },
-          {
-            type: "object",
-            additionalProperties: false,
-            required: ["onisep_id"],
-            properties: {
-              onisep_id: {
-                type: "string",
-              },
-            },
-          },
-          {
-            type: "object",
-            additionalProperties: false,
-            required: ["cle_ministere_educatif"],
-            properties: {
-              cle_ministere_educatif: {
-                type: "string",
-              },
-            },
-          },
-        ],
-      },
-      "requestBody.content.application/json.schema.oneOf": {
+      "parameters.path:id.schema": {
         type: "added",
-        result: [
-          {
-            type: "object",
-            additionalProperties: false,
-            required: ["parcoursup_id"],
-            properties: {
-              parcoursup_id: {
-                type: "string",
-              },
-            },
-          },
-          {
-            type: "object",
-            additionalProperties: false,
-            required: ["onisep_id"],
-            properties: {
-              onisep_id: {
-                type: "string",
-              },
-            },
-          },
-          {
-            type: "object",
-            additionalProperties: false,
-            required: ["cle_ministere_educatif"],
-            properties: {
-              cle_ministere_educatif: {
-                type: "string",
-              },
-            },
-          },
-        ],
+        result: {
+          type: "string",
+        },
       },
-      "responses.200.content.application/json.schema.anyOf": {
-        type: "removed",
-        source: [
-          {
-            type: "object",
-            additionalProperties: false,
-            required: [
-              "cfd",
-              "cle_ministere_educatif",
-              "code_postal",
-              "etablissement_formateur_entreprise_raison_sociale",
-              "etablissement_formateur_siret",
-              "form_url",
-              "intitule_long",
-              "lieu_formation_adresse",
-              "localite",
-            ],
-            properties: {
-              etablissement_formateur_entreprise_raison_sociale: {
-                type: ["string", "null"],
-              },
-              intitule_long: {
-                type: "string",
-              },
-              lieu_formation_adresse: {
-                type: "string",
-              },
-              code_postal: {
-                type: "string",
-              },
-              etablissement_formateur_siret: {
-                type: ["string", "null"],
-                pattern: "^\\d{14}$",
-              },
-              cfd: {
-                type: "string",
-              },
-              localite: {
-                type: "string",
-              },
-              cle_ministere_educatif: {
-                type: "string",
-              },
-              form_url: {
-                type: "string",
-              },
-            },
-          },
-          {
-            type: "object",
-            required: ["error"],
-            properties: {
-              error: {
-                type: "string",
-                enum: ["Appointment request not available"],
-              },
-            },
-          },
-        ],
+      "responses.200.content.application/json.schema.properties.publishing.properties.error.type": {
+        type: "changed",
+        source: ["object", "null"],
+        result: "object",
       },
-      "responses.200.content.application/json.schema.oneOf": {
+    },
+  },
+  "get:/job/v1/export": {
+    source: "lba",
+    result: "api",
+    diff: {
+      "responses.200.content.application/json.schema.properties.lastUpdate.format": {
         type: "added",
-        result: [
-          {
-            type: "object",
-            additionalProperties: false,
-            required: [
-              "cfd",
-              "cle_ministere_educatif",
-              "code_postal",
-              "etablissement_formateur_entreprise_raison_sociale",
-              "etablissement_formateur_siret",
-              "form_url",
-              "intitule_long",
-              "lieu_formation_adresse",
-              "localite",
-            ],
-            properties: {
-              etablissement_formateur_entreprise_raison_sociale: {
-                type: ["string", "null"],
-              },
-              intitule_long: {
-                type: "string",
-              },
-              lieu_formation_adresse: {
-                type: "string",
-              },
-              code_postal: {
-                type: "string",
-              },
-              etablissement_formateur_siret: {
-                type: ["string", "null"],
-                pattern: "^\\d{14}$",
-              },
-              cfd: {
-                type: "string",
-              },
-              localite: {
-                type: "string",
-              },
-              cle_ministere_educatif: {
-                type: "string",
-              },
-              form_url: {
-                type: "string",
-              },
-            },
-          },
-          {
-            type: "object",
-            required: ["error"],
-            properties: {
-              error: {
-                type: "string",
-                enum: ["Appointment request not available"],
-              },
-            },
-          },
-        ],
+        result: "date-time",
       },
     },
   },

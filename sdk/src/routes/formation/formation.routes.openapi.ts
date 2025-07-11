@@ -28,17 +28,7 @@ export const formationRoutesOpenapi: OpenapiRoutes = {
           content: {
             "application/json": {
               schema: {
-                oneOf: [
-                  {
-                    type: "object",
-                    required: ["cle_ministere_educatif"],
-                    properties: {
-                      cle_ministere_educatif: {
-                        type: "string",
-                      },
-                    },
-                    additionalProperties: false,
-                  },
+                anyOf: [
                   {
                     type: "object",
                     required: ["parcoursup_id"],
@@ -59,6 +49,16 @@ export const formationRoutesOpenapi: OpenapiRoutes = {
                     },
                     additionalProperties: false,
                   },
+                  {
+                    type: "object",
+                    required: ["cle_ministere_educatif"],
+                    properties: {
+                      cle_ministere_educatif: {
+                        type: "string",
+                      },
+                    },
+                    additionalProperties: false,
+                  },
                 ],
               },
             },
@@ -69,7 +69,7 @@ export const formationRoutesOpenapi: OpenapiRoutes = {
             content: {
               "application/json": {
                 schema: {
-                  oneOf: [
+                  anyOf: [
                     {
                       type: "object",
                       required: [

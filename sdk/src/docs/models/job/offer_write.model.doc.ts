@@ -1,7 +1,9 @@
 import type { DocTechnicalField } from "../../types.js";
 import { offerReadModelDoc } from "./offer_read.model.doc.js";
 import applyDescEn from "./offer_write_docs/en/apply.description.md.js";
+import offerDescriptionEn from "./offer_write_docs/en/offer.description.md.js";
 import applyDescFr from "./offer_write_docs/fr/apply.description.md.js";
+import offerDescriptionFr from "./offer_write_docs/fr/offer.description.md.js";
 
 export const offerWriteModelDoc = {
   descriptions: [{ fr: "Offre d'emploi", en: "Job offer" }],
@@ -11,7 +13,10 @@ export const offerWriteModelDoc = {
       ...offerReadModelDoc.properties.offer,
       properties: {
         access_conditions: offerReadModelDoc.properties.offer.properties.access_conditions,
-        description: offerReadModelDoc.properties.offer.properties.description,
+        description: {
+          descriptions: [{ fr: offerDescriptionFr, en: offerDescriptionEn }],
+          examples: offerReadModelDoc.properties.offer.properties.description.examples,
+        },
         desired_skills: offerReadModelDoc.properties.offer.properties.desired_skills,
         opening_count: offerReadModelDoc.properties.offer.properties.opening_count,
         publication: offerReadModelDoc.properties.offer.properties.publication,
@@ -61,7 +66,10 @@ export const offerWriteModelDoc = {
     workplace: {
       ...offerReadModelDoc.properties.workplace,
       properties: {
-        description: offerReadModelDoc.properties.workplace.properties.description,
+        description: {
+          descriptions: [{ fr: offerDescriptionFr, en: offerDescriptionEn }],
+          examples: offerReadModelDoc.properties.workplace.properties.description.examples,
+        },
         location: {
           ...offerReadModelDoc.properties.workplace.properties.location,
           properties: {

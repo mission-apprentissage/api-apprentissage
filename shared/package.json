@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "api-alternance-sdk": "workspace:^",
-    "job-processor": "^2.0.0-next.1",
+    "job-processor": "^2.0.0-next.2",
     "luxon": "^3.6.1",
     "react": "19.1.0",
     "type-fest": "^4.41.0",

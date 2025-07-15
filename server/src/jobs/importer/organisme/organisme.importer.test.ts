@@ -361,12 +361,270 @@ describe("importOrganismes", () => {
           }
 
           if (b.identifiant.uai === null) {
-            return -1;
+            return 1;
           }
 
           return a.identifiant.uai.localeCompare(b.identifiant.uai);
         })
       );
+    });
+  });
+
+  describe("when organisme uai is validated", () => {
+    beforeEach(async () => {
+      await getDbCollection("import.meta").insertMany([
+        yesterdayImports.referentiel,
+        yesterdayImports.communes,
+        yesterdayImportOrganismes,
+        todayImports.referentiel,
+        todayImports.communes,
+      ]);
+
+      await getDbCollection("organisme").insertOne({
+        _id: new ObjectId(),
+        ...expectedOrganismes[0],
+        created_at: yesterday,
+        updated_at: yesterday,
+        identifiant: {
+          siret: expectedOrganismes[0].identifiant.siret,
+          uai: null,
+        },
+      });
+
+      await getDbCollection("source.referentiel").insertOne({
+        data: sourceReferentielFixtures[0],
+        date: todayImports.referentiel.import_date,
+        _id: new ObjectId(),
+      });
+      await getDbCollection("commune").insertMany(communesFixture);
+      vi.mocked(getEtablissementDiffusible).mockImplementation(async (siret: string) => {
+        return etablissementsFixture.find((e) => e.siret === siret) ?? null;
+      });
+    });
+
+    it("should import organismes", async () => {
+      expect(await importOrganismes()).toEqual(null);
+      expect(
+        await getDbCollection("import.meta")
+          .find({ type: "organismes" }, { sort: { import_date: 1 } })
+          .toArray()
+      ).toEqual([
+        yesterdayImportOrganismes,
+        {
+          _id: expect.any(ObjectId),
+          import_date: now,
+          source: {
+            referentiel: { import_date: todayImports.referentiel.import_date },
+            communes: { import_date: todayImports.communes.import_date },
+          },
+          status: "done",
+          type: "organismes",
+        },
+      ]);
+
+      const organismes = await getDbCollection("organisme")
+        .find(
+          {},
+          {
+            projection: { _id: 0, identifiant: 1, created_at: 1, updated_at: 1, statut: 1 },
+            sort: { "identifiant.siret": 1, "identifiant.uai": 1 },
+          }
+        )
+        .toArray();
+
+      expect(organismes).toEqual([
+        {
+          identifiant: expectedOrganismes[0].identifiant,
+          created_at: yesterday,
+          updated_at: now,
+          statut: { referentiel: "présent" },
+        },
+      ]);
+    });
+  });
+
+  describe("when organisme uai validation is removed", () => {
+    beforeEach(async () => {
+      await getDbCollection("import.meta").insertMany([
+        yesterdayImports.referentiel,
+        yesterdayImports.communes,
+        yesterdayImportOrganismes,
+        todayImports.referentiel,
+        todayImports.communes,
+      ]);
+
+      await getDbCollection("organisme").insertOne({
+        _id: new ObjectId(),
+        ...expectedOrganismes[0],
+        created_at: yesterday,
+        updated_at: yesterday,
+      });
+
+      await getDbCollection("source.referentiel").insertOne({
+        data: {
+          ...sourceReferentielFixtures[0],
+          uai: null,
+        },
+        date: todayImports.referentiel.import_date,
+        _id: new ObjectId(),
+      });
+      await getDbCollection("commune").insertMany(communesFixture);
+      vi.mocked(getEtablissementDiffusible).mockImplementation(async (siret: string) => {
+        return etablissementsFixture.find((e) => e.siret === siret) ?? null;
+      });
+    });
+
+    it("should import organismes", async () => {
+      expect(await importOrganismes()).toEqual(null);
+      expect(
+        await getDbCollection("import.meta")
+          .find({ type: "organismes" }, { sort: { import_date: 1 } })
+          .toArray()
+      ).toEqual([
+        yesterdayImportOrganismes,
+        {
+          _id: expect.any(ObjectId),
+          import_date: now,
+          source: {
+            referentiel: { import_date: todayImports.referentiel.import_date },
+            communes: { import_date: todayImports.communes.import_date },
+          },
+          status: "done",
+          type: "organismes",
+        },
+      ]);
+
+      const organismes = await getDbCollection("organisme")
+        .find(
+          {},
+          {
+            projection: { _id: 0, identifiant: 1, created_at: 1, updated_at: 1, statut: 1 },
+            sort: { "identifiant.siret": 1, "identifiant.uai": 1 },
+          }
+        )
+        .toArray();
+
+      expect(organismes).toEqual([
+        {
+          identifiant: {
+            ...expectedOrganismes[0].identifiant,
+            uai: null,
+          },
+          created_at: now,
+          updated_at: now,
+          statut: { referentiel: "présent" },
+        },
+        {
+          identifiant: expectedOrganismes[0].identifiant,
+          created_at: yesterday,
+          updated_at: now,
+          statut: { referentiel: "supprimé" },
+        },
+      ]);
+    });
+  });
+
+  describe("when organisme uai null is added on removed", () => {
+    beforeEach(async () => {
+      await getDbCollection("import.meta").insertMany([
+        yesterdayImports.referentiel,
+        yesterdayImports.communes,
+        yesterdayImportOrganismes,
+        todayImports.referentiel,
+        todayImports.communes,
+      ]);
+
+      await getDbCollection("organisme").insertMany([
+        {
+          _id: new ObjectId(),
+          ...expectedOrganismes[0],
+          identifiant: {
+            siret: expectedOrganismes[0].identifiant.siret,
+            uai: null,
+          },
+          statut: { referentiel: "présent" },
+          created_at: yesterday,
+          updated_at: yesterday,
+        },
+        {
+          _id: new ObjectId(),
+          ...expectedOrganismes[0],
+          identifiant: {
+            siret: expectedOrganismes[0].identifiant.siret,
+            uai: "0391210D",
+          },
+          statut: { referentiel: "supprimé" },
+          created_at: yesterday,
+          updated_at: yesterday,
+        },
+      ]);
+
+      await getDbCollection("source.referentiel").insertMany([
+        {
+          data: {
+            ...sourceReferentielFixtures[0],
+            uai: "0391210D",
+          },
+          date: todayImports.referentiel.import_date,
+          _id: new ObjectId(),
+        },
+      ]);
+      await getDbCollection("commune").insertMany(communesFixture);
+      vi.mocked(getEtablissementDiffusible).mockImplementation(async (siret: string) => {
+        return etablissementsFixture.find((e) => e.siret === siret) ?? null;
+      });
+    });
+
+    it("should import organismes", async () => {
+      expect(await importOrganismes()).toEqual(null);
+      expect(
+        await getDbCollection("import.meta")
+          .find({ type: "organismes" }, { sort: { import_date: 1 } })
+          .toArray()
+      ).toEqual([
+        yesterdayImportOrganismes,
+        {
+          _id: expect.any(ObjectId),
+          import_date: now,
+          source: {
+            referentiel: { import_date: todayImports.referentiel.import_date },
+            communes: { import_date: todayImports.communes.import_date },
+          },
+          status: "done",
+          type: "organismes",
+        },
+      ]);
+
+      const organismes = await getDbCollection("organisme")
+        .find(
+          {},
+          {
+            projection: { _id: 0, identifiant: 1, created_at: 1, updated_at: 1, statut: 1 },
+            sort: { "identifiant.siret": 1, "identifiant.uai": 1 },
+          }
+        )
+        .toArray();
+
+      expect(organismes).toEqual([
+        {
+          identifiant: {
+            ...expectedOrganismes[0].identifiant,
+            uai: null,
+          },
+          created_at: yesterday,
+          updated_at: now,
+          statut: { referentiel: "supprimé" },
+        },
+        {
+          identifiant: {
+            ...expectedOrganismes[0].identifiant,
+            uai: "0391210D",
+          },
+          created_at: yesterday,
+          updated_at: now,
+          statut: { referentiel: "présent" },
+        },
+      ]);
     });
   });
 

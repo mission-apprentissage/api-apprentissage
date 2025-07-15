@@ -77,12 +77,22 @@ async function buildOrganismeUpdateOperation(
   return {
     updateOne: {
       filter: {
-        "identifiant.siret": identifiant.siret,
-        "identifiant.uai": { $in: [identifiant.uai, null] },
+        $or: [
+          {
+            "identifiant.siret": identifiant.siret,
+            "identifiant.uai": identifiant.uai,
+          },
+          {
+            "identifiant.siret": identifiant.siret,
+            "identifiant.uai": null,
+            "statut.referentiel": "présent",
+          },
+        ],
       },
       update: {
         $set: {
           ...rest,
+          "identifiant.siret": identifiant.siret,
           "identifiant.uai": identifiant.uai,
           updated_at: importMeta.import_date,
         },
@@ -150,7 +160,7 @@ async function importOrganismesFromReferentiel(importMeta: IImportMetaOrganismes
       objectMode: true,
       async transform(chunk, _encoding, callback) {
         try {
-          await getDbCollection("organisme").bulkWrite(chunk);
+          await getDbCollection("organisme").bulkWrite(chunk, { ordered: true });
           callback();
         } catch (error) {
           callback(withCause(internal("import.organismes: error when bulkWrite"), error));

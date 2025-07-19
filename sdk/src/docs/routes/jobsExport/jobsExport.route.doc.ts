@@ -4,9 +4,9 @@ export const jobsExportRouteDoc = {
   summary: { fr: "Export des offres d'emploi", en: "Export of the job offers" },
   description: {
     en: `Displays all job offers.
-<br/>Offers are updated once a day.`,
+<br/>Offers are updated once a day at 3 AM Paris time.`,
     fr: `Expose la totalité des offres d'emploi.
-<br/>Les offres sont mises à jour une fois par jour.`,
+<br/>Les offres sont mises à jour une fois par jour à 3h du matin heure de Paris.`,
   },
   response: {
     description: { en: "Success", fr: "Succès" },

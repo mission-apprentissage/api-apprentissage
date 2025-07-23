@@ -36,7 +36,7 @@ elif [ ! -z "$DOCUMENT_CONTENT" ] && [ "$DOCUMENT_CONTENT" != "$(cat "${vault_pa
     vault_password_file_clear_text="${VAULT_DIR}/new_clear_text"
 
     delete_cleartext() {
-      rm -f "$previous_vault_password_file_clear_text" "$vault_password_file_clear_text"
+      shred -f -n 10 -u "$previous_vault_password_file_clear_text" "$vault_password_file_clear_text"
     }
     trap delete_cleartext EXIT
 
@@ -51,7 +51,6 @@ elif [ ! -z "$DOCUMENT_CONTENT" ] && [ "$DOCUMENT_CONTENT" != "$(cat "${vault_pa
     delete_cleartext
 fi
 
-
 decrypt_password() {
   ## Decrypt
 
@@ -62,8 +61,6 @@ decrypt_password() {
     echo "not-yet-generated"
   fi
 
-  gpgconf --kill gpg-agent
 }
-
 
 decrypt_password

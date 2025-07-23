@@ -12,8 +12,8 @@ fi
 
 readonly VAULT_FILE="${ROOT_DIR}/.infra/vault/vault.yml"
 
-SENTRY_DSN=$(ansible-vault view "${ansible_extra_opts[@]}" "$VAULT_FILE" | yq '.vault.SERVER_SENTRY_DSN')
-SENTRY_AUTH_TOKEN=$(ansible-vault view "${ansible_extra_opts[@]}" "$VAULT_FILE" | yq '.vault.SENTRY_AUTH_TOKEN')
+SENTRY_DSN=$(ansible-vault view "${ansible_extra_opts[@]}" "$VAULT_FILE" | yq -r '.vault.SERVER_SENTRY_DSN')
+SENTRY_AUTH_TOKEN=$(ansible-vault view "${ansible_extra_opts[@]}" "$VAULT_FILE" | yq -r '.vault.SENTRY_AUTH_TOKEN')
 
 VERSION=$(git rev-parse --short HEAD)
 

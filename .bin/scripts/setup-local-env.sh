@@ -4,7 +4,7 @@ set -euo pipefail
 echo "Updating local server/.env & ui/.env"
 
 delete_cleartext() {
-  rm -f "${ROOT_DIR}/.vault_pwd.txt"
+  shred -f -n 10 -u "${ROOT_DIR}/.vault_pwd.txt"
 }
 
 trap delete_cleartext EXIT

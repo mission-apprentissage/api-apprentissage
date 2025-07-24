@@ -20,7 +20,7 @@ Installez [Node Js20+](https://nodejs.org/en/download)
 
 Installez [Ansible 2.07+](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
 
-> Sur OS X vous pouvez utiliser `brew install ansible`
+> Sur macOS vous pouvez utiliser `brew install ansible`
 
 ---
 
@@ -51,7 +51,7 @@ sudo apt install -y ansible
 
 [Installez yq](https://github.com/mikefarah/yq)
 
-> Sur OS X vous pouvez utiliser `brew install yq`
+> Sur macOS vous pouvez utiliser `brew install yq`
 
 > Sur Ubuntu / WSL vous pouvez utiliser `sudo snap install yq`
 
@@ -59,7 +59,7 @@ sudo apt install -y ansible
 
 [Installez sshpass](https://www.linuxtricks.fr/wiki/ssh-sshpass-la-connexion-ssh-par-mot-de-passe-non-interactive)
 
-> Sur OS X vous pouvez utiliser
+> Sur macOS vous pouvez utiliser
 
 ```bash
 brew tap esolitos/ipa
@@ -74,12 +74,16 @@ sudo apt install -y sshpass
 
 ## pwgen
 
-> Sur OS X vous pouvez utiliser `brew install pwgen`
+> Sur macOS vous pouvez utiliser `brew install pwgen`
 
 > Sur Ubuntu / WSL vous pouvez utiliser `sudo apt install -y pwgen`
 
 ## bash 5+
 
-> Sur OS X vous pouvez utiliser `brew install bash`
+> Sur macOS vous pouvez utiliser `brew install bash`
 
 > Sur Ubuntu / WSL vous pouvez utiliser `sudo apt install -y bash`
+
+## shred
+
+> Sur **macOS** vous pouvez utiliser `brew install coreutils`

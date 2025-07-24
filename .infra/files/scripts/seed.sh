@@ -8,7 +8,13 @@ readonly SEED_ARCHIVE=$(mktemp seed_archive.XXXXXXXXXX)
 readonly PASSPHRASE=$(mktemp passphrase.XXXXXXXXXX)
 
 delete_cleartext() {
-  shred -f -n 10 -u "$SEED_ARCHIVE" "$PASSPHRASE"
+  if [ -f "$SEED_ARCHIVE" ]; then
+    shred -f -n 10 -u "$SEED_ARCHIVE"
+  fi
+
+  if [ -f "$PASSPHRASE" ]; then
+    shred -f -n 10 -u "$PASSPHRASE"
+  fi
 }
 
 trap delete_cleartext EXIT

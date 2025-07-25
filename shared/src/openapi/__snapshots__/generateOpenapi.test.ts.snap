@@ -362,7 +362,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
     },
     "schemas": {
       "Adresse": {
-        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "additionalProperties": false,
         "properties": {
           "academie": {
@@ -474,7 +473,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         "type": "object",
       },
       "Certification": {
-        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "additionalProperties": false,
         "properties": {
           "base_legale": {
@@ -1539,7 +1537,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         "type": "object",
       },
       "Commune": {
-        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "additionalProperties": false,
         "properties": {
           "academie": {
@@ -1695,7 +1692,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         "type": "object",
       },
       "Departement": {
-        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "additionalProperties": false,
         "properties": {
           "academie": {
@@ -1750,7 +1746,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         "type": "object",
       },
       "Formation": {
-        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "additionalProperties": false,
         "properties": {
           "certification": {
@@ -2106,7 +2101,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         "type": "object",
       },
       "GeoJsonPoint": {
-        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "additionalProperties": false,
         "properties": {
           "coordinates": {
@@ -2142,7 +2136,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         "type": "object",
       },
       "GeoJsonPolygon": {
-        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "additionalProperties": false,
         "properties": {
           "coordinates": {
@@ -3284,7 +3277,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         "type": "object",
       },
       "MissionLocale": {
-        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "additionalProperties": false,
         "properties": {
           "code": {
@@ -3385,7 +3377,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         "type": "object",
       },
       "Organisme": {
-        "$schema": "https://json-schema.org/draft/2020-12/schema",
         "additionalProperties": false,
         "properties": {
           "contacts": {
@@ -3655,7 +3646,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "identifiant.cfd",
             "required": false,
             "schema": {
-              "$schema": "https://json-schema.org/draft/2020-12/schema",
               "examples": [
                 "46X32402",
                 "",
@@ -3671,7 +3661,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "identifiant.rncp",
             "required": false,
             "schema": {
-              "$schema": "https://json-schema.org/draft/2020-12/schema",
               "examples": [
                 "RNCP12345",
                 "",
@@ -3687,7 +3676,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "content": {
               "application/json": {
                 "schema": {
-                  "$schema": "https://json-schema.org/draft/2020-12/schema",
                   "items": {
                     "$ref": "#/components/schemas/Certification",
                   },
@@ -3912,7 +3900,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "page_size",
             "required": false,
             "schema": {
-              "$schema": "https://json-schema.org/draft/2020-12/schema",
               "default": 100,
               "examples": [
                 10,
@@ -3928,7 +3915,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "page_index",
             "required": false,
             "schema": {
-              "$schema": "https://json-schema.org/draft/2020-12/schema",
               "default": 0,
               "examples": [
                 12,
@@ -3943,7 +3929,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "latitude",
             "required": false,
             "schema": {
-              "$schema": "https://json-schema.org/draft/2020-12/schema",
               "examples": [
                 2.3522,
               ],
@@ -3958,7 +3943,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "longitude",
             "required": false,
             "schema": {
-              "$schema": "https://json-schema.org/draft/2020-12/schema",
               "examples": [
                 48.8566,
               ],
@@ -3973,7 +3957,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "radius",
             "required": false,
             "schema": {
-              "$schema": "https://json-schema.org/draft/2020-12/schema",
               "default": 30,
               "examples": [
                 30,
@@ -3988,7 +3971,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "target_diploma_level",
             "required": false,
             "schema": {
-              "$schema": "https://json-schema.org/draft/2020-12/schema",
               "enum": [
                 "1",
                 "2",
@@ -4014,7 +3996,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "romes",
             "required": false,
             "schema": {
-              "$schema": "https://json-schema.org/draft/2020-12/schema",
               "examples": [
                 "F1601,F1201,F1106",
                 "M1806",
@@ -4027,7 +4008,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "rncp",
             "required": false,
             "schema": {
-              "$schema": "https://json-schema.org/draft/2020-12/schema",
               "examples": [
                 "RNCP34436",
                 "RNCP183",
@@ -4041,7 +4021,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "include_archived",
             "required": false,
             "schema": {
-              "$schema": "https://json-schema.org/draft/2020-12/schema",
               "default": "false",
               "enum": [
                 "true",
@@ -4056,7 +4035,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "content": {
               "application/json": {
                 "schema": {
-                  "$schema": "https://json-schema.org/draft/2020-12/schema",
                   "additionalProperties": false,
                   "properties": {
                     "data": {
@@ -4127,7 +4105,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "id",
             "required": true,
             "schema": {
-              "$schema": "https://json-schema.org/draft/2020-12/schema",
               "examples": [
                 "049510P01118838776490001178615112600012-49099#L01",
               ],
@@ -4193,7 +4170,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "code",
             "required": true,
             "schema": {
-              "$schema": "https://json-schema.org/draft/2020-12/schema",
               "examples": [
                 "75056",
                 "75000",
@@ -4208,7 +4184,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "content": {
               "application/json": {
                 "schema": {
-                  "$schema": "https://json-schema.org/draft/2020-12/schema",
                   "items": {
                     "$ref": "#/components/schemas/Commune",
                   },
@@ -4264,7 +4239,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "content": {
               "application/json": {
                 "schema": {
-                  "$schema": "https://json-schema.org/draft/2020-12/schema",
                   "items": {
                     "$ref": "#/components/schemas/Departement",
                   },
@@ -4322,7 +4296,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "latitude",
             "required": false,
             "schema": {
-              "$schema": "https://json-schema.org/draft/2020-12/schema",
               "examples": [
                 2.3522,
               ],
@@ -4337,7 +4310,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "longitude",
             "required": false,
             "schema": {
-              "$schema": "https://json-schema.org/draft/2020-12/schema",
               "examples": [
                 48.8566,
               ],
@@ -4352,7 +4324,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "radius",
             "required": false,
             "schema": {
-              "$schema": "https://json-schema.org/draft/2020-12/schema",
               "default": 30,
               "examples": [
                 30,
@@ -4368,7 +4339,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "content": {
               "application/json": {
                 "schema": {
-                  "$schema": "https://json-schema.org/draft/2020-12/schema",
                   "items": {
                     "$ref": "#/components/schemas/MissionLocale",
                   },
@@ -4424,7 +4394,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "content": {
               "application/json": {
                 "schema": {
-                  "$schema": "https://json-schema.org/draft/2020-12/schema",
                   "additionalProperties": false,
                   "properties": {
                     "env": {
@@ -5146,7 +5115,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "page_size",
             "required": false,
             "schema": {
-              "$schema": "https://json-schema.org/draft/2020-12/schema",
               "default": 100,
               "examples": [
                 10,
@@ -5162,7 +5130,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "page_index",
             "required": false,
             "schema": {
-              "$schema": "https://json-schema.org/draft/2020-12/schema",
               "default": 0,
               "examples": [
                 12,
@@ -5177,7 +5144,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "content": {
               "application/json": {
                 "schema": {
-                  "$schema": "https://json-schema.org/draft/2020-12/schema",
                   "additionalProperties": false,
                   "properties": {
                     "data": {
@@ -5247,7 +5213,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "uai",
             "required": false,
             "schema": {
-              "$schema": "https://json-schema.org/draft/2020-12/schema",
               "anyOf": [
                 {
                   "pattern": "^\\d{7}[A-Z]$",
@@ -5264,7 +5229,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "siret",
             "required": false,
             "schema": {
-              "$schema": "https://json-schema.org/draft/2020-12/schema",
               "anyOf": [
                 {
                   "pattern": "^\\d{14}$",
@@ -5282,7 +5246,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "content": {
               "application/json": {
                 "schema": {
-                  "$schema": "https://json-schema.org/draft/2020-12/schema",
                   "additionalProperties": false,
                   "properties": {
                     "candidats": {

@@ -1,18 +1,19 @@
 import { internal, isBoom } from "@hapi/boom";
 import type { AxiosInstance } from "axios";
-import { isAxiosError } from "axios";
-import type { AxiosCacheInstance } from "axios-cache-interceptor";
+import axios, { isAxiosError } from "axios";
 import { z } from "zod/v4-mini";
 
 import config from "@/config.js";
-import getApiClient from "@/services/apis/client.js";
 import { withCause } from "@/services/errors/withCause.js";
 import { apiRateLimiter } from "@/utils/apiUtils.js";
 
 const kitClient = apiRateLimiter("kit_apprentissage", {
-  nbRequests: 5,
-  durationInSeconds: 1,
-  client: getApiClient({ baseURL: config.api.kit_apprentissage.endpoint, timeout: 120_000 }, { cache: false }),
+  nbRequests: 1,
+  durationInSeconds: 10,
+  client: axios.create({
+    baseURL: config.api.kit_apprentissage.endpoint,
+    timeout: 120_000,
+  }),
 });
 
 const zKitApprentissageResponse = z.object({
@@ -30,7 +31,7 @@ type IKitApprentissageResponse = z.infer<typeof zKitApprentissageResponse>;
 const PAGE_SIZE = 100;
 
 async function getKitApprentissagePage(page: number): Promise<IKitApprentissageResponse> {
-  return kitClient(async (client: AxiosInstance | AxiosCacheInstance) => {
+  return kitClient(async (client: AxiosInstance) => {
     const response = await client.get(`/cfd_rncp_intitule?page_num=${page}&page_size=${PAGE_SIZE}`, {
       headers: {
         "token-connexion": config.api.kit_apprentissage.token,

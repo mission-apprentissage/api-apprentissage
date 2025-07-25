@@ -1,20 +1,16 @@
 import type { ReadStream } from "node:fs";
 
 import { internal } from "@hapi/boom";
-import { isAxiosError } from "axios";
+import axios, { isAxiosError } from "axios";
 import type { ISourceBcn } from "shared/models/source/bcn/source.bcn.model";
 
-import getApiClient from "@/services/apis/client.js";
 import { withCause } from "@/services/errors/withCause.js";
 import { downloadFileAsStream } from "@/utils/apiUtils.js";
 
-const bcnClient = getApiClient(
-  {
-    baseURL: "https://bcn.depp.education.fr/bcn",
-    timeout: 90_000,
-  },
-  { cache: false }
-);
+const bcnClient = axios.create({
+  baseURL: "https://bcn.depp.education.fr/bcn",
+  timeout: 90_000,
+});
 
 export async function fetchBcnData(table: ISourceBcn["source"]): Promise<ReadStream> {
   try {

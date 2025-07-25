@@ -12,7 +12,6 @@ import type { OperationObject, SchemaObject } from "openapi3-ts/oas31";
 
 import config from "./config.js";
 import createServer from "./server/server.js";
-import { closeMemoryCache } from "./services/apis/client.js";
 import { checkDocumentationSync } from "./services/documentation/checkDocumentationSync.js";
 import { createAuthToken } from "./services/forward/forwardApi.service.js";
 import logger from "./services/logger.js";
@@ -33,7 +32,6 @@ program
     }
   })
   .hook("postAction", async () => {
-    closeMemoryCache();
     await closeMailer();
     await closeMongodbConnection();
     await closeSentry();

@@ -1,5 +1,3 @@
-# Temporary solution freeze NodeJs version https://github.com/vercel/next.js/discussions/69326
-# https://github.com/vercel/next.js/issues/69150
 FROM node:24-slim AS builder_root
 WORKDIR /app
 RUN yarn set version 3.3.1

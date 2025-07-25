@@ -1,25 +1,26 @@
 import { internal, isBoom } from "@hapi/boom";
 import type { AxiosError, AxiosInstance } from "axios";
-import { isAxiosError } from "axios";
-import type { AxiosCacheInstance } from "axios-cache-interceptor";
+import axios, { isAxiosError } from "axios";
 import axiosRetry, { exponentialDelay, isNetworkOrIdempotentRequestError } from "axios-retry";
 import type { IApiEntEtablissement, IApiEntUniteLegale } from "shared/models/cache/cache.entreprise.model";
 import { zApiEntEtablissement, zApiEntUniteLegale } from "shared/models/cache/cache.entreprise.model";
 
 import { z } from "zod/v4-mini";
 import config from "@/config.js";
-import getApiClient from "@/services/apis/client.js";
 import { withCause } from "@/services/errors/withCause.js";
 import logger from "@/services/logger.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 import { apiRateLimiter } from "@/utils/apiUtils.js";
 
 // Cf Documentation : https://doc.entreprise.api.gouv.fr/#param-tres-obligatoires
-const rawClient = getApiClient({ baseURL: config.api.entreprise.baseurl }, { cache: false });
+const rawClient = axios.create({
+  timeout: 5000,
+  baseURL: config.api.entreprise.baseurl,
+});
 
 const SAFE_HTTP_METHODS: Array<string | undefined> = ["get", "head", "options"];
 
-axiosRetry(rawClient as AxiosInstance, {
+axiosRetry(rawClient, {
   retries: 3,
   retryDelay: exponentialDelay,
   retryCondition: (error: AxiosError) => {
@@ -154,7 +155,7 @@ function dropNonDiffusibleEtablissementData(data: IApiEntEtablissement | null): 
 }
 
 async function getEtablissementDiffusionPartielle(siret: string): Promise<IApiEntEtablissement | null> {
-  const rawResult = await apiEntrepriseClient(async (client: AxiosInstance | AxiosCacheInstance) => {
+  const rawResult = await apiEntrepriseClient(async (client: AxiosInstance) => {
     try {
       const response = await client.get(`insee/sirene/etablissements/${siret}`, {
         params: apiParams,
@@ -198,7 +199,7 @@ async function getEtablissementDiffusionPartielle(siret: string): Promise<IApiEn
 }
 
 async function getUniteLegaleDiffusionPartielle(siren: string): Promise<IApiEntUniteLegale | null> {
-  const rawResult = await apiEntrepriseClient(async (client: AxiosInstance | AxiosCacheInstance) => {
+  const rawResult = await apiEntrepriseClient(async (client: AxiosInstance) => {
     try {
       const response = await client.get(`insee/sirene/unites_legales/${siren}`, {
         params: apiParams,
@@ -263,7 +264,7 @@ export async function getEtablissementDiffusible(siret: string): Promise<IApiEnt
     return cached.data.etablissement;
   }
 
-  const rawResult = await apiEntrepriseClient(async (client: AxiosInstance | AxiosCacheInstance) => {
+  const rawResult = await apiEntrepriseClient(async (client: AxiosInstance) => {
     try {
       logger.debug(`[Entreprise API] Fetching etablissement diffusible ${siret}...`);
 
@@ -323,7 +324,7 @@ export async function getUniteLegaleDiffusible(siren: string): Promise<IApiEntUn
     return cached.data.unite_legale;
   }
 
-  const rawResult = await apiEntrepriseClient(async (client: AxiosInstance | AxiosCacheInstance) => {
+  const rawResult = await apiEntrepriseClient(async (client: AxiosInstance) => {
     try {
       logger.debug(`[Entreprise API] Fetching unite legale diffusible ${siren}...`);
 

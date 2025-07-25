@@ -1,22 +1,19 @@
 import { internal, isBoom } from "@hapi/boom";
-import { isAxiosError } from "axios";
+import axios, { isAxiosError } from "axios";
 import type { ISourceUnmlPayload } from "shared";
 import { zSourceUnmlPayload } from "shared";
 
 import config from "@/config.js";
-import getApiClient from "@/services/apis/client.js";
 import { withCause } from "@/services/errors/withCause.js";
 import { apiRateLimiter } from "@/utils/apiUtils.js";
 
 const unmlClient = apiRateLimiter("unml", {
   nbRequests: 10,
   durationInSeconds: 1,
-  client: getApiClient(
-    {
-      baseURL: config.api.unml.endpoint,
-    },
-    { cache: false }
-  ),
+  client: axios.create({
+    timeout: 5000,
+    baseURL: config.api.unml.endpoint,
+  }),
 });
 
 export async function fetchDepartementMissionLocale(codeDepartement: string): Promise<ISourceUnmlPayload> {

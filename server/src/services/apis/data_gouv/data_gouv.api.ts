@@ -5,18 +5,15 @@ import type { IDataGouvDataset, IDataGouvDatasetResource } from "shared";
 import { zDataGouvDataset } from "shared";
 
 import { $ZodError, prettifyError } from "zod/v4/core";
-import getApiClient from "@/services/apis/client.js";
+import axios from "axios";
 import { withCause } from "@/services/errors/withCause.js";
 import logger from "@/services/logger.js";
 import { downloadFileAsStream } from "@/utils/apiUtils.js";
 
-const client = getApiClient(
-  {
-    baseURL: "https://www.data.gouv.fr/api/1",
-    timeout: 300_000,
-  },
-  { cache: false }
-);
+const client = axios.create({
+  baseURL: "https://www.data.gouv.fr/api/1",
+  timeout: 300_000,
+});
 
 export async function fetchDataGouvDataSet(datasetId: string): Promise<IDataGouvDataset> {
   let data: unknown;

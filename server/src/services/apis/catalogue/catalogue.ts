@@ -2,19 +2,16 @@ import type { Readable } from "node:stream";
 
 import { zFormationCatalogue } from "shared/models/source/catalogue/source.catalogue.model";
 
+import axios from "axios";
 import config from "@/config.js";
-import getApiClient from "@/services/apis/client.js";
 import logger from "@/services/logger.js";
 import { downloadFileAsStream } from "@/utils/apiUtils.js";
 import { compose, createJsonLineTransformStream } from "@/utils/streamUtils.js";
 
-const catalogueClient = getApiClient(
-  {
-    baseURL: config.api.catalogue.baseurl,
-    timeout: 60_000,
-  },
-  { cache: false }
-);
+const catalogueClient = axios.create({
+  baseURL: config.api.catalogue.baseurl,
+  timeout: 60_000,
+});
 
 const neededFieldsFromCatalogue: Record<string, number> = Object.keys(zFormationCatalogue.shape).reduce<
   Record<string, number>

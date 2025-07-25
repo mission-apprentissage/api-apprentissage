@@ -3,17 +3,14 @@ import { internal } from "@hapi/boom";
 import { parse } from "node-html-parser";
 import type { IImportMetaDares } from "shared/models/import.meta.model";
 
-import getApiClient from "@/services/apis/client.js";
+import axios from "axios";
 import { withCause } from "@/services/errors/withCause.js";
 import { downloadFileAsStream } from "@/utils/apiUtils.js";
 
-const client = getApiClient(
-  {
-    baseURL: "https://travail-emploi.gouv.fr",
-    timeout: 300_000,
-  },
-  { cache: false }
-);
+const client = axios.create({
+  baseURL: "https://travail-emploi.gouv.fr",
+  timeout: 300_000,
+});
 
 export async function scrapeRessourceCcn(): Promise<IImportMetaDares["resource"]> {
   const raw = await client.get<string>(

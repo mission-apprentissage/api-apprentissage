@@ -9,7 +9,6 @@ import { pipeline } from "node:stream/promises";
 
 import { internal } from "@hapi/boom";
 import type { AxiosInstance } from "axios";
-import type { AxiosCacheInstance } from "axios-cache-interceptor";
 import { RateLimiterMemory, RateLimiterQueue } from "rate-limiter-flexible";
 
 import { timeout } from "./asyncUtils.js";
@@ -21,10 +20,10 @@ interface ApiRateLimiterOptions {
   durationInSeconds?: number;
   maxQueueSize?: number;
   timeout?: number;
-  client: AxiosInstance | AxiosCacheInstance;
+  client: AxiosInstance;
 }
 
-export type ApiRateLimiterFn = <T>(callback: (i: AxiosInstance | AxiosCacheInstance) => T) => Promise<T>;
+export type ApiRateLimiterFn = <T>(callback: (i: AxiosInstance) => T) => Promise<T>;
 
 export const apiRateLimiter = (name: string, options: ApiRateLimiterOptions): ApiRateLimiterFn => {
   const rateLimiter = new RateLimiterMemory({

@@ -1,12 +1,11 @@
 import { internal } from "@hapi/boom";
 import type { IGeoJsonPoint } from "api-alternance-sdk";
 import type { AxiosError, AxiosInstance } from "axios";
-import { isAxiosError } from "axios";
+import axios, { isAxiosError } from "axios";
 import axiosRetry, { exponentialDelay, isNetworkOrIdempotentRequestError } from "axios-retry";
 import { zSourceAdresseResponse } from "shared";
 
 import config from "@/config.js";
-import getApiClient from "@/services/apis/client.js";
 import { withCause } from "@/services/errors/withCause.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 import { apiRateLimiter } from "@/utils/apiUtils.js";
@@ -14,13 +13,10 @@ import { apiRateLimiter } from "@/utils/apiUtils.js";
 const ONE_DAY = 24 * 60 * 60_000;
 const ONE_YEAR = 365 * ONE_DAY;
 
-const rawClient = getApiClient(
-  {
-    baseURL: config.api.adresse.endpoint,
-    timeout: 60_000,
-  },
-  { cache: false }
-);
+const rawClient = axios.create({
+  baseURL: config.api.adresse.endpoint,
+  timeout: 60_000,
+});
 const SAFE_HTTP_METHODS: Array<string | undefined> = ["get", "head", "options"];
 
 axiosRetry(rawClient as AxiosInstance, {

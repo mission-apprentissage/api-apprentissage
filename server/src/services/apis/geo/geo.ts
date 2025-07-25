@@ -1,24 +1,20 @@
 import { internal } from "@hapi/boom";
-import { isAxiosError } from "axios";
+import axios, { isAxiosError } from "axios";
 import type { ISourceGeoCommune, ISourceGeoDepartement, ISourceGeoRegion } from "shared";
 import { sourceGeoCommune, sourceGeoDepartement, sourceGeoRegion } from "shared";
 
 import { z } from "zod/v4-mini";
 import config from "@/config.js";
-import getApiClient from "@/services/apis/client.js";
 import { withCause } from "@/services/errors/withCause.js";
 import { apiRateLimiter } from "@/utils/apiUtils.js";
 
 const geoClient = apiRateLimiter("geo", {
   nbRequests: 10,
   durationInSeconds: 1,
-  client: getApiClient(
-    {
-      baseURL: config.api.geo.endpoint,
-      timeout: 30_000,
-    },
-    { cache: false }
-  ),
+  client: axios.create({
+    baseURL: config.api.geo.endpoint,
+    timeout: 30_000,
+  }),
 });
 
 export const fetchGeoRegions = async (): Promise<ISourceGeoRegion[]> => {

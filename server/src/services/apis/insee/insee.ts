@@ -1,26 +1,22 @@
 import { internal, isBoom } from "@hapi/boom";
 import type { AxiosInstance } from "axios";
-import { isAxiosError } from "axios";
+import axios, { isAxiosError } from "axios";
 import axiosRetry, { exponentialDelay } from "axios-retry";
 import type { IInseeItem } from "shared";
 import { zInseeItem } from "shared";
 import { z } from "zod/v4-mini";
 
 import config from "@/config.js";
-import getApiClient from "@/services/apis/client.js";
 import { withCause } from "@/services/errors/withCause.js";
 import { apiRateLimiter } from "@/utils/apiUtils.js";
 
-const rawClient = getApiClient(
-  {
-    baseURL: config.api.insee.endpoint,
-    headers: {
-      Authorization: `Bearer ${config.api.insee.token}`,
-    },
-    timeout: 60_000,
+const rawClient = axios.create({
+  baseURL: config.api.insee.endpoint,
+  headers: {
+    Authorization: `Bearer ${config.api.insee.token}`,
   },
-  { cache: false }
-);
+  timeout: 60_000,
+});
 
 axiosRetry(rawClient as AxiosInstance, {
   retries: 3,

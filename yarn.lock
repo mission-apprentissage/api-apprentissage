@@ -4869,19 +4869,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios-cache-interceptor@npm:^1.8.0":
-  version: 1.8.0
-  resolution: "axios-cache-interceptor@npm:1.8.0"
-  dependencies:
-    cache-parser: 1.2.5
-    fast-defer: 1.1.8
-    object-code: 1.3.3
-  peerDependencies:
-    axios: ^1
-  checksum: a96eaba3e6dd4ae3d9c8bd353a673378990641bdd9fbbe7b69b579c5310ee068a5b50f201a4a4f8343dd9a849fc4098ef07e423d2d22c1eb8d624377d2564509
-  languageName: node
-  linkType: hard
-
 "axios-retry@npm:^4.5.0":
   version: 4.5.0
   resolution: "axios-retry@npm:4.5.0"
@@ -5174,13 +5161,6 @@ __metadata:
     tar: ^6.1.11
     unique-filename: ^3.0.0
   checksum: 0250df80e1ad0c828c956744850c5f742c24244e9deb5b7dc81bca90f8c10e011e132ecc58b64497cc1cad9a98968676147fb6575f4f94722f7619757b17a11b
-  languageName: node
-  linkType: hard
-
-"cache-parser@npm:1.2.5":
-  version: 1.2.5
-  resolution: "cache-parser@npm:1.2.5"
-  checksum: ac6a15462e474a84b8830795aa3d34b63f09a2ef8ec1a3831e7941a7a7aece964df881da275dfc1e8e1874a3a56efd944de0a6bcd371e409d545ca49fd04cdd7
   languageName: node
   linkType: hard
 
@@ -7158,13 +7138,6 @@ __metadata:
   version: 3.1.3
   resolution: "fast-deep-equal@npm:3.1.3"
   checksum: e21a9d8d84f53493b6aa15efc9cfd53dd5b714a1f23f67fb5dc8f574af80df889b3bce25dc081887c6d25457cce704e636395333abad896ccdec03abaf1f3f9d
-  languageName: node
-  linkType: hard
-
-"fast-defer@npm:1.1.8":
-  version: 1.1.8
-  resolution: "fast-defer@npm:1.1.8"
-  checksum: 2fbdcf385929b53a2299c83cfb9c0ac4c0f0c4d1c268e791ed8a97dad9c25a7f459e1475e8270f268d29541be0a8b14a764d77f18cc7caea95c1863cf87c471b
   languageName: node
   linkType: hard
 
@@ -11490,13 +11463,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"object-code@npm:1.3.3":
-  version: 1.3.3
-  resolution: "object-code@npm:1.3.3"
-  checksum: 5f5602040a9d0e0f5e60e37340a21d8ab3d41309c7b7f63eeccf4d385686d8e1b408090f2a35899a84d740fbf6e243599208349027060b71f9911099a47714f8
-  languageName: node
-  linkType: hard
-
 "object-inspect@npm:^1.13.3":
   version: 1.13.3
   resolution: "object-inspect@npm:1.13.3"
@@ -13645,7 +13611,6 @@ __metadata:
     api-alternance-sdk: "workspace:^"
     archiver: ^7.0.1
     axios: ^1.11.0
-    axios-cache-interceptor: ^1.8.0
     axios-retry: ^4.5.0
     commander: ^14.0.0
     csv-parse: ^5.6.0

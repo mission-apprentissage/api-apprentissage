@@ -8,18 +8,15 @@ import { DateTime } from "luxon";
 import { internal } from "@hapi/boom";
 import { Parse } from "unzipper";
 
-import getApiClient from "@/services/apis/client.js";
+import axios from "axios";
 import { withCause } from "@/services/errors/withCause.js";
 import { cleanupTmp, downloadFileAsTmp, readTmpAsStreamAndCleanup } from "@/utils/apiUtils.js";
 import { getStaticFilePath } from "@/utils/getStaticFilePath.js";
 
-const client = getApiClient(
-  {
-    baseURL: "https://www.francecompetences.fr/referentiels-et-bases-de-donnees",
-    timeout: 300_000,
-  },
-  { cache: false }
-);
+const client = axios.create({
+  baseURL: "https://www.francecompetences.fr/referentiels-et-bases-de-donnees",
+  timeout: 300_000,
+});
 
 export async function scrapeRessourceNPEC(): Promise<
   { url: string; date: Date; title: string; description: string }[]

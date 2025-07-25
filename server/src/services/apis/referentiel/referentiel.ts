@@ -1,20 +1,17 @@
 import { internal, isBoom } from "@hapi/boom";
-import { isAxiosError } from "axios";
+import axios, { isAxiosError } from "axios";
 import { zOrganismeReferentiel } from "shared/models/source/referentiel/source.referentiel.model";
 import { z } from "zod/v4-mini";
 
 import config from "@/config.js";
-import getApiClient from "@/services/apis/client.js";
 import { withCause } from "@/services/errors/withCause.js";
 
 // Cf Documentation : https://referentiel.apprentissage.onisep.fr/api/v1/doc/#/
 
-const referentielClient = getApiClient(
-  {
-    baseURL: config.api.referentielOnisep.endpoint,
-  },
-  { cache: false }
-);
+const referentielClient = axios.create({
+  timeout: 5000,
+  baseURL: config.api.referentielOnisep.endpoint,
+});
 
 const ITEMS_PAR_PAGES = 60_000;
 

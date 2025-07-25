@@ -28,7 +28,6 @@ function getOptions(): Sentry.NodeOptions {
       Sentry.mongoIntegration(),
       Sentry.captureConsoleIntegration({ levels: ["error"] }),
       Sentry.extraErrorDataIntegration({ depth: 16 }),
-      // @ts-expect-error
       nodeProfilingIntegration(),
     ],
   };

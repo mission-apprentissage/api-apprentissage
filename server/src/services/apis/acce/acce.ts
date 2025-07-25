@@ -3,11 +3,9 @@ import querystring from "node:querystring";
 
 import { internal } from "@hapi/boom";
 import type { AxiosInstance } from "axios";
-import { isAxiosError } from "axios";
-import type { AxiosCacheInstance } from "axios-cache-interceptor";
+import axios, { isAxiosError } from "axios";
 
 import config from "@/config.js";
-import getApiClient from "@/services/apis/client.js";
 import { withCause } from "@/services/errors/withCause.js";
 import logger from "@/services/logger.js";
 import { apiRateLimiter, downloadFileAsStream } from "@/utils/apiUtils.js";
@@ -21,13 +19,10 @@ const SESSION_COOKIE_NAME = "men_default";
 const acceClient = apiRateLimiter("acce", {
   nbRequests: 1,
   durationInSeconds: 1,
-  client: getApiClient(
-    {
-      baseURL: "https://acce.depp.education.fr/acce",
-      timeout: 900_000,
-    },
-    { cache: false }
-  ),
+  client: axios.create({
+    baseURL: "https://acce.depp.education.fr/acce",
+    timeout: 900_000,
+  }),
 });
 
 function getFormHeaders(auth?: { Cookie: string }) {
@@ -39,7 +34,7 @@ function getFormHeaders(auth?: { Cookie: string }) {
 }
 
 export async function login() {
-  return acceClient(async (client: AxiosInstance | AxiosCacheInstance) => {
+  return acceClient(async (client: AxiosInstance) => {
     try {
       logger.debug(`Logging to ACCE...`);
 
@@ -84,7 +79,7 @@ export async function login() {
 }
 
 async function startExtraction(auth: { Cookie: string }) {
-  return acceClient(async (client: AxiosInstance | AxiosCacheInstance) => {
+  return acceClient(async (client: AxiosInstance) => {
     try {
       logger.debug(`Requesting a new extraction...`);
 
@@ -199,7 +194,7 @@ async function startExtraction(auth: { Cookie: string }) {
 }
 
 async function pollExtraction(auth: { Cookie: string }, extractionId: string) {
-  return acceClient(async (client: AxiosInstance | AxiosCacheInstance) => {
+  return acceClient(async (client: AxiosInstance) => {
     try {
       logger.debug(`Polling extraction ${extractionId}...`);
 

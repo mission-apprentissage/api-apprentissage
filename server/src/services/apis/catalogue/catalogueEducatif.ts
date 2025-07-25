@@ -1,16 +1,14 @@
 import type { Readable } from "node:stream";
 
+import axios from "axios";
 import config from "@/config.js";
-import getApiClient from "@/services/apis/client.js";
 import { downloadFileAsStream } from "@/utils/apiUtils.js";
 import { compose, createJsonLineTransformStream } from "@/utils/streamUtils.js";
 
-const catalogueEducatifClient = getApiClient(
-  {
-    baseURL: config.api.catalogueEducatif.baseurl,
-  },
-  { cache: false }
-);
+const catalogueEducatifClient = axios.create({
+  timeout: 5000,
+  baseURL: config.api.catalogueEducatif.baseurl,
+});
 
 let cookieAuthCatalogueEducatif = "";
 

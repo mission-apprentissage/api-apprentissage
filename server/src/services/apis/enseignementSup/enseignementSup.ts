@@ -1,22 +1,18 @@
 import { internal } from "@hapi/boom";
-import { isAxiosError } from "axios";
+import axios, { isAxiosError } from "axios";
 import { z } from "zod/v4-mini";
 
 import config from "@/config.js";
-import getApiClient from "@/services/apis/client.js";
 import { withCause } from "@/services/errors/withCause.js";
 import { apiRateLimiter } from "@/utils/apiUtils.js";
 
 const apiEnseignementSup = apiRateLimiter("insee", {
   nbRequests: 25,
   durationInSeconds: 60,
-  client: getApiClient(
-    {
-      baseURL: config.api.enseignementSup.endpoint,
-      timeout: 300_000,
-    },
-    { cache: false }
-  ),
+  client: axios.create({
+    baseURL: config.api.enseignementSup.endpoint,
+    timeout: 300_000,
+  }),
 });
 
 const zAcademieData = z.object({

@@ -7,6 +7,7 @@ import type {
   ReferenceObject,
   ResponsesObject,
   SchemaObject,
+  SchemasObject,
 } from "openapi3-ts/oas31";
 import { getPath } from "openapi3-ts/oas31";
 
@@ -306,8 +307,11 @@ export function generateOpenApiOperationObjectFromZod(
   }
 }
 
-function generateComponents(registry: $ZodRegistry<RegistryMeta>, io: "input" | "output") {
-  return toJSONSchema(registry, {
+export function generateComponents(
+  registry: $ZodRegistry<RegistryMeta>,
+  io: "input" | "output"
+): { schemas: Record<string, SchemasObject> } {
+  const { schemas } = toJSONSchema(registry, {
     unrepresentable: "any",
     uri: (id: string) => id,
     io,
@@ -326,4 +330,10 @@ function generateComponents(registry: $ZodRegistry<RegistryMeta>, io: "input" | 
       }
     },
   });
+  Object.keys(schemas).forEach((key) => {
+    const schema = schemas[key];
+    if ("$id" in schema) delete schema.$id; // OpenAPI does not use $id
+    if ("$schema" in schema) delete schema.$schema; // OpenAPI does not use $schema
+  });
+  return { schemas } as { schemas: Record<string, SchemasObject> };
 }

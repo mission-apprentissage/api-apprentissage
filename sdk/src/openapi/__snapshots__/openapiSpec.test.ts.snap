@@ -2,8 +2,6 @@
 
 exports[`openapiSpec#models > should generate proper schema Adresse 1`] = `
 {
-  "$id": "#/components/schemas/Adresse",
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "properties": {
     "academie": {
@@ -118,8 +116,6 @@ exports[`openapiSpec#models > should generate proper schema Adresse 1`] = `
 
 exports[`openapiSpec#models > should generate proper schema Certification 1`] = `
 {
-  "$id": "#/components/schemas/Certification",
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "properties": {
     "base_legale": {
@@ -1187,8 +1183,6 @@ exports[`openapiSpec#models > should generate proper schema Certification 1`] = 
 
 exports[`openapiSpec#models > should generate proper schema Commune 1`] = `
 {
-  "$id": "#/components/schemas/Commune",
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "properties": {
     "academie": {
@@ -1347,8 +1341,6 @@ exports[`openapiSpec#models > should generate proper schema Commune 1`] = `
 
 exports[`openapiSpec#models > should generate proper schema Departement 1`] = `
 {
-  "$id": "#/components/schemas/Departement",
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "properties": {
     "academie": {
@@ -1406,8 +1398,6 @@ exports[`openapiSpec#models > should generate proper schema Departement 1`] = `
 
 exports[`openapiSpec#models > should generate proper schema Formation 1`] = `
 {
-  "$id": "#/components/schemas/Formation",
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "properties": {
     "certification": {
@@ -1766,8 +1756,6 @@ exports[`openapiSpec#models > should generate proper schema Formation 1`] = `
 
 exports[`openapiSpec#models > should generate proper schema GeoJsonPoint 1`] = `
 {
-  "$id": "#/components/schemas/GeoJsonPoint",
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "properties": {
     "coordinates": {
@@ -1806,8 +1794,6 @@ exports[`openapiSpec#models > should generate proper schema GeoJsonPoint 1`] = `
 
 exports[`openapiSpec#models > should generate proper schema GeoJsonPolygon 1`] = `
 {
-  "$id": "#/components/schemas/GeoJsonPolygon",
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "properties": {
     "coordinates": {
@@ -2970,8 +2956,6 @@ exports[`openapiSpec#models > should generate proper schema JobRecruiter 1`] = `
 
 exports[`openapiSpec#models > should generate proper schema MissionLocale 1`] = `
 {
-  "$id": "#/components/schemas/MissionLocale",
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "properties": {
     "code": {
@@ -3075,8 +3059,6 @@ exports[`openapiSpec#models > should generate proper schema MissionLocale 1`] = 
 
 exports[`openapiSpec#models > should generate proper schema Organisme 1`] = `
 {
-  "$id": "#/components/schemas/Organisme",
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "properties": {
     "contacts": {
@@ -3330,8 +3312,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "identifiant.cfd",
           "required": false,
           "schema": {
-            "$id": "08e36e2c-be2e-4040-8388-cab4c057d1fb",
-            "$schema": "https://json-schema.org/draft/2020-12/schema",
             "examples": [
               "46X32402",
               "",
@@ -3347,8 +3327,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "identifiant.rncp",
           "required": false,
           "schema": {
-            "$id": "e17af2c6-3a1a-4c19-b441-5af17f6f4f42",
-            "$schema": "https://json-schema.org/draft/2020-12/schema",
             "examples": [
               "RNCP12345",
               "",
@@ -3364,8 +3342,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "content": {
             "application/json": {
               "schema": {
-                "$id": "798c9b9c-1b45-4623-8bf1-fb654a7cb9f0",
-                "$schema": "https://json-schema.org/draft/2020-12/schema",
                 "items": {
                   "$ref": "#/components/schemas/Certification",
                 },
@@ -3425,8 +3401,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "page_size",
           "required": false,
           "schema": {
-            "$id": "c48bde70-db48-4412-ad9f-0927d964a3ab",
-            "$schema": "https://json-schema.org/draft/2020-12/schema",
             "default": 100,
             "examples": [
               10,
@@ -3442,8 +3416,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "page_index",
           "required": false,
           "schema": {
-            "$id": "9181f406-d5fe-4e11-81cb-10c09fa89a2f",
-            "$schema": "https://json-schema.org/draft/2020-12/schema",
             "default": 0,
             "examples": [
               12,
@@ -3458,8 +3430,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "latitude",
           "required": false,
           "schema": {
-            "$id": "52253d81-f5af-4a56-b91a-792582708387",
-            "$schema": "https://json-schema.org/draft/2020-12/schema",
             "examples": [
               2.3522,
             ],
@@ -3474,8 +3444,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "longitude",
           "required": false,
           "schema": {
-            "$id": "58643c03-aaa9-4728-b3cd-e3418229891c",
-            "$schema": "https://json-schema.org/draft/2020-12/schema",
             "examples": [
               48.8566,
             ],
@@ -3490,8 +3458,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "radius",
           "required": false,
           "schema": {
-            "$id": "d06f5b27-e059-4cca-bfaf-d5432c428ef2",
-            "$schema": "https://json-schema.org/draft/2020-12/schema",
             "default": 30,
             "examples": [
               30,
@@ -3506,8 +3472,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "target_diploma_level",
           "required": false,
           "schema": {
-            "$id": "c11a333e-ee6e-4a54-bc90-586e025a8ae9",
-            "$schema": "https://json-schema.org/draft/2020-12/schema",
             "enum": [
               "1",
               "2",
@@ -3533,8 +3497,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "romes",
           "required": false,
           "schema": {
-            "$id": "5267d0eb-438c-426c-a9ae-20764426fd5a",
-            "$schema": "https://json-schema.org/draft/2020-12/schema",
             "examples": [
               "F1601,F1201,F1106",
               "M1806",
@@ -3547,8 +3509,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "rncp",
           "required": false,
           "schema": {
-            "$id": "2dcd1ef4-987e-4cd2-9eda-37531a581e1c",
-            "$schema": "https://json-schema.org/draft/2020-12/schema",
             "examples": [
               "RNCP34436",
               "RNCP183",
@@ -3562,8 +3522,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "include_archived",
           "required": false,
           "schema": {
-            "$id": "a09b3691-2e17-4fa1-8435-0f9d3dd5fdab",
-            "$schema": "https://json-schema.org/draft/2020-12/schema",
             "default": "false",
             "enum": [
               "true",
@@ -3578,8 +3536,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "content": {
             "application/json": {
               "schema": {
-                "$id": "13e20495-0ca0-40c8-bdac-98801c3106ac",
-                "$schema": "https://json-schema.org/draft/2020-12/schema",
                 "additionalProperties": false,
                 "properties": {
                   "data": {
@@ -3653,8 +3609,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "id",
           "required": true,
           "schema": {
-            "$id": "01b90d04-81a2-44e3-b4d0-1c6c5755f118",
-            "$schema": "https://json-schema.org/draft/2020-12/schema",
             "examples": [
               "049510P01118838776490001178615112600012-49099#L01",
             ],
@@ -3723,8 +3677,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "code",
           "required": true,
           "schema": {
-            "$id": "c32fe2a3-31eb-4af5-93ac-c95a705f1065",
-            "$schema": "https://json-schema.org/draft/2020-12/schema",
             "examples": [
               "75056",
               "75000",
@@ -3739,8 +3691,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "content": {
             "application/json": {
               "schema": {
-                "$id": "88513e59-dfe2-43e7-a645-4db8e97723a4",
-                "$schema": "https://json-schema.org/draft/2020-12/schema",
                 "items": {
                   "$ref": "#/components/schemas/Commune",
                 },
@@ -3799,8 +3749,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "content": {
             "application/json": {
               "schema": {
-                "$id": "0efadc11-a47c-4302-bb06-ca68c8223fc6",
-                "$schema": "https://json-schema.org/draft/2020-12/schema",
                 "items": {
                   "$ref": "#/components/schemas/Departement",
                 },
@@ -3861,8 +3809,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "latitude",
           "required": false,
           "schema": {
-            "$id": "a3da7084-6af7-483e-bcbe-92b20dbbb14c",
-            "$schema": "https://json-schema.org/draft/2020-12/schema",
             "examples": [
               2.3522,
             ],
@@ -3877,8 +3823,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "longitude",
           "required": false,
           "schema": {
-            "$id": "f9c95dab-b429-4bc0-b271-89496f9ae068",
-            "$schema": "https://json-schema.org/draft/2020-12/schema",
             "examples": [
               48.8566,
             ],
@@ -3893,8 +3837,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "radius",
           "required": false,
           "schema": {
-            "$id": "f4fe972f-b8fd-4adb-a78b-d2a04391c0c3",
-            "$schema": "https://json-schema.org/draft/2020-12/schema",
             "default": 30,
             "examples": [
               30,
@@ -3910,8 +3852,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "content": {
             "application/json": {
               "schema": {
-                "$id": "7dbcdd29-2a42-48ed-91cd-cb37e8afb3ac",
-                "$schema": "https://json-schema.org/draft/2020-12/schema",
                 "items": {
                   "$ref": "#/components/schemas/MissionLocale",
                 },
@@ -3970,8 +3910,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "content": {
             "application/json": {
               "schema": {
-                "$id": "e247fa42-6634-4a7f-bb74-35416b60df24",
-                "$schema": "https://json-schema.org/draft/2020-12/schema",
                 "additionalProperties": false,
                 "properties": {
                   "env": {
@@ -4496,8 +4434,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "page_size",
           "required": false,
           "schema": {
-            "$id": "150af8c5-a49b-44db-8910-aeaee37dcfb9",
-            "$schema": "https://json-schema.org/draft/2020-12/schema",
             "default": 100,
             "examples": [
               10,
@@ -4513,8 +4449,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "page_index",
           "required": false,
           "schema": {
-            "$id": "16962bb3-40fd-4620-8d7c-6506b8a4a499",
-            "$schema": "https://json-schema.org/draft/2020-12/schema",
             "default": 0,
             "examples": [
               12,
@@ -4529,8 +4463,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "content": {
             "application/json": {
               "schema": {
-                "$id": "15bf5fb5-eab8-47e2-a9d4-d49293e12cbf",
-                "$schema": "https://json-schema.org/draft/2020-12/schema",
                 "additionalProperties": false,
                 "properties": {
                   "data": {
@@ -4603,8 +4535,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "uai",
           "required": false,
           "schema": {
-            "$id": "b8d853e0-2d56-4579-9090-7bb6fd552735",
-            "$schema": "https://json-schema.org/draft/2020-12/schema",
             "anyOf": [
               {
                 "pattern": "^\\d{7}[A-Z]$",
@@ -4621,8 +4551,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "name": "siret",
           "required": false,
           "schema": {
-            "$id": "f4335a4c-bec8-4439-8be1-b1bd420eee31",
-            "$schema": "https://json-schema.org/draft/2020-12/schema",
             "anyOf": [
               {
                 "pattern": "^\\d{14}$",
@@ -4640,8 +4568,6 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
           "content": {
             "application/json": {
               "schema": {
-                "$id": "6e56bd3f-9fd8-4df7-8613-046caff177f5",
-                "$schema": "https://json-schema.org/draft/2020-12/schema",
                 "additionalProperties": false,
                 "properties": {
                   "candidats": {

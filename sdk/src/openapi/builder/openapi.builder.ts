@@ -1,6 +1,5 @@
-import { registry, toJSONSchema } from "zod/v4-mini";
-import type { $ZodRegistry, $ZodType, JSONSchema } from "zod/v4/core";
-import type { PathItemObject, SchemaObject, SchemasObject } from "openapi3-ts/oas31";
+import { registry } from "zod/v4-mini";
+import type { PathItemObject, SchemaObject } from "openapi3-ts/oas31";
 import { OpenApiBuilder } from "openapi3-ts/oas31";
 import { zParisLocalDate } from "../../utils/date.primitives.js";
 import { zSiret, zUai } from "../../models/organisme/organismes.primitives.js";
@@ -10,7 +9,7 @@ import { openapiSpec } from "../openapiSpec.js";
 import { addOperationDoc, addSchemaDoc, getTextOpenAPI } from "../utils/zodWithOpenApi.js";
 import type { IApiRoutesDef } from "../../routes/index.js";
 import { zApiRoutes } from "../../routes/index.js";
-import { generateOpenApiOperationObjectFromZod } from "../utils/openapi.uils.js";
+import { generateComponents, generateOpenApiOperationObjectFromZod } from "../utils/openapi.uils.js";
 
 type RegistryMeta = { id?: string | undefined; openapi?: Partial<SchemaObject> };
 
@@ -45,28 +44,6 @@ function getSecuritySchemeDescription(lang: "en" | "fr" | null): string {
     default:
       return "";
   }
-}
-
-function generateComponents(registry: $ZodRegistry<RegistryMeta>, io: "input" | "output"): { schemas: SchemasObject } {
-  return toJSONSchema(registry, {
-    unrepresentable: "any",
-    uri: (id: string) => id,
-    io,
-    override: (ctx: { zodSchema: $ZodType; jsonSchema: JSONSchema.BaseSchema }): void => {
-      const meta = registry.get(ctx.zodSchema);
-      if (meta?.openapi) {
-        Object.assign(ctx.jsonSchema, meta?.openapi);
-      }
-
-      if ("maximum" in ctx.jsonSchema && ctx.jsonSchema.maximum === Number.MAX_SAFE_INTEGER) {
-        delete ctx.jsonSchema.maximum;
-      }
-
-      if ("minimum" in ctx.jsonSchema && ctx.jsonSchema.minimum === Number.MIN_SAFE_INTEGER) {
-        delete ctx.jsonSchema.minimum;
-      }
-    },
-  }) as { schemas: SchemasObject };
 }
 
 // Using the lang null is mainly used for testing purposes, it allows to generate the OpenAPI spec without text

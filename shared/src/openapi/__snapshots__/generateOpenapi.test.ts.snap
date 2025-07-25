@@ -362,6 +362,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
     },
     "schemas": {
       "Adresse": {
+        "$id": "#/components/schemas/Adresse",
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "additionalProperties": false,
         "properties": {
@@ -474,6 +475,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         "type": "object",
       },
       "Certification": {
+        "$id": "#/components/schemas/Certification",
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "additionalProperties": false,
         "properties": {
@@ -1539,6 +1541,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         "type": "object",
       },
       "Commune": {
+        "$id": "#/components/schemas/Commune",
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "additionalProperties": false,
         "properties": {
@@ -1695,6 +1698,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         "type": "object",
       },
       "Departement": {
+        "$id": "#/components/schemas/Departement",
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "additionalProperties": false,
         "properties": {
@@ -1750,6 +1754,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         "type": "object",
       },
       "Formation": {
+        "$id": "#/components/schemas/Formation",
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "additionalProperties": false,
         "properties": {
@@ -2106,6 +2111,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         "type": "object",
       },
       "GeoJsonPoint": {
+        "$id": "#/components/schemas/GeoJsonPoint",
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "additionalProperties": false,
         "properties": {
@@ -2142,6 +2148,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         "type": "object",
       },
       "GeoJsonPolygon": {
+        "$id": "#/components/schemas/GeoJsonPolygon",
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "additionalProperties": false,
         "properties": {
@@ -3284,6 +3291,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         "type": "object",
       },
       "MissionLocale": {
+        "$id": "#/components/schemas/MissionLocale",
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "additionalProperties": false,
         "properties": {
@@ -3385,6 +3393,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         "type": "object",
       },
       "Organisme": {
+        "$id": "#/components/schemas/Organisme",
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "additionalProperties": false,
         "properties": {
@@ -3655,6 +3664,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "identifiant.cfd",
             "required": false,
             "schema": {
+              "$id": "5db08ef0-03f6-4f4d-be60-7885ef3e26bc",
               "$schema": "https://json-schema.org/draft/2020-12/schema",
               "examples": [
                 "46X32402",
@@ -3671,6 +3681,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "identifiant.rncp",
             "required": false,
             "schema": {
+              "$id": "e5ee4b2e-deda-4d81-a8be-85b250529572",
               "$schema": "https://json-schema.org/draft/2020-12/schema",
               "examples": [
                 "RNCP12345",
@@ -3687,6 +3698,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "content": {
               "application/json": {
                 "schema": {
+                  "$id": "d94bc729-2c2e-407b-bea6-553b0be63e4f",
                   "$schema": "https://json-schema.org/draft/2020-12/schema",
                   "items": {
                     "$ref": "#/components/schemas/Certification",
@@ -3912,6 +3924,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "page_size",
             "required": false,
             "schema": {
+              "$id": "919aafc5-9431-4328-a0ba-db462ecfc418",
               "$schema": "https://json-schema.org/draft/2020-12/schema",
               "default": 100,
               "examples": [
@@ -3928,6 +3941,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "page_index",
             "required": false,
             "schema": {
+              "$id": "a8948349-dca3-43d1-b9a5-0e160db01d4b",
               "$schema": "https://json-schema.org/draft/2020-12/schema",
               "default": 0,
               "examples": [
@@ -3943,6 +3957,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "latitude",
             "required": false,
             "schema": {
+              "$id": "3f3cd849-460e-4d93-a8b4-3e2d9851c0f4",
               "$schema": "https://json-schema.org/draft/2020-12/schema",
               "examples": [
                 2.3522,
@@ -3958,6 +3973,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "longitude",
             "required": false,
             "schema": {
+              "$id": "ddb6e5ba-5db3-4046-ace1-c1973ebedfb0",
               "$schema": "https://json-schema.org/draft/2020-12/schema",
               "examples": [
                 48.8566,
@@ -3973,6 +3989,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "radius",
             "required": false,
             "schema": {
+              "$id": "ee7763cc-0010-4b1f-a171-60b05c405b7b",
               "$schema": "https://json-schema.org/draft/2020-12/schema",
               "default": 30,
               "examples": [
@@ -3988,6 +4005,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "target_diploma_level",
             "required": false,
             "schema": {
+              "$id": "af57fc39-26bd-44c5-894c-15512c970c80",
               "$schema": "https://json-schema.org/draft/2020-12/schema",
               "enum": [
                 "1",
@@ -4014,6 +4032,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "romes",
             "required": false,
             "schema": {
+              "$id": "ff7072af-8d21-4e86-bcc9-b985f7876218",
               "$schema": "https://json-schema.org/draft/2020-12/schema",
               "examples": [
                 "F1601,F1201,F1106",
@@ -4027,6 +4046,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "rncp",
             "required": false,
             "schema": {
+              "$id": "3cc812ac-05c3-4b66-803c-75f4ec23eb11",
               "$schema": "https://json-schema.org/draft/2020-12/schema",
               "examples": [
                 "RNCP34436",
@@ -4041,6 +4061,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "include_archived",
             "required": false,
             "schema": {
+              "$id": "0cee5e42-dcfc-484c-b079-e19982d9571d",
               "$schema": "https://json-schema.org/draft/2020-12/schema",
               "default": "false",
               "enum": [
@@ -4056,6 +4077,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "content": {
               "application/json": {
                 "schema": {
+                  "$id": "fe3280e9-7353-41d0-b7d3-4f5f231a20da",
                   "$schema": "https://json-schema.org/draft/2020-12/schema",
                   "additionalProperties": false,
                   "properties": {
@@ -4127,6 +4149,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "id",
             "required": true,
             "schema": {
+              "$id": "a7389ad7-cbc4-42b8-82d1-c162022a74c6",
               "$schema": "https://json-schema.org/draft/2020-12/schema",
               "examples": [
                 "049510P01118838776490001178615112600012-49099#L01",
@@ -4193,6 +4216,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "code",
             "required": true,
             "schema": {
+              "$id": "c5f30e70-305d-491c-99a6-96a984ba26d9",
               "$schema": "https://json-schema.org/draft/2020-12/schema",
               "examples": [
                 "75056",
@@ -4208,6 +4232,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "content": {
               "application/json": {
                 "schema": {
+                  "$id": "39b918ab-0875-4a68-b87a-505dc1c26597",
                   "$schema": "https://json-schema.org/draft/2020-12/schema",
                   "items": {
                     "$ref": "#/components/schemas/Commune",
@@ -4264,6 +4289,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "content": {
               "application/json": {
                 "schema": {
+                  "$id": "be8655d5-c5ef-4584-9356-18fdde32573f",
                   "$schema": "https://json-schema.org/draft/2020-12/schema",
                   "items": {
                     "$ref": "#/components/schemas/Departement",
@@ -4322,6 +4348,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "latitude",
             "required": false,
             "schema": {
+              "$id": "8bff343c-93b0-4de6-b206-275bd24b90d1",
               "$schema": "https://json-schema.org/draft/2020-12/schema",
               "examples": [
                 2.3522,
@@ -4337,6 +4364,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "longitude",
             "required": false,
             "schema": {
+              "$id": "f9a42064-42b6-4f29-b3c7-b7475a93cdb3",
               "$schema": "https://json-schema.org/draft/2020-12/schema",
               "examples": [
                 48.8566,
@@ -4352,6 +4380,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "radius",
             "required": false,
             "schema": {
+              "$id": "d1b4518f-7de1-43d7-a84a-db68097c2f71",
               "$schema": "https://json-schema.org/draft/2020-12/schema",
               "default": 30,
               "examples": [
@@ -4368,6 +4397,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "content": {
               "application/json": {
                 "schema": {
+                  "$id": "fa29a582-4fde-45c3-9b72-689d8941b69f",
                   "$schema": "https://json-schema.org/draft/2020-12/schema",
                   "items": {
                     "$ref": "#/components/schemas/MissionLocale",
@@ -4424,6 +4454,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "content": {
               "application/json": {
                 "schema": {
+                  "$id": "20d88a57-1008-42c1-b485-7dbb73f4aa3f",
                   "$schema": "https://json-schema.org/draft/2020-12/schema",
                   "additionalProperties": false,
                   "properties": {
@@ -5146,6 +5177,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "page_size",
             "required": false,
             "schema": {
+              "$id": "2c0a9a79-9334-4c47-85ad-27982df422d7",
               "$schema": "https://json-schema.org/draft/2020-12/schema",
               "default": 100,
               "examples": [
@@ -5162,6 +5194,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "page_index",
             "required": false,
             "schema": {
+              "$id": "08628c33-5c15-4ed8-86c1-eef3c726c4ca",
               "$schema": "https://json-schema.org/draft/2020-12/schema",
               "default": 0,
               "examples": [
@@ -5177,6 +5210,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "content": {
               "application/json": {
                 "schema": {
+                  "$id": "07f6b66f-f206-4c9f-bd4c-7b8527d447c8",
                   "$schema": "https://json-schema.org/draft/2020-12/schema",
                   "additionalProperties": false,
                   "properties": {
@@ -5247,6 +5281,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "uai",
             "required": false,
             "schema": {
+              "$id": "7b48ba3d-b961-426d-b97b-70ce1ffc9454",
               "$schema": "https://json-schema.org/draft/2020-12/schema",
               "anyOf": [
                 {
@@ -5264,6 +5299,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "name": "siret",
             "required": false,
             "schema": {
+              "$id": "a0ef2886-f977-4d8d-9c2a-8e0697f3735d",
               "$schema": "https://json-schema.org/draft/2020-12/schema",
               "anyOf": [
                 {
@@ -5282,6 +5318,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "content": {
               "application/json": {
                 "schema": {
+                  "$id": "9ef5be1b-7e8b-47c5-a320-62a626ebb4d7",
                   "$schema": "https://json-schema.org/draft/2020-12/schema",
                   "additionalProperties": false,
                   "properties": {

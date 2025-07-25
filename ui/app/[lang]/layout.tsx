@@ -12,6 +12,7 @@ import Link from "next/link";
 import type { PropsWithChildren } from "react";
 import type { ISessionJson } from "shared/routes/_private/auth.routes";
 
+import { cookies } from "next/headers";
 import { DsfrProvider, StartDsfrOnHydration } from "./DsfrProvider";
 import NotFoundPage from "./not-found";
 import type { PropsWithLangParams } from "@/app/i18n/settings";
@@ -28,6 +29,12 @@ const { getHtmlAttributes } = createGetHtmlAttributes({ defaultColorScheme });
 
 async function getSession(): Promise<ISessionJson | null> {
   try {
+    const cookiesStore = await cookies();
+    const sessionCookie = cookiesStore.get("api_session");
+    if (!sessionCookie) {
+      return null;
+    }
+
     const session = await apiGet(`/_private/auth/session`, { headers: {} }, { cache: "no-store" });
     return session;
   } catch (error) {

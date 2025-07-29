@@ -48,15 +48,6 @@ export default function Footer({ lang }: WithLang) {
           }}
         />,
         <FooterBottomItem
-          key="donnees-personnelles"
-          bottomItem={{
-            text: PAGES.static.donneesPersonnelles.getTitle(lang, t),
-            linkProps: {
-              href: PAGES.static.donneesPersonnelles.getPath(lang),
-            },
-          }}
-        />,
-        <FooterBottomItem
           key="politique-confidentialite"
           bottomItem={{
             text: PAGES.static.politiqueConfidentialite.getTitle(lang, t),

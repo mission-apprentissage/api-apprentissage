@@ -179,12 +179,6 @@ function ProtectionDesDonneeSection({ lang }: WithLang) {
                   Notre politique de confidentialité
                 </DsfrLink>
               </Typography>
-
-              <Typography>
-                <DsfrLink href={PAGES.static.donneesPersonnelles.getPath(lang)}>
-                  Protection des données à caractère personnel
-                </DsfrLink>
-              </Typography>
             </Box>
           </Box>
           <Box display="flex" alignItems="center" justifyContent="center" position="relative">

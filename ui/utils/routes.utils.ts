@@ -133,11 +133,6 @@ export const PAGES = {
       index: true,
       getTitle: (lang, t) => t("pages.cgu", { lang, ns: "global" }),
     },
-    donneesPersonnelles: {
-      getPath: (lang) => `/${lang}/donnees-personnelles` as string,
-      index: true,
-      getTitle: (lang, t) => t("pages.donneesPersonnelles", { lang, ns: "global" }),
-    },
     politiqueConfidentialite: {
       getPath: (lang) => `/${lang}/politique-confidentialite` as string,
       index: true,

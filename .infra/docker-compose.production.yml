@@ -27,9 +27,11 @@ services:
       <<: *deploy-default
       resources:
         limits:
-          memory: 768m
+          memory: 1g
       replicas: 4
     stop_grace_period: 60s
+    environment:
+      NODE_OPTIONS: "--max_old_space_size=768"
     volumes:
       - /opt/app/data/server:/data
       - /opt/app/.env_server:/app/server/.env
@@ -60,6 +62,8 @@ services:
     volumes:
       - /opt/app/data/server:/data
       - /opt/app/.env_server:/app/server/.env
+    environment:
+      NODE_OPTIONS: "--max_old_space_size=1536"
     logging:
       driver: "fluentd"
       options:
@@ -74,8 +78,10 @@ services:
       <<: *deploy-default
       resources:
         limits:
-          memory: 256m
+          memory: 1g
       replicas: 2
+    environment:
+      NODE_OPTIONS: "--max_old_space_size=768"
     env_file: .env_ui
     stop_grace_period: 60s
     logging:

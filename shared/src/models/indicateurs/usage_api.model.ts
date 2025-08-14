@@ -1,7 +1,7 @@
 import { z } from "zod/v4-mini";
 
 import type { IModelDescriptorGeneric } from "../common.js";
-import { zObjectId } from "../common.js";
+import { zObjectIdMini } from "../common.js";
 
 const collectionName = "indicateurs.usage_api" as const;
 
@@ -10,12 +10,12 @@ const indexes: IModelDescriptorGeneric["indexes"] = [
 ];
 
 export const zIndicateurUsageApi = z.object({
-  _id: zObjectId,
+  _id: zObjectIdMini,
   method: z.string(),
   path: z.string(),
   date: z.date(),
-  user_id: zObjectId,
-  api_key_id: zObjectId,
+  user_id: zObjectIdMini,
+  api_key_id: zObjectIdMini,
   code: z.number(),
   type: z.enum(["informational", "success", "redirection", "client_error", "server_error", "unknown"]),
   count: z.number(),

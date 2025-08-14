@@ -2,7 +2,7 @@ import { DateTime } from "luxon";
 import { z } from "zod/v4-mini";
 
 import type { IModelDescriptorGeneric } from "../../common.js";
-import { zObjectId } from "../../common.js";
+import { zObjectIdMini } from "../../common.js";
 
 const collectionName = "source.kali.ccn" as const;
 
@@ -101,7 +101,7 @@ export const zSourceKaliTextIndependentData = z.object({
 });
 
 export const zSourceKaliCcn = z.object({
-  _id: zObjectId,
+  _id: zObjectIdMini,
   date_import: z.date(),
   data: z.discriminatedUnion("type", [zSourceKaliConventionCollectionData, zSourceKaliTextIndependentData]),
 });

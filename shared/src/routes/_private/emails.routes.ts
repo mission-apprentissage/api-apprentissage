@@ -1,7 +1,7 @@
 import type { IApiRoutesDef } from "api-alternance-sdk";
 import { z } from "zod/v4-mini";
 
-import { zObjectId } from "../../models/common.js";
+import { zObjectIdMini } from "../../models/common.js";
 
 export const zEmailRoutes = {
   get: {
@@ -19,7 +19,7 @@ export const zEmailRoutes = {
     "/_private/emails/:id/markAsOpened": {
       method: "get",
       path: "/_private/emails/:id/markAsOpened",
-      params: z.object({ id: zObjectId }),
+      params: z.object({ id: zObjectIdMini }),
       response: {
         "200": z.unknown(),
       },

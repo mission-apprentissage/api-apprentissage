@@ -8,7 +8,7 @@ import type { IOrganisationInternal } from "shared/models/organisation.model";
 import type { IUser } from "shared/models/user.model";
 import type { IAccessToken } from "shared/routes/common.routes";
 import { assertUnreachable } from "shared/utils/assertUnreachable";
-import { zObjectId } from "zod-mongodb-schema";
+import { zObjectIdMini } from "zod-mongodb-schema";
 
 import { getAccessTokenScope } from "./accessTokenService.js";
 import { getUserFromRequest } from "./authenticationService.js";
@@ -36,7 +36,7 @@ async function getUserResource<S extends WithSecurityScheme>(schema: S, req: IRe
       schema.securityScheme.ressources.user.map(async (userDef) => {
         if ("_id" in userDef) {
           const userOpt = await getDbCollection("users").findOne({
-            _id: zObjectId.parse(getAccessResourcePathValue(userDef._id, req)),
+            _id: zObjectIdMini.parse(getAccessResourcePathValue(userDef._id, req)),
           });
 
           return userOpt ? [userOpt] : [];

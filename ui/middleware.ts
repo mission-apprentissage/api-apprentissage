@@ -62,7 +62,6 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL(`/${lang}${pathname}${search}`, request.url));
   }
 
-  // eslint-disable-next-line n/no-unsupported-features/node-builtins
   const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
   const cspHeader = inline(contentSecurityPolicy + ` worker-src 'self' 'nonce-${nonce}' 'strict-dynamic';`);
 

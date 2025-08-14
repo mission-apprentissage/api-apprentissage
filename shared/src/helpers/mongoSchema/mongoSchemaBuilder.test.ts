@@ -9,11 +9,10 @@ describe("zodToMongoSchema", () => {
   modelDescriptors.forEach((descriptor) => {
     it(`should convert ${descriptor.collectionName} schema`, () => {
       expect(
-        zodToMongoSchema(descriptor.zod, (z: $ZodType): JSONSchema.Schema | null => {
+        zodToMongoSchema(descriptor.zod, (z: $ZodType): JSONSchema.BaseSchema | null => {
           if (z === zParisLocalDate) {
             return {
-              type: "string",
-              format: "date-time",
+              ["bsonType"]: "date",
             };
           }
 

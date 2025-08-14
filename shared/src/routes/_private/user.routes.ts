@@ -1,7 +1,7 @@
 import type { IApiRoutesDef } from "api-alternance-sdk";
 import { z } from "zod/v4-mini";
 
-import { zObjectId } from "../../models/common.js";
+import { zObjectIdMini } from "../../models/common.js";
 import { zApiKeyPrivate } from "../../models/user.model.js";
 
 export const zUserRoutes = {
@@ -38,7 +38,7 @@ export const zUserRoutes = {
     "/_private/user/api-key/:id": {
       method: "delete",
       path: "/_private/user/api-key/:id",
-      params: z.object({ id: zObjectId }),
+      params: z.object({ id: zObjectIdMini }),
       response: {
         "200": z.object({ success: z.literal(true) }),
       },

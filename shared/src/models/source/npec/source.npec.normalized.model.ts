@@ -2,7 +2,7 @@ import { zRncp } from "api-alternance-sdk/internal";
 import { z } from "zod/v4-mini";
 
 import type { IModelDescriptorGeneric } from "../../common.js";
-import { zObjectId } from "../../common.js";
+import { zObjectIdMini } from "../../common.js";
 
 const collectionName = "source.npec.normalized" as const;
 
@@ -14,7 +14,7 @@ const indexes: IModelDescriptorGeneric["indexes"] = [
 ];
 
 export const zSourceNpecNormalizedData = z.object({
-  _id: zObjectId,
+  _id: zObjectIdMini,
   rncp: zRncp,
   cpne_code: z.string(),
   cpne_libelle: z.string(),
@@ -23,7 +23,7 @@ export const zSourceNpecNormalizedData = z.object({
   idcc: z.array(z.number()),
   filename: z.string(),
   date_file: z.date(),
-  import_id: zObjectId,
+  import_id: zObjectIdMini,
   date_import: z.date(),
 });
 

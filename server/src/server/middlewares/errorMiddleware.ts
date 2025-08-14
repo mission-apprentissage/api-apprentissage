@@ -1,7 +1,7 @@
 import { badRequest, Boom, internal, isBoom } from "@hapi/boom";
 import { captureException } from "@sentry/node";
 import type { FastifyError } from "fastify";
-import { hasZodFastifySchemaValidationErrors, isResponseSerializationError } from "@moroine/fastify-type-provider-zod";
+import { hasZodFastifySchemaValidationErrors, isResponseSerializationError } from "fastify-type-provider-zod";
 import type { IResError } from "shared/routes/common.routes";
 
 import { $ZodError, treeifyError } from "zod/v4/core";

@@ -2,7 +2,7 @@ import type { Jsonify } from "type-fest";
 import { z } from "zod/v4-mini";
 
 import type { IModelDescriptorGeneric } from "./common.js";
-import { zObjectId } from "./common.js";
+import { zObjectIdMini } from "./common.js";
 import { zTemplate } from "./email_event/email_templates.js";
 
 const collectionName = "email_events" as const;
@@ -16,7 +16,7 @@ const zEmailError = z.object({
 export type IEmailError = z.output<typeof zEmailError>;
 
 export const ZEmailEvent = z.object({
-  _id: zObjectId,
+  _id: zObjectIdMini,
   email: z.string(),
   template: zTemplate,
   created_at: z.date(),

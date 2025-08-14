@@ -7,4 +7,4 @@ export interface IModelDescriptorGeneric<CollectionName = string, LocalZodType =
   collectionName: CollectionName;
 }
 
-export { zObjectId } from "zod-mongodb-schema";
+export { zObjectIdMini } from "zod-mongodb-schema";

@@ -2,7 +2,7 @@ import { zSiret } from "api-alternance-sdk";
 import { z } from "zod/v4-mini";
 
 import type { IModelDescriptorGeneric } from "../common.js";
-import { zObjectId } from "../common.js";
+import { zObjectIdMini } from "../common.js";
 
 const collectionName = "cache.entreprise" as const;
 
@@ -62,7 +62,7 @@ export const zApiEntEtablissement = z.object({
 });
 
 export const zCacheApiEntEtablissement = z.object({
-  _id: zObjectId,
+  _id: zObjectIdMini,
   identifiant: z.string(),
   ttl: z.nullable(z.date()),
   data: z.discriminatedUnion("type", [

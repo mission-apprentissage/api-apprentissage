@@ -1,7 +1,7 @@
 import { z } from "zod/v4-mini";
 
 import type { IModelDescriptorGeneric } from "../../common.js";
-import { zObjectId } from "../../common.js";
+import { zObjectIdMini } from "../../common.js";
 
 const collectionName = "source.kit_apprentissage" as const;
 
@@ -11,7 +11,7 @@ const indexes: IModelDescriptorGeneric["indexes"] = [
 ];
 
 export const zKitApprentissage = z.object({
-  _id: zObjectId,
+  _id: zObjectIdMini,
   rncp: z.string(),
   cfd: z.string(),
 });

@@ -23,10 +23,13 @@ export async function fetchDataGouvDataSet(datasetId: string): Promise<IDataGouv
     return zDataGouvDataset.parse(data);
   } catch (error) {
     if (error instanceof $ZodError) {
-      logger.error("api.data_gouv: unable to fetchDataGouvDataSet; unexpected api data", {
-        datasetId,
-        formattedError: prettifyError(error),
-      });
+      logger.error(
+        {
+          datasetId,
+          formattedError: prettifyError(error),
+        },
+        "api.data_gouv: unable to fetchDataGouvDataSet; unexpected api data"
+      );
       throw withCause(
         internal("api.data_gouv: unable to fetchDataGouvDataSet; unexpected api data", {
           datasetId,

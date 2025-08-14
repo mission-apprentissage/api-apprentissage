@@ -1,7 +1,7 @@
 import type { IApiRouteSchema, ISecuredRouteSchema, WithSecurityScheme } from "api-alternance-sdk";
 import { fastify } from "fastify";
-import type { ZodTypeProvider } from "@moroine/fastify-type-provider-zod";
-import { serializerCompiler, validatorCompiler } from "@moroine/fastify-type-provider-zod";
+import type { ZodTypeProvider } from "fastify-type-provider-zod";
+import { serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
 import { ObjectId } from "mongodb";
 import { generateUserFixture } from "shared/models/fixtures/index";
 import type { IUser } from "shared/models/user.model";
@@ -55,7 +55,7 @@ describe("apiKeyUsageMiddleware", () => {
   app.decorate("auth", <S extends IApiRouteSchema & WithSecurityScheme>(scheme: S) => auth(scheme));
 
   app.post("/:name", { schema: postSchema, onRequest: [app.auth(postSchema)] }, async (request, response) => {
-    return response.status(request.body.code).send({ ok: true });
+    return response.status(request.body.code as 200).send({ ok: true });
   });
   app.get("/public", { schema: getSchemaPublic }, async (_request, response) => {
     return response.status(200).send({ ok: true });

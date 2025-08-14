@@ -79,7 +79,7 @@ export async function checkDocumentationSync() {
 
   if (delta) {
     const message = `checkDocumentationSync: API Alternance documentation is not in sync with LBA`;
-    logger.error(message, { delta, result });
+    logger.error({ delta, result }, message);
     throw internal(message, { delta, result });
   }
 }

@@ -2,7 +2,7 @@ import { zOrganisation } from "api-alternance-sdk";
 import { z } from "zod/v4-mini";
 
 import type { IModelDescriptorGeneric } from "./common.js";
-import { zObjectId } from "./common.js";
+import { zObjectIdMini } from "./common.js";
 
 const collectionName = "organisations" as const;
 
@@ -12,7 +12,7 @@ const indexes: IModelDescriptorGeneric["indexes"] = [
 ];
 
 export const zOrganisationInternal = z.extend(zOrganisation, {
-  _id: zObjectId,
+  _id: zObjectIdMini,
   updated_at: z.date(),
   created_at: z.date(),
 });

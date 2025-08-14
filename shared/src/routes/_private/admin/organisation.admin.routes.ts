@@ -1,6 +1,6 @@
 import type { IApiRoutesDef } from "api-alternance-sdk";
 import { z } from "zod/v4-mini";
-import { zObjectId } from "zod-mongodb-schema";
+import { zObjectIdMini } from "zod-mongodb-schema";
 
 import { zOrganisationCreate, zOrganisationEdit, zOrganisationInternal } from "../../../models/organisation.model.js";
 
@@ -34,7 +34,7 @@ export const zOrganisationAdminRoutes = {
     "/_private/admin/organisations/:id": {
       method: "put",
       path: "/_private/admin/organisations/:id",
-      params: z.object({ id: zObjectId }),
+      params: z.object({ id: zObjectIdMini }),
       body: zOrganisationEdit,
       response: { "200": zOrganisationInternal },
       securityScheme: {
@@ -48,7 +48,7 @@ export const zOrganisationAdminRoutes = {
     "/_private/admin/organisations/:id": {
       method: "delete",
       path: "/_private/admin/organisations/:id",
-      params: z.object({ id: zObjectId }),
+      params: z.object({ id: zObjectIdMini }),
       response: {
         "200": z.object({ success: z.literal(true) }),
       },

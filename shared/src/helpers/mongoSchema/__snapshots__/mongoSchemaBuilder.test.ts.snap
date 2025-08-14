@@ -31,6 +31,9 @@ exports[`zodToMongoSchema > should convert cache.adresse schema 1`] = `
             },
             "type": {
               "bsonType": "string",
+              "enum": [
+                "Point",
+              ],
             },
           },
           "required": [
@@ -322,6 +325,9 @@ exports[`zodToMongoSchema > should convert cache.entreprise schema 1`] = `
             },
             "type": {
               "bsonType": "string",
+              "enum": [
+                "etablissement",
+              ],
             },
           },
           "required": [
@@ -335,6 +341,9 @@ exports[`zodToMongoSchema > should convert cache.entreprise schema 1`] = `
           "properties": {
             "type": {
               "bsonType": "string",
+              "enum": [
+                "unite_legale",
+              ],
             },
             "unite_legale": {
               "anyOf": [
@@ -1432,6 +1441,9 @@ exports[`zodToMongoSchema > should convert commune schema 1`] = `
             },
             "type": {
               "bsonType": "string",
+              "enum": [
+                "Polygon",
+              ],
             },
           },
           "required": [
@@ -1460,6 +1472,9 @@ exports[`zodToMongoSchema > should convert commune schema 1`] = `
             },
             "type": {
               "bsonType": "string",
+              "enum": [
+                "Point",
+              ],
             },
           },
           "required": [
@@ -1552,6 +1567,9 @@ exports[`zodToMongoSchema > should convert commune schema 1`] = `
                         },
                         "type": {
                           "bsonType": "string",
+                          "enum": [
+                            "Point",
+                          ],
                         },
                       },
                       "required": [
@@ -1733,6 +1751,9 @@ exports[`zodToMongoSchema > should convert email_events schema 1`] = `
           "properties": {
             "name": {
               "bsonType": "string",
+              "enum": [
+                "register",
+              ],
             },
             "to": {
               "bsonType": "string",
@@ -1754,6 +1775,9 @@ exports[`zodToMongoSchema > should convert email_events schema 1`] = `
           "properties": {
             "name": {
               "bsonType": "string",
+              "enum": [
+                "magic-link",
+              ],
             },
             "to": {
               "bsonType": "string",
@@ -1782,6 +1806,9 @@ exports[`zodToMongoSchema > should convert email_events schema 1`] = `
             },
             "name": {
               "bsonType": "string",
+              "enum": [
+                "register-feedback",
+              ],
             },
             "to": {
               "bsonType": "string",
@@ -1823,6 +1850,9 @@ exports[`zodToMongoSchema > should convert email_events schema 1`] = `
             },
             "name": {
               "bsonType": "string",
+              "enum": [
+                "api-key-will-expire",
+              ],
             },
             "to": {
               "bsonType": "string",
@@ -2919,6 +2949,9 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
                             },
                             "type": {
                               "bsonType": "string",
+                              "enum": [
+                                "Point",
+                              ],
                             },
                           },
                           "required": [
@@ -3192,6 +3225,9 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
             },
             "type": {
               "bsonType": "string",
+              "enum": [
+                "Point",
+              ],
             },
           },
           "required": [
@@ -3505,6 +3541,9 @@ exports[`zodToMongoSchema > should convert formation schema 1`] = `
                             },
                             "type": {
                               "bsonType": "string",
+                              "enum": [
+                                "Point",
+                              ],
                             },
                           },
                           "required": [
@@ -3785,6 +3824,9 @@ exports[`zodToMongoSchema > should convert import.meta schema 1`] = `
         },
         "type": {
           "bsonType": "string",
+          "enum": [
+            "france_competence",
+          ],
         },
       },
       "required": [
@@ -3909,6 +3951,9 @@ exports[`zodToMongoSchema > should convert import.meta schema 1`] = `
         },
         "type": {
           "bsonType": "string",
+          "enum": [
+            "certifications",
+          ],
         },
       },
       "required": [
@@ -3951,6 +3996,9 @@ exports[`zodToMongoSchema > should convert import.meta schema 1`] = `
         },
         "type": {
           "bsonType": "string",
+          "enum": [
+            "npec",
+          ],
         },
       },
       "required": [
@@ -4072,6 +4120,9 @@ exports[`zodToMongoSchema > should convert import.meta schema 1`] = `
         },
         "type": {
           "bsonType": "string",
+          "enum": [
+            "organismes",
+          ],
         },
       },
       "required": [
@@ -4162,6 +4213,9 @@ exports[`zodToMongoSchema > should convert import.meta schema 1`] = `
         },
         "type": {
           "bsonType": "string",
+          "enum": [
+            "formations",
+          ],
         },
       },
       "required": [
@@ -4481,6 +4535,9 @@ exports[`zodToMongoSchema > should convert organisme schema 1`] = `
                 },
                 "type": {
                   "bsonType": "string",
+                  "enum": [
+                    "Point",
+                  ],
                 },
               },
               "required": [
@@ -5100,6 +5157,9 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
         },
         "source": {
           "bsonType": "string",
+          "enum": [
+            "ACCE_UAI.csv",
+          ],
         },
       },
       "required": [
@@ -5167,6 +5227,9 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
         },
         "source": {
           "bsonType": "string",
+          "enum": [
+            "ACCE_UAI_ZONE.csv",
+          ],
         },
       },
       "required": [
@@ -5219,6 +5282,9 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
         },
         "source": {
           "bsonType": "string",
+          "enum": [
+            "ACCE_UAI_SPEC.csv",
+          ],
         },
       },
       "required": [
@@ -5682,6 +5748,9 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
         },
         "source": {
           "bsonType": "string",
+          "enum": [
+            "ACCE_UAI_MERE.csv",
+          ],
         },
       },
       "required": [
@@ -6145,6 +6214,9 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
         },
         "source": {
           "bsonType": "string",
+          "enum": [
+            "ACCE_UAI_FILLE.csv",
+          ],
         },
       },
       "required": [
@@ -6492,6 +6564,9 @@ exports[`zodToMongoSchema > should convert source.bcn schema 1`] = `
         },
         "source": {
           "bsonType": "string",
+          "enum": [
+            "N_FORMATION_DIPLOME",
+          ],
         },
       },
       "required": [
@@ -6818,6 +6893,9 @@ exports[`zodToMongoSchema > should convert source.bcn schema 1`] = `
         },
         "source": {
           "bsonType": "string",
+          "enum": [
+            "N_FORMATION_DIPLOME_ENQUETE_51",
+          ],
         },
       },
       "required": [
@@ -6928,6 +7006,9 @@ exports[`zodToMongoSchema > should convert source.bcn schema 1`] = `
         },
         "source": {
           "bsonType": "string",
+          "enum": [
+            "N_NIVEAU_FORMATION_DIPLOME",
+          ],
         },
       },
       "required": [
@@ -7205,6 +7286,9 @@ exports[`zodToMongoSchema > should convert source.bcn schema 1`] = `
         },
         "source": {
           "bsonType": "string",
+          "enum": [
+            "V_FORMATION_DIPLOME",
+          ],
         },
       },
       "required": [
@@ -8060,6 +8144,9 @@ exports[`zodToMongoSchema > should convert source.france_competence schema 1`] =
     },
     "source": {
       "bsonType": "string",
+      "enum": [
+        "rncp",
+      ],
     },
     "updated_at": {
       "bsonType": "date",
@@ -8174,6 +8261,9 @@ exports[`zodToMongoSchema > should convert source.insee_to_ml schema 1`] = `
                         },
                         "type": {
                           "bsonType": "string",
+                          "enum": [
+                            "Point",
+                          ],
                         },
                       },
                       "required": [
@@ -8288,6 +8378,9 @@ exports[`zodToMongoSchema > should convert source.kali.ccn schema 1`] = `
             },
             "type": {
               "bsonType": "string",
+              "enum": [
+                "IDCC",
+              ],
             },
             "url": {
               "bsonType": "string",
@@ -8382,6 +8475,9 @@ exports[`zodToMongoSchema > should convert source.kali.ccn schema 1`] = `
             },
             "type": {
               "bsonType": "string",
+              "enum": [
+                "TI",
+              ],
             },
             "url": {
               "bsonType": "string",
@@ -8523,6 +8619,9 @@ exports[`zodToMongoSchema > should convert source.npec schema 1`] = `
             },
             "type": {
               "bsonType": "string",
+              "enum": [
+                "npec",
+              ],
             },
           },
           "required": [
@@ -8565,6 +8664,9 @@ exports[`zodToMongoSchema > should convert source.npec schema 1`] = `
             },
             "type": {
               "bsonType": "string",
+              "enum": [
+                "cpne-idcc",
+              ],
             },
           },
           "required": [
@@ -8877,6 +8979,9 @@ exports[`zodToMongoSchema > should convert source.referentiel schema 1`] = `
               },
               "type": {
                 "bsonType": "string",
+                "enum": [
+                  "rncp",
+                ],
               },
             },
             "required": [
@@ -8934,6 +9039,9 @@ exports[`zodToMongoSchema > should convert source.referentiel schema 1`] = `
               },
               "type": {
                 "bsonType": "string",
+                "enum": [
+                  "cfd",
+                ],
               },
             },
             "required": [

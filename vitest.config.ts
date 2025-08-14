@@ -5,7 +5,6 @@ export default defineConfig({
   test: {
     projects: [
       {
-        // plugins: [tsconfigPaths()],
         test: {
           name: "server",
           root: "./server",
@@ -22,7 +21,6 @@ export default defineConfig({
         },
       },
       {
-        // plugins: [tsconfigPaths()],
         test: {
           name: "ui",
           root: "./ui",
@@ -37,7 +35,6 @@ export default defineConfig({
         },
       },
       {
-        // plugins: [tsconfigPaths()],
         test: {
           name: "shared",
           root: "./shared",
@@ -46,7 +43,6 @@ export default defineConfig({
         },
       },
       {
-        // plugins: [tsconfigPaths()],
         test: {
           name: "sdk",
           root: "./sdk",
@@ -55,6 +51,5 @@ export default defineConfig({
         },
       },
     ],
-    // ...
   },
 });

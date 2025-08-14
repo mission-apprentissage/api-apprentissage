@@ -1,14 +1,14 @@
 import { z } from "zod/v4-mini";
 
 import type { IModelDescriptorGeneric } from "../common.js";
-import { zObjectId } from "../common.js";
+import { zObjectIdMini } from "../common.js";
 
 const collectionName = "indicateurs.source_kit_apprentissage" as const;
 
 const indexes: IModelDescriptorGeneric["indexes"] = [[{ date: 1 }, { unique: true }]];
 
 export const zIndicateurSourceKitApprentissage = z.object({
-  _id: zObjectId,
+  _id: zObjectIdMini,
   date: z.date(),
   missingRncp: z.number(),
   missingCfd: z.number(),

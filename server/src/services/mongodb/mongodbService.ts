@@ -150,11 +150,10 @@ export const configureDbSchemaValidation = async (modelDescriptors: IModelDescri
     modelDescriptors.map(async ({ collectionName, zod }) => {
       await createCollectionIfDoesNotExist(collectionName);
 
-      const convertedSchema = zodToMongoSchema(zod, (z: $ZodType): JSONSchema.Schema | null => {
+      const convertedSchema = zodToMongoSchema(zod, (z: $ZodType): JSONSchema.BaseSchema | null => {
         if (z === zParisLocalDate) {
           return {
-            type: "string",
-            format: "date-time",
+            ["bsonType"]: "date",
           };
         }
 
@@ -254,7 +253,7 @@ export const createIndexes = async ({ drop } = { drop: false }) => {
     );
 
     if (indexesToRemove.size > 0) {
-      logger.warn(`Dropping extra indexes for collection ${descriptor.collectionName}`, indexesToRemove);
+      logger.warn(indexesToRemove, `Dropping extra indexes for collection ${descriptor.collectionName}`);
       await Promise.all(
         Array.from(indexesToRemove).map(async (index) =>
           getDbCollection(descriptor.collectionName).dropIndex(index.name)

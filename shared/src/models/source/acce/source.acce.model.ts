@@ -1,7 +1,7 @@
 import { z } from "zod/v4-mini";
 
 import type { IModelDescriptorGeneric } from "../../common.js";
-import { zObjectId } from "../../common.js";
+import { zObjectIdMini } from "../../common.js";
 
 const collectionName = "source.acce" as const;
 
@@ -86,7 +86,7 @@ const zUaiBaseFields = z.object({
   source: z.nullable(z.string()),
 });
 export const zAcceUai = z.object({
-  _id: zObjectId,
+  _id: zObjectIdMini,
   source: z.literal("ACCE_UAI.csv"),
   date: z.date(),
   data: z.extend(zUaiBaseFields, {
@@ -95,7 +95,7 @@ export const zAcceUai = z.object({
 });
 
 export const zAcceUaiZone = z.object({
-  _id: zObjectId,
+  _id: zObjectIdMini,
   source: z.literal("ACCE_UAI_ZONE.csv"),
   date: z.date(),
   data: z.object({
@@ -111,7 +111,7 @@ export const zAcceUaiZone = z.object({
 });
 
 export const zAcceUaiSpec = z.object({
-  _id: zObjectId,
+  _id: zObjectIdMini,
   source: z.literal("ACCE_UAI_SPEC.csv"),
   date: z.date(),
   data: z.object({
@@ -124,7 +124,7 @@ export const zAcceUaiSpec = z.object({
 });
 
 export const zAcceUaiMere = z.object({
-  _id: zObjectId,
+  _id: zObjectIdMini,
   source: z.literal("ACCE_UAI_MERE.csv"),
   date: z.date(),
   data: z.extend(zUaiBaseFields, {
@@ -135,7 +135,7 @@ export const zAcceUaiMere = z.object({
 });
 
 export const zAcceUaiFille = z.object({
-  _id: zObjectId,
+  _id: zObjectIdMini,
   source: z.literal("ACCE_UAI_FILLE.csv"),
   date: z.date(),
   data: z.extend(zUaiBaseFields, {

@@ -1,6 +1,6 @@
 import { z } from "zod/v4-mini";
 
-import { zObjectId } from "../../common.js";
+import { zObjectIdMini } from "../../common.js";
 import { zBcn_V_FormationDiplomeData } from "./bcn.v_formation_diplome.model.js";
 
 export const zBcn_N51_FormationDiplomeData = z.extend(zBcn_V_FormationDiplomeData, {
@@ -14,7 +14,7 @@ export const zBcn_N51_FormationDiplomeData = z.extend(zBcn_V_FormationDiplomeDat
 });
 
 export const zBcn_N51_FormationDiplome = z.object({
-  _id: zObjectId,
+  _id: zObjectIdMini,
   source: z.literal("N_FORMATION_DIPLOME_ENQUETE_51"),
   date: z.date(),
   data: zBcn_N51_FormationDiplomeData,

@@ -2,7 +2,7 @@ import { z } from "zod/v4-mini";
 
 import { zDataGouvDatasetResource } from "../apis/index.js";
 import type { IModelDescriptorGeneric } from "./common.js";
-import { zObjectId } from "./common.js";
+import { zObjectIdMini } from "./common.js";
 
 const collectionName = "import.meta" as const;
 
@@ -25,7 +25,7 @@ export const zArchiveMeta = z.object({
 export type IArchiveMeta = z.output<typeof zArchiveMeta>;
 
 export const zImportMetaFranceCompetence = z.object({
-  _id: zObjectId,
+  _id: zObjectIdMini,
   import_date: z.date(),
   type: z.literal("france_competence"),
   archiveMeta: zArchiveMeta,
@@ -33,7 +33,7 @@ export const zImportMetaFranceCompetence = z.object({
 });
 
 export const zImportMetaNpec = z.object({
-  _id: zObjectId,
+  _id: zObjectIdMini,
   import_date: z.date(),
   type: z.literal("npec"),
   status: z.enum(["pending", "done", "failed"]),
@@ -44,7 +44,7 @@ export const zImportMetaNpec = z.object({
 });
 
 export const zImportMetaSimple = z.object({
-  _id: zObjectId,
+  _id: zObjectIdMini,
   import_date: z.date(),
   type: z.enum([
     "bcn",
@@ -60,7 +60,7 @@ export const zImportMetaSimple = z.object({
 });
 
 export const zImportMetaDares = z.object({
-  _id: zObjectId,
+  _id: zObjectIdMini,
   import_date: z.date(),
   type: z.enum(["dares_ccn", "dares_ape_idcc"]),
   status: z.enum(["pending", "done", "failed"]),
@@ -72,7 +72,7 @@ export const zImportMetaDares = z.object({
 });
 
 export const zImportMetaCertifications = z.object({
-  _id: zObjectId,
+  _id: zObjectIdMini,
   import_date: z.date(),
   status: z.enum(["pending", "done", "failed"]),
   type: z.literal("certifications"),
@@ -88,7 +88,7 @@ export const zImportMetaCertifications = z.object({
 });
 
 export const zImportMetaOrganisme = z.object({
-  _id: zObjectId,
+  _id: zObjectIdMini,
   import_date: z.date(),
   status: z.enum(["pending", "done", "failed"]),
   type: z.literal("organismes"),
@@ -99,7 +99,7 @@ export const zImportMetaOrganisme = z.object({
 });
 
 export const zImportMetaFormations = z.object({
-  _id: zObjectId,
+  _id: zObjectIdMini,
   import_date: z.date(),
   status: z.enum(["pending", "done", "failed"]),
   type: z.literal("formations"),

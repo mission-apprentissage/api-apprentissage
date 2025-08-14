@@ -1,7 +1,7 @@
 import { z } from "zod/v4-mini";
 
 import type { IModelDescriptorGeneric } from "../../common.js";
-import { zObjectId } from "../../common.js";
+import { zObjectIdMini } from "../../common.js";
 import type { ISourceFcAncienneNouvelle } from "./parts/source.france_competence.ancienne_nouvelle.model.js";
 import { zSourceFcAncienneNouvelle } from "./parts/source.france_competence.ancienne_nouvelle.model.js";
 import type { ISourceFcBlocDeCompetences } from "./parts/source.france_competence.bloc_de_competences.model.js";
@@ -78,7 +78,7 @@ export type ISourceFranceCompetenceDataPart =
   | ISourceFcVoixAcces;
 
 export const zFranceCompetence = z.object({
-  _id: zObjectId,
+  _id: zObjectIdMini,
   created_at: z.date(),
   updated_at: z.date(),
   numero_fiche: z.string().check(z.regex(/^(RNCP|RS)\d+$/)),

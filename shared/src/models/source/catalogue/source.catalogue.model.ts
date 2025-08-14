@@ -1,7 +1,7 @@
 import { z } from "zod/v4-mini";
 
 import type { IModelDescriptorGeneric } from "../../common.js";
-import { zObjectId } from "../../common.js";
+import { zObjectIdMini } from "../../common.js";
 
 const collectionName = "source.catalogue" as const;
 
@@ -51,7 +51,7 @@ export const zFormationCatalogue = z.object({
 });
 
 export const zSourceCatalogue = z.object({
-  _id: zObjectId,
+  _id: zObjectIdMini,
   date: z.date(),
   data: zFormationCatalogue,
 });

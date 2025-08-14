@@ -1,7 +1,7 @@
 import { z } from "zod/v4-mini";
 
 import type { IModelDescriptorGeneric } from "../../common.js";
-import { zObjectId } from "../../common.js";
+import { zObjectIdMini } from "../../common.js";
 
 const collectionName = "source.npec" as const;
 
@@ -36,11 +36,11 @@ export const zSourceNpecIdccCpneData = z.object({
 export const zSourceNpecData = z.discriminatedUnion("type", [zSourceNpecReferentielData, zSourceNpecIdccCpneData]);
 
 export const zSourceNpecIdcc = z.object({
-  _id: zObjectId,
+  _id: zObjectIdMini,
   filename: z.string(),
   date_import: z.date(),
   date_file: z.date(),
-  import_id: zObjectId,
+  import_id: zObjectIdMini,
   data: zSourceNpecData,
 });
 

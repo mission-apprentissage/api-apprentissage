@@ -1,7 +1,7 @@
 import { z } from "zod/v4-mini";
 
 import type { IModelDescriptorGeneric } from "../../common.js";
-import { zObjectId } from "../../common.js";
+import { zObjectIdMini } from "../../common.js";
 
 const collectionName = "source.dares.ape_idcc" as const;
 
@@ -24,8 +24,8 @@ export const zSourceDaresApeIdccData = z.object({
 });
 
 export const zSourceDaresApeIdcc = z.object({
-  _id: zObjectId,
-  import_id: zObjectId,
+  _id: zObjectIdMini,
+  import_id: zObjectIdMini,
   date_import: z.date(),
   data: zSourceDaresApeIdccData,
 });

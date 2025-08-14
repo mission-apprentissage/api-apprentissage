@@ -1,7 +1,7 @@
 import { z } from "zod/v4-mini";
 import { zCommune } from "api-alternance-sdk";
 import type { IModelDescriptorGeneric } from "./common.js";
-import { zObjectId } from "./common.js";
+import { zObjectIdMini } from "./common.js";
 
 const collectionName = "commune" as const;
 
@@ -16,7 +16,7 @@ const indexes: IModelDescriptorGeneric["indexes"] = [
 ];
 
 export const zCommuneInternal = z.extend(zCommune, {
-  _id: zObjectId,
+  _id: zObjectIdMini,
   created_at: z.date(),
   updated_at: z.date(),
 });

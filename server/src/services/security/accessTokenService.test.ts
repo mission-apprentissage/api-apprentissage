@@ -4,7 +4,7 @@ import { zRoutes } from "shared";
 import { generateUserFixture } from "shared/models/fixtures/index";
 import { describe, expect, it } from "vitest";
 import { z } from "zod/v4-mini";
-import { zObjectId } from "zod-mongodb-schema";
+import { zObjectIdMini } from "zod-mongodb-schema";
 
 import { generateAccessToken, generateScope, parseAccessToken } from "./accessTokenService.js";
 
@@ -15,8 +15,8 @@ describe("generateScope", () => {
     const schema: SchemaWithSecurity = {
       method: "get",
       path: "/users/:id/:action",
-      params: z.object({ id: zObjectId, action: z.string() }),
-      querystring: z.object({ ids: z.array(zObjectId), q: z.string() }),
+      params: z.object({ id: zObjectIdMini, action: z.string() }),
+      querystring: z.object({ ids: z.array(zObjectIdMini), q: z.string() }),
       securityScheme: {
         auth: "cookie-session",
         access: "user:manage",
@@ -46,8 +46,8 @@ describe("generateScope", () => {
     const schema: SchemaWithSecurity = {
       method: "get",
       path: "/users/:id/:action",
-      params: z.object({ id: zObjectId, action: z.string() }),
-      querystring: z.object({ ids: z.array(zObjectId), q: z.string() }),
+      params: z.object({ id: zObjectIdMini, action: z.string() }),
+      querystring: z.object({ ids: z.array(zObjectIdMini), q: z.string() }),
       securityScheme: {
         auth: "cookie-session",
         access: "user:manage",
@@ -85,8 +85,8 @@ describe("accessTokenService", () => {
   const schema: any = {
     method: "get",
     path: "/users/status/:id",
-    params: z.object({ id: zObjectId, action: z.string() }),
-    querystring: z.object({ ids: z.array(zObjectId), q: z.string() }),
+    params: z.object({ id: zObjectIdMini, action: z.string() }),
+    querystring: z.object({ ids: z.array(zObjectIdMini), q: z.string() }),
     securityScheme: {
       auth: "cookie-session",
       access: "user:manage",

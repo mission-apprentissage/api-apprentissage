@@ -16,8 +16,8 @@ import type {
   RawServerDefault,
 } from "fastify";
 import { fastify } from "fastify";
-import type { ZodTypeProvider } from "@moroine/fastify-type-provider-zod";
-import { serializerCompiler, validatorCompiler } from "@moroine/fastify-type-provider-zod";
+import type { ZodTypeProvider } from "fastify-type-provider-zod";
+import { serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
 import { generateOpenApiSchema } from "shared/openapi/generateOpenapi";
 import { z } from "zod/v4-mini";
 

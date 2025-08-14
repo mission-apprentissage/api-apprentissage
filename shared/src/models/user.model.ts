@@ -2,7 +2,7 @@ import type { Jsonify } from "type-fest";
 import { z } from "zod/v4-mini";
 
 import type { IModelDescriptorGeneric } from "./common.js";
-import { zObjectId } from "./common.js";
+import { zObjectIdMini } from "./common.js";
 
 const collectionName = "users" as const;
 
@@ -29,7 +29,7 @@ const indexes: IModelDescriptorGeneric["indexes"] = [
 ];
 
 export const zApiKey = z.object({
-  _id: zObjectId,
+  _id: zObjectIdMini,
   name: z.nullable(z.string()),
   key: z.string(),
   last_used_at: z.nullable(z.date()),
@@ -58,7 +58,7 @@ const zStringTrimmedNullable = z.pipe(
 );
 
 export const zUser = z.object({
-  _id: zObjectId,
+  _id: zObjectIdMini,
   organisation: z.nullable(z.string()),
   email: z.string().check(z.email(), z.toLowerCase()),
   type: z.enum([
@@ -87,7 +87,7 @@ export const zUserCreate = z.pick(zUser, {
 });
 
 export const zUserPublic = z.object({
-  _id: zObjectId,
+  _id: zObjectIdMini,
   email: zUser.shape.email,
   organisation: z.nullable(z.string()),
   is_admin: zUser.shape.is_admin,

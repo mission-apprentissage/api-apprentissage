@@ -3,7 +3,6 @@ import { getBcnImporterStatus, runBcnImporter } from "./bcn/bcn.importer.js";
 import { getCatalogueImporterStatus, runCatalogueImporter } from "./catalogue/catalogue.importer.js";
 import { getCertificationImporterStatus, importCertifications } from "./certifications/certifications.importer.js";
 import { getCommuneImporterStatus, runCommuneImporter } from "./commune/commune.importer.js";
-import { getDaresApiIdccImporterStatus, runDaresApeIdccImporter } from "./dares/ape_idcc/dares.ape_idcc.importer.js";
 import { getDaresCcnImporterStatus, runDaresConventionCollectivesImporter } from "./dares/ccn/dares.ccn.importer.js";
 import { getFormationsImporterStatus, importFormations } from "./formation/formation.importer.js";
 import { getFranceCompetencesImporterStatus, runRncpImporter } from "./france_competence/france_competence.importer.js";
@@ -17,6 +16,8 @@ import type { Importer } from "./types.js";
 const timings = {
   import_source: "0 4 * * *",
   import_source_main: "0 */4 * * *",
+  import_compute_step_1: "0 1,5,9,13,17,21 * * *",
+  import_compute_step_2: "0 2,6,10,14,18,22 * * *",
 };
 
 export const importers: Record<string, Importer> = {
@@ -69,7 +70,7 @@ export const importers: Record<string, Importer> = {
     maxRuntimeInMinutes: 30,
   },
   "Import des certifications": {
-    cron_string: timings.import_source_main,
+    cron_string: timings.import_compute_step_1,
     handler: async () => importCertifications(),
     resumable: true,
     getStatus: getCertificationImporterStatus,
@@ -77,7 +78,7 @@ export const importers: Record<string, Importer> = {
     maxRuntimeInMinutes: 30,
   },
   "Import des organismes": {
-    cron_string: timings.import_source_main,
+    cron_string: timings.import_compute_step_1,
     handler: async () => importOrganismes(false),
     resumable: true,
     getStatus: getOrganismesImporterStatus,
@@ -85,7 +86,7 @@ export const importers: Record<string, Importer> = {
     maxRuntimeInMinutes: 30,
   },
   "Import des formations": {
-    cron_string: timings.import_source_main,
+    cron_string: timings.import_compute_step_2,
     handler: importFormations,
     resumable: true,
     getStatus: getFormationsImporterStatus,
@@ -108,14 +109,14 @@ export const importers: Record<string, Importer> = {
     checkinMargin: 60, // 1h
     maxRuntimeInMinutes: 30,
   },
-  "Import des APE-IDCC Dares": {
-    cron_string: timings.import_source,
-    handler: runDaresApeIdccImporter,
-    resumable: true,
-    getStatus: getDaresApiIdccImporterStatus,
-    checkinMargin: 60, // 1h
-    maxRuntimeInMinutes: 30,
-  },
+  // "Import des APE-IDCC Dares": {
+  //   cron_string: timings.import_source,
+  //   handler: runDaresApeIdccImporter,
+  //   resumable: true,
+  //   getStatus: getDaresApiIdccImporterStatus,
+  //   checkinMargin: 60, // 1h
+  //   maxRuntimeInMinutes: 30,
+  // },
   "Import des Missions Locales": {
     cron_string: timings.import_source,
     handler: runMissionLocaleImporter,

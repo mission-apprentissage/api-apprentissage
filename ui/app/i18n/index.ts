@@ -14,9 +14,6 @@ const initI18next = async (lang: Lang): Promise<i18nT> => {
   await i18nInstance
     .use(
       resourcesToBackend(async (language: Lang, namespace: Namespace) => {
-        if (namespace === "zod") {
-          return import(`zod-i18n-map/locales/${language}/zod.json`);
-        }
         return import(`./locales/${language}/${namespace}.json`);
       })
     )

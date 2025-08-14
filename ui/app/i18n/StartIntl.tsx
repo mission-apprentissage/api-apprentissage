@@ -3,8 +3,6 @@
 import { changeLanguage, use } from "i18next";
 import resourcesToBackend from "i18next-resources-to-backend";
 import { initReactI18next } from "react-i18next";
-import { z } from "zod";
-import { zodI18nMap } from "zod-i18n-map";
 
 import type { Lang, Namespace } from "./settings";
 import { getOptions, languages } from "./settings";
@@ -16,9 +14,6 @@ const runsOnServerSide = typeof window === "undefined";
 use(initReactI18next)
   .use(
     resourcesToBackend(async (language: Lang, namespace: Namespace) => {
-      if (namespace === "zod") {
-        return import(`zod-i18n-map/locales/${language}/zod.json`);
-      }
       return import(`./locales/${language}/${namespace}.json`);
     })
   )
@@ -26,8 +21,6 @@ use(initReactI18next)
     ...getOptions(),
     preload: runsOnServerSide ? languages : [],
   });
-
-z.setErrorMap(zodI18nMap);
 
 export function StartIntl({ lang }: { lang: Lang }) {
   // eslint-disable-next-line @typescript-eslint/no-floating-promises

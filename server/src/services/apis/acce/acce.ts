@@ -23,6 +23,8 @@ const acceClient = apiRateLimiter("acce", {
     baseURL: "https://acce.depp.education.fr/acce",
     timeout: 900_000,
   }),
+  timeout: 1_800_000, // 30 minutes
+  maxQueueSize: 100,
 });
 
 function getFormHeaders(auth?: { Cookie: string }) {

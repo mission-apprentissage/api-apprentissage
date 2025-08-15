@@ -15,6 +15,8 @@ const geoClient = apiRateLimiter("geo", {
     baseURL: config.api.geo.endpoint,
     timeout: 30_000,
   }),
+  timeout: 900_000, // 15 minutes
+  maxQueueSize: 100,
 });
 
 export const fetchGeoRegions = async (): Promise<ISourceGeoRegion[]> => {

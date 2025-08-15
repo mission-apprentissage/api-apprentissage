@@ -11,9 +11,11 @@ const unmlClient = apiRateLimiter("unml", {
   nbRequests: 10,
   durationInSeconds: 1,
   client: axios.create({
-    timeout: 5000,
+    timeout: 30_000,
     baseURL: config.api.unml.endpoint,
   }),
+  timeout: 900_000, // 15 minutes
+  maxQueueSize: 100,
 });
 
 export async function fetchDepartementMissionLocale(codeDepartement: string): Promise<ISourceUnmlPayload> {

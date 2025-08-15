@@ -9,11 +9,13 @@ import { apiRateLimiter } from "@/utils/apiUtils.js";
 
 const kitClient = apiRateLimiter("kit_apprentissage", {
   nbRequests: 1,
-  durationInSeconds: 30,
+  durationInSeconds: 60,
   client: axios.create({
     baseURL: config.api.kit_apprentissage.endpoint,
     timeout: 120_000,
   }),
+  timeout: 900_000, // 15 minutes
+  maxQueueSize: 100,
 });
 
 const zKitApprentissageResponse = z.object({

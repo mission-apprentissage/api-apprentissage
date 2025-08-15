@@ -19,7 +19,7 @@ interface ApiRateLimiterOptions {
   nbRequests?: number;
   durationInSeconds?: number;
   maxQueueSize?: number;
-  timeout?: number;
+  timeout: number;
   client: AxiosInstance;
 }
 
@@ -39,7 +39,7 @@ export const apiRateLimiter = (name: string, options: ApiRateLimiterOptions): Ap
   return async (callback) => {
     if (config.env !== "test") {
       // Do not rate limit tests
-      await timeout(queue.removeTokens(1), options.timeout ?? 10_000);
+      await timeout(queue.removeTokens(1), options.timeout);
     }
     return callback(options.client);
   };

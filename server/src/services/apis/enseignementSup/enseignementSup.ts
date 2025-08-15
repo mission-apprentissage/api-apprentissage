@@ -13,6 +13,8 @@ const apiEnseignementSup = apiRateLimiter("insee", {
     baseURL: config.api.enseignementSup.endpoint,
     timeout: 300_000,
   }),
+  timeout: 900_000, // 15 minutes
+  maxQueueSize: 100,
 });
 
 const zAcademieData = z.object({

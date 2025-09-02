@@ -233,8 +233,13 @@ const offerReadSchema = {
         "status",
       ],
     },
+    is_delegated: {
+      type: "boolean",
+      description: "Indicates if the job offer management is delegated to a partner school",
+      default: false,
+    },
   },
-  required: ["identifier", "workplace", "apply", "contract", "offer"],
+  required: ["identifier", "workplace", "apply", "contract", "offer", "is_delegated"],
 } as const satisfies SchemaObject;
 
 const offerWriteSchema = {

@@ -2105,6 +2105,14 @@ exports[`openapiSpec#models > should generate proper schema JobOfferRead 1`] = `
       ],
       "type": "object",
     },
+    "is_delegated": {
+      "default": false,
+      "description": "Indicates if the job offer management is delegated to a partner school",
+      "examples": [
+        true,
+      ],
+      "type": "boolean",
+    },
     "offer": {
       "properties": {
         "access_conditions": {
@@ -2415,6 +2423,7 @@ exports[`openapiSpec#models > should generate proper schema JobOfferRead 1`] = `
     "apply",
     "contract",
     "offer",
+    "is_delegated",
   ],
   "type": "object",
 }

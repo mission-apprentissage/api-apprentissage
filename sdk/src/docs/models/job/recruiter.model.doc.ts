@@ -27,15 +27,18 @@ export const recruiterModelDoc = {
       properties: {
         siret: {
           descriptions: [
-            { en: "SIRET of the contract execution location", fr: "SIRET du lieu d'exécution du contrat" },
+            {
+              en: "SIRET of the contract execution location or of the school if is_delegated = true",
+              fr: "SIRET du lieu d'exécution du contrat ou du CFA si is_delegated = true",
+            },
           ],
           examples: ["13002526500013"],
         },
         name: {
           descriptions: [
             {
-              en: "Name of the establishment (brand name or, failing that, legal name)",
-              fr: "Nom de l'établissement (enseigne ou, à défaut, nom légal)",
+              en: "Name of the establishment (brand name or, failing that, legal name) or school legal name if is_delegated = true",
+              fr: "Nom de l'établissement (enseigne ou, à défaut, nom légal) ou nom légal du CFA si is_delegated = true",
             },
             {
               en: "In the case of publishing a job offer, it is possible to use a custom name; otherwise, it will take the value of the brand name, or failing that, the legal name.",
@@ -60,7 +63,12 @@ export const recruiterModelDoc = {
           examples: ["Enseigne (todo)"],
         },
         legal_name: {
-          descriptions: [{ en: "Company legal name", fr: "Raison sociale de l'entreprise" }],
+          descriptions: [
+            {
+              en: "Company legal name or school legal name if is_delegated = true",
+              fr: "Raison sociale de l'entreprise ou raison sociale du CFA si is_delegated = true",
+            },
+          ],
         },
         size: {
           descriptions: [
@@ -80,7 +88,10 @@ export const recruiterModelDoc = {
           properties: {
             address: {
               descriptions: [
-                { en: "Postal address of the job offer location.", fr: "Adresse postale du lieu de l'offre d'emploi." },
+                {
+                  en: "Postal address of the job offer location or of the school if is_delegated = true.",
+                  fr: "Adresse postale du lieu de l'offre d'emploi ou du CFA si is_delegated = true.",
+                },
               ],
               examples: ["20 AVENUE DE SEGUR 75007 PARIS"],
             },
@@ -158,7 +169,10 @@ export const recruiterModelDoc = {
         },
         phone: {
           descriptions: [
-            { en: "Recruiter's phone number", fr: "Numéro de téléphone du recruteur" },
+            {
+              en: "Recruiter's phone number or School phone number if is_delegated is true",
+              fr: "Numéro de téléphone du recruteur ou du CFA si is_delegated = true",
+            },
             {
               en: "Only European phone numbers are allowed. There is also a check on the nature of the number: only mobile and landline phones are allowed.",
               fr: "Seuls les numéros de téléphone européens sont autorisés. Il y a également une vérification sur la nature du numéro : seuls les téléphones mobiles et fixes sont autorisés.",

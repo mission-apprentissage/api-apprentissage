@@ -97,7 +97,7 @@ const MentionsLegales = () => {
             Directeur de la publication
           </Typography>
           <Typography gutterBottom>
-            Le directeur de la publication est Monsieur Jérôme MARCHAND-ARVIER, Délégué général à l’emploi et à la
+            Le directeur de la publication est Monsieur Benjamin MAURICE, Délégué général à l’emploi et à la
             formation professionnelle.
           </Typography>
         </Section>
@@ -124,6 +124,8 @@ const MentionsLegales = () => {
             20 avenue de Ségur
             <br />
             75007 Paris
+            <br />
+            01 44 38 38 38
           </Typography>
         </Section>
 

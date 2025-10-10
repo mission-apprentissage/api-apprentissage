@@ -30,7 +30,7 @@
     "@sentry/node": "^9.46.0",
     "@sentry/profiling-node": "^9.46.0",
     "api-alternance-sdk": "workspace:^",
-    "axios": "^1.11.0",
+    "axios": "^1.12.2",
     "axios-retry": "^4.5.0",
     "commander": "^14.0.0",
     "csv-parse": "^5.6.0",

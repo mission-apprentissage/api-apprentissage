@@ -223,5 +223,14 @@ export const offerReadModelDoc = {
     },
     workplace: recruiterModelDoc.properties.workplace,
     apply: recruiterModelDoc.properties.apply,
+    is_delegated: {
+      descriptions: [
+        {
+          en: "true if offer management is delegated to a partner school. false otherwise",
+          fr: "Indique si la gestion de l'offre est déléguée à un CFA partenaire. valeurs true | false",
+        },
+      ],
+      examples: [true],
+    },
   },
 } as const satisfies DocTechnicalField;

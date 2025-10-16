@@ -9,6 +9,6 @@ Two types of job opportunities are available :
 
 The results are returned by source priority (La bonne alternance then its partners), by increasing distance to the search location if it has been provided as a parameter, and by decreasing creation date.
 
-The results are limited to 150 per source.
+The results are limited to 150 for each of the three sources i.e. 450 maximum results.
 
 The use of this API is free and reserved for non-profit uses. Note that any use of this data for commercial purposes, such as reselling or billing access to third parties such as candidates, companies, or schools, is prohibited.

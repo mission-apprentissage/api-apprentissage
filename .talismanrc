@@ -11,8 +11,12 @@ fileignoreconfig:
   checksum: 520b2ba0cac171d714a8cf8c7a4fdb349e280416aeaff419a94d423898674b0e
 - filename: sdk/src/docs/metier/depot-offre/depot-offre.doc.ts
   checksum: 4f53b2048a9d7bda6fa2b5c72c1ebcfd353bf678958dc1d76d885e1226a03701
+- filename: sdk/src/docs/metier/recherche-offre/en/description.md.ts
+  checksum: 9cfdebee64300522d54be59096b3f67fd92031cda4539eae86dc02eb404538e1
 - filename: sdk/src/docs/metier/recherche-offre/fr/description.md.ts
   checksum: f9c8dbc76805c0d6ec9e2bf565b69a5a691f183261260b52a5b6dcfe36935c43
+- filename: sdk/src/docs/metier/recuperation-detail-offre/en/description.md.ts
+  checksum: 38045e1bf126cb2e4f6d0f646ec5db366c34238b396d27810b1da73a69f0ac4b
 - filename: sdk/src/docs/models/job/application.model.doc.ts
   checksum: 9eb6c1fff24b532a002385705e293152a0e74a357c8d0071a500383c3c17c50b
 - filename: sdk/src/docs/models/job/offer_read.model.doc.ts

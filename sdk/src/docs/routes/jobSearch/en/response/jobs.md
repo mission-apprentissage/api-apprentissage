@@ -12,4 +12,4 @@ Currently, the results are sorted by:
 - Increasing distance (only for a search by location)
 - Decreasing date of creation
 
-The results are limited to 150 per source, and currently, it is not possible to retrieve all the offers matching the search criteria.
+The results are limited to 150 for each of the three sources i.e. 450 maximum results, and currently, it is not possible to retrieve all the offers matching the search criteria.

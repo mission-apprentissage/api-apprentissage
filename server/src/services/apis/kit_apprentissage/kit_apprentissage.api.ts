@@ -8,8 +8,8 @@ import { withCause } from "@/services/errors/withCause.js";
 import { apiRateLimiter } from "@/utils/apiUtils.js";
 
 const kitClient = apiRateLimiter("kit_apprentissage", {
-  nbRequests: 1,
-  durationInSeconds: 60,
+  nbRequests: 5,
+  durationInSeconds: 10,
   client: axios.create({
     baseURL: config.api.kit_apprentissage.endpoint,
     timeout: 120_000,

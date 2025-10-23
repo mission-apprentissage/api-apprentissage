@@ -20,7 +20,7 @@ async function getCertificationFromRncp(code: string | null): Promise<ICertifica
   const certification = await getDbCollection("certifications").findOne({ "identifiant.rncp": code });
 
   if (!certification) {
-    throw internal(`getCertificationFromRncp: certification not found for code`, { code });
+    throw internal(`getCertificationFromRncp: certification not found for code ${code}`, { code });
   }
 
   return certification;
@@ -30,7 +30,7 @@ async function getCertificationFromCfd(code: string): Promise<ICertification> {
   const certification = await getDbCollection("certifications").findOne({ "identifiant.cfd": code });
 
   if (!certification) {
-    throw internal(`getCertificationFromCfd: certification not found for code`, { code });
+    throw internal(`getCertificationFromCfd: certification not found for code ${code}`, { code });
   }
 
   return certification;

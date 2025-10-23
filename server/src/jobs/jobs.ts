@@ -103,7 +103,7 @@ export async function setupJobProcessor() {
       "import:catalogue": {
         handler: runCatalogueImporter,
       },
-      "import:formations": {
+      "import:formation": {
         handler: importFormations,
       },
       "import:communes": {

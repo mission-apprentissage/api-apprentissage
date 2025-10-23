@@ -198,6 +198,42 @@ program
   .option("-d, --drop", "Drop indexes before recreating them")
   .option("-q, --queued", "Run job asynchronously", false)
   .action(createJobAction("indexes:recreate"));
+program
+  .command("import:kit_apprentissage")
+  .option("-q, --queued", "Run job asynchronously", false)
+  .action(createJobAction("import:kit_apprentissage"));
+program
+  .command("import:formation")
+  .option("-q, --queued", "Run job asynchronously", false)
+  .action(createJobAction("import:formation"));
+program
+  .command("import:organismes")
+  .option("-q, --queued", "Run job asynchronously", false)
+  .action(createJobAction("import:organismes"));
+program
+  .command("import:communes")
+  .option("-q, --queued", "Run job asynchronously", false)
+  .action(createJobAction("import:communes"));
+program
+  .command("import:certifications")
+  .option("-q, --queued", "Run job asynchronously", false)
+  .action(createJobAction("import:certifications"));
+program
+  .command("import:catalogue")
+  .option("-q, --queued", "Run job asynchronously", false)
+  .action(createJobAction("import:catalogue"));
+program
+  .command("import:referentiel")
+  .option("-q, --queued", "Run job asynchronously", false)
+  .action(createJobAction("import:referentiel"));
+program
+  .command("import:bcn")
+  .option("-q, --queued", "Run job asynchronously", false)
+  .action(createJobAction("import:bcn"));
+program
+  .command("import:france_competence")
+  .option("-q, --queued", "Run job asynchronously", false)
+  .action(createJobAction("import:france_competence"));
 
 program
   .command("job:run")

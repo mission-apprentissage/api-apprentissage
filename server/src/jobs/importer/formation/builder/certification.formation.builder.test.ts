@@ -300,12 +300,12 @@ describe("buildFormationCertification", () => {
   it('should error if "cfd" is not found', async () => {
     await expect(
       buildFormationCertification({ cfd: "unknown", rncp_code: certifications[1].identifiant.rncp })
-    ).rejects.toThrowError("getCertificationFromCfd: certification not found for code");
+    ).rejects.toThrowError("getCertificationFromCfd: certification not found for code unknown");
   });
 
   it('should error if "rncp" is not found', async () => {
     await expect(
       buildFormationCertification({ cfd: certifications[0].identifiant.cfd ?? "", rncp_code: "unknown" })
-    ).rejects.toThrowError("getCertificationFromRncp: certification not found for code");
+    ).rejects.toThrowError("getCertificationFromRncp: certification not found for code unknown");
   });
 });

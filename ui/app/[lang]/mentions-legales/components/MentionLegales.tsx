@@ -97,8 +97,8 @@ const MentionsLegales = () => {
             Directeur de la publication
           </Typography>
           <Typography gutterBottom>
-            Le directeur de la publication est Monsieur Benjamin MAURICE, Délégué général à l’emploi et à la
-            formation professionnelle.
+            Le directeur de la publication est Monsieur Benjamin MAURICE, Délégué général à l’emploi et à la formation
+            professionnelle.
           </Typography>
         </Section>
 

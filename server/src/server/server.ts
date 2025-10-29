@@ -91,7 +91,7 @@ export async function bind(app: Server) {
           credentials: true,
         }
       : {
-          origin: [config.publicUrl, /\.data\.gouv\.fr$/],
+          origin: [config.publicUrl, /(?:^|\.)data\.gouv\.fr$/],
           credentials: true,
         }),
   });

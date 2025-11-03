@@ -43,6 +43,19 @@ export async function bind(app: Server) {
   app.setValidatorCompiler(validatorCompiler);
   app.setSerializerCompiler(serializerCompiler);
 
+  // Register CORS early so it applies to all routes including swagger
+  app.register(fastifyCors, {
+    ...(config.env === "local"
+      ? {
+          origin: true,
+          credentials: true,
+        }
+      : {
+          origin: [config.publicUrl, /(?:^|\.)data\.gouv\.fr$/],
+          credentials: true,
+        }),
+  });
+
   const frSwaggerDoc = generateOpenApiSchema(config.version, config.env, config.apiPublicUrl, "fr");
   const enSwaggerDoc = generateOpenApiSchema(config.version, config.env, config.apiPublicUrl, "en");
 
@@ -84,17 +97,6 @@ export async function bind(app: Server) {
   app.decorate("auth", <S extends IApiRouteSchema & WithSecurityScheme>(scheme: S) => auth(scheme));
 
   app.register(fastifyMultipart);
-  app.register(fastifyCors, {
-    ...(config.env === "local"
-      ? {
-          origin: true,
-          credentials: true,
-        }
-      : {
-          origin: [config.publicUrl, "https://www.data.gouv.fr", /(?:^|\.)data\.gouv\.fr$/],
-          credentials: true,
-        }),
-  });
 
   app.register(
     async (instance: Server) => {

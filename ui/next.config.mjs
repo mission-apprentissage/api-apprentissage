@@ -11,6 +11,19 @@ const nextConfig = {
   productionBrowserSourceMaps: true,
   outputFileTracingRoot: path.join(path.dirname(fileURLToPath(import.meta.url)), "../"),
 
+  async headers() {
+    return [
+      {
+        source: "/:lang/documentation-technique/try",
+        headers: [
+          {
+            key: "X-Frame-Options",
+            value: "",
+          },
+        ],
+      },
+    ];
+  },
   async redirects() {
     return [
       {

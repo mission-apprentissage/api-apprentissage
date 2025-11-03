@@ -13,7 +13,7 @@ const contentSecurityPolicy = `
       base-uri 'self';
       block-all-mixed-content;
       font-src 'self' https: data:;
-      frame-ancestors 'self';
+      frame-ancestors 'self' https://*.data.gouv.fr;
       frame-src 'self' https://plausible.io;
       img-src 'self' https://cdn.redoc.ly https://www.notion.so data: ;
       object-src 'none';

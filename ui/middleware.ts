@@ -17,7 +17,7 @@ const contentSecurityPolicy = `
       frame-src 'self' https://plausible.io;
       img-src 'self' https://cdn.redoc.ly https://www.notion.so data: blob:;
       object-src 'none';
-      script-src 'self' https://plausible.io 'unsafe-inline' 'unsafe-eval' ${
+      script-src 'self' https://plausible.io 'unsafe-inline' ${
         process.env.NEXT_PUBLIC_ENV === "local" ? "'unsafe-eval'" : ""
       };
       script-src-attr 'none';

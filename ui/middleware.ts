@@ -13,14 +13,16 @@ const contentSecurityPolicy = `
       base-uri 'self';
       block-all-mixed-content;
       font-src 'self' https: data:;
-      frame-ancestors 'self' https://www.data.gouv.fr https://data.gouv.fr;
+      frame-ancestors 'self';
       frame-src 'self' https://plausible.io;
-      img-src 'self' https://cdn.redoc.ly https://www.notion.so data: blob:;
+      img-src 'self' https://cdn.redoc.ly https://www.notion.so data: ;
       object-src 'none';
-      script-src 'self' https://plausible.io 'unsafe-inline' 'unsafe-eval';
+      script-src 'self' https://plausible.io 'unsafe-inline' ${
+        process.env.NEXT_PUBLIC_ENV === "local" ? "'unsafe-eval'" : ""
+      };
       script-src-attr 'none';
       style-src 'self' https:  https: *.plausible.io 'unsafe-inline';
-      connect-src 'self' https://geo.api.gouv.fr/ https://plausible.io https://sentry.apprentissage.beta.gouv.fr https://www.data.gouv.fr https://data.gouv.fr ${
+      connect-src 'self' https://geo.api.gouv.fr/ https://plausible.io  https://sentry.apprentissage.beta.gouv.fr ${
         process.env.NEXT_PUBLIC_ENV === "local" ? `http://localhost:${process.env.NEXT_PUBLIC_API_PORT}/` : ""
       };
       upgrade-insecure-requests;

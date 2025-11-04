@@ -17,8 +17,8 @@ const nextConfig = {
         source: "/:lang/documentation-technique/try",
         headers: [
           {
-            key: "X-Frame-Options",
-            value: "",
+            key: "Access-Control-Allow-Origin",
+            value: "https://www.data.gouv.fr/",
           },
         ],
       },

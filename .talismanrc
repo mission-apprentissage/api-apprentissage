@@ -2,7 +2,7 @@ fileignoreconfig:
 - filename: .infra/files/configs/mongodb/seed.gpg
   checksum: 2b50edfd731f38552bb0c428ada1095ee73e1058736a12b228a72b5d529193b6
 - filename: .infra/vault/vault.yml
-  checksum: 014a4591e829ef95168806e709c6e76e3edf97f0c79e899f13d4a6495ee4d218
+  checksum: 0dee214f2a6581cebce4e8f2f96c340f77861a47437636f810e6941958885673
 - filename: .yarn/patches/exceljs-npm-4.4.0-15bcfdd142.patch
   checksum: f68e8532ff50d8777000fe6d27a6cdf8288574ca900ca3c0df4b6176b7a6d797
 - filename: .yarn/plugins/@yarnpkg/plugin-interactive-tools.cjs

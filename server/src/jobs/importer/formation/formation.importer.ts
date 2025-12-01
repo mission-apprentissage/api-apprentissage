@@ -7,7 +7,6 @@ import type { ImportStatus } from "shared";
 import type { IImportMetaFormations } from "shared/models/import.meta.model";
 import type { ISourceCatalogue } from "shared/models/source/catalogue/source.catalogue.model";
 
-import { captureException } from "@sentry/node";
 import { buildFormation } from "./builder/_.formation.builder.js";
 import { areSourcesSuccess, areSourcesUpdated } from "@/jobs/importer/utils/areSourcesUpdated.js";
 import { withCause } from "@/services/errors/withCause.js";
@@ -84,18 +83,10 @@ async function importFormationsFromCatalogue(
           const formation = await buildFormation(chunk).catch((error) => {
             // Data quality for archived formations is not guaranteed
             if (chunk.data.published) {
-              if (
-                // send sentryNotification if no certification found
-                error.message.includes("getCertificationFromCfd") ||
-                error.message.includes("getCertificationFromRncp")
-              ) {
-                captureException(error);
-              } else {
-                throw withCause(
-                  internal("import.formations: error when building formation", { chunk, importMeta }),
-                  error
-                );
-              }
+              throw withCause(
+                internal("import.formations: error when building formation", { chunk, importMeta }),
+                error
+              );
             }
 
             stats.skipped++;

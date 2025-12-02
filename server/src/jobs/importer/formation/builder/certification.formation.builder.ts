@@ -21,7 +21,7 @@ async function getCertificationFromRncp(code: string | null): Promise<ICertifica
 
   if (!certification) {
     throw internal(
-      `getCertificationFromRncp: certification not found for code ${code}. Report to metier for correction`,
+      `getCertificationFromRncp: certification not found for code ${code}. Report to business for correction`,
       { code }
     );
   }
@@ -34,7 +34,7 @@ async function getCertificationFromCfd(code: string): Promise<ICertification> {
 
   if (!certification) {
     throw internal(
-      `getCertificationFromCfd: certification not found for code ${code}. Report to metier for correction`,
+      `getCertificationFromCfd: certification not found for code ${code}. Report to business for correction`,
       { code }
     );
   }

@@ -1,7 +1,10 @@
 import type { DocRoute } from "../../types.js";
 
 export const jobOfferUpdateRouteDoc = {
-  summary: { en: "Modify an apprenticeship job offer.", fr: "Modifier une offre d'emploi en alternance." },
+  summary: {
+    en: "Modify an apprenticeship job offer. Offer must be published and active",
+    fr: "Modifier une offre d'emploi en alternance. L'offre doit être publiée et active",
+  },
   description: {
     en: "This API allows you to maximize the visibility of your apprenticeship job offers by sharing them with the service La bonne alternance, which then automatically distributes them closer to candidates on its site and its partner sites.",
     fr: "Cette API vous permet de maximiser la visibilité de vos offres d'emploi en alternance en les partageant avec le service La bonne alternance qui les redistribue automatiquement aux candidats les plus pertinents sur son site ainsi que sur ses sites partenaires.",

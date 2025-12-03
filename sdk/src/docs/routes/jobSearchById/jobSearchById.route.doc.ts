@@ -4,7 +4,7 @@ import type { DocRoute } from "../../types.js";
 export const jobSearchByIdRouteDoc = {
   summary: recuperationDetailOffrePageSummaryDoc.title,
   description: {
-    en: "Access the details of a work-study job offer from its identifier.",
+    en: "Access the details of an apprenticeship job offer from its identifier.",
     fr: "Accéder au détail d'une opportunité d'emploi en alternance à partir de son identifiant.",
   },
   parameters: {

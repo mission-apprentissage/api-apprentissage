@@ -3,6 +3,8 @@ import type { AxiosInstance } from "axios";
 import axios, { isAxiosError } from "axios";
 import { z } from "zod/v4-mini";
 
+import logger from "../../logger.js";
+import { sleep } from "../../../utils/asyncUtils.js";
 import config from "@/config.js";
 import { withCause } from "@/services/errors/withCause.js";
 import { apiRateLimiter } from "@/utils/apiUtils.js";
@@ -34,13 +36,28 @@ const PAGE_SIZE = 100;
 
 async function getKitApprentissagePage(page: number): Promise<IKitApprentissageResponse> {
   return kitClient(async (client: AxiosInstance) => {
-    const response = await client.get(`/cfd_rncp_intitule?page_num=${page}&page_size=${PAGE_SIZE}`, {
-      headers: {
-        "token-connexion": config.api.kit_apprentissage.token,
-      },
-    });
+    const maxRetries = 2;
+    let lastError;
 
-    return zKitApprentissageResponse.parse(response.data);
+    for (let attempt = 0; attempt <= maxRetries; attempt++) {
+      try {
+        const response = await client.get(`/cfd_rncp_intitule?page_num=${page}&page_size=${PAGE_SIZE}`, {
+          headers: {
+            "token-connexion": config.api.kit_apprentissage.token,
+          },
+        });
+
+        return zKitApprentissageResponse.parse(response.data);
+      } catch (error) {
+        lastError = error;
+        if (attempt < maxRetries) {
+          await sleep(1000); // Wait 1s between retries
+          continue;
+        }
+      }
+    }
+
+    throw lastError;
   });
 }
 
@@ -50,12 +67,15 @@ export async function* getKitApprentissageData(): AsyncGenerator<
   void
 > {
   try {
+    logger.info("getKitApprentissageData: fetching data from Kit Apprentissage API");
     const firstPage = await getKitApprentissagePage(1);
     const totalPages = Math.ceil(firstPage.total / PAGE_SIZE);
 
     yield* firstPage.data;
 
+    logger.info("getKitApprentissageData: total pages to fetch: " + totalPages);
     for (let page = 2; page <= totalPages; page++) {
+      logger.info(`getKitApprentissageData: fetching page ${page} of ${totalPages}`);
       const response = await getKitApprentissagePage(page);
       yield* response.data;
     }

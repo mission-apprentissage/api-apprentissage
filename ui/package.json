@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "yarn predev && next dev -p 3002",
-    "build": "yarn prebuild && next build",
+    "build": "yarn prebuild && next build --no-lint",
     "typecheck": "tsc -b",
     "predev": "only-include-used-icons",
     "prebuild": "only-include-used-icons"
@@ -43,7 +43,7 @@
     "jwt-decode": "^4.0.0",
     "match-sorter": "^8.1.0",
     "mobx": "^6.13.7",
-    "next": "^16.0.8",
+    "next": "^15.5.7",
     "next-plausible": "^3.12.4",
     "notion-client": "^7.4.3",
     "react": "^19.2.1",

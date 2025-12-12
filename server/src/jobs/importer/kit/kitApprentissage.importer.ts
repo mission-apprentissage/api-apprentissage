@@ -9,6 +9,7 @@ import { addJob } from "job-processor";
 import { ObjectId } from "mongodb";
 import type { ImportStatus } from "shared";
 
+import logger from "../../../services/logger.js";
 import {
   buildKitApprentissageEntry,
   buildKitApprentissageOp,
@@ -166,7 +167,12 @@ export async function runKitApprentissageImporter(): Promise<number> {
 
     // Kit apprentissage data prior to 2024-06-30 is stored in files
     const files = await listKitApprentissageFiles();
+
+    logger.info(`import.kit_apprentissage: starting import at ${importDate.toISOString()}`);
+    logger.info(`import.kit_apprentissage: found ${files.length} source files to import`);
+
     for (const file of files) {
+      logger.info(`import.kit_apprentissage: importing source file ${file}`);
       if (file.endsWith(".csv")) {
         await importKitApprentissageSourceCsv(file);
       } else if (file.endsWith(".xlsx")) {

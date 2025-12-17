@@ -1532,10 +1532,7 @@ exports[`zodToMongoSchema > should convert commune schema 1`] = `
               ],
             },
             "id": {
-              "bsonType": [
-                "number",
-                "null",
-              ],
+              "bsonType": "number",
             },
             "localisation": {
               "additionalProperties": false,

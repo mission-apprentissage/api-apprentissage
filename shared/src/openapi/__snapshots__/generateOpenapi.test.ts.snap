@@ -3335,14 +3335,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "type": "object",
           },
           "id": {
-            "anyOf": [
-              {
-                "type": "number",
-              },
-              {
-                "type": "null",
-              },
-            ],
+            "type": "number",
           },
           "localisation": {
             "additionalProperties": false,

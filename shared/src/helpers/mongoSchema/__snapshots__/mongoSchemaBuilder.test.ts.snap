@@ -1532,7 +1532,10 @@ exports[`zodToMongoSchema > should convert commune schema 1`] = `
               ],
             },
             "id": {
-              "bsonType": "number",
+              "bsonType": [
+                "number",
+                "null",
+              ],
             },
             "localisation": {
               "additionalProperties": false,
@@ -1597,7 +1600,10 @@ exports[`zodToMongoSchema > should convert commune schema 1`] = `
               "bsonType": "string",
             },
             "siret": {
-              "bsonType": "string",
+              "bsonType": [
+                "string",
+                "null",
+              ],
             },
           },
           "required": [
@@ -8226,7 +8232,10 @@ exports[`zodToMongoSchema > should convert source.insee_to_ml schema 1`] = `
               ],
             },
             "id": {
-              "bsonType": "number",
+              "bsonType": [
+                "number",
+                "null",
+              ],
             },
             "localisation": {
               "additionalProperties": false,
@@ -8291,7 +8300,10 @@ exports[`zodToMongoSchema > should convert source.insee_to_ml schema 1`] = `
               "bsonType": "string",
             },
             "siret": {
-              "bsonType": "string",
+              "bsonType": [
+                "string",
+                "null",
+              ],
             },
           },
           "required": [

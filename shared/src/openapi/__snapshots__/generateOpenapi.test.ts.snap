@@ -3335,7 +3335,14 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "type": "object",
           },
           "id": {
-            "type": "number",
+            "anyOf": [
+              {
+                "type": "number",
+              },
+              {
+                "type": "null",
+              },
+            ],
           },
           "localisation": {
             "additionalProperties": false,
@@ -3372,7 +3379,14 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "type": "string",
           },
           "siret": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string",
+              },
+              {
+                "type": "null",
+              },
+            ],
           },
         },
         "required": [

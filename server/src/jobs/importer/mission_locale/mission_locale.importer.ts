@@ -112,6 +112,7 @@ export async function runMissionLocaleImporter() {
             await fetchDepartementStructures(data["Code Postal ML"].slice(0, 2), codeStructuctureToML);
             if (!codeStructuctureToML.has(code_ml)) {
               notFoundUnml.set(code_ml, { code_ml: code_ml, cp: data["Code Postal ML"] });
+              codeStructuctureToML.set(code_ml, formatMissionLocale(data));
             }
           }
 
@@ -175,4 +176,34 @@ export async function getMissionLocaleImporterStatus(): Promise<ImportStatus> {
     status: lastImport?.status ?? "pending",
     resources: [],
   };
+}
+
+function formatMissionLocale(data: z.infer<typeof zRecord>): ISourceCodeInseeToMissionLocale["ml"] {
+  return {
+    id: formatMlId(data["Code ML"]),
+    code: data["Code ML"],
+    nom: data["Nom Officiel ML"],
+    siret: null,
+    localisation: {
+      geopoint: null,
+      adresse: data["Adresse ML"],
+      cp: data["Code Postal ML"],
+      ville: data["Ville ML"],
+    },
+    contact: {
+      email: null,
+      telephone: null,
+      siteWeb: null,
+    },
+  };
+}
+
+function formatMlId(codeInsee: string) {
+  if (codeInsee.startsWith("2A")) {
+    return Number("98" + codeInsee.slice(2));
+  }
+  if (codeInsee.startsWith("2B")) {
+    return Number("99" + codeInsee.slice(2));
+  }
+  return Number(codeInsee);
 }

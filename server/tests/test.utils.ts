@@ -19,6 +19,7 @@ export function expectCloseToObject<T>(
   expected: DeepCloseTo<T>,
   precision = 4
 ): void {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const buildMatcher = (value: any): any => {
     if (typeof value === "number") return expect.closeTo(value, precision)
     if (Array.isArray(value)) return value.map(buildMatcher)

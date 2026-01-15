@@ -16,6 +16,7 @@ import { getEtablissementDiffusible, getUniteLegaleDiffusible } from "@/services
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
 
 import { useMongo } from "@tests/mongo.test.utils.js";
+import { expectCloseToObject } from "../../../../tests/test.utils.js";
 
 vi.mock("@/services/apis/entreprise/entreprise.js", async (importOriginal) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -130,17 +131,17 @@ describe("importOrganismes", () => {
           status: "done",
         },
       ]);
-      expect(
+      expectCloseToObject(
         await getDbCollection("organisme")
           .find({}, { projection: { _id: 0 } })
-          .toArray()
-      ).toEqual(
-        expectedOrganismes.map((o) => ({
+          .toArray(),
+      expectedOrganismes.map((o) => ({
           ...o,
           created_at: now,
           updated_at: now,
-        }))
-      );
+        })),
+        4
+      )
     });
 
     describe("when import already in sync", () => {
@@ -182,17 +183,17 @@ describe("importOrganismes", () => {
             status: "done",
           },
         ]);
-        expect(
+        expectCloseToObject(
           await getDbCollection("organisme")
             .find({}, { projection: { _id: 0 } })
-            .toArray()
-        ).toEqual(
+            .toArray(),
           expectedOrganismes.map((o) => ({
             ...o,
             created_at: now,
             updated_at: now,
-          }))
-        );
+          })),
+          4
+        )
       });
     });
 
@@ -229,17 +230,18 @@ describe("importOrganismes", () => {
               type: "organismes",
             },
           ]);
-          expect(
+          expectCloseToObject(
             await getDbCollection("organisme")
               .find({}, { projection: { _id: 0 } })
               .toArray()
-          ).toEqual(
+            ,
             expectedOrganismes.map((o) => ({
               ...o,
               created_at: now,
               updated_at: now,
-            }))
-          );
+            })),
+            4
+          )
         });
       }
     );

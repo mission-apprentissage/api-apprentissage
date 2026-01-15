@@ -20,7 +20,8 @@ export function expectCloseToObject<T>(
   precision = 4
 ): void {
   const buildMatcher = (value: any): any => {
-    if (typeof value === "number") return expect.toBeCloseTo(value, precision)
+    if (typeof value === "number") return expect.closeTo(value, precision)
+      expect.to
     if (Array.isArray(value)) return value.map(buildMatcher)
     if (value && typeof value === "object") {
       return Object.fromEntries(

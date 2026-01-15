@@ -426,7 +426,7 @@ export const expectedOrganismes: IOrganisme[] = [
       },
       geopoint: {
         type: "Point",
-        coordinates: [3.082828, 50.611461],
+        coordinates: [3.082893, 50.611439],
       },
       creation: new Date("1970-01-19T23:49:51.600Z"),
       enseigne: "FACULTE SCIENCES SPORT ET EDUCATION PHYSIQUE",

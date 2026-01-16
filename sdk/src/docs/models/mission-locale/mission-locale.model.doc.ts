@@ -14,6 +14,7 @@ export const missionLocaleModelDoc = {
     },
     siret: {
       descriptions: [{ fr: "Numéro SIRET de la mission locale", en: '"Mission Locale" SIRET Number' }],
+      anyOf: [{ descriptions: null }, { descriptions: null }],
     },
     localisation: {
       descriptions: [

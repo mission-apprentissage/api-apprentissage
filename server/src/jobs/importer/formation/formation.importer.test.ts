@@ -670,7 +670,7 @@ describe("importFormations", () => {
           date: todaySourceImports.catalogue.import_date,
         },
       ]);
-      await expect(importFormations()).rejects.toEqual({
+      await expect(importFormations()).resolves.toEqual({
         success: 0,
         skipped: 1,
       });

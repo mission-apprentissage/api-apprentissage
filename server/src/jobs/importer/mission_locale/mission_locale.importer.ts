@@ -100,11 +100,10 @@ export async function runMissionLocaleImporter() {
         delimiter: ";",
         trim: true,
       }),
-      async function processRecord(
+      async function* processRecord(
         source: AsyncIterable<Record<string, string>>,
         { signal }: { signal?: AbortSignal } = {}
-      ): Promise<Map<string, { lat: number; lng: number }>> {
-        const map = new Map<string, { lat: number; lng: number }>();
+      ) {
         for await (const record of source) {
           signal?.throwIfAborted();
           const data = await zGeoPoint
@@ -116,6 +115,12 @@ export async function runMissionLocaleImporter() {
             .catch((e) => {
               throw withCause(internal("Unable to parse geopoints", { record }), e);
             });
+          yield data;
+        }
+      },
+      async function collect(source: AsyncIterable<z.infer<typeof zGeoPoint>>) {
+        const map = new Map<string, { lat: number; lng: number }>();
+        for await (const data of source) {
           map.set(data.nom, { lat: data.lat, lng: data.lng });
         }
         return map;

@@ -659,7 +659,7 @@ describe("importFormations", () => {
       await getDbCollection("organisme").insertMany(organismes);
     });
 
-    it("should error when a published formation is invalid", async () => {
+    it("should skip when a published formation is invalid ( rncp/cfd )", async () => {
       await getDbCollection("source.catalogue").insertMany([
         {
           data: {
@@ -670,7 +670,18 @@ describe("importFormations", () => {
           date: todaySourceImports.catalogue.import_date,
         },
       ]);
-
+      await expect(importFormations()).rejects.toEqual({
+        success: 0,
+        skipped: 1,
+      });
+      expect(await getDbCollection("import.meta").find({ type: "formations" }).toArray()).toEqual([
+        yesterdayImport,
+        {
+          ...todayImport,
+          _id: expect.any(ObjectId),
+          status: "done",
+        },
+      ]);
       expect(await getDbCollection("formation").find({}).toArray()).toEqual([]);
     });
 

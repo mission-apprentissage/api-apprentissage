@@ -15,7 +15,13 @@ exports[`runMissionLocaleImporter > should import initial ml 1`] = `
       "localisation": {
         "adresse": "5 r de seraucourt",
         "cp": "18000",
-        "geopoint": null,
+        "geopoint": {
+          "coordinates": [
+            2.3993613,
+            47.0788404,
+          ],
+          "type": "Point",
+        },
         "ville": "Bourges",
       },
       "nom": "18-ML BOURGES MEHUN ST FLORENT",
@@ -35,7 +41,13 @@ exports[`runMissionLocaleImporter > should import initial ml 1`] = `
       "localisation": {
         "adresse": "5 r de seraucourt",
         "cp": "18000",
-        "geopoint": null,
+        "geopoint": {
+          "coordinates": [
+            2.3993613,
+            47.0788404,
+          ],
+          "type": "Point",
+        },
         "ville": "Bourges",
       },
       "nom": "18-ML BOURGES MEHUN ST FLORENT",

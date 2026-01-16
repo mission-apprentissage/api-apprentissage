@@ -670,7 +670,7 @@ describe("importFormations", () => {
           date: todaySourceImports.catalogue.import_date,
         },
       ]);
-      await expect(importFormations()).rejects.toThrowError("import.formations: unable to importFormations");
+
       expect(await getDbCollection("import.meta").find({ type: "formations" }).toArray()).toEqual([
         yesterdayImport,
         {

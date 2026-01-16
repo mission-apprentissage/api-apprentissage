@@ -92,7 +92,7 @@ export async function runMissionLocaleImporter() {
 
     const notFoundUnml: Map<string, { code_ml: string; cp: string }> = new Map();
     const geoPoints = await pipeline(
-      createReadStream(getStaticFilePath("mission_locales/geopoints_mission_locales.csv")),
+      createReadStream(getStaticFilePath("mission_locales/geopoints_mission_locale.csv")),
       parse({
         bom: true,
         columns: true,

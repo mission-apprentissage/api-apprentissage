@@ -8229,10 +8229,7 @@ exports[`zodToMongoSchema > should convert source.insee_to_ml schema 1`] = `
               ],
             },
             "id": {
-              "bsonType": [
-                "number",
-                "null",
-              ],
+              "bsonType": "number",
             },
             "localisation": {
               "additionalProperties": false,

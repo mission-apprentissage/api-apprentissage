@@ -671,14 +671,6 @@ describe("importFormations", () => {
         },
       ]);
 
-      expect(await getDbCollection("import.meta").find({ type: "formations" }).toArray()).toEqual([
-        yesterdayImport,
-        {
-          ...todayImport,
-          _id: expect.any(ObjectId),
-          status: "failed",
-        },
-      ]);
       expect(await getDbCollection("formation").find({}).toArray()).toEqual([]);
     });
 

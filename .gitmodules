@@ -1,0 +1,11 @@
+[submodule ".infra/inventories"]
+	path = .infra/inventories
+	url = git@github.com:mission-apprentissage/mna-shared-inventories.git
+	branch = api
+[submodule ".infra/authorizations"]
+	path = .infra/authorizations
+	url = git@github.com:mission-apprentissage/mna-shared-authorizations.git
+	branch = api
+[submodule ".bin/shared"]
+	path = .bin/shared
+	url = git@github.com:mission-apprentissage/mna-shared-bin.git

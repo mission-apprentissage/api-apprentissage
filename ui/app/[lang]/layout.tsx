@@ -1,5 +1,7 @@
 import "react-notion-x/src/styles.css";
 
+import PlausibleProvider from "next-plausible";
+
 import { fr } from "@codegouvfr/react-dsfr";
 import MuiDsfrThemeProvider from "@codegouvfr/react-dsfr/mui";
 import { createGetHtmlAttributes, DsfrHeadBase } from "@codegouvfr/react-dsfr/next-app-router/server-only-index";
@@ -15,6 +17,7 @@ import type { ISessionJson } from "shared/routes/_private/auth.routes";
 import { cookies } from "next/headers";
 import { DsfrProvider, StartDsfrOnHydration } from "./DsfrProvider";
 import NotFoundPage from "./not-found";
+import { publicConfig } from "@/config.public";
 import type { PropsWithLangParams } from "@/app/i18n/settings";
 import { languages } from "@/app/i18n/settings";
 import { StartIntl } from "@/app/i18n/StartIntl";
@@ -88,6 +91,7 @@ export default async function LangLayout({ children, params }: PropsWithChildren
             //"Spectral-ExtraBold"
           ]}
         />
+        <PlausibleProvider trackLocalhost={false} domain={publicConfig.host} />
       </head>
       <body>
         <AppRouterCacheProvider>

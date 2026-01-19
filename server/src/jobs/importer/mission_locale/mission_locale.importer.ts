@@ -8,6 +8,7 @@ import type { ImportStatus } from "shared";
 import type { ISourceCodeInseeToMissionLocale } from "shared/models/source/mission_locale/source.mission_locale.model";
 import { z } from "zod/v4-mini";
 
+import { captureException } from "@sentry/node";
 import { fetchDepartementMissionLocale } from "@/services/apis/unml/unml.js";
 import { withCause } from "@/services/errors/withCause.js";
 import logger from "@/services/logger.js";
@@ -24,6 +25,12 @@ const zRecord = z.object({
   "Adresse ML": z.string(),
   "Code Postal ML": z.string().check(z.regex(/\d{5}/)),
   "Ville ML": z.string(),
+});
+
+const zGeoPoint = z.object({
+  nom: z.string(),
+  lat: z.number(),
+  lng: z.number(),
 });
 
 function fixInvalidUnmlCodeStructures(codeStructure: string) {
@@ -84,6 +91,41 @@ export async function runMissionLocaleImporter() {
     });
 
     const notFoundUnml: Map<string, { code_ml: string; cp: string }> = new Map();
+    const geoPoints = await pipeline(
+      createReadStream(getStaticFilePath("mission_locales/geopoints_mission_locale.csv")),
+      parse({
+        bom: true,
+        columns: true,
+        encoding: "utf8",
+        delimiter: ";",
+        trim: true,
+      }),
+      async function* processRecord(
+        source: AsyncIterable<Record<string, string>>,
+        { signal }: { signal?: AbortSignal } = {}
+      ) {
+        for await (const record of source) {
+          signal?.throwIfAborted();
+          const data = await zGeoPoint
+            .parseAsync({
+              nom: record.nom,
+              lat: parseFloat(record.lat),
+              lng: parseFloat(record.lng),
+            })
+            .catch((e) => {
+              throw withCause(internal("Unable to parse geopoints", { record }), e);
+            });
+          yield data;
+        }
+      },
+      async function collect(source: AsyncIterable<z.infer<typeof zGeoPoint>>) {
+        const map = new Map<string, { lat: number; lng: number }>();
+        for await (const data of source) {
+          map.set(data.nom, { lat: data.lat, lng: data.lng });
+        }
+        return map;
+      }
+    );
 
     await pipeline(
       createReadStream(getStaticFilePath("mission_locales/zones_de_couverture_janvier_2025.csv")),
@@ -112,7 +154,7 @@ export async function runMissionLocaleImporter() {
             await fetchDepartementStructures(data["Code Postal ML"].slice(0, 2), codeStructuctureToML);
             if (!codeStructuctureToML.has(code_ml)) {
               notFoundUnml.set(code_ml, { code_ml: code_ml, cp: data["Code Postal ML"] });
-              codeStructuctureToML.set(code_ml, formatMissionLocale(data));
+              codeStructuctureToML.set(code_ml, formatMissionLocale(data, geoPoints));
             }
           }
 
@@ -178,14 +220,31 @@ export async function getMissionLocaleImporterStatus(): Promise<ImportStatus> {
   };
 }
 
-function formatMissionLocale(data: z.infer<typeof zRecord>): ISourceCodeInseeToMissionLocale["ml"] {
+function formatMissionLocale(
+  data: z.infer<typeof zRecord>,
+  geoPoints: Map<string, { lat: number; lng: number }>
+): ISourceCodeInseeToMissionLocale["ml"] {
+  const geoPoint = geoPoints.get(data["Nom Officiel ML"]);
+
+  if (!geoPoint) {
+    captureException(new Error("Geopoint not found for mission locale"), {
+      extra: { missionLocale: data },
+      level: "warning",
+    });
+  }
+
   return {
     id: formatMlId(data["Code ML"]),
     code: data["Code ML"],
     nom: data["Nom Officiel ML"],
     siret: null,
     localisation: {
-      geopoint: null,
+      geopoint: geoPoint
+        ? {
+            type: "Point",
+            coordinates: [geoPoint.lng, geoPoint.lat],
+          }
+        : null,
       adresse: data["Adresse ML"],
       cp: data["Code Postal ML"],
       ville: data["Ville ML"],

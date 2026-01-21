@@ -4,7 +4,7 @@
     path: "/opt/app/{{ item.path }}"
     state: directory
     mode: "{{ item.mode }}"
-  with_filetree: "{{inventory_dir}}/files"
+  with_filetree: "{{inventory_dir}}/../files"
   when:
     - item.state == 'directory'
     # /app/tools is managed by infra
@@ -16,7 +16,7 @@
     src: "{{ item.src }}"
     dest: "/opt/app/{{ item.path }}"
     mode: "{{ item.mode }}"
-  with_filetree: "{{inventory_dir}}/files"
+  with_filetree: "{{inventory_dir}}/../files"
   when:
     - item.state == 'file'
     - item.path | basename != '.gitkeep'
@@ -31,14 +31,14 @@
 
 - name: Copie du fichier de seed
   ansible.builtin.copy:
-    src: "{{inventory_dir}}/files/configs/mongodb/seed.gpg"
+    src: "{{inventory_dir}}/../files/configs/mongodb/seed.gpg"
     dest: "/opt/app/configs/mongodb/seed.gpg"
     mode: "700"
   when: env_type == 'preview'
 
 - name: Copie du fichier mongodb keyfile
   ansible.builtin.template:
-    src: "{{inventory_dir}}/files/configs/mongodb/mongo_keyfile.txt"
+    src: "{{inventory_dir}}/../files/configs/mongodb/mongo_keyfile.txt"
     dest: "/opt/app/configs/mongodb/mongo_keyfile.txt"
     mode: "400"
     owner: 999
@@ -50,7 +50,7 @@
     src: "{{ item }}"
     dest: "/opt/app/.env_server"
   with_fileglob:
-    - "{{inventory_dir}}/.env_server"
+    - "{{inventory_dir}}/../.env_server"
   when: env_type != 'preview'
 
 - name: copy ui env file
@@ -58,7 +58,7 @@
     src: "{{ item }}"
     dest: "/opt/app/.env_ui"
   with_fileglob:
-    - "{{inventory_dir}}/.env_ui"
+    - "{{inventory_dir}}/../.env_ui"
   when: env_type != 'preview'
 
 - name: copy du fichier docker compose
@@ -66,7 +66,7 @@
     src: "{{ item }}"
     dest: "/opt/app/docker-compose.production.yml"
   with_fileglob:
-    - "{{inventory_dir}}/docker-compose.production.yml"
+    - "{{inventory_dir}}/../docker-compose.production.yml"
   when: env_type != 'preview'
 
 # - name: copy du fichier recette docker compose
@@ -85,6 +85,6 @@
 
 - name: creation du fichier docker compose preview system
   ansible.builtin.template:
-    src: "{{inventory_dir}}/docker-compose.preview-system.yml"
+    src: "{{inventory_dir}}/../docker-compose.preview-system.yml"
     dest: "/opt/app/docker-compose.preview-system.yml"
   when: env_type == 'preview'

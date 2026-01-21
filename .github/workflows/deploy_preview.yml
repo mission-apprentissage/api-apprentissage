@@ -91,14 +91,14 @@ jobs:
   #         sudo pipx inject ansible-core jmespath
 
   #     - name: Run playbook
-  #       run: .bin/mna-api deploy preview "${{ github.event.issue.number }}"
+  #       run: .bin/mna-api app:deploy preview "${{ github.event.issue.number }}"
   #       env:
   #         ANSIBLE_VAULT_PASSWORD_FILE: .infra/.vault_pwd.txt
   #         ANSIBLE_REMOTE_USER: deploy
   #         ANSIBLE_BECOME_PASS: ${{ secrets.DEPLOY_PASS }}
 
   #     - name: Encrypt logs
-  #       run: .bin/mna-api deploy:log:encrypt
+  #       run: .bin/mna-api app:deploy:log:encrypt
   #       if: always()
   #       env:
   #         ANSIBLE_VAULT_PASSWORD_FILE: .infra/.vault_pwd.txt
@@ -112,7 +112,7 @@ jobs:
 
   #     - name: Add Job summary
   #       if: always()
-  #       run: echo 'You can get logs using `.bin/mna-api deploy:log:decrypt ${{ github.run_id }} ${{ github.event.issue.number }}`' >> $GITHUB_STEP_SUMMARY
+  #       run: echo 'You can get logs using `.bin/mna-api app:deploy:log:decrypt ${{ github.run_id }} ${{ github.event.issue.number }}`' >> $GITHUB_STEP_SUMMARY
 
   #     - name: Preview Summary
   #       run: echo 'https://${{ github.event.issue.number }}.${{ vars.app_name }}-preview.apprentissage.beta.gouv.fr/ 🚀' >> $GITHUB_STEP_SUMMARY
@@ -141,7 +141,7 @@ jobs:
 
   #           https://${{ github.event.issue.number }}.${{ vars.app_name }}-preview.apprentissage.beta.gouv.fr/
 
-  #           You can get error logs using `.bin/mna-api deploy:log:decrypt ${{ github.run_id }}`
+  #           You can get error logs using `.bin/mna-api app:deploy:log:decrypt ${{ github.run_id }}`
   #           You can access runner logs in ${{ steps.run_url.outputs.url }}
 
   #           To re-deploy just add a comment with :rocket:

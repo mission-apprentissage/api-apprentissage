@@ -25,7 +25,7 @@ exports[`runMissionLocaleImporter > should import initial ml 1`] = `
         "ville": "Bourges",
       },
       "nom": "18-ML BOURGES MEHUN ST FLORENT",
-      "siret": null,
+      "siret": "0000001",
     },
   },
   {
@@ -51,7 +51,7 @@ exports[`runMissionLocaleImporter > should import initial ml 1`] = `
         "ville": "Bourges",
       },
       "nom": "18-ML BOURGES MEHUN ST FLORENT",
-      "siret": null,
+      "siret": "0000001",
     },
   },
   {
@@ -617,7 +617,7 @@ exports[`runMissionLocaleImporter > should import initial ml 1`] = `
         "ville": "Coulommiers",
       },
       "nom": "77-ML COULOMMIERS",
-      "siret": null,
+      "siret": "",
     },
   },
   {

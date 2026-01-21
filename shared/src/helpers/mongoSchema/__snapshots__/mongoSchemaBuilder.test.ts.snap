@@ -1597,10 +1597,7 @@ exports[`zodToMongoSchema > should convert commune schema 1`] = `
               "bsonType": "string",
             },
             "siret": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
+              "bsonType": "string",
             },
           },
           "required": [
@@ -8294,10 +8291,7 @@ exports[`zodToMongoSchema > should convert source.insee_to_ml schema 1`] = `
               "bsonType": "string",
             },
             "siret": {
-              "bsonType": [
-                "string",
-                "null",
-              ],
+              "bsonType": "string",
             },
           },
           "required": [

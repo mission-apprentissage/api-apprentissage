@@ -5,7 +5,7 @@ export const zMissionLocale = z.object({
   id: z.number(),
   code: z.string(),
   nom: z.string(),
-  siret: z.nullable(z.string()),
+  siret: z.string(),
   localisation: z.object({
     geopoint: z.nullable(zGeoJsonPoint),
     adresse: z.string(),

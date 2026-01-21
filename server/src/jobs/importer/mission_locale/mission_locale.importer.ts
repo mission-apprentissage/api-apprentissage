@@ -31,6 +31,7 @@ const zGeoPoint = z.object({
   nom: z.string(),
   lat: z.number(),
   lng: z.number(),
+  siret: z.string(),
 });
 
 function fixInvalidUnmlCodeStructures(codeStructure: string) {
@@ -111,6 +112,7 @@ export async function runMissionLocaleImporter() {
               nom: record.nom,
               lat: parseFloat(record.lat),
               lng: parseFloat(record.lng),
+              siret: record.siret,
             })
             .catch((e) => {
               throw withCause(internal("Unable to parse geopoints", { record }), e);
@@ -119,9 +121,9 @@ export async function runMissionLocaleImporter() {
         }
       },
       async function collect(source: AsyncIterable<z.infer<typeof zGeoPoint>>) {
-        const map = new Map<string, { lat: number; lng: number }>();
+        const map = new Map<string, { lat: number; lng: number; siret: string }>();
         for await (const data of source) {
-          map.set(data.nom, { lat: data.lat, lng: data.lng });
+          map.set(data.nom, { lat: data.lat, lng: data.lng, siret: data.siret });
         }
         return map;
       }
@@ -222,7 +224,7 @@ export async function getMissionLocaleImporterStatus(): Promise<ImportStatus> {
 
 function formatMissionLocale(
   data: z.infer<typeof zRecord>,
-  geoPoints: Map<string, { lat: number; lng: number }>
+  geoPoints: Map<string, { lat: number; lng: number; siret: string }>
 ): ISourceCodeInseeToMissionLocale["ml"] {
   const geoPoint = geoPoints.get(data["Nom Officiel ML"]);
 
@@ -237,7 +239,7 @@ function formatMissionLocale(
     id: formatMlId(data["Code ML"]),
     code: data["Code ML"],
     nom: data["Nom Officiel ML"],
-    siret: null,
+    siret: geoPoint?.siret ?? "",
     localisation: {
       geopoint: geoPoint
         ? {

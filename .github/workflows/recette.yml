@@ -14,7 +14,8 @@ jobs:
       skip: false
     secrets:
       SLACK_WEBHOOK_NOTIF: ${{ secrets.SLACK_WEBHOOK_NOTIF }}
-      VAULT_PWD: ${{ secrets.VAULT_PWD }}
+      OPENPGP_PRIVATE_SUBKEY: ${{ secrets.OPENPGP_PRIVATE_SUBKEY }}
+      TOKEN_MNA_SHARED: ${{ secrets.TOKEN_MNA_SHARED }}
 
   docker-scout:
     concurrency:
@@ -77,4 +78,5 @@ jobs:
       DEPLOY_PASS: ${{ secrets.DEPLOY_PASS }}
       SLACK_WEBHOOK_NOTIF: ${{ secrets.SLACK_WEBHOOK_NOTIF }}
       SLACK_WEBHOOK_ALERT: ${{ secrets.SLACK_WEBHOOK_ALERT }}
-      VAULT_PWD: ${{ secrets.VAULT_PWD }}
+      OPENPGP_PRIVATE_SUBKEY: ${{ secrets.OPENPGP_PRIVATE_SUBKEY }}
+      TOKEN_MNA_SHARED: ${{ secrets.TOKEN_MNA_SHARED }}

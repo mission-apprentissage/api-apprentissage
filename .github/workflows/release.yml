@@ -14,6 +14,9 @@ jobs:
     steps:
       - name: Checkout project
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.TOKEN_MNA_SHARED }}
+          submodules: recursive
 
       - uses: actions/setup-node@v4
         with:
@@ -35,7 +38,7 @@ jobs:
         run: yarn install
 
       - name: Build & publish NPM release
-        run: .bin/mna sdk:release "${{ github.event.release.tag_name }}"
+        run: .bin/mna-api sdk:release "${{ github.event.release.tag_name }}"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 

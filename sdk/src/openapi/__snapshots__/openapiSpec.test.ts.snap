@@ -3051,14 +3051,7 @@ exports[`openapiSpec#models > should generate proper schema MissionLocale 1`] = 
       "type": "string",
     },
     "siret": {
-      "anyOf": [
-        {
-          "type": "string",
-        },
-        {
-          "type": "null",
-        },
-      ],
+      "type": "string",
     },
   },
   "required": [

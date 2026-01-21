@@ -96,7 +96,7 @@ jobs:
           echo "VERSION=${COMMIT_ID::7}" >> $GITHUB_ENV
 
       - name: bump and release
-        run: .bin/mna-api build:image "${{ env.VERSION }}" push "${{ inputs.environment }}"
+        run: .bin/mna-api app:build "${{ env.VERSION }}" push "${{ inputs.environment }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_NOTIF }}

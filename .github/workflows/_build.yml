@@ -54,6 +54,9 @@ jobs:
           token: ${{ secrets.TOKEN_MNA_SHARED }}
           submodules: recursive
 
+      - name: Setup SOPS
+        uses: nhedger/setup-sops@v2
+
       - uses: actions/setup-node@v4
         with:
           node-version: 24

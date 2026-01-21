@@ -153,10 +153,8 @@ sdk/lib
 # Local History for Visual Studio Code
 .history/
 
-.vault_pwd.txt
 node_modules.tar.gz
 /.env_server
-vault-tmp-*.*
 
 ui/next-env.d.ts
 
@@ -166,7 +164,5 @@ seed.gz
 tsconfig.tsbuildinfo
 
 .yarn/versions/
-
-.infra/vault/.vault-password-previous.gpg
 
 .tmp/

@@ -16,10 +16,10 @@ curl -sS --retry 5 --retry-all-errors https://{{dns_name}}/metabase/api/setup \
 --data-raw "{
     \"token\": \"$TOKEN\",
     \"user\": {
-        \"password_confirm\": \"{{ vault[env_type].METABASE_ADMIN_PASS }}\",
-        \"password\": \"{{ vault[env_type].METABASE_ADMIN_PASS }}\",
+        \"password_confirm\": \"{{ METABASE_ADMIN_PASS }}\",
+        \"password\": \"{{ METABASE_ADMIN_PASS }}\",
         \"site_name\": \"{{product_name}}\",
-        \"email\": \"{{ vault[env_type].METABASE_ADMIN_EMAIL }}\",
+        \"email\": \"{{ METABASE_ADMIN_EMAIL }}\",
         \"last_name\": null,
         \"first_name\": null
     },
@@ -33,7 +33,7 @@ curl -sS --retry 5 --retry-all-errors https://{{dns_name}}/metabase/api/setup \
         \"schedules\": {},
         \"details\": {
             \"use-conn-uri\": true,
-            \"conn-uri\": \"{{ vault[env_type].MONGODB_METABASE_URI }}\",
+            \"conn-uri\": \"{{ MONGODB_METABASE_URI }}\",
             \"tunnel-enabled\": false,
             \"advanced-options\": true,
             \"ssl\": true

@@ -54,6 +54,12 @@ jobs:
           token: ${{ secrets.TOKEN_MNA_SHARED }}
           submodules: recursive
 
+      - name: Initialize the GnuPG keyring
+        run: |
+          echo -n "$OPENPGP_KEY" | gpg --import
+        env:
+          OPENPGP_KEY: ${{ secrets.OPENPGP_PRIVATE_SUBKEY }}
+
       - name: Setup SOPS
         uses: nhedger/setup-sops@v2
 

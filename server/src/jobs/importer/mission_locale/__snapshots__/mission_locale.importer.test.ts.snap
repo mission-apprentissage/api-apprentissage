@@ -617,7 +617,7 @@ exports[`runMissionLocaleImporter > should import initial ml 1`] = `
         "ville": "Coulommiers",
       },
       "nom": "77-ML COULOMMIERS",
-      "siret": null,
+      "siret": "",
     },
   },
   {

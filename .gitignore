@@ -166,3 +166,4 @@ tsconfig.tsbuildinfo
 .yarn/versions/
 
 .tmp/
+venv

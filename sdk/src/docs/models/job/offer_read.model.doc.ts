@@ -41,11 +41,11 @@ export const offerReadModelDoc = {
           descriptions: [
             { en: "Partner originating the job offer.", fr: "Partenaire à l'origine de l'offre d'emploi." },
             {
-              en: 'In the case of La Bonne Alternance, the partner_label is: "La bonne alternance".',
-              fr: 'Dans le cas de La Bonne Alternance, le partner_label est : "La bonne alternance".',
+              en: 'In the case of offers collected by La Bonne Alternance, the partner_label is: "offres_emploi_lba".<br />In the case of companies identified with a high potential to recruit, the partner_label is: "recruteurs_lba".',
+              fr: 'Dans le cas des offres collectées par La Bonne Alternance, le partner_label est : "offres_emploi_lba".<br />Dans le cas des entreprises identifiées comme ayant un fort potentiel d’embauche, le partner_label est : "recruteurs_lba".',
             },
           ],
-          examples: ["France Travail", "La bonne alternance"],
+          examples: ["France Travail", "offres_emploi_lba"],
         },
       },
     },

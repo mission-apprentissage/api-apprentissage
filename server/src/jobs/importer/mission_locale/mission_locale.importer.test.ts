@@ -31,7 +31,7 @@ describe("runMissionLocaleImporter", () => {
   it("should import initial ml", async () => {
     vi.mocked(getStaticFilePath).mockImplementation((url) => {
       switch (url) {
-        case "mission_locales/zones_de_couverture_janvier_2025.csv":
+        case "mission_locales/zones_de_couverture_janvier_2026.csv":
           return join(dirname(fileURLToPath(import.meta.url)), `fixtures/couverture.csv`);
         case "mission_locales/geopoints_mission_locale.csv":
           return join(dirname(fileURLToPath(import.meta.url)), `fixtures/geopoints.csv`);

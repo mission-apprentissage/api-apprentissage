@@ -130,7 +130,7 @@ export async function runMissionLocaleImporter() {
     );
 
     await pipeline(
-      createReadStream(getStaticFilePath("mission_locales/zones_de_couverture_janvier_2025.csv")),
+      createReadStream(getStaticFilePath("mission_locales/zones_de_couverture_janvier_2026.csv")),
       parse({
         bom: true,
         columns: true,

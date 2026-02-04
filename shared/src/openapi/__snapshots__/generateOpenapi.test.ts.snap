@@ -2423,7 +2423,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               "partner_label": {
                 "examples": [
                   "France Travail",
-                  "La bonne alternance",
+                  "offres_emploi_lba",
                 ],
                 "type": "string",
               },
@@ -5001,22 +5001,6 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 "Hellowork",
               ],
               "items": {
-                "enum": [
-                  "offres_emploi_lba",
-                  "recruteurs_lba",
-                  "Hellowork",
-                  "France Travail",
-                  "RH Alternance",
-                  "PASS",
-                  "Monster",
-                  "Meteojob",
-                  "Kelio",
-                  "La Poste",
-                  "annonces Atlas",
-                  "Nos Talents Nos Emplois",
-                  "Vite un emploi",
-                  "Toulouse metropole",
-                ],
                 "type": "string",
               },
               "type": "array",

@@ -433,7 +433,7 @@ Importe les correspondances entre les codes INSEE des communes et les missions l
 | Propriété             | Valeur                                                               |
 | --------------------- | -------------------------------------------------------------------- |
 | **Source principale** | Fichier CSV statique des zones de couverture                         |
-| **Fichier**           | `server/static/mission_locales/zones_de_couverture_janvier_2025.csv` |
+| **Fichier**           | `server/static/mission_locales/zones_de_couverture_janvier_2026.csv` |
 | **API UNML**          | `https://api.unml.info/TrouveTaML/`                                  |
 | **Format CSV**        | Délimiteur `;`, encodage UTF-8 avec BOM                              |
 

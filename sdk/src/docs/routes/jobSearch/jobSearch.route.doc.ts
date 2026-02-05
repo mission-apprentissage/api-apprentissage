@@ -66,7 +66,7 @@ export const jobSearchRouteDoc = {
       descriptions: [
         {
           en: "List of partners labels to exclude from the search",
-          fr: "Liste des labels de partenaires à exclure de la recherche",
+          fr: "Liste des labels de partenaires à exclure de la recherche.<br />Cette liste change régulièrement. La liste mise à jour est disponible [à cette adresse](http://labonnealternance.apprentissage.beta.gouv.fr/metabase/public/question/70f84c13-6156-4933-9fb3-54c88887d95d)",
         },
       ],
       examples: ["Hellowork&partners_to_exclude=RH Alternance", "Hellowork"],

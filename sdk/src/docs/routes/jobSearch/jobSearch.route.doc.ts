@@ -65,7 +65,7 @@ export const jobSearchRouteDoc = {
     partners_to_exclude: {
       descriptions: [
         {
-          en: "List of partners labels to exclude from the search",
+          en: "List of partners labels to exclude from the search.<br />This list changes regularly. The updated list is available [at this url](http://labonnealternance.apprentissage.beta.gouv.fr/metabase/public/question/70f84c13-6156-4933-9fb3-54c88887d95d)",
           fr: "Liste des labels de partenaires à exclure de la recherche.<br />Cette liste change régulièrement. La liste mise à jour est disponible [à cette adresse](http://labonnealternance.apprentissage.beta.gouv.fr/metabase/public/question/70f84c13-6156-4933-9fb3-54c88887d95d)",
         },
       ],

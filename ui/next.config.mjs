@@ -18,7 +18,19 @@ const nextConfig = {
         headers: [
           {
             key: "Access-Control-Allow-Origin",
-            value: "https://www.data.gouv.fr/",
+            value: "https://www.data.gouv.fr",
+          },
+          {
+            key: "Access-Control-Allow-Methods",
+            value: "GET,HEAD,OPTIONS",
+          },
+          {
+            key: "Access-Control-Allow-Headers",
+            value: "Content-Type, Authorization",
+          },
+          {
+            key: "Vary",
+            value: "Origin",
           },
         ],
       },

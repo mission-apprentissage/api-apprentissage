@@ -46,7 +46,7 @@ const zUaiBaseFields = z.object({
   situation_comptable_libe: z.string(),
   niveau_uai: z.enum(["1", "3", "2", "4"]),
   niveau_uai_libe: z.enum(["UAI célibataire", "UAI fille", "UAI mère", "UAI mère et fille"]),
-  commune: z.string(),
+  commune: z.nullable(z.string()),
   commune_libe: z.nullable(z.string()),
   academie: z.nullable(z.string().check(z.regex(/^\d{2}$/))),
   academie_libe: z.nullable(z.string()),

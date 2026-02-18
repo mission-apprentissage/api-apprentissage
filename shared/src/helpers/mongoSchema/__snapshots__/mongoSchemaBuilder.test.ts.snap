@@ -4794,7 +4794,10 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
               ],
             },
             "commune": {
-              "bsonType": "string",
+              "bsonType": [
+                "string",
+                "null",
+              ],
             },
             "commune_libe": {
               "bsonType": [
@@ -5377,7 +5380,10 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
               ],
             },
             "commune": {
-              "bsonType": "string",
+              "bsonType": [
+                "string",
+                "null",
+              ],
             },
             "commune_libe": {
               "bsonType": [
@@ -5843,7 +5849,10 @@ exports[`zodToMongoSchema > should convert source.acce schema 1`] = `
               ],
             },
             "commune": {
-              "bsonType": "string",
+              "bsonType": [
+                "string",
+                "null",
+              ],
             },
             "commune_libe": {
               "bsonType": [

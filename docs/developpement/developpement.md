@@ -266,4 +266,3 @@ Il est possible de débugger facilement **sous VSCode** grace à la configuratio
 - [Développement](./docs/developpement/developpement.md)
 - [Debugging](./docs/developpement/debug.md)
 - [Infrastructure](./docs/infrastructure.md)
-- [Sécurité](./docs/securite.md)

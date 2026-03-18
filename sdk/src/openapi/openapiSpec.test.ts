@@ -18,6 +18,14 @@ function getDocTechnicalFieldListStructure(docs: DocTechnicalField[], prefix: st
 function getDocTechnicalFieldStructure(doc: DocTechnicalField, prefix: string = ""): string[] {
   const structure: string[] = [prefix];
 
+  if (doc.properties) {
+    structure.push(`${prefix}.properties`);
+    for (const key in doc.properties) {
+      if (doc.properties[key]) {
+        structure.push(...getDocTechnicalFieldStructure(doc.properties[key], `${prefix}.properties.${key}`));
+      }
+    }
+  }
   if (doc.allOf) {
     structure.push(...getDocTechnicalFieldListStructure(doc.allOf, `${prefix}.allOf`));
   }
@@ -41,14 +49,6 @@ function getDocTechnicalFieldStructure(doc: DocTechnicalField, prefix: string = 
   }
   if (doc.prefixItems) {
     structure.push(...getDocTechnicalFieldListStructure(doc.prefixItems, `${prefix}.prefixItems`));
-  }
-  if (doc.properties) {
-    structure.push(`${prefix}.properties`);
-    for (const key in doc.properties) {
-      if (doc.properties[key]) {
-        structure.push(...getDocTechnicalFieldStructure(doc.properties[key], `${prefix}.properties.${key}`));
-      }
-    }
   }
 
   return structure.toSorted();

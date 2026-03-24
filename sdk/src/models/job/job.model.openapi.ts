@@ -245,6 +245,15 @@ const offerReadSchema = {
 const offerWriteSchema = {
   type: "object",
   properties: {
+    identifier: {
+      type: "object",
+      properties: {
+        partner_job_id: {
+          type: "string",
+        },
+      },
+      required: ["partner_job_id"],
+    },
     workplace: {
       type: "object",
       properties: {

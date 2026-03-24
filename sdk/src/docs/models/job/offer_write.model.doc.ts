@@ -116,5 +116,11 @@ export const offerWriteModelDoc = {
         },
       },
     },
+    identifier: {
+      ...offerReadModelDoc.properties.identifier,
+      properties: {
+        partner_job_id: { ...offerReadModelDoc.properties.identifier.properties.partner_job_id },
+      },
+    },
   },
 } as const satisfies DocTechnicalField;

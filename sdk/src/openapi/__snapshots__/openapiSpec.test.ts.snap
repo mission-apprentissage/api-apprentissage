@@ -2528,6 +2528,20 @@ exports[`openapiSpec#models > should generate proper schema JobOfferWrite 1`] = 
       },
       "type": "object",
     },
+    "identifier": {
+      "properties": {
+        "partner_job_id": {
+          "examples": [
+            "b16a546a-e61f-4028-b5a3-1a7bbfaa4e3d",
+          ],
+          "type": "string",
+        },
+      },
+      "required": [
+        "partner_job_id",
+      ],
+      "type": "object",
+    },
     "offer": {
       "properties": {
         "access_conditions": {

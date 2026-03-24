@@ -1,7 +1,5 @@
 import { notFound } from "@hapi/boom";
-import type { RootFilterOperators } from "mongodb";
 import { zRoutes } from "shared";
-import type { IUser } from "shared/models/user.model";
 
 import type { Server } from "@/server/server.js";
 import { getDbCollection } from "@/services/mongodb/mongodbService.js";
@@ -14,13 +12,9 @@ export const userAdminRoutes = ({ server }: { server: Server }) => {
       onRequest: [server.auth(zRoutes.get["/_private/admin/users"])],
     },
     async (request, response) => {
-      const filter: RootFilterOperators<IUser> = {};
-
       const { q } = request.query;
 
-      if (q) {
-        filter.$text = { $search: q };
-      }
+      const filter = q ? { email: { $regex: q, $options: "i" } } : {};
 
       const users = await getDbCollection("users").find(filter).toArray();
 

@@ -86,7 +86,7 @@ const UserList = ({ lang }: WithLang) => {
 
   return (
     <>
-      <SearchBar onButtonClick={onSearch} defaultValue={searchParams.get("q") ?? ""} />
+      <SearchBar onButtonClick={onSearch} defaultValue={searchParams.get("q") ?? ""} allowEmptySearch />
 
       <Table
         rows={users || []}

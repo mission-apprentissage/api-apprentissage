@@ -64,6 +64,7 @@ const UserList = ({ lang }: WithLang) => {
   };
 
   const handleDeleteClick = (id: string, email: string) => {
+    deleteUser.reset();
     setSelectedUser({ id, email });
     modal.open();
   };
@@ -169,7 +170,7 @@ const UserList = ({ lang }: WithLang) => {
       >
         <Typography>Êtes-vous sûr de vouloir supprimer cet utilisateur ? Cette action est irréversible.</Typography>
         {deleteError && (
-          <Box sx={{ marginTop: fr.spacing("2w") }}>
+          <Box sx={{ marginTop: fr.spacing("4v") }}>
             <Alert description={deleteError} severity="error" small />
           </Box>
         )}

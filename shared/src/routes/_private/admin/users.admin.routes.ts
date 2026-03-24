@@ -45,4 +45,19 @@ export const zUserAdminRoutes = {
       },
     },
   },
+  delete: {
+    "/_private/admin/users/:id": {
+      method: "delete",
+      path: "/_private/admin/users/:id",
+      params: z.object({ id: zObjectIdMini }),
+      response: {
+        "200": z.object({ success: z.literal(true) }),
+      },
+      securityScheme: {
+        auth: "cookie-session",
+        access: "admin",
+        ressources: {},
+      },
+    },
+  },
 } as const satisfies IApiRoutesDef;

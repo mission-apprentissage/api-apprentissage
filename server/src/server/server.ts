@@ -47,8 +47,9 @@ export async function bind(app: Server) {
   app.register(fastifyCors, {
     ...(config.env === "local"
       ? {
-          origin: true,
+          origin: config.publicUrl,
           credentials: true,
+          methods: ["GET", "POST", "HEAD", "PUT", "PATCH", "DELETE", "OPTIONS"],
         }
       : {
           origin: [config.publicUrl, /(?:^|\.)data\.gouv\.fr$/],

@@ -65,4 +65,21 @@ export const userAdminRoutes = ({ server }: { server: Server }) => {
       return response.status(200).send(user);
     }
   );
+
+  server.delete(
+    "/_private/admin/users/:id",
+    {
+      schema: zRoutes.delete["/_private/admin/users/:id"],
+      onRequest: [server.auth(zRoutes.delete["/_private/admin/users/:id"])],
+    },
+    async (request, response) => {
+      const user = await getDbCollection("users").findOneAndDelete({ _id: request.params.id });
+
+      if (!user) {
+        throw notFound();
+      }
+
+      return response.status(200).send({ success: true });
+    }
+  );
 };

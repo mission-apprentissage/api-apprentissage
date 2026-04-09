@@ -60,7 +60,7 @@ export const recuperationDetailOffrePageSummaryDoc = {
 
 export const recuperationDetailOffrePageDoc = {
   tag: "job",
-  operationIds: ["jobSearch"],
+  operationIds: ["jobSearchById"],
   habilitation: null,
   description: [
     {

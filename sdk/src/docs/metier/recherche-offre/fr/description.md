@@ -18,6 +18,6 @@
 
 Les résultats sont retournés par priorité de source (La bonne alternance puis ses partenaires), par distance croissante au lieu de recherche si ce dernier a été fourni en paramètre et par date de création décroissante.
 
-Vous pouvez télécharger l’ensemble de ces offres au format JSON en utilisant [cette route](/fr/documentation-technique#tag/Offre-Emploi/operation/jobsExport).
+**📥Vous pouvez également télécharger l’ensemble de ces offres au format JSON en utilisant [cette route](/fr/documentation-technique#tag/Offre-Emploi/operation/jobsExport).**
 
 L'utilisation de cette API est gratuite et réservée à des usages non lucratifs. Notez que toute utilisation de ces données à des fins commerciales, telles que la revente ou la facturation de l'accès pour des tiers comme des candidats est interdite.

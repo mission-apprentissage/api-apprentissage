@@ -13,18 +13,19 @@ const client = axios.create({
 });
 
 export async function scrapeRessourceCcn(): Promise<IImportMetaDares["resource"]> {
-  const raw = await client.get<string>(
-    "/dialogue-social/negociation-collective/article/conventions-collectives-nomenclatures",
-    { responseType: "document" }
-  );
+  const raw = await client.get<string>("/conventions-collectives-nomenclatures", { responseType: "document" });
   const root = parse(raw.data);
   const links = root.querySelectorAll(
     'a.fr-link--download.file--x-office-spreadsheet[title*="Liste des conventions collectives et de leur code IDCC"]'
   );
+  console.log("dares.ccn.scraper: found links", { count: links.length });
   const linkNode = links.at(0);
 
   if (links.length !== 1 || linkNode == null) {
-    throw internal("dares.ccn.scraper: unexpected number of links", { links });
+    throw internal("dares.ccn.scraper: unexpected number of links", {
+      links,
+      htmlPreview: raw.data.substring(0, 500),
+    });
   }
 
   const href = linkNode.getAttribute("href");

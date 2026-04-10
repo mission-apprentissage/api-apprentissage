@@ -238,6 +238,10 @@ program
   .command("import:france_competence")
   .option("-q, --queued", "Run job asynchronously", false)
   .action(createJobAction("import:france_competence"));
+program
+  .command("import:dares_ccn")
+  .option("-q, --queued", "Run job asynchronously", false)
+  .action(createJobAction("import:dares_ccn"));
 
 program
   .command("job:run")

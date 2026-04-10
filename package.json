@@ -97,6 +97,7 @@
     ]
   },
   "resolutions": {
-    "exceljs@^4.4.0": "patch:exceljs@npm%3A4.4.0#./.yarn/patches/exceljs-npm-4.4.0-15bcfdd142.patch"
+    "exceljs@^4.4.0": "patch:exceljs@npm%3A4.4.0#./.yarn/patches/exceljs-npm-4.4.0-15bcfdd142.patch",
+    "fast-xml-parser": "^4.5.4"
   }
 }

@@ -8,7 +8,13 @@ import type { IUser } from "shared/models/user.model";
 import config from "@/config.js";
 import { withCause } from "@/services/errors/withCause.js";
 
-type ForwardApiRequestConfig = { endpoint: string; path: string; querystring?: string; requestInit: RequestInit };
+type ForwardApiRequestConfig = {
+  endpoint: string;
+  path: string;
+  querystring?: string;
+  requestInit: RequestInit;
+  timeoutMs?: number;
+};
 
 type Identity = { user: IUser; organisation: IOrganisationInternal | null };
 
@@ -41,6 +47,10 @@ export async function createAuthToken(
 }
 
 async function getResponse(request: ForwardApiRequestConfig, identity: Identity): Promise<Response> {
+  const timeoutMs = request.timeoutMs ?? 10_000;
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
   try {
     const url = request.endpoint + request.path + (request.querystring ?? "");
 
@@ -49,7 +59,7 @@ async function getResponse(request: ForwardApiRequestConfig, identity: Identity)
 
     headers.append("Authorization", await createAuthToken(identity));
 
-    const response = await fetch(url, { ...request.requestInit, headers });
+    const response = await fetch(url, { ...request.requestInit, headers, signal: controller.signal });
 
     if (response.status === 401) {
       throw internal("forwardApi.getResponse: unauthorized", {
@@ -61,7 +71,12 @@ async function getResponse(request: ForwardApiRequestConfig, identity: Identity)
 
     return response;
   } catch (error) {
+    if (error instanceof Error && error.name === "AbortError") {
+      throw internal("forwardApi.getResponse: timeout", { request, timeoutMs });
+    }
     throw withCause(internal("forwardApi.getResponse: unexpected error", { request }), error);
+  } finally {
+    clearTimeout(timeoutId);
   }
 }
 

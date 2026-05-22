@@ -161,6 +161,7 @@ export const jobRoutes = ({ server }: { server: Server }) => {
           endpoint: config.api.lba.endpoint,
           path: `/v3/jobs/export`,
           requestInit: { method: "GET" },
+          timeoutMs: 60_000,
         },
         response,
         { user, organisation: request.organisation ?? null }

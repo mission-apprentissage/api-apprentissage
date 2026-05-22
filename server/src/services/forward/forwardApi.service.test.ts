@@ -293,4 +293,25 @@ describe("forwardApi.service", () => {
     expect(response.statusCode).toBe(403);
     expect(response.json()).toEqual(responseBody);
   });
+
+  it("should return 500 when the upstream response exceeds timeoutMs", async () => {
+    nock(baseUrl).get("/v3/jobs/search").delay(500).reply(200, { success: true });
+
+    app.get("/test", async (_req, reply) => {
+      await forwardApiRequest(
+        { endpoint: baseUrl, path: "/v3/jobs/search", requestInit: { method: "GET" }, timeoutMs: 50 },
+        reply,
+        { user: basicUser, organisation: null }
+      );
+    });
+
+    const response = await app.inject({ method: "GET", url: "/test" });
+
+    expect(response.statusCode).toBe(500);
+    expect(response.json()).toEqual({
+      message: "The server was unable to complete your request",
+      name: "Internal Server Error",
+      statusCode: 500,
+    });
+  });
 });

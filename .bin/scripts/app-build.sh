@@ -12,7 +12,7 @@ environement=${1:?"Veuillez spécifier l'environnement à build (production, rec
 shift 1
 
 set +e
-docker buildx create --name "mna-${PRODUCT_NAME}" --driver docker-container --config "$SCRIPT_DIR/buildkitd.toml" 2> /dev/null
+docker buildx create --name "mna-${PRODUCT_NAME}" --driver docker-container --config "$SCRIPTS_DIR/buildkitd.toml" 2> /dev/null
 set -e
 
 if [[ ! -z "${CI:-}" ]]; then

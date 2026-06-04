@@ -40,9 +40,6 @@ on:
       OPENPGP_PRIVATE_SUBKEY:
         description: Github Actions' OpenPGP private subkey
         required: true
-      TOKEN_MNA_SHARED:
-        description: Authentication token for accessing private repositories
-        required: true
 
 jobs:
   npm-packages-check:
@@ -72,7 +69,6 @@ jobs:
     secrets:
       SLACK_WEBHOOK_NOTIF: ${{ secrets.SLACK_WEBHOOK_NOTIF }}
       OPENPGP_PRIVATE_SUBKEY: ${{ secrets.OPENPGP_PRIVATE_SUBKEY }}
-      TOKEN_MNA_SHARED: ${{ secrets.TOKEN_MNA_SHARED }}
 
   deploy:
     needs: ["build"]
@@ -90,8 +86,7 @@ jobs:
       - name: Checkout project
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.TOKEN_MNA_SHARED }}
-          submodules: recursive
+          submodules: true
 
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2

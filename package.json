@@ -51,7 +51,6 @@
     "test:watch": "vitest --watch",
     "typecheck": "tsc -b ui/tsconfig.json server/tsconfig.json shared/tsconfig.json sdk/tsconfig.json",
     "vault:edit": ".bin/mna-api vault:edit",
-    "product:access:update": ".bin/mna-api product:access:update",
     "foreach:seq": "yarn workspaces foreach -Av --exclude mna",
     "foreach:parallel": "yarn foreach:seq -pi",
     "foreach:ci": "yarn foreach:seq -p"

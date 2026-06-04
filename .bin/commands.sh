@@ -31,8 +31,13 @@ fi
 ################################################################################
 
 _register "app:deploy"
+_register "app:deploy:log:encrypt"
+_register "app:deploy:log:decrypt"
 _register "dev:dependencies:check"
 _register "dev:setup"
+_register "docker:login"
+_register "seed:apply"
+_register "seed:update"
 _register "vault:edit"
 
 ################################################################################

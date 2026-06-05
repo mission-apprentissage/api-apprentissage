@@ -4,9 +4,9 @@
 
 1. **offres_emploi_lba** : offres déposées directement via notre dépôt d’offres (25 000 offres en 2025).
 
-1. **offres_emploi_partenaires** : offres issues de nos partenaires (France Travail, Météojobs), de flux directs avec des groupes comme Enedis ou Engie, ainsi que de multidiffuseurs tels que Talentplug, Veritone, et d’ATS comme Kelio ou Wink ([liste de nos partenaires](https://mission-apprentissage.notion.site/Liste-des-partenaires-de-La-bonne-alternance-3e9aadb0170e41339bac486399ec4ac1?pvs=74)). Environ 200 000 offres diffusées en 2025.
+1. **offres_emploi_partenaires** : offres issues de nos partenaires (France Travail, Météojobs), de flux directs avec des groupes comme Enedis ou Engie, ainsi que de multidiffuseurs tels que Talentplug, Veritone, et d’ATS comme Kelio ou Wink ([liste de nos partenaires](https://mission-apprentissage.notion.site/Liste-des-partenaires-de-La-bonne-alternance-3e9aadb0170e41339bac486399ec4ac1?pvs=74)). 325 000 offres diffusées en 2025.
 
-1. **recruteurs_lba** : entreprises identifiées comme ayant un fort potentiel d’embauche mais n’ayant pas déposé d’offres ; nous suggérons aux candidats d’envoyer des candidatures spontanées
+1. **recruteurs_lba** : entreprises identifiées comme ayant un fort potentiel d’embauche mais n’ayant pas déposé d’offres ; nous suggérons aux candidats d’envoyer des candidatures spontanées. 400 000 entreprises en 2025.
 
 **💡Quelques conseils pour vos intégrations :**
 

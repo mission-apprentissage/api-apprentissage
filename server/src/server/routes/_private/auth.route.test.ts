@@ -267,7 +267,7 @@ describe("Authentication", () => {
 
       expect(vi.mocked(sendEmail)).toHaveBeenCalledWith({
         name: "register-feedback",
-        to: "support_api@apprentissage.beta.gouv.fr",
+        to: "contact-api@labonnealternance.apprentissage.beta.gouv.fr",
         comment: "My super comment",
         from: "user@exemple.fr",
       });

@@ -74,7 +74,7 @@ export async function sendRegisterFeedbackEmail(
 ) {
   await sendEmail({
     name: "register-feedback",
-    to: "support_api@apprentissage.beta.gouv.fr",
+    to: "contact-api@labonnealternance.apprentissage.beta.gouv.fr",
     from,
     comment: data.comment,
   });

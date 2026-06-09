@@ -38,9 +38,9 @@ function getContactName(lang: "en" | "fr" | null): string {
 function getSecuritySchemeDescription(lang: "en" | "fr" | null): string {
   switch (lang) {
     case "fr":
-      return "Clé d'API à fournir dans le header `Authorization`. Si la route nécessite une habilitation particulière veuillez contacter le support pour en faire la demande à [support_api@apprentissage.beta.gouv.fr](mailto:support_api@apprentissage.beta.gouv.fr)";
+      return "Clé d'API à fournir dans le header `Authorization`. Si la route nécessite une habilitation particulière veuillez contacter le support pour en faire la demande à [contact-api@labonnealternance.apprentissage.beta.gouv.fr](mailto:contact-api@labonnealternance.apprentissage.beta.gouv.fr)";
     case "en":
-      return "API key to provide in the `Authorization` header. If the route requires a particular authorization, please contact support to request it at [support_api@apprentissage.beta.gouv.fr](mailto:support_api@apprentissage.beta.gouv.fr)";
+      return "API key to provide in the `Authorization` header. If the route requires a particular authorization, please contact support to request it at [contact-api@labonnealternance.apprentissage.beta.gouv.fr](mailto:contact-api@labonnealternance.apprentissage.beta.gouv.fr)";
     default:
       return "";
   }
@@ -83,7 +83,7 @@ export function buildOpenApiSchema(
       termsOfService: "https://api.apprentissage.beta.gouv.fr/cgu",
       contact: {
         name: getContactName(lang),
-        email: "support_api@apprentissage.beta.gouv.fr",
+        email: "contact-api@labonnealternance.apprentissage.beta.gouv.fr",
       },
     },
     servers: [

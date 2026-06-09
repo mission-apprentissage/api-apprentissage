@@ -50,7 +50,7 @@ export function BesoinDesDonnes({
           {habilitationRequest && (
             <Typography>
               <DsfrLink
-                href={`mailto:support_api@apprentissage.beta.gouv.fr?subject=${encodeURIComponent(getTextOpenAPI(habilitationRequest.subject, lang))}&body=${getTextOpenAPI(habilitationRequest.body, lang)}`}
+                href={`mailto:contact-api@labonnealternance.apprentissage.beta.gouv.fr?subject=${encodeURIComponent(getTextOpenAPI(habilitationRequest.subject, lang))}&body=${getTextOpenAPI(habilitationRequest.body, lang)}`}
                 size="lg"
               >
                 {t("besoinDonnees.demandeHabilitation", { lng: lang })}

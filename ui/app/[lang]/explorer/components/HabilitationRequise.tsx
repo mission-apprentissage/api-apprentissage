@@ -50,7 +50,7 @@ export function HabilitationRequise({ lang, habilitation }: Props) {
           {t("habilitationRequise.titre", { lng: lang })}
         </Typography>
         <DsfrLink
-          href={`mailto:support_api@apprentissage.beta.gouv.fr?subject=${encodeURIComponent(getTextOpenAPI(subject, lang))}&body=${getTextOpenAPI(body, lang)}`}
+          href={`mailto:contact-api@labonnealternance.apprentissage.beta.gouv.fr?subject=${encodeURIComponent(getTextOpenAPI(subject, lang))}&body=${getTextOpenAPI(body, lang)}`}
           arrow="none"
           external={false}
         >

@@ -240,7 +240,7 @@ function ContactSection({ t, lang }: WithLangAndT) {
             </Typography>
             <Box display="grid" gap={fr.spacing("2v")}>
               <Typography>
-                <DsfrLink href="mailto:support_api@apprentissage.beta.gouv.fr">
+                <DsfrLink href="mailto:contact-api@labonnealternance.apprentissage.beta.gouv.fr">
                   {t("besoinDonnees.ditesLeNous", { lng: lang })}
                 </DsfrLink>
               </Typography>

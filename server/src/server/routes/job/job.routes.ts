@@ -11,6 +11,7 @@ export const jobRoutes = ({ server }: { server: Server }) => {
     {
       schema: zRoutes.get["/job/v1/search"],
       onRequest: [server.auth(zRoutes.get["/job/v1/search"])],
+      config: { rateLimit: { max: 60, timeWindow: "1 minute" } },
     },
     async (request, response) => {
       const user = getUserFromRequest(request, zRoutes.get["/job/v1/search"]);
@@ -34,6 +35,7 @@ export const jobRoutes = ({ server }: { server: Server }) => {
     {
       schema: zRoutes.post["/job/v1/offer"],
       onRequest: [server.auth(zRoutes.post["/job/v1/offer"])],
+      config: { rateLimit: { max: 30, timeWindow: "1 minute" } },
     },
     async (request, response) => {
       const user = getUserFromRequest(request, zRoutes.post["/job/v1/offer"]);
@@ -60,6 +62,7 @@ export const jobRoutes = ({ server }: { server: Server }) => {
       schema: zRoutes.post["/job/v1/apply"],
       onRequest: [server.auth(zRoutes.post["/job/v1/apply"])],
       bodyLimit: 5 * 1024 ** 2, // 5MB
+      config: { rateLimit: { max: 10, timeWindow: "1 minute" } },
     },
     async (request, response) => {
       const user = getUserFromRequest(request, zRoutes.post["/job/v1/apply"]);
@@ -85,6 +88,7 @@ export const jobRoutes = ({ server }: { server: Server }) => {
     {
       schema: zRoutes.put["/job/v1/offer/:id"],
       onRequest: [server.auth(zRoutes.put["/job/v1/offer/:id"])],
+      config: { rateLimit: { max: 30, timeWindow: "1 minute" } },
     },
     async (request, response) => {
       const user = getUserFromRequest(request, zRoutes.put["/job/v1/offer/:id"]);
@@ -110,6 +114,7 @@ export const jobRoutes = ({ server }: { server: Server }) => {
     {
       schema: zRoutes.get["/job/v1/offer/:id"],
       onRequest: [server.auth(zRoutes.get["/job/v1/offer/:id"])],
+      config: { rateLimit: { max: 120, timeWindow: "1 minute" } },
     },
     async (request, response) => {
       const user = getUserFromRequest(request, zRoutes.get["/job/v1/offer/:id"]);
@@ -131,6 +136,7 @@ export const jobRoutes = ({ server }: { server: Server }) => {
     {
       schema: zRoutes.get["/job/v1/offer/:id/publishing-informations"],
       onRequest: [server.auth(zRoutes.get["/job/v1/offer/:id/publishing-informations"])],
+      config: { rateLimit: { max: 120, timeWindow: "1 minute" } },
     },
     async (request, response) => {
       const user = getUserFromRequest(request, zRoutes.get["/job/v1/offer/:id/publishing-informations"]);
@@ -152,6 +158,7 @@ export const jobRoutes = ({ server }: { server: Server }) => {
     {
       schema: zRoutes.get["/job/v1/export"],
       onRequest: [server.auth(zRoutes.get["/job/v1/export"])],
+      config: { rateLimit: { max: 2, timeWindow: "1 minute" } },
     },
     async (request, response) => {
       const user = getUserFromRequest(request, zRoutes.get["/job/v1/export"]);

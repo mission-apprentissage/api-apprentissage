@@ -67,7 +67,22 @@ export async function bind(app: Server) {
     },
   };
   await app.register(fastifySwagger, swaggerOpts);
-  await app.register(fastifyRateLimit, { global: false });
+  await app.register(fastifyRateLimit, {
+    global: false,
+    hook: "preHandler",
+    keyGenerator: (req) => {
+      const apiKeyId = req.api_key?._id?.toString();
+      if (apiKeyId) return `api_key:${apiKeyId}`;
+      const userValue = req.user?.value as { email?: string } | undefined;
+      if (userValue?.email) return `user:${userValue.email}`;
+      return `ip:${req.ip}`;
+    },
+    errorResponseBuilder: (_req, ctx) => ({
+      statusCode: 429,
+      error: "Too Many Requests",
+      message: `Quota dépassé : ${ctx.max} requêtes par ${ctx.after}. Voir https://api.apprentissage.beta.gouv.fr/documentation pour les limites par endpoint.`,
+    }),
+  });
 
   const swaggerUiOptions: FastifySwaggerUiOptions = {
     routePrefix: "/api/documentation",

@@ -36,6 +36,7 @@ export const formationRoutes = ({ server }: { server: Server }) => {
     {
       schema: zRoutes.post["/formation/v1/appointment/generate-link"],
       onRequest: [server.auth(zRoutes.post["/formation/v1/appointment/generate-link"])],
+      config: { rateLimit: { max: 10, timeWindow: "1 minute" } },
     },
     async (request, response) => {
       const user = getUserFromRequest(request, zRoutes.post["/formation/v1/appointment/generate-link"]);

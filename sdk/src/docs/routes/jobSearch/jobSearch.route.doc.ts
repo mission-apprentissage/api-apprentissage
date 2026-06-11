@@ -26,8 +26,8 @@ import warningsFr from "./fr/response/warnings.md.js";
 export const jobSearchRouteDoc = {
   summary: rechercheOffrePageSummaryDoc.title,
   description: {
-    en: "Access in real-time all apprenticeship job opportunities available in France and offer them to your users for free and under a white-label format.",
-    fr: "Accéder en temps réel à toutes les opportunités d'emploi en apprentissage disponibles en France et proposez-les à vos utilisateurs gratuitement et sous un format white-label.",
+    en: "Access in real-time all apprenticeship job opportunities available in France and offer them to your users for free and under a white-label format.<br /><br />**Rate limit**: 60 calls per minute, per consumer.",
+    fr: "Accéder en temps réel à toutes les opportunités d'emploi en apprentissage disponibles en France et proposez-les à vos utilisateurs gratuitement et sous un format white-label.<br /><br />**Limite de débit** : 60 appels par minute, par consommateur.",
   },
   parameters: {
     longitude: {

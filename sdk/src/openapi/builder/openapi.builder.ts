@@ -46,6 +46,63 @@ function getSecuritySchemeDescription(lang: "en" | "fr" | null): string {
   }
 }
 
+function getApiDescription(lang: "en" | "fr" | null): string {
+  switch (lang) {
+    case "fr":
+      return `# Limites de débit (rate limiting)
+
+Pour garantir la disponibilité du service à l'ensemble des consommateurs, chaque endpoint est soumis à une limite d'appels **par consommateur** (clé d'API). Les limites précises sont indiquées dans la description de chaque endpoint.
+
+## Headers renvoyés
+
+Chaque réponse inclut des headers indiquant l'état de votre quota :
+
+| Header | Description |
+|---|---|
+| \`x-ratelimit-limit\` | Nombre d'appels autorisés sur la fenêtre courante |
+| \`x-ratelimit-remaining\` | Nombre d'appels encore disponibles |
+| \`x-ratelimit-reset\` | Nombre de secondes avant remise à zéro du compteur |
+| \`retry-after\` | (Sur 429 uniquement) Secondes à attendre avant de réessayer |
+
+## En cas de dépassement
+
+Lorsque votre quota est atteint, l'API renvoie un code **HTTP 429 — Too Many Requests** avec un corps JSON décrivant la limite franchie. Patientez la durée indiquée par le header \`retry-after\` avant de réémettre la requête.
+
+## Bonnes pratiques
+
+- Surveillez les headers \`x-ratelimit-remaining\` pour anticiper l'atteinte des limites.
+- Implémentez un mécanisme de retry avec backoff exponentiel respectant le \`retry-after\`.
+- Si vos volumes nécessitent des limites supérieures, contactez [support_api@apprentissage.beta.gouv.fr](mailto:support_api@apprentissage.beta.gouv.fr).`;
+    case "en":
+      return `# Rate limiting
+
+To ensure service availability for all consumers, each endpoint enforces a per-consumer (API key) call limit. Specific limits are documented in each endpoint's description.
+
+## Returned headers
+
+Every response includes headers reporting your quota state:
+
+| Header | Description |
+|---|---|
+| \`x-ratelimit-limit\` | Number of calls allowed within the current window |
+| \`x-ratelimit-remaining\` | Number of calls still available |
+| \`x-ratelimit-reset\` | Seconds until the counter resets |
+| \`retry-after\` | (On 429 only) Seconds to wait before retrying |
+
+## When the quota is exceeded
+
+Once your quota is reached, the API responds with **HTTP 429 — Too Many Requests** and a JSON body describing the breached limit. Wait the duration provided in the \`retry-after\` header before retrying.
+
+## Best practices
+
+- Monitor \`x-ratelimit-remaining\` to anticipate hitting the limits.
+- Implement retries with exponential backoff that honor \`retry-after\`.
+- If your volume requires higher limits, contact [support_api@apprentissage.beta.gouv.fr](mailto:support_api@apprentissage.beta.gouv.fr).`;
+    default:
+      return "";
+  }
+}
+
 // Using the lang null is mainly used for testing purposes, it allows to generate the OpenAPI spec without text
 // The text can be changed anytime, so it is useful to test the OpenAPI generation without worrying about the text
 export function buildOpenApiSchema(
@@ -76,6 +133,7 @@ export function buildOpenApiSchema(
     info: {
       title: getTitle(lang),
       version,
+      description: getApiDescription(lang),
       license: {
         name: "Etalab-2.0",
         url: "https://github.com/etalab/licence-ouverte/blob/master/LO.md",

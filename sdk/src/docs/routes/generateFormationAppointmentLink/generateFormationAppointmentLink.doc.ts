@@ -3,7 +3,10 @@ import type { DocRoute } from "../../types.js";
 
 export const generateFormationAppointmentLinkRouteDoc = {
   summary: generationLienPriseRdvFormationPageSummaryDoc.title,
-  description: generationLienPriseRdvFormationPageSummaryDoc.headline,
+  description: {
+    en: `${generationLienPriseRdvFormationPageSummaryDoc.headline.en}<br /><br />**Rate limit**: 10 calls per minute, per consumer.`,
+    fr: `${generationLienPriseRdvFormationPageSummaryDoc.headline.fr}<br /><br />**Limite de débit** : 10 appels par minute, par consommateur.`,
+  },
   body: {
     description: {
       fr: "Identifiant de la formation, permettant de générer un lien de prise de rendez-vous pour la formation. Possibilité de fournir 1 paramètre parmi 3 types possibles : cle_ministere_educatif, parcoursup_id, onisep_id",

@@ -4,8 +4,8 @@ import type { DocRoute } from "../../types.js";
 export const jobSearchByIdRouteDoc = {
   summary: recuperationDetailOffrePageSummaryDoc.title,
   description: {
-    en: "Access the details of an apprenticeship job offer from its identifier.",
-    fr: "Accéder au détail d'une opportunité d'emploi en alternance à partir de son identifiant.",
+    en: "Access the details of an apprenticeship job offer from its identifier.<br /><br />**Rate limit**: 120 calls per minute, per consumer. The `publishing-informations` endpoint shares the same limit.",
+    fr: "Accéder au détail d'une opportunité d'emploi en alternance à partir de son identifiant.<br /><br />**Limite de débit** : 120 appels par minute, par consommateur. L'endpoint `publishing-informations` partage la même limite.",
   },
   parameters: {
     id: {

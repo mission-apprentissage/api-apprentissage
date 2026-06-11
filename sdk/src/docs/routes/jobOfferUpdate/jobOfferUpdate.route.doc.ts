@@ -6,8 +6,8 @@ export const jobOfferUpdateRouteDoc = {
     fr: "Modifier une offre d'emploi en alternance. L'offre doit être publiée et active",
   },
   description: {
-    en: "This API allows you to maximize the visibility of your apprenticeship job offers by sharing them with the service La bonne alternance, which then automatically distributes them closer to candidates on its site and its partner sites.",
-    fr: "Cette API vous permet de maximiser la visibilité de vos offres d'emploi en alternance en les partageant avec le service La bonne alternance qui les redistribue automatiquement aux candidats les plus pertinents sur son site ainsi que sur ses sites partenaires.",
+    en: "This API allows you to maximize the visibility of your apprenticeship job offers by sharing them with the service La bonne alternance, which then automatically distributes them closer to candidates on its site and its partner sites.<br /><br />**Rate limit**: 30 calls per minute, per consumer.",
+    fr: "Cette API vous permet de maximiser la visibilité de vos offres d'emploi en alternance en les partageant avec le service La bonne alternance qui les redistribue automatiquement aux candidats les plus pertinents sur son site ainsi que sur ses sites partenaires.<br /><br />**Limite de débit** : 30 appels par minute, par consommateur.",
   },
   parameters: {
     id: {

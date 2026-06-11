@@ -3649,6 +3649,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
       "email": "support_api@apprentissage.beta.gouv.fr",
       "name": "",
     },
+    "description": "",
     "license": {
       "name": "Etalab-2.0",
       "url": "https://github.com/etalab/licence-ouverte/blob/master/LO.md",

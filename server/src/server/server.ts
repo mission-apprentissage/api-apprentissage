@@ -73,14 +73,19 @@ export async function bind(app: Server) {
     keyGenerator: (req) => {
       const apiKeyId = req.api_key?._id?.toString();
       if (apiKeyId) return `api_key:${apiKeyId}`;
-      const userValue = req.user?.value as { email?: string } | undefined;
-      if (userValue?.email) return `user:${userValue.email}`;
+      if (req.user) {
+        // JWT api-alternance (access-token) : email niché dans identity.
+        // API key / cookie-session (IUser) : email au premier niveau.
+        const value = req.user.value as { email?: string; identity?: { email?: string } };
+        const email = value.identity?.email ?? value.email;
+        if (email) return `user:${email}`;
+      }
       return `ip:${req.ip}`;
     },
     errorResponseBuilder: (_req, ctx) => ({
       statusCode: 429,
       error: "Too Many Requests",
-      message: `Quota dépassé : ${ctx.max} requêtes par ${ctx.after}. Voir https://api.apprentissage.beta.gouv.fr/documentation pour les limites par endpoint.`,
+      message: `Quota dépassé : ${ctx.max} requêtes par ${ctx.after}. Voir ${config.apiPublicUrl}/documentation pour les limites par endpoint.`,
     }),
   });
 

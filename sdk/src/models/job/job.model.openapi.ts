@@ -356,7 +356,7 @@ const offerWriteSchema = {
         },
         origin: {
           type: ["string", "null"],
-          description: "Origine de l'offre provenant d'un aggregateur",
+          description: "Déprécié",
         },
         status: {
           ...offerReadSchema.properties.offer.properties.status,

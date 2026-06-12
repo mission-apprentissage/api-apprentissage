@@ -2917,7 +2917,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 "type": "number",
               },
               "origin": {
-                "description": "Origine de l'offre provenant d'un aggregateur",
+                "description": "Déprécié",
                 "type": [
                   "string",
                   "null",

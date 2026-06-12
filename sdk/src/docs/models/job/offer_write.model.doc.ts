@@ -29,9 +29,7 @@ export const offerWriteModelDoc = {
           ],
         },
         origin: {
-          descriptions: [
-            { fr: "Origine de l'offre provenant d'un aggregateur", en: "Origin of the offer from an aggregator" },
-          ],
+          descriptions: [{ fr: "Déprécié", en: "Deprecated" }],
         },
         rome_codes: {
           descriptions: [

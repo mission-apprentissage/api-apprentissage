@@ -354,6 +354,10 @@ const offerWriteSchema = {
           description: "Si l'offre peut être diffusé sur l'ensemble des plateformes partenaires",
           default: true,
         },
+        origin: {
+          type: ["string", "null"],
+          description: "Déprécié",
+        },
         status: {
           ...offerReadSchema.properties.offer.properties.status,
           default: "Active",

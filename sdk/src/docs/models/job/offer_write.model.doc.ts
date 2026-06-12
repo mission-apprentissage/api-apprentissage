@@ -28,6 +28,9 @@ export const offerWriteModelDoc = {
             },
           ],
         },
+        origin: {
+          descriptions: [{ fr: "Déprécié", en: "Deprecated" }],
+        },
         rome_codes: {
           descriptions: [
             { en: "ROME code(s) of the offer", fr: "Code(s) ROME de l'offre" },

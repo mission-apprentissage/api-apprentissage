@@ -2589,6 +2589,13 @@ exports[`openapiSpec#models > should generate proper schema JobOfferWrite 1`] = 
           ],
           "type": "number",
         },
+        "origin": {
+          "description": "Déprécié",
+          "type": [
+            "string",
+            "null",
+          ],
+        },
         "publication": {
           "properties": {
             "creation": {

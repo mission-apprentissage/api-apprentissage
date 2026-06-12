@@ -2916,6 +2916,13 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 ],
                 "type": "number",
               },
+              "origin": {
+                "description": "Déprécié",
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
               "publication": {
                 "properties": {
                   "creation": {

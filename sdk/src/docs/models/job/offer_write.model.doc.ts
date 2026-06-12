@@ -28,11 +28,6 @@ export const offerWriteModelDoc = {
             },
           ],
         },
-        origin: {
-          descriptions: [
-            { fr: "Origine de l'offre provenant d'un aggregateur", en: "Origin of the offer from an aggregator" },
-          ],
-        },
         rome_codes: {
           descriptions: [
             { en: "ROME code(s) of the offer", fr: "Code(s) ROME de l'offre" },

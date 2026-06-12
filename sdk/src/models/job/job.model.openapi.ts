@@ -354,10 +354,6 @@ const offerWriteSchema = {
           description: "Si l'offre peut être diffusé sur l'ensemble des plateformes partenaires",
           default: true,
         },
-        origin: {
-          type: ["string", "null"],
-          description: "Origine de l'offre provenant d'un aggregateur",
-        },
         status: {
           ...offerReadSchema.properties.offer.properties.status,
           default: "Active",

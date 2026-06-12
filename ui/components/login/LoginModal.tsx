@@ -167,10 +167,10 @@ export function LoginModal({ lang }: WithLang) {
           {t("modal.problemeConnexionContactezNous", { lng: lang })}{" "}
           <Box
             component="a"
-            href="mailto:support_api@apprentissage.beta.gouv.fr"
+            href="mailto:contact-api@labonnealternance.apprentissage.beta.gouv.fr"
             sx={{ color: fr.colors.decisions.text.actionHigh.blueFrance.default }}
           >
-            support_api@apprentissage.beta.gouv.fr
+            contact-api@labonnealternance.apprentissage.beta.gouv.fr
           </Box>
         </Typography>
       </DialogContent>

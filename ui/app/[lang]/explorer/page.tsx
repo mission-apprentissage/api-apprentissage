@@ -209,7 +209,9 @@ export default async function ExplorerApiPage({ params }: PropsWithLangParams) {
               </Typography>
               <Box display="grid" gap={fr.spacing("2v")}>
                 <Typography>
-                  <DsfrLink href="mailto:support_api@apprentissage.beta.gouv.fr">Dites-le nous</DsfrLink>
+                  <DsfrLink href="mailto:contact-api@labonnealternance.apprentissage.beta.gouv.fr">
+                    Dites-le nous
+                  </DsfrLink>
                 </Typography>
               </Box>
             </Box>

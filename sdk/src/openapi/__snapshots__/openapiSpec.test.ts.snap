@@ -2590,7 +2590,7 @@ exports[`openapiSpec#models > should generate proper schema JobOfferWrite 1`] = 
           "type": "number",
         },
         "origin": {
-          "description": "Origine de l'offre provenant d'un aggregateur",
+          "description": "Déprécié",
           "type": [
             "string",
             "null",

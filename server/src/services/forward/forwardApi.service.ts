@@ -1,4 +1,4 @@
-import { internal } from "@hapi/boom";
+import { gatewayTimeout, internal } from "@hapi/boom";
 import { createApiAlternanceToken } from "api-alternance-sdk";
 import type { FastifyReply } from "fastify";
 import type { HttpHeader } from "fastify/types/utils.js";
@@ -72,7 +72,7 @@ async function getResponse(request: ForwardApiRequestConfig, identity: Identity)
     return response;
   } catch (error) {
     if (error instanceof Error && error.name === "AbortError") {
-      throw internal("forwardApi.getResponse: timeout", { request, timeoutMs });
+      throw gatewayTimeout("forwardApi.getResponse: timeout", { request, timeoutMs });
     }
     throw withCause(internal("forwardApi.getResponse: unexpected error", { request }), error);
   } finally {

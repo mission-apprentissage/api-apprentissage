@@ -294,7 +294,7 @@ describe("forwardApi.service", () => {
     expect(response.json()).toEqual(responseBody);
   });
 
-  it("should return 500 when the upstream response exceeds timeoutMs", async () => {
+  it("should return 504 when the upstream response exceeds timeoutMs", async () => {
     nock(baseUrl).get("/v3/jobs/search").delay(500).reply(200, { success: true });
 
     app.get("/test", async (_req, reply) => {
@@ -307,11 +307,11 @@ describe("forwardApi.service", () => {
 
     const response = await app.inject({ method: "GET", url: "/test" });
 
-    expect(response.statusCode).toBe(500);
+    expect(response.statusCode).toBe(504);
     expect(response.json()).toEqual({
       message: "The server was unable to complete your request",
-      name: "Internal Server Error",
-      statusCode: 500,
+      name: "Gateway Time-out",
+      statusCode: 504,
     });
   });
 });

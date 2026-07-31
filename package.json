@@ -75,7 +75,7 @@
     "typescript": "^5.9.2",
     "typescript-eslint": "^8.39.1",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.7"
   },
   "prettier": {
     "printWidth": 120,
@@ -97,6 +97,7 @@
   },
   "resolutions": {
     "exceljs@^4.4.0": "patch:exceljs@npm%3A4.4.0#./.yarn/patches/exceljs-npm-4.4.0-15bcfdd142.patch",
-    "fast-xml-parser": "^4.5.4"
+    "fast-xml-parser": "^4.5.4",
+    "tar": "^7.5.22"
   }
 }

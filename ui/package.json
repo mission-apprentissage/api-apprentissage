@@ -69,6 +69,6 @@
     "dotenv": "^17.2.1",
     "notion-types": "^7.4.3",
     "type-fest": "^4.41.0",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.7"
   }
 }

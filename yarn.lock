@@ -4515,7 +4515,7 @@ __metadata:
     safe-stable-stringify: ^2.5.0
     type-fest: ^4.41.0
     typescript: ^5.9.2
-    vitest: ^3.2.6
+    vitest: ^3.2.7
     zod: ^4.0.17
   languageName: unknown
   linkType: soft
@@ -10839,7 +10839,7 @@ __metadata:
     typescript: ^5.9.2
     typescript-eslint: ^8.39.1
     vite-tsconfig-paths: ^5.1.4
-    vitest: ^3.2.6
+    vitest: ^3.2.7
   languageName: unknown
   linkType: soft
 
@@ -13582,7 +13582,7 @@ __metadata:
     typescript: ^5.9.2
     unique-names-generator: ^4.7.1
     unzipper: ^0.12.3
-    vitest: ^3.2.6
+    vitest: ^3.2.7
     zod: ^4.0.17
     zod-mongodb-schema: ^2.0.0-next.9
   languageName: unknown
@@ -13682,7 +13682,7 @@ __metadata:
     react: 19.2.3
     type-fest: ^4.41.0
     typescript: ^5.9.2
-    vitest: ^3.2.6
+    vitest: ^3.2.7
     zod: ^4.0.17
     zod-mongodb-schema: ^2.0.0-next.9
   languageName: unknown
@@ -14647,7 +14647,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tar@npm:^7.5.19":
+"tar@npm:^7.5.22":
   version: 7.5.22
   resolution: "tar@npm:7.5.22"
   dependencies:
@@ -15256,7 +15256,7 @@ __metadata:
     swagger-ui-react: ^5.27.1
     type-fest: ^4.41.0
     typescript: ^5.9.2
-    vitest: ^3.2.6
+    vitest: ^3.2.7
     zod: ^4.0.17
   languageName: unknown
   linkType: soft
@@ -15720,7 +15720,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vitest@npm:^3.2.6":
+"vitest@npm:^3.2.7":
   version: 3.2.7
   resolution: "vitest@npm:3.2.7"
   dependencies:

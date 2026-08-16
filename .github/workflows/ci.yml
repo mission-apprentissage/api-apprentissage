@@ -24,7 +24,7 @@ jobs:
   tests:
     if: ${{ success() }}
     needs: [npm-packages-check]
-    timeout-minutes: 10
+    timeout-minutes: 20
     name: "Tests"
     runs-on: ubuntu-latest
 
@@ -34,7 +34,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version-file: .node-version
 
       - uses: actions/cache@v4
         with:
@@ -67,3 +67,15 @@ jobs:
 
       - name: prettier
         run: yarn prettier:check
+
+      # Le build UI n'est sinon exercé qu'au déploiement (_build.yml, appelé par recette.yml et
+      # _deploy.yml). Depuis Next 16 il tourne sous Turbopack, sans config webpack : les erreurs de
+      # bundling et de prerender ne se voient pas au typecheck.
+      - name: build ui
+        run: yarn workspace ui build
+        env:
+          NEXT_TELEMETRY_DISABLED: 1
+          NEXT_PUBLIC_ENV: local
+          NEXT_PUBLIC_VERSION: 0.0.0-ci
+          NEXT_PUBLIC_PRODUCT_NAME: api-apprentissage
+          NEXT_PUBLIC_PRODUCT_REPO: mission-apprentissage/api-apprentissage

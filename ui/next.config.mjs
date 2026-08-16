@@ -69,17 +69,15 @@ export default withSentryConfig(withPlausibleProxy()(nextConfig), {
   // Upload a larger set of source maps for prettier stack traces (increases build time)
   widenClientFileUpload: true,
 
-  // `reactComponentAnnotation` et `disableLogger` ont été retirées : elles sont dépréciées côté
-  // Sentry et sans effet avec Turbopack, qui est le bundler par défaut depuis Next 16.
+  // `reactComponentAnnotation`, `disableLogger` et `hideSourceMaps` ont été retirées : les deux
+  // premières sont dépréciées côté Sentry et sans effet avec Turbopack, bundler par défaut depuis
+  // Next 16 ; la troisième a purement disparu du SDK en v10, elle n'était plus lue.
 
   // Uncomment to route browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers.
   // This can increase your server load as well as your hosting bill.
   // Note: Check that the configured route will not match with your Next.js middleware, otherwise reporting of client-
   // side errors will fail.
   // tunnelRoute: "/monitoring",
-
-  // Hides source maps from generated client bundles
-  hideSourceMaps: false,
 
   sourcemaps: {
     deleteSourcemapsAfterUpload: false,

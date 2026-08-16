@@ -4,6 +4,7 @@
 
 import {
   captureConsoleIntegration,
+  captureRouterTransitionStart,
   extraErrorDataIntegration,
   httpClientIntegration,
   init,
@@ -32,3 +33,6 @@ init({
     reportingObserverIntegration({ types: ["crash", "deprecation", "intervention"] }),
   ],
 });
+
+// Requis par le SDK Sentry pour instrumenter les navigations côté client (App Router).
+export const onRouterTransitionStart = captureRouterTransitionStart;

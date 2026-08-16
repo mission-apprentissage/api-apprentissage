@@ -124,7 +124,8 @@ export function createResponseStream<Z extends $ZodType>(cursor: AbstractCursor<
       .on("error", (error) => {
         transformStream.destroy(error)
       })
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .pipe(createToJsonTransformStream(schema)) as any
+      // Voir le commentaire ci-dessus : le flux est présenté comme le tableau que la route
+      // déclare renvoyer, ce que le schéma garantit élément par élément.
+      .pipe(createToJsonTransformStream(schema)) as unknown as z.output<Z>[]
   )
 }

@@ -9,7 +9,8 @@
     "ignoreUnknown": false,
     "includes": [
       "**",
-      "!server/src/jobs/importer/dares/**/fixtures/*.html"
+      "!server/src/jobs/importer/dares/**/fixtures/*.html",
+      "!server/src/services/organisme/fixtures/tdb/referentiel.fixture.json"
     ]
   },
   "formatter": {

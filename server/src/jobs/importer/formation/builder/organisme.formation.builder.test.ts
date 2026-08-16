@@ -8,8 +8,7 @@ import { buildFormationOrganisme } from "./organisme.formation.builder.js"
 
 useMongo()
 vi.mock("@/services/apis/entreprise/entreprise.js", async (importOriginal) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const actual: any = await importOriginal()
+  const actual = await importOriginal<typeof import("@/services/apis/entreprise/entreprise.js")>()
   return {
     ...actual,
     getEtablissementDiffusible: vi.fn(),

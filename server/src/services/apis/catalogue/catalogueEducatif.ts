@@ -13,16 +13,14 @@ const catalogueEducatifClient = axios.create({
 let cookieAuthCatalogueEducatif = ""
 
 async function authCatalogueEducatif(): Promise<string | null> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const response = await catalogueEducatifClient.post<any>("/api/v1/auth/login", {
+  const response = await catalogueEducatifClient.post<unknown>("/api/v1/auth/login", {
     username: config.api.catalogueEducatif.username,
     password: config.api.catalogueEducatif.password,
   })
   return response.headers["set-cookie"]?.join(";") || null
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function fetchFormationCatalogueEducatif(cle_ministere_educatif: string): Promise<any> {
+export async function fetchFormationCatalogueEducatif(cle_ministere_educatif: string): Promise<{ uai_formation: string | null }> {
   if (!cookieAuthCatalogueEducatif) {
     cookieAuthCatalogueEducatif = (await authCatalogueEducatif()) || ""
   }
@@ -33,8 +31,7 @@ export async function fetchFormationCatalogueEducatif(cle_ministere_educatif: st
     $and: [{ uai_formation: { $ne: null } }, { uai_formation: { $ne: "" } }],
   })
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const response = await catalogueEducatifClient.get<any>("/api/v1/entity/formations", {
+  const response = await catalogueEducatifClient.get<{ formations: { uai_formation: string | null }[] }>("/api/v1/entity/formations", {
     headers: { cookie: cookieAuthCatalogueEducatif },
     params: {
       query,

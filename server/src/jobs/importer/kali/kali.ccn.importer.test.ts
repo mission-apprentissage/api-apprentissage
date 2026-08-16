@@ -12,8 +12,7 @@ import { getDbCollection } from "@/services/mongodb/mongodbService.js"
 import { runKaliConventionCollectivesImporter } from "./kali.ccn.importer.js"
 
 vi.mock("@/services/apis/data_gouv/data_gouv.api", async (importOriginal) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const mod = (await importOriginal()) as any
+  const mod = await importOriginal<typeof import("@/services/apis/data_gouv/data_gouv.api.js")>()
   return {
     ...mod,
     fetchDataGouvDataSet: vi.fn(),

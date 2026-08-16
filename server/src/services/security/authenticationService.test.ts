@@ -1,5 +1,6 @@
 import { useMongo } from "@tests/mongo.test.utils.js"
 import type { ISecuredRouteSchema } from "api-alternance-sdk"
+import type { FastifyRequest } from "fastify"
 import { generateOrganisationFixture, generateUserFixture } from "shared/models/fixtures/index"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { z } from "zod/v4-mini"
@@ -8,6 +9,13 @@ import { generateApiKey } from "@/actions/users.actions.js"
 import config from "@/config.js"
 import { getDbCollection } from "@/services/mongodb/mongodbService.js"
 import { authenticationMiddleware } from "./authenticationService.js"
+
+// FastifyRequest est trop large pour être construit à la main : on ne pose que les champs
+// que le middleware lit réellement. L'assertion est concentrée ici plutôt que répétée à
+// chaque cas de test, et les littéraux restent vérifiés contre la forme de FastifyRequest.
+function fakeRequest(props: Partial<FastifyRequest>): FastifyRequest {
+  return props as FastifyRequest
+}
 
 useMongo()
 
@@ -61,9 +69,7 @@ describe("authenticationMiddleware", () => {
     it("should set req.user if cookie is valid", async () => {
       const token = await createSessionToken("user@email.com")
       await createSession("user@email.com")
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const req: any = { cookies: { [config.session.cookieName]: token } }
+      const req = fakeRequest({ cookies: { [config.session.cookieName]: token } })
 
       await expect(authenticationMiddleware(schema, req)).resolves.toBeUndefined()
       expect(req.user).toEqual({
@@ -76,9 +82,7 @@ describe("authenticationMiddleware", () => {
     it("should set req.organisation if cookie is valid", async () => {
       const token = await createSessionToken(userWithOrg.email)
       await createSession(userWithOrg.email)
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const req: any = { cookies: { [config.session.cookieName]: token } }
+      const req = fakeRequest({ cookies: { [config.session.cookieName]: token } })
 
       await expect(authenticationMiddleware(schema, req)).resolves.toBeUndefined()
       expect(req.user).toEqual({
@@ -89,15 +93,13 @@ describe("authenticationMiddleware", () => {
     })
 
     it("should throw unauthorized if cookie is not provided", async () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const req: any = { cookies: {} }
+      const req = fakeRequest({ cookies: {} })
 
       await expect(authenticationMiddleware(schema, req)).rejects.toThrow("Vous devez être connecté pour accéder à cette ressource")
     })
 
     it("should throw unauthorized if cookie is invalid", async () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const req: any = { cookies: { [config.session.cookieName]: "invalid" } }
+      const req = fakeRequest({ cookies: { [config.session.cookieName]: "invalid" } })
 
       await expect(authenticationMiddleware(schema, req)).rejects.toThrow("Vous devez être connecté pour accéder à cette ressource")
     })
@@ -106,9 +108,7 @@ describe("authenticationMiddleware", () => {
       const token = await createSessionToken("user@email.com")
       await createSession("user@email.com")
       await vi.advanceTimersByTimeAsync(config.session.cookie.maxAge + 1)
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const req: any = { cookies: { [config.session.cookieName]: token } }
+      const req = fakeRequest({ cookies: { [config.session.cookieName]: token } })
 
       await expect(authenticationMiddleware(schema, req)).rejects.toThrow("Vous devez être connecté pour accéder à cette ressource")
     })
@@ -116,9 +116,7 @@ describe("authenticationMiddleware", () => {
     it("should throw unauthorized if session is not found", async () => {
       const token = await createSessionToken("user@email.com")
       await createSession("other-user-session@email.com")
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const req: any = { cookies: { [config.session.cookieName]: token } }
+      const req = fakeRequest({ cookies: { [config.session.cookieName]: token } })
 
       await expect(authenticationMiddleware(schema, req)).rejects.toThrow("Vous devez être connecté pour accéder à cette ressource")
     })
@@ -126,9 +124,7 @@ describe("authenticationMiddleware", () => {
     it("should throw unauthorized if user is not found", async () => {
       const token = await createSessionToken("user-not-found@email.com")
       await createSession("user-not-found@email.com")
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const req: any = { cookies: { [config.session.cookieName]: token } }
+      const req = fakeRequest({ cookies: { [config.session.cookieName]: token } })
 
       await expect(authenticationMiddleware(schema, req)).rejects.toThrow("Vous devez être connecté pour accéder à cette ressource")
     })
@@ -165,9 +161,7 @@ describe("authenticationMiddleware", () => {
 
     it("should set req.user if api key is valid", async () => {
       const token = await generateApiKey("", user)
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const req: any = { headers: { authorization: `Bearer ${token.value}` } }
+      const req = fakeRequest({ headers: { authorization: `Bearer ${token.value}` } })
 
       const tomorrow = new Date("2024-03-22T12:00:00Z")
       vi.setSystemTime(tomorrow)
@@ -213,9 +207,7 @@ describe("authenticationMiddleware", () => {
 
       const in2Days = new Date("2024-03-23T23:00:00Z")
       vi.setSystemTime(in2Days)
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const req1: any = { headers: { authorization: `Bearer ${token1.value}` } }
+      const req1 = fakeRequest({ headers: { authorization: `Bearer ${token1.value}` } })
 
       const expectedUser = {
         ...user,
@@ -254,9 +246,7 @@ describe("authenticationMiddleware", () => {
 
       const in3Days = new Date("2024-03-24T23:00:00Z")
       vi.setSystemTime(in3Days)
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const req2: any = { headers: { authorization: `Bearer ${token2.value}` } }
+      const req2 = fakeRequest({ headers: { authorization: `Bearer ${token2.value}` } })
 
       await expect(authenticationMiddleware(schema, req2)).resolves.toBeUndefined()
       expect(req2.user).toEqual({
@@ -270,9 +260,7 @@ describe("authenticationMiddleware", () => {
 
     it("should throw unauthorized if key is expired", async () => {
       const token = await generateApiKey("", user)
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const req: any = { headers: { authorization: `Bearer ${token.value}` } }
+      const req = fakeRequest({ headers: { authorization: `Bearer ${token.value}` } })
 
       vi.advanceTimersByTime(config.api_key.expiresIn + 1)
 
@@ -283,16 +271,13 @@ describe("authenticationMiddleware", () => {
       const token = await generateApiKey("", user)
 
       await getDbCollection("users").updateOne({ email: user.email }, { $set: { api_keys: [] } })
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const req: any = { headers: { authorization: `Bearer ${token.value}` } }
+      const req = fakeRequest({ headers: { authorization: `Bearer ${token.value}` } })
 
       await expect(authenticationMiddleware(schema, req)).rejects.toThrow("Vous devez fournir une clé d'API valide pour accéder à cette ressource")
     })
 
     it("should throw unauthorized if key is invalid", async () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const req: any = { headers: { authorization: `Bearer invalid` } }
+      const req = fakeRequest({ headers: { authorization: `Bearer invalid` } })
 
       await expect(authenticationMiddleware(schema, req)).rejects.toThrow("Impossible de déchiffrer la clé d'API")
     })

@@ -10,8 +10,7 @@ import { getDbCollection } from "@/services/mongodb/mongodbService.js"
 import { runBcnImporter } from "./bcn.importer.js"
 
 vi.mock("@/services/apis/bcn/bcn", async (importOriginal) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const mod = (await importOriginal()) as any
+  const mod = await importOriginal<typeof import("@/services/apis/bcn/bcn.js")>()
   return {
     ...mod,
     fetchBcnData: vi.fn(),
@@ -19,8 +18,7 @@ vi.mock("@/services/apis/bcn/bcn", async (importOriginal) => {
 })
 
 vi.mock("job-processor", async (importOriginal) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const mod = (await importOriginal()) as any
+  const mod = await importOriginal<typeof import("job-processor")>()
   return {
     ...mod,
     addJob: vi.fn().mockResolvedValue(undefined),

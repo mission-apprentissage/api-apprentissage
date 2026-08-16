@@ -15,8 +15,7 @@ vi.mock("@/utils/getStaticFilePath", () => ({
 vi.mock("@/services/apis/kit_apprentissage/kit_apprentissage.api.js")
 
 vi.mock("job-processor", async (importOriginal) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const mod = (await importOriginal()) as any
+  const mod = await importOriginal<typeof import("job-processor")>()
   return {
     ...mod,
     addJob: vi.fn().mockResolvedValue(undefined),

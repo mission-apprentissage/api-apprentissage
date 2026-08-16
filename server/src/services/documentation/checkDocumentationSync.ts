@@ -22,8 +22,9 @@ async function dereferenceOpenapiSchema(data: OpenAPIObject): Promise<OpenAPIObj
     throw new Error("Unsupported OpenAPI version")
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return (await dereference(data as any)) as any
+  // `dereference` de @readme/openapi-parser accepte un document quelconque et renvoie un
+  // document résolu, sans le retyper : la traversée passe par `unknown`.
+  return (await dereference(data as unknown as Parameters<typeof dereference>[0])) as unknown as OpenAPIObject
 }
 async function fetchLbaOperations(): Promise<Record<string, OpenapiOperation>> {
   const response = await fetch(`${config.api.lba.endpoint}/docs/json`)

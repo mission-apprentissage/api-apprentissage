@@ -14,6 +14,7 @@ import { fetchBcnData } from "@/services/apis/bcn/bcn.js"
 import { withCause } from "@/services/errors/withCause.js"
 import parentLogger from "@/services/logger.js"
 import { getDbCollection } from "@/services/mongodb/mongodbService.js"
+import type { CsvRecordContext } from "@/utils/csvUtils.js"
 import { createBatchTransformStream } from "@/utils/streamUtils.js"
 
 const logger = parentLogger.child({ module: "import:bcn" })
@@ -64,9 +65,12 @@ async function importBcnSource(source: ISourceBcn["source"], date: Date): Promis
         delimiter: ";",
         trim: true,
         quote: false,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        onRecord: (record, { columns }: any) => {
-          const data = columns.reduce((acc: Record<string, string | null>, column: { name: string }) => {
+        onRecord: (record, context) => {
+          // `columns` n'est pas déclaré par CastingContext, cf. CsvRecordContext.
+          const { columns } = context as CsvRecordContext
+          // `ANCIEN_DIPLOMES` et `NOUVEAU_DIPLOMES`, posés plus bas, portent des tableaux :
+          // l'accumulateur ne peut pas se limiter à `string | null`.
+          const data = columns.reduce((acc: Record<string, string | string[] | null>, column: { name: string }) => {
             if (column.name.startsWith("ANCIEN_DIPLOME_") || column.name.startsWith("NOUVEAU_DIPLOME_")) {
               return acc
             }

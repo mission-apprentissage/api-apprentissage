@@ -13,8 +13,7 @@ describe("server", () => {
   it("should follow shared schema definition", async () => {
     const app = fastify().withTypeProvider<ZodTypeProvider>()
     const routes: Array<RouteOptions & { routePath: string; path: string; prefix: string }> = []
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    app.addHook("onRoute", (r: any) => {
+    app.addHook("onRoute", (r) => {
       routes.push(r as RouteOptions & { routePath: string; path: string; prefix: string })
     })
     await bind(app)

@@ -57,8 +57,8 @@ describe("searchOrganisme", () => {
       })
     )
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const tdbFiabResults: ITdbFiabResult[] = tdbFiabResultData as any
+    // Fixture JSON importée, dont le type inféré est plus large que le modèle.
+    const tdbFiabResults = tdbFiabResultData as unknown as ITdbFiabResult[]
 
     beforeEach(async () => {
       await getDbCollection("source.referentiel").insertMany(organismesReferentiels)

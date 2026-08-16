@@ -3,6 +3,7 @@ import { captureException } from "@sentry/node"
 import type { ISecuredRouteSchema, WithSecurityScheme } from "api-alternance-sdk"
 import type { PathParam, QueryString, UserWithType } from "api-alternance-sdk/internal"
 import type { FastifyRequest } from "fastify"
+import type { JWTPayload } from "jose"
 import { JOSEError, JWTExpired } from "jose/errors"
 import { ObjectId } from "mongodb"
 import type { IOrganisationInternal } from "shared/models/organisation.model"
@@ -58,7 +59,8 @@ async function authApiKey(req: FastifyRequest): Promise<UserWithType<"user", IUs
   }
 
   try {
-    const { _id, api_key } = (await decodeToken(token)) as any // eslint-disable-line @typescript-eslint/no-explicit-any
+    // Le jeton est émis par ce service : les deux champs y sont toujours posés.
+    const { _id, api_key } = (await decodeToken(token)) as JWTPayload & { _id: string; api_key: string }
 
     const user = await getDbCollection("users").findOne({ _id: new ObjectId(`${_id}`) })
 
@@ -127,8 +129,7 @@ function extractBearerTokenFromHeader(req: FastifyRequest): null | string {
 }
 
 function extractTokenFromQuery(req: FastifyRequest): null | string {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return (req.query as any)?.token ?? null
+  return (req.query as { token?: string } | undefined)?.token ?? null
 }
 
 async function authAccessToken<S extends ISecuredRouteSchema>(req: FastifyRequest, schema: S): Promise<UserWithType<"token", IAccessToken> | null> {

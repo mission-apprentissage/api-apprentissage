@@ -148,8 +148,9 @@ program
   })
 
 function createJobAction(name: string) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return async (options: any) => {
+  // commander passe les options déclarées sur la commande, dont `queued` ; le reste
+  // constitue le payload du job et n'a pas de forme commune.
+  return async (options: { queued?: boolean } & Record<string, unknown>) => {
     try {
       const { queued = false, ...payload } = options
       const exitCode = await addJob({

@@ -9,16 +9,14 @@ import { runCatalogueImporter } from "./catalogue.importer.js"
 import { catalogueDataFixture, generateCatalogueData } from "./fixtures/sample.js"
 
 vi.mock("@/services/apis/catalogue/catalogue", async (importOriginal) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const mod = (await importOriginal()) as any
+  const mod = await importOriginal<typeof import("@/services/apis/catalogue/catalogue.js")>()
   return {
     ...mod,
     fetchCatalogueData: vi.fn(),
   }
 })
 vi.mock("@/services/apis/catalogue/catalogueEducatif", async (importOriginal) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const mod = (await importOriginal()) as any
+  const mod = await importOriginal<typeof import("@/services/apis/catalogue/catalogueEducatif.js")>()
   return {
     ...mod,
     fetchCatalogueEducatifData: vi.fn(),

@@ -81,7 +81,7 @@ describe("generateScope", () => {
 describe("accessTokenService", () => {
   const user = generateUserFixture({ email: "self@mail.com" })
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: ce fixture doit rester concret pour les scopes valides et lâche pour ceux que les cas suivants construisent volontairement invalides ; le retyper suppose de revoir la variance de generateAccessToken
   const schema: any = {
     method: "get",
     path: "/users/status/:id",

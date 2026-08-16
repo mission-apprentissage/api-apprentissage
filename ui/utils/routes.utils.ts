@@ -31,8 +31,9 @@ export interface INotionPage extends IPage {
 
 export interface IPages {
   static: Record<string, IPage>
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  dynamic: Record<string, (params: any) => IPage>
+  // `never` plutôt que `any` : cette vue élargie de PAGES ne sert qu'à parcourir `notion`,
+  // et chaque constructeur de page dynamique garde son propre type de paramètres.
+  dynamic: Record<string, (params: never) => IPage>
   notion: Record<string, INotionPage>
 }
 

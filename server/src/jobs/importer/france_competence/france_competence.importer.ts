@@ -17,6 +17,7 @@ import { Parse } from "unzipper"
 import { downloadDataGouvResource, fetchDataGouvDataSet } from "@/services/apis/data_gouv/data_gouv.api.js"
 import { withCause } from "@/services/errors/withCause.js"
 import { getDbCollection } from "@/services/mongodb/mongodbService.js"
+import type { CsvRecordContext } from "@/utils/csvUtils.js"
 import { createChangeBatchCardinalityTransformStream } from "@/utils/streamUtils.js"
 
 type FichierMeta = {
@@ -275,8 +276,9 @@ export async function importRncpFile(entry: Entry, importMeta: IImportMetaFrance
         encoding: "utf8",
         delimiter: ";",
         trim: true,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        onRecord: (record, { columns }: any) => {
+        onRecord: (record, context) => {
+          // `columns` n'est pas déclaré par CastingContext, cf. CsvRecordContext.
+          const { columns } = context as CsvRecordContext
           const data = columns.reduce((acc: Record<string, string | null>, column: { name: string }) => {
             acc[column.name] = record[column.name]?.trim() || null
             return acc

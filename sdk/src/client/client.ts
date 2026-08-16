@@ -95,8 +95,9 @@ class ApiClient {
     return requestInit
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private async exec(path: string, requestInit: RequestInit, options: WithQueryStringAndPathParam): Promise<any> {
+  // Générique plutôt que `any` : la forme de la réponse est celle que déclare la route
+  // appelante, et l'assertion sur `res.json()` reste confinée ici.
+  private async exec<T>(path: string, requestInit: RequestInit, options: WithQueryStringAndPathParam): Promise<T> {
     const reqHeaders = Array.from((requestInit.headers as Headers)?.entries() ?? [])
     const res = await fetch(this.endpoint + generateUri(path, options), requestInit)
 
@@ -105,10 +106,10 @@ class ApiClient {
     }
 
     if (res.status === 204) {
-      return
+      return undefined as T
     }
 
-    return res.json()
+    return (await res.json()) as T
   }
 
   async get<P extends keyof IApiGetRoutes, S extends IApiGetRoutes[P] = IApiGetRoutes[P]>(path: P, options: IApiRequest<S>, rawOptions?: FetchOptions): Promise<IApiResponse<S>> {

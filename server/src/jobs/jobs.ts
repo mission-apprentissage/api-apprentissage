@@ -54,8 +54,7 @@ export async function setupJobProcessor() {
           },
     jobs: {
       "indexes:recreate": {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        handler: async (job) => createIndexes(job.payload as any),
+        handler: async (job) => createIndexes(job.payload as { drop: boolean }),
       },
       "db:validate": {
         handler: async () => validateModels(),
@@ -80,8 +79,7 @@ export async function setupJobProcessor() {
         },
       },
       "migrations:create": {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        handler: async (job) => createMigration(job.payload as any),
+        handler: async (job) => createMigration(job.payload as { description: string }),
       },
       "import:acce": {
         handler: runAcceImporter,

@@ -16,8 +16,7 @@ import {
 import { importOrganismes } from "./organisme.importer.js"
 
 vi.mock("@/services/apis/entreprise/entreprise.js", async (importOriginal) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const actual: any = await importOriginal()
+  const actual = await importOriginal<typeof import("@/services/apis/entreprise/entreprise.js")>()
   return {
     ...actual,
     getEtablissementDiffusible: vi.fn(),

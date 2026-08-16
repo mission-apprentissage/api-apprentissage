@@ -183,17 +183,14 @@ describe("GET /formation/v1/search", () => {
       },
     })
     expect.soft(response.statusCode).toBe(200)
-    const result = response.json()
+    const result = response.json<{ pagination: unknown; data: { identifiant: unknown }[] }>()
     expect.soft(result.pagination).toEqual({
       page_count: 1,
       page_size: 100,
       page_index: 0,
     })
     expect.soft(result.data).toHaveLength(3)
-    expect
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .soft(result.data.map((r: any) => r.identifiant))
-      .toEqual([formations[1].identifiant, formations[2].identifiant, formations[0].identifiant])
+    expect.soft(result.data.map((r) => r.identifiant)).toEqual([formations[1].identifiant, formations[2].identifiant, formations[0].identifiant])
     expect(result.data[0]).toMatchSnapshot()
   })
 
@@ -206,7 +203,7 @@ describe("GET /formation/v1/search", () => {
       },
     })
     expect.soft(response.statusCode).toBe(200)
-    const result = response.json()
+    const result = response.json<{ pagination: unknown; data: { identifiant: unknown }[] }>()
     expect.soft(result.pagination).toEqual({
       page_count: 1,
       page_size: 100,
@@ -224,7 +221,7 @@ describe("GET /formation/v1/search", () => {
       },
     })
     expect.soft(response.statusCode).toBe(200)
-    const result = response.json()
+    const result = response.json<{ pagination: unknown; data: { identifiant: unknown }[] }>()
     expect.soft(result.pagination).toEqual({
       page_count: 1,
       page_size: 100,

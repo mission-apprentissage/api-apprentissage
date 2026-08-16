@@ -20,8 +20,7 @@ import { getDbCollection } from "@/services/mongodb/mongodbService.js"
 import { importRncpArchive, importRncpFile, onImportRncpArchiveFailure, processRecord, runRncpImporter } from "./france_competence.importer.js"
 
 vi.mock("job-processor", async (importOriginal) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const mod = (await importOriginal()) as any
+  const mod = await importOriginal<typeof import("job-processor")>()
   return {
     ...mod,
     addJob: vi.fn().mockResolvedValue(undefined),
@@ -29,8 +28,7 @@ vi.mock("job-processor", async (importOriginal) => {
 })
 
 vi.mock("@/services/apis/data_gouv/data_gouv.api", async (importOriginal) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const mod = (await importOriginal()) as any
+  const mod = await importOriginal<typeof import("@/services/apis/data_gouv/data_gouv.api.js")>()
   return {
     ...mod,
     fetchDataGouvDataSet: vi.fn(),

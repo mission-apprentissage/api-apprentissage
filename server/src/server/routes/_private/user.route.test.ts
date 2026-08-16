@@ -115,9 +115,7 @@ describe("User Routes", () => {
         iat: now.getTime() / 1000,
         iss: "api",
       })
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      expect(userFromDb!.api_keys[0].key === (decodedToken as any)!.api_key).toBe(true)
+      expect(userFromDb!.api_keys[0].key === (decodedToken as { api_key: string }).api_key).toBe(true)
     })
 
     it("should create key with default unique names", async () => {
@@ -171,13 +169,9 @@ describe("User Routes", () => {
       expect(userFromDb?.api_keys).toHaveLength(3)
 
       const decodedToken1 = decodeJwt(data1.value)
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      expect(userFromDb!.api_keys[0].key === (decodedToken1 as any)!.api_key).toBe(true)
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      expect(userFromDb!.api_keys[1].key === (decodedToken1 as any)!.api_key).toBe(false)
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      expect(userFromDb!.api_keys[2].key === (decodedToken1 as any)!.api_key).toBe(false)
+      expect(userFromDb!.api_keys[0].key === (decodedToken1 as { api_key: string }).api_key).toBe(true)
+      expect(userFromDb!.api_keys[1].key === (decodedToken1 as { api_key: string }).api_key).toBe(false)
+      expect(userFromDb!.api_keys[2].key === (decodedToken1 as { api_key: string }).api_key).toBe(false)
     })
 
     it("should returns 401 when user is not connected", async () => {

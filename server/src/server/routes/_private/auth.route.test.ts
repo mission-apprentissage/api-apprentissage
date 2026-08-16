@@ -162,13 +162,7 @@ describe("Authentication", () => {
         token: expect.any(String),
       })
 
-      const accessToken = await parseAccessToken(
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (vi.mocked(sendEmail).mock.calls[0][0] as any).token,
-        { method: "post", path: "/_private/auth/register" },
-        {},
-        {}
-      )
+      const accessToken = await parseAccessToken((vi.mocked(sendEmail).mock.calls[0][0] as { token: string }).token, { method: "post", path: "/_private/auth/register" }, {}, {})
       expect(accessToken).toEqual({
         exp: expect.any(Number),
         iat: expect.any(Number),
@@ -193,8 +187,8 @@ describe("Authentication", () => {
         ],
       })
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      expect((accessToken as any).exp).toBeLessThanOrEqual(Date.now() / 1_000 + 30 * 24 * 3600)
+      // `exp` est bien porté par le jeton décodé — cf. l'assertion ci-dessus — mais absent du type IAccessToken.
+      expect((accessToken as unknown as { exp: number }).exp).toBeLessThanOrEqual(Date.now() / 1_000 + 30 * 24 * 3600)
     })
 
     it("should send magic link email for existing email", async () => {
@@ -220,13 +214,7 @@ describe("Authentication", () => {
         token: expect.any(String),
       })
 
-      const accessToken = await parseAccessToken(
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (vi.mocked(sendEmail).mock.calls[0][0] as any).token,
-        { method: "post", path: "/_private/auth/login" },
-        {},
-        {}
-      )
+      const accessToken = await parseAccessToken((vi.mocked(sendEmail).mock.calls[0][0] as { token: string }).token, { method: "post", path: "/_private/auth/login" }, {}, {})
       expect(accessToken).toEqual({
         exp: expect.any(Number),
         iat: expect.any(Number),
@@ -245,8 +233,8 @@ describe("Authentication", () => {
         ],
       })
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      expect((accessToken as any).exp).toBeLessThanOrEqual(Date.now() / 1_000 + 7 * 24 * 3600)
+      // `exp` est bien porté par le jeton décodé — cf. l'assertion ci-dessus — mais absent du type IAccessToken.
+      expect((accessToken as unknown as { exp: number }).exp).toBeLessThanOrEqual(Date.now() / 1_000 + 7 * 24 * 3600)
     })
   })
 

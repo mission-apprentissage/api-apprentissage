@@ -14,6 +14,7 @@ import { downloadCsvExtraction } from "@/services/apis/acce/acce.js"
 import { withCause } from "@/services/errors/withCause.js"
 import parentLogger from "@/services/logger.js"
 import { getDbCollection } from "@/services/mongodb/mongodbService.js"
+import type { CsvRecordContext } from "@/utils/csvUtils.js"
 import { createBatchTransformStream } from "@/utils/streamUtils.js"
 
 const logger = parentLogger.child({ module: "import:acce" })
@@ -35,8 +36,9 @@ async function parseAcceFile(stream: ReadStream, source: string, date: Date) {
         encoding: "latin1",
         delimiter: ";",
         trim: true,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        onRecord: (record, { columns }: any) => {
+        onRecord: (record, context) => {
+          // `columns` n'est pas déclaré par CastingContext, cf. CsvRecordContext.
+          const { columns } = context as CsvRecordContext
           const data = columns.reduce((acc: Record<string, string | null>, column: { name: string }) => {
             acc[column.name] = record[column.name]?.trim() || null
             return acc

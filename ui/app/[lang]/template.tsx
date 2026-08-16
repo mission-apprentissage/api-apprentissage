@@ -1,13 +1,13 @@
-"use client";
-import { QueryClientProvider } from "@tanstack/react-query";
-import PlausibleProvider from "next-plausible";
-import type { FC } from "react";
+"use client"
+import { QueryClientProvider } from "@tanstack/react-query"
+import PlausibleProvider from "next-plausible"
+import type { FC } from "react"
 
-import { publicConfig } from "@/config.public";
-import { queryClient } from "@/utils/query.utils";
+import { publicConfig } from "@/config.public"
+import { queryClient } from "@/utils/query.utils"
 
 interface Props {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 const RootTemplate: FC<Props> = ({ children }) => {
@@ -15,7 +15,7 @@ const RootTemplate: FC<Props> = ({ children }) => {
     <PlausibleProvider trackLocalhost={false} domain={publicConfig.host}>
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </PlausibleProvider>
-  );
-};
+  )
+}
 
-export default RootTemplate;
+export default RootTemplate

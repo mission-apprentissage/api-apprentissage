@@ -1,6 +1,6 @@
-import { z } from "zod/v4-mini";
+import { z } from "zod/v4-mini"
 
-import type { IApiRoutesDef } from "../common.routes.js";
+import type { IApiRoutesDef } from "../common.routes.js"
 
 export const zApiJobRoutes = {
   get: {
@@ -100,4 +100,4 @@ export const zApiJobRoutes = {
       },
     },
   },
-} as const satisfies IApiRoutesDef;
+} as const satisfies IApiRoutesDef

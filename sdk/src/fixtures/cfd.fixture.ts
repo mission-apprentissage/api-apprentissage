@@ -3,4 +3,4 @@ export const cfdCodeFixtures = {
   "3553260B": "3553260B",
   "20512008": "20512008",
   "13512840": "13512840",
-} as const;
+} as const

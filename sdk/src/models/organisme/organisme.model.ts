@@ -1,9 +1,9 @@
-import { z } from "zod/v4-mini";
+import { z } from "zod/v4-mini"
 
-import { zParisLocalDate, zParisLocalDateNullable } from "../../utils/date.primitives.js";
-import { zAdresse, zGeoJsonPoint } from "../geographie/geoJson.model.js";
-import { zTransformNullIfEmptyString } from "../primitives/primitives.model.js";
-import { zSiret, zUai } from "./organismes.primitives.js";
+import { zParisLocalDate, zParisLocalDateNullable } from "../../utils/date.primitives.js"
+import { zAdresse, zGeoJsonPoint } from "../geographie/geoJson.model.js"
+import { zTransformNullIfEmptyString } from "../primitives/primitives.model.js"
+import { zSiret, zUai } from "./organismes.primitives.js"
 
 export const zOrganisme = z.object({
   identifiant: z.object({
@@ -50,6 +50,6 @@ export const zOrganisme = z.object({
       confirmation_referentiel: z.boolean(),
     })
   ),
-});
+})
 
-export type IOrganisme = z.output<typeof zOrganisme>;
+export type IOrganisme = z.output<typeof zOrganisme>

@@ -1,9 +1,9 @@
-import type { IApiRoutesDef } from "api-alternance-sdk";
-import { z } from "zod/v4-mini";
+import type { IApiRoutesDef } from "api-alternance-sdk"
+import { z } from "zod/v4-mini"
 
-import { zObjectIdMini } from "../../../models/common.js";
-import { zUserAdminUpdate, zUserAdminView } from "../../../models/user.model.js";
-import { ZReqParamsSearchPagination } from "../../common.routes.js";
+import { zObjectIdMini } from "../../../models/common.js"
+import { zUserAdminUpdate, zUserAdminView } from "../../../models/user.model.js"
+import { ZReqParamsSearchPagination } from "../../common.routes.js"
 
 export const zUserAdminRoutes = {
   get: {
@@ -60,4 +60,4 @@ export const zUserAdminRoutes = {
       },
     },
   },
-} as const satisfies IApiRoutesDef;
+} as const satisfies IApiRoutesDef

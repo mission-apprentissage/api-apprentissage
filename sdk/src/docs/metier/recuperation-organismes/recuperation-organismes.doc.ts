@@ -1,4 +1,4 @@
-import type { DocPage, OpenApiText } from "../../types.js";
+import type { DocPage, OpenApiText } from "../../types.js"
 
 export const recuperationOrganismesPageSummaryDoc = {
   title: {
@@ -9,7 +9,7 @@ export const recuperationOrganismesPageSummaryDoc = {
     en: "Retrieve the list of all organizations from the Onisep repository historized",
     fr: "Récupérer la liste de tous les organismes issus du référentiel Onisep historisé",
   },
-} as const satisfies { title: OpenApiText; headline: OpenApiText };
+} as const satisfies { title: OpenApiText; headline: OpenApiText }
 
 export const recuperationOrganismesPageDoc = {
   tag: "organismes",
@@ -145,9 +145,7 @@ export const recuperationOrganismesPageDoc = {
               description: [{ fr: "Numéro SIREN de l'unité légale.", en: "Legal unit SIREN number" }],
             },
             actif: {
-              description: [
-                { fr: "Indique si l'unité légale est active.", en: "Indicates if the legal unit is active" },
-              ],
+              description: [{ fr: "Indique si l'unité légale est active.", en: "Indicates if the legal unit is active" }],
             },
             raison_sociale: {
               description: [{ fr: "Raison sociale de l'entreprise.", en: "Company name" }],
@@ -163,4 +161,4 @@ export const recuperationOrganismesPageDoc = {
       },
     },
   ],
-} as const satisfies DocPage;
+} as const satisfies DocPage

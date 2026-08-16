@@ -1,22 +1,18 @@
-import { internal } from "@hapi/boom";
-import type { ICommune } from "api-alternance-sdk";
-import type { AnyBulkWriteOperation } from "mongodb";
-import { ObjectId } from "mongodb";
-import type { ImportStatus, ISourceGeoCommune, ISourceGeoRegion } from "shared";
-import type { ICommuneInternal } from "shared/models/commune.model";
+import { internal } from "@hapi/boom"
+import type { ICommune } from "api-alternance-sdk"
+import type { AnyBulkWriteOperation } from "mongodb"
+import { ObjectId } from "mongodb"
+import type { ImportStatus, ISourceGeoCommune, ISourceGeoRegion } from "shared"
+import type { ICommuneInternal } from "shared/models/commune.model"
 
-import { fetchAcademies } from "@/services/apis/enseignementSup/enseignementSup.js";
-import { fetchGeoCommunes, fetchGeoDepartements, fetchGeoRegion, fetchGeoRegions } from "@/services/apis/geo/geo.js";
-import {
-  fetchAnciennesCommuneByCodeCommune,
-  fetchArrondissementIndexedByCodeCommune,
-  fetchCollectivitesOutreMer,
-} from "@/services/apis/insee/insee.js";
-import { withCause } from "@/services/errors/withCause.js";
-import parentLogger from "@/services/logger.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import { fetchAcademies } from "@/services/apis/enseignementSup/enseignementSup.js"
+import { fetchGeoCommunes, fetchGeoDepartements, fetchGeoRegion, fetchGeoRegions } from "@/services/apis/geo/geo.js"
+import { fetchAnciennesCommuneByCodeCommune, fetchArrondissementIndexedByCodeCommune, fetchCollectivitesOutreMer } from "@/services/apis/insee/insee.js"
+import { withCause } from "@/services/errors/withCause.js"
+import parentLogger from "@/services/logger.js"
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
 
-const logger = parentLogger.child({ module: "import:communes" });
+const logger = parentLogger.child({ module: "import:communes" })
 
 async function findCommuneMissionLocale(
   commune: ISourceGeoCommune,
@@ -27,20 +23,20 @@ async function findCommuneMissionLocale(
     code_insee: {
       $in: [commune.code, ...anciennes.map((a) => a.codeInsee), ...arrondissements.map((a) => a.code)],
     },
-  });
+  })
 
   if (result !== null) {
-    return result.ml;
+    return result.ml
   }
 
-  return null;
+  return null
 }
 
 export async function runCommuneImporter() {
-  logger.info("Importing communes ...");
+  logger.info("Importing communes ...")
 
-  const importDate = new Date();
-  const importId = new ObjectId();
+  const importDate = new Date()
+  const importId = new ObjectId()
 
   try {
     await getDbCollection("import.meta").insertOne({
@@ -48,7 +44,7 @@ export async function runCommuneImporter() {
       import_date: importDate,
       type: "communes",
       status: "pending",
-    });
+    })
 
     const [regions, collectivites, academies, arrondissementsInsee, anciennesMap] = await Promise.all([
       fetchGeoRegions(),
@@ -59,42 +55,41 @@ export async function runCommuneImporter() {
       fetchAcademies(),
       fetchArrondissementIndexedByCodeCommune(),
       fetchAnciennesCommuneByCodeCommune(),
-    ]);
+    ])
 
-    const academieByDep = new Map<string, ICommune["academie"]>();
+    const academieByDep = new Map<string, ICommune["academie"]>()
     for (const academie of academies) {
       academieByDep.set(academie.dep_code, {
         nom: academie.aca_nom,
         id: academie.aca_id,
         code: academie.aca_code,
-      });
+      })
     }
 
-    const extendedRegions: ISourceGeoRegion[] = [...regions, ...collectivites];
+    const extendedRegions: ISourceGeoRegion[] = [...regions, ...collectivites]
 
     for (const region of extendedRegions) {
-      logger.info(`Importing departements for region ${region.nom}(${region.code}) ...`);
-      const departements = await fetchGeoDepartements(region.code);
+      logger.info(`Importing departements for region ${region.nom}(${region.code}) ...`)
+      const departements = await fetchGeoDepartements(region.code)
       for (const departement of departements) {
-        logger.info(`Importing communes for departement ${departement.nom} ...`);
-        const geoCommunes = await fetchGeoCommunes(departement.code);
-        const academie = academieByDep.get(departement.code);
+        logger.info(`Importing communes for departement ${departement.nom} ...`)
+        const geoCommunes = await fetchGeoCommunes(departement.code)
+        const academie = academieByDep.get(departement.code)
         if (!academie) {
-          throw internal("import.communes: unable to find academy for departement", { departement });
+          throw internal("import.communes: unable to find academy for departement", { departement })
         }
 
-        const communes: ICommune[] = [];
+        const communes: ICommune[] = []
         for (const geoCommune of geoCommunes) {
           const arrondissements =
             arrondissementsInsee[geoCommune.code]?.map(({ code, intitule }) => {
               return {
                 code,
                 nom: intitule,
-              };
-            }) ?? [];
-          const anciennes: ICommune["anciennes"] =
-            anciennesMap[geoCommune.code]?.map(({ code, intitule }) => ({ codeInsee: code, nom: intitule })) ?? [];
-          const mission_locale = await findCommuneMissionLocale(geoCommune, anciennes, arrondissements);
+              }
+            }) ?? []
+          const anciennes: ICommune["anciennes"] = anciennesMap[geoCommune.code]?.map(({ code, intitule }) => ({ codeInsee: code, nom: intitule })) ?? []
+          const mission_locale = await findCommuneMissionLocale(geoCommune, anciennes, arrondissements)
 
           communes.push({
             nom: geoCommune.nom,
@@ -115,14 +110,14 @@ export async function runCommuneImporter() {
               bbox: geoCommune.bbox,
             },
             mission_locale,
-          });
+          })
         }
 
         const bulkUpdate: AnyBulkWriteOperation<ICommuneInternal>[] = communes.map((commune) => {
           const {
             code: { insee, postaux },
             ...rest
-          } = commune;
+          } = commune
           return {
             updateOne: {
               filter: { "code.insee": insee },
@@ -139,23 +134,23 @@ export async function runCommuneImporter() {
               },
               upsert: true,
             },
-          };
-        });
+          }
+        })
 
-        await getDbCollection("commune").bulkWrite(bulkUpdate);
+        await getDbCollection("commune").bulkWrite(bulkUpdate)
       }
     }
 
     await getDbCollection("commune").deleteMany({
       updated_at: { $ne: importDate },
-    });
+    })
 
-    await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "done" } });
+    await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "done" } })
 
-    return { status: "done" };
+    return { status: "done" }
   } catch (error) {
-    await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "failed" } });
-    throw withCause(internal("import.communes: unable to runCommuneImporter"), error, "fatal");
+    await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "failed" } })
+    throw withCause(internal("import.communes: unable to runCommuneImporter"), error, "fatal")
   }
 }
 
@@ -163,12 +158,12 @@ export async function getCommuneImporterStatus(): Promise<ImportStatus> {
   const [lastImport, lastSuccess] = await Promise.all([
     await getDbCollection("import.meta").findOne({ type: "communes" }, { sort: { import_date: -1 } }),
     await getDbCollection("import.meta").findOne({ type: "communes", status: "done" }, { sort: { import_date: -1 } }),
-  ]);
+  ])
 
   return {
     last_import: lastImport?.import_date ?? null,
     last_success: lastSuccess?.import_date ?? null,
     status: lastImport?.status ?? "pending",
     resources: [],
-  };
+  }
 }

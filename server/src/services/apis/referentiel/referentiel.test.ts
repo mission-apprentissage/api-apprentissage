@@ -1,8 +1,8 @@
-import nock from "nock";
-import type { IOrganismeReferentiel } from "shared/models/source/referentiel/source.referentiel.model";
-import { describe, expect, it } from "vitest";
+import nock from "nock"
+import type { IOrganismeReferentiel } from "shared/models/source/referentiel/source.referentiel.model"
+import { describe, expect, it } from "vitest"
 
-import { fetchReferentielOrganismes } from "./referentiel.js";
+import { fetchReferentielOrganismes } from "./referentiel.js"
 
 describe("fetchReferentielOrganismes", () => {
   const organismes: IOrganismeReferentiel[] = [
@@ -19,8 +19,7 @@ describe("fetchReferentielOrganismes", () => {
         {
           type: "rncp",
           code: "RNCP35944",
-          label:
-            "Sciences et techniques des activités physiques et sportives : activité physique adaptée et santé (fiche nationale)",
+          label: "Sciences et techniques des activités physiques et sportives : activité physique adaptée et santé (fiche nationale)",
           sources: ["catalogue"],
           date_collecte: "2024-12-16T04:53:21.176Z",
         },
@@ -428,7 +427,7 @@ describe("fetchReferentielOrganismes", () => {
       raison_sociale: "CENTRE HOSPITALIER DE SAINT-BRIEUC, PAIMPOL ET TREGUIER",
       siege_social: false,
     },
-  ];
+  ]
 
   it("should return the list of organismes", async () => {
     const data = {
@@ -439,17 +438,14 @@ describe("fetchReferentielOrganismes", () => {
         total: 2,
       },
       organismes,
-    };
+    }
 
-    nock("https://referentiel.apprentissage.onisep.fr/api/v1")
-      .get("/organismes.json")
-      .query({ items_par_page: 60_000 })
-      .reply(200, data);
+    nock("https://referentiel.apprentissage.onisep.fr/api/v1").get("/organismes.json").query({ items_par_page: 60_000 }).reply(200, data)
 
-    const result = await fetchReferentielOrganismes();
+    const result = await fetchReferentielOrganismes()
 
-    expect(result).toEqual(organismes);
-  });
+    expect(result).toEqual(organismes)
+  })
 
   it("should throw an error if the total is greater than ITEMS_PAR_PAGES", async () => {
     const data = {
@@ -460,15 +456,12 @@ describe("fetchReferentielOrganismes", () => {
         total: 60_001,
       },
       organismes,
-    };
+    }
 
-    nock("https://referentiel.apprentissage.onisep.fr/api/v1")
-      .get("/organismes.json")
-      .query({ items_par_page: 60_000 })
-      .reply(200, data);
+    nock("https://referentiel.apprentissage.onisep.fr/api/v1").get("/organismes.json").query({ items_par_page: 60_000 }).reply(200, data)
 
-    await expect(fetchReferentielOrganismes).rejects.toThrow("api.referentiel: too many results");
-  });
+    await expect(fetchReferentielOrganismes).rejects.toThrow("api.referentiel: too many results")
+  })
 
   it("shoud throw an error if the total is different from the number of results", async () => {
     const data = {
@@ -479,13 +472,10 @@ describe("fetchReferentielOrganismes", () => {
         total: 3,
       },
       organismes,
-    };
+    }
 
-    nock("https://referentiel.apprentissage.onisep.fr/api/v1")
-      .get("/organismes.json")
-      .query({ items_par_page: 60_000 })
-      .reply(200, data);
+    nock("https://referentiel.apprentissage.onisep.fr/api/v1").get("/organismes.json").query({ items_par_page: 60_000 }).reply(200, data)
 
-    await expect(fetchReferentielOrganismes).rejects.toThrow("api.referentiel: mismatch between total and results");
-  });
-});
+    await expect(fetchReferentielOrganismes).rejects.toThrow("api.referentiel: mismatch between total and results")
+  })
+})

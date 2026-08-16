@@ -1,13 +1,10 @@
-import { jobApplyRouteDoc } from "../../docs/routes/jobApply/jobApply.route.doc.js";
-import { jobOfferCreateRouteDoc } from "../../docs/routes/jobOfferCreate/jobOfferCreate.route.doc.js";
-import { jobOfferUpdateRouteDoc } from "../../docs/routes/jobOfferUpdate/jobOfferUpdate.route.doc.js";
-import { jobSearchRouteDoc } from "../../docs/routes/jobSearch/jobSearch.route.doc.js";
-import {
-  jobSearchByIdPublishingRouteDoc,
-  jobSearchByIdRouteDoc,
-} from "../../docs/routes/jobSearchById/jobSearchById.route.doc.js";
-import { jobsExportRouteDoc } from "../../docs/routes/jobsExport/jobsExport.route.doc.js";
-import type { OpenapiRoutes } from "../../openapi/types.js";
+import { jobApplyRouteDoc } from "../../docs/routes/jobApply/jobApply.route.doc.js"
+import { jobOfferCreateRouteDoc } from "../../docs/routes/jobOfferCreate/jobOfferCreate.route.doc.js"
+import { jobOfferUpdateRouteDoc } from "../../docs/routes/jobOfferUpdate/jobOfferUpdate.route.doc.js"
+import { jobSearchRouteDoc } from "../../docs/routes/jobSearch/jobSearch.route.doc.js"
+import { jobSearchByIdPublishingRouteDoc, jobSearchByIdRouteDoc } from "../../docs/routes/jobSearchById/jobSearchById.route.doc.js"
+import { jobsExportRouteDoc } from "../../docs/routes/jobsExport/jobsExport.route.doc.js"
+import type { OpenapiRoutes } from "../../openapi/types.js"
 
 export const jobRoutesOpenapi: OpenapiRoutes = {
   "/job/v1/search": {
@@ -344,4 +341,4 @@ export const jobRoutesOpenapi: OpenapiRoutes = {
       },
     },
   },
-};
+}

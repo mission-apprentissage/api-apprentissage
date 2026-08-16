@@ -1,31 +1,29 @@
-import { ObjectId } from "mongodb";
+import { useMongo } from "@tests/mongo.test.utils.js"
+import { ObjectId } from "mongodb"
 import {
   generateSourceBcn_N_FormationDiplomeFixture,
   generateSourceBcn_N_NiveauFormationDiplomeFixtureList,
   generateSourceBcn_V_FormationDiplomeFixture,
-} from "shared/models/fixtures/source.bcn.model.fixture";
-import { generateSourceFranceCompetenceFixture } from "shared/models/fixtures/source.france_competence.model.fixture";
-import { generateKitApprentissageFixture } from "shared/models/fixtures/source.kit_apprentissage.model.fixture";
-import { beforeEach, describe, expect, it, vi } from "vitest";
-
-import { updateKitApprentissageIndicateurSource } from "./kitApprentissage.source.indicateur.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
-
-import { useMongo } from "@tests/mongo.test.utils.js";
+} from "shared/models/fixtures/source.bcn.model.fixture"
+import { generateSourceFranceCompetenceFixture } from "shared/models/fixtures/source.france_competence.model.fixture"
+import { generateKitApprentissageFixture } from "shared/models/fixtures/source.kit_apprentissage.model.fixture"
+import { beforeEach, describe, expect, it, vi } from "vitest"
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
+import { updateKitApprentissageIndicateurSource } from "./kitApprentissage.source.indicateur.js"
 
 describe("updateKitApprentissageIndicateurSource", () => {
-  useMongo();
+  useMongo()
 
-  const now = new Date("2024-03-07T10:00:00Z");
+  const now = new Date("2024-03-07T10:00:00Z")
 
   beforeEach(() => {
-    vi.useFakeTimers();
-    vi.setSystemTime(now);
+    vi.useFakeTimers()
+    vi.setSystemTime(now)
 
     return () => {
-      vi.useRealTimers();
-    };
-  });
+      vi.useRealTimers()
+    }
+  })
 
   const kitApprentissageData = [
     generateKitApprentissageFixture({
@@ -62,7 +60,7 @@ describe("updateKitApprentissageIndicateurSource", () => {
       cfd: "30000001",
       rncp: "RNCP00300",
     }),
-  ];
+  ]
 
   const generateBcnData = (code: string) => {
     return [
@@ -76,39 +74,29 @@ describe("updateKitApprentissageIndicateurSource", () => {
           FORMATION_DIPLOME: `${code}`,
         },
       }),
-    ];
-  };
+    ]
+  }
 
-  const bcnData = [
-    ...generateBcnData("10000001"),
-    ...generateBcnData("20000001"),
-    ...generateBcnData("30000001"),
-    ...generateSourceBcn_N_NiveauFormationDiplomeFixtureList(),
-  ];
+  const bcnData = [...generateBcnData("10000001"), ...generateBcnData("20000001"), ...generateBcnData("30000001"), ...generateSourceBcn_N_NiveauFormationDiplomeFixtureList()]
 
   const generateFcData = (code: string) => {
     return generateSourceFranceCompetenceFixture({
       numero_fiche: code,
-    });
-  };
+    })
+  }
 
-  const franceCompetenceData = [
-    generateFcData("RNCP00100"),
-    generateFcData("RNCP00200"),
-    generateFcData("RNCP00201"),
-    generateFcData("RNCP00300"),
-  ];
+  const franceCompetenceData = [generateFcData("RNCP00100"), generateFcData("RNCP00200"), generateFcData("RNCP00201"), generateFcData("RNCP00300")]
 
   beforeEach(async () => {
     await Promise.all([
       getDbCollection("source.bcn").insertMany(bcnData),
       getDbCollection("source.france_competence").insertMany(franceCompetenceData),
       getDbCollection("source.kit_apprentissage").insertMany(kitApprentissageData),
-    ]);
-  });
+    ])
+  })
 
   it("should update indicateur", async () => {
-    await expect(updateKitApprentissageIndicateurSource()).resolves.toBeUndefined();
+    await expect(updateKitApprentissageIndicateurSource()).resolves.toBeUndefined()
 
     const indicateurs = await getDbCollection("indicateurs.source_kit_apprentissage")
       .find(
@@ -119,7 +107,7 @@ describe("updateKitApprentissageIndicateurSource", () => {
           },
         }
       )
-      .toArray();
+      .toArray()
 
     expect(indicateurs).toEqual([
       {
@@ -128,8 +116,8 @@ describe("updateKitApprentissageIndicateurSource", () => {
         missingCfd: 1,
         missingRncp: 2,
       },
-    ]);
-  });
+    ])
+  })
 
   it("should update today indicateurs only", async () => {
     const previousIndicateurs = [
@@ -145,11 +133,11 @@ describe("updateKitApprentissageIndicateurSource", () => {
         missingCfd: 100,
         missingRncp: 100,
       },
-    ];
+    ]
 
-    await getDbCollection("indicateurs.source_kit_apprentissage").insertMany(previousIndicateurs);
+    await getDbCollection("indicateurs.source_kit_apprentissage").insertMany(previousIndicateurs)
 
-    await expect(updateKitApprentissageIndicateurSource()).resolves.toBeUndefined();
+    await expect(updateKitApprentissageIndicateurSource()).resolves.toBeUndefined()
 
     const indicateurs = await getDbCollection("indicateurs.source_kit_apprentissage")
       .find(
@@ -160,7 +148,7 @@ describe("updateKitApprentissageIndicateurSource", () => {
           },
         }
       )
-      .toArray();
+      .toArray()
 
     expect(indicateurs).toEqual([
       previousIndicateurs[0],
@@ -169,6 +157,6 @@ describe("updateKitApprentissageIndicateurSource", () => {
         missingCfd: 1,
         missingRncp: 2,
       },
-    ]);
-  });
-});
+    ])
+  })
+})

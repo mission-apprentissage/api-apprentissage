@@ -1,34 +1,32 @@
-import type { ICertification } from "../models/index.js";
+import type { ICertification } from "../models/index.js"
 
-type ICertifBaseLegaleFixtureInput = Partial<ICertification["base_legale"]>;
-type ICertifBlocsCompetencesFixtureInput = Partial<ICertification["blocs_competences"]>;
-type ICertifConventionCollectivesFixtureInput = Partial<ICertification["convention_collectives"]>;
-type ICertifDomainesFixtureInput = Partial<ICertification["domaines"]>;
-type ICertifIdentifiantFixtureInput = Partial<ICertification["identifiant"]>;
-type ICertifIntituleFixtureNiveauInput = Partial<ICertification["intitule"]["niveau"]>;
-type ICertifIntituleFixtureInput = Partial<
-  Omit<ICertification["intitule"], "niveau"> & { niveau: ICertifIntituleFixtureNiveauInput }
->;
-type ICertifPeriodeValiditeCfdFixtureInput = Partial<ICertification["periode_validite"]["cfd"]>;
-type ICertifPeriodeValiditeRncpFixtureInput = Partial<ICertification["periode_validite"]["rncp"]>;
+type ICertifBaseLegaleFixtureInput = Partial<ICertification["base_legale"]>
+type ICertifBlocsCompetencesFixtureInput = Partial<ICertification["blocs_competences"]>
+type ICertifConventionCollectivesFixtureInput = Partial<ICertification["convention_collectives"]>
+type ICertifDomainesFixtureInput = Partial<ICertification["domaines"]>
+type ICertifIdentifiantFixtureInput = Partial<ICertification["identifiant"]>
+type ICertifIntituleFixtureNiveauInput = Partial<ICertification["intitule"]["niveau"]>
+type ICertifIntituleFixtureInput = Partial<Omit<ICertification["intitule"], "niveau"> & { niveau: ICertifIntituleFixtureNiveauInput }>
+type ICertifPeriodeValiditeCfdFixtureInput = Partial<ICertification["periode_validite"]["cfd"]>
+type ICertifPeriodeValiditeRncpFixtureInput = Partial<ICertification["periode_validite"]["rncp"]>
 type ICertifPeriodeValiditeFixtureInput = Omit<Partial<ICertification["periode_validite"]>, "rncp" | "cfd"> & {
-  cfd?: ICertifPeriodeValiditeCfdFixtureInput;
-  rncp?: ICertifPeriodeValiditeRncpFixtureInput;
-};
-type ICertifTypeFixtureInput = Partial<ICertification["type"]>;
-type ICertifContinuiteFixtureInput = Partial<ICertification["continuite"]>;
+  cfd?: ICertifPeriodeValiditeCfdFixtureInput
+  rncp?: ICertifPeriodeValiditeRncpFixtureInput
+}
+type ICertifTypeFixtureInput = Partial<ICertification["type"]>
+type ICertifContinuiteFixtureInput = Partial<ICertification["continuite"]>
 
 export type ICertificationFixtureInput = {
-  base_legale?: ICertifBaseLegaleFixtureInput;
-  blocs_competences?: ICertifBlocsCompetencesFixtureInput;
-  convention_collectives?: ICertifConventionCollectivesFixtureInput;
-  domaines?: ICertifDomainesFixtureInput;
-  identifiant?: ICertifIdentifiantFixtureInput;
-  intitule?: ICertifIntituleFixtureInput;
-  periode_validite?: ICertifPeriodeValiditeFixtureInput;
-  type?: ICertifTypeFixtureInput;
-  continuite?: ICertifContinuiteFixtureInput;
-};
+  base_legale?: ICertifBaseLegaleFixtureInput
+  blocs_competences?: ICertifBlocsCompetencesFixtureInput
+  convention_collectives?: ICertifConventionCollectivesFixtureInput
+  domaines?: ICertifDomainesFixtureInput
+  identifiant?: ICertifIdentifiantFixtureInput
+  intitule?: ICertifIntituleFixtureInput
+  periode_validite?: ICertifPeriodeValiditeFixtureInput
+  type?: ICertifTypeFixtureInput
+  continuite?: ICertifContinuiteFixtureInput
+}
 
 export function generateCertifBaseLegaleFixture(data?: ICertifBaseLegaleFixtureInput): ICertification["base_legale"] {
   return {
@@ -37,18 +35,15 @@ export function generateCertifBaseLegaleFixture(data?: ICertifBaseLegaleFixtureI
       abrogation: new Date("2024-07-01T21:59:59.000Z"),
       ...data?.cfd,
     },
-  };
+  }
 }
 
-export function generateCertifBlocsCompetencesFixture(
-  data?: ICertifBlocsCompetencesFixtureInput
-): ICertification["blocs_competences"] {
+export function generateCertifBlocsCompetencesFixture(data?: ICertifBlocsCompetencesFixtureInput): ICertification["blocs_competences"] {
   return {
     rncp: [
       {
         code: "RNCP36629BC01",
-        intitule:
-          "Analyser et diagnostiquer les besoins du client en matière de gestion de patrimoine privé ou professionnel",
+        intitule: "Analyser et diagnostiquer les besoins du client en matière de gestion de patrimoine privé ou professionnel",
       },
       {
         code: "RNCP36629BC02",
@@ -60,21 +55,18 @@ export function generateCertifBlocsCompetencesFixture(
       },
       {
         code: "RNCP36629BC04",
-        intitule:
-          "Suivre les réglementations et les procédures d’éthique et de déontologie financières en matière de conseil patrimonial privé ou professionnel",
+        intitule: "Suivre les réglementations et les procédures d’éthique et de déontologie financières en matière de conseil patrimonial privé ou professionnel",
       },
     ],
     ...data,
-  };
+  }
 }
 
-export function generateCertifConventionCollectivesFixture(
-  data?: ICertifConventionCollectivesFixtureInput
-): ICertification["convention_collectives"] {
+export function generateCertifConventionCollectivesFixture(data?: ICertifConventionCollectivesFixtureInput): ICertification["convention_collectives"] {
   return {
     rncp: [],
     ...data,
-  };
+  }
 }
 
 export function generateCertifDomainesFixture(data?: ICertifDomainesFixtureInput): ICertification["domaines"] {
@@ -122,7 +114,7 @@ export function generateCertifDomainesFixture(data?: ICertifDomainesFixtureInput
       ],
       ...data?.rome,
     },
-  };
+  }
 }
 
 export function generateCertifIdentifiantFixture(data?: ICertifIdentifiantFixtureInput): ICertification["identifiant"] {
@@ -131,12 +123,10 @@ export function generateCertifIdentifiantFixture(data?: ICertifIdentifiantFixtur
     cfd: "16X31336",
     rncp_anterieur_2019: true,
     ...data,
-  };
+  }
 }
 
-export function generateCertifIntituleNiveauFixture(
-  data?: ICertifIntituleFixtureNiveauInput
-): ICertification["intitule"]["niveau"] {
+export function generateCertifIntituleNiveauFixture(data?: ICertifIntituleFixtureNiveauInput): ICertification["intitule"]["niveau"] {
   return {
     cfd: {
       sigle: "TH1-X",
@@ -149,7 +139,7 @@ export function generateCertifIntituleNiveauFixture(
       europeen: "7",
     },
     ...data,
-  };
+  }
 }
 
 export function generateCertifIntituleFixture(data?: ICertifIntituleFixtureInput): ICertification["intitule"] {
@@ -161,14 +151,12 @@ export function generateCertifIntituleFixture(data?: ICertifIntituleFixtureInput
     rncp: "Expert en gestion de patrimoine",
     ...data,
     niveau: generateCertifIntituleNiveauFixture(data?.niveau),
-  };
+  }
 }
 
-function generateCertificationPeriodeValiditeCfdFixture(
-  data?: ICertifPeriodeValiditeCfdFixtureInput
-): ICertification["periode_validite"]["cfd"] {
+function generateCertificationPeriodeValiditeCfdFixture(data?: ICertifPeriodeValiditeCfdFixtureInput): ICertification["periode_validite"]["cfd"] {
   if (data === null) {
-    return null;
+    return null
   }
 
   return {
@@ -177,14 +165,12 @@ function generateCertificationPeriodeValiditeCfdFixture(
     premiere_session: 2022,
     derniere_session: 2024,
     ...data,
-  };
+  }
 }
 
-function generateCertificationPeriodeValiditeRncpFixture(
-  data?: ICertifPeriodeValiditeRncpFixtureInput
-): ICertification["periode_validite"]["rncp"] {
+function generateCertificationPeriodeValiditeRncpFixture(data?: ICertifPeriodeValiditeRncpFixtureInput): ICertification["periode_validite"]["rncp"] {
   if (data === null) {
-    return null;
+    return null
   }
 
   return {
@@ -193,19 +179,17 @@ function generateCertificationPeriodeValiditeRncpFixture(
     fin_enregistrement: new Date("2024-06-30T21:59:59.000Z"),
     debut_parcours: new Date("2022-06-30T22:00:00.000Z"),
     ...data,
-  };
+  }
 }
 
-export function generateCertificationPeriodeValiditeFixture(
-  data?: ICertifPeriodeValiditeFixtureInput
-): ICertification["periode_validite"] {
+export function generateCertificationPeriodeValiditeFixture(data?: ICertifPeriodeValiditeFixtureInput): ICertification["periode_validite"] {
   return {
     debut: new Date("2021-08-31T22:00:00.000Z"),
     fin: new Date("2024-08-31T21:59:59.000Z"),
     ...data,
     cfd: generateCertificationPeriodeValiditeCfdFixture(data?.cfd),
     rncp: generateCertificationPeriodeValiditeRncpFixture(data?.rncp),
-  };
+  }
 }
 
 export function generateCertifTypeFixture(data?: ICertifTypeFixtureInput): ICertification["type"] {
@@ -230,7 +214,7 @@ export function generateCertifTypeFixture(data?: ICertifTypeFixtureInput): ICert
       },
     },
     ...data,
-  };
+  }
 }
 
 export function generateCertifContinuiteFixture(
@@ -262,12 +246,12 @@ export function generateCertifContinuiteFixture(
             },
           ],
     ...data,
-  };
+  }
 }
 
 export function generateCertificationFixture(data?: ICertificationFixtureInput): ICertification {
-  const identifiant = generateCertifIdentifiantFixture(data?.identifiant);
-  const periode_validite = generateCertificationPeriodeValiditeFixture(data?.periode_validite);
+  const identifiant = generateCertifIdentifiantFixture(data?.identifiant)
+  const periode_validite = generateCertificationPeriodeValiditeFixture(data?.periode_validite)
 
   return {
     base_legale: generateCertifBaseLegaleFixture(data?.base_legale),
@@ -279,5 +263,5 @@ export function generateCertificationFixture(data?: ICertificationFixtureInput):
     periode_validite,
     type: generateCertifTypeFixture(data?.type),
     continuite: generateCertifContinuiteFixture({ identifiant, periode_validite }, data?.continuite),
-  };
+  }
 }

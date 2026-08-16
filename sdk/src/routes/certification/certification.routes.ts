@@ -1,8 +1,8 @@
-import { z } from "zod/v4-mini";
+import { z } from "zod/v4-mini"
 
-import { zCertification } from "../../models/certification/certification.model.js";
-import { zCfdParam, zRncpParam } from "../../models/certification/certification.primitives.js";
-import type { IApiRoutesDef } from "../common.routes.js";
+import { zCertification } from "../../models/certification/certification.model.js"
+import { zCfdParam, zRncpParam } from "../../models/certification/certification.primitives.js"
+import type { IApiRoutesDef } from "../common.routes.js"
 
 export const zApiCertificationsRoutes = {
   get: {
@@ -23,4 +23,4 @@ export const zApiCertificationsRoutes = {
       },
     },
   },
-} as const satisfies IApiRoutesDef;
+} as const satisfies IApiRoutesDef

@@ -1,15 +1,13 @@
-import { internal } from "@hapi/boom";
-import type { IFormation } from "api-alternance-sdk";
-import type { IFormationCatalogue } from "shared/models/source/catalogue/source.catalogue.model";
-import { z } from "zod/v4-mini";
+import { internal } from "@hapi/boom"
+import type { IFormation } from "api-alternance-sdk"
+import type { IFormationCatalogue } from "shared/models/source/catalogue/source.catalogue.model"
+import { z } from "zod/v4-mini"
 
-export function buildFormationModalite(
-  data: Pick<IFormationCatalogue, "duree" | "entierement_a_distance" | "annee" | "bcn_mefs_10">
-): IFormation["modalite"] {
-  const duree = z.safeParse(z.coerce.number().check(z.positive(), z.int()), data.duree);
+export function buildFormationModalite(data: Pick<IFormationCatalogue, "duree" | "entierement_a_distance" | "annee" | "bcn_mefs_10">): IFormation["modalite"] {
+  const duree = z.safeParse(z.coerce.number().check(z.positive(), z.int()), data.duree)
 
   if (!duree.success) {
-    throw internal(`buildModalite: invalid duree`, { duree: data.duree });
+    throw internal(`buildModalite: invalid duree`, { duree: data.duree })
   }
 
   if (data.annee === "X") {
@@ -18,12 +16,12 @@ export function buildFormationModalite(
       duree_indicative: duree.data,
       annee_cycle: null,
       mef_10: data.bcn_mefs_10.length === 1 ? data.bcn_mefs_10[0].mef10 : null,
-    };
+    }
   }
 
-  const annee = z.safeParse(z.coerce.number().check(z.positive(), z.int()), data.annee);
+  const annee = z.safeParse(z.coerce.number().check(z.positive(), z.int()), data.annee)
   if (!annee.success) {
-    throw internal(`buildModalite: invalid annee`, { annee: data.annee });
+    throw internal(`buildModalite: invalid annee`, { annee: data.annee })
   }
 
   return {
@@ -31,5 +29,5 @@ export function buildFormationModalite(
     duree_indicative: duree.data,
     annee_cycle: annee.data,
     mef_10: data.bcn_mefs_10.length === 1 ? data.bcn_mefs_10[0].mef10 : null,
-  };
+  }
 }

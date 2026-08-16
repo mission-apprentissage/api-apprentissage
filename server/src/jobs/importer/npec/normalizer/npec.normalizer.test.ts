@@ -1,26 +1,24 @@
-import { ObjectId } from "mongodb";
-import { generateNpecFixture } from "shared/models/fixtures/index";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { useMongo } from "@tests/mongo.test.utils.js"
+import { ObjectId } from "mongodb"
+import { generateNpecFixture } from "shared/models/fixtures/index"
+import { beforeEach, describe, expect, it, vi } from "vitest"
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
+import { buildCpneIdccMap, runNpecNormalizer } from "./npec.normalizer.js"
 
-import { buildCpneIdccMap, runNpecNormalizer } from "./npec.normalizer.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
-
-import { useMongo } from "@tests/mongo.test.utils.js";
-
-useMongo();
+useMongo()
 
 describe("buildCpneIdccMap", () => {
   it("should build cpneIdccMap correctly", async () => {
-    const filename = "vf_referentiel_avec_idcc_oct_2019.xlsx";
+    const filename = "vf_referentiel_avec_idcc_oct_2019.xlsx"
 
     await getDbCollection("source.npec").insertMany([
       generateNpecFixture({ filename, data: { type: "cpne-idcc", cpne_code: "2", idcc: "478" } }),
       generateNpecFixture({ filename, data: { type: "cpne-idcc", cpne_code: "4", idcc: "1801" } }),
       generateNpecFixture({ filename, data: { type: "cpne-idcc", cpne_code: "4", idcc: "1802" } }),
       generateNpecFixture({ filename, data: { type: "cpne-idcc", cpne_code: "5", idcc: "2205" } }),
-    ]);
+    ])
 
-    const result = await buildCpneIdccMap(filename);
+    const result = await buildCpneIdccMap(filename)
 
     expect(result).toEqual(
       new Map([
@@ -28,23 +26,23 @@ describe("buildCpneIdccMap", () => {
         ["4", new Set([1801, 1802])],
         ["5", new Set([2205])],
       ])
-    );
-  });
-});
+    )
+  })
+})
 
 describe("runNpecNormalizer", () => {
-  const importDate = new Date("2024-08-19T10:00:00.000Z");
-  const now = new Date(importDate.getTime() + 300_000);
-  const filename = "vf_referentiel_avec_idcc_oct_2019.xlsx";
+  const importDate = new Date("2024-08-19T10:00:00.000Z")
+  const now = new Date(importDate.getTime() + 300_000)
+  const filename = "vf_referentiel_avec_idcc_oct_2019.xlsx"
 
   beforeEach(() => {
-    vi.useFakeTimers();
-    vi.setSystemTime(now);
+    vi.useFakeTimers()
+    vi.setSystemTime(now)
 
     return () => {
-      vi.useRealTimers();
-    };
-  });
+      vi.useRealTimers()
+    }
+  })
 
   it('should skip normalization if "file_date" is before July 1, 2022', async () => {
     await getDbCollection("source.npec").insertMany([
@@ -52,7 +50,7 @@ describe("runNpecNormalizer", () => {
       generateNpecFixture({ filename, data: { type: "cpne-idcc", cpne_code: "4", idcc: "1801" } }),
       generateNpecFixture({ filename, data: { type: "cpne-idcc", cpne_code: "4", idcc: "1802" } }),
       generateNpecFixture({ filename, data: { type: "cpne-idcc", cpne_code: "5", idcc: "2205" } }),
-    ]);
+    ])
 
     const importMeta = {
       _id: new ObjectId(),
@@ -60,11 +58,10 @@ describe("runNpecNormalizer", () => {
       type: "npec",
       status: "pending",
       resource: "https://resource.francecompetences.fr/npec/vf_referentiel_avec_idcc_oct_2019.xlsx",
-      title:
-        "Référentiel unique avec l’ensemble des niveaux de prise en charge des contrats d’apprentissage – Juillet 2024",
+      title: "Référentiel unique avec l’ensemble des niveaux de prise en charge des contrats d’apprentissage – Juillet 2024",
       description: "Fichier zip 24 Mo (Version du 18/07/2024)",
       file_date: new Date("2022-06-30T00:00:00Z"),
-    } as const;
+    } as const
 
     const npecData = [
       {
@@ -82,7 +79,7 @@ describe("runNpecNormalizer", () => {
         procedure: null,
         idcc: null,
       },
-    ] as const;
+    ] as const
 
     const npecDocs = npecData.map((data) =>
       generateNpecFixture({
@@ -92,14 +89,14 @@ describe("runNpecNormalizer", () => {
         date_file: importMeta.file_date,
         data,
       })
-    );
+    )
 
-    await getDbCollection("source.npec").insertMany(npecDocs);
+    await getDbCollection("source.npec").insertMany(npecDocs)
 
-    await runNpecNormalizer(importMeta);
+    await runNpecNormalizer(importMeta)
 
-    expect(await getDbCollection("source.npec.normalized").find().toArray()).toEqual([]);
-  });
+    expect(await getDbCollection("source.npec.normalized").find().toArray()).toEqual([])
+  })
 
   it('should normalization if "file_date" is after July 1, 2022', async () => {
     await getDbCollection("source.npec").insertMany([
@@ -107,7 +104,7 @@ describe("runNpecNormalizer", () => {
       generateNpecFixture({ filename, data: { type: "cpne-idcc", cpne_code: "4", idcc: "1801" } }),
       generateNpecFixture({ filename, data: { type: "cpne-idcc", cpne_code: "4", idcc: "1802" } }),
       generateNpecFixture({ filename, data: { type: "cpne-idcc", cpne_code: "5", idcc: "2205" } }),
-    ]);
+    ])
 
     const importMeta = {
       _id: new ObjectId(),
@@ -115,11 +112,10 @@ describe("runNpecNormalizer", () => {
       type: "npec",
       status: "pending",
       resource: "https://resource.francecompetences.fr/npec/vf_referentiel_avec_idcc_oct_2019.xlsx",
-      title:
-        "Référentiel unique avec l’ensemble des niveaux de prise en charge des contrats d’apprentissage – Juillet 2024",
+      title: "Référentiel unique avec l’ensemble des niveaux de prise en charge des contrats d’apprentissage – Juillet 2024",
       description: "Fichier zip 24 Mo (Version du 18/07/2024)",
       file_date: new Date("2022-07-01T00:00:00Z"),
-    } as const;
+    } as const
 
     const npecData = [
       {
@@ -137,7 +133,7 @@ describe("runNpecNormalizer", () => {
         procedure: null,
         idcc: null,
       },
-    ] as const;
+    ] as const
 
     const npecDocs = npecData.map((data) =>
       generateNpecFixture({
@@ -147,11 +143,11 @@ describe("runNpecNormalizer", () => {
         date_file: importMeta.file_date,
         data,
       })
-    );
+    )
 
-    await getDbCollection("source.npec").insertMany(npecDocs);
+    await getDbCollection("source.npec").insertMany(npecDocs)
 
-    await runNpecNormalizer(importMeta);
+    await runNpecNormalizer(importMeta)
 
     expect(await getDbCollection("source.npec.normalized").find().toArray()).toEqual([
       {
@@ -167,8 +163,8 @@ describe("runNpecNormalizer", () => {
         import_id: importMeta._id,
         npec: [npecData[0].npec],
       },
-    ]);
-  });
+    ])
+  })
 
   it("should normalize npec data with multiple RNCP", async () => {
     await getDbCollection("source.npec").insertMany([
@@ -176,7 +172,7 @@ describe("runNpecNormalizer", () => {
       generateNpecFixture({ filename, data: { type: "cpne-idcc", cpne_code: "4", idcc: "1801" } }),
       generateNpecFixture({ filename, data: { type: "cpne-idcc", cpne_code: "4", idcc: "1802" } }),
       generateNpecFixture({ filename, data: { type: "cpne-idcc", cpne_code: "5", idcc: "2205" } }),
-    ]);
+    ])
 
     const importMeta = {
       _id: new ObjectId(),
@@ -184,11 +180,10 @@ describe("runNpecNormalizer", () => {
       type: "npec",
       status: "pending",
       resource: "https://resource.francecompetences.fr/npec/vf_referentiel_avec_idcc_oct_2019.xlsx",
-      title:
-        "Référentiel unique avec l’ensemble des niveaux de prise en charge des contrats d’apprentissage – Juillet 2024",
+      title: "Référentiel unique avec l’ensemble des niveaux de prise en charge des contrats d’apprentissage – Juillet 2024",
       description: "Fichier zip 24 Mo (Version du 18/07/2024)",
       file_date: new Date("2024-07-11T22:00:00.000+00:00"),
-    } as const;
+    } as const
 
     const npecData = [
       {
@@ -236,7 +231,7 @@ describe("runNpecNormalizer", () => {
         procedure: null,
         idcc: null,
       },
-    ] as const;
+    ] as const
 
     const npecDocs = npecData.map((data) =>
       generateNpecFixture({
@@ -246,11 +241,11 @@ describe("runNpecNormalizer", () => {
         date_file: importMeta.file_date,
         data,
       })
-    );
+    )
 
-    await getDbCollection("source.npec").insertMany(npecDocs);
+    await getDbCollection("source.npec").insertMany(npecDocs)
 
-    await runNpecNormalizer(importMeta);
+    await runNpecNormalizer(importMeta)
 
     expect(await getDbCollection("source.npec.normalized").find().toArray()).toEqual([
       {
@@ -305,6 +300,6 @@ describe("runNpecNormalizer", () => {
         import_id: importMeta._id,
         npec: [npecData[2].npec],
       },
-    ]);
-  });
-});
+    ])
+  })
+})

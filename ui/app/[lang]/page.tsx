@@ -1,17 +1,17 @@
-import { fr } from "@codegouvfr/react-dsfr";
-import { Badge } from "@codegouvfr/react-dsfr/Badge";
-import { Button } from "@codegouvfr/react-dsfr/Button";
-import { Box, Container, Typography } from "@mui/material";
-import Image from "next/image";
-import type { PropsWithChildren } from "react";
+import { fr } from "@codegouvfr/react-dsfr"
+import { Badge } from "@codegouvfr/react-dsfr/Badge"
+import { Button } from "@codegouvfr/react-dsfr/Button"
+import { Box, Container, Typography } from "@mui/material"
+import Image from "next/image"
+import type { PropsWithChildren } from "react"
 
-import type { PropsWithLangParams, WithLang } from "@/app/i18n/settings";
-import { Artwork } from "@/components/artwork/Artwork";
-import { DsfrLink } from "@/components/link/DsfrLink";
-import { PAGES } from "@/utils/routes.utils";
+import type { PropsWithLangParams, WithLang } from "@/app/i18n/settings"
+import { Artwork } from "@/components/artwork/Artwork"
+import { DsfrLink } from "@/components/link/DsfrLink"
+import { PAGES } from "@/utils/routes.utils"
 
 function ActeurBadge({ children }: PropsWithChildren) {
-  if (!children) return null;
+  if (!children) return null
 
   return (
     <Badge
@@ -24,7 +24,7 @@ function ActeurBadge({ children }: PropsWithChildren) {
     >
       {children}
     </Badge>
-  );
+  )
 }
 
 function VousEtesSection({ lang }: WithLang) {
@@ -43,26 +43,11 @@ function VousEtesSection({ lang }: WithLang) {
             <Artwork name="thinking-woman-2" />
           </Box>
         </Box>
-        <Box
-          position="relative"
-          display="flex"
-          alignItems="center"
-          flexDirection="column"
-          gap={fr.spacing("3w")}
-          maxWidth="720px"
-        >
+        <Box position="relative" display="flex" alignItems="center" flexDirection="column" gap={fr.spacing("3w")} maxWidth="720px">
           <Typography variant="h1" align="center" sx={{ color: fr.colors.decisions.text.label.blueEcume.default }}>
             Vous êtes ?
           </Typography>
-          <Box
-            display="flex"
-            justifyContent="center"
-            textAlign="center"
-            rowGap="12px"
-            columnGap="12px"
-            maxWidth="720px"
-            flexWrap="wrap"
-          >
+          <Box display="flex" justifyContent="center" textAlign="center" rowGap="12px" columnGap="12px" maxWidth="720px" flexWrap="wrap">
             <ActeurBadge>un opérateur public</ActeurBadge>
             <ActeurBadge>un organisme de formation</ActeurBadge>
             <ActeurBadge>une entreprise</ActeurBadge>
@@ -71,25 +56,16 @@ function VousEtesSection({ lang }: WithLang) {
             <ActeurBadge>un apprenant / une apprenante</ActeurBadge>
           </Box>
           <Box textAlign="center">
-            <Typography
-              variant="h4"
-              sx={{ color: fr.colors.decisions.artwork.minor.blueEcume.default, fontWeight: "normal" }}
-            >
+            <Typography variant="h4" sx={{ color: fr.colors.decisions.artwork.minor.blueEcume.default, fontWeight: "normal" }}>
               <Box component="span" sx={{ color: fr.colors.decisions.text.label.blueEcume.default }}>
                 L’<strong>Espace développeurs La bonne alternance</strong>
               </Box>
-              &nbsp;est le <strong>point d’entrée unique</strong> et documenté pour <strong>faciliter l’accès</strong> à
-              toutes les <strong>données relatives à l’apprentissage</strong>
+              &nbsp;est le <strong>point d’entrée unique</strong> et documenté pour <strong>faciliter l’accès</strong> à toutes les{" "}
+              <strong>données relatives à l’apprentissage</strong>
             </Typography>
           </Box>
 
-          <Button
-            linkProps={{ href: PAGES.static.explorerApi.getPath(lang) }}
-            iconId="fr-icon-arrow-right-line"
-            iconPosition="right"
-            priority="primary"
-            size="large"
-          >
+          <Button linkProps={{ href: PAGES.static.explorerApi.getPath(lang) }} iconId="fr-icon-arrow-right-line" iconPosition="right" priority="primary" size="large">
             Explorer les API
           </Button>
         </Box>
@@ -119,7 +95,7 @@ function VousEtesSection({ lang }: WithLang) {
         </Box>
       </Box>
     </Container>
-  );
+  )
 }
 
 function CommentUtiliserApiSection({ lang }: WithLang) {
@@ -129,11 +105,7 @@ function CommentUtiliserApiSection({ lang }: WithLang) {
         <Box display="grid" gridTemplateColumns={{ sm: "1fr", md: "1fr 1fr" }} padding={{ md: fr.spacing("6w") }}>
           <Box display="flex" alignItems="center" justifyContent="center" position="relative">
             <Box sx={{ display: { xs: "none", md: "block" } }}>
-              <Image
-                fill
-                src="/asset/artwork/brainstorming.svg"
-                alt="Illustration d'un groupe de personnes faisant une réunion de travail autour d'un tableau"
-              />
+              <Image fill src="/asset/artwork/brainstorming.svg" alt="Illustration d'un groupe de personnes faisant une réunion de travail autour d'un tableau" />
             </Box>
           </Box>
           <Box display="grid" gap={fr.spacing("3w")} padding={fr.spacing("3w")}>
@@ -141,8 +113,7 @@ function CommentUtiliserApiSection({ lang }: WithLang) {
               Comment utiliser nos API
             </Typography>
             <Typography>
-              Nos API sont ouvertes à tous et à toutes, <strong>créez votre compte</strong> pour obtenir et gérer{" "}
-              <strong>vos jetons d’accès !</strong>
+              Nos API sont ouvertes à tous et à toutes, <strong>créez votre compte</strong> pour obtenir et gérer <strong>vos jetons d’accès !</strong>
             </Typography>
             <Box display="grid" gap={fr.spacing("2v")}>
               <Typography>
@@ -150,16 +121,14 @@ function CommentUtiliserApiSection({ lang }: WithLang) {
               </Typography>
 
               <Typography>
-                <DsfrLink href={PAGES.static.documentationTechnique.getPath(lang)}>
-                  Consulter la documentation technique
-                </DsfrLink>
+                <DsfrLink href={PAGES.static.documentationTechnique.getPath(lang)}>Consulter la documentation technique</DsfrLink>
               </Typography>
             </Box>
           </Box>
         </Box>
       </Container>
     </Box>
-  );
+  )
 }
 
 function ProtectionDesDonneeSection({ lang }: WithLang) {
@@ -172,15 +141,12 @@ function ProtectionDesDonneeSection({ lang }: WithLang) {
               Protection des données
             </Typography>
             <Typography variant="h4">
-              L’espace développeurs La bonne alternance est construit dans le{" "}
-              <strong>respect strict de la vie privée des personnes</strong> et{" "}
+              L’espace développeurs La bonne alternance est construit dans le <strong>respect strict de la vie privée des personnes</strong> et{" "}
               <strong>applique les standards de sécurité de l'État.</strong>
             </Typography>
             <Box display="grid" gap={fr.spacing("2v")}>
               <Typography>
-                <DsfrLink href={PAGES.static.politiqueConfidentialite.getPath(lang)}>
-                  Notre politique de confidentialité
-                </DsfrLink>
+                <DsfrLink href={PAGES.static.politiqueConfidentialite.getPath(lang)}>Notre politique de confidentialité</DsfrLink>
               </Typography>
             </Box>
           </Box>
@@ -192,16 +158,16 @@ function ProtectionDesDonneeSection({ lang }: WithLang) {
         </Box>
       </Container>
     </Box>
-  );
+  )
 }
 
 export default async function Home({ params }: PropsWithLangParams) {
-  const { lang } = await params;
+  const { lang } = await params
   return (
     <>
       <VousEtesSection lang={lang} />
       <CommentUtiliserApiSection lang={lang} />
       <ProtectionDesDonneeSection lang={lang} />
     </>
-  );
+  )
 }

@@ -1,6 +1,6 @@
-import type { DocPage, OpenApiText } from "../../types.js";
-import localisationDescriptionEn from "./en/localisation.description.md.js";
-import localisationDescriptionFr from "./fr/localisation.description.md.js";
+import type { DocPage, OpenApiText } from "../../types.js"
+import localisationDescriptionEn from "./en/localisation.description.md.js"
+import localisationDescriptionFr from "./fr/localisation.description.md.js"
 
 export const rechercheCommunePageSummaryDoc = {
   title: {
@@ -11,7 +11,7 @@ export const rechercheCommunePageSummaryDoc = {
     en: "Consult the list of municipalities in France",
     fr: "Consulter le référentiel des communes de France",
   },
-} as const satisfies { title: OpenApiText; headline: OpenApiText };
+} as const satisfies { title: OpenApiText; headline: OpenApiText }
 
 export const rechercheCommunePageDoc = {
   tag: "geographie",
@@ -139,24 +139,15 @@ export const rechercheCommunePageDoc = {
                 en: null,
                 fr: "Localisation de la mission locale",
               },
-              tags: [
-                ".mission_locale.localisation.geopoint",
-                ".mission_locale.localisation.adresse",
-                ".mission_locale.localisation.cp",
-                ".mission_locale.localisation.ville",
-              ],
+              tags: [".mission_locale.localisation.geopoint", ".mission_locale.localisation.adresse", ".mission_locale.localisation.cp", ".mission_locale.localisation.ville"],
             },
             contact: {
               description: { en: null, fr: "Contact de la mission locale" },
-              tags: [
-                ".mission_locale.contact.email",
-                ".mission_locale.contact.telephone",
-                ".mission_locale.contact.siteWeb",
-              ],
+              tags: [".mission_locale.contact.email", ".mission_locale.contact.telephone", ".mission_locale.contact.siteWeb"],
             },
           },
         },
       },
     },
   ],
-} as const satisfies DocPage;
+} as const satisfies DocPage

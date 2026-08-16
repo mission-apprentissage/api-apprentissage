@@ -1,42 +1,41 @@
-"use client";
+"use client"
 
-import { Header as DSFRHeader, HeaderQuickAccessItem } from "@codegouvfr/react-dsfr/Header";
-import { LanguageSelect } from "@codegouvfr/react-dsfr/LanguageSelect";
-import { useIsDark } from "@codegouvfr/react-dsfr/useIsDark";
-import { usePathname } from "next/navigation";
-import { useCallback, useEffect } from "react";
-import { useTranslation } from "react-i18next";
-
-import { useNavigationItems } from "./header.utils";
-import { MonCompteQuickAccess } from "./MonCompteQuickAccess";
-import type { Lang, WithLang } from "@/app/i18n/settings";
-import { languages } from "@/app/i18n/settings";
-import { publicConfig } from "@/config.public";
-import { useAuth } from "@/context/AuthContext";
+import { Header as DSFRHeader, HeaderQuickAccessItem } from "@codegouvfr/react-dsfr/Header"
+import { LanguageSelect } from "@codegouvfr/react-dsfr/LanguageSelect"
+import { useIsDark } from "@codegouvfr/react-dsfr/useIsDark"
+import { usePathname } from "next/navigation"
+import { useCallback, useEffect } from "react"
+import { useTranslation } from "react-i18next"
+import type { Lang, WithLang } from "@/app/i18n/settings"
+import { languages } from "@/app/i18n/settings"
+import { publicConfig } from "@/config.public"
+import { useAuth } from "@/context/AuthContext"
+import { useNavigationItems } from "./header.utils"
+import { MonCompteQuickAccess } from "./MonCompteQuickAccess"
 
 export const Header = ({ lang }: WithLang) => {
   // Force light mode
-  const { isDark, setIsDark } = useIsDark();
+  const { isDark, setIsDark } = useIsDark()
   useEffect(() => {
     if (isDark) {
-      setIsDark(false);
+      setIsDark(false)
     }
-  }, [isDark, setIsDark]);
+  }, [isDark, setIsDark])
 
-  const pathname = usePathname();
+  const pathname = usePathname()
 
-  const { session } = useAuth();
+  const { session } = useAuth()
 
-  const { t } = useTranslation("global", { lng: lang });
-  const navigation = useNavigationItems({ user: session?.user ?? null, pathname, lang, t });
+  const { t } = useTranslation("global", { lng: lang })
+  const navigation = useNavigationItems({ user: session?.user ?? null, pathname, lang, t })
 
   const setLang = useCallback(
     async (locale: Lang) => {
-      const newPath = window.location.pathname.replace(new RegExp(`^/${lang}`), `/${locale}`);
-      window.location.assign(newPath);
+      const newPath = window.location.pathname.replace(new RegExp(`^/${lang}`), `/${locale}`)
+      window.location.assign(newPath)
     },
     [lang]
-  );
+  )
 
   return (
     <>
@@ -86,5 +85,5 @@ export const Header = ({ lang }: WithLang) => {
         navigation={navigation}
       />
     </>
-  );
-};
+  )
+}

@@ -5,10 +5,10 @@ declare module "*.svg" {
    * `babel-plugin-inline-react-svg` plugin.
    */
   const content: {
-    src: string;
-    width: number;
-    height: number;
-  };
+    src: string
+    width: number
+    height: number
+  }
 
-  export default content;
+  export default content
 }

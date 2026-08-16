@@ -1,14 +1,14 @@
-import { z } from "zod/v4-mini";
+import { z } from "zod/v4-mini"
 
-import type { IModelDescriptorGeneric } from "../../common.js";
-import { zObjectIdMini } from "../../common.js";
+import type { IModelDescriptorGeneric } from "../../common.js"
+import { zObjectIdMini } from "../../common.js"
 
-const collectionName = "source.npec" as const;
+const collectionName = "source.npec" as const
 
 const indexes: IModelDescriptorGeneric["indexes"] = [
   [{ date_import: 1, filename: 1 }, {}],
   [{ filename: 1, "data.type": 1 }, {}],
-];
+]
 
 export const zSourceNpecReferentielData = z.object({
   type: z.literal("npec"),
@@ -24,16 +24,16 @@ export const zSourceNpecReferentielData = z.object({
   date_applicabilite: z.nullable(z.date()),
   procedure: z.nullable(z.coerce.number()),
   idcc: z.nullable(z.coerce.string()),
-});
+})
 
 export const zSourceNpecIdccCpneData = z.object({
   type: z.literal("cpne-idcc"),
   idcc: z.nullable(z.coerce.string()),
   cpne_code: z.nullable(z.coerce.string()),
   cpne_libelle: z.nullable(z.coerce.string()),
-});
+})
 
-export const zSourceNpecData = z.discriminatedUnion("type", [zSourceNpecReferentielData, zSourceNpecIdccCpneData]);
+export const zSourceNpecData = z.discriminatedUnion("type", [zSourceNpecReferentielData, zSourceNpecIdccCpneData])
 
 export const zSourceNpecIdcc = z.object({
   _id: zObjectIdMini,
@@ -42,13 +42,13 @@ export const zSourceNpecIdcc = z.object({
   date_file: z.date(),
   import_id: zObjectIdMini,
   data: zSourceNpecData,
-});
+})
 
 export const sourceNpecModelDescriptor = {
   zod: zSourceNpecIdcc,
   indexes,
   collectionName,
-};
+}
 
-export type ISourceNpec = z.output<typeof zSourceNpecIdcc>;
-export type ISourceNpecReferentielData = z.output<typeof zSourceNpecReferentielData>;
+export type ISourceNpec = z.output<typeof zSourceNpecIdcc>
+export type ISourceNpecReferentielData = z.output<typeof zSourceNpecReferentielData>

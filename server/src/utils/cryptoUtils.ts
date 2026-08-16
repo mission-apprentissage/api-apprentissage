@@ -1,18 +1,18 @@
-import crypto from "crypto";
-import { internal } from "@hapi/boom";
+import { internal } from "@hapi/boom"
+import crypto from "crypto"
 
 export function generateKey(size = 32, format: BufferEncoding = "base64") {
-  const buffer = crypto.randomBytes(size);
-  return buffer.toString(format);
+  const buffer = crypto.randomBytes(size)
+  return buffer.toString(format)
 }
 
 export function compareKeys(storedKey: string, suppliedKey: string) {
-  const [hashedPassword, salt] = storedKey.split(".");
+  const [hashedPassword, salt] = storedKey.split(".")
 
   if (!hashedPassword || !salt) {
-    throw internal("compareKeys: invalid storedKey");
+    throw internal("compareKeys: invalid storedKey")
   }
 
-  const buffer = crypto.scryptSync(suppliedKey, salt, 64);
-  return crypto.timingSafeEqual(Buffer.from(hashedPassword, "hex"), buffer);
+  const buffer = crypto.scryptSync(suppliedKey, salt, 64)
+  return crypto.timingSafeEqual(Buffer.from(hashedPassword, "hex"), buffer)
 }

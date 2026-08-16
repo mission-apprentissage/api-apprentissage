@@ -1,7 +1,7 @@
-import padlock from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/system/padlock.svg";
-import Image from "next/image";
+import padlock from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/system/padlock.svg"
+import Image from "next/image"
 
-type IArtworkData = Record<string, { src: string; alt: string; width: number; height: number }>;
+type IArtworkData = Record<string, { src: string; alt: string; width: number; height: number }>
 
 const artworkData = {
   "thinking-woman-2": {
@@ -64,14 +64,14 @@ const artworkData = {
     height: padlock.height,
     alt: "Illustration d'un cadenas",
   },
-} as const satisfies IArtworkData;
+} as const satisfies IArtworkData
 
-type ArtworkName = keyof typeof artworkData;
+type ArtworkName = keyof typeof artworkData
 
 export function Artwork({ name, height }: { name: ArtworkName; height?: number }) {
-  const { alt, src, width: origW, height: origH } = artworkData[name];
-  const h = height ?? origH;
-  const width = (h / origH) * origW;
+  const { alt, src, width: origW, height: origH } = artworkData[name]
+  const h = height ?? origH
+  const width = (h / origH) * origW
 
-  return <Image src={src} alt={alt} width={width} height={h} />;
+  return <Image src={src} alt={alt} width={width} height={h} />
 }

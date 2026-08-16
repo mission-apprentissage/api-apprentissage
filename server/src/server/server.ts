@@ -1,33 +1,26 @@
-import { fastifyCookie } from "@fastify/cookie";
-import { fastifyCors } from "@fastify/cors";
-import { fastifyMultipart } from "@fastify/multipart";
-import { fastifyRateLimit } from "@fastify/rate-limit";
-import type { FastifyStaticSwaggerOptions, StaticDocumentSpec } from "@fastify/swagger";
-import { fastifySwagger } from "@fastify/swagger";
-import type { FastifySwaggerUiOptions } from "@fastify/swagger-ui";
-import { fastifySwaggerUi } from "@fastify/swagger-ui";
-import { notFound } from "@hapi/boom";
-import type { IApiRouteSchema, WithSecurityScheme } from "api-alternance-sdk";
-import type {
-  FastifyBaseLogger,
-  FastifyInstance,
-  RawReplyDefaultExpression,
-  RawRequestDefaultExpression,
-  RawServerDefault,
-} from "fastify";
-import { fastify } from "fastify";
-import type { ZodTypeProvider } from "fastify-type-provider-zod";
-import { serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
-import { generateOpenApiSchema } from "shared/openapi/generateOpenapi";
-import { z } from "zod/v4-mini";
-
-import { apiKeyUsageMiddleware } from "./middlewares/apiKeyUsageMiddleware.js";
-import { auth } from "./middlewares/authMiddleware.js";
-import { errorMiddleware } from "./middlewares/errorMiddleware.js";
-import { logMiddleware } from "./middlewares/logMiddleware.js";
-import { registerRoutes } from "./routes/routes.js";
-import { initSentryFastify } from "@/services/sentry/sentry.fastify.js";
-import config from "@/config.js";
+import { fastifyCookie } from "@fastify/cookie"
+import { fastifyCors } from "@fastify/cors"
+import { fastifyMultipart } from "@fastify/multipart"
+import { fastifyRateLimit } from "@fastify/rate-limit"
+import type { FastifyStaticSwaggerOptions, StaticDocumentSpec } from "@fastify/swagger"
+import { fastifySwagger } from "@fastify/swagger"
+import type { FastifySwaggerUiOptions } from "@fastify/swagger-ui"
+import { fastifySwaggerUi } from "@fastify/swagger-ui"
+import { notFound } from "@hapi/boom"
+import type { IApiRouteSchema, WithSecurityScheme } from "api-alternance-sdk"
+import type { FastifyBaseLogger, FastifyInstance, RawReplyDefaultExpression, RawRequestDefaultExpression, RawServerDefault } from "fastify"
+import { fastify } from "fastify"
+import type { ZodTypeProvider } from "fastify-type-provider-zod"
+import { serializerCompiler, validatorCompiler } from "fastify-type-provider-zod"
+import { generateOpenApiSchema } from "shared/openapi/generateOpenapi"
+import { z } from "zod/v4-mini"
+import config from "@/config.js"
+import { initSentryFastify } from "@/services/sentry/sentry.fastify.js"
+import { apiKeyUsageMiddleware } from "./middlewares/apiKeyUsageMiddleware.js"
+import { auth } from "./middlewares/authMiddleware.js"
+import { errorMiddleware } from "./middlewares/errorMiddleware.js"
+import { logMiddleware } from "./middlewares/logMiddleware.js"
+import { registerRoutes } from "./routes/routes.js"
 
 export type Server = FastifyInstance<
   RawServerDefault,
@@ -35,13 +28,13 @@ export type Server = FastifyInstance<
   RawReplyDefaultExpression<RawServerDefault>,
   FastifyBaseLogger,
   ZodTypeProvider
->;
+>
 
 export async function bind(app: Server) {
-  initSentryFastify(app);
+  initSentryFastify(app)
 
-  app.setValidatorCompiler(validatorCompiler);
-  app.setSerializerCompiler(serializerCompiler);
+  app.setValidatorCompiler(validatorCompiler)
+  app.setSerializerCompiler(serializerCompiler)
 
   // Register CORS early so it applies to all routes including swagger
   app.register(fastifyCors, {
@@ -55,39 +48,39 @@ export async function bind(app: Server) {
           origin: [config.publicUrl, /(?:^|\.)data\.gouv\.fr$/],
           credentials: true,
         }),
-  });
+  })
 
-  const frSwaggerDoc = generateOpenApiSchema(config.version, config.env, config.apiPublicUrl, "fr");
-  const enSwaggerDoc = generateOpenApiSchema(config.version, config.env, config.apiPublicUrl, "en");
+  const frSwaggerDoc = generateOpenApiSchema(config.version, config.env, config.apiPublicUrl, "fr")
+  const enSwaggerDoc = generateOpenApiSchema(config.version, config.env, config.apiPublicUrl, "en")
 
   const swaggerOpts: FastifyStaticSwaggerOptions = {
     mode: "static",
     specification: {
       document: enSwaggerDoc as StaticDocumentSpec["document"],
     },
-  };
-  await app.register(fastifySwagger, swaggerOpts);
+  }
+  await app.register(fastifySwagger, swaggerOpts)
   await app.register(fastifyRateLimit, {
     global: false,
     hook: "preHandler",
     keyGenerator: (req) => {
-      const apiKeyId = req.api_key?._id?.toString();
-      if (apiKeyId) return `api_key:${apiKeyId}`;
+      const apiKeyId = req.api_key?._id?.toString()
+      if (apiKeyId) return `api_key:${apiKeyId}`
       if (req.user) {
         // JWT api-alternance (access-token) : email niché dans identity.
         // API key / cookie-session (IUser) : email au premier niveau.
-        const value = req.user.value as { email?: string; identity?: { email?: string } };
-        const email = value.identity?.email ?? value.email;
-        if (email) return `user:${email}`;
+        const value = req.user.value as { email?: string; identity?: { email?: string } }
+        const email = value.identity?.email ?? value.email
+        if (email) return `user:${email}`
       }
-      return `ip:${req.ip}`;
+      return `ip:${req.ip}`
     },
     errorResponseBuilder: (_req, ctx) => ({
       statusCode: 429,
       error: "Too Many Requests",
       message: `Quota dépassé : ${ctx.max} requêtes par ${ctx.after}. Voir ${config.apiPublicUrl}/documentation pour les limites par endpoint.`,
     }),
-  });
+  })
 
   const swaggerUiOptions: FastifySwaggerUiOptions = {
     routePrefix: "/api/documentation",
@@ -99,8 +92,8 @@ export async function bind(app: Server) {
       filter: true,
       deepLinking: true,
     },
-  };
-  await app.register(fastifySwaggerUi, swaggerUiOptions);
+  }
+  await app.register(fastifySwaggerUi, swaggerUiOptions)
 
   app.get(
     "/api/swagger.json",
@@ -110,30 +103,30 @@ export async function bind(app: Server) {
       },
     },
     async (req, res) => {
-      return res.header("content-type", "application/json").send(req.query.lang === "fr" ? frSwaggerDoc : enSwaggerDoc);
+      return res.header("content-type", "application/json").send(req.query.lang === "fr" ? frSwaggerDoc : enSwaggerDoc)
     }
-  );
+  )
 
-  app.register(fastifyCookie);
-  app.decorate("auth", <S extends IApiRouteSchema & WithSecurityScheme>(scheme: S) => auth(scheme));
+  app.register(fastifyCookie)
+  app.decorate("auth", <S extends IApiRouteSchema & WithSecurityScheme>(scheme: S) => auth(scheme))
 
-  app.register(fastifyMultipart);
+  app.register(fastifyMultipart)
 
   app.register(
     async (instance: Server) => {
-      registerRoutes({ server: instance });
+      registerRoutes({ server: instance })
     },
     { prefix: "/api" }
-  );
+  )
 
   app.setNotFoundHandler((_req, res) => {
-    res.status(404).send(notFound("Path does not exists").output);
-  });
+    res.status(404).send(notFound("Path does not exists").output)
+  })
 
-  apiKeyUsageMiddleware(app);
-  errorMiddleware(app);
+  apiKeyUsageMiddleware(app)
+  errorMiddleware(app)
 
-  return app;
+  return app
 }
 
 export default async (): Promise<Server> => {
@@ -141,7 +134,7 @@ export default async (): Promise<Server> => {
     logger: logMiddleware(),
     trustProxy: 1,
     caseSensitive: false,
-  }).withTypeProvider<ZodTypeProvider>();
+  }).withTypeProvider<ZodTypeProvider>()
 
-  return bind(app);
-};
+  return bind(app)
+}

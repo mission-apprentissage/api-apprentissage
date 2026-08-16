@@ -8,6 +8,12 @@
     "incremental": true,
 
     "resolveJsonModule": true,
+    /* TS 7 ne charge plus implicitement tous les @types : sans cette ligne, les globales
+       Node n'entraient dans le programme que par ricochet via les fichiers de test, que
+       tsconfig.prod.json exclut — le build publié échouait. */
+    "types": [
+      "node"
+    ],
     /* JavaScript Support */
     "allowJs": false,
     /* Emit */
@@ -22,7 +28,7 @@
     "noUnusedLocals": true,
     "exactOptionalPropertyTypes": false,
     "noImplicitReturns": true,
-    "useUnknownInCatchVariables": false,
+    "useUnknownInCatchVariables": true,
     "noUncheckedIndexedAccess": false,
     /* Completeness */
     "skipLibCheck": true,
@@ -32,10 +38,17 @@
     "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo",
     "noUncheckedSideEffectImports": true
   },
-  "include": ["./src/**/*.ts"],
-  "exclude": ["**/node_modules", "**/dist"],
+  "include": [
+    "./src/**/*.ts"
+  ],
+  "exclude": [
+    "**/node_modules",
+    "**/dist"
+  ],
   "typeAcquisition": {
     "enable": true,
-    "include": ["@types/node"]
+    "include": [
+      "@types/node"
+    ]
   }
 }

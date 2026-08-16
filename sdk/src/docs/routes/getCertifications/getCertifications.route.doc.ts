@@ -1,5 +1,5 @@
-import { certificationsPageSummaryDoc } from "../../metier/certifications/certifications.doc.js";
-import type { DocRoute } from "../../types.js";
+import { certificationsPageSummaryDoc } from "../../metier/certifications/certifications.doc.js"
+import type { DocRoute } from "../../types.js"
 
 export const getCertificationsRouteDoc = {
   summary: certificationsPageSummaryDoc.title,
@@ -68,4 +68,4 @@ export const getCertificationsRouteDoc = {
       },
     },
   },
-} as const satisfies DocRoute;
+} as const satisfies DocRoute

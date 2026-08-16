@@ -1,10 +1,10 @@
-import { internal } from "@hapi/boom";
-import { zRoutes } from "shared";
-import type { IImportMetaNpec } from "shared/models/import.meta.model";
-import type { ISourceNpecNormalized } from "shared/models/source/npec/source.npec.normalized.model";
+import { internal } from "@hapi/boom"
+import { zRoutes } from "shared"
+import type { IImportMetaNpec } from "shared/models/import.meta.model"
+import type { ISourceNpecNormalized } from "shared/models/source/npec/source.npec.normalized.model"
 
-import type { Server } from "@/server/server.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import type { Server } from "@/server/server.js"
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
 
 export const simulateurRoutes = ({ server }: { server: Server }) => {
   server.get(
@@ -13,12 +13,7 @@ export const simulateurRoutes = ({ server }: { server: Server }) => {
       schema: zRoutes.get["/_private/simulateur/context"],
     },
     async (_request, response) => {
-      const [
-        rncps,
-        conventions_collectives_kali,
-        conventions_collectives_dares,
-        conventions_collectives_dares_ape_idcc,
-      ] = await Promise.all([
+      const [rncps, conventions_collectives_kali, conventions_collectives_dares, conventions_collectives_dares_ape_idcc] = await Promise.all([
         getDbCollection("certifications")
           .aggregate<{ code: string; intitule: string }>([
             { $match: { "identifiant.rncp": { $ne: null } } },
@@ -69,33 +64,29 @@ export const simulateurRoutes = ({ server }: { server: Server }) => {
             { $project: { _id: 0, idcc: "$_id", titre: 1 } },
           ])
           .toArray(),
-      ]);
+      ])
 
-      const seen = new Set();
-      const conventions_collectives = [];
+      const seen = new Set()
+      const conventions_collectives = []
 
       // Merge conventions collectives from KALI and DARES
       // Kali is the reference source, DARES is a fallback
-      for (const list of [
-        conventions_collectives_kali,
-        conventions_collectives_dares,
-        conventions_collectives_dares_ape_idcc,
-      ]) {
+      for (const list of [conventions_collectives_kali, conventions_collectives_dares, conventions_collectives_dares_ape_idcc]) {
         for (const item of list) {
           if (seen.has(item.idcc)) {
-            continue;
+            continue
           }
-          conventions_collectives.push(item);
-          seen.add(item.idcc);
+          conventions_collectives.push(item)
+          seen.add(item.idcc)
         }
       }
 
       return response.status(200).send({
         rncps,
         conventions_collectives: conventions_collectives.toSorted((a, b) => a.idcc - b.idcc),
-      });
+      })
     }
-  );
+  )
 
   server.get(
     "/_private/simulateur/npec/contrat",
@@ -103,7 +94,7 @@ export const simulateurRoutes = ({ server }: { server: Server }) => {
       schema: zRoutes.get["/_private/simulateur/npec/contrat"],
     },
     async (request, response) => {
-      const { rncp, idcc, date_signature } = request.query;
+      const { rncp, idcc, date_signature } = request.query
 
       const result = await getDbCollection("source.npec.normalized")
         .aggregate<ISourceNpecNormalized>([
@@ -117,17 +108,17 @@ export const simulateurRoutes = ({ server }: { server: Server }) => {
           { $sort: { date_file: -1, date_applicabilite: -1 } },
           { $limit: 1 },
         ])
-        .toArray();
+        .toArray()
 
-      const npec = result[0] ?? null;
+      const npec = result[0] ?? null
       if (npec === null) {
-        return response.status(200).send(null);
+        return response.status(200).send(null)
       }
 
-      const importMeta = await getDbCollection("import.meta").findOne<IImportMetaNpec>({ _id: npec.import_id });
+      const importMeta = await getDbCollection("import.meta").findOne<IImportMetaNpec>({ _id: npec.import_id })
 
       if (importMeta === null) {
-        throw internal("Import meta not found", { npec });
+        throw internal("Import meta not found", { npec })
       }
 
       return response.status(200).send({
@@ -137,7 +128,7 @@ export const simulateurRoutes = ({ server }: { server: Server }) => {
           description: importMeta.description,
           resource: importMeta.resource,
         },
-      });
+      })
     }
-  );
-};
+  )
+}

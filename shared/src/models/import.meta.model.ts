@@ -1,16 +1,16 @@
-import { z } from "zod/v4-mini";
+import { z } from "zod/v4-mini"
 
-import { zDataGouvDatasetResource } from "../apis/index.js";
-import type { IModelDescriptorGeneric } from "./common.js";
-import { zObjectIdMini } from "./common.js";
+import { zDataGouvDatasetResource } from "../apis/index.js"
+import type { IModelDescriptorGeneric } from "./common.js"
+import { zObjectIdMini } from "./common.js"
 
-const collectionName = "import.meta" as const;
+const collectionName = "import.meta" as const
 
 const indexes: IModelDescriptorGeneric["indexes"] = [
   [{ type: 1, import_date: 1 }, {}],
   [{ type: 1, status: 1, import_date: 1 }, {}],
   [{ type: 1, "archiveMeta.date_publication": 1 }, {}],
-];
+]
 
 export const zArchiveMeta = z.object({
   date_publication: z.date(),
@@ -20,9 +20,9 @@ export const zArchiveMeta = z.object({
     created_at: z.date(),
     last_modified: z.date(),
   }),
-});
+})
 
-export type IArchiveMeta = z.output<typeof zArchiveMeta>;
+export type IArchiveMeta = z.output<typeof zArchiveMeta>
 
 export const zImportMetaFranceCompetence = z.object({
   _id: zObjectIdMini,
@@ -30,7 +30,7 @@ export const zImportMetaFranceCompetence = z.object({
   type: z.literal("france_competence"),
   archiveMeta: zArchiveMeta,
   status: z.enum(["pending", "done", "failed"]),
-});
+})
 
 export const zImportMetaNpec = z.object({
   _id: zObjectIdMini,
@@ -41,23 +41,14 @@ export const zImportMetaNpec = z.object({
   title: z.string(),
   description: z.string(),
   file_date: z.date(),
-});
+})
 
 export const zImportMetaSimple = z.object({
   _id: zObjectIdMini,
   import_date: z.date(),
-  type: z.enum([
-    "bcn",
-    "kit_apprentissage",
-    "acce",
-    "kali_ccn",
-    "communes",
-    "referentiel",
-    "catalogue",
-    "mission_locale",
-  ]),
+  type: z.enum(["bcn", "kit_apprentissage", "acce", "kali_ccn", "communes", "referentiel", "catalogue", "mission_locale"]),
   status: z.enum(["pending", "done", "failed"]),
-});
+})
 
 export const zImportMetaDares = z.object({
   _id: zObjectIdMini,
@@ -69,7 +60,7 @@ export const zImportMetaDares = z.object({
     url: z.string().check(z.url()),
     date: z.date(),
   }),
-});
+})
 
 export const zImportMetaCertifications = z.object({
   _id: zObjectIdMini,
@@ -85,7 +76,7 @@ export const zImportMetaCertifications = z.object({
     }),
     kit_apprentissage: z.object({ import_date: z.date() }),
   }),
-});
+})
 
 export const zImportMetaOrganisme = z.object({
   _id: zObjectIdMini,
@@ -96,7 +87,7 @@ export const zImportMetaOrganisme = z.object({
     referentiel: z.object({ import_date: z.date() }),
     communes: z.object({ import_date: z.date() }),
   }),
-});
+})
 
 export const zImportMetaFormations = z.object({
   _id: zObjectIdMini,
@@ -109,7 +100,7 @@ export const zImportMetaFormations = z.object({
     certifications: z.object({ import_date: z.date() }),
     communes: z.object({ import_date: z.date() }),
   }),
-});
+})
 
 export const zImportMeta = z.discriminatedUnion("type", [
   zImportMetaFranceCompetence,
@@ -119,18 +110,18 @@ export const zImportMeta = z.discriminatedUnion("type", [
   zImportMetaDares,
   zImportMetaOrganisme,
   zImportMetaFormations,
-]);
+])
 
 export const importMetaModelDescriptor = {
   zod: zImportMeta,
   indexes,
   collectionName,
-};
+}
 
-export type IImportMeta = z.output<typeof zImportMeta>;
-export type IImportMetaFranceCompetence = z.output<typeof zImportMetaFranceCompetence>;
-export type IImportMetaNpec = z.output<typeof zImportMetaNpec>;
-export type IImportMetaCertifications = z.output<typeof zImportMetaCertifications>;
-export type IImportMetaOrganismes = z.output<typeof zImportMetaOrganisme>;
-export type IImportMetaFormations = z.output<typeof zImportMetaFormations>;
-export type IImportMetaDares = z.output<typeof zImportMetaDares>;
+export type IImportMeta = z.output<typeof zImportMeta>
+export type IImportMetaFranceCompetence = z.output<typeof zImportMetaFranceCompetence>
+export type IImportMetaNpec = z.output<typeof zImportMetaNpec>
+export type IImportMetaCertifications = z.output<typeof zImportMetaCertifications>
+export type IImportMetaOrganismes = z.output<typeof zImportMetaOrganisme>
+export type IImportMetaFormations = z.output<typeof zImportMetaFormations>
+export type IImportMetaDares = z.output<typeof zImportMetaDares>

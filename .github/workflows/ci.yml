@@ -54,8 +54,8 @@ jobs:
       - name: typecheck
         run: yarn typecheck
 
-      - name: lint
-        run: yarn lint
+      - name: check
+        run: yarn check:ci
 
       - name: start mongodb service
         run: |
@@ -64,9 +64,6 @@ jobs:
 
       - name: test
         run: yarn test:ci --maxWorkers=3
-
-      - name: prettier
-        run: yarn prettier:check
 
       # Le build UI n'est sinon exercé qu'au déploiement (_build.yml, appelé par recette.yml et
       # _deploy.yml). Depuis Next 16 il tourne sous Turbopack, sans config webpack : les erreurs de

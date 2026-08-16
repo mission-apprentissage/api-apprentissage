@@ -1,4 +1,4 @@
-import type { DocPage, OpenApiText } from "../../types.js";
+import type { DocPage, OpenApiText } from "../../types.js"
 
 export const candidatureOffrePageSummaryDoc = {
   title: {
@@ -9,7 +9,7 @@ export const candidatureOffrePageSummaryDoc = {
     en: "Streamline your users' journey by directly transmitting your users' applications to recruiters",
     fr: "Fluidifier le parcours de vos utilisateurs en transmettant directement aux recruteurs les candidatures de vos usagers",
   },
-} as const satisfies { title: OpenApiText; headline: OpenApiText };
+} as const satisfies { title: OpenApiText; headline: OpenApiText }
 
 export const candidatureOffrePageDoc = {
   tag: "job",
@@ -96,4 +96,4 @@ export const candidatureOffrePageDoc = {
       },
     },
   ],
-} as const satisfies DocPage;
+} as const satisfies DocPage

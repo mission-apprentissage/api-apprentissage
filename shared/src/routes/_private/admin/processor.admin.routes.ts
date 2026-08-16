@@ -1,5 +1,5 @@
-import type { IApiRoutesDef } from "api-alternance-sdk";
-import { zProcessorStatus } from "job-processor/dist/core.js";
+import type { IApiRoutesDef } from "api-alternance-sdk"
+import { zProcessorStatus } from "job-processor/dist/core.js"
 
 export const zProcessorAdminRoutes = {
   get: {
@@ -15,4 +15,4 @@ export const zProcessorAdminRoutes = {
     },
   },
   post: {},
-} as const satisfies IApiRoutesDef;
+} as const satisfies IApiRoutesDef

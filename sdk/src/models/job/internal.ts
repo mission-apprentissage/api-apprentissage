@@ -1,1 +1,1 @@
-export * from "./job.model.openapi.js";
+export * from "./job.model.openapi.js"

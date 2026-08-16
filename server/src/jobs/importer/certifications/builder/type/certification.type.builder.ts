@@ -1,11 +1,11 @@
-import { internal } from "@hapi/boom";
-import type { ICertification } from "api-alternance-sdk";
+import { internal } from "@hapi/boom"
+import type { ICertification } from "api-alternance-sdk"
 
-import type { ISourceAggregatedData } from "@/jobs/importer/certifications/builder/certification.builder.js";
+import type { ISourceAggregatedData } from "@/jobs/importer/certifications/builder/certification.builder.js"
 
 export function buildCertificationType(data: ISourceAggregatedData): ICertification["type"] {
-  const cfdData = data.bcn?.data ?? null;
-  const rncpData = data.france_competence?.data ?? null;
+  const cfdData = data.bcn?.data ?? null
+  const rncpData = data.france_competence?.data ?? null
 
   return {
     certificateurs_rncp:
@@ -31,22 +31,22 @@ export function buildCertificationType(data: ISourceAggregatedData): ICertificat
           : rncpData.voies_d_acces.reduce(
               (acc, voie) => {
                 if (voie.Si_Jury === "En contrat d’apprentissage") {
-                  acc.apprentissage = true;
+                  acc.apprentissage = true
                 } else if (voie.Si_Jury === "Par expérience") {
-                  acc.experience = true;
+                  acc.experience = true
                 } else if (voie.Si_Jury === "Par candidature individuelle") {
-                  acc.candidature_individuelle = true;
+                  acc.candidature_individuelle = true
                 } else if (voie.Si_Jury === "En contrat de professionnalisation") {
-                  acc.contrat_professionnalisation = true;
+                  acc.contrat_professionnalisation = true
                 } else if (voie.Si_Jury === "Après un parcours de formation continue") {
-                  acc.formation_continue = true;
+                  acc.formation_continue = true
                 } else if (voie.Si_Jury === "Après un parcours de formation sous statut d’élève ou d’étudiant") {
-                  acc.formation_statut_eleve = true;
+                  acc.formation_statut_eleve = true
                 } else {
-                  throw internal("import.certifications: unexpected voie d'acces value", { voie });
+                  throw internal("import.certifications: unexpected voie d'acces value", { voie })
                 }
 
-                return acc;
+                return acc
               },
               {
                 apprentissage: false as boolean,
@@ -58,5 +58,5 @@ export function buildCertificationType(data: ISourceAggregatedData): ICertificat
               }
             ),
     },
-  };
+  }
 }

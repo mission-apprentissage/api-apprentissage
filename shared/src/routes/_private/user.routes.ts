@@ -1,8 +1,8 @@
-import type { IApiRoutesDef } from "api-alternance-sdk";
-import { z } from "zod/v4-mini";
+import type { IApiRoutesDef } from "api-alternance-sdk"
+import { z } from "zod/v4-mini"
 
-import { zObjectIdMini } from "../../models/common.js";
-import { zApiKeyPrivate } from "../../models/user.model.js";
+import { zObjectIdMini } from "../../models/common.js"
+import { zApiKeyPrivate } from "../../models/user.model.js"
 
 export const zUserRoutes = {
   get: {
@@ -49,4 +49,4 @@ export const zUserRoutes = {
       },
     },
   },
-} as const satisfies IApiRoutesDef;
+} as const satisfies IApiRoutesDef

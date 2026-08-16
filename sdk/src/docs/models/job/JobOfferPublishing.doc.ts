@@ -1,14 +1,10 @@
-import type { DocTechnicalField } from "../../types.js";
+import type { DocTechnicalField } from "../../types.js"
 
 export const offerPublishingModelDoc = {
-  descriptions: [
-    { en: "Publishing informations of the offer", fr: "Informations sur la publication de l'offre d'emploi" },
-  ],
+  descriptions: [{ en: "Publishing informations of the offer", fr: "Informations sur la publication de l'offre d'emploi" }],
   properties: {
     publishing: {
-      descriptions: [
-        { en: "Publishing informations of the offer", fr: "Informations sur la publication de l'offre d'emploi" },
-      ],
+      descriptions: [{ en: "Publishing informations of the offer", fr: "Informations sur la publication de l'offre d'emploi" }],
       properties: {
         status: {
           descriptions: [
@@ -34,16 +30,7 @@ export const offerPublishingModelDoc = {
                   fr: "Code de l'erreur. Ce code ne changera pas.",
                 },
               ],
-              examples: [
-                "CLOSED_COMPANY",
-                "DUPLICATE",
-                "STAGE",
-                "EXPIRED",
-                "CFA",
-                "ROME_BLACKLISTED",
-                "WRONG_DATA",
-                "NON_DIFFUSIBLE",
-              ],
+              examples: ["CLOSED_COMPANY", "DUPLICATE", "STAGE", "EXPIRED", "CFA", "ROME_BLACKLISTED", "WRONG_DATA", "NON_DIFFUSIBLE"],
             },
             label: {
               descriptions: [{ en: "Error description", fr: "Description de l'erreur" }],
@@ -54,4 +41,4 @@ export const offerPublishingModelDoc = {
       },
     },
   },
-} as const satisfies DocTechnicalField;
+} as const satisfies DocTechnicalField

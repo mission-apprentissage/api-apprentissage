@@ -1,12 +1,12 @@
-import { forbidden } from "@hapi/boom";
-import { zRoutes } from "shared";
-import type { IEmailError } from "shared/models/email_event.model";
+import { forbidden } from "@hapi/boom"
+import { zRoutes } from "shared"
+import type { IEmailError } from "shared/models/email_event.model"
 
-import { markEmailAsDelivered, markEmailAsFailed, markEmailAsOpened, unsubscribe } from "@/actions/emails.actions.js";
-import config from "@/config.js";
-import type { Server } from "@/server/server.js";
-import { renderEmail } from "@/services/mailer/mailer.js";
-import { deserializeEmailTemplate } from "@/utils/jwtUtils.js";
+import { markEmailAsDelivered, markEmailAsFailed, markEmailAsOpened, unsubscribe } from "@/actions/emails.actions.js"
+import config from "@/config.js"
+import type { Server } from "@/server/server.js"
+import { renderEmail } from "@/services/mailer/mailer.js"
+import { deserializeEmailTemplate } from "@/utils/jwtUtils.js"
 
 export const emailsRoutes = ({ server }: { server: Server }) => {
   server.get(
@@ -15,12 +15,12 @@ export const emailsRoutes = ({ server }: { server: Server }) => {
       schema: zRoutes.get["/_private/emails/preview"],
     },
     async (request, response) => {
-      const template = deserializeEmailTemplate(request.query.data);
+      const template = deserializeEmailTemplate(request.query.data)
       // No need to set markAsOpenedActionLink as the email as already be openned
-      const html = await renderEmail(template, null);
-      return response.header("Content-Type", "text/html").status(200).send(Buffer.from(html));
+      const html = await renderEmail(template, null)
+      return response.header("Content-Type", "text/html").status(200).send(Buffer.from(html))
     }
-  );
+  )
 
   server.get(
     "/_private/emails/:id/markAsOpened",
@@ -29,14 +29,11 @@ export const emailsRoutes = ({ server }: { server: Server }) => {
       onRequest: [server.auth(zRoutes.get["/_private/emails/:id/markAsOpened"])],
     },
     async (request, response) => {
-      await markEmailAsOpened(request.params.id);
+      await markEmailAsOpened(request.params.id)
 
-      return response
-        .header("Content-Type", "image/gif")
-        .status(200)
-        .send(Buffer.from("R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==", "base64"));
+      return response.header("Content-Type", "image/gif").status(200).send(Buffer.from("R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==", "base64"))
     }
-  );
+  )
 
   server.get(
     "/_private/emails/unsubscribe",
@@ -44,9 +41,9 @@ export const emailsRoutes = ({ server }: { server: Server }) => {
       schema: zRoutes.get["/_private/emails/unsubscribe"],
     },
     async (request, response) => {
-      const template = deserializeEmailTemplate(request.query.data);
+      const template = deserializeEmailTemplate(request.query.data)
 
-      await unsubscribe(template.to);
+      await unsubscribe(template.to)
 
       return response
         .header("Content-Type", "text/html")
@@ -73,9 +70,9 @@ export const emailsRoutes = ({ server }: { server: Server }) => {
             </html>
             `
           )
-        );
+        )
     }
-  );
+  )
 
   server.post(
     "/_private/emails/webhook",
@@ -83,21 +80,21 @@ export const emailsRoutes = ({ server }: { server: Server }) => {
       schema: zRoutes.post["/_private/emails/webhook"],
     },
     async (request, response) => {
-      const { webhookKey } = request.query;
+      const { webhookKey } = request.query
 
       if (config.smtp.webhookKey !== webhookKey) {
-        throw forbidden("Non autorisé");
+        throw forbidden("Non autorisé")
       }
 
-      const { event, "message-id": messageId } = request.body;
+      const { event, "message-id": messageId } = request.body
 
       if (event === "delivered") {
-        markEmailAsDelivered(messageId);
+        await markEmailAsDelivered(messageId)
       } else {
-        markEmailAsFailed(messageId, event as IEmailError["type"]);
+        await markEmailAsFailed(messageId, event as IEmailError["type"])
       }
 
-      return response.status(200).send();
+      return response.status(200).send()
     }
-  );
-};
+  )
+}

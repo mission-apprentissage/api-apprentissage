@@ -1,6 +1,6 @@
-import { ObjectId } from "bson";
+import { ObjectId } from "bson"
 
-import type { ISourceKitApprentissage } from "../source/kitApprentissage/source.kit_apprentissage.model.js";
+import type { ISourceKitApprentissage } from "../source/kitApprentissage/source.kit_apprentissage.model.js"
 
 export function generateKitApprentissageFixture(data?: Partial<ISourceKitApprentissage>): ISourceKitApprentissage {
   return {
@@ -8,5 +8,5 @@ export function generateKitApprentissageFixture(data?: Partial<ISourceKitApprent
     cfd: "code",
     rncp: "fiche",
     ...data,
-  };
+  }
 }

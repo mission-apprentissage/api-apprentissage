@@ -1,16 +1,16 @@
-import { fr } from "@codegouvfr/react-dsfr";
-import { Breadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
-import house from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/buildings/house.svg";
-import school from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/buildings/school.svg";
-import internet from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/digital/internet.svg";
-import search from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/digital/search.svg";
-import contract from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/document/contract.svg";
-import book from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/leisure/book.svg";
-import community from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/leisure/community.svg";
-import locationFrance from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/map/location-france.svg";
-import { Tag as TagDsfr } from "@codegouvfr/react-dsfr/Tag";
-import { Tile } from "@codegouvfr/react-dsfr/Tile";
-import { Box, Container, Typography } from "@mui/material";
+import { fr } from "@codegouvfr/react-dsfr"
+import { Breadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb"
+import house from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/buildings/house.svg"
+import school from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/buildings/school.svg"
+import internet from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/digital/internet.svg"
+import search from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/digital/search.svg"
+import contract from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/document/contract.svg"
+import book from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/leisure/book.svg"
+import community from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/leisure/community.svg"
+import locationFrance from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/map/location-france.svg"
+import { Tag as TagDsfr } from "@codegouvfr/react-dsfr/Tag"
+import { Tile } from "@codegouvfr/react-dsfr/Tile"
+import { Box, Container, Typography } from "@mui/material"
 import {
   candidatureOffrePageSummaryDoc,
   certificationsPageSummaryDoc,
@@ -25,17 +25,17 @@ import {
   recuperationFormationPageSummaryDoc,
   recuperationMissionLocalePageSummaryDoc,
   recuperationOrganismesPageSummaryDoc,
-} from "api-alternance-sdk/internal";
+} from "api-alternance-sdk/internal"
 
-import { getServerTranslation } from "@/app/i18n";
-import type { PropsWithLangParams } from "@/app/i18n/settings";
-import { Artwork } from "@/components/artwork/Artwork";
-import { DsfrLink } from "@/components/link/DsfrLink";
-import { PAGES } from "@/utils/routes.utils";
+import { getServerTranslation } from "@/app/i18n"
+import type { PropsWithLangParams } from "@/app/i18n/settings"
+import { Artwork } from "@/components/artwork/Artwork"
+import { DsfrLink } from "@/components/link/DsfrLink"
+import { PAGES } from "@/utils/routes.utils"
 
 export default async function ExplorerApiPage({ params }: PropsWithLangParams) {
-  const { lang } = await params;
-  const { t } = await getServerTranslation(lang, "explorer");
+  const { lang } = await params
+  const { t } = await getServerTranslation(lang, "explorer")
 
   return (
     <Container maxWidth="xl" style={{ marginTop: fr.spacing("2w"), marginBottom: fr.spacing("9w") }}>
@@ -49,14 +49,7 @@ export default async function ExplorerApiPage({ params }: PropsWithLangParams) {
         />
       </Box>
       <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center">
-        <Box
-          position="relative"
-          display="flex"
-          alignItems="center"
-          flexDirection="column"
-          justifyContent="center"
-          gap={fr.spacing("3w")}
-        >
+        <Box position="relative" display="flex" alignItems="center" flexDirection="column" justifyContent="center" gap={fr.spacing("3w")}>
           <Typography variant="h1" align="center" sx={{ color: fr.colors.decisions.text.label.blueEcume.default }}>
             {PAGES.static.explorerApi.getTitle(lang, t)}
           </Typography>
@@ -72,12 +65,7 @@ export default async function ExplorerApiPage({ params }: PropsWithLangParams) {
           ></Box>
         </Box>
       </Box>
-      <Box
-        my={fr.spacing("5w")}
-        display="grid"
-        gridTemplateColumns={["1fr", "1fr 1fr", "1fr 1fr 1fr"]}
-        gap={fr.spacing("2w")}
-      >
+      <Box my={fr.spacing("5w")} display="grid" gridTemplateColumns={["1fr", "1fr 1fr", "1fr 1fr 1fr"]} gap={fr.spacing("2w")}>
         <Tile
           title={getTextOpenAPI(rechercheOffrePageSummaryDoc.title, lang)}
           desc={getTextOpenAPI(rechercheOffrePageSummaryDoc.headline, lang)}
@@ -198,12 +186,7 @@ export default async function ExplorerApiPage({ params }: PropsWithLangParams) {
                 <Artwork name="not-found-solid-iii-0" />
               </Box>
             </Box>
-            <Box
-              display="grid"
-              gap={fr.spacing("3w")}
-              padding={fr.spacing("3w")}
-              gridColumn={["span 1", "span 1", "span 2"]}
-            >
+            <Box display="grid" gap={fr.spacing("3w")} padding={fr.spacing("3w")} gridColumn={["span 1", "span 1", "span 2"]}>
               <Typography variant="h3" sx={{ color: fr.colors.decisions.text.label.blueEcume.default }}>
                 Il vous manque des données, outils, etc. pour répondre à vos besoins ?
               </Typography>
@@ -217,5 +200,5 @@ export default async function ExplorerApiPage({ params }: PropsWithLangParams) {
         </Container>
       </Box>
     </Container>
-  );
+  )
 }

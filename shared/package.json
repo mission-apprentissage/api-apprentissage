@@ -42,7 +42,7 @@
     "@types/node": "^24.2.1",
     "bson": "^6.10.4",
     "mongodb": "^6.18.0",
-    "typescript": "^5.9.2",
+    "typescript": "^7.0.2",
     "vitest": "^3.2.7",
     "zod": "^4.0.17"
   }

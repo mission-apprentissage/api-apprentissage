@@ -1,7 +1,7 @@
-import { candidatureOffrePageSummaryDoc } from "../../metier/candidature-offre/candidature-offre.doc.js";
-import type { DocRoute } from "../../types.js";
-import descriptionEn from "./docs/en/description.doc.md.js";
-import descriptionFr from "./docs/fr/description.doc.md.js";
+import { candidatureOffrePageSummaryDoc } from "../../metier/candidature-offre/candidature-offre.doc.js"
+import type { DocRoute } from "../../types.js"
+import descriptionEn from "./docs/en/description.doc.md.js"
+import descriptionFr from "./docs/fr/description.doc.md.js"
 
 export const jobApplyRouteDoc = {
   summary: candidatureOffrePageSummaryDoc.title,
@@ -23,4 +23,4 @@ export const jobApplyRouteDoc = {
       },
     },
   },
-} as const satisfies DocRoute;
+} as const satisfies DocRoute

@@ -1,6 +1,6 @@
-import { recuperationOrganismesPageSummaryDoc } from "../../metier/recuperation-organismes/recuperation-organismes.doc.js";
-import { paginationQueryParameterDoc } from "../../models/pagination/pagination.model.doc.js";
-import type { DocRoute } from "../../types.js";
+import { recuperationOrganismesPageSummaryDoc } from "../../metier/recuperation-organismes/recuperation-organismes.doc.js"
+import { paginationQueryParameterDoc } from "../../models/pagination/pagination.model.doc.js"
+import type { DocRoute } from "../../types.js"
 
 export const exportOrganismesRouteDoc = {
   summary: recuperationOrganismesPageSummaryDoc.title,
@@ -23,4 +23,4 @@ export const exportOrganismesRouteDoc = {
       },
     },
   },
-} as const satisfies DocRoute;
+} as const satisfies DocRoute

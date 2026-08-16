@@ -1,21 +1,13 @@
-import type { Jsonify } from "type-fest";
-import { z } from "zod/v4-mini";
-import { zParisLocalDateNullable } from "../../utils/date.primitives.js";
-import {
-  zCfd,
-  zNiveauDiplomeEuropeen,
-  zNsfCode,
-  zRncp,
-  zRncpBlocCompetenceCode,
-  zRomeCodeFlex,
-  zTypeEnregistrement,
-} from "./certification.primitives.js";
+import type { Jsonify } from "type-fest"
+import { z } from "zod/v4-mini"
+import { zParisLocalDateNullable } from "../../utils/date.primitives.js"
+import { zCfd, zNiveauDiplomeEuropeen, zNsfCode, zRncp, zRncpBlocCompetenceCode, zRomeCodeFlex, zTypeEnregistrement } from "./certification.primitives.js"
 
 const zCertifIdentifiant = z.object({
   cfd: z.nullable(zCfd),
   rncp: z.nullable(zRncp),
   rncp_anterieur_2019: z.nullable(z.boolean()),
-});
+})
 
 const zCertifPeriodeValidite = z.object({
   debut: zParisLocalDateNullable,
@@ -36,7 +28,7 @@ const zCertifPeriodeValidite = z.object({
       fin_enregistrement: zParisLocalDateNullable,
     })
   ),
-});
+})
 
 const zCertifIntitule = z.object({
   cfd: z.nullable(
@@ -62,7 +54,7 @@ const zCertifIntitule = z.object({
     ),
   }),
   rncp: z.nullable(z.string()),
-});
+})
 
 const zCertifBlocsCompetences = z.object({
   rncp: z.nullable(
@@ -73,7 +65,7 @@ const zCertifBlocsCompetences = z.object({
       })
     )
   ),
-});
+})
 
 const zCertifDomaines = z.object({
   formacodes: z.object({
@@ -112,7 +104,7 @@ const zCertifDomaines = z.object({
       )
     ),
   }),
-});
+})
 
 const zCertifType = z.object({
   nature: z.object({
@@ -145,7 +137,7 @@ const zCertifType = z.object({
       })
     )
   ),
-});
+})
 
 const zCertifBaseLegale = z.object({
   cfd: z.nullable(
@@ -154,7 +146,7 @@ const zCertifBaseLegale = z.object({
       abrogation: zParisLocalDateNullable,
     })
   ),
-});
+})
 
 const zCertifConventionCollectives = z.object({
   rncp: z.nullable(
@@ -165,7 +157,7 @@ const zCertifConventionCollectives = z.object({
       })
     )
   ),
-});
+})
 
 const zContinuite = z.object({
   cfd: z.nullable(
@@ -189,7 +181,7 @@ const zContinuite = z.object({
       })
     )
   ),
-});
+})
 
 export const zCertification = z.object({
   identifiant: zCertifIdentifiant,
@@ -201,8 +193,8 @@ export const zCertification = z.object({
   periode_validite: zCertifPeriodeValidite,
   type: zCertifType,
   continuite: zContinuite,
-});
+})
 
-export type ICertification = z.output<typeof zCertification>;
-export type ICertificationJson = Jsonify<ICertification>;
-export type ICertificationInput = z.input<typeof zCertification>;
+export type ICertification = z.output<typeof zCertification>
+export type ICertificationJson = Jsonify<ICertification>
+export type ICertificationInput = z.input<typeof zCertification>

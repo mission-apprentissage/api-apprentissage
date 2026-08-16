@@ -1,4 +1,4 @@
-import type { OpenApiBuilder, OperationObject, ResponseObject } from "openapi3-ts/oas31";
+import type { OpenApiBuilder, OperationObject, ResponseObject } from "openapi3-ts/oas31"
 
 const descriptions = {
   fr: {
@@ -46,7 +46,7 @@ const descriptions = {
     badGatewayResponse: "" as string,
     serviceUnavailableResponse: "" as string,
   },
-} as const;
+} as const
 
 export function registerOpenApiErrorsSchema(builder: OpenApiBuilder, lang: "en" | "fr" | null): OpenApiBuilder {
   const badRequestResponse: ResponseObject = {
@@ -79,7 +79,7 @@ export function registerOpenApiErrorsSchema(builder: OpenApiBuilder, lang: "en" 
         },
       },
     },
-  };
+  }
 
   const unauthorizedResponse: ResponseObject = {
     description: descriptions[lang ?? "null"].unauthorizedResponse,
@@ -111,7 +111,7 @@ export function registerOpenApiErrorsSchema(builder: OpenApiBuilder, lang: "en" 
         },
       },
     },
-  };
+  }
 
   const forbiddenResponse: ResponseObject = {
     description: descriptions[lang ?? "null"].forbiddenResponse,
@@ -143,7 +143,7 @@ export function registerOpenApiErrorsSchema(builder: OpenApiBuilder, lang: "en" 
         },
       },
     },
-  };
+  }
 
   const notFoundResponse: ResponseObject = {
     description: descriptions[lang ?? "null"].notFoundResponse,
@@ -175,7 +175,7 @@ export function registerOpenApiErrorsSchema(builder: OpenApiBuilder, lang: "en" 
         },
       },
     },
-  };
+  }
 
   const conflictResponse: ResponseObject = {
     description: descriptions[lang ?? "null"].conflictResponse,
@@ -207,7 +207,7 @@ export function registerOpenApiErrorsSchema(builder: OpenApiBuilder, lang: "en" 
         },
       },
     },
-  };
+  }
 
   const tooManyRequestsResponse: ResponseObject = {
     description: descriptions[lang ?? "null"].tooManyRequestsResponse,
@@ -239,7 +239,7 @@ export function registerOpenApiErrorsSchema(builder: OpenApiBuilder, lang: "en" 
         },
       },
     },
-  };
+  }
 
   const internalServerErrorResponse: ResponseObject = {
     description: descriptions[lang ?? "null"].internalServerErrorResponse,
@@ -271,7 +271,7 @@ export function registerOpenApiErrorsSchema(builder: OpenApiBuilder, lang: "en" 
         },
       },
     },
-  };
+  }
 
   const badGatewayResponse: ResponseObject = {
     description: descriptions[lang ?? "null"].badGatewayResponse,
@@ -303,7 +303,7 @@ export function registerOpenApiErrorsSchema(builder: OpenApiBuilder, lang: "en" 
         },
       },
     },
-  };
+  }
 
   const serviceUnavailableResponse: ResponseObject = {
     description: descriptions[lang ?? "null"].serviceUnavailableResponse,
@@ -335,7 +335,7 @@ export function registerOpenApiErrorsSchema(builder: OpenApiBuilder, lang: "en" 
         },
       },
     },
-  };
+  }
 
   return builder
     .addResponse("BadRequest", badRequestResponse)
@@ -346,7 +346,7 @@ export function registerOpenApiErrorsSchema(builder: OpenApiBuilder, lang: "en" 
     .addResponse("TooManyRequests", tooManyRequestsResponse)
     .addResponse("InternalServerError", internalServerErrorResponse)
     .addResponse("BadGateway", badGatewayResponse)
-    .addResponse("ServiceUnavailable", serviceUnavailableResponse);
+    .addResponse("ServiceUnavailable", serviceUnavailableResponse)
 }
 
 export function addErrorResponseOpenApi(schema: OperationObject): OperationObject {
@@ -364,5 +364,5 @@ export function addErrorResponseOpenApi(schema: OperationObject): OperationObjec
       "502": { $ref: "#/components/responses/BadGateway" },
       "503": { $ref: "#/components/responses/ServiceUnavailable" },
     },
-  };
+  }
 }

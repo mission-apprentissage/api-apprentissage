@@ -1,8 +1,8 @@
-import { ObjectId } from "bson";
+import { ObjectId } from "bson"
 
-import type { IOrganisationInternal } from "../organisation.model.js";
+import type { IOrganisationInternal } from "../organisation.model.js"
 
-type IOrganisationFixtureInput = Partial<IOrganisationInternal>;
+type IOrganisationFixtureInput = Partial<IOrganisationInternal>
 
 export function generateOrganisationFixture(data?: IOrganisationFixtureInput): IOrganisationInternal {
   return {
@@ -13,5 +13,5 @@ export function generateOrganisationFixture(data?: IOrganisationFixtureInput): I
     created_at: new Date("2024-03-21T00:00:00Z"),
     updated_at: new Date("2024-03-21T00:00:00Z"),
     ...data,
-  };
+  }
 }

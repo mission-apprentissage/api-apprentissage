@@ -1,4 +1,4 @@
-import type { IFormationCatalogue } from "shared/models/source/catalogue/source.catalogue.model";
+import type { IFormationCatalogue } from "shared/models/source/catalogue/source.catalogue.model"
 
 export const catalogueDataFixture: IFormationCatalogue[] = [
   {
@@ -83,10 +83,10 @@ export const catalogueDataFixture: IFormationCatalogue[] = [
     etablissement_gestionnaire_siret: "48264727800050",
     etablissement_gestionnaire_uai: "0694551X",
   },
-];
+]
 
 export async function* generateCatalogueData() {
   for (const formation of catalogueDataFixture) {
-    yield formation;
+    yield formation
   }
 }

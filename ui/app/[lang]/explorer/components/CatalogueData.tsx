@@ -1,32 +1,31 @@
-import { fr } from "@codegouvfr/react-dsfr";
-import { Tabs } from "@codegouvfr/react-dsfr/Tabs";
-import { Box, Container, Typography } from "@mui/material";
-import type { DocDatum, DocModelRow, DocModelSection, DocPage, OpenApiText } from "api-alternance-sdk/internal";
-import { getTextOpenAPI, getTextOpenAPIArray } from "api-alternance-sdk/internal";
-
-import { GoodToKnow } from "./GoodToKnow";
-import { SwaggerLink } from "./SwaggerLink";
-import type { WithLangAndT } from "@/app/i18n/settings";
-import { Artwork } from "@/components/artwork/Artwork";
-import { DsfrLink } from "@/components/link/DsfrLink";
-import { DsfrMarkdown } from "@/components/markdown/DsfrMarkdown";
-import { Tag } from "@/components/tag/Tag";
+import { fr } from "@codegouvfr/react-dsfr"
+import { Tabs } from "@codegouvfr/react-dsfr/Tabs"
+import { Box, Container, Typography } from "@mui/material"
+import type { DocDatum, DocModelRow, DocModelSection, DocPage, OpenApiText } from "api-alternance-sdk/internal"
+import { getTextOpenAPI, getTextOpenAPIArray } from "api-alternance-sdk/internal"
+import type { WithLangAndT } from "@/app/i18n/settings"
+import { Artwork } from "@/components/artwork/Artwork"
+import { DsfrLink } from "@/components/link/DsfrLink"
+import { DsfrMarkdown } from "@/components/markdown/DsfrMarkdown"
+import { Tag } from "@/components/tag/Tag"
+import { GoodToKnow } from "./GoodToKnow"
+import { SwaggerLink } from "./SwaggerLink"
 
 const threeColumns = {
   md: "1fr",
   lg: "1fr 1fr 1fr",
   gap: fr.spacing("9w"),
-};
+}
 
 const spanTwoColumns = {
   md: "span 1",
   lg: "span 2",
-};
+}
 
-type Props = WithLangAndT<{ doc: DocPage }>;
+type Props = WithLangAndT<{ doc: DocPage }>
 
 function InformationBox({ information, lang, t }: WithLangAndT<Pick<DocModelRow, "information">>) {
-  if (!information) return null;
+  if (!information) return null
 
   return (
     <Box>
@@ -58,13 +57,11 @@ function InformationBox({ information, lang, t }: WithLangAndT<Pick<DocModelRow,
         <DsfrMarkdown>{getTextOpenAPI(information, lang)}</DsfrMarkdown>
       </Box>
     </Box>
-  );
+  )
 }
 
 function DataField({ name, row, lang, t, noHr }: WithLangAndT<{ name: string; row: DocModelRow; noHr: boolean }>) {
-  const description = Array.isArray(row.description)
-    ? getTextOpenAPIArray(row.description, lang)
-    : getTextOpenAPI(row.description as OpenApiText | null, lang);
+  const description = Array.isArray(row.description) ? getTextOpenAPIArray(row.description, lang) : getTextOpenAPI(row.description as OpenApiText | null, lang)
 
   return (
     <Box
@@ -112,11 +109,11 @@ function DataField({ name, row, lang, t, noHr }: WithLangAndT<{ name: string; ro
       </Box>
       <InformationBox information={row.information} lang={lang} t={t} />
     </Box>
-  );
+  )
 }
 
 function DataRows({ rows, lang, t, noHr }: WithLangAndT<{ rows: Record<string, DocModelRow>; noHr: boolean }>) {
-  const rowList: [string, DocModelRow][] = Object.entries(rows);
+  const rowList: [string, DocModelRow][] = Object.entries(rows)
 
   return (
     <>
@@ -124,7 +121,7 @@ function DataRows({ rows, lang, t, noHr }: WithLangAndT<{ rows: Record<string, D
         <DataField key={key} name={key} row={row} lang={lang} t={t} noHr={noHr && i === rowList.length - 1} />
       ))}
     </>
-  );
+  )
 }
 
 function DataTypologie({ section, lang, t, noHr }: WithLangAndT<{ section: DocModelSection; noHr: boolean }>) {
@@ -147,11 +144,11 @@ function DataTypologie({ section, lang, t, noHr }: WithLangAndT<{ section: DocMo
       )}
       <DataRows rows={section.rows} lang={lang} t={t} noHr={noHr} />
     </Box>
-  );
+  )
 }
 
 function DataModelVariant({ datum, lang, t, tab }: WithLangAndT<{ datum: DocDatum; tab: boolean }>) {
-  const entries = Object.entries(datum.sections);
+  const entries = Object.entries(datum.sections)
 
   return (
     <Box
@@ -165,7 +162,7 @@ function DataModelVariant({ datum, lang, t, tab }: WithLangAndT<{ datum: DocDatu
         <DataTypologie key={key} section={section} lang={lang} t={t} noHr={tab && i === entries.length - 1} />
       ))}
     </Box>
-  );
+  )
 }
 
 function DataSection({ doc, lang, t }: Props) {
@@ -190,7 +187,7 @@ function DataSection({ doc, lang, t }: Props) {
               isDefault: i === 0,
               label: getTextOpenAPI(datum.name, lang),
               content: <DataModelVariant datum={datum} lang={lang} t={t} tab />,
-            };
+            }
           })}
         />
       )}
@@ -216,7 +213,7 @@ function DataSection({ doc, lang, t }: Props) {
         </Box>
       </Box>
     </Box>
-  );
+  )
 }
 
 function ContactSection({ t, lang }: WithLangAndT) {
@@ -232,17 +229,12 @@ function ContactSection({ t, lang }: WithLangAndT) {
               gridColumn: spanTwoColumns,
             }}
           >
-            <Typography
-              variant="h3"
-              sx={{ color: fr.colors.decisions.text.label.blueEcume.default, textWrap: "balance" }}
-            >
+            <Typography variant="h3" sx={{ color: fr.colors.decisions.text.label.blueEcume.default, textWrap: "balance" }}>
               {t("besoinDonnees.donneesManquantes", { lng: lang })}
             </Typography>
             <Box display="grid" gap={fr.spacing("2v")}>
               <Typography>
-                <DsfrLink href="mailto:support_api@apprentissage.beta.gouv.fr">
-                  {t("besoinDonnees.ditesLeNous", { lng: lang })}
-                </DsfrLink>
+                <DsfrLink href="mailto:support_api@apprentissage.beta.gouv.fr">{t("besoinDonnees.ditesLeNous", { lng: lang })}</DsfrLink>
               </Typography>
             </Box>
           </Box>
@@ -254,7 +246,7 @@ function ContactSection({ t, lang }: WithLangAndT) {
         </Box>
       </Container>
     </Box>
-  );
+  )
 }
 
 export function CatalogueData({ doc, lang, t }: Props) {
@@ -263,5 +255,5 @@ export function CatalogueData({ doc, lang, t }: Props) {
       <DataSection doc={doc} lang={lang} t={t} />
       <ContactSection lang={lang} t={t} />
     </>
-  );
+  )
 }

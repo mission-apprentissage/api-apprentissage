@@ -1,4 +1,4 @@
-import { z } from "zod/v4-mini";
+import { z } from "zod/v4-mini"
 
 export const zOrganisation = z.object({
   nom: z.pipe(
@@ -16,6 +16,6 @@ export const zOrganisation = z.object({
     z.string().check(z.minLength(2), z.maxLength(100))
   ),
   habilitations: z.array(z.enum(["jobs:write", "appointments:write", "applications:write"])),
-});
+})
 
-export type IOrganisation = z.output<typeof zOrganisation>;
+export type IOrganisation = z.output<typeof zOrganisation>

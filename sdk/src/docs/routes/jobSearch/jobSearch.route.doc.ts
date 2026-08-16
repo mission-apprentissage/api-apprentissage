@@ -1,27 +1,27 @@
-import { rechercheOffrePageSummaryDoc } from "../../metier/recherche-offre/recherche-offre.doc.js";
-import type { DocRoute } from "../../types.js";
-import department from "./en/parameters/department.md.js";
-import latitude from "./en/parameters/latitude.md.js";
-import longitude from "./en/parameters/longitude.md.js";
-import opco from "./en/parameters/opco.md.js";
-import radius from "./en/parameters/radius.md.js";
-import rncp from "./en/parameters/rncp.md.js";
-import romes from "./en/parameters/romes.md.js";
-import target_diploma_level from "./en/parameters/target_diploma_level.md.js";
-import jobs from "./en/response/jobs.md.js";
-import recruiters from "./en/response/recruiters.md.js";
-import warnings from "./en/response/warnings.md.js";
-import departmentFr from "./fr/parameters/departements.md.js";
-import latitudeFr from "./fr/parameters/latitude.md.js";
-import longitudeFr from "./fr/parameters/longitude.md.js";
-import opcoFr from "./fr/parameters/opco.md.js";
-import radiusFr from "./fr/parameters/radius.md.js";
-import rncpFr from "./fr/parameters/rncp.md.js";
-import romesFr from "./fr/parameters/romes.md.js";
-import target_diploma_levelFr from "./fr/parameters/target_diploma_level.md.js";
-import jobsFr from "./fr/response/jobs.md.js";
-import recruitersFr from "./fr/response/recruiters.md.js";
-import warningsFr from "./fr/response/warnings.md.js";
+import { rechercheOffrePageSummaryDoc } from "../../metier/recherche-offre/recherche-offre.doc.js"
+import type { DocRoute } from "../../types.js"
+import department from "./en/parameters/department.md.js"
+import latitude from "./en/parameters/latitude.md.js"
+import longitude from "./en/parameters/longitude.md.js"
+import opco from "./en/parameters/opco.md.js"
+import radius from "./en/parameters/radius.md.js"
+import rncp from "./en/parameters/rncp.md.js"
+import romes from "./en/parameters/romes.md.js"
+import target_diploma_level from "./en/parameters/target_diploma_level.md.js"
+import jobs from "./en/response/jobs.md.js"
+import recruiters from "./en/response/recruiters.md.js"
+import warnings from "./en/response/warnings.md.js"
+import departmentFr from "./fr/parameters/departements.md.js"
+import latitudeFr from "./fr/parameters/latitude.md.js"
+import longitudeFr from "./fr/parameters/longitude.md.js"
+import opcoFr from "./fr/parameters/opco.md.js"
+import radiusFr from "./fr/parameters/radius.md.js"
+import rncpFr from "./fr/parameters/rncp.md.js"
+import romesFr from "./fr/parameters/romes.md.js"
+import target_diploma_levelFr from "./fr/parameters/target_diploma_level.md.js"
+import jobsFr from "./fr/response/jobs.md.js"
+import recruitersFr from "./fr/response/recruiters.md.js"
+import warningsFr from "./fr/response/warnings.md.js"
 
 export const jobSearchRouteDoc = {
   summary: rechercheOffrePageSummaryDoc.title,
@@ -112,4 +112,4 @@ export const jobSearchRouteDoc = {
       },
     },
   },
-} as const satisfies DocRoute;
+} as const satisfies DocRoute

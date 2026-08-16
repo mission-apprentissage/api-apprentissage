@@ -37,14 +37,11 @@ jobs:
       - name: Transpile markdown
         run: yarn workspace api-alternance-sdk markdown:transpile
 
-      - name: Run Prettier
-        run: yarn prettier:fix
+      - name: Run Biome with fix
+        run: yarn check:fix
 
       - name: typecheck
         run: yarn typecheck
-
-      - name: Run Lint with fix
-        run: yarn lint --fix
 
       - name: Commit changes if any
         run: |

@@ -1,19 +1,19 @@
-import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
-import { beforeEach, describe, expect, expectTypeOf, it } from "vitest";
+import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock"
+import { beforeEach, describe, expect, expectTypeOf, it } from "vitest"
 
-import type { ICertification } from "../../../models/index.js";
-import { ApiClient } from "../../client.js";
-import { ApiError } from "../apiError.js";
-import { ApiParseError } from "../parser/response.parser.js";
+import type { ICertification } from "../../../models/index.js"
+import { ApiClient } from "../../client.js"
+import { ApiError } from "../apiError.js"
+import { ApiParseError } from "../parser/response.parser.js"
 
 beforeEach(() => {
-  disableNetConnect();
+  disableNetConnect()
 
   return () => {
-    cleanAll();
-    enableNetConnect();
-  };
-});
+    cleanAll()
+    enableNetConnect()
+  }
+})
 
 describe("index", () => {
   const certif = {
@@ -67,8 +67,7 @@ describe("index", () => {
         },
         {
           code: "RNCP38704BC05",
-          intitule:
-            "Résoudre des problèmes complexes en mobilisant les concepts fondamentaux de la chimie des matériaux",
+          intitule: "Résoudre des problèmes complexes en mobilisant les concepts fondamentaux de la chimie des matériaux",
         },
         {
           code: "RNCP38704BC07",
@@ -238,9 +237,9 @@ describe("index", () => {
         },
       ],
     },
-  };
+  }
 
-  const certifJson = JSON.parse(JSON.stringify(certif));
+  const certifJson = JSON.parse(JSON.stringify(certif))
 
   it("should call the API with the correct querystring", async () => {
     const scope = nock("https://api.apprentissage.beta.gouv.fr/api", {
@@ -248,19 +247,19 @@ describe("index", () => {
     })
       .get("/certification/v1")
       .query({})
-      .reply(200, [certifJson]);
+      .reply(200, [certifJson])
 
-    const apiClient = new ApiClient({ key: "api-key" });
+    const apiClient = new ApiClient({ key: "api-key" })
 
-    const data = await apiClient.certification.index({});
+    const data = await apiClient.certification.index({})
 
-    expectTypeOf(data).toEqualTypeOf<ICertification[]>();
+    expectTypeOf(data).toEqualTypeOf<ICertification[]>()
 
-    expect(scope.isDone()).toBe(true);
+    expect(scope.isDone()).toBe(true)
     // Should parse dates
-    expect(data[0].periode_validite.debut).toBeInstanceOf(Date);
-    expect(data).toEqual([certif]);
-  });
+    expect(data[0].periode_validite.debut).toBeInstanceOf(Date)
+    expect(data).toEqual([certif])
+  })
 
   it("should cache API responses", async () => {
     const scope = nock("https://api.apprentissage.beta.gouv.fr/api", {
@@ -268,23 +267,23 @@ describe("index", () => {
     })
       .get("/certification/v1")
       .query({})
-      .reply(200, [certifJson]);
+      .reply(200, [certifJson])
 
-    const apiClient = new ApiClient({ key: "api-key" });
+    const apiClient = new ApiClient({ key: "api-key" })
 
-    const data = await apiClient.certification.index({});
+    const data = await apiClient.certification.index({})
 
-    expectTypeOf(data).toEqualTypeOf<ICertification[]>();
+    expectTypeOf(data).toEqualTypeOf<ICertification[]>()
 
-    expect(scope.isDone()).toBe(true);
+    expect(scope.isDone()).toBe(true)
     // Should parse dates
-    expect(data[0].periode_validite.debut).toBeInstanceOf(Date);
-    expect(data).toEqual([certif]);
+    expect(data[0].periode_validite.debut).toBeInstanceOf(Date)
+    expect(data).toEqual([certif])
 
-    const data2 = await apiClient.certification.index({});
+    const data2 = await apiClient.certification.index({})
     // Same instance --> data is cached
-    expect(data2).toBe(data);
-  });
+    expect(data2).toBe(data)
+  })
 
   it.each([
     ["12345", "12345"],
@@ -295,17 +294,17 @@ describe("index", () => {
     })
       .get("/certification/v1")
       .query({ "identifiant.cfd": queryValue })
-      .reply(200, []);
+      .reply(200, [])
 
-    const apiClient = new ApiClient({ key: "api-key" });
+    const apiClient = new ApiClient({ key: "api-key" })
 
-    const data = await apiClient.certification.index({ identifiant: { cfd } });
+    const data = await apiClient.certification.index({ identifiant: { cfd } })
 
-    expectTypeOf(data).toEqualTypeOf<ICertification[]>();
+    expectTypeOf(data).toEqualTypeOf<ICertification[]>()
 
-    expect(scope.isDone()).toBe(true);
-    expect(data).toEqual([]);
-  });
+    expect(scope.isDone()).toBe(true)
+    expect(data).toEqual([])
+  })
 
   it.each([
     ["12345", "12345"],
@@ -316,17 +315,17 @@ describe("index", () => {
     })
       .get("/certification/v1")
       .query({ "identifiant.rncp": queryValue })
-      .reply(200, []);
+      .reply(200, [])
 
-    const apiClient = new ApiClient({ key: "api-key" });
+    const apiClient = new ApiClient({ key: "api-key" })
 
-    const data = await apiClient.certification.index({ identifiant: { rncp } });
+    const data = await apiClient.certification.index({ identifiant: { rncp } })
 
-    expectTypeOf(data).toEqualTypeOf<ICertification[]>();
+    expectTypeOf(data).toEqualTypeOf<ICertification[]>()
 
-    expect(scope.isDone()).toBe(true);
-    expect(data).toEqual([]);
-  });
+    expect(scope.isDone()).toBe(true)
+    expect(data).toEqual([])
+  })
 
   it("should throw an ApiError when server error", async () => {
     const scope = nock("https://api.apprentissage.beta.gouv.fr/api", {
@@ -338,23 +337,23 @@ describe("index", () => {
         statusCode: 401,
         name: "Unauthorized",
         message: "Vous devez fournir une clé d'API valide pour accéder à cette ressource",
-      });
+      })
 
-    const apiClient = new ApiClient({ key: "api-key" });
+    const apiClient = new ApiClient({ key: "api-key" })
     const err = await apiClient.certification
       .index({})
       .then(() => {
-        expect.unreachable("should throw an error");
+        expect.unreachable("should throw an error")
       })
       .catch((error: ApiError) => {
-        return error;
-      });
+        return error
+      })
 
-    expect(err).toBeInstanceOf(ApiError);
-    expect(err.name).toBe("Unauthorized");
+    expect(err).toBeInstanceOf(ApiError)
+    expect(err.name).toBe("Unauthorized")
 
-    expect(scope.isDone()).toBe(true);
-  });
+    expect(scope.isDone()).toBe(true)
+  })
 
   it("should throw if the response does not match the schema", async () => {
     const scope = nock("https://api.apprentissage.beta.gouv.fr/api", {
@@ -362,24 +361,24 @@ describe("index", () => {
     })
       .get("/certification/v1")
       .query({})
-      .reply(200, { breaking: "schema" });
+      .reply(200, { breaking: "schema" })
 
-    const apiClient = new ApiClient({ key: "api-key" });
+    const apiClient = new ApiClient({ key: "api-key" })
     const err = await apiClient.certification
       .index({})
       .then(() => {
-        expect.unreachable("should throw an error");
+        expect.unreachable("should throw an error")
       })
       .catch((error: ApiError) => {
-        return error;
-      });
+        return error
+      })
 
-    expect(err).toBeInstanceOf(ApiParseError);
-    expect(err.name).toBe("ApiParseError");
-    expect(err.message).toMatchSnapshot();
+    expect(err).toBeInstanceOf(ApiParseError)
+    expect(err.name).toBe("ApiParseError")
+    expect(err.message).toMatchSnapshot()
 
-    expect(scope.isDone()).toBe(true);
-  });
+    expect(scope.isDone()).toBe(true)
+  })
 
   it("should accepts future schema ehancements", async () => {
     const scope = nock("https://api.apprentissage.beta.gouv.fr/api", {
@@ -392,15 +391,15 @@ describe("index", () => {
           ...certif,
           new_field: "new_field",
         },
-      ]);
+      ])
 
-    const apiClient = new ApiClient({ key: "api-key" });
+    const apiClient = new ApiClient({ key: "api-key" })
 
-    const data = await apiClient.certification.index({});
+    const data = await apiClient.certification.index({})
 
-    expectTypeOf(data).toEqualTypeOf<ICertification[]>();
+    expectTypeOf(data).toEqualTypeOf<ICertification[]>()
 
-    expect(scope.isDone()).toBe(true);
-    expect(data).toEqual([certif]);
-  });
-});
+    expect(scope.isDone()).toBe(true)
+    expect(data).toEqual([certif])
+  })
+})

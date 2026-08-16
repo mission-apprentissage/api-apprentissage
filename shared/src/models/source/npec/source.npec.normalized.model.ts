@@ -1,17 +1,17 @@
-import { zRncp } from "api-alternance-sdk/internal";
-import { z } from "zod/v4-mini";
+import { zRncp } from "api-alternance-sdk/internal"
+import { z } from "zod/v4-mini"
 
-import type { IModelDescriptorGeneric } from "../../common.js";
-import { zObjectIdMini } from "../../common.js";
+import type { IModelDescriptorGeneric } from "../../common.js"
+import { zObjectIdMini } from "../../common.js"
 
-const collectionName = "source.npec.normalized" as const;
+const collectionName = "source.npec.normalized" as const
 
 const indexes: IModelDescriptorGeneric["indexes"] = [
   [{ import_id: 1 }, {}],
   [{ date_import: 1, filename: 1 }, {}],
   [{ date_import: 1, filename: 1, rncp: 1, cpne_code: 1 }, { unique: true }],
   [{ rncp: 1, idcc: 1, date_file: -1, date_applicabilite: 1 }, {}],
-];
+]
 
 export const zSourceNpecNormalizedData = z.object({
   _id: zObjectIdMini,
@@ -25,17 +25,17 @@ export const zSourceNpecNormalizedData = z.object({
   date_file: z.date(),
   import_id: zObjectIdMini,
   date_import: z.date(),
-});
+})
 
 export const zSourceNpecNormalizedFlatData = z.extend(z.omit(zSourceNpecNormalizedData, { npec: true }), {
   npec: z.number(),
-});
+})
 
 export const sourceNpecNormalizedModelDescriptor = {
   zod: zSourceNpecNormalizedData,
   indexes,
   collectionName,
-};
+}
 
-export type ISourceNpecNormalized = z.output<typeof zSourceNpecNormalizedData>;
-export type ISourceNpecNormalizedFlat = z.output<typeof zSourceNpecNormalizedFlatData>;
+export type ISourceNpecNormalized = z.output<typeof zSourceNpecNormalizedData>
+export type ISourceNpecNormalizedFlat = z.output<typeof zSourceNpecNormalizedFlatData>

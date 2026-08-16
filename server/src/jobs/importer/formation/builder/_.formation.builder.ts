@@ -1,13 +1,13 @@
-import type { IFormation } from "api-alternance-sdk";
-import { zFormation } from "api-alternance-sdk";
-import type { ISourceCatalogue } from "shared/models/source/catalogue/source.catalogue.model";
-import { z } from "zod/v4-mini";
+import type { IFormation } from "api-alternance-sdk"
+import { zFormation } from "api-alternance-sdk"
+import type { ISourceCatalogue } from "shared/models/source/catalogue/source.catalogue.model"
+import { z } from "zod/v4-mini"
 
-import { buildFormationCertification } from "./certification.formation.builder.js";
-import { buildFormationLieu } from "./lieu.formation.builder.js";
-import { buildFormationModalite } from "./modalite.formation.builder.js";
-import { buildFormationOrganisme } from "./organisme.formation.builder.js";
-import { buildFormationSessions } from "./session.formation.builder.js";
+import { buildFormationCertification } from "./certification.formation.builder.js"
+import { buildFormationLieu } from "./lieu.formation.builder.js"
+import { buildFormationModalite } from "./modalite.formation.builder.js"
+import { buildFormationOrganisme } from "./organisme.formation.builder.js"
+import { buildFormationSessions } from "./session.formation.builder.js"
 
 export async function buildFormation(source: ISourceCatalogue): Promise<IFormation> {
   const [lieu, certification, formateur, responsable] = await Promise.all([
@@ -21,10 +21,10 @@ export async function buildFormation(source: ISourceCatalogue): Promise<IFormati
       siret: source.data.etablissement_gestionnaire_siret,
       uai: source.data.etablissement_gestionnaire_uai,
     }),
-  ]);
+  ])
 
-  const modalite = buildFormationModalite(source.data);
-  const sessions = buildFormationSessions(source.data, modalite);
+  const modalite = buildFormationModalite(source.data)
+  const sessions = buildFormationSessions(source.data, modalite)
 
   const data: IFormation = {
     identifiant: {
@@ -67,7 +67,7 @@ export async function buildFormation(source: ISourceCatalogue): Promise<IFormati
     },
 
     sessions,
-  };
+  }
 
-  return zFormation.parse(data);
+  return zFormation.parse(data)
 }

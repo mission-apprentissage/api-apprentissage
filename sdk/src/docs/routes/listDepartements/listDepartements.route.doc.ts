@@ -1,5 +1,5 @@
-import { recuperationDepartementsPageSummaryDoc } from "../../metier/recuperation-departements/recuperation-departements.doc.js";
-import type { DocRoute } from "../../types.js";
+import { recuperationDepartementsPageSummaryDoc } from "../../metier/recuperation-departements/recuperation-departements.doc.js"
+import type { DocRoute } from "../../types.js"
 
 export const listDepartementsRouteDoc = {
   summary: recuperationDepartementsPageSummaryDoc.title,
@@ -24,4 +24,4 @@ export const listDepartementsRouteDoc = {
       },
     },
   },
-} as const satisfies DocRoute;
+} as const satisfies DocRoute

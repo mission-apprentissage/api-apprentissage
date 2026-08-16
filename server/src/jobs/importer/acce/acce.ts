@@ -1,29 +1,30 @@
-import type { ReadStream } from "node:fs";
-import { Transform } from "node:stream";
-import { pipeline } from "node:stream/promises";
+import type { ReadStream } from "node:fs"
+import { Transform } from "node:stream"
+import { pipeline } from "node:stream/promises"
 
-import { internal } from "@hapi/boom";
-import { parse } from "csv-parse";
-import { ObjectId } from "mongodb";
-import type { ImportStatus } from "shared";
-import type { ISourceAcce } from "shared/models/source/acce/source.acce.model";
-import { ZAcceByType } from "shared/models/source/acce/source.acce.model";
-import { Parse } from "unzipper";
+import { internal } from "@hapi/boom"
+import { parse } from "csv-parse"
+import { ObjectId } from "mongodb"
+import type { ImportStatus } from "shared"
+import type { ISourceAcce } from "shared/models/source/acce/source.acce.model"
+import { ZAcceByType } from "shared/models/source/acce/source.acce.model"
+import { Parse } from "unzipper"
 
-import { downloadCsvExtraction } from "@/services/apis/acce/acce.js";
-import { withCause } from "@/services/errors/withCause.js";
-import parentLogger from "@/services/logger.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
-import { createBatchTransformStream } from "@/utils/streamUtils.js";
+import { downloadCsvExtraction } from "@/services/apis/acce/acce.js"
+import { withCause } from "@/services/errors/withCause.js"
+import parentLogger from "@/services/logger.js"
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
+import type { CsvRecordContext } from "@/utils/csvUtils.js"
+import { createBatchTransformStream } from "@/utils/streamUtils.js"
 
-const logger = parentLogger.child({ module: "import:acce" });
+const logger = parentLogger.child({ module: "import:acce" })
 
 async function parseAcceFile(stream: ReadStream, source: string, date: Date) {
   try {
-    const zod = ZAcceByType[source as keyof typeof ZAcceByType] ?? null;
+    const zod = ZAcceByType[source as keyof typeof ZAcceByType] ?? null
 
     if (zod === null) {
-      throw internal("import.acce: unexpected source file", { source });
+      throw internal("import.acce: unexpected source file", { source })
     }
 
     await pipeline(
@@ -35,12 +36,13 @@ async function parseAcceFile(stream: ReadStream, source: string, date: Date) {
         encoding: "latin1",
         delimiter: ";",
         trim: true,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        onRecord: (record, { columns }: any) => {
+        onRecord: (record, context) => {
+          // `columns` n'est pas déclaré par CastingContext, cf. CsvRecordContext.
+          const { columns } = context as CsvRecordContext
           const data = columns.reduce((acc: Record<string, string | null>, column: { name: string }) => {
-            acc[column.name] = record[column.name]?.trim() || null;
-            return acc;
-          }, {});
+            acc[column.name] = record[column.name]?.trim() || null
+            return acc
+          }, {})
 
           try {
             return zod.parse({
@@ -48,9 +50,9 @@ async function parseAcceFile(stream: ReadStream, source: string, date: Date) {
               source,
               date,
               data,
-            });
+            })
           } catch (error) {
-            throw withCause(internal("import.acce: error when parsing", { record }), error);
+            throw withCause(internal("import.acce: error when parsing", { record }), error)
           }
         },
       }),
@@ -59,35 +61,35 @@ async function parseAcceFile(stream: ReadStream, source: string, date: Date) {
         objectMode: true,
         async transform(chunk, _encoding, callback) {
           try {
-            await getDbCollection("source.acce").insertMany(chunk);
-            callback();
+            await getDbCollection("source.acce").insertMany(chunk)
+            callback()
           } catch (error) {
-            callback(withCause(internal("import.acce: error when inserting"), error));
+            callback(withCause(internal("import.acce: error when inserting"), error))
           }
         },
       })
-    );
+    )
 
     await getDbCollection("source.acce").deleteMany({
       source: source as ISourceAcce["source"],
       date: { $ne: date },
-    });
+    })
   } catch (error) {
-    throw withCause(internal("import.acce: unable to parseAcceFile", { source }), error);
+    throw withCause(internal("import.acce: unable to parseAcceFile", { source }), error)
   }
 }
 
 export async function importAcceData(readStream: ReadStream, importDate: Date) {
-  const zip = readStream.pipe(Parse({ forceStream: true }));
+  const zip = readStream.pipe(Parse({ forceStream: true }))
   for await (const entry of zip) {
-    await parseAcceFile(entry, entry.path, importDate);
-    entry.autodrain();
+    await parseAcceFile(entry, entry.path, importDate)
+    entry.autodrain()
   }
 }
 
 export async function runAcceImporter() {
-  const importDate = new Date();
-  const importId = new ObjectId();
+  const importDate = new Date()
+  const importId = new ObjectId()
 
   try {
     await getDbCollection("import.meta").insertOne({
@@ -95,19 +97,19 @@ export async function runAcceImporter() {
       import_date: importDate,
       type: "acce",
       status: "pending",
-    });
+    })
 
-    logger.info("Geting ACCE file...");
+    logger.info("Geting ACCE file...")
 
-    const stream = await downloadCsvExtraction();
+    const stream = await downloadCsvExtraction()
 
-    logger.info("Import ACCE data starting...");
+    logger.info("Import ACCE data starting...")
 
-    await importAcceData(stream, importDate);
-    await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "done" } });
+    await importAcceData(stream, importDate)
+    await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "done" } })
   } catch (error) {
-    await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "failed" } });
-    throw withCause(internal("import.acce: unable to runAcceImporter"), error);
+    await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "failed" } })
+    throw withCause(internal("import.acce: unable to runAcceImporter"), error)
   }
 }
 
@@ -115,12 +117,12 @@ export async function getAcceeImporterStatus(): Promise<ImportStatus> {
   const [lastImport, lastSuccess] = await Promise.all([
     await getDbCollection("import.meta").findOne({ type: "acce" }, { sort: { import_date: -1 } }),
     await getDbCollection("import.meta").findOne({ type: "acce", status: "done" }, { sort: { import_date: -1 } }),
-  ]);
+  ])
 
   return {
     last_import: lastImport?.import_date ?? null,
     last_success: lastSuccess?.import_date ?? null,
     status: lastImport?.status ?? "pending",
     resources: [],
-  };
+  }
 }

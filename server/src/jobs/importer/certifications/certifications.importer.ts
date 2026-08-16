@@ -1,57 +1,50 @@
-import { Transform } from "node:stream";
-import { pipeline } from "node:stream/promises";
+import { Transform } from "node:stream"
+import { pipeline } from "node:stream/promises"
 
-import { internal } from "@hapi/boom";
-import type { AggregationCursor } from "mongodb";
-import { ObjectId } from "mongodb";
-import type { ImportStatus } from "shared";
-import type { IImportMetaCertifications, IImportMetaFranceCompetence } from "shared/models/import.meta.model";
+import { internal } from "@hapi/boom"
+import type { AggregationCursor } from "mongodb"
+import { ObjectId } from "mongodb"
+import type { ImportStatus } from "shared"
+import type { IImportMetaCertifications, IImportMetaFranceCompetence } from "shared/models/import.meta.model"
+import { areSourcesSuccess, areSourcesUpdated } from "@/jobs/importer/utils/areSourcesUpdated.js"
+import { withCause } from "@/services/errors/withCause.js"
+import parentLogger from "@/services/logger.js"
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
+import { createBatchTransformStream } from "@/utils/streamUtils.js"
+import type { ISourceAggregatedData } from "./builder/certification.builder.js"
+import { buildCertification } from "./builder/certification.builder.js"
+import { validateNiveauFormationDiplomeToInterministerielRule } from "./builder/intitule/certification.intitule.builder.js"
+import { processContinuite } from "./process/continuite.process.js"
+import { processCertificationCoverage } from "./process/coverage.process.js"
 
-import type { ISourceAggregatedData } from "./builder/certification.builder.js";
-import { buildCertification } from "./builder/certification.builder.js";
-import { validateNiveauFormationDiplomeToInterministerielRule } from "./builder/intitule/certification.intitule.builder.js";
-import { processContinuite } from "./process/continuite.process.js";
-import { processCertificationCoverage } from "./process/coverage.process.js";
-import { areSourcesSuccess, areSourcesUpdated } from "@/jobs/importer/utils/areSourcesUpdated.js";
-import { withCause } from "@/services/errors/withCause.js";
-import parentLogger from "@/services/logger.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
-import { createBatchTransformStream } from "@/utils/streamUtils.js";
-
-const logger = parentLogger.child({ module: "import:certifications" });
+const logger = parentLogger.child({ module: "import:certifications" })
 
 type IImportStatItem = {
-  orphanCfd: number;
-  orphanRncp: number;
-  total: number;
-};
+  orphanCfd: number
+  orphanRncp: number
+  total: number
+}
 
 type IImportStat = {
-  total: IImportStatItem;
-  created: IImportStatItem;
-  deleted: IImportStatItem;
-};
+  total: IImportStatItem
+  created: IImportStatItem
+  deleted: IImportStatItem
+}
 
 type ImportCertificationsOptions = {
-  force?: boolean | undefined;
-};
+  force?: boolean | undefined
+}
 
 async function getSourceImportMeta(): Promise<IImportMetaCertifications["source"] | null> {
   const [kitApprentissage, bcn, franceCompetenceLatest, oldestFranceCompetence] = await Promise.all([
     getDbCollection("import.meta").findOne({ type: "kit_apprentissage" }, { sort: { import_date: -1 } }),
     getDbCollection("import.meta").findOne({ type: "bcn" }, { sort: { import_date: -1 } }),
-    getDbCollection("import.meta").findOne<IImportMetaFranceCompetence>(
-      { type: "france_competence" },
-      { sort: { import_date: -1, "archiveMeta.nom": -1 } }
-    ),
-    getDbCollection("import.meta").findOne<IImportMetaFranceCompetence>(
-      { type: "france_competence" },
-      { sort: { "archiveMeta.date_publication": 1 } }
-    ),
-  ]);
+    getDbCollection("import.meta").findOne<IImportMetaFranceCompetence>({ type: "france_competence" }, { sort: { import_date: -1, "archiveMeta.nom": -1 } }),
+    getDbCollection("import.meta").findOne<IImportMetaFranceCompetence>({ type: "france_competence" }, { sort: { "archiveMeta.date_publication": 1 } }),
+  ])
 
   if (!areSourcesSuccess([kitApprentissage, bcn, franceCompetenceLatest, oldestFranceCompetence])) {
-    return null;
+    return null
   }
 
   return {
@@ -62,24 +55,21 @@ async function getSourceImportMeta(): Promise<IImportMetaCertifications["source"
       nom: franceCompetenceLatest!.archiveMeta.nom,
       oldest_date_publication: oldestFranceCompetence!.archiveMeta.date_publication,
     },
-  };
+  }
 }
 
 async function getLatestImportMeta(): Promise<IImportMetaCertifications | null> {
-  const importMeta = await getDbCollection("import.meta").findOne<IImportMetaCertifications>(
-    { type: "certifications", status: "done" },
-    { sort: { import_date: -1 } }
-  );
+  const importMeta = await getDbCollection("import.meta").findOne<IImportMetaCertifications>({ type: "certifications", status: "done" }, { sort: { import_date: -1 } })
 
-  return importMeta;
+  return importMeta
 }
 
 async function getImportMeta(options: ImportCertificationsOptions | null): Promise<IImportMetaCertifications | null> {
-  const [latestImportMeta, sourceImportMeta] = await Promise.all([getLatestImportMeta(), getSourceImportMeta()]);
+  const [latestImportMeta, sourceImportMeta] = await Promise.all([getLatestImportMeta(), getSourceImportMeta()])
 
   if (!sourceImportMeta) {
     // Sources are not ready
-    return null;
+    return null
   }
 
   const importMeta: IImportMetaCertifications = {
@@ -88,16 +78,13 @@ async function getImportMeta(options: ImportCertificationsOptions | null): Promi
     status: "pending",
     type: "certifications",
     source: sourceImportMeta,
-  };
+  }
 
-  return options?.force || areSourcesUpdated(latestImportMeta?.source, sourceImportMeta) ? importMeta : null;
+  return options?.force || areSourcesUpdated(latestImportMeta?.source, sourceImportMeta) ? importMeta : null
 }
 
 function buildCertificationUpdateOperation(data: ISourceAggregatedData, importMeta: IImportMetaCertifications) {
-  const { identifiant, ...value } = buildCertification(
-    data,
-    importMeta.source.france_competence.oldest_date_publication
-  );
+  const { identifiant, ...value } = buildCertification(data, importMeta.source.france_competence.oldest_date_publication)
 
   return {
     updateOne: {
@@ -112,7 +99,7 @@ function buildCertificationUpdateOperation(data: ISourceAggregatedData, importMe
       },
       upsert: true,
     },
-  };
+  }
 }
 
 function getSourceAggregatedDataFromBcn(): AggregationCursor<ISourceAggregatedData> {
@@ -172,7 +159,7 @@ function getSourceAggregatedDataFromBcn(): AggregationCursor<ISourceAggregatedDa
         france_competence: "$france_competence",
       },
     },
-  ]);
+  ])
 }
 
 function getSourceAggregatedDataFromFranceCompetence(): AggregationCursor<ISourceAggregatedData> {
@@ -209,10 +196,7 @@ function getSourceAggregatedDataFromFranceCompetence(): AggregationCursor<ISourc
           {
             $match: {
               $expr: {
-                $and: [
-                  { $ne: ["$source", "N_NIVEAU_FORMATION_DIPLOME"] },
-                  { $eq: ["$data.FORMATION_DIPLOME", "$$cfd"] },
-                ],
+                $and: [{ $ne: ["$source", "N_NIVEAU_FORMATION_DIPLOME"] }, { $eq: ["$data.FORMATION_DIPLOME", "$$cfd"] }],
               },
             },
           },
@@ -227,28 +211,20 @@ function getSourceAggregatedDataFromFranceCompetence(): AggregationCursor<ISourc
         france_competence: "$$ROOT",
       },
     },
-  ]);
+  ])
 }
 
-async function importSourceAggregatedData(
-  cursor: AggregationCursor<ISourceAggregatedData>,
-  importMeta: IImportMetaCertifications
-) {
+async function importSourceAggregatedData(cursor: AggregationCursor<ISourceAggregatedData>, importMeta: IImportMetaCertifications) {
   await pipeline(
     cursor,
     new Transform({
       objectMode: true,
       async transform(chunk: ISourceAggregatedData, _encoding, callback) {
         try {
-          const op = buildCertificationUpdateOperation(chunk, importMeta);
-          callback(null, op);
+          const op = buildCertificationUpdateOperation(chunk, importMeta)
+          callback(null, op)
         } catch (error) {
-          callback(
-            withCause(
-              internal("import.certifications: error when building certification", { chunk, importMeta }),
-              error
-            )
-          );
+          callback(withCause(internal("import.certifications: error when building certification", { chunk, importMeta }), error))
         }
       },
     }),
@@ -257,28 +233,18 @@ async function importSourceAggregatedData(
       objectMode: true,
       async transform(chunk, _encoding, callback) {
         try {
-          await getDbCollection("certifications").bulkWrite(chunk);
-          callback();
+          await getDbCollection("certifications").bulkWrite(chunk)
+          callback()
         } catch (error) {
-          callback(withCause(internal("import.certifications: error when bulkWrite"), error));
+          callback(withCause(internal("import.certifications: error when bulkWrite"), error))
         }
       },
     })
-  );
+  )
 }
 
 async function computeImportStats(importDate: Date): Promise<IImportStat> {
-  const [
-    totalOrphanCfd,
-    totalOrphanRncp,
-    total,
-    createdOrphanCfd,
-    createdOrphanRncp,
-    created,
-    deletedOrphanCfd,
-    deletedOrphanRncp,
-    deleted,
-  ] = await Promise.all([
+  const [totalOrphanCfd, totalOrphanRncp, total, createdOrphanCfd, createdOrphanRncp, created, deletedOrphanCfd, deletedOrphanRncp, deleted] = await Promise.all([
     getDbCollection("certifications").countDocuments({
       "identifiant.cfd": { $ne: null },
       "identifiant.rncp": null,
@@ -318,7 +284,7 @@ async function computeImportStats(importDate: Date): Promise<IImportStat> {
     getDbCollection("certifications").countDocuments({
       updated_at: { $ne: importDate },
     }),
-  ]);
+  ])
 
   return {
     total: {
@@ -336,56 +302,53 @@ async function computeImportStats(importDate: Date): Promise<IImportStat> {
       orphanRncp: deletedOrphanRncp,
       total: deleted,
     },
-  };
+  }
 }
 
 export async function importCertifications(options: ImportCertificationsOptions | null = null) {
-  const importMeta = await getImportMeta(options);
+  const importMeta = await getImportMeta(options)
 
   if (importMeta === null) {
-    logger.info("import.certifications: skipping import");
-    return null;
+    logger.info("import.certifications: skipping import")
+    return null
   }
 
   try {
-    await getDbCollection("import.meta").insertOne(importMeta);
+    await getDbCollection("import.meta").insertOne(importMeta)
 
-    await validateNiveauFormationDiplomeToInterministerielRule();
+    await validateNiveauFormationDiplomeToInterministerielRule()
 
-    await importSourceAggregatedData(getSourceAggregatedDataFromBcn(), importMeta);
+    await importSourceAggregatedData(getSourceAggregatedDataFromBcn(), importMeta)
 
-    await importSourceAggregatedData(getSourceAggregatedDataFromFranceCompetence(), importMeta);
+    await importSourceAggregatedData(getSourceAggregatedDataFromFranceCompetence(), importMeta)
 
-    await processCertificationCoverage(importMeta);
-    await processContinuite(importMeta);
+    await processCertificationCoverage(importMeta)
+    await processContinuite(importMeta)
 
-    const stats = await computeImportStats(importMeta.import_date);
+    const stats = await computeImportStats(importMeta.import_date)
 
-    await getDbCollection("certifications").deleteMany({ updated_at: { $ne: importMeta.import_date } });
+    await getDbCollection("certifications").deleteMany({ updated_at: { $ne: importMeta.import_date } })
 
-    await getDbCollection("import.meta").updateOne({ _id: importMeta._id }, { $set: { status: "done" } });
+    await getDbCollection("import.meta").updateOne({ _id: importMeta._id }, { $set: { status: "done" } })
 
-    return stats;
+    return stats
   } catch (error) {
-    await getDbCollection("import.meta").updateOne({ _id: importMeta._id }, { $set: { status: "failed" } });
+    await getDbCollection("import.meta").updateOne({ _id: importMeta._id }, { $set: { status: "failed" } })
 
-    throw withCause(internal("import.certifications: unable to importCertifications"), error, "fatal");
+    throw withCause(internal("import.certifications: unable to importCertifications"), error, "fatal")
   }
 }
 
 export async function getCertificationImporterStatus(): Promise<ImportStatus> {
   const [lastImport, lastSuccess] = await Promise.all([
     await getDbCollection("import.meta").findOne({ type: "certifications" }, { sort: { import_date: -1 } }),
-    await getDbCollection("import.meta").findOne(
-      { type: "certifications", status: "done" },
-      { sort: { import_date: -1 } }
-    ),
-  ]);
+    await getDbCollection("import.meta").findOne({ type: "certifications", status: "done" }, { sort: { import_date: -1 } }),
+  ])
 
   return {
     last_import: lastImport?.import_date ?? null,
     last_success: lastSuccess?.import_date ?? null,
     status: lastImport?.status ?? "pending",
     resources: [],
-  };
+  }
 }

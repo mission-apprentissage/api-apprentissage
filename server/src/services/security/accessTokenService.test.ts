@@ -1,14 +1,14 @@
-import type { SchemaWithSecurity } from "api-alternance-sdk";
-import { ObjectId } from "mongodb";
-import { zRoutes } from "shared";
-import { generateUserFixture } from "shared/models/fixtures/index";
-import { describe, expect, it } from "vitest";
-import { z } from "zod/v4-mini";
-import { zObjectIdMini } from "zod-mongodb-schema";
+import type { SchemaWithSecurity } from "api-alternance-sdk"
+import { ObjectId } from "mongodb"
+import { zRoutes } from "shared"
+import { generateUserFixture } from "shared/models/fixtures/index"
+import { describe, expect, it } from "vitest"
+import { z } from "zod/v4-mini"
+import { zObjectIdMini } from "zod-mongodb-schema"
 
-import { generateAccessToken, generateScope, parseAccessToken } from "./accessTokenService.js";
+import { generateAccessToken, generateScope, parseAccessToken } from "./accessTokenService.js"
 
-const ids = [new ObjectId().toString(), new ObjectId().toString(), new ObjectId().toString()];
+const ids = [new ObjectId().toString(), new ObjectId().toString(), new ObjectId().toString()]
 
 describe("generateScope", () => {
   it("should well-formed scope", () => {
@@ -24,7 +24,7 @@ describe("generateScope", () => {
           user: [{ _id: { type: "params", key: "id" } }, { _id: { type: "query", key: "ids" } }],
         },
       },
-    };
+    }
 
     expect(
       generateScope({
@@ -39,8 +39,8 @@ describe("generateScope", () => {
       resources: {
         user: ids,
       },
-    });
-  });
+    })
+  })
 
   it("should throw when missing resource", () => {
     const schema: SchemaWithSecurity = {
@@ -55,7 +55,7 @@ describe("generateScope", () => {
           user: [{ _id: { type: "params", key: "id" } }, { _id: { type: "query", key: "ids" } }],
         },
       },
-    };
+    }
 
     expect(() =>
       generateScope({
@@ -63,7 +63,7 @@ describe("generateScope", () => {
         options: "all",
         resources: {},
       })
-    ).toThrow("generateScope: Missing resource");
+    ).toThrow("generateScope: Missing resource")
     expect(() =>
       generateScope({
         schema,
@@ -74,14 +74,14 @@ describe("generateScope", () => {
           yop: [],
         },
       })
-    ).toThrow("generateScope: Extra resources");
-  });
-});
+    ).toThrow("generateScope: Extra resources")
+  })
+})
 
 describe("accessTokenService", () => {
-  const user = generateUserFixture({ email: "self@mail.com" });
+  const user = generateUserFixture({ email: "self@mail.com" })
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: ce fixture doit rester concret pour les scopes valides et lâche pour ceux que les cas suivants construisent volontairement invalides ; le retyper suppose de revoir la variance de generateAccessToken
   const schema: any = {
     method: "get",
     path: "/users/status/:id",
@@ -94,7 +94,7 @@ describe("accessTokenService", () => {
         user: [{ _id: { type: "params", key: "id" } }],
       },
     },
-  } satisfies SchemaWithSecurity;
+  } satisfies SchemaWithSecurity
 
   const options = {
     params: {
@@ -103,12 +103,10 @@ describe("accessTokenService", () => {
     querystring: {
       q: "hello",
     },
-  };
+  }
 
-  const expectTokenValid = async (token: string) =>
-    await expect(parseAccessToken(token, schema, options.params, options.querystring)).resolves.toBeTruthy();
-  const expectTokenInvalid = async (token: string) =>
-    expect(parseAccessToken(token, schema, options.params, options.querystring)).rejects.toThrow();
+  const expectTokenValid = async (token: string) => await expect(parseAccessToken(token, schema, options.params, options.querystring)).resolves.toBeTruthy()
+  const expectTokenInvalid = async (token: string) => expect(parseAccessToken(token, schema, options.params, options.querystring)).rejects.toThrow()
 
   describe("valid tokens", () => {
     it("should generate a token valid for a specific route", async () => {
@@ -118,9 +116,9 @@ describe("accessTokenService", () => {
           options: "all",
           resources: { user: ids },
         }),
-      ]);
-      await expectTokenValid(token);
-    });
+      ])
+      await expectTokenValid(token)
+    })
     it("should generate a token valid for a generic route", async () => {
       const token = await generateAccessToken(user, [
         generateScope({
@@ -131,10 +129,10 @@ describe("accessTokenService", () => {
             params: undefined,
           },
         }),
-      ]);
-      await expectTokenValid(token);
-    });
-  });
+      ])
+      await expectTokenValid(token)
+    })
+  })
   describe("invalid tokens", () => {
     it("should detect an invalid token that has a different param", async () => {
       const token = await generateAccessToken(user, [
@@ -150,9 +148,9 @@ describe("accessTokenService", () => {
             },
           },
         }),
-      ]);
-      await expectTokenInvalid(token);
-    });
+      ])
+      await expectTokenInvalid(token)
+    })
     it("should detect an invalid token that is for a different route", async () => {
       const token = await generateAccessToken(user, [
         generateScope({
@@ -160,9 +158,9 @@ describe("accessTokenService", () => {
           resources: {},
           options: "all",
         }),
-      ]);
-      await expectTokenInvalid(token);
-    });
+      ])
+      await expectTokenInvalid(token)
+    })
 
     it("should throw when missing/extra resource", () => {
       expect(() =>
@@ -171,7 +169,7 @@ describe("accessTokenService", () => {
           options: "all",
           resources: {},
         })
-      ).toThrow("generateScope: Missing resource");
+      ).toThrow("generateScope: Missing resource")
       expect(() =>
         generateScope({
           schema,
@@ -181,7 +179,7 @@ describe("accessTokenService", () => {
             recruiters: [],
           },
         })
-      ).toThrow("generateScope: Extra resources");
-    });
-  });
-});
+      ).toThrow("generateScope: Extra resources")
+    })
+  })
+})

@@ -1,7 +1,7 @@
-import { z } from "zod/v4-mini";
+import { z } from "zod/v4-mini"
 
-import { zGeoJsonPoint, zGeoJsonPolygon } from "./geoJson.model.js";
-import { zMissionLocale } from "./mission-locale.model.js";
+import { zGeoJsonPoint, zGeoJsonPolygon } from "./geoJson.model.js"
+import { zMissionLocale } from "./mission-locale.model.js"
 
 export const zCommune = z.object({
   nom: z.string(),
@@ -34,6 +34,6 @@ export const zCommune = z.object({
     bbox: zGeoJsonPolygon,
   }),
   mission_locale: z.nullable(zMissionLocale),
-});
+})
 
-export type ICommune = z.infer<typeof zCommune>;
+export type ICommune = z.infer<typeof zCommune>

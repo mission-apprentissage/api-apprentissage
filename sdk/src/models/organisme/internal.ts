@@ -1,1 +1,1 @@
-export * from "./organismes.primitives.js";
+export * from "./organismes.primitives.js"

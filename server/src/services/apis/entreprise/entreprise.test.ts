@@ -1,37 +1,35 @@
-import { ObjectId } from "mongodb";
-import nock from "nock";
-import type { IApiEntEtablissement } from "shared/models/cache/cache.entreprise.model";
-import { zApiEntEtablissement, zApiEntUniteLegale } from "shared/models/cache/cache.entreprise.model";
-import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { z } from "zod/v4-mini";
+import { useMongo } from "@tests/mongo.test.utils.js"
+import { ObjectId } from "mongodb"
+import nock from "nock"
+import type { IApiEntEtablissement } from "shared/models/cache/cache.entreprise.model"
+import { zApiEntEtablissement, zApiEntUniteLegale } from "shared/models/cache/cache.entreprise.model"
+import { beforeEach, describe, expect, it, vi } from "vitest"
+import type { z } from "zod/v4-mini"
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
+import { getEtablissementDiffusible, getUniteLegaleDiffusible } from "./entreprise.js"
 
-import { getEtablissementDiffusible, getUniteLegaleDiffusible } from "./entreprise.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+useMongo()
 
-import { useMongo } from "@tests/mongo.test.utils.js";
-
-useMongo();
-
-const now = new Date("2024-12-04T00:00:00Z");
-const inOneWeek = new Date("2024-12-11T00:00:00Z");
+const now = new Date("2024-12-04T00:00:00Z")
+const inOneWeek = new Date("2024-12-11T00:00:00Z")
 
 beforeEach(() => {
-  nock.disableNetConnect();
+  nock.disableNetConnect()
 
-  vi.useFakeTimers({ now });
+  vi.useFakeTimers({ now })
 
   return () => {
-    vi.resetAllMocks();
-    vi.useRealTimers();
+    vi.resetAllMocks()
+    vi.useRealTimers()
 
-    nock.cleanAll();
-    nock.enableNetConnect();
-  };
-});
+    nock.cleanAll()
+    nock.enableNetConnect()
+  }
+})
 
 describe("getEtablissementDiffusible", () => {
-  const siret = "13002526500013";
-  const siren = "130025265";
+  const siret = "13002526500013"
+  const siren = "130025265"
   const etablissement: IApiEntEtablissement = {
     siret: "13002526500013",
     etat_administratif: "A",
@@ -66,7 +64,7 @@ describe("getEtablissementDiffusible", () => {
       code_pays_etranger: null,
       libelle_pays_etranger: null,
     },
-  };
+  }
 
   it("should return etablissement and persist into cache", async () => {
     nock("https://entreprise.api.gouv.fr/v3")
@@ -77,13 +75,13 @@ describe("getEtablissementDiffusible", () => {
         object: "Consolidation des données",
         context: "MNA",
       })
-      .reply(200, { data: etablissement });
+      .reply(200, { data: etablissement })
 
-    const result = await getEtablissementDiffusible(siret);
+    const result = await getEtablissementDiffusible(siret)
 
-    expect(result).toEqual(etablissement);
+    expect(result).toEqual(etablissement)
 
-    const cacheEtablissement = await getDbCollection("cache.entreprise").findOne({ identifiant: siret });
+    const cacheEtablissement = await getDbCollection("cache.entreprise").findOne({ identifiant: siret })
     expect(cacheEtablissement).toEqual({
       _id: expect.any(ObjectId),
       identifiant: siret,
@@ -92,14 +90,14 @@ describe("getEtablissementDiffusible", () => {
         type: "etablissement",
         etablissement: etablissement,
       },
-    });
+    })
 
-    const cacheUniteLegale = await getDbCollection("cache.entreprise").findOne({ identifiant: siren });
+    const cacheUniteLegale = await getDbCollection("cache.entreprise").findOne({ identifiant: siren })
 
-    expect(cacheUniteLegale).toEqual(null);
+    expect(cacheUniteLegale).toEqual(null)
 
-    expect(nock.isDone()).toBe(true);
-  });
+    expect(nock.isDone()).toBe(true)
+  })
 
   it("should use cache if etablissement is already in cache", async () => {
     await getDbCollection("cache.entreprise").insertOne({
@@ -110,14 +108,14 @@ describe("getEtablissementDiffusible", () => {
         type: "etablissement",
         etablissement: zApiEntEtablissement.parse(etablissement),
       },
-    });
+    })
 
-    const result = await getEtablissementDiffusible(siret);
+    const result = await getEtablissementDiffusible(siret)
 
-    expect(result).toEqual(etablissement);
+    expect(result).toEqual(etablissement)
 
-    expect(nock.isDone()).toBe(true);
-  });
+    expect(nock.isDone()).toBe(true)
+  })
 
   describe("if etablissement is not found", () => {
     it("should return null if etablissement does not exists, and cache it forever", async () => {
@@ -141,7 +139,7 @@ describe("getEtablissementDiffusible", () => {
               },
             },
           ],
-        });
+        })
 
       scope
         .get(`/insee/sirene/etablissements/${siret}`)
@@ -163,15 +161,15 @@ describe("getEtablissementDiffusible", () => {
               },
             },
           ],
-        });
+        })
 
-      const result = await getEtablissementDiffusible(siret);
+      const result = await getEtablissementDiffusible(siret)
 
-      expect(result).toEqual(null);
+      expect(result).toEqual(null)
 
-      expect(nock.isDone()).toBe(true);
+      expect(nock.isDone()).toBe(true)
 
-      const cacheEtablissement = await getDbCollection("cache.entreprise").findOne({ identifiant: siret });
+      const cacheEtablissement = await getDbCollection("cache.entreprise").findOne({ identifiant: siret })
       expect(cacheEtablissement).toEqual({
         _id: expect.any(ObjectId),
         identifiant: siret,
@@ -180,13 +178,13 @@ describe("getEtablissementDiffusible", () => {
           type: "etablissement",
           etablissement: null,
         },
-      });
+      })
 
-      const cacheUniteLegale = await getDbCollection("cache.entreprise").findOne({ identifiant: siren });
+      const cacheUniteLegale = await getDbCollection("cache.entreprise").findOne({ identifiant: siren })
 
       // L'etablissement n'existe pas, mais l'unité légale peut exister
-      expect(cacheUniteLegale).toEqual(null);
-    });
+      expect(cacheUniteLegale).toEqual(null)
+    })
 
     it("should return partial data if etablissement is not diffusible, and cache it forever", async () => {
       // Fake but include all fields that are not diffusible
@@ -224,7 +222,7 @@ describe("getEtablissementDiffusible", () => {
           code_pays_etranger: null,
           libelle_pays_etranger: null,
         },
-      };
+      }
 
       const scope = nock("https://entreprise.api.gouv.fr/v3")
         .get(`/insee/sirene/etablissements/diffusibles/${siret}`)
@@ -246,7 +244,7 @@ describe("getEtablissementDiffusible", () => {
               },
             },
           ],
-        });
+        })
 
       scope
         .get(`/insee/sirene/etablissements/${siret}`)
@@ -256,9 +254,9 @@ describe("getEtablissementDiffusible", () => {
           object: "Consolidation des données",
           context: "MNA",
         })
-        .reply(200, { data: etablissementPrivate });
+        .reply(200, { data: etablissementPrivate })
 
-      const result = await getEtablissementDiffusible(siret);
+      const result = await getEtablissementDiffusible(siret)
 
       const expected = {
         siret: "13002526500013",
@@ -294,12 +292,12 @@ describe("getEtablissementDiffusible", () => {
           code_pays_etranger: null,
           libelle_pays_etranger: null,
         },
-      };
-      expect(result).toEqual(expected);
+      }
+      expect(result).toEqual(expected)
 
-      expect(nock.isDone()).toBe(true);
+      expect(nock.isDone()).toBe(true)
 
-      const cacheEtablissement = await getDbCollection("cache.entreprise").findOne({ identifiant: siret });
+      const cacheEtablissement = await getDbCollection("cache.entreprise").findOne({ identifiant: siret })
       expect(cacheEtablissement).toEqual({
         _id: expect.any(ObjectId),
         identifiant: siret,
@@ -308,13 +306,13 @@ describe("getEtablissementDiffusible", () => {
           type: "etablissement",
           etablissement: expected,
         },
-      });
+      })
 
-      const cacheUniteLegale = await getDbCollection("cache.entreprise").findOne({ identifiant: siren });
+      const cacheUniteLegale = await getDbCollection("cache.entreprise").findOne({ identifiant: siren })
 
-      expect(cacheUniteLegale).toEqual(null);
-    });
-  });
+      expect(cacheUniteLegale).toEqual(null)
+    })
+  })
 
   it('should use cache if etablissement is not found and "etablissement" is already in cache', async () => {
     await getDbCollection("cache.entreprise").insertOne({
@@ -325,14 +323,14 @@ describe("getEtablissementDiffusible", () => {
         type: "etablissement",
         etablissement: null,
       },
-    });
+    })
 
-    const result = await getEtablissementDiffusible(siret);
+    const result = await getEtablissementDiffusible(siret)
 
-    expect(result).toEqual(null);
+    expect(result).toEqual(null)
 
-    expect(nock.isDone()).toBe(true);
-  });
+    expect(nock.isDone()).toBe(true)
+  })
 
   it("should return null if etablissement is not accessible for legal reason", async () => {
     nock("https://entreprise.api.gouv.fr/v3")
@@ -354,15 +352,15 @@ describe("getEtablissementDiffusible", () => {
             },
           },
         ],
-      });
+      })
 
-    const result = await getEtablissementDiffusible(siret);
+    const result = await getEtablissementDiffusible(siret)
 
-    expect(result).toEqual(null);
+    expect(result).toEqual(null)
 
-    expect(nock.isDone()).toBe(true);
+    expect(nock.isDone()).toBe(true)
 
-    const cacheEtablissement = await getDbCollection("cache.entreprise").findOne({ identifiant: siret });
+    const cacheEtablissement = await getDbCollection("cache.entreprise").findOne({ identifiant: siret })
     expect(cacheEtablissement).toEqual({
       _id: expect.any(ObjectId),
       identifiant: siret,
@@ -371,13 +369,13 @@ describe("getEtablissementDiffusible", () => {
         type: "etablissement",
         etablissement: null,
       },
-    });
+    })
 
-    const cacheUniteLegale = await getDbCollection("cache.entreprise").findOne({ identifiant: siren });
+    const cacheUniteLegale = await getDbCollection("cache.entreprise").findOne({ identifiant: siren })
 
     // L'etablissement n'existe pas, mais l'unité légale peut exister
-    expect(cacheUniteLegale).toEqual(null);
-  });
+    expect(cacheUniteLegale).toEqual(null)
+  })
 
   it("should return null if siret is invalid", async () => {
     nock("https://entreprise.api.gouv.fr/v3")
@@ -400,15 +398,15 @@ describe("getEtablissementDiffusible", () => {
             meta: {},
           },
         ],
-      });
+      })
 
-    const result = await getEtablissementDiffusible(siret);
+    const result = await getEtablissementDiffusible(siret)
 
-    expect(result).toEqual(null);
+    expect(result).toEqual(null)
 
-    expect(nock.isDone()).toBe(true);
+    expect(nock.isDone()).toBe(true)
 
-    const cacheEtablissement = await getDbCollection("cache.entreprise").findOne({ identifiant: siret });
+    const cacheEtablissement = await getDbCollection("cache.entreprise").findOne({ identifiant: siret })
     expect(cacheEtablissement).toEqual({
       _id: expect.any(ObjectId),
       identifiant: siret,
@@ -417,17 +415,17 @@ describe("getEtablissementDiffusible", () => {
         type: "etablissement",
         etablissement: null,
       },
-    });
+    })
 
-    const cacheUniteLegale = await getDbCollection("cache.entreprise").findOne({ identifiant: siren });
+    const cacheUniteLegale = await getDbCollection("cache.entreprise").findOne({ identifiant: siren })
 
     // Le siret est invalide, mais le siren peut etre valide
-    expect(cacheUniteLegale).toEqual(null);
-  });
-});
+    expect(cacheUniteLegale).toEqual(null)
+  })
+})
 
 describe("getUniteLegaleDiffusible", () => {
-  const siren = "130025265";
+  const siren = "130025265"
   const uniteLegale: z.input<typeof zApiEntUniteLegale> = {
     siren,
     type: "personne_morale",
@@ -443,7 +441,7 @@ describe("getUniteLegaleDiffusible", () => {
     date_cessation: null,
     date_creation: 1495576800,
     etat_administratif: "A",
-  };
+  }
 
   it("should return unite legale and persist into cache", async () => {
     nock("https://entreprise.api.gouv.fr/v3")
@@ -454,13 +452,13 @@ describe("getUniteLegaleDiffusible", () => {
         object: "Consolidation des données",
         context: "MNA",
       })
-      .reply(200, { data: uniteLegale });
+      .reply(200, { data: uniteLegale })
 
-    const result = await getUniteLegaleDiffusible(siren);
+    const result = await getUniteLegaleDiffusible(siren)
 
-    expect(result).toEqual(uniteLegale);
+    expect(result).toEqual(uniteLegale)
 
-    const cacheUniteLegale = await getDbCollection("cache.entreprise").findOne({ identifiant: siren });
+    const cacheUniteLegale = await getDbCollection("cache.entreprise").findOne({ identifiant: siren })
 
     expect(cacheUniteLegale).toEqual({
       _id: expect.any(ObjectId),
@@ -470,10 +468,10 @@ describe("getUniteLegaleDiffusible", () => {
         type: "unite_legale",
         unite_legale: uniteLegale,
       },
-    });
+    })
 
-    expect(nock.isDone()).toBe(true);
-  });
+    expect(nock.isDone()).toBe(true)
+  })
 
   it("should use cache if etablissement is already in cache", async () => {
     await getDbCollection("cache.entreprise").insertOne({
@@ -484,14 +482,14 @@ describe("getUniteLegaleDiffusible", () => {
         type: "unite_legale",
         unite_legale: zApiEntUniteLegale.parse(uniteLegale),
       },
-    });
+    })
 
-    const result = await getUniteLegaleDiffusible(siren);
+    const result = await getUniteLegaleDiffusible(siren)
 
-    expect(result).toEqual(result);
+    expect(result).toEqual(result)
 
-    expect(nock.isDone()).toBe(true);
-  });
+    expect(nock.isDone()).toBe(true)
+  })
 
   describe("if unite legale is not found", () => {
     it("should return mock if unite legale does not exists, and cache it forever", async () => {
@@ -515,7 +513,7 @@ describe("getUniteLegaleDiffusible", () => {
               },
             },
           ],
-        });
+        })
 
       scope
         .get(`/insee/sirene/unites_legales/${siren}`)
@@ -537,9 +535,9 @@ describe("getUniteLegaleDiffusible", () => {
               },
             },
           ],
-        });
+        })
 
-      const result = await getUniteLegaleDiffusible(siren);
+      const result = await getUniteLegaleDiffusible(siren)
 
       const expected = {
         siren,
@@ -549,12 +547,12 @@ describe("getUniteLegaleDiffusible", () => {
         etat_administratif: "C",
         date_creation: null,
         date_cessation: new Date("1990-01-01").getTime(),
-      };
-      expect(result).toEqual(expected);
+      }
+      expect(result).toEqual(expected)
 
-      expect(nock.isDone()).toBe(true);
+      expect(nock.isDone()).toBe(true)
 
-      const cacheUniteLegale = await getDbCollection("cache.entreprise").findOne({ identifiant: siren });
+      const cacheUniteLegale = await getDbCollection("cache.entreprise").findOne({ identifiant: siren })
       expect(cacheUniteLegale).toEqual({
         _id: expect.any(ObjectId),
         identifiant: siren,
@@ -563,8 +561,8 @@ describe("getUniteLegaleDiffusible", () => {
           type: "unite_legale",
           unite_legale: expected,
         },
-      });
-    });
+      })
+    })
 
     it("should return partial data if unite_legale is not diffusible, and cache it forever", async () => {
       // Fake but include all fields that are not diffusible
@@ -583,7 +581,7 @@ describe("getUniteLegaleDiffusible", () => {
         date_cessation: null,
         date_creation: 1495576800,
         etat_administratif: "A",
-      };
+      }
 
       const scope = nock("https://entreprise.api.gouv.fr/v3")
         .get(`/insee/sirene/unites_legales/diffusibles/${siren}`)
@@ -605,7 +603,7 @@ describe("getUniteLegaleDiffusible", () => {
               },
             },
           ],
-        });
+        })
 
       scope
         .get(`/insee/sirene/unites_legales/${siren}`)
@@ -615,9 +613,9 @@ describe("getUniteLegaleDiffusible", () => {
           object: "Consolidation des données",
           context: "MNA",
         })
-        .reply(200, { data: uniteLegalePrivate });
+        .reply(200, { data: uniteLegalePrivate })
 
-      const result = await getUniteLegaleDiffusible(siren);
+      const result = await getUniteLegaleDiffusible(siren)
 
       const expected = {
         siren: "130025265",
@@ -634,12 +632,12 @@ describe("getUniteLegaleDiffusible", () => {
         date_cessation: null,
         date_creation: 1495576800,
         etat_administratif: "A",
-      };
-      expect(result).toEqual(expected);
+      }
+      expect(result).toEqual(expected)
 
-      expect(nock.isDone()).toBe(true);
+      expect(nock.isDone()).toBe(true)
 
-      const cacheEtablissement = await getDbCollection("cache.entreprise").findOne({ identifiant: siren });
+      const cacheEtablissement = await getDbCollection("cache.entreprise").findOne({ identifiant: siren })
       expect(cacheEtablissement).toEqual({
         _id: expect.any(ObjectId),
         identifiant: siren,
@@ -648,9 +646,9 @@ describe("getUniteLegaleDiffusible", () => {
           type: "unite_legale",
           unite_legale: expected,
         },
-      });
-    });
-  });
+      })
+    })
+  })
 
   it('should use cache if unite_legale is not found and "unite_legale" is already in cache', async () => {
     await getDbCollection("cache.entreprise").insertOne({
@@ -661,14 +659,14 @@ describe("getUniteLegaleDiffusible", () => {
         type: "unite_legale",
         unite_legale: null,
       },
-    });
+    })
 
-    const result = await getUniteLegaleDiffusible(siren);
+    const result = await getUniteLegaleDiffusible(siren)
 
-    expect(result).toEqual(null);
+    expect(result).toEqual(null)
 
-    expect(nock.isDone()).toBe(true);
-  });
+    expect(nock.isDone()).toBe(true)
+  })
 
   it("should return null if unite_legale is not accessible for legal reason", async () => {
     nock("https://entreprise.api.gouv.fr/v3")
@@ -690,15 +688,15 @@ describe("getUniteLegaleDiffusible", () => {
             },
           },
         ],
-      });
+      })
 
-    const result = await getUniteLegaleDiffusible(siren);
+    const result = await getUniteLegaleDiffusible(siren)
 
-    expect(result).toEqual(null);
+    expect(result).toEqual(null)
 
-    expect(nock.isDone()).toBe(true);
+    expect(nock.isDone()).toBe(true)
 
-    const cacheUniteLegale = await getDbCollection("cache.entreprise").findOne({ identifiant: siren });
+    const cacheUniteLegale = await getDbCollection("cache.entreprise").findOne({ identifiant: siren })
     expect(cacheUniteLegale).toEqual({
       _id: expect.any(ObjectId),
       identifiant: siren,
@@ -707,8 +705,8 @@ describe("getUniteLegaleDiffusible", () => {
         type: "unite_legale",
         unite_legale: null,
       },
-    });
-  });
+    })
+  })
 
   it("should return null if siren is invalid", async () => {
     nock("https://entreprise.api.gouv.fr/v3")
@@ -731,15 +729,15 @@ describe("getUniteLegaleDiffusible", () => {
             meta: {},
           },
         ],
-      });
+      })
 
-    const result = await getUniteLegaleDiffusible(siren);
+    const result = await getUniteLegaleDiffusible(siren)
 
-    expect(result).toEqual(null);
+    expect(result).toEqual(null)
 
-    expect(nock.isDone()).toBe(true);
+    expect(nock.isDone()).toBe(true)
 
-    const cacheEtablissement = await getDbCollection("cache.entreprise").findOne({ identifiant: siren });
+    const cacheEtablissement = await getDbCollection("cache.entreprise").findOne({ identifiant: siren })
     expect(cacheEtablissement).toEqual({
       _id: expect.any(ObjectId),
       identifiant: siren,
@@ -748,6 +746,6 @@ describe("getUniteLegaleDiffusible", () => {
         type: "unite_legale",
         unite_legale: null,
       },
-    });
-  });
-});
+    })
+  })
+})

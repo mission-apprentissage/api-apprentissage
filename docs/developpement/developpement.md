@@ -4,8 +4,7 @@
   - [Organisation des dossiers](#organisation-des-dossiers)
   - [Opérations](#opérations)
     - [Installation et Mise à jour des dépendences](#installation-et-mise-à-jour-des-dépendences)
-  - [Linter](#linter)
-  - [Prettier](#prettier)
+  - [Lint et formatage](#lint-et-formatage)
   - [Typescript](#typescript)
     - [Arrêt des services](#arrêt-des-services)
     - [Suppression des services](#suppression-des-services)
@@ -175,25 +174,24 @@ Ajouter une exception à talisman
   yarn vault:edit
 ```
 
-### Linter
+### Lint et formatage
 
-Un linter (via ESLint) est mis en place dans le projet, pour le lancer :
-
-```bash
-yarn lint
-```
-
-**Note:** eslint est run automatiquement à chaque commit
-
-### Prettier
-
-Prettier est mis en place dans le projet, pour le lancer :
+[Biome](https://biomejs.dev/) assure à la fois le lint et le formatage du projet.
 
 ```bash
-yarn prettier:fix
+# signale les problèmes sans rien modifier
+yarn check
+
+# corrige ce qui peut l'être automatiquement
+yarn check:fix
 ```
 
-**Note:** eslint est run automatiquement à chaque commit
+`yarn check:ci` est la variante utilisée par la CI : elle ne modifie aucun fichier et
+échoue au premier écart.
+
+**Note :** Biome est lancé automatiquement à chaque commit sur les fichiers ajoutés à l'index.
+
+Markdown et YAML ne sont pas formatés : Biome 2.5 ne les prend pas en charge.
 
 ### Typescript
 

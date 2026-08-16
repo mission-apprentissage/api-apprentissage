@@ -1,20 +1,19 @@
-import { createReadStream } from "fs";
-import { pipeline } from "stream/promises";
-import { internal } from "@hapi/boom";
-import { parse } from "csv-parse";
-import type { AnyBulkWriteOperation } from "mongodb";
-import { ObjectId } from "mongodb";
-import type { ImportStatus } from "shared";
-import type { ISourceCodeInseeToMissionLocale } from "shared/models/source/mission_locale/source.mission_locale.model";
-import { z } from "zod/v4-mini";
-
-import { captureException } from "@sentry/node";
-import { fetchDepartementMissionLocale } from "@/services/apis/unml/unml.js";
-import { withCause } from "@/services/errors/withCause.js";
-import logger from "@/services/logger.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
-import { getStaticFilePath } from "@/utils/getStaticFilePath.js";
-import { createBatchTransformStream } from "@/utils/streamUtils.js";
+import { internal } from "@hapi/boom"
+import { captureException } from "@sentry/node"
+import { parse } from "csv-parse"
+import { createReadStream } from "fs"
+import type { AnyBulkWriteOperation } from "mongodb"
+import { ObjectId } from "mongodb"
+import type { ImportStatus } from "shared"
+import type { ISourceCodeInseeToMissionLocale } from "shared/models/source/mission_locale/source.mission_locale.model"
+import { pipeline } from "stream/promises"
+import { z } from "zod/v4-mini"
+import { fetchDepartementMissionLocale } from "@/services/apis/unml/unml.js"
+import { withCause } from "@/services/errors/withCause.js"
+import logger from "@/services/logger.js"
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
+import { getStaticFilePath } from "@/utils/getStaticFilePath.js"
+import { createBatchTransformStream } from "@/utils/streamUtils.js"
 
 const zRecord = z.object({
   "Code INSEE": z.string().check(z.regex(/\d{1}(\d|[A-B])\d{3}/)),
@@ -25,32 +24,29 @@ const zRecord = z.object({
   "Adresse ML": z.string(),
   "Code Postal ML": z.string().check(z.regex(/\d{5}/)),
   "Ville ML": z.string(),
-});
+})
 
 const zGeoPoint = z.object({
   nom: z.string(),
   lat: z.number(),
   lng: z.number(),
   siret: z.string(),
-});
+})
 
 function fixInvalidUnmlCodeStructures(codeStructure: string) {
   switch (codeStructure) {
     case "21131":
-      return "21231";
+      return "21231"
     default:
-      return codeStructure;
+      return codeStructure
   }
 }
 
-async function fetchDepartementStructures(
-  codeDepartement: string,
-  store: Map<string, ISourceCodeInseeToMissionLocale["ml"]>
-) {
-  const { results } = await fetchDepartementMissionLocale(codeDepartement);
+async function fetchDepartementStructures(codeDepartement: string, store: Map<string, ISourceCodeInseeToMissionLocale["ml"]>) {
+  const { results } = await fetchDepartementMissionLocale(codeDepartement)
 
   for (const { structure } of results) {
-    const codeStructure = fixInvalidUnmlCodeStructures(structure.codeStructure);
+    const codeStructure = fixInvalidUnmlCodeStructures(structure.codeStructure)
     if (!store.has(codeStructure)) {
       store.set(codeStructure, {
         id: structure.id,
@@ -74,14 +70,14 @@ async function fetchDepartementStructures(
           telephone: structure.telephones,
           siteWeb: structure.siteWeb,
         },
-      });
+      })
     }
   }
 }
 
 export async function runMissionLocaleImporter() {
-  const importDate = new Date();
-  const importId = new ObjectId();
+  const importDate = new Date()
+  const importId = new ObjectId()
 
   try {
     await getDbCollection("import.meta").insertOne({
@@ -89,9 +85,9 @@ export async function runMissionLocaleImporter() {
       import_date: importDate,
       type: "mission_locale",
       status: "pending",
-    });
+    })
 
-    const notFoundUnml: Map<string, { code_ml: string; cp: string }> = new Map();
+    const notFoundUnml: Map<string, { code_ml: string; cp: string }> = new Map()
     const geoPoints = await pipeline(
       createReadStream(getStaticFilePath("mission_locales/geopoints_mission_locale.csv")),
       parse({
@@ -101,12 +97,9 @@ export async function runMissionLocaleImporter() {
         delimiter: ";",
         trim: true,
       }),
-      async function* processRecord(
-        source: AsyncIterable<Record<string, string>>,
-        { signal }: { signal?: AbortSignal } = {}
-      ) {
+      async function* processRecord(source: AsyncIterable<Record<string, string>>, { signal }: { signal?: AbortSignal } = {}) {
         for await (const record of source) {
-          signal?.throwIfAborted();
+          signal?.throwIfAborted()
           const data = await zGeoPoint
             .parseAsync({
               nom: record.nom,
@@ -115,19 +108,19 @@ export async function runMissionLocaleImporter() {
               siret: record.siret,
             })
             .catch((e) => {
-              throw withCause(internal("Unable to parse geopoints", { record }), e);
-            });
-          yield data;
+              throw withCause(internal("Unable to parse geopoints", { record }), e)
+            })
+          yield data
         }
       },
       async function collect(source: AsyncIterable<z.infer<typeof zGeoPoint>>) {
-        const map = new Map<string, { lat: number; lng: number; siret: string }>();
+        const map = new Map<string, { lat: number; lng: number; siret: string }>()
         for await (const data of source) {
-          map.set(data.nom, { lat: data.lat, lng: data.lng, siret: data.siret });
+          map.set(data.nom, { lat: data.lat, lng: data.lng, siret: data.siret })
         }
-        return map;
+        return map
       }
-    );
+    )
 
     await pipeline(
       createReadStream(getStaticFilePath("mission_locales/zones_de_couverture_janvier_2026.csv")),
@@ -142,21 +135,21 @@ export async function runMissionLocaleImporter() {
         source: AsyncIterable<Record<string, string>>,
         { signal }: { signal?: AbortSignal } = {}
       ): AsyncIterable<AnyBulkWriteOperation<ISourceCodeInseeToMissionLocale>> {
-        const codeStructuctureToML = new Map<string, ISourceCodeInseeToMissionLocale["ml"]>();
+        const codeStructuctureToML = new Map<string, ISourceCodeInseeToMissionLocale["ml"]>()
 
         for await (const record of source) {
-          signal?.throwIfAborted();
+          signal?.throwIfAborted()
 
           const data = await zRecord.parseAsync(record).catch((e) => {
-            throw withCause(internal("Unable to parse record", { record }), e);
-          });
+            throw withCause(internal("Unable to parse record", { record }), e)
+          })
 
-          const code_ml = data["Code ML"];
+          const code_ml = data["Code ML"]
           if (!codeStructuctureToML.has(code_ml) && !notFoundUnml.has(code_ml)) {
-            await fetchDepartementStructures(data["Code Postal ML"].slice(0, 2), codeStructuctureToML);
+            await fetchDepartementStructures(data["Code Postal ML"].slice(0, 2), codeStructuctureToML)
             if (!codeStructuctureToML.has(code_ml)) {
-              notFoundUnml.set(code_ml, { code_ml: code_ml, cp: data["Code Postal ML"] });
-              codeStructuctureToML.set(code_ml, formatMissionLocale(data, geoPoints));
+              notFoundUnml.set(code_ml, { code_ml: code_ml, cp: data["Code Postal ML"] })
+              codeStructuctureToML.set(code_ml, formatMissionLocale(data, geoPoints))
             }
           }
 
@@ -176,63 +169,54 @@ export async function runMissionLocaleImporter() {
               },
               upsert: true,
             },
-          };
+          }
         }
       },
       createBatchTransformStream({ size: 500 }),
-      async function* write(
-        source: AsyncIterable<AnyBulkWriteOperation<ISourceCodeInseeToMissionLocale>[]>,
-        { signal }: { signal?: AbortSignal } = {}
-      ) {
+      async function* write(source: AsyncIterable<AnyBulkWriteOperation<ISourceCodeInseeToMissionLocale>[]>, { signal }: { signal?: AbortSignal } = {}) {
         for await (const bulk of source) {
-          signal?.throwIfAborted();
-          await getDbCollection("source.insee_to_ml").bulkWrite(bulk, { ordered: false });
-          yield;
+          signal?.throwIfAborted()
+          await getDbCollection("source.insee_to_ml").bulkWrite(bulk, { ordered: false })
+          yield
         }
 
         await getDbCollection("source.insee_to_ml").deleteMany({
           import_id: { $ne: importId },
-        });
+        })
 
-        await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "done" } });
-        logger.info({ importId, notFoundUnml: [...notFoundUnml.values()] }, "Mission locale import done");
-        yield;
+        await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "done" } })
+        logger.info({ importId, notFoundUnml: [...notFoundUnml.values()] }, "Mission locale import done")
+        yield
       }
-    );
+    )
   } catch (error) {
-    await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "failed" } });
-    throw withCause(internal("import.mission_locale: unable to runMissionLocaleImporter"), error, "fatal");
+    await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "failed" } })
+    throw withCause(internal("import.mission_locale: unable to runMissionLocaleImporter"), error, "fatal")
   }
 }
 
 export async function getMissionLocaleImporterStatus(): Promise<ImportStatus> {
   const [lastImport, lastSuccess] = await Promise.all([
     await getDbCollection("import.meta").findOne({ type: "mission_locale" }, { sort: { import_date: -1 } }),
-    await getDbCollection("import.meta").findOne(
-      { type: "mission_locale", status: "done" },
-      { sort: { import_date: -1 } }
-    ),
-  ]);
+    await getDbCollection("import.meta").findOne({ type: "mission_locale", status: "done" }, { sort: { import_date: -1 } }),
+  ])
 
   return {
     last_import: lastImport?.import_date ?? null,
     last_success: lastSuccess?.import_date ?? null,
     status: lastImport?.status ?? "pending",
     resources: [],
-  };
+  }
 }
 
-function formatMissionLocale(
-  data: z.infer<typeof zRecord>,
-  geoPoints: Map<string, { lat: number; lng: number; siret: string }>
-): ISourceCodeInseeToMissionLocale["ml"] {
-  const geoPoint = geoPoints.get(data["Nom Officiel ML"]);
+function formatMissionLocale(data: z.infer<typeof zRecord>, geoPoints: Map<string, { lat: number; lng: number; siret: string }>): ISourceCodeInseeToMissionLocale["ml"] {
+  const geoPoint = geoPoints.get(data["Nom Officiel ML"])
 
   if (!geoPoint) {
     captureException(new Error("Geopoint not found for mission locale"), {
       extra: { missionLocale: data },
       level: "warning",
-    });
+    })
   }
 
   return {
@@ -256,15 +240,15 @@ function formatMissionLocale(
       telephone: null,
       siteWeb: null,
     },
-  };
+  }
 }
 
 function formatMlId(codeInsee: string) {
   if (codeInsee.startsWith("2A")) {
-    return Number("98" + codeInsee.slice(2));
+    return Number("98" + codeInsee.slice(2))
   }
   if (codeInsee.startsWith("2B")) {
-    return Number("99" + codeInsee.slice(2));
+    return Number("99" + codeInsee.slice(2))
   }
-  return Number(codeInsee);
+  return Number(codeInsee)
 }

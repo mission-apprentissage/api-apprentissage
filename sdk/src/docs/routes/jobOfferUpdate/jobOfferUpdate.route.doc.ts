@@ -1,4 +1,4 @@
-import type { DocRoute } from "../../types.js";
+import type { DocRoute } from "../../types.js"
 
 export const jobOfferUpdateRouteDoc = {
   summary: {
@@ -21,4 +21,4 @@ export const jobOfferUpdateRouteDoc = {
   response: {
     description: { en: "Success", fr: "Succès" },
   },
-} as const satisfies DocRoute;
+} as const satisfies DocRoute

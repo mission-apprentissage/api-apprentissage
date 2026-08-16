@@ -1,6 +1,6 @@
-import type { IMissionLocale, IMissionLocaleSearchApiQuery } from "api-alternance-sdk";
+import type { IMissionLocale, IMissionLocaleSearchApiQuery } from "api-alternance-sdk"
 
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
 
 export async function searchMissionLocales(query: IMissionLocaleSearchApiQuery) {
   const groupStage = [
@@ -12,9 +12,9 @@ export async function searchMissionLocales(query: IMissionLocaleSearchApiQuery) 
         distance: { $first: "$distance" },
       },
     },
-  ];
-  const filterStage = { $match: { _id: { $ne: null } } };
-  const replaceRootStage = { $replaceRoot: { newRoot: "$mission_locale" } };
+  ]
+  const filterStage = { $match: { _id: { $ne: null } } }
+  const replaceRootStage = { $replaceRoot: { newRoot: "$mission_locale" } }
 
   if (query.longitude != null && query.latitude != null) {
     return getDbCollection("commune")
@@ -36,10 +36,10 @@ export async function searchMissionLocales(query: IMissionLocaleSearchApiQuery) 
         { $sort: { distance: 1 } },
         replaceRootStage,
       ])
-      .toArray();
+      .toArray()
   }
 
   return getDbCollection("commune")
     .aggregate<IMissionLocale>([...groupStage, filterStage, replaceRootStage])
-    .toArray();
+    .toArray()
 }

@@ -1,7 +1,7 @@
-import { buildOpenApiSchema } from "api-alternance-sdk/internal";
+import { buildOpenApiSchema } from "api-alternance-sdk/internal"
 
 export function generateOpenApiSchema(version: string, env: string, publicUrl: string, lang: "en" | "fr" | null) {
-  const builder = buildOpenApiSchema(version, env, publicUrl, lang);
+  const builder = buildOpenApiSchema(version, env, publicUrl, lang)
 
-  return builder.getSpec();
+  return builder.getSpec()
 }

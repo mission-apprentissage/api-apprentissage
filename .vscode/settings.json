@@ -1,7 +1,8 @@
 {
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
+    "quickfix.biome": "explicit",
+    "source.organizeImports.biome": "explicit"
   },
   "files.insertFinalNewline": true,
   "files.exclude": {
@@ -40,6 +41,6 @@
   "vitest.enable": true,
   "vitest.commandLine": "yarn test --single-thread",
   "ansible.python.interpreterPath": "/opt/homebrew/bin/python3",
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.defaultFormatter": "biomejs.biome",
   "vitest.workspaceConfig": "vitest.workspace.ts"
 }

@@ -1,19 +1,16 @@
-import {
-  generateSourceBcn_N_FormationDiplomeFixture,
-  generateSourceFranceCompetenceFixture,
-} from "shared/models/fixtures/index";
-import { describe, expect, it } from "vitest";
+import { generateSourceBcn_N_FormationDiplomeFixture, generateSourceFranceCompetenceFixture } from "shared/models/fixtures/index"
+import { describe, expect, it } from "vitest"
 
-import { buildCertificationConventionCollectives } from "./certification.convention_collectives.builder.js";
+import { buildCertificationConventionCollectives } from "./certification.convention_collectives.builder.js"
 
 describe("buildCertificationConventionCollectives", () => {
   it("should returns null when france competence data is missing", () => {
     const result = buildCertificationConventionCollectives({
       bcn: generateSourceBcn_N_FormationDiplomeFixture(),
       france_competence: null,
-    });
-    expect(result).toEqual({ rncp: null });
-  });
+    })
+    expect(result).toEqual({ rncp: null })
+  })
 
   describe("when ccn is not empty", () => {
     it("should returns Ccn_1_Numero and Ccn_1_Libelle for each ccn", () => {
@@ -31,10 +28,10 @@ describe("buildCertificationConventionCollectives", () => {
             },
           ],
         },
-      });
-      const result = buildCertificationConventionCollectives({ france_competence: fc });
-      expect(result.rncp).toEqual([{ numero: "3292", intitule: "Hôtels, cafés, restaurants (HCR)" }]);
-    });
+      })
+      const result = buildCertificationConventionCollectives({ france_competence: fc })
+      expect(result.rncp).toEqual([{ numero: "3292", intitule: "Hôtels, cafés, restaurants (HCR)" }])
+    })
     it("should returns Ccn_2_Numero and Ccn_2_Libelle for each ccn", () => {
       const fc = generateSourceFranceCompetenceFixture({
         data: {
@@ -50,13 +47,13 @@ describe("buildCertificationConventionCollectives", () => {
             },
           ],
         },
-      });
-      const result = buildCertificationConventionCollectives({ france_competence: fc });
+      })
+      const result = buildCertificationConventionCollectives({ france_competence: fc })
       expect(result.rncp).toEqual([
         { numero: "3292", intitule: "Hôtels, cafés, restaurants (HCR)" },
         { numero: "3109", intitule: "Métallurgie" },
-      ]);
-    });
+      ])
+    })
     it("should returns Ccn_3_Numero and Ccn_3_Libelle for each ccn", () => {
       const fc = generateSourceFranceCompetenceFixture({
         data: {
@@ -72,16 +69,16 @@ describe("buildCertificationConventionCollectives", () => {
             },
           ],
         },
-      });
-      const result = buildCertificationConventionCollectives({ france_competence: fc });
-      expect(result.rncp).toEqual([{ numero: "3109", intitule: "Métallurgie" }]);
-    });
-  });
+      })
+      const result = buildCertificationConventionCollectives({ france_competence: fc })
+      expect(result.rncp).toEqual([{ numero: "3109", intitule: "Métallurgie" }])
+    })
+  })
   describe("when ccn is empty", () => {
     it("should returns empty array", () => {
-      const fc = generateSourceFranceCompetenceFixture({ data: { ccn: [] } });
-      const result = buildCertificationConventionCollectives({ france_competence: fc });
-      expect(result.rncp).toEqual([]);
-    });
-  });
-});
+      const fc = generateSourceFranceCompetenceFixture({ data: { ccn: [] } })
+      const result = buildCertificationConventionCollectives({ france_competence: fc })
+      expect(result.rncp).toEqual([])
+    })
+  })
+})

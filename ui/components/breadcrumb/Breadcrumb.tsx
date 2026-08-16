@@ -1,12 +1,12 @@
-import { Breadcrumb as DSFRBreadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb";
+import { Breadcrumb as DSFRBreadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb"
 
-import type { WithLangAndT } from "@/app/i18n/settings";
-import type { IPage } from "@/utils/routes.utils";
-import { PAGES } from "@/utils/routes.utils";
+import type { WithLangAndT } from "@/app/i18n/settings"
+import type { IPage } from "@/utils/routes.utils"
+import { PAGES } from "@/utils/routes.utils"
 
 export default function Breadcrumb({ pages, lang, t }: WithLangAndT<{ pages: IPage[] }>) {
-  const rest = [...pages];
-  const currentPage = rest.pop();
+  const rest = [...pages]
+  const currentPage = rest.pop()
 
   return (
     <DSFRBreadcrumb
@@ -21,5 +21,5 @@ export default function Breadcrumb({ pages, lang, t }: WithLangAndT<{ pages: IPa
         },
       }))}
     />
-  );
+  )
 }

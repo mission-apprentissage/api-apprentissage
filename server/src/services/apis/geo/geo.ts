@@ -1,12 +1,12 @@
-import { internal } from "@hapi/boom";
-import axios, { isAxiosError } from "axios";
-import type { ISourceGeoCommune, ISourceGeoDepartement, ISourceGeoRegion } from "shared";
-import { sourceGeoCommune, sourceGeoDepartement, sourceGeoRegion } from "shared";
+import { internal } from "@hapi/boom"
+import axios, { isAxiosError } from "axios"
+import type { ISourceGeoCommune, ISourceGeoDepartement, ISourceGeoRegion } from "shared"
+import { sourceGeoCommune, sourceGeoDepartement, sourceGeoRegion } from "shared"
 
-import { z } from "zod/v4-mini";
-import config from "@/config.js";
-import { withCause } from "@/services/errors/withCause.js";
-import { apiRateLimiter } from "@/utils/apiUtils.js";
+import { z } from "zod/v4-mini"
+import config from "@/config.js"
+import { withCause } from "@/services/errors/withCause.js"
+import { apiRateLimiter } from "@/utils/apiUtils.js"
 
 const geoClient = apiRateLimiter("geo", {
   nbRequests: 10,
@@ -17,52 +17,52 @@ const geoClient = apiRateLimiter("geo", {
   }),
   timeout: 900_000, // 15 minutes
   maxQueueSize: 100,
-});
+})
 
 export const fetchGeoRegions = async (): Promise<ISourceGeoRegion[]> => {
   return geoClient(async (client) => {
     try {
-      const { data } = await client.get("/regions");
+      const { data } = await client.get("/regions")
 
-      return z.parse(z.array(sourceGeoRegion), data);
+      return z.parse(z.array(sourceGeoRegion), data)
     } catch (error) {
       if (isAxiosError(error)) {
-        throw internal("api.geo: unable to fetchGeoRegions", { data: error.toJSON() });
+        throw internal("api.geo: unable to fetchGeoRegions", { data: error.toJSON() })
       }
-      throw withCause(internal("api.geo: unable to fetchGeoRegions"), error);
+      throw withCause(internal("api.geo: unable to fetchGeoRegions"), error)
     }
-  });
-};
+  })
+}
 
 export const fetchGeoRegion = async (code: string): Promise<ISourceGeoRegion> => {
   return geoClient(async (client) => {
     try {
-      const { data } = await client.get(`/regions/${code}`);
+      const { data } = await client.get(`/regions/${code}`)
 
-      return sourceGeoRegion.parse(data);
+      return sourceGeoRegion.parse(data)
     } catch (error) {
       if (isAxiosError(error)) {
-        throw internal("api.geo: unable to fetchGeoRegion", { data: error.toJSON(), code });
+        throw internal("api.geo: unable to fetchGeoRegion", { data: error.toJSON(), code })
       }
-      throw withCause(internal("api.geo: unable to fetchGeoRegion"), error);
+      throw withCause(internal("api.geo: unable to fetchGeoRegion"), error)
     }
-  });
-};
+  })
+}
 
 export const fetchGeoDepartements = async (codeRegion: string): Promise<ISourceGeoDepartement[]> => {
   return geoClient(async (client) => {
     try {
-      const { data } = await client.get(`/regions/${codeRegion}/departements`);
+      const { data } = await client.get(`/regions/${codeRegion}/departements`)
 
-      return z.parse(z.array(sourceGeoDepartement), data);
+      return z.parse(z.array(sourceGeoDepartement), data)
     } catch (error) {
       if (isAxiosError(error)) {
-        throw internal("api.geo: unable to fetchGeoDepartements", { data: error.toJSON() });
+        throw internal("api.geo: unable to fetchGeoDepartements", { data: error.toJSON() })
       }
-      throw withCause(internal("api.geo: unable to fetchGeoDepartements"), error);
+      throw withCause(internal("api.geo: unable to fetchGeoDepartements"), error)
     }
-  });
-};
+  })
+}
 
 export const fetchGeoCommunes = async (codeDepartement: string): Promise<ISourceGeoCommune[]> => {
   return geoClient(async (client) => {
@@ -72,14 +72,14 @@ export const fetchGeoCommunes = async (codeDepartement: string): Promise<ISource
           fields: "code,codesPostaux,centre,bbox,codeDepartement,codeRegion",
           geometry: "centre",
         },
-      });
+      })
 
-      return z.parse(z.array(sourceGeoCommune), data);
+      return z.parse(z.array(sourceGeoCommune), data)
     } catch (error) {
       if (isAxiosError(error)) {
-        throw internal("api.geo: unable to fetchGeoCommunes", { data: error.toJSON() });
+        throw internal("api.geo: unable to fetchGeoCommunes", { data: error.toJSON() })
       }
-      throw withCause(internal("api.geo: unable to fetchGeoCommunes"), error);
+      throw withCause(internal("api.geo: unable to fetchGeoCommunes"), error)
     }
-  });
-};
+  })
+}

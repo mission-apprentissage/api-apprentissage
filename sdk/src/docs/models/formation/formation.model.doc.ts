@@ -1,4 +1,4 @@
-import type { DocTechnicalField } from "../../types.js";
+import type { DocTechnicalField } from "../../types.js"
 
 export const formationModelDoc = {
   descriptions: [{ en: "Training", fr: "Formation" }],
@@ -239,4 +239,4 @@ export const formationModelDoc = {
       },
     },
   },
-} as const satisfies DocTechnicalField;
+} as const satisfies DocTechnicalField

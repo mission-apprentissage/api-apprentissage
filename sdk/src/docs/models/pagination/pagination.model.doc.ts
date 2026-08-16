@@ -1,4 +1,4 @@
-import type { DocTechnicalField } from "../../types.js";
+import type { DocTechnicalField } from "../../types.js"
 
 export const paginationModelDoc = {
   descriptions: [{ en: "Pagination information", fr: "Informations de pagination" }],
@@ -13,7 +13,7 @@ export const paginationModelDoc = {
       descriptions: [{ en: "Total number of pages", fr: "Nombre total de pages" }],
     },
   },
-} as const satisfies DocTechnicalField;
+} as const satisfies DocTechnicalField
 
 export const paginationQueryParameterDoc = {
   page_size: {
@@ -34,4 +34,4 @@ export const paginationQueryParameterDoc = {
     ],
     examples: [12],
   },
-};
+}

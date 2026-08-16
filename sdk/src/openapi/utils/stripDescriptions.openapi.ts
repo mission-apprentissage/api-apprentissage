@@ -9,19 +9,17 @@ import type {
   ResponsesObject,
   SchemaObject,
   SchemaObjectType,
-} from "openapi3-ts/oas31";
+} from "openapi3-ts/oas31"
 
-export function stripSchemaObjectDescriptions(
-  schema: SchemaObject | ReferenceObject | undefined
-): SchemaObject | ReferenceObject | undefined {
+export function stripSchemaObjectDescriptions(schema: SchemaObject | ReferenceObject | undefined): SchemaObject | ReferenceObject | undefined {
   if (!schema) {
-    return;
+    return
   }
 
   if ("$ref" in schema) {
     return {
       $ref: schema.$ref,
-    };
+    }
   }
 
   const s: SchemaObject = stripEmptyFields({
@@ -55,52 +53,52 @@ export function stripSchemaObjectDescriptions(
     prefixItems: stripSchemaObjectListDescriptions(schema.prefixItems),
     contentMediaType: schema.contentMediaType,
     contentEncoding: schema.contentEncoding,
-  });
+  })
 
-  const not = stripSchemaObjectDescriptions(schema.not);
+  const not = stripSchemaObjectDescriptions(schema.not)
   if (not) {
-    s.not = not;
+    s.not = not
   }
 
-  const items = stripSchemaObjectDescriptions(schema.items);
+  const items = stripSchemaObjectDescriptions(schema.items)
   if (items) {
-    s.items = items;
+    s.items = items
   }
 
-  const properties = schema.properties ? cleanRecord(schema.properties, stripSchemaObjectDescriptions) : null;
+  const properties = schema.properties ? cleanRecord(schema.properties, stripSchemaObjectDescriptions) : null
   if (properties) {
-    s.properties = properties;
+    s.properties = properties
   }
 
-  return simplifySchemaObjectStructure(s);
+  return simplifySchemaObjectStructure(s)
 }
 
 function stripEmptyFields<T extends { [k: string]: unknown }>(record: T): T {
-  return Object.fromEntries(Object.entries(record).filter(([_k, v]) => v != null)) as T;
+  return Object.fromEntries(Object.entries(record).filter(([_k, v]) => v != null)) as T
 }
 
 function getNonEmptyFields(s: SchemaObject): string[] {
   return Object.entries(s)
     .filter(([_k, v]) => v != null)
-    .map(([k]) => k);
+    .map(([k]) => k)
 }
 
 function simplifySchemaObjectStructure(s: SchemaObject): SchemaObject | undefined {
-  if (getNonEmptyFields(s).length === 0) return undefined;
+  if (getNonEmptyFields(s).length === 0) return undefined
 
-  if (s.anyOf == null || s.type != null) return s;
+  if (s.anyOf == null || s.type != null) return s
 
-  const resultType: SchemaObjectType[] = [];
+  const resultType: SchemaObjectType[] = []
 
   for (const part of s.anyOf) {
-    if ("$ref" in part) return s;
+    if ("$ref" in part) return s
     // Extra fields requirements, anyOf is required
-    if (getNonEmptyFields(part).length > 1) return s;
+    if (getNonEmptyFields(part).length > 1) return s
 
     if (Array.isArray(part.type)) {
-      resultType.push(...part.type);
+      resultType.push(...part.type)
     } else if (part.type) {
-      resultType.push(part.type);
+      resultType.push(part.type)
     }
   }
 
@@ -108,41 +106,37 @@ function simplifySchemaObjectStructure(s: SchemaObject): SchemaObject | undefine
     ...s,
     type: resultType,
     anyOf: undefined,
-  });
+  })
 }
 
-function stripSchemaObjectListDescriptions(
-  schema: (SchemaObject | ReferenceObject)[] | undefined
-): (SchemaObject | ReferenceObject)[] | undefined {
+function stripSchemaObjectListDescriptions(schema: (SchemaObject | ReferenceObject)[] | undefined): (SchemaObject | ReferenceObject)[] | undefined {
   if (!schema) {
-    return;
+    return
   }
 
-  return schema.map((s) => stripSchemaObjectDescriptions(s)).filter((s) => s != null);
+  return schema.map((s) => stripSchemaObjectDescriptions(s)).filter((s) => s != null)
 }
 
 function stripMediaTypeObjectDescriptions(mediaType: MediaTypeObject): MediaTypeObject {
   return stripEmptyFields({
     schema: stripSchemaObjectDescriptions(mediaType.schema),
     encoding: mediaType.encoding,
-  });
+  })
 }
 
 function stripContentObjectDescriptions(c: ContentObject): ContentObject {
-  return cleanRecord(c, stripMediaTypeObjectDescriptions);
+  return cleanRecord(c, stripMediaTypeObjectDescriptions)
 }
 
-function stripParameterObjectDescriptions(
-  parameter: ParameterObject | ReferenceObject | undefined
-): ParameterObject | ReferenceObject | undefined {
+function stripParameterObjectDescriptions(parameter: ParameterObject | ReferenceObject | undefined): ParameterObject | ReferenceObject | undefined {
   if (!parameter) {
-    return;
+    return
   }
 
   if ("$ref" in parameter) {
     return {
       $ref: parameter.$ref,
-    };
+    }
   }
 
   return stripEmptyFields({
@@ -152,14 +146,12 @@ function stripParameterObjectDescriptions(
     allowEmptyValue: parameter.allowEmptyValue,
     schema: stripSchemaObjectDescriptions(parameter.schema),
     content: parameter.content ? stripContentObjectDescriptions(parameter.content) : undefined,
-  });
+  })
 }
 
-function stripParametersDescriptions(
-  parameters: (ParameterObject | ReferenceObject)[] | undefined
-): (ParameterObject | ReferenceObject)[] | undefined {
+function stripParametersDescriptions(parameters: (ParameterObject | ReferenceObject)[] | undefined): (ParameterObject | ReferenceObject)[] | undefined {
   if (!parameters) {
-    return;
+    return
   }
 
   return parameters
@@ -167,63 +159,61 @@ function stripParametersDescriptions(
     .filter((p) => p != null)
     .toSorted((a, b) => {
       if ("$ref" in a && "$ref" in b) {
-        return a.$ref.localeCompare(b.$ref);
+        return a.$ref.localeCompare(b.$ref)
       }
 
-      if ("$ref" in a) return -1;
-      if ("$ref" in b) return 1;
+      if ("$ref" in a) return -1
+      if ("$ref" in b) return 1
 
-      return a.name.localeCompare(b.name);
-    });
+      return a.name.localeCompare(b.name)
+    })
 }
 
-function stripRequestBodyObjectDescriptions(
-  requestBody: RequestBodyObject | ReferenceObject | undefined
-): RequestBodyObject | ReferenceObject | undefined {
+function stripRequestBodyObjectDescriptions(requestBody: RequestBodyObject | ReferenceObject | undefined): RequestBodyObject | ReferenceObject | undefined {
   if (!requestBody) {
-    return;
+    return
   }
   if ("$ref" in requestBody) {
     return {
       $ref: requestBody.$ref,
-    };
+    }
   }
 
   return stripEmptyFields({
     content: stripContentObjectDescriptions(requestBody.content),
     required: requestBody.required,
-  });
+  })
 }
 
 function cleanResponseObject(response: ResponseObject | ReferenceObject): ResponseObject | ReferenceObject {
   if ("$ref" in response) {
     return {
       $ref: response.$ref,
-    };
+    }
   }
 
   return stripEmptyFields({
     headers: response.headers,
     description: "",
     content: response.content ? stripContentObjectDescriptions(response.content) : response.content,
-  });
+  })
 }
 
 function stripResponsesObjectDescriptions(responses: ResponsesObject | undefined) {
   if (!responses) {
-    return;
+    return
   }
 
   return Object.fromEntries(
     Object.entries(responses)
       .filter(([k]) => k.startsWith("2"))
       .map(([k, v]) => [k, cleanResponseObject(v)])
-  );
+  )
 }
 
 export function stripOperationObjectDescriptions(operation: OperationObject | undefined): OperationObject | undefined {
   if (!operation) {
-    return;
+    return
   }
 
   return stripEmptyFields({
@@ -231,7 +221,7 @@ export function stripOperationObjectDescriptions(operation: OperationObject | un
     requestBody: stripRequestBodyObjectDescriptions(operation.requestBody),
     responses: stripResponsesObjectDescriptions(operation.responses),
     security: operation.security,
-  });
+  })
 }
 
 function cleanRecord<T>(record: Record<string, T>, mapper: (v: T) => T | undefined): Record<string, T> {
@@ -239,5 +229,5 @@ function cleanRecord<T>(record: Record<string, T>, mapper: (v: T) => T | undefin
     Object.entries(record)
       .map(([k, v]) => [k, mapper(v)])
       .filter(([_k, v]) => v != null)
-  );
+  )
 }

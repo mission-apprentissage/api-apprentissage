@@ -1,18 +1,18 @@
-import type { IApiRoutesDef } from "api-alternance-sdk";
-import { zOrganisation } from "api-alternance-sdk";
-import type { Jsonify } from "type-fest";
-import { z } from "zod/v4-mini";
+import type { IApiRoutesDef } from "api-alternance-sdk"
+import { zOrganisation } from "api-alternance-sdk"
+import type { Jsonify } from "type-fest"
+import { z } from "zod/v4-mini"
 
-import { zUser, zUserPublic } from "../../models/user.model.js";
-import { ZReqHeadersAuthorization, ZResOk } from "../common.routes.js";
+import { zUser, zUserPublic } from "../../models/user.model.js"
+import { ZReqHeadersAuthorization, ZResOk } from "../common.routes.js"
 
 const zSession = z.object({
   user: zUserPublic,
   organisation: z.nullable(zOrganisation),
-});
+})
 
-export type ISession = z.output<typeof zSession>;
-export type ISessionJson = Jsonify<ISession>;
+export type ISession = z.output<typeof zSession>
+export type ISessionJson = Jsonify<ISession>
 
 export const zAuthRoutes = {
   get: {
@@ -104,9 +104,9 @@ export const zAuthRoutes = {
       },
     },
   },
-} as const satisfies IApiRoutesDef;
+} as const satisfies IApiRoutesDef
 
 export interface IStatus {
-  error?: boolean;
-  message?: string;
+  error?: boolean
+  message?: string
 }

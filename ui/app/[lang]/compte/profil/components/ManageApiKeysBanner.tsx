@@ -1,14 +1,14 @@
-import { Notice } from "@codegouvfr/react-dsfr/Notice";
+import { Notice } from "@codegouvfr/react-dsfr/Notice"
 
-import { useApiKeysStatut } from "@/app/[lang]/compte/profil/hooks/useApiKeys";
-import type { WithLangAndT } from "@/app/i18n/settings";
+import { useApiKeysStatut } from "@/app/[lang]/compte/profil/hooks/useApiKeys"
+import type { WithLangAndT } from "@/app/i18n/settings"
 
 export function ManageApiKeysBanner({ lang, t }: WithLangAndT) {
-  const statut = useApiKeysStatut();
+  const statut = useApiKeysStatut()
 
   if (statut !== "actif-ready") {
-    return null;
+    return null
   }
 
-  return <Notice title={<>{t("monCompte.votreJetonCree", { lng: lang })} &nbsp;</>} />;
+  return <Notice title={<>{t("monCompte.votreJetonCree", { lng: lang })} &nbsp;</>} />
 }

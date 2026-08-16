@@ -1,9 +1,9 @@
-import type { DocTechnicalField } from "../../types.js";
-import { offerReadModelDoc } from "./offer_read.model.doc.js";
-import applyDescEn from "./offer_write_docs/en/apply.description.md.js";
-import offerDescriptionEn from "./offer_write_docs/en/offer.description.md.js";
-import applyDescFr from "./offer_write_docs/fr/apply.description.md.js";
-import offerDescriptionFr from "./offer_write_docs/fr/offer.description.md.js";
+import type { DocTechnicalField } from "../../types.js"
+import { offerReadModelDoc } from "./offer_read.model.doc.js"
+import applyDescEn from "./offer_write_docs/en/apply.description.md.js"
+import offerDescriptionEn from "./offer_write_docs/en/offer.description.md.js"
+import applyDescFr from "./offer_write_docs/fr/apply.description.md.js"
+import offerDescriptionFr from "./offer_write_docs/fr/offer.description.md.js"
 
 export const offerWriteModelDoc = {
   descriptions: [{ fr: "Offre d'emploi", en: "Job offer" }],
@@ -108,9 +108,7 @@ export const offerWriteModelDoc = {
         phone: offerReadModelDoc.properties.apply.properties.phone,
         url: {
           descriptions: [{ en: "Redirect URL", fr: "URL de redirection" }],
-          examples: [
-            "https://labonnealternance.apprentissage.beta.gouv.fr/recherche-apprentissage?display=list&page=fiche&type=matcha&itemId=664752a2ebe24062b758c641",
-          ],
+          examples: ["https://labonnealternance.apprentissage.beta.gouv.fr/recherche-apprentissage?display=list&page=fiche&type=matcha&itemId=664752a2ebe24062b758c641"],
         },
       },
     },
@@ -121,4 +119,4 @@ export const offerWriteModelDoc = {
       },
     },
   },
-} as const satisfies DocTechnicalField;
+} as const satisfies DocTechnicalField

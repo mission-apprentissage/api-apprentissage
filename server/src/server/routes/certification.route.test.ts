@@ -1,27 +1,27 @@
-import { DateTime } from "luxon";
-import type { ICertificationInternal } from "shared/models/certification.model";
-import { generateCertificationInternalFixture, generateUserFixture } from "shared/models/fixtures/index";
-import { beforeAll, beforeEach, describe, expect, it } from "vitest";
-import { useMongo } from "@tests/mongo.test.utils.js";
+import { useMongo } from "@tests/mongo.test.utils.js"
+import { DateTime } from "luxon"
+import type { ICertificationInternal } from "shared/models/certification.model"
+import { generateCertificationInternalFixture, generateUserFixture } from "shared/models/fixtures/index"
+import { beforeAll, beforeEach, describe, expect, it } from "vitest"
 
-import { generateApiKey } from "@/actions/users.actions.js";
-import type { Server } from "@/server/server.js";
-import createServer from "@/server/server.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import { generateApiKey } from "@/actions/users.actions.js"
+import type { Server } from "@/server/server.js"
+import createServer from "@/server/server.js"
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
 
-useMongo();
+useMongo()
 
 describe("GET /certification/v1", () => {
-  let app: Server;
+  let app: Server
 
   beforeAll(async () => {
-    app = await createServer();
-    await app.ready();
+    app = await createServer()
+    await app.ready()
 
-    return () => app.close();
-  }, 15_000);
+    return () => app.close()
+  }, 15_000)
 
-  let token: string;
+  let token: string
 
   const certifications = {
     "46X32402_RNCP36491": generateCertificationInternalFixture({
@@ -69,10 +69,9 @@ describe("GET /certification/v1", () => {
     "13512840_null": generateCertificationInternalFixture({
       identifiant: { cfd: "13512840", rncp: null },
     }),
-  } satisfies Record<string, ICertificationInternal>;
+  } satisfies Record<string, ICertificationInternal>
 
-  const toLocalDateString = (date: Date | null) =>
-    date === null ? null : DateTime.fromJSDate(date, { zone: "Europe/Paris" }).toISO();
+  const toLocalDateString = (date: Date | null) => (date === null ? null : DateTime.fromJSDate(date, { zone: "Europe/Paris" }).toISO())
 
   const toExpectedJson = ({ _id, updated_at: _u, created_at: _c, ...rest }: ICertificationInternal) => {
     return {
@@ -128,32 +127,32 @@ describe("GET /certification/v1", () => {
                 fin_enregistrement: toLocalDateString(r.fin_enregistrement),
               })),
       },
-    };
-  };
+    }
+  }
 
   beforeEach(async () => {
     const user = generateUserFixture({
       email: "user@exemple.fr",
       is_admin: false,
-    });
-    await getDbCollection("users").insertOne(user);
-    token = (await generateApiKey("", user)).value;
-    await getDbCollection("certifications").insertMany(Object.values(certifications));
-  });
+    })
+    await getDbCollection("users").insertOne(user)
+    token = (await generateApiKey("", user)).value
+    await getDbCollection("certifications").insertMany(Object.values(certifications))
+  })
 
   it("should returns 401 if api key is not provided", async () => {
     const response = await app.inject({
       method: "GET",
       url: "/api/certification/v1",
-    });
+    })
 
-    expect(response.statusCode).toBe(401);
+    expect(response.statusCode).toBe(401)
     expect(response.json()).toEqual({
       statusCode: 401,
       name: "Unauthorized",
       message: "Vous devez fournir une clé d'API valide pour accéder à cette ressource",
-    });
-  });
+    })
+  })
 
   it("should returns 401 if api key is invalid", async () => {
     const response = await app.inject({
@@ -162,14 +161,14 @@ describe("GET /certification/v1", () => {
       headers: {
         Authorization: `Bearer ${token}invalid`,
       },
-    });
-    expect(response.statusCode).toBe(401);
+    })
+    expect(response.statusCode).toBe(401)
     expect(response.json()).toEqual({
       statusCode: 401,
       name: "Unauthorized",
       message: "Impossible de déchiffrer la clé d'API",
-    });
-  });
+    })
+  })
 
   it.each([
     ["", Object.values(certifications)],
@@ -189,12 +188,12 @@ describe("GET /certification/v1", () => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    });
-    expect.soft(response.statusCode).toBe(200);
-    const result = response.json();
-    expect.soft(result).toHaveLength(expected.length);
-    expect.soft(result).toEqual(expect.arrayContaining(expected.map(toExpectedJson)));
-  });
+    })
+    expect.soft(response.statusCode).toBe(200)
+    const result = response.json()
+    expect.soft(result).toHaveLength(expected.length)
+    expect.soft(result).toEqual(expect.arrayContaining(expected.map(toExpectedJson)))
+  })
 
   it("should return localised date string", async () => {
     const response = await app.inject({
@@ -203,9 +202,9 @@ describe("GET /certification/v1", () => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    });
-    expect.soft(response.statusCode).toBe(200);
-    const result = response.json();
+    })
+    expect.soft(response.statusCode).toBe(200)
+    const result = response.json()
     expect.soft(result.at(0).periode_validite).toEqual({
       debut: "2023-10-12T00:00:00.000+02:00",
       fin: "2026-08-31T23:59:59.000+02:00",
@@ -218,12 +217,12 @@ describe("GET /certification/v1", () => {
         fin_enregistrement: "2026-08-31T23:59:59.000+02:00",
         debut_parcours: "2023-09-01T00:00:00.000+02:00",
       }),
-    });
+    })
     expect.soft(result.at(0).base_legale).toEqual({
       cfd: expect.objectContaining({
         creation: "2009-01-01T00:00:00.000+01:00",
         abrogation: "2024-12-31T23:59:59.000+01:00",
       }),
-    });
-  });
-});
+    })
+  })
+})

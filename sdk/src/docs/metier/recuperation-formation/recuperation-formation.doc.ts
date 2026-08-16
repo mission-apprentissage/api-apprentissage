@@ -1,7 +1,7 @@
-import type { DocPage, OpenApiText } from "../../types.js";
-import { certificationsPageDoc } from "../certifications/certifications.doc.js";
-import { rechercheCommunePageDoc } from "../recherche-commune/recherche-commune.doc.js";
-import { recuperationOrganismesPageDoc } from "../recuperation-organismes/recuperation-organismes.doc.js";
+import type { DocPage, OpenApiText } from "../../types.js"
+import { certificationsPageDoc } from "../certifications/certifications.doc.js"
+import { rechercheCommunePageDoc } from "../recherche-commune/recherche-commune.doc.js"
+import { recuperationOrganismesPageDoc } from "../recuperation-organismes/recuperation-organismes.doc.js"
 
 export const recuperationFormationPageSummaryDoc = {
   title: {
@@ -12,7 +12,7 @@ export const recuperationFormationPageSummaryDoc = {
     en: "Access the details of a training course from its identifier",
     fr: "Accéder au détail d'une formation en apprentissage à partir de son identifiant",
   },
-} as const satisfies { title: OpenApiText; headline: OpenApiText };
+} as const satisfies { title: OpenApiText; headline: OpenApiText }
 
 export const recuperationFormationPageDoc = {
   tag: "formation",
@@ -175,9 +175,7 @@ export const recuperationFormationPageDoc = {
               description: [{ fr: "Adresse du lieu de formation.", en: "Training place address" }],
             },
             geolocalisation: {
-              description: [
-                { fr: "Coordonnées GPS du lieu de formation.", en: "GPS coordinates of the training place" },
-              ],
+              description: [{ fr: "Coordonnées GPS du lieu de formation.", en: "GPS coordinates of the training place" }],
             },
             precision: {
               description: [
@@ -268,4 +266,4 @@ export const recuperationFormationPageDoc = {
       },
     },
   ],
-} as const satisfies DocPage;
+} as const satisfies DocPage

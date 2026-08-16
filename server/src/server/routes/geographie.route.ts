@@ -1,16 +1,16 @@
-import type { ICommune } from "api-alternance-sdk";
-import { zRoutes } from "shared";
+import type { ICommune } from "api-alternance-sdk"
+import { zRoutes } from "shared"
 
-import type { Server } from "@/server/server.js";
-import { searchMissionLocales } from "@/services/geographie/geographie.service.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import type { Server } from "@/server/server.js"
+import { searchMissionLocales } from "@/services/geographie/geographie.service.js"
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
 
 type IDepartementAggDatum = {
-  codeInsee: ICommune["departement"]["codeInsee"];
-  nom: ICommune["departement"]["nom"];
-  region: ICommune["region"];
-  academie: ICommune["academie"];
-};
+  codeInsee: ICommune["departement"]["codeInsee"]
+  nom: ICommune["departement"]["nom"]
+  region: ICommune["region"]
+  academie: ICommune["academie"]
+}
 
 export const geographieRoutes = ({ server }: { server: Server }) => {
   server.get(
@@ -20,21 +20,16 @@ export const geographieRoutes = ({ server }: { server: Server }) => {
       onRequest: [server.auth(zRoutes.get["/geographie/v1/commune/search"])],
     },
     async (request, response) => {
-      const { code } = request.query;
+      const { code } = request.query
       const communes = await getDbCollection("commune")
         .find({
-          $or: [
-            { "code.insee": code },
-            { "code.postaux": code },
-            { "arrondissements.code": code },
-            { "anciennes.codeInsee": code },
-          ],
+          $or: [{ "code.insee": code }, { "code.postaux": code }, { "arrondissements.code": code }, { "anciennes.codeInsee": code }],
         })
-        .toArray();
+        .toArray()
 
-      return response.send(communes);
+      return response.send(communes)
     }
-  );
+  )
 
   server.get(
     "/geographie/v1/departement",
@@ -72,11 +67,11 @@ export const geographieRoutes = ({ server }: { server: Server }) => {
             },
           },
         ])
-        .toArray();
+        .toArray()
 
-      return response.send(data);
+      return response.send(data)
     }
-  );
+  )
 
   server.get(
     "/geographie/v1/mission-locale",
@@ -85,9 +80,9 @@ export const geographieRoutes = ({ server }: { server: Server }) => {
       onRequest: [server.auth(zRoutes.get["/geographie/v1/mission-locale"])],
     },
     async (request, response) => {
-      const missionLocales = await searchMissionLocales(request.query);
+      const missionLocales = await searchMissionLocales(request.query)
 
-      return response.send(missionLocales);
+      return response.send(missionLocales)
     }
-  );
-};
+  )
+}

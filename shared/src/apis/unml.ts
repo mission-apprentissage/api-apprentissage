@@ -1,6 +1,6 @@
-import { z } from "zod/v4-mini";
+import { z } from "zod/v4-mini"
 
-const zStringTrimmed = z.string().check(z.trim(), z.minLength(1));
+const zStringTrimmed = z.string().check(z.trim(), z.minLength(1))
 
 const zStringTrimmedNullable = z.pipe(
   z.pipe(
@@ -8,7 +8,7 @@ const zStringTrimmedNullable = z.pipe(
     z.transform((value) => value || null)
   ),
   z.nullable(zStringTrimmed.check(z.minLength(1)))
-);
+)
 
 export const zSourceMissionLocale = z.object({
   id: z.number(),
@@ -54,7 +54,7 @@ export const zSourceMissionLocale = z.object({
   nomDepartement: z.string(),
   nomRegion: z.string(),
   alias: z.string(),
-});
+})
 
 const zSourceCommuneMissionLocale = z.object({
   id: z.number(),
@@ -62,14 +62,14 @@ const zSourceCommuneMissionLocale = z.object({
   codePostal: z.string(),
   ville: z.string(),
   structure: zSourceMissionLocale,
-});
+})
 
 export const zSourceUnmlPayload = z.object({
   results: z.array(zSourceCommuneMissionLocale),
   total: z.number(),
   success: z.literal(true),
-});
+})
 
-export type ISourceUnmlPayload = z.infer<typeof zSourceUnmlPayload>;
-export type ISourceCommuneMissionLocale = z.infer<typeof zSourceCommuneMissionLocale>;
-export type ISourceMissionLocale = z.infer<typeof zSourceMissionLocale>;
+export type ISourceUnmlPayload = z.infer<typeof zSourceUnmlPayload>
+export type ISourceCommuneMissionLocale = z.infer<typeof zSourceCommuneMissionLocale>
+export type ISourceMissionLocale = z.infer<typeof zSourceMissionLocale>

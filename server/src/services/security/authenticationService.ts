@@ -1,85 +1,82 @@
-import { internal, unauthorized } from "@hapi/boom";
-import { captureException } from "@sentry/node";
-import type { ISecuredRouteSchema, WithSecurityScheme } from "api-alternance-sdk";
-import type { PathParam, QueryString, UserWithType } from "api-alternance-sdk/internal";
-import type { FastifyRequest } from "fastify";
-import { ObjectId } from "mongodb";
-import type { IOrganisationInternal } from "shared/models/organisation.model";
-import type { IApiKey, IUser } from "shared/models/user.model";
-import type { IAccessToken } from "shared/routes/common.routes";
-import { assertUnreachable } from "shared/utils/assertUnreachable";
+import { internal, unauthorized } from "@hapi/boom"
+import { captureException } from "@sentry/node"
+import type { ISecuredRouteSchema, WithSecurityScheme } from "api-alternance-sdk"
+import type { PathParam, QueryString, UserWithType } from "api-alternance-sdk/internal"
+import type { FastifyRequest } from "fastify"
+import type { JWTPayload } from "jose"
+import { JOSEError, JWTExpired } from "jose/errors"
+import { ObjectId } from "mongodb"
+import type { IOrganisationInternal } from "shared/models/organisation.model"
+import type { IApiKey, IUser } from "shared/models/user.model"
+import type { IAccessToken } from "shared/routes/common.routes"
+import { assertUnreachable } from "shared/utils/assertUnreachable"
+import { authCookieSession } from "@/actions/sessions.actions.js"
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
+import { compareKeys } from "@/utils/cryptoUtils.js"
+import { decodeToken } from "@/utils/jwtUtils.js"
+import { parseAccessToken } from "./accessTokenService.js"
 
-import { JOSEError, JWTExpired } from "jose/errors";
-import { parseAccessToken } from "./accessTokenService.js";
-import { authCookieSession } from "@/actions/sessions.actions.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
-import { compareKeys } from "@/utils/cryptoUtils.js";
-import { decodeToken } from "@/utils/jwtUtils.js";
-
-export type IUserWithType = UserWithType<"token", IAccessToken> | UserWithType<"user", IUser>;
+export type IUserWithType = UserWithType<"token", IAccessToken> | UserWithType<"user", IUser>
 
 declare module "fastify" {
   interface FastifyRequest {
-    user?: null | IUserWithType;
-    organisation?: null | IOrganisationInternal;
-    api_key?: IApiKey | null;
+    user?: null | IUserWithType
+    organisation?: null | IOrganisationInternal
+    api_key?: IApiKey | null
   }
 }
 
-type AuthenticatedUser<AuthScheme extends WithSecurityScheme["securityScheme"]["auth"]> =
-  AuthScheme extends "access-token"
-    ? UserWithType<"token", IAccessToken>
-    : AuthScheme extends "api-key" | "cookie-session"
-      ? UserWithType<"user", IUser>
-      : never;
+type AuthenticatedUser<AuthScheme extends WithSecurityScheme["securityScheme"]["auth"]> = AuthScheme extends "access-token"
+  ? UserWithType<"token", IAccessToken>
+  : AuthScheme extends "api-key" | "cookie-session"
+    ? UserWithType<"user", IUser>
+    : never
 
-export const getUserFromRequest = <S extends WithSecurityScheme>(
-  req: Pick<FastifyRequest, "user">,
-  _schema: S
-): AuthenticatedUser<S["securityScheme"]["auth"]>["value"] => {
+export const getUserFromRequest = <S extends WithSecurityScheme>(req: Pick<FastifyRequest, "user">, _schema: S): AuthenticatedUser<S["securityScheme"]["auth"]>["value"] => {
   if (!req.user) {
-    throw internal("User should be authenticated");
+    throw internal("User should be authenticated")
   }
 
-  return req.user.value as AuthenticatedUser<S["securityScheme"]["auth"]>["value"];
-};
+  return req.user.value as AuthenticatedUser<S["securityScheme"]["auth"]>["value"]
+}
 
 function findApiKey(api_keys: IApiKey[], value: string) {
-  const key = api_keys.find((k) => k.key === value);
+  const key = api_keys.find((k) => k.key === value)
 
   if (key) {
-    return key;
+    return key
   }
 
   // Support legacy token emitted using hashed key
-  return api_keys.find((k) => k.key.includes(".") && compareKeys(k.key, value));
+  return api_keys.find((k) => k.key.includes(".") && compareKeys(k.key, value))
 }
 
 async function authApiKey(req: FastifyRequest): Promise<UserWithType<"user", IUser> | null> {
-  const token = extractBearerTokenFromHeader(req);
+  const token = extractBearerTokenFromHeader(req)
 
   if (!token) {
-    return null;
+    return null
   }
 
   try {
-    const { _id, api_key } = (await decodeToken(token)) as any; // eslint-disable-line @typescript-eslint/no-explicit-any
+    // Le jeton est émis par ce service : les deux champs y sont toujours posés.
+    const { _id, api_key } = (await decodeToken(token)) as JWTPayload & { _id: string; api_key: string }
 
-    const user = await getDbCollection("users").findOne({ _id: new ObjectId(`${_id}`) });
+    const user = await getDbCollection("users").findOne({ _id: new ObjectId(`${_id}`) })
 
-    const savedKey = findApiKey(user?.api_keys ?? [], api_key);
+    const savedKey = findApiKey(user?.api_keys ?? [], api_key)
 
     if (!savedKey || user === null) {
-      throw unauthorized("La clé d'API fournie a été révoquée");
+      throw unauthorized("La clé d'API fournie a été révoquée")
     }
 
-    req.api_key = { ...savedKey, key: api_key };
+    req.api_key = { ...savedKey, key: api_key }
 
     if (savedKey.key === api_key) {
-      return { type: "user", value: user };
+      return { type: "user", value: user }
     }
 
-    const now = new Date();
+    const now = new Date()
 
     await getDbCollection("users").updateOne(
       { "api_keys._id": savedKey._id },
@@ -90,7 +87,7 @@ async function authApiKey(req: FastifyRequest): Promise<UserWithType<"user", IUs
           updated_at: now,
         },
       }
-    );
+    )
 
     return {
       type: "user",
@@ -99,102 +96,93 @@ async function authApiKey(req: FastifyRequest): Promise<UserWithType<"user", IUs
         updated_at: now,
         api_keys: user.api_keys.map((k) => (k._id === savedKey._id ? { ...k, key: api_key } : k)),
       },
-    };
+    }
   } catch (error) {
     if (error instanceof JOSEError) {
       if (error instanceof JWTExpired) {
-        throw unauthorized("La clé d'API a expirée");
+        throw unauthorized("La clé d'API a expirée")
       }
 
-      throw unauthorized("Impossible de déchiffrer la clé d'API");
+      throw unauthorized("Impossible de déchiffrer la clé d'API")
     }
 
-    captureException(error);
-    return null;
+    captureException(error)
+    return null
   }
 }
 
-const bearerRegex = /^bearer\s+(\S+)$/i;
+const bearerRegex = /^bearer\s+(\S+)$/i
 function extractBearerTokenFromHeader(req: FastifyRequest): null | string {
-  const { authorization } = req.headers;
+  const { authorization } = req.headers
 
   if (!authorization) {
-    return null;
+    return null
   }
 
-  const matches = authorization.match(bearerRegex);
+  const matches = authorization.match(bearerRegex)
 
   if (!matches) {
-    throw unauthorized("Le header Authorization doit être de la forme 'Bearer <token>'");
+    throw unauthorized("Le header Authorization doit être de la forme 'Bearer <token>'")
   }
 
-  return matches[1];
+  return matches[1]
 }
 
 function extractTokenFromQuery(req: FastifyRequest): null | string {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return (req.query as any)?.token ?? null;
+  return (req.query as { token?: string } | undefined)?.token ?? null
 }
 
-async function authAccessToken<S extends ISecuredRouteSchema>(
-  req: FastifyRequest,
-  schema: S
-): Promise<UserWithType<"token", IAccessToken> | null> {
-  const token = await parseAccessToken(
-    extractBearerTokenFromHeader(req) ?? extractTokenFromQuery(req),
-    schema,
-    req.params as PathParam,
-    req.query as QueryString
-  );
+async function authAccessToken<S extends ISecuredRouteSchema>(req: FastifyRequest, schema: S): Promise<UserWithType<"token", IAccessToken> | null> {
+  const token = await parseAccessToken(extractBearerTokenFromHeader(req) ?? extractTokenFromQuery(req), schema, req.params as PathParam, req.query as QueryString)
 
   if (token === null) {
-    return null;
+    return null
   }
 
-  return token ? { type: "token", value: token } : null;
+  return token ? { type: "token", value: token } : null
 }
 
 async function getOrganisation(user: IUserWithType | null | undefined): Promise<IOrganisationInternal | null> {
-  if (user == null) return null;
-  const organisationName = user.type === "token" ? user.value.identity.organisation : user.value.organisation;
-  if (organisationName === null) return null;
+  if (user == null) return null
+  const organisationName = user.type === "token" ? user.value.identity.organisation : user.value.organisation
+  if (organisationName === null) return null
 
-  return getDbCollection("organisations").findOne({ nom: organisationName });
+  return getDbCollection("organisations").findOne({ nom: organisationName })
 }
 
 export async function authenticationMiddleware<S extends ISecuredRouteSchema>(schema: S, req: FastifyRequest) {
   if (!schema.securityScheme) {
-    throw internal("Missing securityScheme");
+    throw internal("Missing securityScheme")
   }
 
-  const securityScheme = schema.securityScheme;
+  const securityScheme = schema.securityScheme
 
   switch (securityScheme.auth) {
     case "cookie-session":
-      req.user = await authCookieSession(req);
+      req.user = await authCookieSession(req)
       if (!req.user) {
-        throw unauthorized("Vous devez être connecté pour accéder à cette ressource");
+        throw unauthorized("Vous devez être connecté pour accéder à cette ressource")
       }
-      break;
+      break
     case "api-key":
-      req.user = await authApiKey(req);
+      req.user = await authApiKey(req)
       if (!req.user) {
-        throw unauthorized("Vous devez fournir une clé d'API valide pour accéder à cette ressource");
+        throw unauthorized("Vous devez fournir une clé d'API valide pour accéder à cette ressource")
       }
-      break;
+      break
     case "access-token":
-      req.user = await authAccessToken(req, schema);
+      req.user = await authAccessToken(req, schema)
       if (!req.user) {
-        throw unauthorized("Le lien de connexion pour accéder à cette ressource est invalide");
+        throw unauthorized("Le lien de connexion pour accéder à cette ressource est invalide")
       }
-      break;
+      break
     default:
-      assertUnreachable(securityScheme.auth);
+      assertUnreachable(securityScheme.auth)
   }
 
   if (!req.user) {
-    throw unauthorized("Vous devez être connecté pour accéder à cette ressource");
+    throw unauthorized("Vous devez être connecté pour accéder à cette ressource")
   }
 
-  req.organisation = await getOrganisation(req.user);
+  req.organisation = await getOrganisation(req.user)
 }

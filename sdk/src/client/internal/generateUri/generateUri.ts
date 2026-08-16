@@ -1,13 +1,13 @@
-import type { EmptyObject } from "type-fest";
+import type { EmptyObject } from "type-fest"
 
-export type PathParam = Record<string, string>;
-export type QueryString = Record<string, string | string[]>;
+export type PathParam = Record<string, string>
+export type QueryString = Record<string, string | string[]>
 export type WithQueryStringAndPathParam =
   | Readonly<{
-      params?: Readonly<PathParam>;
-      querystring?: Readonly<QueryString>;
+      params?: Readonly<PathParam>
+      querystring?: Readonly<QueryString>
     }>
-  | EmptyObject;
+  | EmptyObject
 
 /*
  * The following function is inspired from https://github.com/remix-run/react-router/blob/868e5157bbb72fb77f827f264a2b7f6f6106147d/packages/router/utils.ts#L751-L802
@@ -25,65 +25,61 @@ export type WithQueryStringAndPathParam =
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 export function generatePath(originalPath: string, params: PathParam = {}): string {
-  let path: string = originalPath;
+  let path: string = originalPath
   if (path.endsWith("*") && path !== "*" && !path.endsWith("/*")) {
-    path = path.replace(/\*$/, "/*");
+    path = path.replace(/\*$/, "/*")
   }
-  const prefix = path.startsWith("/") ? "/" : "";
+  const prefix = path.startsWith("/") ? "/" : ""
 
-  const stringify = (p: unknown) => (p == null ? "" : typeof p === "string" ? p : String(p));
+  const stringify = (p: unknown) => (p == null ? "" : typeof p === "string" ? p : String(p))
 
   const segments = path
     .split(/\/+/)
     .map((segment, index, array) => {
-      const isLastSegment = index === array.length - 1;
+      const isLastSegment = index === array.length - 1
 
       // only apply the splat if it's the last segment
       if (isLastSegment && segment === "*") {
-        const star = "*";
+        const star = "*"
         // Apply the splat
-        return stringify(params[star]);
+        return stringify(params[star])
       }
 
-      const keyMatch = segment.match(/^:(\w+)(\??)$/);
+      const keyMatch = segment.match(/^:(\w+)(\??)$/)
       if (keyMatch) {
-        const [, key, optional] = keyMatch;
-        const param = params[key];
+        const [, key, optional] = keyMatch
+        const param = params[key]
         if (optional !== "?" && param == null) {
-          throw new Error(`Missing ":${key}" param`);
+          throw new Error(`Missing ":${key}" param`)
         }
 
-        return stringify(param);
+        return stringify(param)
       }
 
       // Remove any optional markers from optional static segments
-      return segment.replace(/\?$/g, "");
+      return segment.replace(/\?$/g, "")
     })
     // Remove empty segments
-    .filter((segment) => !!segment);
+    .filter((segment) => !!segment)
 
-  return prefix + segments.join("/");
+  return prefix + segments.join("/")
 }
 
 export function generateQueryString(query: QueryString = {}): string {
-  const searchParams = new URLSearchParams();
+  const searchParams = new URLSearchParams()
   for (const [key, value] of Object.entries(query)) {
     if (Array.isArray(value)) {
-      value.forEach((v) => searchParams.append(key, v));
+      value.forEach((v) => searchParams.append(key, v))
     } else {
-      searchParams.append(key, value);
+      searchParams.append(key, value)
     }
   }
-  const searchString = searchParams.toString();
-  return searchString ? `?${searchString}` : "";
+  const searchString = searchParams.toString()
+  return searchString ? `?${searchString}` : ""
 }
 
-export function generateUri(
-  path: string,
-  options: WithQueryStringAndPathParam = {},
-  skipParamsReplacement = false
-): string {
-  const params = "params" in options ? options.params : {};
-  const querystring = "querystring" in options ? options.querystring : {};
-  return skipParamsReplacement ? path : generatePath(path, params) + generateQueryString(querystring);
+export function generateUri(path: string, options: WithQueryStringAndPathParam = {}, skipParamsReplacement = false): string {
+  const params = "params" in options ? options.params : {}
+  const querystring = "querystring" in options ? options.querystring : {}
+  return skipParamsReplacement ? path : generatePath(path, params) + generateQueryString(querystring)
 }

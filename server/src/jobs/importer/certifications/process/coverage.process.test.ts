@@ -1,22 +1,16 @@
-import { ObjectId } from "mongodb";
-import type { ICertificationInternal } from "shared/models/certification.model";
-import {
-  generateCertificationInternalFixture,
-  generateSourceBcn_N_FormationDiplomeFixture,
-  generateSourceFranceCompetenceFixture,
-} from "shared/models/fixtures/index";
-import type { IImportMetaCertifications } from "shared/models/import.meta.model";
-import { parseParisLocalDate } from "shared/zod/date.primitives";
-import { describe, expect, it } from "vitest";
+import { useMongo } from "@tests/mongo.test.utils.js"
+import { ObjectId } from "mongodb"
+import type { ICertificationInternal } from "shared/models/certification.model"
+import { generateCertificationInternalFixture, generateSourceBcn_N_FormationDiplomeFixture, generateSourceFranceCompetenceFixture } from "shared/models/fixtures/index"
+import type { IImportMetaCertifications } from "shared/models/import.meta.model"
+import { parseParisLocalDate } from "shared/zod/date.primitives"
+import { describe, expect, it } from "vitest"
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
+import { processCertificationCoverage } from "./coverage.process.js"
 
-import { processCertificationCoverage } from "./coverage.process.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
-
-import { useMongo } from "@tests/mongo.test.utils.js";
-
-const today = new Date("2023-12-25T02:00:00.000Z");
-const yesterday = new Date("2023-12-24T02:00:00.000Z");
-const activationStart = new Date("2019-12-25T02:00:00.000Z");
+const today = new Date("2023-12-25T02:00:00.000Z")
+const yesterday = new Date("2023-12-24T02:00:00.000Z")
+const activationStart = new Date("2019-12-25T02:00:00.000Z")
 
 const yesterdayImportMeta: IImportMetaCertifications = {
   _id: new ObjectId(),
@@ -36,7 +30,7 @@ const yesterdayImportMeta: IImportMetaCertifications = {
       import_date: yesterday,
     },
   },
-};
+}
 const todayImportMeta: IImportMetaCertifications = {
   _id: new ObjectId(),
   status: "pending",
@@ -55,40 +49,34 @@ const todayImportMeta: IImportMetaCertifications = {
       import_date: today,
     },
   },
-};
+}
 
-type T = { value: string; start: Date; end: Date };
+type T = { value: string; start: Date; end: Date }
 const t1 = {
   value: "01/01/2023",
   start: parseParisLocalDate("01/01/2023"),
   end: parseParisLocalDate("01/01/2023", "23:59:59"),
-};
+}
 const t2 = {
   value: "02/01/2023",
   start: parseParisLocalDate("02/01/2023"),
   end: parseParisLocalDate("02/01/2023", "23:59:59"),
-};
+}
 const t3 = {
   value: "03/01/2023",
   start: parseParisLocalDate("03/01/2023"),
   end: parseParisLocalDate("03/01/2023", "23:59:59"),
-};
+}
 const t4 = {
   value: "04/01/2023",
   start: parseParisLocalDate("04/01/2023"),
   end: parseParisLocalDate("04/01/2023", "23:59:59"),
-};
+}
 
-useMongo();
+useMongo()
 
 describe("cfd coverage", () => {
-  const generateCertif = (
-    cfd: string,
-    ouverture: T | null,
-    fermeture: T | null,
-    [rncp, debut, fin]: [string | null, T | null, T | null],
-    importMeta: IImportMetaCertifications
-  ) =>
+  const generateCertif = (cfd: string, ouverture: T | null, fermeture: T | null, [rncp, debut, fin]: [string | null, T | null, T | null], importMeta: IImportMetaCertifications) =>
     generateCertificationInternalFixture({
       identifiant: { cfd, rncp },
       periode_validite: {
@@ -99,15 +87,9 @@ describe("cfd coverage", () => {
       },
       created_at: importMeta.import_date,
       updated_at: importMeta.import_date,
-    });
+    })
 
-  const createFixture = async (
-    cfd: string,
-    ouverture: T | null,
-    fermeture: T | null,
-    rncps: Array<[string | null, T | null, T | null]>,
-    importMeta: IImportMetaCertifications
-  ) => {
+  const createFixture = async (cfd: string, ouverture: T | null, fermeture: T | null, rncps: Array<[string | null, T | null, T | null]>, importMeta: IImportMetaCertifications) => {
     const f = {
       certifs: rncps.map((rncp) => generateCertif(cfd, ouverture, fermeture, rncp, importMeta)),
       bcn: generateSourceBcn_N_FormationDiplomeFixture({
@@ -126,16 +108,16 @@ describe("cfd coverage", () => {
             data: { standard: { Date_Fin_Enregistrement: fin?.value ?? null } },
           })
         ),
-    };
-
-    await getDbCollection("certifications").insertMany(f.certifs);
-    await getDbCollection("source.bcn").insertMany([f.bcn]);
-    if (f.fc.length > 0) {
-      await getDbCollection("source.france_competence").insertMany(f.fc);
     }
 
-    return f;
-  };
+    await getDbCollection("certifications").insertMany(f.certifs)
+    await getDbCollection("source.bcn").insertMany([f.bcn])
+    if (f.fc.length > 0) {
+      await getDbCollection("source.france_competence").insertMany(f.fc)
+    }
+
+    return f
+  }
 
   const expectCertifs = async (expected: ICertificationInternal[]) => {
     const data = await getDbCollection("certifications")
@@ -153,15 +135,15 @@ describe("cfd coverage", () => {
           sort: { "identifiant.cfd": 1, "periode_validite.debut": 1 },
         }
       )
-      .toArray();
+      .toArray()
     expect(data).toEqual(
       expected.map((c) => ({
         identifiant: { cfd: c.identifiant.cfd, rncp: c.identifiant.rncp },
         periode_validite: { debut: c.periode_validite.debut, fin: c.periode_validite.fin },
         updated_at: c.updated_at,
       }))
-    );
-  };
+    )
+  }
 
   it("should do nothing when coverage is full", async () => {
     const f1 = await createFixture(
@@ -173,7 +155,7 @@ describe("cfd coverage", () => {
         ["RNCP10001", t2, t2],
       ],
       todayImportMeta
-    );
+    )
     const f2 = await createFixture(
       "20000000",
       null,
@@ -183,7 +165,7 @@ describe("cfd coverage", () => {
         ["RNCP20001", t2, t4],
       ],
       todayImportMeta
-    );
+    )
     const f3 = await createFixture(
       "30000000",
       t1,
@@ -193,28 +175,28 @@ describe("cfd coverage", () => {
         ["RNCP30001", t2, null],
       ],
       todayImportMeta
-    );
+    )
 
-    await processCertificationCoverage(todayImportMeta);
+    await processCertificationCoverage(todayImportMeta)
 
-    await expectCertifs([...f1.certifs, ...f2.certifs, ...f3.certifs]);
-  });
+    await expectCertifs([...f1.certifs, ...f2.certifs, ...f3.certifs])
+  })
 
   it("should consider only current import", async () => {
-    const f1 = await createFixture("10000000", t1, t2, [[null, t1, t1]], yesterdayImportMeta);
+    const f1 = await createFixture("10000000", t1, t2, [[null, t1, t1]], yesterdayImportMeta)
 
-    await processCertificationCoverage(todayImportMeta);
+    await processCertificationCoverage(todayImportMeta)
 
-    await expectCertifs([...f1.certifs]);
-  });
+    await expectCertifs([...f1.certifs])
+  })
 
   it("should ensure every CFD has a certification for his entire validity period for fully defined periode", async () => {
-    const f1 = await createFixture("10000000", t1, t2, [["RNCP10000", t1, t1]], todayImportMeta);
-    const f2 = await createFixture("20000000", t1, t2, [["RNCP20000", t2, t2]], todayImportMeta);
-    const f3 = await createFixture("30000000", t1, t4, [["RNCP30000", t2, t3]], todayImportMeta);
-    const f4 = await createFixture("40000000", t1, t2, [[null, t1, t2]], todayImportMeta);
+    const f1 = await createFixture("10000000", t1, t2, [["RNCP10000", t1, t1]], todayImportMeta)
+    const f2 = await createFixture("20000000", t1, t2, [["RNCP20000", t2, t2]], todayImportMeta)
+    const f3 = await createFixture("30000000", t1, t4, [["RNCP30000", t2, t3]], todayImportMeta)
+    const f4 = await createFixture("40000000", t1, t2, [[null, t1, t2]], todayImportMeta)
 
-    await processCertificationCoverage(todayImportMeta);
+    await processCertificationCoverage(todayImportMeta)
 
     await expectCertifs([
       ...f1.certifs,
@@ -225,16 +207,16 @@ describe("cfd coverage", () => {
       ...f3.certifs,
       generateCertif("30000000", t1, t4, [null, t4, t4], todayImportMeta),
       ...f4.certifs,
-    ]);
-  });
+    ])
+  })
 
   it("should ensure every CFD has a certification for his entire validity period when start is not known", async () => {
-    const f1 = await createFixture("10000000", null, t2, [["RNCP10000", null, t1]], todayImportMeta);
-    const f2 = await createFixture("20000000", null, t2, [["RNCP20000", t2, t2]], todayImportMeta);
-    const f3 = await createFixture("30000000", null, t4, [["RNCP30000", t2, t3]], todayImportMeta);
-    const f4 = await createFixture("40000000", null, t2, [[null, null, t2]], todayImportMeta);
+    const f1 = await createFixture("10000000", null, t2, [["RNCP10000", null, t1]], todayImportMeta)
+    const f2 = await createFixture("20000000", null, t2, [["RNCP20000", t2, t2]], todayImportMeta)
+    const f3 = await createFixture("30000000", null, t4, [["RNCP30000", t2, t3]], todayImportMeta)
+    const f4 = await createFixture("40000000", null, t2, [[null, null, t2]], todayImportMeta)
 
-    await processCertificationCoverage(todayImportMeta);
+    await processCertificationCoverage(todayImportMeta)
 
     await expectCertifs([
       ...f1.certifs,
@@ -245,16 +227,16 @@ describe("cfd coverage", () => {
       ...f3.certifs,
       generateCertif("30000000", null, t4, [null, t4, t4], todayImportMeta),
       ...f4.certifs,
-    ]);
-  });
+    ])
+  })
 
   it("should ensure every CFD has a certification for his entire validity period when end is not known", async () => {
-    const f1 = await createFixture("10000000", t1, null, [["RNCP10000", t1, t1]], todayImportMeta);
-    const f2 = await createFixture("20000000", t1, null, [["RNCP20000", t2, null]], todayImportMeta);
-    const f3 = await createFixture("30000000", t1, null, [["RNCP30000", t2, t3]], todayImportMeta);
-    const f4 = await createFixture("40000000", t1, null, [[null, t1, null]], todayImportMeta);
+    const f1 = await createFixture("10000000", t1, null, [["RNCP10000", t1, t1]], todayImportMeta)
+    const f2 = await createFixture("20000000", t1, null, [["RNCP20000", t2, null]], todayImportMeta)
+    const f3 = await createFixture("30000000", t1, null, [["RNCP30000", t2, t3]], todayImportMeta)
+    const f4 = await createFixture("40000000", t1, null, [[null, t1, null]], todayImportMeta)
 
-    await processCertificationCoverage(todayImportMeta);
+    await processCertificationCoverage(todayImportMeta)
 
     await expectCertifs([
       ...f1.certifs,
@@ -265,9 +247,9 @@ describe("cfd coverage", () => {
       ...f3.certifs,
       generateCertif("30000000", t1, null, [null, t4, null], todayImportMeta),
       ...f4.certifs,
-    ]);
-  });
-});
+    ])
+  })
+})
 
 describe("rncp coverage", () => {
   const generateCertif = (
@@ -283,14 +265,11 @@ describe("rncp coverage", () => {
         debut: ouverture?.start ?? null,
         fin: fermeture?.end ?? null,
         cfd: cfd === null ? null : { ouverture: ouverture?.start ?? null, fermeture: fermeture?.end ?? null },
-        rncp:
-          rncp === null
-            ? null
-            : { activation: activation?.start ?? null, fin_enregistrement: fin_enregistrement?.end ?? null },
+        rncp: rncp === null ? null : { activation: activation?.start ?? null, fin_enregistrement: fin_enregistrement?.end ?? null },
       },
       created_at: importMeta.import_date,
       updated_at: importMeta.import_date,
-    });
+    })
 
   const createFixture = async (
     rncp: string,
@@ -317,16 +296,16 @@ describe("rncp coverage", () => {
         date_premiere_activation: activation?.start ?? null,
         data: { standard: { Date_Fin_Enregistrement: fin_enregistrement?.value ?? null } },
       }),
-    };
-
-    await getDbCollection("certifications").insertMany(f.certifs);
-    if (f.bcn.length > 0) {
-      await getDbCollection("source.bcn").insertMany(f.bcn);
     }
-    await getDbCollection("source.france_competence").insertMany([f.fc]);
 
-    return f;
-  };
+    await getDbCollection("certifications").insertMany(f.certifs)
+    if (f.bcn.length > 0) {
+      await getDbCollection("source.bcn").insertMany(f.bcn)
+    }
+    await getDbCollection("source.france_competence").insertMany([f.fc])
+
+    return f
+  }
 
   const expectCertifs = async (expected: ICertificationInternal[]) => {
     const data = await getDbCollection("certifications")
@@ -344,15 +323,15 @@ describe("rncp coverage", () => {
           sort: { "identifiant.rncp": 1, "periode_validite.debut": 1 },
         }
       )
-      .toArray();
+      .toArray()
     expect(data).toEqual(
       expected.map((c) => ({
         identifiant: { cfd: c.identifiant.cfd, rncp: c.identifiant.rncp },
         periode_validite: { debut: c.periode_validite.debut, fin: c.periode_validite.fin },
         updated_at: c.updated_at,
       }))
-    );
-  };
+    )
+  }
 
   it("should do nothing when coverage is full", async () => {
     const f1 = await createFixture(
@@ -364,7 +343,7 @@ describe("rncp coverage", () => {
         ["10000001", t2, t2],
       ],
       todayImportMeta
-    );
+    )
     const f2 = await createFixture(
       "RNCP20000",
       null,
@@ -374,7 +353,7 @@ describe("rncp coverage", () => {
         ["20000001", t2, t4],
       ],
       todayImportMeta
-    );
+    )
     const f3 = await createFixture(
       "RNCP30000",
       t1,
@@ -384,28 +363,28 @@ describe("rncp coverage", () => {
         ["30000001", t2, null],
       ],
       todayImportMeta
-    );
+    )
 
-    await processCertificationCoverage(todayImportMeta);
+    await processCertificationCoverage(todayImportMeta)
 
-    await expectCertifs([...f1.certifs, ...f2.certifs, ...f3.certifs]);
-  });
+    await expectCertifs([...f1.certifs, ...f2.certifs, ...f3.certifs])
+  })
 
   it("should consider only current import", async () => {
-    const f1 = await createFixture("RNCP10000", t1, t2, [[null, t1, t1]], yesterdayImportMeta);
+    const f1 = await createFixture("RNCP10000", t1, t2, [[null, t1, t1]], yesterdayImportMeta)
 
-    await processCertificationCoverage(todayImportMeta);
+    await processCertificationCoverage(todayImportMeta)
 
-    await expectCertifs([...f1.certifs]);
-  });
+    await expectCertifs([...f1.certifs])
+  })
 
   it("should ensure every RNCP has a certification for his entire validity period for fully defined periode", async () => {
-    const f1 = await createFixture("RNCP10000", t1, t2, [["10000000", t1, t1]], todayImportMeta);
-    const f2 = await createFixture("RNCP20000", t1, t2, [["20000000", t2, t2]], todayImportMeta);
-    const f3 = await createFixture("RNCP30000", t1, t4, [["30000000", t2, t3]], todayImportMeta);
-    const f4 = await createFixture("RNCP40000", t1, t2, [[null, t1, t2]], todayImportMeta);
+    const f1 = await createFixture("RNCP10000", t1, t2, [["10000000", t1, t1]], todayImportMeta)
+    const f2 = await createFixture("RNCP20000", t1, t2, [["20000000", t2, t2]], todayImportMeta)
+    const f3 = await createFixture("RNCP30000", t1, t4, [["30000000", t2, t3]], todayImportMeta)
+    const f4 = await createFixture("RNCP40000", t1, t2, [[null, t1, t2]], todayImportMeta)
 
-    await processCertificationCoverage(todayImportMeta);
+    await processCertificationCoverage(todayImportMeta)
 
     await expectCertifs([
       ...f1.certifs,
@@ -416,16 +395,16 @@ describe("rncp coverage", () => {
       ...f3.certifs,
       generateCertif("RNCP30000", t1, t4, [null, t4, t4], todayImportMeta),
       ...f4.certifs,
-    ]);
-  });
+    ])
+  })
 
   it("should ensure every RNCP has a certification for his entire validity period when start is not known", async () => {
-    const f1 = await createFixture("RNCP10000", null, t2, [["10000000", null, t1]], todayImportMeta);
-    const f2 = await createFixture("RNCP20000", null, t2, [["20000000", t2, t2]], todayImportMeta);
-    const f3 = await createFixture("RNCP30000", null, t4, [["30000000", t2, t3]], todayImportMeta);
-    const f4 = await createFixture("RNCP40000", null, t2, [[null, null, t2]], todayImportMeta);
+    const f1 = await createFixture("RNCP10000", null, t2, [["10000000", null, t1]], todayImportMeta)
+    const f2 = await createFixture("RNCP20000", null, t2, [["20000000", t2, t2]], todayImportMeta)
+    const f3 = await createFixture("RNCP30000", null, t4, [["30000000", t2, t3]], todayImportMeta)
+    const f4 = await createFixture("RNCP40000", null, t2, [[null, null, t2]], todayImportMeta)
 
-    await processCertificationCoverage(todayImportMeta);
+    await processCertificationCoverage(todayImportMeta)
 
     await expectCertifs([
       ...f1.certifs,
@@ -436,16 +415,16 @@ describe("rncp coverage", () => {
       ...f3.certifs,
       generateCertif("RNCP30000", null, t4, [null, t4, t4], todayImportMeta),
       ...f4.certifs,
-    ]);
-  });
+    ])
+  })
 
   it("should ensure every RNCP has a certification for his entire validity period when end is not known", async () => {
-    const f1 = await createFixture("RNCP10000", t1, null, [["10000000", t1, t1]], todayImportMeta);
-    const f2 = await createFixture("RNCP20000", t1, null, [["20000000", t2, null]], todayImportMeta);
-    const f3 = await createFixture("RNCP30000", t1, null, [["30000000", t2, t3]], todayImportMeta);
-    const f4 = await createFixture("RNCP40000", t1, null, [[null, t1, null]], todayImportMeta);
+    const f1 = await createFixture("RNCP10000", t1, null, [["10000000", t1, t1]], todayImportMeta)
+    const f2 = await createFixture("RNCP20000", t1, null, [["20000000", t2, null]], todayImportMeta)
+    const f3 = await createFixture("RNCP30000", t1, null, [["30000000", t2, t3]], todayImportMeta)
+    const f4 = await createFixture("RNCP40000", t1, null, [[null, t1, null]], todayImportMeta)
 
-    await processCertificationCoverage(todayImportMeta);
+    await processCertificationCoverage(todayImportMeta)
 
     await expectCertifs([
       ...f1.certifs,
@@ -456,6 +435,6 @@ describe("rncp coverage", () => {
       ...f3.certifs,
       generateCertif("RNCP30000", t1, null, [null, t4, null], todayImportMeta),
       ...f4.certifs,
-    ]);
-  });
-});
+    ])
+  })
+})

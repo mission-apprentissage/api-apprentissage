@@ -1,4 +1,4 @@
-import type { DocTechnicalField } from "../../types.js";
+import type { DocTechnicalField } from "../../types.js"
 
 export const missionLocaleModelDoc = {
   descriptions: [{ fr: "Mission Locale", en: '"Mission Locale"' }],
@@ -24,9 +24,7 @@ export const missionLocaleModelDoc = {
       ],
       properties: {
         geopoint: {
-          descriptions: [
-            { fr: 'Coordonnés GPS au format GeoJSON "Point"', en: 'GPS coordinates in GeoJSON "Point" format' },
-          ],
+          descriptions: [{ fr: 'Coordonnés GPS au format GeoJSON "Point"', en: 'GPS coordinates in GeoJSON "Point" format' }],
           anyOf: [{ descriptions: null }, { descriptions: null }],
         },
         adresse: {
@@ -58,4 +56,4 @@ export const missionLocaleModelDoc = {
       },
     },
   },
-} as const satisfies DocTechnicalField;
+} as const satisfies DocTechnicalField

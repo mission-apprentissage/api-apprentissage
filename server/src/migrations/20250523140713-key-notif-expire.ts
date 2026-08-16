@@ -1,4 +1,4 @@
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
 
 export const up = async () => {
   await getDbCollection("users").updateMany(
@@ -9,7 +9,7 @@ export const up = async () => {
       },
     },
     { bypassDocumentValidation: true, arrayFilters: [{ "key.expires_at": { $lte: new Date() } }] }
-  );
+  )
   await getDbCollection("users").updateMany(
     {},
     {
@@ -18,7 +18,7 @@ export const up = async () => {
       },
     },
     { bypassDocumentValidation: true, arrayFilters: [{ "key.expiration_warning_sent": null }] }
-  );
-};
+  )
+}
 
-export const requireShutdown: boolean = true;
+export const requireShutdown: boolean = true

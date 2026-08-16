@@ -1,9 +1,9 @@
-"use client";
+"use client"
 
-import { RedocStandalone } from "redoc";
+import { RedocStandalone } from "redoc"
 
-import type { Lang } from "@/app/i18n/settings";
-import { publicConfig } from "@/config.public";
+import type { Lang } from "@/app/i18n/settings"
+import { publicConfig } from "@/config.public"
 
 export default function RedocPageClient({ nonce, lang }: { nonce: string; lang: Lang }) {
   return (
@@ -60,5 +60,5 @@ export default function RedocPageClient({ nonce, lang }: { nonce: string; lang: 
         nonce,
       }}
     />
-  );
+  )
 }

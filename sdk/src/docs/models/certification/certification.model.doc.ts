@@ -1,15 +1,15 @@
-import { certificationsPageDoc } from "../../metier/certifications/certifications.doc.js";
-import type { DocTechnicalField } from "../../types.js";
-import baseLegaleCfdAbrogationNotes from "./fr/base_legale.cfd.abrogation.notes.md.js";
-import baseLegaleCfdCreationNotes from "./fr/base_legale.cfd.creation.notes.md.js";
-import continuiteDescCfdNotes from "./fr/continuite.description.cfd.notes.md.js";
-import continuiteRncpNotes from "./fr/continuite.rncp.notes.md.js";
-import domainesNsfCfdNotes from "./fr/domaines.nsf.cfd.notes.md.js";
-import identifiantCfdNotes from "./fr/identifiant.cfd.notes.md.js";
-import identifiantRncpNotes from "./fr/identifiant.rncp.notes.md.js";
-import identiantRncpAnterieur2019Notes from "./fr/identifiant.rncp_anterieur_2019.notes.md.js";
-import intituleNiveauCfdEuropeenNotes from "./fr/intitule.niveau.cfd.europeen.notes.md.js";
-import periodeValiditeRncpActivationNotes from "./fr/periode_validite.rncp.activation.notes.md.js";
+import { certificationsPageDoc } from "../../metier/certifications/certifications.doc.js"
+import type { DocTechnicalField } from "../../types.js"
+import baseLegaleCfdAbrogationNotes from "./fr/base_legale.cfd.abrogation.notes.md.js"
+import baseLegaleCfdCreationNotes from "./fr/base_legale.cfd.creation.notes.md.js"
+import continuiteDescCfdNotes from "./fr/continuite.description.cfd.notes.md.js"
+import continuiteRncpNotes from "./fr/continuite.rncp.notes.md.js"
+import domainesNsfCfdNotes from "./fr/domaines.nsf.cfd.notes.md.js"
+import identifiantCfdNotes from "./fr/identifiant.cfd.notes.md.js"
+import identifiantRncpNotes from "./fr/identifiant.rncp.notes.md.js"
+import identiantRncpAnterieur2019Notes from "./fr/identifiant.rncp_anterieur_2019.notes.md.js"
+import intituleNiveauCfdEuropeenNotes from "./fr/intitule.niveau.cfd.europeen.notes.md.js"
+import periodeValiditeRncpActivationNotes from "./fr/periode_validite.rncp.activation.notes.md.js"
 
 export const certificationModelDoc = {
   descriptions: [{ en: null, fr: "Certification" }],
@@ -279,10 +279,7 @@ export const certificationModelDoc = {
                     },
                     libelle: {
                       descriptions: null,
-                      anyOf: [
-                        { descriptions: null, examples: ["CLASSE PREPA", "TITRE PROFESSIONNEL HOMOLOGUE OU CERTIFIE"] },
-                        { descriptions: null },
-                      ],
+                      anyOf: [{ descriptions: null, examples: ["CLASSE PREPA", "TITRE PROFESSIONNEL HOMOLOGUE OU CERTIFIE"] }, { descriptions: null }],
                     },
                     interministeriel: {
                       descriptions: [
@@ -562,10 +559,7 @@ export const certificationModelDoc = {
                       anyOf: [
                         {
                           descriptions: null,
-                          examples: [
-                            "AGRO-ALIMENTAIRE, ALIMENTATION, CUISINE",
-                            "SPECIALIT.PLURIV.DES ECHANGES & GESTION",
-                          ],
+                          examples: ["AGRO-ALIMENTAIRE, ALIMENTATION, CUISINE", "SPECIALIT.PLURIV.DES ECHANGES & GESTION"],
                         },
                         { descriptions: null },
                       ],
@@ -593,10 +587,7 @@ export const certificationModelDoc = {
                       },
                       intitule: {
                         descriptions: null,
-                        anyOf: [
-                          { descriptions: null, examples: ["221 : Agro-alimentaire, alimentation, cuisine"] },
-                          { descriptions: null },
-                        ],
+                        anyOf: [{ descriptions: null, examples: ["221 : Agro-alimentaire, alimentation, cuisine"] }, { descriptions: null }],
                       },
                     },
                   },
@@ -700,11 +691,7 @@ export const certificationModelDoc = {
                     },
                     libelle: {
                       descriptions: null,
-                      examples: [
-                        "DIPLOME NATIONAL / DIPLOME D'ETAT",
-                        "TITRE PROFESSIONNEL HOMOLOGUE OU CERTIFIE",
-                        "CLASSE PREPA",
-                      ],
+                      examples: ["DIPLOME NATIONAL / DIPLOME D'ETAT", "TITRE PROFESSIONNEL HOMOLOGUE OU CERTIFIE", "CLASSE PREPA"],
                       anyOf: [{ descriptions: null }, { descriptions: null }],
                     },
                   },
@@ -875,9 +862,7 @@ export const certificationModelDoc = {
                   },
                   intitule: {
                     descriptions: null,
-                    examples: [
-                      "Bâtiment (Employés, techniciens et agents de maîtrise, ingénieurs, assimilés et cadres)",
-                    ],
+                    examples: ["Bâtiment (Employés, techniciens et agents de maîtrise, ingénieurs, assimilés et cadres)"],
                   },
                 },
               },
@@ -888,4 +873,4 @@ export const certificationModelDoc = {
       },
     },
   },
-} as const satisfies DocTechnicalField;
+} as const satisfies DocTechnicalField

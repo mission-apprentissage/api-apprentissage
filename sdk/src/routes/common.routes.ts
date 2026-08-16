@@ -1,56 +1,55 @@
-import type { ZodMiniObject, ZodMiniPipe, ZodMiniUnknown } from "zod/v4-mini";
-import type { $ZodType } from "zod/v4/core";
-import type { AccessPermission, AccessRessouces } from "./security/permissions.js";
+import type { $ZodType } from "zod/v4/core"
+import type { ZodMiniObject, ZodMiniPipe, ZodMiniUnknown } from "zod/v4-mini"
+import type { AccessPermission, AccessRessouces } from "./security/permissions.js"
 
 export interface IApiRouteSchemaCommon {
-  path: string;
-  querystring?: ZodMiniObject | ZodMiniUnknown | ZodMiniPipe<ZodMiniObject>;
-  headers?: ZodMiniObject;
-  params?: ZodMiniObject;
-  response: { [statuscode: `${1 | 2 | 3 | 4 | 5}${string}`]: $ZodType };
-  securityScheme: SecurityScheme | null;
+  path: string
+  querystring?: ZodMiniObject | ZodMiniUnknown | ZodMiniPipe<ZodMiniObject>
+  headers?: ZodMiniObject
+  params?: ZodMiniObject
+  response: { [statuscode: `${1 | 2 | 3 | 4 | 5}${string}`]: $ZodType }
+  securityScheme: SecurityScheme | null
 }
 
-export type AuthStrategy = "api-key" | "cookie-session" | "access-token";
+export type AuthStrategy = "api-key" | "cookie-session" | "access-token"
 
 export type SecuritySchemeWithAcl = {
-  auth: AuthStrategy;
-  access: AccessPermission;
-  ressources: AccessRessouces;
-};
+  auth: AuthStrategy
+  access: AccessPermission
+  ressources: AccessRessouces
+}
 
 export type SecuritySchemeNoAcl = {
-  auth: AuthStrategy;
-  access: null;
-  ressources: Record<string, never>;
-};
+  auth: AuthStrategy
+  access: null
+  ressources: Record<string, never>
+}
 
-export type SecurityScheme = SecuritySchemeWithAcl | SecuritySchemeNoAcl;
+export type SecurityScheme = SecuritySchemeWithAcl | SecuritySchemeNoAcl
 
 export interface IApiRouteSchemaGet extends IApiRouteSchemaCommon {
-  method: "get";
+  method: "get"
 }
 
 export interface IApiRouteSchemaWrite extends IApiRouteSchemaCommon {
-  method: "post" | "put" | "patch" | "delete";
-  body?: $ZodType;
+  method: "post" | "put" | "patch" | "delete"
+  body?: $ZodType
 }
 
-export type IApiRouteSchema = IApiRouteSchemaGet | IApiRouteSchemaWrite;
+export type IApiRouteSchema = IApiRouteSchemaGet | IApiRouteSchemaWrite
 
 export type IApiRoutesDef = {
-  get?: Record<string, IApiRouteSchemaGet>;
-  post?: Record<string, IApiRouteSchemaWrite>;
-  put?: Record<string, IApiRouteSchemaWrite>;
-  delete?: Record<string, IApiRouteSchemaWrite>;
-  patch?: Record<string, IApiRouteSchemaWrite>;
-};
+  get?: Record<string, IApiRouteSchemaGet>
+  post?: Record<string, IApiRouteSchemaWrite>
+  put?: Record<string, IApiRouteSchemaWrite>
+  delete?: Record<string, IApiRouteSchemaWrite>
+  patch?: Record<string, IApiRouteSchemaWrite>
+}
 
 export type WithSecurityScheme = {
-  securityScheme: SecurityScheme;
-};
+  securityScheme: SecurityScheme
+}
 
-export type ISecuredRouteSchema = IApiRouteSchema & WithSecurityScheme;
+export type ISecuredRouteSchema = IApiRouteSchema & WithSecurityScheme
 
-export type SchemaWithSecurity = Pick<IApiRouteSchema, "method" | "path" | "params" | "querystring"> &
-  WithSecurityScheme;
+export type SchemaWithSecurity = Pick<IApiRouteSchema, "method" | "path" | "params" | "querystring"> & WithSecurityScheme

@@ -1,14 +1,14 @@
-import type { IApiRoutesDef } from "api-alternance-sdk";
-import { zRncp } from "api-alternance-sdk/internal";
-import { z } from "zod/v4-mini";
+import type { IApiRoutesDef } from "api-alternance-sdk"
+import { zRncp } from "api-alternance-sdk/internal"
+import { z } from "zod/v4-mini"
 
-import { zSourceNpecNormalizedData } from "../../../models/source/npec/source.npec.normalized.model.js";
-import { zParisLocalDate } from "../../../zod/date.primitives.js";
+import { zSourceNpecNormalizedData } from "../../../models/source/npec/source.npec.normalized.model.js"
+import { zParisLocalDate } from "../../../zod/date.primitives.js"
 
 const zSimulateurContext = z.object({
   rncps: z.array(z.object({ intitule: z.string(), code: zRncp })),
   conventions_collectives: z.array(z.object({ idcc: z.number(), titre: z.string() })),
-});
+})
 
 export const zSimulateurRoutes = {
   get: {
@@ -43,4 +43,4 @@ export const zSimulateurRoutes = {
       securityScheme: null,
     },
   },
-} as const satisfies IApiRoutesDef;
+} as const satisfies IApiRoutesDef

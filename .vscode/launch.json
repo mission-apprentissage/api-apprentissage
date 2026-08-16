@@ -10,7 +10,11 @@
       "request": "launch",
       "command": "npm run dev",
       "cwd": "${workspaceFolder}/server",
-      "skipFiles": ["<node_internals>/**", "**/node_modules/**", "**/$KNOWN_TOOLS$/**"]
+      "skipFiles": [
+        "<node_internals>/**",
+        "**/node_modules/**",
+        "**/$KNOWN_TOOLS$/**"
+      ]
     },
     {
       "name": "Ui: Debug Server-Side",
@@ -26,7 +30,11 @@
       "request": "launch",
       "command": "npm run cli -- ${input:command}",
       "cwd": "${workspaceFolder}/server",
-      "skipFiles": ["<node_internals>/**", "**/node_modules/**", "**/$KNOWN_TOOLS$/**"],
+      "skipFiles": [
+        "<node_internals>/**",
+        "**/node_modules/**",
+        "**/$KNOWN_TOOLS$/**"
+      ],
       "preLaunchTask": {
         "type": "npm",
         "script": "build:dev",
@@ -40,7 +48,10 @@
       "autoAttachChildProcesses": true,
       // "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
       "program": "${workspaceRoot}/node_modules/vitest/vitest.mjs",
-      "args": ["run", "${relativeFile}"],
+      "args": [
+        "run",
+        "${relativeFile}"
+      ],
       "smartStep": true,
       "console": "integratedTerminal"
     }

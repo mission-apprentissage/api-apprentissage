@@ -1,14 +1,14 @@
-import applyDescEn from "../../metier/recherche-offre/en/apply.description.md.js";
-import identifierDescEn from "../../metier/recherche-offre/en/identifier.description.md.js";
-import workplaceDescEn from "../../metier/recherche-offre/en/workplace.description.md.js";
-import workplaceDomainDescEn from "../../metier/recherche-offre/en/workplace.domain.description.md.js";
-import workplaceLocationDescEn from "../../metier/recherche-offre/en/workplace.location.description.md.js";
-import applyDescFr from "../../metier/recherche-offre/fr/apply.description.md.js";
-import identifierDescFr from "../../metier/recherche-offre/fr/identifier.description.md.js";
-import workplaceDescFr from "../../metier/recherche-offre/fr/workplace.description.md.js";
-import workplaceDomainDescFr from "../../metier/recherche-offre/fr/workplace.domain.description.md.js";
-import workplaceLocationDescFr from "../../metier/recherche-offre/fr/workplace.location.description.md.js";
-import type { DocTechnicalField } from "../../types.js";
+import applyDescEn from "../../metier/recherche-offre/en/apply.description.md.js"
+import identifierDescEn from "../../metier/recherche-offre/en/identifier.description.md.js"
+import workplaceDescEn from "../../metier/recherche-offre/en/workplace.description.md.js"
+import workplaceDomainDescEn from "../../metier/recherche-offre/en/workplace.domain.description.md.js"
+import workplaceLocationDescEn from "../../metier/recherche-offre/en/workplace.location.description.md.js"
+import applyDescFr from "../../metier/recherche-offre/fr/apply.description.md.js"
+import identifierDescFr from "../../metier/recherche-offre/fr/identifier.description.md.js"
+import workplaceDescFr from "../../metier/recherche-offre/fr/workplace.description.md.js"
+import workplaceDomainDescFr from "../../metier/recherche-offre/fr/workplace.domain.description.md.js"
+import workplaceLocationDescFr from "../../metier/recherche-offre/fr/workplace.location.description.md.js"
+import type { DocTechnicalField } from "../../types.js"
 
 export const recruiterModelDoc = {
   descriptions: [{ fr: "Recruteur", en: "Recruiter" }],
@@ -181,14 +181,10 @@ export const recruiterModelDoc = {
           examples: ["0199000000"],
         },
         url: {
-          descriptions: [
-            { en: "Redirect URL to the application form", fr: "URL de redirection vers le formulaire de candidature" },
-          ],
-          examples: [
-            "https://labonnealternance.apprentissage.beta.gouv.fr/recherche-apprentissage?display=list&page=fiche&type=matcha&itemId=664752a2ebe24062b758c641",
-          ],
+          descriptions: [{ en: "Redirect URL to the application form", fr: "URL de redirection vers le formulaire de candidature" }],
+          examples: ["https://labonnealternance.apprentissage.beta.gouv.fr/recherche-apprentissage?display=list&page=fiche&type=matcha&itemId=664752a2ebe24062b758c641"],
         },
       },
     },
   },
-} as const satisfies DocTechnicalField;
+} as const satisfies DocTechnicalField

@@ -1,16 +1,16 @@
-import { zSiret } from "api-alternance-sdk";
-import { z } from "zod/v4-mini";
+import { zSiret } from "api-alternance-sdk"
+import { z } from "zod/v4-mini"
 
-import type { IModelDescriptorGeneric } from "../common.js";
-import { zObjectIdMini } from "../common.js";
+import type { IModelDescriptorGeneric } from "../common.js"
+import { zObjectIdMini } from "../common.js"
 
-const collectionName = "cache.entreprise" as const;
+const collectionName = "cache.entreprise" as const
 
 const indexes: IModelDescriptorGeneric["indexes"] = [
   [{ "data.type": 1, identifiant: 1 }, { unique: true }],
   [{ identifiant: 1 }, {}],
   [{ ttl: 1 }, { expireAfterSeconds: 0 }],
-];
+]
 
 export const zApiEntUniteLegale = z.object({
   siren: z.string(),
@@ -27,7 +27,7 @@ export const zApiEntUniteLegale = z.object({
   etat_administratif: z.enum(["A", "C"]),
   date_creation: z.nullable(z.number()),
   date_cessation: z.nullable(z.number()),
-});
+})
 
 const zStringAdresseLine = z.pipe(
   z.nullable(z.string()),
@@ -35,7 +35,7 @@ const zStringAdresseLine = z.pipe(
     z.transform((v: string | null) => (v === "[ND]" ? null : v)),
     z.nullable(z.string()) // Add this last validation to have proper output type defined
   )
-);
+)
 
 export const zApiEntEtablissement = z.object({
   siret: zSiret,
@@ -59,7 +59,7 @@ export const zApiEntEtablissement = z.object({
     code_pays_etranger: zStringAdresseLine,
     libelle_pays_etranger: zStringAdresseLine,
   }),
-});
+})
 
 export const zCacheApiEntEtablissement = z.object({
   _id: zObjectIdMini,
@@ -75,16 +75,16 @@ export const zCacheApiEntEtablissement = z.object({
       unite_legale: z.nullable(zApiEntUniteLegale),
     }),
   ]),
-});
+})
 
-export type IApiEntUniteLegale = z.output<typeof zApiEntUniteLegale>;
+export type IApiEntUniteLegale = z.output<typeof zApiEntUniteLegale>
 
-export type IApiEntEtablissement = z.output<typeof zApiEntEtablissement>;
+export type IApiEntEtablissement = z.output<typeof zApiEntEtablissement>
 
-export type ICacheApiEntEtablissement = z.output<typeof zCacheApiEntEtablissement>;
+export type ICacheApiEntEtablissement = z.output<typeof zCacheApiEntEtablissement>
 
 export default {
   zod: zCacheApiEntEtablissement,
   indexes,
   collectionName,
-};
+}

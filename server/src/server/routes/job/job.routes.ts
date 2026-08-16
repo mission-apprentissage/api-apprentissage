@@ -1,9 +1,9 @@
-import { zRoutes } from "shared";
+import { zRoutes } from "shared"
 
-import config from "@/config.js";
-import type { Server } from "@/server/server.js";
-import { forwardApiRequest } from "@/services/forward/forwardApi.service.js";
-import { getUserFromRequest } from "@/services/security/authenticationService.js";
+import config from "@/config.js"
+import type { Server } from "@/server/server.js"
+import { forwardApiRequest } from "@/services/forward/forwardApi.service.js"
+import { getUserFromRequest } from "@/services/security/authenticationService.js"
 
 export const jobRoutes = ({ server }: { server: Server }) => {
   server.get(
@@ -14,8 +14,8 @@ export const jobRoutes = ({ server }: { server: Server }) => {
       config: { rateLimit: { max: 60, timeWindow: "1 minute" } },
     },
     async (request, response) => {
-      const user = getUserFromRequest(request, zRoutes.get["/job/v1/search"]);
-      const querystring = new URL(request.url, config.apiPublicUrl).search;
+      const user = getUserFromRequest(request, zRoutes.get["/job/v1/search"])
+      const querystring = new URL(request.url, config.apiPublicUrl).search
 
       return forwardApiRequest(
         {
@@ -26,9 +26,9 @@ export const jobRoutes = ({ server }: { server: Server }) => {
         },
         response,
         { user, organisation: request.organisation ?? null }
-      );
+      )
     }
-  );
+  )
 
   server.post(
     "/job/v1/offer",
@@ -38,7 +38,7 @@ export const jobRoutes = ({ server }: { server: Server }) => {
       config: { rateLimit: { max: 30, timeWindow: "1 minute" } },
     },
     async (request, response) => {
-      const user = getUserFromRequest(request, zRoutes.post["/job/v1/offer"]);
+      const user = getUserFromRequest(request, zRoutes.post["/job/v1/offer"])
 
       return forwardApiRequest(
         {
@@ -52,9 +52,9 @@ export const jobRoutes = ({ server }: { server: Server }) => {
         },
         response,
         { user, organisation: request.organisation ?? null }
-      );
+      )
     }
-  );
+  )
 
   server.post(
     "/job/v1/apply",
@@ -65,7 +65,7 @@ export const jobRoutes = ({ server }: { server: Server }) => {
       config: { rateLimit: { max: 10, timeWindow: "1 minute" } },
     },
     async (request, response) => {
-      const user = getUserFromRequest(request, zRoutes.post["/job/v1/apply"]);
+      const user = getUserFromRequest(request, zRoutes.post["/job/v1/apply"])
 
       return forwardApiRequest(
         {
@@ -79,9 +79,9 @@ export const jobRoutes = ({ server }: { server: Server }) => {
         },
         response,
         { user, organisation: request.organisation ?? null }
-      );
+      )
     }
-  );
+  )
 
   server.put(
     "/job/v1/offer/:id",
@@ -91,7 +91,7 @@ export const jobRoutes = ({ server }: { server: Server }) => {
       config: { rateLimit: { max: 30, timeWindow: "1 minute" } },
     },
     async (request, response) => {
-      const user = getUserFromRequest(request, zRoutes.put["/job/v1/offer/:id"]);
+      const user = getUserFromRequest(request, zRoutes.put["/job/v1/offer/:id"])
 
       return forwardApiRequest(
         {
@@ -105,9 +105,9 @@ export const jobRoutes = ({ server }: { server: Server }) => {
         },
         response,
         { user, organisation: request.organisation ?? null }
-      );
+      )
     }
-  );
+  )
 
   server.get(
     "/job/v1/offer/:id",
@@ -117,7 +117,7 @@ export const jobRoutes = ({ server }: { server: Server }) => {
       config: { rateLimit: { max: 120, timeWindow: "1 minute" } },
     },
     async (request, response) => {
-      const user = getUserFromRequest(request, zRoutes.get["/job/v1/offer/:id"]);
+      const user = getUserFromRequest(request, zRoutes.get["/job/v1/offer/:id"])
 
       return forwardApiRequest(
         {
@@ -127,9 +127,9 @@ export const jobRoutes = ({ server }: { server: Server }) => {
         },
         response,
         { user, organisation: request.organisation ?? null }
-      );
+      )
     }
-  );
+  )
 
   server.get(
     "/job/v1/offer/:id/publishing-informations",
@@ -139,7 +139,7 @@ export const jobRoutes = ({ server }: { server: Server }) => {
       config: { rateLimit: { max: 120, timeWindow: "1 minute" } },
     },
     async (request, response) => {
-      const user = getUserFromRequest(request, zRoutes.get["/job/v1/offer/:id/publishing-informations"]);
+      const user = getUserFromRequest(request, zRoutes.get["/job/v1/offer/:id/publishing-informations"])
 
       return forwardApiRequest(
         {
@@ -149,9 +149,9 @@ export const jobRoutes = ({ server }: { server: Server }) => {
         },
         response,
         { user, organisation: request.organisation ?? null }
-      );
+      )
     }
-  );
+  )
 
   server.get(
     "/job/v1/export",
@@ -161,7 +161,7 @@ export const jobRoutes = ({ server }: { server: Server }) => {
       config: { rateLimit: { max: 2, timeWindow: "1 minute" } },
     },
     async (request, response) => {
-      const user = getUserFromRequest(request, zRoutes.get["/job/v1/export"]);
+      const user = getUserFromRequest(request, zRoutes.get["/job/v1/export"])
 
       return forwardApiRequest(
         {
@@ -171,7 +171,7 @@ export const jobRoutes = ({ server }: { server: Server }) => {
         },
         response,
         { user, organisation: request.organisation ?? null }
-      );
+      )
     }
-  );
-};
+  )
+}

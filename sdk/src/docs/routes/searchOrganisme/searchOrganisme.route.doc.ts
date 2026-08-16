@@ -1,5 +1,5 @@
-import { organismeModelDoc } from "../../models/organisme/organisme.model.doc.js";
-import type { DocRoute, DocTechnicalField } from "../../types.js";
+import { organismeModelDoc } from "../../models/organisme/organisme.model.doc.js"
+import type { DocRoute, DocTechnicalField } from "../../types.js"
 
 const resultItemDoc: DocTechnicalField = {
   descriptions: null,
@@ -146,7 +146,7 @@ const resultItemDoc: DocTechnicalField = {
       },
     },
   },
-};
+}
 
 export const searchOrganismeRouteDoc = {
   summary: {
@@ -258,4 +258,4 @@ export const searchOrganismeRouteDoc = {
       },
     },
   },
-} as const satisfies DocRoute;
+} as const satisfies DocRoute

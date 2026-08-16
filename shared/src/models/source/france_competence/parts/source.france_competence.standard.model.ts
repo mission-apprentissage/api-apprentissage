@@ -1,5 +1,5 @@
-import { zTypeEnregistrement } from "api-alternance-sdk/internal";
-import { z } from "zod/v4-mini";
+import { zTypeEnregistrement } from "api-alternance-sdk/internal"
+import { z } from "zod/v4-mini"
 
 export const zSourceFcStandard = z.object({
   Id_Fiche: z.string(),
@@ -18,6 +18,6 @@ export const zSourceFcStandard = z.object({
   Type_Enregistrement: zTypeEnregistrement,
   Validation_Partielle: z.nullable(z.string()),
   Actif: z.nullable(z.enum(["ACTIVE", "INACTIVE"])),
-});
+})
 
-export type ISourceFcStandard = z.infer<typeof zSourceFcStandard>;
+export type ISourceFcStandard = z.infer<typeof zSourceFcStandard>

@@ -1,9 +1,9 @@
-import { z } from "zod/v4-mini";
+import { z } from "zod/v4-mini"
 
-import { zOrganisme } from "../../models/organisme/organisme.model.js";
-import { zSiret, zUai } from "../../models/organisme/organismes.primitives.js";
-import { zPaginationInfo, zPaginationQuery } from "../../models/pagination/pagination.model.js";
-import type { IApiRoutesDef } from "../common.routes.js";
+import { zOrganisme } from "../../models/organisme/organisme.model.js"
+import { zSiret, zUai } from "../../models/organisme/organismes.primitives.js"
+import { zPaginationInfo, zPaginationQuery } from "../../models/pagination/pagination.model.js"
+import type { IApiRoutesDef } from "../common.routes.js"
 
 const zRechercheOrganismeResultat = z.object({
   status: z.object({
@@ -33,7 +33,7 @@ const zRechercheOrganismeResultat = z.object({
     ),
   }),
   organisme: z.pick(zOrganisme, { identifiant: true }),
-});
+})
 
 export const zRechercheOrganismeResponse = z.object({
   metadata: z.object({
@@ -50,11 +50,11 @@ export const zRechercheOrganismeResponse = z.object({
   }),
   resultat: z.nullable(zRechercheOrganismeResultat),
   candidats: z.array(zRechercheOrganismeResultat),
-});
+})
 
-export type IRechercheOrganismeResultat = z.output<typeof zRechercheOrganismeResultat>;
+export type IRechercheOrganismeResultat = z.output<typeof zRechercheOrganismeResultat>
 
-export type IRechercheOrganismeResponse = z.output<typeof zRechercheOrganismeResponse>;
+export type IRechercheOrganismeResponse = z.output<typeof zRechercheOrganismeResponse>
 
 export const zApiOrganismesRoutes = {
   get: {
@@ -91,4 +91,4 @@ export const zApiOrganismesRoutes = {
       },
     },
   },
-} as const satisfies IApiRoutesDef;
+} as const satisfies IApiRoutesDef

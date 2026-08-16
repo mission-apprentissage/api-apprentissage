@@ -1,107 +1,101 @@
-import { internal } from "@hapi/boom";
-import type { AnyBulkWriteOperation } from "mongodb";
-import { ObjectId } from "mongodb";
-import type { ISourceKitApprentissage } from "shared/models/source/kitApprentissage/source.kit_apprentissage.model";
-import { z } from "zod/v4-mini";
+import { internal } from "@hapi/boom"
+import type { AnyBulkWriteOperation } from "mongodb"
+import { ObjectId } from "mongodb"
+import type { ISourceKitApprentissage } from "shared/models/source/kitApprentissage/source.kit_apprentissage.model"
+import { z } from "zod/v4-mini"
 
 export function getVersionNumber(source: string): string {
-  const matchVersion = /^Kit_apprentissage_(\d{8})\.(csv|xlsx)$/.exec(source);
+  const matchVersion = /^Kit_apprentissage_(\d{8})\.(csv|xlsx)$/.exec(source)
   if (matchVersion) {
-    return matchVersion[1];
+    return matchVersion[1]
   }
 
   switch (source) {
     case "Kit apprentissage et RNCP v1.0.csv":
-      return "20200414";
+      return "20200414"
     case "Kit apprentissage et RNCP v1.1.csv":
-      return "20200507";
+      return "20200507"
     case "Kit apprentissage et RNCP v1.2.csv":
-      return "20200525";
+      return "20200525"
     case "Kit apprentissage et RNCP v1.3.csv":
-      return "20201116";
+      return "20201116"
     case "Kit apprentissage et RNCP v1.4.csv":
-      return "20201218";
+      return "20201218"
     case "Kit apprentissage et RNCP v1.5.csv":
-      return "20210302";
+      return "20210302"
     case "Kit apprentissage et RNCP v1.6.csv":
-      return "20210330";
+      return "20210330"
     case "Kit apprentissage et RNCP v1.7.csv":
-      return "20210503";
+      return "20210503"
     case "Kit apprentissage et RNCP v1.8.csv":
-      return "20210602";
+      return "20210602"
     case "Kit apprentissage et RNCP v1.9.csv":
-      return "20210707";
+      return "20210707"
     case "Kit apprentissage et RNCP v2.0.csv":
-      return "20210914";
+      return "20210914"
     case "Kit apprentissage et RNCP v2.1.csv":
-      return "20211019";
+      return "20211019"
     case "Kit apprentissage et RNCP v2.2.csv":
-      return "20211215";
+      return "20211215"
     case "Kit apprentissage et RNCP v2.3.csv":
-      return "20220126";
+      return "20220126"
     case "Kit apprentissage et RNCP v2.4.csv":
-      return "20220331";
+      return "20220331"
     case "Kit apprentissage et RNCP v2.5.csv":
-      return "20220518";
+      return "20220518"
     case "Kit apprentissage et RNCP v2.6.csv":
-      return "20220705";
+      return "20220705"
     case "Kit apprentissage et RNCP v2.7.csv":
-      return "20220908";
+      return "20220908"
     case "Kit apprentissage et RNCP v2.8.csv":
-      return "20221121";
+      return "20221121"
     case "Kit apprentissage et RNCP v2.9.csv":
-      return "20230223";
+      return "20230223"
     case "Kit apprentissage et RNCP v3.0.csv":
-      return "20230619";
+      return "20230619"
     default:
-      throw internal(`import.kit_apprentissage: unknown source file: ${source}`);
+      throw internal(`import.kit_apprentissage: unknown source file: ${source}`)
   }
 }
 
 function getRNCP(record: Record<string, unknown>): string | null {
-  const value = record["CodeRNCP"] ?? record["Code RNCP"] ?? record["Fiche RNCP"] ?? record["FicheRNCP"];
+  const value = record["CodeRNCP"] ?? record["Code RNCP"] ?? record["Fiche RNCP"] ?? record["FicheRNCP"]
 
-  return typeof value === "string" || typeof value === "number" ? String(value).trim() : null;
+  return typeof value === "string" || typeof value === "number" ? String(value).trim() : null
 }
 
 function getCFD(record: Record<string, unknown>): unknown {
-  const value = record["CodeDiplome"] ?? record["Code Diplome"] ?? record["Code Diplôme"];
+  const value = record["CodeDiplome"] ?? record["Code Diplome"] ?? record["Code Diplôme"]
 
-  return typeof value === "string" || typeof value === "number" ? String(value).trim() : null;
+  return typeof value === "string" || typeof value === "number" ? String(value).trim() : null
 }
 
 export function buildKitApprentissageEntry(record: Record<string, unknown>): {
-  cfd: string | null;
-  rncp: string | null;
+  cfd: string | null
+  rncp: string | null
 } {
   const cfd = z.parse(
     z.pipe(
       z.string(),
       z.transform((value) => {
-        if (["SQWQ", "NR"].includes(value.trim())) return null;
-        return value.trim().padStart(8, "0");
+        if (["SQWQ", "NR"].includes(value.trim())) return null
+        return value.trim().padStart(8, "0")
       })
     ),
     getCFD(record)
-  );
+  )
 
-  const rncp = getRNCP(record);
+  const rncp = getRNCP(record)
 
   return {
     cfd,
     rncp,
-  };
+  }
 }
 
-export function buildKitApprentissageOp({
-  cfd,
-  rncp,
-}: {
-  cfd: string | null;
-  rncp: string | null;
-}): AnyBulkWriteOperation<ISourceKitApprentissage> | null {
+export function buildKitApprentissageOp({ cfd, rncp }: { cfd: string | null; rncp: string | null }): AnyBulkWriteOperation<ISourceKitApprentissage> | null {
   if (!cfd || !rncp) {
-    return null;
+    return null
   }
   return {
     updateOne: {
@@ -111,5 +105,5 @@ export function buildKitApprentissageOp({
       },
       upsert: true,
     },
-  };
+  }
 }

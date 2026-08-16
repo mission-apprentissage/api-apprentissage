@@ -1,7 +1,7 @@
-import { communeSearchRouteDoc } from "../../docs/routes/communeSearch/communeSearch.route.doc.js";
-import { listDepartementsRouteDoc } from "../../docs/routes/listDepartements/listDepartements.route.doc.js";
-import { listMissionLocalesRouteDoc } from "../../docs/routes/listMissionLocales/listMissionLocales.route.doc.js";
-import type { OpenapiRoutes } from "../../openapi/types.js";
+import { communeSearchRouteDoc } from "../../docs/routes/communeSearch/communeSearch.route.doc.js"
+import { listDepartementsRouteDoc } from "../../docs/routes/listDepartements/listDepartements.route.doc.js"
+import { listMissionLocalesRouteDoc } from "../../docs/routes/listMissionLocales/listMissionLocales.route.doc.js"
+import type { OpenapiRoutes } from "../../openapi/types.js"
 
 export const geographieRoutesOpenapi: OpenapiRoutes = {
   "/geographie/v1/commune/search": {
@@ -22,4 +22,4 @@ export const geographieRoutesOpenapi: OpenapiRoutes = {
       doc: listMissionLocalesRouteDoc,
     },
   },
-};
+}

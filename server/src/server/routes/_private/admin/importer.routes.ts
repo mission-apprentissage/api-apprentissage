@@ -1,7 +1,7 @@
-import { zRoutes } from "shared";
+import { zRoutes } from "shared"
 
-import { importers } from "@/jobs/importer/importers.js";
-import type { Server } from "@/server/server.js";
+import { importers } from "@/jobs/importer/importers.js"
+import type { Server } from "@/server/server.js"
 
 export const importerAdminRoutes = ({ server }: { server: Server }) => {
   server.get(
@@ -13,12 +13,12 @@ export const importerAdminRoutes = ({ server }: { server: Server }) => {
     async (_request, response) => {
       const statuses = await Promise.all(
         Object.entries(importers).map(async ([name, importer]) => {
-          const status = await importer.getStatus();
-          return [name, status];
+          const status = await importer.getStatus()
+          return [name, status]
         })
-      );
+      )
 
-      return response.status(200).send(Object.fromEntries(statuses));
+      return response.status(200).send(Object.fromEntries(statuses))
     }
-  );
-};
+  )
+}

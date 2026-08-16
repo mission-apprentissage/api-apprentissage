@@ -1,9 +1,9 @@
-import { fr } from "@codegouvfr/react-dsfr";
-import { Summary } from "@codegouvfr/react-dsfr/Summary";
-import { Table } from "@codegouvfr/react-dsfr/Table";
-import { Grid, Typography } from "@mui/material";
+import { fr } from "@codegouvfr/react-dsfr"
+import { Summary } from "@codegouvfr/react-dsfr/Summary"
+import { Table } from "@codegouvfr/react-dsfr/Table"
+import { Grid, Typography } from "@mui/material"
 
-import Section from "@/components/section/Section";
+import Section from "@/components/section/Section"
 
 const anchors = {
   QuiEstResponsable: "qui-est-responsable",
@@ -14,7 +14,7 @@ const anchors = {
   VosDroitsSurDonneesVousConcernant: "vos-droits-donnees-vous-concernant",
   QuiVaAvoirAccessDonnees: "qui-va-avoir-acces-donnees",
   QuiNousAideTraiterDonnees: "qui-aide-traiter-donnees",
-};
+}
 
 const summaryData = [
   { anchorName: "Qui est responsable ?", anchorLink: "responsable" },
@@ -46,7 +46,7 @@ const summaryData = [
     anchorName: "Qui nous aide à traiter vos données ?",
     anchorLink: "qui-aide-traiter-donnees",
   },
-];
+]
 
 const PolitiqueDeConfidentialite = () => {
   return (
@@ -77,31 +77,19 @@ const PolitiqueDeConfidentialite = () => {
         </Typography>
 
         <Section mt={4} id={anchors.QuiEstResponsable}>
-          <Typography
-            id="responsable"
-            variant="h2"
-            gutterBottom
-            color={fr.colors.decisions.artwork.minor.blueEcume.default}
-          >
+          <Typography id="responsable" variant="h2" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default}>
             Qui est responsable ?
           </Typography>
           <Typography>
-            Le ministère du Travail, de la Santé, des Solidarités et des Familles traite des données à caractère
-            personnel dans le cadre de l’API Apprentissage. Ce service numérique est à l’initiative de la DGEFP et
-            développé au sein de la Mission interministérielle pour l’apprentissage.
+            Le ministère du Travail, de la Santé, des Solidarités et des Familles traite des données à caractère personnel dans le cadre de l’API Apprentissage. Ce service
+            numérique est à l’initiative de la DGEFP et développé au sein de la Mission interministérielle pour l’apprentissage.
             <br />
-            L’objectif poursuivi est de simplifier l’accès à des données de l’apprentissage fiables et à jour grâce à un
-            point d’entrée unique et documenté.
+            L’objectif poursuivi est de simplifier l’accès à des données de l’apprentissage fiables et à jour grâce à un point d’entrée unique et documenté.
           </Typography>
         </Section>
 
         <Section mt={4} id={anchors.PourquoiTraitonsNousDesDonnees}>
-          <Typography
-            variant="h2"
-            gutterBottom
-            color={fr.colors.decisions.artwork.minor.blueEcume.default}
-            id="pourquoi-traitons-nous-donnees"
-          >
+          <Typography variant="h2" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default} id="pourquoi-traitons-nous-donnees">
             Pourquoi traitons-nous des données ?
           </Typography>
           <ul>
@@ -110,12 +98,7 @@ const PolitiqueDeConfidentialite = () => {
         </Section>
 
         <Section id={anchors.QuellesSontLesDonneesACaracterePersonnel}>
-          <Typography
-            variant="h2"
-            gutterBottom
-            color={fr.colors.decisions.artwork.minor.blueEcume.default}
-            id="quelles-sont-donnees-caractere-personnel"
-          >
+          <Typography variant="h2" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default} id="quelles-sont-donnees-caractere-personnel">
             Quelles sont les données à caractère personnel que nous traitons ?
           </Typography>
           <Typography>Les données à caractère personnel concernées sont les suivantes :</Typography>
@@ -125,74 +108,41 @@ const PolitiqueDeConfidentialite = () => {
           <Typography>
             Par ailleurs, API Apprentissage diffuse certaines catégories de données :
             <ul>
-              <li>
-                Numéro de téléphone et adresse courriel des missions locales (récupérées sur le site de l’Union
-                nationale des missions locales)
-              </li>
-              <li>
-                Numéro de téléphone et adresse courriel de contact des organismes de formation (récupérées sur l’API
-                référentiel des organismes et le catalogue RCO).
-              </li>
+              <li>Numéro de téléphone et adresse courriel des missions locales (récupérées sur le site de l’Union nationale des missions locales)</li>
+              <li>Numéro de téléphone et adresse courriel de contact des organismes de formation (récupérées sur l’API référentiel des organismes et le catalogue RCO).</li>
             </ul>
           </Typography>
         </Section>
 
         <Section mt={4} id={anchors.QuEstCeQuiNousAutoriseATraiterDonneesCaracterePersonnel}>
-          <Typography
-            variant="h2"
-            gutterBottom
-            color={fr.colors.decisions.artwork.minor.blueEcume.default}
-            id="qu-est-ce-qui-autorise-donnees-caractere-personnel"
-          >
+          <Typography variant="h2" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default} id="qu-est-ce-qui-autorise-donnees-caractere-personnel">
             Qu’est-ce qui nous autorise à traiter des données à caractère personnel ?
           </Typography>
           <Typography>
-            Les données à caractère personnel susvisées sont traitées par le biais de l’exécution d’une mission
-            d’intérêt public ou relevant de l’exercice de l’autorité publique dont est investi le responsable de
-            traitement au sens de l’article 6-1 e) du RGPD.
+            Les données à caractère personnel susvisées sont traitées par le biais de l’exécution d’une mission d’intérêt public ou relevant de l’exercice de l’autorité publique
+            dont est investi le responsable de traitement au sens de l’article 6-1 e) du RGPD.
             <br />
             <br />
             Cette mission d’intérêt public se traduit en pratique par :
           </Typography>
           <ul>
-            <li>
-              Le décret n° 97-244 du 18 mars 1997 portant création d’une délégation générale à l’emploi et à la
-              formation professionnelle, notamment son article 3;
-            </li>
-            <li>
-              L’arrêté du 4 mai 2017 portant organisation de la délégation générale à l’emploi et à la formation
-              professionnelle, notamment son article 3 et 4.
-            </li>
+            <li>Le décret n° 97-244 du 18 mars 1997 portant création d’une délégation générale à l’emploi et à la formation professionnelle, notamment son article 3;</li>
+            <li>L’arrêté du 4 mai 2017 portant organisation de la délégation générale à l’emploi et à la formation professionnelle, notamment son article 3 et 4.</li>
           </ul>
         </Section>
 
         <Section mt={4} id={anchors.PendantCombienTpsConservonsNousDonnees}>
-          <Typography
-            variant="h2"
-            gutterBottom
-            color={fr.colors.decisions.artwork.minor.blueEcume.default}
-            id="pendant-combien-tps-conservons-nous-donnees"
-          >
+          <Typography variant="h2" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default} id="pendant-combien-tps-conservons-nous-donnees">
             Pendant combien de temps conservons-nous ces données ?
           </Typography>
           <Table
-            data={[
-              [
-                "Données du compte utilisateur",
-                "2 ans à compter de la dernière utilisation du compte par l’utilisateur",
-              ],
-            ]}
+            data={[["Données du compte utilisateur", "2 ans à compter de la dernière utilisation du compte par l’utilisateur"]]}
             headers={["Catégorie de données", "Durées de conservation"]}
           />
         </Section>
 
         <Section mt={4} id={anchors.VosDroitsSurDonneesVousConcernant}>
-          <Typography
-            variant="h2"
-            gutterBottom
-            color={fr.colors.decisions.artwork.minor.blueEcume.default}
-            id="vos-droits-donnees-vous-concernant"
-          >
+          <Typography variant="h2" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default} id="vos-droits-donnees-vous-concernant">
             Vos droits sur les données vous concernant
           </Typography>
           <Typography>Vous disposez des droits suivants concernant vos données à caractère personnel :</Typography>
@@ -204,8 +154,7 @@ const PolitiqueDeConfidentialite = () => {
             <li>Droit d’opposition.</li>
           </ul>
           <Typography>
-            Vous pouvez exercer vos droits en adressant un courrier à la Déléguée à la protection des données à
-            l’adresse suivante :
+            Vous pouvez exercer vos droits en adressant un courrier à la Déléguée à la protection des données à l’adresse suivante :
             <br />
             <br />
             127 rue de Grenelle
@@ -214,15 +163,13 @@ const PolitiqueDeConfidentialite = () => {
             75007 Paris
             <br />
             <br />
-            Pour les exercer vous pouvez nous contacter par mail à l’adresse suivante :{" "}
-            <a href="mailto:api@apprentissage.beta.gouv.fr">api@apprentissage.beta.gouv.fr</a>
+            Pour les exercer vous pouvez nous contacter par mail à l’adresse suivante : <a href="mailto:api@apprentissage.beta.gouv.fr">api@apprentissage.beta.gouv.fr</a>
             <br />
             <br />
             Nous nous engageons à vous répondre dans un délai d’un mois à compter de la réception de votre demande.
             <br />
-            Si vous estimez, après nous avoir contactés, que vos droits ne sont pas respectés ou que le traitement n’est
-            pas conforme à la réglementation sur la protection des données à caractère personnel, vous pouvez adresser
-            une réclamation à la CNIL :{" "}
+            Si vous estimez, après nous avoir contactés, que vos droits ne sont pas respectés ou que le traitement n’est pas conforme à la réglementation sur la protection des
+            données à caractère personnel, vous pouvez adresser une réclamation à la CNIL :{" "}
             <a href="https://www.cnil.fr/fr/cnil-direct/question/adresser-une-reclamation-plainte-la-cnil-quelles-conditions-et-comment">
               https://www.cnil.fr/fr/cnil-direct/question/adresser-une-reclamation-plainte-la-cnil-quelles-conditions-et-comment
             </a>
@@ -230,39 +177,27 @@ const PolitiqueDeConfidentialite = () => {
         </Section>
 
         <Section mt={4} id={anchors.QuiVaAvoirAccessDonnees}>
-          <Typography
-            variant="h2"
-            gutterBottom
-            color={fr.colors.decisions.artwork.minor.blueEcume.default}
-            id="qui-va-avoir-acces-donnees"
-          >
+          <Typography variant="h2" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default} id="qui-va-avoir-acces-donnees">
             Qui va avoir accès à ces données ?
           </Typography>
           <Typography>
-            Les accès aux données sont strictement encadrés et juridiquement justifiés. Les personnes suivantes, les
-            destinataires, vont avoir accès aux données :
+            Les accès aux données sont strictement encadrés et juridiquement justifiés. Les personnes suivantes, les destinataires, vont avoir accès aux données :
           </Typography>
           <ul>
             <li>
-              La Délégation générale à l’emploi et à la formation professionnelle (DGEFP) et les membres de la Mission
-              interministérielle pour l’Apprentissage et plus spécifiquement les membres de l’équipe API Apprentissage ;
+              La Délégation générale à l’emploi et à la formation professionnelle (DGEFP) et les membres de la Mission interministérielle pour l’Apprentissage et plus
+              spécifiquement les membres de l’équipe API Apprentissage ;
             </li>
           </ul>
         </Section>
 
         <Section mt={4} id={anchors.QuiNousAideTraiterDonnees}>
-          <Typography
-            variant="h2"
-            gutterBottom
-            color={fr.colors.decisions.artwork.minor.blueEcume.default}
-            id="qui-aide-traiter-donnees"
-          >
+          <Typography variant="h2" gutterBottom color={fr.colors.decisions.artwork.minor.blueEcume.default} id="qui-aide-traiter-donnees">
             Qui nous aide à traiter vos données ?
           </Typography>
           <Typography>
-            Certaines des données sont envoyées à des sous-traitants pour réaliser certaines missions. Le responsable de
-            traitement s'est assuré de la mise en œuvre par ses sous-traitants de garanties adéquates et du respect de
-            conditions strictes de confidentialité et de sécurité.
+            Certaines des données sont envoyées à des sous-traitants pour réaliser certaines missions. Le responsable de traitement s'est assuré de la mise en œuvre par ses
+            sous-traitants de garanties adéquates et du respect de conditions strictes de confidentialité et de sécurité.
           </Typography>
           <ul>
             <li>
@@ -271,10 +206,7 @@ const PolitiqueDeConfidentialite = () => {
                 <li>Traitement réalisé : Hébergement</li>
                 <li>Pays destinataire des données : France</li>
                 <li>
-                  Garanties :{" "}
-                  <a href="https://us.ovhcloud.com/legal/data-processing-agreement/">
-                    https://us.ovhcloud.com/legal/data-processing-agreement/
-                  </a>
+                  Garanties : <a href="https://us.ovhcloud.com/legal/data-processing-agreement/">https://us.ovhcloud.com/legal/data-processing-agreement/</a>
                 </li>
               </ul>
             </li>
@@ -284,19 +216,18 @@ const PolitiqueDeConfidentialite = () => {
                 <li>Traitement réalisé : Envoi d'e-mails</li>
                 <li>Pays destinataire des données : France</li>
                 <li>
-                  Garanties :{" "}
-                  <a href="https://www.brevo.com/fr/legal/termsofuse/">https://www.brevo.com/fr/legal/termsofuse/</a>
+                  Garanties : <a href="https://www.brevo.com/fr/legal/termsofuse/">https://www.brevo.com/fr/legal/termsofuse/</a>
                 </li>
               </ul>
             </li>
           </ul>
           <Typography>
-            L'espace développeurs La bonne alternance utilise notamment l’outil de mesure d’audience Plausible, qui ne
-            dépose aucun cookie ou traceur et ne traite pas de données à caractère personnel.
+            L'espace développeurs La bonne alternance utilise notamment l’outil de mesure d’audience Plausible, qui ne dépose aucun cookie ou traceur et ne traite pas de données à
+            caractère personnel.
           </Typography>
         </Section>
       </Grid>
     </Grid>
-  );
-};
-export default PolitiqueDeConfidentialite;
+  )
+}
+export default PolitiqueDeConfidentialite

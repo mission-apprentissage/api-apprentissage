@@ -1,10 +1,10 @@
-"use client";
-import { fr } from "@codegouvfr/react-dsfr";
-import { Container } from "@mui/material";
-import type { FC, PropsWithChildren } from "react";
+"use client"
+import { fr } from "@codegouvfr/react-dsfr"
+import { Container } from "@mui/material"
+import type { FC, PropsWithChildren } from "react"
 
-import type { PropsWithLangParams } from "@/app/i18n/settings";
-import { withAuth } from "@/components/login/withAuth";
+import type { PropsWithLangParams } from "@/app/i18n/settings"
+import { withAuth } from "@/components/login/withAuth"
 
 const AdminLayout: FC<PropsWithChildren<PropsWithLangParams>> = ({ children }) => {
   return (
@@ -16,7 +16,7 @@ const AdminLayout: FC<PropsWithChildren<PropsWithLangParams>> = ({ children }) =
     >
       {children}
     </Container>
-  );
-};
+  )
+}
 
-export default withAuth(AdminLayout);
+export default withAuth(AdminLayout)

@@ -1,1 +1,1 @@
-export const up = async () => {};
+export const up = async () => {}

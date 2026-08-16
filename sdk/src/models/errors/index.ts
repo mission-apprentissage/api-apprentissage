@@ -1,1 +1,1 @@
-export * from "./errors.model.js";
+export * from "./errors.model.js"

@@ -1,21 +1,19 @@
-import type { IFormation } from "api-alternance-sdk";
-import { zCertification, zOrganisme } from "api-alternance-sdk";
-import { ObjectId } from "mongodb";
-import type { ICommuneInternal } from "shared/models/commune.model";
-import { generateCertificationInternalFixture } from "shared/models/fixtures/certification.model.fixture";
-import { generateOrganismeInternalFixture } from "shared/models/fixtures/organisme.model.fixture";
-import type { IImportMeta, IImportMetaFormations } from "shared/models/import.meta.model";
-import type { IFormationCatalogue } from "shared/models/source/catalogue/source.catalogue.model";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { useMongo } from "@tests/mongo.test.utils.js"
+import type { IFormation } from "api-alternance-sdk"
+import { zCertification, zOrganisme } from "api-alternance-sdk"
+import { ObjectId } from "mongodb"
+import type { ICommuneInternal } from "shared/models/commune.model"
+import { generateCertificationInternalFixture } from "shared/models/fixtures/certification.model.fixture"
+import { generateOrganismeInternalFixture } from "shared/models/fixtures/organisme.model.fixture"
+import type { IImportMeta, IImportMetaFormations } from "shared/models/import.meta.model"
+import type { IFormationCatalogue } from "shared/models/source/catalogue/source.catalogue.model"
+import { beforeEach, describe, expect, it, vi } from "vitest"
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
+import { importFormations } from "./formation.importer.js"
 
-import { importFormations } from "./formation.importer.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
-
-import { useMongo } from "@tests/mongo.test.utils.js";
-
-const now = new Date("2024-03-07T10:00:00Z");
-const twoHoursAgo = new Date(now.getTime() - 2 * 3600 * 1000);
-const yesterday = new Date(now.getTime() - 24 * 3600 * 1000);
+const now = new Date("2024-03-07T10:00:00Z")
+const twoHoursAgo = new Date(now.getTime() - 2 * 3600 * 1000)
+const yesterday = new Date(now.getTime() - 24 * 3600 * 1000)
 
 const yesterdaySourceImports = {
   organismes: {
@@ -41,7 +39,7 @@ const yesterdaySourceImports = {
     },
   },
   communes: { _id: new ObjectId(), type: "communes", import_date: yesterday, status: "done" },
-} as const satisfies Record<string, IImportMeta>;
+} as const satisfies Record<string, IImportMeta>
 
 const todaySourceImports = {
   organismes: {
@@ -67,7 +65,7 @@ const todaySourceImports = {
     },
   },
   communes: { _id: new ObjectId(), type: "communes", import_date: twoHoursAgo, status: "done" },
-} as const satisfies Record<string, IImportMeta>;
+} as const satisfies Record<string, IImportMeta>
 
 const yesterdayImport = {
   _id: new ObjectId(),
@@ -80,7 +78,7 @@ const yesterdayImport = {
     certifications: { import_date: yesterdaySourceImports.certifications.import_date },
     communes: { import_date: yesterdaySourceImports.communes.import_date },
   },
-} as const satisfies IImportMetaFormations;
+} as const satisfies IImportMetaFormations
 
 const todayImport = {
   _id: new ObjectId(),
@@ -93,31 +91,14 @@ const todayImport = {
     certifications: { import_date: todaySourceImports.certifications.import_date },
     communes: { import_date: todaySourceImports.communes.import_date },
   },
-} as const satisfies IImportMetaFormations;
+} as const satisfies IImportMetaFormations
 
 const communes: ICommuneInternal[] = [
   {
     _id: new ObjectId(),
     code: {
       insee: "13055",
-      postaux: [
-        "13001",
-        "13002",
-        "13003",
-        "13004",
-        "13005",
-        "13006",
-        "13007",
-        "13008",
-        "13009",
-        "13010",
-        "13011",
-        "13012",
-        "13013",
-        "13014",
-        "13015",
-        "13016",
-      ],
+      postaux: ["13001", "13002", "13003", "13004", "13005", "13006", "13007", "13008", "13009", "13010", "13011", "13012", "13013", "13014", "13015", "13016"],
     },
     academie: {
       nom: "Aix-Marseille",
@@ -241,14 +222,14 @@ const communes: ICommuneInternal[] = [
     ],
     anciennes: [],
   },
-];
+]
 
-const rncp = "RNCP35234";
-const cfd = "56T34302";
+const rncp = "RNCP35234"
+const cfd = "56T34302"
 
 const certification = generateCertificationInternalFixture({
   identifiant: { rncp, cfd, rncp_anterieur_2019: false },
-});
+})
 
 const organismes = [
   generateOrganismeInternalFixture({
@@ -257,7 +238,7 @@ const organismes = [
   generateOrganismeInternalFixture({
     identifiant: { siret: "19350030300014", uai: "0352660B" },
   }),
-];
+]
 
 const sourceFormation = {
   cfd,
@@ -299,13 +280,12 @@ const sourceFormation = {
     "MC Vendeur spécialisé en alimentation ; MC Assistance, conseil, vente à distance ; BTS Négociation et digitalisation de la relation client ; BTS Management commercial opérationnel ; BTSA Technico-commercial",
   onisep_lien_site_onisepfr: "http://www.onisep.fr/http/redirection/formation/slug/FOR.5839",
   onisep_discipline: "commerce distribution ; vente",
-  onisep_domaine_sousdomaine:
-    "commerce, marketing, vente/grande distribution et petits commerces ; commerce, marketing, vente/marketing - vente",
+  onisep_domaine_sousdomaine: "commerce, marketing, vente/grande distribution et petits commerces ; commerce, marketing, vente/marketing - vente",
   contenu: "Contenu éducatif",
   objectif: "Avoir son diplôme",
   catalogue_published: true,
   tags: ["2022", "2023", "2024"],
-} as const satisfies IFormationCatalogue;
+} as const satisfies IFormationCatalogue
 
 const expected: IFormation = {
   lieu: {
@@ -389,55 +369,55 @@ const expected: IFormation = {
   contact: { email: sourceFormation.email, telephone: sourceFormation.num_tel },
   identifiant: { cle_ministere_educatif: sourceFormation.cle_ministere_educatif },
   contenu_educatif: { contenu: sourceFormation.contenu, objectif: sourceFormation.objectif },
-};
+}
 
-useMongo();
+useMongo()
 
 describe("importFormations", () => {
   beforeEach(() => {
-    vi.useFakeTimers();
-    vi.setSystemTime(now);
+    vi.useFakeTimers()
+    vi.setSystemTime(now)
 
     return () => {
-      vi.useRealTimers();
-    };
-  });
+      vi.useRealTimers()
+    }
+  })
 
   describe.each(Object.keys(todaySourceImports).map((k) => [k]))("when source %s import is not complete", (source) => {
     beforeEach(async () => {
       for (const [k, v] of Object.entries(todaySourceImports)) {
         if (k !== source) {
-          await getDbCollection("import.meta").insertOne(v);
+          await getDbCollection("import.meta").insertOne(v)
         }
       }
-    });
+    })
 
     it("should skip import", async () => {
-      expect(await importFormations()).toBe(null);
-      expect(await getDbCollection("import.meta").find({ type: "formations" }).toArray()).toEqual([]);
-    });
-  });
+      expect(await importFormations()).toBe(null)
+      expect(await getDbCollection("import.meta").find({ type: "formations" }).toArray()).toEqual([])
+    })
+  })
 
   describe("when source import is complete", () => {
     beforeEach(async () => {
-      await getDbCollection("import.meta").insertMany(Object.values(yesterdaySourceImports));
+      await getDbCollection("import.meta").insertMany(Object.values(yesterdaySourceImports))
 
-      await getDbCollection("commune").insertMany(communes);
-      await getDbCollection("certifications").insertOne(certification);
-      await getDbCollection("organisme").insertMany(organismes);
+      await getDbCollection("commune").insertMany(communes)
+      await getDbCollection("certifications").insertOne(certification)
+      await getDbCollection("organisme").insertMany(organismes)
 
       await getDbCollection("source.catalogue").insertOne({
         data: sourceFormation,
         _id: new ObjectId(),
         date: yesterdaySourceImports.catalogue.import_date,
-      });
-    });
+      })
+    })
 
     it("should import", async () => {
       expect(await importFormations()).toEqual({
         success: 1,
         skipped: 0,
-      });
+      })
       expect(await getDbCollection("import.meta").find({ type: "formations" }).toArray()).toEqual([
         {
           _id: expect.any(ObjectId),
@@ -446,7 +426,7 @@ describe("importFormations", () => {
           type: "formations",
           status: "done",
         },
-      ]);
+      ])
       expect(
         await getDbCollection("formation")
           .find({}, { projection: { _id: 0 } })
@@ -457,32 +437,32 @@ describe("importFormations", () => {
           created_at: now,
           updated_at: now,
         },
-      ]);
-    });
+      ])
+    })
 
     describe("when import already in sync", () => {
       beforeEach(async () => {
-        await getDbCollection("import.meta").insertOne(yesterdayImport);
-      });
+        await getDbCollection("import.meta").insertOne(yesterdayImport)
+      })
 
       it("should skip import", async () => {
-        expect(await importFormations()).toBe(null);
-        expect(await getDbCollection("import.meta").find({ type: "formations" }).toArray()).toEqual([yesterdayImport]);
+        expect(await importFormations()).toBe(null)
+        expect(await getDbCollection("import.meta").find({ type: "formations" }).toArray()).toEqual([yesterdayImport])
         expect(
           await getDbCollection("formation")
             .find({}, { projection: { _id: 0 } })
             .toArray()
-        ).toEqual([]);
-      });
-    });
+        ).toEqual([])
+      })
+    })
 
     describe("when previous import failed", () => {
       beforeEach(async () => {
-        await getDbCollection("import.meta").insertOne({ ...yesterdayImport, status: "failed" });
-      });
+        await getDbCollection("import.meta").insertOne({ ...yesterdayImport, status: "failed" })
+      })
 
       it("should import", async () => {
-        expect(await importFormations()).toEqual({ skipped: 0, success: 1 });
+        expect(await importFormations()).toEqual({ skipped: 0, success: 1 })
         expect(
           await getDbCollection("import.meta")
             .find({ type: "formations" }, { sort: { import_date: 1 } })
@@ -494,7 +474,7 @@ describe("importFormations", () => {
             import_date: now,
             _id: expect.any(ObjectId),
           },
-        ]);
+        ])
         expect(
           await getDbCollection("formation")
             .find({}, { projection: { _id: 0 } })
@@ -505,57 +485,54 @@ describe("importFormations", () => {
             created_at: now,
             updated_at: now,
           },
-        ]);
-      });
-    });
+        ])
+      })
+    })
 
-    describe.each(Object.keys(todaySourceImports).map((k) => [k]))(
-      "when source %s import is updated",
-      (source: string) => {
-        beforeEach(async () => {
-          await getDbCollection("import.meta").insertOne(yesterdayImport);
-          await getDbCollection("import.meta").insertOne(todaySourceImports[source as keyof typeof todaySourceImports]);
+    describe.each(Object.keys(todaySourceImports).map((k) => [k]))("when source %s import is updated", (source: string) => {
+      beforeEach(async () => {
+        await getDbCollection("import.meta").insertOne(yesterdayImport)
+        await getDbCollection("import.meta").insertOne(todaySourceImports[source as keyof typeof todaySourceImports])
 
-          if (source === "catalogue") {
-            await getDbCollection("source.catalogue").insertOne({
-              data: sourceFormation,
-              _id: new ObjectId(),
-              date: todaySourceImports.catalogue.import_date,
-            });
-          }
-        });
+        if (source === "catalogue") {
+          await getDbCollection("source.catalogue").insertOne({
+            data: sourceFormation,
+            _id: new ObjectId(),
+            date: todaySourceImports.catalogue.import_date,
+          })
+        }
+      })
 
-        it("should import", async () => {
-          expect(await importFormations()).toEqual({ skipped: 0, success: 1 });
-          expect(await getDbCollection("import.meta").find({ type: "formations" }).toArray()).toEqual([
-            yesterdayImport,
-            {
-              ...todayImport,
-              _id: expect.any(ObjectId),
-              import_date: now,
-              source: {
-                ...yesterdayImport.source,
-                [source]: { import_date: todaySourceImports[source as keyof typeof todaySourceImports].import_date },
-              },
-              status: "done",
-              type: "formations",
+      it("should import", async () => {
+        expect(await importFormations()).toEqual({ skipped: 0, success: 1 })
+        expect(await getDbCollection("import.meta").find({ type: "formations" }).toArray()).toEqual([
+          yesterdayImport,
+          {
+            ...todayImport,
+            _id: expect.any(ObjectId),
+            import_date: now,
+            source: {
+              ...yesterdayImport.source,
+              [source]: { import_date: todaySourceImports[source as keyof typeof todaySourceImports].import_date },
             },
-          ]);
-          expect(
-            await getDbCollection("formation")
-              .find({}, { projection: { _id: 0 } })
-              .toArray()
-          ).toEqual([
-            {
-              ...expected,
-              created_at: now,
-              updated_at: now,
-            },
-          ]);
-        });
-      }
-    );
-  });
+            status: "done",
+            type: "formations",
+          },
+        ])
+        expect(
+          await getDbCollection("formation")
+            .find({}, { projection: { _id: 0 } })
+            .toArray()
+        ).toEqual([
+          {
+            ...expected,
+            created_at: now,
+            updated_at: now,
+          },
+        ])
+      })
+    })
+  })
 
   describe("when source are not in sync with organismes", () => {
     const existingFormation = {
@@ -580,16 +557,16 @@ describe("importFormations", () => {
           },
         },
       ],
-    };
+    }
 
     beforeEach(async () => {
-      await getDbCollection("import.meta").insertMany(Object.values(yesterdaySourceImports));
-      await getDbCollection("import.meta").insertOne(yesterdayImport);
-      await getDbCollection("import.meta").insertMany(Object.values(todaySourceImports));
+      await getDbCollection("import.meta").insertMany(Object.values(yesterdaySourceImports))
+      await getDbCollection("import.meta").insertOne(yesterdayImport)
+      await getDbCollection("import.meta").insertMany(Object.values(todaySourceImports))
 
-      await getDbCollection("commune").insertMany(communes);
-      await getDbCollection("certifications").insertOne(certification);
-      await getDbCollection("organisme").insertMany(organismes);
+      await getDbCollection("commune").insertMany(communes)
+      await getDbCollection("certifications").insertOne(certification)
+      await getDbCollection("organisme").insertMany(organismes)
 
       await getDbCollection("source.catalogue").insertMany([
         {
@@ -597,18 +574,14 @@ describe("importFormations", () => {
           _id: new ObjectId(),
           date: todaySourceImports.catalogue.import_date,
         },
-      ]);
+      ])
 
-      await getDbCollection("formation").insertMany(
-        existingFormation.updated.map((f) => ({ ...f, _id: new ObjectId() }))
-      );
-      await getDbCollection("formation").insertMany(
-        existingFormation.removed.map((f) => ({ ...f, _id: new ObjectId() }))
-      );
-    });
+      await getDbCollection("formation").insertMany(existingFormation.updated.map((f) => ({ ...f, _id: new ObjectId() })))
+      await getDbCollection("formation").insertMany(existingFormation.removed.map((f) => ({ ...f, _id: new ObjectId() })))
+    })
 
     it("should import organismes", async () => {
-      expect(await importFormations()).toEqual({ skipped: 0, success: 1 });
+      expect(await importFormations()).toEqual({ skipped: 0, success: 1 })
       expect(
         await getDbCollection("import.meta")
           .find({ type: "formations" }, { sort: { import_date: 1 } })
@@ -619,7 +592,7 @@ describe("importFormations", () => {
           ...todayImport,
           _id: expect.any(ObjectId),
         },
-      ]);
+      ])
 
       const formations = await getDbCollection("formation")
         .find(
@@ -629,7 +602,7 @@ describe("importFormations", () => {
             sort: { "identifiant.cle_ministere_educatif": 1 },
           }
         )
-        .toArray();
+        .toArray()
 
       expect(formations).toEqual([
         {
@@ -644,20 +617,20 @@ describe("importFormations", () => {
           created_at: yesterday,
           updated_at: yesterday,
         },
-      ]);
-    });
-  });
+      ])
+    })
+  })
 
   describe("when formation is invalid", async () => {
     beforeEach(async () => {
-      await getDbCollection("import.meta").insertMany(Object.values(yesterdaySourceImports));
-      await getDbCollection("import.meta").insertOne(yesterdayImport);
-      await getDbCollection("import.meta").insertMany(Object.values(todaySourceImports));
+      await getDbCollection("import.meta").insertMany(Object.values(yesterdaySourceImports))
+      await getDbCollection("import.meta").insertOne(yesterdayImport)
+      await getDbCollection("import.meta").insertMany(Object.values(todaySourceImports))
 
-      await getDbCollection("commune").insertMany(communes);
-      await getDbCollection("certifications").insertOne(certification);
-      await getDbCollection("organisme").insertMany(organismes);
-    });
+      await getDbCollection("commune").insertMany(communes)
+      await getDbCollection("certifications").insertOne(certification)
+      await getDbCollection("organisme").insertMany(organismes)
+    })
 
     it("should skip when a published formation is invalid ( rncp/cfd )", async () => {
       await getDbCollection("source.catalogue").insertMany([
@@ -669,11 +642,11 @@ describe("importFormations", () => {
           _id: new ObjectId(),
           date: todaySourceImports.catalogue.import_date,
         },
-      ]);
+      ])
       await expect(importFormations()).resolves.toEqual({
         success: 0,
         skipped: 1,
-      });
+      })
       expect(await getDbCollection("import.meta").find({ type: "formations" }).toArray()).toEqual([
         yesterdayImport,
         {
@@ -681,9 +654,9 @@ describe("importFormations", () => {
           _id: expect.any(ObjectId),
           status: "done",
         },
-      ]);
-      expect(await getDbCollection("formation").find({}).toArray()).toEqual([]);
-    });
+      ])
+      expect(await getDbCollection("formation").find({}).toArray()).toEqual([])
+    })
 
     it("should skip when an archived formation is invalid", async () => {
       await getDbCollection("source.catalogue").insertMany([
@@ -696,11 +669,11 @@ describe("importFormations", () => {
           _id: new ObjectId(),
           date: todaySourceImports.catalogue.import_date,
         },
-      ]);
+      ])
       await expect(importFormations()).resolves.toEqual({
         success: 0,
         skipped: 1,
-      });
+      })
       expect(await getDbCollection("import.meta").find({ type: "formations" }).toArray()).toEqual([
         yesterdayImport,
         {
@@ -708,8 +681,8 @@ describe("importFormations", () => {
           _id: expect.any(ObjectId),
           status: "done",
         },
-      ]);
-      expect(await getDbCollection("formation").find({}).toArray()).toEqual([]);
-    });
-  });
-});
+      ])
+      expect(await getDbCollection("formation").find({}).toArray()).toEqual([])
+    })
+  })
+})

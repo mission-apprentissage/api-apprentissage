@@ -1,92 +1,68 @@
-import type { ICertificationFixtureInput, IFormationFixtureInput } from "api-alternance-sdk/fixtures";
-import { sourceCommuneFixtures } from "shared/models/fixtures/commune.model.fixture";
-import { generateFormationInternalFixture } from "shared/models/fixtures/formation.model.fixture";
-import { describe, expect, it } from "vitest";
+import { useMongo } from "@tests/mongo.test.utils.js"
+import type { ICertificationFixtureInput, IFormationFixtureInput } from "api-alternance-sdk/fixtures"
+import { sourceCommuneFixtures } from "shared/models/fixtures/commune.model.fixture"
+import { generateFormationInternalFixture } from "shared/models/fixtures/formation.model.fixture"
+import { describe, expect, it } from "vitest"
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
+import { searchFormation } from "./formation.service.js"
 
-import { searchFormation } from "./formation.service.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
-
-import { useMongo } from "@tests/mongo.test.utils.js";
-
-useMongo();
+useMongo()
 
 describe("searchFormation", () => {
   it("should return formations limited by query limit", async () => {
-    const formations = [];
+    const formations = []
     for (let i = 0; i < 101; i++) {
       formations.push(
         generateFormationInternalFixture({
           identifiant: { cle_ministere_educatif: i.toString() },
         })
-      );
+      )
     }
 
-    await getDbCollection("formation").insertMany(formations);
+    await getDbCollection("formation").insertMany(formations)
 
     const page1 = await searchFormation({
       radius: 0,
       page_size: 10,
       page_index: 0,
       include_archived: false,
-    });
+    })
     expect(page1.pagination).toEqual({
       page_count: 11,
       page_index: 0,
       page_size: 10,
-    });
-    expect(page1.data).toHaveLength(10);
-    expect(page1.data.map(({ identifiant }) => identifiant.cle_ministere_educatif)).toEqual([
-      "0",
-      "1",
-      "2",
-      "3",
-      "4",
-      "5",
-      "6",
-      "7",
-      "8",
-      "9",
-    ]);
+    })
+    expect(page1.data).toHaveLength(10)
+    expect(page1.data.map(({ identifiant }) => identifiant.cle_ministere_educatif)).toEqual(["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"])
 
     const page2 = await searchFormation({
       radius: 0,
       page_size: 10,
       page_index: 1,
       include_archived: false,
-    });
+    })
     expect(page2.pagination).toEqual({
       page_count: 11,
       page_index: 1,
       page_size: 10,
-    });
-    expect(page2.data).toHaveLength(10);
-    expect(page2.data.map(({ identifiant }) => identifiant.cle_ministere_educatif)).toEqual([
-      "10",
-      "11",
-      "12",
-      "13",
-      "14",
-      "15",
-      "16",
-      "17",
-      "18",
-      "19",
-    ]);
+    })
+    expect(page2.data).toHaveLength(10)
+    expect(page2.data.map(({ identifiant }) => identifiant.cle_ministere_educatif)).toEqual(["10", "11", "12", "13", "14", "15", "16", "17", "18", "19"])
 
     const page11 = await searchFormation({
       radius: 0,
       page_size: 10,
       page_index: 10,
       include_archived: false,
-    });
+    })
     expect(page11.pagination).toEqual({
       page_count: 11,
       page_index: 10,
       page_size: 10,
-    });
-    expect(page11.data).toHaveLength(1);
-    expect(page11.data.map(({ identifiant }) => identifiant.cle_ministere_educatif)).toEqual(["100"]);
-  });
+    })
+    expect(page11.data).toHaveLength(1)
+    expect(page11.data.map(({ identifiant }) => identifiant.cle_ministere_educatif)).toEqual(["100"])
+  })
 
   it("should return only published formations", async () => {
     const formations = [
@@ -102,23 +78,23 @@ describe("searchFormation", () => {
         identifiant: { cle_ministere_educatif: "3" },
         statut: { catalogue: "supprimé" },
       }),
-    ];
+    ]
 
-    await getDbCollection("formation").insertMany(formations);
+    await getDbCollection("formation").insertMany(formations)
 
     const data = await searchFormation({
       radius: 0,
       page_size: 10,
       page_index: 0,
       include_archived: false,
-    });
+    })
     expect(data.pagination).toEqual({
       page_count: 1,
       page_index: 0,
       page_size: 10,
-    });
-    expect(data.data).toHaveLength(1);
-  });
+    })
+    expect(data.data).toHaveLength(1)
+  })
 
   it("should return only published and archived formations when requested", async () => {
     const formations = [
@@ -134,26 +110,24 @@ describe("searchFormation", () => {
         identifiant: { cle_ministere_educatif: "3" },
         statut: { catalogue: "supprimé" },
       }),
-    ];
+    ]
 
-    await getDbCollection("formation").insertMany(formations);
+    await getDbCollection("formation").insertMany(formations)
 
     const data = await searchFormation({
       radius: 0,
       page_size: 10,
       page_index: 0,
       include_archived: true,
-    });
+    })
     expect(data.pagination).toEqual({
       page_count: 1,
       page_index: 0,
       page_size: 10,
-    });
-    expect(data.data).toHaveLength(2);
-    expect(data.data.map(({ identifiant }) => identifiant.cle_ministere_educatif).toSorted()).toEqual(
-      ["1", "2"].toSorted()
-    );
-  });
+    })
+    expect(data.data).toHaveLength(2)
+    expect(data.data.map(({ identifiant }) => identifiant.cle_ministere_educatif).toSorted()).toEqual(["1", "2"].toSorted())
+  })
 
   it('should filter by "rome"', async () => {
     const formations = [
@@ -193,9 +167,9 @@ describe("searchFormation", () => {
           },
         },
       }),
-    ];
+    ]
 
-    await getDbCollection("formation").insertMany(formations);
+    await getDbCollection("formation").insertMany(formations)
 
     const data = await searchFormation({
       radius: 0,
@@ -203,15 +177,15 @@ describe("searchFormation", () => {
       page_size: 10,
       page_index: 0,
       include_archived: false,
-    });
+    })
     expect(data.pagination).toEqual({
       page_count: 1,
       page_index: 0,
       page_size: 10,
-    });
-    expect(data.data).toHaveLength(1);
-    expect(data.data[0].identifiant).toEqual(formations[0].identifiant);
-  });
+    })
+    expect(data.data).toHaveLength(1)
+    expect(data.data[0].identifiant).toEqual(formations[0].identifiant)
+  })
 
   it('should filter by "rncp"', async () => {
     const formations = [
@@ -237,25 +211,25 @@ describe("searchFormation", () => {
           },
         },
       }),
-    ];
+    ]
 
-    await getDbCollection("formation").insertMany(formations);
+    await getDbCollection("formation").insertMany(formations)
     const data = await searchFormation({
       radius: 0,
       rncp: "RNCP456",
       page_size: 10,
       page_index: 0,
       include_archived: false,
-    });
+    })
 
     expect(data.pagination).toEqual({
       page_count: 1,
       page_index: 0,
       page_size: 10,
-    });
-    expect(data.data).toHaveLength(1);
-    expect(data.data[0].identifiant).toEqual(formations[1].identifiant);
-  });
+    })
+    expect(data.data).toHaveLength(1)
+    expect(data.data[0].identifiant).toEqual(formations[1].identifiant)
+  })
 
   it("should filter by rome OR rncp", async () => {
     const formations = [
@@ -364,9 +338,9 @@ describe("searchFormation", () => {
           },
         },
       }),
-    ];
+    ]
 
-    await getDbCollection("formation").insertMany(formations);
+    await getDbCollection("formation").insertMany(formations)
 
     const data = await searchFormation({
       radius: 0,
@@ -375,19 +349,19 @@ describe("searchFormation", () => {
       page_size: 10,
       page_index: 0,
       include_archived: false,
-    });
+    })
 
     expect(data.pagination).toEqual({
       page_count: 1,
       page_index: 0,
       page_size: 10,
-    });
-    data.data.sort((a, b) => a.identifiant.cle_ministere_educatif.localeCompare(b.identifiant.cle_ministere_educatif));
-    expect.soft(data.data).toHaveLength(3);
-    expect.soft(data.data[0].identifiant).toEqual(formations[0].identifiant);
-    expect.soft(data.data[1].identifiant).toEqual(formations[2].identifiant);
-    expect.soft(data.data[2].identifiant).toEqual(formations[3].identifiant);
-  });
+    })
+    data.data.sort((a, b) => a.identifiant.cle_ministere_educatif.localeCompare(b.identifiant.cle_ministere_educatif))
+    expect.soft(data.data).toHaveLength(3)
+    expect.soft(data.data[0].identifiant).toEqual(formations[0].identifiant)
+    expect.soft(data.data[1].identifiant).toEqual(formations[2].identifiant)
+    expect.soft(data.data[2].identifiant).toEqual(formations[3].identifiant)
+  })
 
   it('should filter by "target_diploma_level"', async () => {
     const formations = [
@@ -463,32 +437,32 @@ describe("searchFormation", () => {
           },
         },
       }),
-    ];
+    ]
 
-    await getDbCollection("formation").insertMany(formations);
+    await getDbCollection("formation").insertMany(formations)
     const data = await searchFormation({
       radius: 0,
       target_diploma_level: "3",
       page_size: 10,
       page_index: 0,
       include_archived: false,
-    });
+    })
     expect(data.pagination).toEqual({
       page_count: 1,
       page_index: 0,
       page_size: 10,
-    });
+    })
 
-    data.data.sort((a, b) => a.identifiant.cle_ministere_educatif.localeCompare(b.identifiant.cle_ministere_educatif));
-    expect.soft(data.data).toHaveLength(2);
-    expect.soft(data.data[0].identifiant).toEqual(formations[0].identifiant);
-    expect.soft(data.data[1].identifiant).toEqual(formations[2].identifiant);
-  });
+    data.data.sort((a, b) => a.identifiant.cle_ministere_educatif.localeCompare(b.identifiant.cle_ministere_educatif))
+    expect.soft(data.data).toHaveLength(2)
+    expect.soft(data.data[0].identifiant).toEqual(formations[0].identifiant)
+    expect.soft(data.data[1].identifiant).toEqual(formations[2].identifiant)
+  })
 
   const melun = {
     type: "Point",
     coordinates: [2.6552, 48.5421],
-  };
+  }
 
   it('should filter by "geolocalisation" and sort by distance', async () => {
     // Achères-la-Forêt --> Amilis: 60.2km
@@ -517,9 +491,9 @@ describe("searchFormation", () => {
           geolocalisation: sourceCommuneFixtures["77"][1].centre, // Amillis
         },
       }),
-    ];
+    ]
 
-    await getDbCollection("formation").insertMany(formations);
+    await getDbCollection("formation").insertMany(formations)
     const data1 = await searchFormation({
       radius: 30,
       longitude: melun.coordinates[0],
@@ -528,16 +502,16 @@ describe("searchFormation", () => {
       page_index: 0,
       include_archived: false,
     }).catch((e) => {
-      console.error(e);
-      throw e;
-    });
+      console.error(e)
+      throw e
+    })
 
     expect(data1.pagination).toEqual({
       page_count: 1,
       page_index: 0,
       page_size: 10,
-    });
-    expect(data1.data.map(({ identifiant }) => identifiant)).toEqual([formations[0].identifiant]);
+    })
+    expect(data1.data.map(({ identifiant }) => identifiant)).toEqual([formations[0].identifiant])
 
     const data2 = await searchFormation({
       radius: 50,
@@ -546,25 +520,21 @@ describe("searchFormation", () => {
       page_size: 10,
       page_index: 0,
       include_archived: false,
-    });
+    })
 
     expect(data2.pagination).toEqual({
       page_count: 1,
       page_index: 0,
       page_size: 10,
-    });
-    expect(data2.data.map(({ identifiant }) => identifiant)).toEqual([
-      formations[0].identifiant,
-      formations[2].identifiant,
-      formations[1].identifiant,
-    ]);
-  });
+    })
+    expect(data2.data.map(({ identifiant }) => identifiant)).toEqual([formations[0].identifiant, formations[2].identifiant, formations[1].identifiant])
+  })
 
   it("should combine all filters", async () => {
     const lieux: IFormationFixtureInput["lieu"][] = [
       { geolocalisation: sourceCommuneFixtures["77"][0].centre }, // Achères-la-Forêt
       { geolocalisation: sourceCommuneFixtures["75"][0].centre }, // Paris
-    ];
+    ]
 
     const domaines: ICertificationFixtureInput["domaines"][] = [
       {
@@ -573,9 +543,9 @@ describe("searchFormation", () => {
       {
         rome: { rncp: [{ code: "A1202", intitule: "Entretien des espaces naturels" }] },
       },
-    ];
+    ]
 
-    const certifIdentifiants: ICertificationFixtureInput["identifiant"][] = [{ rncp: "RNCP123" }, { rncp: "RNCP456" }];
+    const certifIdentifiants: ICertificationFixtureInput["identifiant"][] = [{ rncp: "RNCP123" }, { rncp: "RNCP456" }]
 
     const certifIntitule: ICertificationFixtureInput["intitule"][] = [
       { niveau: { rncp: { europeen: "3" }, cfd: null } },
@@ -604,25 +574,21 @@ describe("searchFormation", () => {
           },
         },
       },
-    ];
+    ]
 
-    const status: IFormationFixtureInput["statut"][] = [
-      { catalogue: "publié" },
-      { catalogue: "archivé" },
-      { catalogue: "supprimé" },
-    ];
+    const status: IFormationFixtureInput["statut"][] = [{ catalogue: "publié" }, { catalogue: "archivé" }, { catalogue: "supprimé" }]
 
-    const formations = [];
+    const formations = []
     for (let i = 0; i < lieux.length; i++) {
-      const lieu = lieux[i];
+      const lieu = lieux[i]
       for (let j = 0; j < domaines.length; j++) {
-        const domaine = domaines[j];
+        const domaine = domaines[j]
         for (let k = 0; k < certifIdentifiants.length; k++) {
-          const certifIdentifiant = certifIdentifiants[k];
+          const certifIdentifiant = certifIdentifiants[k]
           for (let l = 0; l < certifIntitule.length; l++) {
-            const certifIntit = certifIntitule[l];
+            const certifIntit = certifIntitule[l]
             for (let m = 0; m < status.length; m++) {
-              const statut = status[m];
+              const statut = status[m]
               formations.push(
                 generateFormationInternalFixture({
                   identifiant: { cle_ministere_educatif: `${i}-${j}-${k}-${l}-${m}` },
@@ -633,14 +599,14 @@ describe("searchFormation", () => {
                   },
                   statut,
                 })
-              );
+              )
             }
           }
         }
       }
     }
 
-    await getDbCollection("formation").insertMany(formations);
+    await getDbCollection("formation").insertMany(formations)
     const data = await searchFormation({
       radius: 30,
       longitude: melun.coordinates[0],
@@ -651,13 +617,13 @@ describe("searchFormation", () => {
       page_size: 10,
       page_index: 0,
       include_archived: false,
-    });
+    })
     expect(data.pagination).toEqual({
       page_count: 1,
       page_index: 0,
       page_size: 10,
-    });
-    const cles = data.data.map(({ identifiant }) => identifiant.cle_ministere_educatif).toSorted();
-    expect(cles).toEqual(["0-0-0-0-0", "0-0-0-2-0", "0-0-1-0-0", "0-0-1-2-0", "0-1-1-0-0", "0-1-1-2-0"]);
-  });
-});
+    })
+    const cles = data.data.map(({ identifiant }) => identifiant.cle_ministere_educatif).toSorted()
+    expect(cles).toEqual(["0-0-0-0-0", "0-0-0-2-0", "0-0-1-0-0", "0-0-1-2-0", "0-1-1-0-0", "0-1-1-2-0"])
+  })
+})

@@ -1,11 +1,11 @@
-import { notFound } from "@hapi/boom";
-import { ObjectId } from "mongodb";
-import { zRoutes } from "shared";
-import type { IOrganisationInternal } from "shared/models/organisation.model";
+import { notFound } from "@hapi/boom"
+import { ObjectId } from "mongodb"
+import { zRoutes } from "shared"
+import type { IOrganisationInternal } from "shared/models/organisation.model"
 
-import { deleteOrganisation } from "@/actions/organisations.actions.js";
-import type { Server } from "@/server/server.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import { deleteOrganisation } from "@/actions/organisations.actions.js"
+import type { Server } from "@/server/server.js"
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
 
 export const organisationAdminRoutes = ({ server }: { server: Server }) => {
   server.get(
@@ -15,11 +15,11 @@ export const organisationAdminRoutes = ({ server }: { server: Server }) => {
       onRequest: [server.auth(zRoutes.get["/_private/admin/organisations"])],
     },
     async (_request, response) => {
-      const organisations = await getDbCollection("organisations").find({}).toArray();
+      const organisations = await getDbCollection("organisations").find({}).toArray()
 
-      return response.status(200).send(organisations);
+      return response.status(200).send(organisations)
     }
-  );
+  )
 
   server.post(
     "/_private/admin/organisations",
@@ -28,7 +28,7 @@ export const organisationAdminRoutes = ({ server }: { server: Server }) => {
       onRequest: [server.auth(zRoutes.post["/_private/admin/organisations"])],
     },
     async (request, response) => {
-      const now = new Date();
+      const now = new Date()
       const organisation: IOrganisationInternal = {
         _id: new ObjectId(),
         nom: request.body.nom,
@@ -36,13 +36,13 @@ export const organisationAdminRoutes = ({ server }: { server: Server }) => {
         habilitations: [],
         updated_at: now,
         created_at: now,
-      };
+      }
 
-      await getDbCollection("organisations").insertOne(organisation);
+      await getDbCollection("organisations").insertOne(organisation)
 
-      return response.status(200).send(organisation);
+      return response.status(200).send(organisation)
     }
-  );
+  )
 
   server.put(
     "/_private/admin/organisations/:id",
@@ -51,7 +51,7 @@ export const organisationAdminRoutes = ({ server }: { server: Server }) => {
       onRequest: [server.auth(zRoutes.put["/_private/admin/organisations/:id"])],
     },
     async (request, response) => {
-      const now = new Date();
+      const now = new Date()
 
       const organisation = await getDbCollection("organisations").findOneAndUpdate(
         { _id: request.params.id },
@@ -62,15 +62,15 @@ export const organisationAdminRoutes = ({ server }: { server: Server }) => {
           },
         },
         { returnDocument: "after" }
-      );
+      )
 
       if (organisation === null) {
-        throw notFound();
+        throw notFound()
       }
 
-      return response.status(200).send(organisation);
+      return response.status(200).send(organisation)
     }
-  );
+  )
 
   server.delete(
     "/_private/admin/organisations/:id",
@@ -79,8 +79,8 @@ export const organisationAdminRoutes = ({ server }: { server: Server }) => {
       onRequest: [server.auth(zRoutes.delete["/_private/admin/organisations/:id"])],
     },
     async (request, response) => {
-      await deleteOrganisation(request.params.id);
-      return response.status(200).send({ success: true });
+      await deleteOrganisation(request.params.id)
+      return response.status(200).send({ success: true })
     }
-  );
-};
+  )
+}

@@ -1,1 +1,1 @@
-export * from "./formation.model.openapi.js";
+export * from "./formation.model.openapi.js"

@@ -1,18 +1,16 @@
-import type { IFormation } from "api-alternance-sdk";
-import { zCertification, zOrganisme } from "api-alternance-sdk";
-import { ObjectId } from "mongodb";
-import type { ICommuneInternal } from "shared/models/commune.model";
-import { generateCertificationInternalFixture } from "shared/models/fixtures/certification.model.fixture";
-import { generateOrganismeInternalFixture } from "shared/models/fixtures/organisme.model.fixture";
-import type { IFormationCatalogue } from "shared/models/source/catalogue/source.catalogue.model";
-import { beforeEach, describe, expect, it } from "vitest";
+import { useMongo } from "@tests/mongo.test.utils.js"
+import type { IFormation } from "api-alternance-sdk"
+import { zCertification, zOrganisme } from "api-alternance-sdk"
+import { ObjectId } from "mongodb"
+import type { ICommuneInternal } from "shared/models/commune.model"
+import { generateCertificationInternalFixture } from "shared/models/fixtures/certification.model.fixture"
+import { generateOrganismeInternalFixture } from "shared/models/fixtures/organisme.model.fixture"
+import type { IFormationCatalogue } from "shared/models/source/catalogue/source.catalogue.model"
+import { beforeEach, describe, expect, it } from "vitest"
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
+import { buildFormation } from "./_.formation.builder.js"
 
-import { buildFormation } from "./_.formation.builder.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
-
-import { useMongo } from "@tests/mongo.test.utils.js";
-
-useMongo();
+useMongo()
 
 describe("buildFormation", () => {
   const communes: ICommuneInternal[] = [
@@ -20,24 +18,7 @@ describe("buildFormation", () => {
       _id: new ObjectId(),
       code: {
         insee: "13055",
-        postaux: [
-          "13001",
-          "13002",
-          "13003",
-          "13004",
-          "13005",
-          "13006",
-          "13007",
-          "13008",
-          "13009",
-          "13010",
-          "13011",
-          "13012",
-          "13013",
-          "13014",
-          "13015",
-          "13016",
-        ],
+        postaux: ["13001", "13002", "13003", "13004", "13005", "13006", "13007", "13008", "13009", "13010", "13011", "13012", "13013", "13014", "13015", "13016"],
       },
       academie: {
         nom: "Aix-Marseille",
@@ -161,14 +142,14 @@ describe("buildFormation", () => {
       ],
       anciennes: [],
     },
-  ];
+  ]
 
-  const rncp = "RNCP35234";
-  const cfd = "56T34302";
+  const rncp = "RNCP35234"
+  const cfd = "56T34302"
 
   const certification = generateCertificationInternalFixture({
     identifiant: { rncp, cfd, rncp_anterieur_2019: false },
-  });
+  })
   const organismes = [
     generateOrganismeInternalFixture({
       identifiant: { siret: "42339754600114", uai: "0212270D" },
@@ -176,13 +157,13 @@ describe("buildFormation", () => {
     generateOrganismeInternalFixture({
       identifiant: { siret: "19350030300014", uai: "0352660B" },
     }),
-  ];
+  ]
 
   beforeEach(async () => {
-    await getDbCollection("commune").insertMany(communes);
-    await getDbCollection("certifications").insertOne(certification);
-    await getDbCollection("organisme").insertMany(organismes);
-  });
+    await getDbCollection("commune").insertMany(communes)
+    await getDbCollection("certifications").insertOne(certification)
+    await getDbCollection("organisme").insertMany(organismes)
+  })
 
   const source = {
     cfd,
@@ -224,13 +205,12 @@ describe("buildFormation", () => {
       "MC Vendeur spécialisé en alimentation ; MC Assistance, conseil, vente à distance ; BTS Négociation et digitalisation de la relation client ; BTS Management commercial opérationnel ; BTSA Technico-commercial",
     onisep_lien_site_onisepfr: "http://www.onisep.fr/http/redirection/formation/slug/FOR.5839",
     onisep_discipline: "commerce distribution ; vente",
-    onisep_domaine_sousdomaine:
-      "commerce, marketing, vente/grande distribution et petits commerces ; commerce, marketing, vente/marketing - vente",
+    onisep_domaine_sousdomaine: "commerce, marketing, vente/grande distribution et petits commerces ; commerce, marketing, vente/marketing - vente",
     contenu: "Contenu éducatif",
     objectif: "Avoir son diplôme",
     catalogue_published: true,
     tags: ["2022", "2023", "2024"],
-  } as const satisfies IFormationCatalogue;
+  } as const satisfies IFormationCatalogue
 
   const expected: IFormation = {
     lieu: {
@@ -314,16 +294,16 @@ describe("buildFormation", () => {
     contact: { email: source.email, telephone: source.num_tel },
     identifiant: { cle_ministere_educatif: source.cle_ministere_educatif },
     contenu_educatif: { contenu: source.contenu, objectif: source.objectif },
-  };
+  }
 
   it("should build formation", async () => {
     const result = await buildFormation({
       data: source,
       _id: new ObjectId(),
       date: new Date(),
-    });
-    expect(result).toEqual(expected);
-  });
+    })
+    expect(result).toEqual(expected)
+  })
 
   it("should not add email if it is not valid", async () => {
     const result = await buildFormation({
@@ -333,12 +313,12 @@ describe("buildFormation", () => {
       },
       _id: new ObjectId(),
       date: new Date(),
-    });
+    })
     expect(result).toEqual({
       ...expected,
       contact: { ...expected.contact, email: null },
-    });
-  });
+    })
+  })
 
   it('should not add "onisep_url" if it is not valid', async () => {
     const result = await buildFormation({
@@ -348,12 +328,12 @@ describe("buildFormation", () => {
       },
       _id: new ObjectId(),
       date: new Date(),
-    });
+    })
     expect(result).toEqual({
       ...expected,
       onisep: { ...expected.onisep, url: null },
-    });
-  });
+    })
+  })
 
   it('should set statut catalogue to "archivé" if "published" is false', async () => {
     const result = await buildFormation({
@@ -363,12 +343,12 @@ describe("buildFormation", () => {
       },
       _id: new ObjectId(),
       date: new Date(),
-    });
+    })
     expect(result).toEqual({
       ...expected,
       statut: { catalogue: "archivé" },
-    });
-  });
+    })
+  })
 
   it('should set contenu_educatif to empty string if "contenu" is null', async () => {
     const result = await buildFormation({
@@ -379,11 +359,11 @@ describe("buildFormation", () => {
       },
       _id: new ObjectId(),
       date: new Date(),
-    });
+    })
 
     expect(result).toEqual({
       ...expected,
       contenu_educatif: { objectif: "", contenu: "" },
-    });
-  });
-});
+    })
+  })
+})

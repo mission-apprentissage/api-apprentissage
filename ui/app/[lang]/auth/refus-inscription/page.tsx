@@ -1,89 +1,89 @@
-"use client";
-import { fr } from "@codegouvfr/react-dsfr";
-import { Alert } from "@codegouvfr/react-dsfr/Alert";
-import { Button } from "@codegouvfr/react-dsfr/Button";
-import { Input } from "@codegouvfr/react-dsfr/Input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Dialog, DialogContent, Typography } from "@mui/material";
-import { captureException } from "@sentry/nextjs";
-import NextLink from "next/link";
-import { useRouter } from "next/navigation";
-import { use, useState } from "react";
-import type { FieldError, SubmitHandler } from "react-hook-form";
-import { useForm } from "react-hook-form";
-import type { IBody, IPostRoutes } from "shared";
-import { zRoutes } from "shared";
-import type { Jsonify } from "type-fest";
+"use client"
+import { fr } from "@codegouvfr/react-dsfr"
+import { Alert } from "@codegouvfr/react-dsfr/Alert"
+import { Button } from "@codegouvfr/react-dsfr/Button"
+import { Input } from "@codegouvfr/react-dsfr/Input"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Box, Dialog, DialogContent, Typography } from "@mui/material"
+import { captureException } from "@sentry/nextjs"
+import NextLink from "next/link"
+import { useRouter } from "next/navigation"
+import { use, useState } from "react"
+import type { FieldError, SubmitHandler } from "react-hook-form"
+import { useForm } from "react-hook-form"
+import type { IBody, IPostRoutes } from "shared"
+import { zRoutes } from "shared"
+import type { Jsonify } from "type-fest"
 
-import type { PropsWithLangParams } from "@/app/i18n/settings";
-import { Artwork } from "@/components/artwork/Artwork";
-import { useJwtToken } from "@/hooks/useJwtToken";
-import { ApiError, apiPost } from "@/utils/api.utils";
-import { PAGES } from "@/utils/routes.utils";
+import type { PropsWithLangParams } from "@/app/i18n/settings"
+import { Artwork } from "@/components/artwork/Artwork"
+import { useJwtToken } from "@/hooks/useJwtToken"
+import { ApiError, apiPost } from "@/utils/api.utils"
+import { PAGES } from "@/utils/routes.utils"
 
-type Inputs = Jsonify<IBody<IPostRoutes["/_private/auth/register-feedback"]>>;
+type Inputs = Jsonify<IBody<IPostRoutes["/_private/auth/register-feedback"]>>
 
 function getInputState(error: FieldError | undefined | null): {
-  state: "default" | "error" | "success";
-  stateRelatedMessage: string;
+  state: "default" | "error" | "success"
+  stateRelatedMessage: string
 } {
   if (!error) {
-    return { state: "default", stateRelatedMessage: "" };
+    return { state: "default", stateRelatedMessage: "" }
   }
 
-  return { state: "error", stateRelatedMessage: error.message ?? "Erreur de validation" };
+  return { state: "error", stateRelatedMessage: error.message ?? "Erreur de validation" }
 }
 
-const defaultErrorMessage = "Une erreur est survenue lors de l'envoi du formulaire. Veuillez réessayer ultérieurement.";
+const defaultErrorMessage = "Une erreur est survenue lors de l'envoi du formulaire. Veuillez réessayer ultérieurement."
 
 export default function RegisterFeedbackPage({ params }: PropsWithLangParams) {
-  const { lang } = use(params);
+  const { lang } = use(params)
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<Inputs>({
     resolver: zodResolver(zRoutes.post["/_private/auth/register-feedback"].body),
-  });
+  })
 
-  const token = useJwtToken();
-  const { push } = useRouter();
+  const token = useJwtToken()
+  const { push } = useRouter()
 
-  const [submitError, setSubmitError] = useState<string | null>(!token.valid ? token.error : null);
+  const [submitError, setSubmitError] = useState<string | null>(!token.valid ? token.error : null)
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
       if (!token.valid) {
-        setSubmitError(token.error);
-        return;
+        setSubmitError(token.error)
+        return
       }
 
-      setSubmitError(null);
+      setSubmitError(null)
       await apiPost("/_private/auth/register-feedback", {
         headers: {
           authorization: `Bearer ${token.value}`,
         },
         body: data,
-      });
-      push(PAGES.static.home.getPath(lang));
+      })
+      push(PAGES.static.home.getPath(lang))
     } catch (error) {
-      console.error(error);
+      console.error(error)
       if (error instanceof ApiError && error.context.statusCode < 500) {
-        setSubmitError(error.context.message ?? defaultErrorMessage);
+        setSubmitError(error.context.message ?? defaultErrorMessage)
       } else {
-        captureException(error);
-        setSubmitError(defaultErrorMessage);
+        captureException(error)
+        setSubmitError(defaultErrorMessage)
       }
     }
-  };
+  }
 
   const onCreateAccountClicked = () => {
     if (token.valid) {
-      push(PAGES.dynamic.inscription(token.value).getPath(lang));
+      push(PAGES.dynamic.inscription(token.value).getPath(lang))
     } else {
-      push(PAGES.static.compteProfil.getPath(lang));
+      push(PAGES.static.compteProfil.getPath(lang))
     }
-  };
+  }
 
   return (
     <Dialog
@@ -143,8 +143,7 @@ export default function RegisterFeedbackPage({ params }: PropsWithLangParams) {
               Aider nous à améliorer nos services
             </Typography>
             <Typography align="center" id="register-feedback-modal-description">
-              Vous avez souhaité <strong>ne pas créer de compte</strong> pour vous connecter au service API
-              Apprentissage. <strong>Dites-nous en plus !</strong>
+              Vous avez souhaité <strong>ne pas créer de compte</strong> pour vous connecter au service API Apprentissage. <strong>Dites-nous en plus !</strong>
             </Typography>
           </Box>
 
@@ -157,32 +156,15 @@ export default function RegisterFeedbackPage({ params }: PropsWithLangParams) {
               flexDirection: "column",
             }}
           >
-            <Input
-              label="Votre commentaire"
-              {...getInputState(errors?.comment)}
-              nativeTextAreaProps={register("comment", { required: false })}
-              textArea
-            />
+            <Input label="Votre commentaire" {...getInputState(errors?.comment)} nativeTextAreaProps={register("comment", { required: false })} textArea />
             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <Button
-                size="large"
-                type="submit"
-                disabled={isSubmitting || !token.valid}
-                priority="primary"
-                iconId="fr-icon-arrow-right-line"
-                iconPosition="right"
-              >
+              <Button size="large" type="submit" disabled={isSubmitting || !token.valid} priority="primary" iconId="fr-icon-arrow-right-line" iconPosition="right">
                 Envoyer
               </Button>
             </Box>
 
             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: fr.spacing("5w") }}>
-              <Button
-                size="large"
-                priority="tertiary"
-                disabled={isSubmitting || !token.valid}
-                onClick={onCreateAccountClicked}
-              >
+              <Button size="large" priority="tertiary" disabled={isSubmitting || !token.valid} onClick={onCreateAccountClicked}>
                 Il s’agit d’une erreur, je souhaite créer mon compte
               </Button>
             </Box>
@@ -195,5 +177,5 @@ export default function RegisterFeedbackPage({ params }: PropsWithLangParams) {
         </Box>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

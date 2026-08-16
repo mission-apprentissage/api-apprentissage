@@ -1,4 +1,4 @@
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
 
 export const up = async () => {
   await getDbCollection("cache.entreprise").updateMany(
@@ -15,7 +15,7 @@ export const up = async () => {
     {
       bypassDocumentValidation: true,
     }
-  );
+  )
   await getDbCollection("cache.entreprise").updateMany(
     {
       "data.type": "etablissement",
@@ -30,7 +30,7 @@ export const up = async () => {
     {
       bypassDocumentValidation: true,
     }
-  );
-};
+  )
+}
 
-export const requireShutdown: boolean = true;
+export const requireShutdown: boolean = true

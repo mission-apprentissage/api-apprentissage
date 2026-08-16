@@ -1,5 +1,5 @@
-import { depotOffrePageSummaryDoc } from "../../metier/depot-offre/depot-offre.doc.js";
-import type { DocRoute } from "../../types.js";
+import { depotOffrePageSummaryDoc } from "../../metier/depot-offre/depot-offre.doc.js"
+import type { DocRoute } from "../../types.js"
 
 export const jobOfferCreateRouteDoc = {
   summary: depotOffrePageSummaryDoc.title,
@@ -21,4 +21,4 @@ export const jobOfferCreateRouteDoc = {
       },
     },
   },
-} as const satisfies DocRoute;
+} as const satisfies DocRoute

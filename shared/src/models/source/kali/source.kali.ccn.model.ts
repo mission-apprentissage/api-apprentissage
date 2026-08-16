@@ -1,33 +1,24 @@
-import { DateTime } from "luxon";
-import { z } from "zod/v4-mini";
+import { DateTime } from "luxon"
+import { z } from "zod/v4-mini"
 
-import type { IModelDescriptorGeneric } from "../../common.js";
-import { zObjectIdMini } from "../../common.js";
+import type { IModelDescriptorGeneric } from "../../common.js"
+import { zObjectIdMini } from "../../common.js"
 
-const collectionName = "source.kali.ccn" as const;
+const collectionName = "source.kali.ccn" as const
 
 const indexes: IModelDescriptorGeneric["indexes"] = [
   [{ date_import: 1 }, {}],
   [{ "data.type": 1, "data.idcc": 1, "data.titre": 1 }, {}],
-];
+]
 
-const zEtat = z.enum([
-  "ABROGE",
-  "DENONCE",
-  "MODIFIE",
-  "PERIME",
-  "REMPLACE",
-  "VIGUEUR",
-  "VIGUEUR_ETEN",
-  "VIGUEUR_NON_ETEN",
-]);
+const zEtat = z.enum(["ABROGE", "DENONCE", "MODIFIE", "PERIME", "REMPLACE", "VIGUEUR", "VIGUEUR_ETEN", "VIGUEUR_NON_ETEN"])
 
 const zDate = z.pipe(
   z.date(),
   z.transform((val) => {
-    return DateTime.fromJSDate(val, { zone: "UTC" }).setZone("Europe/Paris", { keepLocalTime: true }).toJSDate();
+    return DateTime.fromJSDate(val, { zone: "UTC" }).setZone("Europe/Paris", { keepLocalTime: true }).toJSDate()
   })
-);
+)
 
 export const zSourceKaliConventionCollectionData = z.object({
   type: z.literal("IDCC"),
@@ -48,7 +39,7 @@ export const zSourceKaliConventionCollectionData = z.object({
   debut: zDate,
   fin: z.nullable(zDate),
   url: z.string().check(z.url()),
-});
+})
 
 export const zSourceKaliTextIndependentData = z.object({
   type: z.literal("TI"),
@@ -98,18 +89,18 @@ export const zSourceKaliTextIndependentData = z.object({
   debut: zDate,
   fin: z.nullable(zDate),
   url: z.string().check(z.url()),
-});
+})
 
 export const zSourceKaliCcn = z.object({
   _id: zObjectIdMini,
   date_import: z.date(),
   data: z.discriminatedUnion("type", [zSourceKaliConventionCollectionData, zSourceKaliTextIndependentData]),
-});
+})
 
 export const sourceKaliCcnModelDescriptor = {
   zod: zSourceKaliCcn,
   indexes,
   collectionName,
-};
+}
 
-export type ISourceKaliCcn = z.output<typeof zSourceKaliCcn>;
+export type ISourceKaliCcn = z.output<typeof zSourceKaliCcn>

@@ -1,11 +1,11 @@
-import { ObjectId } from "mongodb";
-import type { IApiKeyPrivate, IUser } from "shared/models/user.model";
-import { adjectives, animals, colors, uniqueNamesGenerator } from "unique-names-generator";
+import { ObjectId } from "mongodb"
+import type { IApiKeyPrivate, IUser } from "shared/models/user.model"
+import { adjectives, animals, colors, uniqueNamesGenerator } from "unique-names-generator"
 
-import config from "@/config.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
-import { generateKey } from "@/utils/cryptoUtils.js";
-import { createUserTokenSimple } from "@/utils/jwtUtils.js";
+import config from "@/config.js"
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
+import { generateKey } from "@/utils/cryptoUtils.js"
+import { createUserTokenSimple } from "@/utils/jwtUtils.js"
 
 export const updateUser = async (email: IUser["email"], data: Partial<IUser>): Promise<void> => {
   await getDbCollection("users").findOneAndUpdate(
@@ -15,15 +15,12 @@ export const updateUser = async (email: IUser["email"], data: Partial<IUser>): P
     {
       $set: { ...data, updated_at: new Date() },
     }
-  );
-};
+  )
+}
 
-export const generateApiKey = async (
-  name: string,
-  user: IUser
-): Promise<IApiKeyPrivate & { value: string; key: string }> => {
-  const now = new Date();
-  const generatedKey = generateKey();
+export const generateApiKey = async (name: string, user: IUser): Promise<IApiKeyPrivate & { value: string; key: string }> => {
+  const now = new Date()
+  const generatedKey = generateKey()
 
   const data: IUser["api_keys"][number] = {
     _id: new ObjectId(),
@@ -38,7 +35,7 @@ export const generateApiKey = async (
     expires_at: new Date(now.getTime() + config.api_key.expiresIn),
     created_at: now,
     expiration_warning_sent: null,
-  };
+  }
 
   await getDbCollection("users").findOneAndUpdate(
     {
@@ -50,33 +47,33 @@ export const generateApiKey = async (
         api_keys: data,
       },
     }
-  );
+  )
 
   const token = await createUserTokenSimple({
     payload: { _id: user._id, api_key: data.key, organisation: user.organisation, email: user.email },
     expiresIn: data.expires_at,
-  });
+  })
 
   return {
     ...data,
     value: token,
-  };
-};
+  }
+}
 
 export async function addTokenValue(user: IUser, data: IUser["api_keys"][number]): Promise<IApiKeyPrivate> {
   if (data.expires_at.getTime() < Date.now()) {
-    return { ...data, value: null };
+    return { ...data, value: null }
   }
 
   const token = await createUserTokenSimple({
     payload: { _id: user._id, api_key: data.key, organisation: user.organisation, email: user.email },
     expiresIn: data.expires_at,
-  });
+  })
 
   return {
     ...data,
     value: token,
-  };
+  }
 }
 
 export async function deleteApiKey(id: ObjectId, user: IUser) {
@@ -90,5 +87,5 @@ export async function deleteApiKey(id: ObjectId, user: IUser) {
         api_keys: { _id: id },
       },
     }
-  );
+  )
 }

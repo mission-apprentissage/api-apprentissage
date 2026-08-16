@@ -1,75 +1,73 @@
-import type { Readable, Writable } from "node:stream";
-import { Transform } from "node:stream";
+import type { Readable, Writable } from "node:stream"
+import { Transform } from "node:stream"
 
-import type { AbstractCursor } from "mongodb";
-import { compose as _compose } from "oleoduc";
-import streamJson from "stream-json";
-import streamers from "stream-json/streamers/StreamArray.js";
-import { z } from "zod/v4-mini";
-import type { $ZodArray, $ZodType } from "zod/v4/core";
+import type { AbstractCursor } from "mongodb"
+import { compose as _compose } from "oleoduc"
+import streamJson from "stream-json"
+import streamers from "stream-json/streamers/StreamArray.js"
+import type { $ZodArray, $ZodType } from "zod/v4/core"
+import { z } from "zod/v4-mini"
 
 type Options = {
-  size: number;
-};
+  size: number
+}
 
-export function compose<I extends Readable | Transform, O extends Writable | Transform>(
-  ...streams: [I, ...Transform[], O]
-): I & O {
-  return _compose(...streams);
+export function compose<I extends Readable | Transform, O extends Writable | Transform>(...streams: [I, ...Transform[], O]): I & O {
+  return _compose(...streams)
 }
 
 export function createBatchTransformStream(opts: Options): Transform {
-  let currentBatch: unknown[] = [];
+  let currentBatch: unknown[] = []
 
   return new Transform({
     objectMode: true,
     transform(chunk, _encoding, callback) {
-      currentBatch.push(chunk);
+      currentBatch.push(chunk)
 
       if (currentBatch.length >= opts.size) {
-        this.push(currentBatch);
-        currentBatch = [];
+        this.push(currentBatch)
+        currentBatch = []
       }
 
-      callback();
+      callback()
     },
     flush(callback) {
       if (currentBatch.length > 0) {
-        this.push(currentBatch);
+        this.push(currentBatch)
       }
-      callback();
+      callback()
     },
-  });
+  })
 }
 
 export function createChangeBatchCardinalityTransformStream(opts: Options): Transform {
-  let currentBatch: unknown[] = [];
+  let currentBatch: unknown[] = []
 
   return new Transform({
     objectMode: true,
     transform(chunk, _encoding, callback) {
       if (!Array.isArray(chunk)) {
-        callback(new Error("Expected an array"));
+        callback(new Error("Expected an array"))
       }
 
       for (const item of chunk) {
-        currentBatch.push(item);
+        currentBatch.push(item)
 
         if (currentBatch.length >= opts.size) {
-          this.push(currentBatch);
-          currentBatch = [];
+          this.push(currentBatch)
+          currentBatch = []
         }
       }
 
-      callback();
+      callback()
     },
     flush(callback) {
       if (currentBatch.length > 0) {
-        this.push(currentBatch);
+        this.push(currentBatch)
       }
-      callback();
+      callback()
     },
-  });
+  })
 }
 
 export function createJsonLineTransformStream(): Transform {
@@ -79,46 +77,43 @@ export function createJsonLineTransformStream(): Transform {
     new Transform({
       objectMode: true,
       transform(chunk, _encoding, callback) {
-        callback(null, chunk.value);
+        callback(null, chunk.value)
       },
     })
-  );
+  )
 }
 
 function createToJsonTransformStream<T extends $ZodType>(schema: $ZodArray<T>): Transform {
-  let inited = false;
+  let inited = false
   return new Transform({
     writableObjectMode: true,
     readableObjectMode: false,
     transform(chunk, _encoding, callback) {
       try {
         if (!inited) {
-          this.push("[");
-          inited = true;
+          this.push("[")
+          inited = true
         } else {
-          this.push(",\n");
+          this.push(",\n")
         }
-        this.push(JSON.stringify(z.parse(schema._zod.def.element, chunk)));
-        callback();
+        this.push(JSON.stringify(z.parse(schema._zod.def.element, chunk)))
+        callback()
       } catch (error) {
-        callback(error);
+        callback(error instanceof Error ? error : new Error(String(error)))
       }
     },
     flush(callback) {
       if (!inited) {
-        this.push("[");
+        this.push("[")
       }
-      this.push("]");
-      callback();
+      this.push("]")
+      callback()
     },
-  });
+  })
 }
 
-export function createResponseStream<Z extends $ZodType>(
-  cursor: AbstractCursor<z.output<Z>>,
-  schema: $ZodArray<Z>
-): z.output<Z>[] {
-  const transformStream = createToJsonTransformStream(schema);
+export function createResponseStream<Z extends $ZodType>(cursor: AbstractCursor<z.output<Z>>, schema: $ZodArray<Z>): z.output<Z>[] {
+  const transformStream = createToJsonTransformStream(schema)
 
   // In order to satisfy typechecker for response.send method we need to cast the transformStream to z.output<Z>[]
   // This is safe because we know that the transformStream will only output z.output<Z> items
@@ -127,9 +122,10 @@ export function createResponseStream<Z extends $ZodType>(
     cursor
       .stream()
       .on("error", (error) => {
-        transformStream.destroy(error);
+        transformStream.destroy(error)
       })
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .pipe(createToJsonTransformStream(schema)) as any
-  );
+      // Voir le commentaire ci-dessus : le flux est présenté comme le tableau que la route
+      // déclare renvoyer, ce que le schéma garantit élément par élément.
+      .pipe(createToJsonTransformStream(schema)) as unknown as z.output<Z>[]
+  )
 }

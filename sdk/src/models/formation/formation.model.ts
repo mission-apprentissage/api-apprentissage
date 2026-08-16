@@ -1,11 +1,11 @@
-import { z } from "zod/v4-mini";
+import { z } from "zod/v4-mini"
 
-import { zParisLocalDate } from "../../utils/date.primitives.js";
-import { zCertification } from "../certification/certification.model.js";
-import { zMef10 } from "../certification/certification.primitives.js";
-import { zAdresse, zGeoJsonPoint } from "../geographie/geoJson.model.js";
-import { zOrganisme } from "../organisme/organisme.model.js";
-import { zSiret, zUai } from "../organisme/organismes.primitives.js";
+import { zParisLocalDate } from "../../utils/date.primitives.js"
+import { zCertification } from "../certification/certification.model.js"
+import { zMef10 } from "../certification/certification.primitives.js"
+import { zAdresse, zGeoJsonPoint } from "../geographie/geoJson.model.js"
+import { zOrganisme } from "../organisme/organisme.model.js"
+import { zSiret, zUai } from "../organisme/organismes.primitives.js"
 
 export const zFormation = z.object({
   identifiant: z.object({
@@ -76,6 +76,6 @@ export const zFormation = z.object({
       capacite: z.nullable(z.number()),
     })
   ),
-});
+})
 
-export type IFormation = z.infer<typeof zFormation>;
+export type IFormation = z.infer<typeof zFormation>

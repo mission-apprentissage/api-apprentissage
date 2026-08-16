@@ -1,30 +1,16 @@
-import { z } from "zod/v4-mini";
+import { z } from "zod/v4-mini"
 
-import { zCommune } from "../../models/geographie/commune.model.js";
-import { zDepartement } from "../../models/geographie/departement.model.js";
-import { zMissionLocale } from "../../models/geographie/mission-locale.model.js";
-import type { IApiRoutesDef } from "../common.routes.js";
+import { zCommune } from "../../models/geographie/commune.model.js"
+import { zDepartement } from "../../models/geographie/departement.model.js"
+import { zMissionLocale } from "../../models/geographie/mission-locale.model.js"
+import type { IApiRoutesDef } from "../common.routes.js"
 
-const zCode = z.string().check(z.regex(/^\d{5}$/));
+const zCode = z.string().check(z.regex(/^\d{5}$/))
 
 const zMissionLocaleSearchApiQuery = z
   .object({
-    latitude: z.optional(
-      z.coerce
-        .number()
-        .check(
-          z.gte(-90, "Latitude doit être comprise entre -90 et 90"),
-          z.lte(90, "Latitude doit être comprise entre -90 et 90")
-        )
-    ),
-    longitude: z.optional(
-      z.coerce
-        .number()
-        .check(
-          z.gte(-180, "Longitude doit être comprise entre -180 et 180"),
-          z.lte(180, "Longitude doit être comprise entre -180 et 180")
-        )
-    ),
+    latitude: z.optional(z.coerce.number().check(z.gte(-90, "Latitude doit être comprise entre -90 et 90"), z.lte(90, "Latitude doit être comprise entre -90 et 90"))),
+    longitude: z.optional(z.coerce.number().check(z.gte(-180, "Longitude doit être comprise entre -180 et 180"), z.lte(180, "Longitude doit être comprise entre -180 et 180"))),
     radius: z._default(z.coerce.number().check(z.gte(0), z.lte(200)), 30),
   })
   .check((ctx) => {
@@ -34,7 +20,7 @@ const zMissionLocaleSearchApiQuery = z
         path: ["longitude"],
         message: "La longitude est requise lorsque la latitude est fournie",
         input: ctx.value,
-      });
+      })
     }
 
     if (ctx.value.longitude != null && ctx.value.latitude == null) {
@@ -43,11 +29,11 @@ const zMissionLocaleSearchApiQuery = z
         path: ["latitude"],
         message: "La latitude est requise lorsque la longitude est fournie",
         input: ctx.value,
-      });
+      })
     }
-  });
+  })
 
-export type IMissionLocaleSearchApiQuery = z.output<typeof zMissionLocaleSearchApiQuery>;
+export type IMissionLocaleSearchApiQuery = z.output<typeof zMissionLocaleSearchApiQuery>
 
 export const zApiGeographieRoutes = {
   get: {
@@ -92,4 +78,4 @@ export const zApiGeographieRoutes = {
       },
     },
   },
-} as const satisfies IApiRoutesDef;
+} as const satisfies IApiRoutesDef

@@ -1,16 +1,16 @@
-"use client";
+"use client"
 
-import type { DocPage } from "api-alternance-sdk/internal";
-import { getTextOpenAPI, openapiSpec } from "api-alternance-sdk/internal";
-import { useTranslation } from "react-i18next";
-import { safeSlugify } from "redoc";
+import type { DocPage } from "api-alternance-sdk/internal"
+import { getTextOpenAPI, openapiSpec } from "api-alternance-sdk/internal"
+import { useTranslation } from "react-i18next"
+import { safeSlugify } from "redoc"
 
-import type { WithLang } from "@/app/i18n/settings";
-import { DsfrLink } from "@/components/link/DsfrLink";
-import { PAGES } from "@/utils/routes.utils";
+import type { WithLang } from "@/app/i18n/settings"
+import { DsfrLink } from "@/components/link/DsfrLink"
+import { PAGES } from "@/utils/routes.utils"
 
 export function SwaggerLink({ lang, doc }: WithLang<{ doc: DocPage }>) {
-  const { t } = useTranslation("explorer");
+  const { t } = useTranslation("explorer")
 
   return (
     <DsfrLink
@@ -22,5 +22,5 @@ export function SwaggerLink({ lang, doc }: WithLang<{ doc: DocPage }>) {
     >
       {t("besoinDonnees.swagger", { lng: lang })}
     </DsfrLink>
-  );
+  )
 }

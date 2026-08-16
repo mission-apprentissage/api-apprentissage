@@ -1,17 +1,12 @@
-import type { IPaginationInfo, IPaginationQuery } from "api-alternance-sdk";
-import type { Collection, Document, Filter, WithId } from "mongodb";
+import type { IPaginationInfo, IPaginationQuery } from "api-alternance-sdk"
+import type { Collection, Document, Filter, WithId } from "mongodb"
 
 type Result<T> = {
-  data: T[];
-  pagination: IPaginationInfo;
-};
+  data: T[]
+  pagination: IPaginationInfo
+}
 
-export async function paginate<D extends Document>(
-  collection: Collection<D>,
-  query: IPaginationQuery,
-  filter: Filter<D>,
-  countFilter?: Filter<D>
-): Promise<Result<WithId<D>>> {
+export async function paginate<D extends Document>(collection: Collection<D>, query: IPaginationQuery, filter: Filter<D>, countFilter?: Filter<D>): Promise<Result<WithId<D>>> {
   const [data, count] = await Promise.all([
     collection
       .find(filter, {
@@ -20,7 +15,7 @@ export async function paginate<D extends Document>(
       })
       .toArray(),
     collection.countDocuments(countFilter ?? filter),
-  ]);
+  ])
 
   return {
     data,
@@ -29,5 +24,5 @@ export async function paginate<D extends Document>(
       page_size: query.page_size,
       page_index: query.page_index,
     },
-  };
+  }
 }

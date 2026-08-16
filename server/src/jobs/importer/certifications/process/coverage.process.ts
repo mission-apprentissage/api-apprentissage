@@ -1,34 +1,31 @@
-import { Transform } from "stream";
-import { pipeline } from "stream/promises";
-import { internal } from "@hapi/boom";
-import { ObjectId } from "mongodb";
-import { substractIntervals } from "shared";
-import type { ICertificationInternal } from "shared/models/certification.model";
-import type { IImportMetaCertifications } from "shared/models/import.meta.model";
-import type { IBcn_N_FormationDiplome } from "shared/models/source/bcn/bcn.n_formation_diplome.model";
-import type { IBcn_N51_FormationDiplome } from "shared/models/source/bcn/bcn.n51_formation_diplome.model";
-import type { ISourceFranceCompetence } from "shared/models/source/france_competence/source.france_competence.model";
+import { internal } from "@hapi/boom"
+import { ObjectId } from "mongodb"
+import { substractIntervals } from "shared"
+import type { ICertificationInternal } from "shared/models/certification.model"
+import type { IImportMetaCertifications } from "shared/models/import.meta.model"
+import type { IBcn_N_FormationDiplome } from "shared/models/source/bcn/bcn.n_formation_diplome.model"
+import type { IBcn_N51_FormationDiplome } from "shared/models/source/bcn/bcn.n51_formation_diplome.model"
+import type { ISourceFranceCompetence } from "shared/models/source/france_competence/source.france_competence.model"
+import { Transform } from "stream"
+import { pipeline } from "stream/promises"
 
-import { buildCertification } from "@/jobs/importer/certifications/builder/certification.builder.js";
-import { withCause } from "@/services/errors/withCause.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import { buildCertification } from "@/jobs/importer/certifications/builder/certification.builder.js"
+import { withCause } from "@/services/errors/withCause.js"
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
 
 type ChunkCfd = {
-  _id: string;
-  certifications: ICertificationInternal[];
-  bcn: IBcn_N51_FormationDiplome | IBcn_N_FormationDiplome;
-};
+  _id: string
+  certifications: ICertificationInternal[]
+  bcn: IBcn_N51_FormationDiplome | IBcn_N_FormationDiplome
+}
 
 type ChunkRncp = {
-  _id: string;
-  certifications: ICertificationInternal[];
-  france_competence: ISourceFranceCompetence;
-};
+  _id: string
+  certifications: ICertificationInternal[]
+  france_competence: ISourceFranceCompetence
+}
 
-function buildMissingCfdCertification(
-  chunk: ChunkCfd,
-  importMeta: IImportMetaCertifications
-): ICertificationInternal[] {
+function buildMissingCfdCertification(chunk: ChunkCfd, importMeta: IImportMetaCertifications): ICertificationInternal[] {
   const missingIntervals = substractIntervals(
     [
       {
@@ -40,13 +37,10 @@ function buildMissingCfdCertification(
       start: c.periode_validite.debut,
       end: c.periode_validite.fin,
     }))
-  );
+  )
 
   return missingIntervals.map((interval): ICertificationInternal => {
-    const c = buildCertification(
-      { bcn: chunk.bcn, france_competence: null },
-      importMeta.source.france_competence.oldest_date_publication
-    );
+    const c = buildCertification({ bcn: chunk.bcn, france_competence: null }, importMeta.source.france_competence.oldest_date_publication)
 
     return {
       ...c,
@@ -58,14 +52,11 @@ function buildMissingCfdCertification(
       _id: new ObjectId(),
       created_at: importMeta.import_date,
       updated_at: importMeta.import_date,
-    };
-  });
+    }
+  })
 }
 
-function buildMissingRncpCertification(
-  chunk: ChunkRncp,
-  importMeta: IImportMetaCertifications
-): ICertificationInternal[] {
+function buildMissingRncpCertification(chunk: ChunkRncp, importMeta: IImportMetaCertifications): ICertificationInternal[] {
   try {
     const missingIntervals = substractIntervals(
       [
@@ -78,13 +69,10 @@ function buildMissingRncpCertification(
         start: c.periode_validite.debut,
         end: c.periode_validite.fin,
       }))
-    );
+    )
 
     return missingIntervals.map((interval): ICertificationInternal => {
-      const c = buildCertification(
-        { bcn: null, france_competence: chunk.france_competence },
-        importMeta.source.france_competence.oldest_date_publication
-      );
+      const c = buildCertification({ bcn: null, france_competence: chunk.france_competence }, importMeta.source.france_competence.oldest_date_publication)
 
       return {
         ...c,
@@ -96,13 +84,10 @@ function buildMissingRncpCertification(
         _id: new ObjectId(),
         created_at: importMeta.import_date,
         updated_at: importMeta.import_date,
-      };
-    });
+      }
+    })
   } catch (error) {
-    throw withCause(
-      internal("import.certifications: unable to build missing rncp certification", { chunk, importMeta }),
-      error
-    );
+    throw withCause(internal("import.certifications: unable to build missing rncp certification", { chunk, importMeta }), error)
   }
 }
 
@@ -111,15 +96,13 @@ function createMapperStream<C>(mapper: (c: C) => ICertificationInternal[], type:
     objectMode: true,
     async transform(chunk: C, _encoding, callback) {
       try {
-        const op = mapper(chunk);
-        callback(null, op);
+        const op = mapper(chunk)
+        callback(null, op)
       } catch (error) {
-        callback(
-          withCause(internal("import.certifications: error processing certification coverage", { type }), error)
-        );
+        callback(withCause(internal("import.certifications: error processing certification coverage", { type }), error))
       }
     },
-  });
+  })
 }
 
 function createInsertStream(type: "cfd" | "rncp") {
@@ -128,14 +111,14 @@ function createInsertStream(type: "cfd" | "rncp") {
     async transform(chunk: ICertificationInternal[], _encoding, callback) {
       try {
         if (chunk.length > 0) {
-          await getDbCollection("certifications").insertMany(chunk);
+          await getDbCollection("certifications").insertMany(chunk)
         }
-        callback();
+        callback()
       } catch (error) {
-        callback(withCause(internal("import.certifications: error inserting certification coverage", { type }), error));
+        callback(withCause(internal("import.certifications: error inserting certification coverage", { type }), error))
       }
     },
-  });
+  })
 }
 
 async function processCfdCertificationCoverage(importMeta: IImportMetaCertifications) {
@@ -174,7 +157,7 @@ async function processCfdCertificationCoverage(importMeta: IImportMetaCertificat
     ]),
     createMapperStream<ChunkCfd>((chunk) => buildMissingCfdCertification(chunk, importMeta), "cfd"),
     createInsertStream("cfd")
-  );
+  )
 }
 
 async function processRncpCertificationCoverage(importMeta: IImportMetaCertifications) {
@@ -212,11 +195,11 @@ async function processRncpCertificationCoverage(importMeta: IImportMetaCertifica
     ]),
     createMapperStream<ChunkRncp>((chunk) => buildMissingRncpCertification(chunk, importMeta), "rncp"),
     createInsertStream("rncp")
-  );
+  )
 }
 
 // Make sure every CFD & RNCP have a matching certification for his entire validity period
 export async function processCertificationCoverage(importMeta: IImportMetaCertifications) {
-  await processCfdCertificationCoverage(importMeta);
-  await processRncpCertificationCoverage(importMeta);
+  await processCfdCertificationCoverage(importMeta)
+  await processRncpCertificationCoverage(importMeta)
 }

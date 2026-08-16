@@ -1,32 +1,32 @@
-"use client";
-import { Button } from "@codegouvfr/react-dsfr/Button";
-import { Typography } from "@mui/material";
-import { use } from "react";
-import { useTranslation } from "react-i18next";
+"use client"
+import { Button } from "@codegouvfr/react-dsfr/Button"
+import { Typography } from "@mui/material"
+import { use } from "react"
+import { useTranslation } from "react-i18next"
 
-import { useImporterStatus } from "@/app/[lang]/admin/hooks/useImporterStatus";
-import Loading from "@/app/[lang]/loading";
-import type { PropsWithLangParams } from "@/app/i18n/settings";
-import Breadcrumb from "@/components/breadcrumb/Breadcrumb";
-import { Table } from "@/components/table/Table";
-import { formatNullableDate } from "@/utils/date.utils";
-import { PAGES } from "@/utils/routes.utils";
+import { useImporterStatus } from "@/app/[lang]/admin/hooks/useImporterStatus"
+import Loading from "@/app/[lang]/loading"
+import type { PropsWithLangParams } from "@/app/i18n/settings"
+import Breadcrumb from "@/components/breadcrumb/Breadcrumb"
+import { Table } from "@/components/table/Table"
+import { formatNullableDate } from "@/utils/date.utils"
+import { PAGES } from "@/utils/routes.utils"
 
 export default function AdminImportersPage({ params }: PropsWithLangParams) {
-  const { lang } = use(params);
-  const { t } = useTranslation("global", { lng: lang });
+  const { lang } = use(params)
+  const { t } = useTranslation("global", { lng: lang })
 
-  const result = useImporterStatus();
+  const result = useImporterStatus()
 
   if (result.isError) {
-    throw result.error;
+    throw result.error
   }
 
   if (result.isLoading || result.isPending) {
-    return <Loading />;
+    return <Loading />
   }
 
-  const rows = Object.entries(result.data).map(([name, status]) => ({ name, ...status }));
+  const rows = Object.entries(result.data).map(([name, status]) => ({ name, ...status }))
 
   return (
     <>
@@ -66,7 +66,7 @@ export default function AdminImportersPage({ params }: PropsWithLangParams) {
             headerName: "Actions",
             getActions: ({ row: { name, resources } }) => {
               if (resources.length === 0) {
-                return [];
+                return []
               }
               return [
                 <Button
@@ -78,11 +78,11 @@ export default function AdminImportersPage({ params }: PropsWithLangParams) {
                   priority="tertiary no outline"
                   title="Voir l'importer"
                 />,
-              ];
+              ]
             },
           },
         ]}
       />
     </>
-  );
+  )
 }

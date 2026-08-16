@@ -1,4 +1,4 @@
-import type { OpenApiText } from "../docs/types.js";
+import type { OpenApiText } from "../docs/types.js"
 
 export const tagsOpenapi = {
   try: {
@@ -45,9 +45,9 @@ export const tagsOpenapi = {
 } as const satisfies Record<
   string,
   {
-    name: OpenApiText;
-    description: OpenApiText;
+    name: OpenApiText
+    description: OpenApiText
   }
->;
+>
 
-export type TagOpenapi = keyof typeof tagsOpenapi;
+export type TagOpenapi = keyof typeof tagsOpenapi

@@ -1,21 +1,19 @@
-import { Transform } from "node:stream";
+import { Transform } from "node:stream"
+import { internal } from "@hapi/boom"
+import { captureException } from "@sentry/node"
+import { ObjectId } from "mongodb"
+import type { ImportStatus } from "shared"
+import type { IImportMetaFormations } from "shared/models/import.meta.model"
+import type { ISourceCatalogue } from "shared/models/source/catalogue/source.catalogue.model"
+import { pipeline } from "stream/promises"
+import { areSourcesSuccess, areSourcesUpdated } from "@/jobs/importer/utils/areSourcesUpdated.js"
+import { withCause } from "@/services/errors/withCause.js"
+import parentLogger from "@/services/logger.js"
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
+import { createBatchTransformStream } from "@/utils/streamUtils.js"
+import { buildFormation } from "./builder/_.formation.builder.js"
 
-import { pipeline } from "stream/promises";
-import { internal } from "@hapi/boom";
-import { ObjectId } from "mongodb";
-import type { ImportStatus } from "shared";
-import type { IImportMetaFormations } from "shared/models/import.meta.model";
-import type { ISourceCatalogue } from "shared/models/source/catalogue/source.catalogue.model";
-
-import { captureException } from "@sentry/node";
-import { buildFormation } from "./builder/_.formation.builder.js";
-import { areSourcesSuccess, areSourcesUpdated } from "@/jobs/importer/utils/areSourcesUpdated.js";
-import { withCause } from "@/services/errors/withCause.js";
-import parentLogger from "@/services/logger.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
-import { createBatchTransformStream } from "@/utils/streamUtils.js";
-
-const logger = parentLogger.child({ module: "import:organismes" });
+const logger = parentLogger.child({ module: "import:organismes" })
 
 async function getSourceImportMeta(): Promise<IImportMetaFormations["source"] | null> {
   const [organismesImport, catalogueImport, certificationImport, communesImport] = await Promise.all([
@@ -23,10 +21,10 @@ async function getSourceImportMeta(): Promise<IImportMetaFormations["source"] | 
     getDbCollection("import.meta").findOne({ type: "catalogue", status: "done" }, { sort: { import_date: -1 } }),
     getDbCollection("import.meta").findOne({ type: "certifications", status: "done" }, { sort: { import_date: -1 } }),
     getDbCollection("import.meta").findOne({ type: "communes", status: "done" }, { sort: { import_date: -1 } }),
-  ]);
+  ])
 
   if (!organismesImport || !catalogueImport || !certificationImport || !communesImport) {
-    return null;
+    return null
   }
 
   return {
@@ -34,24 +32,21 @@ async function getSourceImportMeta(): Promise<IImportMetaFormations["source"] | 
     catalogue: { import_date: catalogueImport.import_date },
     certifications: { import_date: certificationImport.import_date },
     communes: { import_date: communesImport.import_date },
-  };
+  }
 }
 
 async function getLatestImportMeta(): Promise<IImportMetaFormations | null> {
-  const importMeta = await getDbCollection("import.meta").findOne<IImportMetaFormations>(
-    { type: "formations" },
-    { sort: { import_date: -1 } }
-  );
+  const importMeta = await getDbCollection("import.meta").findOne<IImportMetaFormations>({ type: "formations" }, { sort: { import_date: -1 } })
 
-  return areSourcesSuccess([importMeta]) ? importMeta : null;
+  return areSourcesSuccess([importMeta]) ? importMeta : null
 }
 
 async function getImportMeta(): Promise<IImportMetaFormations | null> {
-  const [latestImportMeta, sourceImportMeta] = await Promise.all([getLatestImportMeta(), getSourceImportMeta()]);
+  const [latestImportMeta, sourceImportMeta] = await Promise.all([getLatestImportMeta(), getSourceImportMeta()])
 
   if (!sourceImportMeta) {
     // Sources are not ready
-    return null;
+    return null
   }
 
   const importMeta: IImportMetaFormations = {
@@ -60,20 +55,18 @@ async function getImportMeta(): Promise<IImportMetaFormations | null> {
     status: "pending",
     type: "formations",
     source: sourceImportMeta,
-  };
+  }
 
-  return areSourcesUpdated(latestImportMeta?.source, sourceImportMeta) ? importMeta : null;
+  return areSourcesUpdated(latestImportMeta?.source, sourceImportMeta) ? importMeta : null
 }
 
-async function importFormationsFromCatalogue(
-  importMeta: IImportMetaFormations
-): Promise<{ success: number; skipped: number }> {
+async function importFormationsFromCatalogue(importMeta: IImportMetaFormations): Promise<{ success: number; skipped: number }> {
   const stats = {
     success: 0,
     skipped: 0,
-  };
+  }
 
-  const cursor = getDbCollection("source.catalogue").find({ date: importMeta.source.catalogue.import_date });
+  const cursor = getDbCollection("source.catalogue").find({ date: importMeta.source.catalogue.import_date })
 
   await pipeline(
     cursor,
@@ -89,25 +82,22 @@ async function importFormationsFromCatalogue(
                 error.message.includes("getCertificationFromCfd") ||
                 error.message.includes("getCertificationFromRncp")
               ) {
-                captureException(error);
+                captureException(error)
               } else {
-                throw withCause(
-                  internal("import.formations: error when building formation", { chunk, importMeta }),
-                  error
-                );
+                throw withCause(internal("import.formations: error when building formation", { chunk, importMeta }), error)
               }
             }
 
-            stats.skipped++;
-            return null;
-          });
+            stats.skipped++
+            return null
+          })
 
           if (!formation) {
-            return callback();
+            return callback()
           }
 
-          const { identifiant, ...rest } = formation;
-          stats.success++;
+          const { identifiant, ...rest } = formation
+          stats.success++
 
           return callback(null, {
             updateOne: {
@@ -125,9 +115,9 @@ async function importFormationsFromCatalogue(
               },
               upsert: true,
             },
-          });
+          })
         } catch (error) {
-          return callback(withCause(internal("import.formations: error when building formation", { chunk }), error));
+          return callback(withCause(internal("import.formations: error when building formation", { chunk }), error))
         }
       },
     }),
@@ -136,43 +126,40 @@ async function importFormationsFromCatalogue(
       objectMode: true,
       async transform(chunk, _encoding, callback) {
         try {
-          await getDbCollection("formation").bulkWrite(chunk);
-          callback();
+          await getDbCollection("formation").bulkWrite(chunk)
+          callback()
         } catch (error) {
-          callback(withCause(internal("import.formations: error when bulkWrite"), error));
+          callback(withCause(internal("import.formations: error when bulkWrite"), error))
         }
       },
     })
-  );
+  )
 
-  await getDbCollection("formation").updateMany(
-    { updated_at: { $ne: importMeta.import_date } },
-    { $set: { statut: { catalogue: "archivé" } } }
-  );
+  await getDbCollection("formation").updateMany({ updated_at: { $ne: importMeta.import_date } }, { $set: { statut: { catalogue: "archivé" } } })
 
-  return stats;
+  return stats
 }
 
 export async function importFormations() {
-  const importMeta = await getImportMeta();
+  const importMeta = await getImportMeta()
 
   if (importMeta === null) {
-    logger.info("import.formations: skipping import");
-    return null;
+    logger.info("import.formations: skipping import")
+    return null
   }
 
   try {
-    await getDbCollection("import.meta").insertOne(importMeta);
+    await getDbCollection("import.meta").insertOne(importMeta)
 
-    const stats = await importFormationsFromCatalogue(importMeta);
+    const stats = await importFormationsFromCatalogue(importMeta)
 
-    await getDbCollection("import.meta").updateOne({ _id: importMeta._id }, { $set: { status: "done" } });
+    await getDbCollection("import.meta").updateOne({ _id: importMeta._id }, { $set: { status: "done" } })
 
-    return stats;
+    return stats
   } catch (error) {
-    await getDbCollection("import.meta").updateOne({ _id: importMeta._id }, { $set: { status: "failed" } });
+    await getDbCollection("import.meta").updateOne({ _id: importMeta._id }, { $set: { status: "failed" } })
 
-    throw withCause(internal("import.formations: unable to importFormations"), error, "fatal");
+    throw withCause(internal("import.formations: unable to importFormations"), error, "fatal")
   }
 }
 
@@ -180,12 +167,12 @@ export async function getFormationsImporterStatus(): Promise<ImportStatus> {
   const [lastImport, lastSuccess] = await Promise.all([
     await getDbCollection("import.meta").findOne({ type: "formations" }, { sort: { import_date: -1 } }),
     await getDbCollection("import.meta").findOne({ type: "formations", status: "done" }, { sort: { import_date: -1 } }),
-  ]);
+  ])
 
   return {
     last_import: lastImport?.import_date ?? null,
     last_success: lastSuccess?.import_date ?? null,
     status: lastImport?.status ?? "pending",
     resources: [],
-  };
+  }
 }

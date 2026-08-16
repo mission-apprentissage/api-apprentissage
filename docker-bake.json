@@ -8,16 +8,28 @@
   },
   "group": {
     "production": {
-      "targets": ["server", "ui-production"]
+      "targets": [
+        "server",
+        "ui-production"
+      ]
     },
     "recette": {
-      "targets": ["server", "ui-recette"]
+      "targets": [
+        "server",
+        "ui-recette"
+      ]
     },
     "preview": {
-      "targets": ["server", "ui-preview"]
+      "targets": [
+        "server",
+        "ui-preview"
+      ]
     },
     "local": {
-      "targets": ["server", "ui-local"]
+      "targets": [
+        "server",
+        "ui-local"
+      ]
     }
   },
   "target": {
@@ -28,16 +40,24 @@
         "PUBLIC_REPO_NAME": "${REPO_NAME}"
       },
       "dockerfile": "Dockerfile",
-      "platforms": ["linux/amd64"],
+      "platforms": [
+        "linux/amd64"
+      ],
       "labels": {
         "org.opencontainers.image.source": "https://github.com/mission-apprentissage/${REPO_NAME}",
         "org.opencontainers.image.licenses": "MIT"
       },
-      "cache-from": ["type=gha,scope=${DEPS_ID}"],
-      "cache-to": ["type=gha,mode=max,scope=${DEPS_ID}"]
+      "cache-from": [
+        "type=gha,scope=${DEPS_ID}"
+      ],
+      "cache-to": [
+        "type=gha,mode=max,scope=${DEPS_ID}"
+      ]
     },
     "server": {
-      "inherits": ["common"],
+      "inherits": [
+        "common"
+      ],
       "tags": [
         "ghcr.io/mission-apprentissage/mna_${PRODUCT_NAME}_server:${VERSION}",
         "ghcr.io/mission-apprentissage/mna_${PRODUCT_NAME}_server:${CHANNEL}"
@@ -48,9 +68,16 @@
       "target": "server"
     },
     "ui": {
-      "inherits": ["common"],
+      "inherits": [
+        "common"
+      ],
       "matrix": {
-        "ENV": ["production", "recette", "preview", "local"]
+        "ENV": [
+          "production",
+          "recette",
+          "preview",
+          "local"
+        ]
       },
       "name": "ui-${ENV}",
       "args": {

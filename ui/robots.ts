@@ -1,14 +1,14 @@
-import type { MetadataRoute } from "next";
+import type { MetadataRoute } from "next"
 
-import { publicConfig } from "./config.public";
+import { publicConfig } from "./config.public"
 
 const getRules = () => {
-  const { env } = publicConfig;
+  const { env } = publicConfig
   switch (env) {
     case "production":
       return {
         userAgent: "*",
-      };
+      }
     case "local":
     case "preview":
     case "recette":
@@ -16,13 +16,13 @@ const getRules = () => {
       return {
         userAgent: "*",
         disallow: "/",
-      };
+      }
   }
-};
+}
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: getRules(),
     sitemap: `${publicConfig.baseUrl}/sitemap.xml`,
-  };
+  }
 }

@@ -1,11 +1,11 @@
-import { ObjectId } from "bson";
+import { ObjectId } from "bson"
 
-import type { ISourceGeoCommune, ISourceGeoDepartement, ISourceGeoRegion } from "../../apis/geo_gouv.js";
-import type { IInseeItem } from "../../apis/insee.js";
-import type { ISourceMissionLocale, ISourceUnmlPayload } from "../../apis/unml.js";
-import { zSourceMissionLocale } from "../../apis/unml.js";
-import type { ICommuneInternal } from "../commune.model.js";
-import type { ISourceCodeInseeToMissionLocale } from "../source/mission_locale/source.mission_locale.model.js";
+import type { ISourceGeoCommune, ISourceGeoDepartement, ISourceGeoRegion } from "../../apis/geo_gouv.js"
+import type { IInseeItem } from "../../apis/insee.js"
+import type { ISourceMissionLocale, ISourceUnmlPayload } from "../../apis/unml.js"
+import { zSourceMissionLocale } from "../../apis/unml.js"
+import type { ICommuneInternal } from "../commune.model.js"
+import type { ISourceCodeInseeToMissionLocale } from "../source/mission_locale/source.mission_locale.model.js"
 
 export const sourceRegionsFixtures: ISourceGeoRegion[] = [
   {
@@ -16,12 +16,12 @@ export const sourceRegionsFixtures: ISourceGeoRegion[] = [
     nom: "Centre-Val de Loire",
     code: "24",
   },
-];
+]
 
 export const sourceRegionExtendedFixtures: ISourceGeoRegion[] = [
   { nom: "Saint-Pierre-et-Miquelon", code: "975" },
   { nom: "Île de Clipperton", code: "989" },
-];
+]
 
 export const inseeCollectiviteFixtures: IInseeItem[] = [
   {
@@ -32,21 +32,21 @@ export const inseeCollectiviteFixtures: IInseeItem[] = [
     code: "989",
     intitule: "La Passion-Clipperton",
   },
-];
+]
 
 export const inseeArrondissementFixtures: Record<string, IInseeItem[]> = {
   "75056": [
     { code: "75101", intitule: "Paris 1er Arrondissement" },
     { code: "75120", intitule: "Paris 20e Arrondissement" },
   ],
-};
+}
 
 export const inseeAnciennesFixtures: Record<string, IInseeItem[]> = {
   "77002": [
     { code: "77166", intitule: "Écuelles" },
     { code: "77170", intitule: "Épisy" },
   ],
-};
+}
 
 export const sourceDepartementFixtures = {
   "11": [
@@ -92,7 +92,7 @@ export const sourceDepartementFixtures = {
       codeRegion: "989",
     },
   ],
-} as const satisfies Record<ISourceGeoRegion["code"], ISourceGeoDepartement[]>;
+} as const satisfies Record<ISourceGeoRegion["code"], ISourceGeoDepartement[]>
 
 export const missionLocaleFixtures = {
   226: {
@@ -185,7 +185,7 @@ export const missionLocaleFixtures = {
     nomRegion: "Île-de-France",
     alias: "NEMOURS",
   },
-} as const satisfies Record<number, ISourceUnmlPayload["results"][0]["structure"]>;
+} as const satisfies Record<number, ISourceUnmlPayload["results"][0]["structure"]>
 
 export const sourceUnmlResultsFixtures = {
   "75": {
@@ -265,7 +265,7 @@ export const sourceUnmlResultsFixtures = {
     total: 0,
     success: true,
   },
-} as const satisfies Record<ISourceGeoDepartement["code"], ISourceUnmlPayload>;
+} as const satisfies Record<ISourceGeoDepartement["code"], ISourceUnmlPayload>
 
 export const sourceCommuneFixtures = {
   "75": [
@@ -508,7 +508,7 @@ export const sourceCommuneFixtures = {
       nom: "Île de Clipperton",
     },
   ],
-} as const satisfies Record<ISourceGeoDepartement["code"], ISourceGeoCommune[]>;
+} as const satisfies Record<ISourceGeoDepartement["code"], ISourceGeoCommune[]>
 
 export const academieFixtures = [
   {
@@ -554,7 +554,7 @@ export const academieFixtures = [
     dep_code: "989",
     dep_nom: "Île de Clipperton",
   },
-];
+]
 
 export const sourceCodeInseeToMissionLocaleFixture: Omit<ISourceCodeInseeToMissionLocale, "_id" | "import_id">[] = [
   ...[
@@ -586,10 +586,10 @@ export const sourceCodeInseeToMissionLocaleFixture: Omit<ISourceCodeInseeToMissi
     code_insee: "77001",
     ml: getMissionLocaleFixtureFromSource(missionLocaleFixtures[374]),
   },
-];
+]
 
 export function getMissionLocaleFixtureFromSource(sourceMl: ISourceMissionLocale): ICommuneInternal["mission_locale"] {
-  const data = zSourceMissionLocale.parse(sourceMl);
+  const data = zSourceMissionLocale.parse(sourceMl)
   return {
     id: data.id,
     code: data.codeStructure,
@@ -612,31 +612,26 @@ export function getMissionLocaleFixtureFromSource(sourceMl: ISourceMissionLocale
       telephone: data.telephones,
       siteWeb: data.siteWeb,
     },
-  };
+  }
 }
 
 export const communeFixtures: ICommuneInternal[] = Object.values(sourceCommuneFixtures)
   .flat()
   .map((sourceCommune) => {
-    const academie = academieFixtures.find((aca) => aca.dep_code === sourceCommune.codeDepartement)!;
-    const dep = sourceDepartementFixtures[sourceCommune.codeRegion].find(
-      (dep) => dep.code === sourceCommune.codeDepartement
-    );
+    const academie = academieFixtures.find((aca) => aca.dep_code === sourceCommune.codeDepartement)!
+    const dep = sourceDepartementFixtures[sourceCommune.codeRegion].find((dep) => dep.code === sourceCommune.codeDepartement)
     const reg =
-      sourceRegionsFixtures.find((reg) => reg.code === sourceCommune.codeRegion)?.nom ??
-      inseeCollectiviteFixtures.find((coll) => coll.code === sourceCommune.codeRegion)?.intitule;
+      sourceRegionsFixtures.find((reg) => reg.code === sourceCommune.codeRegion)?.nom ?? inseeCollectiviteFixtures.find((coll) => coll.code === sourceCommune.codeRegion)?.intitule
 
     if (!reg) {
-      throw new Error(`Region not found for commune ${sourceCommune.nom}`);
+      throw new Error(`Region not found for commune ${sourceCommune.nom}`)
     }
 
     if (!dep) {
-      throw new Error(`Departement not found for commune ${sourceCommune.nom}`);
+      throw new Error(`Departement not found for commune ${sourceCommune.nom}`)
     }
 
-    const mlParCp = sourceUnmlResultsFixtures[sourceCommune.codeDepartement].results.find(
-      (r) => r.codePostal === sourceCommune.codesPostaux[0]
-    );
+    const mlParCp = sourceUnmlResultsFixtures[sourceCommune.codeDepartement].results.find((r) => r.codePostal === sourceCommune.codesPostaux[0])
 
     return {
       _id: new ObjectId(),
@@ -672,5 +667,5 @@ export const communeFixtures: ICommuneInternal[] = Object.values(sourceCommuneFi
         })) ?? [],
       updated_at: new Date(),
       created_at: new Date(),
-    };
-  });
+    }
+  })

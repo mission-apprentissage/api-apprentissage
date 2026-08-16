@@ -1,31 +1,28 @@
-import type { ICertification } from "api-alternance-sdk";
-import type { IBcn_N_FormationDiplome } from "shared/models/source/bcn/bcn.n_formation_diplome.model";
-import type { IBcn_N51_FormationDiplome } from "shared/models/source/bcn/bcn.n51_formation_diplome.model";
-import type { ISourceFranceCompetence } from "shared/models/source/france_competence/source.france_competence.model";
-import { parseNullableParisLocalDate } from "shared/zod/date.primitives";
+import type { ICertification } from "api-alternance-sdk"
+import type { IBcn_N_FormationDiplome } from "shared/models/source/bcn/bcn.n_formation_diplome.model"
+import type { IBcn_N51_FormationDiplome } from "shared/models/source/bcn/bcn.n51_formation_diplome.model"
+import type { ISourceFranceCompetence } from "shared/models/source/france_competence/source.france_competence.model"
+import { parseNullableParisLocalDate } from "shared/zod/date.primitives"
 
-import type { ISourceAggregatedData } from "@/jobs/importer/certifications/builder/certification.builder.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import type { ISourceAggregatedData } from "@/jobs/importer/certifications/builder/certification.builder.js"
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
 
-export function computePeriodeValidite(
-  cfd: ICertification["periode_validite"]["cfd"],
-  rncp: ICertification["periode_validite"]["rncp"]
-): ICertification["periode_validite"] {
-  const ouverture = cfd?.ouverture ?? null;
-  const activation = rncp?.activation ?? null;
+export function computePeriodeValidite(cfd: ICertification["periode_validite"]["cfd"], rncp: ICertification["periode_validite"]["rncp"]): ICertification["periode_validite"] {
+  const ouverture = cfd?.ouverture ?? null
+  const activation = rncp?.activation ?? null
 
-  let debut: Date | null = ouverture ?? activation;
+  let debut: Date | null = ouverture ?? activation
 
   if (ouverture != null && activation != null) {
-    debut = ouverture > activation ? ouverture : activation;
+    debut = ouverture > activation ? ouverture : activation
   }
 
-  const fermeture = cfd?.fermeture ?? null;
-  const finEnregistrement = rncp?.fin_enregistrement ?? null;
+  const fermeture = cfd?.fermeture ?? null
+  const finEnregistrement = rncp?.fin_enregistrement ?? null
 
-  let fin: Date | null = fermeture ?? finEnregistrement;
+  let fin: Date | null = fermeture ?? finEnregistrement
   if (fermeture != null && finEnregistrement != null) {
-    fin = fermeture < finEnregistrement ? fermeture : finEnregistrement;
+    fin = fermeture < finEnregistrement ? fermeture : finEnregistrement
   }
 
   return {
@@ -33,14 +30,12 @@ export function computePeriodeValidite(
     fin,
     cfd,
     rncp,
-  };
+  }
 }
 
-function buildCertificationPeriodeValiditeCfd(
-  formation: IBcn_N_FormationDiplome | IBcn_N51_FormationDiplome | null | undefined
-): ICertification["periode_validite"]["cfd"] {
+function buildCertificationPeriodeValiditeCfd(formation: IBcn_N_FormationDiplome | IBcn_N51_FormationDiplome | null | undefined): ICertification["periode_validite"]["cfd"] {
   if (formation == null) {
-    return null;
+    return null
   }
 
   return {
@@ -48,17 +43,15 @@ function buildCertificationPeriodeValiditeCfd(
     fermeture: parseNullableParisLocalDate(formation.data.DATE_FERMETURE, "23:59:59"),
     premiere_session: formation.data.DATE_PREMIERE_SESSION ? Number(formation.data.DATE_PREMIERE_SESSION) : null,
     derniere_session: formation.data.DATE_DERNIERE_SESSION ? Number(formation.data.DATE_DERNIERE_SESSION) : null,
-  };
+  }
 }
 
 function getRncpDateActivation(data: ISourceFranceCompetence, oldestFranceCompetenceDatePublication: Date) {
   if (data.date_premiere_activation === null) {
-    return null;
+    return null
   }
 
-  return data.date_premiere_activation.getTime() > oldestFranceCompetenceDatePublication.getTime()
-    ? data.date_premiere_activation
-    : null;
+  return data.date_premiere_activation.getTime() > oldestFranceCompetenceDatePublication.getTime() ? data.date_premiere_activation : null
 }
 
 function buildCertificationPeriodeValiditeRncp(
@@ -66,40 +59,36 @@ function buildCertificationPeriodeValiditeRncp(
   oldestFranceCompetenceDatePublication: Date
 ): ICertification["periode_validite"]["rncp"] {
   if (data == null) {
-    return null;
+    return null
   }
 
-  const standard = data.data.standard ?? null;
+  const standard = data.data.standard ?? null
 
   if (standard === null) {
-    return null;
+    return null
   }
 
   const result: ICertification["periode_validite"]["rncp"] = {
     actif: standard.Actif === "ACTIVE",
     activation: getRncpDateActivation(data, oldestFranceCompetenceDatePublication),
     fin_enregistrement: parseNullableParisLocalDate(standard.Date_Fin_Enregistrement, "23:59:59"),
-    debut_parcours:
-      parseNullableParisLocalDate(standard.Date_Effet, "00:00:00") ??
-      parseNullableParisLocalDate(standard.Date_Decision, "00:00:00"),
-  };
+    debut_parcours: parseNullableParisLocalDate(standard.Date_Effet, "00:00:00") ?? parseNullableParisLocalDate(standard.Date_Decision, "00:00:00"),
+  }
 
   // This can hapen for RNCP emitted before 2019
   if (!result.actif && result.fin_enregistrement === null) {
-    result.fin_enregistrement = data.date_derniere_activation ?? data.date_premiere_publication;
+    result.fin_enregistrement = data.date_derniere_activation ?? data.date_premiere_publication
   }
 
-  return result;
+  return result
 }
 
 export type ICertificationSearchMap = {
-  cfd: Record<string, ICertification["periode_validite"]["cfd"]>;
-  rncp: Record<string, ICertification["periode_validite"]["rncp"]>;
-};
+  cfd: Record<string, ICertification["periode_validite"]["cfd"]>
+  rncp: Record<string, ICertification["periode_validite"]["rncp"]>
+}
 
-export async function buildCertificationSearchMap(
-  oldestFranceCompetenceDatePublication: Date
-): Promise<ICertificationSearchMap> {
+export async function buildCertificationSearchMap(oldestFranceCompetenceDatePublication: Date): Promise<ICertificationSearchMap> {
   const [bcn, franceCompetence] = await Promise.all([
     getDbCollection("source.bcn")
       .find<IBcn_N_FormationDiplome | IBcn_N51_FormationDiplome>({
@@ -117,26 +106,23 @@ export async function buildCertificationSearchMap(
         },
       })
       .toArray(),
-  ]);
+  ])
 
   return {
     cfd: bcn.reduce<ICertificationSearchMap["cfd"]>((acc, item) => {
-      acc[item.data.FORMATION_DIPLOME] = buildCertificationPeriodeValiditeCfd(item);
-      return acc;
+      acc[item.data.FORMATION_DIPLOME] = buildCertificationPeriodeValiditeCfd(item)
+      return acc
     }, {}),
     rncp: franceCompetence.reduce<ICertificationSearchMap["rncp"]>((acc, item) => {
-      acc[item.numero_fiche] = buildCertificationPeriodeValiditeRncp(item, oldestFranceCompetenceDatePublication);
-      return acc;
+      acc[item.numero_fiche] = buildCertificationPeriodeValiditeRncp(item, oldestFranceCompetenceDatePublication)
+      return acc
     }, {}),
-  };
+  }
 }
 
-export function buildCertificationPeriodeValidite(
-  data: ISourceAggregatedData,
-  oldestFranceCompetenceDatePublication: Date
-): ICertification["periode_validite"] {
-  const cfd = buildCertificationPeriodeValiditeCfd(data.bcn);
-  const rncp = buildCertificationPeriodeValiditeRncp(data.france_competence, oldestFranceCompetenceDatePublication);
+export function buildCertificationPeriodeValidite(data: ISourceAggregatedData, oldestFranceCompetenceDatePublication: Date): ICertification["periode_validite"] {
+  const cfd = buildCertificationPeriodeValiditeCfd(data.bcn)
+  const rncp = buildCertificationPeriodeValiditeRncp(data.france_competence, oldestFranceCompetenceDatePublication)
 
-  return computePeriodeValidite(cfd, rncp);
+  return computePeriodeValidite(cfd, rncp)
 }

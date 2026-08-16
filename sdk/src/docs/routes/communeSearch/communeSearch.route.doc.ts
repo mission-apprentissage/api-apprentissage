@@ -1,5 +1,5 @@
-import { rechercheCommunePageSummaryDoc } from "../../metier/recherche-commune/recherche-commune.doc.js";
-import type { DocRoute } from "../../types.js";
+import { rechercheCommunePageSummaryDoc } from "../../metier/recherche-commune/recherche-commune.doc.js"
+import type { DocRoute } from "../../types.js"
 
 export const communeSearchRouteDoc = {
   summary: rechercheCommunePageSummaryDoc.title,
@@ -30,4 +30,4 @@ export const communeSearchRouteDoc = {
       },
     },
   },
-} as const satisfies DocRoute;
+} as const satisfies DocRoute

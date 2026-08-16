@@ -1,8 +1,8 @@
-import type { IApiRoutesDef } from "api-alternance-sdk";
-import { z } from "zod/v4-mini";
-import { zObjectIdMini } from "zod-mongodb-schema";
+import type { IApiRoutesDef } from "api-alternance-sdk"
+import { z } from "zod/v4-mini"
+import { zObjectIdMini } from "zod-mongodb-schema"
 
-import { zOrganisationCreate, zOrganisationEdit, zOrganisationInternal } from "../../../models/organisation.model.js";
+import { zOrganisationCreate, zOrganisationEdit, zOrganisationInternal } from "../../../models/organisation.model.js"
 
 export const zOrganisationAdminRoutes = {
   get: {
@@ -59,4 +59,4 @@ export const zOrganisationAdminRoutes = {
       },
     },
   },
-} as const satisfies IApiRoutesDef;
+} as const satisfies IApiRoutesDef

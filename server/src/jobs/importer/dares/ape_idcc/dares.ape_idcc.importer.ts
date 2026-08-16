@@ -114,7 +114,7 @@ export async function runDaresApeIdccImporter(signal?: AbortSignal) {
     await getDbCollection("source.dares.ape_idcc").deleteMany({
       import_id: importId,
     })
-    if (signal && error.name === signal?.reason?.name) {
+    if (signal && error instanceof Error && error.name === signal?.reason?.name) {
       throw signal.reason
     }
     throw withCause(internal("import.dares_ape_idcc: unable to runDaresApeIdccImporter"), error, "fatal")

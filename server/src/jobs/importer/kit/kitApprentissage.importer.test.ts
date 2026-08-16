@@ -34,7 +34,9 @@ describe("runKitApprentissageImporter", () => {
 
   describe("Legacy files", () => {
     beforeEach(() => {
-      vi.mocked(getKitApprentissageData).mockImplementation(async function* () {})
+      vi.mocked(getKitApprentissageData).mockImplementation(async function* () {
+        /* aucune donnée : les fichiers legacy ne passent pas par cette source */
+      })
     })
 
     it("should import Kit Apprentissage single_file source", async () => {

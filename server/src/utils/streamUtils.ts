@@ -99,7 +99,7 @@ function createToJsonTransformStream<T extends $ZodType>(schema: $ZodArray<T>): 
         this.push(JSON.stringify(z.parse(schema._zod.def.element, chunk)))
         callback()
       } catch (error) {
-        callback(error)
+        callback(error instanceof Error ? error : new Error(String(error)))
       }
     },
     flush(callback) {

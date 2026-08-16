@@ -301,7 +301,7 @@ export async function importRncpFile(entry: Entry, importMeta: IImportMetaFrance
       { signal }
     )
   } catch (error) {
-    if (signal && error.name === signal?.reason?.name) {
+    if (signal && error instanceof Error && error.name === signal?.reason?.name) {
       throw signal.reason
     }
     throw withCause(internal("import.france_competence: unable to importRncpFile"), error)
@@ -439,7 +439,7 @@ export async function importRncpArchive(importMeta: IImportMetaFranceCompetence,
       indicateurs,
     }
   } catch (error) {
-    if (signal && error.name === signal?.reason?.name) {
+    if (signal && error instanceof Error && error.name === signal?.reason?.name) {
       throw signal.reason
     }
     throw withCause(internal("import.france_competence: unable to importRncpArchive", { importMeta }), error, "fatal")

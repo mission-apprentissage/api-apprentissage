@@ -107,7 +107,7 @@ export async function runDaresConventionCollectivesImporter(signal?: AbortSignal
     await getDbCollection("source.dares.ccn").deleteMany({
       import_id: importId,
     })
-    if (signal && error.name === signal?.reason?.name) {
+    if (signal && error instanceof Error && error.name === signal?.reason?.name) {
       throw signal.reason
     }
     throw withCause(internal("import.dares_ccn: unable to runDaresConventionCollectivesImporter"), error, "fatal")

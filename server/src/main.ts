@@ -6,10 +6,10 @@ import config from "./config.js"
 import { setupJobProcessor } from "./jobs/jobs.js"
 import logger from "./services/logger.js"
 import { initMailer } from "./services/mailer/mailer.js"
+import { closeSentry } from "./services/sentry/sentry.js"
 import { configureDbSchemaValidation, connectToMongodb } from "./services/mongodb/mongodbService.js"
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
-;(async function () {
+void (async function () {
   try {
     await connectToMongodb(config.mongodb.uri)
     await configureDbSchemaValidation(modelDescriptors)
@@ -23,7 +23,9 @@ import { configureDbSchemaValidation, connectToMongodb } from "./services/mongod
   } catch (err) {
     captureException(err)
     logger.error({ err }, "startup error")
-    // eslint-disable-next-line n/no-process-exit
+    // Le flush Sentry n'est fait que par le hook postAction de commander, qui ne s'exécute
+    // pas quand le démarrage échoue : sans ce closeSentry, l'événement part à la poubelle.
+    await closeSentry()
     process.exit(1)
   }
 })()

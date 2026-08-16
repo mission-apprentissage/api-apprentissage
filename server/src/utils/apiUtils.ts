@@ -76,7 +76,7 @@ export async function cleanupTmp(filePath: string): Promise<void> {
     await rm(dirname(filePath), { force: true, recursive: true })
   } catch (error) {
     // We are ignoring the error if the file does not exist (already cleaned up)
-    if (error.code === "ENOENT") {
+    if (error instanceof Error && (error as NodeJS.ErrnoException).code === "ENOENT") {
       return
     }
 

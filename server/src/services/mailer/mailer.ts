@@ -85,7 +85,7 @@ export async function sendEmail<T extends ITemplate>(template: T): Promise<void>
   } catch (err) {
     captureException(err)
     logger.error({ err, template: template.name }, "error sending email")
-    await addEmailError(emailEvent, { type: "fatal", message: err.message })
+    await addEmailError(emailEvent, { type: "fatal", message: err instanceof Error ? err.message : String(err) })
   }
 }
 

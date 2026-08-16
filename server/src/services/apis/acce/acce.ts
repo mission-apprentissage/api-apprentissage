@@ -228,14 +228,15 @@ export async function downloadCsvExtraction(): Promise<ReadStream> {
   try {
     const auth = await login()
 
-    let stream
     const { extractionId } = await startExtraction(auth)
 
     // Max 30min to download
     const timeoutSignal = AbortSignal.timeout(config.env === "test" ? 200 : 30 * 60 * 1_000)
 
-    while (!(stream = await pollExtraction(auth, extractionId))) {
+    let stream = await pollExtraction(auth, extractionId)
+    while (!stream) {
       await sleep(config.env === "test" ? 10 : 5_000, timeoutSignal)
+      stream = await pollExtraction(auth, extractionId)
     }
 
     return await downloadFileAsStream(stream, "data.zip")

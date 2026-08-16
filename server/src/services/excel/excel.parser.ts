@@ -6,9 +6,9 @@ import type { Stream } from "stream"
 import { withCause } from "@/services/errors/withCause.js"
 
 declare module "exceljs" {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
+  // biome-ignore lint/style/noNamespace: exceljs déclare ses types dans des namespaces imbriqués, les répliquer est le seul moyen d'augmenter WorksheetReader
   namespace stream {
-    // eslint-disable-next-line @typescript-eslint/no-namespace
+    // biome-ignore lint/style/noNamespace: idem, imposé par la forme des typings d'exceljs
     namespace xlsx {
       interface WorksheetReader {
         name: string

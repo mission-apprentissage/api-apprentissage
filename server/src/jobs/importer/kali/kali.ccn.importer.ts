@@ -106,7 +106,7 @@ async function importResource(importMeta: IImportMeta, resource: IDataGouvDatase
       date_import: importMeta.import_date,
     })
 
-    if (signal && error.name === signal?.reason?.name) {
+    if (signal && error instanceof Error && error.name === signal?.reason?.name) {
       throw signal.reason
     }
     throw withCause(internal("import.kali_ccn: unable to importResource", { importMeta }), error)

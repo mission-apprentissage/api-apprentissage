@@ -207,6 +207,11 @@ function generateOpenApiRequest(route: IApiRouteSchema, registry: $ZodRegistry<R
           parameters.push(param)
         })
         break
+      default:
+        // Inatteignable : hors "unknown", déjà écarté au-dessus, le type ne peut être
+        // que "object" ou "pipe". Le garde-fou évite qu'un élargissement futur du schéma
+        // fasse disparaître des paramètres de la documentation publiée sans bruit.
+        throw new Error("openapi: type de querystring non géré")
     }
   }
 

@@ -358,7 +358,7 @@ export async function importNpecResource(importMeta: IImportMetaNpec, signal?: A
 
     return { npecCount, cpneIdccCount, npecNormalizedCount }
   } catch (error) {
-    if (signal && error.name === signal?.reason?.name) {
+    if (signal && error instanceof Error && error.name === signal?.reason?.name) {
       throw signal.reason
     }
     await getDbCollection("source.npec").deleteMany({

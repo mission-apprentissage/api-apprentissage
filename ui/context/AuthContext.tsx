@@ -10,7 +10,10 @@ type IAuthContext = Readonly<{
 
 export const AuthContext = createContext<IAuthContext>({
   session: null,
-  setSession: () => {},
+  // Valeur par défaut hors provider : il n'y a pas de state à mettre à jour.
+  setSession: () => {
+    /* no-op */
+  },
 })
 
 interface Props extends PropsWithChildren {

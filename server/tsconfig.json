@@ -38,7 +38,7 @@
     "noUnusedLocals": true,
     "exactOptionalPropertyTypes": false,
     "noImplicitReturns": true,
-    "useUnknownInCatchVariables": false,
+    "useUnknownInCatchVariables": true,
     "noUncheckedIndexedAccess": false,
     /* Completeness */
     "skipLibCheck": true,

@@ -1,6 +1,6 @@
 import { Container } from "@mui/material"
+import { notFound } from "next/navigation"
 
-import NotFoundPage from "@/app/not-found"
 import NotionPage from "@/components/notion/NotionPage"
 import type { INotionPage, IPages } from "@/utils/routes.utils"
 import { PAGES } from "@/utils/routes.utils"
@@ -22,7 +22,10 @@ export default async function DocPage(props: DocPageProps) {
     }) ?? null
 
   if (!page) {
-    return <NotFoundPage />
+    // `notFound()` rend `app/[lang]/not-found.tsx` avec un vrai statut 404. Rendre le composant
+    // directement renverrait un 200 — mis en cache une heure par `revalidate` — et, s'agissant du
+    // 404 racine, imbriquerait un second `<html>` dans celui de `app/[lang]/layout.tsx`.
+    notFound()
   }
 
   return (

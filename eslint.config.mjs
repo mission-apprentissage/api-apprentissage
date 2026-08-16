@@ -146,11 +146,13 @@ export default defineConfig([
   },
   {
     files: [["ui/**", ALL_FILES]],
-    ...next.flatConfig.recommended,
+    // @next/eslint-plugin-next 16 : `flatConfig` a disparu, les configs plates sont désormais
+    // sous `configs`, les anciennes eslintrc étant suffixées `-legacy`.
+    ...next.configs.recommended,
   },
   {
     files: [["ui/**", ALL_FILES]],
-    ...next.flatConfig.coreWebVitals,
+    ...next.configs["core-web-vitals"],
   },
   {
     files: [["ui/**", ALL_FILES]],

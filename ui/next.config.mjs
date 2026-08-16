@@ -45,23 +45,11 @@ const nextConfig = {
       },
     ];
   },
+  // Next 16 construit avec Turbopack par défaut, qui gère nativement ce que la config webpack
+  // faisait ici : émission des .woff2 du DSFR, top-level await de bson côté client
+  // (cf. https://github.com/vercel/next.js/issues/54282) et résolution des imports en .js
+  // vers les sources .ts. La config webpack a donc été retirée plutôt que laissée inerte.
   output: "standalone",
-  webpack: (config) => {
-    config.module.rules.push({
-      test: /\.woff2$/,
-      type: "asset/resource",
-    });
-    // Bson is using top-level await, which is not supported by default in Next.js in client side
-    // Probably related to https://github.com/vercel/next.js/issues/54282
-    config.resolve.alias.bson = path.join(path.dirname(fileURLToPath(import.meta.resolve("bson"))), "bson.cjs");
-
-    config.resolve.extensionAlias = {
-      ".js": [".ts", ".tsx", ".js", ".jsx"],
-      ".mjs": [".mts", ".mjs"],
-      ".cjs": [".cts", ".cjs"],
-    };
-    return config;
-  },
 };
 
 export default withSentryConfig(withPlausibleProxy()(nextConfig), {
@@ -81,10 +69,8 @@ export default withSentryConfig(withPlausibleProxy()(nextConfig), {
   // Upload a larger set of source maps for prettier stack traces (increases build time)
   widenClientFileUpload: true,
 
-  // Automatically annotate React components to show their full name in breadcrumbs and session replay
-  reactComponentAnnotation: {
-    enabled: true,
-  },
+  // `reactComponentAnnotation` et `disableLogger` ont été retirées : elles sont dépréciées côté
+  // Sentry et sans effet avec Turbopack, qui est le bundler par défaut depuis Next 16.
 
   // Uncomment to route browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers.
   // This can increase your server load as well as your hosting bill.
@@ -94,9 +80,6 @@ export default withSentryConfig(withPlausibleProxy()(nextConfig), {
 
   // Hides source maps from generated client bundles
   hideSourceMaps: false,
-
-  // Automatically tree-shake Sentry logger statements to reduce bundle size
-  disableLogger: true,
 
   sourcemaps: {
     deleteSourcemapsAfterUpload: false,

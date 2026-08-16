@@ -1,9 +1,8 @@
 import { fr } from "@codegouvfr/react-dsfr";
 import { Badge } from "@codegouvfr/react-dsfr/Badge";
 import { Button } from "@codegouvfr/react-dsfr/Button";
-import { Box, Container, Link, Typography } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import Image from "next/image";
-import NextLink from "next/link";
 import type { PropsWithChildren } from "react";
 
 import type { PropsWithLangParams, WithLang } from "@/app/i18n/settings";
@@ -84,11 +83,15 @@ function VousEtesSection({ lang }: WithLang) {
             </Typography>
           </Box>
 
-          <Link component={NextLink} href={PAGES.static.explorerApi.getPath(lang)}>
-            <Button iconId="fr-icon-arrow-right-line" iconPosition="right" priority="primary" size="large">
-              Explorer les API
-            </Button>
-          </Link>
+          <Button
+            linkProps={{ href: PAGES.static.explorerApi.getPath(lang) }}
+            iconId="fr-icon-arrow-right-line"
+            iconPosition="right"
+            priority="primary"
+            size="large"
+          >
+            Explorer les API
+          </Button>
         </Box>
         <Box position="relative">
           <Box

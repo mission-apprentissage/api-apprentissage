@@ -8,13 +8,14 @@ import { PAGES } from "@/utils/routes.utils";
 export const revalidate = 3_600;
 
 type DocPageProps = {
-  params: {
-    slug: string[];
-  };
+  params: Promise<{
+    slug?: string[];
+  }>;
 };
 
 export default async function DocPage(props: DocPageProps) {
-  const path = `/doc/${props.params.slug.join("/")}`;
+  const { slug } = await props.params;
+  const path = `/doc/${(slug ?? []).join("/")}`;
   const page: INotionPage | null =
     Object.values((PAGES as IPages).notion).find((p: INotionPage) => {
       return p.getPath("fr") === path;

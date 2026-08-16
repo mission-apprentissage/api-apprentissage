@@ -1,3 +1,5 @@
+"use client";
+
 import { fr } from "@codegouvfr/react-dsfr";
 import { Link } from "@mui/material";
 import type { LinkProps } from "next/link";

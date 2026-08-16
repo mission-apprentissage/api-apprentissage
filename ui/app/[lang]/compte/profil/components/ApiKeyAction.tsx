@@ -30,7 +30,6 @@ export function ApiKeyAction({ apiKey, index, lang, t }: WithLangAndT<{ apiKey: 
   const onClick = useCallback(() => {
     if (apiKey.value) {
       // This component is client-side only, so we can safely use navigator.clipboard
-      // eslint-disable-next-line n/no-unsupported-features/node-builtins
       navigator.clipboard
         .writeText(apiKey.value)
         .then(() => {

@@ -120,8 +120,12 @@ export const PAGE_PATHS = {
   },
 } as const satisfies Record<string, IPagePath>
 
+// Le lookahead n'ôte le préfixe que s'il forme un segment complet : sans lui, `/france`
+// donnerait `ance`. Le cas ne se produit pas aujourd'hui — la fonction n'est appelée que sur
+// des `getPath(lang)`, toujours préfixés d'une locale — mais elle est exportée, donc appelable
+// sur un pathname arbitraire.
 export function getRawPath(pathname: string): string {
-  const rawPath = pathname.replace(/^\/fr/, "").replace(/^\/en/, "")
+  const rawPath = pathname.replace(/^\/(fr|en)(?=\/|$)/, "")
   return rawPath === "" ? "/" : rawPath
 }
 

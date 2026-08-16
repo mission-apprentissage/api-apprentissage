@@ -1,0 +1,7 @@
+# Révisions à ignorer par git blame : reformatages massifs, sans changement de comportement.
+#
+# Localement :  git config blame.ignoreRevsFile .git-blame-ignore-revs
+# GitHub applique ce fichier automatiquement.
+
+# style: reformatage automatique par biome (migration eslint+prettier -> biome)
+b2b4700780a22a1b8b699127b7fe66a1eaba1244

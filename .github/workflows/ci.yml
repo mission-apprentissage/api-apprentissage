@@ -54,8 +54,8 @@ jobs:
       - name: typecheck
         run: yarn typecheck
 
-      - name: lint
-        run: yarn lint
+      - name: check
+        run: yarn check:ci
 
       - name: start mongodb service
         run: |
@@ -64,6 +64,3 @@ jobs:
 
       - name: test
         run: yarn test:ci --maxWorkers=3
-
-      - name: prettier
-        run: yarn prettier:check

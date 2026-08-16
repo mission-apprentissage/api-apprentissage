@@ -1,4 +1,4 @@
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
 
 export const up = async () => {
   await getDbCollection("users").updateMany(
@@ -19,5 +19,5 @@ export const up = async () => {
       },
     },
     { $set: { type: "mission_apprentissage" } }
-  );
-};
+  )
+}

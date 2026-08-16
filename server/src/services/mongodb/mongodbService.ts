@@ -1,47 +1,46 @@
-import { captureException } from "@sentry/node";
-import { isEqual } from "lodash-es";
-import type { Collection, CollectionInfo, MongoServerError } from "mongodb";
-import { MongoClient } from "mongodb";
-import type { CollectionName, IDocument, IModelDescriptor } from "shared/models/models";
-import { modelDescriptors } from "shared/models/models";
-import { zodToMongoSchema } from "zod-mongodb-schema";
+import { captureException } from "@sentry/node"
+import { zParisLocalDate } from "api-alternance-sdk/internal"
+import { isEqual } from "lodash-es"
+import type { Collection, CollectionInfo, MongoServerError } from "mongodb"
+import { MongoClient } from "mongodb"
+import type { CollectionName, IDocument, IModelDescriptor } from "shared/models/models"
+import { modelDescriptors } from "shared/models/models"
+import type { $ZodType, JSONSchema } from "zod/v4/core"
+import { zodToMongoSchema } from "zod-mongodb-schema"
+import config from "@/config.js"
+import logger from "@/services/logger.js"
+import { sleep } from "@/utils/asyncUtils.js"
 
-import { zParisLocalDate } from "api-alternance-sdk/internal";
-import type { $ZodType, JSONSchema } from "zod/v4/core";
-import config from "@/config.js";
-import logger from "@/services/logger.js";
-import { sleep } from "@/utils/asyncUtils.js";
-
-let mongodbClient: MongoClient | null = null;
+let mongodbClient: MongoClient | null = null
 
 export const ensureInitialization = () => {
   if (!mongodbClient) {
-    throw new Error("Database connection does not exist. Please call connectToMongodb before.");
+    throw new Error("Database connection does not exist. Please call connectToMongodb before.")
   }
-  return mongodbClient;
-};
+  return mongodbClient
+}
 
 export function setMongodbClient(client: MongoClient) {
-  mongodbClient = client;
+  mongodbClient = client
 }
 
 function getMinPoolSize() {
   switch (config.env) {
     case "test":
-      return 0;
+      return 0
     case "production":
-      return 20;
+      return 20
     default:
-      return 5;
+      return 5
   }
 }
 
 function getMaxPoolSize() {
   switch (config.env) {
     case "production":
-      return 200;
+      return 200
     default:
-      return 50;
+      return 50
   }
 }
 
@@ -60,75 +59,75 @@ export const connectToMongodb = async (uri: string) => {
     serverSelectionTimeoutMS: 300_000,
     // Disable utf8 validation to avoid nodejs driver error
     enableUtf8Validation: false,
-  });
+  })
 
   client.on("connectionPoolReady", () => {
-    logger.info("MongoDB reconnected");
-    mongodbClient = client;
-  });
+    logger.info("MongoDB reconnected")
+    mongodbClient = client
+  })
 
   client.on("connectionPoolClosed", () => {
-    logger.warn("MongoDB closed");
-    mongodbClient = null;
-  });
+    logger.warn("MongoDB closed")
+    mongodbClient = null
+  })
 
-  await client.connect();
-  mongodbClient = client;
-  logger.info("Connected to MongoDB");
+  await client.connect()
+  mongodbClient = client
+  logger.info("Connected to MongoDB")
 
-  return client;
-};
+  return client
+}
 
-export const getMongodbClient = () => mongodbClient;
+export const getMongodbClient = () => mongodbClient
 
 export const closeMongodbConnection = async () => {
-  logger.warn("Closing MongoDB");
+  logger.warn("Closing MongoDB")
   if (process.env.NODE_ENV !== "test") {
     // Let 100ms for possible callback cleanup to register tasks in mongodb queue
-    await sleep(200);
+    await sleep(200)
   }
-  return mongodbClient?.close();
-};
+  return mongodbClient?.close()
+}
 
 export function startSession() {
-  return ensureInitialization().startSession();
+  return ensureInitialization().startSession()
 }
 
 export const getDatabase = () => {
-  return ensureInitialization().db();
-};
+  return ensureInitialization().db()
+}
 
 export const getDbCollection = <K extends CollectionName>(name: K): Collection<IDocument<K>> => {
-  return ensureInitialization().db().collection(name);
-};
+  return ensureInitialization().db().collection(name)
+}
 
 export const getCollectionList = async () => {
-  return ensureInitialization().db().listCollections().toArray();
-};
+  return ensureInitialization().db().listCollections().toArray()
+}
 
 export const getDbCollectionIndexes = async (name: CollectionName) => {
-  return await ensureInitialization().db().collection(name).indexes();
-};
+  return await ensureInitialization().db().collection(name).indexes()
+}
 
 /**
  * Création d'une collection si elle n'existe pas
  * @param {string} collectionName
  */
 const createCollectionIfDoesNotExist = async (collectionName: CollectionName) => {
-  const db = getDatabase();
-  const collectionsInDb = await db.listCollections().toArray();
-  const collectionExistsInDb = collectionsInDb.map(({ name }) => name).includes(collectionName);
+  const db = getDatabase()
+  const collectionsInDb = await db.listCollections().toArray()
+  const collectionExistsInDb = collectionsInDb.map(({ name }) => name).includes(collectionName)
 
   if (!collectionExistsInDb) {
     try {
-      await db.createCollection(collectionName);
+      await db.createCollection(collectionName)
     } catch (err) {
       if ((err as MongoServerError).codeName !== "NamespaceExists") {
-        throw err;
+        throw err
       }
     }
   }
-};
+}
 
 /**
  * Vérification de l'existence d'une collection à partir de la liste des collections
@@ -136,29 +135,28 @@ const createCollectionIfDoesNotExist = async (collectionName: CollectionName) =>
  * @param {*} collectionName
  * @returns
  */
-export const collectionExistInDb = (collectionsInDb: CollectionInfo[], collectionName: string) =>
-  collectionsInDb.map(({ name }: { name: string }) => name).includes(collectionName);
+export const collectionExistInDb = (collectionsInDb: CollectionInfo[], collectionName: string) => collectionsInDb.map(({ name }: { name: string }) => name).includes(collectionName)
 
 /**
  * Config de la validation
  * @param {*} modelDescriptors
  */
 export const configureDbSchemaValidation = async (modelDescriptors: IModelDescriptor[]) => {
-  const db = getDatabase();
-  ensureInitialization();
+  const db = getDatabase()
+  ensureInitialization()
   await Promise.all(
     modelDescriptors.map(async ({ collectionName, zod }) => {
-      await createCollectionIfDoesNotExist(collectionName);
+      await createCollectionIfDoesNotExist(collectionName)
 
       const convertedSchema = zodToMongoSchema(zod, (z: $ZodType): JSONSchema.BaseSchema | null => {
         if (z === zParisLocalDate) {
           return {
             ["bsonType"]: "date",
-          };
+          }
         }
 
-        return null;
-      });
+        return null
+      })
 
       try {
         await db.command({
@@ -171,23 +169,23 @@ export const configureDbSchemaValidation = async (modelDescriptors: IModelDescri
               ...convertedSchema,
             },
           },
-        });
+        })
       } catch (error) {
-        captureException(error);
-        logger.error(error);
+        captureException(error)
+        logger.error(error)
       }
     })
-  );
-};
+  )
+}
 
 /**
  * Clear de toutes les collections
  * @returns
  */
 export const clearAllCollections = async () => {
-  const collections = await getDatabase().collections();
-  return Promise.all(collections.map(async (c) => c.deleteMany({})));
-};
+  const collections = await getDatabase().collections()
+  return Promise.all(collections.map(async (c) => c.deleteMany({})))
+}
 
 /**
  * Clear d'une collection
@@ -195,19 +193,19 @@ export const clearAllCollections = async () => {
  * @returns
  */
 export async function clearCollection(name: string) {
-  ensureInitialization();
-  await getDatabase().collection(name).deleteMany({});
+  ensureInitialization()
+  await getDatabase().collection(name).deleteMany({})
 }
 
 export const createIndexes = async ({ drop } = { drop: false }) => {
   if (drop) {
-    logger.info("Drop all existing indexes...");
-    await dropIndexes();
+    logger.info("Drop all existing indexes...")
+    await dropIndexes()
   }
 
   for (const descriptor of modelDescriptors) {
     if (!descriptor.indexes) {
-      return;
+      return
     }
     const indexes = await getDbCollection(descriptor.collectionName)
       .listIndexes()
@@ -215,23 +213,22 @@ export const createIndexes = async ({ drop } = { drop: false }) => {
       .catch((err) => {
         // NamespaceNotFound
         if (err.code === 26) {
-          return [];
+          return []
         }
-        throw err;
-      });
-    const indexesToRemove = new Set(indexes.filter((i) => i.name !== "_id_"));
+        throw err
+      })
+    const indexesToRemove = new Set(indexes.filter((i) => i.name !== "_id_"))
 
-    logger.info(`Create indexes for collection ${descriptor.collectionName}`);
+    logger.info(`Create indexes for collection ${descriptor.collectionName}`)
     await Promise.all(
       descriptor.indexes.map(async ([index, options]): Promise<void> => {
         try {
           const existingIndex =
             // Use Object.entries because order matters
-            indexes.find((i) => isEqual(Object.entries(i.key), Object.entries(index)) || options.name === i.name) ??
-            null;
+            indexes.find((i) => isEqual(Object.entries(i.key), Object.entries(index)) || options.name === i.name) ?? null
 
           if (existingIndex) {
-            indexesToRemove.delete(existingIndex);
+            indexesToRemove.delete(existingIndex)
           }
 
           await getDbCollection(descriptor.collectionName)
@@ -239,36 +236,32 @@ export const createIndexes = async ({ drop } = { drop: false }) => {
             .catch(async (err) => {
               // IndexOptionsConflict & IndexKeySpecsConflict
               if (err.code === 85 || err.code === 86) {
-                await getDbCollection(descriptor.collectionName).dropIndex(existingIndex.name);
-                await getDbCollection(descriptor.collectionName).createIndex(index, options);
+                await getDbCollection(descriptor.collectionName).dropIndex(existingIndex.name)
+                await getDbCollection(descriptor.collectionName).createIndex(index, options)
               } else {
-                throw err;
+                throw err
               }
-            });
+            })
         } catch (err) {
-          captureException(err);
-          logger.error(`Error creating indexes for ${descriptor.collectionName}: ${err}`);
+          captureException(err)
+          logger.error(`Error creating indexes for ${descriptor.collectionName}: ${err}`)
         }
       })
-    );
+    )
 
     if (indexesToRemove.size > 0) {
-      logger.warn(indexesToRemove, `Dropping extra indexes for collection ${descriptor.collectionName}`);
-      await Promise.all(
-        Array.from(indexesToRemove).map(async (index) =>
-          getDbCollection(descriptor.collectionName).dropIndex(index.name)
-        )
-      );
+      logger.warn(indexesToRemove, `Dropping extra indexes for collection ${descriptor.collectionName}`)
+      await Promise.all(Array.from(indexesToRemove).map(async (index) => getDbCollection(descriptor.collectionName).dropIndex(index.name)))
     }
   }
-};
+}
 
 export const dropIndexes = async () => {
-  const collections = (await getCollectionList()).map((collection) => collection.name);
+  const collections = (await getCollectionList()).map((collection) => collection.name)
   for (const descriptor of modelDescriptors) {
-    logger.info(`Drop indexes for collection ${descriptor.collectionName}`);
+    logger.info(`Drop indexes for collection ${descriptor.collectionName}`)
     if (collections.includes(descriptor.collectionName)) {
-      await getDbCollection(descriptor.collectionName).dropIndexes();
+      await getDbCollection(descriptor.collectionName).dropIndexes()
     }
   }
-};
+}

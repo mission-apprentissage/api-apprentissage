@@ -1,7 +1,7 @@
-import nock from "nock";
-import { describe, expect, it } from "vitest";
+import nock from "nock"
+import { describe, expect, it } from "vitest"
 
-import { fetchGeoCommunes, fetchGeoDepartements, fetchGeoRegion, fetchGeoRegions } from "./geo.js";
+import { fetchGeoCommunes, fetchGeoDepartements, fetchGeoRegion, fetchGeoRegions } from "./geo.js"
 
 describe("fetchGeoRegions", () => {
   it("should return the list of regions", async () => {
@@ -14,30 +14,30 @@ describe("fetchGeoRegions", () => {
         nom: "Centre-Val de Loire",
         code: "24",
       },
-    ];
+    ]
 
-    nock("https://geo.api.gouv.fr").get("/regions").reply(200, regions);
+    nock("https://geo.api.gouv.fr").get("/regions").reply(200, regions)
 
-    const result = await fetchGeoRegions();
+    const result = await fetchGeoRegions()
 
-    expect(result).toEqual(regions);
-  });
-});
+    expect(result).toEqual(regions)
+  })
+})
 
 describe("fetchGeoRegion", () => {
   it("should return requested region", async () => {
     const region = {
       nom: "Île-de-France",
       code: "11",
-    };
+    }
 
-    nock("https://geo.api.gouv.fr").get(`/regions/${region.code}`).reply(200, region);
+    nock("https://geo.api.gouv.fr").get(`/regions/${region.code}`).reply(200, region)
 
-    const result = await fetchGeoRegion(region.code);
+    const result = await fetchGeoRegion(region.code)
 
-    expect(result).toEqual(region);
-  });
-});
+    expect(result).toEqual(region)
+  })
+})
 
 describe("fetchGeoDepartements", () => {
   it("should return the list of departements of the region", async () => {
@@ -67,15 +67,15 @@ describe("fetchGeoDepartements", () => {
         code: "76",
         codeRegion: "28",
       },
-    ];
+    ]
 
-    nock("https://geo.api.gouv.fr").get("/regions/28/departements").reply(200, departements);
+    nock("https://geo.api.gouv.fr").get("/regions/28/departements").reply(200, departements)
 
-    const result = await fetchGeoDepartements("28");
+    const result = await fetchGeoDepartements("28")
 
-    expect(result).toEqual(departements);
-  });
-});
+    expect(result).toEqual(departements)
+  })
+})
 
 describe("fetchGeoCommunes", () => {
   it("should return the list of departements of the departement", async () => {
@@ -149,15 +149,15 @@ describe("fetchGeoCommunes", () => {
         codeRegion: "84",
         nom: "Ambérieu-en-Bugey",
       },
-    ];
+    ]
 
     nock("https://geo.api.gouv.fr")
       .get("/departements/01/communes")
       .query({ fields: "code,codesPostaux,centre,bbox,codeDepartement,codeRegion", geometry: "centre" })
-      .reply(200, communes);
+      .reply(200, communes)
 
-    const result = await fetchGeoCommunes("01");
+    const result = await fetchGeoCommunes("01")
 
-    expect(result).toEqual(communes);
-  });
-});
+    expect(result).toEqual(communes)
+  })
+})

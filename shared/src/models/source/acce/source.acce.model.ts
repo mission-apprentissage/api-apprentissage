@@ -1,14 +1,14 @@
-import { z } from "zod/v4-mini";
+import { z } from "zod/v4-mini"
 
-import type { IModelDescriptorGeneric } from "../../common.js";
-import { zObjectIdMini } from "../../common.js";
+import type { IModelDescriptorGeneric } from "../../common.js"
+import { zObjectIdMini } from "../../common.js"
 
-const collectionName = "source.acce" as const;
+const collectionName = "source.acce" as const
 
 const indexes: IModelDescriptorGeneric["indexes"] = [
   [{ date: 1, source: 1 }, {}],
   [{ source: 1, "data.numero_uai": 1 }, {}],
-];
+]
 
 const zUaiBaseFields = z.object({
   nature_uai: z.string().check(z.regex(/^\d{3}$/)),
@@ -84,7 +84,7 @@ const zUaiBaseFields = z.object({
   localisation_complement: z.nullable(z.string()),
   date_geolocalisation: z.nullable(z.string()),
   source: z.nullable(z.string()),
-});
+})
 export const zAcceUai = z.object({
   _id: zObjectIdMini,
   source: z.literal("ACCE_UAI.csv"),
@@ -92,7 +92,7 @@ export const zAcceUai = z.object({
   data: z.extend(zUaiBaseFields, {
     numero_uai: z.string(),
   }),
-});
+})
 
 export const zAcceUaiZone = z.object({
   _id: zObjectIdMini,
@@ -108,7 +108,7 @@ export const zAcceUaiZone = z.object({
     date_fermeture: z.nullable(z.string()),
     date_derniere_mise_a_jour: z.nullable(z.string()),
   }),
-});
+})
 
 export const zAcceUaiSpec = z.object({
   _id: zObjectIdMini,
@@ -121,7 +121,7 @@ export const zAcceUaiSpec = z.object({
     date_ouverture: z.string(),
     date_fermeture: z.nullable(z.string()),
   }),
-});
+})
 
 export const zAcceUaiMere = z.object({
   _id: zObjectIdMini,
@@ -132,7 +132,7 @@ export const zAcceUaiMere = z.object({
     numero_uai_mere: z.string(),
     type_rattachement: z.string(),
   }),
-});
+})
 
 export const zAcceUaiFille = z.object({
   _id: zObjectIdMini,
@@ -143,7 +143,7 @@ export const zAcceUaiFille = z.object({
     numero_uai_fille: z.string(),
     type_rattachement: z.string(),
   }),
-});
+})
 
 export const ZAcceByType = {
   "ACCE_UAI.csv": zAcceUai,
@@ -151,25 +151,19 @@ export const ZAcceByType = {
   "ACCE_UAI_SPEC.csv": zAcceUaiSpec,
   "ACCE_UAI_MERE.csv": zAcceUaiMere,
   "ACCE_UAI_FILLE.csv": zAcceUaiFille,
-};
+}
 
-export const ZSourceAcce = z.discriminatedUnion("source", [
-  zAcceUai,
-  zAcceUaiZone,
-  zAcceUaiSpec,
-  zAcceUaiMere,
-  zAcceUaiFille,
-]);
+export const ZSourceAcce = z.discriminatedUnion("source", [zAcceUai, zAcceUaiZone, zAcceUaiSpec, zAcceUaiMere, zAcceUaiFille])
 
-export type ISourceAcceUai = z.output<typeof zAcceUai>;
-export type ISourceAcceUaiZone = z.output<typeof zAcceUaiZone>;
-export type ISourceAcceUaiSpec = z.output<typeof zAcceUaiSpec>;
-export type ISourceAcceUaiMere = z.output<typeof zAcceUaiMere>;
-export type ISourceAcceUaiFille = z.output<typeof zAcceUaiFille>;
-export type ISourceAcce = z.output<typeof ZSourceAcce>;
+export type ISourceAcceUai = z.output<typeof zAcceUai>
+export type ISourceAcceUaiZone = z.output<typeof zAcceUaiZone>
+export type ISourceAcceUaiSpec = z.output<typeof zAcceUaiSpec>
+export type ISourceAcceUaiMere = z.output<typeof zAcceUaiMere>
+export type ISourceAcceUaiFille = z.output<typeof zAcceUaiFille>
+export type ISourceAcce = z.output<typeof ZSourceAcce>
 
 export default {
   zod: ZSourceAcce,
   indexes,
   collectionName,
-};
+}

@@ -1,9 +1,9 @@
-import { z } from "zod/v4-mini";
+import { z } from "zod/v4-mini"
 
-import type { IModelDescriptorGeneric } from "../../common.js";
-import { zObjectIdMini } from "../../common.js";
+import type { IModelDescriptorGeneric } from "../../common.js"
+import { zObjectIdMini } from "../../common.js"
 
-const collectionName = "source.referentiel" as const;
+const collectionName = "source.referentiel" as const
 
 const indexes: IModelDescriptorGeneric["indexes"] = [
   [{ date: 1 }, {}],
@@ -11,7 +11,7 @@ const indexes: IModelDescriptorGeneric["indexes"] = [
   [{ "data.siret": 1, "data.uai": 1 }, {}],
   [{ "data.lieux_de_formation.uai": 1 }, {}],
   [{ "data.relations.siret": 1 }, {}],
-];
+]
 
 export const zOrganismeReferentiel = z.object({
   siret: z.string(),
@@ -186,20 +186,20 @@ export const zOrganismeReferentiel = z.object({
       ),
     })
   ),
-});
+})
 
 export const zSourceReferentiel = z.object({
   _id: zObjectIdMini,
   date: z.date(),
   data: zOrganismeReferentiel,
-});
+})
 
-export type ISourceReferentiel = z.output<typeof zSourceReferentiel>;
+export type ISourceReferentiel = z.output<typeof zSourceReferentiel>
 
-export type IOrganismeReferentiel = z.output<typeof zOrganismeReferentiel>;
+export type IOrganismeReferentiel = z.output<typeof zOrganismeReferentiel>
 
 export default {
   zod: zSourceReferentiel,
   indexes,
   collectionName,
-};
+}

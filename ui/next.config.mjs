@@ -1,9 +1,9 @@
 /** @type {import('next').NextConfig} */
 
-import path from "path";
-import { fileURLToPath } from "url";
-import { withSentryConfig } from "@sentry/nextjs";
-import { withPlausibleProxy } from "next-plausible";
+import { withSentryConfig } from "@sentry/nextjs"
+import { withPlausibleProxy } from "next-plausible"
+import path from "path"
+import { fileURLToPath } from "url"
 
 const nextConfig = {
   transpilePackages: ["shared", "api-alternance-sdk"],
@@ -34,7 +34,7 @@ const nextConfig = {
           },
         ],
       },
-    ];
+    ]
   },
   async redirects() {
     return [
@@ -43,14 +43,14 @@ const nextConfig = {
         destination: "/explorer/:slug*", // Matched parameters can be used in the destination
         permanent: true,
       },
-    ];
+    ]
   },
   // Next 16 construit avec Turbopack par défaut, qui gère nativement ce que la config webpack
   // faisait ici : émission des .woff2 du DSFR, top-level await de bson côté client
   // (cf. https://github.com/vercel/next.js/issues/54282) et résolution des imports en .js
   // vers les sources .ts. La config webpack a donc été retirée plutôt que laissée inerte.
   output: "standalone",
-};
+}
 
 export default withSentryConfig(withPlausibleProxy()(nextConfig), {
   // For all available options, see:
@@ -90,4 +90,4 @@ export default withSentryConfig(withPlausibleProxy()(nextConfig), {
   // https://docs.sentry.io/product/crons/
   // https://vercel.com/docs/cron-jobs
   // automaticVercelMonitors: true,
-});
+})

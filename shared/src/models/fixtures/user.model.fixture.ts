@@ -1,10 +1,10 @@
-import { ObjectId } from "bson";
-import type { z } from "zod/v4-mini";
+import { ObjectId } from "bson"
+import type { z } from "zod/v4-mini"
 
-import type { IUser } from "../user.model.js";
-import { zUser } from "../user.model.js";
+import type { IUser } from "../user.model.js"
+import { zUser } from "../user.model.js"
 
-type IUserFixtureInput = Partial<IUser>;
+type IUserFixtureInput = Partial<IUser>
 
 export function generateUserFixture(data?: IUserFixtureInput): IUser {
   const input: z.input<typeof zUser> = {
@@ -21,7 +21,7 @@ export function generateUserFixture(data?: IUserFixtureInput): IUser {
     cas_usage: null,
     cgu_accepted_at: new Date("2024-03-21T00:00:00Z"),
     ...data,
-  };
+  }
 
-  return zUser.parse(input);
+  return zUser.parse(input)
 }

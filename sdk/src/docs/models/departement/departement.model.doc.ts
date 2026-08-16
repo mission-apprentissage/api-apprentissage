@@ -1,5 +1,5 @@
-import type { DocTechnicalField } from "../../types.js";
-import { communeModelDoc } from "../commune/commune.model.doc.js";
+import type { DocTechnicalField } from "../../types.js"
+import { communeModelDoc } from "../commune/commune.model.doc.js"
 
 export const departementModelDoc = {
   descriptions: [{ fr: "Département", en: "Department" }],
@@ -8,4 +8,4 @@ export const departementModelDoc = {
     region: communeModelDoc.properties.region,
     academie: communeModelDoc.properties.academie,
   },
-} as const satisfies DocTechnicalField;
+} as const satisfies DocTechnicalField

@@ -1,6 +1,6 @@
-import { z } from "zod/v4-mini";
+import { z } from "zod/v4-mini"
 
-import { zObjectIdMini } from "../../common.js";
+import { zObjectIdMini } from "../../common.js"
 
 export const zBcn_V_FormationDiplomeData = z.object({
   FORMATION_DIPLOME: z.string(),
@@ -41,13 +41,13 @@ export const zBcn_V_FormationDiplomeData = z.object({
   N_CITE_DOMAINE_FORMATION_LIBELLE_EDITION: z.nullable(z.string()),
   NIVEAU_QUALIFICATION_RNCP: z.nullable(z.string()),
   N_NIVEAU_QUALIFICATION_RNCP_LIBELLE_LONG: z.nullable(z.string()),
-});
+})
 
 export const zBcn_V_FormationDiplome = z.object({
   _id: zObjectIdMini,
   source: z.literal("V_FORMATION_DIPLOME"),
   date: z.date(),
   data: zBcn_V_FormationDiplomeData,
-});
+})
 
-export type IBcn_V_FormationDiplome = z.output<typeof zBcn_V_FormationDiplome>;
+export type IBcn_V_FormationDiplome = z.output<typeof zBcn_V_FormationDiplome>

@@ -1,6 +1,6 @@
-import type { ICertification } from "api-alternance-sdk";
+import type { ICertification } from "api-alternance-sdk"
 
-import type { ISourceAggregatedData } from "@/jobs/importer/certifications/builder/certification.builder.js";
+import type { ISourceAggregatedData } from "@/jobs/importer/certifications/builder/certification.builder.js"
 
 export function buildCertificationDomaines(data: ISourceAggregatedData): ICertification["domaines"] {
   return {
@@ -38,5 +38,5 @@ export function buildCertificationDomaines(data: ISourceAggregatedData): ICertif
               intitule: rome.Codes_Rome_Libelle,
             })),
     },
-  };
+  }
 }

@@ -1,7 +1,7 @@
-import env from "env-var";
+import env from "env-var"
 
-const publicUrl = env.get("PUBLIC_URL").required().asString();
-const environement = env.get("ENV").required().asEnum(["local", "recette", "production", "preview", "test"]);
+const publicUrl = env.get("PUBLIC_URL").required().asString()
+const environement = env.get("ENV").required().asEnum(["local", "recette", "production", "preview", "test"])
 
 const config = {
   productName: env.get("PUBLIC_PRODUCT_NAME").required().asString(),
@@ -108,6 +108,6 @@ const config = {
       token: env.get("API_KIT_APPRENTISSAGE_TOKEN").required().asString(),
     },
   },
-};
+}
 
-export default config;
+export default config

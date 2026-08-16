@@ -1,4 +1,5 @@
-import { ObjectId } from "mongodb";
+import { useMongo } from "@tests/mongo.test.utils.js"
+import { ObjectId } from "mongodb"
 import {
   generateSourceAcceFilleFixture,
   generateSourceAcceMereFixture,
@@ -6,27 +7,20 @@ import {
   generateSourceAcceUaiFixture,
   generateSourceAcceZoneFixture,
   generateUserFixture,
-} from "shared/models/fixtures/index";
-import type {
-  ISourceAcceUai,
-  ISourceAcceUaiFille,
-  ISourceAcceUaiMere,
-  ISourceAcceUaiSpec,
-  ISourceAcceUaiZone,
-} from "shared/models/source/acce/source.acce.model";
-import { beforeAll, beforeEach, describe, expect, it } from "vitest";
-import { useMongo } from "@tests/mongo.test.utils.js";
+} from "shared/models/fixtures/index"
+import type { ISourceAcceUai, ISourceAcceUaiFille, ISourceAcceUaiMere, ISourceAcceUaiSpec, ISourceAcceUaiZone } from "shared/models/source/acce/source.acce.model"
+import { beforeAll, beforeEach, describe, expect, it } from "vitest"
 
-import { generateApiKey } from "@/actions/users.actions.js";
-import type { Server } from "@/server/server.js";
-import createServer from "@/server/server.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import { generateApiKey } from "@/actions/users.actions.js"
+import type { Server } from "@/server/server.js"
+import createServer from "@/server/server.js"
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
 
-useMongo();
+useMongo()
 
-let app: Server;
-let token: string;
-const importDate = new Date("2024-03-07T00:00:00Z");
+let app: Server
+let token: string
+const importDate = new Date("2024-03-07T00:00:00Z")
 
 const todayImport = {
   acce: {
@@ -190,12 +184,12 @@ const todayImport = {
     }),
   },
 } as const satisfies {
-  acce: Record<string, ISourceAcceUai>;
-  zone: Record<string, ISourceAcceUaiZone>;
-  spec: Record<string, ISourceAcceUaiSpec>;
-  mere: Record<string, ISourceAcceUaiMere>;
-  fille: Record<string, ISourceAcceUaiFille>;
-};
+  acce: Record<string, ISourceAcceUai>
+  zone: Record<string, ISourceAcceUaiZone>
+  spec: Record<string, ISourceAcceUaiSpec>
+  mere: Record<string, ISourceAcceUaiMere>
+  fille: Record<string, ISourceAcceUaiFille>
+}
 
 const yesterdayImport = {
   acce: {
@@ -239,60 +233,60 @@ const yesterdayImport = {
     }),
   },
 } as const satisfies {
-  acce: Record<string, ISourceAcceUai>;
-  zone: Record<string, ISourceAcceUaiZone>;
-  spec: Record<string, ISourceAcceUaiSpec>;
-  mere: Record<string, ISourceAcceUaiMere>;
-  fille: Record<string, ISourceAcceUaiFille>;
-};
+  acce: Record<string, ISourceAcceUai>
+  zone: Record<string, ISourceAcceUaiZone>
+  spec: Record<string, ISourceAcceUaiSpec>
+  mere: Record<string, ISourceAcceUaiMere>
+  fille: Record<string, ISourceAcceUaiFille>
+}
 
 beforeAll(async () => {
-  app = await createServer();
-  await app.ready();
+  app = await createServer()
+  await app.ready()
 
-  return () => app.close();
-}, 15_000);
+  return () => app.close()
+}, 15_000)
 
 describe("acce.routes", () => {
   beforeEach(async () => {
     const user = generateUserFixture({
       email: "user@exemple.fr",
       is_admin: false,
-    });
-    await getDbCollection("users").insertOne(user);
-    token = (await generateApiKey("", user)).value;
-    await getDbCollection("source.acce").insertMany(Object.values(todayImport.acce));
-    await getDbCollection("source.acce").insertMany(Object.values(yesterdayImport.acce));
-    await getDbCollection("source.acce").insertMany(Object.values(todayImport.zone));
-    await getDbCollection("source.acce").insertMany(Object.values(yesterdayImport.zone));
-    await getDbCollection("source.acce").insertMany(Object.values(todayImport.spec));
-    await getDbCollection("source.acce").insertMany(Object.values(yesterdayImport.spec));
-    await getDbCollection("source.acce").insertMany(Object.values(todayImport.mere));
-    await getDbCollection("source.acce").insertMany(Object.values(yesterdayImport.mere));
-    await getDbCollection("source.acce").insertMany(Object.values(todayImport.fille));
-    await getDbCollection("source.acce").insertMany(Object.values(yesterdayImport.fille));
+    })
+    await getDbCollection("users").insertOne(user)
+    token = (await generateApiKey("", user)).value
+    await getDbCollection("source.acce").insertMany(Object.values(todayImport.acce))
+    await getDbCollection("source.acce").insertMany(Object.values(yesterdayImport.acce))
+    await getDbCollection("source.acce").insertMany(Object.values(todayImport.zone))
+    await getDbCollection("source.acce").insertMany(Object.values(yesterdayImport.zone))
+    await getDbCollection("source.acce").insertMany(Object.values(todayImport.spec))
+    await getDbCollection("source.acce").insertMany(Object.values(yesterdayImport.spec))
+    await getDbCollection("source.acce").insertMany(Object.values(todayImport.mere))
+    await getDbCollection("source.acce").insertMany(Object.values(yesterdayImport.mere))
+    await getDbCollection("source.acce").insertMany(Object.values(todayImport.fille))
+    await getDbCollection("source.acce").insertMany(Object.values(yesterdayImport.fille))
     await getDbCollection("import.meta").insertOne({
       _id: new ObjectId(),
       type: "acce",
       import_date: importDate,
       status: "done",
-    });
-  });
+    })
+  })
 
   describe("GET /experimental/source/acce", () => {
     it("should returns 401 if api key is not provided", async () => {
       const response = await app.inject({
         method: "GET",
         url: "/api/experimental/source/acce",
-      });
+      })
 
-      expect(response.statusCode).toBe(401);
+      expect(response.statusCode).toBe(401)
       expect(response.json()).toEqual({
         statusCode: 401,
         name: "Unauthorized",
         message: "Vous devez fournir une clé d'API valide pour accéder à cette ressource",
-      });
-    });
+      })
+    })
 
     it("should returns 401 if api key is invalid", async () => {
       const response = await app.inject({
@@ -301,14 +295,14 @@ describe("acce.routes", () => {
         headers: {
           Authorization: `Bearer ${token}invalid`,
         },
-      });
-      expect(response.statusCode).toBe(401);
+      })
+      expect(response.statusCode).toBe(401)
       expect(response.json()).toEqual({
         statusCode: 401,
         name: "Unauthorized",
         message: "Impossible de déchiffrer la clé d'API",
-      });
-    });
+      })
+    })
 
     it.each([
       ["", Object.values(todayImport.acce)],
@@ -322,28 +316,28 @@ describe("acce.routes", () => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      });
-      expect.soft(response.statusCode).toBe(200);
-      const result = response.json();
-      expect.soft(result).toHaveLength(expected.length);
-      expect.soft(result).toEqual(expect.arrayContaining(expected.map(({ data }) => data)));
-    });
-  });
+      })
+      expect.soft(response.statusCode).toBe(200)
+      const result = response.json()
+      expect.soft(result).toHaveLength(expected.length)
+      expect.soft(result).toEqual(expect.arrayContaining(expected.map(({ data }) => data)))
+    })
+  })
 
   describe("GET /experimental/source/acce/zone", () => {
     it("should returns 401 if api key is not provided", async () => {
       const response = await app.inject({
         method: "GET",
         url: "/api/experimental/source/acce/zone",
-      });
+      })
 
-      expect(response.statusCode).toBe(401);
+      expect(response.statusCode).toBe(401)
       expect(response.json()).toEqual({
         statusCode: 401,
         name: "Unauthorized",
         message: "Vous devez fournir une clé d'API valide pour accéder à cette ressource",
-      });
-    });
+      })
+    })
 
     it("should returns 401 if api key is invalid", async () => {
       const response = await app.inject({
@@ -352,14 +346,14 @@ describe("acce.routes", () => {
         headers: {
           Authorization: `Bearer ${token}invalid`,
         },
-      });
-      expect(response.statusCode).toBe(401);
+      })
+      expect(response.statusCode).toBe(401)
       expect(response.json()).toEqual({
         statusCode: 401,
         name: "Unauthorized",
         message: "Impossible de déchiffrer la clé d'API",
-      });
-    });
+      })
+    })
 
     it.each([
       ["", Object.values(todayImport.zone)],
@@ -373,28 +367,28 @@ describe("acce.routes", () => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      });
-      expect.soft(response.statusCode).toBe(200);
-      const result = response.json();
-      expect.soft(result).toHaveLength(expected.length);
-      expect.soft(result).toEqual(expect.arrayContaining(expected.map(({ data }) => data)));
-    });
-  });
+      })
+      expect.soft(response.statusCode).toBe(200)
+      const result = response.json()
+      expect.soft(result).toHaveLength(expected.length)
+      expect.soft(result).toEqual(expect.arrayContaining(expected.map(({ data }) => data)))
+    })
+  })
 
   describe("GET /experimental/source/acce/specialite", () => {
     it("should returns 401 if api key is not provided", async () => {
       const response = await app.inject({
         method: "GET",
         url: "/api/experimental/source/acce/specialite",
-      });
+      })
 
-      expect(response.statusCode).toBe(401);
+      expect(response.statusCode).toBe(401)
       expect(response.json()).toEqual({
         statusCode: 401,
         name: "Unauthorized",
         message: "Vous devez fournir une clé d'API valide pour accéder à cette ressource",
-      });
-    });
+      })
+    })
 
     it("should returns 401 if api key is invalid", async () => {
       const response = await app.inject({
@@ -403,14 +397,14 @@ describe("acce.routes", () => {
         headers: {
           Authorization: `Bearer ${token}invalid`,
         },
-      });
-      expect(response.statusCode).toBe(401);
+      })
+      expect(response.statusCode).toBe(401)
       expect(response.json()).toEqual({
         statusCode: 401,
         name: "Unauthorized",
         message: "Impossible de déchiffrer la clé d'API",
-      });
-    });
+      })
+    })
 
     it.each([
       ["", Object.values(todayImport.spec)],
@@ -424,28 +418,28 @@ describe("acce.routes", () => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      });
-      expect.soft(response.statusCode).toBe(200);
-      const result = response.json();
-      expect.soft(result).toHaveLength(expected.length);
-      expect.soft(result).toEqual(expect.arrayContaining(expected.map(({ data }) => data)));
-    });
-  });
+      })
+      expect.soft(response.statusCode).toBe(200)
+      const result = response.json()
+      expect.soft(result).toHaveLength(expected.length)
+      expect.soft(result).toEqual(expect.arrayContaining(expected.map(({ data }) => data)))
+    })
+  })
 
   describe("GET /experimental/source/acce/mere", () => {
     it("should returns 401 if api key is not provided", async () => {
       const response = await app.inject({
         method: "GET",
         url: "/api/experimental/source/acce/mere",
-      });
+      })
 
-      expect(response.statusCode).toBe(401);
+      expect(response.statusCode).toBe(401)
       expect(response.json()).toEqual({
         statusCode: 401,
         name: "Unauthorized",
         message: "Vous devez fournir une clé d'API valide pour accéder à cette ressource",
-      });
-    });
+      })
+    })
 
     it("should returns 401 if api key is invalid", async () => {
       const response = await app.inject({
@@ -454,14 +448,14 @@ describe("acce.routes", () => {
         headers: {
           Authorization: `Bearer ${token}invalid`,
         },
-      });
-      expect(response.statusCode).toBe(401);
+      })
+      expect(response.statusCode).toBe(401)
       expect(response.json()).toEqual({
         statusCode: 401,
         name: "Unauthorized",
         message: "Impossible de déchiffrer la clé d'API",
-      });
-    });
+      })
+    })
 
     it.each([
       ["", Object.values(todayImport.mere)],
@@ -475,28 +469,28 @@ describe("acce.routes", () => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      });
-      expect.soft(response.statusCode).toBe(200);
-      const result = response.json();
-      expect.soft(result).toHaveLength(expected.length);
-      expect.soft(result).toEqual(expect.arrayContaining(expected.map(({ data }) => data)));
-    });
-  });
+      })
+      expect.soft(response.statusCode).toBe(200)
+      const result = response.json()
+      expect.soft(result).toHaveLength(expected.length)
+      expect.soft(result).toEqual(expect.arrayContaining(expected.map(({ data }) => data)))
+    })
+  })
 
   describe("GET /experimental/source/acce/fille", () => {
     it("should returns 401 if api key is not provided", async () => {
       const response = await app.inject({
         method: "GET",
         url: "/api/experimental/source/acce/fille",
-      });
+      })
 
-      expect(response.statusCode).toBe(401);
+      expect(response.statusCode).toBe(401)
       expect(response.json()).toEqual({
         statusCode: 401,
         name: "Unauthorized",
         message: "Vous devez fournir une clé d'API valide pour accéder à cette ressource",
-      });
-    });
+      })
+    })
 
     it("should returns 401 if api key is invalid", async () => {
       const response = await app.inject({
@@ -505,14 +499,14 @@ describe("acce.routes", () => {
         headers: {
           Authorization: `Bearer ${token}invalid`,
         },
-      });
-      expect(response.statusCode).toBe(401);
+      })
+      expect(response.statusCode).toBe(401)
       expect(response.json()).toEqual({
         statusCode: 401,
         name: "Unauthorized",
         message: "Impossible de déchiffrer la clé d'API",
-      });
-    });
+      })
+    })
 
     it.each([
       ["", Object.values(todayImport.fille)],
@@ -526,11 +520,11 @@ describe("acce.routes", () => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      });
-      expect.soft(response.statusCode).toBe(200);
-      const result = response.json();
-      expect.soft(result).toHaveLength(expected.length);
-      expect.soft(result).toEqual(expect.arrayContaining(expected.map(({ data }) => data)));
-    });
-  });
-});
+      })
+      expect.soft(response.statusCode).toBe(200)
+      const result = response.json()
+      expect.soft(result).toHaveLength(expected.length)
+      expect.soft(result).toEqual(expect.arrayContaining(expected.map(({ data }) => data)))
+    })
+  })
+})

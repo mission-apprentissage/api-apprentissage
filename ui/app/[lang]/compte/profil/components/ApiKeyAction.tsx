@@ -1,22 +1,22 @@
-"use client";
+"use client"
 
-import { fr } from "@codegouvfr/react-dsfr";
-import { Alert } from "@codegouvfr/react-dsfr/Alert";
-import { Button } from "@codegouvfr/react-dsfr/Button";
-import { createModal } from "@codegouvfr/react-dsfr/Modal";
-import { Box, Snackbar, Typography } from "@mui/material";
-import Tooltip from "@mui/material/Tooltip";
-import { captureException } from "@sentry/nextjs";
-import { useCallback, useMemo, useState } from "react";
-import type { IApiKeyPrivateJson } from "shared/models/user.model";
+import { fr } from "@codegouvfr/react-dsfr"
+import { Alert } from "@codegouvfr/react-dsfr/Alert"
+import { Button } from "@codegouvfr/react-dsfr/Button"
+import { createModal } from "@codegouvfr/react-dsfr/Modal"
+import { Box, Snackbar, Typography } from "@mui/material"
+import Tooltip from "@mui/material/Tooltip"
+import { captureException } from "@sentry/nextjs"
+import { useCallback, useMemo, useState } from "react"
+import type { IApiKeyPrivateJson } from "shared/models/user.model"
 
-import { useDeleteApiKeyMutation } from "@/app/[lang]/compte/profil/hooks/useDeleteApiKeyMutation";
-import type { WithLangAndT } from "@/app/i18n/settings";
-import { ApiError } from "@/utils/api.utils";
+import { useDeleteApiKeyMutation } from "@/app/[lang]/compte/profil/hooks/useDeleteApiKeyMutation"
+import type { WithLangAndT } from "@/app/i18n/settings"
+import { ApiError } from "@/utils/api.utils"
 
 export function ApiKeyAction({ apiKey, index, lang, t }: WithLangAndT<{ apiKey: IApiKeyPrivateJson; index: number }>) {
-  const deleteMutation = useDeleteApiKeyMutation();
-  const [copyState, setCopyState] = useState<boolean | null>(null);
+  const deleteMutation = useDeleteApiKeyMutation()
+  const [copyState, setCopyState] = useState<boolean | null>(null)
 
   const modal = useMemo(
     () =>
@@ -25,7 +25,7 @@ export function ApiKeyAction({ apiKey, index, lang, t }: WithLangAndT<{ apiKey: 
         isOpenedByDefault: false,
       }),
     [apiKey._id]
-  );
+  )
 
   const onClick = useCallback(() => {
     if (apiKey.value) {
@@ -34,40 +34,39 @@ export function ApiKeyAction({ apiKey, index, lang, t }: WithLangAndT<{ apiKey: 
       navigator.clipboard
         .writeText(apiKey.value)
         .then(() => {
-          setCopyState(true);
+          setCopyState(true)
         })
         .catch((err) => {
-          console.error(err);
-          captureException(err);
-          setCopyState(false);
-        });
+          console.error(err)
+          captureException(err)
+          setCopyState(false)
+        })
     }
-  }, [apiKey]);
+  }, [apiKey])
 
   const onDeleteConfirm = useCallback(() => {
     deleteMutation.mutate(
       { id: apiKey._id },
       {
         onSuccess: () => {
-          modal.close();
+          modal.close()
         },
       }
-    );
-  }, [deleteMutation, apiKey._id, modal]);
+    )
+  }, [deleteMutation, apiKey._id, modal])
 
-  const { error } = deleteMutation;
+  const { error } = deleteMutation
   const deleteError = useMemo(() => {
-    const defaultErrorMessage =
-      "Une erreur est survenue lors de la suppression du jeton. Veuillez réessayer ultérieurement.";
+    const defaultErrorMessage = "Une erreur est survenue lors de la suppression du jeton. Veuillez réessayer ultérieurement."
     if (error) {
       if (error instanceof ApiError && error.context.statusCode < 500) {
-        return error.context.message ?? defaultErrorMessage;
+        return error.context.message ?? defaultErrorMessage
       }
-      captureException(error);
+      captureException(error)
 
-      return defaultErrorMessage;
+      return defaultErrorMessage
     }
-  }, [error]);
+  }, [error])
 
   return (
     <Box sx={{ display: "flex", gap: fr.spacing("1w"), flexWrap: "wrap" }}>
@@ -123,16 +122,12 @@ export function ApiKeyAction({ apiKey, index, lang, t }: WithLangAndT<{ apiKey: 
       >
         <Alert
           onClose={() => setCopyState(null)}
-          description={
-            copyState === false
-              ? `${t("monCompte.erreurCopieJeton", { lng: lang })} ${apiKey.value}`
-              : t("monCompte.jetonCopiePressePapier", { lng: lang })
-          }
+          description={copyState === false ? `${t("monCompte.erreurCopieJeton", { lng: lang })} ${apiKey.value}` : t("monCompte.jetonCopiePressePapier", { lng: lang })}
           closable
           severity={copyState === false ? "error" : "info"}
           small
         />
       </Snackbar>
     </Box>
-  );
+  )
 }

@@ -1,6 +1,6 @@
-import type { ICertification } from "api-alternance-sdk";
+import type { ICertification } from "api-alternance-sdk"
 
-import type { ISourceAggregatedData } from "@/jobs/importer/certifications/builder/certification.builder.js";
+import type { ISourceAggregatedData } from "@/jobs/importer/certifications/builder/certification.builder.js"
 
 export function buildCertificationBlocsCompetences(data: ISourceAggregatedData): ICertification["blocs_competences"] {
   return {
@@ -11,5 +11,5 @@ export function buildCertificationBlocsCompetences(data: ISourceAggregatedData):
             code: bloc.Bloc_Competences_Code,
             intitule: bloc.Bloc_Competences_Libelle,
           })),
-  };
+  }
 }

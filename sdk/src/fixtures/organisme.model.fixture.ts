@@ -1,13 +1,13 @@
-import type { IOrganisme } from "../models/index.js";
+import type { IOrganisme } from "../models/index.js"
 
 export type IOrganismeInput<T extends IOrganisme> = Partial<
   Omit<T, "identifiant"> & {
-    identifiant: Partial<IOrganisme["identifiant"]>;
+    identifiant: Partial<IOrganisme["identifiant"]>
   }
->;
+>
 
 export function generateOrganismeFixture(data?: IOrganismeInput<IOrganisme>): IOrganisme {
-  const { identifiant, ...rest } = data ?? {};
+  const { identifiant, ...rest } = data ?? {}
 
   return {
     identifiant: {
@@ -63,5 +63,5 @@ export function generateOrganismeFixture(data?: IOrganismeInput<IOrganisme>): IO
       cessation: null,
     },
     ...rest,
-  };
+  }
 }

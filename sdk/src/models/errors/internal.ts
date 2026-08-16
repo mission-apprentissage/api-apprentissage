@@ -1,1 +1,1 @@
-export * from "./errors.model.openapi.js";
+export * from "./errors.model.openapi.js"

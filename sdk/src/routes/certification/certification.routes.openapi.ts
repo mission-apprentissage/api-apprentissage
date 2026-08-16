@@ -1,5 +1,5 @@
-import { getCertificationsRouteDoc } from "../../docs/routes/getCertifications/getCertifications.route.doc.js";
-import type { OpenapiRoutes } from "../../openapi/types.js";
+import { getCertificationsRouteDoc } from "../../docs/routes/getCertifications/getCertifications.route.doc.js"
+import type { OpenapiRoutes } from "../../openapi/types.js"
 
 export const certificationsRoutesOpenapi: OpenapiRoutes = {
   "/certification/v1": {
@@ -8,4 +8,4 @@ export const certificationsRoutesOpenapi: OpenapiRoutes = {
       doc: getCertificationsRouteDoc,
     },
   },
-};
+}

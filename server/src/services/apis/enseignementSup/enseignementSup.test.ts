@@ -1,7 +1,7 @@
-import nock from "nock";
-import { describe, expect, it } from "vitest";
+import nock from "nock"
+import { describe, expect, it } from "vitest"
 
-import { fetchAcademies } from "./enseignementSup.js";
+import { fetchAcademies } from "./enseignementSup.js"
 
 describe("fetchEnseignementSup", () => {
   it("should return the list of academie grouped by Departement", async () => {
@@ -42,7 +42,7 @@ describe("fetchEnseignementSup", () => {
         aca_id: "A32",
         dep_code: "971",
       },
-    ];
+    ]
 
     nock("https://data.enseignementsup-recherche.gouv.fr")
       .get("/api/explore/v2.1/catalog/datasets/fr-esr-referentiel-geographique/exports/json")
@@ -51,12 +51,12 @@ describe("fetchEnseignementSup", () => {
       .reply(200, data, {
         "content-type": "application/json",
         "content-disposition": 'attachment; filename="fr-esr-referentiel-geographique.json"',
-      });
+      })
 
-    const result = await fetchAcademies();
+    const result = await fetchAcademies()
 
-    expect(result).toEqual(data);
-  });
+    expect(result).toEqual(data)
+  })
 
   it("should fix Saint-Martin & Saint-Barthélémy academies", async () => {
     const commonData = [
@@ -132,7 +132,7 @@ describe("fetchEnseignementSup", () => {
         aca_id: "A32",
         dep_code: "971",
       },
-    ];
+    ]
 
     const apiData = [
       ...commonData,
@@ -148,7 +148,7 @@ describe("fetchEnseignementSup", () => {
         aca_id: "978",
         dep_code: "978",
       },
-    ];
+    ]
 
     const expectedData = [
       ...commonData,
@@ -164,7 +164,7 @@ describe("fetchEnseignementSup", () => {
         aca_id: "A32",
         dep_code: "978",
       },
-    ];
+    ]
 
     nock("https://data.enseignementsup-recherche.gouv.fr")
       .get("/api/explore/v2.1/catalog/datasets/fr-esr-referentiel-geographique/exports/json")
@@ -173,10 +173,10 @@ describe("fetchEnseignementSup", () => {
       .reply(200, apiData, {
         "content-type": "application/json",
         "content-disposition": 'attachment; filename="fr-esr-referentiel-geographique.json"',
-      });
+      })
 
-    const result = await fetchAcademies();
+    const result = await fetchAcademies()
 
-    expect(result).toEqual(expectedData);
-  });
-});
+    expect(result).toEqual(expectedData)
+  })
+})

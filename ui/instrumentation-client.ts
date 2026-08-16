@@ -2,26 +2,14 @@
 // The config you add here will be used whenever a users loads a page in their browser.
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 
-import {
-  captureConsoleIntegration,
-  captureRouterTransitionStart,
-  extraErrorDataIntegration,
-  httpClientIntegration,
-  init,
-  reportingObserverIntegration,
-} from "@sentry/nextjs";
+import { captureConsoleIntegration, captureRouterTransitionStart, extraErrorDataIntegration, httpClientIntegration, init, reportingObserverIntegration } from "@sentry/nextjs"
 
-import { publicConfig } from "./config.public";
+import { publicConfig } from "./config.public"
 
 init({
   dsn: publicConfig.sentry.dsn,
   tracesSampleRate: publicConfig.env === "production" ? 0.01 : 1.0,
-  tracePropagationTargets: [
-    /^https:\/\/[^/]*\.apprentissage\.beta\.gouv\.fr/,
-    publicConfig.baseUrl,
-    publicConfig.apiEndpoint,
-    /^\//,
-  ],
+  tracePropagationTargets: [/^https:\/\/[^/]*\.apprentissage\.beta\.gouv\.fr/, publicConfig.baseUrl, publicConfig.apiEndpoint, /^\//],
   environment: publicConfig.env,
   enabled: publicConfig.env !== "local",
   release: publicConfig.version,
@@ -32,7 +20,7 @@ init({
     httpClientIntegration({}),
     reportingObserverIntegration({ types: ["crash", "deprecation", "intervention"] }),
   ],
-});
+})
 
 // Requis par le SDK Sentry pour instrumenter les navigations côté client (App Router).
-export const onRouterTransitionStart = captureRouterTransitionStart;
+export const onRouterTransitionStart = captureRouterTransitionStart

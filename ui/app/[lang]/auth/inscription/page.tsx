@@ -1,48 +1,48 @@
-"use client";
-import { fr } from "@codegouvfr/react-dsfr";
-import { Alert } from "@codegouvfr/react-dsfr/Alert";
-import { Button } from "@codegouvfr/react-dsfr/Button";
-import { Checkbox } from "@codegouvfr/react-dsfr/Checkbox";
-import { Input } from "@codegouvfr/react-dsfr/Input";
-import { RadioButtons } from "@codegouvfr/react-dsfr/RadioButtons";
-import { Select } from "@codegouvfr/react-dsfr/Select";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Dialog, DialogContent, Typography } from "@mui/material";
-import { captureException } from "@sentry/nextjs";
-import NextLink from "next/link";
-import { useRouter } from "next/navigation";
-import { use, useEffect, useState } from "react";
-import type { FieldError, SubmitHandler } from "react-hook-form";
-import { useController, useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
-import type { IBody, IPostRoutes } from "shared";
-import { zRoutes } from "shared";
-import type { Jsonify } from "type-fest";
+"use client"
+import { fr } from "@codegouvfr/react-dsfr"
+import { Alert } from "@codegouvfr/react-dsfr/Alert"
+import { Button } from "@codegouvfr/react-dsfr/Button"
+import { Checkbox } from "@codegouvfr/react-dsfr/Checkbox"
+import { Input } from "@codegouvfr/react-dsfr/Input"
+import { RadioButtons } from "@codegouvfr/react-dsfr/RadioButtons"
+import { Select } from "@codegouvfr/react-dsfr/Select"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Box, Dialog, DialogContent, Typography } from "@mui/material"
+import { captureException } from "@sentry/nextjs"
+import NextLink from "next/link"
+import { useRouter } from "next/navigation"
+import { use, useEffect, useState } from "react"
+import type { FieldError, SubmitHandler } from "react-hook-form"
+import { useController, useForm } from "react-hook-form"
+import { useTranslation } from "react-i18next"
+import type { IBody, IPostRoutes } from "shared"
+import { zRoutes } from "shared"
+import type { Jsonify } from "type-fest"
 
-import type { PropsWithLangParams } from "@/app/i18n/settings";
-import { Artwork } from "@/components/artwork/Artwork";
-import { useAuth } from "@/context/AuthContext";
-import { useJwtToken } from "@/hooks/useJwtToken";
-import { ApiError, apiPost } from "@/utils/api.utils";
-import { PAGES } from "@/utils/routes.utils";
+import type { PropsWithLangParams } from "@/app/i18n/settings"
+import { Artwork } from "@/components/artwork/Artwork"
+import { useAuth } from "@/context/AuthContext"
+import { useJwtToken } from "@/hooks/useJwtToken"
+import { ApiError, apiPost } from "@/utils/api.utils"
+import { PAGES } from "@/utils/routes.utils"
 
-type Inputs = Jsonify<IBody<IPostRoutes["/_private/auth/register"]>>;
+type Inputs = Jsonify<IBody<IPostRoutes["/_private/auth/register"]>>
 
 function getInputState(error: FieldError | undefined | null): {
-  state: "default" | "error" | "success";
-  stateRelatedMessage: string;
+  state: "default" | "error" | "success"
+  stateRelatedMessage: string
 } {
   if (!error) {
-    return { state: "default", stateRelatedMessage: "" };
+    return { state: "default", stateRelatedMessage: "" }
   }
 
-  return { state: "error", stateRelatedMessage: error.message ?? "Erreur de validation" };
+  return { state: "error", stateRelatedMessage: error.message ?? "Erreur de validation" }
 }
 
-const defaultErrorMessage = "Une erreur est survenue lors de l'envoi du formulaire. Veuillez réessayer ultérieurement.";
+const defaultErrorMessage = "Une erreur est survenue lors de l'envoi du formulaire. Veuillez réessayer ultérieurement."
 
 export default function RegisterPage({ params }: PropsWithLangParams) {
-  const { lang } = use(params);
+  const { lang } = use(params)
   const {
     register,
     handleSubmit,
@@ -54,62 +54,62 @@ export default function RegisterPage({ params }: PropsWithLangParams) {
     defaultValues: {
       objectif: null,
     },
-  });
-  const { session, setSession } = useAuth();
-  const { t } = useTranslation("inscription-connexion", { lng: lang });
+  })
+  const { session, setSession } = useAuth()
+  const { t } = useTranslation("inscription-connexion", { lng: lang })
 
-  const token = useJwtToken();
-  const { push } = useRouter();
+  const token = useJwtToken()
+  const { push } = useRouter()
 
   const typeController = useController({
     name: "type",
     control,
     rules: { required: true },
-  });
+  })
   const objectifController = useController({
     name: "objectif",
     control,
     rules: { required: false },
-  });
+  })
   const cguController = useController({
     name: "cgu",
     control,
     rules: { required: true },
-  });
-  const [submitError, setSubmitError] = useState<string | null>(!token.valid ? token.error : null);
+  })
+  const [submitError, setSubmitError] = useState<string | null>(!token.valid ? token.error : null)
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
       if (!token.valid) {
-        setSubmitError(token.error);
-        return;
+        setSubmitError(token.error)
+        return
       }
 
-      setSubmitError(null);
+      setSubmitError(null)
       const session = await apiPost("/_private/auth/register", {
         headers: {
           authorization: `Bearer ${token.value}`,
         },
         body: data,
-      });
-      setSession(session);
-      push(PAGES.static.compteProfil.getPath(lang));
+      })
+      setSession(session)
+      push(PAGES.static.compteProfil.getPath(lang))
     } catch (error) {
-      console.error(error);
+      console.error(error)
       if (error instanceof ApiError && error.context.statusCode < 500) {
-        setSubmitError(error.context.message ?? defaultErrorMessage);
+        setSubmitError(error.context.message ?? defaultErrorMessage)
       } else {
-        captureException(error);
-        setSubmitError(defaultErrorMessage);
+        captureException(error)
+        setSubmitError(defaultErrorMessage)
       }
     }
-  };
+  }
 
   useEffect(() => {
     if (session) {
-      push(PAGES.static.compteProfil.getPath(lang));
+      push(PAGES.static.compteProfil.getPath(lang))
     }
-  }, [session, push, lang]);
+  }, [session, push, lang])
 
   return (
     <Dialog
@@ -169,8 +169,7 @@ export default function RegisterPage({ params }: PropsWithLangParams) {
               {t("creerCompte.creerMonCompte", { lng: lang })}
             </Typography>
             <Typography align="center" id="register-modal-description">
-              {t("creerCompte.renseignerInfos", { lng: lang })}{" "}
-              <strong>{t("creerCompte.finaliserCreation", { lng: lang })}</strong>
+              {t("creerCompte.renseignerInfos", { lng: lang })} <strong>{t("creerCompte.finaliserCreation", { lng: lang })}</strong>
             </Typography>
           </Box>
 
@@ -269,13 +268,7 @@ export default function RegisterPage({ params }: PropsWithLangParams) {
               ]}
             />
             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <Button
-                size="large"
-                type="submit"
-                disabled={isSubmitting || !token.valid}
-                iconId="fr-icon-arrow-right-line"
-                iconPosition="right"
-              >
+              <Button size="large" type="submit" disabled={isSubmitting || !token.valid} iconId="fr-icon-arrow-right-line" iconPosition="right">
                 {t("creerCompte.continuer", { lng: lang })}
               </Button>
             </Box>
@@ -288,15 +281,11 @@ export default function RegisterPage({ params }: PropsWithLangParams) {
         </Box>
         <Typography textAlign="center" color={fr.colors.decisions.text.default.grey.default}>
           {t("creerCompte.problemesConnexion", { lng: lang })}{" "}
-          <Box
-            component="a"
-            href="mailto:support_api@apprentissage.beta.gouv.fr"
-            sx={{ color: fr.colors.decisions.text.actionHigh.blueFrance.default }}
-          >
+          <Box component="a" href="mailto:support_api@apprentissage.beta.gouv.fr" sx={{ color: fr.colors.decisions.text.actionHigh.blueFrance.default }}>
             support_api@apprentissage.beta.gouv.fr
           </Box>
         </Typography>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

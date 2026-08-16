@@ -1,19 +1,16 @@
-import {
-  generateSourceBcn_N_FormationDiplomeFixture,
-  generateSourceFranceCompetenceFixture,
-} from "shared/models/fixtures/index";
-import { describe, expect, it } from "vitest";
+import { generateSourceBcn_N_FormationDiplomeFixture, generateSourceFranceCompetenceFixture } from "shared/models/fixtures/index"
+import { describe, expect, it } from "vitest"
 
-import { buildCertificationBlocsCompetences } from "./certification.blocs_competences.builder.js";
+import { buildCertificationBlocsCompetences } from "./certification.blocs_competences.builder.js"
 
 describe("buildCertificationBlocsCompetences", () => {
   it("should returns null when france competence data is missing", () => {
     const result = buildCertificationBlocsCompetences({
       bcn: generateSourceBcn_N_FormationDiplomeFixture(),
       france_competence: null,
-    });
-    expect(result).toEqual({ rncp: null });
-  });
+    })
+    expect(result).toEqual({ rncp: null })
+  })
 
   describe("when blocs_de_competences is not empty", () => {
     it("should returns Bloc_Competence_Code and Bloc_Competence_Libelle for each blocs_de_competences", () => {
@@ -42,21 +39,21 @@ describe("buildCertificationBlocsCompetences", () => {
             },
           ],
         },
-      });
-      const result = buildCertificationBlocsCompetences({ bcn: null, france_competence: fc });
+      })
+      const result = buildCertificationBlocsCompetences({ bcn: null, france_competence: fc })
       expect(result.rncp).toEqual([
         { code: "RNCP38596BC02", intitule: "Réaliser un diagnostic juridique" },
         { code: "RNCP38596BC03", intitule: "Conduire un dossier juridique" },
         { code: "RNCP38596BC04", intitule: "Piloter un projet en contexte juridique" },
         { code: "RNCP38596BC01", intitule: "Conduire un entretien exploratoire auprès d’un client" },
-      ]);
-    });
-  });
+      ])
+    })
+  })
   describe("when blocs_de_competences is empty", () => {
     it("should returns empty array", () => {
-      const fc = generateSourceFranceCompetenceFixture({ data: { blocs_de_competences: [] } });
-      const result = buildCertificationBlocsCompetences({ bcn: null, france_competence: fc });
-      expect(result.rncp).toEqual([]);
-    });
-  });
-});
+      const fc = generateSourceFranceCompetenceFixture({ data: { blocs_de_competences: [] } })
+      const result = buildCertificationBlocsCompetences({ bcn: null, france_competence: fc })
+      expect(result.rncp).toEqual([])
+    })
+  })
+})

@@ -1,80 +1,69 @@
-import { internal } from "@hapi/boom";
-import type { ICertification, IFormation } from "api-alternance-sdk";
-import { LRUCache } from "lru-cache";
-import { stringify } from "safe-stable-stringify";
-import type { IFormationCatalogue } from "shared/models/source/catalogue/source.catalogue.model";
+import { internal } from "@hapi/boom"
+import type { ICertification, IFormation } from "api-alternance-sdk"
+import { LRUCache } from "lru-cache"
+import { stringify } from "safe-stable-stringify"
+import type { IFormationCatalogue } from "shared/models/source/catalogue/source.catalogue.model"
 
-import { computePeriodeValidite } from "@/jobs/importer/certifications/builder/periode_validite/certification.periode_validite.builder.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import { computePeriodeValidite } from "@/jobs/importer/certifications/builder/periode_validite/certification.periode_validite.builder.js"
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
 
 const cache = new LRUCache<string, IFormation["certification"]>({
   max: 5_000,
   ttl: 60 * 60_000,
-});
+})
 
 async function getCertificationFromRncp(code: string | null): Promise<ICertification | null> {
   if (!code || code === "RNCPNR") {
-    return null;
+    return null
   }
 
-  const certification = await getDbCollection("certifications").findOne({ "identifiant.rncp": code });
+  const certification = await getDbCollection("certifications").findOne({ "identifiant.rncp": code })
 
   if (!certification) {
-    throw internal(
-      `getCertificationFromRncp: certification not found for code ${code}. Report to business for correction`,
-      { code }
-    );
+    throw internal(`getCertificationFromRncp: certification not found for code ${code}. Report to business for correction`, { code })
   }
 
-  return certification;
+  return certification
 }
 
 async function getCertificationFromCfd(code: string): Promise<ICertification> {
-  const certification = await getDbCollection("certifications").findOne({ "identifiant.cfd": code });
+  const certification = await getDbCollection("certifications").findOne({ "identifiant.cfd": code })
 
   if (!certification) {
-    throw internal(
-      `getCertificationFromCfd: certification not found for code ${code}. Report to business for correction`,
-      { code }
-    );
+    throw internal(`getCertificationFromCfd: certification not found for code ${code}. Report to business for correction`, { code })
   }
 
-  return certification;
+  return certification
 }
 
-export async function buildFormationCertification(
-  data: Pick<IFormationCatalogue, "rncp_code" | "cfd">
-): Promise<IFormation["certification"]> {
+export async function buildFormationCertification(data: Pick<IFormationCatalogue, "rncp_code" | "cfd">): Promise<IFormation["certification"]> {
   const identifiant = {
     rncp: data.rncp_code,
     cfd: data.cfd,
-  };
+  }
 
-  const cacheKey = stringify(identifiant);
+  const cacheKey = stringify(identifiant)
 
   if (cache.has(cacheKey)) {
-    return cache.get(cacheKey)!;
+    return cache.get(cacheKey)!
   }
 
   const certification = await getDbCollection("certifications").findOne({
     "identifiant.rncp": identifiant.rncp,
     "identifiant.cfd": identifiant.cfd,
-  });
+  })
 
   if (certification) {
     const result = {
       valeur: certification,
       connue: true,
-    };
+    }
 
-    cache.set(cacheKey, result);
-    return result;
+    cache.set(cacheKey, result)
+    return result
   }
 
-  const [rncpCertif, cfdCertif] = await Promise.all([
-    getCertificationFromRncp(data.rncp_code),
-    getCertificationFromCfd(data.cfd),
-  ]);
+  const [rncpCertif, cfdCertif] = await Promise.all([getCertificationFromRncp(data.rncp_code), getCertificationFromCfd(data.cfd)])
 
   const result = {
     valeur: {
@@ -112,10 +101,7 @@ export async function buildFormationCertification(
           rncp: rncpCertif?.domaines.rome.rncp ?? null,
         },
       },
-      periode_validite: computePeriodeValidite(
-        cfdCertif.periode_validite.cfd,
-        rncpCertif?.periode_validite.rncp ?? null
-      ),
+      periode_validite: computePeriodeValidite(cfdCertif.periode_validite.cfd, rncpCertif?.periode_validite.rncp ?? null),
       type: {
         nature: {
           cfd: cfdCertif.type.nature.cfd,
@@ -133,8 +119,8 @@ export async function buildFormationCertification(
       },
     },
     connue: false,
-  };
+  }
 
-  cache.set(cacheKey, result);
-  return result;
+  cache.set(cacheKey, result)
+  return result
 }

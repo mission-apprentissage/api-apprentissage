@@ -1,12 +1,12 @@
-"use client";
-import { fr } from "@codegouvfr/react-dsfr";
-import { Button } from "@codegouvfr/react-dsfr/Button";
-import { Box, Dialog, DialogContent, Typography } from "@mui/material";
-import Link from "next/link";
+"use client"
+import { fr } from "@codegouvfr/react-dsfr"
+import { Button } from "@codegouvfr/react-dsfr/Button"
+import { Box, Dialog, DialogContent, Typography } from "@mui/material"
+import Link from "next/link"
 
-import type { WithLangAndT } from "@/app/i18n/settings";
-import { Artwork } from "@/components/artwork/Artwork";
-import { PAGES } from "@/utils/routes.utils";
+import type { WithLangAndT } from "@/app/i18n/settings"
+import { Artwork } from "@/components/artwork/Artwork"
+import { PAGES } from "@/utils/routes.utils"
 
 export function LoginEmailSentModal({ email, lang, t }: WithLangAndT<{ email: string }>) {
   return (
@@ -64,25 +64,19 @@ export function LoginEmailSentModal({ email, lang, t }: WithLangAndT<{ email: st
               {t("loginEmailSent.verifierEmail", { lng: lang })}
             </Typography>
             <Typography id="login-sent-modal-description">
-              {t("loginEmailSent.lienEnvoye", { lng: lang })} <strong>{email}</strong>{" "}
-              {t("loginEmailSent.vousPermettre", { lng: lang })}{" "}
-              <strong>{t("loginEmailSent.vousConnecter", { lng: lang })}</strong> (
-              {t("loginEmailSent.verifierSpams", { lng: lang })})
+              {t("loginEmailSent.lienEnvoye", { lng: lang })} <strong>{email}</strong> {t("loginEmailSent.vousPermettre", { lng: lang })}{" "}
+              <strong>{t("loginEmailSent.vousConnecter", { lng: lang })}</strong> ({t("loginEmailSent.verifierSpams", { lng: lang })})
             </Typography>
           </Box>
           <Artwork name="mail-sent" />
           <Typography textAlign="center" color={fr.colors.decisions.text.default.grey.default}>
             {t("loginEmailSent.problemeReceptionLien", { lng: lang })}{" "}
-            <Box
-              component="a"
-              href="mailto:contact-api@labonnealternance.apprentissage.beta.gouv.fr"
-              sx={{ color: fr.colors.decisions.text.actionHigh.blueFrance.default }}
-            >
+            <Box component="a" href="mailto:contact-api@labonnealternance.apprentissage.beta.gouv.fr" sx={{ color: fr.colors.decisions.text.actionHigh.blueFrance.default }}>
               contact-api@labonnealternance.apprentissage.beta.gouv.fr
             </Box>
           </Typography>
         </Box>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

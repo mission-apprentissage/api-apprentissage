@@ -1,4 +1,4 @@
-import type { StructureDiff } from "api-alternance-sdk/internal";
+import type { StructureDiff } from "api-alternance-sdk/internal"
 
 export const expectedDocumentationDelta: Record<string, StructureDiff<"lba", "api">> = {
   "get:/job/v1/search": {
@@ -145,70 +145,64 @@ export const expectedDocumentationDelta: Record<string, StructureDiff<"lba", "ap
         source: ["string", "null"],
         result: "string",
       },
-      "responses.200.content.application/json.schema.properties.jobs.items.properties.workplace.properties.location.properties.geopoint.properties.type.enum":
-        {
-          type: "removed",
-          source: ["Point"],
-        },
-      "responses.200.content.application/json.schema.properties.jobs.items.properties.workplace.properties.location.properties.geopoint.properties.type.const":
-        {
-          type: "added",
-          result: "Point",
-        },
-      "responses.200.content.application/json.schema.properties.jobs.items.properties.workplace.properties.domain.properties.opco.enum":
-        {
-          type: "removed",
-          source: [
-            "AFDAS",
-            "AKTO / Opco entreprises et salariés des services à forte intensité de main d'oeuvre",
-            "ATLAS",
-            "Constructys",
-            "L'Opcommerce",
-            "OCAPIAT",
-            "OPCO 2i",
-            "Opco entreprises de proximité",
-            "Opco Mobilités",
-            "Opco Santé",
-            "Uniformation, l'Opco de la Cohésion sociale",
-            "inconnu",
-            "OPCO multiple",
-          ],
-        },
+      "responses.200.content.application/json.schema.properties.jobs.items.properties.workplace.properties.location.properties.geopoint.properties.type.enum": {
+        type: "removed",
+        source: ["Point"],
+      },
+      "responses.200.content.application/json.schema.properties.jobs.items.properties.workplace.properties.location.properties.geopoint.properties.type.const": {
+        type: "added",
+        result: "Point",
+      },
+      "responses.200.content.application/json.schema.properties.jobs.items.properties.workplace.properties.domain.properties.opco.enum": {
+        type: "removed",
+        source: [
+          "AFDAS",
+          "AKTO / Opco entreprises et salariés des services à forte intensité de main d'oeuvre",
+          "ATLAS",
+          "Constructys",
+          "L'Opcommerce",
+          "OCAPIAT",
+          "OPCO 2i",
+          "Opco entreprises de proximité",
+          "Opco Mobilités",
+          "Opco Santé",
+          "Uniformation, l'Opco de la Cohésion sociale",
+          "inconnu",
+          "OPCO multiple",
+        ],
+      },
       "responses.200.content.application/json.schema.properties.recruiters.items.properties.identifier.properties.id": {
         type: "added",
         result: {
           type: "string",
         },
       },
-      "responses.200.content.application/json.schema.properties.recruiters.items.properties.workplace.properties.location.properties.geopoint.properties.type.enum":
-        {
-          type: "removed",
-          source: ["Point"],
-        },
-      "responses.200.content.application/json.schema.properties.recruiters.items.properties.workplace.properties.location.properties.geopoint.properties.type.const":
-        {
-          type: "added",
-          result: "Point",
-        },
-      "responses.200.content.application/json.schema.properties.recruiters.items.properties.workplace.properties.domain.properties.opco.enum":
-        {
-          type: "removed",
-          source: [
-            "AFDAS",
-            "AKTO / Opco entreprises et salariés des services à forte intensité de main d'oeuvre",
-            "ATLAS",
-            "Constructys",
-            "L'Opcommerce",
-            "OCAPIAT",
-            "OPCO 2i",
-            "Opco entreprises de proximité",
-            "Opco Mobilités",
-            "Opco Santé",
-            "Uniformation, l'Opco de la Cohésion sociale",
-            "inconnu",
-            "OPCO multiple",
-          ],
-        },
+      "responses.200.content.application/json.schema.properties.recruiters.items.properties.workplace.properties.location.properties.geopoint.properties.type.enum": {
+        type: "removed",
+        source: ["Point"],
+      },
+      "responses.200.content.application/json.schema.properties.recruiters.items.properties.workplace.properties.location.properties.geopoint.properties.type.const": {
+        type: "added",
+        result: "Point",
+      },
+      "responses.200.content.application/json.schema.properties.recruiters.items.properties.workplace.properties.domain.properties.opco.enum": {
+        type: "removed",
+        source: [
+          "AFDAS",
+          "AKTO / Opco entreprises et salariés des services à forte intensité de main d'oeuvre",
+          "ATLAS",
+          "Constructys",
+          "L'Opcommerce",
+          "OCAPIAT",
+          "OPCO 2i",
+          "Opco entreprises de proximité",
+          "Opco Mobilités",
+          "Opco Santé",
+          "Uniformation, l'Opco de la Cohésion sociale",
+          "inconnu",
+          "OPCO multiple",
+        ],
+      },
     },
   },
   "post:/job/v1/offer": {
@@ -306,4 +300,4 @@ export const expectedDocumentationDelta: Record<string, StructureDiff<"lba", "ap
       },
     },
   },
-};
+}

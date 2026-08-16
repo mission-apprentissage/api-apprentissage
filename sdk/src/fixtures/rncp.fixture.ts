@@ -4,4 +4,4 @@ export const rncpCodeFixtures = {
   RNCP36092: "RNCP36092",
   RNCP10013: "RNCP10013",
   RNCP24420: "RNCP24420",
-} as const;
+} as const

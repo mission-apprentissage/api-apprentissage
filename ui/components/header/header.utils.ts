@@ -1,14 +1,14 @@
-import type { MainNavigationProps } from "@codegouvfr/react-dsfr/MainNavigation";
-import { useMemo } from "react";
-import type { IUserPublic } from "shared/models/user.model";
+import type { MainNavigationProps } from "@codegouvfr/react-dsfr/MainNavigation"
+import { useMemo } from "react"
+import type { IUserPublic } from "shared/models/user.model"
 
-import type { WithLangAndT } from "@/app/i18n/settings";
-import { PAGES } from "@/utils/routes.utils";
+import type { WithLangAndT } from "@/app/i18n/settings"
+import { PAGES } from "@/utils/routes.utils"
 
 type GetNavigationItemsProps = WithLangAndT<{
-  user: IUserPublic | null;
-  pathname: string;
-}>;
+  user: IUserPublic | null
+  pathname: string
+}>
 
 const getNavigationItems = ({ user, pathname, lang, t }: GetNavigationItemsProps): MainNavigationProps.Item[] => {
   const navigation: MainNavigationProps.Item[] = [
@@ -33,7 +33,7 @@ const getNavigationItems = ({ user, pathname, lang, t }: GetNavigationItemsProps
         href: PAGES.static.documentationTechnique.getPath(lang),
       },
     },
-  ];
+  ]
 
   if (user?.is_admin) {
     const adminMenuLinks = [
@@ -65,24 +65,24 @@ const getNavigationItems = ({ user, pathname, lang, t }: GetNavigationItemsProps
           href: PAGES.static.adminProcessor.getPath(lang),
         },
       },
-    ];
+    ]
 
     navigation.push({
       text: "Administration",
       isActive: adminMenuLinks.some((link) => link.isActive),
       menuLinks: adminMenuLinks,
-    });
+    })
   }
 
   return navigation.map((item) => {
-    const { menuLinks } = item;
+    const { menuLinks } = item
 
-    const menuLinkWithActive = menuLinks?.map((link) => ({ ...link, isActive: link.linkProps.href === pathname }));
-    const isActive = item.isActive || menuLinkWithActive?.some((link) => link.isActive);
+    const menuLinkWithActive = menuLinks?.map((link) => ({ ...link, isActive: link.linkProps.href === pathname }))
+    const isActive = item.isActive || menuLinkWithActive?.some((link) => link.isActive)
 
-    return { ...item, isActive, menuLinks };
-  }) as MainNavigationProps.Item[];
-};
+    return { ...item, isActive, menuLinks }
+  }) as MainNavigationProps.Item[]
+}
 
 export const useNavigationItems = ({ user, pathname, lang, t }: GetNavigationItemsProps): MainNavigationProps.Item[] =>
-  useMemo(() => getNavigationItems({ user, pathname, lang, t }), [user, pathname, t, lang]);
+  useMemo(() => getNavigationItems({ user, pathname, lang, t }), [user, pathname, t, lang])

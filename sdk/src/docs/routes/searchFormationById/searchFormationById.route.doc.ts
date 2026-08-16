@@ -1,14 +1,12 @@
-import { recuperationFormationPageSummaryDoc } from "../../internal.js";
-import type { DocRoute } from "../../types.js";
+import { recuperationFormationPageSummaryDoc } from "../../internal.js"
+import type { DocRoute } from "../../types.js"
 
 export const searchFormationByIdRouteDoc = {
   summary: recuperationFormationPageSummaryDoc.title,
   description: recuperationFormationPageSummaryDoc.headline,
   parameters: {
     id: {
-      descriptions: [
-        { fr: "Identifiant unique de la formation - clé ME", en: "Unique identifier of the training - ME key" },
-      ],
+      descriptions: [{ fr: "Identifiant unique de la formation - clé ME", en: "Unique identifier of the training - ME key" }],
       examples: ["049510P01118838776490001178615112600012-49099#L01"],
     },
   },
@@ -26,4 +24,4 @@ export const searchFormationByIdRouteDoc = {
       ],
     },
   },
-} as const satisfies DocRoute;
+} as const satisfies DocRoute

@@ -1,5 +1,5 @@
-import { z } from "zod/v4-mini";
-import { zGeoJsonPoint } from "./geoJson.model.js";
+import { z } from "zod/v4-mini"
+import { zGeoJsonPoint } from "./geoJson.model.js"
 
 export const zMissionLocale = z.object({
   id: z.number(),
@@ -17,6 +17,6 @@ export const zMissionLocale = z.object({
     telephone: z.nullable(z.string()),
     siteWeb: z.nullable(z.string()),
   }),
-});
+})
 
-export type IMissionLocale = z.infer<typeof zMissionLocale>;
+export type IMissionLocale = z.infer<typeof zMissionLocale>

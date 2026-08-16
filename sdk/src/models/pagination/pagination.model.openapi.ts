@@ -1,8 +1,8 @@
-import type { ParameterObject } from "openapi3-ts/oas31";
+import type { ParameterObject } from "openapi3-ts/oas31"
 
-import { paginationModelDoc } from "../../docs/models/pagination/pagination.model.doc.js";
-import type { OpenapiModel } from "../../openapi/types.js";
-import { zPaginationInfo } from "./pagination.model.js";
+import { paginationModelDoc } from "../../docs/models/pagination/pagination.model.doc.js"
+import type { OpenapiModel } from "../../openapi/types.js"
+import { zPaginationInfo } from "./pagination.model.js"
 
 export const paginationModelOpenapi: OpenapiModel<"Pagination"> = {
   name: "Pagination",
@@ -18,7 +18,7 @@ export const paginationModelOpenapi: OpenapiModel<"Pagination"> = {
   },
   doc: paginationModelDoc,
   zod: zPaginationInfo,
-};
+}
 
 export const paginationQueryParameterObject: ParameterObject[] = [
   {
@@ -43,4 +43,4 @@ export const paginationQueryParameterObject: ParameterObject[] = [
     name: "page_index",
     in: "query",
   },
-];
+]

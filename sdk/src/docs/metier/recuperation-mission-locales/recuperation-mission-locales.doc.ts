@@ -1,5 +1,5 @@
-import type { DocPage, OpenApiText } from "../../types.js";
-import { rechercheCommunePageDoc } from "../recherche-commune/recherche-commune.doc.js";
+import type { DocPage, OpenApiText } from "../../types.js"
+import { rechercheCommunePageDoc } from "../recherche-commune/recherche-commune.doc.js"
 
 export const recuperationMissionLocalePageSummaryDoc = {
   title: {
@@ -10,7 +10,7 @@ export const recuperationMissionLocalePageSummaryDoc = {
     en: "Consult the list of Mission Locales",
     fr: "Consulter le référentiel des Missions Locales",
   },
-} as const satisfies { title: OpenApiText; headline: OpenApiText };
+} as const satisfies { title: OpenApiText; headline: OpenApiText }
 
 export const recuperationMissionLocalesPageDoc = {
   tag: "geographie",
@@ -35,4 +35,4 @@ export const recuperationMissionLocalesPageDoc = {
       },
     },
   ],
-} as const satisfies DocPage;
+} as const satisfies DocPage

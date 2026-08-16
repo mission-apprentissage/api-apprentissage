@@ -1,8 +1,8 @@
-import type { SchemaObject } from "openapi3-ts/oas31";
+import type { SchemaObject } from "openapi3-ts/oas31"
 
-import { z } from "zod/v4-mini";
-import type { OpenapiModel } from "../../openapi/types.js";
-import { offerExportModelDoc } from "../../docs/models/job/JobOfferExport.doc.js";
+import { z } from "zod/v4-mini"
+import { offerExportModelDoc } from "../../docs/models/job/JobOfferExport.doc.js"
+import type { OpenapiModel } from "../../openapi/types.js"
 
 const offerExportSchema = {
   type: "object",
@@ -11,11 +11,11 @@ const offerExportSchema = {
     lastUpdate: { type: "string", format: "date-time" },
   },
   required: ["url", "lastUpdate"],
-} as const satisfies SchemaObject;
+} as const satisfies SchemaObject
 
 export const offerExportModelOpenapi: OpenapiModel<"JobOfferExport"> = {
   name: "JobOfferExport",
   schema: offerExportSchema,
   doc: offerExportModelDoc,
   zod: z.unknown(),
-};
+}

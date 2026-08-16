@@ -1,23 +1,22 @@
-"use client";
+"use client"
 
-import { fr } from "@codegouvfr/react-dsfr";
-import { Alert } from "@codegouvfr/react-dsfr/Alert";
-import { Button } from "@codegouvfr/react-dsfr/Button";
-import { createModal } from "@codegouvfr/react-dsfr/Modal";
-import { Box, Typography } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
-import { useCallback, useMemo, useState } from "react";
-
-import { CreateOrganisation } from "./CreateOrganisation";
-import { useDeleteOrganisation } from "@/app/[lang]/admin/hooks/useDeleteOrganisation";
-import type { WithLang } from "@/app/i18n/settings";
-import { Table } from "@/components/table/Table";
-import { apiGet } from "@/utils/api.utils";
-import { PAGES } from "@/utils/routes.utils";
+import { fr } from "@codegouvfr/react-dsfr"
+import { Alert } from "@codegouvfr/react-dsfr/Alert"
+import { Button } from "@codegouvfr/react-dsfr/Button"
+import { createModal } from "@codegouvfr/react-dsfr/Modal"
+import { Box, Typography } from "@mui/material"
+import { useQuery } from "@tanstack/react-query"
+import { useCallback, useMemo, useState } from "react"
+import { useDeleteOrganisation } from "@/app/[lang]/admin/hooks/useDeleteOrganisation"
+import type { WithLang } from "@/app/i18n/settings"
+import { Table } from "@/components/table/Table"
+import { apiGet } from "@/utils/api.utils"
+import { PAGES } from "@/utils/routes.utils"
+import { CreateOrganisation } from "./CreateOrganisation"
 
 export default function OrganisationList({ lang }: WithLang) {
-  const deleteOrganisation = useDeleteOrganisation();
-  const [selectedOrganisation, setSelectedOrganisation] = useState<{ id: string; name: string } | null>(null);
+  const deleteOrganisation = useDeleteOrganisation()
+  const [selectedOrganisation, setSelectedOrganisation] = useState<{ id: string; name: string } | null>(null)
 
   const modal = useMemo(
     () =>
@@ -26,17 +25,17 @@ export default function OrganisationList({ lang }: WithLang) {
         isOpenedByDefault: false,
       }),
     []
-  );
+  )
 
   const result = useQuery({
     queryKey: ["/_private/admin/organisations"],
     queryFn: async () => apiGet("/_private/admin/organisations", {}),
-  });
+  })
 
   const handleDeleteClick = (id: string, name: string) => {
-    setSelectedOrganisation({ id, name });
-    modal.open();
-  };
+    setSelectedOrganisation({ id, name })
+    modal.open()
+  }
 
   const handleConfirmDelete = useCallback(() => {
     if (selectedOrganisation) {
@@ -44,14 +43,14 @@ export default function OrganisationList({ lang }: WithLang) {
         { id: selectedOrganisation.id },
         {
           onSuccess: () => {
-            modal.close();
+            modal.close()
           },
         }
-      );
+      )
     }
-  }, [deleteOrganisation, selectedOrganisation, modal]);
+  }, [deleteOrganisation, selectedOrganisation, modal])
 
-  const deleteError = deleteOrganisation.isError ? "Une erreur est survenue lors de la suppression." : null;
+  const deleteError = deleteOrganisation.isError ? "Une erreur est survenue lors de la suppression." : null
 
   return (
     <>
@@ -112,8 +111,8 @@ export default function OrganisationList({ lang }: WithLang) {
         ]}
       >
         <Typography>
-          Êtes-vous sûr de vouloir supprimer cette organisation ? Cette action est irréversible et tous les utilisateurs
-          rattachés à cette organisation se retrouveront sans organisation.
+          Êtes-vous sûr de vouloir supprimer cette organisation ? Cette action est irréversible et tous les utilisateurs rattachés à cette organisation se retrouveront sans
+          organisation.
         </Typography>
         {deleteError && (
           <Box sx={{ marginTop: fr.spacing("2w") }}>
@@ -122,5 +121,5 @@ export default function OrganisationList({ lang }: WithLang) {
         )}
       </modal.Component>
     </>
-  );
+  )
 }

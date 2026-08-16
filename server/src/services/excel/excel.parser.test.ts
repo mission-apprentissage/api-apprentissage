@@ -1,24 +1,24 @@
-import { createReadStream } from "fs";
-import { dirname, join } from "path";
-import { fileURLToPath } from "url";
-import { describe, expect, it } from "vitest";
+import { createReadStream } from "fs"
+import { dirname, join } from "path"
+import { fileURLToPath } from "url"
+import { describe, expect, it } from "vitest"
 
-import { parseExcelFileStream } from "./excel.parser.js";
+import { parseExcelFileStream } from "./excel.parser.js"
 
 async function getRows<T>(generator: AsyncGenerator<T>): Promise<T[]> {
-  const data: T[] = [];
+  const data: T[] = []
   for await (const row of generator) {
-    data.push(row);
+    data.push(row)
   }
 
-  return data;
+  return data
 }
 
 // TODO find out why the lib is failing here
 describe.skipIf(process.env.CI)("parseExcelFileStream", () => {
   it("should parse the excel file stream", async () => {
-    const dataFixture = join(dirname(fileURLToPath(import.meta.url)), "fixtures/file.xlsx");
-    const s = createReadStream(dataFixture);
+    const dataFixture = join(dirname(fileURLToPath(import.meta.url)), "fixtures/file.xlsx")
+    const s = createReadStream(dataFixture)
 
     const spec = [
       {
@@ -47,16 +47,16 @@ describe.skipIf(process.env.CI)("parseExcelFileStream", () => {
           { type: "required", name: "idcc", regex: [/^IDCC/i] },
         ],
       },
-    ] as const;
+    ] as const
 
-    const data = await getRows(parseExcelFileStream(s, spec));
+    const data = await getRows(parseExcelFileStream(s, spec))
 
-    expect(data).toMatchSnapshot();
-  });
+    expect(data).toMatchSnapshot()
+  })
 
   it("should skip parsing if spec is null", async () => {
-    const dataFixture = join(dirname(fileURLToPath(import.meta.url)), "fixtures/file.xlsx");
-    const s = createReadStream(dataFixture);
+    const dataFixture = join(dirname(fileURLToPath(import.meta.url)), "fixtures/file.xlsx")
+    const s = createReadStream(dataFixture)
 
     const spec = [
       {
@@ -74,16 +74,16 @@ describe.skipIf(process.env.CI)("parseExcelFileStream", () => {
           { type: "required", name: "idcc", regex: [/^IDCC/i] },
         ],
       },
-    ] as const;
+    ] as const
 
-    const data = await getRows(parseExcelFileStream(s, spec));
+    const data = await getRows(parseExcelFileStream(s, spec))
 
-    expect(data).toMatchSnapshot();
-  });
+    expect(data).toMatchSnapshot()
+  })
 
   it("should throw if sheet is not found", async () => {
-    const dataFixture = join(dirname(fileURLToPath(import.meta.url)), "fixtures/file.xlsx");
-    const s = createReadStream(dataFixture);
+    const dataFixture = join(dirname(fileURLToPath(import.meta.url)), "fixtures/file.xlsx")
+    const s = createReadStream(dataFixture)
 
     const spec = [
       {
@@ -108,14 +108,14 @@ describe.skipIf(process.env.CI)("parseExcelFileStream", () => {
         skipRows: 1,
         columns: [],
       },
-    ] as const;
+    ] as const
 
-    await expect(getRows(parseExcelFileStream(s, spec))).rejects.toThrow("Unexpected worksheets");
-  });
+    await expect(getRows(parseExcelFileStream(s, spec))).rejects.toThrow("Unexpected worksheets")
+  })
 
   it("should not require optional sheets", async () => {
-    const dataFixture = join(dirname(fileURLToPath(import.meta.url)), "fixtures/file.xlsx");
-    const s = createReadStream(dataFixture);
+    const dataFixture = join(dirname(fileURLToPath(import.meta.url)), "fixtures/file.xlsx")
+    const s = createReadStream(dataFixture)
 
     const spec = [
       {
@@ -140,28 +140,28 @@ describe.skipIf(process.env.CI)("parseExcelFileStream", () => {
         skipRows: 1,
         columns: [],
       },
-    ] as const;
+    ] as const
 
-    await expect(getRows(parseExcelFileStream(s, spec))).resolves.toBeDefined();
-  });
+    await expect(getRows(parseExcelFileStream(s, spec))).resolves.toBeDefined()
+  })
 
   it("should throw if extra sheet is found", async () => {
-    const dataFixture = join(dirname(fileURLToPath(import.meta.url)), "fixtures/file.xlsx");
-    const s = createReadStream(dataFixture);
+    const dataFixture = join(dirname(fileURLToPath(import.meta.url)), "fixtures/file.xlsx")
+    const s = createReadStream(dataFixture)
 
     const spec = [
       {
         type: "ignore",
         nameMatchers: [/Onglet 3 - référentiel NPEC/i],
       },
-    ] as const;
+    ] as const
 
-    await expect(getRows(parseExcelFileStream(s, spec))).rejects.toThrow("Unexpected worksheet");
-  });
+    await expect(getRows(parseExcelFileStream(s, spec))).rejects.toThrow("Unexpected worksheet")
+  })
 
   it("should be able to detect headers when column is set to auto", async () => {
-    const dataFixture = join(dirname(fileURLToPath(import.meta.url)), "fixtures/file.xlsx");
-    const s = createReadStream(dataFixture);
+    const dataFixture = join(dirname(fileURLToPath(import.meta.url)), "fixtures/file.xlsx")
+    const s = createReadStream(dataFixture)
 
     const spec = [
       {
@@ -175,10 +175,10 @@ describe.skipIf(process.env.CI)("parseExcelFileStream", () => {
         type: "ignore",
         nameMatchers: [/Onglet 4 - CPNE-IDCC/i],
       },
-    ] as const;
+    ] as const
 
-    const data = await getRows(parseExcelFileStream(s, spec));
+    const data = await getRows(parseExcelFileStream(s, spec))
 
-    expect(data).toMatchSnapshot();
-  });
-});
+    expect(data).toMatchSnapshot()
+  })
+})

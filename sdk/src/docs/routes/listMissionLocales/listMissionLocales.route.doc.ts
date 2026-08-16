@@ -1,6 +1,6 @@
-import { recuperationMissionLocalePageSummaryDoc } from "../../metier/recuperation-mission-locales/recuperation-mission-locales.doc.js";
-import type { DocRoute } from "../../types.js";
-import { jobSearchRouteDoc } from "../jobSearch/jobSearch.route.doc.js";
+import { recuperationMissionLocalePageSummaryDoc } from "../../metier/recuperation-mission-locales/recuperation-mission-locales.doc.js"
+import type { DocRoute } from "../../types.js"
+import { jobSearchRouteDoc } from "../jobSearch/jobSearch.route.doc.js"
 
 export const listMissionLocalesRouteDoc = {
   summary: recuperationMissionLocalePageSummaryDoc.title,
@@ -30,4 +30,4 @@ export const listMissionLocalesRouteDoc = {
       },
     },
   },
-} as const satisfies DocRoute;
+} as const satisfies DocRoute

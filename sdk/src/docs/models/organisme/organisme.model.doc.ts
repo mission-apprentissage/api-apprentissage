@@ -1,4 +1,4 @@
-import type { DocTechnicalField } from "../../types.js";
+import type { DocTechnicalField } from "../../types.js"
 
 export const organismeModelDoc = {
   descriptions: null,
@@ -117,4 +117,4 @@ export const organismeModelDoc = {
       },
     },
   },
-} as const satisfies DocTechnicalField;
+} as const satisfies DocTechnicalField

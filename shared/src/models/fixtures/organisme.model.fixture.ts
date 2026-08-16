@@ -1,8 +1,8 @@
-import type { IOrganismeInput } from "api-alternance-sdk/fixtures";
-import { generateOrganismeFixture } from "api-alternance-sdk/fixtures";
-import { ObjectId } from "bson";
+import type { IOrganismeInput } from "api-alternance-sdk/fixtures"
+import { generateOrganismeFixture } from "api-alternance-sdk/fixtures"
+import { ObjectId } from "bson"
 
-import type { IOrganismeInternal } from "../organisme.model.js";
+import type { IOrganismeInternal } from "../organisme.model.js"
 
 export function generateOrganismeInternalFixture(data?: IOrganismeInput<IOrganismeInternal>): IOrganismeInternal {
   return {
@@ -11,5 +11,5 @@ export function generateOrganismeInternalFixture(data?: IOrganismeInput<IOrganis
     updated_at: new Date("2024-04-19T00:00:00Z"),
     ...data,
     ...generateOrganismeFixture(data),
-  };
+  }
 }

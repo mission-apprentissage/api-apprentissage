@@ -1,5 +1,5 @@
-import { z } from "zod/v4-mini";
-import type { IApiRoutesDef } from "api-alternance-sdk";
+import type { IApiRoutesDef } from "api-alternance-sdk"
+import { z } from "zod/v4-mini"
 
 export const zCoreRoutes = {
   get: {
@@ -16,4 +16,4 @@ export const zCoreRoutes = {
       securityScheme: null,
     },
   },
-} as const satisfies IApiRoutesDef;
+} as const satisfies IApiRoutesDef

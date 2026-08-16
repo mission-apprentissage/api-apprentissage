@@ -1,8 +1,10 @@
-import { ObjectId } from "mongodb";
-import { generateOrganismeReferentielFixture } from "shared/models/fixtures/index";
-import type { IOrganismeInternal } from "shared/models/organisme.model";
-import { beforeEach, describe, expect, it, vi } from "vitest";
-
+import { useMongo } from "@tests/mongo.test.utils.js"
+import { ObjectId } from "mongodb"
+import { generateOrganismeReferentielFixture } from "shared/models/fixtures/index"
+import type { IOrganismeInternal } from "shared/models/organisme.model"
+import { beforeEach, describe, expect, it, vi } from "vitest"
+import { getEtablissementDiffusible, getUniteLegaleDiffusible } from "@/services/apis/entreprise/entreprise.js"
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
 import {
   communesFixture,
   etablissementNotFoundSiret,
@@ -10,31 +12,27 @@ import {
   expectedOrganismes,
   sourceReferentielFixtures,
   uniteLegaleFixture,
-} from "./organisme.importer.fixtures.js";
-import { importOrganismes } from "./organisme.importer.js";
-import { getEtablissementDiffusible, getUniteLegaleDiffusible } from "@/services/apis/entreprise/entreprise.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
-
-import { useMongo } from "@tests/mongo.test.utils.js";
+} from "./organisme.importer.fixtures.js"
+import { importOrganismes } from "./organisme.importer.js"
 
 vi.mock("@/services/apis/entreprise/entreprise.js", async (importOriginal) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const actual: any = await importOriginal();
+  const actual: any = await importOriginal()
   return {
     ...actual,
     getEtablissementDiffusible: vi.fn(),
     getUniteLegaleDiffusible: vi.fn(),
-  };
-});
+  }
+})
 
-const now = new Date("2024-03-07T10:00:00Z");
-const twoHoursAgo = new Date(now.getTime() - 2 * 3600 * 1000);
-const yesterday = new Date(now.getTime() - 24 * 3600 * 1000);
+const now = new Date("2024-03-07T10:00:00Z")
+const twoHoursAgo = new Date(now.getTime() - 2 * 3600 * 1000)
+const yesterday = new Date(now.getTime() - 24 * 3600 * 1000)
 
 const yesterdayImports = {
   referentiel: { _id: new ObjectId(), type: "referentiel", import_date: yesterday, status: "done" },
   communes: { _id: new ObjectId(), type: "communes", import_date: yesterday, status: "done" },
-} as const;
+} as const
 
 const yesterdayImportOrganismes = {
   _id: new ObjectId(),
@@ -49,12 +47,12 @@ const yesterdayImportOrganismes = {
     },
   },
   status: "done",
-} as const;
+} as const
 
 const todayImports = {
   referentiel: { _id: new ObjectId(), type: "referentiel", import_date: twoHoursAgo, status: "done" },
   communes: { _id: new ObjectId(), type: "communes", import_date: twoHoursAgo, status: "done" },
-} as const;
+} as const
 
 const todayImportOrganismes = {
   _id: new ObjectId(),
@@ -68,40 +66,40 @@ const todayImportOrganismes = {
       import_date: todayImports.communes.import_date,
     },
   },
-} as const;
+} as const
 
 describe("importOrganismes", () => {
-  useMongo();
+  useMongo()
 
   beforeEach(() => {
-    vi.useFakeTimers();
-    vi.setSystemTime(now);
+    vi.useFakeTimers()
+    vi.setSystemTime(now)
 
     return () => {
-      vi.useRealTimers();
-    };
-  });
+      vi.useRealTimers()
+    }
+  })
 
   describe.each([["referentiel"], ["communes"]])("when source %s import is not complete", (source) => {
     beforeEach(async () => {
       if (source !== "referentiel") {
-        await getDbCollection("import.meta").insertOne(todayImports.referentiel);
+        await getDbCollection("import.meta").insertOne(todayImports.referentiel)
       }
       if (source !== "communes") {
-        await getDbCollection("import.meta").insertOne(todayImports.communes);
+        await getDbCollection("import.meta").insertOne(todayImports.communes)
       }
-    });
+    })
 
     it("should skip import", async () => {
-      expect(await importOrganismes()).toBe(null);
-      expect(await getDbCollection("import.meta").find({ type: "organismes" }).toArray()).toEqual([]);
-    });
-  });
+      expect(await importOrganismes()).toBe(null)
+      expect(await getDbCollection("import.meta").find({ type: "organismes" }).toArray()).toEqual([])
+    })
+  })
 
   describe("when source import is complete", () => {
     beforeEach(async () => {
-      await getDbCollection("import.meta").insertOne(yesterdayImports.referentiel);
-      await getDbCollection("import.meta").insertOne(yesterdayImports.communes);
+      await getDbCollection("import.meta").insertOne(yesterdayImports.referentiel)
+      await getDbCollection("import.meta").insertOne(yesterdayImports.communes)
 
       await getDbCollection("source.referentiel").insertMany(
         sourceReferentielFixtures.map((data) => ({
@@ -109,18 +107,18 @@ describe("importOrganismes", () => {
           date: yesterdayImports.referentiel.import_date,
           _id: new ObjectId(),
         }))
-      );
-      await getDbCollection("commune").insertMany(communesFixture);
+      )
+      await getDbCollection("commune").insertMany(communesFixture)
       vi.mocked(getEtablissementDiffusible).mockImplementation(async (siret: string) => {
-        return etablissementsFixture.find((e) => e.siret === siret) ?? null;
-      });
+        return etablissementsFixture.find((e) => e.siret === siret) ?? null
+      })
       vi.mocked(getUniteLegaleDiffusible).mockImplementation(async (siren: string) => {
-        return uniteLegaleFixture.find((e) => e.siren === siren) ?? null;
-      });
-    });
+        return uniteLegaleFixture.find((e) => e.siren === siren) ?? null
+      })
+    })
 
     it("should import", async () => {
-      expect(await importOrganismes()).toBe(null);
+      expect(await importOrganismes()).toBe(null)
       expect(await getDbCollection("import.meta").find({ type: "organismes" }).toArray()).toEqual([
         {
           _id: expect.any(ObjectId),
@@ -129,7 +127,7 @@ describe("importOrganismes", () => {
           type: "organismes",
           status: "done",
         },
-      ]);
+      ])
       expect(
         await getDbCollection("organisme")
           .find({}, { projection: { _id: 0 } })
@@ -140,34 +138,32 @@ describe("importOrganismes", () => {
           created_at: now,
           updated_at: now,
         }))
-      );
-    });
+      )
+    })
 
     describe("when import already in sync", () => {
       beforeEach(async () => {
-        await getDbCollection("import.meta").insertOne(yesterdayImportOrganismes);
-      });
+        await getDbCollection("import.meta").insertOne(yesterdayImportOrganismes)
+      })
 
       it("should skip import", async () => {
-        expect(await importOrganismes()).toBe(null);
-        expect(await getDbCollection("import.meta").find({ type: "organismes" }).toArray()).toEqual([
-          yesterdayImportOrganismes,
-        ]);
+        expect(await importOrganismes()).toBe(null)
+        expect(await getDbCollection("import.meta").find({ type: "organismes" }).toArray()).toEqual([yesterdayImportOrganismes])
         expect(
           await getDbCollection("organisme")
             .find({}, { projection: { _id: 0 } })
             .toArray()
-        ).toEqual([]);
-      });
-    });
+        ).toEqual([])
+      })
+    })
 
     describe("when previous import failed", () => {
       beforeEach(async () => {
-        await getDbCollection("import.meta").insertOne({ ...yesterdayImportOrganismes, status: "failed" });
-      });
+        await getDbCollection("import.meta").insertOne({ ...yesterdayImportOrganismes, status: "failed" })
+      })
 
       it("should import", async () => {
-        expect(await importOrganismes()).toEqual(null);
+        expect(await importOrganismes()).toEqual(null)
         expect(
           await getDbCollection("import.meta")
             .find({ type: "organismes" }, { sort: { import_date: 1 } })
@@ -181,7 +177,7 @@ describe("importOrganismes", () => {
             type: "organismes",
             status: "done",
           },
-        ]);
+        ])
         expect(
           await getDbCollection("organisme")
             .find({}, { projection: { _id: 0 } })
@@ -192,58 +188,49 @@ describe("importOrganismes", () => {
             created_at: now,
             updated_at: now,
           }))
-        );
-      });
-    });
+        )
+      })
+    })
 
-    describe.each<[keyof typeof todayImports]>([["referentiel"], ["communes"]])(
-      "when source %s import is updated",
-      (source) => {
-        beforeEach(async () => {
-          await getDbCollection("import.meta").insertOne(yesterdayImportOrganismes);
-          await getDbCollection("import.meta").insertOne(todayImports[source]);
+    describe.each<[keyof typeof todayImports]>([["referentiel"], ["communes"]])("when source %s import is updated", (source) => {
+      beforeEach(async () => {
+        await getDbCollection("import.meta").insertOne(yesterdayImportOrganismes)
+        await getDbCollection("import.meta").insertOne(todayImports[source])
 
-          if (source === "referentiel") {
-            // Last import has updated all source documents
-            await getDbCollection("source.referentiel").updateMany({}, { $set: { date: twoHoursAgo } });
-          }
-        });
-        it("should import", async () => {
-          expect(await importOrganismes()).toEqual(null);
-          expect(await getDbCollection("import.meta").find({ type: "organismes" }).toArray()).toEqual([
-            yesterdayImportOrganismes,
-            {
-              _id: expect.any(ObjectId),
-              import_date: now,
-              source: {
-                referentiel:
-                  source === "referentiel"
-                    ? todayImportOrganismes.source.referentiel
-                    : yesterdayImportOrganismes.source.referentiel,
-                communes:
-                  source === "communes"
-                    ? todayImportOrganismes.source.communes
-                    : yesterdayImportOrganismes.source.communes,
-              },
-              status: "done",
-              type: "organismes",
+        if (source === "referentiel") {
+          // Last import has updated all source documents
+          await getDbCollection("source.referentiel").updateMany({}, { $set: { date: twoHoursAgo } })
+        }
+      })
+      it("should import", async () => {
+        expect(await importOrganismes()).toEqual(null)
+        expect(await getDbCollection("import.meta").find({ type: "organismes" }).toArray()).toEqual([
+          yesterdayImportOrganismes,
+          {
+            _id: expect.any(ObjectId),
+            import_date: now,
+            source: {
+              referentiel: source === "referentiel" ? todayImportOrganismes.source.referentiel : yesterdayImportOrganismes.source.referentiel,
+              communes: source === "communes" ? todayImportOrganismes.source.communes : yesterdayImportOrganismes.source.communes,
             },
-          ]);
-          expect(
-            await getDbCollection("organisme")
-              .find({}, { projection: { _id: 0 } })
-              .toArray()
-          ).toEqual(
-            expectedOrganismes.map((o) => ({
-              ...o,
-              created_at: now,
-              updated_at: now,
-            }))
-          );
-        });
-      }
-    );
-  });
+            status: "done",
+            type: "organismes",
+          },
+        ])
+        expect(
+          await getDbCollection("organisme")
+            .find({}, { projection: { _id: 0 } })
+            .toArray()
+        ).toEqual(
+          expectedOrganismes.map((o) => ({
+            ...o,
+            created_at: now,
+            updated_at: now,
+          }))
+        )
+      })
+    })
+  })
 
   describe("when source are not in sync with organismes", () => {
     const existingOrganismes = {
@@ -269,7 +256,7 @@ describe("importOrganismes", () => {
           },
         },
       ],
-    };
+    }
 
     beforeEach(async () => {
       await getDbCollection("import.meta").insertMany([
@@ -278,14 +265,10 @@ describe("importOrganismes", () => {
         yesterdayImportOrganismes,
         todayImports.referentiel,
         todayImports.communes,
-      ]);
+      ])
 
-      await getDbCollection("organisme").insertMany(
-        existingOrganismes.updated.map((o) => ({ ...o, _id: new ObjectId() }))
-      );
-      await getDbCollection("organisme").insertMany(
-        existingOrganismes.removed.map((o) => ({ ...o, _id: new ObjectId() }))
-      );
+      await getDbCollection("organisme").insertMany(existingOrganismes.updated.map((o) => ({ ...o, _id: new ObjectId() })))
+      await getDbCollection("organisme").insertMany(existingOrganismes.removed.map((o) => ({ ...o, _id: new ObjectId() })))
 
       await getDbCollection("source.referentiel").insertMany(
         sourceReferentielFixtures.map((data) => ({
@@ -293,15 +276,15 @@ describe("importOrganismes", () => {
           date: todayImports.referentiel.import_date,
           _id: new ObjectId(),
         }))
-      );
-      await getDbCollection("commune").insertMany(communesFixture);
+      )
+      await getDbCollection("commune").insertMany(communesFixture)
       vi.mocked(getEtablissementDiffusible).mockImplementation(async (siret: string) => {
-        return etablissementsFixture.find((e) => e.siret === siret) ?? null;
-      });
-    });
+        return etablissementsFixture.find((e) => e.siret === siret) ?? null
+      })
+    })
 
     it("should import organismes", async () => {
-      expect(await importOrganismes()).toEqual(null);
+      expect(await importOrganismes()).toEqual(null)
       expect(
         await getDbCollection("import.meta")
           .find({ type: "organismes" }, { sort: { import_date: 1 } })
@@ -318,7 +301,7 @@ describe("importOrganismes", () => {
           status: "done",
           type: "organismes",
         },
-      ]);
+      ])
 
       const organismes = await getDbCollection("organisme")
         .find(
@@ -328,7 +311,7 @@ describe("importOrganismes", () => {
             sort: { "identifiant.siret": 1, "identifiant.uai": 1 },
           }
         )
-        .toArray();
+        .toArray()
 
       expect(organismes).toEqual(
         [
@@ -351,24 +334,24 @@ describe("importOrganismes", () => {
             statut: { referentiel: "présent" },
           },
         ].toSorted((a, b) => {
-          const siretDiff = a.identifiant.siret.localeCompare(b.identifiant.siret);
+          const siretDiff = a.identifiant.siret.localeCompare(b.identifiant.siret)
           if (siretDiff !== 0) {
-            return siretDiff;
+            return siretDiff
           }
 
           if (a.identifiant.uai === null) {
-            return -1;
+            return -1
           }
 
           if (b.identifiant.uai === null) {
-            return 1;
+            return 1
           }
 
-          return a.identifiant.uai.localeCompare(b.identifiant.uai);
+          return a.identifiant.uai.localeCompare(b.identifiant.uai)
         })
-      );
-    });
-  });
+      )
+    })
+  })
 
   describe("when organisme uai is validated", () => {
     beforeEach(async () => {
@@ -378,7 +361,7 @@ describe("importOrganismes", () => {
         yesterdayImportOrganismes,
         todayImports.referentiel,
         todayImports.communes,
-      ]);
+      ])
 
       await getDbCollection("organisme").insertOne({
         _id: new ObjectId(),
@@ -389,21 +372,21 @@ describe("importOrganismes", () => {
           siret: expectedOrganismes[0].identifiant.siret,
           uai: null,
         },
-      });
+      })
 
       await getDbCollection("source.referentiel").insertOne({
         data: sourceReferentielFixtures[0],
         date: todayImports.referentiel.import_date,
         _id: new ObjectId(),
-      });
-      await getDbCollection("commune").insertMany(communesFixture);
+      })
+      await getDbCollection("commune").insertMany(communesFixture)
       vi.mocked(getEtablissementDiffusible).mockImplementation(async (siret: string) => {
-        return etablissementsFixture.find((e) => e.siret === siret) ?? null;
-      });
-    });
+        return etablissementsFixture.find((e) => e.siret === siret) ?? null
+      })
+    })
 
     it("should import organismes", async () => {
-      expect(await importOrganismes()).toEqual(null);
+      expect(await importOrganismes()).toEqual(null)
       expect(
         await getDbCollection("import.meta")
           .find({ type: "organismes" }, { sort: { import_date: 1 } })
@@ -420,7 +403,7 @@ describe("importOrganismes", () => {
           status: "done",
           type: "organismes",
         },
-      ]);
+      ])
 
       const organismes = await getDbCollection("organisme")
         .find(
@@ -430,7 +413,7 @@ describe("importOrganismes", () => {
             sort: { "identifiant.siret": 1, "identifiant.uai": 1 },
           }
         )
-        .toArray();
+        .toArray()
 
       expect(organismes).toEqual([
         {
@@ -439,9 +422,9 @@ describe("importOrganismes", () => {
           updated_at: now,
           statut: { referentiel: "présent" },
         },
-      ]);
-    });
-  });
+      ])
+    })
+  })
 
   describe("when organisme uai validation is removed", () => {
     beforeEach(async () => {
@@ -451,14 +434,14 @@ describe("importOrganismes", () => {
         yesterdayImportOrganismes,
         todayImports.referentiel,
         todayImports.communes,
-      ]);
+      ])
 
       await getDbCollection("organisme").insertOne({
         _id: new ObjectId(),
         ...expectedOrganismes[0],
         created_at: yesterday,
         updated_at: yesterday,
-      });
+      })
 
       await getDbCollection("source.referentiel").insertOne({
         data: {
@@ -467,15 +450,15 @@ describe("importOrganismes", () => {
         },
         date: todayImports.referentiel.import_date,
         _id: new ObjectId(),
-      });
-      await getDbCollection("commune").insertMany(communesFixture);
+      })
+      await getDbCollection("commune").insertMany(communesFixture)
       vi.mocked(getEtablissementDiffusible).mockImplementation(async (siret: string) => {
-        return etablissementsFixture.find((e) => e.siret === siret) ?? null;
-      });
-    });
+        return etablissementsFixture.find((e) => e.siret === siret) ?? null
+      })
+    })
 
     it("should import organismes", async () => {
-      expect(await importOrganismes()).toEqual(null);
+      expect(await importOrganismes()).toEqual(null)
       expect(
         await getDbCollection("import.meta")
           .find({ type: "organismes" }, { sort: { import_date: 1 } })
@@ -492,7 +475,7 @@ describe("importOrganismes", () => {
           status: "done",
           type: "organismes",
         },
-      ]);
+      ])
 
       const organismes = await getDbCollection("organisme")
         .find(
@@ -502,7 +485,7 @@ describe("importOrganismes", () => {
             sort: { "identifiant.siret": 1, "identifiant.uai": 1 },
           }
         )
-        .toArray();
+        .toArray()
 
       expect(organismes).toEqual([
         {
@@ -520,9 +503,9 @@ describe("importOrganismes", () => {
           updated_at: now,
           statut: { referentiel: "supprimé" },
         },
-      ]);
-    });
-  });
+      ])
+    })
+  })
 
   describe("when organisme uai null is added on removed", () => {
     beforeEach(async () => {
@@ -532,7 +515,7 @@ describe("importOrganismes", () => {
         yesterdayImportOrganismes,
         todayImports.referentiel,
         todayImports.communes,
-      ]);
+      ])
 
       await getDbCollection("organisme").insertMany([
         {
@@ -557,7 +540,7 @@ describe("importOrganismes", () => {
           created_at: yesterday,
           updated_at: yesterday,
         },
-      ]);
+      ])
 
       await getDbCollection("source.referentiel").insertMany([
         {
@@ -568,15 +551,15 @@ describe("importOrganismes", () => {
           date: todayImports.referentiel.import_date,
           _id: new ObjectId(),
         },
-      ]);
-      await getDbCollection("commune").insertMany(communesFixture);
+      ])
+      await getDbCollection("commune").insertMany(communesFixture)
       vi.mocked(getEtablissementDiffusible).mockImplementation(async (siret: string) => {
-        return etablissementsFixture.find((e) => e.siret === siret) ?? null;
-      });
-    });
+        return etablissementsFixture.find((e) => e.siret === siret) ?? null
+      })
+    })
 
     it("should import organismes", async () => {
-      expect(await importOrganismes()).toEqual(null);
+      expect(await importOrganismes()).toEqual(null)
       expect(
         await getDbCollection("import.meta")
           .find({ type: "organismes" }, { sort: { import_date: 1 } })
@@ -593,7 +576,7 @@ describe("importOrganismes", () => {
           status: "done",
           type: "organismes",
         },
-      ]);
+      ])
 
       const organismes = await getDbCollection("organisme")
         .find(
@@ -603,7 +586,7 @@ describe("importOrganismes", () => {
             sort: { "identifiant.siret": 1, "identifiant.uai": 1 },
           }
         )
-        .toArray();
+        .toArray()
 
       expect(organismes).toEqual([
         {
@@ -624,9 +607,9 @@ describe("importOrganismes", () => {
           updated_at: now,
           statut: { referentiel: "présent" },
         },
-      ]);
-    });
-  });
+      ])
+    })
+  })
 
   describe("when etablissement is closed", () => {
     const initialOrganisme: IOrganismeInternal = {
@@ -681,7 +664,7 @@ describe("importOrganismes", () => {
       contacts: [],
       created_at: yesterday,
       updated_at: yesterday,
-    };
+    }
 
     beforeEach(async () => {
       await getDbCollection("import.meta").insertMany([
@@ -690,9 +673,9 @@ describe("importOrganismes", () => {
         yesterdayImportOrganismes,
         todayImports.referentiel,
         todayImports.communes,
-      ]);
+      ])
 
-      await getDbCollection("organisme").insertOne(initialOrganisme);
+      await getDbCollection("organisme").insertOne(initialOrganisme)
 
       await getDbCollection("source.referentiel").insertMany(
         sourceReferentielFixtures.map((data) => ({
@@ -700,18 +683,18 @@ describe("importOrganismes", () => {
           date: todayImports.referentiel.import_date,
           _id: new ObjectId(),
         }))
-      );
-      await getDbCollection("commune").insertMany(communesFixture);
+      )
+      await getDbCollection("commune").insertMany(communesFixture)
       vi.mocked(getEtablissementDiffusible).mockImplementation(async (siret: string) => {
-        return etablissementsFixture.find((e) => e.siret === siret) ?? null;
-      });
+        return etablissementsFixture.find((e) => e.siret === siret) ?? null
+      })
       vi.mocked(getUniteLegaleDiffusible).mockImplementation(async (siren: string) => {
-        return uniteLegaleFixture.find((e) => e.siren === siren) ?? null;
-      });
-    });
+        return uniteLegaleFixture.find((e) => e.siren === siren) ?? null
+      })
+    })
 
     it("should import organismes", async () => {
-      expect(await importOrganismes()).toEqual(null);
+      expect(await importOrganismes()).toEqual(null)
       expect(
         await getDbCollection("import.meta")
           .find({ type: "organismes" }, { sort: { import_date: 1 } })
@@ -728,7 +711,7 @@ describe("importOrganismes", () => {
           status: "done",
           type: "organismes",
         },
-      ]);
+      ])
 
       const organismes = await getDbCollection("organisme")
         .find(
@@ -738,7 +721,7 @@ describe("importOrganismes", () => {
             sort: { "identifiant.siret": 1, "identifiant.uai": 1 },
           }
         )
-        .toArray();
+        .toArray()
 
       expect(organismes).toEqual(
         [
@@ -761,22 +744,22 @@ describe("importOrganismes", () => {
             statut: { referentiel: "présent" },
           },
         ].toSorted((a, b) => {
-          const siretDiff = a.identifiant.siret.localeCompare(b.identifiant.siret);
+          const siretDiff = a.identifiant.siret.localeCompare(b.identifiant.siret)
           if (siretDiff !== 0) {
-            return siretDiff;
+            return siretDiff
           }
 
           if (a.identifiant.uai === null) {
-            return -1;
+            return -1
           }
 
           if (b.identifiant.uai === null) {
-            return -1;
+            return -1
           }
 
-          return a.identifiant.uai.localeCompare(b.identifiant.uai);
+          return a.identifiant.uai.localeCompare(b.identifiant.uai)
         })
-      );
+      )
 
       const updatedOrganisme = await getDbCollection("organisme").findOne(
         {
@@ -790,7 +773,7 @@ describe("importOrganismes", () => {
             "unite_legale.cessation": 1,
           },
         }
-      );
+      )
       expect(updatedOrganisme).toEqual({
         _id: initialOrganisme._id,
         etablissement: {
@@ -801,9 +784,9 @@ describe("importOrganismes", () => {
           actif: true,
           cessation: null,
         },
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe("when unite_legale is closed", () => {
     const initialOrganisme: IOrganismeInternal = {
@@ -858,7 +841,7 @@ describe("importOrganismes", () => {
       created_at: yesterday,
       updated_at: yesterday,
       contacts: [],
-    };
+    }
 
     beforeEach(async () => {
       await getDbCollection("import.meta").insertMany([
@@ -867,9 +850,9 @@ describe("importOrganismes", () => {
         yesterdayImportOrganismes,
         todayImports.referentiel,
         todayImports.communes,
-      ]);
+      ])
 
-      await getDbCollection("organisme").insertOne(initialOrganisme);
+      await getDbCollection("organisme").insertOne(initialOrganisme)
 
       await getDbCollection("source.referentiel").insertMany(
         sourceReferentielFixtures.map((data) => ({
@@ -877,18 +860,18 @@ describe("importOrganismes", () => {
           date: todayImports.referentiel.import_date,
           _id: new ObjectId(),
         }))
-      );
-      await getDbCollection("commune").insertMany(communesFixture);
+      )
+      await getDbCollection("commune").insertMany(communesFixture)
       vi.mocked(getEtablissementDiffusible).mockImplementation(async (siret: string) => {
-        return etablissementsFixture.find((e) => e.siret === siret) ?? null;
-      });
+        return etablissementsFixture.find((e) => e.siret === siret) ?? null
+      })
       vi.mocked(getUniteLegaleDiffusible).mockImplementation(async (siren: string) => {
-        return uniteLegaleFixture.find((e) => e.siren === siren) ?? null;
-      });
-    });
+        return uniteLegaleFixture.find((e) => e.siren === siren) ?? null
+      })
+    })
 
     it("should import organismes", async () => {
-      expect(await importOrganismes()).toEqual(null);
+      expect(await importOrganismes()).toEqual(null)
       expect(
         await getDbCollection("import.meta")
           .find({ type: "organismes" }, { sort: { import_date: 1 } })
@@ -905,7 +888,7 @@ describe("importOrganismes", () => {
           status: "done",
           type: "organismes",
         },
-      ]);
+      ])
 
       const organismes = await getDbCollection("organisme")
         .find(
@@ -915,7 +898,7 @@ describe("importOrganismes", () => {
             sort: { "identifiant.siret": 1, "identifiant.uai": 1 },
           }
         )
-        .toArray();
+        .toArray()
 
       expect(organismes).toEqual(
         [
@@ -938,22 +921,22 @@ describe("importOrganismes", () => {
             statut: { referentiel: "présent" },
           },
         ].toSorted((a, b) => {
-          const siretDiff = a.identifiant.siret.localeCompare(b.identifiant.siret);
+          const siretDiff = a.identifiant.siret.localeCompare(b.identifiant.siret)
           if (siretDiff !== 0) {
-            return siretDiff;
+            return siretDiff
           }
 
           if (a.identifiant.uai === null) {
-            return -1;
+            return -1
           }
 
           if (b.identifiant.uai === null) {
-            return -1;
+            return -1
           }
 
-          return a.identifiant.uai.localeCompare(b.identifiant.uai);
+          return a.identifiant.uai.localeCompare(b.identifiant.uai)
         })
-      );
+      )
 
       const updatedOrganisme = await getDbCollection("organisme").findOne(
         {
@@ -967,7 +950,7 @@ describe("importOrganismes", () => {
             "unite_legale.cessation": 1,
           },
         }
-      );
+      )
       expect(updatedOrganisme).toEqual({
         _id: initialOrganisme._id,
         etablissement: {
@@ -978,13 +961,13 @@ describe("importOrganismes", () => {
           actif: false,
           cessation: new Date("1970-01-20T23:51:14.400Z"),
         },
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe("when etablissement is not found, but legal unit is", () => {
     beforeEach(async () => {
-      await getDbCollection("import.meta").insertMany([todayImports.referentiel, todayImports.communes]);
+      await getDbCollection("import.meta").insertMany([todayImports.referentiel, todayImports.communes])
 
       await getDbCollection("source.referentiel").insertOne({
         data: generateOrganismeReferentielFixture({
@@ -992,20 +975,20 @@ describe("importOrganismes", () => {
         }),
         date: todayImports.referentiel.import_date,
         _id: new ObjectId(),
-      });
+      })
 
-      await getDbCollection("commune").insertMany(communesFixture);
+      await getDbCollection("commune").insertMany(communesFixture)
 
       vi.mocked(getEtablissementDiffusible).mockImplementation(async (siret: string) => {
-        return etablissementsFixture.find((e) => e.siret === siret) ?? null;
-      });
+        return etablissementsFixture.find((e) => e.siret === siret) ?? null
+      })
       vi.mocked(getUniteLegaleDiffusible).mockImplementation(async (siren: string) => {
-        return uniteLegaleFixture.find((e) => e.siren === siren) ?? null;
-      });
-    });
+        return uniteLegaleFixture.find((e) => e.siren === siren) ?? null
+      })
+    })
 
     it("should import organismes", async () => {
-      expect(await importOrganismes()).toEqual(null);
+      expect(await importOrganismes()).toEqual(null)
       expect(
         await getDbCollection("import.meta")
           .find({ type: "organismes" }, { sort: { import_date: 1 } })
@@ -1021,7 +1004,7 @@ describe("importOrganismes", () => {
           status: "done",
           type: "organismes",
         },
-      ]);
+      ])
 
       const organismes = await getDbCollection("organisme")
         .find(
@@ -1036,7 +1019,7 @@ describe("importOrganismes", () => {
             sort: { "identifiant.siret": 1, "identifiant.uai": 1 },
           }
         )
-        .toArray();
+        .toArray()
 
       const expectedOrganisme: Pick<IOrganismeInternal, "identifiant" | "etablissement" | "unite_legale"> = {
         identifiant: { siret: etablissementNotFoundSiret, uai: null },
@@ -1056,15 +1039,15 @@ describe("importOrganismes", () => {
           raison_sociale: "ETABLISSEMENT PUBLIC LOCAL D'ENSEIGNEMENT ET DE FORMATION PROFESSIONNELLE AGRICOLE DE DOUAI",
           siren: "195932553",
         },
-      };
+      }
 
-      expect(organismes).toEqual([expectedOrganisme]);
-    });
-  });
+      expect(organismes).toEqual([expectedOrganisme])
+    })
+  })
 
   describe("when legal unit is not found", () => {
     beforeEach(async () => {
-      await getDbCollection("import.meta").insertMany([todayImports.referentiel, todayImports.communes]);
+      await getDbCollection("import.meta").insertMany([todayImports.referentiel, todayImports.communes])
 
       await getDbCollection("source.referentiel").insertOne({
         data: generateOrganismeReferentielFixture({
@@ -1072,16 +1055,16 @@ describe("importOrganismes", () => {
         }),
         date: todayImports.referentiel.import_date,
         _id: new ObjectId(),
-      });
+      })
 
-      await getDbCollection("commune").insertMany(communesFixture);
+      await getDbCollection("commune").insertMany(communesFixture)
 
-      vi.mocked(getEtablissementDiffusible).mockResolvedValue(null);
-      vi.mocked(getUniteLegaleDiffusible).mockResolvedValue(null);
-    });
+      vi.mocked(getEtablissementDiffusible).mockResolvedValue(null)
+      vi.mocked(getUniteLegaleDiffusible).mockResolvedValue(null)
+    })
 
     it("should skip the organisme", async () => {
-      expect(await importOrganismes()).toEqual(null);
+      expect(await importOrganismes()).toEqual(null)
       expect(
         await getDbCollection("import.meta")
           .find({ type: "organismes" }, { sort: { import_date: 1 } })
@@ -1097,11 +1080,11 @@ describe("importOrganismes", () => {
           status: "done",
           type: "organismes",
         },
-      ]);
+      ])
 
-      const organismes = await getDbCollection("organisme").find().toArray();
+      const organismes = await getDbCollection("organisme").find().toArray()
 
-      expect(organismes).toEqual([]);
-    });
-  });
-});
+      expect(organismes).toEqual([])
+    })
+  })
+})

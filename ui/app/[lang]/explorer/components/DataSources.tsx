@@ -1,11 +1,11 @@
-"use client";
+"use client"
 
-import { fr } from "@codegouvfr/react-dsfr";
-import { Badge } from "@codegouvfr/react-dsfr/Badge";
-import { Box, Link, Typography } from "@mui/material";
-import type { DataSource } from "api-alternance-sdk/internal";
-import Image from "next/image";
-import NextLink from "next/link";
+import { fr } from "@codegouvfr/react-dsfr"
+import { Badge } from "@codegouvfr/react-dsfr/Badge"
+import { Box, Link, Typography } from "@mui/material"
+import type { DataSource } from "api-alternance-sdk/internal"
+import Image from "next/image"
+import NextLink from "next/link"
 
 function SourceCard(props: DataSource) {
   return (
@@ -93,12 +93,12 @@ function SourceCard(props: DataSource) {
         </Typography>
       </Box>
     </Box>
-  );
+  )
 }
 
 type DataSourcesProps = {
-  sources: DataSource[];
-};
+  sources: DataSource[]
+}
 
 export function DataSources(props: DataSourcesProps) {
   return (
@@ -120,5 +120,5 @@ export function DataSources(props: DataSourcesProps) {
         ))}
       </Box>
     </Box>
-  );
+  )
 }

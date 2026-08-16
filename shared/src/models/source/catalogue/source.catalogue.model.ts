@@ -1,11 +1,11 @@
-import { z } from "zod/v4-mini";
+import { z } from "zod/v4-mini"
 
-import type { IModelDescriptorGeneric } from "../../common.js";
-import { zObjectIdMini } from "../../common.js";
+import type { IModelDescriptorGeneric } from "../../common.js"
+import { zObjectIdMini } from "../../common.js"
 
-const collectionName = "source.catalogue" as const;
+const collectionName = "source.catalogue" as const
 
-const indexes: IModelDescriptorGeneric["indexes"] = [[{ date: 1, "data.cle_ministere_educatif": 1 }, {}]];
+const indexes: IModelDescriptorGeneric["indexes"] = [[{ date: 1, "data.cle_ministere_educatif": 1 }, {}]]
 
 export const zFormationCatalogue = z.object({
   cle_ministere_educatif: z.string(),
@@ -48,19 +48,19 @@ export const zFormationCatalogue = z.object({
   etablissement_formateur_uai: z.nullable(z.string()),
   etablissement_gestionnaire_siret: z.string(),
   etablissement_gestionnaire_uai: z.nullable(z.string()),
-});
+})
 
 export const zSourceCatalogue = z.object({
   _id: zObjectIdMini,
   date: z.date(),
   data: zFormationCatalogue,
-});
+})
 
-export type IFormationCatalogue = z.output<typeof zFormationCatalogue>;
-export type ISourceCatalogue = z.output<typeof zSourceCatalogue>;
+export type IFormationCatalogue = z.output<typeof zFormationCatalogue>
+export type ISourceCatalogue = z.output<typeof zSourceCatalogue>
 
 export default {
   zod: zSourceCatalogue,
   indexes,
   collectionName,
-};
+}

@@ -1,22 +1,22 @@
-import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
-import { beforeEach, describe, expect, expectTypeOf, it } from "vitest";
+import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock"
+import { beforeEach, describe, expect, expectTypeOf, it } from "vitest"
 
-import type { IRechercheOrganismeResponse } from "../../../routes/organisme/organisme.routes.js";
-import { ApiClient } from "../../client.js";
-import { ApiError } from "../apiError.js";
-import { ApiParseError } from "../parser/response.parser.js";
+import type { IRechercheOrganismeResponse } from "../../../routes/organisme/organisme.routes.js"
+import { ApiClient } from "../../client.js"
+import { ApiError } from "../apiError.js"
+import { ApiParseError } from "../parser/response.parser.js"
 
 beforeEach(() => {
-  disableNetConnect();
+  disableNetConnect()
 
   return () => {
-    cleanAll();
-    enableNetConnect();
-  };
-});
+    cleanAll()
+    enableNetConnect()
+  }
+})
 
 describe("recherche", () => {
-  const uai = "0594899E";
+  const uai = "0594899E"
   const response = {
     candidats: [
       {
@@ -45,7 +45,7 @@ describe("recherche", () => {
       uai: { status: "ok" },
     },
     resultat: null,
-  };
+  }
 
   it("should call the API with the correct querystring", async () => {
     const scope = nock("https://api.apprentissage.beta.gouv.fr/api", {
@@ -53,17 +53,17 @@ describe("recherche", () => {
     })
       .get("/organisme/v1/recherche")
       .query({ uai })
-      .reply(200, response);
+      .reply(200, response)
 
-    const apiClient = new ApiClient({ key: "api-key" });
+    const apiClient = new ApiClient({ key: "api-key" })
 
-    const data = await apiClient.organisme.recherche({ uai });
+    const data = await apiClient.organisme.recherche({ uai })
 
-    expectTypeOf(data).toEqualTypeOf<IRechercheOrganismeResponse>();
+    expectTypeOf(data).toEqualTypeOf<IRechercheOrganismeResponse>()
 
-    expect(scope.isDone()).toBe(true);
-    expect(data).toEqual(response);
-  });
+    expect(scope.isDone()).toBe(true)
+    expect(data).toEqual(response)
+  })
 
   it("should throw an ApiError when server error", async () => {
     const scope = nock("https://api.apprentissage.beta.gouv.fr/api", {
@@ -75,23 +75,23 @@ describe("recherche", () => {
         statusCode: 401,
         name: "Unauthorized",
         message: "Vous devez fournir une clé d'API valide pour accéder à cette ressource",
-      });
+      })
 
-    const apiClient = new ApiClient({ key: "api-key" });
+    const apiClient = new ApiClient({ key: "api-key" })
     const err = await apiClient.organisme
       .recherche({ uai })
       .then(() => {
-        expect.unreachable("should throw an error");
+        expect.unreachable("should throw an error")
       })
       .catch((error: ApiError) => {
-        return error;
-      });
+        return error
+      })
 
-    expect(err).toBeInstanceOf(ApiError);
-    expect(err.name).toBe("Unauthorized");
+    expect(err).toBeInstanceOf(ApiError)
+    expect(err.name).toBe("Unauthorized")
 
-    expect(scope.isDone()).toBe(true);
-  });
+    expect(scope.isDone()).toBe(true)
+  })
 
   it("should throw if the response does not match the schema", async () => {
     const scope = nock("https://api.apprentissage.beta.gouv.fr/api", {
@@ -99,24 +99,24 @@ describe("recherche", () => {
     })
       .get("/organisme/v1/recherche")
       .query({ uai })
-      .reply(200, { breaking: "schema" });
+      .reply(200, { breaking: "schema" })
 
-    const apiClient = new ApiClient({ key: "api-key" });
+    const apiClient = new ApiClient({ key: "api-key" })
     const err = await apiClient.organisme
       .recherche({ uai })
       .then(() => {
-        expect.unreachable("should throw an error");
+        expect.unreachable("should throw an error")
       })
       .catch((error: ApiError) => {
-        return error;
-      });
+        return error
+      })
 
-    expect(err).toBeInstanceOf(ApiParseError);
-    expect(err.name).toBe("ApiParseError");
-    expect(err.message).toMatchSnapshot();
+    expect(err).toBeInstanceOf(ApiParseError)
+    expect(err.name).toBe("ApiParseError")
+    expect(err.message).toMatchSnapshot()
 
-    expect(scope.isDone()).toBe(true);
-  });
+    expect(scope.isDone()).toBe(true)
+  })
 
   it("should accepts future schema ehancements", async () => {
     const scope = nock("https://api.apprentissage.beta.gouv.fr/api", {
@@ -127,15 +127,15 @@ describe("recherche", () => {
       .reply(200, {
         ...response,
         new_field: "new_field",
-      });
+      })
 
-    const apiClient = new ApiClient({ key: "api-key" });
+    const apiClient = new ApiClient({ key: "api-key" })
 
-    const data = await apiClient.organisme.recherche({ uai });
+    const data = await apiClient.organisme.recherche({ uai })
 
-    expectTypeOf(data).toEqualTypeOf<IRechercheOrganismeResponse>();
+    expectTypeOf(data).toEqualTypeOf<IRechercheOrganismeResponse>()
 
-    expect(scope.isDone()).toBe(true);
-    expect(data).toEqual(response);
-  });
-});
+    expect(scope.isDone()).toBe(true)
+    expect(data).toEqual(response)
+  })
+})

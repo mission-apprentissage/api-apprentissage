@@ -1,4 +1,4 @@
-import type { DocRoute } from "../../types.js";
+import type { DocRoute } from "../../types.js"
 
 export const jobsExportRouteDoc = {
   summary: { fr: "Export des offres d'emploi", en: "Export of the job offers" },
@@ -19,4 +19,4 @@ export const jobsExportRouteDoc = {
       ],
     },
   },
-} as const satisfies DocRoute;
+} as const satisfies DocRoute

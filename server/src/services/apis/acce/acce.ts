@@ -1,20 +1,19 @@
-import type { ReadStream } from "node:fs";
-import querystring from "node:querystring";
+import type { ReadStream } from "node:fs"
+import querystring from "node:querystring"
 
-import { internal } from "@hapi/boom";
-import type { AxiosInstance } from "axios";
-import axios, { isAxiosError } from "axios";
+import { internal } from "@hapi/boom"
+import type { AxiosInstance } from "axios"
+import axios, { isAxiosError } from "axios"
 
-import config from "@/config.js";
-import { withCause } from "@/services/errors/withCause.js";
-import logger from "@/services/logger.js";
-import { apiRateLimiter, downloadFileAsStream } from "@/utils/apiUtils.js";
-import { sleep } from "@/utils/asyncUtils.js";
+import config from "@/config.js"
+import { withCause } from "@/services/errors/withCause.js"
+import logger from "@/services/logger.js"
+import { apiRateLimiter, downloadFileAsStream } from "@/utils/apiUtils.js"
+import { sleep } from "@/utils/asyncUtils.js"
 
-const CHROME_USER_AGENT =
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.128 Safari/537.36";
+const CHROME_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.128 Safari/537.36"
 
-const SESSION_COOKIE_NAME = "men_default";
+const SESSION_COOKIE_NAME = "men_default"
 
 const acceClient = apiRateLimiter("acce", {
   nbRequests: 1,
@@ -25,20 +24,20 @@ const acceClient = apiRateLimiter("acce", {
   }),
   timeout: 1_800_000, // 30 minutes
   maxQueueSize: 100,
-});
+})
 
 function getFormHeaders(auth?: { Cookie: string }) {
   return {
     "User-Agent": CHROME_USER_AGENT,
     "Content-Type": "application/x-www-form-urlencoded",
     ...(auth || {}),
-  };
+  }
 }
 
 export async function login() {
   return acceClient(async (client: AxiosInstance) => {
     try {
-      logger.debug(`Logging to ACCE...`);
+      logger.debug(`Logging to ACCE...`)
 
       const data = JSON.stringify({
         id: config.api.acce.username,
@@ -50,155 +49,155 @@ export async function login() {
         organisme: null,
         commentaire: null,
         captcha_code: null,
-      });
+      })
 
       const response = await client.post(`/index.php`, querystring.stringify({ json: data }), {
         headers: getFormHeaders(),
-      });
+      })
 
-      const cookie = response.headers["set-cookie"]?.[0] ?? null;
+      const cookie = response.headers["set-cookie"]?.[0] ?? null
 
       if (!cookie) {
-        throw internal("api.acce: missing connexion cookie", { headers: response.headers });
+        throw internal("api.acce: missing connexion cookie", { headers: response.headers })
       }
 
-      const sessionMatch = cookie.match(new RegExp(`${SESSION_COOKIE_NAME}=(.*);`));
+      const sessionMatch = cookie.match(new RegExp(`${SESSION_COOKIE_NAME}=(.*);`))
 
       if (!sessionMatch) {
-        throw internal("api.acce: invalid session name");
+        throw internal("api.acce: invalid session name")
       }
 
       return {
         Cookie: `${SESSION_COOKIE_NAME}=${sessionMatch[1]}`,
-      };
+      }
     } catch (error) {
       if (isAxiosError(error)) {
-        throw internal("api.acce: unable to login", { data: error.toJSON() });
+        throw internal("api.acce: unable to login", { data: error.toJSON() })
       }
-      throw withCause(internal("api.acce: unable to login"), error);
+      throw withCause(internal("api.acce: unable to login"), error)
     }
-  });
+  })
 }
 
 async function startExtraction(auth: { Cookie: string }) {
   return acceClient(async (client: AxiosInstance) => {
     try {
-      logger.debug(`Requesting a new extraction...`);
+      logger.debug(`Requesting a new extraction...`)
 
-      const params = new URLSearchParams();
+      const params = new URLSearchParams()
 
       //ACCE_UAI.csv
-      params.append("opt_sort_uai", "numero_uai");
-      params.append("opt_type", "csv");
-      params.append("chk_uai[]", "nature_uai");
-      params.append("chk_uai[]", "nature_uai_libe");
-      params.append("chk_uai[]", "type_uai");
-      params.append("chk_uai[]", "type_uai_libe");
-      params.append("chk_uai[]", "etat_etablissement");
-      params.append("chk_uai[]", "etat_etablissement_libe");
-      params.append("chk_uai[]", "ministere_tutelle");
-      params.append("chk_uai[]", "ministere_tutelle_libe");
-      params.append("chk_uai[]", "tutelle_secondaire");
-      params.append("chk_uai[]", "tutelle_secondaire_libe");
-      params.append("chk_uai[]", "secteur_public_prive");
-      params.append("chk_uai[]", "secteur_public_prive_libe");
-      params.append("chk_uai[]", "sigle_uai");
-      params.append("chk_uai[]", "categorie_juridique");
-      params.append("chk_uai[]", "categorie_juridique_libe");
-      params.append("chk_uai[]", "contrat_etablissement");
-      params.append("chk_uai[]", "contrat_etablissement_libe");
-      params.append("chk_uai[]", "categorie_financiere");
-      params.append("chk_uai[]", "categorie_financiere_libe");
-      params.append("chk_uai[]", "situation_comptable");
-      params.append("chk_uai[]", "situation_comptable_libe");
-      params.append("chk_uai[]", "niveau_uai");
-      params.append("chk_uai[]", "niveau_uai_libe");
-      params.append("chk_uai[]", "commune");
-      params.append("chk_uai[]", "commune_libe");
-      params.append("chk_uai[]", "academie");
-      params.append("chk_uai[]", "academie_libe");
-      params.append("chk_uai[]", "pays");
-      params.append("chk_uai[]", "pays_libe");
-      params.append("chk_uai[]", "departement_insee_3");
-      params.append("chk_uai[]", "departement_insee_3_libe");
-      params.append("chk_uai[]", "denomination_principale_uai");
-      params.append("chk_uai[]", "appellation_officielle");
-      params.append("chk_uai[]", "patronyme_uai");
-      params.append("chk_uai[]", "hebergement_etablissement");
-      params.append("chk_uai[]", "hebergement_etablissement_libe");
-      params.append("chk_uai[]", "numero_siren_siret_uai");
-      params.append("chk_uai[]", "numero_finess_uai");
-      params.append("chk_uai[]", "date_ouverture");
-      params.append("chk_uai[]", "date_fermeture");
-      params.append("chk_uai[]", "date_derniere_mise_a_jour");
-      params.append("chk_uai[]", "lieu_dit_uai");
-      params.append("chk_uai[]", "adresse_uai");
-      params.append("chk_uai[]", "boite_postale_uai");
-      params.append("chk_uai[]", "code_postal_uai");
-      params.append("chk_uai[]", "etat_sirad_uai");
-      params.append("chk_uai[]", "localite_acheminement_uai");
-      params.append("chk_uai[]", "pays_etranger_acheminement");
-      params.append("chk_uai[]", "numero_telephone_uai");
-      params.append("chk_uai[]", "numero_telecopieur_uai");
-      params.append("chk_uai[]", "mention_distribution");
-      params.append("chk_uai[]", "mel_uai");
-      params.append("chk_uai[]", "site_web");
-      params.append("chk_uai[]", "coordonnee_x");
-      params.append("chk_uai[]", "coordonnee_y");
-      params.append("chk_uai[]", "appariement");
-      params.append("chk_uai[]", "appariement_complement");
-      params.append("chk_uai[]", "localisation");
-      params.append("chk_uai[]", "localisation_complement");
-      params.append("chk_uai[]", "date_geolocalisation");
-      params.append("chk_uai[]", "source");
+      params.append("opt_sort_uai", "numero_uai")
+      params.append("opt_type", "csv")
+      params.append("chk_uai[]", "nature_uai")
+      params.append("chk_uai[]", "nature_uai_libe")
+      params.append("chk_uai[]", "type_uai")
+      params.append("chk_uai[]", "type_uai_libe")
+      params.append("chk_uai[]", "etat_etablissement")
+      params.append("chk_uai[]", "etat_etablissement_libe")
+      params.append("chk_uai[]", "ministere_tutelle")
+      params.append("chk_uai[]", "ministere_tutelle_libe")
+      params.append("chk_uai[]", "tutelle_secondaire")
+      params.append("chk_uai[]", "tutelle_secondaire_libe")
+      params.append("chk_uai[]", "secteur_public_prive")
+      params.append("chk_uai[]", "secteur_public_prive_libe")
+      params.append("chk_uai[]", "sigle_uai")
+      params.append("chk_uai[]", "categorie_juridique")
+      params.append("chk_uai[]", "categorie_juridique_libe")
+      params.append("chk_uai[]", "contrat_etablissement")
+      params.append("chk_uai[]", "contrat_etablissement_libe")
+      params.append("chk_uai[]", "categorie_financiere")
+      params.append("chk_uai[]", "categorie_financiere_libe")
+      params.append("chk_uai[]", "situation_comptable")
+      params.append("chk_uai[]", "situation_comptable_libe")
+      params.append("chk_uai[]", "niveau_uai")
+      params.append("chk_uai[]", "niveau_uai_libe")
+      params.append("chk_uai[]", "commune")
+      params.append("chk_uai[]", "commune_libe")
+      params.append("chk_uai[]", "academie")
+      params.append("chk_uai[]", "academie_libe")
+      params.append("chk_uai[]", "pays")
+      params.append("chk_uai[]", "pays_libe")
+      params.append("chk_uai[]", "departement_insee_3")
+      params.append("chk_uai[]", "departement_insee_3_libe")
+      params.append("chk_uai[]", "denomination_principale_uai")
+      params.append("chk_uai[]", "appellation_officielle")
+      params.append("chk_uai[]", "patronyme_uai")
+      params.append("chk_uai[]", "hebergement_etablissement")
+      params.append("chk_uai[]", "hebergement_etablissement_libe")
+      params.append("chk_uai[]", "numero_siren_siret_uai")
+      params.append("chk_uai[]", "numero_finess_uai")
+      params.append("chk_uai[]", "date_ouverture")
+      params.append("chk_uai[]", "date_fermeture")
+      params.append("chk_uai[]", "date_derniere_mise_a_jour")
+      params.append("chk_uai[]", "lieu_dit_uai")
+      params.append("chk_uai[]", "adresse_uai")
+      params.append("chk_uai[]", "boite_postale_uai")
+      params.append("chk_uai[]", "code_postal_uai")
+      params.append("chk_uai[]", "etat_sirad_uai")
+      params.append("chk_uai[]", "localite_acheminement_uai")
+      params.append("chk_uai[]", "pays_etranger_acheminement")
+      params.append("chk_uai[]", "numero_telephone_uai")
+      params.append("chk_uai[]", "numero_telecopieur_uai")
+      params.append("chk_uai[]", "mention_distribution")
+      params.append("chk_uai[]", "mel_uai")
+      params.append("chk_uai[]", "site_web")
+      params.append("chk_uai[]", "coordonnee_x")
+      params.append("chk_uai[]", "coordonnee_y")
+      params.append("chk_uai[]", "appariement")
+      params.append("chk_uai[]", "appariement_complement")
+      params.append("chk_uai[]", "localisation")
+      params.append("chk_uai[]", "localisation_complement")
+      params.append("chk_uai[]", "date_geolocalisation")
+      params.append("chk_uai[]", "source")
 
       //ACCE_UAI_SPEC.csv
-      params.append("chk_specificite[]", "numero_uai_trouve"); // numero_uai
-      params.append("chk_specificite[]", "code"); // specificite_uai
-      params.append("chk_specificite[]", "code_libe"); // specificite_uai_libe
-      params.append("chk_specificite[]", "date_ouverture"); // date_ouverture
-      params.append("chk_specificite[]", "date_fermeture"); // date_fermeture
+      params.append("chk_specificite[]", "numero_uai_trouve") // numero_uai
+      params.append("chk_specificite[]", "code") // specificite_uai
+      params.append("chk_specificite[]", "code_libe") // specificite_uai_libe
+      params.append("chk_specificite[]", "date_ouverture") // date_ouverture
+      params.append("chk_specificite[]", "date_fermeture") // date_fermeture
 
       //ACCE_UAI_ZONE.csv
-      params.append("chk_zone[]", "numero_uai_trouve"); // numero_uai
-      params.append("chk_zone[]", "type_zone_uai"); // type_zone_uai
-      params.append("chk_zone[]", "type_zone_uai_libe"); // type_zone_uai_libe
-      params.append("chk_zone[]", "zone"); // zone
-      params.append("chk_zone[]", "zone_libe"); // zone_libe
-      params.append("chk_zone[]", "date_ouverture"); // date_ouverture
-      params.append("chk_zone[]", "date_fermeture"); // date_fermeture
-      params.append("chk_zone[]", "date_derniere_mise_a_jour"); // date_derniere_mise_a_jour
+      params.append("chk_zone[]", "numero_uai_trouve") // numero_uai
+      params.append("chk_zone[]", "type_zone_uai") // type_zone_uai
+      params.append("chk_zone[]", "type_zone_uai_libe") // type_zone_uai_libe
+      params.append("chk_zone[]", "zone") // zone
+      params.append("chk_zone[]", "zone_libe") // zone_libe
+      params.append("chk_zone[]", "date_ouverture") // date_ouverture
+      params.append("chk_zone[]", "date_fermeture") // date_fermeture
+      params.append("chk_zone[]", "date_derniere_mise_a_jour") // date_derniere_mise_a_jour
 
       // ACCE_UAI_FILLE.csv
-      params.append("chk_filles", "1");
+      params.append("chk_filles", "1")
 
       //ACCE_UAI_MERE.csv
-      params.append("chk_meres", "1");
+      params.append("chk_meres", "1")
 
       const reponse = await client.post(`/getextract.php`, params.toString(), {
         headers: getFormHeaders(auth),
-      });
+      })
 
-      const match = reponse.data.match(/getextract\.php\?ex_id=(.*)"/);
+      const match = reponse.data.match(/getextract\.php\?ex_id=(.*)"/)
 
       if (!match || !match[1]) {
-        throw internal("api.acce: missing extractionId", { data: reponse.data });
+        throw internal("api.acce: missing extractionId", { data: reponse.data })
       }
 
-      return { extractionId: match[1] };
+      return { extractionId: match[1] }
     } catch (error) {
       if (isAxiosError(error)) {
-        throw internal("api.acce: unable to startExtraction", { data: error.toJSON() });
+        throw internal("api.acce: unable to startExtraction", { data: error.toJSON() })
       }
-      throw withCause(internal("api.acce: unable to startExtraction"), error);
+      throw withCause(internal("api.acce: unable to startExtraction"), error)
     }
-  });
+  })
 }
 
 async function pollExtraction(auth: { Cookie: string }, extractionId: string) {
   return acceClient(async (client: AxiosInstance) => {
     try {
-      logger.debug(`Polling extraction ${extractionId}...`);
+      logger.debug(`Polling extraction ${extractionId}...`)
 
       const response = await client.get<ReadStream>(`/getextract.php?ex_id=${extractionId}`, {
         headers: {
@@ -206,41 +205,41 @@ async function pollExtraction(auth: { Cookie: string }, extractionId: string) {
           ...auth,
         },
         responseType: "stream",
-      });
+      })
 
-      const isReady = response.headers["content-disposition"]?.startsWith("attachement");
+      const isReady = response.headers["content-disposition"]?.startsWith("attachement")
 
       if (!isReady) {
-        response.data.destroy();
-        return null;
+        response.data.destroy()
+        return null
       }
 
-      return response.data;
+      return response.data
     } catch (error) {
       if (isAxiosError(error)) {
-        return null;
+        return null
       }
-      throw withCause(internal("api.acce: unable to pollExtraction"), error);
+      throw withCause(internal("api.acce: unable to pollExtraction"), error)
     }
-  });
+  })
 }
 
 export async function downloadCsvExtraction(): Promise<ReadStream> {
   try {
-    const auth = await login();
+    const auth = await login()
 
-    let stream;
-    const { extractionId } = await startExtraction(auth);
+    let stream
+    const { extractionId } = await startExtraction(auth)
 
     // Max 30min to download
-    const timeoutSignal = AbortSignal.timeout(config.env === "test" ? 200 : 30 * 60 * 1_000);
+    const timeoutSignal = AbortSignal.timeout(config.env === "test" ? 200 : 30 * 60 * 1_000)
 
     while (!(stream = await pollExtraction(auth, extractionId))) {
-      await sleep(config.env === "test" ? 10 : 5_000, timeoutSignal);
+      await sleep(config.env === "test" ? 10 : 5_000, timeoutSignal)
     }
 
-    return await downloadFileAsStream(stream, "data.zip");
+    return await downloadFileAsStream(stream, "data.zip")
   } catch (error) {
-    throw withCause(internal("api.acce: unable to download acce database"), error);
+    throw withCause(internal("api.acce: unable to download acce database"), error)
   }
 }

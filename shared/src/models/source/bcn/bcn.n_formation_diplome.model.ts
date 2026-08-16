@@ -1,7 +1,7 @@
-import { z } from "zod/v4-mini";
+import { z } from "zod/v4-mini"
 
-import { zObjectIdMini } from "../../common.js";
-import { zBcn_V_FormationDiplomeData } from "./bcn.v_formation_diplome.model.js";
+import { zObjectIdMini } from "../../common.js"
+import { zBcn_V_FormationDiplomeData } from "./bcn.v_formation_diplome.model.js"
 
 export const zBcn_N_FormationDiplomeData = z.extend(zBcn_V_FormationDiplomeData, {
   ANCIEN_DIPLOMES: z.array(z.string()),
@@ -13,13 +13,13 @@ export const zBcn_N_FormationDiplomeData = z.extend(zBcn_V_FormationDiplomeData,
   N_COMMENTAIRE: z.nullable(z.string()),
   CITE_DOMAINE_DETAILLE: z.nullable(z.string()),
   N_CITE_2013_DOMAINE_DETAILL_LIBELLE_EDITION: z.nullable(z.string()),
-});
+})
 
 export const zBcn_N_FormationDiplome = z.object({
   _id: zObjectIdMini,
   source: z.literal("N_FORMATION_DIPLOME"),
   date: z.date(),
   data: zBcn_N_FormationDiplomeData,
-});
+})
 
-export type IBcn_N_FormationDiplome = z.output<typeof zBcn_N_FormationDiplome>;
+export type IBcn_N_FormationDiplome = z.output<typeof zBcn_N_FormationDiplome>

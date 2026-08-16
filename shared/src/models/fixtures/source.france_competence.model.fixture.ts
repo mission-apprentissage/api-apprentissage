@@ -1,19 +1,17 @@
-import { ObjectId } from "bson";
+import { ObjectId } from "bson"
 
-import type { ISourceFranceCompetence } from "../source/france_competence/source.france_competence.model.js";
-import { getFixtureValue } from "./fixture_helper.js";
+import type { ISourceFranceCompetence } from "../source/france_competence/source.france_competence.model.js"
+import { getFixtureValue } from "./fixture_helper.js"
 
 type ISourceFranceCompetenceDataInput = Partial<
   Omit<ISourceFranceCompetence["data"], "standard"> & {
-    standard?: Partial<ISourceFranceCompetence["data"]["standard"]>;
+    standard?: Partial<ISourceFranceCompetence["data"]["standard"]>
   }
->;
+>
 
-function generateSourceFranceCompetenceStandardFixture(
-  input?: Partial<ISourceFranceCompetence["data"]["standard"]>
-): ISourceFranceCompetence["data"]["standard"] {
+function generateSourceFranceCompetenceStandardFixture(input?: Partial<ISourceFranceCompetence["data"]["standard"]>): ISourceFranceCompetence["data"]["standard"] {
   if (input === null) {
-    return null;
+    return null
   }
 
   return {
@@ -33,19 +31,17 @@ function generateSourceFranceCompetenceStandardFixture(
     Type_Enregistrement: getFixtureValue(input, "Type_Enregistrement", "Enregistrement de droit"),
     Validation_Partielle: getFixtureValue(input, "Validation_Partielle", null),
     Actif: getFixtureValue(input, "Actif", "ACTIVE"),
-  };
+  }
 }
 
 export type ISourceFranceCompetenceFixtureInput = Partial<
   Omit<ISourceFranceCompetence, "data"> & {
-    data?: ISourceFranceCompetenceDataInput;
+    data?: ISourceFranceCompetenceDataInput
   }
->;
+>
 
-export function generateSourceFranceCompetenceFixture(
-  data?: ISourceFranceCompetenceFixtureInput
-): ISourceFranceCompetence {
-  const numeroFiche = getFixtureValue(data, "numero_fiche", "RNCP1796");
+export function generateSourceFranceCompetenceFixture(data?: ISourceFranceCompetenceFixtureInput): ISourceFranceCompetence {
+  const numeroFiche = getFixtureValue(data, "numero_fiche", "RNCP1796")
 
   return {
     _id: getFixtureValue(data, "_id", new ObjectId()),
@@ -82,8 +78,7 @@ export function generateSourceFranceCompetenceFixture(
         {
           Numero_Fiche: numeroFiche,
           Bloc_Competences_Code: "RNCP1796BC03",
-          Bloc_Competences_Libelle:
-            "Conduire les travaux de chantiers de plusieurs spécialités en aménagement finitions",
+          Bloc_Competences_Libelle: "Conduire les travaux de chantiers de plusieurs spécialités en aménagement finitions",
         },
       ]),
       nsf: getFixtureValue(data?.data, "nsf", [
@@ -135,5 +130,5 @@ export function generateSourceFranceCompetenceFixture(
       ]),
       standard: generateSourceFranceCompetenceStandardFixture(data?.data?.standard),
     },
-  };
+  }
 }

@@ -1,7 +1,7 @@
-import { rechercheFormationPageSummaryDoc } from "../../metier/recherche-formation/recherche-formation.doc.js";
-import { paginationQueryParameterDoc } from "../../models/pagination/pagination.model.doc.js";
-import type { DocRoute } from "../../types.js";
-import { jobSearchRouteDoc } from "../jobSearch/jobSearch.route.doc.js";
+import { rechercheFormationPageSummaryDoc } from "../../metier/recherche-formation/recherche-formation.doc.js"
+import { paginationQueryParameterDoc } from "../../models/pagination/pagination.model.doc.js"
+import type { DocRoute } from "../../types.js"
+import { jobSearchRouteDoc } from "../jobSearch/jobSearch.route.doc.js"
 
 export const searchFormationsRouteDoc = {
   summary: rechercheFormationPageSummaryDoc.title,
@@ -48,4 +48,4 @@ export const searchFormationsRouteDoc = {
       },
     },
   },
-} as const satisfies DocRoute;
+} as const satisfies DocRoute

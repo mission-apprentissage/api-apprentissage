@@ -1,72 +1,72 @@
-import { ObjectId } from "mongodb";
-import { generateUserFixture } from "shared/models/fixtures/index";
-import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import { decodeJwt } from "jose";
-import { useMongo } from "@tests/mongo.test.utils.js";
+import { useMongo } from "@tests/mongo.test.utils.js"
+import { decodeJwt } from "jose"
+import { ObjectId } from "mongodb"
+import { generateUserFixture } from "shared/models/fixtures/index"
+import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest"
 
-import { createSession, createSessionToken } from "@/actions/sessions.actions.js";
-import { generateApiKey } from "@/actions/users.actions.js";
-import type { Server } from "@/server/server.js";
-import createServer from "@/server/server.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import { createSession, createSessionToken } from "@/actions/sessions.actions.js"
+import { generateApiKey } from "@/actions/users.actions.js"
+import type { Server } from "@/server/server.js"
+import createServer from "@/server/server.js"
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
 
 vi.mock("@/services/mailer/mailer", () => {
   return {
     sendEmail: vi.fn(),
-  };
-});
+  }
+})
 
-useMongo();
+useMongo()
 
-const now = new Date("2021-10-11T22:00:00.000+00:00");
-const in365Days = new Date("2022-10-11T22:00:00.000+00:00");
+const now = new Date("2021-10-11T22:00:00.000+00:00")
+const in365Days = new Date("2022-10-11T22:00:00.000+00:00")
 
 describe("User Routes", () => {
-  let app: Server;
-  let sessionToken: string;
+  let app: Server
+  let sessionToken: string
   const user = generateUserFixture({
     email: "connected@exemple.fr",
     is_admin: false,
-  });
+  })
   const otherUser = generateUserFixture({
     email: "other@exemple.fr",
     is_admin: false,
-  });
+  })
 
   beforeAll(async () => {
-    app = await createServer();
-    await app.ready();
+    app = await createServer()
+    await app.ready()
 
-    return () => app.close();
-  }, 15_000);
+    return () => app.close()
+  }, 15_000)
 
   beforeEach(() => {
-    vi.useFakeTimers({ now, toFake: ["Date"] });
+    vi.useFakeTimers({ now, toFake: ["Date"] })
 
     return () => {
-      vi.useRealTimers();
-    };
-  });
+      vi.useRealTimers()
+    }
+  })
 
   beforeEach(async () => {
-    await getDbCollection("users").insertMany([user, otherUser]);
+    await getDbCollection("users").insertMany([user, otherUser])
 
-    await generateApiKey("", otherUser);
-    await generateApiKey("", otherUser);
+    await generateApiKey("", otherUser)
+    await generateApiKey("", otherUser)
 
-    sessionToken = await createSessionToken(user.email);
-    await createSession(user.email);
+    sessionToken = await createSessionToken(user.email)
+    await createSession(user.email)
 
     return () => {
-      sessionToken = "";
-    };
-  });
+      sessionToken = ""
+    }
+  })
 
   describe("POST /api/_private/user/api-key", () => {
     it("should create new key with 1 year validity", async () => {
-      let userFromDb = await getDbCollection("users").findOne({ _id: user._id });
+      let userFromDb = await getDbCollection("users").findOne({ _id: user._id })
 
-      expect(userFromDb?.api_keys).toHaveLength(0);
+      expect(userFromDb?.api_keys).toHaveLength(0)
 
       const response = await app.inject({
         method: "POST",
@@ -77,11 +77,11 @@ describe("User Routes", () => {
         body: {
           name: "My key",
         },
-      });
+      })
 
-      const data = response.json();
+      const data = response.json()
 
-      expect(response.statusCode).toBe(200);
+      expect(response.statusCode).toBe(200)
       expect(data).toEqual({
         _id: expect.any(String),
         name: "My key",
@@ -90,9 +90,9 @@ describe("User Routes", () => {
         created_at: now.toJSON(),
         value: expect.any(String),
         expiration_warning_sent: null,
-      });
+      })
 
-      userFromDb = await getDbCollection("users").findOne({ _id: user._id });
+      userFromDb = await getDbCollection("users").findOne({ _id: user._id })
       expect(userFromDb?.api_keys).toEqual([
         {
           _id: expect.any(ObjectId),
@@ -103,9 +103,9 @@ describe("User Routes", () => {
           name: "My key",
           expiration_warning_sent: null,
         },
-      ]);
+      ])
 
-      const decodedToken = decodeJwt(data.value);
+      const decodedToken = decodeJwt(data.value)
       expect(decodedToken).toEqual({
         _id: user._id.toString(),
         api_key: expect.any(String),
@@ -114,15 +114,15 @@ describe("User Routes", () => {
         exp: in365Days.getTime() / 1000,
         iat: now.getTime() / 1000,
         iss: "api",
-      });
+      })
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      expect(userFromDb!.api_keys[0].key === (decodedToken as any)!.api_key).toBe(true);
-    });
+      expect(userFromDb!.api_keys[0].key === (decodedToken as any)!.api_key).toBe(true)
+    })
 
     it("should create key with default unique names", async () => {
-      let userFromDb = await getDbCollection("users").findOne({ _id: user._id });
-      expect(userFromDb?.api_keys).toHaveLength(0);
+      let userFromDb = await getDbCollection("users").findOne({ _id: user._id })
+      expect(userFromDb?.api_keys).toHaveLength(0)
 
       const response1 = await app.inject({
         method: "POST",
@@ -133,7 +133,7 @@ describe("User Routes", () => {
         body: {
           name: "",
         },
-      });
+      })
       const response2 = await app.inject({
         method: "POST",
         url: "/api/_private/user/api-key",
@@ -143,7 +143,7 @@ describe("User Routes", () => {
         body: {
           name: "",
         },
-      });
+      })
       const response3 = await app.inject({
         method: "POST",
         url: "/api/_private/user/api-key",
@@ -153,32 +153,32 @@ describe("User Routes", () => {
         body: {
           name: "",
         },
-      });
+      })
 
-      const data1 = response1.json();
-      const data2 = response2.json();
-      const data3 = response3.json();
+      const data1 = response1.json()
+      const data2 = response2.json()
+      const data3 = response3.json()
 
-      expect(response1.statusCode).toBe(200);
-      expect(response2.statusCode).toBe(200);
-      expect(response3.statusCode).toBe(200);
+      expect(response1.statusCode).toBe(200)
+      expect(response2.statusCode).toBe(200)
+      expect(response3.statusCode).toBe(200)
 
-      expect(data1.name).not.toEqual(data2.name);
-      expect(data1.name).not.toEqual(data3.name);
-      expect(data2.name).not.toEqual(data3.name);
+      expect(data1.name).not.toEqual(data2.name)
+      expect(data1.name).not.toEqual(data3.name)
+      expect(data2.name).not.toEqual(data3.name)
 
-      userFromDb = await getDbCollection("users").findOne({ _id: user._id });
-      expect(userFromDb?.api_keys).toHaveLength(3);
+      userFromDb = await getDbCollection("users").findOne({ _id: user._id })
+      expect(userFromDb?.api_keys).toHaveLength(3)
 
-      const decodedToken1 = decodeJwt(data1.value);
+      const decodedToken1 = decodeJwt(data1.value)
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      expect(userFromDb!.api_keys[0].key === (decodedToken1 as any)!.api_key).toBe(true);
+      expect(userFromDb!.api_keys[0].key === (decodedToken1 as any)!.api_key).toBe(true)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      expect(userFromDb!.api_keys[1].key === (decodedToken1 as any)!.api_key).toBe(false);
+      expect(userFromDb!.api_keys[1].key === (decodedToken1 as any)!.api_key).toBe(false)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      expect(userFromDb!.api_keys[2].key === (decodedToken1 as any)!.api_key).toBe(false);
-    });
+      expect(userFromDb!.api_keys[2].key === (decodedToken1 as any)!.api_key).toBe(false)
+    })
 
     it("should returns 401 when user is not connected", async () => {
       const response = await app.inject({
@@ -190,24 +190,24 @@ describe("User Routes", () => {
         body: {
           name: "My key",
         },
-      });
+      })
 
-      const userResponse = response.json();
+      const userResponse = response.json()
 
-      expect(response.statusCode).toBe(401);
+      expect(response.statusCode).toBe(401)
       expect(userResponse).toEqual({
         message: "Vous devez être connecté pour accéder à cette ressource",
         name: "Unauthorized",
         statusCode: 401,
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe("GET /api/_private/user/api-keys", () => {
     it("should get all user keys", async () => {
-      await generateApiKey("key1", user);
-      await generateApiKey("key2", user);
-      await generateApiKey("key3", user);
+      await generateApiKey("key1", user)
+      await generateApiKey("key2", user)
+      await generateApiKey("key3", user)
 
       const response = await app.inject({
         method: "GET",
@@ -215,11 +215,11 @@ describe("User Routes", () => {
         headers: {
           ["Cookie"]: `api_session=${sessionToken}`,
         },
-      });
+      })
 
-      const data = response.json();
+      const data = response.json()
 
-      expect(response.statusCode).toBe(200);
+      expect(response.statusCode).toBe(200)
       expect(data).toEqual([
         {
           _id: expect.any(String),
@@ -248,8 +248,8 @@ describe("User Routes", () => {
           value: expect.any(String),
           expiration_warning_sent: null,
         },
-      ]);
-    });
+      ])
+    })
 
     it("should returns 401 when user is not connected", async () => {
       const response = await app.inject({
@@ -258,24 +258,24 @@ describe("User Routes", () => {
         headers: {
           ["Cookie"]: `api_session=invalid`,
         },
-      });
+      })
 
-      const userResponse = response.json();
+      const userResponse = response.json()
 
-      expect(response.statusCode).toBe(401);
+      expect(response.statusCode).toBe(401)
       expect(userResponse).toEqual({
         message: "Vous devez être connecté pour accéder à cette ressource",
         name: "Unauthorized",
         statusCode: 401,
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe("DELETE /api/_private/user/api-key/:id", () => {
     it("should get all user keys", async () => {
-      const key1 = await generateApiKey("key1", user);
-      const key2 = await generateApiKey("key2", user);
-      const key3 = await generateApiKey("key3", user);
+      const key1 = await generateApiKey("key1", user)
+      const key2 = await generateApiKey("key2", user)
+      const key3 = await generateApiKey("key3", user)
 
       const response = await app.inject({
         method: "DELETE",
@@ -283,16 +283,16 @@ describe("User Routes", () => {
         headers: {
           ["Cookie"]: `api_session=${sessionToken}`,
         },
-      });
+      })
 
-      const data = response.json();
+      const data = response.json()
 
-      expect(response.statusCode).toBe(200);
-      expect(data).toEqual({ success: true });
+      expect(response.statusCode).toBe(200)
+      expect(data).toEqual({ success: true })
 
-      const userFromDb = await getDbCollection("users").findOne({ _id: user._id });
+      const userFromDb = await getDbCollection("users").findOne({ _id: user._id })
 
-      expect(userFromDb?.api_keys).toHaveLength(2);
+      expect(userFromDb?.api_keys).toHaveLength(2)
       expect(userFromDb?.api_keys).toEqual([
         {
           _id: key1._id,
@@ -312,11 +312,11 @@ describe("User Routes", () => {
           key: key3.key,
           expiration_warning_sent: null,
         },
-      ]);
-    });
+      ])
+    })
 
     it("should returns 401 when user is not connected", async () => {
-      const key = await generateApiKey("key1", user);
+      const key = await generateApiKey("key1", user)
 
       const response = await app.inject({
         method: "DELETE",
@@ -324,16 +324,16 @@ describe("User Routes", () => {
         headers: {
           ["Cookie"]: `api_session=invalid`,
         },
-      });
+      })
 
-      const userResponse = response.json();
+      const userResponse = response.json()
 
-      expect(response.statusCode).toBe(401);
+      expect(response.statusCode).toBe(401)
       expect(userResponse).toEqual({
         message: "Vous devez être connecté pour accéder à cette ressource",
         name: "Unauthorized",
         statusCode: 401,
-      });
-    });
-  });
-});
+      })
+    })
+  })
+})

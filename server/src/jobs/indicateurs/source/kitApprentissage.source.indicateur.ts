@@ -1,15 +1,15 @@
-import { ObjectId } from "mongodb";
+import { ObjectId } from "mongodb"
 
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
 
 function getToday(): Date {
   // We group by day
-  const now = new Date();
-  now.setUTCMilliseconds(0);
-  now.setUTCSeconds(0);
-  now.setUTCMinutes(0);
-  now.setUTCHours(0);
-  return now;
+  const now = new Date()
+  now.setUTCMilliseconds(0)
+  now.setUTCSeconds(0)
+  now.setUTCMinutes(0)
+  now.setUTCHours(0)
+  return now
 }
 
 async function updateKitApprentissageIndicateurSourceCfd() {
@@ -46,9 +46,9 @@ async function updateKitApprentissageIndicateurSourceCfd() {
         },
       },
     ])
-    .toArray();
+    .toArray()
 
-  const today = getToday();
+  const today = getToday()
 
   await Promise.all(
     indicateurs.map(({ count }) => {
@@ -61,9 +61,9 @@ async function updateKitApprentissageIndicateurSourceCfd() {
           $setOnInsert: { _id: new ObjectId(), date: today, missingRncp: 0 },
         },
         { upsert: true }
-      );
+      )
     })
-  );
+  )
 }
 
 async function updateKitApprentissageIndicateurSourceRncp() {
@@ -100,9 +100,9 @@ async function updateKitApprentissageIndicateurSourceRncp() {
         },
       },
     ])
-    .toArray();
+    .toArray()
 
-  const today = getToday();
+  const today = getToday()
 
   await Promise.all(
     indicateurs.map(({ count }) => {
@@ -115,11 +115,11 @@ async function updateKitApprentissageIndicateurSourceRncp() {
           $setOnInsert: { _id: new ObjectId(), date: today, missingCfd: 0 },
         },
         { upsert: true }
-      );
+      )
     })
-  );
+  )
 }
 
 export async function updateKitApprentissageIndicateurSource(): Promise<void> {
-  await Promise.all([updateKitApprentissageIndicateurSourceCfd(), updateKitApprentissageIndicateurSourceRncp()]);
+  await Promise.all([updateKitApprentissageIndicateurSourceCfd(), updateKitApprentissageIndicateurSourceRncp()])
 }

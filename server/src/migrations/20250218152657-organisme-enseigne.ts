@@ -1,4 +1,4 @@
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
 
 export const up = async () => {
   getDbCollection("organisme").updateMany(
@@ -11,7 +11,7 @@ export const up = async () => {
       },
     },
     { bypassDocumentValidation: true }
-  );
-};
+  )
+}
 
-export const requireShutdown: boolean = false;
+export const requireShutdown: boolean = false

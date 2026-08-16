@@ -1,13 +1,13 @@
-import type { DocPage, OpenApiText } from "../../types.js";
-import continuiteDescFr from "./fr/continuite.description.md.js";
-import domainesDescFr from "./fr/domaines.description.md.js";
-import identifiantInfoFr from "./fr/identifiant.information.md.js";
-import identifiantTipFr from "./fr/identifiant.tip.md.js";
-import intituleDescFr from "./fr/intitule.description.md.js";
-import intituleNiveauTipFr from "./fr/intitule.niveau.tip.md.js";
-import periodeValiditeCfdDescFr from "./fr/periode_validite.cfd.description.md.js";
-import periodeValiditeRncpDescFr from "./fr/periode_validite.rncp.description.md.js";
-import typeDesc from "./fr/type.description.md.js";
+import type { DocPage, OpenApiText } from "../../types.js"
+import continuiteDescFr from "./fr/continuite.description.md.js"
+import domainesDescFr from "./fr/domaines.description.md.js"
+import identifiantInfoFr from "./fr/identifiant.information.md.js"
+import identifiantTipFr from "./fr/identifiant.tip.md.js"
+import intituleDescFr from "./fr/intitule.description.md.js"
+import intituleNiveauTipFr from "./fr/intitule.niveau.tip.md.js"
+import periodeValiditeCfdDescFr from "./fr/periode_validite.cfd.description.md.js"
+import periodeValiditeRncpDescFr from "./fr/periode_validite.rncp.description.md.js"
+import typeDesc from "./fr/type.description.md.js"
 
 export const certificationsPageSummaryDoc = {
   title: {
@@ -18,7 +18,7 @@ export const certificationsPageSummaryDoc = {
     en: "Consult the data model and search the list of certifications",
     fr: "Consulter le modèle de données et effectuer une recherche dans la liste des certifications",
   },
-} as const satisfies { title: OpenApiText; headline: OpenApiText };
+} as const satisfies { title: OpenApiText; headline: OpenApiText }
 
 export const certificationsPageDoc = {
   tag: "certifications",
@@ -211,4 +211,4 @@ export const certificationsPageDoc = {
       },
     },
   ],
-} as const satisfies DocPage;
+} as const satisfies DocPage

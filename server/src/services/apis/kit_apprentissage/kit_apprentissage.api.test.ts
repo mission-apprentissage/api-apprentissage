@@ -1,7 +1,7 @@
-import nock from "nock";
-import { describe, expect, it } from "vitest";
+import nock from "nock"
+import { describe, expect, it } from "vitest"
 
-import { getKitApprentissageData } from "./kit_apprentissage.api.js";
+import { getKitApprentissageData } from "./kit_apprentissage.api.js"
 
 describe("getKitApprentissageData", () => {
   it("should return the list data", async () => {
@@ -204,7 +204,7 @@ describe("getKitApprentissageData", () => {
         previous: null,
         next: "/get?page_num=2&page_size=10",
       },
-    };
+    }
 
     const page2 = {
       data: [
@@ -253,26 +253,23 @@ describe("getKitApprentissageData", () => {
         previous: "/get?page_num=1&page_size=2",
         next: "/get?page_num=3&page_size=2",
       },
-    };
+    }
 
     const scope = nock("https://api-kit-apprentissage.intercariforef.org")
       .get("/cfd_rncp_intitule")
       .query({ page_num: 1, page_size: 100 })
       .matchHeader("token-connexion", "token-kit")
-      .reply(200, page1);
+      .reply(200, page1)
 
-    scope.get("/cfd_rncp_intitule").query({ page_num: 2, page_size: 100 }).reply(200, page2);
+    scope.get("/cfd_rncp_intitule").query({ page_num: 2, page_size: 100 }).reply(200, page2)
 
-    const result = getKitApprentissageData();
+    const result = getKitApprentissageData()
 
-    const data = [];
+    const data = []
     for await (const item of result) {
-      data.push(item);
+      data.push(item)
     }
 
-    expect(data).toEqual([
-      ...page1.data.map(({ cfd, rncp }) => ({ cfd, rncp })),
-      ...page2.data.map(({ cfd, rncp }) => ({ cfd, rncp })),
-    ]);
-  });
-});
+    expect(data).toEqual([...page1.data.map(({ cfd, rncp }) => ({ cfd, rncp })), ...page2.data.map(({ cfd, rncp }) => ({ cfd, rncp }))])
+  })
+})

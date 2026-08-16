@@ -1,7 +1,7 @@
-import type { DocPage, OpenApiText } from "../../types.js";
-import { rechercheOffrePageDoc } from "../recherche-offre/recherche-offre.doc.js";
-import applyDescEn from "./en/apply.description.md.js";
-import applyDescFr from "./fr/apply.description.md.js";
+import type { DocPage, OpenApiText } from "../../types.js"
+import { rechercheOffrePageDoc } from "../recherche-offre/recherche-offre.doc.js"
+import applyDescEn from "./en/apply.description.md.js"
+import applyDescFr from "./fr/apply.description.md.js"
 
 export const depotOffrePageSummaryDoc = {
   title: {
@@ -12,7 +12,7 @@ export const depotOffrePageSummaryDoc = {
     en: "Maximize the visibility of your apprenticeship job offers by posting them on the La bonne alternance platform and its partner sites",
     fr: "Maximiser la visibilité de vos offres d’emploi en alternance en les diffusant sur la plateforme La bonne alternance ainsi que ses sites partenaires",
   },
-} as const satisfies { title: OpenApiText; headline: OpenApiText };
+} as const satisfies { title: OpenApiText; headline: OpenApiText }
 
 export const depotOffrePageDoc = {
   tag: "job",
@@ -83,4 +83,4 @@ export const depotOffrePageDoc = {
       },
     },
   ],
-} as const satisfies DocPage;
+} as const satisfies DocPage

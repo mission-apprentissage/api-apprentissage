@@ -1,21 +1,21 @@
-import { ReadStream } from "node:fs";
+import { ReadStream } from "node:fs"
 
-import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock"
+import { afterEach, beforeEach, describe, expect, it } from "vitest"
 
-import { downloadDataGouvResource, fetchDataGouvDataSet } from "./data_gouv.api.js";
+import { downloadDataGouvResource, fetchDataGouvDataSet } from "./data_gouv.api.js"
 
 describe("fetchDataGouvDataSet", () => {
   beforeEach(() => {
-    disableNetConnect();
-  });
+    disableNetConnect()
+  })
 
   afterEach(() => {
-    cleanAll();
-    enableNetConnect();
-  });
+    cleanAll()
+    enableNetConnect()
+  })
 
-  const datasetId = "5eebbc067a14b6fecc9c9976";
+  const datasetId = "5eebbc067a14b6fecc9c9976"
 
   it("should fetch the data set successfully", async () => {
     const rawData = {
@@ -40,9 +40,9 @@ describe("fetchDataGouvDataSet", () => {
         },
       ],
       frequency: "daily", // Extra property should be accepted
-    };
+    }
 
-    nock("https://www.data.gouv.fr/api/1").get(`/datasets/${datasetId}`).reply(200, JSON.stringify(rawData));
+    nock("https://www.data.gouv.fr/api/1").get(`/datasets/${datasetId}`).reply(200, JSON.stringify(rawData))
 
     await expect(fetchDataGouvDataSet(datasetId)).resolves.toEqual({
       id: rawData.id,
@@ -54,16 +54,14 @@ describe("fetchDataGouvDataSet", () => {
         latest: resource.latest,
         title: resource.title,
       })),
-    });
-  });
+    })
+  })
 
   it("should throw an error if fetching the data set fails", async () => {
-    nock("https://www.data.gouv.fr/api/1")
-      .get(`/datasets/${datasetId}`)
-      .reply(500, { message: "Internal server error" });
+    nock("https://www.data.gouv.fr/api/1").get(`/datasets/${datasetId}`).reply(500, { message: "Internal server error" })
 
-    await expect(fetchDataGouvDataSet(datasetId)).rejects.toThrowError("api.data_gouv: unable to fetchDataGouvDataSet");
-  });
+    await expect(fetchDataGouvDataSet(datasetId)).rejects.toThrowError("api.data_gouv: unable to fetchDataGouvDataSet")
+  })
 
   it("should throw an error if data schema changed", async () => {
     nock("https://www.data.gouv.fr/api/1")
@@ -74,23 +72,19 @@ describe("fetchDataGouvDataSet", () => {
           id: "5eebbc067a14b6fecc9c9976",
           title: "Répertoire national des certifications professionnelles et répertoire spécifique",
         })
-      );
+      )
 
-    await expect(fetchDataGouvDataSet(datasetId)).rejects.toThrowError(
-      "api.data_gouv: unable to fetchDataGouvDataSet; unexpected api data"
-    );
-  });
-});
+    await expect(fetchDataGouvDataSet(datasetId)).rejects.toThrowError("api.data_gouv: unable to fetchDataGouvDataSet; unexpected api data")
+  })
+})
 
 describe("downloadDataGouvResource", () => {
   afterEach(() => {
-    cleanAll();
-  });
+    cleanAll()
+  })
 
   it("should download response and return a readStream", async () => {
-    const scope = nock("https://www.data.gouv.fr/fr")
-      .get("/datasets/r/06ffc0a9-8937-4f89-b724-b773495847b7")
-      .reply(200, "Here is your data");
+    const scope = nock("https://www.data.gouv.fr/fr").get("/datasets/r/06ffc0a9-8937-4f89-b724-b773495847b7").reply(200, "Here is your data")
 
     const stream = await downloadDataGouvResource({
       created_at: new Date("2024-02-22T03:00:46.090000+00:00"),
@@ -98,17 +92,17 @@ describe("downloadDataGouvResource", () => {
       last_modified: new Date("2024-02-22T03:00:50.657000+00:00"),
       latest: "https://www.data.gouv.fr/fr/datasets/r/06ffc0a9-8937-4f89-b724-b773495847b7",
       title: "export-fiches-rs-v3-0-2024-02-22.zip",
-    });
+    })
 
-    expect(stream).toEqual(expect.any(ReadStream));
+    expect(stream).toEqual(expect.any(ReadStream))
 
-    scope.done();
+    scope.done()
 
-    let data = "";
+    let data = ""
     for await (const chunk of stream) {
-      data += chunk as string;
+      data += chunk as string
     }
 
-    expect(data).toBe("Here is your data");
-  });
-});
+    expect(data).toBe("Here is your data")
+  })
+})

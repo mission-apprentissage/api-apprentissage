@@ -1,12 +1,12 @@
-import { internal } from "@hapi/boom";
-import { zRoutes } from "shared";
-import { toPublicUser } from "shared/models/user.model";
+import { internal } from "@hapi/boom"
+import { zRoutes } from "shared"
+import { toPublicUser } from "shared/models/user.model"
 
-import { registerUser, sendRegisterFeedbackEmail, sendRequestLoginEmail } from "@/actions/auth.actions.js";
-import { startSession, stopSession } from "@/actions/sessions.actions.js";
-import type { Server } from "@/server/server.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
-import { getUserFromRequest } from "@/services/security/authenticationService.js";
+import { registerUser, sendRegisterFeedbackEmail, sendRequestLoginEmail } from "@/actions/auth.actions.js"
+import { startSession, stopSession } from "@/actions/sessions.actions.js"
+import type { Server } from "@/server/server.js"
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
+import { getUserFromRequest } from "@/services/security/authenticationService.js"
 
 export const authRoutes = ({ server }: { server: Server }) => {
   server.get(
@@ -16,13 +16,13 @@ export const authRoutes = ({ server }: { server: Server }) => {
       onRequest: [server.auth(zRoutes.get["/_private/auth/session"])],
     },
     async (request, response) => {
-      const user = getUserFromRequest(request, zRoutes.get["/_private/auth/session"]);
+      const user = getUserFromRequest(request, zRoutes.get["/_private/auth/session"])
       return response.status(200).send({
         user: toPublicUser(user),
         organisation: request.organisation ?? null,
-      });
+      })
     }
-  );
+  )
 
   server.post(
     "/_private/auth/login-request",
@@ -36,12 +36,12 @@ export const authRoutes = ({ server }: { server: Server }) => {
       },
     },
     async (request, response) => {
-      const { email } = request.body;
-      await sendRequestLoginEmail(email);
+      const { email } = request.body
+      await sendRequestLoginEmail(email)
 
-      return response.status(200).send({ success: true });
+      return response.status(200).send({ success: true })
     }
-  );
+  )
 
   server.post(
     "/_private/auth/login",
@@ -58,22 +58,22 @@ export const authRoutes = ({ server }: { server: Server }) => {
     async (request, response) => {
       const {
         identity: { email },
-      } = getUserFromRequest(request, zRoutes.post["/_private/auth/login"]);
+      } = getUserFromRequest(request, zRoutes.post["/_private/auth/login"])
 
-      const user = await getDbCollection("users").findOne({ email });
+      const user = await getDbCollection("users").findOne({ email })
 
       if (!user) {
-        throw internal("User not found");
+        throw internal("User not found")
       }
 
-      await startSession(user.email, response);
+      await startSession(user.email, response)
 
       return response.status(200).send({
         user: toPublicUser(user),
         organisation: request.organisation ?? null,
-      });
+      })
     }
-  );
+  )
 
   server.post(
     "/_private/auth/register",
@@ -88,18 +88,18 @@ export const authRoutes = ({ server }: { server: Server }) => {
       },
     },
     async (request, response) => {
-      const { identity } = getUserFromRequest(request, zRoutes.post["/_private/auth/register"]);
+      const { identity } = getUserFromRequest(request, zRoutes.post["/_private/auth/register"])
 
-      const user = await registerUser(identity.email, request.body);
+      const user = await registerUser(identity.email, request.body)
 
-      await startSession(user.email, response);
+      await startSession(user.email, response)
 
       return response.status(200).send({
         user: toPublicUser(user),
         organisation: request.organisation ?? null,
-      });
+      })
     }
-  );
+  )
 
   server.post(
     "/_private/auth/register-feedback",
@@ -114,13 +114,13 @@ export const authRoutes = ({ server }: { server: Server }) => {
       },
     },
     async (request, response) => {
-      const { identity } = getUserFromRequest(request, zRoutes.post["/_private/auth/register-feedback"]);
+      const { identity } = getUserFromRequest(request, zRoutes.post["/_private/auth/register-feedback"])
 
-      await sendRegisterFeedbackEmail(identity.email, request.body);
+      await sendRegisterFeedbackEmail(identity.email, request.body)
 
-      return response.status(200).send({ success: true });
+      return response.status(200).send({ success: true })
     }
-  );
+  )
 
   server.get(
     "/_private/auth/logout",
@@ -128,9 +128,9 @@ export const authRoutes = ({ server }: { server: Server }) => {
       schema: zRoutes.get["/_private/auth/logout"],
     },
     async (request, response) => {
-      await stopSession(request, response);
+      await stopSession(request, response)
 
-      return response.status(200).send({});
+      return response.status(200).send({})
     }
-  );
-};
+  )
+}

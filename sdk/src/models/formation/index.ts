@@ -1,1 +1,1 @@
-export * from "./formation.model.js";
+export * from "./formation.model.js"

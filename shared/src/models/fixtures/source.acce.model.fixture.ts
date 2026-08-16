@@ -1,23 +1,15 @@
-import { ObjectId } from "bson";
+import { ObjectId } from "bson"
 
-import type {
-  ISourceAcceUai,
-  ISourceAcceUaiFille,
-  ISourceAcceUaiMere,
-  ISourceAcceUaiSpec,
-  ISourceAcceUaiZone,
-} from "../source/acce/source.acce.model.js";
-import { getFixtureValue } from "./fixture_helper.js";
+import type { ISourceAcceUai, ISourceAcceUaiFille, ISourceAcceUaiMere, ISourceAcceUaiSpec, ISourceAcceUaiZone } from "../source/acce/source.acce.model.js"
+import { getFixtureValue } from "./fixture_helper.js"
 
 type ISourceAcceUaiInput = Partial<
   Omit<ISourceAcceUai, "data"> & {
-    data?: Partial<ISourceAcceUai["data"]>;
+    data?: Partial<ISourceAcceUai["data"]>
   }
->;
+>
 
-function generateSourceAcceBaseDataFixture(
-  data?: Partial<Omit<ISourceAcceUai["data"], "numero_uai">>
-): Omit<ISourceAcceUai["data"], "numero_uai"> {
+function generateSourceAcceBaseDataFixture(data?: Partial<Omit<ISourceAcceUai["data"], "numero_uai">>): Omit<ISourceAcceUai["data"], "numero_uai"> {
   return {
     nature_uai: getFixtureValue(data, "nature_uai", "340"),
     nature_uai_libe: getFixtureValue(data, "nature_uai_libe", "Collège"),
@@ -33,11 +25,7 @@ function generateSourceAcceBaseDataFixture(
     secteur_public_prive_libe: getFixtureValue(data, "secteur_public_prive_libe", "Public"),
     sigle_uai: getFixtureValue(data, "sigle_uai", "CLG"),
     categorie_juridique: getFixtureValue(data, "categorie_juridique", "200"),
-    categorie_juridique_libe: getFixtureValue(
-      data,
-      "categorie_juridique_libe",
-      "Etablissement public local d'enseignement (EPLE)"
-    ),
+    categorie_juridique_libe: getFixtureValue(data, "categorie_juridique_libe", "Etablissement public local d'enseignement (EPLE)"),
     contrat_etablissement: getFixtureValue(data, "contrat_etablissement", "99"),
     contrat_etablissement_libe: getFixtureValue(data, "contrat_etablissement_libe", "Sans objet"),
     categorie_financiere: getFixtureValue(data, "categorie_financiere", "3"),
@@ -58,11 +46,7 @@ function generateSourceAcceBaseDataFixture(
     appellation_officielle: getFixtureValue(data, "appellation_officielle", "Collège Marie de Luxembourg"),
     patronyme_uai: getFixtureValue(data, "patronyme_uai", "MARIE DE LUXEMBOURG"),
     hebergement_etablissement: getFixtureValue(data, "hebergement_etablissement", "22"),
-    hebergement_etablissement_libe: getFixtureValue(
-      data,
-      "hebergement_etablissement_libe",
-      "Avec internat et demi-pension"
-    ),
+    hebergement_etablissement_libe: getFixtureValue(data, "hebergement_etablissement_libe", "Avec internat et demi-pension"),
     numero_siren_siret_uai: getFixtureValue(data, "numero_siren_siret_uai", "19021518600015"),
     numero_finess_uai: getFixtureValue(data, "numero_finess_uai", null),
     date_ouverture: getFixtureValue(data, "date_ouverture", "09/07/1969"),
@@ -88,14 +72,14 @@ function generateSourceAcceBaseDataFixture(
     localisation_complement: getFixtureValue(data, "localisation_complement", null),
     date_geolocalisation: getFixtureValue(data, "date_geolocalisation", "30/01/2024"),
     source: getFixtureValue(data, "source", "IGN"),
-  };
+  }
 }
 
 export function generateSourceAcceUaiDataFixture(data?: Partial<ISourceAcceUai["data"]>): ISourceAcceUai["data"] {
   return {
     ...generateSourceAcceBaseDataFixture(data),
     numero_uai: getFixtureValue(data, "numero_uai", "0021518P"),
-  };
+  }
 }
 
 export function generateSourceAcceUaiFixture(input: ISourceAcceUaiInput): ISourceAcceUai {
@@ -104,18 +88,16 @@ export function generateSourceAcceUaiFixture(input: ISourceAcceUaiInput): ISourc
     source: "ACCE_UAI.csv",
     date: getFixtureValue(input, "date", new Date("2024-03-07T00:00:00Z")),
     data: generateSourceAcceUaiDataFixture(input.data),
-  };
+  }
 }
 
 type ISourceAcceZoneInput = Partial<
   Omit<ISourceAcceUaiZone, "data"> & {
-    data?: Partial<ISourceAcceUaiZone["data"]>;
+    data?: Partial<ISourceAcceUaiZone["data"]>
   }
->;
+>
 
-export function generateSourceAcceZoneDataFixture(
-  data?: Partial<ISourceAcceUaiZone["data"]>
-): ISourceAcceUaiZone["data"] {
+export function generateSourceAcceZoneDataFixture(data?: Partial<ISourceAcceUaiZone["data"]>): ISourceAcceUaiZone["data"] {
   return {
     numero_uai: getFixtureValue(data, "numero_uai", "0021518P"),
     type_zone_uai: getFixtureValue(data, "type_zone_uai", "25"),
@@ -125,7 +107,7 @@ export function generateSourceAcceZoneDataFixture(
     date_ouverture: getFixtureValue(data, "date_ouverture", "01/01/2006"),
     date_fermeture: getFixtureValue(data, "date_fermeture", "31/08/2023"),
     date_derniere_mise_a_jour: getFixtureValue(data, "date_derniere_mise_a_jour", null),
-  };
+  }
 }
 
 export function generateSourceAcceZoneFixture(input: ISourceAcceZoneInput): ISourceAcceUaiZone {
@@ -134,25 +116,23 @@ export function generateSourceAcceZoneFixture(input: ISourceAcceZoneInput): ISou
     source: "ACCE_UAI_ZONE.csv",
     date: getFixtureValue(input, "date", new Date("2024-03-07T00:00:00Z")),
     data: generateSourceAcceZoneDataFixture(input.data),
-  };
+  }
 }
 
 type ISouceAcceSpecInput = Partial<
   Omit<ISourceAcceUaiSpec, "data"> & {
-    data?: Partial<ISourceAcceUaiSpec["data"]>;
+    data?: Partial<ISourceAcceUaiSpec["data"]>
   }
->;
+>
 
-export function generateSourceAcceSpecDataFixture(
-  data?: Partial<ISourceAcceUaiSpec["data"]>
-): ISourceAcceUaiSpec["data"] {
+export function generateSourceAcceSpecDataFixture(data?: Partial<ISourceAcceUaiSpec["data"]>): ISourceAcceUaiSpec["data"] {
   return {
     numero_uai: getFixtureValue(data, "numero_uai", "0021518P"),
     specificite_uai: getFixtureValue(data, "specificite_uai", "INX"),
     specificite_uai_libe: getFixtureValue(data, "specificite_uai_libe", "Internat d'excellence 2021"),
     date_ouverture: getFixtureValue(data, "date_ouverture", "01/09/2021"),
     date_fermeture: getFixtureValue(data, "date_fermeture", null),
-  };
+  }
 }
 
 export function generateSourceAcceSpecFixture(input: ISouceAcceSpecInput): ISourceAcceUaiSpec {
@@ -161,24 +141,22 @@ export function generateSourceAcceSpecFixture(input: ISouceAcceSpecInput): ISour
     source: "ACCE_UAI_SPEC.csv",
     date: getFixtureValue(input, "date", new Date("2024-03-07T00:00:00Z")),
     data: generateSourceAcceSpecDataFixture(input.data),
-  };
+  }
 }
 
 type ISourceAcceMereInput = Partial<
   Omit<ISourceAcceUaiMere, "data"> & {
-    data?: Partial<ISourceAcceUaiMere["data"]>;
+    data?: Partial<ISourceAcceUaiMere["data"]>
   }
->;
+>
 
-export function generateSourceAcceMereDataFixture(
-  data?: Partial<ISourceAcceUaiMere["data"]>
-): ISourceAcceUaiMere["data"] {
+export function generateSourceAcceMereDataFixture(data?: Partial<ISourceAcceUaiMere["data"]>): ISourceAcceUaiMere["data"] {
   return {
     ...generateSourceAcceBaseDataFixture(data),
     numero_uai_trouve: getFixtureValue(data, "numero_uai_trouve", "0021518P"),
     type_rattachement: getFixtureValue(data, "type_rattachement", "AN"),
     numero_uai_mere: getFixtureValue(data, "numero_uai_mere", "0021518P"),
-  };
+  }
 }
 
 export function generateSourceAcceMereFixture(input: ISourceAcceMereInput): ISourceAcceUaiMere {
@@ -187,24 +165,22 @@ export function generateSourceAcceMereFixture(input: ISourceAcceMereInput): ISou
     source: "ACCE_UAI_MERE.csv",
     date: getFixtureValue(input, "date", new Date("2024-03-07T00:00:00Z")),
     data: generateSourceAcceMereDataFixture(input.data),
-  };
+  }
 }
 
 type ISourceAcceFilleInput = Partial<
   Omit<ISourceAcceUaiFille, "data"> & {
-    data?: Partial<ISourceAcceUaiFille["data"]>;
+    data?: Partial<ISourceAcceUaiFille["data"]>
   }
->;
+>
 
-export function generateSourceAcceFilleDataFixture(
-  data?: Partial<ISourceAcceUaiFille["data"]>
-): ISourceAcceUaiFille["data"] {
+export function generateSourceAcceFilleDataFixture(data?: Partial<ISourceAcceUaiFille["data"]>): ISourceAcceUaiFille["data"] {
   return {
     ...generateSourceAcceBaseDataFixture(data),
     numero_uai_trouve: getFixtureValue(data, "numero_uai_trouve", "0021518P"),
     type_rattachement: getFixtureValue(data, "type_rattachement", "AN"),
     numero_uai_fille: getFixtureValue(data, "numero_uai_fille", "0021518P"),
-  };
+  }
 }
 
 export function generateSourceAcceFilleFixture(input: ISourceAcceFilleInput): ISourceAcceUaiFille {
@@ -213,5 +189,5 @@ export function generateSourceAcceFilleFixture(input: ISourceAcceFilleInput): IS
     source: "ACCE_UAI_FILLE.csv",
     date: getFixtureValue(input, "date", new Date("2024-03-07T00:00:00Z")),
     data: generateSourceAcceFilleDataFixture(input.data),
-  };
+  }
 }

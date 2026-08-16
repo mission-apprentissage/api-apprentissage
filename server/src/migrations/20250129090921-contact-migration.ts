@@ -1,4 +1,4 @@
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
 
 export const up = async () => {
   await getDbCollection("organisme").updateMany(
@@ -7,7 +7,7 @@ export const up = async () => {
     },
     { $set: { contacts: [] } },
     { bypassDocumentValidation: true }
-  );
+  )
   await getDbCollection("formation").updateMany(
     {
       "formateur.organisme": { $ne: null },
@@ -15,7 +15,7 @@ export const up = async () => {
     },
     { $set: { "formateur.organisme.contacts": [] } },
     { bypassDocumentValidation: true }
-  );
+  )
   await getDbCollection("formation").updateMany(
     {
       "responsable.organisme": { $ne: null },
@@ -23,7 +23,7 @@ export const up = async () => {
     },
     { $set: { "responsable.organisme.contacts": [] } },
     { bypassDocumentValidation: true }
-  );
-};
+  )
+}
 
-export const requireShutdown: boolean = true;
+export const requireShutdown: boolean = true

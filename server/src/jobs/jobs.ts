@@ -1,36 +1,31 @@
-import { addJob, initJobProcessor } from "job-processor";
-import { zImportMetaFranceCompetence, zImportMetaNpec } from "shared/models/import.meta.model";
-import { z } from "zod/v4-mini";
-
-import { removeInactiveAccounts } from "../services/inactiveAccounts/inactiveAccounts.service.js";
-import { notifyUsersAboutExpiringApiKeys } from "./apiKey/apiKeyExpiration.notifier.js";
-import { validateModels } from "./db/schemaValidation.js";
-import { runAcceImporter } from "./importer/acce/acce.js";
-import { runBcnImporter } from "./importer/bcn/bcn.importer.js";
-import { runCatalogueImporter } from "./importer/catalogue/catalogue.importer.js";
-import { importCertifications } from "./importer/certifications/certifications.importer.js";
-import { runCommuneImporter } from "./importer/commune/commune.importer.js";
-import { runDaresApeIdccImporter } from "./importer/dares/ape_idcc/dares.ape_idcc.importer.js";
-import { runDaresConventionCollectivesImporter } from "./importer/dares/ccn/dares.ccn.importer.js";
-import { importFormations } from "./importer/formation/formation.importer.js";
-import {
-  importRncpArchive,
-  onImportRncpArchiveFailure,
-  runRncpImporter,
-} from "./importer/france_competence/france_competence.importer.js";
-import { importers } from "./importer/importers.js";
-import { runKaliConventionCollectivesImporter } from "./importer/kali/kali.ccn.importer.js";
-import { runKitApprentissageImporter } from "./importer/kit/kitApprentissage.importer.js";
-import { runMissionLocaleImporter } from "./importer/mission_locale/mission_locale.importer.js";
-import { importNpecResource, onImportNpecResourceFailure, runNpecImporter } from "./importer/npec/npec.importer.js";
-import { importOrganismes } from "./importer/organisme/organisme.importer.js";
-import { runReferentielImporter } from "./importer/referentiel/referentiel.js";
-import { updateKitApprentissageIndicateurSource } from "./indicateurs/source/kitApprentissage.source.indicateur.js";
-import { create as createMigration, status as statusMigration, up as upMigration } from "./migrations/migrations.js";
-import { createIndexes, getDatabase } from "@/services/mongodb/mongodbService.js";
-import logger, { createJobProcessorLogger } from "@/services/logger.js";
-import { checkDocumentationSync } from "@/services/documentation/checkDocumentationSync.js";
-import config from "@/config.js";
+import { addJob, initJobProcessor } from "job-processor"
+import { zImportMetaFranceCompetence, zImportMetaNpec } from "shared/models/import.meta.model"
+import { z } from "zod/v4-mini"
+import config from "@/config.js"
+import { checkDocumentationSync } from "@/services/documentation/checkDocumentationSync.js"
+import logger, { createJobProcessorLogger } from "@/services/logger.js"
+import { createIndexes, getDatabase } from "@/services/mongodb/mongodbService.js"
+import { removeInactiveAccounts } from "../services/inactiveAccounts/inactiveAccounts.service.js"
+import { notifyUsersAboutExpiringApiKeys } from "./apiKey/apiKeyExpiration.notifier.js"
+import { validateModels } from "./db/schemaValidation.js"
+import { runAcceImporter } from "./importer/acce/acce.js"
+import { runBcnImporter } from "./importer/bcn/bcn.importer.js"
+import { runCatalogueImporter } from "./importer/catalogue/catalogue.importer.js"
+import { importCertifications } from "./importer/certifications/certifications.importer.js"
+import { runCommuneImporter } from "./importer/commune/commune.importer.js"
+import { runDaresApeIdccImporter } from "./importer/dares/ape_idcc/dares.ape_idcc.importer.js"
+import { runDaresConventionCollectivesImporter } from "./importer/dares/ccn/dares.ccn.importer.js"
+import { importFormations } from "./importer/formation/formation.importer.js"
+import { importRncpArchive, onImportRncpArchiveFailure, runRncpImporter } from "./importer/france_competence/france_competence.importer.js"
+import { importers } from "./importer/importers.js"
+import { runKaliConventionCollectivesImporter } from "./importer/kali/kali.ccn.importer.js"
+import { runKitApprentissageImporter } from "./importer/kit/kitApprentissage.importer.js"
+import { runMissionLocaleImporter } from "./importer/mission_locale/mission_locale.importer.js"
+import { importNpecResource, onImportNpecResourceFailure, runNpecImporter } from "./importer/npec/npec.importer.js"
+import { importOrganismes } from "./importer/organisme/organisme.importer.js"
+import { runReferentielImporter } from "./importer/referentiel/referentiel.js"
+import { updateKitApprentissageIndicateurSource } from "./indicateurs/source/kitApprentissage.source.indicateur.js"
+import { create as createMigration, status as statusMigration, up as upMigration } from "./migrations/migrations.js"
 
 export async function setupJobProcessor() {
   return initJobProcessor({
@@ -67,21 +62,21 @@ export async function setupJobProcessor() {
       },
       "migrations:up": {
         handler: async () => {
-          await upMigration();
+          await upMigration()
           // Validate all documents after the migration
-          await addJob({ name: "db:validate", queued: true });
-          return;
+          await addJob({ name: "db:validate", queued: true })
+          return
         },
       },
       "migrations:status": {
         handler: async () => {
-          const { count, requireShutdown } = await statusMigration();
+          const { count, requireShutdown } = await statusMigration()
           if (count === 0) {
-            console.log("migrations-status=synced");
+            console.log("migrations-status=synced")
           } else {
-            console.log(`migrations-status=${requireShutdown ? "require-shutdown" : "pending"}`);
+            console.log(`migrations-status=${requireShutdown ? "require-shutdown" : "pending"}`)
           }
-          return;
+          return
         },
       },
       "migrations:create": {
@@ -131,7 +126,7 @@ export async function setupJobProcessor() {
         handler: async (job, signal) => importRncpArchive(zImportMetaFranceCompetence.parse(job.payload), signal),
         onJobExited: async (job) => {
           if (job.status === "errored") {
-            await onImportRncpArchiveFailure(zImportMetaFranceCompetence.parse(job.payload));
+            await onImportRncpArchiveFailure(zImportMetaFranceCompetence.parse(job.payload))
           }
         },
         resumable: true,
@@ -143,7 +138,7 @@ export async function setupJobProcessor() {
         handler: async (job, signal) => importNpecResource(zImportMetaNpec.parse(job.payload), signal),
         onJobExited: async (job) => {
           if (job.status === "errored") {
-            await onImportNpecResourceFailure(zImportMetaNpec.parse(job.payload));
+            await onImportNpecResourceFailure(zImportMetaNpec.parse(job.payload))
           }
         },
         resumable: true,
@@ -164,8 +159,8 @@ export async function setupJobProcessor() {
       },
       "import:organismes": {
         handler: async (job) => {
-          const options = z.parse(z.nullish(z.object({ force: z.optional(z.boolean()) })), job.payload);
-          return importOrganismes(options?.force ?? false);
+          const options = z.parse(z.nullish(z.object({ force: z.optional(z.boolean()) })), job.payload)
+          return importOrganismes(options?.force ?? false)
         },
         resumable: true,
       },
@@ -177,5 +172,5 @@ export async function setupJobProcessor() {
         handler: checkDocumentationSync,
       },
     },
-  });
+  })
 }

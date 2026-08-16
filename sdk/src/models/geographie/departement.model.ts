@@ -1,4 +1,4 @@
-import { z } from "zod/v4-mini";
+import { z } from "zod/v4-mini"
 
 export const zDepartement = z.object({
   nom: z.string(),
@@ -12,6 +12,6 @@ export const zDepartement = z.object({
     code: z.string(),
     nom: z.string(),
   }),
-});
+})
 
-export type IDepartement = z.infer<typeof zDepartement>;
+export type IDepartement = z.infer<typeof zDepartement>

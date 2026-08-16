@@ -1,5 +1,5 @@
-import { recuperationDetailOffrePageSummaryDoc } from "../../internal.js";
-import type { DocRoute } from "../../types.js";
+import { recuperationDetailOffrePageSummaryDoc } from "../../internal.js"
+import type { DocRoute } from "../../types.js"
 
 export const jobSearchByIdRouteDoc = {
   summary: recuperationDetailOffrePageSummaryDoc.title,
@@ -24,7 +24,7 @@ export const jobSearchByIdRouteDoc = {
       ],
     },
   },
-} as const satisfies DocRoute;
+} as const satisfies DocRoute
 
 export const jobSearchByIdPublishingRouteDoc = {
   summary: { fr: "Etat de la dernière publication de l'offre", en: "State of the last publishing of the offer" },
@@ -49,4 +49,4 @@ export const jobSearchByIdPublishingRouteDoc = {
       ],
     },
   },
-} as const satisfies DocRoute;
+} as const satisfies DocRoute

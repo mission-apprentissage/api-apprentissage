@@ -6,12 +6,20 @@
     "incremental": true /* Enable incremental compilation */,
     /* Modules */
     "paths": {
-      "@/*": ["./src/*"],
-      "@tests/*": ["./tests/*"]
+      "@/*": [
+        "./src/*"
+      ],
+      "@tests/*": [
+        "./tests/*"
+      ]
     },
     "composite": true,
     "resolveJsonModule": true,
-    "typeRoots": ["./types", "./node_modules/@types/", "../node_modules/@types/"],
+    "typeRoots": [
+      "./types",
+      "./node_modules/@types/",
+      "../node_modules/@types/"
+    ],
     /* JavaScript Support */
     "allowJs": false,
     /* Emit */
@@ -35,11 +43,29 @@
     "noErrorTruncation": true,
     "noUncheckedSideEffectImports": true
   },
-  "references": [{ "path": "../sdk" }, { "path": "../shared" }],
-  "include": ["./**/*.ts", "./**/*.js", "**/*.md", "**/*.json"],
-  "exclude": ["**/node_modules", "coverage", "dist"],
+  "references": [
+    {
+      "path": "../sdk"
+    },
+    {
+      "path": "../shared"
+    }
+  ],
+  "include": [
+    "./**/*.ts",
+    "./**/*.js",
+    "**/*.md",
+    "**/*.json"
+  ],
+  "exclude": [
+    "**/node_modules",
+    "coverage",
+    "dist"
+  ],
   "typeAcquisition": {
     "enable": true,
-    "include": ["@types/node"]
+    "include": [
+      "@types/node"
+    ]
   }
 }

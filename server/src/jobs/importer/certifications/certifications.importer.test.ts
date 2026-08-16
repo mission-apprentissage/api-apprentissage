@@ -1,5 +1,6 @@
-import { DateTime } from "luxon";
-import { ObjectId } from "mongodb";
+import { useMongo } from "@tests/mongo.test.utils.js"
+import { DateTime } from "luxon"
+import { ObjectId } from "mongodb"
 import {
   generateCertificationInternalFixture,
   generateKitApprentissageFixture,
@@ -9,19 +10,16 @@ import {
   generateSourceBcn_N51_FormationDiplomeFixture,
   generateSourceBcn_V_FormationDiplomeFixture,
   generateSourceFranceCompetenceFixture,
-} from "shared/models/fixtures/index";
-import type { ParisDate } from "shared/zod/date.primitives";
-import { parseParisLocalDate } from "shared/zod/date.primitives";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+} from "shared/models/fixtures/index"
+import type { ParisDate } from "shared/zod/date.primitives"
+import { parseParisLocalDate } from "shared/zod/date.primitives"
+import { beforeEach, describe, expect, it, vi } from "vitest"
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
+import { importCertifications } from "./certifications.importer.js"
 
-import { importCertifications } from "./certifications.importer.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
-
-import { useMongo } from "@tests/mongo.test.utils.js";
-
-const now = new Date("2024-03-07T10:00:00Z");
-const twoHoursAgo = new Date(now.getTime() - 2 * 3600 * 1000);
-const yesterday = new Date(now.getTime() - 24 * 3600 * 1000);
+const now = new Date("2024-03-07T10:00:00Z")
+const twoHoursAgo = new Date(now.getTime() - 2 * 3600 * 1000)
+const yesterday = new Date(now.getTime() - 24 * 3600 * 1000)
 
 const oldestImportFc = {
   _id: new ObjectId(),
@@ -40,7 +38,7 @@ const oldestImportFc = {
     },
   },
   status: "done",
-} as const;
+} as const
 
 const yesterdayImports = {
   kit_apprentissage: { _id: new ObjectId(), type: "kit_apprentissage", import_date: yesterday, status: "done" },
@@ -63,7 +61,7 @@ const yesterdayImports = {
     },
     status: "done",
   },
-} as const;
+} as const
 
 const yesterdayImportCert = {
   _id: new ObjectId(),
@@ -83,7 +81,7 @@ const yesterdayImportCert = {
     },
   },
   status: "done",
-} as const;
+} as const
 
 const todayImports = {
   kit_apprentissage: { _id: new ObjectId(), type: "kit_apprentissage", import_date: twoHoursAgo, status: "done" },
@@ -106,7 +104,7 @@ const todayImports = {
     },
     status: "done",
   },
-} as const;
+} as const
 
 const todayImportCert = {
   _id: new ObjectId(),
@@ -125,51 +123,47 @@ const todayImportCert = {
       import_date: todayImports.kit_apprentissage.import_date,
     },
   },
-} as const;
+} as const
 
-const toDateString = (date: ParisDate | null | undefined) =>
-  date ? DateTime.fromJSDate(date, { zone: "Europe/Paris" }).toFormat("dd/LL/yyyy") : null;
+const toDateString = (date: ParisDate | null | undefined) => (date ? DateTime.fromJSDate(date, { zone: "Europe/Paris" }).toFormat("dd/LL/yyyy") : null)
 
 describe("importCertifications", () => {
-  useMongo();
+  useMongo()
 
   beforeEach(() => {
-    vi.useFakeTimers();
-    vi.setSystemTime(now);
+    vi.useFakeTimers()
+    vi.setSystemTime(now)
 
     return () => {
-      vi.useRealTimers();
-    };
-  });
-
-  describe.each([["kit_apprentissage"], ["bcn"], ["france_competence"]])(
-    "when source %s import is not complete",
-    (source) => {
-      beforeEach(async () => {
-        if (source !== "kit_apprentissage") {
-          await getDbCollection("import.meta").insertOne(todayImports.kit_apprentissage);
-        }
-        if (source !== "bcn") {
-          await getDbCollection("import.meta").insertOne(todayImports.bcn);
-        }
-        if (source !== "france_competence") {
-          await getDbCollection("import.meta").insertMany([oldestImportFc, todayImports.france_competence]);
-        }
-      });
-
-      it("should skip import", async () => {
-        expect(await importCertifications()).toBe(null);
-        expect(await getDbCollection("import.meta").find({ type: "certifications" }).toArray()).toEqual([]);
-      });
+      vi.useRealTimers()
     }
-  );
+  })
+
+  describe.each([["kit_apprentissage"], ["bcn"], ["france_competence"]])("when source %s import is not complete", (source) => {
+    beforeEach(async () => {
+      if (source !== "kit_apprentissage") {
+        await getDbCollection("import.meta").insertOne(todayImports.kit_apprentissage)
+      }
+      if (source !== "bcn") {
+        await getDbCollection("import.meta").insertOne(todayImports.bcn)
+      }
+      if (source !== "france_competence") {
+        await getDbCollection("import.meta").insertMany([oldestImportFc, todayImports.france_competence])
+      }
+    })
+
+    it("should skip import", async () => {
+      expect(await importCertifications()).toBe(null)
+      expect(await getDbCollection("import.meta").find({ type: "certifications" }).toArray()).toEqual([])
+    })
+  })
 
   describe("when source import is complete", () => {
     beforeEach(async () => {
-      await getDbCollection("import.meta").insertOne(yesterdayImports.kit_apprentissage);
-      await getDbCollection("import.meta").insertOne(yesterdayImports.bcn);
-      await getDbCollection("import.meta").insertMany([oldestImportFc, yesterdayImports.france_competence]);
-    });
+      await getDbCollection("import.meta").insertOne(yesterdayImports.kit_apprentissage)
+      await getDbCollection("import.meta").insertOne(yesterdayImports.bcn)
+      await getDbCollection("import.meta").insertMany([oldestImportFc, yesterdayImports.france_competence])
+    })
 
     describe("when initial import", () => {
       it("should import", async () => {
@@ -177,7 +171,7 @@ describe("importCertifications", () => {
           total: { orphanCfd: 0, orphanRncp: 0, total: 0 },
           created: { orphanCfd: 0, orphanRncp: 0, total: 0 },
           deleted: { orphanCfd: 0, orphanRncp: 0, total: 0 },
-        });
+        })
         expect(await getDbCollection("import.meta").find({ type: "certifications" }).toArray()).toEqual([
           {
             _id: expect.any(ObjectId),
@@ -186,23 +180,21 @@ describe("importCertifications", () => {
             type: "certifications",
             status: "done",
           },
-        ]);
-      });
-    });
+        ])
+      })
+    })
 
     describe("when import already in sync", () => {
       beforeEach(async () => {
-        await getDbCollection("import.meta").insertOne(yesterdayImportCert);
-      });
+        await getDbCollection("import.meta").insertOne(yesterdayImportCert)
+      })
 
       describe("when force=false", () => {
         it("should skip import", async () => {
-          expect(await importCertifications()).toBe(null);
-          expect(await getDbCollection("import.meta").find({ type: "certifications" }).toArray()).toEqual([
-            yesterdayImportCert,
-          ]);
-        });
-      });
+          expect(await importCertifications()).toBe(null)
+          expect(await getDbCollection("import.meta").find({ type: "certifications" }).toArray()).toEqual([yesterdayImportCert])
+        })
+      })
 
       describe("when force=true", () => {
         it("should import", async () => {
@@ -210,7 +202,7 @@ describe("importCertifications", () => {
             total: { orphanCfd: 0, orphanRncp: 0, total: 0 },
             created: { orphanCfd: 0, orphanRncp: 0, total: 0 },
             deleted: { orphanCfd: 0, orphanRncp: 0, total: 0 },
-          });
+          })
           expect(await getDbCollection("import.meta").find({ type: "certifications" }).toArray()).toEqual([
             yesterdayImportCert,
             {
@@ -220,22 +212,22 @@ describe("importCertifications", () => {
               type: "certifications",
               status: "done",
             },
-          ]);
-        });
-      });
-    });
+          ])
+        })
+      })
+    })
 
     describe("when previous import failed", () => {
       beforeEach(async () => {
-        await getDbCollection("import.meta").insertOne({ ...yesterdayImportCert, status: "failed" });
-      });
+        await getDbCollection("import.meta").insertOne({ ...yesterdayImportCert, status: "failed" })
+      })
 
       it("should import", async () => {
         expect(await importCertifications()).toEqual({
           total: { orphanCfd: 0, orphanRncp: 0, total: 0 },
           created: { orphanCfd: 0, orphanRncp: 0, total: 0 },
           deleted: { orphanCfd: 0, orphanRncp: 0, total: 0 },
-        });
+        })
         expect(
           await getDbCollection("import.meta")
             .find({ type: "certifications" }, { sort: { import_date: 1 } })
@@ -249,60 +241,49 @@ describe("importCertifications", () => {
             type: "certifications",
             status: "done",
           },
-        ]);
-      });
-    });
+        ])
+      })
+    })
 
     describe("when import france_competence is pending", () => {
       beforeEach(async () => {
-        await getDbCollection("import.meta").insertOne(yesterdayImportCert);
-        await getDbCollection("import.meta").insertOne({ ...todayImports.france_competence, status: "pending" });
-      });
+        await getDbCollection("import.meta").insertOne(yesterdayImportCert)
+        await getDbCollection("import.meta").insertOne({ ...todayImports.france_competence, status: "pending" })
+      })
 
       it("should skip import", async () => {
-        expect(await importCertifications()).toBe(null);
+        expect(await importCertifications()).toBe(null)
+        expect(await getDbCollection("import.meta").find({ type: "certifications" }).toArray()).toEqual([yesterdayImportCert])
+      })
+    })
+
+    describe.each<[keyof typeof todayImports]>([["kit_apprentissage"], ["bcn"], ["france_competence"]])("when source %s import is updated", (source) => {
+      beforeEach(async () => {
+        await getDbCollection("import.meta").insertOne(yesterdayImportCert)
+        await getDbCollection("import.meta").insertOne(todayImports[source])
+      })
+      it("should import", async () => {
+        expect(await importCertifications()).toEqual({
+          total: { orphanCfd: 0, orphanRncp: 0, total: 0 },
+          created: { orphanCfd: 0, orphanRncp: 0, total: 0 },
+          deleted: { orphanCfd: 0, orphanRncp: 0, total: 0 },
+        })
         expect(await getDbCollection("import.meta").find({ type: "certifications" }).toArray()).toEqual([
           yesterdayImportCert,
-        ]);
-      });
-    });
-
-    describe.each<[keyof typeof todayImports]>([["kit_apprentissage"], ["bcn"], ["france_competence"]])(
-      "when source %s import is updated",
-      (source) => {
-        beforeEach(async () => {
-          await getDbCollection("import.meta").insertOne(yesterdayImportCert);
-          await getDbCollection("import.meta").insertOne(todayImports[source]);
-        });
-        it("should import", async () => {
-          expect(await importCertifications()).toEqual({
-            total: { orphanCfd: 0, orphanRncp: 0, total: 0 },
-            created: { orphanCfd: 0, orphanRncp: 0, total: 0 },
-            deleted: { orphanCfd: 0, orphanRncp: 0, total: 0 },
-          });
-          expect(await getDbCollection("import.meta").find({ type: "certifications" }).toArray()).toEqual([
-            yesterdayImportCert,
-            {
-              _id: expect.any(ObjectId),
-              import_date: now,
-              source: {
-                bcn: source === "bcn" ? todayImportCert.source.bcn : yesterdayImportCert.source.bcn,
-                france_competence:
-                  source === "france_competence"
-                    ? todayImportCert.source.france_competence
-                    : yesterdayImportCert.source.france_competence,
-                kit_apprentissage:
-                  source === "kit_apprentissage"
-                    ? todayImportCert.source.kit_apprentissage
-                    : yesterdayImportCert.source.kit_apprentissage,
-              },
-              status: "done",
-              type: "certifications",
+          {
+            _id: expect.any(ObjectId),
+            import_date: now,
+            source: {
+              bcn: source === "bcn" ? todayImportCert.source.bcn : yesterdayImportCert.source.bcn,
+              france_competence: source === "france_competence" ? todayImportCert.source.france_competence : yesterdayImportCert.source.france_competence,
+              kit_apprentissage: source === "kit_apprentissage" ? todayImportCert.source.kit_apprentissage : yesterdayImportCert.source.kit_apprentissage,
             },
-          ]);
-        });
-      }
-    );
+            status: "done",
+            type: "certifications",
+          },
+        ])
+      })
+    })
 
     describe('when kit apprentissage data reference a "cfd" that does not exist', () => {
       beforeEach(async () => {
@@ -311,27 +292,27 @@ describe("importCertifications", () => {
             cfd: "36T23301",
             rncp: "RNCP1796",
           })
-        );
+        )
         await getDbCollection("source.france_competence").insertOne(
           generateSourceFranceCompetenceFixture({
             numero_fiche: "RNCP1796",
           })
-        );
-      });
+        )
+      })
 
       it("should import certifications", async () => {
         expect(await importCertifications()).toEqual({
           total: { orphanCfd: 0, orphanRncp: 1, total: 1 },
           created: { orphanCfd: 0, orphanRncp: 1, total: 1 },
           deleted: { orphanCfd: 0, orphanRncp: 0, total: 0 },
-        });
+        })
         expect(await getDbCollection("certifications").find({}).toArray()).toEqual([
           expect.objectContaining({
             identifiant: { cfd: null, rncp: "RNCP1796", rncp_anterieur_2019: true },
           }),
-        ]);
-      });
-    });
+        ])
+      })
+    })
 
     describe('when kit apprentissage data reference a "rncp" that does not exist', () => {
       beforeEach(async () => {
@@ -340,40 +321,40 @@ describe("importCertifications", () => {
             cfd: "36T23301",
             rncp: "RNCP1796",
           })
-        );
+        )
         await getDbCollection("source.bcn").insertOne(
           generateSourceBcn_N_FormationDiplomeFixture({
             data: { FORMATION_DIPLOME: "36T23301" },
           })
-        );
-      });
+        )
+      })
 
       it("should import certifications", async () => {
         expect(await importCertifications()).toEqual({
           total: { orphanCfd: 1, orphanRncp: 0, total: 1 },
           created: { orphanCfd: 1, orphanRncp: 0, total: 1 },
           deleted: { orphanCfd: 0, orphanRncp: 0, total: 0 },
-        });
+        })
         expect(await getDbCollection("certifications").find({}).toArray()).toEqual([
           expect.objectContaining({
             identifiant: { cfd: "36T23301", rncp: null, rncp_anterieur_2019: null },
           }),
-        ]);
-      });
-    });
-  });
+        ])
+      })
+    })
+  })
 
   describe("when source are not in sync with certifications", () => {
     // Use fix validity interval to not be polluted by the continuity tests
-    const debut = { value: "01/01/2023", date: parseParisLocalDate("01/01/2023", "00:00:00") };
-    const fin = { value: "31/12/2023", date: parseParisLocalDate("31/12/2023", "23:59:59") };
+    const debut = { value: "01/01/2023", date: parseParisLocalDate("01/01/2023", "00:00:00") }
+    const fin = { value: "31/12/2023", date: parseParisLocalDate("31/12/2023", "23:59:59") }
 
     const periode_validite = {
       debut: debut.date,
       fin: fin.date,
       cfd: { ouverture: debut.date, fermeture: fin.date },
       rncp: { activation: debut.date, fin_enregistrement: fin.date },
-    };
+    }
 
     const existingCertifications = {
       updated: [
@@ -422,7 +403,7 @@ describe("importCertifications", () => {
           updated_at: yesterday,
         }),
       ],
-    };
+    }
 
     const newCertifications = [
       generateCertificationInternalFixture({
@@ -446,7 +427,7 @@ describe("importCertifications", () => {
         created_at: now,
         updated_at: now,
       }),
-    ];
+    ]
 
     const kitApprentissageData = [
       generateKitApprentissageFixture({
@@ -462,7 +443,7 @@ describe("importCertifications", () => {
         cfd: newCertifications[0].identifiant.cfd!,
         rncp: newCertifications[0].identifiant.rncp!,
       }),
-    ];
+    ]
 
     const bcnData = [
       generateSourceBcn_V_FormationDiplomeFixture({
@@ -536,9 +517,9 @@ describe("importCertifications", () => {
         },
       }),
       ...generateSourceBcn_N_NiveauFormationDiplomeFixtureList(),
-    ];
+    ]
 
-    const common = { date_premiere_activation: debut.date, data: { standard: { Date_Fin_Enregistrement: fin.value } } };
+    const common = { date_premiere_activation: debut.date, data: { standard: { Date_Fin_Enregistrement: fin.value } } }
 
     const franceCompetenceData = [
       generateSourceFranceCompetenceFixture({
@@ -555,14 +536,11 @@ describe("importCertifications", () => {
       }),
       generateSourceFranceCompetenceFixture({ numero_fiche: newCertifications[0].identifiant.rncp ?? "", ...common }),
       generateSourceFranceCompetenceFixture({ numero_fiche: newCertifications[2].identifiant.rncp ?? "", ...common }),
-    ];
+    ]
 
     beforeEach(async () => {
       await Promise.all([
-        getDbCollection("certifications").insertMany([
-          ...existingCertifications.updated,
-          ...existingCertifications.removed,
-        ]),
+        getDbCollection("certifications").insertMany([...existingCertifications.updated, ...existingCertifications.removed]),
         getDbCollection("source.bcn").insertMany(bcnData),
         getDbCollection("source.france_competence").insertMany(franceCompetenceData),
         getDbCollection("source.kit_apprentissage").insertMany(kitApprentissageData),
@@ -571,15 +549,15 @@ describe("importCertifications", () => {
         getDbCollection("import.meta").insertOne(todayImports.kit_apprentissage),
         getDbCollection("import.meta").insertOne(todayImports.bcn),
         getDbCollection("import.meta").insertOne(todayImports.france_competence),
-      ]);
-    });
+      ])
+    })
 
     it("should import certifications", async () => {
       expect(await importCertifications()).toEqual({
         total: { orphanCfd: 2, orphanRncp: 2, total: 7 },
         created: { orphanCfd: 1, orphanRncp: 1, total: 4 },
         deleted: { orphanCfd: 1, orphanRncp: 1, total: 3 },
-      });
+      })
       expect(await getDbCollection("import.meta").find({ type: "certifications" }).toArray()).toEqual([
         yesterdayImportCert,
         {
@@ -593,7 +571,7 @@ describe("importCertifications", () => {
           status: "done",
           type: "certifications",
         },
-      ]);
+      ])
 
       // Ignore all fields, they will be tests individually
       expect(
@@ -624,26 +602,23 @@ describe("importCertifications", () => {
           },
           ...newCertifications.map((c) => ({ identifiant: c.identifiant, created_at: now, updated_at: now })),
         ].toSorted((a, b) => {
-          return (
-            (a.identifiant.cfd ?? "").localeCompare(b.identifiant.cfd ?? "") ||
-            (a.identifiant.rncp ?? "").localeCompare(b.identifiant.rncp ?? "")
-          );
+          return (a.identifiant.cfd ?? "").localeCompare(b.identifiant.cfd ?? "") || (a.identifiant.rncp ?? "").localeCompare(b.identifiant.rncp ?? "")
         })
-      );
-    });
-  });
+      )
+    })
+  })
 
   describe("when existing rncp_anterieur_2019 is invalid", () => {
     // Use fix validity interval to not be polluted by the continuity tests
-    const debut = { value: "01/01/2023", date: parseParisLocalDate("01/01/2023", "00:00:00") };
-    const fin = { value: "31/12/2023", date: parseParisLocalDate("31/12/2023", "23:59:59") };
+    const debut = { value: "01/01/2023", date: parseParisLocalDate("01/01/2023", "00:00:00") }
+    const fin = { value: "31/12/2023", date: parseParisLocalDate("31/12/2023", "23:59:59") }
 
     const periode_validite = {
       debut: debut.date,
       fin: fin.date,
       cfd: { ouverture: debut.date, fermeture: fin.date },
       rncp: { activation: debut.date, fin_enregistrement: fin.date },
-    };
+    }
 
     const existingCertification = generateCertificationInternalFixture({
       _id: new ObjectId(),
@@ -651,14 +626,14 @@ describe("importCertifications", () => {
       periode_validite,
       created_at: yesterday,
       updated_at: yesterday,
-    });
+    })
 
     const kitApprentissageData = [
       generateKitApprentissageFixture({
         cfd: existingCertification.identifiant.cfd!,
         rncp: existingCertification.identifiant.rncp!,
       }),
-    ];
+    ]
 
     const bcnData = [
       generateSourceBcn_V_FormationDiplomeFixture({
@@ -676,7 +651,7 @@ describe("importCertifications", () => {
         }),
       }),
       ...generateSourceBcn_N_NiveauFormationDiplomeFixtureList(),
-    ];
+    ]
 
     const franceCompetenceData = [
       generateSourceFranceCompetenceFixture({
@@ -684,7 +659,7 @@ describe("importCertifications", () => {
         date_premiere_activation: debut.date,
         data: { standard: { Date_Fin_Enregistrement: fin.value } },
       }),
-    ];
+    ]
 
     beforeEach(async () => {
       await Promise.all([
@@ -697,15 +672,15 @@ describe("importCertifications", () => {
         getDbCollection("import.meta").insertOne(todayImports.kit_apprentissage),
         getDbCollection("import.meta").insertOne(todayImports.bcn),
         getDbCollection("import.meta").insertOne(todayImports.france_competence),
-      ]);
-    });
+      ])
+    })
 
     it("should update rncp_", async () => {
       expect(await importCertifications()).toEqual({
         total: { orphanCfd: 0, orphanRncp: 0, total: 1 },
         created: { orphanCfd: 0, orphanRncp: 0, total: 0 },
         deleted: { orphanCfd: 0, orphanRncp: 0, total: 0 },
-      });
+      })
       expect(await getDbCollection("import.meta").find({ type: "certifications" }).toArray()).toEqual([
         yesterdayImportCert,
         {
@@ -719,7 +694,7 @@ describe("importCertifications", () => {
           type: "certifications",
           status: "done",
         },
-      ]);
+      ])
 
       // Ignore all fields, they will be tests individually
       expect(
@@ -740,9 +715,9 @@ describe("importCertifications", () => {
           },
           updated_at: now,
         },
-      ]);
-    });
-  });
+      ])
+    })
+  })
 
   describe("with continuity", () => {
     const searchmap = {
@@ -827,7 +802,7 @@ describe("importCertifications", () => {
           anciennes: ["30000001"],
         },
       },
-    } as const;
+    } as const
 
     const kitApprentissageData = [
       generateKitApprentissageFixture({
@@ -842,7 +817,7 @@ describe("importCertifications", () => {
         cfd: "20000001",
         rncp: "RNCP00200",
       }),
-    ];
+    ]
 
     const generateBcnData = (code: keyof (typeof searchmap)["cfd"]) => {
       return [
@@ -862,8 +837,8 @@ describe("importCertifications", () => {
             NOUVEAU_DIPLOMES: [...searchmap.cfd[code].nouvelles],
           },
         }),
-      ];
-    };
+      ]
+    }
 
     const bcnData = [
       ...generateBcnData(10000001),
@@ -872,7 +847,7 @@ describe("importCertifications", () => {
       ...generateBcnData(30000001),
       ...generateBcnData(30000002),
       ...generateSourceBcn_N_NiveauFormationDiplomeFixtureList(),
-    ];
+    ]
 
     const generateFcData = (code: keyof (typeof searchmap)["rncp"]) => {
       return generateSourceFranceCompetenceFixture({
@@ -895,8 +870,8 @@ describe("importCertifications", () => {
             })),
           ],
         },
-      });
-    };
+      })
+    }
 
     const franceCompetenceData = [
       generateFcData("RNCP00100"),
@@ -906,7 +881,7 @@ describe("importCertifications", () => {
       generateFcData("RNCP00200"),
       generateFcData("RNCP00300"),
       generateFcData("RNCP00301"),
-    ];
+    ]
 
     beforeEach(async () => {
       await Promise.all([
@@ -934,15 +909,15 @@ describe("importCertifications", () => {
         getDbCollection("import.meta").insertOne(todayImports.kit_apprentissage),
         getDbCollection("import.meta").insertOne(todayImports.bcn),
         getDbCollection("import.meta").insertOne(todayImports.france_competence),
-      ]);
-    });
+      ])
+    })
 
     it("should import certifications", async () => {
       expect(await importCertifications()).toEqual({
         total: { orphanCfd: 4, orphanRncp: 4, total: 11 },
         created: { orphanCfd: 4, orphanRncp: 4, total: 11 },
         deleted: { orphanCfd: 0, orphanRncp: 0, total: 0 },
-      });
+      })
       // Ignore all fields, they will be tests individually
       expect(
         await getDbCollection("certifications")
@@ -954,9 +929,9 @@ describe("importCertifications", () => {
             }
           )
           .toArray()
-      ).toMatchSnapshot();
-    });
-  });
+      ).toMatchSnapshot()
+    })
+  })
 
   describe("with partial kit_coverage", () => {
     const searchmap = {
@@ -1001,7 +976,7 @@ describe("importCertifications", () => {
           fermeture: parseParisLocalDate("01/01/2022", "23:59:59"),
         },
       },
-    } as const;
+    } as const
 
     const kitApprentissageData = [
       generateKitApprentissageFixture({
@@ -1024,7 +999,7 @@ describe("importCertifications", () => {
         cfd: "30000001",
         rncp: "RNCP00300",
       }),
-    ];
+    ]
 
     const generateBcnData = (code: keyof (typeof searchmap)["cfd"]) => {
       return [
@@ -1042,15 +1017,10 @@ describe("importCertifications", () => {
             DATE_FERMETURE: toDateString(searchmap.cfd[code]?.fermeture),
           },
         }),
-      ];
-    };
+      ]
+    }
 
-    const bcnData = [
-      ...generateBcnData(10000001),
-      ...generateBcnData(20000001),
-      ...generateBcnData(30000001),
-      ...generateSourceBcn_N_NiveauFormationDiplomeFixtureList(),
-    ];
+    const bcnData = [...generateBcnData(10000001), ...generateBcnData(20000001), ...generateBcnData(30000001), ...generateSourceBcn_N_NiveauFormationDiplomeFixtureList()]
 
     const generateFcData = (code: keyof (typeof searchmap)["rncp"]) => {
       return generateSourceFranceCompetenceFixture({
@@ -1061,16 +1031,10 @@ describe("importCertifications", () => {
             Date_Fin_Enregistrement: toDateString(searchmap.rncp[code]?.fin_enregistrement),
           },
         },
-      });
-    };
+      })
+    }
 
-    const franceCompetenceData = [
-      generateFcData("RNCP00100"),
-      generateFcData("RNCP00101"),
-      generateFcData("RNCP00200"),
-      generateFcData("RNCP00201"),
-      generateFcData("RNCP00300"),
-    ];
+    const franceCompetenceData = [generateFcData("RNCP00100"), generateFcData("RNCP00101"), generateFcData("RNCP00200"), generateFcData("RNCP00201"), generateFcData("RNCP00300")]
 
     beforeEach(async () => {
       await Promise.all([
@@ -1098,15 +1062,15 @@ describe("importCertifications", () => {
         getDbCollection("import.meta").insertOne(todayImports.kit_apprentissage),
         getDbCollection("import.meta").insertOne(todayImports.bcn),
         getDbCollection("import.meta").insertOne(todayImports.france_competence),
-      ]);
-    });
+      ])
+    })
 
     it("should import certifications", async () => {
       expect(await importCertifications()).toEqual({
         total: { orphanCfd: 4, orphanRncp: 4, total: 13 },
         created: { orphanCfd: 4, orphanRncp: 4, total: 13 },
         deleted: { orphanCfd: 0, orphanRncp: 0, total: 0 },
-      });
+      })
       // Ignore all fields, they will be tests individually
       expect(
         await getDbCollection("certifications")
@@ -1118,7 +1082,7 @@ describe("importCertifications", () => {
             }
           )
           .toArray()
-      ).toMatchSnapshot();
-    });
-  });
-});
+      ).toMatchSnapshot()
+    })
+  })
+})

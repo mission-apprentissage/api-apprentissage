@@ -1,7 +1,7 @@
-import nock from "nock";
-import { describe, expect, it } from "vitest";
+import nock from "nock"
+import { describe, expect, it } from "vitest"
 
-import { fetchDepartementMissionLocale } from "./unml.js";
+import { fetchDepartementMissionLocale } from "./unml.js"
 
 describe("fetchDepartementMissionLocale", () => {
   it("should return the list of departements of the region", async () => {
@@ -49,7 +49,7 @@ describe("fetchDepartementMissionLocale", () => {
       nomDepartement: "Nord",
       nomRegion: "Hauts-de-France",
       alias: "HEM",
-    };
+    }
 
     const payload = {
       results: [
@@ -77,12 +77,12 @@ describe("fetchDepartementMissionLocale", () => {
       ],
       total: 2,
       success: true,
-    };
+    }
 
-    nock("https://api.unml.info").get("/TrouveTaML/").query({ search_: "59" }).reply(200, payload);
+    nock("https://api.unml.info").get("/TrouveTaML/").query({ search_: "59" }).reply(200, payload)
 
-    const result = await fetchDepartementMissionLocale("59");
+    const result = await fetchDepartementMissionLocale("59")
 
-    expect(result).toEqual(payload);
-  });
-});
+    expect(result).toEqual(payload)
+  })
+})

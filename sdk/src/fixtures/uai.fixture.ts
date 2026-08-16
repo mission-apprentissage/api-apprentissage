@@ -3,4 +3,4 @@ export const uaiFixtures = {
   "0491801S": "0491801S",
   "0631408N": "0631408N",
   "0851372E": "0851372E",
-} as const;
+} as const

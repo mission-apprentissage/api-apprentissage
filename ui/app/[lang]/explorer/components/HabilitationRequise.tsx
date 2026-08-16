@@ -1,30 +1,30 @@
-"use client";
-import { fr } from "@codegouvfr/react-dsfr";
-import { Button } from "@codegouvfr/react-dsfr/Button";
-import { Box, Typography } from "@mui/material";
-import type { OpenapiSpec } from "api-alternance-sdk/internal";
-import { getTextOpenAPI, openapiSpec } from "api-alternance-sdk/internal";
-import { useTranslation } from "react-i18next";
+"use client"
+import { fr } from "@codegouvfr/react-dsfr"
+import { Button } from "@codegouvfr/react-dsfr/Button"
+import { Box, Typography } from "@mui/material"
+import type { OpenapiSpec } from "api-alternance-sdk/internal"
+import { getTextOpenAPI, openapiSpec } from "api-alternance-sdk/internal"
+import { useTranslation } from "react-i18next"
 
-import type { WithLang } from "@/app/i18n/settings";
-import { Artwork } from "@/components/artwork/Artwork";
-import { DsfrLink } from "@/components/link/DsfrLink";
-import { useAuth } from "@/context/AuthContext";
+import type { WithLang } from "@/app/i18n/settings"
+import { Artwork } from "@/components/artwork/Artwork"
+import { DsfrLink } from "@/components/link/DsfrLink"
+import { useAuth } from "@/context/AuthContext"
 
 type Props = WithLang<{
-  habilitation: null | keyof OpenapiSpec["demandeHabilitations"];
-}>;
+  habilitation: null | keyof OpenapiSpec["demandeHabilitations"]
+}>
 
 export function HabilitationRequise({ lang, habilitation }: Props) {
-  const { t } = useTranslation("explorer", { lng: lang });
+  const { t } = useTranslation("explorer", { lng: lang })
 
-  const { session } = useAuth();
+  const { session } = useAuth()
 
   if (habilitation === null || session?.organisation?.habilitations.includes(habilitation)) {
-    return null;
+    return null
   }
 
-  const { subject, body } = openapiSpec.demandeHabilitations[habilitation];
+  const { subject, body } = openapiSpec.demandeHabilitations[habilitation]
 
   return (
     <Box
@@ -60,5 +60,5 @@ export function HabilitationRequise({ lang, habilitation }: Props) {
         </DsfrLink>
       </Box>
     </Box>
-  );
+  )
 }

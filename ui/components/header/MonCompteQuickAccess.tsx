@@ -1,39 +1,39 @@
-"use client";
+"use client"
 
-import { fr } from "@codegouvfr/react-dsfr";
-import { HeaderQuickAccessItem } from "@codegouvfr/react-dsfr/Header";
-import { Box, Link, Popover, Typography } from "@mui/material";
-import NextLink from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
+import { fr } from "@codegouvfr/react-dsfr"
+import { HeaderQuickAccessItem } from "@codegouvfr/react-dsfr/Header"
+import { Box, Link, Popover, Typography } from "@mui/material"
+import NextLink from "next/link"
+import { usePathname, useRouter } from "next/navigation"
+import { useCallback, useState } from "react"
 
-import type { WithLangAndT } from "@/app/i18n/settings";
-import { useAuth } from "@/context/AuthContext";
-import { apiGet } from "@/utils/api.utils";
-import { PAGES } from "@/utils/routes.utils";
+import type { WithLangAndT } from "@/app/i18n/settings"
+import { useAuth } from "@/context/AuthContext"
+import { apiGet } from "@/utils/api.utils"
+import { PAGES } from "@/utils/routes.utils"
 
 export function MonCompteQuickAccess({ lang, t }: WithLangAndT) {
-  const { session, setSession } = useAuth();
-  const { push } = useRouter();
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const { session, setSession } = useAuth()
+  const { push } = useRouter()
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
 
   const handleLogout = useCallback(async () => {
-    await apiGet("/_private/auth/logout", {});
-    setSession(null);
-    push(PAGES.static.home.getPath(lang));
-  }, [push, setSession, lang]);
+    await apiGet("/_private/auth/logout", {})
+    setSession(null)
+    push(PAGES.static.home.getPath(lang))
+  }, [push, setSession, lang])
 
   const handleOpenPopover = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  }, []);
+    setAnchorEl(event.currentTarget)
+  }, [])
 
   const handleClosePopover = useCallback(() => {
-    setAnchorEl(null);
-  }, []);
+    setAnchorEl(null)
+  }, [])
 
-  const isPopoverOpened = Boolean(anchorEl);
-  const popoverId = isPopoverOpened ? "mon-compte-popover" : undefined;
-  const pathname = usePathname();
+  const isPopoverOpened = Boolean(anchorEl)
+  const popoverId = isPopoverOpened ? "mon-compte-popover" : undefined
+  const pathname = usePathname()
 
   if (!session) {
     return (
@@ -46,7 +46,7 @@ export function MonCompteQuickAccess({ lang, t }: WithLangAndT) {
           },
         }}
       />
-    );
+    )
   }
 
   return (
@@ -90,10 +90,7 @@ export function MonCompteQuickAccess({ lang, t }: WithLangAndT) {
             <Link
               sx={{
                 textDecoration: "none",
-                color:
-                  pathname === PAGES.static.compteProfil.getPath(lang)
-                    ? fr.colors.decisions.text.active.blueFrance.default
-                    : fr.colors.decisions.text.mention.grey.default,
+                color: pathname === PAGES.static.compteProfil.getPath(lang) ? fr.colors.decisions.text.active.blueFrance.default : fr.colors.decisions.text.mention.grey.default,
               }}
               component={NextLink}
               href={PAGES.static.compteProfil.getPath(lang)}
@@ -121,5 +118,5 @@ export function MonCompteQuickAccess({ lang, t }: WithLangAndT) {
         </Box>
       </Popover>
     </>
-  );
+  )
 }

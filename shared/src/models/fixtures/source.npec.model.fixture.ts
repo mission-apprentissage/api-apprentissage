@@ -1,11 +1,11 @@
-import { ObjectId } from "bson";
+import { ObjectId } from "bson"
 
-import type { ISourceNpec } from "../source/npec/source.npec.model.js";
-import { getFixtureValue } from "./fixture_helper.js";
+import type { ISourceNpec } from "../source/npec/source.npec.model.js"
+import { getFixtureValue } from "./fixture_helper.js"
 
-type IGenerateNpecFixtureDataInput = Partial<ISourceNpec["data"]> & Pick<ISourceNpec["data"], "type">;
+type IGenerateNpecFixtureDataInput = Partial<ISourceNpec["data"]> & Pick<ISourceNpec["data"], "type">
 
-type IGenerateNpecFixtureInput = Partial<Omit<ISourceNpec, "data">> & { data: IGenerateNpecFixtureDataInput };
+type IGenerateNpecFixtureInput = Partial<Omit<ISourceNpec, "data">> & { data: IGenerateNpecFixtureDataInput }
 
 export function generateNpecFixtureData(data?: IGenerateNpecFixtureDataInput): ISourceNpec["data"] {
   if (!data || data.type === "npec") {
@@ -23,7 +23,7 @@ export function generateNpecFixtureData(data?: IGenerateNpecFixtureDataInput): I
       date_applicabilite: getFixtureValue(data, "date_applicabilite", new Date("2023-09-01T23:00:00.000Z")),
       procedure: getFixtureValue(data, "procedure", null),
       idcc: getFixtureValue(data, "idcc", null),
-    };
+    }
   }
 
   return {
@@ -31,7 +31,7 @@ export function generateNpecFixtureData(data?: IGenerateNpecFixtureDataInput): I
     idcc: getFixtureValue(data, "idcc", "8323"),
     cpne_code: getFixtureValue(data, "cpne_code", "12"),
     cpne_libelle: getFixtureValue(data, "cpne_libelle", "CPNE de test"),
-  };
+  }
 }
 
 export function generateNpecFixture(data?: IGenerateNpecFixtureInput): ISourceNpec {
@@ -42,5 +42,5 @@ export function generateNpecFixture(data?: IGenerateNpecFixtureInput): ISourceNp
     import_id: getFixtureValue(data, "import_id", new ObjectId()),
     date_import: getFixtureValue(data, "date_import", new Date("2024-04-19T00:00:00Z")),
     data: generateNpecFixtureData(data?.data),
-  };
+  }
 }

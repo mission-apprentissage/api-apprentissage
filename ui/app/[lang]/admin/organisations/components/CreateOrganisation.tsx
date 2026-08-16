@@ -1,39 +1,39 @@
-"use client";
+"use client"
 
-import { Button } from "@codegouvfr/react-dsfr/Button";
-import { Input } from "@codegouvfr/react-dsfr/Input";
-import { createModal } from "@codegouvfr/react-dsfr/Modal";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Box } from "@mui/material";
-import { captureException } from "@sentry/nextjs";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useForm } from "react-hook-form";
-import { zRoutes } from "shared";
-import type { IOrganisationCreate } from "shared/models/organisation.model";
+import { Button } from "@codegouvfr/react-dsfr/Button"
+import { Input } from "@codegouvfr/react-dsfr/Input"
+import { createModal } from "@codegouvfr/react-dsfr/Modal"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Box } from "@mui/material"
+import { captureException } from "@sentry/nextjs"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useForm } from "react-hook-form"
+import { zRoutes } from "shared"
+import type { IOrganisationCreate } from "shared/models/organisation.model"
 
-import { apiPost } from "@/utils/api.utils";
+import { apiPost } from "@/utils/api.utils"
 
 const modal = createModal({
   id: "admin-create-organisation",
   isOpenedByDefault: false,
-});
+})
 
 export function CreateOrganisation() {
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
 
   const mutation = useMutation({
     mutationFn: async (body: IOrganisationCreate) => {
-      await apiPost("/_private/admin/organisations", { body });
+      await apiPost("/_private/admin/organisations", { body })
     },
     onError: (error) => {
-      console.error(error);
-      captureException(error);
+      console.error(error)
+      captureException(error)
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["/_private/admin/organisations"] });
-      modal.close();
+      await queryClient.invalidateQueries({ queryKey: ["/_private/admin/organisations"] })
+      modal.close()
     },
-  });
+  })
 
   const {
     register,
@@ -41,10 +41,10 @@ export function CreateOrganisation() {
     formState: { errors, isSubmitting },
   } = useForm<IOrganisationCreate>({
     resolver: zodResolver(zRoutes.post["/_private/admin/organisations"].body),
-  });
+  })
 
   if (mutation.isError) {
-    throw mutation.error;
+    throw mutation.error
   }
 
   return (
@@ -86,5 +86,5 @@ export function CreateOrganisation() {
         </Box>
       </modal.Component>
     </>
-  );
+  )
 }

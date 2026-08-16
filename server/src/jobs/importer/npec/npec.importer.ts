@@ -1,28 +1,27 @@
-import { addAbortSignal, Duplex, Transform } from "stream";
-import { pipeline } from "stream/promises";
-import { internal } from "@hapi/boom";
-import { captureException } from "@sentry/node";
-import { addJob } from "job-processor";
-import type { AnyBulkWriteOperation } from "mongodb";
-import { ObjectId } from "mongodb";
-import type { ImportStatus } from "shared";
-import type { IImportMetaNpec } from "shared/models/import.meta.model";
-import type { ISourceNpec } from "shared/models/source/npec/source.npec.model";
-import { zSourceNpecIdcc } from "shared/models/source/npec/source.npec.model";
-
-import { runNpecNormalizer } from "./normalizer/npec.normalizer.js";
-import { downloadXlsxNPECFile, getNpecFilename, scrapeRessourceNPEC } from "./scraper/npec.scraper.js";
-import { withCause } from "@/services/errors/withCause.js";
-import type { ExcelParsedRow, ExcelParseSpec } from "@/services/excel/excel.parser.js";
-import { parseExcelFileStream } from "@/services/excel/excel.parser.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
-import { createBatchTransformStream } from "@/utils/streamUtils.js";
+import { internal } from "@hapi/boom"
+import { captureException } from "@sentry/node"
+import { addJob } from "job-processor"
+import type { AnyBulkWriteOperation } from "mongodb"
+import { ObjectId } from "mongodb"
+import type { ImportStatus } from "shared"
+import type { IImportMetaNpec } from "shared/models/import.meta.model"
+import type { ISourceNpec } from "shared/models/source/npec/source.npec.model"
+import { zSourceNpecIdcc } from "shared/models/source/npec/source.npec.model"
+import { addAbortSignal, Duplex, Transform } from "stream"
+import { pipeline } from "stream/promises"
+import { withCause } from "@/services/errors/withCause.js"
+import type { ExcelParsedRow, ExcelParseSpec } from "@/services/excel/excel.parser.js"
+import { parseExcelFileStream } from "@/services/excel/excel.parser.js"
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
+import { createBatchTransformStream } from "@/utils/streamUtils.js"
+import { runNpecNormalizer } from "./normalizer/npec.normalizer.js"
+import { downloadXlsxNPECFile, getNpecFilename, scrapeRessourceNPEC } from "./scraper/npec.scraper.js"
 
 function getWorkbookParseSpec(name: string): ExcelParseSpec {
   const ignoredSheets = {
     type: "ignore",
     nameMatchers: [/^Lisez-moi$/i, /^Me lire$/i, /^Onglet\s*2\s*-\s*global$/i, /^Onglet\s*\d+\s*-\s*CPNE-IDCC$/i],
-  } as const;
+  } as const
 
   const idccCpneSheet = {
     type: "required",
@@ -34,13 +33,13 @@ function getWorkbookParseSpec(name: string): ExcelParseSpec {
       { type: "required", name: "cpne_code", regex: [/^Code CPNE$/i] },
       { type: "optional", name: "cpne_libelle", regex: [/^Intitulé CPNE$/i, /^CPNE/i] },
     ],
-  } as const;
+  } as const
 
   const cpneIdccSheet = {
     ...idccCpneSheet,
     skipRows: 2,
     nameMatchers: [/^Onglet\s*\d\s*-\s*CPNE-IDCC$/i],
-  } as const;
+  } as const
 
   switch (name) {
     case "referentiel_des_npec-2-1.xlsx":
@@ -59,7 +58,7 @@ function getWorkbookParseSpec(name: string): ExcelParseSpec {
           ],
         },
         ignoredSheets,
-      ];
+      ]
     case "vf_referentiel_avec_idcc_oct_2019.xlsx":
     case "VF_Référentiel_avec_idcc_avril2020.xlsx":
     case "VF_Référentiel_avec_idcc_août2020.xlsx":
@@ -85,7 +84,7 @@ function getWorkbookParseSpec(name: string): ExcelParseSpec {
         },
         idccCpneSheet,
         ignoredSheets,
-      ];
+      ]
 
     case "VF_Référentiel_avec_idcc_octobre2020.xlsx":
       return [
@@ -106,7 +105,7 @@ function getWorkbookParseSpec(name: string): ExcelParseSpec {
         },
         idccCpneSheet,
         ignoredSheets,
-      ];
+      ]
 
     case "VF_11.02.2021_Référentiel-NPEC-20192020_avec_idcc.xlsx":
       return [
@@ -128,7 +127,7 @@ function getWorkbookParseSpec(name: string): ExcelParseSpec {
         },
         idccCpneSheet,
         ignoredSheets,
-      ];
+      ]
     case "V05.10.2021_Référentiel-NPEC-201920202021.xlsx-2.zip":
     case "V14.01.2022_Référentiel-NPEC-201920202021.xlsx.zip":
     case "V03.05.2022_Référentiel-NPEC-201920202021-2.xlsx":
@@ -171,7 +170,7 @@ function getWorkbookParseSpec(name: string): ExcelParseSpec {
         },
         { ...idccCpneSheet, skipRows: 2 },
         ignoredSheets,
-      ];
+      ]
 
     case "VF_17.03.2021_Référentiel-NPEC-20192020_avec_idcc.xlsb.zip":
       return [
@@ -197,7 +196,7 @@ function getWorkbookParseSpec(name: string): ExcelParseSpec {
           skipRows: 2,
         },
         ignoredSheets,
-      ];
+      ]
 
     case "Référentiel-NPEC-_01092022-1.zip":
       return [
@@ -220,7 +219,7 @@ function getWorkbookParseSpec(name: string): ExcelParseSpec {
         },
         cpneIdccSheet,
         ignoredSheets,
-      ];
+      ]
     default:
       return [
         {
@@ -242,40 +241,40 @@ function getWorkbookParseSpec(name: string): ExcelParseSpec {
         },
         cpneIdccSheet,
         ignoredSheets,
-      ];
+      ]
   }
 }
 
 function getValue(value: unknown) {
-  if (value == null) return null;
-  return value === "NC" || value === "NR" ? null : value;
+  if (value == null) return null
+  return value === "NC" || value === "NR" ? null : value
 }
 
 function castNpecValue(value: unknown) {
   if (typeof value === "string") {
     if (value === "NC" || value === "NR") {
-      return null;
+      return null
     }
-    return value.replaceAll(/(\s|€)/gi, "");
+    return value.replaceAll(/(\s|€)/gi, "")
   }
 
-  return value;
+  return value
 }
 
 export async function importNpecResource(importMeta: IImportMetaNpec, signal?: AbortSignal) {
-  const filename = getNpecFilename(importMeta.resource);
+  const filename = getNpecFilename(importMeta.resource)
 
   try {
-    const spec = getWorkbookParseSpec(filename);
+    const spec = getWorkbookParseSpec(filename)
 
-    const readStream = await downloadXlsxNPECFile(importMeta.resource);
+    const readStream = await downloadXlsxNPECFile(importMeta.resource)
 
-    if (signal) addAbortSignal(signal, readStream);
+    if (signal) addAbortSignal(signal, readStream)
 
     await getDbCollection("source.npec").deleteMany({
       date_import: importMeta.import_date,
       filename,
-    });
+    })
 
     await pipeline(
       Duplex.from(parseExcelFileStream(readStream, spec)),
@@ -312,11 +311,11 @@ export async function importNpecResource(importMeta: IImportMetaNpec, signal?: A
                       cpne_code: getValue(row.data.cpne_code),
                       cpne_libelle: getValue(row.data.cpne_libelle),
                     },
-            });
+            })
 
-            callback(null, { insertOne: { document: data } } as AnyBulkWriteOperation<ISourceNpec>);
+            callback(null, { insertOne: { document: data } } as AnyBulkWriteOperation<ISourceNpec>)
           } catch (error) {
-            callback(withCause(internal("import.npec: error when inserting", { row }), error));
+            callback(withCause(internal("import.npec: error when inserting", { row }), error))
           }
         },
       }),
@@ -325,28 +324,28 @@ export async function importNpecResource(importMeta: IImportMetaNpec, signal?: A
         objectMode: true,
         async transform(chunk: AnyBulkWriteOperation<ISourceNpec>[], _encoding, callback) {
           try {
-            await getDbCollection("source.npec").bulkWrite(chunk, { ordered: false });
-            callback();
+            await getDbCollection("source.npec").bulkWrite(chunk, { ordered: false })
+            callback()
           } catch (error) {
-            callback(withCause(internal("import.npec: error when inserting"), error));
+            callback(withCause(internal("import.npec: error when inserting"), error))
           }
         },
       }),
       { signal }
-    );
+    )
 
-    await runNpecNormalizer(importMeta);
+    await runNpecNormalizer(importMeta)
 
     const [npecCount, cpneIdccCount, npecNormalizedCount] = await Promise.all([
       getDbCollection("source.npec").countDocuments({ date_import: importMeta.import_date, "data.type": "npec" }),
       getDbCollection("source.npec").countDocuments({ date_import: importMeta.import_date, "data.type": "cpne-idcc" }),
       getDbCollection("source.npec.normalized").countDocuments({ date_import: importMeta.import_date }),
-    ]);
+    ])
 
     await getDbCollection("source.npec").deleteMany({
       date_import: { $ne: importMeta.import_date },
       filename,
-    });
+    })
 
     await getDbCollection("import.meta").updateOne(
       { _id: importMeta._id },
@@ -355,54 +354,52 @@ export async function importNpecResource(importMeta: IImportMetaNpec, signal?: A
           status: "done",
         },
       }
-    );
+    )
 
-    return { npecCount, cpneIdccCount, npecNormalizedCount };
+    return { npecCount, cpneIdccCount, npecNormalizedCount }
   } catch (error) {
     if (signal && error.name === signal?.reason?.name) {
-      throw signal.reason;
+      throw signal.reason
     }
     await getDbCollection("source.npec").deleteMany({
       date_import: importMeta.import_date,
       filename,
-    });
-    throw withCause(internal("npec.import: unable to importNpecResource", { importMeta }), error, "fatal");
+    })
+    throw withCause(internal("npec.import: unable to importNpecResource", { importMeta }), error, "fatal")
   }
 }
 
 export async function onImportNpecResourceFailure(importMeta: IImportMetaNpec) {
   try {
-    await getDbCollection("import.meta").updateOne({ _id: importMeta._id }, { $set: { status: "failed" } });
+    await getDbCollection("import.meta").updateOne({ _id: importMeta._id }, { $set: { status: "failed" } })
   } catch (error) {
-    throw withCause(internal("npec.import: unable to update import_meta status", { importMeta }), error, "fatal");
+    throw withCause(internal("npec.import: unable to update import_meta status", { importMeta }), error, "fatal")
   }
 }
 
-async function getUnprocessedImportMeta(
-  resources: { url: string; date: Date; title: string; description: string }[]
-): Promise<{
-  added: IImportMetaNpec[];
-  retry: IImportMetaNpec[];
+async function getUnprocessedImportMeta(resources: { url: string; date: Date; title: string; description: string }[]): Promise<{
+  added: IImportMetaNpec[]
+  retry: IImportMetaNpec[]
 }> {
   try {
-    const todo = new Map(resources.map((r) => [r.url, r]));
+    const todo = new Map(resources.map((r) => [r.url, r]))
 
-    const existingMeta = await getDbCollection("import.meta").find<IImportMetaNpec>({ type: "npec" }).toArray();
+    const existingMeta = await getDbCollection("import.meta").find<IImportMetaNpec>({ type: "npec" }).toArray()
 
-    const retry: IImportMetaNpec[] = [];
+    const retry: IImportMetaNpec[] = []
 
     for (const meta of existingMeta) {
       if (todo.has(meta.resource)) {
-        todo.delete(meta.resource);
+        todo.delete(meta.resource)
 
         if (meta.status === "failed") {
-          retry.push(meta);
+          retry.push(meta)
         } else if (meta.status === "pending") {
-          captureException(internal("npec.importer: found an import meta for a resource that is still pending"));
+          captureException(internal("npec.importer: found an import meta for a resource that is still pending"))
         }
       } else {
-        await getDbCollection("source.npec").deleteMany({ import_id: meta._id });
-        await getDbCollection("import.meta").deleteOne({ _id: meta._id });
+        await getDbCollection("source.npec").deleteMany({ import_id: meta._id })
+        await getDbCollection("import.meta").deleteOne({ _id: meta._id })
       }
     }
 
@@ -416,34 +413,34 @@ async function getUnprocessedImportMeta(
         description: r.description,
         resource,
         file_date: r.date,
-      };
-    }, []);
+      }
+    }, [])
 
     return {
       retry,
       added,
-    };
+    }
   } catch (error) {
-    throw withCause(internal("npec.importer: unable to getUnprocessedImportMeta"), error);
+    throw withCause(internal("npec.importer: unable to getUnprocessedImportMeta"), error)
   }
 }
 
 export async function runNpecImporter() {
   try {
-    const resources = await scrapeRessourceNPEC();
+    const resources = await scrapeRessourceNPEC()
 
-    const importMetas = await getUnprocessedImportMeta(resources);
+    const importMetas = await getUnprocessedImportMeta(resources)
 
     for (const importMeta of importMetas.added) {
-      await addJob({ name: "import:npec:resource", payload: importMeta, queued: true });
-      await getDbCollection("import.meta").insertOne(importMeta);
+      await addJob({ name: "import:npec:resource", payload: importMeta, queued: true })
+      await getDbCollection("import.meta").insertOne(importMeta)
     }
     for (const importMeta of importMetas.retry) {
-      await addJob({ name: "import:npec:resource", payload: { ...importMeta, status: "pending" }, queued: true });
-      await getDbCollection("import.meta").updateOne({ _id: importMeta._id }, { $set: { status: "pending" } });
+      await addJob({ name: "import:npec:resource", payload: { ...importMeta, status: "pending" }, queued: true })
+      await getDbCollection("import.meta").updateOne({ _id: importMeta._id }, { $set: { status: "pending" } })
     }
   } catch (error) {
-    throw withCause(internal("npec.importer: error while running importer"), error, "fatal");
+    throw withCause(internal("npec.importer: error while running importer"), error, "fatal")
   }
 }
 
@@ -457,18 +454,14 @@ export async function getNpecImporterStatus(): Promise<ImportStatus> {
       },
       { $sort: { "last.import_date": -1 } },
     ])
-    .toArray();
+    .toArray()
 
   const lastFileSuccessResource = lastImportByResource
     .filter((r) => r.last.status === "done")
     .toSorted((a, b) => b.last.file_date.getTime() - a.last.file_date.getTime())
-    .at(0);
+    .at(0)
 
-  const status = lastImportByResource.every((r) => r.last.status === "done")
-    ? "done"
-    : lastImportByResource.some((r) => r.last.status === "failed")
-      ? "failed"
-      : "pending";
+  const status = lastImportByResource.every((r) => r.last.status === "done") ? "done" : lastImportByResource.some((r) => r.last.status === "failed") ? "failed" : "pending"
 
   return {
     last_import: lastImportByResource[0].last?.import_date ?? null,
@@ -479,5 +472,5 @@ export async function getNpecImporterStatus(): Promise<ImportStatus> {
       status: r.last.status,
       import_date: r.last.import_date,
     })),
-  };
+  }
 }

@@ -1,6 +1,6 @@
-import localisationDescriptionFr from "../../metier/recherche-commune/fr/localisation.description.md.js";
-import localisationDescriptionEn from "../../metier/recherche-commune/en/localisation.description.md.js";
-import type { DocTechnicalField } from "../../types.js";
+import localisationDescriptionEn from "../../metier/recherche-commune/en/localisation.description.md.js"
+import localisationDescriptionFr from "../../metier/recherche-commune/fr/localisation.description.md.js"
+import type { DocTechnicalField } from "../../types.js"
 
 export const communeModelDoc = {
   descriptions: [{ fr: "Commune", en: "Municipality" }],
@@ -24,9 +24,7 @@ export const communeModelDoc = {
           descriptions: [{ fr: "Code INSEE de la commune", en: "INSEE code of the municipality" }],
         },
         postaux: {
-          descriptions: [
-            { fr: "Liste des codes postaux de la commune", en: "List of postal codes of the municipality" },
-          ],
+          descriptions: [{ fr: "Liste des codes postaux de la commune", en: "List of postal codes of the municipality" }],
           items: {
             descriptions: null,
           },
@@ -128,4 +126,4 @@ export const communeModelDoc = {
       anyOf: [{ descriptions: null }, { descriptions: null }],
     },
   },
-} as const satisfies DocTechnicalField;
+} as const satisfies DocTechnicalField

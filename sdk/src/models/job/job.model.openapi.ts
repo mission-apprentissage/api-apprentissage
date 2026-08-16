@@ -1,12 +1,12 @@
-import type { SchemaObject } from "openapi3-ts/oas31";
+import type { SchemaObject } from "openapi3-ts/oas31"
 
-import { z } from "zod/v4-mini";
-import { applicationModelDoc } from "../../docs/models/job/application.model.doc.js";
-import { offerReadModelDoc } from "../../docs/models/job/offer_read.model.doc.js";
-import { offerWriteModelDoc } from "../../docs/models/job/offer_write.model.doc.js";
-import { recruiterModelDoc } from "../../docs/models/job/recruiter.model.doc.js";
-import type { OpenapiModel } from "../../openapi/types.js";
-import { pickPropertiesOpenAPI } from "../../openapi/utils/zodWithOpenApi.js";
+import { z } from "zod/v4-mini"
+import { applicationModelDoc } from "../../docs/models/job/application.model.doc.js"
+import { offerReadModelDoc } from "../../docs/models/job/offer_read.model.doc.js"
+import { offerWriteModelDoc } from "../../docs/models/job/offer_write.model.doc.js"
+import { recruiterModelDoc } from "../../docs/models/job/recruiter.model.doc.js"
+import type { OpenapiModel } from "../../openapi/types.js"
+import { pickPropertiesOpenAPI } from "../../openapi/utils/zodWithOpenApi.js"
 
 const recruiterSchema = {
   type: "object",
@@ -103,7 +103,7 @@ const recruiterSchema = {
     },
   },
   required: ["identifier", "workplace", "apply"],
-} as const satisfies SchemaObject;
+} as const satisfies SchemaObject
 
 const offerReadSchema = {
   type: "object",
@@ -220,18 +220,7 @@ const offerReadSchema = {
           enum: ["Active", "Filled", "Cancelled"],
         },
       },
-      required: [
-        "title",
-        "desired_skills",
-        "to_be_acquired_skills",
-        "access_conditions",
-        "opening_count",
-        "publication",
-        "rome_codes",
-        "description",
-        "target_diploma",
-        "status",
-      ],
+      required: ["title", "desired_skills", "to_be_acquired_skills", "access_conditions", "opening_count", "publication", "rome_codes", "description", "target_diploma", "status"],
     },
     is_delegated: {
       type: "boolean",
@@ -240,7 +229,7 @@ const offerReadSchema = {
     },
   },
   required: ["identifier", "workplace", "apply", "contract", "offer", "is_delegated"],
-} as const satisfies SchemaObject;
+} as const satisfies SchemaObject
 
 const offerWriteSchema = {
   type: "object",
@@ -344,10 +333,7 @@ const offerWriteSchema = {
         },
         publication: {
           type: "object",
-          properties: pickPropertiesOpenAPI(offerReadSchema.properties.offer.properties.publication.properties, [
-            "creation",
-            "expiration",
-          ]),
+          properties: pickPropertiesOpenAPI(offerReadSchema.properties.offer.properties.publication.properties, ["creation", "expiration"]),
         },
         multicast: {
           type: "boolean",
@@ -367,7 +353,7 @@ const offerWriteSchema = {
     },
   },
   required: ["workplace", "apply", "offer"],
-} as const satisfies SchemaObject;
+} as const satisfies SchemaObject
 
 const applicationWriteSchema = {
   type: "object",
@@ -404,46 +390,37 @@ const applicationWriteSchema = {
     },
     recipient_id: {
       type: "string",
-      description:
-        "Identifiant unique de la ressource vers laquelle la candidature est faite, préfixé par le nom de la collection",
+      description: "Identifiant unique de la ressource vers laquelle la candidature est faite, préfixé par le nom de la collection",
     },
   },
-  required: [
-    "applicant_first_name",
-    "applicant_last_name",
-    "applicant_email",
-    "applicant_phone",
-    "applicant_attachment_name",
-    "applicant_attachment_content",
-    "recipient_id",
-  ],
+  required: ["applicant_first_name", "applicant_last_name", "applicant_email", "applicant_phone", "applicant_attachment_name", "applicant_attachment_content", "recipient_id"],
   additionalProperties: false,
-} as const satisfies SchemaObject;
+} as const satisfies SchemaObject
 
 export const recruiterModelOpenapi: OpenapiModel<"JobRecruiter"> = {
   name: "JobRecruiter",
   schema: recruiterSchema,
   doc: recruiterModelDoc,
   zod: z.unknown(),
-};
+}
 
 export const offerReadModelOpenapi: OpenapiModel<"JobOfferRead"> = {
   name: "JobOfferRead",
   schema: offerReadSchema,
   doc: offerReadModelDoc,
   zod: z.unknown(),
-};
+}
 
 export const offerWriteModelOpenapi: OpenapiModel<"JobOfferWrite"> = {
   name: "JobOfferWrite",
   schema: offerWriteSchema,
   doc: offerWriteModelDoc,
   zod: z.unknown(),
-};
+}
 
 export const applicationWriteModelOpenapi: OpenapiModel<"JobApplicationWrite"> = {
   name: "JobApplicationWrite",
   schema: applicationWriteSchema,
   doc: applicationModelDoc,
   zod: z.unknown(),
-};
+}

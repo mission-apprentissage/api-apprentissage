@@ -1,18 +1,17 @@
-import { ObjectId } from "mongodb";
-import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
-import type { IOrganismeReferentielDataInput } from "shared/models/fixtures/index";
-import { generateOrganismeReferentielFixture, generateSourceReferentiel } from "shared/models/fixtures/index";
-import type { ISourceReferentiel } from "shared/models/source/referentiel/source.referentiel.model";
-import { zSourceReferentiel } from "shared/models/source/referentiel/source.referentiel.model";
-import { beforeEach, describe, expect, it } from "vitest";
-import { z } from "zod/v4-mini";
-
-import tdbFiabResultData from "./fixtures/tdb/fiabilisation.fixture.json" with { type: "json" };
-import tdbReferentielFixtureData from "./fixtures/tdb/referentiel.fixture.json" with { type: "json" };
-import type { OrganismeSearchQuery } from "./organisme.service.js";
-import { searchOrganisme, searchOrganismeMetadata } from "./organisme.service.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
-import { useMongo } from "@tests/mongo.test.utils.js";
+import { useMongo } from "@tests/mongo.test.utils.js"
+import { ObjectId } from "mongodb"
+import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock"
+import type { IOrganismeReferentielDataInput } from "shared/models/fixtures/index"
+import { generateOrganismeReferentielFixture, generateSourceReferentiel } from "shared/models/fixtures/index"
+import type { ISourceReferentiel } from "shared/models/source/referentiel/source.referentiel.model"
+import { zSourceReferentiel } from "shared/models/source/referentiel/source.referentiel.model"
+import { beforeEach, describe, expect, it } from "vitest"
+import { z } from "zod/v4-mini"
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
+import tdbFiabResultData from "./fixtures/tdb/fiabilisation.fixture.json" with { type: "json" }
+import tdbReferentielFixtureData from "./fixtures/tdb/referentiel.fixture.json" with { type: "json" }
+import type { OrganismeSearchQuery } from "./organisme.service.js"
+import { searchOrganisme, searchOrganismeMetadata } from "./organisme.service.js"
 
 const _zTdbFiabResult = z.discriminatedUnion("type", [
   z.object({
@@ -41,67 +40,65 @@ const _zTdbFiabResult = z.discriminatedUnion("type", [
     type: z.enum(["NON_FIABILISABLE_UAI_VALIDEE", "NON_FIABILISABLE_UAI_NON_VALIDEE"]),
     rule_id: z.literal(9),
   }),
-]);
+])
 
-type ITdbFiabResult = z.infer<typeof _zTdbFiabResult>;
+type ITdbFiabResult = z.infer<typeof _zTdbFiabResult>
 
-useMongo("beforeEach");
+useMongo("beforeEach")
 
 describe("searchOrganisme", () => {
   describe("tdb retro-compatibility", () => {
-    const date = new Date("2024-04-19T00:00:00Z");
-    const organismesReferentiels: ISourceReferentiel[] = (
-      tdbReferentielFixtureData as IOrganismeReferentielDataInput[]
-    ).map((data: IOrganismeReferentielDataInput) =>
+    const date = new Date("2024-04-19T00:00:00Z")
+    const organismesReferentiels: ISourceReferentiel[] = (tdbReferentielFixtureData as IOrganismeReferentielDataInput[]).map((data: IOrganismeReferentielDataInput) =>
       zSourceReferentiel.parse({
         _id: new ObjectId(),
         date,
         data: generateOrganismeReferentielFixture(data),
       })
-    );
+    )
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const tdbFiabResults: ITdbFiabResult[] = tdbFiabResultData as any;
+    const tdbFiabResults: ITdbFiabResult[] = tdbFiabResultData as any
 
     beforeEach(async () => {
-      await getDbCollection("source.referentiel").insertMany(organismesReferentiels);
-    });
+      await getDbCollection("source.referentiel").insertMany(organismesReferentiels)
+    })
 
     it("should be backward compatible", async () => {
-      const inconsistency = [];
-      const fauxPositifs = [];
-      const fauxNegatifs = [];
+      const inconsistency = []
+      const fauxPositifs = []
+      const fauxNegatifs = []
 
-      const uaiLieuToUaiFormateur = new Map<string, string>();
-      const uaiFormateurs = new Set(organismesReferentiels.map(({ data }) => data.uai));
+      const uaiLieuToUaiFormateur = new Map<string, string>()
+      const uaiFormateurs = new Set(organismesReferentiels.map(({ data }) => data.uai))
       for (const organismesReferentiel of organismesReferentiels) {
         for (const lieu of organismesReferentiel.data.lieux_de_formation) {
           if (lieu.uai && !uaiFormateurs.has(lieu.uai) && organismesReferentiel.data.uai) {
-            uaiLieuToUaiFormateur.set(lieu.uai, organismesReferentiel.data.uai);
+            uaiLieuToUaiFormateur.set(lieu.uai, organismesReferentiel.data.uai)
           }
         }
       }
 
       for (const tdbResult of tdbFiabResults) {
-        const { siret, uai, rule_id } = tdbResult;
-        const result = await searchOrganisme({ siret, uai });
+        const { siret, uai, rule_id } = tdbResult
+        const result = await searchOrganisme({ siret, uai })
 
-        let expectedSiret: string | null = null;
-        let expectedUai: string | null = null;
-        let isExpectedLieu: boolean = false;
+        let expectedSiret: string | null = null
+        let expectedUai: string | null = null
+        let isExpectedLieu: boolean = false
 
         if (tdbResult.type === "FIABLE") {
-          expectedSiret = tdbResult.siret;
-          expectedUai = tdbResult.uai;
+          expectedSiret = tdbResult.siret
+          expectedUai = tdbResult.uai
         } else if (tdbResult.type === "A_FIABILISER") {
-          isExpectedLieu = uaiLieuToUaiFormateur.has(tdbResult.uai_fiable);
-          expectedSiret = tdbResult.siret_fiable;
-          expectedUai = uaiLieuToUaiFormateur.get(tdbResult.uai_fiable) ?? tdbResult.uai_fiable;
+          isExpectedLieu = uaiLieuToUaiFormateur.has(tdbResult.uai_fiable)
+          expectedSiret = tdbResult.siret_fiable
+          expectedUai = uaiLieuToUaiFormateur.get(tdbResult.uai_fiable) ?? tdbResult.uai_fiable
         }
 
         if (result.resultat) {
-          const resultSiret = result.resultat.organisme.identifiant.siret;
-          const resultUai = result.resultat.organisme.identifiant.uai;
+          const resultSiret = result.resultat.organisme.identifiant.siret
+          const resultUai = result.resultat.organisme.identifiant.uai
 
           if (tdbResult.type === "FIABLE" || tdbResult.type === "A_FIABILISER") {
             if (resultSiret !== expectedSiret || resultUai !== expectedUai) {
@@ -114,7 +111,7 @@ describe("searchOrganisme", () => {
                 expectedUai,
                 isExpectedLieu,
                 rule_id,
-              });
+              })
             }
           } else {
             fauxPositifs.push({
@@ -125,7 +122,7 @@ describe("searchOrganisme", () => {
               type: tdbResult.type,
               isExpectedLieu,
               rule_id,
-            });
+            })
           }
         } else {
           if (tdbResult.type === "FIABLE" || tdbResult.type === "A_FIABILISER") {
@@ -137,7 +134,7 @@ describe("searchOrganisme", () => {
               expectedUai,
               isExpectedLieu,
               rule_id,
-            });
+            })
           }
         }
       }
@@ -148,31 +145,31 @@ describe("searchOrganisme", () => {
           fauxPositifs: fauxPositifs.length,
           inconsistency: inconsistency.length,
         })
-        .toEqual({ fauxNegatifs: 9, fauxPositifs: 17, inconsistency: 6 });
+        .toEqual({ fauxNegatifs: 9, fauxPositifs: 17, inconsistency: 6 })
 
-      expect.soft({ fauxPositifs }).toMatchSnapshot();
+      expect.soft({ fauxPositifs }).toMatchSnapshot()
 
-      expect.soft({ inconsistency }).toMatchSnapshot();
+      expect.soft({ inconsistency }).toMatchSnapshot()
 
-      expect.soft({ fauxNegatifs }).toMatchSnapshot();
-    });
-  });
+      expect.soft({ fauxNegatifs }).toMatchSnapshot()
+    })
+  })
 
   describe("recherche par couple UAI-SIRET", () => {
     const query = {
       uai: "0596776V",
       siret: "77562556900014",
-    } as const satisfies OrganismeSearchQuery;
+    } as const satisfies OrganismeSearchQuery
 
-    const uai1 = "0491801S";
-    const uai2 = "0594899E";
-    const uai3 = "0631408N";
-    const uai4 = "0851372E";
-    const siret1 = "19850144700025";
-    const siret2 = "26590673500120";
-    const siret3 = "81002887800017";
-    const siret4 = "91849224000026";
-    const siret5 = "91812606100038";
+    const uai1 = "0491801S"
+    const uai2 = "0594899E"
+    const uai3 = "0631408N"
+    const uai4 = "0851372E"
+    const siret1 = "19850144700025"
+    const siret2 = "26590673500120"
+    const siret3 = "81002887800017"
+    const siret4 = "91849224000026"
+    const siret5 = "91812606100038"
 
     describe("si l'organisme est trouvé par le couple UAI-SIRET", () => {
       describe("si l'organisme est ouvert", () => {
@@ -181,14 +178,14 @@ describe("searchOrganisme", () => {
             uai: query.uai,
             siret: query.siret,
             etat_administratif: "actif",
-          });
-          const sourceReferentiel = generateSourceReferentiel({ data });
+          })
+          const sourceReferentiel = generateSourceReferentiel({ data })
 
-          await getDbCollection("source.referentiel").insertOne(sourceReferentiel);
-        });
+          await getDbCollection("source.referentiel").insertOne(sourceReferentiel)
+        })
 
         it("alors l'organisme est trouvé", async () => {
-          const result = await searchOrganisme(query);
+          const result = await searchOrganisme(query)
           expect(result).toEqual({
             candidats: [],
             resultat: {
@@ -199,9 +196,9 @@ describe("searchOrganisme", () => {
               },
               organisme: { identifiant: { uai: query.uai, siret: query.siret } },
             },
-          });
-        });
-      });
+          })
+        })
+      })
 
       describe("sinon si l’organisme a un des ses lieux correspondant à l’UAI recherché", () => {
         beforeEach(async () => {
@@ -210,14 +207,14 @@ describe("searchOrganisme", () => {
             siret: query.siret,
             etat_administratif: "fermé",
             lieux_de_formation: [{ uai: query.uai }, { uai: uai1 }],
-          });
-          const sourceReferentiel = generateSourceReferentiel({ data });
+          })
+          const sourceReferentiel = generateSourceReferentiel({ data })
 
-          await getDbCollection("source.referentiel").insertOne(sourceReferentiel);
-        });
+          await getDbCollection("source.referentiel").insertOne(sourceReferentiel)
+        })
 
         it("alors l'organisme est trouvé", async () => {
-          const result = await searchOrganisme(query);
+          const result = await searchOrganisme(query)
           expect(result).toEqual({
             candidats: [],
             resultat: {
@@ -228,9 +225,9 @@ describe("searchOrganisme", () => {
               },
               organisme: { identifiant: { uai: query.uai, siret: query.siret } },
             },
-          });
-        });
-      });
+          })
+        })
+      })
 
       it("sinon l'organisme est ajouté à la liste des candidats", async () => {
         const data = generateOrganismeReferentielFixture({
@@ -238,11 +235,11 @@ describe("searchOrganisme", () => {
           siret: query.siret,
           etat_administratif: "fermé",
           lieux_de_formation: [{ uai: uai1 }],
-        });
-        const sourceReferentiel = generateSourceReferentiel({ data });
+        })
+        const sourceReferentiel = generateSourceReferentiel({ data })
 
-        await getDbCollection("source.referentiel").insertOne(sourceReferentiel);
-        const result = await searchOrganisme(query);
+        await getDbCollection("source.referentiel").insertOne(sourceReferentiel)
+        const result = await searchOrganisme(query)
 
         expect(result).toEqual({
           candidats: [
@@ -256,9 +253,9 @@ describe("searchOrganisme", () => {
             },
           ],
           resultat: null,
-        });
-      });
-    });
+        })
+      })
+    })
 
     describe("Si AUCUN organisme n’est trouvé par SIRET avec UAI  différent", () => {
       describe("Si AU MOINS UN organisme est trouvé par UAI avec SIRET différent", () => {
@@ -280,7 +277,7 @@ describe("searchOrganisme", () => {
               },
               organisme: { identifiant: { uai: query.uai, siret: siret2 } },
             },
-          ];
+          ]
 
           beforeEach(async () => {
             await getDbCollection("source.referentiel").insertMany([
@@ -299,19 +296,19 @@ describe("searchOrganisme", () => {
                   nature: "inconnue",
                 }),
               }),
-            ]);
-          });
+            ])
+          })
 
           describe("Si AUCUN organisme n’est à la fois: trouvé par UAI; ouvert et présent dans le catalogue", async () => {
             it("alors l'organisme n'est pas trouvé", async () => {
-              const result = await searchOrganisme(query);
+              const result = await searchOrganisme(query)
 
               expect(result).toEqual({
                 candidats,
                 resultat: null,
-              });
-            });
-          });
+              })
+            })
+          })
 
           describe("Si un UNIQUE organisme trouvé parmis la liste précédente", () => {
             beforeEach(async () => {
@@ -324,11 +321,11 @@ describe("searchOrganisme", () => {
                     nature: "responsable_formateur",
                   }),
                 })
-              );
-            });
+              )
+            })
 
             it("alors l'organisme est trouvé", async () => {
-              const result = await searchOrganisme(query);
+              const result = await searchOrganisme(query)
 
               expect(result).toEqual({
                 candidats,
@@ -340,9 +337,9 @@ describe("searchOrganisme", () => {
                   },
                   organisme: { identifiant: { uai: query.uai, siret: siret3 } },
                 },
-              });
-            });
-          });
+              })
+            })
+          })
 
           describe("Si un UNIQUE organisme parmis la liste précédente est trouvé par UAI lieu", () => {
             beforeEach(async () => {
@@ -365,11 +362,11 @@ describe("searchOrganisme", () => {
                     lieux_de_formation: [{ uai: query.uai }],
                   }),
                 }),
-              ]);
-            });
+              ])
+            })
 
             it("alors l'organisme est trouvé", async () => {
-              const result = await searchOrganisme(query);
+              const result = await searchOrganisme(query)
 
               expect(result).toEqual({
                 candidats: [
@@ -391,9 +388,9 @@ describe("searchOrganisme", () => {
                   },
                   organisme: { identifiant: { uai: query.uai, siret: siret4 } },
                 },
-              });
-            });
-          });
+              })
+            })
+          })
 
           describe("sinon", () => {
             beforeEach(async () => {
@@ -407,7 +404,7 @@ describe("searchOrganisme", () => {
                     lieux_de_formation: [{ uai: query.uai }],
                   }),
                 })
-              );
+              )
               await getDbCollection("source.referentiel").insertOne(
                 generateSourceReferentiel({
                   data: generateOrganismeReferentielFixture({
@@ -418,11 +415,11 @@ describe("searchOrganisme", () => {
                     lieux_de_formation: [{ uai: query.uai }],
                   }),
                 })
-              );
-            });
+              )
+            })
 
             it("alors l'organisme n'est pas trouvé", async () => {
-              const result = await searchOrganisme(query);
+              const result = await searchOrganisme(query)
 
               expect(result).toEqual({
                 candidats: [
@@ -445,11 +442,11 @@ describe("searchOrganisme", () => {
                   },
                 ],
                 resultat: null,
-              });
-            });
-          });
-        });
-      });
+              })
+            })
+          })
+        })
+      })
 
       describe("Si un UNIQUE organisme est à la fois: trouvé par UAI lieu; ouvert et validé par le référentiel (UAI non null)", () => {
         it("alors l'organisme est trouvé", async () => {
@@ -470,9 +467,9 @@ describe("searchOrganisme", () => {
                 lieux_de_formation: [{ uai: query.uai }],
               }),
             }),
-          ]);
+          ])
 
-          const result = await searchOrganisme(query);
+          const result = await searchOrganisme(query)
 
           expect(result).toEqual({
             candidats: [],
@@ -484,8 +481,8 @@ describe("searchOrganisme", () => {
               },
               organisme: { identifiant: { uai: uai2, siret: siret1 } },
             },
-          });
-        });
+          })
+        })
 
         describe("sinon Les organismes trouvés par UAI lieux sont ajoutés à la liste des candidats", () => {
           it("alors l'organisme n'est pas trouvé", async () => {
@@ -514,9 +511,9 @@ describe("searchOrganisme", () => {
                   lieux_de_formation: [{ uai: query.uai }],
                 }),
               }),
-            ]);
+            ])
 
-            const result = await searchOrganisme(query);
+            const result = await searchOrganisme(query)
 
             expect(result).toEqual({
               candidats: [
@@ -538,11 +535,11 @@ describe("searchOrganisme", () => {
                 },
               ],
               resultat: null,
-            });
-          });
-        });
-      });
-    });
+            })
+          })
+        })
+      })
+    })
 
     describe("sinon Les organismes trouvés par UAI et ceux trouvés par SIRET sont ajoutés à la liste de candidats", () => {
       describe("Si un UNIQUE organisme est trouvé par SIRET avec UAI différent", () => {
@@ -567,13 +564,11 @@ describe("searchOrganisme", () => {
                 etat_administratif: "actif",
                 lieux_de_formation: [{ uai: query.uai }],
               }),
-            ];
+            ]
 
-            await getDbCollection("source.referentiel").insertMany(
-              organismes.map((data) => generateSourceReferentiel({ data }))
-            );
+            await getDbCollection("source.referentiel").insertMany(organismes.map((data) => generateSourceReferentiel({ data })))
 
-            const result = await searchOrganisme(query);
+            const result = await searchOrganisme(query)
 
             expect(result).toEqual({
               candidats: [
@@ -594,9 +589,9 @@ describe("searchOrganisme", () => {
                 },
                 organisme: { identifiant: { uai: organismes[0].uai, siret: organismes[0].siret } },
               },
-            });
-          });
-        });
+            })
+          })
+        })
 
         describe("Si un UNIQUE organisme est trouvé par UAI lieu", () => {
           describe("Si l’organisme n’a pour UAI celui recherché ET que le SIRET de correspond à celui du responsable", () => {
@@ -621,13 +616,11 @@ describe("searchOrganisme", () => {
                   lieux_de_formation: [{ uai: query.uai }],
                   relations: [{ siret: query.siret, type: "formateur->responsable" }],
                 }),
-              ];
+              ]
 
-              await getDbCollection("source.referentiel").insertMany(
-                organismes.map((data) => generateSourceReferentiel({ data }))
-              );
+              await getDbCollection("source.referentiel").insertMany(organismes.map((data) => generateSourceReferentiel({ data })))
 
-              const result = await searchOrganisme(query);
+              const result = await searchOrganisme(query)
 
               expect(result).toEqual({
                 candidats: [
@@ -648,8 +641,8 @@ describe("searchOrganisme", () => {
                   },
                   organisme: { identifiant: { uai: organismes[0].uai, siret: organismes[0].siret } },
                 },
-              });
-            });
+              })
+            })
 
             describe("sinon l’organisme est trouvé (celui du lieu)", () => {
               it("si l'organisme a pour UAI celui recherché et que le SIRET correspond à celui du responsable", async () => {
@@ -673,13 +666,11 @@ describe("searchOrganisme", () => {
                     lieux_de_formation: [{ uai: query.uai }],
                     relations: [{ siret: query.siret, type: "formateur->responsable" }],
                   }),
-                ];
+                ]
 
-                await getDbCollection("source.referentiel").insertMany(
-                  organismes.map((data) => generateSourceReferentiel({ data }))
-                );
+                await getDbCollection("source.referentiel").insertMany(organismes.map((data) => generateSourceReferentiel({ data })))
 
-                const result = await searchOrganisme(query);
+                const result = await searchOrganisme(query)
 
                 expect(result).toEqual({
                   candidats: [
@@ -708,8 +699,8 @@ describe("searchOrganisme", () => {
                     },
                     organisme: { identifiant: { uai: organismes[2].uai, siret: organismes[2].siret } },
                   },
-                });
-              });
+                })
+              })
 
               it("si l'organisme a pour UAI celui recherché et que le SIRET ne correspond PAS à celui du responsable", async () => {
                 const organismes = [
@@ -732,13 +723,11 @@ describe("searchOrganisme", () => {
                     lieux_de_formation: [{ uai: query.uai }],
                     relations: [{ siret: siret4, type: "formateur->responsable" }],
                   }),
-                ];
+                ]
 
-                await getDbCollection("source.referentiel").insertMany(
-                  organismes.map((data) => generateSourceReferentiel({ data }))
-                );
+                await getDbCollection("source.referentiel").insertMany(organismes.map((data) => generateSourceReferentiel({ data })))
 
-                const result = await searchOrganisme(query);
+                const result = await searchOrganisme(query)
 
                 expect(result).toEqual({
                   candidats: [
@@ -767,8 +756,8 @@ describe("searchOrganisme", () => {
                     },
                     organisme: { identifiant: { uai: organismes[2].uai, siret: organismes[2].siret } },
                   },
-                });
-              });
+                })
+              })
 
               it("si l'organisme n'a PAS pour UAI celui recherché et que le SIRET correspond à celui du responsable", async () => {
                 const organismes = [
@@ -791,13 +780,11 @@ describe("searchOrganisme", () => {
                     lieux_de_formation: [{ uai: query.uai }],
                     relations: [{ siret: siret4, type: "formateur->responsable" }],
                   }),
-                ];
+                ]
 
-                await getDbCollection("source.referentiel").insertMany(
-                  organismes.map((data) => generateSourceReferentiel({ data }))
-                );
+                await getDbCollection("source.referentiel").insertMany(organismes.map((data) => generateSourceReferentiel({ data })))
 
-                const result = await searchOrganisme(query);
+                const result = await searchOrganisme(query)
 
                 expect(result).toEqual({
                   candidats: [
@@ -826,24 +813,24 @@ describe("searchOrganisme", () => {
                     },
                     organisme: { identifiant: { uai: organismes[2].uai, siret: organismes[2].siret } },
                   },
-                });
-              });
-            });
-          });
-        });
-      });
-    });
-  });
+                })
+              })
+            })
+          })
+        })
+      })
+    })
+  })
 
   describe("recherche par SIRET uniquement", () => {
     const query = {
       uai: null,
       siret: "77562556900014",
-    } as const satisfies OrganismeSearchQuery;
+    } as const satisfies OrganismeSearchQuery
 
-    const uai1 = "0491801S";
-    const uai2 = "0594899E";
-    const siret1 = "19850144700025";
+    const uai1 = "0491801S"
+    const uai2 = "0594899E"
+    const siret1 = "19850144700025"
 
     describe("Si un UNIQUE organisme est trouvé par SIRET", () => {
       it("alors l'organisme est trouvé", async () => {
@@ -858,13 +845,11 @@ describe("searchOrganisme", () => {
             siret: siret1,
             etat_administratif: "actif",
           }),
-        ];
+        ]
 
-        await getDbCollection("source.referentiel").insertMany(
-          organismes.map((data) => generateSourceReferentiel({ data }))
-        );
+        await getDbCollection("source.referentiel").insertMany(organismes.map((data) => generateSourceReferentiel({ data })))
 
-        const result = await searchOrganisme(query);
+        const result = await searchOrganisme(query)
         expect(result).toEqual({
           candidats: [],
           resultat: {
@@ -875,8 +860,8 @@ describe("searchOrganisme", () => {
             },
             organisme: { identifiant: { uai: organismes[0].uai, siret: organismes[0].siret } },
           },
-        });
-      });
+        })
+      })
 
       describe("Si un AUCUN organisme est trouvé par SIRET", () => {
         it("alors l'organisme n'est pas trouvé", async () => {
@@ -886,19 +871,17 @@ describe("searchOrganisme", () => {
               siret: siret1,
               etat_administratif: "actif",
             }),
-          ];
+          ]
 
-          await getDbCollection("source.referentiel").insertMany(
-            organismes.map((data) => generateSourceReferentiel({ data }))
-          );
+          await getDbCollection("source.referentiel").insertMany(organismes.map((data) => generateSourceReferentiel({ data })))
 
-          const result = await searchOrganisme(query);
+          const result = await searchOrganisme(query)
           expect(result).toEqual({
             candidats: [],
             resultat: null,
-          });
-        });
-      });
+          })
+        })
+      })
 
       describe("sinon les organismes trouvés par SIRET sont ajoutés à la liste de candidats", () => {
         it("alors l'organisme n'est pas trouvé", async () => {
@@ -918,13 +901,11 @@ describe("searchOrganisme", () => {
               siret: query.siret,
               etat_administratif: "actif",
             }),
-          ];
+          ]
 
-          await getDbCollection("source.referentiel").insertMany(
-            organismes.map((data) => generateSourceReferentiel({ data }))
-          );
+          await getDbCollection("source.referentiel").insertMany(organismes.map((data) => generateSourceReferentiel({ data })))
 
-          const result = await searchOrganisme(query);
+          const result = await searchOrganisme(query)
           expect(result).toEqual({
             candidats: [
               {
@@ -945,27 +926,27 @@ describe("searchOrganisme", () => {
               },
             ],
             resultat: null,
-          });
-        });
-      });
-    });
-  });
+          })
+        })
+      })
+    })
+  })
 
   describe("recherche par UAI uniquement", () => {
     const query = {
       uai: "0596776V",
       siret: null,
-    } as const satisfies OrganismeSearchQuery;
+    } as const satisfies OrganismeSearchQuery
 
-    const uai1 = "0491801S";
-    const uai2 = "0594899E";
-    const uai3 = "0631408N";
-    const uai4 = "0851372E";
-    const siret1 = "19850144700025";
-    const siret2 = "26590673500120";
-    const siret3 = "81002887800017";
-    const siret4 = "91849224000026";
-    const siret5 = "91812606100038";
+    const uai1 = "0491801S"
+    const uai2 = "0594899E"
+    const uai3 = "0631408N"
+    const uai4 = "0851372E"
+    const siret1 = "19850144700025"
+    const siret2 = "26590673500120"
+    const siret3 = "81002887800017"
+    const siret4 = "91849224000026"
+    const siret5 = "91812606100038"
 
     describe("Si AU MOINS UN organisme est trouvé par UAI avec SIRET différent", () => {
       describe("Les organismes trouvé par UAI sont ajoutés à la liste des candidats", () => {
@@ -986,7 +967,7 @@ describe("searchOrganisme", () => {
             },
             organisme: { identifiant: { uai: query.uai, siret: siret2 } },
           },
-        ];
+        ]
 
         beforeEach(async () => {
           await getDbCollection("source.referentiel").insertMany([
@@ -1005,19 +986,19 @@ describe("searchOrganisme", () => {
                 nature: "inconnue",
               }),
             }),
-          ]);
-        });
+          ])
+        })
 
         describe("Si AUCUN organisme n’est à la fois: trouvé par UAI; ouvert et présent dans le catalogue", async () => {
           it("alors l'organisme n'est pas trouvé", async () => {
-            const result = await searchOrganisme(query);
+            const result = await searchOrganisme(query)
 
             expect(result).toEqual({
               candidats,
               resultat: null,
-            });
-          });
-        });
+            })
+          })
+        })
 
         describe("Si un UNIQUE organisme trouvé parmis la liste précédente", () => {
           beforeEach(async () => {
@@ -1030,11 +1011,11 @@ describe("searchOrganisme", () => {
                   nature: "responsable_formateur",
                 }),
               })
-            );
-          });
+            )
+          })
 
           it("alors l'organisme est trouvé", async () => {
-            const result = await searchOrganisme(query);
+            const result = await searchOrganisme(query)
 
             expect(result).toEqual({
               candidats,
@@ -1046,9 +1027,9 @@ describe("searchOrganisme", () => {
                 },
                 organisme: { identifiant: { uai: query.uai, siret: siret3 } },
               },
-            });
-          });
-        });
+            })
+          })
+        })
 
         describe("Si un UNIQUE organisme parmis la liste précédente est trouvé par UAI lieu", () => {
           beforeEach(async () => {
@@ -1071,11 +1052,11 @@ describe("searchOrganisme", () => {
                   lieux_de_formation: [{ uai: query.uai }],
                 }),
               }),
-            ]);
-          });
+            ])
+          })
 
           it("alors l'organisme est trouvé", async () => {
-            const result = await searchOrganisme(query);
+            const result = await searchOrganisme(query)
 
             expect(result).toEqual({
               candidats: [
@@ -1097,9 +1078,9 @@ describe("searchOrganisme", () => {
                 },
                 organisme: { identifiant: { uai: query.uai, siret: siret4 } },
               },
-            });
-          });
-        });
+            })
+          })
+        })
 
         describe("sinon", () => {
           beforeEach(async () => {
@@ -1113,7 +1094,7 @@ describe("searchOrganisme", () => {
                   lieux_de_formation: [{ uai: query.uai }],
                 }),
               })
-            );
+            )
             await getDbCollection("source.referentiel").insertOne(
               generateSourceReferentiel({
                 data: generateOrganismeReferentielFixture({
@@ -1124,11 +1105,11 @@ describe("searchOrganisme", () => {
                   lieux_de_formation: [{ uai: query.uai }],
                 }),
               })
-            );
-          });
+            )
+          })
 
           it("alors l'organisme n'est pas trouvé", async () => {
-            const result = await searchOrganisme(query);
+            const result = await searchOrganisme(query)
 
             expect(result).toEqual({
               candidats: [
@@ -1151,11 +1132,11 @@ describe("searchOrganisme", () => {
                 },
               ],
               resultat: null,
-            });
-          });
-        });
-      });
-    });
+            })
+          })
+        })
+      })
+    })
 
     describe("Si un UNIQUE organisme est à la fois: trouvé par UAI lieu; ouvert et validé par le référentiel (UAI non null)", () => {
       it("alors l'organisme est trouvé", async () => {
@@ -1176,9 +1157,9 @@ describe("searchOrganisme", () => {
               lieux_de_formation: [{ uai: query.uai }],
             }),
           }),
-        ]);
+        ])
 
-        const result = await searchOrganisme(query);
+        const result = await searchOrganisme(query)
 
         expect(result).toEqual({
           candidats: [],
@@ -1190,8 +1171,8 @@ describe("searchOrganisme", () => {
             },
             organisme: { identifiant: { uai: uai2, siret: siret1 } },
           },
-        });
-      });
+        })
+      })
 
       describe("sinon Les organismes trouvés par UAI lieux sont ajoutés à la liste des candidats", () => {
         it("alors l'organisme n'est pas trouvé", async () => {
@@ -1220,9 +1201,9 @@ describe("searchOrganisme", () => {
                 lieux_de_formation: [{ uai: query.uai }],
               }),
             }),
-          ]);
+          ])
 
-          const result = await searchOrganisme(query);
+          const result = await searchOrganisme(query)
 
           expect(result).toEqual({
             candidats: [
@@ -1244,42 +1225,42 @@ describe("searchOrganisme", () => {
               },
             ],
             resultat: null,
-          });
-        });
-      });
-    });
-  });
+          })
+        })
+      })
+    })
+  })
 
   describe('recherche par "uai" et "siret" null', () => {
     const query = {
       uai: null,
       siret: null,
-    } as const satisfies OrganismeSearchQuery;
+    } as const satisfies OrganismeSearchQuery
 
     it("alors l'organisme n'est pas trouvé", async () => {
-      await getDbCollection("source.referentiel").insertOne(generateSourceReferentiel());
-      const result = await searchOrganisme(query);
+      await getDbCollection("source.referentiel").insertOne(generateSourceReferentiel())
+      const result = await searchOrganisme(query)
 
       expect(result).toEqual({
         candidats: [],
         resultat: null,
-      });
-    });
-  });
-});
+      })
+    })
+  })
+})
 
 describe("searchOrganismeMetadata", () => {
-  const uai1 = "0491801S";
-  const uai2 = "0594899E";
-  const uai3 = "0631408N";
-  const uai4 = "0851372E";
-  const siret1 = "19850144700025";
-  const siret2 = "26590673500120";
-  const siret3 = "98222438800016";
-  const siret4 = "88951250500013";
+  const uai1 = "0491801S"
+  const uai2 = "0594899E"
+  const uai3 = "0631408N"
+  const uai4 = "0851372E"
+  const siret1 = "19850144700025"
+  const siret2 = "26590673500120"
+  const siret3 = "98222438800016"
+  const siret4 = "88951250500013"
 
   beforeEach(async () => {
-    disableNetConnect();
+    disableNetConnect()
 
     await getDbCollection("source.referentiel").insertMany([
       generateSourceReferentiel({
@@ -1297,91 +1278,91 @@ describe("searchOrganismeMetadata", () => {
           lieux_de_formation: [{ uai: uai3 }],
         }),
       }),
-    ]);
+    ])
 
     return () => {
-      cleanAll();
-      enableNetConnect();
-    };
-  });
+      cleanAll()
+      enableNetConnect()
+    }
+  })
 
   describe('recherche par "uai" et "siret" null', () => {
     it("alors les metadata sont vides", async () => {
       const query = {
         uai: null,
         siret: null,
-      } as const satisfies OrganismeSearchQuery;
+      } as const satisfies OrganismeSearchQuery
 
-      const result = await searchOrganismeMetadata(query);
+      const result = await searchOrganismeMetadata(query)
 
-      expect(result).toEqual({ uai: null, siret: null });
-    });
-  });
+      expect(result).toEqual({ uai: null, siret: null })
+    })
+  })
 
   describe("si l'UAI est un UAI organisme", () => {
     it("alors le status de l'UAI est ok", async () => {
       const query = {
         uai: uai1,
         siret: null,
-      } as const satisfies OrganismeSearchQuery;
+      } as const satisfies OrganismeSearchQuery
 
-      const result = await searchOrganismeMetadata(query);
+      const result = await searchOrganismeMetadata(query)
 
-      expect(result).toEqual({ uai: { status: "ok" }, siret: null });
-    });
-  });
+      expect(result).toEqual({ uai: { status: "ok" }, siret: null })
+    })
+  })
 
   describe("si l'UAI est trouvé dans un UAI lieu", () => {
     it("alors le status de l'UAI est ok", async () => {
       const query = {
         uai: uai3,
         siret: null,
-      } as const satisfies OrganismeSearchQuery;
+      } as const satisfies OrganismeSearchQuery
 
-      const result = await searchOrganismeMetadata(query);
+      const result = await searchOrganismeMetadata(query)
 
-      expect(result).toEqual({ uai: { status: "ok" }, siret: null });
-    });
-  });
+      expect(result).toEqual({ uai: { status: "ok" }, siret: null })
+    })
+  })
 
   describe("si l'UAI n'est pas trouvé", () => {
     it('alors le status de l"UAI est "inconnu"', async () => {
       const query = {
         uai: uai4,
         siret: null,
-      } as const satisfies OrganismeSearchQuery;
+      } as const satisfies OrganismeSearchQuery
 
-      const result = await searchOrganismeMetadata(query);
+      const result = await searchOrganismeMetadata(query)
 
-      expect(result).toEqual({ uai: { status: "inconnu" }, siret: null });
-    });
-  });
+      expect(result).toEqual({ uai: { status: "inconnu" }, siret: null })
+    })
+  })
 
   describe("si le SIRET correspond à un organisme ouvert", () => {
     it('alors le status du "siret" est "ok"', async () => {
       const query = {
         uai: null,
         siret: siret1,
-      } as const satisfies OrganismeSearchQuery;
+      } as const satisfies OrganismeSearchQuery
 
-      const result = await searchOrganismeMetadata(query);
+      const result = await searchOrganismeMetadata(query)
 
-      expect(result).toEqual({ uai: null, siret: { status: "ok" } });
-    });
-  });
+      expect(result).toEqual({ uai: null, siret: { status: "ok" } })
+    })
+  })
 
   describe("si le SIRET correspond à un organisme fermé", () => {
     it('alors le status du "siret" est "fermé"', async () => {
       const query = {
         uai: null,
         siret: siret2,
-      } as const satisfies OrganismeSearchQuery;
+      } as const satisfies OrganismeSearchQuery
 
-      const result = await searchOrganismeMetadata(query);
+      const result = await searchOrganismeMetadata(query)
 
-      expect(result).toEqual({ uai: null, siret: { status: "fermé" } });
-    });
-  });
+      expect(result).toEqual({ uai: null, siret: { status: "fermé" } })
+    })
+  })
 
   describe("si le SIRET n'est pas trouvé", () => {
     describe("si le SIRET est trouvé dans l'API entreprise", () => {
@@ -1390,9 +1371,9 @@ describe("searchOrganismeMetadata", () => {
           const query = {
             uai: null,
             siret: siret3,
-          } as const satisfies OrganismeSearchQuery;
+          } as const satisfies OrganismeSearchQuery
 
-          const scope = nock("https://entreprise.api.gouv.fr/v3");
+          const scope = nock("https://entreprise.api.gouv.fr/v3")
           scope
             .get(`/insee/sirene/etablissements/diffusibles/${siret3}`)
             .query({
@@ -1500,22 +1481,22 @@ describe("searchOrganismeMetadata", () => {
                 date_derniere_mise_a_jour: 1712700000,
                 redirect_from_siret: null,
               },
-            });
+            })
 
-          const result = await searchOrganismeMetadata(query);
+          const result = await searchOrganismeMetadata(query)
 
-          expect(result).toEqual({ uai: null, siret: { status: "ok" } });
-        });
-      });
+          expect(result).toEqual({ uai: null, siret: { status: "ok" } })
+        })
+      })
 
       describe('si l\'etat_administratif est "fermé"', () => {
         it('alors le status du "siret" est "fermé"', async () => {
           const query = {
             uai: null,
             siret: siret4,
-          } as const satisfies OrganismeSearchQuery;
+          } as const satisfies OrganismeSearchQuery
 
-          const scope = nock("https://entreprise.api.gouv.fr/v3");
+          const scope = nock("https://entreprise.api.gouv.fr/v3")
           scope
             .get(`/insee/sirene/etablissements/diffusibles/${siret4}`)
             .query({
@@ -1623,22 +1604,22 @@ describe("searchOrganismeMetadata", () => {
                 date_derniere_mise_a_jour: 1711062000,
                 redirect_from_siret: null,
               },
-            });
+            })
 
-          const result = await searchOrganismeMetadata(query);
+          const result = await searchOrganismeMetadata(query)
 
-          expect(result).toEqual({ uai: null, siret: { status: "fermé" } });
-        });
-      });
+          expect(result).toEqual({ uai: null, siret: { status: "fermé" } })
+        })
+      })
 
       describe("si une erreur est retournée par l'API entreprise", () => {
         it('alors le status du "siret" est "inconnu"', async () => {
           const query = {
             uai: null,
             siret: "8030051560004",
-          } as const satisfies OrganismeSearchQuery;
+          } as const satisfies OrganismeSearchQuery
 
-          const scope = nock("https://entreprise.api.gouv.fr/v3");
+          const scope = nock("https://entreprise.api.gouv.fr/v3")
           scope
             .get(`/insee/sirene/etablissements/diffusibles/8030051560004`)
             .query({
@@ -1659,13 +1640,13 @@ describe("searchOrganismeMetadata", () => {
                   meta: {},
                 },
               ],
-            });
+            })
 
-          const result = await searchOrganismeMetadata(query);
+          const result = await searchOrganismeMetadata(query)
 
-          expect(result).toEqual({ uai: null, siret: { status: "inconnu" } });
-        });
-      });
-    });
-  });
-});
+          expect(result).toEqual({ uai: null, siret: { status: "inconnu" } })
+        })
+      })
+    })
+  })
+})

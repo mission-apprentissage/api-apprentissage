@@ -1,1 +1,1 @@
-export * from "./certification.model.js";
+export * from "./certification.model.js"

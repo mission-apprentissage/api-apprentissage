@@ -1,8 +1,8 @@
-import { Box } from "@mui/material";
-import Markdown from "react-markdown";
+import { Box } from "@mui/material"
+import Markdown from "react-markdown"
 
-import { DsfrLink } from "@/components/link/DsfrLink";
-import { Tag } from "@/components/tag/Tag";
+import { DsfrLink } from "@/components/link/DsfrLink"
+import { Tag } from "@/components/tag/Tag"
 
 export function DsfrMarkdown({ children }: { children: string | null | undefined }) {
   return (
@@ -15,11 +15,11 @@ export function DsfrMarkdown({ children }: { children: string | null | undefined
           </DsfrLink>
         ),
         code: ({ children }) => {
-          return children ? <Tag color="beigeGrisGalet">{children}</Tag> : null;
+          return children ? <Tag color="beigeGrisGalet">{children}</Tag> : null
         },
       }}
     >
       {children}
     </Markdown>
-  );
+  )
 }

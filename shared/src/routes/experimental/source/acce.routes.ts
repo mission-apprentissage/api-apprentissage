@@ -1,21 +1,15 @@
-import type { IApiRoutesDef } from "api-alternance-sdk";
-import { z } from "zod/v4-mini";
+import type { IApiRoutesDef } from "api-alternance-sdk"
+import { z } from "zod/v4-mini"
 
-import {
-  zAcceUai,
-  zAcceUaiFille,
-  zAcceUaiMere,
-  zAcceUaiSpec,
-  zAcceUaiZone,
-} from "../../../models/source/acce/source.acce.model.js";
+import { zAcceUai, zAcceUaiFille, zAcceUaiMere, zAcceUaiSpec, zAcceUaiZone } from "../../../models/source/acce/source.acce.model.js"
 
 const zQuery = z.object({
   uai: z.optional(z.string()),
   limit: z.optional(z.coerce.number()),
   skip: z.optional(z.coerce.number()),
-});
+})
 
-export type ISourceAcceQuerystring = z.output<typeof zQuery>;
+export type ISourceAcceQuerystring = z.output<typeof zQuery>
 
 export const zSourceAcceRoutes = {
   get: {
@@ -85,4 +79,4 @@ export const zSourceAcceRoutes = {
       },
     },
   },
-} as const satisfies IApiRoutesDef;
+} as const satisfies IApiRoutesDef

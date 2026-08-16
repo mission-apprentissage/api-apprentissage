@@ -1,17 +1,17 @@
-import type { IFormation, IOrganisme } from "../models/index.js";
-import type { ICertificationFixtureInput } from "./certification.model.fixture.js";
-import { generateCertificationFixture } from "./certification.model.fixture.js";
-import type { IOrganismeInput } from "./organisme.model.fixture.js";
-import { generateOrganismeFixture } from "./organisme.model.fixture.js";
+import type { IFormation, IOrganisme } from "../models/index.js"
+import type { ICertificationFixtureInput } from "./certification.model.fixture.js"
+import { generateCertificationFixture } from "./certification.model.fixture.js"
+import type { IOrganismeInput } from "./organisme.model.fixture.js"
+import { generateOrganismeFixture } from "./organisme.model.fixture.js"
 
 export type IFormationFixtureInput<T extends IFormation = IFormation> = Partial<
   Omit<T, "formateur" | "responsable" | "certification" | "lieu"> & {
-    formateur: { connu: boolean; organisme: IOrganismeInput<IOrganisme> };
-    responsable: { connu: boolean; organisme: IOrganismeInput<IOrganisme> };
-    certification: { connue: boolean; valeur: ICertificationFixtureInput };
-    lieu: Partial<T["lieu"]>;
+    formateur: { connu: boolean; organisme: IOrganismeInput<IOrganisme> }
+    responsable: { connu: boolean; organisme: IOrganismeInput<IOrganisme> }
+    certification: { connue: boolean; valeur: ICertificationFixtureInput }
+    lieu: Partial<T["lieu"]>
   }
->;
+>
 
 export function generateFormationFixture<T extends IFormation>(data?: IFormationFixtureInput<T>): IFormation {
   return {
@@ -92,5 +92,5 @@ export function generateFormationFixture<T extends IFormation>(data?: IFormation
       uai: null,
       ...data?.lieu,
     },
-  };
+  }
 }

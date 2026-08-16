@@ -1,10 +1,10 @@
-import { ObjectId } from "mongodb";
-import type { IEmailError, IEmailEvent } from "shared/models/email_event.model";
+import { ObjectId } from "mongodb"
+import type { IEmailError, IEmailEvent } from "shared/models/email_event.model"
 
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
 
 export async function createEmailEvent(template: IEmailEvent["template"]) {
-  const now = new Date();
+  const now = new Date()
 
   const event: IEmailEvent = {
     _id: new ObjectId(),
@@ -16,10 +16,10 @@ export async function createEmailEvent(template: IEmailEvent["template"]) {
     updated_at: now,
     messageId: null,
     errors: [],
-  };
+  }
 
-  await getDbCollection("email_events").insertOne(event);
-  return event;
+  await getDbCollection("email_events").insertOne(event)
+  return event
 }
 
 export function setEmailMessageId(emailEvent: IEmailEvent, messageId: string) {
@@ -32,7 +32,7 @@ export function setEmailMessageId(emailEvent: IEmailEvent, messageId: string) {
       },
     },
     { returnDocument: "after" }
-  );
+  )
 }
 
 export function addEmailError(filter: Pick<IEmailEvent, "_id"> | Pick<IEmailEvent, "messageId">, err: IEmailError) {
@@ -47,11 +47,11 @@ export function addEmailError(filter: Pick<IEmailEvent, "_id"> | Pick<IEmailEven
       },
     },
     { returnDocument: "after" }
-  );
+  )
 }
 
 export async function markEmailAsDelivered(messageId: string) {
-  const now = new Date();
+  const now = new Date()
   await getDbCollection("email_events").findOneAndUpdate(
     { messageId },
     {
@@ -60,15 +60,15 @@ export async function markEmailAsDelivered(messageId: string) {
         updated_at: now,
       },
     }
-  );
+  )
 }
 
 export async function markEmailAsFailed(messageId: string, type: IEmailError["type"]) {
-  return addEmailError({ messageId }, { type });
+  return addEmailError({ messageId }, { type })
 }
 
 export async function markEmailAsOpened(id: ObjectId) {
-  const now = new Date();
+  const now = new Date()
   await getDbCollection("email_events").findOneAndUpdate(
     { _id: id },
     {
@@ -77,11 +77,11 @@ export async function markEmailAsOpened(id: ObjectId) {
         updated_at: now,
       },
     }
-  );
+  )
 }
 
 export async function unsubscribe(email: string) {
-  const now = new Date();
+  const now = new Date()
 
   await getDbCollection("email_denied").updateOne(
     {
@@ -98,7 +98,7 @@ export async function unsubscribe(email: string) {
       },
     },
     { upsert: true }
-  );
+  )
 }
 
 export async function isUnsubscribed(email: string): Promise<boolean> {
@@ -107,7 +107,7 @@ export async function isUnsubscribed(email: string): Promise<boolean> {
       email,
     },
     { projection: { _id: 0, email: 1 } }
-  );
+  )
 
-  return denied !== null;
+  return denied !== null
 }

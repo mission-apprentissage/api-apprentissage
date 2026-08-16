@@ -1,6 +1,6 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest"
 
-import { buildKitApprentissageEntry } from "./kit_apprentissage.builder.js";
+import { buildKitApprentissageEntry } from "./kit_apprentissage.builder.js"
 
 const kitApprentissageSourceMap = {
   v1_0: "Kit apprentissage et RNCP v1.0.csv",
@@ -27,7 +27,7 @@ const kitApprentissageSourceMap = {
   20240119: "Kit_apprentissage_20240119.csv",
   20240223: "Kit_apprentissage_20240223.csv",
   20240329: "Kit_apprentissage_20240329.csv",
-};
+}
 
 describe("Kit Apprentissage Builder", () => {
   it.each([
@@ -51,11 +51,11 @@ describe("Kit Apprentissage Builder", () => {
         "Intitulé diplôme (DEPP)": "",
         "Niveau fiche RNCP": "",
         "Abrégé de diplôme (RNCP)": "",
-      };
-      const getResult = () => buildKitApprentissageEntry(record);
-      expect.soft(getResult()).toEqual({ cfd: "00000000", rncp: inputValue });
+      }
+      const getResult = () => buildKitApprentissageEntry(record)
+      expect.soft(getResult()).toEqual({ cfd: "00000000", rncp: inputValue })
     }
-  });
+  })
 
   it('should fix missing leading zeros in "Code Diplôme" field', async () => {
     const record = {
@@ -64,10 +64,10 @@ describe("Kit Apprentissage Builder", () => {
       "Intitulé diplôme (DEPP)": "",
       "Niveau fiche RNCP": "",
       "Abrégé de diplôme (RNCP)": "",
-    };
-    const result = buildKitApprentissageEntry(record);
-    expect(result).toEqual({ cfd: "01025409", rncp: "RNCP12803" });
-  });
+    }
+    const result = buildKitApprentissageEntry(record)
+    expect(result).toEqual({ cfd: "01025409", rncp: "RNCP12803" })
+  })
 
   it('should fix SQWQ speeling errors in "Code Diplôme" field', async () => {
     for (const _source of Object.values(kitApprentissageSourceMap)) {
@@ -77,10 +77,10 @@ describe("Kit Apprentissage Builder", () => {
         "Intitulé diplôme (DEPP)": "",
         "Niveau fiche RNCP": "",
         "Abrégé de diplôme (RNCP)": "",
-      };
-      const getResult = () => buildKitApprentissageEntry(record);
+      }
+      const getResult = () => buildKitApprentissageEntry(record)
 
-      expect(getResult()).toEqual({ cfd: null, rncp: "RNCP00000" });
+      expect(getResult()).toEqual({ cfd: null, rncp: "RNCP00000" })
     }
     const record = {
       FicheRNCP: "RNCP12803",
@@ -88,9 +88,9 @@ describe("Kit Apprentissage Builder", () => {
       "Intitulé diplôme (DEPP)": "",
       "Niveau fiche RNCP": "",
       "Abrégé de diplôme (RNCP)": "",
-    };
-    const result = buildKitApprentissageEntry(record);
+    }
+    const result = buildKitApprentissageEntry(record)
 
-    expect(result).toEqual({ cfd: "01025409", rncp: "RNCP12803" });
-  });
-});
+    expect(result).toEqual({ cfd: "01025409", rncp: "RNCP12803" })
+  })
+})

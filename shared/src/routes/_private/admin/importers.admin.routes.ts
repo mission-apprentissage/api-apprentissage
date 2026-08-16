@@ -1,5 +1,5 @@
-import type { IApiRoutesDef } from "api-alternance-sdk";
-import { z } from "zod/v4-mini";
+import type { IApiRoutesDef } from "api-alternance-sdk"
+import { z } from "zod/v4-mini"
 
 export const zImportStatus = z.object({
   last_import: z.nullable(z.date()),
@@ -12,9 +12,9 @@ export const zImportStatus = z.object({
       status: z.enum(["done", "failed", "pending"]),
     })
   ),
-});
+})
 
-export type ImportStatus = z.infer<typeof zImportStatus>;
+export type ImportStatus = z.infer<typeof zImportStatus>
 
 export const zImporterAdminRoutes = {
   get: {
@@ -29,4 +29,4 @@ export const zImporterAdminRoutes = {
       },
     },
   },
-} as const satisfies IApiRoutesDef;
+} as const satisfies IApiRoutesDef

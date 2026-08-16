@@ -1,5 +1,5 @@
-import { generationLienPriseRdvFormationPageSummaryDoc } from "../../metier/generation-lien-prise-rdv-formation/generation-lien-prise-rdv-formation.doc.js";
-import type { DocRoute } from "../../types.js";
+import { generationLienPriseRdvFormationPageSummaryDoc } from "../../metier/generation-lien-prise-rdv-formation/generation-lien-prise-rdv-formation.doc.js"
+import type { DocRoute } from "../../types.js"
 
 export const generateFormationAppointmentLinkRouteDoc = {
   summary: generationLienPriseRdvFormationPageSummaryDoc.title,
@@ -19,9 +19,7 @@ export const generateFormationAppointmentLinkRouteDoc = {
           descriptions: [{ fr: "Identifiant Parcoursup de la formation", en: "Parcoursup identifier of the training" }],
           properties: {
             parcoursup_id: {
-              descriptions: [
-                { fr: "Identifiant Parcoursup de la formation", en: "Parcoursup identifier of the training" },
-              ],
+              descriptions: [{ fr: "Identifiant Parcoursup de la formation", en: "Parcoursup identifier of the training" }],
             },
           },
         },
@@ -161,4 +159,4 @@ export const generateFormationAppointmentLinkRouteDoc = {
       ],
     },
   },
-} as const satisfies DocRoute;
+} as const satisfies DocRoute

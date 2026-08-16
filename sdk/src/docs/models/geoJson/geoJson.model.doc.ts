@@ -1,4 +1,4 @@
-import type { DocTechnicalField } from "../../types.js";
+import type { DocTechnicalField } from "../../types.js"
 
 export const geoJsonPointModelDoc = {
   descriptions: null,
@@ -14,7 +14,7 @@ export const geoJsonPointModelDoc = {
       ],
     },
   },
-} as const satisfies DocTechnicalField;
+} as const satisfies DocTechnicalField
 
 export const geoJsonPolygonModelDoc = {
   descriptions: null,
@@ -36,7 +36,7 @@ export const geoJsonPolygonModelDoc = {
       },
     },
   },
-} as const satisfies DocTechnicalField;
+} as const satisfies DocTechnicalField
 
 export const adresseModelDoc = {
   descriptions: [{ fr: "Adresse", en: "Address" }],
@@ -135,4 +135,4 @@ export const adresseModelDoc = {
       },
     },
   },
-};
+}

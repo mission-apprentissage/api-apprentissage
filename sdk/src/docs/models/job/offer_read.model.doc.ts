@@ -1,13 +1,13 @@
-import contractDescEn from "../../metier/recherche-offre/en/contract.description.md.js";
-import offerDescEn from "../../metier/recherche-offre/en/offer.description.md.js";
-import offerPublicationDescEn from "../../metier/recherche-offre/en/offer.publication.description.md.js";
-import offerStatusDescEn from "../../metier/recherche-offre/en/offer.status.description.md.js";
-import contractDescFr from "../../metier/recherche-offre/fr/contract.description.md.js";
-import offerDescFr from "../../metier/recherche-offre/fr/offer.description.md.js";
-import offerPublicationDescFr from "../../metier/recherche-offre/fr/offer.publication.description.md.js";
-import offerStatusDescFr from "../../metier/recherche-offre/fr/offer.status.description.md.js";
-import type { DocTechnicalField } from "../../types.js";
-import { recruiterModelDoc } from "./recruiter.model.doc.js";
+import contractDescEn from "../../metier/recherche-offre/en/contract.description.md.js"
+import offerDescEn from "../../metier/recherche-offre/en/offer.description.md.js"
+import offerPublicationDescEn from "../../metier/recherche-offre/en/offer.publication.description.md.js"
+import offerStatusDescEn from "../../metier/recherche-offre/en/offer.status.description.md.js"
+import contractDescFr from "../../metier/recherche-offre/fr/contract.description.md.js"
+import offerDescFr from "../../metier/recherche-offre/fr/offer.description.md.js"
+import offerPublicationDescFr from "../../metier/recherche-offre/fr/offer.publication.description.md.js"
+import offerStatusDescFr from "../../metier/recherche-offre/fr/offer.status.description.md.js"
+import type { DocTechnicalField } from "../../types.js"
+import { recruiterModelDoc } from "./recruiter.model.doc.js"
 
 export const offerReadModelDoc = {
   descriptions: [{ fr: "Offre d'emploi", en: "Job offer" }],
@@ -78,9 +78,7 @@ export const offerReadModelDoc = {
           },
         },
         remote: {
-          descriptions: [
-            { en: "Work mode (on-site, remote, or hybrid)", fr: "Mode de travail (sur site, à distance ou hybride)" },
-          ],
+          descriptions: [{ en: "Work mode (on-site, remote, or hybrid)", fr: "Mode de travail (sur site, à distance ou hybride)" }],
           examples: ["onsite", "remote", "hybrid"],
         },
       },
@@ -91,9 +89,7 @@ export const offerReadModelDoc = {
         access_conditions: {
           descriptions: [{ en: "The conditions for entering the profession", fr: "Les conditions d'accès au métier" }],
           items: {
-            descriptions: [
-              { en: "The conditions for entering the profession", fr: "Les conditions d'accès au métier" },
-            ],
+            descriptions: [{ en: "The conditions for entering the profession", fr: "Les conditions d'accès au métier" }],
             examples: [
               "Ce métier est accessible avec un diplôme de niveau Bac+2 (BTS, DUT) à Master (MIAGE, diplôme d'ingénieur, Master professionnel, ...) en informatique.",
               "Il est également accessible avec une expérience professionnelle en informatique, système d'exploitation ou dans un domaine applicatif.",
@@ -121,12 +117,7 @@ export const offerReadModelDoc = {
                 fr: "Les compétences ou qualités attendues pour le poste.",
               },
             ],
-            examples: [
-              "Faire preuve d'autonomie",
-              "Faire preuve de créativité, d'inventivité",
-              "Faire preuve de rigueur et de précision",
-              "Travailler en équipe",
-            ],
+            examples: ["Faire preuve d'autonomie", "Faire preuve de créativité, d'inventivité", "Faire preuve de rigueur et de précision", "Travailler en équipe"],
           },
         },
         opening_count: {
@@ -156,14 +147,10 @@ export const offerReadModelDoc = {
           examples: ["Active"],
         },
         target_diploma: {
-          descriptions: [
-            { en: "Targeted diploma level at the end of studies.", fr: "Diplôme visé à l'issue des études." },
-          ],
+          descriptions: [{ en: "Targeted diploma level at the end of studies.", fr: "Diplôme visé à l'issue des études." }],
           properties: {
             european: {
-              descriptions: [
-                { en: "Targeted diploma level at the end of studies.", fr: "Diplôme visé à l'issue des études." },
-              ],
+              descriptions: [{ en: "Targeted diploma level at the end of studies.", fr: "Diplôme visé à l'issue des études." }],
               examples: ["3"],
             },
             label: {
@@ -206,15 +193,11 @@ export const offerReadModelDoc = {
           descriptions: [{ en: offerPublicationDescEn, fr: offerPublicationDescFr }],
           properties: {
             creation: {
-              descriptions: [
-                { en: "Creation date of the job opportunity.", fr: "Date de création de l'opportunité d'emploi." },
-              ],
+              descriptions: [{ en: "Creation date of the job opportunity.", fr: "Date de création de l'opportunité d'emploi." }],
               examples: ["2024-07-23T13:23:01.000Z"],
             },
             expiration: {
-              descriptions: [
-                { en: "Expiration date of the job opportunity.", fr: "Date d'expiration de l'opportunité d'emploi." },
-              ],
+              descriptions: [{ en: "Expiration date of the job opportunity.", fr: "Date d'expiration de l'opportunité d'emploi." }],
               examples: ["2027-05-14T00:00:00Z"],
             },
           },
@@ -233,4 +216,4 @@ export const offerReadModelDoc = {
       examples: [true],
     },
   },
-} as const satisfies DocTechnicalField;
+} as const satisfies DocTechnicalField

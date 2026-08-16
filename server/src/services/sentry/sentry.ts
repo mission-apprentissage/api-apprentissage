@@ -1,22 +1,22 @@
-import * as Sentry from "@sentry/node";
-import { nodeProfilingIntegration } from "@sentry/profiling-node";
+import * as Sentry from "@sentry/node"
+import { nodeProfilingIntegration } from "@sentry/profiling-node"
 
-import config from "@/config.js";
+import config from "@/config.js"
 
 function getOptions(): Sentry.NodeOptions {
   return {
     tracesSampler: (samplingContext) => {
       // Continue trace decision, if there is any parentSampled information
       if (samplingContext.parentSampled != null) {
-        return samplingContext.parentSampled;
+        return samplingContext.parentSampled
       }
 
       if (samplingContext.attributes?.["sentry.op"] === "processor.job") {
         // Sample 100% of processor jobs
-        return 1.0;
+        return 1.0
       }
 
-      return config.env === "production" ? 0.01 : 1.0;
+      return config.env === "production" ? 0.01 : 1.0
     },
     tracePropagationTargets: [/^https:\/\/[^/]*\.apprentissage\.beta\.gouv\.fr/],
     profilesSampleRate: 0.001,
@@ -30,13 +30,13 @@ function getOptions(): Sentry.NodeOptions {
       Sentry.extraErrorDataIntegration({ depth: 16 }),
       nodeProfilingIntegration(),
     ],
-  };
+  }
 }
 
 export function initSentry(): void {
-  Sentry.init(getOptions());
+  Sentry.init(getOptions())
 }
 
 export async function closeSentry(): Promise<void> {
-  await Sentry.close(2_000);
+  await Sentry.close(2_000)
 }

@@ -1,4 +1,4 @@
-import type { DocPage, OpenApiText } from "../../types.js";
+import type { DocPage, OpenApiText } from "../../types.js"
 
 export const generationLienPriseRdvFormationPageSummaryDoc = {
   title: {
@@ -9,7 +9,7 @@ export const generationLienPriseRdvFormationPageSummaryDoc = {
     en: "Generate links for appointment requests for training via the La bonne alternance service",
     fr: "Obtenir un lien d’accès à un formulaire de prise de rendez-vous auprès d’un centre de formation",
   },
-} as const satisfies { title: OpenApiText; headline: OpenApiText };
+} as const satisfies { title: OpenApiText; headline: OpenApiText }
 
 export const generationLienPriseRdvFormationPageDoc = {
   tag: "formation",
@@ -102,4 +102,4 @@ export const generationLienPriseRdvFormationPageDoc = {
       },
     },
   ],
-} as const satisfies DocPage;
+} as const satisfies DocPage

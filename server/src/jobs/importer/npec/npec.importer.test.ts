@@ -1,45 +1,44 @@
-import { createReadStream } from "node:fs";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
+import { createReadStream } from "node:fs"
+import { dirname, join } from "node:path"
+import { fileURLToPath } from "node:url"
 
-import { internal } from "@hapi/boom";
-import { captureException } from "@sentry/node";
-import { addJob } from "job-processor";
-import { ObjectId } from "mongodb";
-import type { IImportMetaNpec } from "shared/models/import.meta.model";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { internal } from "@hapi/boom"
+import { captureException } from "@sentry/node"
+import { useMongo } from "@tests/mongo.test.utils.js"
+import { addJob } from "job-processor"
+import { ObjectId } from "mongodb"
+import type { IImportMetaNpec } from "shared/models/import.meta.model"
+import { beforeEach, describe, expect, it, vi } from "vitest"
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
+import { importNpecResource, onImportNpecResourceFailure, runNpecImporter } from "./npec.importer.js"
+import { downloadXlsxNPECFile, getNpecFilename, scrapeRessourceNPEC } from "./scraper/npec.scraper.js"
 
-import { importNpecResource, onImportNpecResourceFailure, runNpecImporter } from "./npec.importer.js";
-import { downloadXlsxNPECFile, getNpecFilename, scrapeRessourceNPEC } from "./scraper/npec.scraper.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
-import { useMongo } from "@tests/mongo.test.utils.js";
+vi.mock("./scraper/npec.scraper")
 
-vi.mock("./scraper/npec.scraper");
-
-vi.mock("@sentry/node");
+vi.mock("@sentry/node")
 
 vi.mock("job-processor", async (importOriginal) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const mod = (await importOriginal()) as any;
+  const mod = (await importOriginal()) as any
   return {
     ...mod,
     addJob: vi.fn().mockResolvedValue(undefined),
-  };
-});
+  }
+})
 
 describe.skip("runRncpImporter", () => {
-  const now = new Date("2024-02-25T09:00:07.000Z");
-  useMongo();
+  const now = new Date("2024-02-25T09:00:07.000Z")
+  useMongo()
 
   beforeEach(() => {
-    vi.useFakeTimers();
-    vi.setSystemTime(now);
+    vi.useFakeTimers()
+    vi.setSystemTime(now)
 
     return () => {
-      vi.mocked(scrapeRessourceNPEC).mockReset();
-      vi.useRealTimers();
-    };
-  });
+      vi.mocked(scrapeRessourceNPEC).mockReset()
+      vi.useRealTimers()
+    }
+  })
 
   it("should schedule properly", async () => {
     const newResource = {
@@ -47,34 +46,34 @@ describe.skip("runRncpImporter", () => {
       date: new Date("2024-01-01T00:00:00.000Z"),
       title: "New resource",
       description: "New resource description",
-    };
+    }
 
     const existingResource = {
       url: "https://www.francecompetences.fr/upload/existing.xlsx",
       date: new Date("2023-09-01T00:00:00.000Z"),
       title: "Existing resource",
       description: "Existing resource description",
-    };
+    }
     const failedResource = {
       url: "https://www.francecompetences.fr/upload/failed.xlsx",
       date: new Date("2023-10-01T00:00:00.000Z"),
       title: "Failed resource",
       description: "Failed resource description",
-    };
+    }
     const pendingResource = {
       url: "https://www.francecompetences.fr/upload/pending.xlsx",
       date: new Date("2023-11-01T00:00:00.000Z"),
       title: "Pending resource",
       description: "Pending resource description",
-    };
+    }
     const removedResource = {
       url: "https://www.francecompetences.fr/upload/removed.xlsx",
       date: new Date("2023-12-01T00:00:00.000Z"),
       title: "Removed resource",
       description: "Removed resource description",
-    };
+    }
 
-    vi.mocked(scrapeRessourceNPEC).mockResolvedValue([existingResource, failedResource, pendingResource, newResource]);
+    vi.mocked(scrapeRessourceNPEC).mockResolvedValue([existingResource, failedResource, pendingResource, newResource])
 
     const initialImports: IImportMetaNpec[] = [
       {
@@ -117,12 +116,12 @@ describe.skip("runRncpImporter", () => {
         title: removedResource.title,
         description: removedResource.description,
       },
-    ];
-    await getDbCollection("import.meta").insertMany(initialImports);
+    ]
+    await getDbCollection("import.meta").insertMany(initialImports)
 
-    await runNpecImporter();
+    await runNpecImporter()
 
-    expect(scrapeRessourceNPEC).toHaveBeenCalledWith();
+    expect(scrapeRessourceNPEC).toHaveBeenCalledWith()
 
     const newImportMeta: IImportMetaNpec = {
       _id: expect.any(ObjectId),
@@ -133,39 +132,32 @@ describe.skip("runRncpImporter", () => {
       title: newResource.title,
       description: newResource.description,
       status: "pending",
-    };
+    }
 
     const retryImportMeta: IImportMetaNpec = {
       ...initialImports[1],
       status: "pending",
-    };
+    }
 
-    await expect(getDbCollection("import.meta").find({}).toArray()).resolves.toEqual([
-      initialImports[0],
-      retryImportMeta,
-      initialImports[2],
-      newImportMeta,
-    ]);
-    expect(addJob).toHaveBeenCalledTimes(2);
+    await expect(getDbCollection("import.meta").find({}).toArray()).resolves.toEqual([initialImports[0], retryImportMeta, initialImports[2], newImportMeta])
+    expect(addJob).toHaveBeenCalledTimes(2)
     expect(addJob).toHaveBeenNthCalledWith(1, {
       name: "import:npec:resource",
       payload: newImportMeta,
       queued: true,
-    });
+    })
     expect(addJob).toHaveBeenNthCalledWith(2, {
       name: "import:npec:resource",
       payload: retryImportMeta,
       queued: true,
-    });
-    expect(captureException).toHaveBeenCalledTimes(1);
-    expect(captureException).toHaveBeenCalledWith(
-      internal("npec.importer: found an import meta for a resource that is still pending")
-    );
-  });
-});
+    })
+    expect(captureException).toHaveBeenCalledTimes(1)
+    expect(captureException).toHaveBeenCalledWith(internal("npec.importer: found an import meta for a resource that is still pending"))
+  })
+})
 
 describe.skip("onImportRncpArchiveFailure", () => {
-  useMongo();
+  useMongo()
 
   it("should remove failed import meta", async () => {
     const existingResource = {
@@ -173,13 +165,13 @@ describe.skip("onImportRncpArchiveFailure", () => {
       date: new Date("2023-09-01T00:00:00.000Z"),
       title: "Existing resource",
       description: "Existing resource description",
-    };
+    }
     const failedResource = {
       url: "https://www.francecompetences.fr/upload/failed.xlsx",
       date: new Date("2023-10-01T00:00:00.000Z"),
       title: "Failed resource",
       description: "Failed resource description",
-    };
+    }
 
     const initialImports: IImportMetaNpec[] = [
       {
@@ -202,11 +194,11 @@ describe.skip("onImportRncpArchiveFailure", () => {
         description: failedResource.description,
         status: "pending",
       },
-    ];
+    ]
 
-    await getDbCollection("import.meta").insertMany(initialImports);
+    await getDbCollection("import.meta").insertMany(initialImports)
 
-    await onImportNpecResourceFailure(initialImports[1]);
+    await onImportNpecResourceFailure(initialImports[1])
 
     await expect(getDbCollection("import.meta").find({}).toArray()).resolves.toEqual([
       initialImports[0],
@@ -214,23 +206,23 @@ describe.skip("onImportRncpArchiveFailure", () => {
         ...initialImports[1],
         status: "failed",
       },
-    ]);
-  });
-});
+    ])
+  })
+})
 
 describe.skip("importNpecResource", () => {
-  const now = new Date("2024-02-25T09:00:07.000Z");
-  useMongo();
+  const now = new Date("2024-02-25T09:00:07.000Z")
+  useMongo()
 
   beforeEach(() => {
-    vi.useFakeTimers();
-    vi.setSystemTime(now);
+    vi.useFakeTimers()
+    vi.setSystemTime(now)
 
     return () => {
-      vi.mocked(scrapeRessourceNPEC).mockReset();
-      vi.useRealTimers();
-    };
-  });
+      vi.mocked(scrapeRessourceNPEC).mockReset()
+      vi.useRealTimers()
+    }
+  })
 
   const expectedDataMap = {
     "referentiel_des_npec-2-1.xlsx": {
@@ -550,7 +542,7 @@ describe.skip("importNpecResource", () => {
       ],
       date: new Date("2024-07-18T00:00:00.000+02:00"),
     },
-  } as const;
+  } as const
 
   it.each<[keyof typeof expectedDataMap]>([
     ["referentiel_des_npec-2-1.xlsx"],
@@ -559,8 +551,8 @@ describe.skip("importNpecResource", () => {
     ["Referentiel-des-NPEC_vMAJ-09.04.2024.xlsx"],
     ["Referentiel-des-NPEC-15.07.2024_vMAJ-18.07.2024.xlsx"],
   ])("should import correctly %s", async (filename) => {
-    const dataFixture = join(dirname(fileURLToPath(import.meta.url)), `fixtures/${filename}`);
-    const s = createReadStream(dataFixture);
+    const dataFixture = join(dirname(fileURLToPath(import.meta.url)), `fixtures/${filename}`)
+    const s = createReadStream(dataFixture)
 
     const importMeta: IImportMetaNpec = {
       _id: new ObjectId(),
@@ -571,11 +563,11 @@ describe.skip("importNpecResource", () => {
       title: "Title",
       description: "Description",
       file_date: expectedDataMap[filename].date,
-    };
+    }
 
-    await getDbCollection("import.meta").insertOne(importMeta);
-    vi.mocked(downloadXlsxNPECFile).mockResolvedValue(s);
-    vi.mocked(getNpecFilename).mockReturnValue(filename);
+    await getDbCollection("import.meta").insertOne(importMeta)
+    vi.mocked(downloadXlsxNPECFile).mockResolvedValue(s)
+    vi.mocked(getNpecFilename).mockReturnValue(filename)
 
     const expectedData = expectedDataMap[filename].source.map((data) => ({
       _id: expect.any(ObjectId),
@@ -584,29 +576,29 @@ describe.skip("importNpecResource", () => {
       date_import: now,
       date_file: importMeta.file_date,
       import_id: importMeta._id,
-    }));
+    }))
 
-    const result = await importNpecResource(importMeta);
+    const result = await importNpecResource(importMeta)
 
-    expect(downloadXlsxNPECFile).toHaveBeenCalledWith(importMeta.resource);
+    expect(downloadXlsxNPECFile).toHaveBeenCalledWith(importMeta.resource)
 
-    const data = await getDbCollection("source.npec").find({}).toArray();
-    expect(data).toEqual(expectedData);
+    const data = await getDbCollection("source.npec").find({}).toArray()
+    expect(data).toEqual(expectedData)
     await expect(getDbCollection("import.meta").findOne({ _id: importMeta._id })).resolves.toEqual({
       ...importMeta,
       status: "done",
-    });
+    })
     expect(result).toEqual({
       npecCount: expectedData.filter((d) => d.data.type === "npec").length,
       cpneIdccCount: expectedData.filter((d) => d.data.type === "cpne-idcc").length,
       npecNormalizedCount: expectedDataMap[filename].normalized.length,
-    });
-    const dataNormalized = await getDbCollection("source.npec.normalized").find({}).toArray();
+    })
+    const dataNormalized = await getDbCollection("source.npec.normalized").find({}).toArray()
     expect(dataNormalized).toEqual(
       expectedDataMap[filename].normalized.map((data) => ({
         ...data,
         import_id: importMeta._id,
       }))
-    );
-  });
-});
+    )
+  })
+})

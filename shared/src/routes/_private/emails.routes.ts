@@ -1,7 +1,7 @@
-import type { IApiRoutesDef } from "api-alternance-sdk";
-import { z } from "zod/v4-mini";
+import type { IApiRoutesDef } from "api-alternance-sdk"
+import { z } from "zod/v4-mini"
 
-import { zObjectIdMini } from "../../models/common.js";
+import { zObjectIdMini } from "../../models/common.js"
 
 export const zEmailRoutes = {
   get: {
@@ -58,4 +58,4 @@ export const zEmailRoutes = {
       securityScheme: null,
     },
   },
-} as const satisfies IApiRoutesDef;
+} as const satisfies IApiRoutesDef

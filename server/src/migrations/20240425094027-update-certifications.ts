@@ -1,5 +1,5 @@
-import { addJob } from "job-processor";
+import { addJob } from "job-processor"
 
 export const up = async () => {
-  await addJob({ name: "import:certifications", payload: { force: true }, queued: false });
-};
+  await addJob({ name: "import:certifications", payload: { force: true }, queued: false })
+}

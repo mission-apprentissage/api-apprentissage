@@ -1,25 +1,23 @@
-import { addAbortSignal, Duplex, Transform } from "node:stream";
-
-import { pipeline } from "stream/promises";
-import { internal } from "@hapi/boom";
-import type { AnyBulkWriteOperation } from "mongodb";
-import { ObjectId } from "mongodb";
-import type { ImportStatus } from "shared";
-import type { IImportMetaDares } from "shared/models/import.meta.model";
-import type { ISourceDaresApeIdcc } from "shared/models/source/dares/source.dares.ape_idcc.model";
-import { zSourceDaresApeIdcc } from "shared/models/source/dares/source.dares.ape_idcc.model";
-
-import { downloadResourceApeIdccFile, scrapeRessourceApeIdcc } from "./scraper/dares.ape_idcc.scraper.js";
-import { withCause } from "@/services/errors/withCause.js";
-import type { ExcelParsedRow } from "@/services/excel/excel.parser.js";
-import { parseExcelFileStream } from "@/services/excel/excel.parser.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
-import { createBatchTransformStream } from "@/utils/streamUtils.js";
+import { addAbortSignal, Duplex, Transform } from "node:stream"
+import { internal } from "@hapi/boom"
+import type { AnyBulkWriteOperation } from "mongodb"
+import { ObjectId } from "mongodb"
+import type { ImportStatus } from "shared"
+import type { IImportMetaDares } from "shared/models/import.meta.model"
+import type { ISourceDaresApeIdcc } from "shared/models/source/dares/source.dares.ape_idcc.model"
+import { zSourceDaresApeIdcc } from "shared/models/source/dares/source.dares.ape_idcc.model"
+import { pipeline } from "stream/promises"
+import { withCause } from "@/services/errors/withCause.js"
+import type { ExcelParsedRow } from "@/services/excel/excel.parser.js"
+import { parseExcelFileStream } from "@/services/excel/excel.parser.js"
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
+import { createBatchTransformStream } from "@/utils/streamUtils.js"
+import { downloadResourceApeIdccFile, scrapeRessourceApeIdcc } from "./scraper/dares.ape_idcc.scraper.js"
 
 async function importResource(importMeta: IImportMetaDares, signal?: AbortSignal) {
-  const readStream = await downloadResourceApeIdccFile(importMeta.resource);
+  const readStream = await downloadResourceApeIdccFile(importMeta.resource)
 
-  if (signal) addAbortSignal(signal, readStream);
+  if (signal) addAbortSignal(signal, readStream)
 
   await pipeline(
     Duplex.from(
@@ -54,14 +52,13 @@ async function importResource(importMeta: IImportMetaDares, signal?: AbortSignal
             date_import: importMeta.import_date,
             data: {
               naf: { code: row.data.ape_code, intitule: row.data.ape_intitule },
-              convention_collective:
-                !row.data.idcc || row.data.idcc === "Autre" ? null : { idcc: row.data.idcc, titre: row.data.titre },
+              convention_collective: !row.data.idcc || row.data.idcc === "Autre" ? null : { idcc: row.data.idcc, titre: row.data.titre },
             },
-          });
+          })
 
-          callback(null, { insertOne: { document: data } } as AnyBulkWriteOperation<ISourceDaresApeIdcc>);
+          callback(null, { insertOne: { document: data } } as AnyBulkWriteOperation<ISourceDaresApeIdcc>)
         } catch (error) {
-          callback(withCause(internal("import.dares_ape_idcc: error when inserting", { row }), error));
+          callback(withCause(internal("import.dares_ape_idcc: error when inserting", { row }), error))
         }
       },
     }),
@@ -70,33 +67,33 @@ async function importResource(importMeta: IImportMetaDares, signal?: AbortSignal
       objectMode: true,
       async transform(chunk: AnyBulkWriteOperation<ISourceDaresApeIdcc>[], _encoding, callback) {
         try {
-          await getDbCollection("source.dares.ape_idcc").bulkWrite(chunk, { ordered: false });
-          callback();
+          await getDbCollection("source.dares.ape_idcc").bulkWrite(chunk, { ordered: false })
+          callback()
         } catch (error) {
-          callback(withCause(internal("import.dares_ape_idcc: error when inserting"), error));
+          callback(withCause(internal("import.dares_ape_idcc: error when inserting"), error))
         }
       },
     }),
     { signal }
-  );
+  )
 }
 
 export async function runDaresApeIdccImporter(signal?: AbortSignal) {
-  const importId = new ObjectId();
-  const importDate = new Date();
+  const importId = new ObjectId()
+  const importDate = new Date()
 
   try {
-    const resource = await scrapeRessourceApeIdcc();
+    const resource = await scrapeRessourceApeIdcc()
 
     const existingImport = await getDbCollection("import.meta").findOne({
       type: "dares_ape_idcc",
       status: { $ne: "failed" },
       "resource.url": resource.url,
       "resource.date": { $gte: resource.date },
-    });
+    })
 
     if (existingImport !== null) {
-      return;
+      return
     }
 
     const importMeta: IImportMetaDares = {
@@ -105,38 +102,35 @@ export async function runDaresApeIdccImporter(signal?: AbortSignal) {
       type: "dares_ape_idcc",
       status: "pending",
       resource,
-    };
+    }
 
-    await getDbCollection("import.meta").insertOne(importMeta);
+    await getDbCollection("import.meta").insertOne(importMeta)
 
-    await importResource(importMeta, signal);
+    await importResource(importMeta, signal)
 
-    await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "done" } });
+    await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "done" } })
   } catch (error) {
-    await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "failed" } });
+    await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "failed" } })
     await getDbCollection("source.dares.ape_idcc").deleteMany({
       import_id: importId,
-    });
+    })
     if (signal && error.name === signal?.reason?.name) {
-      throw signal.reason;
+      throw signal.reason
     }
-    throw withCause(internal("import.dares_ape_idcc: unable to runDaresApeIdccImporter"), error, "fatal");
+    throw withCause(internal("import.dares_ape_idcc: unable to runDaresApeIdccImporter"), error, "fatal")
   }
 }
 
 export async function getDaresApiIdccImporterStatus(): Promise<ImportStatus> {
   const [lastImport, lastSuccess] = await Promise.all([
     await getDbCollection("import.meta").findOne({ type: "dares_ape_idcc" }, { sort: { import_date: -1 } }),
-    await getDbCollection("import.meta").findOne(
-      { type: "dares_ape_idcc", status: "done" },
-      { sort: { import_date: -1 } }
-    ),
-  ]);
+    await getDbCollection("import.meta").findOne({ type: "dares_ape_idcc", status: "done" }, { sort: { import_date: -1 } }),
+  ])
 
   return {
     last_import: lastImport?.import_date ?? null,
     last_success: lastSuccess?.import_date ?? null,
     status: lastImport?.status ?? "pending",
     resources: [],
-  };
+  }
 }

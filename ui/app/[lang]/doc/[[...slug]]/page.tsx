@@ -1,33 +1,33 @@
-import { Container } from "@mui/material";
+import { Container } from "@mui/material"
 
-import NotFoundPage from "@/app/not-found";
-import NotionPage from "@/components/notion/NotionPage";
-import type { INotionPage, IPages } from "@/utils/routes.utils";
-import { PAGES } from "@/utils/routes.utils";
+import NotFoundPage from "@/app/not-found"
+import NotionPage from "@/components/notion/NotionPage"
+import type { INotionPage, IPages } from "@/utils/routes.utils"
+import { PAGES } from "@/utils/routes.utils"
 
-export const revalidate = 3_600;
+export const revalidate = 3_600
 
 type DocPageProps = {
   params: Promise<{
-    slug?: string[];
-  }>;
-};
+    slug?: string[]
+  }>
+}
 
 export default async function DocPage(props: DocPageProps) {
-  const { slug } = await props.params;
-  const path = `/doc/${(slug ?? []).join("/")}`;
+  const { slug } = await props.params
+  const path = `/doc/${(slug ?? []).join("/")}`
   const page: INotionPage | null =
     Object.values((PAGES as IPages).notion).find((p: INotionPage) => {
-      return p.getPath("fr") === path;
-    }) ?? null;
+      return p.getPath("fr") === path
+    }) ?? null
 
   if (!page) {
-    return <NotFoundPage />;
+    return <NotFoundPage />
   }
 
   return (
     <Container maxWidth="xl">
       <NotionPage pageId={page.notionId} />
     </Container>
-  );
+  )
 }

@@ -1,7 +1,7 @@
-import { generateFormationAppointmentLinkRouteDoc } from "../../docs/routes/generateFormationAppointmentLink/generateFormationAppointmentLink.doc.js";
-import { searchFormationByIdRouteDoc } from "../../docs/routes/searchFormationById/searchFormationById.route.doc.js";
-import { searchFormationsRouteDoc } from "../../docs/routes/searchFormations/searchFormations.route.doc.js";
-import type { OpenapiRoutes } from "../../openapi/types.js";
+import { generateFormationAppointmentLinkRouteDoc } from "../../docs/routes/generateFormationAppointmentLink/generateFormationAppointmentLink.doc.js"
+import { searchFormationByIdRouteDoc } from "../../docs/routes/searchFormationById/searchFormationById.route.doc.js"
+import { searchFormationsRouteDoc } from "../../docs/routes/searchFormations/searchFormations.route.doc.js"
+import type { OpenapiRoutes } from "../../openapi/types.js"
 
 export const formationRoutesOpenapi: OpenapiRoutes = {
   "/formation/v1/search": {
@@ -134,4 +134,4 @@ export const formationRoutesOpenapi: OpenapiRoutes = {
       },
     },
   },
-};
+}

@@ -1,9 +1,9 @@
-import type { IOrganisme } from "api-alternance-sdk";
-import { ObjectId } from "mongodb";
-import type { IApiEntEtablissement, IApiEntUniteLegale } from "shared/models/cache/cache.entreprise.model";
-import type { ICommuneInternal } from "shared/models/commune.model";
-import { generateOrganismeReferentielFixture } from "shared/models/fixtures/source.referentiel.model.fixture";
-import type { IOrganismeReferentiel } from "shared/models/source/referentiel/source.referentiel.model";
+import type { IOrganisme } from "api-alternance-sdk"
+import { ObjectId } from "mongodb"
+import type { IApiEntEtablissement, IApiEntUniteLegale } from "shared/models/cache/cache.entreprise.model"
+import type { ICommuneInternal } from "shared/models/commune.model"
+import { generateOrganismeReferentielFixture } from "shared/models/fixtures/source.referentiel.model.fixture"
+import type { IOrganismeReferentiel } from "shared/models/source/referentiel/source.referentiel.model"
 
 export const sourceReferentielFixtures: IOrganismeReferentiel[] = [
   generateOrganismeReferentielFixture({
@@ -29,7 +29,7 @@ export const sourceReferentielFixtures: IOrganismeReferentiel[] = [
     siret: "26220009000278",
     uai: "0932751K",
   }),
-];
+]
 
 export const etablissementsFixture: IApiEntEtablissement[] = [
   {
@@ -172,9 +172,9 @@ export const etablissementsFixture: IApiEntEtablissement[] = [
       libelle_pays_etranger: null,
     },
   },
-];
+]
 
-export const etablissementNotFoundSiret = "19593255300108";
+export const etablissementNotFoundSiret = "19593255300108"
 
 export const uniteLegaleFixture: IApiEntUniteLegale[] = [
   {
@@ -209,7 +209,7 @@ export const uniteLegaleFixture: IApiEntUniteLegale[] = [
     date_cessation: null,
     date_creation: -33958800,
   },
-];
+]
 
 export const communesFixture: ICommuneInternal[] = [
   {
@@ -382,7 +382,7 @@ export const communesFixture: ICommuneInternal[] = [
     anciennes: [],
     updated_at: new Date("2024-12-18T12:23:53.852Z"),
   },
-];
+]
 
 export const expectedOrganismes: IOrganisme[] = [
   {
@@ -502,4 +502,4 @@ export const expectedOrganismes: IOrganisme[] = [
       siren: "262200090",
     },
   },
-];
+]

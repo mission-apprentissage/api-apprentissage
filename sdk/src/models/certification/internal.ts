@@ -1,2 +1,2 @@
-export * from "./certification.model.openapi.js";
-export * from "./certification.primitives.js";
+export * from "./certification.model.openapi.js"
+export * from "./certification.primitives.js"

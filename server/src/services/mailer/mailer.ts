@@ -1,36 +1,36 @@
-import { internal } from "@hapi/boom";
-import { captureException } from "@sentry/node";
-import { renderFile } from "ejs";
-import { omit } from "lodash-es";
-import mjml from "mjml";
-import type { SendMailOptions, SentMessageInfo, Transporter } from "nodemailer";
-import { createTransport } from "nodemailer";
-import { htmlToText } from "nodemailer-html-to-text";
-import { zRoutes } from "shared";
-import type { IEmailEvent } from "shared/models/email_event.model";
-import type { ITemplate } from "shared/models/email_event/email_templates";
-import { assertUnreachable } from "shared/utils/assertUnreachable";
+import { internal } from "@hapi/boom"
+import { captureException } from "@sentry/node"
+import { renderFile } from "ejs"
+import { omit } from "lodash-es"
+import mjml from "mjml"
+import type { SendMailOptions, SentMessageInfo, Transporter } from "nodemailer"
+import { createTransport } from "nodemailer"
+import { htmlToText } from "nodemailer-html-to-text"
+import { zRoutes } from "shared"
+import type { ITemplate } from "shared/models/email_event/email_templates"
+import type { IEmailEvent } from "shared/models/email_event.model"
+import { assertUnreachable } from "shared/utils/assertUnreachable"
 
-import { addEmailError, createEmailEvent, isUnsubscribed, setEmailMessageId } from "@/actions/emails.actions.js";
-import config from "@/config.js";
-import logger from "@/services/logger.js";
-import { generateAccessToken, generateScope } from "@/services/security/accessTokenService.js";
-import { getStaticFilePath } from "@/utils/getStaticFilePath.js";
-import { serializeEmailTemplate } from "@/utils/jwtUtils.js";
+import { addEmailError, createEmailEvent, isUnsubscribed, setEmailMessageId } from "@/actions/emails.actions.js"
+import config from "@/config.js"
+import logger from "@/services/logger.js"
+import { generateAccessToken, generateScope } from "@/services/security/accessTokenService.js"
+import { getStaticFilePath } from "@/utils/getStaticFilePath.js"
+import { serializeEmailTemplate } from "@/utils/jwtUtils.js"
 
-let transporter: Transporter<SentMessageInfo> | null = null;
+let transporter: Transporter<SentMessageInfo> | null = null
 
 export function closeMailer() {
-  transporter?.close?.();
-  transporter = null;
+  transporter?.close?.()
+  transporter = null
 }
 
 export function initMailer() {
-  const settings = { ...config.smtp, secure: false };
-  const needsAuthentication = !!settings.auth.user;
+  const settings = { ...config.smtp, secure: false }
+  const needsAuthentication = !!settings.auth.user
   // @ts-expect-error
-  transporter = createTransport(needsAuthentication ? settings : omit(settings, ["auth"]));
-  transporter?.use("compile", htmlToText());
+  transporter = createTransport(needsAuthentication ? settings : omit(settings, ["auth"]))
+  transporter?.use("compile", htmlToText())
 }
 
 function isTransactionalTemplate(template: ITemplate): boolean {
@@ -39,28 +39,28 @@ function isTransactionalTemplate(template: ITemplate): boolean {
     case "magic-link":
     case "register-feedback":
     case "api-key-will-expire":
-      return true;
+      return true
     default:
-      assertUnreachable(template);
+      assertUnreachable(template)
   }
 }
 
 async function sendEmailMessage(template: ITemplate, emailEvent: IEmailEvent | null): Promise<string | null> {
-  const isTransactional = isTransactionalTemplate(template);
+  const isTransactional = isTransactionalTemplate(template)
   if (!isTransactional && (await isUnsubscribed(template.to))) {
-    return null;
+    return null
   }
 
   if (!transporter) {
-    throw internal("mailer is not initialised");
+    throw internal("mailer is not initialised")
   }
 
   const list: SendMailOptions["list"] = {
     help: "https://mission-apprentissage.gitbook.io/general/les-services-en-devenir/accompagner-les-futurs-apprentis",
-  };
+  }
 
   if (!isTransactional) {
-    list.unsubscribe = getUnsubscribeActionLink(template);
+    list.unsubscribe = getUnsubscribeActionLink(template)
   }
 
   const { messageId } = await transporter.sendMail({
@@ -69,77 +69,73 @@ async function sendEmailMessage(template: ITemplate, emailEvent: IEmailEvent | n
     subject: getEmailSubject(template),
     html: await renderEmail(template, emailEvent),
     list,
-  });
+  })
 
-  return messageId;
+  return messageId
 }
 
 export async function sendEmail<T extends ITemplate>(template: T): Promise<void> {
-  const emailEvent = await createEmailEvent(template);
+  const emailEvent = await createEmailEvent(template)
 
   try {
-    const messageId = await sendEmailMessage(template, emailEvent);
+    const messageId = await sendEmailMessage(template, emailEvent)
     if (messageId) {
-      await setEmailMessageId(emailEvent, messageId);
+      await setEmailMessageId(emailEvent, messageId)
     }
   } catch (err) {
-    captureException(err);
-    logger.error({ err, template: template.name }, "error sending email");
-    await addEmailError(emailEvent, { type: "fatal", message: err.message });
+    captureException(err)
+    logger.error({ err, template: template.name }, "error sending email")
+    await addEmailError(emailEvent, { type: "fatal", message: err.message })
   }
 }
 
 export function getEmailSubject<T extends ITemplate>(template: T): string {
   switch (template.name) {
     case "register":
-      return "Vous avez demandé à recevoir un lien de connexion à l'espace développeurs La bonne alternance.";
+      return "Vous avez demandé à recevoir un lien de connexion à l'espace développeurs La bonne alternance."
     case "magic-link":
-      return "Vous avez demandé à recevoir un lien de connexion à l'espace développeurs La bonne alternance.";
+      return "Vous avez demandé à recevoir un lien de connexion à l'espace développeurs La bonne alternance."
     case "register-feedback":
-      return "Feedback de refus de création de compte";
+      return "Feedback de refus de création de compte"
     case "api-key-will-expire":
-      return `📅 Votre clé API ${template.key_name} est sur le point d'expirer | Your API key ${template.key_name} is about to expire`;
+      return `📅 Votre clé API ${template.key_name} est sur le point d'expirer | Your API key ${template.key_name} is about to expire`
     default:
-      assertUnreachable(template);
+      assertUnreachable(template)
   }
 }
 
 export function getPublicUrl(path: string) {
-  return `${config.publicUrl}${path}`;
+  return `${config.publicUrl}${path}`
 }
 
 export function getApiPublicUrl(path: string) {
-  return `${config.apiPublicUrl}${path}`;
+  return `${config.apiPublicUrl}${path}`
 }
 
 function getPreviewActionLink(template: ITemplate) {
-  return getApiPublicUrl(zRoutes.get["/_private/emails/preview"].path + `?data=${serializeEmailTemplate(template)}`);
+  return getApiPublicUrl(zRoutes.get["/_private/emails/preview"].path + `?data=${serializeEmailTemplate(template)}`)
 }
 
 function getUnsubscribeActionLink(template: ITemplate) {
-  return getApiPublicUrl(
-    zRoutes.get["/_private/emails/unsubscribe"].path + `?data=${serializeEmailTemplate(template)}`
-  );
+  return getApiPublicUrl(zRoutes.get["/_private/emails/unsubscribe"].path + `?data=${serializeEmailTemplate(template)}`)
 }
 
 async function getMarkAsOpenedActionLink(emailEvent: IEmailEvent | null) {
   if (!emailEvent) {
-    return null;
+    return null
   }
 
   // organisation is not needed for this token
   const token = await generateAccessToken({ email: emailEvent.template.to, organisation: null }, [
     generateScope({ schema: zRoutes.get["/_private/emails/:id/markAsOpened"], options: "all", resources: {} }),
-  ]);
+  ])
 
-  return getApiPublicUrl(
-    zRoutes.get["/_private/emails/:id/markAsOpened"].path.replace(":id", emailEvent._id.toString()) + `?token=${token}`
-  );
+  return getApiPublicUrl(zRoutes.get["/_private/emails/:id/markAsOpened"].path.replace(":id", emailEvent._id.toString()) + `?token=${token}`)
 }
 
 export async function renderEmail(template: ITemplate, emailEvent: IEmailEvent | null) {
-  const isTransactional = isTransactionalTemplate(template);
-  const templateFile = getStaticFilePath(`./emails/${template.name}.mjml.ejs`);
+  const isTransactional = isTransactionalTemplate(template)
+  const templateFile = getStaticFilePath(`./emails/${template.name}.mjml.ejs`)
 
   const buffer = await renderFile(templateFile, {
     template,
@@ -149,8 +145,8 @@ export async function renderEmail(template: ITemplate, emailEvent: IEmailEvent |
       markAsOpened: await getMarkAsOpenedActionLink(emailEvent),
     },
     utils: { getPublicUrl },
-  });
+  })
 
-  const { html } = mjml(buffer.toString(), { minify: true });
-  return html;
+  const { html } = mjml(buffer.toString(), { minify: true })
+  return html
 }

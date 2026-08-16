@@ -1,47 +1,44 @@
-"use client";
+"use client"
 
-import "./profil.css";
+import "./profil.css"
 
-import { fr } from "@codegouvfr/react-dsfr";
-import { Table } from "@codegouvfr/react-dsfr/Table";
-import { Box, Typography } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import type { TooltipProps } from "@mui/material/Tooltip";
-import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
-import { use, useMemo } from "react";
-import { useTranslation } from "react-i18next";
+import { fr } from "@codegouvfr/react-dsfr"
+import { Table } from "@codegouvfr/react-dsfr/Table"
+import { Box, Typography } from "@mui/material"
+import { styled } from "@mui/material/styles"
+import type { TooltipProps } from "@mui/material/Tooltip"
+import Tooltip, { tooltipClasses } from "@mui/material/Tooltip"
+import { use, useMemo } from "react"
+import { useTranslation } from "react-i18next"
+import type { PropsWithLangParams } from "@/app/i18n/settings"
+import { DsfrLink } from "@/components/link/DsfrLink"
+import { PAGES } from "@/utils/routes.utils"
+import { ApiKeyAction } from "./components/ApiKeyAction"
+import { GenerateApiKey } from "./components/GenerateApiKey"
+import { ManageApiKeysBanner } from "./components/ManageApiKeysBanner"
+import { useApiKeys, useApiKeysStatut } from "./hooks/useApiKeys"
 
-import { ApiKeyAction } from "./components/ApiKeyAction";
-import { GenerateApiKey } from "./components/GenerateApiKey";
-import { ManageApiKeysBanner } from "./components/ManageApiKeysBanner";
-import { useApiKeys, useApiKeysStatut } from "./hooks/useApiKeys";
-import { PAGES } from "@/utils/routes.utils";
-import { DsfrLink } from "@/components/link/DsfrLink";
-import type { PropsWithLangParams } from "@/app/i18n/settings";
-
-const CustomWidthTooltip = styled(({ className, ...props }: TooltipProps) => (
-  <Tooltip {...props} classes={{ popper: className }} />
-))({
+const CustomWidthTooltip = styled(({ className, ...props }: TooltipProps) => <Tooltip {...props} classes={{ popper: className }} />)({
   [`& .${tooltipClasses.tooltip}`]: {
     maxWidth: "none",
   },
-});
+})
 
 const ProfilPage = ({ params }: PropsWithLangParams) => {
-  const { lang } = use(params);
-  const apiKeys = useApiKeys();
-  const statut = useApiKeysStatut();
+  const { lang } = use(params)
+  const apiKeys = useApiKeys()
+  const statut = useApiKeysStatut()
 
-  const { t } = useTranslation("inscription-connexion", { lng: lang });
+  const { t } = useTranslation("inscription-connexion", { lng: lang })
 
   const tableData = useMemo(() => {
     if (apiKeys.isLoading) {
-      return [];
+      return []
     }
 
     return apiKeys.apiKeys.map((apiKey, index) => {
-      const expired = new Date(apiKey.expires_at) < new Date();
-      const statut = expired ? t("monCompte.expire", { lng: lang }) : t("monCompte.actif", { lng: lang });
+      const expired = new Date(apiKey.expires_at) < new Date()
+      const statut = expired ? t("monCompte.expire", { lng: lang }) : t("monCompte.actif", { lng: lang })
 
       return [
         <Typography variant="body1" key="name" className="fr-text--sm">
@@ -51,11 +48,7 @@ const ProfilPage = ({ params }: PropsWithLangParams) => {
           variant="body1"
           key="statut"
           className="fr-text--bold"
-          color={
-            expired
-              ? fr.colors.decisions.text.label.pinkTuile.default
-              : fr.colors.decisions.artwork.minor.greenBourgeon.default
-          }
+          color={expired ? fr.colors.decisions.text.label.pinkTuile.default : fr.colors.decisions.artwork.minor.greenBourgeon.default}
         >
           <i className={fr.cx(!expired ? "fr-icon-checkbox-circle-fill" : "fr-icon-error-warning-fill")}></i>
           &nbsp;
@@ -88,14 +81,12 @@ const ProfilPage = ({ params }: PropsWithLangParams) => {
           </CustomWidthTooltip>
         </Typography>,
         <Typography variant="body1" key="last_used_at" className="fr-text--sm">
-          {apiKey.last_used_at
-            ? new Date(apiKey.last_used_at).toLocaleDateString()
-            : t("monCompte.jamais", { lng: lang })}
+          {apiKey.last_used_at ? new Date(apiKey.last_used_at).toLocaleDateString() : t("monCompte.jamais", { lng: lang })}
         </Typography>,
         <ApiKeyAction index={index} key={`action_${index}`} apiKey={apiKey} t={t} lang={lang} />,
-      ];
-    });
-  }, [apiKeys, lang, t]);
+      ]
+    })
+  }, [apiKeys, lang, t])
 
   return (
     <Box
@@ -116,9 +107,7 @@ const ProfilPage = ({ params }: PropsWithLangParams) => {
           {t("monCompte.jetonsAPI", { lng: lang })}
         </Typography>
         <Typography textAlign="right">
-          <DsfrLink href={PAGES.static.documentationTechnique.getPath(lang)}>
-            {t("monCompte.consulterDocTechnique", { lng: lang })}
-          </DsfrLink>
+          <DsfrLink href={PAGES.static.documentationTechnique.getPath(lang)}>{t("monCompte.consulterDocTechnique", { lng: lang })}</DsfrLink>
         </Typography>
       </Box>
 
@@ -149,7 +138,7 @@ const ProfilPage = ({ params }: PropsWithLangParams) => {
 
       {statut === "actif-ready" && <GenerateApiKey lang={lang} t={t} />}
     </Box>
-  );
-};
+  )
+}
 
-export default ProfilPage;
+export default ProfilPage

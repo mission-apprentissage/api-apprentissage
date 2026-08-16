@@ -1,58 +1,58 @@
-import { Transform } from "node:stream";
-import { pipeline } from "node:stream/promises";
+import { Transform } from "node:stream"
+import { pipeline } from "node:stream/promises"
 
-import { internal } from "@hapi/boom";
-import { parse } from "csv-parse";
-import { addJob } from "job-processor";
-import { ObjectId } from "mongodb";
-import type { ImportStatus } from "shared";
-import type { IBcn_N_FormationDiplome, ISourceBcn } from "shared/models/source/bcn/source.bcn.model";
-import { zBcnBySource } from "shared/models/source/bcn/source.bcn.model";
-import { $ZodError } from "zod/v4/core";
-import { z } from "zod/v4-mini";
-import { fetchBcnData } from "@/services/apis/bcn/bcn.js";
-import { withCause } from "@/services/errors/withCause.js";
-import parentLogger from "@/services/logger.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
-import { createBatchTransformStream } from "@/utils/streamUtils.js";
+import { internal } from "@hapi/boom"
+import { parse } from "csv-parse"
+import { addJob } from "job-processor"
+import { ObjectId } from "mongodb"
+import type { ImportStatus } from "shared"
+import type { IBcn_N_FormationDiplome, ISourceBcn } from "shared/models/source/bcn/source.bcn.model"
+import { zBcnBySource } from "shared/models/source/bcn/source.bcn.model"
+import { $ZodError } from "zod/v4/core"
+import { z } from "zod/v4-mini"
+import { fetchBcnData } from "@/services/apis/bcn/bcn.js"
+import { withCause } from "@/services/errors/withCause.js"
+import parentLogger from "@/services/logger.js"
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
+import { createBatchTransformStream } from "@/utils/streamUtils.js"
 
-const logger = parentLogger.child({ module: "import:bcn" });
+const logger = parentLogger.child({ module: "import:bcn" })
 
 function getNouveauDiplomes(data: Record<string, string | null>): string[] {
-  const result = new Set<string>();
+  const result = new Set<string>()
   for (const key of Object.keys(data)) {
     if (key.startsWith("NOUVEAU_DIPLOME_")) {
-      const value = data[key];
-      if (value) result.add(value);
+      const value = data[key]
+      if (value) result.add(value)
     }
   }
-  return Array.from(result);
+  return Array.from(result)
 }
 
 function getAncienDiplomes(data: Record<string, string | null>): string[] {
-  const result = new Set<string>();
+  const result = new Set<string>()
   for (const key of Object.keys(data)) {
     if (key.startsWith("ANCIEN_DIPLOME_")) {
-      const value = data[key];
-      if (value) result.add(value);
+      const value = data[key]
+      if (value) result.add(value)
     }
   }
-  return Array.from(result);
+  return Array.from(result)
 }
 
 async function importBcnSource(source: ISourceBcn["source"], date: Date): Promise<number> {
-  logger.info({ source }, "fetching BCN data");
+  logger.info({ source }, "fetching BCN data")
 
   try {
-    const zod = zBcnBySource[source] ?? null;
+    const zod = zBcnBySource[source] ?? null
 
     if (zod === null) {
-      throw internal("import.bcn: unexpected source", { source });
+      throw internal("import.bcn: unexpected source", { source })
     }
 
-    const stream = await fetchBcnData(source);
+    const stream = await fetchBcnData(source)
 
-    logger.info({ source }, "parsing BCN data");
+    logger.info({ source }, "parsing BCN data")
 
     await pipeline(
       stream,
@@ -68,17 +68,17 @@ async function importBcnSource(source: ISourceBcn["source"], date: Date): Promis
         onRecord: (record, { columns }: any) => {
           const data = columns.reduce((acc: Record<string, string | null>, column: { name: string }) => {
             if (column.name.startsWith("ANCIEN_DIPLOME_") || column.name.startsWith("NOUVEAU_DIPLOME_")) {
-              return acc;
+              return acc
             }
 
             // Replace all mongodb dot special character with underscore
-            acc[column.name.replaceAll(".", "_")] = record[column.name]?.trim() || null;
-            return acc;
-          }, {});
+            acc[column.name.replaceAll(".", "_")] = record[column.name]?.trim() || null
+            return acc
+          }, {})
 
           if (source === "N_FORMATION_DIPLOME") {
-            data["ANCIEN_DIPLOMES"] = getAncienDiplomes(record);
-            data["NOUVEAU_DIPLOMES"] = getNouveauDiplomes(record);
+            data["ANCIEN_DIPLOMES"] = getAncienDiplomes(record)
+            data["NOUVEAU_DIPLOMES"] = getNouveauDiplomes(record)
           }
 
           try {
@@ -87,7 +87,7 @@ async function importBcnSource(source: ISourceBcn["source"], date: Date): Promis
               source,
               date,
               data,
-            });
+            })
           } catch (error) {
             if (error instanceof $ZodError) {
               throw internal("import.bcn: error when parsing", {
@@ -96,10 +96,10 @@ async function importBcnSource(source: ISourceBcn["source"], date: Date): Promis
                 record,
                 data,
                 columns,
-              });
+              })
             }
 
-            throw error;
+            throw error
           }
         },
       }),
@@ -108,30 +108,30 @@ async function importBcnSource(source: ISourceBcn["source"], date: Date): Promis
         objectMode: true,
         async transform(chunk, _encoding, callback) {
           try {
-            await getDbCollection("source.bcn").insertMany(chunk);
-            callback();
+            await getDbCollection("source.bcn").insertMany(chunk)
+            callback()
           } catch (error) {
-            callback(withCause(internal("import.bcn: error when inserting"), error));
+            callback(withCause(internal("import.bcn: error when inserting"), error))
           }
         },
       })
-    );
+    )
 
-    const count = await getDbCollection("source.bcn").countDocuments({ date, source });
+    const count = await getDbCollection("source.bcn").countDocuments({ date, source })
 
     if (count === 0) {
-      throw internal("import.bcn: no data imported", { source });
+      throw internal("import.bcn: no data imported", { source })
     }
 
     await getDbCollection("source.bcn").deleteMany({
       source,
       date: { $ne: date },
-    });
+    })
 
-    return count;
+    return count
   } catch (error) {
-    await getDbCollection("source.bcn").deleteMany({ date });
-    throw withCause(internal("import.bcn: unable to importBcnSource", { source }), error);
+    await getDbCollection("source.bcn").deleteMany({ date })
+    throw withCause(internal("import.bcn: unable to importBcnSource", { source }), error)
   }
 }
 
@@ -139,52 +139,52 @@ export async function indicateurDiplomeContinuity(importDate: Date): Promise<{ a
   const cursor = getDbCollection("source.bcn").find<IBcn_N_FormationDiplome>({
     source: "N_FORMATION_DIPLOME",
     date: importDate,
-  });
+  })
 
-  const continuity = new Map<string, Map<string, { fromAncien: boolean; fromNouveau: boolean }>>();
+  const continuity = new Map<string, Map<string, { fromAncien: boolean; fromNouveau: boolean }>>()
   for await (const doc of cursor) {
     for (const ancienDiplome of doc.data.ANCIEN_DIPLOMES) {
-      const nouveauDiplome = doc.data.FORMATION_DIPLOME;
+      const nouveauDiplome = doc.data.FORMATION_DIPLOME
       if (!continuity.has(ancienDiplome)) {
-        continuity.set(ancienDiplome, new Map());
+        continuity.set(ancienDiplome, new Map())
       }
       if (!continuity.get(ancienDiplome)?.has(nouveauDiplome)) {
-        continuity.get(ancienDiplome)!.set(nouveauDiplome, { fromAncien: false, fromNouveau: false });
+        continuity.get(ancienDiplome)!.set(nouveauDiplome, { fromAncien: false, fromNouveau: false })
       }
-      continuity.get(ancienDiplome)!.get(nouveauDiplome)!.fromNouveau = true;
+      continuity.get(ancienDiplome)!.get(nouveauDiplome)!.fromNouveau = true
     }
 
     for (const nouveauDiplome of doc.data.NOUVEAU_DIPLOMES) {
-      const ancienDiplome = doc.data.FORMATION_DIPLOME;
+      const ancienDiplome = doc.data.FORMATION_DIPLOME
       if (!continuity.has(ancienDiplome)) {
-        continuity.set(ancienDiplome, new Map());
+        continuity.set(ancienDiplome, new Map())
       }
       if (!continuity.get(ancienDiplome)?.has(nouveauDiplome)) {
-        continuity.get(ancienDiplome)!.set(nouveauDiplome, { fromAncien: false, fromNouveau: false });
+        continuity.get(ancienDiplome)!.set(nouveauDiplome, { fromAncien: false, fromNouveau: false })
       }
-      continuity.get(ancienDiplome)!.get(nouveauDiplome)!.fromAncien = true;
+      continuity.get(ancienDiplome)!.get(nouveauDiplome)!.fromAncien = true
     }
   }
 
-  const indicateur = { anciens: 0, nouveaux: 0 };
+  const indicateur = { anciens: 0, nouveaux: 0 }
   for (const [, map] of continuity) {
     for (const [, { fromAncien, fromNouveau }] of map) {
       if (!fromAncien) {
-        indicateur.anciens++;
+        indicateur.anciens++
       }
       if (!fromNouveau) {
-        indicateur.nouveaux++;
+        indicateur.nouveaux++
       }
     }
   }
 
-  return indicateur;
+  return indicateur
 }
 
 export async function runBcnImporter(): Promise<Record<string, unknown>> {
-  const importDate = new Date();
+  const importDate = new Date()
 
-  const importId = new ObjectId();
+  const importId = new ObjectId()
 
   try {
     await getDbCollection("import.meta").insertOne({
@@ -192,28 +192,25 @@ export async function runBcnImporter(): Promise<Record<string, unknown>> {
       import_date: importDate,
       type: "bcn",
       status: "pending",
-    });
+    })
 
-    const statsBySource: Record<string, unknown> = {};
+    const statsBySource: Record<string, unknown> = {}
 
-    statsBySource["N_FORMATION_DIPLOME"] = await importBcnSource("N_FORMATION_DIPLOME", importDate);
-    statsBySource["N_FORMATION_DIPLOME_ENQUETE_51"] = await importBcnSource(
-      "N_FORMATION_DIPLOME_ENQUETE_51",
-      importDate
-    );
-    statsBySource["N_NIVEAU_FORMATION_DIPLOME"] = await importBcnSource("N_NIVEAU_FORMATION_DIPLOME", importDate);
-    statsBySource["V_FORMATION_DIPLOME"] = await importBcnSource("V_FORMATION_DIPLOME", importDate);
+    statsBySource["N_FORMATION_DIPLOME"] = await importBcnSource("N_FORMATION_DIPLOME", importDate)
+    statsBySource["N_FORMATION_DIPLOME_ENQUETE_51"] = await importBcnSource("N_FORMATION_DIPLOME_ENQUETE_51", importDate)
+    statsBySource["N_NIVEAU_FORMATION_DIPLOME"] = await importBcnSource("N_NIVEAU_FORMATION_DIPLOME", importDate)
+    statsBySource["V_FORMATION_DIPLOME"] = await importBcnSource("V_FORMATION_DIPLOME", importDate)
 
-    statsBySource["INDICATEUR_CONTINUITE"] = await indicateurDiplomeContinuity(importDate);
+    statsBySource["INDICATEUR_CONTINUITE"] = await indicateurDiplomeContinuity(importDate)
 
-    await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "done" } });
+    await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "done" } })
 
-    await addJob({ name: "indicateurs:source_kit_apprentissage:update" });
+    await addJob({ name: "indicateurs:source_kit_apprentissage:update" })
 
-    return statsBySource;
+    return statsBySource
   } catch (error) {
-    await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "failed" } });
-    throw withCause(internal("import.bcn: unable to runBcnImporter"), error, "fatal");
+    await getDbCollection("import.meta").updateOne({ _id: importId }, { $set: { status: "failed" } })
+    throw withCause(internal("import.bcn: unable to runBcnImporter"), error, "fatal")
   }
 }
 
@@ -221,12 +218,12 @@ export async function getBcnImporterStatus(): Promise<ImportStatus> {
   const [lastImport, lastSuccess] = await Promise.all([
     await getDbCollection("import.meta").findOne({ type: "bcn" }, { sort: { import_date: -1 } }),
     await getDbCollection("import.meta").findOne({ type: "bcn", status: "done" }, { sort: { import_date: -1 } }),
-  ]);
+  ])
 
   return {
     last_import: lastImport?.import_date ?? null,
     last_success: lastSuccess?.import_date ?? null,
     status: lastImport?.status ?? "pending",
     resources: [],
-  };
+  }
 }

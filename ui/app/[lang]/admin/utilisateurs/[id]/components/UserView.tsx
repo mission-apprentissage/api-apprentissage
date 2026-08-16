@@ -1,44 +1,44 @@
-"use client";
+"use client"
 
-import { fr } from "@codegouvfr/react-dsfr";
-import { Alert } from "@codegouvfr/react-dsfr/Alert";
-import { Button } from "@codegouvfr/react-dsfr/Button";
-import { Input } from "@codegouvfr/react-dsfr/Input";
-import { Select } from "@codegouvfr/react-dsfr/Select";
-import { Table } from "@codegouvfr/react-dsfr/Table";
-import { ToggleSwitch } from "@codegouvfr/react-dsfr/ToggleSwitch";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Snackbar, Typography } from "@mui/material";
-import { captureException } from "@sentry/nextjs";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { FieldError } from "react-hook-form";
-import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
-import { zRoutes } from "shared";
-import type { IOrganisationInternal } from "shared/models/organisation.model";
-import type { IUserAdminUpdate, IUserAdminView } from "shared/models/user.model";
-import type { Jsonify } from "type-fest";
+import { fr } from "@codegouvfr/react-dsfr"
+import { Alert } from "@codegouvfr/react-dsfr/Alert"
+import { Button } from "@codegouvfr/react-dsfr/Button"
+import { Input } from "@codegouvfr/react-dsfr/Input"
+import { Select } from "@codegouvfr/react-dsfr/Select"
+import { Table } from "@codegouvfr/react-dsfr/Table"
+import { ToggleSwitch } from "@codegouvfr/react-dsfr/ToggleSwitch"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Box, Snackbar, Typography } from "@mui/material"
+import { captureException } from "@sentry/nextjs"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import type { FieldError } from "react-hook-form"
+import { useForm } from "react-hook-form"
+import { useTranslation } from "react-i18next"
+import { zRoutes } from "shared"
+import type { IOrganisationInternal } from "shared/models/organisation.model"
+import type { IUserAdminUpdate, IUserAdminView } from "shared/models/user.model"
+import type { Jsonify } from "type-fest"
 
-import type { WithLang } from "@/app/i18n/settings";
-import Breadcrumb from "@/components/breadcrumb/Breadcrumb";
-import { apiPut } from "@/utils/api.utils";
-import { formatDate, formatNullableDate } from "@/utils/date.utils";
-import { PAGES } from "@/utils/routes.utils";
+import type { WithLang } from "@/app/i18n/settings"
+import Breadcrumb from "@/components/breadcrumb/Breadcrumb"
+import { apiPut } from "@/utils/api.utils"
+import { formatDate, formatNullableDate } from "@/utils/date.utils"
+import { PAGES } from "@/utils/routes.utils"
 
 type Props = WithLang<{
-  user: Jsonify<IUserAdminView>;
-  organisations: Jsonify<IOrganisationInternal[]>;
-}>;
+  user: Jsonify<IUserAdminView>
+  organisations: Jsonify<IOrganisationInternal[]>
+}>
 
 function getInputState(error: FieldError | undefined | null): {
-  state: "default" | "error" | "success";
-  stateRelatedMessage: string;
+  state: "default" | "error" | "success"
+  stateRelatedMessage: string
 } {
   if (!error) {
-    return { state: "default", stateRelatedMessage: "" };
+    return { state: "default", stateRelatedMessage: "" }
   }
 
-  return { state: "error", stateRelatedMessage: error.message ?? "Erreur de validation" };
+  return { state: "error", stateRelatedMessage: error.message ?? "Erreur de validation" }
 }
 
 export default function UserView({ user, organisations, lang }: Props) {
@@ -58,11 +58,11 @@ export default function UserView({ user, organisations, lang }: Props) {
       organisation: user.organisation ?? "",
       type: user.type,
     },
-  });
+  })
 
-  const { t } = useTranslation("global", { lng: lang });
-  const isAdminControl = control.register("is_admin");
-  const queryClient = useQueryClient();
+  const { t } = useTranslation("global", { lng: lang })
+  const isAdminControl = control.register("is_admin")
+  const queryClient = useQueryClient()
 
   const mutation = useMutation({
     mutationFn: async (data: IUserAdminUpdate) => {
@@ -72,19 +72,19 @@ export default function UserView({ user, organisations, lang }: Props) {
           ...data,
           organisation: data.organisation === "" ? null : data.organisation,
         },
-      });
+      })
     },
     onError: (error) => {
-      captureException(error);
-      console.error(error);
+      captureException(error)
+      console.error(error)
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["/_private/admin/users"] });
+      await queryClient.invalidateQueries({ queryKey: ["/_private/admin/users"] })
     },
-  });
+  })
 
   if (mutation.isError) {
-    captureException(mutation.error);
+    captureException(mutation.error)
   }
 
   return (
@@ -120,11 +120,7 @@ export default function UserView({ user, organisations, lang }: Props) {
       <Box component="form" onSubmit={handleSubmit(async (d) => mutation.mutateAsync(d))}>
         <Input label="Email" nativeInputProps={control.register("email")} {...getInputState(errors?.email)} />
 
-        <Select
-          label={<Typography>Organisation</Typography>}
-          nativeSelectProps={control.register("organisation")}
-          {...getInputState(errors?.organisation)}
-        >
+        <Select label={<Typography>Organisation</Typography>} nativeSelectProps={control.register("organisation")} {...getInputState(errors?.organisation)}>
           <option value="">Selectionnez une option</option>
           {organisations.map((o) => (
             <option key={o.nom} value={o.nom}>
@@ -140,34 +136,16 @@ export default function UserView({ user, organisations, lang }: Props) {
           inputTitle={isAdminControl.name}
           checked={getValues("is_admin")}
           onChange={async (v) => {
-            setValue("is_admin", v, { shouldTouch: true });
-            await trigger("is_admin");
+            setValue("is_admin", v, { shouldTouch: true })
+            await trigger("is_admin")
           }}
         />
         <Input label="Type" nativeInputProps={control.register("type")} {...getInputState(errors?.type)} />
-        <Input
-          label="Activite"
-          textArea
-          nativeTextAreaProps={{ value: user.activite ?? "", name: "activite" }}
-          disabled
-        />
+        <Input label="Activite" textArea nativeTextAreaProps={{ value: user.activite ?? "", name: "activite" }} disabled />
         <Input label="Objectif" nativeInputProps={{ value: user.objectif ?? "", name: "objectif" }} disabled />
-        <Input
-          label="Cas Usage"
-          textArea
-          nativeTextAreaProps={{ value: user.cas_usage ?? "", name: "cas_usage" }}
-          disabled
-        />
-        <Input
-          label="CGU Accépté le"
-          nativeInputProps={{ value: formatNullableDate(user.cgu_accepted_at), name: "cgu_accepted_at" }}
-          disabled
-        />
-        <Input
-          label="Mise à jour le"
-          nativeInputProps={{ value: formatDate(user.updated_at), name: "updated_at" }}
-          disabled
-        />
+        <Input label="Cas Usage" textArea nativeTextAreaProps={{ value: user.cas_usage ?? "", name: "cas_usage" }} disabled />
+        <Input label="CGU Accépté le" nativeInputProps={{ value: formatNullableDate(user.cgu_accepted_at), name: "cgu_accepted_at" }} disabled />
+        <Input label="Mise à jour le" nativeInputProps={{ value: formatDate(user.updated_at), name: "updated_at" }} disabled />
         <Input label="Créé le" nativeInputProps={{ value: formatDate(user.created_at), name: "created_at" }} disabled />
 
         <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -183,13 +161,8 @@ export default function UserView({ user, organisations, lang }: Props) {
       <Table
         fixed
         headers={["Nom", "Dernière utilisation", "Créé le", "Expire le"]}
-        data={user.api_keys.map((k) => [
-          k.name,
-          formatNullableDate(k.last_used_at, "PPP à p"),
-          formatDate(k.created_at, "PPP à p"),
-          formatDate(k.expires_at, "PPP à p"),
-        ])}
+        data={user.api_keys.map((k) => [k.name, formatNullableDate(k.last_used_at, "PPP à p"), formatDate(k.created_at, "PPP à p"), formatDate(k.expires_at, "PPP à p")])}
       ></Table>
     </>
-  );
+  )
 }

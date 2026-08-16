@@ -1,52 +1,52 @@
-import { internal } from "@hapi/boom";
-import type { ICommune, IFormation } from "api-alternance-sdk";
-import { zSiret, zUai } from "api-alternance-sdk";
-import { LRUCache } from "lru-cache";
-import type { IFormationCatalogue } from "shared/models/source/catalogue/source.catalogue.model";
+import { internal } from "@hapi/boom"
+import type { ICommune, IFormation } from "api-alternance-sdk"
+import { zSiret, zUai } from "api-alternance-sdk"
+import { LRUCache } from "lru-cache"
+import type { IFormationCatalogue } from "shared/models/source/catalogue/source.catalogue.model"
 
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
 
 const cache = new LRUCache<string, ICommune>({
   max: 5_000,
   ttl: 60 * 60_000,
-});
+})
 
 async function getCommune(code_insee: string): Promise<ICommune | null> {
   if (cache.has(code_insee)) {
-    return cache.get(code_insee)!;
+    return cache.get(code_insee)!
   }
 
   const commune = await getDbCollection("commune").findOne({
     $or: [{ "code.insee": code_insee }, { "arrondissements.code": code_insee }, { "anciennes.codeInsee": code_insee }],
-  });
+  })
 
   if (commune) {
-    cache.set(code_insee, commune);
-    return commune;
+    cache.set(code_insee, commune)
+    return commune
   }
 
-  const byCp = await getDbCollection("commune").findOne({ "code.postaux": code_insee });
+  const byCp = await getDbCollection("commune").findOne({ "code.postaux": code_insee })
 
   if (byCp) {
-    cache.set(code_insee, byCp);
-    return byCp;
+    cache.set(code_insee, byCp)
+    return byCp
   }
 
-  return null;
+  return null
 }
 
 function parseGeoCoordinates(geo: string | null): { lat: number; long: number } | null {
   if (!geo) {
-    return null;
+    return null
   }
 
-  const [lat, long] = geo.split(",").map(Number);
+  const [lat, long] = geo.split(",").map(Number)
 
   if (isNaN(lat) || isNaN(long)) {
-    return null;
+    return null
   }
 
-  return { lat, long };
+  return { lat, long }
 }
 
 export async function buildFormationLieu(
@@ -62,32 +62,30 @@ export async function buildFormationLieu(
     | "etablissement_lieu_formation_uai"
   >
 ): Promise<IFormation["lieu"]> {
-  let commune = await getCommune(data.code_commune_insee);
+  let commune = await getCommune(data.code_commune_insee)
 
   if (!commune) {
-    commune = await getCommune(data.code_postal);
+    commune = await getCommune(data.code_postal)
 
     if (!commune) {
       throw internal(`buildFormationLieu: commune not found`, {
         code_commune_insee: data.code_commune_insee,
         code_postal: data.code_postal,
-      });
+      })
     }
   }
 
-  const coords =
-    parseGeoCoordinates(data.lieu_formation_geo_coordonnees) ??
-    parseGeoCoordinates(data.lieu_formation_geo_coordonnees_computed);
+  const coords = parseGeoCoordinates(data.lieu_formation_geo_coordonnees) ?? parseGeoCoordinates(data.lieu_formation_geo_coordonnees_computed)
 
   if (coords === null) {
     throw internal(`buildFormationLieu: invalid geo coordinates`, {
       lieu_formation_geo_coordonnees: data.lieu_formation_geo_coordonnees,
       lieu_formation_geo_coordonnees_computed: data.lieu_formation_geo_coordonnees_computed,
-    });
+    })
   }
 
-  const siretParse = zSiret.safeParse(data.etablissement_lieu_formation_siret);
-  const uaiParse = zUai.safeParse(data.etablissement_lieu_formation_uai);
+  const siretParse = zSiret.safeParse(data.etablissement_lieu_formation_siret)
+  const uaiParse = zUai.safeParse(data.etablissement_lieu_formation_uai)
 
   return {
     adresse: {
@@ -122,5 +120,5 @@ export async function buildFormationLieu(
 
     siret: siretParse.success ? siretParse.data : null,
     uai: uaiParse.success ? uaiParse.data : null,
-  };
+  }
 }

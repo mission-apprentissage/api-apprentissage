@@ -1,13 +1,11 @@
-import { ObjectId } from "mongodb";
-import type { ICommuneInternal } from "shared/models/commune.model";
-import { beforeEach, describe, expect, it } from "vitest";
+import { useMongo } from "@tests/mongo.test.utils.js"
+import { ObjectId } from "mongodb"
+import type { ICommuneInternal } from "shared/models/commune.model"
+import { beforeEach, describe, expect, it } from "vitest"
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
+import { buildFormationLieu } from "./lieu.formation.builder.js"
 
-import { buildFormationLieu } from "./lieu.formation.builder.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
-
-import { useMongo } from "@tests/mongo.test.utils.js";
-
-useMongo();
+useMongo()
 
 describe("buildFormationLieu", () => {
   const communes: ICommuneInternal[] = [
@@ -83,24 +81,7 @@ describe("buildFormationLieu", () => {
       _id: new ObjectId(),
       code: {
         insee: "13055",
-        postaux: [
-          "13001",
-          "13002",
-          "13003",
-          "13004",
-          "13005",
-          "13006",
-          "13007",
-          "13008",
-          "13009",
-          "13010",
-          "13011",
-          "13012",
-          "13013",
-          "13014",
-          "13015",
-          "13016",
-        ],
+        postaux: ["13001", "13002", "13003", "13004", "13005", "13006", "13007", "13008", "13009", "13010", "13011", "13012", "13013", "13014", "13015", "13016"],
       },
       academie: {
         nom: "Aix-Marseille",
@@ -224,11 +205,11 @@ describe("buildFormationLieu", () => {
       ],
       anciennes: [],
     },
-  ];
+  ]
 
   beforeEach(async () => {
-    await getDbCollection("commune").insertMany(communes);
-  });
+    await getDbCollection("commune").insertMany(communes)
+  })
 
   const source1 = {
     code_commune_insee: "13055",
@@ -239,7 +220,7 @@ describe("buildFormationLieu", () => {
     distance: 684,
     etablissement_lieu_formation_siret: "13002526500013",
     etablissement_lieu_formation_uai: "0694669A",
-  };
+  }
 
   const expected1 = {
     adresse: {
@@ -274,37 +255,37 @@ describe("buildFormationLieu", () => {
 
     siret: source1.etablissement_lieu_formation_siret,
     uai: source1.etablissement_lieu_formation_uai,
-  };
+  }
 
   it("should build formation lieu", async () => {
-    const result = await buildFormationLieu(source1);
+    const result = await buildFormationLieu(source1)
 
-    expect(result).toEqual(expected1);
-  });
+    expect(result).toEqual(expected1)
+  })
 
   it("should find commune with a code arrondissement", async () => {
     const result = await buildFormationLieu({
       ...source1,
       code_commune_insee: "13209",
-    });
+    })
 
-    expect(result).toEqual(expected1);
-  });
+    expect(result).toEqual(expected1)
+  })
 
   it("should find commune with code_postel if code_commune_insee is not found", async () => {
     const result = await buildFormationLieu({
       ...source1,
       code_commune_insee: "unknown",
-    });
+    })
 
-    expect(result).toEqual(expected1);
-  });
+    expect(result).toEqual(expected1)
+  })
 
   it("should find commune with even for merged ones", async () => {
     const result = await buildFormationLieu({
       ...source1,
       code_commune_insee: "77351",
-    });
+    })
 
     expect(result).toEqual({
       ...expected1,
@@ -328,8 +309,8 @@ describe("buildFormationLieu", () => {
           nom: communes[0].academie.nom,
         },
       },
-    });
-  });
+    })
+  })
 
   it("should throw if commune is not found", async () => {
     await expect(
@@ -338,14 +319,14 @@ describe("buildFormationLieu", () => {
         code_commune_insee: "unknown",
         code_postal: "unknown",
       })
-    ).rejects.toThrowError("buildFormationLieu: commune not found");
-  });
+    ).rejects.toThrowError("buildFormationLieu: commune not found")
+  })
 
   it('should fallback to "lieu_formation_geo_coordonnees_computed" if "lieu_formation_geo_coordonnees" is invalid', async () => {
     const result = await buildFormationLieu({
       ...source1,
       lieu_formation_geo_coordonnees: "invalid",
-    });
+    })
 
     expect(result).toEqual({
       ...expected1,
@@ -353,8 +334,8 @@ describe("buildFormationLieu", () => {
         type: "Point",
         coordinates: [43.2734432, 5.3847529],
       },
-    });
-  });
+    })
+  })
 
   it('should throw if "lieu_formation_geo_coordonnees" and "lieu_formation_geo_coordonnees_computed" are invalid', async () => {
     await expect(
@@ -363,30 +344,30 @@ describe("buildFormationLieu", () => {
         lieu_formation_geo_coordonnees: "invalid",
         lieu_formation_geo_coordonnees_computed: "invalid",
       })
-    ).rejects.toThrowError("buildFormationLieu: invalid geo coordinates");
-  });
+    ).rejects.toThrowError("buildFormationLieu: invalid geo coordinates")
+  })
 
   it("should ignore siret if it is invalid", async () => {
     const result = await buildFormationLieu({
       ...source1,
       etablissement_lieu_formation_siret: "invalid",
-    });
+    })
 
     expect(result).toEqual({
       ...expected1,
       siret: null,
-    });
-  });
+    })
+  })
 
   it("should ignore uai if it is invalid", async () => {
     const result = await buildFormationLieu({
       ...source1,
       etablissement_lieu_formation_uai: "invalid",
-    });
+    })
 
     expect(result).toEqual({
       ...expected1,
       uai: null,
-    });
-  });
-});
+    })
+  })
+})

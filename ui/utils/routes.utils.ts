@@ -12,28 +12,28 @@ import {
   recuperationFormationPageSummaryDoc,
   recuperationMissionLocalePageSummaryDoc,
   recuperationOrganismesPageSummaryDoc,
-} from "api-alternance-sdk/internal";
-import type { TFunction } from "i18next";
-import type { MetadataRoute } from "next";
+} from "api-alternance-sdk/internal"
+import type { TFunction } from "i18next"
+import type { MetadataRoute } from "next"
 
-import type { Lang, Namespace } from "@/app/i18n/settings";
-import { publicConfig } from "@/config.public";
+import type { Lang, Namespace } from "@/app/i18n/settings"
+import { publicConfig } from "@/config.public"
 
 export interface IPage {
-  getPath: (lang: Lang) => string;
-  index: boolean;
-  getTitle: (lang: Lang, t: TFunction<Namespace>) => string;
+  getPath: (lang: Lang) => string
+  index: boolean
+  getTitle: (lang: Lang, t: TFunction<Namespace>) => string
 }
 
 export interface INotionPage extends IPage {
-  notionId: string;
+  notionId: string
 }
 
 export interface IPages {
-  static: Record<string, IPage>;
+  static: Record<string, IPage>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  dynamic: Record<string, (params: any) => IPage>;
-  notion: Record<string, INotionPage>;
+  dynamic: Record<string, (params: any) => IPage>
+  notion: Record<string, INotionPage>
 }
 
 export const PAGES = {
@@ -212,51 +212,51 @@ export const PAGES = {
     }),
   },
   notion: {},
-} as const satisfies IPages;
+} as const satisfies IPages
 
 function getRawPath(pathname: string): string {
-  const rawPath = pathname.replace(/^\/fr/, "").replace(/^\/en/, "");
-  return rawPath === "" ? "/" : rawPath;
+  const rawPath = pathname.replace(/^\/fr/, "").replace(/^\/en/, "")
+  return rawPath === "" ? "/" : rawPath
 }
 
 export function isStaticPage(pathname: string): boolean {
-  return Object.values(PAGES.static).some((page) => getRawPath(page.getPath("fr")) === pathname);
+  return Object.values(PAGES.static).some((page) => getRawPath(page.getPath("fr")) === pathname)
 }
 
 export function isDynamicPage(pathname: string): boolean {
   if (pathname === "/auth/inscription") {
-    return true;
+    return true
   }
   if (pathname === "/auth/refus-inscription") {
-    return true;
+    return true
   }
   if (/^\/admin\/utilisateurs\/[^/]+$/.test(pathname)) {
-    return true;
+    return true
   }
   if (/^\/admin\/organisations\/[^/]+$/.test(pathname)) {
-    return true;
+    return true
   }
   if (/^\/admin\/processeur\/job\/[^/]+$/.test(pathname)) {
-    return true;
+    return true
   }
   if (/^\/admin\/processeur\/job\/[^/]+\/[^/]+$/.test(pathname)) {
-    return true;
+    return true
   }
   if (/^\/admin\/processeur\/cron\/[^/]+$/.test(pathname)) {
-    return true;
+    return true
   }
   if (/^\/admin\/processeur\/cron\/[^/]+\/[^/]+$/.test(pathname)) {
-    return true;
+    return true
   }
   if (/^\/admin\/importers\/[^/]+$/.test(pathname)) {
-    return true;
+    return true
   }
 
-  return false;
+  return false
 }
 
 export function isNotionPage(pathname: string): boolean {
-  return pathname.startsWith("/doc/") || /^\/notion\/[^/]+$/.test(pathname);
+  return pathname.startsWith("/doc/") || /^\/notion\/[^/]+$/.test(pathname)
 }
 
 function getSitemapItem(page: IPage): MetadataRoute.Sitemap[number] {
@@ -268,15 +268,15 @@ function getSitemapItem(page: IPage): MetadataRoute.Sitemap[number] {
         en: `${publicConfig.baseUrl}${page.getPath("en")}`,
       },
     },
-  };
+  }
 }
 
 export function getSitemap(): MetadataRoute.Sitemap {
   return Object.values(PAGES.static)
     .filter((page) => page.index)
-    .map(getSitemapItem);
+    .map(getSitemapItem)
 }
 
 export function isPage(pathname: string): boolean {
-  return isStaticPage(pathname) || isDynamicPage(pathname) || isNotionPage(pathname);
+  return isStaticPage(pathname) || isDynamicPage(pathname) || isNotionPage(pathname)
 }

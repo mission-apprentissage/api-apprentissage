@@ -1,12 +1,10 @@
-import { generateCertificationInternalFixture } from "shared/models/fixtures/certification.model.fixture";
-import { beforeEach, describe, expect, it } from "vitest";
+import { useMongo } from "@tests/mongo.test.utils.js"
+import { generateCertificationInternalFixture } from "shared/models/fixtures/certification.model.fixture"
+import { beforeEach, describe, expect, it } from "vitest"
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
+import { buildFormationCertification } from "./certification.formation.builder.js"
 
-import { buildFormationCertification } from "./certification.formation.builder.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
-
-import { useMongo } from "@tests/mongo.test.utils.js";
-
-useMongo();
+useMongo()
 
 describe("buildFormationCertification", () => {
   const certifications = [
@@ -262,50 +260,50 @@ describe("buildFormationCertification", () => {
       },
       updated_at: new Date("2025-01-03T05:00:06.642Z"),
     }),
-  ];
+  ]
 
   beforeEach(async () => {
-    await getDbCollection("certifications").insertMany(certifications);
-  });
+    await getDbCollection("certifications").insertMany(certifications)
+  })
 
   it("should return certification when it exists in db", async () => {
     const result = await buildFormationCertification({
       cfd: certifications[1].identifiant.cfd ?? "",
       rncp_code: certifications[1].identifiant.rncp,
-    });
+    })
 
     expect(result).toEqual({
       valeur: certifications[1],
       connue: true,
-    });
+    })
 
     // Should be cached
     const cachedResult = await buildFormationCertification({
       cfd: certifications[1].identifiant.cfd ?? "",
       rncp_code: certifications[1].identifiant.rncp,
-    });
-    expect(cachedResult).toBe(result);
-  });
+    })
+    expect(cachedResult).toBe(result)
+  })
 
   it("should build certification if the association is not known", async () => {
     const result = await buildFormationCertification({
       cfd: certifications[0].identifiant.cfd ?? "",
       rncp_code: certifications[1].identifiant.rncp,
-    });
+    })
 
-    expect(result.connue).toBe(false);
-    expect(result.valeur).toMatchSnapshot();
-  });
+    expect(result.connue).toBe(false)
+    expect(result.valeur).toMatchSnapshot()
+  })
 
   it('should error if "cfd" is not found', async () => {
-    await expect(
-      buildFormationCertification({ cfd: "unknown", rncp_code: certifications[1].identifiant.rncp })
-    ).rejects.toThrowError("getCertificationFromCfd: certification not found for code unknown");
-  });
+    await expect(buildFormationCertification({ cfd: "unknown", rncp_code: certifications[1].identifiant.rncp })).rejects.toThrowError(
+      "getCertificationFromCfd: certification not found for code unknown"
+    )
+  })
 
   it('should error if "rncp" is not found', async () => {
-    await expect(
-      buildFormationCertification({ cfd: certifications[0].identifiant.cfd ?? "", rncp_code: "unknown" })
-    ).rejects.toThrowError("getCertificationFromRncp: certification not found for code unknown");
-  });
-});
+    await expect(buildFormationCertification({ cfd: certifications[0].identifiant.cfd ?? "", rncp_code: "unknown" })).rejects.toThrowError(
+      "getCertificationFromRncp: certification not found for code unknown"
+    )
+  })
+})

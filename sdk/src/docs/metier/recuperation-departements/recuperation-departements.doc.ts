@@ -1,5 +1,5 @@
-import type { DocPage, OpenApiText } from "../../types.js";
-import { rechercheCommunePageDoc } from "../recherche-commune/recherche-commune.doc.js";
+import type { DocPage, OpenApiText } from "../../types.js"
+import { rechercheCommunePageDoc } from "../recherche-commune/recherche-commune.doc.js"
 
 export const recuperationDepartementsPageSummaryDoc = {
   title: {
@@ -10,7 +10,7 @@ export const recuperationDepartementsPageSummaryDoc = {
     en: "Consult the list of departments in France",
     fr: "Consulter le référentiel des départements de France",
   },
-} as const satisfies { title: OpenApiText; headline: OpenApiText };
+} as const satisfies { title: OpenApiText; headline: OpenApiText }
 
 export const recuperationDepartementsPageDoc = {
   tag: "geographie",
@@ -49,4 +49,4 @@ export const recuperationDepartementsPageDoc = {
       },
     },
   ],
-} as const satisfies DocPage;
+} as const satisfies DocPage

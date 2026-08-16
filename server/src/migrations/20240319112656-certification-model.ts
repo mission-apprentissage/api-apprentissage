@@ -1,4 +1,4 @@
-import { addJob } from "job-processor";
+import { addJob } from "job-processor"
 
 export const up = async () => {
   return addJob({
@@ -7,5 +7,5 @@ export const up = async () => {
       force: true,
     },
     queued: true,
-  });
-};
+  })
+}

@@ -1,13 +1,13 @@
-"use client";
+"use client"
 
-import { fr } from "@codegouvfr/react-dsfr";
-import { Link } from "@mui/material";
-import type { LinkProps } from "next/link";
-import NextLink from "next/link";
-import type { ReactNode } from "react";
-import { useMemo } from "react";
+import { fr } from "@codegouvfr/react-dsfr"
+import { Link } from "@mui/material"
+import type { LinkProps } from "next/link"
+import NextLink from "next/link"
+import type { ReactNode } from "react"
+import { useMemo } from "react"
 
-import { publicConfig } from "@/config.public";
+import { publicConfig } from "@/config.public"
 
 export function DsfrLink({
   children,
@@ -16,21 +16,21 @@ export function DsfrLink({
   external = "auto",
   ...props
 }: {
-  children: ReactNode;
-  arrow?: "right" | "left" | "none";
-  size?: "lg" | "sm" | "md";
-  external?: "auto" | boolean;
+  children: ReactNode
+  arrow?: "right" | "left" | "none"
+  size?: "lg" | "sm" | "md"
+  external?: "auto" | boolean
 } & LinkProps) {
-  const { href, ...rest } = props;
+  const { href, ...rest } = props
 
   const isExternal = useMemo(() => {
-    if (typeof external === "boolean") return external;
-    if (typeof href !== "string") return false;
-    const url = new URL(href, publicConfig.baseUrl);
-    if (url.protocol === "mailto:") return true;
-    if (url.protocol !== "http:" && url.protocol !== "https:") return false;
-    return new URL(href, publicConfig.baseUrl).hostname !== publicConfig.host;
-  }, [href, external]);
+    if (typeof external === "boolean") return external
+    if (typeof href !== "string") return false
+    const url = new URL(href, publicConfig.baseUrl)
+    if (url.protocol === "mailto:") return true
+    if (url.protocol !== "http:" && url.protocol !== "https:") return false
+    return new URL(href, publicConfig.baseUrl).hostname !== publicConfig.host
+  }, [href, external])
 
   return (
     <Link
@@ -53,5 +53,5 @@ export function DsfrLink({
     >
       {children}
     </Link>
-  );
+  )
 }

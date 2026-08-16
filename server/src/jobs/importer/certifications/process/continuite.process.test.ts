@@ -1,31 +1,25 @@
-import { ObjectId } from "mongodb";
-import {
-  generateCertificationInternalFixture,
-  generateSourceBcn_N_FormationDiplomeFixture,
-  generateSourceFranceCompetenceFixture,
-} from "shared/models/fixtures/index";
-import { parseParisLocalDate } from "shared/zod/date.primitives";
-import { beforeEach, describe, expect, it } from "vitest";
+import { useMongo } from "@tests/mongo.test.utils.js"
+import { ObjectId } from "mongodb"
+import { generateCertificationInternalFixture, generateSourceBcn_N_FormationDiplomeFixture, generateSourceFranceCompetenceFixture } from "shared/models/fixtures/index"
+import { parseParisLocalDate } from "shared/zod/date.primitives"
+import { beforeEach, describe, expect, it } from "vitest"
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
+import { processContinuite } from "./continuite.process.js"
 
-import { processContinuite } from "./continuite.process.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+useMongo()
 
-import { useMongo } from "@tests/mongo.test.utils.js";
-
-useMongo();
-
-const t1Str = "01/01/2022";
-const t1 = parseParisLocalDate(t1Str, "00:00:00");
-const t1End = parseParisLocalDate(t1Str, "23:59:59");
-const t2Str = "02/01/2022";
-const t2 = parseParisLocalDate(t2Str, "00:00:00");
-const t2End = parseParisLocalDate(t2Str, "23:59:59");
-const t3Str = "03/01/2022";
-const t3 = parseParisLocalDate(t3Str, "00:00:00");
-const t3End = parseParisLocalDate(t3Str, "23:59:59");
-const t4Str = "04/01/2022";
-const t4 = parseParisLocalDate(t4Str, "00:00:00");
-const t4End = parseParisLocalDate(t4Str, "23:59:59");
+const t1Str = "01/01/2022"
+const t1 = parseParisLocalDate(t1Str, "00:00:00")
+const t1End = parseParisLocalDate(t1Str, "23:59:59")
+const t2Str = "02/01/2022"
+const t2 = parseParisLocalDate(t2Str, "00:00:00")
+const t2End = parseParisLocalDate(t2Str, "23:59:59")
+const t3Str = "03/01/2022"
+const t3 = parseParisLocalDate(t3Str, "00:00:00")
+const t3End = parseParisLocalDate(t3Str, "23:59:59")
+const t4Str = "04/01/2022"
+const t4 = parseParisLocalDate(t4Str, "00:00:00")
+const t4End = parseParisLocalDate(t4Str, "23:59:59")
 
 describe("CFD continuite", () => {
   const importMeta = {
@@ -46,22 +40,22 @@ describe("CFD continuite", () => {
         import_date: new Date("2023-12-24T02:00:00.000Z"),
       },
     },
-  } as const;
+  } as const
 
   const generateCert = (code: string, ouverture: Date, fermeture: Date) =>
     generateCertificationInternalFixture({
       identifiant: { cfd: code, rncp: null },
       periode_validite: { cfd: { ouverture, fermeture }, rncp: null, debut: ouverture, fin: fermeture },
-    });
+    })
 
-  const c1 = generateCert("00000001", t1, t1End);
-  const c2 = generateCert("00000002", t2, t2End);
-  const c3 = generateCert("00000003", t3, t3End);
-  const c4 = generateCert("00000004", t4, t4End);
+  const c1 = generateCert("00000001", t1, t1End)
+  const c2 = generateCert("00000002", t2, t2End)
+  const c3 = generateCert("00000003", t3, t3End)
+  const c4 = generateCert("00000004", t4, t4End)
 
   beforeEach(async () => {
-    await getDbCollection("certifications").insertMany([c1, c2, c3, c4]);
-  });
+    await getDbCollection("certifications").insertMany([c1, c2, c3, c4])
+  })
 
   const generateBcnData = (cfd: string, anciens: string[], nouveaux: string[], date: string) =>
     generateSourceBcn_N_FormationDiplomeFixture({
@@ -72,7 +66,7 @@ describe("CFD continuite", () => {
         DATE_OUVERTURE: date,
         DATE_FERMETURE: date,
       },
-    });
+    })
 
   const expectedSingleChain = [
     {
@@ -123,7 +117,7 @@ describe("CFD continuite", () => {
         ],
       },
     },
-  ];
+  ]
 
   const expected2Chains = [
     {
@@ -166,7 +160,7 @@ describe("CFD continuite", () => {
         ],
       },
     },
-  ];
+  ]
 
   it("should support biredirectionnal chain", async () => {
     await getDbCollection("source.bcn").insertMany([
@@ -174,9 +168,9 @@ describe("CFD continuite", () => {
       generateBcnData("00000002", ["00000001"], ["00000003"], t2Str),
       generateBcnData("00000003", ["00000002"], ["00000004"], t3Str),
       generateBcnData("00000004", ["00000003"], [], t4Str),
-    ]);
+    ])
 
-    await processContinuite(importMeta);
+    await processContinuite(importMeta)
     expect(
       await getDbCollection("certifications")
         .find(
@@ -187,8 +181,8 @@ describe("CFD continuite", () => {
           }
         )
         .toArray()
-    ).toEqual(expectedSingleChain);
-  });
+    ).toEqual(expectedSingleChain)
+  })
 
   it("should support chronological mono-directionnal chain", async () => {
     await getDbCollection("source.bcn").insertMany([
@@ -196,9 +190,9 @@ describe("CFD continuite", () => {
       generateBcnData("00000002", [], ["00000003"], t2Str),
       generateBcnData("00000003", [], ["00000004"], t3Str),
       generateBcnData("00000004", [], [], t4Str),
-    ]);
+    ])
 
-    await processContinuite(importMeta);
+    await processContinuite(importMeta)
     expect(
       await getDbCollection("certifications")
         .find(
@@ -209,8 +203,8 @@ describe("CFD continuite", () => {
           }
         )
         .toArray()
-    ).toEqual(expectedSingleChain);
-  });
+    ).toEqual(expectedSingleChain)
+  })
 
   it("should support anti-chronological mono-directionnal chain", async () => {
     await getDbCollection("source.bcn").insertMany([
@@ -218,9 +212,9 @@ describe("CFD continuite", () => {
       generateBcnData("00000002", ["00000001"], [], t2Str),
       generateBcnData("00000003", ["00000002"], [], t3Str),
       generateBcnData("00000004", ["00000003"], [], t4Str),
-    ]);
+    ])
 
-    await processContinuite(importMeta);
+    await processContinuite(importMeta)
     expect(
       await getDbCollection("certifications")
         .find(
@@ -231,8 +225,8 @@ describe("CFD continuite", () => {
           }
         )
         .toArray()
-    ).toEqual(expectedSingleChain);
-  });
+    ).toEqual(expectedSingleChain)
+  })
 
   it("should support bifurcation", async () => {
     await getDbCollection("source.bcn").insertMany([
@@ -240,9 +234,9 @@ describe("CFD continuite", () => {
       generateBcnData("00000002", ["00000001"], ["00000003", "00000004"], t2Str),
       generateBcnData("00000003", ["00000002"], [], t3Str),
       generateBcnData("00000004", ["00000002"], [], t4Str),
-    ]);
+    ])
 
-    await processContinuite(importMeta);
+    await processContinuite(importMeta)
     expect(
       await getDbCollection("certifications")
         .find(
@@ -253,8 +247,8 @@ describe("CFD continuite", () => {
           }
         )
         .toArray()
-    ).toEqual(expectedSingleChain);
-  });
+    ).toEqual(expectedSingleChain)
+  })
 
   it("should support merge", async () => {
     await getDbCollection("source.bcn").insertMany([
@@ -262,9 +256,9 @@ describe("CFD continuite", () => {
       generateBcnData("00000002", [], ["00000003"], t2Str),
       generateBcnData("00000003", ["00000001", "00000002"], ["00000004"], t3Str),
       generateBcnData("00000004", ["00000003"], [], t4Str),
-    ]);
+    ])
 
-    await processContinuite(importMeta);
+    await processContinuite(importMeta)
     expect(
       await getDbCollection("certifications")
         .find(
@@ -275,8 +269,8 @@ describe("CFD continuite", () => {
           }
         )
         .toArray()
-    ).toEqual(expectedSingleChain);
-  });
+    ).toEqual(expectedSingleChain)
+  })
 
   it("should support separate chain", async () => {
     await getDbCollection("source.bcn").insertMany([
@@ -284,9 +278,9 @@ describe("CFD continuite", () => {
       generateBcnData("00000002", ["00000001"], [], t2Str),
       generateBcnData("00000003", [], ["00000004"], t3Str),
       generateBcnData("00000004", ["00000003"], [], t4Str),
-    ]);
+    ])
 
-    await processContinuite(importMeta);
+    await processContinuite(importMeta)
     expect(
       await getDbCollection("certifications")
         .find(
@@ -297,8 +291,8 @@ describe("CFD continuite", () => {
           }
         )
         .toArray()
-    ).toEqual(expected2Chains);
-  });
+    ).toEqual(expected2Chains)
+  })
 
   it("should not found cfd codes", async () => {
     await getDbCollection("source.bcn").insertMany([
@@ -306,9 +300,9 @@ describe("CFD continuite", () => {
       generateBcnData("00000002", ["00000001"], ["00000003"], t2Str),
       generateBcnData("00000003", ["00000002"], ["00000004"], t3Str),
       generateBcnData("00000004", ["00000003"], ["99999999"], t4Str),
-    ]);
+    ])
 
-    await processContinuite(importMeta);
+    await processContinuite(importMeta)
     expect(
       await getDbCollection("certifications")
         .find(
@@ -319,9 +313,9 @@ describe("CFD continuite", () => {
           }
         )
         .toArray()
-    ).toEqual(expectedSingleChain);
-  });
-});
+    ).toEqual(expectedSingleChain)
+  })
+})
 
 describe("RNCP continuite", () => {
   const importMeta = {
@@ -342,7 +336,7 @@ describe("RNCP continuite", () => {
         import_date: new Date("2023-12-24T02:00:00.000Z"),
       },
     },
-  } as const;
+  } as const
 
   const generateCert = (code: string, activation: Date, fin_enregistrement: Date, actif: boolean) =>
     generateCertificationInternalFixture({
@@ -357,25 +351,18 @@ describe("RNCP continuite", () => {
         debut: activation,
         fin: fin_enregistrement,
       },
-    });
+    })
 
-  const c1 = generateCert("RNCP00001", t1, t1End, false);
-  const c2 = generateCert("RNCP00002", t2, t2End, false);
-  const c3 = generateCert("RNCP00003", t3, t3End, true);
-  const c4 = generateCert("RNCP00004", t4, t4End, false);
+  const c1 = generateCert("RNCP00001", t1, t1End, false)
+  const c2 = generateCert("RNCP00002", t2, t2End, false)
+  const c3 = generateCert("RNCP00003", t3, t3End, true)
+  const c4 = generateCert("RNCP00004", t4, t4End, false)
 
   beforeEach(async () => {
-    await getDbCollection("certifications").insertMany([c1, c2, c3, c4]);
-  });
+    await getDbCollection("certifications").insertMany([c1, c2, c3, c4])
+  })
 
-  const generateFcData = (
-    rncp: string,
-    anciens: string[],
-    nouveaux: string[],
-    activation: Date,
-    date: string,
-    actif: boolean
-  ) =>
+  const generateFcData = (rncp: string, anciens: string[], nouveaux: string[], activation: Date, date: string, actif: boolean) =>
     generateSourceFranceCompetenceFixture({
       numero_fiche: rncp,
       date_premiere_activation: activation,
@@ -397,7 +384,7 @@ describe("RNCP continuite", () => {
           })),
         ],
       },
-    });
+    })
 
   const expectedSingleChain = [
     {
@@ -448,7 +435,7 @@ describe("RNCP continuite", () => {
         ],
       },
     },
-  ];
+  ]
 
   const expected2Chains = [
     {
@@ -491,7 +478,7 @@ describe("RNCP continuite", () => {
         ],
       },
     },
-  ];
+  ]
 
   it("should support biredirectionnal chain", async () => {
     await getDbCollection("source.france_competence").insertMany([
@@ -499,9 +486,9 @@ describe("RNCP continuite", () => {
       generateFcData("RNCP00002", ["RNCP00001"], ["RNCP00003"], t2, t2Str, false),
       generateFcData("RNCP00003", ["RNCP00002"], ["RNCP00004"], t3, t3Str, true),
       generateFcData("RNCP00004", ["RNCP00003"], [], t4, t4Str, false),
-    ]);
+    ])
 
-    await processContinuite(importMeta);
+    await processContinuite(importMeta)
     expect(
       await getDbCollection("certifications")
         .find(
@@ -512,8 +499,8 @@ describe("RNCP continuite", () => {
           }
         )
         .toArray()
-    ).toEqual(expectedSingleChain);
-  });
+    ).toEqual(expectedSingleChain)
+  })
 
   it("should support chronological mono-directionnal chain", async () => {
     await getDbCollection("source.france_competence").insertMany([
@@ -521,9 +508,9 @@ describe("RNCP continuite", () => {
       generateFcData("RNCP00002", [], ["RNCP00003"], t2, t2Str, false),
       generateFcData("RNCP00003", [], ["RNCP00004"], t3, t3Str, true),
       generateFcData("RNCP00004", [], [], t4, t4Str, false),
-    ]);
+    ])
 
-    await processContinuite(importMeta);
+    await processContinuite(importMeta)
     expect(
       await getDbCollection("certifications")
         .find(
@@ -534,8 +521,8 @@ describe("RNCP continuite", () => {
           }
         )
         .toArray()
-    ).toEqual(expectedSingleChain);
-  });
+    ).toEqual(expectedSingleChain)
+  })
 
   it("should support anti-chronological mono-directionnal chain", async () => {
     await getDbCollection("source.france_competence").insertMany([
@@ -543,9 +530,9 @@ describe("RNCP continuite", () => {
       generateFcData("RNCP00002", ["RNCP00001"], [], t2, t2Str, false),
       generateFcData("RNCP00003", ["RNCP00002"], [], t3, t3Str, true),
       generateFcData("RNCP00004", ["RNCP00003"], [], t4, t4Str, false),
-    ]);
+    ])
 
-    await processContinuite(importMeta);
+    await processContinuite(importMeta)
     expect(
       await getDbCollection("certifications")
         .find(
@@ -556,8 +543,8 @@ describe("RNCP continuite", () => {
           }
         )
         .toArray()
-    ).toEqual(expectedSingleChain);
-  });
+    ).toEqual(expectedSingleChain)
+  })
 
   it("should support bifurcation", async () => {
     await getDbCollection("source.france_competence").insertMany([
@@ -565,9 +552,9 @@ describe("RNCP continuite", () => {
       generateFcData("RNCP00002", ["RNCP00001"], ["RNCP00003", "RNCP00004"], t2, t2Str, false),
       generateFcData("RNCP00003", ["RNCP00002"], [], t3, t3Str, true),
       generateFcData("RNCP00004", ["RNCP00002"], [], t4, t4Str, false),
-    ]);
+    ])
 
-    await processContinuite(importMeta);
+    await processContinuite(importMeta)
     expect(
       await getDbCollection("certifications")
         .find(
@@ -578,8 +565,8 @@ describe("RNCP continuite", () => {
           }
         )
         .toArray()
-    ).toEqual(expectedSingleChain);
-  });
+    ).toEqual(expectedSingleChain)
+  })
 
   it("should support merge", async () => {
     await getDbCollection("source.france_competence").insertMany([
@@ -587,9 +574,9 @@ describe("RNCP continuite", () => {
       generateFcData("RNCP00002", [], ["RNCP00003"], t2, t2Str, false),
       generateFcData("RNCP00003", ["RNCP00001", "RNCP00002"], ["RNCP00004"], t3, t3Str, true),
       generateFcData("RNCP00004", ["RNCP00003"], [], t4, t4Str, false),
-    ]);
+    ])
 
-    await processContinuite(importMeta);
+    await processContinuite(importMeta)
     expect(
       await getDbCollection("certifications")
         .find(
@@ -600,8 +587,8 @@ describe("RNCP continuite", () => {
           }
         )
         .toArray()
-    ).toEqual(expectedSingleChain);
-  });
+    ).toEqual(expectedSingleChain)
+  })
 
   it("should support separate chain", async () => {
     await getDbCollection("source.france_competence").insertMany([
@@ -609,9 +596,9 @@ describe("RNCP continuite", () => {
       generateFcData("RNCP00002", ["RNCP00001"], [], t2, t2Str, false),
       generateFcData("RNCP00003", [], ["RNCP00004"], t3, t3Str, true),
       generateFcData("RNCP00004", ["RNCP00003"], [], t4, t4Str, false),
-    ]);
+    ])
 
-    await processContinuite(importMeta);
+    await processContinuite(importMeta)
     expect(
       await getDbCollection("certifications")
         .find(
@@ -622,8 +609,8 @@ describe("RNCP continuite", () => {
           }
         )
         .toArray()
-    ).toEqual(expected2Chains);
-  });
+    ).toEqual(expected2Chains)
+  })
 
   it("should support not found rncp code", async () => {
     await getDbCollection("source.france_competence").insertMany([
@@ -631,9 +618,9 @@ describe("RNCP continuite", () => {
       generateFcData("RNCP00002", ["RNCP00001", "RNCP99999"], ["RNCP00003"], t2, t2Str, false),
       generateFcData("RNCP00003", ["RNCP00002"], ["RNCP00004", "RNCP99999"], t3, t3Str, true),
       generateFcData("RNCP00004", ["RNCP00003", "RNCP99999"], [], t4, t4Str, false),
-    ]);
+    ])
 
-    await processContinuite(importMeta);
+    await processContinuite(importMeta)
     expect(
       await getDbCollection("certifications")
         .find(
@@ -644,8 +631,8 @@ describe("RNCP continuite", () => {
           }
         )
         .toArray()
-    ).toEqual(expectedSingleChain);
-  });
+    ).toEqual(expectedSingleChain)
+  })
 
   it("should support ignore continuity with RS", async () => {
     await getDbCollection("source.france_competence").insertMany([
@@ -654,9 +641,9 @@ describe("RNCP continuite", () => {
       generateFcData("RNCP00003", ["RNCP00002"], ["RNCP00004", "RNCP99999"], t3, t3Str, true),
       generateFcData("RNCP00004", ["RNCP00003", "RS0001"], [], t4, t4Str, false),
       generateFcData("RS0001", ["RNCP00004"], ["RNCP00001"], t1, t1Str, false),
-    ]);
+    ])
 
-    await processContinuite(importMeta);
+    await processContinuite(importMeta)
     expect(
       await getDbCollection("certifications")
         .find(
@@ -667,6 +654,6 @@ describe("RNCP continuite", () => {
           }
         )
         .toArray()
-    ).toEqual(expectedSingleChain);
-  });
-});
+    ).toEqual(expectedSingleChain)
+  })
+})

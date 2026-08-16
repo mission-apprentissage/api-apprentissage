@@ -1,16 +1,16 @@
-import { zGeoJsonPoint, zGeoJsonPolygon } from "api-alternance-sdk";
-import { z } from "zod/v4-mini";
+import { zGeoJsonPoint, zGeoJsonPolygon } from "api-alternance-sdk"
+import { z } from "zod/v4-mini"
 
 export const sourceGeoRegion = z.object({
   nom: z.string(),
   code: z.string(),
-});
+})
 
 export const sourceGeoDepartement = z.object({
   code: z.string(),
   codeRegion: z.string(),
   nom: z.string(),
-});
+})
 
 export const sourceGeoCommune = z.object({
   nom: z.string(),
@@ -20,8 +20,8 @@ export const sourceGeoCommune = z.object({
   codeRegion: z.string(),
   centre: zGeoJsonPoint,
   bbox: zGeoJsonPolygon,
-});
+})
 
-export type ISourceGeoRegion = z.infer<typeof sourceGeoRegion>;
-export type ISourceGeoDepartement = z.infer<typeof sourceGeoDepartement>;
-export type ISourceGeoCommune = z.infer<typeof sourceGeoCommune>;
+export type ISourceGeoRegion = z.infer<typeof sourceGeoRegion>
+export type ISourceGeoDepartement = z.infer<typeof sourceGeoDepartement>
+export type ISourceGeoCommune = z.infer<typeof sourceGeoCommune>

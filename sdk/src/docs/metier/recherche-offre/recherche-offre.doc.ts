@@ -1,22 +1,22 @@
-import type { DocPage, OpenApiText } from "../../types.js";
-import applyDescEn from "./en/apply.description.md.js";
-import contractDescEn from "./en/contract.description.md.js";
-import descriptionEn from "./en/description.md.js";
-import identifierDescEn from "./en/identifier.description.md.js";
-import offerDescEn from "./en/offer.description.md.js";
-import offerPublicationDescEn from "./en/offer.publication.description.md.js";
-import workplaceDescEn from "./en/workplace.description.md.js";
-import workplaceDomainDescEn from "./en/workplace.domain.description.md.js";
-import workplaceLocationDescEn from "./en/workplace.location.description.md.js";
-import applyDescFr from "./fr/apply.description.md.js";
-import contractDescFr from "./fr/contract.description.md.js";
-import descriptionFr from "./fr/description.md.js";
-import identifierDescFr from "./fr/identifier.description.md.js";
-import offerDescFr from "./fr/offer.description.md.js";
-import offerPublicationDescFr from "./fr/offer.publication.description.md.js";
-import workplaceDescFr from "./fr/workplace.description.md.js";
-import workplaceDomainDescFr from "./fr/workplace.domain.description.md.js";
-import workplaceLocationDescFr from "./fr/workplace.location.description.md.js";
+import type { DocPage, OpenApiText } from "../../types.js"
+import applyDescEn from "./en/apply.description.md.js"
+import contractDescEn from "./en/contract.description.md.js"
+import descriptionEn from "./en/description.md.js"
+import identifierDescEn from "./en/identifier.description.md.js"
+import offerDescEn from "./en/offer.description.md.js"
+import offerPublicationDescEn from "./en/offer.publication.description.md.js"
+import workplaceDescEn from "./en/workplace.description.md.js"
+import workplaceDomainDescEn from "./en/workplace.domain.description.md.js"
+import workplaceLocationDescEn from "./en/workplace.location.description.md.js"
+import applyDescFr from "./fr/apply.description.md.js"
+import contractDescFr from "./fr/contract.description.md.js"
+import descriptionFr from "./fr/description.md.js"
+import identifierDescFr from "./fr/identifier.description.md.js"
+import offerDescFr from "./fr/offer.description.md.js"
+import offerPublicationDescFr from "./fr/offer.publication.description.md.js"
+import workplaceDescFr from "./fr/workplace.description.md.js"
+import workplaceDomainDescFr from "./fr/workplace.domain.description.md.js"
+import workplaceLocationDescFr from "./fr/workplace.location.description.md.js"
 
 const recruiterSections = {
   workplace: {
@@ -45,7 +45,7 @@ const recruiterSections = {
       },
     },
   },
-};
+}
 
 export const rechercheOffrePageSummaryDoc = {
   title: {
@@ -56,7 +56,7 @@ export const rechercheOffrePageSummaryDoc = {
     en: "Access all apprenticeship job opportunities for free and in real-time",
     fr: "Accéder gratuitement et en temps réel à l'ensemble des opportunités d'emploi en alternance",
   },
-} as const satisfies { title: OpenApiText; headline: OpenApiText };
+} as const satisfies { title: OpenApiText; headline: OpenApiText }
 
 export const rechercheOffrePageDoc = {
   tag: "job",
@@ -109,17 +109,7 @@ export const rechercheOffrePageDoc = {
                 en: "The ROME corresponds to the Operational Reference for Jobs and Occupations. Designed by France Travail (formerly Pôle Emploi), this reference system presents all professions grouped into profiles, organized by professional fields.",
                 fr: "Le ROME correspond au Référentiel Opérationnel des Métiers et des Emplois. Conçu par France Travail (anciennement Pôle Emploi), ce référentiel présente l'ensemble des métiers regroupés par fiches, organisées par domaines professionnels.",
               },
-              tags: [
-                ".access_conditions",
-                ".description",
-                ".desired_skills",
-                ".opening_count",
-                ".rome_codes",
-                ".status",
-                ".target_diploma",
-                ".title",
-                ".to_be_acquired_skills",
-              ],
+              tags: [".access_conditions", ".description", ".desired_skills", ".opening_count", ".rome_codes", ".status", ".target_diploma", ".title", ".to_be_acquired_skills"],
             },
             publication: {
               description: { en: offerPublicationDescEn, fr: offerPublicationDescFr },
@@ -150,4 +140,4 @@ export const rechercheOffrePageDoc = {
       },
     },
   ],
-} as const satisfies DocPage;
+} as const satisfies DocPage

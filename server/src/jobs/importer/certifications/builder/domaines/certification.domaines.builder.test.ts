@@ -1,11 +1,7 @@
-import {
-  generateSourceBcn_N_FormationDiplomeFixture,
-  generateSourceBcn_N51_FormationDiplomeFixture,
-  generateSourceFranceCompetenceFixture,
-} from "shared/models/fixtures/index";
-import { describe, expect, it } from "vitest";
+import { generateSourceBcn_N_FormationDiplomeFixture, generateSourceBcn_N51_FormationDiplomeFixture, generateSourceFranceCompetenceFixture } from "shared/models/fixtures/index"
+import { describe, expect, it } from "vitest"
 
-import { buildCertificationDomaines } from "./certification.domaines.builder.js";
+import { buildCertificationDomaines } from "./certification.domaines.builder.js"
 
 describe("buildCertificationDomaines", () => {
   describe("domaines.formacodes", () => {
@@ -13,9 +9,9 @@ describe("buildCertificationDomaines", () => {
       const result = buildCertificationDomaines({
         bcn: generateSourceBcn_N_FormationDiplomeFixture(),
         france_competence: null,
-      });
-      expect(result.formacodes).toEqual({ rncp: null });
-    });
+      })
+      expect(result.formacodes).toEqual({ rncp: null })
+    })
 
     describe("when formacodes is not empty", () => {
       it("should returns Formacode_Code and Formacode_Libelle for each formacodes", () => {
@@ -34,34 +30,34 @@ describe("buildCertificationDomaines", () => {
               },
             ],
           },
-        });
-        const result = buildCertificationDomaines({ france_competence: fc });
+        })
+        const result = buildCertificationDomaines({ france_competence: fc })
         expect(result?.formacodes).toEqual({
           rncp: [
             { code: "31009", intitule: "31009 : Architecture système information" },
             { code: "31052", intitule: "31052 : Data Warehouse" },
           ],
-        });
-      });
-    });
+        })
+      })
+    })
 
     describe("when formacodes is empty", () => {
       it("should returns empty array", () => {
-        const fc = generateSourceFranceCompetenceFixture({ data: { formacode: [] } });
-        const result = buildCertificationDomaines({ france_competence: fc });
-        expect(result?.formacodes).toEqual({ rncp: [] });
-      });
-    });
-  });
+        const fc = generateSourceFranceCompetenceFixture({ data: { formacode: [] } })
+        const result = buildCertificationDomaines({ france_competence: fc })
+        expect(result?.formacodes).toEqual({ rncp: [] })
+      })
+    })
+  })
 
   describe("domaines.rome", () => {
     it("should returns null when france competence data is missing", () => {
       const result = buildCertificationDomaines({
         bcn: generateSourceBcn_N51_FormationDiplomeFixture(),
         france_competence: null,
-      });
-      expect(result.rome).toEqual({ rncp: null });
-    });
+      })
+      expect(result.rome).toEqual({ rncp: null })
+    })
 
     describe("when romes is not empty", () => {
       it("should returns Codes_Rome_Code and Codes_Rome_Libelle for each blocs_de_competences", () => {
@@ -75,19 +71,19 @@ describe("buildCertificationDomaines", () => {
               },
             ],
           },
-        });
-        const result = buildCertificationDomaines({ france_competence: fc });
-        expect(result?.rome).toEqual({ rncp: [{ code: "K1903", intitule: "Défense et conseil juridique" }] });
-      });
-    });
+        })
+        const result = buildCertificationDomaines({ france_competence: fc })
+        expect(result?.rome).toEqual({ rncp: [{ code: "K1903", intitule: "Défense et conseil juridique" }] })
+      })
+    })
     describe("when rome is empty", () => {
       it("should returns empty array", () => {
-        const fc = generateSourceFranceCompetenceFixture({ data: { rome: [] } });
-        const result = buildCertificationDomaines({ france_competence: fc });
-        expect(result?.rome).toEqual({ rncp: [] });
-      });
-    });
-  });
+        const fc = generateSourceFranceCompetenceFixture({ data: { rome: [] } })
+        const result = buildCertificationDomaines({ france_competence: fc })
+        expect(result?.rome).toEqual({ rncp: [] })
+      })
+    })
+  })
 
   describe("domaines.nsf", () => {
     describe("domaines.nsf.rncp", () => {
@@ -95,9 +91,9 @@ describe("buildCertificationDomaines", () => {
         const result = buildCertificationDomaines({
           bcn: generateSourceBcn_N51_FormationDiplomeFixture(),
           france_competence: null,
-        });
-        expect(result.nsf.rncp).toEqual(null);
-      });
+        })
+        expect(result.nsf.rncp).toEqual(null)
+      })
 
       describe("when nsf is not empty", () => {
         it("should returns Codes_Rome_Code and Codes_Rome_Libelle for each blocs_de_competences", () => {
@@ -116,34 +112,34 @@ describe("buildCertificationDomaines", () => {
                 },
               ],
             },
-          });
-          const result = buildCertificationDomaines({ france_competence: fc });
+          })
+          const result = buildCertificationDomaines({ france_competence: fc })
           expect(result.nsf).toEqual({
             cfd: null,
             rncp: [
               { code: "312p", intitule: "312p : Gestion des échanges commerciaux" },
               { code: "310m", intitule: "310m : Spécialités plurivalentes des échanges et de la gestion" },
             ],
-          });
-        });
-      });
+          })
+        })
+      })
       describe("when nsf is empty", () => {
         it("should returns empty array", () => {
-          const fc = generateSourceFranceCompetenceFixture({ data: { nsf: [] } });
-          const result = buildCertificationDomaines({ france_competence: fc });
-          expect(result.nsf).toEqual({ cfd: null, rncp: [] });
-        });
-      });
-    });
+          const fc = generateSourceFranceCompetenceFixture({ data: { nsf: [] } })
+          const result = buildCertificationDomaines({ france_competence: fc })
+          expect(result.nsf).toEqual({ cfd: null, rncp: [] })
+        })
+      })
+    })
 
     describe("domaines.nsf.cfd", () => {
       it("should returns null when france competence data is missing", () => {
         const result = buildCertificationDomaines({
           bcn: null,
           france_competence: generateSourceFranceCompetenceFixture(),
-        });
-        expect(result.nsf.cfd).toEqual(null);
-      });
+        })
+        expect(result.nsf.cfd).toEqual(null)
+      })
 
       describe("when nsf is not empty", () => {
         it("should returns Codes_Rome_Code and Codes_Rome_Libelle for each blocs_de_competences", () => {
@@ -152,17 +148,17 @@ describe("buildCertificationDomaines", () => {
               GROUPE_SPECIALITE: "323",
               N_GROUPE_SPECIALITE_LIBELLE_LONG: "INFORMATIQUE, TRAITEMT DE L'INFORMATION",
             },
-          });
-          const result = buildCertificationDomaines({ france_competence: null, bcn: vFormation });
+          })
+          const result = buildCertificationDomaines({ france_competence: null, bcn: vFormation })
           expect(result.nsf).toEqual({
             cfd: {
               code: "323",
               intitule: "INFORMATIQUE, TRAITEMT DE L'INFORMATION",
             },
             rncp: null,
-          });
-        });
-      });
+          })
+        })
+      })
 
       describe("when libelle is empty", () => {
         it("should returns empty array", () => {
@@ -171,17 +167,17 @@ describe("buildCertificationDomaines", () => {
               GROUPE_SPECIALITE: "323",
               N_GROUPE_SPECIALITE_LIBELLE_LONG: null,
             },
-          });
-          const result = buildCertificationDomaines({ france_competence: null, bcn: vFormation });
+          })
+          const result = buildCertificationDomaines({ france_competence: null, bcn: vFormation })
           expect(result.nsf).toEqual({
             cfd: {
               code: "323",
               intitule: null,
             },
             rncp: null,
-          });
-        });
-      });
-    });
-  });
-});
+          })
+        })
+      })
+    })
+  })
+})

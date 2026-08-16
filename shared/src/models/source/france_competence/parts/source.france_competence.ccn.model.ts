@@ -1,4 +1,4 @@
-import { z } from "zod/v4-mini";
+import { z } from "zod/v4-mini"
 
 export const zSourceFcCcn = z.object({
   Numero_Fiche: z.string(),
@@ -8,6 +8,6 @@ export const zSourceFcCcn = z.object({
   Ccn_2_Libelle: z.nullable(z.string()),
   Ccn_3_Numero: z.nullable(z.string()),
   Ccn_3_Libelle: z.nullable(z.string()),
-});
+})
 
-export type ISourceFcCcn = z.output<typeof zSourceFcCcn>;
+export type ISourceFcCcn = z.output<typeof zSourceFcCcn>

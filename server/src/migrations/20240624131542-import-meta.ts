@@ -1,4 +1,4 @@
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
 
 export const up = async () => {
   await getDbCollection("import.meta").updateMany(
@@ -6,5 +6,5 @@ export const up = async () => {
     { status: null },
     { $set: { status: "done" } },
     { bypassDocumentValidation: true }
-  );
-};
+  )
+}

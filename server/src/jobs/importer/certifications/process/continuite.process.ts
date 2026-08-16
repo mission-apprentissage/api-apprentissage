@@ -1,129 +1,125 @@
-import type { AnyBulkWriteOperation } from "mongodb";
-import type { ICertificationInternal } from "shared/models/certification.model";
-import type { IImportMetaCertifications } from "shared/models/import.meta.model";
-import type { IBcn_N_FormationDiplome } from "shared/models/source/bcn/bcn.n_formation_diplome.model";
+import type { AnyBulkWriteOperation } from "mongodb"
+import type { ICertificationInternal } from "shared/models/certification.model"
+import type { IImportMetaCertifications } from "shared/models/import.meta.model"
+import type { IBcn_N_FormationDiplome } from "shared/models/source/bcn/bcn.n_formation_diplome.model"
 
-import type { ICertificationSearchMap } from "@/jobs/importer/certifications/builder/periode_validite/certification.periode_validite.builder.js";
-import { buildCertificationSearchMap } from "@/jobs/importer/certifications/builder/periode_validite/certification.periode_validite.builder.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
+import type { ICertificationSearchMap } from "@/jobs/importer/certifications/builder/periode_validite/certification.periode_validite.builder.js"
+import { buildCertificationSearchMap } from "@/jobs/importer/certifications/builder/periode_validite/certification.periode_validite.builder.js"
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
 
 type GroupContext = {
-  groups: Map<string, Set<string>>;
-  codeToGroup: Map<string, string>;
-};
+  groups: Map<string, Set<string>>
+  codeToGroup: Map<string, string>
+}
 
 function addToGroupMap(context: GroupContext, codes: string[]) {
-  const groupCodes = new Set(
-    codes.filter((code) => context.codeToGroup.has(code)).map((code) => context.codeToGroup.get(code)!)
-  );
+  const groupCodes = new Set(codes.filter((code) => context.codeToGroup.has(code)).map((code) => context.codeToGroup.get(code)!))
 
   // No groups created for any of the codes
   if (groupCodes.size === 0) {
-    context.groups.set(codes[0], new Set(codes));
-    codes.forEach((code) => context.codeToGroup.set(code, codes[0]));
-    return;
+    context.groups.set(codes[0], new Set(codes))
+    codes.forEach((code) => context.codeToGroup.set(code, codes[0]))
+    return
   }
 
-  const [mainGroupCode, ...otherGroupsCodes] = Array.from(groupCodes);
+  const [mainGroupCode, ...otherGroupsCodes] = Array.from(groupCodes)
 
   // Multiple groups created for multiple codes, we need to merge groups
   if (otherGroupsCodes.length > 0) {
     for (const groupCode of otherGroupsCodes) {
       context.groups.get(groupCode)!.forEach((code) => {
-        context.groups.get(mainGroupCode)!.add(code);
-        context.codeToGroup.set(code, mainGroupCode);
-      });
-      context.groups.delete(groupCode);
+        context.groups.get(mainGroupCode)!.add(code)
+        context.codeToGroup.set(code, mainGroupCode)
+      })
+      context.groups.delete(groupCode)
     }
   }
 
   // Only one group created for one of the codes
   codes.forEach((code) => {
-    context.groups.get(mainGroupCode)!.add(code);
-    context.codeToGroup.set(code, mainGroupCode);
-  });
+    context.groups.get(mainGroupCode)!.add(code)
+    context.codeToGroup.set(code, mainGroupCode)
+  })
 }
 
 async function buildCfdContinuiteGroups() {
   const cursor = getDbCollection("source.bcn").find<IBcn_N_FormationDiplome>({
     source: "N_FORMATION_DIPLOME",
-  });
+  })
 
   const context: GroupContext = {
     groups: new Map(),
     codeToGroup: new Map(),
-  };
+  }
 
   for await (const doc of cursor) {
-    const data = doc.data;
-    addToGroupMap(context, [data.FORMATION_DIPLOME, ...data.ANCIEN_DIPLOMES, ...data.NOUVEAU_DIPLOMES]);
+    const data = doc.data
+    addToGroupMap(context, [data.FORMATION_DIPLOME, ...data.ANCIEN_DIPLOMES, ...data.NOUVEAU_DIPLOMES])
   }
 
-  const groups: string[][] = [];
+  const groups: string[][] = []
 
   for (const [, group] of context.groups) {
-    const codes = Array.from(group);
-    groups.push(codes);
+    const codes = Array.from(group)
+    groups.push(codes)
   }
 
-  return groups;
+  return groups
 }
 
 async function buildRncpContinuiteGroups() {
-  const cursor = getDbCollection("source.france_competence").find();
+  const cursor = getDbCollection("source.france_competence").find()
 
   const context: GroupContext = {
     groups: new Map(),
     codeToGroup: new Map(),
-  };
+  }
 
   for await (const doc of cursor) {
-    const fiches = doc.data.ancienne_nouvelle_certification.flatMap(
-      ({ Ancienne_Certification, Nouvelle_Certification }) => {
-        const result = [];
+    const fiches = doc.data.ancienne_nouvelle_certification.flatMap(({ Ancienne_Certification, Nouvelle_Certification }) => {
+      const result = []
 
-        if (Ancienne_Certification !== null) {
-          result.push(Ancienne_Certification);
-        }
-
-        if (Nouvelle_Certification !== null) {
-          result.push(Nouvelle_Certification);
-        }
-
-        return result;
+      if (Ancienne_Certification !== null) {
+        result.push(Ancienne_Certification)
       }
-    );
-    addToGroupMap(context, [...fiches, doc.numero_fiche]);
+
+      if (Nouvelle_Certification !== null) {
+        result.push(Nouvelle_Certification)
+      }
+
+      return result
+    })
+    addToGroupMap(context, [...fiches, doc.numero_fiche])
   }
 
-  const groups: string[][] = [];
+  const groups: string[][] = []
 
   for (const [, group] of context.groups) {
-    const codes = Array.from(group);
-    groups.push(codes);
+    const codes = Array.from(group)
+    groups.push(codes)
   }
 
-  return groups;
+  return groups
 }
 
 function compareDate(a: Date | null, b: Date | null) {
   if (a === null && b === null) {
-    return 0;
+    return 0
   }
 
   if (a === null) {
-    return 1;
+    return 1
   }
 
   if (b === null) {
-    return -1;
+    return -1
   }
 
-  return a.getTime() - b.getTime();
+  return a.getTime() - b.getTime()
 }
 
 async function processCfdContinuiteGroup(searchMap: ICertificationSearchMap, group: string[]) {
-  const ops: AnyBulkWriteOperation<ICertificationInternal>[] = [];
+  const ops: AnyBulkWriteOperation<ICertificationInternal>[] = []
 
   const continuite = group
     // Filter out not found codes)
@@ -134,7 +130,7 @@ async function processCfdContinuiteGroup(searchMap: ICertificationSearchMap, gro
       fermeture: searchMap.cfd[code]!.fermeture ?? null,
       courant: false,
     }))
-    .toSorted((a, b) => compareDate(a.ouverture, b.ouverture));
+    .toSorted((a, b) => compareDate(a.ouverture, b.ouverture))
 
   for (const code of group) {
     ops.push({
@@ -146,14 +142,14 @@ async function processCfdContinuiteGroup(searchMap: ICertificationSearchMap, gro
           },
         },
       },
-    });
+    })
   }
 
-  await getDbCollection("certifications").bulkWrite(ops, { ordered: false });
+  await getDbCollection("certifications").bulkWrite(ops, { ordered: false })
 }
 
 async function processRncpContinuiteGroup(searchMap: ICertificationSearchMap, group: string[]) {
-  const ops: AnyBulkWriteOperation<ICertificationInternal>[] = [];
+  const ops: AnyBulkWriteOperation<ICertificationInternal>[] = []
 
   const continuite = group
     // Filter out not found codes)
@@ -165,7 +161,7 @@ async function processRncpContinuiteGroup(searchMap: ICertificationSearchMap, gr
       courant: false,
       actif: searchMap.rncp[code]?.actif ?? false,
     }))
-    .toSorted((a, b) => compareDate(a.activation, b.activation));
+    .toSorted((a, b) => compareDate(a.activation, b.activation))
 
   for (const code of group) {
     ops.push({
@@ -177,22 +173,22 @@ async function processRncpContinuiteGroup(searchMap: ICertificationSearchMap, gr
           },
         },
       },
-    });
+    })
   }
 
-  await getDbCollection("certifications").bulkWrite(ops, { ordered: false });
+  await getDbCollection("certifications").bulkWrite(ops, { ordered: false })
 }
 
 export async function processContinuite(importMeta: IImportMetaCertifications) {
-  const searchMap = await buildCertificationSearchMap(importMeta.source.france_competence.oldest_date_publication);
+  const searchMap = await buildCertificationSearchMap(importMeta.source.france_competence.oldest_date_publication)
 
-  const cfdContinuiteGroups = await buildCfdContinuiteGroups();
+  const cfdContinuiteGroups = await buildCfdContinuiteGroups()
   for (const group of cfdContinuiteGroups) {
-    await processCfdContinuiteGroup(searchMap, group);
+    await processCfdContinuiteGroup(searchMap, group)
   }
 
-  const rncpContinuiteGroups = await buildRncpContinuiteGroups();
+  const rncpContinuiteGroups = await buildRncpContinuiteGroups()
   for (const group of rncpContinuiteGroups) {
-    await processRncpContinuiteGroup(searchMap, group);
+    await processRncpContinuiteGroup(searchMap, group)
   }
 }

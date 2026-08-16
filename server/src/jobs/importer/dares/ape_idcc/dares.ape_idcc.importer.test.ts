@@ -1,56 +1,50 @@
-import { createReadStream } from "fs";
-import { readFile } from "fs/promises";
-import { dirname, join } from "path";
-import { fileURLToPath } from "url";
-import { ObjectId } from "mongodb";
-import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock";
-import type { IImportMetaDares } from "shared/models/import.meta.model";
-import { beforeEach, describe, expect, it, vi } from "vitest";
-
-import { runDaresApeIdccImporter } from "./dares.ape_idcc.importer.js";
-import { getDbCollection } from "@/services/mongodb/mongodbService.js";
-
-import { useMongo } from "@tests/mongo.test.utils.js";
+import { useMongo } from "@tests/mongo.test.utils.js"
+import { createReadStream } from "fs"
+import { readFile } from "fs/promises"
+import { ObjectId } from "mongodb"
+import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock"
+import { dirname, join } from "path"
+import type { IImportMetaDares } from "shared/models/import.meta.model"
+import { fileURLToPath } from "url"
+import { beforeEach, describe, expect, it, vi } from "vitest"
+import { getDbCollection } from "@/services/mongodb/mongodbService.js"
+import { runDaresApeIdccImporter } from "./dares.ape_idcc.importer.js"
 
 describe("runDaresApeIdccImporter", () => {
-  useMongo();
+  useMongo()
 
-  const lastMonth = new Date("2024-05-14T09:00:07.000Z");
-  const now = new Date("2024-06-14T09:00:07.000Z");
-  const yesterday = new Date("2024-06-13T09:00:07.000Z");
-  const twoDaysAgo = new Date("2024-06-12T09:00:07.000Z");
+  const lastMonth = new Date("2024-05-14T09:00:07.000Z")
+  const now = new Date("2024-06-14T09:00:07.000Z")
+  const yesterday = new Date("2024-06-13T09:00:07.000Z")
+  const twoDaysAgo = new Date("2024-06-12T09:00:07.000Z")
 
   beforeEach(() => {
-    vi.useFakeTimers();
-    vi.setSystemTime(now);
-    disableNetConnect();
+    vi.useFakeTimers()
+    vi.setSystemTime(now)
+    disableNetConnect()
 
     return () => {
-      vi.useRealTimers();
-      cleanAll();
-      enableNetConnect();
-    };
-  });
+      vi.useRealTimers()
+      cleanAll()
+      enableNetConnect()
+    }
+  })
 
-  const fixtureDir = join(dirname(fileURLToPath(import.meta.url)), "fixtures");
+  const fixtureDir = join(dirname(fileURLToPath(import.meta.url)), "fixtures")
 
   it("should import ape-idcc data", async () => {
-    const scope = nock("https://dares.travail-emploi.gouv.fr");
-    scope
-      .get("/donnees/les-portraits-statistiques-de-branches-professionnelles")
-      .reply(200, await readFile(join(fixtureDir, "article.html"), "utf-8"));
+    const scope = nock("https://dares.travail-emploi.gouv.fr")
+    scope.get("/donnees/les-portraits-statistiques-de-branches-professionnelles").reply(200, await readFile(join(fixtureDir, "article.html"), "utf-8"))
     scope
       .head("/sites/default/files/2034d039cf1e7fed7eac52c2cae984b9/IDCC2021_passageAPEIDCC_diff_version_web.xlsx")
-      .reply(200, "", { "last-modified": "Sun, 06 Jun 2024 22:00:00 GMT" });
-    scope
-      .get("/sites/default/files/2034d039cf1e7fed7eac52c2cae984b9/IDCC2021_passageAPEIDCC_diff_version_web.xlsx")
-      .reply(200, createReadStream(join(fixtureDir, "sample.xlsx")), {
-        "last-modified": "Sun, 06 Jun 2024 22:00:00 GMT",
-      });
+      .reply(200, "", { "last-modified": "Sun, 06 Jun 2024 22:00:00 GMT" })
+    scope.get("/sites/default/files/2034d039cf1e7fed7eac52c2cae984b9/IDCC2021_passageAPEIDCC_diff_version_web.xlsx").reply(200, createReadStream(join(fixtureDir, "sample.xlsx")), {
+      "last-modified": "Sun, 06 Jun 2024 22:00:00 GMT",
+    })
 
-    await runDaresApeIdccImporter();
+    await runDaresApeIdccImporter()
 
-    const imports = await getDbCollection("import.meta").find({}).toArray();
+    const imports = await getDbCollection("import.meta").find({}).toArray()
     expect(imports).toEqual([
       {
         _id: expect.any(ObjectId),
@@ -63,11 +57,11 @@ describe("runDaresApeIdccImporter", () => {
           url: "https://dares.travail-emploi.gouv.fr/sites/default/files/2034d039cf1e7fed7eac52c2cae984b9/IDCC2021_passageAPEIDCC_diff_version_web.xlsx",
         },
       },
-    ]);
+    ])
 
     const result = await getDbCollection("source.dares.ape_idcc")
       .find({}, { projection: { _id: 0 } })
-      .toArray();
+      .toArray()
     expect(result).toEqual([
       {
         data: {
@@ -105,17 +99,13 @@ describe("runDaresApeIdccImporter", () => {
         date_import: now,
         import_id: imports[0]._id,
       },
-    ]);
-  });
+    ])
+  })
 
   it("should skip if file is up to date", async () => {
-    const scope = nock("https://dares.travail-emploi.gouv.fr");
-    scope
-      .get("/donnees/les-portraits-statistiques-de-branches-professionnelles")
-      .reply(200, await readFile(join(fixtureDir, "article.html"), "utf-8"));
-    scope
-      .head("/sites/default/files/2034d039cf1e7fed7eac52c2cae984b9/IDCC2021_passageAPEIDCC_diff_version_web.xlsx")
-      .reply(200, "", { "last-modified": lastMonth.toString() });
+    const scope = nock("https://dares.travail-emploi.gouv.fr")
+    scope.get("/donnees/les-portraits-statistiques-de-branches-professionnelles").reply(200, await readFile(join(fixtureDir, "article.html"), "utf-8"))
+    scope.head("/sites/default/files/2034d039cf1e7fed7eac52c2cae984b9/IDCC2021_passageAPEIDCC_diff_version_web.xlsx").reply(200, "", { "last-modified": lastMonth.toString() })
 
     const initialImport: IImportMetaDares = {
       _id: new ObjectId(),
@@ -127,7 +117,7 @@ describe("runDaresApeIdccImporter", () => {
         title: "Table de passage entre la convention collective (code IDCC) et le secteur d'activité (code APE)",
         url: "https://dares.travail-emploi.gouv.fr/sites/default/files/2034d039cf1e7fed7eac52c2cae984b9/IDCC2021_passageAPEIDCC_diff_version_web.xlsx",
       },
-    };
+    }
 
     const initialData = [
       {
@@ -135,8 +125,7 @@ describe("runDaresApeIdccImporter", () => {
         data: {
           naf: {
             code: "0811Z",
-            intitule:
-              "Extraction de pierres ornementales et de construction, de calcaire industriel, de gypse, de craie et d ardoise",
+            intitule: "Extraction de pierres ornementales et de construction, de calcaire industriel, de gypse, de craie et d ardoise",
           },
           convention_collective: { idcc: 135, titre: "Industries de carrières et de matériaux ETAM" },
         },
@@ -152,35 +141,29 @@ describe("runDaresApeIdccImporter", () => {
         date_import: yesterday,
         import_id: initialImport._id,
       },
-    ];
+    ]
 
-    await getDbCollection("import.meta").insertOne(initialImport);
-    await getDbCollection("source.dares.ape_idcc").insertMany(initialData);
+    await getDbCollection("import.meta").insertOne(initialImport)
+    await getDbCollection("source.dares.ape_idcc").insertMany(initialData)
 
-    await runDaresApeIdccImporter();
+    await runDaresApeIdccImporter()
 
-    const imports = await getDbCollection("import.meta").find({}).toArray();
-    expect(imports).toEqual([initialImport]);
+    const imports = await getDbCollection("import.meta").find({}).toArray()
+    expect(imports).toEqual([initialImport])
 
     const result = await getDbCollection("source.dares.ape_idcc")
       .find({}, { projection: { _id: 0 } })
-      .toArray();
-    expect(result).toEqual(initialData.map(({ _id, ...d }) => ({ ...d })));
-  });
+      .toArray()
+    expect(result).toEqual(initialData.map(({ _id, ...d }) => ({ ...d })))
+  })
 
   it("should update when new file", async () => {
-    const scope = nock("https://dares.travail-emploi.gouv.fr");
-    scope
-      .get("/donnees/les-portraits-statistiques-de-branches-professionnelles")
-      .reply(200, await readFile(join(fixtureDir, "article.html"), "utf-8"));
-    scope
-      .head("/sites/default/files/2034d039cf1e7fed7eac52c2cae984b9/IDCC2021_passageAPEIDCC_diff_version_web.xlsx")
-      .reply(200, "", { "last-modified": yesterday.toString() });
-    scope
-      .get("/sites/default/files/2034d039cf1e7fed7eac52c2cae984b9/IDCC2021_passageAPEIDCC_diff_version_web.xlsx")
-      .reply(200, createReadStream(join(fixtureDir, "sample.xlsx")), {
-        "last-modified": yesterday.toString(),
-      });
+    const scope = nock("https://dares.travail-emploi.gouv.fr")
+    scope.get("/donnees/les-portraits-statistiques-de-branches-professionnelles").reply(200, await readFile(join(fixtureDir, "article.html"), "utf-8"))
+    scope.head("/sites/default/files/2034d039cf1e7fed7eac52c2cae984b9/IDCC2021_passageAPEIDCC_diff_version_web.xlsx").reply(200, "", { "last-modified": yesterday.toString() })
+    scope.get("/sites/default/files/2034d039cf1e7fed7eac52c2cae984b9/IDCC2021_passageAPEIDCC_diff_version_web.xlsx").reply(200, createReadStream(join(fixtureDir, "sample.xlsx")), {
+      "last-modified": yesterday.toString(),
+    })
 
     const initialImport: IImportMetaDares = {
       _id: new ObjectId(),
@@ -192,7 +175,7 @@ describe("runDaresApeIdccImporter", () => {
         title: "Table de passage entre la convention collective (code IDCC) et le secteur d'activité (code APE)",
         url: "https://dares.travail-emploi.gouv.fr/sites/default/files/2034d039cf1e7fed7eac52c2cae984b9/IDCC2021_passageAPEIDCC_diff_version_web.xlsx",
       },
-    };
+    }
 
     const initialData = [
       {
@@ -200,8 +183,7 @@ describe("runDaresApeIdccImporter", () => {
         data: {
           naf: {
             code: "0811Z",
-            intitule:
-              "Extraction de pierres ornementales et de construction, de calcaire industriel, de gypse, de craie et d ardoise",
+            intitule: "Extraction de pierres ornementales et de construction, de calcaire industriel, de gypse, de craie et d ardoise",
           },
           convention_collective: { idcc: 135, titre: "Industries de carrières et de matériaux ETAM" },
         },
@@ -217,14 +199,14 @@ describe("runDaresApeIdccImporter", () => {
         date_import: twoDaysAgo,
         import_id: initialImport._id,
       },
-    ];
+    ]
 
-    await getDbCollection("import.meta").insertOne(initialImport);
-    await getDbCollection("source.dares.ape_idcc").insertMany(initialData);
+    await getDbCollection("import.meta").insertOne(initialImport)
+    await getDbCollection("source.dares.ape_idcc").insertMany(initialData)
 
-    await runDaresApeIdccImporter();
+    await runDaresApeIdccImporter()
 
-    const imports = await getDbCollection("import.meta").find({}).toArray();
+    const imports = await getDbCollection("import.meta").find({}).toArray()
     expect(imports).toEqual([
       initialImport,
       {
@@ -238,11 +220,11 @@ describe("runDaresApeIdccImporter", () => {
           url: "https://dares.travail-emploi.gouv.fr/sites/default/files/2034d039cf1e7fed7eac52c2cae984b9/IDCC2021_passageAPEIDCC_diff_version_web.xlsx",
         },
       },
-    ]);
+    ])
 
     const result = await getDbCollection("source.dares.ape_idcc")
       .find({}, { projection: { _id: 0 } })
-      .toArray();
+      .toArray()
     expect(result).toEqual([
       ...initialData.map(({ _id, ...d }) => ({ ...d })),
       {
@@ -281,6 +263,6 @@ describe("runDaresApeIdccImporter", () => {
         date_import: now,
         import_id: imports[1]._id,
       },
-    ]);
-  });
-});
+    ])
+  })
+})

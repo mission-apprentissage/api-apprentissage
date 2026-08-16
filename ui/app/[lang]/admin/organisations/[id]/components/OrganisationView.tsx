@@ -1,60 +1,60 @@
-"use client";
+"use client"
 
-import { fr } from "@codegouvfr/react-dsfr";
-import { Alert } from "@codegouvfr/react-dsfr/Alert";
-import { Button } from "@codegouvfr/react-dsfr/Button";
-import { Input } from "@codegouvfr/react-dsfr/Input";
-import { ToggleSwitch } from "@codegouvfr/react-dsfr/ToggleSwitch";
-import { Box, Snackbar, Typography } from "@mui/material";
-import { captureException } from "@sentry/nextjs";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useMemo } from "react";
-import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
-import type { IOrganisationInternal } from "shared/models/organisation.model";
-import type { Jsonify } from "type-fest";
+import { fr } from "@codegouvfr/react-dsfr"
+import { Alert } from "@codegouvfr/react-dsfr/Alert"
+import { Button } from "@codegouvfr/react-dsfr/Button"
+import { Input } from "@codegouvfr/react-dsfr/Input"
+import { ToggleSwitch } from "@codegouvfr/react-dsfr/ToggleSwitch"
+import { Box, Snackbar, Typography } from "@mui/material"
+import { captureException } from "@sentry/nextjs"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useMemo } from "react"
+import { useForm } from "react-hook-form"
+import { useTranslation } from "react-i18next"
+import type { IOrganisationInternal } from "shared/models/organisation.model"
+import type { Jsonify } from "type-fest"
 
-import type { WithLang } from "@/app/i18n/settings";
-import Breadcrumb from "@/components/breadcrumb/Breadcrumb";
-import { apiPut } from "@/utils/api.utils";
-import { PAGES } from "@/utils/routes.utils";
+import type { WithLang } from "@/app/i18n/settings"
+import Breadcrumb from "@/components/breadcrumb/Breadcrumb"
+import { apiPut } from "@/utils/api.utils"
+import { PAGES } from "@/utils/routes.utils"
 
 type Props = WithLang<{
-  organisation: Jsonify<IOrganisationInternal>;
-}>;
+  organisation: Jsonify<IOrganisationInternal>
+}>
 
-const HABILITATIONS = ["jobs:write", "appointments:write", "applications:write"] as const; // shared/src/security/permissions.ts#L3 ?
+const HABILITATIONS = ["jobs:write", "appointments:write", "applications:write"] as const // shared/src/security/permissions.ts#L3 ?
 
 type FormData = {
-  [key in (typeof HABILITATIONS)[number]]: boolean;
-};
+  [key in (typeof HABILITATIONS)[number]]: boolean
+}
 
 function buildHabilitations(data: FormData): IOrganisationInternal["habilitations"] {
-  const habilitations: IOrganisationInternal["habilitations"] = [];
+  const habilitations: IOrganisationInternal["habilitations"] = []
 
   for (const key of HABILITATIONS) {
     if (data[key]) {
-      habilitations.push(key);
+      habilitations.push(key)
     }
   }
 
-  return habilitations;
+  return habilitations
 }
 
 export function OrganisationView({ organisation, lang }: Props) {
-  const { t } = useTranslation("global", { lng: lang });
+  const { t } = useTranslation("global", { lng: lang })
   const defaultValues: FormData = useMemo(() => {
     const values: FormData = {
       "jobs:write": false,
       "appointments:write": false,
       "applications:write": false,
-    };
+    }
 
     for (const habilitation of organisation.habilitations) {
-      values[habilitation] = true;
+      values[habilitation] = true
     }
-    return values;
-  }, [organisation.habilitations]);
+    return values
+  }, [organisation.habilitations])
 
   const {
     handleSubmit,
@@ -66,9 +66,9 @@ export function OrganisationView({ organisation, lang }: Props) {
   } = useForm<FormData>({
     mode: "all",
     defaultValues,
-  });
+  })
 
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
 
   const mutation = useMutation({
     mutationFn: async (data: FormData) => {
@@ -77,28 +77,24 @@ export function OrganisationView({ organisation, lang }: Props) {
         body: {
           habilitations: buildHabilitations(data),
         },
-      });
+      })
     },
     onError: (error) => {
-      captureException(error);
-      console.error(error);
+      captureException(error)
+      console.error(error)
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["/_private/admin/organisations"] });
+      await queryClient.invalidateQueries({ queryKey: ["/_private/admin/organisations"] })
     },
-  });
+  })
 
   if (mutation.isError) {
-    captureException(mutation.error);
+    captureException(mutation.error)
   }
 
   return (
     <>
-      <Breadcrumb
-        pages={[PAGES.static.adminOrganisations, PAGES.dynamic.adminOrganisationView(organisation._id)]}
-        lang={lang}
-        t={t}
-      />
+      <Breadcrumb pages={[PAGES.static.adminOrganisations, PAGES.dynamic.adminOrganisationView(organisation._id)]} lang={lang} t={t} />
       <Typography variant="h2" gutterBottom>
         Fiche organisation
       </Typography>
@@ -129,18 +125,14 @@ export function OrganisationView({ organisation, lang }: Props) {
       <Box component="form" onSubmit={handleSubmit(async (d) => mutation.mutateAsync(d))}>
         <Input label="Nom" nativeInputProps={{ value: organisation.nom, name: "nom" }} disabled />
         <Input label="Slug" nativeInputProps={{ value: organisation.slug, name: "slug" }} disabled />
-        <Input
-          label="Mise à jour le"
-          nativeInputProps={{ value: organisation.updated_at, name: "updated_at" }}
-          disabled
-        />
+        <Input label="Mise à jour le" nativeInputProps={{ value: organisation.updated_at, name: "updated_at" }} disabled />
         <Input label="Créé le" nativeInputProps={{ value: organisation.created_at, name: "created_at" }} disabled />
 
         <Typography variant="h3" gutterBottom marginTop={fr.spacing("5w")}>
           Habilitations
         </Typography>
         {HABILITATIONS.map((habilitation) => {
-          const { name } = register(habilitation);
+          const { name } = register(habilitation)
           return (
             <ToggleSwitch
               key={habilitation}
@@ -148,11 +140,11 @@ export function OrganisationView({ organisation, lang }: Props) {
               defaultChecked={getValues(habilitation)}
               inputTitle={name}
               onChange={async (checked: boolean) => {
-                setValue(habilitation, checked);
-                await trigger(habilitation);
+                setValue(habilitation, checked)
+                await trigger(habilitation)
               }}
             />
-          );
+          )
         })}
 
         <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -162,5 +154,5 @@ export function OrganisationView({ organisation, lang }: Props) {
         </Box>
       </Box>
     </>
-  );
+  )
 }

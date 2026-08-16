@@ -60,7 +60,7 @@
     "commander": "^14.0.0",
     "lint-staged": "^16.1.5",
     "node-talisman": "^1.29.22",
-    "typescript": "^5.9.2",
+    "typescript": "^7.0.2",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.2.7"
   },

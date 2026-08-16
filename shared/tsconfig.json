@@ -10,6 +10,10 @@
     "pretty": true,
     "isolatedModules": true,
     "resolveJsonModule": true,
+    /* TS 7 ne charge plus implicitement tous les @types. */
+    "types": [
+      "node"
+    ],
     "target": "ES2022",
     "outDir": "./dist",
     "esModuleInterop": true,

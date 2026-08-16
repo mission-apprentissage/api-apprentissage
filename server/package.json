@@ -83,7 +83,7 @@
     "csv-stringify": "^6.6.0",
     "nock": "^14.0.10",
     "tsup": "^8.5.0",
-    "typescript": "^5.9.2",
+    "typescript": "^7.0.2",
     "vitest": "^3.2.7"
   },
   "files": [

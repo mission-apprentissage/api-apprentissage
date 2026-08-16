@@ -3,7 +3,8 @@ import path from "path"
 import { fileURLToPath } from "url"
 import { describe, expect, it } from "vitest"
 
-import { isNotionPage, isPage, PAGES } from "./routes.utils"
+import { isNotionPage, isPage } from "./routes.paths"
+import { PAGES } from "./routes.utils"
 
 describe("PAGES", () => {
   const langDir = path.join(path.dirname(fileURLToPath(import.meta.url)), "../app/[lang]")

@@ -4,7 +4,10 @@ import { NextResponse } from "next/server"
 
 import type { Lang } from "./app/i18n/settings"
 import { cookieName, isValidLang, languages } from "./app/i18n/settings"
-import { isPage } from "./utils/routes.utils"
+// `routes.paths` plutôt que `routes.utils` : ce dernier importe `api-alternance-sdk/internal`,
+// dont le barrel embarque le générateur OpenAPI et ses imports `crypto` / `path`. Sans rapport
+// avec le routage, mais tout entiers dans le bundle du proxy.
+import { isPage } from "./utils/routes.paths"
 
 acceptLanguage.languages([...languages])
 
@@ -51,7 +54,7 @@ function isLocalisedPath(pathname: string) {
   return languages.some((lang) => pathname.startsWith(`/${lang}`))
 }
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl
 
   const lang = guessLang(request)

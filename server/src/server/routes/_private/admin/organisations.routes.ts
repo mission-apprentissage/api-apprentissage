@@ -1,11 +1,25 @@
-import { notFound } from "@hapi/boom"
-import { ObjectId } from "mongodb"
+import { conflict, notFound } from "@hapi/boom"
+import type { Filter } from "mongodb"
+import { MongoServerError, ObjectId } from "mongodb"
 import { zRoutes } from "shared"
 import type { IOrganisationInternal } from "shared/models/organisation.model"
 
 import { deleteOrganisation } from "@/actions/organisations.actions.js"
 import type { Server } from "@/server/server.js"
 import { getDbCollection } from "@/services/mongodb/mongodbService.js"
+import { escapeRegExp } from "@/utils/regexUtils.js"
+
+const DUPLICATE_KEY_ERROR_CODE = 11000
+
+function getSlug(nom: string): string {
+  return nom.toLowerCase().replace(/ /g, "-")
+}
+
+async function throwOrganisationConflict(nom: string, slug: string): Promise<never> {
+  const existing = await getDbCollection("organisations").findOne({ $or: [{ nom }, { slug }] })
+
+  throw conflict("Une organisation portant ce nom existe déjà", existing === null ? undefined : { id: existing._id.toString(), nom: existing.nom })
+}
 
 export const organisationAdminRoutes = ({ server }: { server: Server }) => {
   server.get(
@@ -14,8 +28,20 @@ export const organisationAdminRoutes = ({ server }: { server: Server }) => {
       schema: zRoutes.get["/_private/admin/organisations"],
       onRequest: [server.auth(zRoutes.get["/_private/admin/organisations"])],
     },
-    async (_request, response) => {
-      const organisations = await getDbCollection("organisations").find({}).toArray()
+    async (request, response) => {
+      const { q, habilitations } = request.query
+
+      const filter: Filter<IOrganisationInternal> = {}
+
+      if (q) {
+        filter.nom = { $regex: escapeRegExp(q), $options: "i" }
+      }
+
+      if (habilitations && habilitations.length > 0) {
+        filter.habilitations = { $in: habilitations }
+      }
+
+      const organisations = await getDbCollection("organisations").find(filter).toArray()
 
       return response.status(200).send(organisations)
     }
@@ -29,16 +55,34 @@ export const organisationAdminRoutes = ({ server }: { server: Server }) => {
     },
     async (request, response) => {
       const now = new Date()
+      const { nom } = request.body
+      const slug = getSlug(nom)
+
+      const existing = await getDbCollection("organisations").findOne({ $or: [{ nom }, { slug }] })
+
+      if (existing !== null) {
+        await throwOrganisationConflict(nom, slug)
+      }
+
       const organisation: IOrganisationInternal = {
         _id: new ObjectId(),
-        nom: request.body.nom,
-        slug: request.body.nom.toLowerCase().replace(/ /g, "-"),
+        nom,
+        slug,
         habilitations: [],
         updated_at: now,
         created_at: now,
       }
 
-      await getDbCollection("organisations").insertOne(organisation)
+      try {
+        await getDbCollection("organisations").insertOne(organisation)
+      } catch (error) {
+        // Deux créations concurrentes du même nom : l'index unique tranche, on renvoie le même conflit
+        if (error instanceof MongoServerError && error.code === DUPLICATE_KEY_ERROR_CODE) {
+          await throwOrganisationConflict(nom, slug)
+        }
+
+        throw error
+      }
 
       return response.status(200).send(organisation)
     }

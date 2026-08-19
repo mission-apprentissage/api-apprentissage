@@ -8,6 +8,7 @@ import { ToggleSwitch } from "@codegouvfr/react-dsfr/ToggleSwitch"
 import { Box, Snackbar, Typography } from "@mui/material"
 import { captureException } from "@sentry/nextjs"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { ORGANISATION_HABILITATIONS } from "api-alternance-sdk"
 import { useMemo } from "react"
 import { useForm } from "react-hook-form"
 import { useTranslation } from "react-i18next"
@@ -23,16 +24,14 @@ type Props = WithLang<{
   organisation: Jsonify<IOrganisationInternal>
 }>
 
-const HABILITATIONS = ["jobs:write", "appointments:write", "applications:write"] as const // shared/src/security/permissions.ts#L3 ?
-
 type FormData = {
-  [key in (typeof HABILITATIONS)[number]]: boolean
+  [key in (typeof ORGANISATION_HABILITATIONS)[number]]: boolean
 }
 
 function buildHabilitations(data: FormData): IOrganisationInternal["habilitations"] {
   const habilitations: IOrganisationInternal["habilitations"] = []
 
-  for (const key of HABILITATIONS) {
+  for (const key of ORGANISATION_HABILITATIONS) {
     if (data[key]) {
       habilitations.push(key)
     }
@@ -131,7 +130,7 @@ export function OrganisationView({ organisation, lang }: Props) {
         <Typography variant="h3" gutterBottom marginTop={fr.spacing("5w")}>
           Habilitations
         </Typography>
-        {HABILITATIONS.map((habilitation) => {
+        {ORGANISATION_HABILITATIONS.map((habilitation) => {
           const { name } = register(habilitation)
           return (
             <ToggleSwitch

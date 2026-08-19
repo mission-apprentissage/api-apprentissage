@@ -31,7 +31,7 @@ function useUsers(id: string): Result<Jsonify<IUserAdminView>> {
 function useOrganisations(): Result<Jsonify<IOrganisationInternal[]>> {
   const result = useQuery({
     queryKey: ["/_private/admin/organisations"],
-    queryFn: async () => apiGet(`/_private/admin/organisations`, {}),
+    queryFn: async () => apiGet(`/_private/admin/organisations`, { querystring: {} }),
   })
 
   if (result.isError) {

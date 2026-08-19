@@ -16,7 +16,7 @@ function useOrganisation(id: string): Result<Jsonify<IOrganisationInternal | nul
   const result = useQuery({
     queryKey: ["/_private/admin/organisations"],
     queryFn: async () => {
-      return apiGet(`/_private/admin/organisations`, {})
+      return apiGet(`/_private/admin/organisations`, { querystring: {} })
     },
   })
 

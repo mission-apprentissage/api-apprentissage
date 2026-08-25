@@ -3,6 +3,8 @@
 import "./profil.css"
 
 import { fr } from "@codegouvfr/react-dsfr"
+import { Alert } from "@codegouvfr/react-dsfr/Alert"
+import { Badge } from "@codegouvfr/react-dsfr/Badge"
 import { Table } from "@codegouvfr/react-dsfr/Table"
 import { Box, Typography } from "@mui/material"
 import { styled } from "@mui/material/styles"
@@ -44,6 +46,9 @@ const ProfilPage = ({ params }: PropsWithLangParams) => {
         <Typography variant="body1" key="name" className="fr-text--sm">
           {apiKey.name}
         </Typography>,
+        <Badge key="env" severity={apiKey.env === "sandbox" ? "new" : "success"} small>
+          {apiKey.env === "sandbox" ? t("monCompte.envSandbox", { lng: lang }) : t("monCompte.envProduction", { lng: lang })}
+        </Badge>,
         <Typography
           variant="body1"
           key="statut"
@@ -111,6 +116,8 @@ const ProfilPage = ({ params }: PropsWithLangParams) => {
         </Typography>
       </Box>
 
+      <Alert description={t("monCompte.encartSandbox", { lng: lang })} severity="info" small />
+
       {statut !== "actif-ready" && <GenerateApiKey lang={lang} t={t} />}
 
       <Box>
@@ -121,6 +128,7 @@ const ProfilPage = ({ params }: PropsWithLangParams) => {
             fixed
             headers={[
               t("monCompte.nom", { lng: lang }),
+              t("monCompte.environnement", { lng: lang }),
               t("monCompte.statut", { lng: lang }),
               t("monCompte.dateCreation", { lng: lang }),
               t("monCompte.dateExpiration", { lng: lang }),

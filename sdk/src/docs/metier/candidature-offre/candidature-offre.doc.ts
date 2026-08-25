@@ -28,6 +28,10 @@ export const candidatureOffrePageDoc = {
       fr: "Pour utiliser cette API, vous devez d’abord consulter l’API de [recherche d’opportunités d’emploi en alternance](./recherche-offre). Cette dernière vous permettra d’accéder gratuitement en temps réel à l'ensemble des opportunités d'emploi en alternance sur le territoire français. Ensuite, pour chaque opportunité contenant un `apply.recipient_id`, vous pouvez utiliser la présente route d’envoi d’une candidature à cette opportunité d’emploi, en spécifiant `apply.recipient_id` comme destinataire dans les paramètres d’appel.",
       en: "To use this API, you must first query the [alternance job opportunities search API](./recherche-offre). This API allows you to access all the job opportunities in alternance in real time throughout France. Then, for each opportunity with a `apply.recipient_id`, you can use this route to send an application to this job opportunity, specifying `apply.recipient_id` as the recipient in the call parameters.",
     },
+    {
+      en: "This API is intended for services processing a high volume of job applications. Access requests for individual or personal use will not be approved.",
+      fr: "Cette API est réservée aux services traitant un volume important de candidatures. Les demandes d'habilitation  pour un usage individuel ne seront pas accordées.",
+    },
   ],
   frequenceMiseAJour: null,
   type: "data",

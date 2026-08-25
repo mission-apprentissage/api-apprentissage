@@ -50,16 +50,18 @@ export const generateApiKey = async (name: string, env: IApiKeyEnv, user: IUser)
     }
   )
 
-  // Le claim `env` est informatif (debug/support) : la source de vérité à l'authentification reste la clé en base
-  const token = await createUserTokenSimple({
+  return {
+    ...data,
+    value: await createApiKeyToken(user, data),
+  }
+}
+
+// Le claim `env` est informatif (debug/support) : la source de vérité à l'authentification reste la clé en base
+function createApiKeyToken(user: IUser, data: IUser["api_keys"][number]): Promise<string> {
+  return createUserTokenSimple({
     payload: { _id: user._id, api_key: data.key, organisation: user.organisation, email: user.email, env: data.env },
     expiresIn: data.expires_at,
   })
-
-  return {
-    ...data,
-    value: token,
-  }
 }
 
 export async function addTokenValue(user: IUser, data: IUser["api_keys"][number]): Promise<IApiKeyPrivate> {
@@ -67,14 +69,9 @@ export async function addTokenValue(user: IUser, data: IUser["api_keys"][number]
     return { ...data, value: null }
   }
 
-  const token = await createUserTokenSimple({
-    payload: { _id: user._id, api_key: data.key, organisation: user.organisation, email: user.email, env: data.env },
-    expiresIn: data.expires_at,
-  })
-
   return {
     ...data,
-    value: token,
+    value: await createApiKeyToken(user, data),
   }
 }
 

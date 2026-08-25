@@ -323,7 +323,6 @@ describe("User Routes", () => {
           expires_at: in365Days,
           created_at: now,
           key: key1.key,
-
           env: "production",
           expiration_warning_sent: null,
         },
@@ -334,7 +333,6 @@ describe("User Routes", () => {
           expires_at: in365Days,
           created_at: now,
           key: key3.key,
-
           env: "production",
           expiration_warning_sent: null,
         },

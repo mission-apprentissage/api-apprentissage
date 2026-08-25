@@ -43,9 +43,13 @@ async function updateIndicateur(request: FastifyRequest, reply: FastifyReply) {
       date: now,
     }
 
+    // Garde sur env absent (clé issue d'un dump anté-migration) : undefined serait sérialisé en
+    // null par le driver et rejeté par le validateur strict (enum production|sandbox)
+    const apiKeyEnv = request.api_key.env ? { api_key_env: request.api_key.env } : {}
+
     await getDbCollection("indicateurs.usage_api").updateOne(
       metadata,
-      { $setOnInsert: { ...metadata, api_key_env: request.api_key.env, type: getStatusCodeType(reply.statusCode), count: 0 } },
+      { $setOnInsert: { ...metadata, ...apiKeyEnv, type: getStatusCodeType(reply.statusCode), count: 0 } },
       { upsert: true }
     )
     await getDbCollection("indicateurs.usage_api").updateOne(metadata, [{ $set: { count: { $add: ["$count", 1] } } }], {

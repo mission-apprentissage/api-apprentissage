@@ -1,6 +1,5 @@
 import { useMongo } from "@tests/mongo.test.utils.js"
-import { ObjectId } from "mongodb"
-import { generateUserFixture } from "shared/models/fixtures/user.model.fixture"
+import { generateApiKeyFixture, generateUserFixture } from "shared/models/fixtures/user.model.fixture"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { sendEmail } from "@/services/mailer/mailer.js"
 import { getDbCollection } from "@/services/mongodb/mongodbService.js"
@@ -30,69 +29,20 @@ describe("ApiKeyExpirationNotifier", () => {
 
   const userOk = generateUserFixture({
     email: "ok@exemple.fr",
-    api_keys: [
-      {
-        _id: new ObjectId(),
-        name: "in-2-months",
-        expires_at: in2Months,
-        created_at: ago1Year,
-        last_used_at: null,
-        expiration_warning_sent: null,
-        key: "value",
-        env: "production",
-      },
-    ],
+    api_keys: [generateApiKeyFixture({ name: "in-2-months", expires_at: in2Months, created_at: ago1Year })],
   })
 
   const userExpireIn30Days = generateUserFixture({
     email: "expire30Days@exemple.fr",
-    api_keys: [
-      {
-        _id: new ObjectId(),
-        name: "in-30-days",
-        expires_at: in30Days,
-        created_at: ago1Year,
-        last_used_at: null,
-        expiration_warning_sent: null,
-        key: "value",
-        env: "production",
-      },
-    ],
+    api_keys: [generateApiKeyFixture({ name: "in-30-days", expires_at: in30Days, created_at: ago1Year })],
   })
 
   const userMultiKeys = generateUserFixture({
     email: "multiKeys@exemple.fr",
     api_keys: [
-      {
-        _id: new ObjectId(),
-        name: "in-30-days",
-        expires_at: in30Days,
-        created_at: ago1Year,
-        last_used_at: null,
-        expiration_warning_sent: null,
-        key: "value",
-        env: "production",
-      },
-      {
-        _id: new ObjectId(),
-        name: "in-15-days",
-        expires_at: in15Days,
-        created_at: ago1Year,
-        last_used_at: null,
-        expiration_warning_sent: null,
-        key: "value",
-        env: "production",
-      },
-      {
-        _id: new ObjectId(),
-        name: "in-2-months",
-        expires_at: in2Months,
-        created_at: ago1Year,
-        last_used_at: null,
-        expiration_warning_sent: null,
-        key: "value",
-        env: "production",
-      },
+      generateApiKeyFixture({ name: "in-30-days", expires_at: in30Days, created_at: ago1Year }),
+      generateApiKeyFixture({ name: "in-15-days", expires_at: in15Days, created_at: ago1Year }),
+      generateApiKeyFixture({ name: "in-2-months", expires_at: in2Months, created_at: ago1Year }),
     ],
   })
 

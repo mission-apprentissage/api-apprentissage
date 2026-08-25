@@ -1,18 +1,20 @@
 import { captureException } from "@sentry/node"
-import { modelDescriptors } from "shared/models/models"
 
 import { startCLI } from "./commands.js"
 import config from "./config.js"
 import { setupJobProcessor } from "./jobs/jobs.js"
 import logger from "./services/logger.js"
 import { initMailer } from "./services/mailer/mailer.js"
-import { configureDbSchemaValidation, connectToMongodb } from "./services/mongodb/mongodbService.js"
+import { connectToMongodb } from "./services/mongodb/mongodbService.js"
 import { closeSentry } from "./services/sentry/sentry.js"
 
 void (async function () {
   try {
+    // La validation de schéma ($jsonSchema strict) n'est PAS appliquée ici : une commande en
+    // lecture seule (migrations:status, lancée par le déploiement avant la maintenance) poserait
+    // le nouveau validateur alors que l'ancien serveur écrit encore. Elle est appliquée au
+    // démarrage du serveur, du job processor, et après migrations:up.
     await connectToMongodb(config.mongodb.uri)
-    await configureDbSchemaValidation(modelDescriptors)
 
     // We need to setup even for server to be able to call addJob
     await setupJobProcessor()

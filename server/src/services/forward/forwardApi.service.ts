@@ -100,7 +100,8 @@ async function getResponse(request: ForwardApiRequestConfig, identity: Identity)
   const errorContext = { request, url, apiKeyEnv: identity.apiKeyEnv }
 
   try {
-    const headers = request.requestInit instanceof Headers ? request.requestInit : new Headers(request.requestInit.headers)
+    // requestInit est un RequestInit, jamais un Headers : le constructeur accepte tout HeadersInit (ou undefined)
+    const headers = new Headers(request.requestInit.headers)
 
     headers.append("Authorization", await createAuthToken(identity))
 

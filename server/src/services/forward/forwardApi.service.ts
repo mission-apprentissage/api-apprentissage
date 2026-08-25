@@ -1,6 +1,6 @@
 import { gatewayTimeout, internal, isBoom } from "@hapi/boom"
 import { captureException } from "@sentry/node"
-import { createApiAlternanceToken } from "api-alternance-sdk"
+import { createApiAlternanceToken, ORGANISATION_HABILITATIONS } from "api-alternance-sdk"
 import type { FastifyReply, FastifyRequest } from "fastify"
 import type { HttpHeader } from "fastify/types/utils.js"
 import type { IOrganisationInternal } from "shared/models/organisation.model"
@@ -63,23 +63,23 @@ function hasHabilitation(organisation: IOrganisationInternal | null, habilitatio
 }
 
 export async function createAuthToken({ user, organisation, apiKeyEnv }: Identity, expiresIn: string | null = null): Promise<string> {
-  // Sandbox : le token porte les 3 habilitations d'écriture et est signé avec la clé privée sandbox,
-  // destinée à correspondre à la clé publique de LBA recette (appairage posé par la procédure
-  // manuelle du vault — non vérifiable depuis ce repo ; l'isolation vis-à-vis de LBA production
-  // est testée sur la paire de test dans job.route.test.ts).
-  // NOTE : l'autorisation côté API (authorisationService) ne connaît pas encore l'env de la clé —
-  // le self-service sandbox n'est effectif qu'avec la phase 3 (SandboxRole), cf. issue lba#5236.
+  // Sandbox : le token porte les habilitations d'écriture (miroir de SandboxRole côté autorisation,
+  // même source ORGANISATION_HABILITATIONS) et est signé avec la clé privée sandbox, destinée à
+  // correspondre à la clé publique de LBA recette (appairage posé par la procédure manuelle du
+  // vault — non vérifiable depuis ce repo ; l'isolation vis-à-vis de LBA production est testée
+  // sur la paire de test dans job.route.test.ts).
   const isSandbox = apiKeyEnv === "sandbox"
+
+  // LBA rejette tout token sans organisation (et l'utilise comme partner_label des offres) :
+  // en sandbox, un utilisateur sans organisation reçoit un label synthétique traçable qui isole
+  // ses données de test de celles des autres utilisateurs
+  const organisationLabel = isSandbox ? (user.organisation ?? `sandbox:${user.email}`) : user.organisation
 
   const token = await createApiAlternanceToken({
     data: {
       email: user.email,
-      organisation: user.organisation,
-      habilitations: {
-        "jobs:write": isSandbox || hasHabilitation(organisation, "jobs:write"),
-        "applications:write": isSandbox || hasHabilitation(organisation, "applications:write"),
-        "appointments:write": isSandbox || hasHabilitation(organisation, "appointments:write"),
-      },
+      organisation: organisationLabel,
+      habilitations: Object.fromEntries(ORGANISATION_HABILITATIONS.map((habilitation) => [habilitation, isSandbox || hasHabilitation(organisation, habilitation)])),
     },
     privateKey: isSandbox ? config.api.alternance.private_key_sandbox : config.api.alternance.private_key,
     expiresIn,

@@ -380,8 +380,9 @@ describe("POST /formation/v1/appointment/generate-link", () => {
     expect(result).toEqual(data)
   })
 
-  it("should forward sandbox key request to the sandbox endpoint", async () => {
-    const sandboxToken = (await generateApiKey("", "sandbox", users.appointmentsWrite)).value
+  // users.basic n'a ni organisation ni habilitation : c'est SandboxRole qui autorise (self-service)
+  it("should forward sandbox key request from a non-habilitated user to the sandbox endpoint", async () => {
+    const sandboxToken = (await generateApiKey("", "sandbox", users.basic)).value
 
     // Seul l'endpoint sandbox est nocké : un forward vers l'endpoint production ferait échouer le test
     nock(config.api.lba.endpoint_sandbox)

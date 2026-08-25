@@ -29,9 +29,11 @@ export const AdminRole = {
   permissions: ["admin", "user:manage", "jobs:write"],
 } satisfies Role
 
-// Rôle porté par une clé API sandbox : les habilitations métier sont accordées d'office
-// (self-service), et rien d'autre — jamais admin ni user:manage. Même source de vérité que
-// les habilitations du token forwardé (forwardApi.service côté serveur).
+// Rôle porté par une clé API sandbox : les habilitations métier (écriture forwardée vers LBA
+// recette) sont accordées d'office — self-service — jamais admin ni user:manage. Le rôle REMPLACE
+// le rôle organisation : révoquer les habilitations d'une organisation ne bloque pas ses clés
+// sandbox (remédiation : suppression des clés). Les routes de lecture (access: null) ne passent
+// pas par les rôles et servent les mêmes données quelle que soit la clé.
 export const SandboxRole = {
   name: "sandbox",
   permissions: [...ORGANISATION_HABILITATIONS],

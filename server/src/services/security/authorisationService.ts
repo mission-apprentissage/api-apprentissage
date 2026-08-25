@@ -55,18 +55,14 @@ export async function getResources<S extends WithSecurityScheme>(schema: S, req:
   }
 }
 
-function getUserRole(userOrToken: IAccessToken | IUser, organisation: IOrganisationInternal | null, apiKeyEnv: IApiKeyEnv | null): Role {
-  if ("identity" in userOrToken) {
-    return getBaseRole(organisation)
-  }
-
+function getUserRole(user: IUser, organisation: IOrganisationInternal | null, apiKeyEnv: IApiKeyEnv | null): Role {
   // Une clé sandbox REMPLACE le rôle, y compris pour un admin : ses permissions sont exactement
   // les habilitations métier (self-service), jamais admin ni user:manage
   if (apiKeyEnv === "sandbox") {
     return SandboxRole
   }
 
-  return userOrToken.is_admin ? AdminRole : getBaseRole(organisation)
+  return user.is_admin ? AdminRole : getBaseRole(organisation)
 }
 
 function canAccessUser(user: IUser, resource: Ressources["users"][number]): boolean {

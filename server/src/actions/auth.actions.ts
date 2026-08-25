@@ -104,7 +104,10 @@ export async function registerUser(email: string, data: IBody<IPostRoutes["/_pri
     throw conflict("Un compte associé à cet email existe déjà. Nous vous avons envoyé un lien de connexion, veuillez consulter vos emails.")
   }
 
-  // Double garde : un token de registre émis avant la fermeture des inscriptions reste valable 30 jours
+  // Double garde VOULUE : un token de registre émis avant la fermeture reste cryptographiquement
+  // valable 30 jours — c'est précisément pourquoi la création de NOUVEAUX comptes doit être
+  // re-refusée ici. Les détenteurs de compte existants sont servis par le bloc existingUser
+  // ci-dessus (magic-link + 409) avant d'atteindre cette garde.
   throwIfSignupDisabled(email)
 
   const now = new Date()

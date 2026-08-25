@@ -83,11 +83,11 @@
     "environnement": "Environment",
     "typeJeton": "Token type",
     "typeJetonSandbox": "Sandbox — to test your integration",
-    "typeJetonSandboxHint": "Write habilitations are granted automatically. Job offers, applications and appointments are sent to a La bonne alternance test environment. Read data is identical to production.",
+    "typeJetonSandboxHint": "Write habilitations are granted automatically. All exchanges with La bonne alternance (job search and posting, applications, appointments) go through a test environment. Other API data (certifications, trainings, organisations, geography) is identical to production.",
     "typeJetonProduction": "Production",
-    "typeJetonProductionHint": "Writes go to La bonne alternance in production. Your organisation's write habilitations apply.",
+    "typeJetonProductionHint": "Exchanges with La bonne alternance happen in production. Your organisation's write habilitations apply.",
     "envSandbox": "Sandbox",
     "envProduction": "Production",
-    "encartSandbox": "A sandbox token lets you test writes (job offer, application, appointment) without any habilitation: they are sent to a La bonne alternance test environment. Reads serve the same data as production. To write in production, create a production token (habilitations required)."
+    "encartSandbox": "A sandbox token lets you test your integration without any habilitation: all exchanges with La bonne alternance (job offers, applications, appointments) go through a test environment."
   }
 }

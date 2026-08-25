@@ -12,6 +12,7 @@ import type { TooltipProps } from "@mui/material/Tooltip"
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip"
 import { use, useMemo } from "react"
 import { useTranslation } from "react-i18next"
+import type { IApiKeyEnv } from "shared/models/user.model"
 import type { PropsWithLangParams } from "@/app/i18n/settings"
 import { DsfrLink } from "@/components/link/DsfrLink"
 import { PAGES } from "@/utils/routes.utils"
@@ -25,6 +26,13 @@ const CustomWidthTooltip = styled(({ className, ...props }: TooltipProps) => <To
     maxWidth: "none",
   },
 })
+
+// Record dérivé de IApiKeyEnv : un nouvel environnement casse la compilation au lieu de retomber
+// silencieusement sur le badge production
+const ENV_BADGE = {
+  sandbox: { severity: "new", label: "monCompte.envSandbox" },
+  production: { severity: "info", label: "monCompte.envProduction" },
+} as const satisfies Record<IApiKeyEnv, { severity: "new" | "info"; label: string }>
 
 const ProfilPage = ({ params }: PropsWithLangParams) => {
   const { lang } = use(params)
@@ -46,8 +54,8 @@ const ProfilPage = ({ params }: PropsWithLangParams) => {
         <Typography variant="body1" key="name" className="fr-text--sm">
           {apiKey.name}
         </Typography>,
-        <Badge key="env" severity={apiKey.env === "sandbox" ? "new" : "success"} small>
-          {apiKey.env === "sandbox" ? t("monCompte.envSandbox", { lng: lang }) : t("monCompte.envProduction", { lng: lang })}
+        <Badge key="env" severity={ENV_BADGE[apiKey.env].severity} small>
+          {t(ENV_BADGE[apiKey.env].label, { lng: lang })}
         </Badge>,
         <Typography
           variant="body1"

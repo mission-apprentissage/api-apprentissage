@@ -83,11 +83,11 @@
     "environnement": "Environnement",
     "typeJeton": "Type de jeton",
     "typeJetonSandbox": "Sandbox — pour tester votre intégration",
-    "typeJetonSandboxHint": "Habilitations d'écriture accordées automatiquement. Les offres, candidatures et rendez-vous partent vers un environnement de test La bonne alternance. Les données de lecture sont identiques à la production.",
+    "typeJetonSandboxHint": "Habilitations d'écriture accordées automatiquement. Tous les échanges avec La bonne alternance (recherche et dépôt d'offres, candidatures, rendez-vous) passent par un environnement de test. Les autres données de l'API (certifications, formations, organismes, géographie) sont identiques à la production.",
     "typeJetonProduction": "Production",
-    "typeJetonProductionHint": "Les écritures partent vers La bonne alternance en production. Les habilitations d'écriture de votre organisation s'appliquent.",
+    "typeJetonProductionHint": "Les échanges avec La bonne alternance se font en production. Les habilitations d'écriture de votre organisation s'appliquent.",
     "envSandbox": "Sandbox",
     "envProduction": "Production",
-    "encartSandbox": "Un jeton sandbox permet de tester les écritures (dépôt d'offre, candidature, rendez-vous) sans habilitation : elles sont envoyées vers un environnement de test La bonne alternance. Les lectures servent les mêmes données qu'en production. Pour écrire en production, créez un jeton production (habilitations requises)."
+    "encartSandbox": "Un jeton sandbox permet de tester votre intégration sans habilitation : tous les échanges avec La bonne alternance (offres, candidatures, rendez-vous) passent par un environnement de test."
   }
 }

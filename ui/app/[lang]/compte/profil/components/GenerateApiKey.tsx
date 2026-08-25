@@ -47,7 +47,9 @@ export function GenerateApiKey({ lang, t }: WithLangAndT) {
       mutation.reset()
       await mutation.mutateAsync(data)
       generateApiKeyModal.close()
-      reset()
+      // Valeurs explicites : reset() sans argument déclenche un form.reset() natif qui décoche
+      // les radios (aucun defaultChecked HTML)
+      reset({ name: "", env: "sandbox" })
     } catch (error) {
       console.error(error)
       if (error instanceof ApiError && error.context.statusCode < 500) {
@@ -134,8 +136,6 @@ export function GenerateApiKey({ lang, t }: WithLangAndT) {
           />
           <RadioButtons
             legend={t("monCompte.typeJeton", { lng: lang })}
-            state={errors?.env ? "error" : "default"}
-            stateRelatedMessage={errors?.env?.message ?? "Erreur de validation"}
             options={[
               {
                 label: t("monCompte.typeJetonSandbox", { lng: lang }),

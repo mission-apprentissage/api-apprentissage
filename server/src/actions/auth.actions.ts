@@ -1,9 +1,10 @@
-import { conflict } from "@hapi/boom"
+import { conflict, forbidden } from "@hapi/boom"
 import { ObjectId } from "mongodb"
 import type { IBody, IPostRoutes } from "shared"
 import { zRoutes } from "shared"
 import type { IUser } from "shared/models/user.model"
 
+import config from "@/config.js"
 import { sendEmail } from "@/services/mailer/mailer.js"
 import { getDbCollection } from "@/services/mongodb/mongodbService.js"
 import { generateAccessToken, generateScope } from "@/services/security/accessTokenService.js"
@@ -62,6 +63,11 @@ export async function sendRequestLoginEmail(email: string) {
   const user = await getDbCollection("users").findOne({ email })
 
   if (!user) {
+    // Inscriptions fermées (recette pré-prod interne) : les comptes existants continuent
+    // de se connecter, seuls les nouveaux comptes sont refusés
+    if (config.signup_disabled) {
+      throw forbidden("Les inscriptions sont fermées sur cet environnement. La sandbox est disponible sur https://api.apprentissage.beta.gouv.fr")
+    }
     await sendRegisterEmail(email)
   } else {
     await sendMagicLinkEmail(email, user.organisation)
@@ -78,6 +84,11 @@ export async function sendRegisterFeedbackEmail(from: string, data: IBody<IPostR
 }
 
 export async function registerUser(email: string, data: IBody<IPostRoutes["/_private/auth/register"]>): Promise<IUser> {
+  // Double garde : un token de registre émis avant la fermeture des inscriptions reste valable 30 jours
+  if (config.signup_disabled) {
+    throw forbidden("Les inscriptions sont fermées sur cet environnement. La sandbox est disponible sur https://api.apprentissage.beta.gouv.fr")
+  }
+
   const existingUser = await getDbCollection("users").findOne({ email })
 
   if (existingUser) {

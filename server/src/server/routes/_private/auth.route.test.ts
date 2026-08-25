@@ -1,7 +1,7 @@
 import { useMongo } from "@tests/mongo.test.utils.js"
 import { ObjectId } from "mongodb"
 import { generateOrganisationFixture, generateUserFixture } from "shared/models/fixtures/index"
-import { beforeAll, describe, expect, it, vi } from "vitest"
+import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest"
 
 import { generateMagicLinkToken, generateRegisterToken } from "@/actions/auth.actions.js"
 import { createSession, createSessionToken, getSession } from "@/actions/sessions.actions.js"
@@ -235,6 +235,50 @@ describe("Authentication", () => {
 
       // `exp` est bien porté par le jeton décodé — cf. l'assertion ci-dessus — mais absent du type IAccessToken.
       expect((accessToken as unknown as { exp: number }).exp).toBeLessThanOrEqual(Date.now() / 1_000 + 7 * 24 * 3600)
+    })
+
+    describe("when signup is disabled (recette pré-prod interne)", () => {
+      beforeEach(() => {
+        config.signup_disabled = true
+        return () => {
+          config.signup_disabled = false
+        }
+      })
+
+      it("should reject unknown emails with 403 and send nothing", async () => {
+        const response = await app.inject({
+          method: "POST",
+          url: "/api/_private/auth/login-request",
+          payload: {
+            email: "nouveau@exemple.fr",
+          },
+        })
+
+        expect(response.statusCode).toBe(403)
+        expect(vi.mocked(sendEmail)).not.toHaveBeenCalled()
+      })
+
+      it("should still send magic-link to existing users", async () => {
+        const user = generateUserFixture({
+          email: "user@exemple.fr",
+        })
+        await getDbCollection("users").insertOne(user)
+
+        const response = await app.inject({
+          method: "POST",
+          url: "/api/_private/auth/login-request",
+          payload: {
+            email: "user@exemple.fr",
+          },
+        })
+
+        expect(response.statusCode).toBe(200)
+        expect(vi.mocked(sendEmail)).toHaveBeenCalledWith({
+          name: "magic-link",
+          to: "user@exemple.fr",
+          token: expect.any(String),
+        })
+      })
     })
   })
 

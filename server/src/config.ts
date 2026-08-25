@@ -53,6 +53,8 @@ const config = {
     },
   },
   disable_processors: env.get("DISABLE_PROCESSORS").default("false").asBool(),
+  // Recette pré-prod interne : refuse les nouveaux comptes (les comptes existants restent valides)
+  signup_disabled: env.get("SIGNUP_DISABLED").default("false").asBool(),
   api: {
     alternance: {
       public_cert: env.get("API_TOKEN_PUBLIC_KEY").required().asString(),

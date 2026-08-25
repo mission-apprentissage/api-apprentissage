@@ -2,6 +2,7 @@ import "react-notion-x/src/styles.css"
 
 import { fr } from "@codegouvfr/react-dsfr"
 import MuiDsfrThemeProvider from "@codegouvfr/react-dsfr/mui"
+import { Notice } from "@codegouvfr/react-dsfr/Notice"
 import { createGetHtmlAttributes, DsfrHeadBase } from "@codegouvfr/react-dsfr/next-app-router/server-only-index"
 import { Box } from "@mui/material"
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter"
@@ -17,6 +18,7 @@ import type { PropsWithLangParams } from "@/app/i18n/settings"
 import { languages } from "@/app/i18n/settings"
 import Footer from "@/components/Footer"
 import { Header } from "@/components/header/Header"
+import { publicConfig } from "@/config.public"
 import { AuthContextProvider } from "@/context/AuthContext"
 import { defaultColorScheme } from "@/theme/defaultColorScheme"
 import type { ApiError } from "@/utils/api.utils"
@@ -95,6 +97,15 @@ export default async function LangLayout({ children, params }: PropsWithChildren
               <StartDsfrOnHydration />
               <MuiDsfrThemeProvider>
                 <Header lang={lang} />
+                {publicConfig.env === "recette" && (
+                  <Notice
+                    title={
+                      lang === "fr"
+                        ? "Environnement de pré-production interne — pour tester l'API, créez une clé sandbox sur api.apprentissage.beta.gouv.fr"
+                        : "Internal pre-production environment — to test the API, create a sandbox key on api.apprentissage.beta.gouv.fr"
+                    }
+                  />
+                )}
                 <Box
                   sx={{
                     minHeight: "60vh",

@@ -120,8 +120,9 @@ const nockMatchSandboxAuthorization = (u: IUser) => {
         },
         success: true,
       })
-      // Isolation structurelle : le token sandbox est invérifiable par LBA production
-      await expect.soft(parseApiAlternanceToken({ token, publicKey: config.api.alternance.public_cert })).resolves.toMatchObject({ success: false })
+      // Isolation structurelle : le token sandbox est invérifiable par la clé publique production.
+      // reason ciblé : seul invalid-signature prouve l'isolation (pas missing-bearer/invalid-format)
+      await expect.soft(parseApiAlternanceToken({ token, publicKey: config.api.alternance.public_cert })).resolves.toEqual({ success: false, reason: "invalid-signature" })
     },
   }
 }
@@ -160,15 +161,18 @@ const nockMatchUserAuthorization = (u: IUser, habilitations: string[]) => {
 }
 
 beforeEach(async () => {
-  await getDbCollection("users").insertMany(Object.values(users))
-  await getDbCollection("organisations").insertMany(Object.values(organisations))
-  tokens.basic = (await generateApiKey("", "production", users.basic)).value
-  tokens.read = (await generateApiKey("", "production", users.read)).value
-  tokens.jobWrite = (await generateApiKey("", "production", users.jobWrite)).value
-  tokens.applicationWrite = (await generateApiKey("", "production", users.applicationWrite)).value
-  tokens.appointmentsWrite = (await generateApiKey("", "production", users.appointmentsWrite)).value
-  tokens.basicSandbox = (await generateApiKey("", "sandbox", users.basic)).value
-  tokens.jobWriteSandbox = (await generateApiKey("", "sandbox", users.jobWrite)).value
+  await Promise.all([getDbCollection("users").insertMany(Object.values(users)), getDbCollection("organisations").insertMany(Object.values(organisations))])
+  ;[tokens.basic, tokens.read, tokens.jobWrite, tokens.applicationWrite, tokens.appointmentsWrite, tokens.basicSandbox, tokens.jobWriteSandbox] = (
+    await Promise.all([
+      generateApiKey("", "production", users.basic),
+      generateApiKey("", "production", users.read),
+      generateApiKey("", "production", users.jobWrite),
+      generateApiKey("", "production", users.applicationWrite),
+      generateApiKey("", "production", users.appointmentsWrite),
+      generateApiKey("", "sandbox", users.basic),
+      generateApiKey("", "sandbox", users.jobWrite),
+    ])
+  ).map((k) => k.value)
 })
 
 describe("GET /job/v1/search", () => {
@@ -422,6 +426,26 @@ describe("sandbox key routing", () => {
     await expectAuth()
     expect.soft(response.statusCode).toBe(200)
     expect(response.json()).toEqual({ id: "1" })
+  })
+
+  // Verrouille le comportement de la phase 2 : l'autorisation côté API ne connaît pas encore
+  // l'env de la clé, une clé sandbox sans organisation habilitée est refusée AVANT le forward.
+  // La phase 3 (SandboxRole) fera passer ce cas à 200 — ce test devra alors être inversé.
+  it("should returns 403 for a sandbox key without habilitation until phase 3", async () => {
+    const response = await app.inject({
+      method: "POST",
+      url: "/api/job/v1/offer",
+      body: {
+        offer: { title: "Opérations administratives", description: "Exécute des travaux administratifs courants" },
+        workplace: { siret: "11000001500013" },
+        apply: {},
+      },
+      headers: {
+        Authorization: `Bearer ${tokens.basicSandbox}`,
+      },
+    })
+
+    expect(response.statusCode).toBe(403)
   })
 })
 

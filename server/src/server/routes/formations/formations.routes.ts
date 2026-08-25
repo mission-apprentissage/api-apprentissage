@@ -2,7 +2,7 @@ import { zRoutes } from "shared"
 
 import type { Server } from "@/server/server.js"
 import { getFormationByCleMe, searchFormation } from "@/services/formation/formation.service.js"
-import { forwardApiRequest } from "@/services/forward/forwardApi.service.js"
+import { buildForwardIdentity, forwardApiRequest } from "@/services/forward/forwardApi.service.js"
 import { getUserFromRequest } from "@/services/security/authenticationService.js"
 
 export const formationRoutes = ({ server }: { server: Server }) => {
@@ -50,7 +50,7 @@ export const formationRoutes = ({ server }: { server: Server }) => {
           },
         },
         response,
-        { user, organisation: request.organisation ?? null, apiKeyEnv: request.api_key?.env ?? "production" }
+        buildForwardIdentity(user, request)
       )
     }
   )

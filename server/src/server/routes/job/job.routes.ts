@@ -2,7 +2,7 @@ import { zRoutes } from "shared"
 
 import config from "@/config.js"
 import type { Server } from "@/server/server.js"
-import { forwardApiRequest } from "@/services/forward/forwardApi.service.js"
+import { buildForwardIdentity, forwardApiRequest } from "@/services/forward/forwardApi.service.js"
 import { getUserFromRequest } from "@/services/security/authenticationService.js"
 
 export const jobRoutes = ({ server }: { server: Server }) => {
@@ -24,7 +24,7 @@ export const jobRoutes = ({ server }: { server: Server }) => {
           requestInit: { method: "GET" },
         },
         response,
-        { user, organisation: request.organisation ?? null, apiKeyEnv: request.api_key?.env ?? "production" }
+        buildForwardIdentity(user, request)
       )
     }
   )
@@ -49,7 +49,7 @@ export const jobRoutes = ({ server }: { server: Server }) => {
           },
         },
         response,
-        { user, organisation: request.organisation ?? null, apiKeyEnv: request.api_key?.env ?? "production" }
+        buildForwardIdentity(user, request)
       )
     }
   )
@@ -75,7 +75,7 @@ export const jobRoutes = ({ server }: { server: Server }) => {
           },
         },
         response,
-        { user, organisation: request.organisation ?? null, apiKeyEnv: request.api_key?.env ?? "production" }
+        buildForwardIdentity(user, request)
       )
     }
   )
@@ -100,7 +100,7 @@ export const jobRoutes = ({ server }: { server: Server }) => {
           },
         },
         response,
-        { user, organisation: request.organisation ?? null, apiKeyEnv: request.api_key?.env ?? "production" }
+        buildForwardIdentity(user, request)
       )
     }
   )
@@ -121,7 +121,7 @@ export const jobRoutes = ({ server }: { server: Server }) => {
           requestInit: { method: "GET" },
         },
         response,
-        { user, organisation: request.organisation ?? null, apiKeyEnv: request.api_key?.env ?? "production" }
+        buildForwardIdentity(user, request)
       )
     }
   )
@@ -142,7 +142,7 @@ export const jobRoutes = ({ server }: { server: Server }) => {
           requestInit: { method: "GET" },
         },
         response,
-        { user, organisation: request.organisation ?? null, apiKeyEnv: request.api_key?.env ?? "production" }
+        buildForwardIdentity(user, request)
       )
     }
   )
@@ -163,7 +163,7 @@ export const jobRoutes = ({ server }: { server: Server }) => {
           requestInit: { method: "GET" },
         },
         response,
-        { user, organisation: request.organisation ?? null, apiKeyEnv: request.api_key?.env ?? "production" }
+        buildForwardIdentity(user, request)
       )
     }
   )

@@ -7,6 +7,11 @@ export const zApiAlternanceTokenData = z.object({
   email: z.string().check(z.email()),
   organisation: z.nullable(z.string()),
   habilitations: z.record(z.string(), z.boolean()),
+  // Environnement de la clé API émettrice. Optionnel (tokens antérieurs au champ) et défense en
+  // profondeur uniquement : l'isolation sandbox/production est portée par les paires de clés de
+  // signature distinctes, ce claim permet en plus à un vérificateur de rejeter explicitement un
+  // token sandbox (ex. LBA production).
+  env: z.optional(z.enum(["production", "sandbox"])),
 })
 
 export type IApiAlternanceTokenData = z.output<typeof zApiAlternanceTokenData>

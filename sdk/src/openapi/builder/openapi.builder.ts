@@ -38,9 +38,9 @@ function getContactName(lang: "en" | "fr" | null): string {
 function getSecuritySchemeDescription(lang: "en" | "fr" | null): string {
   switch (lang) {
     case "fr":
-      return "Clé d'API à fournir dans le header `Authorization`. Si la route nécessite une habilitation particulière veuillez contacter le support pour en faire la demande à [support_api@apprentissage.beta.gouv.fr](mailto:support_api@apprentissage.beta.gouv.fr)"
+      return "Clé d'API à fournir dans le header `Authorization`. Si la route nécessite une habilitation particulière, une clé de type **sandbox** l'obtient automatiquement (les écritures partent alors vers un environnement de test) ; pour une clé de type **production**, veuillez contacter le support pour en faire la demande à [support_api@apprentissage.beta.gouv.fr](mailto:support_api@apprentissage.beta.gouv.fr)"
     case "en":
-      return "API key to provide in the `Authorization` header. If the route requires a particular authorization, please contact support to request it at [support_api@apprentissage.beta.gouv.fr](mailto:support_api@apprentissage.beta.gouv.fr)"
+      return "API key to provide in the `Authorization` header. If the route requires a particular authorization, a **sandbox** API key is granted it automatically (writes then go to a test environment); for a **production** key, please contact support to request it at [support_api@apprentissage.beta.gouv.fr](mailto:support_api@apprentissage.beta.gouv.fr)"
     default:
       return ""
   }
@@ -49,7 +49,19 @@ function getSecuritySchemeDescription(lang: "en" | "fr" | null): string {
 function getApiDescription(lang: "en" | "fr" | null): string {
   switch (lang) {
     case "fr":
-      return `# Limites de débit (rate limiting)
+      return `# Environnements : production et sandbox
+
+L'environnement est porté par le **type de votre clé API** (choisi à la création, sur [votre compte](https://api.apprentissage.beta.gouv.fr/compte/profil)), pas par l'URL — les deux environnements répondent sur la même adresse.
+
+| | Clé **sandbox** | Clé **production** |
+|---|---|---|
+| Habilitations d'écriture | Accordées automatiquement | Sur demande au support |
+| Échanges La bonne alternance (offres, candidatures, rendez-vous) | Environnement de test | Production |
+| Autres données (certifications, formations, organismes, géographie) | Identiques à la production | Production |
+
+Commencez avec une clé sandbox pour développer votre intégration, puis créez une clé production pour passer en réel.
+
+# Limites de débit (rate limiting)
 
 Pour garantir la disponibilité du service à l'ensemble des consommateurs, chaque endpoint est soumis à une limite d'appels **par consommateur** (clé d'API). Les limites précises sont indiquées dans la description de chaque endpoint.
 
@@ -74,7 +86,19 @@ Lorsque votre quota est atteint, l'API renvoie un code **HTTP 429 — Too Many R
 - Implémentez un mécanisme de retry avec backoff exponentiel respectant le \`retry-after\`.
 - Si vos volumes nécessitent des limites supérieures, contactez [support_api@apprentissage.beta.gouv.fr](mailto:support_api@apprentissage.beta.gouv.fr).`
     case "en":
-      return `# Rate limiting
+      return `# Environments: production and sandbox
+
+The environment is carried by the **type of your API key** (chosen at creation, on [your account](https://api.apprentissage.beta.gouv.fr/compte/profil)), not by the URL — both environments respond on the same address.
+
+| | **Sandbox** key | **Production** key |
+|---|---|---|
+| Write habilitations | Granted automatically | On request to support |
+| La bonne alternance exchanges (job offers, applications, appointments) | Test environment | Production |
+| Other data (certifications, trainings, organisations, geography) | Identical to production | Production |
+
+Start with a sandbox key to build your integration, then create a production key to go live.
+
+# Rate limiting
 
 To ensure service availability for all consumers, each endpoint enforces a per-consumer (API key) call limit. Specific limits are documented in each endpoint's description.
 
@@ -139,10 +163,16 @@ export function buildOpenApiSchema(version: string, env: string, publicUrl: stri
         email: "support_api@apprentissage.beta.gouv.fr",
       },
     },
+    // Deux entrées avec la même URL : l'environnement est porté par le type de la clé API,
+    // pas par l'hôte — le sélecteur de server sert de documentation du choix
     servers: [
       {
         url: publicUrl,
-        description: env,
+        description: lang === "fr" ? `Production (${env}) — clé API de type production` : `Production (${env}) — production API key`,
+      },
+      {
+        url: publicUrl,
+        description: lang === "fr" ? `Sandbox (${env}) — clé API de type sandbox` : `Sandbox (${env}) — sandbox API key`,
       },
     ],
     tags: Object.values(openapiSpec.tags).map(({ name, description }) => ({

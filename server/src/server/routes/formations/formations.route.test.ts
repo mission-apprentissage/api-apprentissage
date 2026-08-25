@@ -256,6 +256,7 @@ const nockMatchUserAuthorization = (u: IUser, habilitations: string[]) => {
               "jobs:write": false,
             }),
             organisation: u.organisation,
+            env: "production",
           },
           success: true,
         })

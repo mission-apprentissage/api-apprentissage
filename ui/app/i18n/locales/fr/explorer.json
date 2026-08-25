@@ -11,7 +11,8 @@
   },
   "habilitationRequise": {
     "titre": "L’utilisation de cet outil nécessite une habilitation",
-    "faireDemande": "Faire une demande"
+    "faireDemande": "Faire une demande",
+    "ouSandbox": "Pour tester sans habilitation, utilisez un jeton de type sandbox : les échanges partent vers un environnement de test La bonne alternance."
   },
   "frequenceMiseAJour": {
     "titre": "Fréquence de mise à jour :",

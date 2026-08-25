@@ -49,6 +49,7 @@ export function HabilitationRequise({ lang, habilitation }: Props) {
         >
           {t("habilitationRequise.titre", { lng: lang })}
         </Typography>
+        <Typography className={fr.cx("fr-text--sm")}>{t("habilitationRequise.ouSandbox", { lng: lang })}</Typography>
         <DsfrLink
           href={`mailto:support_api@apprentissage.beta.gouv.fr?subject=${encodeURIComponent(getTextOpenAPI(subject, lang))}&body=${getTextOpenAPI(body, lang)}`}
           arrow="none"

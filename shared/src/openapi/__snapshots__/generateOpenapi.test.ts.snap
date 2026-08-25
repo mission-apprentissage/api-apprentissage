@@ -5626,7 +5626,11 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
   },
   "servers": [
     {
-      "description": "Production",
+      "description": "Production (Production) — production API key",
+      "url": "https://api.apprentissage.beta.gouv.fr",
+    },
+    {
+      "description": "Sandbox (Production) — sandbox API key",
       "url": "https://api.apprentissage.beta.gouv.fr",
     },
   ],

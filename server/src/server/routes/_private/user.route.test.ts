@@ -51,8 +51,8 @@ describe("User Routes", () => {
   beforeEach(async () => {
     await getDbCollection("users").insertMany([user, otherUser])
 
-    await generateApiKey("", otherUser)
-    await generateApiKey("", otherUser)
+    await generateApiKey("", "production", otherUser)
+    await generateApiKey("", "production", otherUser)
 
     sessionToken = await createSessionToken(user.email)
     await createSession(user.email)
@@ -85,6 +85,7 @@ describe("User Routes", () => {
       expect(data).toEqual({
         _id: expect.any(String),
         name: "My key",
+        env: "sandbox",
         last_used_at: null,
         expires_at: in365Days.toJSON(),
         created_at: now.toJSON(),
@@ -99,6 +100,7 @@ describe("User Routes", () => {
           created_at: now,
           expires_at: in365Days,
           key: expect.any(String),
+          env: "sandbox",
           last_used_at: null,
           name: "My key",
           expiration_warning_sent: null,
@@ -111,11 +113,34 @@ describe("User Routes", () => {
         api_key: expect.any(String),
         email: user.email,
         organisation: null,
+        env: "sandbox",
         exp: in365Days.getTime() / 1000,
         iat: now.getTime() / 1000,
         iss: "api",
       })
       expect(userFromDb!.api_keys[0].key === (decodedToken as { api_key: string }).api_key).toBe(true)
+    })
+
+    it.each([["production"], ["sandbox"]] as const)("should create key with explicit env %s", async (env) => {
+      const response = await app.inject({
+        method: "POST",
+        url: "/api/_private/user/api-key",
+        headers: {
+          ["Cookie"]: `api_session=${sessionToken}`,
+        },
+        body: {
+          name: "My key",
+          env,
+        },
+      })
+
+      const data = response.json()
+
+      expect(response.statusCode).toBe(200)
+      expect(data.env).toBe(env)
+
+      const userFromDb = await getDbCollection("users").findOne({ _id: user._id })
+      expect(userFromDb?.api_keys[0].env).toBe(env)
     })
 
     it("should create key with default unique names", async () => {
@@ -199,9 +224,9 @@ describe("User Routes", () => {
 
   describe("GET /api/_private/user/api-keys", () => {
     it("should get all user keys", async () => {
-      await generateApiKey("key1", user)
-      await generateApiKey("key2", user)
-      await generateApiKey("key3", user)
+      await generateApiKey("key1", "production", user)
+      await generateApiKey("key2", "production", user)
+      await generateApiKey("key3", "production", user)
 
       const response = await app.inject({
         method: "GET",
@@ -218,6 +243,7 @@ describe("User Routes", () => {
         {
           _id: expect.any(String),
           name: "key1",
+          env: "production",
           last_used_at: null,
           expires_at: in365Days.toJSON(),
           created_at: now.toJSON(),
@@ -227,6 +253,7 @@ describe("User Routes", () => {
         {
           _id: expect.any(String),
           name: "key2",
+          env: "production",
           last_used_at: null,
           expires_at: in365Days.toJSON(),
           created_at: now.toJSON(),
@@ -236,6 +263,7 @@ describe("User Routes", () => {
         {
           _id: expect.any(String),
           name: "key3",
+          env: "production",
           last_used_at: null,
           expires_at: in365Days.toJSON(),
           created_at: now.toJSON(),
@@ -267,9 +295,9 @@ describe("User Routes", () => {
 
   describe("DELETE /api/_private/user/api-key/:id", () => {
     it("should get all user keys", async () => {
-      const key1 = await generateApiKey("key1", user)
-      const key2 = await generateApiKey("key2", user)
-      const key3 = await generateApiKey("key3", user)
+      const key1 = await generateApiKey("key1", "production", user)
+      const key2 = await generateApiKey("key2", "production", user)
+      const key3 = await generateApiKey("key3", "production", user)
 
       const response = await app.inject({
         method: "DELETE",
@@ -295,6 +323,8 @@ describe("User Routes", () => {
           expires_at: in365Days,
           created_at: now,
           key: key1.key,
+
+          env: "production",
           expiration_warning_sent: null,
         },
         {
@@ -304,13 +334,15 @@ describe("User Routes", () => {
           expires_at: in365Days,
           created_at: now,
           key: key3.key,
+
+          env: "production",
           expiration_warning_sent: null,
         },
       ])
     })
 
     it("should returns 401 when user is not connected", async () => {
-      const key = await generateApiKey("key1", user)
+      const key = await generateApiKey("key1", "production", user)
 
       const response = await app.inject({
         method: "DELETE",

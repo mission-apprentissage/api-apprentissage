@@ -32,7 +32,9 @@ async function updateIndicateur(request: FastifyRequest, reply: FastifyReply) {
     now.setUTCMinutes(0)
     now.setUTCHours(0)
 
-    const metadata: Omit<IIndicateurUsageApi, "_id" | "count" | "type"> = {
+    // api_key_env est hors du filtre : il n'est pas dans l'index unique, et l'inclure ferait échouer
+    // l'upsert (duplicate key) sur les documents du jour créés avant l'introduction du champ
+    const metadata: Omit<IIndicateurUsageApi, "_id" | "count" | "type" | "api_key_env"> = {
       user_id: request.user.value._id,
       api_key_id: request.api_key._id,
       method: Array.isArray(request.routeOptions.method) ? request.routeOptions.method.join(",") : request.routeOptions.method,
@@ -41,7 +43,11 @@ async function updateIndicateur(request: FastifyRequest, reply: FastifyReply) {
       date: now,
     }
 
-    await getDbCollection("indicateurs.usage_api").updateOne(metadata, { $setOnInsert: { ...metadata, type: getStatusCodeType(reply.statusCode), count: 0 } }, { upsert: true })
+    await getDbCollection("indicateurs.usage_api").updateOne(
+      metadata,
+      { $setOnInsert: { ...metadata, api_key_env: request.api_key.env, type: getStatusCodeType(reply.statusCode), count: 0 } },
+      { upsert: true }
+    )
     await getDbCollection("indicateurs.usage_api").updateOne(metadata, [{ $set: { count: { $add: ["$count", 1] } } }], {
       upsert: true,
     })

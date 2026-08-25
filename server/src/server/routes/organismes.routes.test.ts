@@ -34,7 +34,7 @@ describe("GET /api/organisme/v1/recherche", () => {
       is_admin: false,
     })
     await getDbCollection("users").insertOne(user)
-    token = (await generateApiKey("", user)).value
+    token = (await generateApiKey("", "production", user)).value
     await getDbCollection("source.referentiel").insertMany([
       generateSourceReferentiel({
         data: generateOrganismeReferentielFixture({
@@ -220,7 +220,7 @@ describe("GET /api/organisme/v1/export", () => {
       is_admin: false,
     })
     await getDbCollection("users").insertOne(user)
-    token = (await generateApiKey("", user)).value
+    token = (await generateApiKey("", "production", user)).value
   })
 
   it("should returns 401 if api key is not provided", async () => {

@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb"
-import type { IApiKeyPrivate, IUser } from "shared/models/user.model"
+import type { IApiKeyEnv, IApiKeyPrivate, IUser } from "shared/models/user.model"
 import { adjectives, animals, colors, uniqueNamesGenerator } from "unique-names-generator"
 
 import config from "@/config.js"
@@ -18,7 +18,7 @@ export const updateUser = async (email: IUser["email"], data: Partial<IUser>): P
   )
 }
 
-export const generateApiKey = async (name: string, user: IUser): Promise<IApiKeyPrivate & { value: string; key: string }> => {
+export const generateApiKey = async (name: string, env: IApiKeyEnv, user: IUser): Promise<IApiKeyPrivate & { value: string; key: string }> => {
   const now = new Date()
   const generatedKey = generateKey()
 
@@ -31,6 +31,7 @@ export const generateApiKey = async (name: string, user: IUser): Promise<IApiKey
         separator: "-",
       }),
     key: generatedKey,
+    env,
     last_used_at: null,
     expires_at: new Date(now.getTime() + config.api_key.expiresIn),
     created_at: now,
@@ -49,8 +50,9 @@ export const generateApiKey = async (name: string, user: IUser): Promise<IApiKey
     }
   )
 
+  // Le claim `env` est informatif (debug/support) : la source de vérité à l'authentification reste la clé en base
   const token = await createUserTokenSimple({
-    payload: { _id: user._id, api_key: data.key, organisation: user.organisation, email: user.email },
+    payload: { _id: user._id, api_key: data.key, organisation: user.organisation, email: user.email, env: data.env },
     expiresIn: data.expires_at,
   })
 
@@ -66,7 +68,7 @@ export async function addTokenValue(user: IUser, data: IUser["api_keys"][number]
   }
 
   const token = await createUserTokenSimple({
-    payload: { _id: user._id, api_key: data.key, organisation: user.organisation, email: user.email },
+    payload: { _id: user._id, api_key: data.key, organisation: user.organisation, email: user.email, env: data.env },
     expiresIn: data.expires_at,
   })
 

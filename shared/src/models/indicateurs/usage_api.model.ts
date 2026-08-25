@@ -2,6 +2,7 @@ import { z } from "zod/v4-mini"
 
 import type { IModelDescriptorGeneric } from "../common.js"
 import { zObjectIdMini } from "../common.js"
+import { zApiKeyEnv } from "../user.model.js"
 
 const collectionName = "indicateurs.usage_api" as const
 
@@ -14,6 +15,8 @@ export const zIndicateurUsageApi = z.object({
   date: z.date(),
   user_id: zObjectIdMini,
   api_key_id: zObjectIdMini,
+  // Optionnel : les documents antérieurs à l'introduction du champ n'en ont pas (équivalent production)
+  api_key_env: z.optional(zApiKeyEnv),
   code: z.number(),
   type: z.enum(["informational", "success", "redirection", "client_error", "server_error", "unknown"]),
   count: z.number(),

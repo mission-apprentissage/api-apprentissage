@@ -39,6 +39,7 @@ describe("ApiKeyExpirationNotifier", () => {
         last_used_at: null,
         expiration_warning_sent: null,
         key: "value",
+        env: "production",
       },
     ],
   })
@@ -54,6 +55,7 @@ describe("ApiKeyExpirationNotifier", () => {
         last_used_at: null,
         expiration_warning_sent: null,
         key: "value",
+        env: "production",
       },
     ],
   })
@@ -69,6 +71,7 @@ describe("ApiKeyExpirationNotifier", () => {
         last_used_at: null,
         expiration_warning_sent: null,
         key: "value",
+        env: "production",
       },
       {
         _id: new ObjectId(),
@@ -78,6 +81,7 @@ describe("ApiKeyExpirationNotifier", () => {
         last_used_at: null,
         expiration_warning_sent: null,
         key: "value",
+        env: "production",
       },
       {
         _id: new ObjectId(),
@@ -87,6 +91,7 @@ describe("ApiKeyExpirationNotifier", () => {
         last_used_at: null,
         expiration_warning_sent: null,
         key: "value",
+        env: "production",
       },
     ],
   })

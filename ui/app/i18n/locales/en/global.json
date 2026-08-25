@@ -24,5 +24,6 @@
     "adminProcessorCron": "CRON {{name}}",
     "adminProcessorCronTask": "CRON Task {{id}}",
     "adminImporters": "Importers"
-  }
+  },
+  "bandeauRecette": "Internal pre-production environment — to test the API, create a sandbox key on api.apprentissage.beta.gouv.fr"
 }

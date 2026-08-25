@@ -249,6 +249,9 @@ describe("Authentication", () => {
         const response = await app.inject({
           method: "POST",
           url: "/api/_private/auth/login-request",
+          // remoteAddress distincte : la route est limitée à 5 req/10min par IP et le store
+          // du rate-limit survit entre les tests (app partagée en beforeAll)
+          remoteAddress: "10.0.0.1",
           payload: {
             email: "nouveau@exemple.fr",
           },
@@ -267,6 +270,7 @@ describe("Authentication", () => {
         const response = await app.inject({
           method: "POST",
           url: "/api/_private/auth/login-request",
+          remoteAddress: "10.0.0.2",
           payload: {
             email: "user@exemple.fr",
           },
@@ -529,6 +533,58 @@ describe("Authentication", () => {
 
       expect(responseSession.statusCode).toBe(200)
       expect(responseSession.json()).toEqual({ user: userData, organisation: null })
+    })
+
+    describe("when signup is disabled (recette pré-prod interne)", () => {
+      beforeEach(() => {
+        config.signup_disabled = true
+        return () => {
+          config.signup_disabled = false
+        }
+      })
+
+      const body = {
+        type: "entreprise",
+        activite: "",
+        objectif: "concevoir",
+        cas_usage: "Mon cas",
+        cgu: true,
+      }
+
+      // Un token de registre émis avant la fermeture reste valable 30 jours : la double garde le refuse
+      it("should reject new accounts with 403", async () => {
+        const token = await generateRegisterToken("nouveau@exemple.fr")
+        const response = await app.inject({
+          method: "POST",
+          url: "/api/_private/auth/register",
+          headers: { authorization: `Bearer ${token}` },
+          body,
+        })
+
+        expect(response.statusCode).toBe(403)
+        expect(await getDbCollection("users").findOne({ email: "nouveau@exemple.fr" })).toBe(null)
+      })
+
+      // Un compte existant reste prioritaire sur la fermeture : magic-link de secours + 409, pas 403
+      it("should still send the magic-link fallback to existing accounts", async () => {
+        const user = generateUserFixture({ email: "user@exemple.fr" })
+        await getDbCollection("users").insertOne(user)
+
+        const token = await generateRegisterToken("user@exemple.fr")
+        const response = await app.inject({
+          method: "POST",
+          url: "/api/_private/auth/register",
+          headers: { authorization: `Bearer ${token}` },
+          body,
+        })
+
+        expect(response.statusCode).toBe(409)
+        expect(vi.mocked(sendEmail)).toHaveBeenCalledWith({
+          name: "magic-link",
+          to: "user@exemple.fr",
+          token: expect.any(String),
+        })
+      })
     })
   })
 

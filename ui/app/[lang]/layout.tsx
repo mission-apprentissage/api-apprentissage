@@ -13,6 +13,7 @@ import { cookies } from "next/headers"
 import Link from "next/link"
 import type { PropsWithChildren } from "react"
 import type { ISessionJson } from "shared/routes/_private/auth.routes"
+import { getServerTranslation } from "@/app/i18n"
 import { StartIntl } from "@/app/i18n/StartIntl"
 import type { PropsWithLangParams } from "@/app/i18n/settings"
 import { languages } from "@/app/i18n/settings"
@@ -69,6 +70,7 @@ export default async function LangLayout({ children, params }: PropsWithChildren
   const session = await getSession()
 
   const lang = languages.includes(requestedLang) ? requestedLang : languages[0]
+  const { t } = await getServerTranslation(lang, "global")
 
   return (
     <html {...getHtmlAttributes({ lang })} dir={dir(lang)}>
@@ -97,15 +99,7 @@ export default async function LangLayout({ children, params }: PropsWithChildren
               <StartDsfrOnHydration />
               <MuiDsfrThemeProvider>
                 <Header lang={lang} />
-                {publicConfig.env === "recette" && (
-                  <Notice
-                    title={
-                      lang === "fr"
-                        ? "Environnement de pré-production interne — pour tester l'API, créez une clé sandbox sur api.apprentissage.beta.gouv.fr"
-                        : "Internal pre-production environment — to test the API, create a sandbox key on api.apprentissage.beta.gouv.fr"
-                    }
-                  />
-                )}
+                {publicConfig.env === "recette" && <Notice title={t("bandeauRecette")} />}
                 <Box
                   sx={{
                     minHeight: "60vh",

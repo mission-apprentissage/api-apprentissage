@@ -12,7 +12,8 @@
   "habilitationRequise": {
     "titre": "Using this tool requires authorization",
     "faireDemande": "Make a request",
-    "ouSandbox": "To test without any habilitation, use a sandbox token: exchanges go to a La bonne alternance test environment."
+    "ouSandbox": "To test without any habilitation, use a sandbox token: exchanges go to a La bonne alternance test environment.",
+    "ouSandboxLien": "Create a sandbox token from my account"
   },
   "frequenceMiseAJour": {
     "titre": "Update frequency:",

@@ -2,6 +2,13 @@
   display: none !important;
 }
 
+/* L'environnement (production/sandbox) est porté par le type de la clé API, pas par l'URL :
+   le sélecteur de server est masqué pour éviter toute confusion */
+.swagger-ui .scheme-container,
+.swagger-ui .servers {
+  display: none !important;
+}
+
 .swagger-ui .opblock-tag-section:has(.operation-tag-content:empty) {
   display: none !important;
 }

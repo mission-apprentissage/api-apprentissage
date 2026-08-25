@@ -19,13 +19,12 @@ export const jobRoutes = ({ server }: { server: Server }) => {
 
       return forwardApiRequest(
         {
-          endpoint: config.api.lba.endpoint,
           path: "/v3/jobs/search",
           querystring,
           requestInit: { method: "GET" },
         },
         response,
-        { user, organisation: request.organisation ?? null }
+        { user, organisation: request.organisation ?? null, apiKeyEnv: request.api_key?.env ?? "production" }
       )
     }
   )
@@ -42,7 +41,6 @@ export const jobRoutes = ({ server }: { server: Server }) => {
 
       return forwardApiRequest(
         {
-          endpoint: config.api.lba.endpoint,
           path: "/v3/jobs",
           requestInit: {
             method: "POST",
@@ -51,7 +49,7 @@ export const jobRoutes = ({ server }: { server: Server }) => {
           },
         },
         response,
-        { user, organisation: request.organisation ?? null }
+        { user, organisation: request.organisation ?? null, apiKeyEnv: request.api_key?.env ?? "production" }
       )
     }
   )
@@ -69,7 +67,6 @@ export const jobRoutes = ({ server }: { server: Server }) => {
 
       return forwardApiRequest(
         {
-          endpoint: config.api.lba.endpoint,
           path: "/v2/application",
           requestInit: {
             method: "POST",
@@ -78,7 +75,7 @@ export const jobRoutes = ({ server }: { server: Server }) => {
           },
         },
         response,
-        { user, organisation: request.organisation ?? null }
+        { user, organisation: request.organisation ?? null, apiKeyEnv: request.api_key?.env ?? "production" }
       )
     }
   )
@@ -95,7 +92,6 @@ export const jobRoutes = ({ server }: { server: Server }) => {
 
       return forwardApiRequest(
         {
-          endpoint: config.api.lba.endpoint,
           path: `/v3/jobs/${encodeURIComponent(request.params.id)}`,
           requestInit: {
             method: "PUT",
@@ -104,7 +100,7 @@ export const jobRoutes = ({ server }: { server: Server }) => {
           },
         },
         response,
-        { user, organisation: request.organisation ?? null }
+        { user, organisation: request.organisation ?? null, apiKeyEnv: request.api_key?.env ?? "production" }
       )
     }
   )
@@ -121,12 +117,11 @@ export const jobRoutes = ({ server }: { server: Server }) => {
 
       return forwardApiRequest(
         {
-          endpoint: config.api.lba.endpoint,
           path: `/v3/jobs/${encodeURIComponent(request.params.id)}`,
           requestInit: { method: "GET" },
         },
         response,
-        { user, organisation: request.organisation ?? null }
+        { user, organisation: request.organisation ?? null, apiKeyEnv: request.api_key?.env ?? "production" }
       )
     }
   )
@@ -143,12 +138,11 @@ export const jobRoutes = ({ server }: { server: Server }) => {
 
       return forwardApiRequest(
         {
-          endpoint: config.api.lba.endpoint,
           path: `/v3/jobs/${encodeURIComponent(request.params.id)}/publishing-informations`,
           requestInit: { method: "GET" },
         },
         response,
-        { user, organisation: request.organisation ?? null }
+        { user, organisation: request.organisation ?? null, apiKeyEnv: request.api_key?.env ?? "production" }
       )
     }
   )
@@ -165,12 +159,11 @@ export const jobRoutes = ({ server }: { server: Server }) => {
 
       return forwardApiRequest(
         {
-          endpoint: config.api.lba.endpoint,
           path: `/v3/jobs/export`,
           requestInit: { method: "GET" },
         },
         response,
-        { user, organisation: request.organisation ?? null }
+        { user, organisation: request.organisation ?? null, apiKeyEnv: request.api_key?.env ?? "production" }
       )
     }
   )

@@ -1,6 +1,5 @@
 import { zRoutes } from "shared"
 
-import config from "@/config.js"
 import type { Server } from "@/server/server.js"
 import { getFormationByCleMe, searchFormation } from "@/services/formation/formation.service.js"
 import { forwardApiRequest } from "@/services/forward/forwardApi.service.js"
@@ -43,7 +42,6 @@ export const formationRoutes = ({ server }: { server: Server }) => {
 
       return forwardApiRequest(
         {
-          endpoint: config.api.lba.endpoint,
           path: "/v2/appointment",
           requestInit: {
             method: "POST",
@@ -52,7 +50,7 @@ export const formationRoutes = ({ server }: { server: Server }) => {
           },
         },
         response,
-        { user, organisation: request.organisation ?? null }
+        { user, organisation: request.organisation ?? null, apiKeyEnv: request.api_key?.env ?? "production" }
       )
     }
   )

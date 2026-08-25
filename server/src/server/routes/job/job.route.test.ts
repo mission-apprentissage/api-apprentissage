@@ -1,3 +1,5 @@
+import { createPublicKey } from "node:crypto"
+
 import { useMongo } from "@tests/mongo.test.utils.js"
 import { parseApiAlternanceToken } from "api-alternance-sdk"
 import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock"
@@ -88,6 +90,40 @@ const tokens = {
   jobWrite: "",
   applicationWrite: "",
   appointmentsWrite: "",
+  basicSandbox: "",
+  jobWriteSandbox: "",
+}
+
+// Clé publique correspondant à API_TOKEN_PRIVATE_KEY_SANDBOX (paire de test dédiée dans .env.test)
+const sandboxPublicKey = createPublicKey(config.api.alternance.private_key_sandbox).export({ type: "spki", format: "pem" }).toString()
+
+// Une clé sandbox force les 3 habilitations à true et signe avec la clé privée sandbox :
+// le token doit être vérifiable avec la clé publique sandbox et REJETÉ par la clé publique production
+const nockMatchSandboxAuthorization = (u: IUser) => {
+  let token: string = ""
+
+  return {
+    matchHeader: (t: string) => {
+      token = t
+      return true
+    },
+    expectAuth: async () => {
+      await expect.soft(parseApiAlternanceToken({ token, publicKey: sandboxPublicKey })).resolves.toEqual({
+        data: {
+          email: u.email,
+          habilitations: {
+            "applications:write": true,
+            "appointments:write": true,
+            "jobs:write": true,
+          },
+          organisation: u.organisation,
+        },
+        success: true,
+      })
+      // Isolation structurelle : le token sandbox est invérifiable par LBA production
+      await expect.soft(parseApiAlternanceToken({ token, publicKey: config.api.alternance.public_cert })).resolves.toMatchObject({ success: false })
+    },
+  }
 }
 
 const nockMatchUserAuthorization = (u: IUser, habilitations: string[]) => {
@@ -131,6 +167,8 @@ beforeEach(async () => {
   tokens.jobWrite = (await generateApiKey("", "production", users.jobWrite)).value
   tokens.applicationWrite = (await generateApiKey("", "production", users.applicationWrite)).value
   tokens.appointmentsWrite = (await generateApiKey("", "production", users.appointmentsWrite)).value
+  tokens.basicSandbox = (await generateApiKey("", "sandbox", users.basic)).value
+  tokens.jobWriteSandbox = (await generateApiKey("", "sandbox", users.jobWrite)).value
 })
 
 describe("GET /job/v1/search", () => {
@@ -324,6 +362,66 @@ describe("POST /job/v1/offer", () => {
     expect.soft(response.statusCode).toBe(200)
     const result = response.json()
     expect(result).toEqual({ id: "1" })
+  })
+})
+
+describe("sandbox key routing", () => {
+  it("should forward read request to the sandbox endpoint with a sandbox-signed token", async () => {
+    const { matchHeader, expectAuth } = nockMatchSandboxAuthorization(users.basic)
+
+    nock("https://labonnealternance-sandbox-test.apprentissage.beta.gouv.fr/api")
+      .get("/v3/jobs/search")
+      .query({ romes: "I1401" })
+      .matchHeader("authorization", matchHeader)
+      .reply(200, { jobs: [], recruiters: [], warnings: [] })
+
+    const response = await app.inject({
+      method: "GET",
+      url: "/api/job/v1/search?romes=I1401",
+      headers: {
+        Authorization: `Bearer ${tokens.basicSandbox}`,
+      },
+    })
+
+    await expectAuth()
+    expect.soft(response.statusCode).toBe(200)
+    expect(response.json()).toEqual({ jobs: [], recruiters: [], warnings: [] })
+  })
+
+  it("should forward write request to the sandbox endpoint with all habilitations", async () => {
+    const body = {
+      offer: {
+        title: "Opérations administratives",
+        description: "Exécute des travaux administratifs courants",
+      },
+      workplace: {
+        siret: "11000001500013",
+      },
+      apply: {},
+    }
+
+    const { matchHeader, expectAuth } = nockMatchSandboxAuthorization(users.jobWrite)
+
+    nock("https://labonnealternance-sandbox-test.apprentissage.beta.gouv.fr/api")
+      .post("/v3/jobs", (b) => {
+        expect.soft(b).toEqual(body)
+        return true
+      })
+      .matchHeader("authorization", matchHeader)
+      .reply(200, { id: "1" })
+
+    const response = await app.inject({
+      method: "POST",
+      url: `/api/job/v1/offer`,
+      body,
+      headers: {
+        Authorization: `Bearer ${tokens.jobWriteSandbox}`,
+      },
+    })
+
+    await expectAuth()
+    expect.soft(response.statusCode).toBe(200)
+    expect(response.json()).toEqual({ id: "1" })
   })
 })
 

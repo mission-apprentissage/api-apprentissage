@@ -11,7 +11,7 @@ import { errorMiddleware } from "@/server/middlewares/errorMiddleware.js"
 import { forwardApiRequest } from "./forwardApi.service.js"
 
 describe("forwardApi.service", () => {
-  const baseUrl = "http://example.com/api"
+  const baseUrl = config.api.lba.endpoint
 
   let app: FastifyInstance
 
@@ -81,7 +81,7 @@ describe("forwardApi.service", () => {
     app.get("/test", async (req, reply) => {
       const querystring = new URL(req.url, config.apiPublicUrl).search
 
-      await forwardApiRequest({ endpoint: baseUrl, path: "/v3/jobs/search", querystring, requestInit: { method: "GET" } }, reply, { user: basicUser, organisation: null })
+      await forwardApiRequest({ path: "/v3/jobs/search", querystring, requestInit: { method: "GET" } }, reply, { user: basicUser, organisation: null, apiKeyEnv: "production" })
     })
 
     const { matchHeader, expectAuth } = nockMatchBasicUserAuthorization()
@@ -100,7 +100,7 @@ describe("forwardApi.service", () => {
     app.get("/test", async (req, reply) => {
       const querystring = new URL(req.url, config.apiPublicUrl).search
 
-      await forwardApiRequest({ endpoint: baseUrl, path: "/v3/jobs/search", querystring, requestInit: { method: "GET" } }, reply, { user: orgUser, organisation: org })
+      await forwardApiRequest({ path: "/v3/jobs/search", querystring, requestInit: { method: "GET" } }, reply, { user: orgUser, organisation: org, apiKeyEnv: "production" })
     })
 
     const { matchHeader, expectAuth } = nockMatchOrgUserAuthorization()
@@ -119,7 +119,7 @@ describe("forwardApi.service", () => {
     app.get("/test", async (req, reply) => {
       const querystring = new URL(req.url, config.apiPublicUrl).search
 
-      await forwardApiRequest({ endpoint: baseUrl, path: "/v3/jobs/search", querystring, requestInit: { method: "GET" } }, reply, { user: basicUser, organisation: null })
+      await forwardApiRequest({ path: "/v3/jobs/search", querystring, requestInit: { method: "GET" } }, reply, { user: basicUser, organisation: null, apiKeyEnv: "production" })
     })
 
     const { matchHeader, expectAuth } = nockMatchBasicUserAuthorization()
@@ -141,7 +141,7 @@ describe("forwardApi.service", () => {
     app.get("/test", async (req, reply) => {
       const querystring = new URL(req.url, config.apiPublicUrl).search
 
-      await forwardApiRequest({ endpoint: baseUrl, path: "/v3/jobs/search", querystring, requestInit: { method: "GET" } }, reply, { user: basicUser, organisation: null })
+      await forwardApiRequest({ path: "/v3/jobs/search", querystring, requestInit: { method: "GET" } }, reply, { user: basicUser, organisation: null, apiKeyEnv: "production" })
     })
 
     const { matchHeader, expectAuth } = nockMatchBasicUserAuthorization()
@@ -163,7 +163,7 @@ describe("forwardApi.service", () => {
     app.get("/test", async (req, reply) => {
       const querystring = new URL(req.url, config.apiPublicUrl).search
 
-      await forwardApiRequest({ endpoint: baseUrl, path: "/v3/jobs/search", querystring, requestInit: { method: "GET" } }, reply, { user: basicUser, organisation: null })
+      await forwardApiRequest({ path: "/v3/jobs/search", querystring, requestInit: { method: "GET" } }, reply, { user: basicUser, organisation: null, apiKeyEnv: "production" })
     })
 
     const { matchHeader, expectAuth } = nockMatchBasicUserAuthorization()
@@ -181,9 +181,10 @@ describe("forwardApi.service", () => {
     const responseBody = { success: true }
 
     app.post("/test", async (req, reply) => {
-      await forwardApiRequest({ endpoint: baseUrl, path: "/v3/jobs/search", requestInit: { method: "POST", body: JSON.stringify(req.body) } }, reply, {
+      await forwardApiRequest({ path: "/v3/jobs/search", requestInit: { method: "POST", body: JSON.stringify(req.body) } }, reply, {
         user: basicUser,
         organisation: null,
+        apiKeyEnv: "production",
       })
     })
 
@@ -206,7 +207,7 @@ describe("forwardApi.service", () => {
     app.get("/test", async (req, reply) => {
       const querystring = new URL(req.url, config.apiPublicUrl).search
 
-      await forwardApiRequest({ endpoint: baseUrl, path: "/v3/jobs/search", querystring, requestInit: { method: "GET" } }, reply, { user: basicUser, organisation: null })
+      await forwardApiRequest({ path: "/v3/jobs/search", querystring, requestInit: { method: "GET" } }, reply, { user: basicUser, organisation: null, apiKeyEnv: "production" })
     })
 
     const response = await app.inject({ method: "GET", url: "/test" })
@@ -229,7 +230,7 @@ describe("forwardApi.service", () => {
     app.get("/test", async (req, reply) => {
       const querystring = new URL(req.url, config.apiPublicUrl).search
 
-      await forwardApiRequest({ endpoint: baseUrl, path: "/v3/jobs/search", querystring, requestInit: { method: "GET" } }, reply, { user: basicUser, organisation: null })
+      await forwardApiRequest({ path: "/v3/jobs/search", querystring, requestInit: { method: "GET" } }, reply, { user: basicUser, organisation: null, apiKeyEnv: "production" })
     })
 
     const response = await app.inject({ method: "GET", url: "/test" })
@@ -239,11 +240,33 @@ describe("forwardApi.service", () => {
     expect(response.json()).toEqual(responseBody)
   })
 
+  it("should route sandbox identities to the sandbox endpoint", async () => {
+    const responseBody = { success: true }
+
+    app.get("/test", async (req, reply) => {
+      const querystring = new URL(req.url, config.apiPublicUrl).search
+
+      await forwardApiRequest({ path: "/v3/jobs/search", querystring, requestInit: { method: "GET" } }, reply, {
+        user: basicUser,
+        organisation: null,
+        apiKeyEnv: "sandbox",
+      })
+    })
+
+    // Seul l'endpoint sandbox est nocké : un forward vers l'endpoint production ferait échouer le test
+    nock(config.api.lba.endpoint_sandbox).get("/v3/jobs/search").query({ param: "value" }).reply(200, responseBody)
+
+    const response = await app.inject({ method: "GET", url: "/test", query: { param: "value" } })
+
+    expect.soft(response.statusCode).toBe(200)
+    expect.soft(response.json()).toEqual(responseBody)
+  })
+
   it("should return 504 when the upstream response exceeds timeoutMs", async () => {
     nock(baseUrl).get("/v3/jobs/search").delay(500).reply(200, { success: true })
 
     app.get("/test", async (_req, reply) => {
-      await forwardApiRequest({ endpoint: baseUrl, path: "/v3/jobs/search", requestInit: { method: "GET" }, timeoutMs: 50 }, reply, { user: basicUser, organisation: null })
+      await forwardApiRequest({ path: "/v3/jobs/search", requestInit: { method: "GET" }, timeoutMs: 50 }, reply, { user: basicUser, organisation: null, apiKeyEnv: "production" })
     })
 
     const response = await app.inject({ method: "GET", url: "/test" })

@@ -166,7 +166,7 @@ describe("isAuthorizedUser", () => {
       expect(isAuthorizedUser("jobs:write", userOrgRo, { users: [] }, orgRo, null)).toBe(false)
     })
 
-    it("Write orf user should be allowed", () => {
+    it("Write org user should be allowed", () => {
       expect(isAuthorizedUser("jobs:write", userOrgWrite, { users: [] }, orgWrite, null)).toBe(true)
     })
   })

@@ -1,8 +1,9 @@
 import type { IOrganisation } from "../../models/index.js"
+import { ORGANISATION_HABILITATIONS } from "../../models/system/organisation.model.js"
 
 export type Permission = "admin" | "user:manage" | "jobs:write" | "appointments:write" | "applications:write"
 
-export type RoleNames = "none" | "org" | "admin"
+export type RoleNames = "none" | "org" | "admin" | "sandbox"
 
 export interface Role {
   name: RoleNames
@@ -26,6 +27,14 @@ export function getBaseRole(organisation: IOrganisation | null): Role {
 export const AdminRole = {
   name: "admin",
   permissions: ["admin", "user:manage", "jobs:write"],
+} satisfies Role
+
+// Rôle porté par une clé API sandbox : les habilitations métier sont accordées d'office
+// (self-service), et rien d'autre — jamais admin ni user:manage. Même source de vérité que
+// les habilitations du token forwardé (forwardApi.service côté serveur).
+export const SandboxRole = {
+  name: "sandbox",
+  permissions: [...ORGANISATION_HABILITATIONS],
 } satisfies Role
 
 export type AccessPermission = Permission

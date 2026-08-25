@@ -428,24 +428,37 @@ describe("sandbox key routing", () => {
     expect(response.json()).toEqual({ id: "1" })
   })
 
-  // Verrouille le comportement de la phase 2 : l'autorisation côté API ne connaît pas encore
-  // l'env de la clé, une clé sandbox sans organisation habilitée est refusée AVANT le forward.
-  // La phase 3 (SandboxRole) fera passer ce cas à 200 — ce test devra alors être inversé.
-  it("should returns 403 for a sandbox key without habilitation until phase 3", async () => {
+  // Cas cible du self-service sandbox (SandboxRole) : une clé sandbox SANS organisation
+  // habilitée peut écrire, et le forward part vers l'endpoint sandbox
+  it("should allow a sandbox key without habilitation and forward to the sandbox endpoint", async () => {
+    const body = {
+      offer: { title: "Opérations administratives", description: "Exécute des travaux administratifs courants" },
+      workplace: { siret: "11000001500013" },
+      apply: {},
+    }
+
+    const { matchHeader, expectAuth } = nockMatchSandboxAuthorization(users.basic)
+
+    nock("https://labonnealternance-sandbox-test.apprentissage.beta.gouv.fr/api")
+      .post("/v3/jobs", (b) => {
+        expect.soft(b).toEqual(body)
+        return true
+      })
+      .matchHeader("authorization", matchHeader)
+      .reply(200, { id: "1" })
+
     const response = await app.inject({
       method: "POST",
       url: "/api/job/v1/offer",
-      body: {
-        offer: { title: "Opérations administratives", description: "Exécute des travaux administratifs courants" },
-        workplace: { siret: "11000001500013" },
-        apply: {},
-      },
+      body,
       headers: {
         Authorization: `Bearer ${tokens.basicSandbox}`,
       },
     })
 
-    expect(response.statusCode).toBe(403)
+    await expectAuth()
+    expect.soft(response.statusCode).toBe(200)
+    expect(response.json()).toEqual({ id: "1" })
   })
 })
 

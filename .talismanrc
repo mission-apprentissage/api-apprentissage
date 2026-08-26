@@ -53,6 +53,8 @@ fileignoreconfig:
   checksum: 71b196ba42a795b8a649fb9a17ac356cd719bfc9c254d4859a8aab22b05b03e5
 - filename: server/src/services/security/authenticationService.test.ts
   checksum: d722eb28858e2411250e1d3076ed4997e6c37b624938b34c1cc8dd9d9d11e0b3
+- filename: server/static/emails/register.mjml.ejs
+  checksum: 68fa8df88cc1fe0ab2f0df1d55a5634bd79b8bc0838d4794c004ab54e018077f
 - filename: shared/src/helpers/openapi/__snapshots__/generateOpenapi.test.ts.snap
   checksum: a5055a921ec73a0ebd7a9cee510ccb4d8aa1e43514f5720660c741bad372c916
 - filename: shared/src/models/fixtures/commune.model.fixture.ts

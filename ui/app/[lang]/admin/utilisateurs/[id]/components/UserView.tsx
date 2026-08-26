@@ -49,6 +49,7 @@ export default function UserView({ user, organisations, lang }: Props) {
     getValues,
     setValue,
     trigger,
+    watch,
   } = useForm<IUserAdminUpdate>({
     mode: "all",
     resolver: zodResolver(zRoutes.put["/_private/admin/users/:id"].body),
@@ -59,8 +60,11 @@ export default function UserView({ user, organisations, lang }: Props) {
       is_admin: user.is_admin,
       organisation: user.organisation ?? "",
       type: user.type,
+      other_type: user.other_type ?? "",
     },
   })
+
+  const typeValue = watch("type")
 
   const { t } = useTranslation("global", { lng: lang })
   const isAdminControl = control.register("is_admin")
@@ -163,6 +167,7 @@ export default function UserView({ user, organisations, lang }: Props) {
           <option value="mission_apprentissage">Mission Apprentissage</option>
           <option value="autre">Autre</option>
         </Select>
+        {typeValue === "autre" && <Input label="Veuillez préciser votre profil :" nativeInputProps={control.register("other_type")} {...getInputState(errors?.other_type)} />}
         <Input
           label="Description du projet ou service (nom du projet, objectifs, url, public ciblé)"
           textArea

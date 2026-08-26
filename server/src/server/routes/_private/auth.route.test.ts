@@ -456,6 +456,50 @@ describe("Authentication", () => {
       expect(responseSession.statusCode).toBe(200)
       expect(responseSession.json()).toEqual({ user: userData, organisation: null })
     })
+
+    it("should require other_type when type is 'autre'", async () => {
+      const token = await generateRegisterToken("user-autre@exemple.fr")
+      const response = await app.inject({
+        method: "POST",
+        url: "/api/_private/auth/register",
+        headers: { authorization: `Bearer ${token}` },
+        body: {
+          type: "autre",
+          prenom: "Jean",
+          nom: "Dupont",
+          description: "Mon projet",
+          cgu: true,
+        },
+      })
+
+      expect(response.statusCode).toBe(400)
+
+      const user = await getDbCollection("users").findOne({ email: "user-autre@exemple.fr" })
+      expect(user).toBe(null)
+    })
+
+    it("should create user with type 'autre' and other_type", async () => {
+      const token = await generateRegisterToken("user-autre@exemple.fr")
+      const response = await app.inject({
+        method: "POST",
+        url: "/api/_private/auth/register",
+        headers: { authorization: `Bearer ${token}` },
+        body: {
+          type: "autre",
+          other_type: "Association",
+          prenom: "Jean",
+          nom: "Dupont",
+          description: "Mon projet",
+          cgu: true,
+        },
+      })
+
+      expect(response.statusCode).toBe(200)
+
+      const user = await getDbCollection("users").findOne({ email: "user-autre@exemple.fr" })
+      expect(user?.type).toBe("autre")
+      expect(user?.other_type).toBe("Association")
+    })
   })
 
   describe("GET /_private/auth/logout", () => {

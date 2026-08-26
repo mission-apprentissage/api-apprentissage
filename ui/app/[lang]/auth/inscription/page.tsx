@@ -194,6 +194,9 @@ export default function RegisterPage({ params }: PropsWithLangParams) {
               <option value="editeur_logiciel">{t("creerCompte.editeurLogiciel", { lng: lang })}</option>
               <option value="autre">{t("creerCompte.autre", { lng: lang })}</option>
             </Select>
+            {typeController.field.value === "autre" && (
+              <Input label={t("creerCompte.autrePrecision", { lng: lang })} {...getInputState(errors?.other_type)} nativeInputProps={register("other_type", { required: true })} />
+            )}
             <Box
               display="grid"
               sx={{

@@ -3,7 +3,7 @@ import { zOrganisation } from "api-alternance-sdk"
 import type { Jsonify } from "type-fest"
 import { z } from "zod/v4-mini"
 
-import { zStringRequired, zUser, zUserPublic } from "../../models/user.model.js"
+import { checkOtherType, OTHER_TYPE_REQUIRED_ERROR, zStringRequired, zUser, zUserPublic } from "../../models/user.model.js"
 import { ZReqHeadersAuthorization, ZResOk } from "../common.routes.js"
 
 const zSession = z.object({
@@ -42,18 +42,26 @@ export const zAuthRoutes = {
     "/_private/auth/register": {
       method: "post",
       path: "/_private/auth/register",
-      body: z.extend(
-        z.pick(zUser, {
-          type: true,
-        }),
-        {
-          // Requis à l'inscription, bien que nullable en base (utilisateurs existants sans valeur).
-          prenom: zStringRequired,
-          nom: zStringRequired,
-          description: zStringRequired,
-          cgu: z.literal(true),
-        }
-      ),
+      body: z
+        .extend(
+          z.pick(zUser, {
+            type: true,
+            other_type: true,
+          }),
+          {
+            // Requis à l'inscription, bien que nullable en base (utilisateurs existants sans valeur).
+            prenom: zStringRequired,
+            nom: zStringRequired,
+            description: zStringRequired,
+            cgu: z.literal(true),
+          }
+        )
+        .check(
+          z.refine(checkOtherType, {
+            error: OTHER_TYPE_REQUIRED_ERROR,
+            path: ["other_type"],
+          })
+        ),
       response: {
         "200": zSession,
       },

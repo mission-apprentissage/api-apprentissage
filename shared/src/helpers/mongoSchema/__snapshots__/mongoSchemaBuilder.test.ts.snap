@@ -9460,6 +9460,12 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
         "null",
       ],
     },
+    "other_type": {
+      "bsonType": [
+        "string",
+        "null",
+      ],
+    },
     "prenom": {
       "anyOf": [
         {

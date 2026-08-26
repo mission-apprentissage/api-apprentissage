@@ -63,6 +63,14 @@ const REQUIRED_FIELD_ERROR = "Obligatoire : veuillez renseigner une valeur"
 // à la saisie (formulaires) alors que la donnée en base reste nullable (utilisateurs existants).
 export const zStringRequired = z.string({ error: REQUIRED_FIELD_ERROR }).check(z.trim(), z.minLength(1, { error: REQUIRED_FIELD_ERROR }))
 
+export const OTHER_TYPE_REQUIRED_ERROR = "Veuillez préciser votre profil :"
+
+// Requiert `other_type` non vide dès lors que `type` vaut "autre" (un `type` absent, ex. update
+// partielle sans ce champ, n'est jamais considéré comme "autre" et ne déclenche donc pas la règle).
+export function checkOtherType(data: { type?: string; other_type?: string | null }): boolean {
+  return data.type !== "autre" || (typeof data.other_type === "string" && data.other_type.trim().length > 0)
+}
+
 export const zUser = z.object({
   _id: zObjectIdMini,
   organisation: z.nullable(z.string()),
@@ -72,6 +80,8 @@ export const zUser = z.object({
   type: z.enum(["operateur_public", "organisme_formation", "entreprise", "editeur_logiciel", "organisme_financeur", "apprenant", "mission_apprentissage", "autre"], {
     error: "Veuillez sélectionner une option",
   }),
+  // Précision du profil, saisie uniquement quand `type` vaut "autre" (cf. checkOtherType).
+  other_type: z.nullish(zStringTrimmed),
   description: zStringTrimmedNullable,
   cgu_accepted_at: z.date(),
   is_admin: z.boolean(),
@@ -105,6 +115,7 @@ export const zUserAdminView = z.extend(
     organisation: true,
     is_admin: true,
     type: true,
+    other_type: true,
     description: true,
     cgu_accepted_at: true,
     updated_at: true,
@@ -115,20 +126,28 @@ export const zUserAdminView = z.extend(
   }
 )
 
-export const zUserAdminUpdate = z.extend(
-  z.partial(
-    z.pick(zUser, {
-      email: true,
-      is_admin: true,
-      organisation: true,
-      type: true,
+export const zUserAdminUpdate = z
+  .extend(
+    z.partial(
+      z.pick(zUser, {
+        email: true,
+        is_admin: true,
+        organisation: true,
+        type: true,
+        other_type: true,
+      })
+    ),
+    {
+      prenom: zStringRequired,
+      nom: zStringRequired,
+    }
+  )
+  .check(
+    z.refine(checkOtherType, {
+      error: OTHER_TYPE_REQUIRED_ERROR,
+      path: ["other_type"],
     })
-  ),
-  {
-    prenom: zStringRequired,
-    nom: zStringRequired,
-  }
-)
+  )
 
 export type IUser = z.output<typeof zUser>
 export type IUserPublic = Jsonify<z.output<typeof zUserPublic>>

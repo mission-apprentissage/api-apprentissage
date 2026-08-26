@@ -71,8 +71,8 @@ export function LoginEmailSentModal({ email, lang, t }: WithLangAndT<{ email: st
           <Artwork name="mail-sent" />
           <Typography textAlign="center" color={fr.colors.decisions.text.default.grey.default}>
             {t("loginEmailSent.problemeReceptionLien", { lng: lang })}{" "}
-            <Box component="a" href="mailto:contact-api@labonnealternance.apprentissage.beta.gouv.fr" sx={{ color: fr.colors.decisions.text.actionHigh.blueFrance.default }}>
-              contact-api@labonnealternance.apprentissage.beta.gouv.fr
+            <Box component="a" href="mailto:contact@labonnealternance.apprentissage.beta.gouv.fr" sx={{ color: fr.colors.decisions.text.actionHigh.blueFrance.default }}>
+              contact@labonnealternance.apprentissage.beta.gouv.fr
             </Box>
           </Typography>
         </Box>

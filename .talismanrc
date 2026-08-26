@@ -63,6 +63,8 @@ fileignoreconfig:
   checksum: 79162968dc111206592c35c9bdbfc1babae88ad1390a190d6c7b5108ebb82b9d
 - filename: ui/app/[lang]/explorer/depot-offre/page.tsx
   checksum: 764fcfac0c4242d1b22a812798db3a661392d72688d80f7898b6e82714efe457
+- filename: ui/components/login/LoginEmailSent.tsx
+  checksum: f0ead80842efc2fb5ec9db26170da71a48a56c0478171ca5ccb8fd1f86ba9f45
 scopeconfig:
 - scope: node
 custom_patterns:

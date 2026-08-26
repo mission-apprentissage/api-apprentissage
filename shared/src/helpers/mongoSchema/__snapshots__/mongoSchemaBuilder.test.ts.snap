@@ -1797,35 +1797,6 @@ exports[`zodToMongoSchema > should convert email_events schema 1`] = `
           "additionalProperties": false,
           "bsonType": "object",
           "properties": {
-            "comment": {
-              "bsonType": "string",
-            },
-            "from": {
-              "bsonType": "string",
-              "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
-            },
-            "name": {
-              "bsonType": "string",
-              "enum": [
-                "register-feedback",
-              ],
-            },
-            "to": {
-              "bsonType": "string",
-              "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
-            },
-          },
-          "required": [
-            "name",
-            "to",
-            "from",
-            "comment",
-          ],
-        },
-        {
-          "additionalProperties": false,
-          "bsonType": "object",
-          "properties": {
             "days_left": {
               "bsonType": "number",
             },

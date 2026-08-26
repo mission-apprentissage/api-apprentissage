@@ -16,7 +16,6 @@
     "adminOrganisations": "Organization Management",
     "adminProcessor": "Processor Administration",
     "inscription": "Registration",
-    "refusInscription": "Registration",
     "adminUserView": "User Profile",
     "adminOrganisationView": "Organization Profile",
     "adminProcessorJob": "Job {{name}}",

@@ -178,12 +178,6 @@ describe("Authentication", () => {
             path: "/_private/auth/register",
             resources: {},
           },
-          {
-            method: "post",
-            options: "all",
-            path: "/_private/auth/register-feedback",
-            resources: {},
-          },
         ],
       })
 
@@ -235,30 +229,6 @@ describe("Authentication", () => {
 
       // `exp` est bien porté par le jeton décodé — cf. l'assertion ci-dessus — mais absent du type IAccessToken.
       expect((accessToken as unknown as { exp: number }).exp).toBeLessThanOrEqual(Date.now() / 1_000 + 7 * 24 * 3600)
-    })
-  })
-
-  describe("POST /_private/auth/register-feedback", () => {
-    it("should send feedback email", async () => {
-      const token = await generateRegisterToken("user@exemple.fr")
-      const response = await app.inject({
-        method: "POST",
-        url: "/api/_private/auth/register-feedback",
-        headers: { authorization: `Bearer ${token}` },
-        body: {
-          comment: "My super comment",
-        },
-      })
-
-      expect(response.statusCode).toBe(200)
-      expect(JSON.parse(response.body)).toEqual({ success: true })
-
-      expect(vi.mocked(sendEmail)).toHaveBeenCalledWith({
-        name: "register-feedback",
-        to: "support_api@apprentissage.beta.gouv.fr",
-        comment: "My super comment",
-        from: "user@exemple.fr",
-      })
     })
   })
 

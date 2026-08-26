@@ -15,7 +15,6 @@
     "adminOrganisations": "Gestion des organisations",
     "adminProcessor": "Administration du processeur",
     "inscription": "Inscription",
-    "refusInscription": "Inscription",
     "adminUserView": "Fiche utilisateur",
     "adminOrganisationView": "Fiche Organisation",
     "adminProcessorJob": "Job {{name}}",

@@ -39,21 +39,6 @@ export const zAuthRoutes = {
     },
   },
   post: {
-    "/_private/auth/register-feedback": {
-      method: "post",
-      path: "/_private/auth/register-feedback",
-      body: z.object({
-        comment: z.string(),
-      }),
-      response: {
-        "200": z.object({ success: z.literal(true) }),
-      },
-      securityScheme: {
-        auth: "access-token",
-        access: null,
-        ressources: {},
-      },
-    },
     "/_private/auth/register": {
       method: "post",
       path: "/_private/auth/register",

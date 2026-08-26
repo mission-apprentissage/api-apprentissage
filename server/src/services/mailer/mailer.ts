@@ -37,7 +37,6 @@ function isTransactionalTemplate(template: ITemplate): boolean {
   switch (template.name) {
     case "register":
     case "magic-link":
-    case "register-feedback":
     case "api-key-will-expire":
       return true
     default:
@@ -94,8 +93,6 @@ export function getEmailSubject<T extends ITemplate>(template: T): string {
     case "register":
     case "magic-link":
       return "Vous avez demandé à recevoir un lien de connexion à l'espace développeurs La bonne alternance."
-    case "register-feedback":
-      return "Feedback de refus de création de compte"
     case "api-key-will-expire":
       return `📅 Votre clé API ${template.key_name} est sur le point d'expirer | Your API key ${template.key_name} is about to expire`
     default:

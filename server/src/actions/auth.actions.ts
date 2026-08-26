@@ -18,11 +18,6 @@ export async function generateRegisterToken(email: string): Promise<string> {
         options: "all",
         resources: {},
       }),
-      generateScope({
-        schema: zRoutes.post["/_private/auth/register-feedback"],
-        options: "all",
-        resources: {},
-      }),
     ],
     { expiresIn: "30d" }
   )
@@ -66,15 +61,6 @@ export async function sendRequestLoginEmail(email: string) {
   } else {
     await sendMagicLinkEmail(email, user.organisation)
   }
-}
-
-export async function sendRegisterFeedbackEmail(from: string, data: IBody<IPostRoutes["/_private/auth/register-feedback"]>) {
-  await sendEmail({
-    name: "register-feedback",
-    to: "support_api@apprentissage.beta.gouv.fr",
-    from,
-    comment: data.comment,
-  })
 }
 
 export async function registerUser(email: string, data: IBody<IPostRoutes["/_private/auth/register"]>): Promise<IUser> {

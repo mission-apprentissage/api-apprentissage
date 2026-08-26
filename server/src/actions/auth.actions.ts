@@ -78,7 +78,6 @@ export async function registerUser(email: string, data: IBody<IPostRoutes["/_pri
     organisation: null,
     type: data.type,
     activite: data.activite,
-    objectif: data.objectif,
     cas_usage: data.cas_usage,
     is_admin: false,
     api_keys: [],

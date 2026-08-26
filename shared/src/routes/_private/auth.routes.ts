@@ -46,7 +46,6 @@ export const zAuthRoutes = {
         z.pick(zUser, {
           type: true,
           activite: true,
-          objectif: true,
           cas_usage: true,
         }),
         {

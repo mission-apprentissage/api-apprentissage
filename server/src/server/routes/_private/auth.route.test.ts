@@ -404,7 +404,6 @@ describe("Authentication", () => {
         body: {
           type: "entreprise",
           activite: "",
-          objectif: "concevoir",
           cas_usage: "Mon cas",
           cgu: true,
         },

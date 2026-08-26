@@ -142,7 +142,6 @@ export default function UserView({ user, organisations, lang }: Props) {
         />
         <Input label="Type" nativeInputProps={control.register("type")} {...getInputState(errors?.type)} />
         <Input label="Activite" textArea nativeTextAreaProps={{ value: user.activite ?? "", name: "activite" }} disabled />
-        <Input label="Objectif" nativeInputProps={{ value: user.objectif ?? "", name: "objectif" }} disabled />
         <Input label="Cas Usage" textArea nativeTextAreaProps={{ value: user.cas_usage ?? "", name: "cas_usage" }} disabled />
         <Input label="CGU Accépté le" nativeInputProps={{ value: formatNullableDate(user.cgu_accepted_at), name: "cgu_accepted_at" }} disabled />
         <Input label="Mise à jour le" nativeInputProps={{ value: formatDate(user.updated_at), name: "updated_at" }} disabled />

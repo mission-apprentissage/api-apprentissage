@@ -4,7 +4,6 @@ import { Alert } from "@codegouvfr/react-dsfr/Alert"
 import { Button } from "@codegouvfr/react-dsfr/Button"
 import { Checkbox } from "@codegouvfr/react-dsfr/Checkbox"
 import { Input } from "@codegouvfr/react-dsfr/Input"
-import { RadioButtons } from "@codegouvfr/react-dsfr/RadioButtons"
 import { Select } from "@codegouvfr/react-dsfr/Select"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Box, Dialog, DialogContent, Typography } from "@mui/material"
@@ -51,9 +50,6 @@ export default function RegisterPage({ params }: PropsWithLangParams) {
   } = useForm<Inputs>({
     mode: "all",
     resolver: zodResolver(zRoutes.post["/_private/auth/register"].body),
-    defaultValues: {
-      objectif: null,
-    },
   })
   const { session, setSession } = useAuth()
   const { t } = useTranslation("inscription-connexion", { lng: lang })
@@ -65,11 +61,6 @@ export default function RegisterPage({ params }: PropsWithLangParams) {
     name: "type",
     control,
     rules: { required: true },
-  })
-  const objectifController = useController({
-    name: "objectif",
-    control,
-    rules: { required: false },
   })
   const cguController = useController({
     name: "cgu",
@@ -217,27 +208,6 @@ export default function RegisterPage({ params }: PropsWithLangParams) {
               {...getInputState(errors?.activite)}
               nativeTextAreaProps={register("activite", { required: false })}
               textArea
-            />
-            <RadioButtons
-              legend={t("creerCompte.souhaitUtiliserApi", { lng: lang })}
-              state={objectifController.fieldState.error ? "error" : "default"}
-              stateRelatedMessage={objectifController.fieldState.error?.message ?? ""}
-              options={[
-                {
-                  label: t("creerCompte.fiabiliserService", { lng: lang }),
-                  nativeInputProps: {
-                    checked: objectifController.field.value === "fiabiliser",
-                    onChange: () => objectifController.field.onChange("fiabiliser"),
-                  },
-                },
-                {
-                  label: t("creerCompte.concevoirService", { lng: lang }),
-                  nativeInputProps: {
-                    checked: objectifController.field.value === "concevoir",
-                    onChange: () => objectifController.field.onChange("concevoir"),
-                  },
-                },
-              ]}
             />
             <Input
               label={t("creerCompte.quelsCasUsage", { lng: lang })}

@@ -187,13 +187,11 @@ export default function RegisterPage({ params }: PropsWithLangParams) {
               <option value="" disabled hidden>
                 {t("creerCompte.selectionnerOption", { lng: lang })}
               </option>
+              <option value="apprenant">{t("creerCompte.apprenant", { lng: lang })}</option>
               <option value="operateur_public">{t("creerCompte.operateurPublic", { lng: lang })}</option>
               <option value="organisme_formation">{t("creerCompte.organismeFormation", { lng: lang })}</option>
               <option value="entreprise">{t("creerCompte.entreprise", { lng: lang })}</option>
               <option value="editeur_logiciel">{t("creerCompte.editeurLogiciel", { lng: lang })}</option>
-              <option value="organisme_financeur">{t("creerCompte.organismeFinanceur", { lng: lang })}</option>
-              <option value="apprenant">{t("creerCompte.apprenant", { lng: lang })}</option>
-              <option value="mission_apprentissage">{t("creerCompte.missionApprentissage", { lng: lang })}</option>
               <option value="autre">{t("creerCompte.autre", { lng: lang })}</option>
             </Select>
             <Box

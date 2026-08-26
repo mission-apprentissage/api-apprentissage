@@ -47,8 +47,7 @@ export const zAuthRoutes = {
           type: true,
           prenom: true,
           nom: true,
-          activite: true,
-          cas_usage: true,
+          description: true,
         }),
         {
           cgu: z.literal(true),

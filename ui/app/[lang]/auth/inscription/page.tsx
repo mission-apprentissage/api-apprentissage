@@ -213,17 +213,9 @@ export default function RegisterPage({ params }: PropsWithLangParams) {
               <Input label={t("creerCompte.nom", { lng: lang })} {...getInputState(errors?.nom)} nativeInputProps={register("nom", { required: false })} />
             </Box>
             <Input
-              label={t("creerCompte.quelleActivite", { lng: lang })}
-              hintText={t("creerCompte.activiteExemple", { lng: lang })}
-              {...getInputState(errors?.activite)}
-              nativeTextAreaProps={register("activite", { required: false })}
-              textArea
-            />
-            <Input
-              label={t("creerCompte.quelsCasUsage", { lng: lang })}
-              hintText={t("creerCompte.casUsageExemple", { lng: lang })}
-              {...getInputState(errors?.cas_usage)}
-              nativeTextAreaProps={register("cas_usage", { required: false })}
+              label={t("creerCompte.description", { lng: lang })}
+              {...getInputState(errors?.description)}
+              nativeTextAreaProps={register("description", { required: false })}
               textArea
             />
             <Checkbox

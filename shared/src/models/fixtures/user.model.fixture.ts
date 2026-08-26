@@ -18,8 +18,7 @@ export function generateUserFixture(data?: IUserFixtureInput): IUser {
     updated_at: new Date("2024-03-21T00:00:00Z"),
     created_at: new Date("2024-03-21T00:00:00Z"),
     type: "autre",
-    activite: null,
-    cas_usage: null,
+    description: null,
     cgu_accepted_at: new Date("2024-03-21T00:00:00Z"),
     ...data,
   }

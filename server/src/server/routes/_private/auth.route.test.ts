@@ -405,8 +405,7 @@ describe("Authentication", () => {
           type: "entreprise",
           prenom: "Jean",
           nom: "Dupont",
-          activite: "",
-          cas_usage: "Mon cas",
+          description: "Mon projet",
           cgu: true,
         },
       })

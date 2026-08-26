@@ -9363,17 +9363,6 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
     "_id": {
       "bsonType": "objectId",
     },
-    "activite": {
-      "anyOf": [
-        {
-          "bsonType": "string",
-          "minLength": 1,
-        },
-        {
-          "bsonType": "null",
-        },
-      ],
-    },
     "api_keys": {
       "bsonType": "array",
       "items": {
@@ -9430,7 +9419,13 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
         ],
       },
     },
-    "cas_usage": {
+    "cgu_accepted_at": {
+      "bsonType": "date",
+    },
+    "created_at": {
+      "bsonType": "date",
+    },
+    "description": {
       "anyOf": [
         {
           "bsonType": "string",
@@ -9440,12 +9435,6 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
           "bsonType": "null",
         },
       ],
-    },
-    "cgu_accepted_at": {
-      "bsonType": "date",
-    },
-    "created_at": {
-      "bsonType": "date",
     },
     "email": {
       "bsonType": "string",
@@ -9506,8 +9495,7 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
     "prenom",
     "nom",
     "type",
-    "activite",
-    "cas_usage",
+    "description",
     "cgu_accepted_at",
     "is_admin",
     "api_keys",

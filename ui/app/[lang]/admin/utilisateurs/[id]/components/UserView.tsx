@@ -54,6 +54,8 @@ export default function UserView({ user, organisations, lang }: Props) {
     resolver: zodResolver(zRoutes.put["/_private/admin/users/:id"].body),
     defaultValues: {
       email: user.email,
+      prenom: user.prenom ?? "",
+      nom: user.nom ?? "",
       is_admin: user.is_admin,
       organisation: user.organisation ?? "",
       type: user.type,
@@ -119,6 +121,17 @@ export default function UserView({ user, organisations, lang }: Props) {
 
       <Box component="form" onSubmit={handleSubmit(async (d) => mutation.mutateAsync(d))}>
         <Input label="Email" nativeInputProps={control.register("email")} {...getInputState(errors?.email)} />
+
+        <Box
+          display="grid"
+          sx={{
+            gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
+            gap: fr.spacing("3w"),
+          }}
+        >
+          <Input label="Prénom" nativeInputProps={control.register("prenom")} {...getInputState(errors?.prenom)} />
+          <Input label="Nom" nativeInputProps={control.register("nom")} {...getInputState(errors?.nom)} />
+        </Box>
 
         <Select label={<Typography>Organisation</Typography>} nativeSelectProps={control.register("organisation")} {...getInputState(errors?.organisation)}>
           <option value="">Selectionnez une option</option>

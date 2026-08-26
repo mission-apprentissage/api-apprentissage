@@ -403,6 +403,8 @@ describe("Authentication", () => {
         headers: { authorization: `Bearer ${token}` },
         body: {
           type: "entreprise",
+          prenom: "Jean",
+          nom: "Dupont",
           activite: "",
           cas_usage: "Mon cas",
           cgu: true,

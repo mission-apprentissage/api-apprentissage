@@ -4,6 +4,7 @@ import { Alert } from "@codegouvfr/react-dsfr/Alert"
 import { Button } from "@codegouvfr/react-dsfr/Button"
 import { createModal } from "@codegouvfr/react-dsfr/Modal"
 import { Box, Typography } from "@mui/material"
+import type { GridRenderCellParams } from "@mui/x-data-grid"
 import { useQuery } from "@tanstack/react-query"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useCallback, useMemo, useState } from "react"
@@ -92,9 +93,25 @@ const UserList = ({ lang }: WithLang) => {
         rows={users || []}
         columns={[
           {
-            field: "email",
-            headerName: "Email",
+            field: "utilisateur",
+            headerName: "Utilisateur",
             flex: 1,
+            valueGetter: (_value, row: Jsonify<IUserAdminView>) => `${row.email} ${[row.prenom, row.nom].filter(Boolean).join(" ")}`.trim(),
+            renderCell: ({ row }: GridRenderCellParams<Jsonify<IUserAdminView>>) => {
+              const fullName = [row.prenom, row.nom].filter(Boolean).join(" ")
+              return (
+                <Box sx={{ py: 1, lineHeight: 1.3 }}>
+                  <Typography variant="body2" className="fr-text--bold">
+                    {row.email}
+                  </Typography>
+                  {fullName && (
+                    <Typography variant="body2" className="fr-text--sm">
+                      {fullName}
+                    </Typography>
+                  )}
+                </Box>
+              )
+            },
           },
           {
             field: "organisation",

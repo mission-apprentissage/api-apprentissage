@@ -202,6 +202,16 @@ export default function RegisterPage({ params }: PropsWithLangParams) {
               <option value="mission_apprentissage">{t("creerCompte.missionApprentissage", { lng: lang })}</option>
               <option value="autre">{t("creerCompte.autre", { lng: lang })}</option>
             </Select>
+            <Box
+              display="grid"
+              sx={{
+                gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
+                gap: fr.spacing("3w"),
+              }}
+            >
+              <Input label={t("creerCompte.prenom", { lng: lang })} {...getInputState(errors?.prenom)} nativeInputProps={register("prenom", { required: false })} />
+              <Input label={t("creerCompte.nom", { lng: lang })} {...getInputState(errors?.nom)} nativeInputProps={register("nom", { required: false })} />
+            </Box>
             <Input
               label={t("creerCompte.quelleActivite", { lng: lang })}
               hintText={t("creerCompte.activiteExemple", { lng: lang })}

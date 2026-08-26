@@ -11,6 +11,8 @@ export function generateUserFixture(data?: IUserFixtureInput): IUser {
     _id: new ObjectId(),
     email: "user@exemple.fr",
     organisation: null,
+    prenom: null,
+    nom: null,
     is_admin: false,
     api_keys: [],
     updated_at: new Date("2024-03-21T00:00:00Z"),

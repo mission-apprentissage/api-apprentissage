@@ -61,6 +61,8 @@ export const zUser = z.object({
   _id: zObjectIdMini,
   organisation: z.nullable(z.string()),
   email: z.string().check(z.email(), z.toLowerCase()),
+  prenom: zStringTrimmedNullable,
+  nom: zStringTrimmedNullable,
   type: z.enum(["operateur_public", "organisme_formation", "entreprise", "editeur_logiciel", "organisme_financeur", "apprenant", "mission_apprentissage", "autre"]),
   activite: zStringTrimmedNullable,
   cas_usage: zStringTrimmedNullable,
@@ -91,6 +93,8 @@ export const zUserAdminView = z.extend(
   z.pick(zUser, {
     _id: true,
     email: true,
+    prenom: true,
+    nom: true,
     organisation: true,
     is_admin: true,
     type: true,
@@ -108,6 +112,8 @@ export const zUserAdminView = z.extend(
 export const zUserAdminUpdate = z.partial(
   z.pick(zUser, {
     email: true,
+    prenom: true,
+    nom: true,
     is_admin: true,
     organisation: true,
     type: true,

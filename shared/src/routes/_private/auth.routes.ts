@@ -45,6 +45,8 @@ export const zAuthRoutes = {
       body: z.extend(
         z.pick(zUser, {
           type: true,
+          prenom: true,
+          nom: true,
           activite: true,
           cas_usage: true,
         }),

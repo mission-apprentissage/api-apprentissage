@@ -9454,10 +9454,32 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
     "is_admin": {
       "bsonType": "bool",
     },
+    "nom": {
+      "anyOf": [
+        {
+          "bsonType": "string",
+          "minLength": 1,
+        },
+        {
+          "bsonType": "null",
+        },
+      ],
+    },
     "organisation": {
       "bsonType": [
         "string",
         "null",
+      ],
+    },
+    "prenom": {
+      "anyOf": [
+        {
+          "bsonType": "string",
+          "minLength": 1,
+        },
+        {
+          "bsonType": "null",
+        },
       ],
     },
     "type": {
@@ -9481,6 +9503,8 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
     "_id",
     "organisation",
     "email",
+    "prenom",
+    "nom",
     "type",
     "activite",
     "cas_usage",

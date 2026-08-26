@@ -32,7 +32,7 @@ export function LoginEmailSentModal({ email, lang, t }: WithLangAndT<{ email: st
         }}
       >
         <Box sx={{ textAlign: "right", marginBottom: fr.spacing("2w") }}>
-          <Button priority="tertiary">
+          <Button priority="tertiary" iconId="fr-icon-close-line" iconPosition="right">
             <Box component={Link} href={PAGES.static.home.getPath(lang)} sx={{ backgroundImage: "none" }}>
               {t("modal.fermer", { lng: lang })}
             </Box>

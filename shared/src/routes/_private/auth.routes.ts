@@ -3,7 +3,7 @@ import { zOrganisation } from "api-alternance-sdk"
 import type { Jsonify } from "type-fest"
 import { z } from "zod/v4-mini"
 
-import { zUser, zUserPublic } from "../../models/user.model.js"
+import { zStringRequired, zUser, zUserPublic } from "../../models/user.model.js"
 import { ZReqHeadersAuthorization, ZResOk } from "../common.routes.js"
 
 const zSession = z.object({
@@ -45,11 +45,12 @@ export const zAuthRoutes = {
       body: z.extend(
         z.pick(zUser, {
           type: true,
-          prenom: true,
-          nom: true,
-          description: true,
         }),
         {
+          // Requis à l'inscription, bien que nullable en base (utilisateurs existants sans valeur).
+          prenom: zStringRequired,
+          nom: zStringRequired,
+          description: zStringRequired,
           cgu: z.literal(true),
         }
       ),

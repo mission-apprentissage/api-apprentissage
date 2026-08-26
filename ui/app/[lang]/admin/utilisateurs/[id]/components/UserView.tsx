@@ -153,7 +153,16 @@ export default function UserView({ user, organisations, lang }: Props) {
             await trigger("is_admin")
           }}
         />
-        <Input label="Type" nativeInputProps={control.register("type")} {...getInputState(errors?.type)} />
+        <Select label={<Typography>Type</Typography>} nativeSelectProps={control.register("type")} {...getInputState(errors?.type)}>
+          <option value="operateur_public">Opérateur public</option>
+          <option value="organisme_formation">Organisme de formation</option>
+          <option value="entreprise">Entreprise</option>
+          <option value="editeur_logiciel">Editeur de logiciel</option>
+          <option value="organisme_financeur">Organisme financeur</option>
+          <option value="apprenant">Apprenant</option>
+          <option value="mission_apprentissage">Mission Apprentissage</option>
+          <option value="autre">Autre</option>
+        </Select>
         <Input
           label="Description du projet ou service (nom du projet, objectifs, url, public ciblé)"
           textArea

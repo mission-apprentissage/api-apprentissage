@@ -22,6 +22,7 @@
     "creerMonCompte": "Create my account",
     "renseignerInfos": "Please provide the information below to",
     "finaliserCreation": "complete the creation of your account",
+    "tousChampsObligatoires": "All fields are mandatory.",
     "vousEtes": "Who are you?",
     "selectionnerOption": "Select an option",
     "prenom": "First name",

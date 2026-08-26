@@ -121,7 +121,7 @@ export default function RegisterPage({ params }: PropsWithLangParams) {
       <DialogContent
         sx={{
           maxWidth: "md",
-          padding: fr.spacing("5w"),
+          padding: { xs: fr.spacing("2v"), md: fr.spacing("10v") },
         }}
       >
         <Box sx={{ textAlign: "right", marginBottom: fr.spacing("2w") }}>
@@ -137,9 +137,9 @@ export default function RegisterPage({ params }: PropsWithLangParams) {
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            padding: fr.spacing("5w"),
-            gap: fr.spacing("5w"),
-            marginBottom: fr.spacing("3w"),
+            padding: { xs: fr.spacing("4v"), md: fr.spacing("10v") },
+            gap: fr.spacing("10v"),
+            marginBottom: fr.spacing("6v"),
             border: "1px solid var(--light-border-default-grey, #DDD)",
             background: "var(--light-background-default-grey, #FFF)",
           }}
@@ -173,15 +173,9 @@ export default function RegisterPage({ params }: PropsWithLangParams) {
               flexDirection: "column",
             }}
           >
+            <Typography sx={{ marginBottom: fr.spacing("2w") }}>{t("creerCompte.tousChampsObligatoires", { lng: lang })}</Typography>
             <Select
-              label={
-                <Typography>
-                  {t("creerCompte.vousEtes", { lng: lang })} &nbsp;
-                  <Box component="span" sx={{ color: fr.colors.decisions.artwork.minor.redMarianne.default }}>
-                    *
-                  </Box>
-                </Typography>
-              }
+              label={<Typography>{t("creerCompte.vousEtes", { lng: lang })}</Typography>}
               nativeSelectProps={{
                 onChange: (event) => typeController.field.onChange(event.target.value),
                 value: typeController.field.value,
@@ -206,16 +200,20 @@ export default function RegisterPage({ params }: PropsWithLangParams) {
               display="grid"
               sx={{
                 gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
-                gap: fr.spacing("3w"),
+                gap: { xs: fr.spacing("3v"), md: fr.spacing("6v") },
               }}
             >
-              <Input label={t("creerCompte.prenom", { lng: lang })} {...getInputState(errors?.prenom)} nativeInputProps={register("prenom", { required: false })} />
-              <Input label={t("creerCompte.nom", { lng: lang })} {...getInputState(errors?.nom)} nativeInputProps={register("nom", { required: false })} />
+              <Box sx={{ marginBottom: fr.spacing("3v") }}>
+                <Input label={t("creerCompte.prenom", { lng: lang })} {...getInputState(errors?.prenom)} nativeInputProps={register("prenom", { required: true })} />
+              </Box>
+              <Box sx={{ marginBottom: fr.spacing("3v") }}>
+                <Input label={t("creerCompte.nom", { lng: lang })} {...getInputState(errors?.nom)} nativeInputProps={register("nom", { required: true })} />
+              </Box>
             </Box>
             <Input
               label={t("creerCompte.description", { lng: lang })}
               {...getInputState(errors?.description)}
-              nativeTextAreaProps={register("description", { required: false })}
+              nativeTextAreaProps={register("description", { required: true })}
               textArea
             />
             <Checkbox
@@ -229,10 +227,7 @@ export default function RegisterPage({ params }: PropsWithLangParams) {
                       <NextLink href={PAGES.static.cgu.getPath(lang)} target="_blank">
                         {t("creerCompte.conditionsGenerales", { lng: lang })}
                       </NextLink>
-                      &nbsp;{t("creerCompte.duService", { lng: lang })}&nbsp;
-                      <Box component="span" sx={{ color: fr.colors.decisions.artwork.minor.redMarianne.default }}>
-                        *
-                      </Box>
+                      &nbsp;{t("creerCompte.duService", { lng: lang })}
                     </Typography>
                   ),
                   nativeInputProps: register("cgu", { required: true }),

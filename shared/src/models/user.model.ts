@@ -57,13 +57,21 @@ const zStringTrimmedNullable = z.pipe(
   z.nullable(zStringTrimmed.check(z.minLength(1)))
 )
 
+const REQUIRED_FIELD_ERROR = "Obligatoire : veuillez renseigner une valeur"
+
+// Champ texte requis (non nullable), utilisé pour les champs devenus obligatoires
+// à la saisie (formulaires) alors que la donnée en base reste nullable (utilisateurs existants).
+export const zStringRequired = z.string({ error: REQUIRED_FIELD_ERROR }).check(z.trim(), z.minLength(1, { error: REQUIRED_FIELD_ERROR }))
+
 export const zUser = z.object({
   _id: zObjectIdMini,
   organisation: z.nullable(z.string()),
   email: z.string().check(z.email(), z.toLowerCase()),
   prenom: zStringTrimmedNullable,
   nom: zStringTrimmedNullable,
-  type: z.enum(["operateur_public", "organisme_formation", "entreprise", "editeur_logiciel", "organisme_financeur", "apprenant", "mission_apprentissage", "autre"]),
+  type: z.enum(["operateur_public", "organisme_formation", "entreprise", "editeur_logiciel", "organisme_financeur", "apprenant", "mission_apprentissage", "autre"], {
+    error: "Veuillez sélectionner une option",
+  }),
   description: zStringTrimmedNullable,
   cgu_accepted_at: z.date(),
   is_admin: z.boolean(),
@@ -107,15 +115,19 @@ export const zUserAdminView = z.extend(
   }
 )
 
-export const zUserAdminUpdate = z.partial(
-  z.pick(zUser, {
-    email: true,
-    prenom: true,
-    nom: true,
-    is_admin: true,
-    organisation: true,
-    type: true,
-  })
+export const zUserAdminUpdate = z.extend(
+  z.partial(
+    z.pick(zUser, {
+      email: true,
+      is_admin: true,
+      organisation: true,
+      type: true,
+    })
+  ),
+  {
+    prenom: zStringRequired,
+    nom: zStringRequired,
+  }
 )
 
 export type IUser = z.output<typeof zUser>

@@ -86,7 +86,7 @@ export const zUser = z.object({
   email: z.string().check(z.email(), z.toLowerCase()),
   prenom: zStringTrimmedNullable,
   nom: zStringTrimmedNullable,
-  type: z.enum(["operateur_public", "organisme_formation", "entreprise", "editeur_logiciel", "organisme_financeur", "apprenant", "mission_apprentissage", "autre"], {
+  type: z.enum(["operateur_public", "organisme_formation", "entreprise", "editeur_logiciel", "apprenant", "autre"], {
     error: USER_ERROR_KEYS.selectOption,
   }),
   // Précision du profil, saisie uniquement quand `type` vaut "autre" (cf. checkOtherType).

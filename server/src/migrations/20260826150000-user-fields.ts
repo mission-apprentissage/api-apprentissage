@@ -46,6 +46,23 @@ export const up = async () => {
     { $set: { prenom: null, nom: null } },
     { bypassDocumentValidation: true }
   )
+
+  // "mission_apprentissage" n'est plus proposé qu'à titre historique : on le convertit en "autre"
+  // avec une précision explicite dans `other_type`.
+  await getDbCollection("users").updateMany(
+    // @ts-expect-error "mission_apprentissage" n'est plus une valeur autorisée pour `type`
+    { type: "mission_apprentissage" },
+    { $set: { type: "autre", other_type: "Mission apprentissage" } },
+    { bypassDocumentValidation: true }
+  )
+
+  // "organisme_financeur" est absorbé par "operateur_public".
+  await getDbCollection("users").updateMany(
+    // @ts-expect-error "organisme_financeur" n'est plus une valeur autorisée pour `type`
+    { type: "organisme_financeur" },
+    { $set: { type: "operateur_public" } },
+    { bypassDocumentValidation: true }
+  )
 }
 
 export const requireShutdown: boolean = true

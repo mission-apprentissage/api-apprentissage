@@ -79,6 +79,15 @@
     "supprimer": "Delete",
     "etesVousSurDeSupprimerJeton": "Are you sure you want to delete this access token? This action is irreversible.",
     "jetonCopiePressePapier": "The token has been copied to the clipboard",
-    "erreurCopieJeton": "An error occurred while copying the token. Please copy the token manually:"
+    "erreurCopieJeton": "An error occurred while copying the token. Please copy the token manually:",
+    "environnement": "Environment",
+    "typeJeton": "Token type",
+    "typeJetonSandbox": "Sandbox — to test your integration",
+    "typeJetonSandboxHint": "Write habilitations are granted automatically. All exchanges with La bonne alternance (job search and posting, applications, appointments) go through a test environment. Other API data (certifications, trainings, organisations, geography) is identical to production.",
+    "typeJetonProduction": "Production",
+    "typeJetonProductionHint": "Exchanges with La bonne alternance happen in production. Your organisation's write habilitations apply.",
+    "envSandbox": "Sandbox",
+    "envProduction": "Production",
+    "encartSandbox": "A sandbox token lets you test your integration without any habilitation: all exchanges with La bonne alternance (job offers, applications, appointments) go through a test environment."
   }
 }

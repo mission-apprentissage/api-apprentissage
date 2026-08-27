@@ -1,13 +1,16 @@
 @media (min-width: 78em) {
   .api-key-table th:nth-child(2) {
+    width: 130px;
+  }
+  .api-key-table th:nth-child(3) {
     width: 120px;
   }
-  .api-key-table th:nth-child(3),
   .api-key-table th:nth-child(4),
-  .api-key-table th:nth-child(5) {
+  .api-key-table th:nth-child(5),
+  .api-key-table th:nth-child(6) {
     width: 170px;
   }
-  .api-key-table th:nth-child(6) {
+  .api-key-table th:nth-child(7) {
     width: 300px;
   }
 }

@@ -79,6 +79,15 @@
     "supprimer": "Supprimer",
     "etesVousSurDeSupprimerJeton": "Êtes-vous sûr de vouloir supprimer ce jeton d’accès ? Cette action est irréversible.",
     "jetonCopiePressePapier": "Le jeton a été copié dans le presse papier",
-    "erreurCopieJeton": "Une erreur est survenue lors de la copie du jeton. Veuillez copier manuellement le jeton:"
+    "erreurCopieJeton": "Une erreur est survenue lors de la copie du jeton. Veuillez copier manuellement le jeton:",
+    "environnement": "Environnement",
+    "typeJeton": "Type de jeton",
+    "typeJetonSandbox": "Sandbox — pour tester votre intégration",
+    "typeJetonSandboxHint": "Habilitations d'écriture accordées automatiquement. Tous les échanges avec La bonne alternance (recherche et dépôt d'offres, candidatures, rendez-vous) passent par un environnement de test. Les autres données de l'API (certifications, formations, organismes, géographie) sont identiques à la production.",
+    "typeJetonProduction": "Production",
+    "typeJetonProductionHint": "Les échanges avec La bonne alternance se font en production. Les habilitations d'écriture de votre organisation s'appliquent.",
+    "envSandbox": "Sandbox",
+    "envProduction": "Production",
+    "encartSandbox": "Un jeton sandbox permet de tester votre intégration sans habilitation : tous les échanges avec La bonne alternance (offres, candidatures, rendez-vous) passent par un environnement de test."
   }
 }

@@ -15,10 +15,10 @@ import { useTranslation } from "react-i18next"
 import type { IApiKeyEnv } from "shared/models/user.model"
 import type { PropsWithLangParams } from "@/app/i18n/settings"
 import { DsfrLink } from "@/components/link/DsfrLink"
+import Toast, { useToast } from "@/components/toast/Toast"
 import { PAGES } from "@/utils/routes.utils"
 import { ApiKeyAction } from "./components/ApiKeyAction"
 import { GenerateApiKey } from "./components/GenerateApiKey"
-import { ManageApiKeysBanner } from "./components/ManageApiKeysBanner"
 import { useApiKeys, useApiKeysStatut } from "./hooks/useApiKeys"
 
 const CustomWidthTooltip = styled(({ className, ...props }: TooltipProps) => <Tooltip {...props} classes={{ popper: className }} />)({
@@ -38,8 +38,10 @@ const ProfilPage = ({ params }: PropsWithLangParams) => {
   const { lang } = use(params)
   const apiKeys = useApiKeys()
   const statut = useApiKeysStatut()
+  const { toast, setToast, handleClose } = useToast()
 
   const { t } = useTranslation("inscription-connexion", { lng: lang })
+  const onApiKeyCreated = () => setToast({ severity: "success", message: t("monCompte.votreJetonCree", { lng: lang }) })
 
   const tableData = useMemo(() => {
     if (apiKeys.isLoading) {
@@ -126,10 +128,9 @@ const ProfilPage = ({ params }: PropsWithLangParams) => {
 
       <Alert description={t("monCompte.encartSandbox", { lng: lang })} severity="info" small />
 
-      {statut !== "actif-ready" && <GenerateApiKey lang={lang} t={t} />}
+      {statut !== "actif-ready" && <GenerateApiKey lang={lang} t={t} onCreated={onApiKeyCreated} />}
 
       <Box>
-        <ManageApiKeysBanner key="api-key-banner" lang={lang} t={t} />
         {tableData.length > 0 && (
           <Table
             data={tableData}
@@ -152,7 +153,8 @@ const ProfilPage = ({ params }: PropsWithLangParams) => {
         )}
       </Box>
 
-      {statut === "actif-ready" && <GenerateApiKey lang={lang} t={t} />}
+      {statut === "actif-ready" && <GenerateApiKey lang={lang} t={t} onCreated={onApiKeyCreated} />}
+      <Toast severity={toast?.severity} message={toast?.message} handleClose={handleClose} anchorOrigin={{ vertical: "top", horizontal: "right" }} />
     </Box>
   )
 }

@@ -27,7 +27,10 @@ export const generateApiKeyModal = createModal({
   isOpenedByDefault: false,
 })
 
-export function GenerateApiKey({ lang, t }: WithLangAndT) {
+// onCreated est géré par le parent (ProfilPage) plutôt que localement : selon le statut, ce
+// composant change de position dans le DOM (avant/après le tableau) juste après la création,
+// ce qui le démonterait avant qu'un toast local n'ait pu s'afficher
+export function GenerateApiKey({ lang, t, onCreated }: WithLangAndT<{ onCreated: () => void }>) {
   const status = useApiKeysStatut()
   const mutation = useCreateApiKeyMutation()
   const {
@@ -50,6 +53,7 @@ export function GenerateApiKey({ lang, t }: WithLangAndT) {
       // Valeurs explicites : reset() sans argument déclenche un form.reset() natif qui décoche
       // les radios (aucun defaultChecked HTML)
       reset({ name: "", env: "sandbox" })
+      onCreated()
     } catch (error) {
       console.error(error)
       if (error instanceof ApiError && error.context.statusCode < 500) {

@@ -27,7 +27,7 @@ describe("GET /geographie/v1/commune/search", () => {
       is_admin: false,
     })
     await getDbCollection("users").insertOne(user)
-    token = (await generateApiKey("", user)).value
+    token = (await generateApiKey("", "production", user)).value
     await getDbCollection("commune").insertMany(communeFixtures)
   })
 
@@ -99,7 +99,7 @@ describe("GET /geographie/v1/departement", () => {
       is_admin: false,
     })
     await getDbCollection("users").insertOne(user)
-    token = (await generateApiKey("", user)).value
+    token = (await generateApiKey("", "production", user)).value
     await getDbCollection("commune").insertMany(communeFixtures)
   })
 
@@ -258,7 +258,7 @@ describe("GET /geographie/v1/mission-locale", () => {
       is_admin: false,
     })
     await getDbCollection("users").insertOne(user)
-    token = (await generateApiKey("", user)).value
+    token = (await generateApiKey("", "production", user)).value
     await getDbCollection("commune").insertMany(communeFixtures)
   })
 

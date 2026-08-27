@@ -28,10 +28,15 @@ const indexes: IModelDescriptorGeneric["indexes"] = [
   [{ organisation: 1 }, {}],
 ]
 
+export const zApiKeyEnv = z.enum(["production", "sandbox"])
+
+export type IApiKeyEnv = z.output<typeof zApiKeyEnv>
+
 export const zApiKey = z.object({
   _id: zObjectIdMini,
   name: z.nullable(z.string()),
   key: z.string(),
+  env: zApiKeyEnv,
   last_used_at: z.nullable(z.date()),
   expires_at: z.date(),
   created_at: z.date(),

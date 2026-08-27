@@ -136,7 +136,7 @@ describe("GET /certification/v1", () => {
       is_admin: false,
     })
     await getDbCollection("users").insertOne(user)
-    token = (await generateApiKey("", user)).value
+    token = (await generateApiKey("", "production", user)).value
     await getDbCollection("certifications").insertMany(Object.values(certifications))
   })
 

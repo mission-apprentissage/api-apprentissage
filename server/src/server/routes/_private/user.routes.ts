@@ -13,7 +13,7 @@ export const userRoutes = ({ server }: { server: Server }) => {
     },
     async (request, response) => {
       const user = getUserFromRequest(request, zRoutes.post["/_private/user/api-key"])
-      const result = await generateApiKey(request.body.name, user)
+      const result = await generateApiKey(request.body.name, request.body.env, user)
       return response.status(200).send(result)
     }
   )

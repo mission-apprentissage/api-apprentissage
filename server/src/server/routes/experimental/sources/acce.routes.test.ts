@@ -254,7 +254,7 @@ describe("acce.routes", () => {
       is_admin: false,
     })
     await getDbCollection("users").insertOne(user)
-    token = (await generateApiKey("", user)).value
+    token = (await generateApiKey("", "production", user)).value
     await getDbCollection("source.acce").insertMany(Object.values(todayImport.acce))
     await getDbCollection("source.acce").insertMany(Object.values(yesterdayImport.acce))
     await getDbCollection("source.acce").insertMany(Object.values(todayImport.zone))

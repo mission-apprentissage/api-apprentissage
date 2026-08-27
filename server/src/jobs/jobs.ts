@@ -1,10 +1,11 @@
 import { addJob, initJobProcessor } from "job-processor"
 import { zImportMetaFranceCompetence, zImportMetaNpec } from "shared/models/import.meta.model"
+import { modelDescriptors } from "shared/models/models"
 import { z } from "zod/v4-mini"
 import config from "@/config.js"
 import { checkDocumentationSync } from "@/services/documentation/checkDocumentationSync.js"
 import logger, { createJobProcessorLogger } from "@/services/logger.js"
-import { createIndexes, getDatabase } from "@/services/mongodb/mongodbService.js"
+import { configureDbSchemaValidation, createIndexes, getDatabase } from "@/services/mongodb/mongodbService.js"
 import { removeInactiveAccounts } from "../services/inactiveAccounts/inactiveAccounts.service.js"
 import { notifyUsersAboutExpiringApiKeys } from "./apiKey/apiKeyExpiration.notifier.js"
 import { validateModels } from "./db/schemaValidation.js"
@@ -62,6 +63,9 @@ export async function setupJobProcessor() {
       "migrations:up": {
         handler: async () => {
           await upMigration()
+          // Le validateur $jsonSchema n'est appliqué qu'une fois les migrations passées : les
+          // documents sont alors conformes au nouveau schéma (cf. commentaire dans main.ts)
+          await configureDbSchemaValidation(modelDescriptors)
           // Validate all documents after the migration
           await addJob({ name: "db:validate", queued: true })
           return

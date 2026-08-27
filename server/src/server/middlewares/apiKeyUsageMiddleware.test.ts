@@ -86,8 +86,8 @@ describe("apiKeyUsageMiddleware", () => {
       is_admin: false,
     })
     await getDbCollection("users").insertOne(user)
-    token = (await generateApiKey("", user)).value
-    token2 = (await generateApiKey("", user)).value
+    token = (await generateApiKey("", "production", user)).value
+    token2 = (await generateApiKey("", "production", user)).value
     user = (await getDbCollection("users").findOne({ _id: user._id }))!
 
     return () => {
@@ -128,6 +128,7 @@ describe("apiKeyUsageMiddleware", () => {
       _id: expect.any(ObjectId),
       user_id: user._id,
       api_key_id: user.api_keys[0]._id,
+      api_key_env: "production",
       method: "GET",
       path: "/",
     }
@@ -211,6 +212,7 @@ describe("apiKeyUsageMiddleware", () => {
       _id: expect.any(ObjectId),
       user_id: user._id,
       api_key_id: user.api_keys[0]._id,
+      api_key_env: "production",
       method: "POST",
       path: "/:name",
     }
@@ -219,6 +221,56 @@ describe("apiKeyUsageMiddleware", () => {
       expect(await getDbCollection("indicateurs.usage_api").find().toArray()).toEqual([
         { ...attributes, date: new Date("2024-03-21T00:00:00Z"), code: 200, type: "success", count: 2 },
         { ...attributes, date: new Date("2024-03-21T00:00:00Z"), code: 400, type: "client_error", count: 1 },
+      ])
+    })
+  })
+
+  it("should increment legacy documents without api_key_env instead of duplicating them", async () => {
+    // Document créé avant l'introduction du champ api_key_env : le filtre de l'upsert ne doit pas
+    // l'inclure, sinon duplicate key sur l'index unique (method, path, date, user_id, api_key_id, code).
+    // L'attendu est {...legacyDoc, count: +1} : le document reste SANS api_key_env, c'est l'assertion centrale.
+    const legacyDoc = {
+      _id: new ObjectId(),
+      user_id: user._id,
+      api_key_id: user.api_keys[0]._id,
+      method: "GET",
+      path: "/",
+      date: new Date("2024-03-21T00:00:00Z"),
+      code: 200,
+      type: "success" as const,
+      count: 5,
+    }
+    await getDbCollection("indicateurs.usage_api").insertOne(legacyDoc)
+
+    const response = await runGet()
+    expect.soft(response.statusCode).toBe(200)
+
+    await vi.waitFor(async () => {
+      expect(await getDbCollection("indicateurs.usage_api").find().toArray()).toEqual([{ ...legacyDoc, count: 6 }])
+    })
+  })
+
+  it("should register api_key_env sandbox for sandbox keys", async () => {
+    const sandboxToken = (await generateApiKey("", "sandbox", user)).value
+    user = (await getDbCollection("users").findOne({ _id: user._id }))!
+
+    const response = await runGet(sandboxToken)
+    expect.soft(response.statusCode).toBe(200)
+
+    await vi.waitFor(async () => {
+      expect(await getDbCollection("indicateurs.usage_api").find().toArray()).toEqual([
+        {
+          _id: expect.any(ObjectId),
+          user_id: user._id,
+          api_key_id: user.api_keys[2]._id,
+          api_key_env: "sandbox",
+          method: "GET",
+          path: "/",
+          date: new Date("2024-03-21T00:00:00Z"),
+          code: 200,
+          type: "success",
+          count: 1,
+        },
       ])
     })
   })
@@ -240,6 +292,7 @@ describe("apiKeyUsageMiddleware", () => {
           _id: expect.any(ObjectId),
           user_id: user._id,
           api_key_id: user.api_keys[0]._id,
+          api_key_env: "production",
           method: "GET",
           path: "/",
           date: new Date("2024-03-21T00:00:00Z"),

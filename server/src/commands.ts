@@ -9,6 +9,7 @@ import { program } from "commander"
 import { addJob, startJobProcessor } from "job-processor"
 import HttpTerminator from "lil-http-terminator"
 import type { OperationObject, SchemaObject } from "openapi3-ts/oas31"
+import { modelDescriptors } from "shared/models/models"
 
 import config from "./config.js"
 import createServer from "./server/server.js"
@@ -16,7 +17,7 @@ import { checkDocumentationSync } from "./services/documentation/checkDocumentat
 import { createAuthToken } from "./services/forward/forwardApi.service.js"
 import logger from "./services/logger.js"
 import { closeMailer } from "./services/mailer/mailer.js"
-import { closeMongodbConnection, getDbCollection } from "./services/mongodb/mongodbService.js"
+import { closeMongodbConnection, configureDbSchemaValidation, getDbCollection } from "./services/mongodb/mongodbService.js"
 import { closeSentry } from "./services/sentry/sentry.js"
 import { sleep } from "./utils/asyncUtils.js"
 
@@ -85,6 +86,8 @@ program
     try {
       const signal = createProcessExitSignal()
 
+      await configureDbSchemaValidation(modelDescriptors)
+
       const server = await createServer()
       await server.listen({ port: config.port, host: "0.0.0.0" })
       logger.info(`Server ready and listening on port ${config.port}`)
@@ -138,6 +141,7 @@ program
     }
 
     try {
+      await configureDbSchemaValidation(modelDescriptors)
       await startProcessor(signal)
     } catch (error) {
       captureException(error)

@@ -23,5 +23,10 @@
     "adminProcessorCron": "CRON {{name}}",
     "adminProcessorCronTask": "CRON Task {{id}}",
     "adminImporters": "Importers"
+  },
+  "errors": {
+    "requiredField": "Required: please provide a value",
+    "selectOption": "Please select an option",
+    "otherTypeRequired": "Please specify your profile"
   }
 }

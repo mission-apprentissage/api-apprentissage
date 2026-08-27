@@ -27,7 +27,10 @@ import { PAGES } from "@/utils/routes.utils"
 
 type Inputs = Jsonify<IBody<IPostRoutes["/_private/auth/register"]>>
 
-function getInputState(error: FieldError | undefined | null): {
+function getInputState(
+  error: FieldError | undefined | null,
+  translateError: (message: string) => string
+): {
   state: "default" | "error" | "success"
   stateRelatedMessage: string
 } {
@@ -35,7 +38,7 @@ function getInputState(error: FieldError | undefined | null): {
     return { state: "default", stateRelatedMessage: "" }
   }
 
-  return { state: "error", stateRelatedMessage: error.message ?? "Erreur de validation" }
+  return { state: "error", stateRelatedMessage: error.message ? translateError(error.message) : "Erreur de validation" }
 }
 
 const defaultErrorMessage = "Une erreur est survenue lors de l'envoi du formulaire. Veuillez réessayer ultérieurement."
@@ -53,6 +56,9 @@ export default function RegisterPage({ params }: PropsWithLangParams) {
   })
   const { session, setSession } = useAuth()
   const { t } = useTranslation("inscription-connexion", { lng: lang })
+  // Les messages d'erreur Zod custom sont des clefs du namespace "global" (cf. shared/models/user.model.ts) ;
+  // les messages génériques Zod sont déjà résolus en texte via z.config (StartIntl) et passent inchangés.
+  const translateError = (message: string) => t(message as never, { lng: lang })
 
   const token = useJwtToken()
   const { push } = useRouter()
@@ -182,7 +188,7 @@ export default function RegisterPage({ params }: PropsWithLangParams) {
                 defaultValue: "",
               }}
               state={typeController.fieldState.error ? "error" : "default"}
-              stateRelatedMessage={typeController.fieldState.error?.message ?? ""}
+              stateRelatedMessage={typeController.fieldState.error?.message ? translateError(typeController.fieldState.error.message) : ""}
             >
               <option value="" disabled hidden>
                 {t("creerCompte.selectionnerOption", { lng: lang })}
@@ -195,7 +201,11 @@ export default function RegisterPage({ params }: PropsWithLangParams) {
               <option value="autre">{t("creerCompte.autre", { lng: lang })}</option>
             </Select>
             {typeController.field.value === "autre" && (
-              <Input label={t("creerCompte.autrePrecision", { lng: lang })} {...getInputState(errors?.other_type)} nativeInputProps={register("other_type", { required: true })} />
+              <Input
+                label={t("creerCompte.autrePrecision", { lng: lang })}
+                {...getInputState(errors?.other_type, translateError)}
+                nativeInputProps={register("other_type", { required: true })}
+              />
             )}
             <Box
               display="grid"
@@ -205,15 +215,19 @@ export default function RegisterPage({ params }: PropsWithLangParams) {
               }}
             >
               <Box sx={{ marginBottom: fr.spacing("3v") }}>
-                <Input label={t("creerCompte.prenom", { lng: lang })} {...getInputState(errors?.prenom)} nativeInputProps={register("prenom", { required: true })} />
+                <Input
+                  label={t("creerCompte.prenom", { lng: lang })}
+                  {...getInputState(errors?.prenom, translateError)}
+                  nativeInputProps={register("prenom", { required: true })}
+                />
               </Box>
               <Box sx={{ marginBottom: fr.spacing("3v") }}>
-                <Input label={t("creerCompte.nom", { lng: lang })} {...getInputState(errors?.nom)} nativeInputProps={register("nom", { required: true })} />
+                <Input label={t("creerCompte.nom", { lng: lang })} {...getInputState(errors?.nom, translateError)} nativeInputProps={register("nom", { required: true })} />
               </Box>
             </Box>
             <Input
               label={t("creerCompte.description", { lng: lang })}
-              {...getInputState(errors?.description)}
+              {...getInputState(errors?.description, translateError)}
               nativeTextAreaProps={register("description", { required: true })}
               textArea
             />

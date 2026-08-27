@@ -57,13 +57,22 @@ const zStringTrimmedNullable = z.pipe(
   z.nullable(zStringTrimmed.check(z.minLength(1)))
 )
 
-const REQUIRED_FIELD_ERROR = "Obligatoire : veuillez renseigner une valeur"
+// Les schémas ci-dessous ne portent que des CLEFS de traduction (namespace i18n "global", cf.
+// ui/app/i18n/locales/{fr,en}/global.json sous "errors"), jamais de texte final : `shared/` est
+// consommé aussi bien par `server/` que par `ui/` et ne doit pas connaître la langue de la page.
+// Charge à l'UI de résoudre `error.message` via `t(error.message)` avant affichage — les messages
+// Zod génériques (non custom, ex. email invalide) passent inchangés dans ce `t()` : la locale
+// zod (z.config) les a déjà résolus en texte final, et une clef introuvable renvoie sa valeur
+// d'origine telle quelle (comportement par défaut de i18next).
+export const USER_ERROR_KEYS = {
+  requiredField: "errors.requiredField",
+  selectOption: "errors.selectOption",
+  otherTypeRequired: "errors.otherTypeRequired",
+} as const
 
 // Champ texte requis (non nullable), utilisé pour les champs devenus obligatoires
 // à la saisie (formulaires) alors que la donnée en base reste nullable (utilisateurs existants).
-export const zStringRequired = z.string({ error: REQUIRED_FIELD_ERROR }).check(z.trim(), z.minLength(1, { error: REQUIRED_FIELD_ERROR }))
-
-export const OTHER_TYPE_REQUIRED_ERROR = "Veuillez préciser votre profil :"
+export const zStringRequired = z.string({ error: USER_ERROR_KEYS.requiredField }).check(z.trim(), z.minLength(1, { error: USER_ERROR_KEYS.requiredField }))
 
 // Requiert `other_type` non vide dès lors que `type` vaut "autre" (un `type` absent, ex. update
 // partielle sans ce champ, n'est jamais considéré comme "autre" et ne déclenche donc pas la règle).
@@ -78,7 +87,7 @@ export const zUser = z.object({
   prenom: zStringTrimmedNullable,
   nom: zStringTrimmedNullable,
   type: z.enum(["operateur_public", "organisme_formation", "entreprise", "editeur_logiciel", "organisme_financeur", "apprenant", "mission_apprentissage", "autre"], {
-    error: "Veuillez sélectionner une option",
+    error: USER_ERROR_KEYS.selectOption,
   }),
   // Précision du profil, saisie uniquement quand `type` vaut "autre" (cf. checkOtherType).
   other_type: z.nullish(zStringTrimmed),
@@ -144,7 +153,7 @@ export const zUserAdminUpdate = z
   )
   .check(
     z.refine(checkOtherType, {
-      error: OTHER_TYPE_REQUIRED_ERROR,
+      error: USER_ERROR_KEYS.otherTypeRequired,
       path: ["other_type"],
     })
   )

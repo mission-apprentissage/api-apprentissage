@@ -3,7 +3,7 @@ import { zOrganisation } from "api-alternance-sdk"
 import type { Jsonify } from "type-fest"
 import { z } from "zod/v4-mini"
 
-import { checkOtherType, OTHER_TYPE_REQUIRED_ERROR, zStringRequired, zUser, zUserPublic } from "../../models/user.model.js"
+import { checkOtherType, USER_ERROR_KEYS, zStringRequired, zUser, zUserPublic } from "../../models/user.model.js"
 import { ZReqHeadersAuthorization, ZResOk } from "../common.routes.js"
 
 const zSession = z.object({
@@ -58,7 +58,7 @@ export const zAuthRoutes = {
         )
         .check(
           z.refine(checkOtherType, {
-            error: OTHER_TYPE_REQUIRED_ERROR,
+            error: USER_ERROR_KEYS.otherTypeRequired,
             path: ["other_type"],
           })
         ),

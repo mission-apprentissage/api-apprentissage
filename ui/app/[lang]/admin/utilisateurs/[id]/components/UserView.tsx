@@ -30,7 +30,10 @@ type Props = WithLang<{
   organisations: Jsonify<IOrganisationInternal[]>
 }>
 
-function getInputState(error: FieldError | undefined | null): {
+function getInputState(
+  error: FieldError | undefined | null,
+  translateError: (message: string) => string
+): {
   state: "default" | "error" | "success"
   stateRelatedMessage: string
 } {
@@ -38,7 +41,7 @@ function getInputState(error: FieldError | undefined | null): {
     return { state: "default", stateRelatedMessage: "" }
   }
 
-  return { state: "error", stateRelatedMessage: error.message ?? "Erreur de validation" }
+  return { state: "error", stateRelatedMessage: error.message ? translateError(error.message) : "Erreur de validation" }
 }
 
 export default function UserView({ user, organisations, lang }: Props) {
@@ -67,6 +70,9 @@ export default function UserView({ user, organisations, lang }: Props) {
   const typeValue = watch("type")
 
   const { t } = useTranslation("global", { lng: lang })
+  // Fiche admin non traduite (français uniquement) : messages d'erreur toujours en français,
+  // indépendamment de la langue de l'URL (cf. clefs "errors.*" du namespace "global").
+  const translateError = (message: string) => t(message as never, { lng: "fr" })
   const isAdminControl = control.register("is_admin")
   const queryClient = useQueryClient()
 
@@ -124,7 +130,7 @@ export default function UserView({ user, organisations, lang }: Props) {
       {mutation.isSuccess && <Box sx={{ marginTop: fr.spacing("2w") }}></Box>}
 
       <Box component="form" onSubmit={handleSubmit(async (d) => mutation.mutateAsync(d))}>
-        <Input label="Email" nativeInputProps={control.register("email")} {...getInputState(errors?.email)} />
+        <Input label="Email" nativeInputProps={control.register("email")} {...getInputState(errors?.email, translateError)} />
 
         <Box
           display="grid"
@@ -133,11 +139,11 @@ export default function UserView({ user, organisations, lang }: Props) {
             gap: fr.spacing("3w"),
           }}
         >
-          <Input label="Prénom" nativeInputProps={control.register("prenom")} {...getInputState(errors?.prenom)} />
-          <Input label="Nom" nativeInputProps={control.register("nom")} {...getInputState(errors?.nom)} />
+          <Input label="Prénom" nativeInputProps={control.register("prenom")} {...getInputState(errors?.prenom, translateError)} />
+          <Input label="Nom" nativeInputProps={control.register("nom")} {...getInputState(errors?.nom, translateError)} />
         </Box>
 
-        <Select label={<Typography>Organisation</Typography>} nativeSelectProps={control.register("organisation")} {...getInputState(errors?.organisation)}>
+        <Select label={<Typography>Organisation</Typography>} nativeSelectProps={control.register("organisation")} {...getInputState(errors?.organisation, translateError)}>
           <option value="">Selectionnez une option</option>
           {organisations.map((o) => (
             <option key={o.nom} value={o.nom}>
@@ -157,7 +163,7 @@ export default function UserView({ user, organisations, lang }: Props) {
             await trigger("is_admin")
           }}
         />
-        <Select label={<Typography>Type</Typography>} nativeSelectProps={control.register("type")} {...getInputState(errors?.type)}>
+        <Select label={<Typography>Type</Typography>} nativeSelectProps={control.register("type")} {...getInputState(errors?.type, translateError)}>
           <option value="operateur_public">Opérateur public</option>
           <option value="organisme_formation">Organisme de formation</option>
           <option value="entreprise">Entreprise</option>
@@ -167,7 +173,9 @@ export default function UserView({ user, organisations, lang }: Props) {
           <option value="mission_apprentissage">Mission Apprentissage</option>
           <option value="autre">Autre</option>
         </Select>
-        {typeValue === "autre" && <Input label="Veuillez préciser votre profil :" nativeInputProps={control.register("other_type")} {...getInputState(errors?.other_type)} />}
+        {typeValue === "autre" && (
+          <Input label="Veuillez préciser votre profil :" nativeInputProps={control.register("other_type")} {...getInputState(errors?.other_type, translateError)} />
+        )}
         <Input
           label="Description du projet ou service (nom du projet, objectifs, url, public ciblé)"
           textArea

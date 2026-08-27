@@ -1,6 +1,6 @@
 @media (min-width: 78em) {
   .api-key-table th:nth-child(2) {
-    width: 130px;
+    width: 160px;
   }
   .api-key-table th:nth-child(3) {
     width: 120px;

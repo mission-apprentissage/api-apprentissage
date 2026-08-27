@@ -51,13 +51,15 @@ function getApiDescription(lang: "en" | "fr" | null, siteUrl: string): string {
     case "fr":
       return `# Environnements : production et sandbox
 
-L'environnement est porté par le **type de votre clé API** (choisi à la création, sur [votre compte](${siteUrl}/compte/profil)), pas par l'URL — les deux environnements répondent sur la même adresse.
+L'environnement est porté par le **type de votre clé API** (choisi à la création, sur [votre compte](${siteUrl}/compte/profil)), pas par l'URL : dans les deux cas, ciblez \`${siteUrl}/api\`.
 
 | | Clé **sandbox** | Clé **production** |
 |---|---|---|
 | Habilitations d'écriture | Accordées automatiquement | Sur demande au support |
 | Échanges La bonne alternance (recherche et dépôt d'offres, candidatures, rendez-vous) | Environnement de test | Production |
 | Autres données (certifications, formations, organismes, géographie) | Identiques à la production | Production |
+
+Avec une clé sandbox, vos dépôts d'offres, candidatures et prises de rendez-vous sont routés vers l'environnement de recette de [labonnealternance-recette.apprentissage.beta.gouv.fr](https://labonnealternance-recette.apprentissage.beta.gouv.fr) — jumelé à votre clé sandbox — et non vers sa production : rien de ce que vous envoyez n'est visible par de vrais candidats ou employeurs.
 
 Commencez avec une clé sandbox pour développer votre intégration, puis créez une clé production pour passer en réel.
 
@@ -88,13 +90,15 @@ Lorsque votre quota est atteint, l'API renvoie un code **HTTP 429 — Too Many R
     case "en":
       return `# Environments: production and sandbox
 
-The environment is carried by the **type of your API key** (chosen at creation, on [your account](${siteUrl}/compte/profil)), not by the URL — both environments respond on the same address.
+The environment is carried by the **type of your API key** (chosen at creation, on [your account](${siteUrl}/compte/profil)), not by the URL: in both cases, target \`${siteUrl}/api\`.
 
 | | **Sandbox** key | **Production** key |
 |---|---|---|
 | Write habilitations | Granted automatically | On request to support |
 | La bonne alternance exchanges (job search and posting, applications, appointments) | Test environment | Production |
 | Other data (certifications, trainings, organisations, geography) | Identical to production | Production |
+
+With a sandbox key, your job postings, applications and appointment bookings are routed to La bonne alternance's staging environment — [labonnealternance-recette.apprentissage.beta.gouv.fr](https://labonnealternance-recette.apprentissage.beta.gouv.fr), paired with your sandbox key — rather than its production: nothing you send is visible to real candidates or employers.
 
 Start with a sandbox key to build your integration, then create a production key to go live.
 

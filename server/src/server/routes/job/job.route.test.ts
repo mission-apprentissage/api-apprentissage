@@ -97,8 +97,10 @@ const tokens = {
 // Clé publique correspondant à API_TOKEN_PRIVATE_KEY_SANDBOX (paire de test dédiée dans .env.test)
 const sandboxPublicKey = createPublicKey(config.api.alternance.private_key_sandbox).export({ type: "spki", format: "pem" }).toString()
 
-// Une clé sandbox force les 3 habilitations à true et signe avec la clé privée sandbox :
-// le token doit être vérifiable avec la clé publique sandbox et REJETÉ par la clé publique production
+// Une clé sandbox force les habilitations métier à true et signe avec la clé privée sandbox :
+// le token doit être vérifiable avec la clé publique sandbox et REJETÉ par la clé publique production.
+// Un utilisateur sans organisation reçoit un label synthétique (LBA rejette organisation null
+// et l'utilise comme partner_label des offres).
 const nockMatchSandboxAuthorization = (u: IUser) => {
   let token: string = ""
 
@@ -116,7 +118,7 @@ const nockMatchSandboxAuthorization = (u: IUser) => {
             "appointments:write": true,
             "jobs:write": true,
           },
-          organisation: u.organisation,
+          organisation: u.organisation ?? `sandbox:${u.email}`,
         },
         success: true,
       })
@@ -392,7 +394,13 @@ describe("sandbox key routing", () => {
     expect(response.json()).toEqual({ jobs: [], recruiters: [], warnings: [] })
   })
 
-  it("should forward write request to the sandbox endpoint with all habilitations", async () => {
+  // "basic" (sans organisation) est le cas cible du self-service : c'est SandboxRole qui autorise
+  // et le token porte l'organisation synthétique. "jobWrite" vérifie qu'une organisation déjà
+  // habilitée passe par le même chemin sandbox (endpoint + signature).
+  it.each<["basic" | "jobWrite", "basicSandbox" | "jobWriteSandbox"]>([
+    ["basic", "basicSandbox"],
+    ["jobWrite", "jobWriteSandbox"],
+  ])("should forward write request from %s user to the sandbox endpoint with all habilitations", async (userName, tokenName) => {
     const body = {
       offer: {
         title: "Opérations administratives",
@@ -404,7 +412,7 @@ describe("sandbox key routing", () => {
       apply: {},
     }
 
-    const { matchHeader, expectAuth } = nockMatchSandboxAuthorization(users.jobWrite)
+    const { matchHeader, expectAuth } = nockMatchSandboxAuthorization(users[userName])
 
     nock("https://labonnealternance-sandbox-test.apprentissage.beta.gouv.fr/api")
       .post("/v3/jobs", (b) => {
@@ -419,33 +427,13 @@ describe("sandbox key routing", () => {
       url: `/api/job/v1/offer`,
       body,
       headers: {
-        Authorization: `Bearer ${tokens.jobWriteSandbox}`,
+        Authorization: `Bearer ${tokens[tokenName]}`,
       },
     })
 
     await expectAuth()
     expect.soft(response.statusCode).toBe(200)
     expect(response.json()).toEqual({ id: "1" })
-  })
-
-  // Verrouille le comportement de la phase 2 : l'autorisation côté API ne connaît pas encore
-  // l'env de la clé, une clé sandbox sans organisation habilitée est refusée AVANT le forward.
-  // La phase 3 (SandboxRole) fera passer ce cas à 200 — ce test devra alors être inversé.
-  it("should returns 403 for a sandbox key without habilitation until phase 3", async () => {
-    const response = await app.inject({
-      method: "POST",
-      url: "/api/job/v1/offer",
-      body: {
-        offer: { title: "Opérations administratives", description: "Exécute des travaux administratifs courants" },
-        workplace: { siret: "11000001500013" },
-        apply: {},
-      },
-      headers: {
-        Authorization: `Bearer ${tokens.basicSandbox}`,
-      },
-    })
-
-    expect(response.statusCode).toBe(403)
   })
 })
 

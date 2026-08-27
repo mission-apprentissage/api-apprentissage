@@ -39,10 +39,13 @@ const myConfig = {
   moduleSystem: "esm",
 }
 
-async function listMigrationFiles(): Promise<string[]> {
-  const files = await readdir(myConfig.migrationsDir, { withFileTypes: true })
+async function listMigrationFiles(migrationsDir: string): Promise<string[]> {
+  const files = await readdir(migrationsDir, { withFileTypes: true })
 
-  return files.filter((file) => file.isFile() && file.name.endsWith(myConfig.migrationFileExtension)).map((file) => file.name)
+  return files
+    .filter((file) => file.isFile() && file.name.endsWith(myConfig.migrationFileExtension))
+    .map((file) => file.name)
+    .sort()
 }
 
 async function getAppliedMigrations(): Promise<Map<string, Date>> {
@@ -56,7 +59,7 @@ async function getAppliedMigrations(): Promise<Map<string, Date>> {
 }
 
 export async function up(): Promise<number> {
-  const migrationFiles = await listMigrationFiles()
+  const migrationFiles = await listMigrationFiles(myConfig.migrationsDir)
   const appliedMigrationsFiles = await getAppliedMigrations()
 
   let count = 0
@@ -78,8 +81,8 @@ export async function up(): Promise<number> {
 }
 
 // Show migration status and returns number of pending migrations
-export async function status(): Promise<{ count: number; requireShutdown: boolean }> {
-  const migrationFiles = await listMigrationFiles()
+export async function status(migrationsDir: string = myConfig.migrationsDir): Promise<{ count: number; requireShutdown: boolean }> {
+  const migrationFiles = await listMigrationFiles(migrationsDir)
   const appliedMigrationsFiles = await getAppliedMigrations()
 
   const result = {
@@ -90,9 +93,9 @@ export async function status(): Promise<{ count: number; requireShutdown: boolea
   for (const migrationFile of migrationFiles) {
     if (!appliedMigrationsFiles.has(migrationFile)) {
       result.count++
+      const { requireShutdown = false } = await import(path.join(migrationsDir, migrationFile))
+      result.requireShutdown = result.requireShutdown || requireShutdown
     }
-    const { requireShutdown = false } = await import(path.join(myConfig.migrationsDir, migrationFile))
-    result.requireShutdown = result.requireShutdown || requireShutdown
 
     const appliedAt = appliedMigrationsFiles.get(migrationFile) ?? "PENDING"
     console.log(`${migrationFile} : ${appliedAt}`)

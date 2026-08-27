@@ -1,8 +1,8 @@
 import { getDbCollection } from "@/services/mongodb/mongodbService.js"
 
 export const up = async () => {
-  // Les clés existantes conservent leur comportement actuel, étiqueté "production" ; le routage
-  // des écritures selon env n'existe pas encore (phase 2 du chantier, cf. issue lba#5236)
+  // Les clés existantes sont étiquetées "production" : le routage du forward selon env
+  // (forwardApi.service) les fait cibler LBA production, comme avant l'introduction du champ
   await getDbCollection("users").updateMany(
     {},
     {

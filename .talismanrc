@@ -1,4 +1,10 @@
 fileignoreconfig:
+- filename: .infra/env.local.yml
+  checksum: e6070a81b47c8e70041b19375efe91a381b606851d9c06b2d102e586eb984864
+- filename: .infra/env.production.yml
+  checksum: ce2c5da2df650ea5a67f7f18f07149062070ffbc45ee9c93c693970e179f22f9
+- filename: .infra/env.recette.yml
+  checksum: 82e95bf8674147b86ee5b0c9f66ba41a7d80848681e0f8b5ae53efb723510881
 - filename: .infra/files/configs/mongodb/seed.gpg
   checksum: 2b50edfd731f38552bb0c428ada1095ee73e1058736a12b228a72b5d529193b6
 - filename: .yarn/patches/exceljs-npm-4.4.0-15bcfdd142.patch
@@ -36,7 +42,7 @@ fileignoreconfig:
 - filename: sdk/src/openapi/__snapshots__/openapiSpec.test.ts.snap
   checksum: 284171c0363887ae1e119800e17aafb6cad92ae6ca7037aaa59704d2b3f368a8
 - filename: server/.env.test
-  checksum: 65357f150bfedfebea511b1007eed941983484abf990d87e91fd7477360ad280
+  checksum: cf148442a20d22f0eee7ea48b3a43398dd508bf3f6c28863490812cd66a91af0
 - filename: server/src/jobs/importer/catalogue/fixtures/sample.ts
   checksum: b1335a1859f5c91edfb6ccabe0b91d61dea53130f6270a5172e20450bb36e119
 - filename: server/src/jobs/importer/commune/__snapshots__/commune.importer.test.ts.snap

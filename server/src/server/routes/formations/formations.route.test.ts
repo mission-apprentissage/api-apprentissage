@@ -379,6 +379,28 @@ describe("POST /formation/v1/appointment/generate-link", () => {
     const result = response.json()
     expect(result).toEqual(data)
   })
+
+  it("should forward sandbox key request to the sandbox endpoint", async () => {
+    const sandboxToken = (await generateApiKey("", "sandbox", users.appointmentsWrite)).value
+
+    // Seul l'endpoint sandbox est nocké : un forward vers l'endpoint production ferait échouer le test
+    nock(config.api.lba.endpoint_sandbox)
+      .post("/v2/appointment", (b) => {
+        expect.soft(b).toEqual(body)
+        return true
+      })
+      .reply(200, { form_url: "https://example.com" })
+
+    const response = await app.inject({
+      method: "POST",
+      headers: { Authorization: `Bearer ${sandboxToken}` },
+      url: "/api/formation/v1/appointment/generate-link",
+      body,
+    })
+
+    expect.soft(response.statusCode).toBe(200)
+    expect(response.json()).toEqual({ form_url: "https://example.com" })
+  })
 })
 
 describe("GET /formation/v1/:id", () => {

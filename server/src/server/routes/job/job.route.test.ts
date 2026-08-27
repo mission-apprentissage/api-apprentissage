@@ -1,3 +1,5 @@
+import { createPublicKey } from "node:crypto"
+
 import { useMongo } from "@tests/mongo.test.utils.js"
 import { parseApiAlternanceToken } from "api-alternance-sdk"
 import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock"
@@ -88,6 +90,41 @@ const tokens = {
   jobWrite: "",
   applicationWrite: "",
   appointmentsWrite: "",
+  basicSandbox: "",
+  jobWriteSandbox: "",
+}
+
+// Clé publique correspondant à API_TOKEN_PRIVATE_KEY_SANDBOX (paire de test dédiée dans .env.test)
+const sandboxPublicKey = createPublicKey(config.api.alternance.private_key_sandbox).export({ type: "spki", format: "pem" }).toString()
+
+// Une clé sandbox force les 3 habilitations à true et signe avec la clé privée sandbox :
+// le token doit être vérifiable avec la clé publique sandbox et REJETÉ par la clé publique production
+const nockMatchSandboxAuthorization = (u: IUser) => {
+  let token: string = ""
+
+  return {
+    matchHeader: (t: string) => {
+      token = t
+      return true
+    },
+    expectAuth: async () => {
+      await expect.soft(parseApiAlternanceToken({ token, publicKey: sandboxPublicKey })).resolves.toEqual({
+        data: {
+          email: u.email,
+          habilitations: {
+            "applications:write": true,
+            "appointments:write": true,
+            "jobs:write": true,
+          },
+          organisation: u.organisation,
+        },
+        success: true,
+      })
+      // Isolation structurelle : le token sandbox est invérifiable par la clé publique production.
+      // reason ciblé : seul invalid-signature prouve l'isolation (pas missing-bearer/invalid-format)
+      await expect.soft(parseApiAlternanceToken({ token, publicKey: config.api.alternance.public_cert })).resolves.toEqual({ success: false, reason: "invalid-signature" })
+    },
+  }
 }
 
 const nockMatchUserAuthorization = (u: IUser, habilitations: string[]) => {
@@ -124,13 +161,18 @@ const nockMatchUserAuthorization = (u: IUser, habilitations: string[]) => {
 }
 
 beforeEach(async () => {
-  await getDbCollection("users").insertMany(Object.values(users))
-  await getDbCollection("organisations").insertMany(Object.values(organisations))
-  tokens.basic = (await generateApiKey("", "production", users.basic)).value
-  tokens.read = (await generateApiKey("", "production", users.read)).value
-  tokens.jobWrite = (await generateApiKey("", "production", users.jobWrite)).value
-  tokens.applicationWrite = (await generateApiKey("", "production", users.applicationWrite)).value
-  tokens.appointmentsWrite = (await generateApiKey("", "production", users.appointmentsWrite)).value
+  await Promise.all([getDbCollection("users").insertMany(Object.values(users)), getDbCollection("organisations").insertMany(Object.values(organisations))])
+  ;[tokens.basic, tokens.read, tokens.jobWrite, tokens.applicationWrite, tokens.appointmentsWrite, tokens.basicSandbox, tokens.jobWriteSandbox] = (
+    await Promise.all([
+      generateApiKey("", "production", users.basic),
+      generateApiKey("", "production", users.read),
+      generateApiKey("", "production", users.jobWrite),
+      generateApiKey("", "production", users.applicationWrite),
+      generateApiKey("", "production", users.appointmentsWrite),
+      generateApiKey("", "sandbox", users.basic),
+      generateApiKey("", "sandbox", users.jobWrite),
+    ])
+  ).map((k) => k.value)
 })
 
 describe("GET /job/v1/search", () => {
@@ -324,6 +366,86 @@ describe("POST /job/v1/offer", () => {
     expect.soft(response.statusCode).toBe(200)
     const result = response.json()
     expect(result).toEqual({ id: "1" })
+  })
+})
+
+describe("sandbox key routing", () => {
+  it("should forward read request to the sandbox endpoint with a sandbox-signed token", async () => {
+    const { matchHeader, expectAuth } = nockMatchSandboxAuthorization(users.basic)
+
+    nock("https://labonnealternance-sandbox-test.apprentissage.beta.gouv.fr/api")
+      .get("/v3/jobs/search")
+      .query({ romes: "I1401" })
+      .matchHeader("authorization", matchHeader)
+      .reply(200, { jobs: [], recruiters: [], warnings: [] })
+
+    const response = await app.inject({
+      method: "GET",
+      url: "/api/job/v1/search?romes=I1401",
+      headers: {
+        Authorization: `Bearer ${tokens.basicSandbox}`,
+      },
+    })
+
+    await expectAuth()
+    expect.soft(response.statusCode).toBe(200)
+    expect(response.json()).toEqual({ jobs: [], recruiters: [], warnings: [] })
+  })
+
+  it("should forward write request to the sandbox endpoint with all habilitations", async () => {
+    const body = {
+      offer: {
+        title: "Opérations administratives",
+        description: "Exécute des travaux administratifs courants",
+      },
+      workplace: {
+        siret: "11000001500013",
+      },
+      apply: {},
+    }
+
+    const { matchHeader, expectAuth } = nockMatchSandboxAuthorization(users.jobWrite)
+
+    nock("https://labonnealternance-sandbox-test.apprentissage.beta.gouv.fr/api")
+      .post("/v3/jobs", (b) => {
+        expect.soft(b).toEqual(body)
+        return true
+      })
+      .matchHeader("authorization", matchHeader)
+      .reply(200, { id: "1" })
+
+    const response = await app.inject({
+      method: "POST",
+      url: `/api/job/v1/offer`,
+      body,
+      headers: {
+        Authorization: `Bearer ${tokens.jobWriteSandbox}`,
+      },
+    })
+
+    await expectAuth()
+    expect.soft(response.statusCode).toBe(200)
+    expect(response.json()).toEqual({ id: "1" })
+  })
+
+  // Verrouille le comportement de la phase 2 : l'autorisation côté API ne connaît pas encore
+  // l'env de la clé, une clé sandbox sans organisation habilitée est refusée AVANT le forward.
+  // La phase 3 (SandboxRole) fera passer ce cas à 200 — ce test devra alors être inversé.
+  it("should returns 403 for a sandbox key without habilitation until phase 3", async () => {
+    const response = await app.inject({
+      method: "POST",
+      url: "/api/job/v1/offer",
+      body: {
+        offer: { title: "Opérations administratives", description: "Exécute des travaux administratifs courants" },
+        workplace: { siret: "11000001500013" },
+        apply: {},
+      },
+      headers: {
+        Authorization: `Bearer ${tokens.basicSandbox}`,
+      },
+    })
+
+    expect(response.statusCode).toBe(403)
   })
 })
 

@@ -2,6 +2,7 @@
 import { fr } from "@codegouvfr/react-dsfr"
 import { Button } from "@codegouvfr/react-dsfr/Button"
 import { Box, Dialog, DialogContent, Typography } from "@mui/material"
+import { CONTACT_EMAIL } from "api-alternance-sdk/internal"
 import Link from "next/link"
 
 import type { WithLangAndT } from "@/app/i18n/settings"
@@ -71,8 +72,8 @@ export function LoginEmailSentModal({ email, lang, t }: WithLangAndT<{ email: st
           <Artwork name="mail-sent" />
           <Typography textAlign="center" color={fr.colors.decisions.text.default.grey.default}>
             {t("loginEmailSent.problemeReceptionLien", { lng: lang })}{" "}
-            <Box component="a" href="mailto:contact@labonnealternance.apprentissage.beta.gouv.fr" sx={{ color: fr.colors.decisions.text.actionHigh.blueFrance.default }}>
-              contact@labonnealternance.apprentissage.beta.gouv.fr
+            <Box component="a" href={`mailto:${CONTACT_EMAIL}`} sx={{ color: fr.colors.decisions.text.actionHigh.blueFrance.default }}>
+              {CONTACT_EMAIL}
             </Box>
           </Typography>
         </Box>

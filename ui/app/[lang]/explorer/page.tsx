@@ -12,6 +12,7 @@ import { Tag as TagDsfr } from "@codegouvfr/react-dsfr/Tag"
 import { Tile } from "@codegouvfr/react-dsfr/Tile"
 import { Box, Container, Typography } from "@mui/material"
 import {
+  CONTACT_EMAIL,
   candidatureOffrePageSummaryDoc,
   certificationsPageSummaryDoc,
   depotOffrePageSummaryDoc,
@@ -192,7 +193,7 @@ export default async function ExplorerApiPage({ params }: PropsWithLangParams) {
               </Typography>
               <Box display="grid" gap={fr.spacing("2v")}>
                 <Typography>
-                  <DsfrLink href="mailto:support_api@apprentissage.beta.gouv.fr">Dites-le nous</DsfrLink>
+                  <DsfrLink href={`mailto:${CONTACT_EMAIL}`}>Dites-le nous</DsfrLink>
                 </Typography>
               </Box>
             </Box>

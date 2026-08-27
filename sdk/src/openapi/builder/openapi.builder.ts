@@ -6,6 +6,7 @@ import { zSiret, zUai } from "../../models/organisme/organismes.primitives.js"
 import { zTransformNullIfEmptyString } from "../../models/primitives/primitives.model.js"
 import type { IApiRoutesDef } from "../../routes/index.js"
 import { zApiRoutes } from "../../routes/index.js"
+import { CONTACT_EMAIL } from "../../utils/contact.js"
 import { zParisLocalDate } from "../../utils/date.primitives.js"
 import { openapiSpec } from "../openapiSpec.js"
 import { generateComponents, generateOpenApiOperationObjectFromZod } from "../utils/openapi.uils.js"
@@ -38,9 +39,9 @@ function getContactName(lang: "en" | "fr" | null): string {
 function getSecuritySchemeDescription(lang: "en" | "fr" | null): string {
   switch (lang) {
     case "fr":
-      return "Clé d'API à fournir dans le header `Authorization`. Si la route nécessite une habilitation particulière veuillez contacter le support pour en faire la demande à [support_api@apprentissage.beta.gouv.fr](mailto:support_api@apprentissage.beta.gouv.fr)"
+      return `Clé d'API à fournir dans le header \`Authorization\`. Si la route nécessite une habilitation particulière veuillez contacter le support pour en faire la demande à [${CONTACT_EMAIL}](mailto:${CONTACT_EMAIL})`
     case "en":
-      return "API key to provide in the `Authorization` header. If the route requires a particular authorization, please contact support to request it at [support_api@apprentissage.beta.gouv.fr](mailto:support_api@apprentissage.beta.gouv.fr)"
+      return `API key to provide in the \`Authorization\` header. If the route requires a particular authorization, please contact support to request it at [${CONTACT_EMAIL}](mailto:${CONTACT_EMAIL})`
     default:
       return ""
   }
@@ -72,7 +73,7 @@ Lorsque votre quota est atteint, l'API renvoie un code **HTTP 429 — Too Many R
 
 - Surveillez les headers \`x-ratelimit-remaining\` pour anticiper l'atteinte des limites.
 - Implémentez un mécanisme de retry avec backoff exponentiel respectant le \`retry-after\`.
-- Si vos volumes nécessitent des limites supérieures, contactez [support_api@apprentissage.beta.gouv.fr](mailto:support_api@apprentissage.beta.gouv.fr).`
+- Si vos volumes nécessitent des limites supérieures, contactez [${CONTACT_EMAIL}](mailto:${CONTACT_EMAIL}).`
     case "en":
       return `# Rate limiting
 
@@ -97,7 +98,7 @@ Once your quota is reached, the API responds with **HTTP 429 — Too Many Reques
 
 - Monitor \`x-ratelimit-remaining\` to anticipate hitting the limits.
 - Implement retries with exponential backoff that honor \`retry-after\`.
-- If your volume requires higher limits, contact [support_api@apprentissage.beta.gouv.fr](mailto:support_api@apprentissage.beta.gouv.fr).`
+- If your volume requires higher limits, contact [${CONTACT_EMAIL}](mailto:${CONTACT_EMAIL}).`
     default:
       return ""
   }
@@ -136,7 +137,7 @@ export function buildOpenApiSchema(version: string, env: string, publicUrl: stri
       termsOfService: "https://api.apprentissage.beta.gouv.fr/cgu",
       contact: {
         name: getContactName(lang),
-        email: "support_api@apprentissage.beta.gouv.fr",
+        email: CONTACT_EMAIL,
       },
     },
     servers: [

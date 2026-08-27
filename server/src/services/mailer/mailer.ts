@@ -1,5 +1,6 @@
 import { internal } from "@hapi/boom"
 import { captureException } from "@sentry/node"
+import { CONTACT_EMAIL } from "api-alternance-sdk/internal"
 import { renderFile } from "ejs"
 import { omit } from "lodash-es"
 import mjml from "mjml"
@@ -140,7 +141,7 @@ export async function renderEmail(template: ITemplate, emailEvent: IEmailEvent |
       preview: getPreviewActionLink(template),
       markAsOpened: await getMarkAsOpenedActionLink(emailEvent),
     },
-    utils: { getPublicUrl },
+    utils: { getPublicUrl, contactEmail: CONTACT_EMAIL },
   })
 
   const { html } = mjml(buffer.toString(), { minify: true })

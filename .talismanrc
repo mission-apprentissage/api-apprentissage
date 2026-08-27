@@ -35,6 +35,8 @@ fileignoreconfig:
   checksum: c9c21285a42458dbaf264b7894cfd2418b813fb540ead95c718fcc941409a32f
 - filename: sdk/src/openapi/__snapshots__/openapiSpec.test.ts.snap
   checksum: 284171c0363887ae1e119800e17aafb6cad92ae6ca7037aaa59704d2b3f368a8
+- filename: sdk/src/utils/contact.ts
+  checksum: d444aecabf08cf831baba750184d5aaddaefef8cb082efd1b6b321bfa207d827
 - filename: server/.env.test
   checksum: 65357f150bfedfebea511b1007eed941983484abf990d87e91fd7477360ad280
 - filename: server/src/jobs/importer/catalogue/fixtures/sample.ts
@@ -60,7 +62,7 @@ fileignoreconfig:
 - filename: shared/src/models/fixtures/commune.model.fixture.ts
   checksum: 84d4cc1767cbdd9add0b2fec8c9509a08815deed3ae5d143e162c1b8dba88243
 - filename: shared/src/openapi/__snapshots__/generateOpenapi.test.ts.snap
-  checksum: 1a78e9db4da98b0211781a80fea16338136b44d47dcc7a105723b875878ae929
+  checksum: 80413427f57730e5041c708bdd2eadb505ee9318e914f820cff3b45bc254e18b
 - filename: ui/app/[lang]/explorer/certifications/page.tsx
   checksum: 79162968dc111206592c35c9bdbfc1babae88ad1390a190d6c7b5108ebb82b9d
 - filename: ui/app/[lang]/explorer/depot-offre/page.tsx

@@ -6,6 +6,7 @@ import { Input } from "@codegouvfr/react-dsfr/Input"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Box, Dialog, DialogContent, Typography } from "@mui/material"
 import { captureException } from "@sentry/nextjs"
+import { CONTACT_EMAIL } from "api-alternance-sdk/internal"
 import Link from "next/link"
 import { useState } from "react"
 import type { FieldError, SubmitHandler } from "react-hook-form"
@@ -153,8 +154,8 @@ export function LoginModal({ lang }: WithLang) {
         </Box>
         <Typography textAlign="center" color={fr.colors.decisions.text.default.grey.default}>
           {t("modal.problemeConnexionContactezNous", { lng: lang })}{" "}
-          <Box component="a" href="mailto:support_api@apprentissage.beta.gouv.fr" sx={{ color: fr.colors.decisions.text.actionHigh.blueFrance.default }}>
-            support_api@apprentissage.beta.gouv.fr
+          <Box component="a" href={`mailto:${CONTACT_EMAIL}`} sx={{ color: fr.colors.decisions.text.actionHigh.blueFrance.default }}>
+            {CONTACT_EMAIL}
           </Box>
         </Typography>
       </DialogContent>

@@ -8,6 +8,7 @@ import { Select } from "@codegouvfr/react-dsfr/Select"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Box, Dialog, DialogContent, Typography } from "@mui/material"
 import { captureException } from "@sentry/nextjs"
+import { CONTACT_EMAIL } from "api-alternance-sdk/internal"
 import NextLink from "next/link"
 import { useRouter } from "next/navigation"
 import { use, useEffect, useState } from "react"
@@ -263,8 +264,8 @@ export default function RegisterPage({ params }: PropsWithLangParams) {
         </Box>
         <Typography textAlign="center" color={fr.colors.decisions.text.default.grey.default}>
           {t("creerCompte.problemesConnexion", { lng: lang })}{" "}
-          <Box component="a" href="mailto:support_api@apprentissage.beta.gouv.fr" sx={{ color: fr.colors.decisions.text.actionHigh.blueFrance.default }}>
-            support_api@apprentissage.beta.gouv.fr
+          <Box component="a" href={`mailto:${CONTACT_EMAIL}`} sx={{ color: fr.colors.decisions.text.actionHigh.blueFrance.default }}>
+            {CONTACT_EMAIL}
           </Box>
         </Typography>
       </DialogContent>

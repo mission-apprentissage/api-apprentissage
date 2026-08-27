@@ -10,6 +10,7 @@ import type { WithLang } from "@/app/i18n/settings"
 import { Artwork } from "@/components/artwork/Artwork"
 import { DsfrLink } from "@/components/link/DsfrLink"
 import { useAuth } from "@/context/AuthContext"
+import { PAGES } from "@/utils/routes.utils"
 
 type Props = WithLang<{
   habilitation: null | keyof OpenapiSpec["demandeHabilitations"]
@@ -48,6 +49,10 @@ export function HabilitationRequise({ lang, habilitation }: Props) {
           className={fr.cx("fr-text--bold")}
         >
           {t("habilitationRequise.titre", { lng: lang })}
+        </Typography>
+        <Typography className={fr.cx("fr-text--sm")}>
+          {t("habilitationRequise.ouSandbox", { lng: lang })}{" "}
+          <DsfrLink href={PAGES.static.compteProfil.getPath(lang)}>{t("habilitationRequise.ouSandboxLien", { lng: lang })}</DsfrLink>
         </Typography>
         <DsfrLink
           href={`mailto:support_api@apprentissage.beta.gouv.fr?subject=${encodeURIComponent(getTextOpenAPI(subject, lang))}&body=${getTextOpenAPI(body, lang)}`}

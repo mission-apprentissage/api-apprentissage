@@ -88,6 +88,6 @@
     "typeJetonProductionHint": "Les échanges avec La bonne alternance se font en production. Les habilitations d'écriture de votre organisation s'appliquent.",
     "envSandbox": "Sandbox",
     "envProduction": "Production",
-    "encartSandbox": "Un jeton sandbox permet de tester votre intégration sans habilitation : tous les échanges avec La bonne alternance (offres, candidatures, rendez-vous) passent par un environnement de test."
+    "encartSandbox": "Un jeton sandbox permet de tester votre intégration sans habilitation : tous les échanges avec La bonne alternance (recherche et dépôt d'offres, candidatures, rendez-vous) passent par un environnement de test."
   }
 }

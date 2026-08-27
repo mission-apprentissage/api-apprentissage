@@ -88,6 +88,6 @@
     "typeJetonProductionHint": "Exchanges with La bonne alternance happen in production. Your organisation's write habilitations apply.",
     "envSandbox": "Sandbox",
     "envProduction": "Production",
-    "encartSandbox": "A sandbox token lets you test your integration without any habilitation: all exchanges with La bonne alternance (job offers, applications, appointments) go through a test environment."
+    "encartSandbox": "A sandbox token lets you test your integration without any habilitation: all exchanges with La bonne alternance (job search and posting, applications, appointments) go through a test environment."
   }
 }

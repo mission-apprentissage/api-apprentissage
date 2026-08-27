@@ -47,6 +47,7 @@ describe("forwardApi.service", () => {
             email: "basic@exemple.fr",
             habilitations: { "applications:write": false, "appointments:write": false, "jobs:write": false },
             organisation: null,
+            env: "production",
           },
           success: true,
         })
@@ -68,6 +69,7 @@ describe("forwardApi.service", () => {
             email: "user@exemple.fr",
             habilitations: { "applications:write": false, "appointments:write": false, "jobs:write": true },
             organisation: "Org",
+            env: "production",
           },
           success: true,
         })

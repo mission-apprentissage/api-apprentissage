@@ -119,6 +119,7 @@ const nockMatchSandboxAuthorization = (u: IUser) => {
             "jobs:write": true,
           },
           organisation: u.organisation ?? `sandbox:${u.email}`,
+          env: "sandbox",
         },
         success: true,
       })
@@ -154,6 +155,7 @@ const nockMatchUserAuthorization = (u: IUser, habilitations: string[]) => {
               "jobs:write": false,
             }),
             organisation: u.organisation,
+            env: "production",
           },
           success: true,
         })

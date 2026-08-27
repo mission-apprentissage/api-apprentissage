@@ -80,6 +80,9 @@ export async function createAuthToken({ user, organisation, apiKeyEnv }: Identit
       email: user.email,
       organisation: organisationLabel,
       habilitations: Object.fromEntries(ORGANISATION_HABILITATIONS.map((habilitation) => [habilitation, isSandbox || hasHabilitation(organisation, habilitation)])),
+      // Défense en profondeur : l'isolation est portée par les clés de signature, ce claim permet
+      // en plus au vérificateur de rejeter explicitement un token sandbox
+      env: apiKeyEnv,
     },
     privateKey: isSandbox ? config.api.alternance.private_key_sandbox : config.api.alternance.private_key,
     expiresIn,

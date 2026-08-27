@@ -2,6 +2,7 @@ import "react-notion-x/src/styles.css"
 
 import { fr } from "@codegouvfr/react-dsfr"
 import MuiDsfrThemeProvider from "@codegouvfr/react-dsfr/mui"
+import { Notice } from "@codegouvfr/react-dsfr/Notice"
 import { createGetHtmlAttributes, DsfrHeadBase } from "@codegouvfr/react-dsfr/next-app-router/server-only-index"
 import { Box } from "@mui/material"
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter"
@@ -12,11 +13,13 @@ import { cookies } from "next/headers"
 import Link from "next/link"
 import type { PropsWithChildren } from "react"
 import type { ISessionJson } from "shared/routes/_private/auth.routes"
+import { getServerTranslation } from "@/app/i18n"
 import { StartIntl } from "@/app/i18n/StartIntl"
 import type { PropsWithLangParams } from "@/app/i18n/settings"
 import { languages } from "@/app/i18n/settings"
 import Footer from "@/components/Footer"
 import { Header } from "@/components/header/Header"
+import { publicConfig } from "@/config.public"
 import { AuthContextProvider } from "@/context/AuthContext"
 import { defaultColorScheme } from "@/theme/defaultColorScheme"
 import type { ApiError } from "@/utils/api.utils"
@@ -67,6 +70,7 @@ export default async function LangLayout({ children, params }: PropsWithChildren
   const session = await getSession()
 
   const lang = languages.includes(requestedLang) ? requestedLang : languages[0]
+  const { t } = await getServerTranslation(lang, "global")
 
   return (
     <html {...getHtmlAttributes({ lang })} dir={dir(lang)}>
@@ -95,6 +99,7 @@ export default async function LangLayout({ children, params }: PropsWithChildren
               <StartDsfrOnHydration />
               <MuiDsfrThemeProvider>
                 <Header lang={lang} />
+                {publicConfig.env === "recette" && <Notice title={t("bandeauRecette")} />}
                 <Box
                   sx={{
                     minHeight: "60vh",

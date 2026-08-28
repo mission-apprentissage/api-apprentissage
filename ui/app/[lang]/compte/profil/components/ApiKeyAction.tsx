@@ -5,7 +5,6 @@ import { Alert } from "@codegouvfr/react-dsfr/Alert"
 import { Button } from "@codegouvfr/react-dsfr/Button"
 import { createModal } from "@codegouvfr/react-dsfr/Modal"
 import { Box, Snackbar, Typography } from "@mui/material"
-import Tooltip from "@mui/material/Tooltip"
 import { captureException } from "@sentry/nextjs"
 import { useCallback, useMemo, useState } from "react"
 import type { IApiKeyPrivateJson } from "shared/models/user.model"
@@ -72,15 +71,6 @@ export function ApiKeyAction({ apiKey, index, lang, t }: WithLangAndT<{ apiKey: 
       <Button key={`copy_action_${index}`} onClick={onClick} size="small" priority={"primary"} disabled={!apiKey.value}>
         {t("monCompte.copierJeton", { lng: lang })}
       </Button>
-      <Tooltip title={t("monCompte.supprimerJeton", { lng: lang })}>
-        <Box
-          component={"i"}
-          sx={{
-            color: fr.colors.decisions.background.active.blueFrance.default,
-          }}
-          className={fr.cx("fr-icon-question-line", "fr-icon--md")}
-        ></Box>
-      </Tooltip>
       <Button key={`delete_action_${index}`} nativeButtonProps={modal.buttonProps} size="small" priority="tertiary">
         {t("monCompte.supprimer", { lng: lang })}
       </Button>

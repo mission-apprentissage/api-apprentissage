@@ -1,5 +1,6 @@
 import { forbidden, internal } from "@hapi/boom"
-import type { IApiRouteSchema, SchemaWithSecurity, WithSecurityScheme } from "api-alternance-sdk"
+import type { IApiRouteSchema, IOrganisationHabilitation, SchemaWithSecurity, WithSecurityScheme } from "api-alternance-sdk"
+import { ORGANISATION_HABILITATIONS } from "api-alternance-sdk"
 import type { AccessPermission, AccessResourcePath, PathParam, QueryString, Role } from "api-alternance-sdk/internal"
 import { AdminRole, getBaseRole, SandboxRole } from "api-alternance-sdk/internal"
 import type { FastifyRequest } from "fastify"
@@ -63,6 +64,14 @@ function getUserRole(user: IUser, organisation: IOrganisationInternal | null, ap
   }
 
   return user.is_admin ? AdminRole : getBaseRole(organisation)
+}
+
+// Habilitations métier réellement portées par une clé, dérivées du MÊME rôle que celui appliqué à
+// l'authentification : l'affichage ne peut pas diverger de l'autorisation. Filtré sur les
+// habilitations d'organisation — `admin` et `user:manage` ne sont pas des habilitations d'API.
+export function getApiKeyHabilitations(user: IUser, organisation: IOrganisationInternal | null, apiKeyEnv: IApiKeyEnv): IOrganisationHabilitation[] {
+  const { permissions } = getUserRole(user, organisation, apiKeyEnv)
+  return ORGANISATION_HABILITATIONS.filter((habilitation) => permissions.includes(habilitation))
 }
 
 function canAccessUser(user: IUser, resource: Ressources["users"][number]): boolean {

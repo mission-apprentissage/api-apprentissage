@@ -58,6 +58,34 @@ const ProfilPage = ({ params }: PropsWithLangParams) => {
         <Badge key="env" severity={ENV_BADGE[apiKey.env].severity} small>
           {t(ENV_BADGE[apiKey.env].label, { lng: lang })}
         </Badge>,
+        <CustomWidthTooltip
+          key="habilitations"
+          arrow
+          title={
+            apiKey.habilitations.length === 0 ? (
+              <Box sx={{ margin: fr.spacing("1w") }} className={fr.cx("fr-text--xs")}>
+                {t("monCompte.habilitationsAucune", { lng: lang })}
+              </Box>
+            ) : (
+              <Box sx={{ margin: fr.spacing("1w") }} className={fr.cx("fr-text--xs")}>
+                {t("monCompte.habilitationsTitre", { lng: lang })}
+                <Box component="ul" sx={{ marginBottom: 0 }}>
+                  {apiKey.habilitations.map((habilitation) => (
+                    <li key={habilitation}>
+                      <code>{habilitation}</code>
+                    </li>
+                  ))}
+                </Box>
+              </Box>
+            )
+          }
+        >
+          <Box
+            component="i"
+            sx={{ color: apiKey.habilitations.length === 0 ? fr.colors.decisions.text.disabled.grey.default : fr.colors.decisions.background.active.blueFrance.default }}
+            className={fr.cx(apiKey.habilitations.length === 0 ? "fr-icon-lock-line" : "fr-icon-shield-line")}
+          />
+        </CustomWidthTooltip>,
         <Typography
           variant="body1"
           key="statut"
@@ -135,6 +163,7 @@ const ProfilPage = ({ params }: PropsWithLangParams) => {
             headers={[
               t("monCompte.nom", { lng: lang }),
               t("monCompte.environnement", { lng: lang }),
+              t("monCompte.habilitations", { lng: lang }),
               t("monCompte.statut", { lng: lang }),
               t("monCompte.dateCreation", { lng: lang }),
               t("monCompte.dateExpiration", { lng: lang }),

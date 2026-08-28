@@ -1,16 +1,38 @@
+/* Largeurs en pourcentage plutôt qu'en pixels : la table est en table-layout fixed, une somme de
+   largeurs fixes supérieure à la largeur disponible écrase la première colonne à 0px (le cas s'est
+   produit en ajoutant la colonne Habilitations). En pourcentages la somme reste bornée à 100 quelle
+   que soit la largeur de la fenêtre. Total = 100. */
 @media (min-width: 78em) {
+  /* Nom */
+  .api-key-table th:nth-child(1) {
+    width: 14%;
+  }
+  /* Environnement */
   .api-key-table th:nth-child(2) {
-    width: 160px;
+    width: 12%;
   }
+  /* Habilitations */
   .api-key-table th:nth-child(3) {
-    width: 120px;
+    width: 11%;
   }
-  .api-key-table th:nth-child(4),
-  .api-key-table th:nth-child(5),
+  /* Statut */
+  .api-key-table th:nth-child(4) {
+    width: 9%;
+  }
+  /* Date de création */
+  .api-key-table th:nth-child(5) {
+    width: 11%;
+  }
+  /* Date d'expiration */
   .api-key-table th:nth-child(6) {
-    width: 170px;
+    width: 13%;
   }
+  /* Dernière utilisation */
   .api-key-table th:nth-child(7) {
-    width: 300px;
+    width: 12%;
+  }
+  /* Action */
+  .api-key-table th:nth-child(8) {
+    width: 18%;
   }
 }

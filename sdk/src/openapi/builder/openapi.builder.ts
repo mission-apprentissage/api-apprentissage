@@ -51,7 +51,7 @@ function getApiDescription(lang: "en" | "fr" | null, siteUrl: string): string {
     case "fr":
       return `# Environnements : production et sandbox
 
-L'environnement est porté par le **type de votre clé API** (choisi à la création, sur [votre compte](${siteUrl}/compte/profil)), pas par l'URL : dans les deux cas, ciblez \`${siteUrl}/api\`.
+L'environnement est porté par le **type de votre clé API** (choisi à la création, sur [votre compte](${siteUrl}/compte/profil)), pas par l'URL : dans les deux cas, ciblez \`https://api.apprentissage.beta.gouv.fr/api\`.
 
 | | Clé **sandbox** | Clé **production** |
 |---|---|---|
@@ -90,7 +90,7 @@ Lorsque votre quota est atteint, l'API renvoie un code **HTTP 429 — Too Many R
     case "en":
       return `# Environments: production and sandbox
 
-The environment is carried by the **type of your API key** (chosen at creation, on [your account](${siteUrl}/compte/profil)), not by the URL: in both cases, target \`${siteUrl}/api\`.
+The environment is carried by the **type of your API key** (chosen at creation, on [your account](${siteUrl}/compte/profil)), not by the URL: in both cases, target \`https://api.apprentissage.beta.gouv.fr/api\`.
 
 | | **Sandbox** key | **Production** key |
 |---|---|---|

@@ -27,9 +27,9 @@ export const generateApiKeyModal = createModal({
   isOpenedByDefault: false,
 })
 
-// onCreated est géré par le parent (ProfilPage) plutôt que localement : selon le statut, ce
-// composant change de position dans le DOM (avant/après le tableau) juste après la création,
-// ce qui le démonterait avant qu'un toast local n'ait pu s'afficher
+// onCreated est géré par le parent (ProfilPage) plutôt que localement : ce composant se démonte
+// dès que le statut repasse en "loading" (cf. early-return plus bas), ce qui emporterait un toast
+// porté localement
 export function GenerateApiKey({ lang, t, onCreated }: WithLangAndT<{ onCreated: () => void }>) {
   const status = useApiKeysStatut()
   const mutation = useCreateApiKeyMutation()

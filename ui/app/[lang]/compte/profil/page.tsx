@@ -19,7 +19,7 @@ import Toast, { useToast } from "@/components/toast/Toast"
 import { PAGES } from "@/utils/routes.utils"
 import { ApiKeyAction } from "./components/ApiKeyAction"
 import { GenerateApiKey } from "./components/GenerateApiKey"
-import { useApiKeys, useApiKeysStatut } from "./hooks/useApiKeys"
+import { useApiKeys } from "./hooks/useApiKeys"
 
 const CustomWidthTooltip = styled(({ className, ...props }: TooltipProps) => <Tooltip {...props} classes={{ popper: className }} />)({
   [`& .${tooltipClasses.tooltip}`]: {
@@ -37,7 +37,6 @@ const ENV_BADGE = {
 const ProfilPage = ({ params }: PropsWithLangParams) => {
   const { lang } = use(params)
   const apiKeys = useApiKeys()
-  const statut = useApiKeysStatut()
   const { toast, setToast, handleClose } = useToast()
 
   const { t } = useTranslation("inscription-connexion", { lng: lang })
@@ -128,8 +127,6 @@ const ProfilPage = ({ params }: PropsWithLangParams) => {
 
       <Alert description={t("monCompte.encartSandbox", { lng: lang })} severity="info" small />
 
-      {statut !== "actif-ready" && <GenerateApiKey lang={lang} t={t} onCreated={onApiKeyCreated} />}
-
       <Box>
         {tableData.length > 0 && (
           <Table
@@ -153,16 +150,9 @@ const ProfilPage = ({ params }: PropsWithLangParams) => {
         )}
       </Box>
 
-      {statut === "actif-ready" && <GenerateApiKey lang={lang} t={t} onCreated={onApiKeyCreated} />}
-      <Toast
-        severity={toast?.severity}
-        message={toast?.message}
-        handleClose={handleClose}
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-        // Header DSFR en position: relative (pas fixed) : sans cet offset le toast se superpose
-        // à ses quickAccessItems (langue, Status, Mon compte) en haut de page, cf. ApiKeyAction.tsx
-        sx={{ top: [`160px !important`, `160px !important`, `160px !important`, `200px !important`] }}
-      />
+      {/* Toujours sous le tableau : la position ne doit pas changer après la création d'un jeton */}
+      <GenerateApiKey lang={lang} t={t} onCreated={onApiKeyCreated} />
+      <Toast severity={toast?.severity} message={toast?.message} handleClose={handleClose} anchorOrigin={{ vertical: "top", horizontal: "right" }} />
     </Box>
   )
 }

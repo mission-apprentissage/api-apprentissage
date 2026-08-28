@@ -1,3 +1,11 @@
+/* Colonnes Habilitations et Action : leur contenu se réduit à une icône, centrée avec son en-tête */
+.api-key-table th:nth-child(3),
+.api-key-table td:nth-child(3),
+.api-key-table th:nth-child(8),
+.api-key-table td:nth-child(8) {
+  text-align: center;
+}
+
 /* Largeurs en pourcentage plutôt qu'en pixels : la table est en table-layout fixed, une somme de
    largeurs fixes supérieure à la largeur disponible écrase la première colonne à 0px (le cas s'est
    produit en ajoutant la colonne Habilitations). En pourcentages la somme reste bornée à 100 quelle

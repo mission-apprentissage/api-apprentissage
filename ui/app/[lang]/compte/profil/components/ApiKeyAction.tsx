@@ -67,7 +67,7 @@ export function ApiKeyAction({ apiKey, lang, t }: WithLangAndT<{ apiKey: IApiKey
   }, [error])
 
   return (
-    <Box sx={{ display: "flex", gap: fr.spacing("1w"), flexWrap: "wrap" }}>
+    <Box sx={{ display: "flex", gap: fr.spacing("1w"), flexWrap: "wrap", justifyContent: "center" }}>
       <PopoverMenu
         title={t("monCompte.action", { lng: lang })}
         actions={[

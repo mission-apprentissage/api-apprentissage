@@ -27,6 +27,8 @@ const CustomWidthTooltip = styled(({ className, ...props }: TooltipProps) => <To
   },
 })
 
+const SUPPORT_EMAIL = "support_api@apprentissage.beta.gouv.fr"
+
 // Record dérivé de IApiKeyEnv : un nouvel environnement casse la compilation au lieu de retomber
 // silencieusement sur le badge production
 const ENV_BADGE = {
@@ -153,7 +155,18 @@ const ProfilPage = ({ params }: PropsWithLangParams) => {
         </Typography>
       </Box>
 
-      <Alert description={t("monCompte.encartSandbox", { lng: lang })} severity="info" small />
+      <Alert
+        severity="info"
+        small
+        description={
+          <>
+            {t("monCompte.encartSandbox", { lng: lang })} {t("monCompte.encartHabilitationProduction", { lng: lang })}{" "}
+            <Box component="a" href={`mailto:${SUPPORT_EMAIL}`} sx={{ color: fr.colors.decisions.text.actionHigh.blueFrance.default }}>
+              {SUPPORT_EMAIL}
+            </Box>
+          </>
+        }
+      />
 
       <Box>
         {tableData.length > 0 && (

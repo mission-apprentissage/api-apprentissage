@@ -91,6 +91,7 @@
     "habilitations": "Habilitations",
     "habilitationsAucune": "No write habilitation. Contact support to request one.",
     "habilitationsTitre": "Active write habilitations:",
-    "encartSandbox": "A sandbox token lets you test your integration without any habilitation: all exchanges with La bonne alternance (job search and posting, applications, appointments) go through a test environment."
+    "encartSandbox": "A sandbox token lets you test your integration without any habilitation: all exchanges with La bonne alternance (job search and posting, applications, appointments) go through a test environment.",
+    "encartHabilitationProduction": "For a production token, write habilitations are granted on request by email to support:"
   }
 }

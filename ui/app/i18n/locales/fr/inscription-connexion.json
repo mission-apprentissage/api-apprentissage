@@ -91,6 +91,7 @@
     "habilitations": "Habilitations",
     "habilitationsAucune": "Aucune habilitation d'écriture. Contactez le support pour en faire la demande.",
     "habilitationsTitre": "Habilitations d'écriture actives :",
-    "encartSandbox": "Un jeton sandbox permet de tester votre intégration sans habilitation : tous les échanges avec La bonne alternance (recherche et dépôt d'offres, candidatures, rendez-vous) passent par un environnement de test."
+    "encartSandbox": "Un jeton sandbox permet de tester votre intégration sans habilitation : tous les échanges avec La bonne alternance (recherche et dépôt d'offres, candidatures, rendez-vous) passent par un environnement de test.",
+    "encartHabilitationProduction": "Pour un jeton production, les habilitations d'écriture s'obtiennent sur demande par mail au support :"
   }
 }

@@ -2,7 +2,6 @@
 
 import { fr } from "@codegouvfr/react-dsfr"
 import { Alert } from "@codegouvfr/react-dsfr/Alert"
-import { Button } from "@codegouvfr/react-dsfr/Button"
 import { createModal } from "@codegouvfr/react-dsfr/Modal"
 import { Box, Snackbar, Typography } from "@mui/material"
 import { captureException } from "@sentry/nextjs"
@@ -11,9 +10,10 @@ import type { IApiKeyPrivateJson } from "shared/models/user.model"
 
 import { useDeleteApiKeyMutation } from "@/app/[lang]/compte/profil/hooks/useDeleteApiKeyMutation"
 import type { WithLangAndT } from "@/app/i18n/settings"
+import { PopoverMenu } from "@/components/popoverMenu/PopoverMenu"
 import { ApiError } from "@/utils/api.utils"
 
-export function ApiKeyAction({ apiKey, index, lang, t }: WithLangAndT<{ apiKey: IApiKeyPrivateJson; index: number }>) {
+export function ApiKeyAction({ apiKey, lang, t }: WithLangAndT<{ apiKey: IApiKeyPrivateJson }>) {
   const deleteMutation = useDeleteApiKeyMutation()
   const [copyState, setCopyState] = useState<boolean | null>(null)
 
@@ -68,12 +68,25 @@ export function ApiKeyAction({ apiKey, index, lang, t }: WithLangAndT<{ apiKey: 
 
   return (
     <Box sx={{ display: "flex", gap: fr.spacing("1w"), flexWrap: "wrap" }}>
-      <Button key={`copy_action_${index}`} onClick={onClick} size="small" priority={"primary"} disabled={!apiKey.value}>
-        {t("monCompte.copierJeton", { lng: lang })}
-      </Button>
-      <Button key={`delete_action_${index}`} nativeButtonProps={modal.buttonProps} size="small" priority="tertiary">
-        {t("monCompte.supprimer", { lng: lang })}
-      </Button>
+      <PopoverMenu
+        title={t("monCompte.action", { lng: lang })}
+        actions={[
+          {
+            type: "button",
+            label: t("monCompte.copierJeton", { lng: lang }),
+            icon: <i className={fr.cx("fr-icon-clipboard-line")} />,
+            // Un jeton expiré n'a pas de valeur à copier : l'action reste visible mais inerte
+            disabled: !apiKey.value,
+            onClick,
+          },
+          {
+            type: "button",
+            label: t("monCompte.supprimer", { lng: lang }),
+            icon: <i className={fr.cx("fr-icon-delete-line")} />,
+            onClick: () => modal.open(),
+          },
+        ]}
+      />
       <modal.Component
         title={`${t("monCompte.supprimerJeton", { lng: lang })}"${apiKey.name}"`}
         buttons={[

@@ -5,11 +5,11 @@
 @media (min-width: 78em) {
   /* Nom */
   .api-key-table th:nth-child(1) {
-    width: 14%;
+    width: 18%;
   }
   /* Environnement */
   .api-key-table th:nth-child(2) {
-    width: 12%;
+    width: 13%;
   }
   /* Habilitations */
   .api-key-table th:nth-child(3) {
@@ -17,11 +17,11 @@
   }
   /* Statut */
   .api-key-table th:nth-child(4) {
-    width: 9%;
+    width: 10%;
   }
   /* Date de création */
   .api-key-table th:nth-child(5) {
-    width: 11%;
+    width: 12%;
   }
   /* Date d'expiration */
   .api-key-table th:nth-child(6) {
@@ -29,10 +29,10 @@
   }
   /* Dernière utilisation */
   .api-key-table th:nth-child(7) {
-    width: 12%;
+    width: 15%;
   }
-  /* Action */
+  /* Action : un seul bouton de menu, la colonne n'a plus besoin de place pour deux boutons */
   .api-key-table th:nth-child(8) {
-    width: 18%;
+    width: 8%;
   }
 }

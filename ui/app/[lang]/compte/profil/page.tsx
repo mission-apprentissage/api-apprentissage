@@ -125,7 +125,7 @@ const ProfilPage = ({ params }: PropsWithLangParams) => {
         <Typography variant="body1" key="last_used_at" className="fr-text--sm">
           {apiKey.last_used_at ? new Date(apiKey.last_used_at).toLocaleDateString() : t("monCompte.jamais", { lng: lang })}
         </Typography>,
-        <ApiKeyAction index={index} key={`action_${index}`} apiKey={apiKey} t={t} lang={lang} />,
+        <ApiKeyAction key={`action_${index}`} apiKey={apiKey} t={t} lang={lang} />,
       ]
     })
   }, [apiKeys, lang, t])

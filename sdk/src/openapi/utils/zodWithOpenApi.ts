@@ -172,6 +172,25 @@ function addContentObjectDoc(content: ContentObject, doc: DocTechnicalField | un
   }, {} as ContentObject)
 }
 
+// L'habilitation requise est déjà portée par `security` (dérivée de securityScheme.access), mais un
+// security scheme `http bearer` n'expose pas ses scopes dans l'UI de documentation : on la reprend
+// en tête de description, seul endroit où le lecteur la voit.
+function getHabilitationNotice(security: OperationObject["security"], lang: "en" | "fr" | null): string {
+  const habilitation = security?.flatMap((requirement) => Object.values(requirement).flat()).at(0)
+
+  if (!habilitation) {
+    return ""
+  }
+
+  return getTextOpenAPI(
+    {
+      fr: `**Habilitation requise : \`${habilitation}\`.** Accordée automatiquement avec une clé sandbox. Pour une clé production, la demande se fait par mail à [support_api@apprentissage.beta.gouv.fr](mailto:support_api@apprentissage.beta.gouv.fr).`,
+      en: `**Required habilitation: \`${habilitation}\`.** Granted automatically with a sandbox key. For a production key, request it by email at [support_api@apprentissage.beta.gouv.fr](mailto:support_api@apprentissage.beta.gouv.fr).`,
+    },
+    lang
+  )
+}
+
 function addOperationDoc(route: OpenapiRoute, schema: OperationObject, lang: "en" | "fr" | null): OperationObject {
   const { doc, tag } = route
   const output = structuredClone(schema)
@@ -180,7 +199,12 @@ function addOperationDoc(route: OpenapiRoute, schema: OperationObject, lang: "en
     getTextOpenAPI(tagsOpenapi[tag].name, lang ?? "en"), // Exception: keep tags
   ]
 
+  const habilitationNotice = getHabilitationNotice(output.security, lang)
+
   if (!doc) {
+    if (habilitationNotice) {
+      output.description = habilitationNotice
+    }
     return output
   }
 
@@ -191,6 +215,10 @@ function addOperationDoc(route: OpenapiRoute, schema: OperationObject, lang: "en
   const description = getTextOpenAPI(doc.description, lang)
   if (description) {
     output.description = description
+  }
+
+  if (habilitationNotice) {
+    output.description = output.description ? `${habilitationNotice}\n\n${output.description}` : habilitationNotice
   }
 
   if (doc.parameters) {

@@ -1,3 +1,4 @@
+import { zOrganisationHabilitation } from "api-alternance-sdk"
 import type { Jsonify } from "type-fest"
 import { z } from "zod/v4-mini"
 
@@ -47,6 +48,10 @@ export type IApiKey = z.output<typeof zApiKey>
 
 export const zApiKeyPrivate = z.extend(z.omit(zApiKey, { key: true }), {
   value: z.nullable(z.string()),
+  // Habilitations effectives de la clé, calculées côté serveur à partir du rôle réellement appliqué
+  // à l'authentification (cf. getApiKeyHabilitations) : jamais recalculées côté client, qui
+  // divergerait de la règle d'autorisation
+  habilitations: z.array(zOrganisationHabilitation),
 })
 
 export type IApiKeyPrivate = z.output<typeof zApiKeyPrivate>

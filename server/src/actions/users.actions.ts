@@ -1,9 +1,11 @@
 import { ObjectId } from "mongodb"
+import type { IOrganisationInternal } from "shared/models/organisation.model"
 import type { IApiKeyEnv, IApiKeyPrivate, IUser } from "shared/models/user.model"
 import { adjectives, animals, colors, uniqueNamesGenerator } from "unique-names-generator"
 
 import config from "@/config.js"
 import { getDbCollection } from "@/services/mongodb/mongodbService.js"
+import { getApiKeyHabilitations } from "@/services/security/authorisationService.js"
 import { generateKey } from "@/utils/cryptoUtils.js"
 import { createUserTokenSimple } from "@/utils/jwtUtils.js"
 
@@ -53,6 +55,7 @@ export const generateApiKey = async (name: string, env: IApiKeyEnv, user: IUser)
   return {
     ...data,
     value: await createApiKeyToken(user, data),
+    habilitations: getApiKeyHabilitations(user, await getUserOrganisation(user), env),
   }
 }
 
@@ -64,15 +67,30 @@ function createApiKeyToken(user: IUser, data: IUser["api_keys"][number]): Promis
   })
 }
 
-export async function addTokenValue(user: IUser, data: IUser["api_keys"][number]): Promise<IApiKeyPrivate> {
+async function getUserOrganisation(user: IUser): Promise<IOrganisationInternal | null> {
+  return user.organisation === null ? null : await getDbCollection("organisations").findOne({ nom: user.organisation })
+}
+
+async function addTokenValue(user: IUser, organisation: IOrganisationInternal | null, data: IUser["api_keys"][number]): Promise<IApiKeyPrivate> {
+  const habilitations = getApiKeyHabilitations(user, organisation, data.env)
+
   if (data.expires_at.getTime() < Date.now()) {
-    return { ...data, value: null }
+    return { ...data, value: null, habilitations }
   }
 
   return {
     ...data,
     value: await createApiKeyToken(user, data),
+    habilitations,
   }
+}
+
+// L'organisation est chargée une seule fois pour toutes les clés : les habilitations d'une clé
+// production en dépendent, et elles sont identiques d'une clé à l'autre à environnement égal
+export async function listUserApiKeys(user: IUser): Promise<IApiKeyPrivate[]> {
+  const organisation = await getUserOrganisation(user)
+
+  return Promise.all(user.api_keys.map((key) => addTokenValue(user, organisation, key)))
 }
 
 export async function deleteApiKey(id: ObjectId, user: IUser) {

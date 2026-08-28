@@ -5107,7 +5107,9 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
       },
       "security": [
         {
-          "api-key": [],
+          "api-key": [
+            "appointments:write",
+          ],
         },
       ],
       "tags": [

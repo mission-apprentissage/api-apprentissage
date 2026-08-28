@@ -19,13 +19,15 @@ import Toast, { useToast } from "@/components/toast/Toast"
 import { PAGES } from "@/utils/routes.utils"
 import { ApiKeyAction } from "./components/ApiKeyAction"
 import { GenerateApiKey } from "./components/GenerateApiKey"
-import { useApiKeys, useApiKeysStatut } from "./hooks/useApiKeys"
+import { useApiKeys } from "./hooks/useApiKeys"
 
 const CustomWidthTooltip = styled(({ className, ...props }: TooltipProps) => <Tooltip {...props} classes={{ popper: className }} />)({
   [`& .${tooltipClasses.tooltip}`]: {
     maxWidth: "none",
   },
 })
+
+const SUPPORT_EMAIL = "support_api@apprentissage.beta.gouv.fr"
 
 // Record dérivé de IApiKeyEnv : un nouvel environnement casse la compilation au lieu de retomber
 // silencieusement sur le badge production
@@ -37,7 +39,6 @@ const ENV_BADGE = {
 const ProfilPage = ({ params }: PropsWithLangParams) => {
   const { lang } = use(params)
   const apiKeys = useApiKeys()
-  const statut = useApiKeysStatut()
   const { toast, setToast, handleClose } = useToast()
 
   const { t } = useTranslation("inscription-connexion", { lng: lang })
@@ -59,6 +60,34 @@ const ProfilPage = ({ params }: PropsWithLangParams) => {
         <Badge key="env" severity={ENV_BADGE[apiKey.env].severity} small>
           {t(ENV_BADGE[apiKey.env].label, { lng: lang })}
         </Badge>,
+        <CustomWidthTooltip
+          key="habilitations"
+          arrow
+          title={
+            apiKey.habilitations.length === 0 ? (
+              <Box sx={{ margin: fr.spacing("1w") }} className={fr.cx("fr-text--xs")}>
+                {t("monCompte.habilitationsAucune", { lng: lang })}
+              </Box>
+            ) : (
+              <Box sx={{ margin: fr.spacing("1w") }} className={fr.cx("fr-text--xs")}>
+                {t("monCompte.habilitationsTitre", { lng: lang })}
+                <Box component="ul" sx={{ marginBottom: 0 }}>
+                  {apiKey.habilitations.map((habilitation) => (
+                    <li key={habilitation}>
+                      <code>{habilitation}</code>
+                    </li>
+                  ))}
+                </Box>
+              </Box>
+            )
+          }
+        >
+          <Box
+            component="i"
+            sx={{ color: apiKey.habilitations.length === 0 ? fr.colors.decisions.text.disabled.grey.default : fr.colors.decisions.background.active.blueFrance.default }}
+            className={fr.cx(apiKey.habilitations.length === 0 ? "fr-icon-lock-line" : "fr-icon-shield-line")}
+          />
+        </CustomWidthTooltip>,
         <Typography
           variant="body1"
           key="statut"
@@ -98,7 +127,7 @@ const ProfilPage = ({ params }: PropsWithLangParams) => {
         <Typography variant="body1" key="last_used_at" className="fr-text--sm">
           {apiKey.last_used_at ? new Date(apiKey.last_used_at).toLocaleDateString() : t("monCompte.jamais", { lng: lang })}
         </Typography>,
-        <ApiKeyAction index={index} key={`action_${index}`} apiKey={apiKey} t={t} lang={lang} />,
+        <ApiKeyAction key={`action_${index}`} apiKey={apiKey} t={t} lang={lang} />,
       ]
     })
   }, [apiKeys, lang, t])
@@ -126,9 +155,18 @@ const ProfilPage = ({ params }: PropsWithLangParams) => {
         </Typography>
       </Box>
 
-      <Alert description={t("monCompte.encartSandbox", { lng: lang })} severity="info" small />
-
-      {statut !== "actif-ready" && <GenerateApiKey lang={lang} t={t} onCreated={onApiKeyCreated} />}
+      <Alert
+        severity="info"
+        small
+        description={
+          <>
+            {t("monCompte.encartSandbox", { lng: lang })} {t("monCompte.encartHabilitationProduction", { lng: lang })}{" "}
+            <Box component="a" href={`mailto:${SUPPORT_EMAIL}`} sx={{ color: fr.colors.decisions.text.actionHigh.blueFrance.default }}>
+              {SUPPORT_EMAIL}
+            </Box>
+          </>
+        }
+      />
 
       <Box>
         {tableData.length > 0 && (
@@ -138,6 +176,7 @@ const ProfilPage = ({ params }: PropsWithLangParams) => {
             headers={[
               t("monCompte.nom", { lng: lang }),
               t("monCompte.environnement", { lng: lang }),
+              t("monCompte.habilitations", { lng: lang }),
               t("monCompte.statut", { lng: lang }),
               t("monCompte.dateCreation", { lng: lang }),
               t("monCompte.dateExpiration", { lng: lang }),
@@ -153,16 +192,9 @@ const ProfilPage = ({ params }: PropsWithLangParams) => {
         )}
       </Box>
 
-      {statut === "actif-ready" && <GenerateApiKey lang={lang} t={t} onCreated={onApiKeyCreated} />}
-      <Toast
-        severity={toast?.severity}
-        message={toast?.message}
-        handleClose={handleClose}
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-        // Header DSFR en position: relative (pas fixed) : sans cet offset le toast se superpose
-        // à ses quickAccessItems (langue, Status, Mon compte) en haut de page, cf. ApiKeyAction.tsx
-        sx={{ top: [`160px !important`, `160px !important`, `160px !important`, `200px !important`] }}
-      />
+      {/* Toujours sous le tableau : la position ne doit pas changer après la création d'un jeton */}
+      <GenerateApiKey lang={lang} t={t} onCreated={onApiKeyCreated} />
+      <Toast severity={toast?.severity} message={toast?.message} handleClose={handleClose} anchorOrigin={{ vertical: "top", horizontal: "right" }} />
     </Box>
   )
 }

@@ -1,7 +1,7 @@
 import { useMongo } from "@tests/mongo.test.utils.js"
 import { decodeJwt } from "jose"
 import { ObjectId } from "mongodb"
-import { generateUserFixture } from "shared/models/fixtures/index"
+import { generateOrganisationFixture, generateUserFixture } from "shared/models/fixtures/index"
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest"
 
 import { createSession, createSessionToken } from "@/actions/sessions.actions.js"
@@ -91,6 +91,8 @@ describe("User Routes", () => {
         created_at: now.toJSON(),
         value: expect.any(String),
         expiration_warning_sent: null,
+        // Clé sandbox : habilitations métier accordées d'office, sans organisation
+        habilitations: ["jobs:write", "appointments:write", "applications:write"],
       })
 
       userFromDb = await getDbCollection("users").findOne({ _id: user._id })
@@ -249,6 +251,7 @@ describe("User Routes", () => {
           created_at: now.toJSON(),
           value: expect.any(String),
           expiration_warning_sent: null,
+          habilitations: [],
         },
         {
           _id: expect.any(String),
@@ -259,6 +262,7 @@ describe("User Routes", () => {
           created_at: now.toJSON(),
           value: expect.any(String),
           expiration_warning_sent: null,
+          habilitations: [],
         },
         {
           _id: expect.any(String),
@@ -269,8 +273,55 @@ describe("User Routes", () => {
           created_at: now.toJSON(),
           value: expect.any(String),
           expiration_warning_sent: null,
+          habilitations: [],
         },
       ])
+    })
+
+    describe("habilitations", () => {
+      async function getHabilitationsByKeyName(sessionCookie: string): Promise<Record<string, string[]>> {
+        const response = await app.inject({
+          method: "GET",
+          url: "/api/_private/user/api-keys",
+          headers: { ["Cookie"]: `api_session=${sessionCookie}` },
+        })
+
+        expect(response.statusCode).toBe(200)
+
+        return Object.fromEntries(response.json().map((key: { name: string; habilitations: string[] }) => [key.name, key.habilitations]))
+      }
+
+      it("should expose the organisation habilitations on a production key, and all of them on a sandbox key", async () => {
+        const organisation = generateOrganisationFixture({ nom: "Org habilitée", habilitations: ["jobs:write", "applications:write"] })
+        const orgUser = generateUserFixture({ email: "org@exemple.fr", is_admin: false, organisation: organisation.nom })
+        await getDbCollection("organisations").insertOne(organisation)
+        await getDbCollection("users").insertOne(orgUser)
+        await generateApiKey("prod", "production", orgUser)
+        await generateApiKey("sandbox", "sandbox", orgUser)
+        await createSession(orgUser.email)
+
+        const habilitations = await getHabilitationsByKeyName(await createSessionToken(orgUser.email))
+
+        // La clé production est limitée aux habilitations de l'organisation, `appointments:write` exclue
+        expect(habilitations.prod).toEqual(["jobs:write", "applications:write"])
+        // La sandbox les accorde toutes, indépendamment de l'organisation
+        expect(habilitations.sandbox).toEqual(["jobs:write", "appointments:write", "applications:write"])
+      })
+
+      it("should not grant an admin the habilitations its organisation lacks", async () => {
+        // AdminRole REMPLACE le rôle organisation : il ne porte que `jobs:write` parmi les
+        // habilitations métier, même si l'organisation en détient davantage
+        const organisation = generateOrganisationFixture({ nom: "Org admin", habilitations: ["jobs:write", "appointments:write", "applications:write"] })
+        const adminUser = generateUserFixture({ email: "admin@exemple.fr", is_admin: true, organisation: organisation.nom })
+        await getDbCollection("organisations").insertOne(organisation)
+        await getDbCollection("users").insertOne(adminUser)
+        await generateApiKey("prod", "production", adminUser)
+        await createSession(adminUser.email)
+
+        const habilitations = await getHabilitationsByKeyName(await createSessionToken(adminUser.email))
+
+        expect(habilitations.prod).toEqual(["jobs:write"])
+      })
     })
 
     it("should returns 401 when user is not connected", async () => {

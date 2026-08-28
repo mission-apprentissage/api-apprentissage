@@ -22,7 +22,7 @@ export const formationRoutesOpenapi: OpenapiRoutes = {
       doc: generateFormationAppointmentLinkRouteDoc,
       schema: {
         operationId: "generateFormationAppointmentLink",
-        security: [{ "api-key": [] }],
+        security: [{ "api-key": ["appointments:write"] }],
         requestBody: {
           required: true,
           content: {

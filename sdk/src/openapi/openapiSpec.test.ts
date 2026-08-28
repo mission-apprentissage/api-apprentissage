@@ -1,6 +1,8 @@
 import type { OperationObject, PathItemObject, ReferenceObject, SchemaObject } from "openapi3-ts/oas31"
 import { describe, expect, it } from "vitest"
 import type { DocRoute, DocTechnicalField } from "../docs/types.js"
+import type { IApiRouteSchema } from "../routes/common.routes.js"
+import { zApiRoutes } from "../routes/index.js"
 import { buildOpenApiSchema } from "./builder/openapi.builder.js"
 import { openapiSpec } from "./openapiSpec.js"
 import { getOpenapiOperations } from "./utils/openapi.uils.js"
@@ -229,6 +231,29 @@ describe("openapiSpec#routes", () => {
       expect(getDocRouteStructure(operation.doc)).toEqual(
         getOperationObjectDocStructure(operation.schema ?? doc.paths?.[path.replaceAll(/:([^:/]+)/g, "{$1}")]?.[method as keyof PathItemObject])
       )
+    })
+  })
+
+  // Une opération peut fournir son OperationObject en dur, `security` compris : cette valeur est
+  // alors recopiée à la main et peut diverger du securityScheme de la route, seule source de vérité
+  // à l'exécution. Le cas s'est produit sur generateFormationAppointmentLink, dont la doc annonçait
+  // « aucune habilitation » là où l'API exige appointments:write.
+  describe.each(Object.entries(openapiSpec.routes))("route %s", (path, route) => {
+    it.each(Object.entries(route))("should declare the habilitation actually enforced by the route %s", (method, operation) => {
+      const routeDef = zApiRoutes[method as keyof typeof zApiRoutes]?.[path as keyof (typeof zApiRoutes)[keyof typeof zApiRoutes]] as IApiRouteSchema | undefined
+
+      if (!routeDef?.securityScheme) {
+        return
+      }
+
+      const builder = buildOpenApiSchema("0.0.0", "test", "https://api-test.apprentissage.beta.houv.fr", null)
+      const generated = builder.getSpec().paths?.[path.replaceAll(/:([^:/]+)/g, "{$1}")]?.[method as keyof PathItemObject] as OperationObject | undefined
+      const declared = (operation?.schema ?? generated)?.security ?? []
+
+      const scopes = declared.flatMap((requirement) => Object.values(requirement).flat())
+      const expected = routeDef.securityScheme.access === null ? [] : [routeDef.securityScheme.access]
+
+      expect(scopes).toEqual(expected)
     })
   })
 

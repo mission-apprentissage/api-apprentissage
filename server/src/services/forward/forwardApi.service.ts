@@ -9,6 +9,7 @@ import type { IApiKeyEnv, IUser } from "shared/models/user.model"
 import config from "@/config.js"
 import { withCause } from "@/services/errors/withCause.js"
 import logger from "@/services/logger.js"
+import { sleep } from "@/utils/asyncUtils.js"
 
 type ForwardApiRequestConfig = {
   path: string
@@ -91,6 +92,59 @@ export async function createAuthToken({ user, organisation, apiKeyEnv }: Identit
   return `Bearer ${token}`
 }
 
+const IDEMPOTENT_METHODS: ReadonlySet<string> = new Set(["GET", "HEAD", "OPTIONS"])
+
+// Erreurs de niveau connexion : la requête n'a pas atteint l'application distante, la rejouer est
+// sans effet de bord tant que la méthode est idempotente.
+const RETRIABLE_CONNECTION_ERROR_CODES: ReadonlySet<string> = new Set(["ECONNREFUSED", "ECONNRESET", "UND_ERR_SOCKET"])
+
+const CONNECT_RETRY_DELAY_MS = 1_000
+
+// `fetch` enveloppe la cause réelle dans un `TypeError: fetch failed` sans code : le code utile
+// (ECONNREFUSED, ENOTFOUND...) est porté par `cause`.
+function getErrorCode(error: unknown): string | null {
+  const cause = error instanceof Error ? (error as { cause?: unknown }).cause : null
+  const code = (cause as { code?: unknown } | null)?.code
+
+  return typeof code === "string" ? code : null
+}
+
+function isRetriableConnectionError(error: unknown, requestInit: RequestInit): boolean {
+  if (!IDEMPOTENT_METHODS.has((requestInit.method ?? "GET").toUpperCase())) {
+    return false
+  }
+
+  // Budget déjà épuisé : rejouer est inutile, et laisser remonter le refus plutôt que l'abandon
+  // du `sleep` garde la cause réelle dans l'erreur au lieu d'un 504 « timeout » trompeur.
+  if (requestInit.signal?.aborted) {
+    return false
+  }
+
+  const code = getErrorCode(error)
+
+  return code !== null && RETRIABLE_CONNECTION_ERROR_CODES.has(code)
+}
+
+// Le reverse proxy de LBA est recréé lors de ses déploiements : le port reste non lié le temps du
+// redémarrage et toute connexion entrante est refusée (labonnealternance#5334). Un rechargement de
+// configuration dure moins d'une seconde et est absorbé par ce rejeu ; une recréation complète de
+// conteneur dure plusieurs secondes et ressortira en 504, c'est attendu.
+async function fetchWithConnectRetry(url: string, requestInit: RequestInit): Promise<Response> {
+  try {
+    return await fetch(url, requestInit)
+  } catch (error) {
+    if (!isRetriableConnectionError(error, requestInit)) {
+      throw error
+    }
+
+    logger.warn({ url, err: error, code: getErrorCode(error) }, "forwardApi.getResponse: connexion refusée, nouvelle tentative")
+
+    await sleep(CONNECT_RETRY_DELAY_MS, requestInit.signal ?? undefined)
+
+    return fetch(url, requestInit)
+  }
+}
+
 async function getResponse(request: ForwardApiRequestConfig, identity: Identity): Promise<Response> {
   const timeoutMs = request.timeoutMs ?? 10_000
   const controller = new AbortController()
@@ -108,7 +162,7 @@ async function getResponse(request: ForwardApiRequestConfig, identity: Identity)
 
     headers.append("Authorization", await createAuthToken(identity))
 
-    const response = await fetch(url, { ...request.requestInit, headers, signal: controller.signal })
+    const response = await fetchWithConnectRetry(url, { ...request.requestInit, headers, signal: controller.signal })
 
     if (response.status === 401) {
       throw internal("forwardApi.getResponse: unauthorized", {
@@ -128,7 +182,11 @@ async function getResponse(request: ForwardApiRequestConfig, identity: Identity)
     if (error instanceof Error && error.name === "AbortError") {
       throw gatewayTimeout("forwardApi.getResponse: timeout", { ...errorContext, timeoutMs })
     }
-    throw withCause(internal("forwardApi.getResponse: unexpected error", errorContext), error)
+    // Le code est repris dans le message : sans lui, Sentry regroupe sous une même issue un
+    // refus de connexion, une erreur TLS et un échec DNS.
+    const code = getErrorCode(error)
+
+    throw withCause(internal(`forwardApi.getResponse: unexpected error${code === null ? "" : ` (${code})`}`, { ...errorContext, code }), error)
   } finally {
     clearTimeout(timeoutId)
   }

@@ -13,17 +13,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout project
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           submodules: true
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version-file: .node-version
           token: ${{ secrets.NPM_TOKEN }}
           registry-url: "https://registry.npmjs.org"
 
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           path: |
             **/node_modules
@@ -31,7 +31,6 @@ jobs:
             .yarn/cache
           key: yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: yarn-
-          save-always: true
 
       - name: Install dependencies
         run: yarn install
@@ -42,22 +41,18 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Notify failure on Slack
-        uses: ravsamhq/notify-slack-action@v2
-        if: always()
+        if: failure()
+        uses: ./.github/actions/notify-slack
         with:
-          status: ${{ job.status }}
-          notification_title: "La publication de la version ${{ github.event.release.tag_name }} a échoué"
-          notify_when: "failure"
-          mention_groups: "!channel"
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_ALERT }}
+          status: failure
+          webhook: ${{ secrets.SLACK_WEBHOOK_ALERT }}
+          title: "La publication de la version ${{ github.event.release.tag_name }} a échoué"
+          mention: "!channel"
 
       - name: Notify success on Slack
-        uses: ravsamhq/notify-slack-action@v2
-        if: always()
+        if: success()
+        uses: ./.github/actions/notify-slack
         with:
-          status: ${{ job.status }}
-          notification_title: "Version ${{ github.event.release.tag_name }} a été publiée avec succès"
-          notify_when: "success"
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_NOTIF }}
+          status: success
+          webhook: ${{ secrets.SLACK_WEBHOOK_NOTIF }}
+          title: "Version ${{ github.event.release.tag_name }} a été publiée avec succès"

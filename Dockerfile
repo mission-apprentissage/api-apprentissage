@@ -1,6 +1,6 @@
-FROM node:24-slim AS builder_root
+FROM node:26-slim AS builder_root
 WORKDIR /app
-RUN yarn set version 3.3.1
+RUN npm install -g corepack@0.34.6 && corepack enable
 COPY .yarn /app/.yarn
 COPY package.json package.json
 COPY yarn.lock yarn.lock
@@ -32,14 +32,14 @@ RUN yarn workspace server build
 RUN mkdir -p /app/shared/node_modules && mkdir -p /app/sdk/node_modules && mkdir -p /app/server/node_modules
 
 # Production image, copy all the files and run next
-FROM node:24-slim AS server
+FROM node:26-slim AS server
 WORKDIR /app
 
 RUN apt-get update \
   && apt-get install -y curl ca-certificates debsecan \
   && update-ca-certificates \
   && codename=$(sh -c '. /etc/os-release; echo $VERSION_CODENAME') \
-  && apt-get install $(debsecan --suite $codename --format packages --only-fixed) \
+  && apt-get install -y $(debsecan --suite $codename --format packages --only-fixed) \
   && apt-get purge -y --auto-remove debsecan \
   && apt-get clean
 
@@ -95,14 +95,14 @@ RUN yarn workspace ui build
 # RUN --mount=type=cache,target=/app/ui/.next/cache yarn --cwd ui build
 
 # Production image, copy all the files and run next
-FROM node:24-slim AS ui
+FROM node:26-slim AS ui
 WORKDIR /app
 
 RUN apt-get update \
   && apt-get install -y curl ca-certificates debsecan \
   && update-ca-certificates \
   && codename=$(sh -c '. /etc/os-release; echo $VERSION_CODENAME') \
-  && apt-get install $(debsecan --suite $codename --format packages --only-fixed) \
+  && apt-get install -y $(debsecan --suite $codename --format packages --only-fixed) \
   && apt-get purge -y --auto-remove debsecan \
   && apt-get clean
 

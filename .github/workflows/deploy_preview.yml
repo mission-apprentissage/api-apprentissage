@@ -10,13 +10,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Comment PR Preview
-        uses: thollander/actions-comment-pull-request@v2
+        continue-on-error: true
+        uses: thollander/actions-comment-pull-request@v3
         with:
           message: "Preview environment is decomissioned."
           comment_tag: deployment
           mode: recreate
           pr_number: ${{ github.event.issue.number }}
-
+        env:
+          ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
   # deploy_preview:
   #   if: (startsWith(github.event.comment.body, '🚀') || startsWith(github.event.comment.body, ':rocket:')) && github.event.issue.pull_request
   #   concurrency:
@@ -31,7 +33,7 @@ jobs:
 
   #     - name: Comment PR Preview
   #       if: github.event.issue.state != 'closed'
-  #       uses: thollander/actions-comment-pull-request@v2
+  #       uses: thollander/actions-comment-pull-request@v3
   #       with:
   #         message: |
   #           ### :rocket: Prévisualisation
@@ -41,7 +43,7 @@ jobs:
   #         pr_number: ${{ github.event.issue.number }}
 
   #     - name: React to comment
-  #       uses: dkershner6/reaction-action@v2
+  #       uses: dkershner6/reaction-action@v3
   #       with:
   #         token: ${{ secrets.GITHUB_TOKEN }}
   #         commentId: ${{ github.event.comment.id }}
@@ -55,7 +57,7 @@ jobs:
   #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   #     - name: Checkout
-  #       uses: actions/checkout@v4
+  #       uses: actions/checkout@v7
   #       with:
   #         ref: ${{ steps.get-branch.outputs.branch }}
 
@@ -63,7 +65,7 @@ jobs:
   #       run: git lfs ls-files --long | cut -d ' ' -f1 | sort > .lfs-assets-id
 
   #     - name: LFS Cache
-  #       uses: actions/cache@v4
+  #       uses: actions/cache@v6
   #       with:
   #         path: .git/lfs/objects
   #         key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}
@@ -105,7 +107,7 @@ jobs:
 
   #     - name: Upload logs artifacts
   #       if: always()
-  #       uses: actions/upload-artifact@v4
+  #       uses: actions/upload-artifact@v7
   #       with:
   #         name: logs-${{ github.event.issue.number }}
   #         path: /tmp/deploy.log.gpg
@@ -119,7 +121,7 @@ jobs:
 
   #     - name: Comment PR Preview
   #       if: github.event.issue.state != 'closed'
-  #       uses: thollander/actions-comment-pull-request@v2
+  #       uses: thollander/actions-comment-pull-request@v3
   #       with:
   #         message: |
   #           ### :rocket: Prévisualisation
@@ -134,7 +136,7 @@ jobs:
 
   #     - name: Comment PR Preview when failed
   #       if: failure() && github.event.issue.state != 'closed'
-  #       uses: thollander/actions-comment-pull-request@v2
+  #       uses: thollander/actions-comment-pull-request@v3
   #       with:
   #         message: |
   #           ### :ambulance: Prévisualisation failed
@@ -151,7 +153,7 @@ jobs:
 
   #     - name: Comment PR Preview when cancelled
   #       if: cancelled() && github.event.issue.state != 'closed'
-  #       uses: thollander/actions-comment-pull-request@v2
+  #       uses: thollander/actions-comment-pull-request@v3
   #       with:
   #         message: |
   #           ### :ambulance: Prévisualisation cancelled

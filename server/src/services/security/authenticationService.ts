@@ -1,4 +1,4 @@
-import { internal, unauthorized } from "@hapi/boom"
+import { internal, isBoom, unauthorized } from "@hapi/boom"
 import { captureException } from "@sentry/node"
 import type { ISecuredRouteSchema, WithSecurityScheme } from "api-alternance-sdk"
 import type { PathParam, QueryString, UserWithType } from "api-alternance-sdk/internal"
@@ -98,6 +98,12 @@ async function authApiKey(req: FastifyRequest): Promise<UserWithType<"user", IUs
       },
     }
   } catch (error) {
+    // Les erreurs Boom levées dans le `try` (clé révoquée...) sont des réponses métier :
+    // les laisser remonter telles quelles plutôt que de les remonter à Sentry.
+    if (isBoom(error)) {
+      throw error
+    }
+
     if (error instanceof JOSEError) {
       if (error instanceof JWTExpired) {
         throw unauthorized("La clé d'API a expirée")

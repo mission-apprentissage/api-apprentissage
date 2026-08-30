@@ -12,13 +12,19 @@ interface ICreateTokenOptions {
 
 const secret = new TextEncoder().encode(config.auth.user.jwtSecret)
 
+// Tous nos jetons sont signés en HS256 avec `secret`. L'épinglage est obligatoire côté
+// vérification : sans lui, jose atteint le contrôle de type de clé et lève un `TypeError`
+// (et non une `JOSEError`) dès qu'un appelant présente un jeton signé en asymétrique.
+const JWT_ALGORITHM = "HS256"
+
 export async function serializeEmailTemplate(template: ITemplate): Promise<string> {
   // We do not set expiry as the result is not used as a token but as serialized data
-  return new SignJWT(JSON.parse(JSON.stringify(template))).setProtectedHeader({ alg: "HS256" }).setIssuedAt().setIssuer(config.productName).sign(secret)
+  return new SignJWT(JSON.parse(JSON.stringify(template))).setProtectedHeader({ alg: JWT_ALGORITHM }).setIssuedAt().setIssuer(config.productName).sign(secret)
 }
 
-export function deserializeEmailTemplate(data: string): ITemplate {
-  return zTemplate.parse(jwtVerify(data, secret))
+export async function deserializeEmailTemplate(data: string): Promise<ITemplate> {
+  const { payload } = await jwtVerify(data, secret, { algorithms: [JWT_ALGORITHM] })
+  return zTemplate.parse(payload)
 }
 
 export async function createUserTokenSimple(options: ICreateTokenOptions) {
@@ -28,10 +34,15 @@ export async function createUserTokenSimple(options: ICreateTokenOptions) {
     throw internal("JWT secret must be at least 32 characters long")
   }
 
-  return new SignJWT(JSON.parse(JSON.stringify(payload))).setProtectedHeader({ alg: "HS256" }).setIssuer(config.productName).setIssuedAt().setExpirationTime(expiresIn).sign(secret)
+  return new SignJWT(JSON.parse(JSON.stringify(payload)))
+    .setProtectedHeader({ alg: JWT_ALGORITHM })
+    .setIssuer(config.productName)
+    .setIssuedAt()
+    .setExpirationTime(expiresIn)
+    .sign(secret)
 }
 
 export async function decodeToken(token: string): Promise<JWTPayload> {
-  const result = await jwtVerify(token, secret)
+  const result = await jwtVerify(token, secret, { algorithms: [JWT_ALGORITHM] })
   return result.payload
 }

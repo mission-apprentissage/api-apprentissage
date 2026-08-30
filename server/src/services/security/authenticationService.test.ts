@@ -1,6 +1,7 @@
 import { useMongo } from "@tests/mongo.test.utils.js"
 import type { ISecuredRouteSchema } from "api-alternance-sdk"
 import type { FastifyRequest } from "fastify"
+import { generateKeyPair, SignJWT } from "jose"
 import { generateOrganisationFixture, generateUserFixture } from "shared/models/fixtures/index"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { z } from "zod/v4-mini"
@@ -276,11 +277,22 @@ describe("authenticationMiddleware", () => {
       await getDbCollection("users").updateOne({ email: user.email }, { $set: { api_keys: [] } })
       const req = fakeRequest({ headers: { authorization: `Bearer ${token.value}` } })
 
-      await expect(authenticationMiddleware(schema, req)).rejects.toThrow("Vous devez fournir une clé d'API valide pour accéder à cette ressource")
+      await expect(authenticationMiddleware(schema, req)).rejects.toThrow("La clé d'API fournie a été révoquée")
     })
 
     it("should throw unauthorized if key is invalid", async () => {
       const req = fakeRequest({ headers: { authorization: `Bearer invalid` } })
+
+      await expect(authenticationMiddleware(schema, req)).rejects.toThrow("Impossible de déchiffrer la clé d'API")
+    })
+
+    it("should throw unauthorized if token is signed with an asymmetric algorithm", async () => {
+      // Sans épinglage de l'algorithme, jose atteint le contrôle de type de clé et lève un
+      // TypeError : l'appel finit en 500 au lieu du 401 attendu.
+      const { privateKey } = await generateKeyPair("ES512")
+      const token = await new SignJWT({ _id: user._id.toString(), api_key: "whatever" }).setProtectedHeader({ alg: "ES512" }).setIssuedAt().sign(privateKey)
+
+      const req = fakeRequest({ headers: { authorization: `Bearer ${token}` } })
 
       await expect(authenticationMiddleware(schema, req)).rejects.toThrow("Impossible de déchiffrer la clé d'API")
     })

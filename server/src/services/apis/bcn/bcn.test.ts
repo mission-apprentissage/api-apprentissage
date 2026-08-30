@@ -36,17 +36,39 @@ describe("bcn", () => {
     }
   )
 
-  it("should throw an error if the request fails", async () => {
-    const scope = nock("https://bcn.depp.education.fr").post("/bcn/index.php/export/CSV").query({ n: "V_FORMATION_DIPLOME", separator: ";", withForeign: true }).reply(500)
+  it("should retry on server error and return the data once it succeeds", async () => {
+    const expectedData = "Un texte avec des caractères accentués"
+
+    const scope = nock("https://bcn.depp.education.fr")
+      .post("/bcn/index.php/export/CSV")
+      .query({ n: "V_FORMATION_DIPLOME", separator: ";", withForeign: true })
+      .reply(502)
+      .post("/bcn/index.php/export/CSV")
+      .query({ n: "V_FORMATION_DIPLOME", separator: ";", withForeign: true })
+      .reply(200, Buffer.from(expectedData, "latin1"))
+
+    const stream = await fetchBcnData("V_FORMATION_DIPLOME")
+
+    let data = ""
+    for await (const chunk of stream) {
+      data += chunk.toString("latin1")
+    }
+    expect(data).toBe(expectedData)
+    expect(scope.isDone()).toBe(true)
+  })
+
+  it("should throw an error once the retries are exhausted", async () => {
+    const scope = nock("https://bcn.depp.education.fr").post("/bcn/index.php/export/CSV").query({ n: "V_FORMATION_DIPLOME", separator: ";", withForeign: true }).times(4).reply(500)
 
     await expect(fetchBcnData("V_FORMATION_DIPLOME")).rejects.toThrowError("api.bcn: unable to fetchBcnData")
     expect(scope.isDone()).toBe(true)
   })
 
-  it("should throw an error if the request fails", async () => {
+  it("should not retry on client error", async () => {
     const scope = nock("https://bcn.depp.education.fr").post("/bcn/index.php/export/CSV").query({ n: "V_FORMATION_DIPLOME", separator: ";", withForeign: true }).reply(400)
 
     await expect(fetchBcnData("V_FORMATION_DIPLOME")).rejects.toThrowError("api.bcn: unable to fetchBcnData")
     expect(scope.isDone()).toBe(true)
+    expect(nock.pendingMocks()).toEqual([])
   })
 })

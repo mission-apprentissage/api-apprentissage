@@ -99,6 +99,28 @@ describe("getEtablissementDiffusible", () => {
     expect(nock.isDone()).toBe(true)
   })
 
+  it("should issue a single request when the same siret is requested concurrently", async () => {
+    // L'API Entreprise répond 409 lorsqu'une requête identique est déjà en cours pour le même
+    // jeton : un seul interceptor suffit donc à prouver la déduplication, le second appel
+    // réseau échouerait faute de mock.
+    const scope = nock("https://entreprise.api.gouv.fr/v3")
+      .get(`/insee/sirene/etablissements/diffusibles/${siret}`)
+      .query({
+        token: "key",
+        recipient: "13002526500013",
+        object: "Consolidation des données",
+        context: "MNA",
+      })
+      .reply(200, { data: etablissement })
+
+    const [first, second] = await Promise.all([getEtablissementDiffusible(siret), getEtablissementDiffusible(siret)])
+
+    expect(first).toEqual(etablissement)
+    expect(second).toEqual(etablissement)
+    expect(scope.isDone()).toBe(true)
+    expect(nock.pendingMocks()).toEqual([])
+  })
+
   it("should use cache if etablissement is already in cache", async () => {
     await getDbCollection("cache.entreprise").insertOne({
       _id: new ObjectId(),

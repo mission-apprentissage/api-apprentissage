@@ -15,8 +15,8 @@ export const emailsRoutes = ({ server }: { server: Server }) => {
       schema: zRoutes.get["/_private/emails/preview"],
     },
     async (request, response) => {
-      const template = deserializeEmailTemplate(request.query.data)
-      // No need to set markAsOpenedActionLink as the email as already be openned
+      const template = await deserializeEmailTemplate(request.query.data)
+      // No need to set markAsOpenedActionLink as the email has already been opened
       const html = await renderEmail(template, null)
       return response.header("Content-Type", "text/html").status(200).send(Buffer.from(html))
     }
@@ -41,7 +41,7 @@ export const emailsRoutes = ({ server }: { server: Server }) => {
       schema: zRoutes.get["/_private/emails/unsubscribe"],
     },
     async (request, response) => {
-      const template = deserializeEmailTemplate(request.query.data)
+      const template = await deserializeEmailTemplate(request.query.data)
 
       await unsubscribe(template.to)
 

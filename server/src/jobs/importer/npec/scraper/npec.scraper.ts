@@ -5,7 +5,7 @@ import { createReadStream, createWriteStream } from "fs"
 import { DateTime } from "luxon"
 import { parse } from "node-html-parser"
 import { basename, dirname, extname, join } from "path"
-import type { Stream } from "stream"
+import type { Readable } from "stream"
 import { pipeline } from "stream/promises"
 import { Parse } from "unzipper"
 import { withCause } from "@/services/errors/withCause.js"
@@ -131,7 +131,7 @@ async function extractNpecZipFile(filepath: string): Promise<ReadStream> {
   }
 }
 
-export async function downloadXlsxNPECFile(url: string): Promise<Stream> {
+export async function downloadXlsxNPECFile(url: string): Promise<Readable> {
   const filename = getNpecFilename(url)
 
   // We are unable to parse xlsb files without blowing up memory

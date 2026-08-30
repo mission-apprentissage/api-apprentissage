@@ -1,4 +1,4 @@
-FROM node:26-slim AS builder_root
+FROM node:26.8.1-slim AS builder_root
 WORKDIR /app
 RUN npm install -g corepack@0.34.6 && corepack enable
 COPY .yarn /app/.yarn
@@ -32,7 +32,7 @@ RUN yarn workspace server build
 RUN mkdir -p /app/shared/node_modules && mkdir -p /app/sdk/node_modules && mkdir -p /app/server/node_modules
 
 # Production image, copy all the files and run next
-FROM node:26-slim AS server
+FROM node:26.8.1-slim AS server
 WORKDIR /app
 
 RUN apt-get update \
@@ -95,7 +95,7 @@ RUN yarn workspace ui build
 # RUN --mount=type=cache,target=/app/ui/.next/cache yarn --cwd ui build
 
 # Production image, copy all the files and run next
-FROM node:26-slim AS ui
+FROM node:26.8.1-slim AS ui
 WORKDIR /app
 
 RUN apt-get update \

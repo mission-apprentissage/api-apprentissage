@@ -17,8 +17,6 @@ jobs:
           comment_tag: deployment
           mode: recreate
           pr_number: ${{ github.event.issue.number }}
-        env:
-          ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
   # deploy_preview:
   #   if: (startsWith(github.event.comment.body, '🚀') || startsWith(github.event.comment.body, ':rocket:')) && github.event.issue.pull_request
   #   concurrency:

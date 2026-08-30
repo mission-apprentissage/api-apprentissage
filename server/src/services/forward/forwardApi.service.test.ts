@@ -266,8 +266,7 @@ describe("forwardApi.service", () => {
 
   // Forme exacte produite par undici en production : un `TypeError: fetch failed` dont la cause
   // porte le code réseau (cf. labonnealternance#5334).
-  const connectionRefused = () =>
-    Object.assign(new TypeError("fetch failed"), { cause: Object.assign(new Error("connect ECONNREFUSED 57.128.2.134:443"), { code: "ECONNREFUSED" }) })
+  const connectionRefused = () => Object.assign(new TypeError("fetch failed"), { cause: Object.assign(new Error("connect ECONNREFUSED 127.0.0.1:443"), { code: "ECONNREFUSED" }) })
 
   const captureForwardError = () => {
     let error: Error | null = null
@@ -350,6 +349,22 @@ describe("forwardApi.service", () => {
     const response = await app.inject({ method: "GET", url: "/test" })
 
     expect.soft(response.statusCode).toBe(500)
+    expect(nock.pendingMocks()).toEqual([])
+  })
+
+  it("should still answer 504 when the budget expires during the replay delay", async () => {
+    // Le budget expire pendant le `sleep` du rejeu : `signal.reason` est une DOMException nommée
+    // "AbortError", qui reste `instanceof Error` — le timeout doit donc l'emporter sur le refus
+    // de connexion et rendre un 504, pas un 500.
+    nock(baseUrl).get("/v3/jobs/search").replyWithError(connectionRefused())
+
+    app.get("/test", async (_req, reply) => {
+      await forwardApiRequest({ path: "/v3/jobs/search", requestInit: { method: "GET" }, timeoutMs: 500 }, reply, { user: basicUser, organisation: null, apiKeyEnv: "production" })
+    })
+
+    const response = await app.inject({ method: "GET", url: "/test" })
+
+    expect.soft(response.statusCode).toBe(504)
     expect(nock.pendingMocks()).toEqual([])
   })
 

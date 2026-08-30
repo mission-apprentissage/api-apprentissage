@@ -106,7 +106,7 @@ async function authApiKey(req: FastifyRequest): Promise<UserWithType<"user", IUs
 
     if (error instanceof JOSEError) {
       if (error instanceof JWTExpired) {
-        throw unauthorized("La clé d'API a expirée")
+        throw unauthorized("La clé d'API a expiré")
       }
 
       throw unauthorized("Impossible de déchiffrer la clé d'API")

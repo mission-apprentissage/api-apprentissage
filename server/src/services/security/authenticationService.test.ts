@@ -268,7 +268,7 @@ describe("authenticationMiddleware", () => {
 
       vi.advanceTimersByTime(config.api_key.expiresIn + 1)
 
-      await expect(authenticationMiddleware(schema, req)).rejects.toThrow("La clé d'API a expirée")
+      await expect(authenticationMiddleware(schema, req)).rejects.toThrow("La clé d'API a expiré")
     })
 
     it("should throw unauthorized if key is removed", async () => {

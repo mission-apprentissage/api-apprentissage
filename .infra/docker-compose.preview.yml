@@ -53,7 +53,7 @@ services:
     <<: *default
     image: "ghcr.io/mission-apprentissage/mna_{{product_name}}_server:0.0.0-{{pr_number}}"
     container_name: "{{product_name}}_{{pr_number}}_jobs_processor"
-    command: ["yarn", "cli", "processor"]
+    command: ["node", "dist/index.js", "processor"]
     stop_grace_period: 900s
     volumes:
       - server:/data

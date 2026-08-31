@@ -2809,13 +2809,13 @@ __metadata:
   linkType: hard
 
 "@sentry-internal/node-cpu-profiler@npm:^2.2.0":
-  version: 2.2.0
-  resolution: "@sentry-internal/node-cpu-profiler@npm:2.2.0"
+  version: 2.4.1
+  resolution: "@sentry-internal/node-cpu-profiler@npm:2.4.1"
   dependencies:
     detect-libc: ^2.0.3
     node-abi: ^3.73.0
     node-gyp: latest
-  checksum: 38ecc6a600491cf04783ee1039eab9b2327a0b3ca0e709c1aabfeb5f04c9845ebbff5349230105e14104bdc54e9e1b63201ed9f3cdf71c93a75c77b421e84596
+  checksum: b7b891550460a3c85edb8d05cb883a62b3dea7ade64b71e63b2b235f755ab6a2d121816901d1cac7305ee0c2823e0bed87a442ac26fe3e48c6d4a4ccab94a20e
   languageName: node
   linkType: hard
 

@@ -1,8 +1,9 @@
 import type { IOrganisation } from "../../models/index.js"
+import { ORGANISATION_HABILITATIONS } from "../../models/system/organisation.model.js"
 
 export type Permission = "admin" | "user:manage" | "jobs:write" | "appointments:write" | "applications:write"
 
-export type RoleNames = "none" | "org" | "admin"
+export type RoleNames = "none" | "org" | "admin" | "sandbox"
 
 export interface Role {
   name: RoleNames
@@ -26,6 +27,17 @@ export function getBaseRole(organisation: IOrganisation | null): Role {
 export const AdminRole = {
   name: "admin",
   permissions: ["admin", "user:manage", "jobs:write"],
+} satisfies Role
+
+// Rôle porté par une clé API sandbox : les habilitations métier (écriture forwardée vers LBA
+// recette) sont accordées d'office — self-service — jamais admin ni user:manage. Le rôle REMPLACE
+// le rôle organisation : révoquer les habilitations d'une organisation ne bloque pas ses clés
+// sandbox (remédiation : suppression des clés). Les routes en access: null ne passent pas par les
+// rôles ; côté données, TOUT le forward LBA (y compris les lectures /job) cible l'environnement
+// de la clé — seules les données servies par l'API elle-même sont identiques quelle que soit la clé.
+export const SandboxRole = {
+  name: "sandbox",
+  permissions: [...ORGANISATION_HABILITATIONS],
 } satisfies Role
 
 export type AccessPermission = Permission

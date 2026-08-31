@@ -4,6 +4,7 @@ import { Alert } from "@codegouvfr/react-dsfr/Alert"
 import { Button } from "@codegouvfr/react-dsfr/Button"
 import { Input } from "@codegouvfr/react-dsfr/Input"
 import { createModal } from "@codegouvfr/react-dsfr/Modal"
+import { RadioButtons } from "@codegouvfr/react-dsfr/RadioButtons"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Box, Typography } from "@mui/material"
 import { captureException } from "@sentry/nextjs"
@@ -26,7 +27,10 @@ export const generateApiKeyModal = createModal({
   isOpenedByDefault: false,
 })
 
-export function GenerateApiKey({ lang, t }: WithLangAndT) {
+// onCreated est géré par le parent (ProfilPage) plutôt que localement : ce composant se démonte
+// dès que le statut repasse en "loading" (cf. early-return plus bas), ce qui emporterait un toast
+// porté localement
+export function GenerateApiKey({ lang, t, onCreated }: WithLangAndT<{ onCreated: () => void }>) {
   const status = useApiKeysStatut()
   const mutation = useCreateApiKeyMutation()
   const {
@@ -36,6 +40,7 @@ export function GenerateApiKey({ lang, t }: WithLangAndT) {
     formState: { errors, isSubmitting },
   } = useForm<ICreateApiKeyInput>({
     resolver: zodResolver(zRoutes.post["/_private/user/api-key"].body),
+    defaultValues: { env: "sandbox" },
   })
   const [submitError, setSubmitError] = useState<string | null>(null)
   const statut = useApiKeysStatut()
@@ -45,7 +50,10 @@ export function GenerateApiKey({ lang, t }: WithLangAndT) {
       mutation.reset()
       await mutation.mutateAsync(data)
       generateApiKeyModal.close()
-      reset()
+      // Valeurs explicites : reset() sans argument déclenche un form.reset() natif qui décoche
+      // les radios (aucun defaultChecked HTML)
+      reset({ name: "", env: "sandbox" })
+      onCreated()
     } catch (error) {
       console.error(error)
       if (error instanceof ApiError && error.context.statusCode < 500) {
@@ -129,6 +137,21 @@ export function GenerateApiKey({ lang, t }: WithLangAndT) {
             state={errors?.name ? "error" : "default"}
             stateRelatedMessage={errors?.name?.message ?? "Erreur de validation"}
             nativeInputProps={register("name", { required: false })}
+          />
+          <RadioButtons
+            legend={t("monCompte.typeJeton", { lng: lang })}
+            options={[
+              {
+                label: t("monCompte.typeJetonSandbox", { lng: lang }),
+                hintText: t("monCompte.typeJetonSandboxHint", { lng: lang }),
+                nativeInputProps: { ...register("env"), value: "sandbox" },
+              },
+              {
+                label: t("monCompte.typeJetonProduction", { lng: lang }),
+                hintText: t("monCompte.typeJetonProductionHint", { lng: lang }),
+                nativeInputProps: { ...register("env"), value: "production" },
+              },
+            ]}
           />
           {submitError && (
             <Box sx={{ marginTop: fr.spacing("2w") }}>

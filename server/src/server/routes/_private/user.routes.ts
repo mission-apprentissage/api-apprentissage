@@ -1,6 +1,6 @@
 import { zRoutes } from "shared"
 
-import { addTokenValue, deleteApiKey, generateApiKey } from "@/actions/users.actions.js"
+import { deleteApiKey, generateApiKey, listUserApiKeys } from "@/actions/users.actions.js"
 import type { Server } from "@/server/server.js"
 import { getUserFromRequest } from "@/services/security/authenticationService.js"
 
@@ -13,7 +13,7 @@ export const userRoutes = ({ server }: { server: Server }) => {
     },
     async (request, response) => {
       const user = getUserFromRequest(request, zRoutes.post["/_private/user/api-key"])
-      const result = await generateApiKey(request.body.name, user)
+      const result = await generateApiKey(request.body.name, request.body.env, user)
       return response.status(200).send(result)
     }
   )
@@ -26,7 +26,7 @@ export const userRoutes = ({ server }: { server: Server }) => {
     },
     async (request, response) => {
       const user = getUserFromRequest(request, zRoutes.get["/_private/user/api-keys"])
-      return response.status(200).send(await Promise.all(user.api_keys.map((k) => addTokenValue(user, k))))
+      return response.status(200).send(await listUserApiKeys(user))
     }
   )
 

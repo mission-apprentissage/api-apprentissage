@@ -17,10 +17,15 @@ const OPERATION_MAPPING: Record<string, string> = {
   "get:/job/v1/export": "get:/v3/jobs/export",
   "post:/formation/v1/appointment/generate-link": "post:/v2/appointment",
 }
-async function dereferenceOpenapiSchema(data: OpenAPIObject): Promise<OpenAPIObject> {
-  if (data.openapi !== "3.1.0") {
-    throw new Error("Unsupported OpenAPI version")
+function assertSupportedOpenapiVersion(data: OpenAPIObject, source: string): void {
+  // 3.1.1 est une révision éditoriale de 3.1.0 : toute la famille 3.1.x est exploitable ici.
+  if (typeof data.openapi !== "string" || !data.openapi.startsWith("3.1.")) {
+    throw new Error(`Unsupported OpenAPI version from ${source}: ${JSON.stringify(data.openapi)}`)
   }
+}
+
+async function dereferenceOpenapiSchema(data: OpenAPIObject, source: string): Promise<OpenAPIObject> {
+  assertSupportedOpenapiVersion(data, source)
 
   // `dereference` de @readme/openapi-parser accepte un document quelconque et renvoie un
   // document résolu, sans le retyper : la traversée passe par `unknown`.
@@ -28,13 +33,14 @@ async function dereferenceOpenapiSchema(data: OpenAPIObject): Promise<OpenAPIObj
 }
 async function fetchLbaOperations(): Promise<Record<string, OpenapiOperation>> {
   const response = await fetch(`${config.api.lba.endpoint}/docs/json`)
+
+  if (!response.ok) {
+    throw new Error(`Unable to fetch LBA openapi schema: HTTP ${response.status}`)
+  }
+
   const data = await response.json()
 
-  const doc = await dereferenceOpenapiSchema(data as OpenAPIObject)
-
-  if (doc.openapi !== "3.1.0") {
-    throw new Error("Unsupported OpenAPI version")
-  }
+  const doc = await dereferenceOpenapiSchema(data as OpenAPIObject, "lba")
 
   const operations = Object.values(OPERATION_MAPPING)
 
@@ -44,11 +50,7 @@ async function fetchLbaOperations(): Promise<Record<string, OpenapiOperation>> {
 async function buildApiOpenapiPathItems(): Promise<Record<string, OpenapiOperation>> {
   const data = generateOpenApiSchema(config.version, config.env, config.apiPublicUrl, "fr")
 
-  const doc = await dereferenceOpenapiSchema(data)
-
-  if (doc.openapi !== "3.1.0") {
-    throw new Error("Unsupported OpenAPI version")
-  }
+  const doc = await dereferenceOpenapiSchema(data, "api")
 
   return Object.fromEntries(Object.entries(getOpenapiOperations(doc.paths)).filter(([id]) => id in OPERATION_MAPPING))
 }

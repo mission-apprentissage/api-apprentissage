@@ -1,8 +1,24 @@
 import { ObjectId } from "bson"
 import type { z } from "zod/v4-mini"
 
-import type { IUser } from "../user.model.js"
+import type { IApiKey, IUser } from "../user.model.js"
 import { zUser } from "../user.model.js"
+
+type IApiKeyFixtureInput = Partial<IApiKey>
+
+export function generateApiKeyFixture(data?: IApiKeyFixtureInput): IApiKey {
+  return {
+    _id: new ObjectId(),
+    name: "ma-cle",
+    key: "value",
+    env: "production",
+    last_used_at: null,
+    expires_at: new Date("2025-03-21T00:00:00Z"),
+    created_at: new Date("2024-03-21T00:00:00Z"),
+    expiration_warning_sent: null,
+    ...data,
+  }
+}
 
 type IUserFixtureInput = Partial<IUser>
 

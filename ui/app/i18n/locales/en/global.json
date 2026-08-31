@@ -28,5 +28,6 @@
     "requiredField": "Required: please provide a value",
     "selectOption": "Please select an option",
     "otherTypeRequired": "Please specify your profile"
-  }
+  },
+  "bandeauRecette": "Internal pre-production environment — to test the API, create a sandbox key on api.apprentissage.beta.gouv.fr"
 }

@@ -54,6 +54,27 @@ const apiParams = {
   object: config.api.entreprise.object,
 }
 
+// L'API Entreprise répond 409 « une requête associée à votre jeton est déjà en cours de
+// traitement pour ces paramètres » : deux appels concurrents sur le même identifiant se
+// bloquent mutuellement. On les fusionne en un seul appel réseau.
+const inFlightRequests = new Map<string, Promise<unknown>>()
+
+function singleFlight<T>(key: string, fn: () => Promise<T>): Promise<T> {
+  const pending = inFlightRequests.get(key)
+
+  if (pending !== undefined) {
+    return pending as Promise<T>
+  }
+
+  const promise = fn().finally(() => {
+    inFlightRequests.delete(key)
+  })
+
+  inFlightRequests.set(key, promise)
+
+  return promise
+}
+
 async function saveEtablissementCache(siret: string, data: IApiEntEtablissement | null) {
   await getDbCollection("cache.entreprise").updateOne(
     { identifiant: siret, "data.type": "etablissement" },
@@ -252,7 +273,7 @@ async function getUniteLegaleDiffusionPartielle(siren: string): Promise<IApiEntU
   return dropNonDiffusibleUniteLegaleData(result.data)
 }
 
-export async function getEtablissementDiffusible(siret: string): Promise<IApiEntEtablissement | null> {
+async function fetchEtablissementDiffusible(siret: string): Promise<IApiEntEtablissement | null> {
   const cached = await getDbCollection("cache.entreprise").findOne({
     identifiant: siret,
     "data.type": "etablissement",
@@ -312,7 +333,7 @@ export async function getEtablissementDiffusible(siret: string): Promise<IApiEnt
   return result.data
 }
 
-export async function getUniteLegaleDiffusible(siren: string): Promise<IApiEntUniteLegale | null> {
+async function fetchUniteLegaleDiffusible(siren: string): Promise<IApiEntUniteLegale | null> {
   const cached = await getDbCollection("cache.entreprise").findOne({
     identifiant: siren,
     "data.type": "unite_legale",
@@ -367,4 +388,12 @@ export async function getUniteLegaleDiffusible(siren: string): Promise<IApiEntUn
   await saveUniteLegaleCache(siren, result)
 
   return result
+}
+
+export function getEtablissementDiffusible(siret: string): Promise<IApiEntEtablissement | null> {
+  return singleFlight(`etablissement:${siret}`, () => fetchEtablissementDiffusible(siret))
+}
+
+export function getUniteLegaleDiffusible(siren: string): Promise<IApiEntUniteLegale | null> {
+  return singleFlight(`unite_legale:${siren}`, () => fetchUniteLegaleDiffusible(siren))
 }

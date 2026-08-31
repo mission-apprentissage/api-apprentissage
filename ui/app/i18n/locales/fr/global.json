@@ -27,5 +27,6 @@
     "requiredField": "Obligatoire : veuillez renseigner une valeur",
     "selectOption": "Veuillez sélectionner une option",
     "otherTypeRequired": "Veuillez préciser votre profil :"
-  }
+  },
+  "bandeauRecette": "Environnement de pré-production interne — pour tester l'API, créez une clé sandbox sur api.apprentissage.beta.gouv.fr"
 }

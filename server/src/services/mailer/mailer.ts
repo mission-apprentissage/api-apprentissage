@@ -60,7 +60,7 @@ async function sendEmailMessage(template: ITemplate, emailEvent: IEmailEvent | n
   }
 
   if (!isTransactional) {
-    list.unsubscribe = getUnsubscribeActionLink(template)
+    list.unsubscribe = await getUnsubscribeActionLink(template)
   }
 
   const { messageId } = await transporter.sendMail({
@@ -109,12 +109,12 @@ export function getApiPublicUrl(path: string) {
   return `${config.apiPublicUrl}${path}`
 }
 
-function getPreviewActionLink(template: ITemplate) {
-  return getApiPublicUrl(zRoutes.get["/_private/emails/preview"].path + `?data=${serializeEmailTemplate(template)}`)
+async function getPreviewActionLink(template: ITemplate) {
+  return getApiPublicUrl(zRoutes.get["/_private/emails/preview"].path + `?data=${await serializeEmailTemplate(template)}`)
 }
 
-function getUnsubscribeActionLink(template: ITemplate) {
-  return getApiPublicUrl(zRoutes.get["/_private/emails/unsubscribe"].path + `?data=${serializeEmailTemplate(template)}`)
+async function getUnsubscribeActionLink(template: ITemplate) {
+  return getApiPublicUrl(zRoutes.get["/_private/emails/unsubscribe"].path + `?data=${await serializeEmailTemplate(template)}`)
 }
 
 async function getMarkAsOpenedActionLink(emailEvent: IEmailEvent | null) {
@@ -137,8 +137,8 @@ export async function renderEmail(template: ITemplate, emailEvent: IEmailEvent |
   const buffer = await renderFile(templateFile, {
     template,
     actions: {
-      unsubscribe: isTransactional ? null : getUnsubscribeActionLink(template),
-      preview: getPreviewActionLink(template),
+      unsubscribe: isTransactional ? null : await getUnsubscribeActionLink(template),
+      preview: await getPreviewActionLink(template),
       markAsOpened: await getMarkAsOpenedActionLink(emailEvent),
     },
     utils: { getPublicUrl, contactEmail: CONTACT_EMAIL },

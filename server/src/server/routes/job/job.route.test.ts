@@ -1,3 +1,5 @@
+import { createPublicKey } from "node:crypto"
+
 import { useMongo } from "@tests/mongo.test.utils.js"
 import { parseApiAlternanceToken } from "api-alternance-sdk"
 import nock, { cleanAll, disableNetConnect, enableNetConnect } from "nock"
@@ -88,6 +90,44 @@ const tokens = {
   jobWrite: "",
   applicationWrite: "",
   appointmentsWrite: "",
+  basicSandbox: "",
+  jobWriteSandbox: "",
+}
+
+// Clé publique correspondant à API_TOKEN_PRIVATE_KEY_SANDBOX (paire de test dédiée dans .env.test)
+const sandboxPublicKey = createPublicKey(config.api.alternance.private_key_sandbox).export({ type: "spki", format: "pem" }).toString()
+
+// Une clé sandbox force les habilitations métier à true et signe avec la clé privée sandbox :
+// le token doit être vérifiable avec la clé publique sandbox et REJETÉ par la clé publique production.
+// Un utilisateur sans organisation reçoit un label synthétique (LBA rejette organisation null
+// et l'utilise comme partner_label des offres).
+const nockMatchSandboxAuthorization = (u: IUser) => {
+  let token: string = ""
+
+  return {
+    matchHeader: (t: string) => {
+      token = t
+      return true
+    },
+    expectAuth: async () => {
+      await expect.soft(parseApiAlternanceToken({ token, publicKey: sandboxPublicKey })).resolves.toEqual({
+        data: {
+          email: u.email,
+          habilitations: {
+            "applications:write": true,
+            "appointments:write": true,
+            "jobs:write": true,
+          },
+          organisation: u.organisation ?? `sandbox:${u.email}`,
+          env: "sandbox",
+        },
+        success: true,
+      })
+      // Isolation structurelle : le token sandbox est invérifiable par la clé publique production.
+      // reason ciblé : seul invalid-signature prouve l'isolation (pas missing-bearer/invalid-format)
+      await expect.soft(parseApiAlternanceToken({ token, publicKey: config.api.alternance.public_cert })).resolves.toEqual({ success: false, reason: "invalid-signature" })
+    },
+  }
 }
 
 const nockMatchUserAuthorization = (u: IUser, habilitations: string[]) => {
@@ -115,6 +155,7 @@ const nockMatchUserAuthorization = (u: IUser, habilitations: string[]) => {
               "jobs:write": false,
             }),
             organisation: u.organisation,
+            env: "production",
           },
           success: true,
         })
@@ -124,13 +165,18 @@ const nockMatchUserAuthorization = (u: IUser, habilitations: string[]) => {
 }
 
 beforeEach(async () => {
-  await getDbCollection("users").insertMany(Object.values(users))
-  await getDbCollection("organisations").insertMany(Object.values(organisations))
-  tokens.basic = (await generateApiKey("", users.basic)).value
-  tokens.read = (await generateApiKey("", users.read)).value
-  tokens.jobWrite = (await generateApiKey("", users.jobWrite)).value
-  tokens.applicationWrite = (await generateApiKey("", users.applicationWrite)).value
-  tokens.appointmentsWrite = (await generateApiKey("", users.appointmentsWrite)).value
+  await Promise.all([getDbCollection("users").insertMany(Object.values(users)), getDbCollection("organisations").insertMany(Object.values(organisations))])
+  ;[tokens.basic, tokens.read, tokens.jobWrite, tokens.applicationWrite, tokens.appointmentsWrite, tokens.basicSandbox, tokens.jobWriteSandbox] = (
+    await Promise.all([
+      generateApiKey("", "production", users.basic),
+      generateApiKey("", "production", users.read),
+      generateApiKey("", "production", users.jobWrite),
+      generateApiKey("", "production", users.applicationWrite),
+      generateApiKey("", "production", users.appointmentsWrite),
+      generateApiKey("", "sandbox", users.basic),
+      generateApiKey("", "sandbox", users.jobWrite),
+    ])
+  ).map((k) => k.value)
 })
 
 describe("GET /job/v1/search", () => {
@@ -324,6 +370,72 @@ describe("POST /job/v1/offer", () => {
     expect.soft(response.statusCode).toBe(200)
     const result = response.json()
     expect(result).toEqual({ id: "1" })
+  })
+})
+
+describe("sandbox key routing", () => {
+  it("should forward read request to the sandbox endpoint with a sandbox-signed token", async () => {
+    const { matchHeader, expectAuth } = nockMatchSandboxAuthorization(users.basic)
+
+    nock("https://labonnealternance-sandbox-test.apprentissage.beta.gouv.fr/api")
+      .get("/v3/jobs/search")
+      .query({ romes: "I1401" })
+      .matchHeader("authorization", matchHeader)
+      .reply(200, { jobs: [], recruiters: [], warnings: [] })
+
+    const response = await app.inject({
+      method: "GET",
+      url: "/api/job/v1/search?romes=I1401",
+      headers: {
+        Authorization: `Bearer ${tokens.basicSandbox}`,
+      },
+    })
+
+    await expectAuth()
+    expect.soft(response.statusCode).toBe(200)
+    expect(response.json()).toEqual({ jobs: [], recruiters: [], warnings: [] })
+  })
+
+  // "basic" (sans organisation) est le cas cible du self-service : c'est SandboxRole qui autorise
+  // et le token porte l'organisation synthétique. "jobWrite" vérifie qu'une organisation déjà
+  // habilitée passe par le même chemin sandbox (endpoint + signature).
+  it.each<["basic" | "jobWrite", "basicSandbox" | "jobWriteSandbox"]>([
+    ["basic", "basicSandbox"],
+    ["jobWrite", "jobWriteSandbox"],
+  ])("should forward write request from %s user to the sandbox endpoint with all habilitations", async (userName, tokenName) => {
+    const body = {
+      offer: {
+        title: "Opérations administratives",
+        description: "Exécute des travaux administratifs courants",
+      },
+      workplace: {
+        siret: "11000001500013",
+      },
+      apply: {},
+    }
+
+    const { matchHeader, expectAuth } = nockMatchSandboxAuthorization(users[userName])
+
+    nock("https://labonnealternance-sandbox-test.apprentissage.beta.gouv.fr/api")
+      .post("/v3/jobs", (b) => {
+        expect.soft(b).toEqual(body)
+        return true
+      })
+      .matchHeader("authorization", matchHeader)
+      .reply(200, { id: "1" })
+
+    const response = await app.inject({
+      method: "POST",
+      url: `/api/job/v1/offer`,
+      body,
+      headers: {
+        Authorization: `Bearer ${tokens[tokenName]}`,
+      },
+    })
+
+    await expectAuth()
+    expect.soft(response.statusCode).toBe(200)
+    expect(response.json()).toEqual({ id: "1" })
   })
 })
 

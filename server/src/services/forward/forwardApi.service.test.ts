@@ -11,7 +11,7 @@ import { errorMiddleware } from "@/server/middlewares/errorMiddleware.js"
 import { forwardApiRequest } from "./forwardApi.service.js"
 
 describe("forwardApi.service", () => {
-  const baseUrl = "http://example.com/api"
+  const baseUrl = config.api.lba.endpoint
 
   let app: FastifyInstance
 
@@ -47,6 +47,7 @@ describe("forwardApi.service", () => {
             email: "basic@exemple.fr",
             habilitations: { "applications:write": false, "appointments:write": false, "jobs:write": false },
             organisation: null,
+            env: "production",
           },
           success: true,
         })
@@ -68,6 +69,7 @@ describe("forwardApi.service", () => {
             email: "user@exemple.fr",
             habilitations: { "applications:write": false, "appointments:write": false, "jobs:write": true },
             organisation: "Org",
+            env: "production",
           },
           success: true,
         })
@@ -81,7 +83,7 @@ describe("forwardApi.service", () => {
     app.get("/test", async (req, reply) => {
       const querystring = new URL(req.url, config.apiPublicUrl).search
 
-      await forwardApiRequest({ endpoint: baseUrl, path: "/v3/jobs/search", querystring, requestInit: { method: "GET" } }, reply, { user: basicUser, organisation: null })
+      await forwardApiRequest({ path: "/v3/jobs/search", querystring, requestInit: { method: "GET" } }, reply, { user: basicUser, organisation: null, apiKeyEnv: "production" })
     })
 
     const { matchHeader, expectAuth } = nockMatchBasicUserAuthorization()
@@ -100,7 +102,7 @@ describe("forwardApi.service", () => {
     app.get("/test", async (req, reply) => {
       const querystring = new URL(req.url, config.apiPublicUrl).search
 
-      await forwardApiRequest({ endpoint: baseUrl, path: "/v3/jobs/search", querystring, requestInit: { method: "GET" } }, reply, { user: orgUser, organisation: org })
+      await forwardApiRequest({ path: "/v3/jobs/search", querystring, requestInit: { method: "GET" } }, reply, { user: orgUser, organisation: org, apiKeyEnv: "production" })
     })
 
     const { matchHeader, expectAuth } = nockMatchOrgUserAuthorization()
@@ -119,7 +121,7 @@ describe("forwardApi.service", () => {
     app.get("/test", async (req, reply) => {
       const querystring = new URL(req.url, config.apiPublicUrl).search
 
-      await forwardApiRequest({ endpoint: baseUrl, path: "/v3/jobs/search", querystring, requestInit: { method: "GET" } }, reply, { user: basicUser, organisation: null })
+      await forwardApiRequest({ path: "/v3/jobs/search", querystring, requestInit: { method: "GET" } }, reply, { user: basicUser, organisation: null, apiKeyEnv: "production" })
     })
 
     const { matchHeader, expectAuth } = nockMatchBasicUserAuthorization()
@@ -141,7 +143,7 @@ describe("forwardApi.service", () => {
     app.get("/test", async (req, reply) => {
       const querystring = new URL(req.url, config.apiPublicUrl).search
 
-      await forwardApiRequest({ endpoint: baseUrl, path: "/v3/jobs/search", querystring, requestInit: { method: "GET" } }, reply, { user: basicUser, organisation: null })
+      await forwardApiRequest({ path: "/v3/jobs/search", querystring, requestInit: { method: "GET" } }, reply, { user: basicUser, organisation: null, apiKeyEnv: "production" })
     })
 
     const { matchHeader, expectAuth } = nockMatchBasicUserAuthorization()
@@ -163,7 +165,7 @@ describe("forwardApi.service", () => {
     app.get("/test", async (req, reply) => {
       const querystring = new URL(req.url, config.apiPublicUrl).search
 
-      await forwardApiRequest({ endpoint: baseUrl, path: "/v3/jobs/search", querystring, requestInit: { method: "GET" } }, reply, { user: basicUser, organisation: null })
+      await forwardApiRequest({ path: "/v3/jobs/search", querystring, requestInit: { method: "GET" } }, reply, { user: basicUser, organisation: null, apiKeyEnv: "production" })
     })
 
     const { matchHeader, expectAuth } = nockMatchBasicUserAuthorization()
@@ -181,9 +183,10 @@ describe("forwardApi.service", () => {
     const responseBody = { success: true }
 
     app.post("/test", async (req, reply) => {
-      await forwardApiRequest({ endpoint: baseUrl, path: "/v3/jobs/search", requestInit: { method: "POST", body: JSON.stringify(req.body) } }, reply, {
+      await forwardApiRequest({ path: "/v3/jobs/search", requestInit: { method: "POST", body: JSON.stringify(req.body) } }, reply, {
         user: basicUser,
         organisation: null,
+        apiKeyEnv: "production",
       })
     })
 
@@ -206,7 +209,7 @@ describe("forwardApi.service", () => {
     app.get("/test", async (req, reply) => {
       const querystring = new URL(req.url, config.apiPublicUrl).search
 
-      await forwardApiRequest({ endpoint: baseUrl, path: "/v3/jobs/search", querystring, requestInit: { method: "GET" } }, reply, { user: basicUser, organisation: null })
+      await forwardApiRequest({ path: "/v3/jobs/search", querystring, requestInit: { method: "GET" } }, reply, { user: basicUser, organisation: null, apiKeyEnv: "production" })
     })
 
     const response = await app.inject({ method: "GET", url: "/test" })
@@ -229,7 +232,7 @@ describe("forwardApi.service", () => {
     app.get("/test", async (req, reply) => {
       const querystring = new URL(req.url, config.apiPublicUrl).search
 
-      await forwardApiRequest({ endpoint: baseUrl, path: "/v3/jobs/search", querystring, requestInit: { method: "GET" } }, reply, { user: basicUser, organisation: null })
+      await forwardApiRequest({ path: "/v3/jobs/search", querystring, requestInit: { method: "GET" } }, reply, { user: basicUser, organisation: null, apiKeyEnv: "production" })
     })
 
     const response = await app.inject({ method: "GET", url: "/test" })
@@ -239,11 +242,151 @@ describe("forwardApi.service", () => {
     expect(response.json()).toEqual(responseBody)
   })
 
+  it("should route sandbox identities to the sandbox endpoint", async () => {
+    const responseBody = { success: true }
+
+    app.get("/test", async (req, reply) => {
+      const querystring = new URL(req.url, config.apiPublicUrl).search
+
+      await forwardApiRequest({ path: "/v3/jobs/search", querystring, requestInit: { method: "GET" } }, reply, {
+        user: basicUser,
+        organisation: null,
+        apiKeyEnv: "sandbox",
+      })
+    })
+
+    // Seul l'endpoint sandbox est nocké : un forward vers l'endpoint production ferait échouer le test
+    nock(config.api.lba.endpoint_sandbox).get("/v3/jobs/search").query({ param: "value" }).reply(200, responseBody)
+
+    const response = await app.inject({ method: "GET", url: "/test", query: { param: "value" } })
+
+    expect.soft(response.statusCode).toBe(200)
+    expect.soft(response.json()).toEqual(responseBody)
+  })
+
+  // Forme exacte produite par undici en production : un `TypeError: fetch failed` dont la cause
+  // porte le code réseau (cf. labonnealternance#5334).
+  const connectionRefused = () => Object.assign(new TypeError("fetch failed"), { cause: Object.assign(new Error("connect ECONNREFUSED 127.0.0.1:443"), { code: "ECONNREFUSED" }) })
+
+  const captureForwardError = () => {
+    let error: Error | null = null
+
+    app.addHook("onError", async (_req, _reply, err) => {
+      error = err
+    })
+
+    return () => error
+  }
+
+  it("should replay an idempotent request refused at connection level", async () => {
+    const responseBody = { success: true }
+
+    nock(baseUrl).get("/v3/jobs/search").replyWithError(connectionRefused())
+    nock(baseUrl).get("/v3/jobs/search").reply(200, responseBody)
+
+    app.get("/test", async (_req, reply) => {
+      await forwardApiRequest({ path: "/v3/jobs/search", requestInit: { method: "GET" } }, reply, { user: basicUser, organisation: null, apiKeyEnv: "production" })
+    })
+
+    const response = await app.inject({ method: "GET", url: "/test" })
+
+    expect.soft(response.statusCode).toBe(200)
+    expect.soft(response.json()).toEqual(responseBody)
+    expect(nock.pendingMocks()).toEqual([])
+  })
+
+  it("should not replay a non-idempotent request refused at connection level", async () => {
+    nock(baseUrl).post("/v2/appointment").replyWithError(connectionRefused())
+
+    const getError = captureForwardError()
+
+    app.post("/test", async (_req, reply) => {
+      await forwardApiRequest(
+        { path: "/v2/appointment", requestInit: { method: "POST", body: JSON.stringify({ onisep_id: "AD.10959" }), headers: { "Content-Type": "application/json" } } },
+        reply,
+        {
+          user: basicUser,
+          organisation: null,
+          apiKeyEnv: "production",
+        }
+      )
+    })
+
+    const response = await app.inject({ method: "POST", url: "/test" })
+
+    expect.soft(response.statusCode).toBe(500)
+    expect.soft(nock.pendingMocks()).toEqual([])
+    expect(getError()?.message).toBe("forwardApi.getResponse: unexpected error (ECONNREFUSED)")
+  })
+
+  it("should not replay an error that is not a connection failure", async () => {
+    nock(baseUrl)
+      .get("/v3/jobs/search")
+      .replyWithError(Object.assign(new TypeError("fetch failed"), { cause: Object.assign(new Error("certificate has expired"), { code: "CERT_HAS_EXPIRED" }) }))
+
+    const getError = captureForwardError()
+
+    app.get("/test", async (_req, reply) => {
+      await forwardApiRequest({ path: "/v3/jobs/search", requestInit: { method: "GET" } }, reply, { user: basicUser, organisation: null, apiKeyEnv: "production" })
+    })
+
+    const response = await app.inject({ method: "GET", url: "/test" })
+
+    expect.soft(response.statusCode).toBe(500)
+    expect.soft(nock.pendingMocks()).toEqual([])
+    // Le code distingue les causes : sans lui, Sentry regroupe TLS, DNS et refus de connexion.
+    expect(getError()?.message).toBe("forwardApi.getResponse: unexpected error (CERT_HAS_EXPIRED)")
+  })
+
+  it("should return 500 once the replay fails too", async () => {
+    nock(baseUrl).get("/v3/jobs/search").replyWithError(connectionRefused())
+    nock(baseUrl).get("/v3/jobs/search").replyWithError(connectionRefused())
+
+    app.get("/test", async (_req, reply) => {
+      await forwardApiRequest({ path: "/v3/jobs/search", requestInit: { method: "GET" } }, reply, { user: basicUser, organisation: null, apiKeyEnv: "production" })
+    })
+
+    const response = await app.inject({ method: "GET", url: "/test" })
+
+    expect.soft(response.statusCode).toBe(500)
+    expect(nock.pendingMocks()).toEqual([])
+  })
+
+  it("should still answer 504 when the budget expires during the replay delay", async () => {
+    // Le budget expire pendant le `sleep` du rejeu : `signal.reason` est une DOMException nommée
+    // "AbortError", qui reste `instanceof Error` — le timeout doit donc l'emporter sur le refus
+    // de connexion et rendre un 504, pas un 500.
+    nock(baseUrl).get("/v3/jobs/search").replyWithError(connectionRefused())
+
+    app.get("/test", async (_req, reply) => {
+      await forwardApiRequest({ path: "/v3/jobs/search", requestInit: { method: "GET" }, timeoutMs: 500 }, reply, { user: basicUser, organisation: null, apiKeyEnv: "production" })
+    })
+
+    const response = await app.inject({ method: "GET", url: "/test" })
+
+    expect.soft(response.statusCode).toBe(504)
+    expect(nock.pendingMocks()).toEqual([])
+  })
+
+  it("should give up replaying once the timeout budget is spent", async () => {
+    nock(baseUrl).get("/v3/jobs/search").delay(80).replyWithError(connectionRefused())
+    nock(baseUrl).get("/v3/jobs/search").reply(200, { success: true })
+
+    app.get("/test", async (_req, reply) => {
+      await forwardApiRequest({ path: "/v3/jobs/search", requestInit: { method: "GET" }, timeoutMs: 50 }, reply, { user: basicUser, organisation: null, apiKeyEnv: "production" })
+    })
+
+    const response = await app.inject({ method: "GET", url: "/test" })
+
+    expect.soft(response.statusCode).toBe(504)
+    expect(nock.pendingMocks()).toEqual(["GET https://labonnealternance-recette.apprentissage.beta.gouv.fr:443/api/v3/jobs/search"])
+  })
+
   it("should return 504 when the upstream response exceeds timeoutMs", async () => {
     nock(baseUrl).get("/v3/jobs/search").delay(500).reply(200, { success: true })
 
     app.get("/test", async (_req, reply) => {
-      await forwardApiRequest({ endpoint: baseUrl, path: "/v3/jobs/search", requestInit: { method: "GET" }, timeoutMs: 50 }, reply, { user: basicUser, organisation: null })
+      await forwardApiRequest({ path: "/v3/jobs/search", requestInit: { method: "GET" }, timeoutMs: 50 }, reply, { user: basicUser, organisation: null, apiKeyEnv: "production" })
     })
 
     const response = await app.inject({ method: "GET", url: "/test" })

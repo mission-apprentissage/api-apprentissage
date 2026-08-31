@@ -39,18 +39,32 @@ function getContactName(lang: "en" | "fr" | null): string {
 function getSecuritySchemeDescription(lang: "en" | "fr" | null): string {
   switch (lang) {
     case "fr":
-      return `Clé d'API à fournir dans le header \`Authorization\`. Si la route nécessite une habilitation particulière veuillez contacter le support pour en faire la demande à [${CONTACT_EMAIL}](mailto:${CONTACT_EMAIL})`
+      return `Clé d'API à fournir dans le header \`Authorization\`. Si la route nécessite une habilitation particulière, une clé de type **sandbox** l'obtient automatiquement (les échanges avec La bonne alternance passent alors par un environnement de test) ; pour une clé de type **production**, veuillez contacter le support pour en faire la demande à [${CONTACT_EMAIL}](mailto:${CONTACT_EMAIL})`
     case "en":
-      return `API key to provide in the \`Authorization\` header. If the route requires a particular authorization, please contact support to request it at [${CONTACT_EMAIL}](mailto:${CONTACT_EMAIL})`
+      return `API key to provide in the \`Authorization\` header. If the route requires a particular authorization, a **sandbox** API key is granted it automatically (exchanges with La bonne alternance then go through a test environment); for a **production** key, please contact support to request it at [${CONTACT_EMAIL}](mailto:${CONTACT_EMAIL})`
     default:
       return ""
   }
 }
 
-function getApiDescription(lang: "en" | "fr" | null): string {
+function getApiDescription(lang: "en" | "fr" | null, siteUrl: string): string {
   switch (lang) {
     case "fr":
-      return `# Limites de débit (rate limiting)
+      return `# Environnements : production et sandbox
+
+L'environnement est porté par le **type de votre clé API** (choisi à la création, sur [votre compte](${siteUrl}/compte/profil)), pas par l'URL : dans les deux cas, ciblez \`https://api.apprentissage.beta.gouv.fr/api\`.
+
+| | Clé **sandbox** | Clé **production** |
+|---|---|---|
+| Habilitations d'écriture | Accordées automatiquement | Sur demande au support |
+| Échanges La bonne alternance (recherche et dépôt d'offres, candidatures, rendez-vous) | Environnement de test | Production |
+| Autres données (certifications, formations, organismes, géographie) | Identiques à la production | Production |
+
+Avec une clé sandbox, vos dépôts d'offres, candidatures et prises de rendez-vous sont routés vers l'environnement de recette de [labonnealternance-recette.apprentissage.beta.gouv.fr](https://labonnealternance-recette.apprentissage.beta.gouv.fr) — jumelé à votre clé sandbox — et non vers sa production : rien de ce que vous envoyez n'est visible par de vrais candidats ou employeurs.
+
+Commencez avec une clé sandbox pour développer votre intégration, puis créez une clé production pour passer en réel.
+
+# Limites de débit (rate limiting)
 
 Pour garantir la disponibilité du service à l'ensemble des consommateurs, chaque endpoint est soumis à une limite d'appels **par consommateur** (clé d'API). Les limites précises sont indiquées dans la description de chaque endpoint.
 
@@ -75,7 +89,21 @@ Lorsque votre quota est atteint, l'API renvoie un code **HTTP 429 — Too Many R
 - Implémentez un mécanisme de retry avec backoff exponentiel respectant le \`retry-after\`.
 - Si vos volumes nécessitent des limites supérieures, contactez [${CONTACT_EMAIL}](mailto:${CONTACT_EMAIL}).`
     case "en":
-      return `# Rate limiting
+      return `# Environments: production and sandbox
+
+The environment is carried by the **type of your API key** (chosen at creation, on [your account](${siteUrl}/compte/profil)), not by the URL: in both cases, target \`https://api.apprentissage.beta.gouv.fr/api\`.
+
+| | **Sandbox** key | **Production** key |
+|---|---|---|
+| Write habilitations | Granted automatically | On request to support |
+| La bonne alternance exchanges (job search and posting, applications, appointments) | Test environment | Production |
+| Other data (certifications, trainings, organisations, geography) | Identical to production | Production |
+
+With a sandbox key, your job postings, applications and appointment bookings are routed to La bonne alternance's staging environment — [labonnealternance-recette.apprentissage.beta.gouv.fr](https://labonnealternance-recette.apprentissage.beta.gouv.fr), paired with your sandbox key — rather than its production: nothing you send is visible to real candidates or employers.
+
+Start with a sandbox key to build your integration, then create a production key to go live.
+
+# Rate limiting
 
 To ensure service availability for all consumers, each endpoint enforces a per-consumer (API key) call limit. Specific limits are documented in each endpoint's description.
 
@@ -129,7 +157,8 @@ export function buildOpenApiSchema(version: string, env: string, publicUrl: stri
     info: {
       title: getTitle(lang),
       version,
-      description: getApiDescription(lang),
+      // publicUrl est la base de l'API (suffixée /api) ; le site (compte, doc) vit à la racine
+      description: getApiDescription(lang, publicUrl.replace(/\/api$/, "")),
       license: {
         name: "Etalab-2.0",
         url: "https://github.com/etalab/licence-ouverte/blob/master/LO.md",
@@ -140,6 +169,9 @@ export function buildOpenApiSchema(version: string, env: string, publicUrl: stri
         email: CONTACT_EMAIL,
       },
     },
+    // Une seule entrée : l'environnement (production/sandbox) est porté par le type de la clé API,
+    // pas par l'hôte. Le choix est documenté dans l'intro (section Environnements) et le security
+    // scheme ; le sélecteur de server est masqué côté UI pour éviter toute confusion.
     servers: [
       {
         url: publicUrl,

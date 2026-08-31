@@ -1,6 +1,7 @@
 import { useMongo } from "@tests/mongo.test.utils.js"
 import type { ISecuredRouteSchema } from "api-alternance-sdk"
 import type { FastifyRequest } from "fastify"
+import { generateKeyPair, SignJWT } from "jose"
 import { generateOrganisationFixture, generateUserFixture } from "shared/models/fixtures/index"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { z } from "zod/v4-mini"
@@ -146,7 +147,7 @@ describe("authenticationMiddleware", () => {
     const expiresAt = new Date("2025-03-21T00:00:00Z")
 
     beforeEach(async () => {
-      await generateApiKey("", otherUser)
+      await generateApiKey("", "production", otherUser)
       otherUser = (await getDbCollection("users").findOne({ email: otherUser.email }))!
     })
 
@@ -160,7 +161,7 @@ describe("authenticationMiddleware", () => {
     })
 
     it("should set req.user if api key is valid", async () => {
-      const token = await generateApiKey("", user)
+      const token = await generateApiKey("", "production", user)
       const req = fakeRequest({ headers: { authorization: `Bearer ${token.value}` } })
 
       const tomorrow = new Date("2024-03-22T12:00:00Z")
@@ -172,6 +173,7 @@ describe("authenticationMiddleware", () => {
           {
             _id: token._id,
             key: token.key,
+            env: "production",
             expires_at: token.expires_at,
             last_used_at: null,
             name: token.name,
@@ -197,12 +199,12 @@ describe("authenticationMiddleware", () => {
     })
 
     it("should support multiple keys", async () => {
-      const token1 = await generateApiKey("", user)
+      const token1 = await generateApiKey("", "production", user)
 
       const tomorrow = new Date("2024-03-22T12:00:00Z")
       vi.setSystemTime(tomorrow)
 
-      const token2 = await generateApiKey("", user)
+      const token2 = await generateApiKey("", "production", user)
       const expiresAt2 = new Date("2025-03-22T12:00:00Z")
 
       const in2Days = new Date("2024-03-23T23:00:00Z")
@@ -215,6 +217,7 @@ describe("authenticationMiddleware", () => {
           {
             _id: token1._id,
             key: token1.key,
+            env: "production",
             expires_at: expiresAt,
             last_used_at: null,
             name: token1.name,
@@ -224,6 +227,7 @@ describe("authenticationMiddleware", () => {
           {
             _id: token2._id,
             key: token2.key,
+            env: "production",
             expires_at: expiresAt2,
             last_used_at: null,
             name: token2.name,
@@ -259,25 +263,36 @@ describe("authenticationMiddleware", () => {
     })
 
     it("should throw unauthorized if key is expired", async () => {
-      const token = await generateApiKey("", user)
+      const token = await generateApiKey("", "production", user)
       const req = fakeRequest({ headers: { authorization: `Bearer ${token.value}` } })
 
       vi.advanceTimersByTime(config.api_key.expiresIn + 1)
 
-      await expect(authenticationMiddleware(schema, req)).rejects.toThrow("La clé d'API a expirée")
+      await expect(authenticationMiddleware(schema, req)).rejects.toThrow("La clé d'API a expiré")
     })
 
     it("should throw unauthorized if key is removed", async () => {
-      const token = await generateApiKey("", user)
+      const token = await generateApiKey("", "production", user)
 
       await getDbCollection("users").updateOne({ email: user.email }, { $set: { api_keys: [] } })
       const req = fakeRequest({ headers: { authorization: `Bearer ${token.value}` } })
 
-      await expect(authenticationMiddleware(schema, req)).rejects.toThrow("Vous devez fournir une clé d'API valide pour accéder à cette ressource")
+      await expect(authenticationMiddleware(schema, req)).rejects.toThrow("La clé d'API fournie a été révoquée")
     })
 
     it("should throw unauthorized if key is invalid", async () => {
       const req = fakeRequest({ headers: { authorization: `Bearer invalid` } })
+
+      await expect(authenticationMiddleware(schema, req)).rejects.toThrow("Impossible de déchiffrer la clé d'API")
+    })
+
+    it("should throw unauthorized if token is signed with an asymmetric algorithm", async () => {
+      // Sans épinglage de l'algorithme, jose atteint le contrôle de type de clé et lève un
+      // TypeError : l'appel finit en 500 au lieu du 401 attendu.
+      const { privateKey } = await generateKeyPair("ES512")
+      const token = await new SignJWT({ _id: user._id.toString(), api_key: "whatever" }).setProtectedHeader({ alg: "ES512" }).setIssuedAt().sign(privateKey)
+
+      const req = fakeRequest({ headers: { authorization: `Bearer ${token}` } })
 
       await expect(authenticationMiddleware(schema, req)).rejects.toThrow("Impossible de déchiffrer la clé d'API")
     })

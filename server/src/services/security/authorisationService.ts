@@ -1,11 +1,12 @@
 import { forbidden, internal } from "@hapi/boom"
-import type { IApiRouteSchema, SchemaWithSecurity, WithSecurityScheme } from "api-alternance-sdk"
+import type { IApiRouteSchema, IOrganisationHabilitation, SchemaWithSecurity, WithSecurityScheme } from "api-alternance-sdk"
+import { ORGANISATION_HABILITATIONS } from "api-alternance-sdk"
 import type { AccessPermission, AccessResourcePath, PathParam, QueryString, Role } from "api-alternance-sdk/internal"
-import { AdminRole, getBaseRole } from "api-alternance-sdk/internal"
+import { AdminRole, getBaseRole, SandboxRole } from "api-alternance-sdk/internal"
 import type { FastifyRequest } from "fastify"
 import type { ObjectId } from "mongodb"
 import type { IOrganisationInternal } from "shared/models/organisation.model"
-import type { IUser } from "shared/models/user.model"
+import type { IApiKeyEnv, IUser } from "shared/models/user.model"
 import type { IAccessToken } from "shared/routes/common.routes"
 import { assertUnreachable } from "shared/utils/assertUnreachable"
 import { zObjectIdMini } from "zod-mongodb-schema"
@@ -18,7 +19,7 @@ export type Ressources = {
 }
 
 // Specify what we need to simplify mocking in tests
-type IRequest = Pick<FastifyRequest, "user" | "params" | "query" | "organisation">
+type IRequest = Pick<FastifyRequest, "user" | "params" | "query" | "organisation" | "api_key">
 
 function getAccessResourcePathValue(path: AccessResourcePath, req: IRequest) {
   const obj = req[path.type] as Record<string, string | number | symbol | bigint | boolean | null | undefined>
@@ -55,20 +56,30 @@ export async function getResources<S extends WithSecurityScheme>(schema: S, req:
   }
 }
 
-function getUserRole(userOrToken: IAccessToken | IUser, organisation: IOrganisationInternal | null): Role {
-  if ("identity" in userOrToken) {
-    return getBaseRole(organisation)
+function getUserRole(user: IUser, organisation: IOrganisationInternal | null, apiKeyEnv: IApiKeyEnv | null): Role {
+  // Une clé sandbox REMPLACE le rôle, y compris pour un admin : ses permissions sont exactement
+  // les habilitations métier (self-service), jamais admin ni user:manage
+  if (apiKeyEnv === "sandbox") {
+    return SandboxRole
   }
 
-  return userOrToken.is_admin ? AdminRole : getBaseRole(organisation)
+  return user.is_admin ? AdminRole : getBaseRole(organisation)
+}
+
+// Habilitations métier réellement portées par une clé, dérivées du MÊME rôle que celui appliqué à
+// l'authentification : l'affichage ne peut pas diverger de l'autorisation. Filtré sur les
+// habilitations d'organisation — `admin` et `user:manage` ne sont pas des habilitations d'API.
+export function getApiKeyHabilitations(user: IUser, organisation: IOrganisationInternal | null, apiKeyEnv: IApiKeyEnv): IOrganisationHabilitation[] {
+  const { permissions } = getUserRole(user, organisation, apiKeyEnv)
+  return ORGANISATION_HABILITATIONS.filter((habilitation) => permissions.includes(habilitation))
 }
 
 function canAccessUser(user: IUser, resource: Ressources["users"][number]): boolean {
   return user.is_admin || resource._id.toString() === user._id.toString()
 }
 
-export function isAuthorizedUser(access: AccessPermission, user: IUser, resources: Ressources, organisation: IOrganisationInternal | null): boolean {
-  if (!getUserRole(user, organisation).permissions.includes(access)) {
+export function isAuthorizedUser(access: AccessPermission, user: IUser, resources: Ressources, organisation: IOrganisationInternal | null, apiKeyEnv: IApiKeyEnv | null): boolean {
+  if (!getUserRole(user, organisation, apiKeyEnv).permissions.includes(access)) {
     return false
   }
 
@@ -145,7 +156,7 @@ export async function authorizationnMiddleware<S extends Pick<IApiRouteSchema, "
   const isAuthorized =
     "identity" in userOrToken
       ? isAuthorizedToken(userOrToken, resources, schema, req.params as PathParam, req.query as QueryString)
-      : isAuthorizedUser(schema.securityScheme.access, userOrToken, resources, req.organisation ?? null)
+      : isAuthorizedUser(schema.securityScheme.access, userOrToken, resources, req.organisation ?? null, req.api_key?.env ?? null)
 
   if (!isAuthorized) {
     throw forbidden("Vous n'êtes pas autorisé à accéder à cette ressource")

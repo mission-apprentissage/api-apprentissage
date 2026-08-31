@@ -3907,7 +3907,9 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
         },
         "security": [
           {
-            "api-key": [],
+            "api-key": [
+              "appointments:write",
+            ],
           },
         ],
         "tags": [

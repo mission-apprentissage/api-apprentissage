@@ -256,6 +256,7 @@ const nockMatchUserAuthorization = (u: IUser, habilitations: string[]) => {
               "jobs:write": false,
             }),
             organisation: u.organisation,
+            env: "production",
           },
           success: true,
         })
@@ -266,11 +267,11 @@ const nockMatchUserAuthorization = (u: IUser, habilitations: string[]) => {
 beforeEach(async () => {
   await getDbCollection("users").insertMany(Object.values(users))
   await getDbCollection("organisations").insertMany(Object.values(organisations))
-  tokens.basic = (await generateApiKey("", users.basic)).value
-  tokens.read = (await generateApiKey("", users.read)).value
-  tokens.jobWrite = (await generateApiKey("", users.jobWrite)).value
-  tokens.applicationWrite = (await generateApiKey("", users.applicationWrite)).value
-  tokens.appointmentsWrite = (await generateApiKey("", users.appointmentsWrite)).value
+  tokens.basic = (await generateApiKey("", "production", users.basic)).value
+  tokens.read = (await generateApiKey("", "production", users.read)).value
+  tokens.jobWrite = (await generateApiKey("", "production", users.jobWrite)).value
+  tokens.applicationWrite = (await generateApiKey("", "production", users.applicationWrite)).value
+  tokens.appointmentsWrite = (await generateApiKey("", "production", users.appointmentsWrite)).value
 })
 
 describe("POST /formation/v1/appointment/generate-link", () => {
@@ -378,6 +379,29 @@ describe("POST /formation/v1/appointment/generate-link", () => {
     expect.soft(response.statusCode).toBe(200)
     const result = response.json()
     expect(result).toEqual(data)
+  })
+
+  // users.basic n'a ni organisation ni habilitation : c'est SandboxRole qui autorise (self-service)
+  it("should forward sandbox key request from a non-habilitated user to the sandbox endpoint", async () => {
+    const sandboxToken = (await generateApiKey("", "sandbox", users.basic)).value
+
+    // Seul l'endpoint sandbox est nocké : un forward vers l'endpoint production ferait échouer le test
+    nock(config.api.lba.endpoint_sandbox)
+      .post("/v2/appointment", (b) => {
+        expect.soft(b).toEqual(body)
+        return true
+      })
+      .reply(200, { form_url: "https://example.com" })
+
+    const response = await app.inject({
+      method: "POST",
+      headers: { Authorization: `Bearer ${sandboxToken}` },
+      url: "/api/formation/v1/appointment/generate-link",
+      body,
+    })
+
+    expect.soft(response.statusCode).toBe(200)
+    expect(response.json()).toEqual({ form_url: "https://example.com" })
   })
 })
 

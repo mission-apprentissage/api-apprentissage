@@ -1,3 +1,4 @@
+import { createPublicKey } from "node:crypto"
 import { setMaxListeners } from "node:events"
 import { readFile, writeFile } from "node:fs/promises"
 import { join } from "node:path"
@@ -9,14 +10,16 @@ import { program } from "commander"
 import { addJob, startJobProcessor } from "job-processor"
 import HttpTerminator from "lil-http-terminator"
 import type { OperationObject, SchemaObject } from "openapi3-ts/oas31"
+import { modelDescriptors } from "shared/models/models"
+import { zApiKeyEnv } from "shared/models/user.model"
 
 import config from "./config.js"
 import createServer from "./server/server.js"
 import { checkDocumentationSync } from "./services/documentation/checkDocumentationSync.js"
-import { createAuthToken } from "./services/forward/forwardApi.service.js"
+import { checkForwardSandboxConfig, createAuthToken } from "./services/forward/forwardApi.service.js"
 import logger from "./services/logger.js"
 import { closeMailer } from "./services/mailer/mailer.js"
-import { closeMongodbConnection, getDbCollection } from "./services/mongodb/mongodbService.js"
+import { closeMongodbConnection, configureDbSchemaValidation, getDbCollection } from "./services/mongodb/mongodbService.js"
 import { closeSentry } from "./services/sentry/sentry.js"
 import { sleep } from "./utils/asyncUtils.js"
 
@@ -85,6 +88,9 @@ program
     try {
       const signal = createProcessExitSignal()
 
+      await configureDbSchemaValidation(modelDescriptors)
+      checkForwardSandboxConfig()
+
       const server = await createServer()
       await server.listen({ port: config.port, host: "0.0.0.0" })
       logger.info(`Server ready and listening on port ${config.port}`)
@@ -138,6 +144,8 @@ program
     }
 
     try {
+      await configureDbSchemaValidation(modelDescriptors)
+      checkForwardSandboxConfig()
       await startProcessor(signal)
     } catch (error) {
       captureException(error)
@@ -209,7 +217,9 @@ program
   .description("Create a LBA API token")
   .requiredOption("-e, --email <string>", "User email to create the token for")
   .option("-t, --ttl <string>", "Expiration time", "1y")
-  .action(async ({ email, expiresIn }) => {
+  .option("--env <string>", "Environnement de la clé (production | sandbox)", "production")
+  .action(async ({ email, ttl, env }) => {
+    const apiKeyEnv = zApiKeyEnv.parse(env)
     const user = await getDbCollection("users").findOne({ email })
 
     if (!user) {
@@ -218,10 +228,14 @@ program
 
     const organisation = user.organisation === null ? null : await getDbCollection("organisations").findOne({ nom: user.organisation })
 
-    const token = await createAuthToken({ user, organisation }, expiresIn)
+    const token = await createAuthToken({ user, organisation, apiKeyEnv }, ttl)
     logger.info({ token })
 
-    logger.info(parseApiAlternanceToken({ token, publicKey: config.api.alternance.public_cert }))
+    // La clé publique sandbox n'est pas dans la config : on la dérive de la clé privée
+    const publicKey =
+      apiKeyEnv === "sandbox" ? createPublicKey(config.api.alternance.private_key_sandbox).export({ type: "spki", format: "pem" }).toString() : config.api.alternance.public_cert
+
+    logger.info(parseApiAlternanceToken({ token, publicKey }))
   })
 
 program

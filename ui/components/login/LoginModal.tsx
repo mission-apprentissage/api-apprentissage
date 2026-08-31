@@ -52,7 +52,10 @@ export function LoginModal({ lang }: WithLang) {
       setSentTo(data.email)
     } catch (error) {
       console.error(error)
-      if (error instanceof ApiError && error.context.statusCode < 500) {
+      if (error instanceof ApiError && error.context.statusCode === 403) {
+        // Refus fonctionnel (ex. inscriptions fermées) : le message se suffit, pas de préfixe « erreur »
+        setSubmitError(error.context.message ?? "Une erreur est survenue lors de l'envoi du formulaire.")
+      } else if (error instanceof ApiError && error.context.statusCode < 500) {
         setSubmitError(`Une erreur est survenue lors de l'envoi du formulaire : ${error.context.message}`)
       } else {
         captureException(error)

@@ -53,10 +53,15 @@ const config = {
     },
   },
   disable_processors: env.get("DISABLE_PROCESSORS").default("false").asBool(),
+  // Recette pré-prod interne : refuse les nouveaux comptes (les comptes existants restent valides)
+  signup_disabled: env.get("SIGNUP_DISABLED").default("false").asBool(),
   api: {
     alternance: {
       public_cert: env.get("API_TOKEN_PUBLIC_KEY").required().asString(),
       private_key: env.get("API_TOKEN_PRIVATE_KEY").required().asString(),
+      // Clé privée acceptée par LBA recette : les tokens des clés sandbox sont signés avec elle,
+      // ce qui les rend structurellement invérifiables par LBA production
+      private_key_sandbox: env.get("API_TOKEN_PRIVATE_KEY_SANDBOX").required().asString(),
     },
     acce: {
       username: env.get("API_ACCE_USERNAME").required().asString(),
@@ -102,6 +107,7 @@ const config = {
     },
     lba: {
       endpoint: env.get("LBA_API_ENDPOINT").required().asString(),
+      endpoint_sandbox: env.get("LBA_API_ENDPOINT_SANDBOX").required().asString(),
     },
     kit_apprentissage: {
       endpoint: "https://api-kit-apprentissage.intercariforef.org",

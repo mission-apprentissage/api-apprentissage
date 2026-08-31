@@ -196,8 +196,8 @@ export default function UserView({ user, organisations, lang }: Props) {
       </Typography>
       <Table
         fixed
-        headers={["Nom", "Dernière utilisation", "Créé le", "Expire le"]}
-        data={user.api_keys.map((k) => [k.name, formatNullableDate(k.last_used_at, "PPP à p"), formatDate(k.created_at, "PPP à p"), formatDate(k.expires_at, "PPP à p")])}
+        headers={["Nom", "Environnement", "Dernière utilisation", "Créé le", "Expire le"]}
+        data={user.api_keys.map((k) => [k.name, k.env, formatNullableDate(k.last_used_at, "PPP à p"), formatDate(k.created_at, "PPP à p"), formatDate(k.expires_at, "PPP à p")])}
       ></Table>
     </>
   )

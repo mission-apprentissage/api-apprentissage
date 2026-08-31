@@ -133,7 +133,9 @@ export default async (): Promise<Server> => {
   const app: Server = fastify({
     logger: logMiddleware(),
     trustProxy: 1,
-    caseSensitive: false,
+    // `caseSensitive` au premier niveau est déprécié depuis fastify 5.8 (FSTDEP022) et sera
+    // retiré en fastify 6.
+    routerOptions: { caseSensitive: false },
   }).withTypeProvider<ZodTypeProvider>()
 
   return bind(app)

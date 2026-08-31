@@ -2,7 +2,7 @@ import type { IApiRoutesDef } from "api-alternance-sdk"
 import { z } from "zod/v4-mini"
 
 import { zObjectIdMini } from "../../models/common.js"
-import { zApiKeyPrivate } from "../../models/user.model.js"
+import { zApiKeyEnv, zApiKeyPrivate } from "../../models/user.model.js"
 
 export const zUserRoutes = {
   get: {
@@ -23,7 +23,7 @@ export const zUserRoutes = {
     "/_private/user/api-key": {
       method: "post",
       path: "/_private/user/api-key",
-      body: z.object({ name: z.string().check(z.trim()) }),
+      body: z.object({ name: z.string().check(z.trim()), env: z._default(zApiKeyEnv, "sandbox") }),
       response: {
         "200": zApiKeyPrivate,
       },

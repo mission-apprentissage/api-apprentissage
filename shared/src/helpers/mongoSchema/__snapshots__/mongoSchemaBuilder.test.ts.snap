@@ -4236,6 +4236,13 @@ exports[`zodToMongoSchema > should convert indicateurs.usage_api schema 1`] = `
     "_id": {
       "bsonType": "objectId",
     },
+    "api_key_env": {
+      "bsonType": "string",
+      "enum": [
+        "production",
+        "sandbox",
+      ],
+    },
     "api_key_id": {
       "bsonType": "objectId",
     },
@@ -9375,6 +9382,13 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
           "created_at": {
             "bsonType": "date",
           },
+          "env": {
+            "bsonType": "string",
+            "enum": [
+              "production",
+              "sandbox",
+            ],
+          },
           "expiration_warning_sent": {
             "anyOf": [
               {
@@ -9412,6 +9426,7 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
           "_id",
           "name",
           "key",
+          "env",
           "last_used_at",
           "expires_at",
           "created_at",

@@ -549,6 +549,31 @@ describe("Authentication", () => {
       expect(user?.other_type).toBe("Association")
     })
 
+    // "other_type fantôme" : un client qui a rempli le champ puis changé de type avant de
+    // soumettre ne doit pas laisser de précision orpheline en base.
+    it("should discard other_type when type is not 'autre', even if sent", async () => {
+      const token = await generateRegisterToken("user-not-autre@exemple.fr")
+      const response = await app.inject({
+        method: "POST",
+        url: "/api/_private/auth/register",
+        headers: { authorization: `Bearer ${token}` },
+        body: {
+          type: "entreprise",
+          other_type: "Résidu d'une saisie précédente",
+          prenom: "Jean",
+          nom: "Dupont",
+          description: "Mon projet",
+          cgu: true,
+        },
+      })
+
+      expect(response.statusCode).toBe(200)
+
+      const user = await getDbCollection("users").findOne({ email: "user-not-autre@exemple.fr" })
+      expect(user?.type).toBe("entreprise")
+      expect(user?.other_type).toBe(null)
+    })
+
     describe("when signup is disabled (recette pré-prod interne)", () => {
       beforeEach(() => {
         config.signup_disabled = true

@@ -3,7 +3,7 @@ import { zOrganisation } from "api-alternance-sdk"
 import type { Jsonify } from "type-fest"
 import { z } from "zod/v4-mini"
 
-import { checkOtherType, USER_ERROR_KEYS, zStringRequired, zUser, zUserPublic } from "../../models/user.model.js"
+import { checkOtherType, normalizeOtherType, USER_ERROR_KEYS, zStringRequired, zUser, zUserPublic } from "../../models/user.model.js"
 import { ZReqHeadersAuthorization, ZResOk } from "../common.routes.js"
 
 const zSession = z.object({
@@ -42,26 +42,31 @@ export const zAuthRoutes = {
     "/_private/auth/register": {
       method: "post",
       path: "/_private/auth/register",
-      body: z
-        .extend(
-          z.pick(zUser, {
-            type: true,
-            other_type: true,
-          }),
-          {
-            // Requis à l'inscription, bien que nullable en base (utilisateurs existants sans valeur).
-            prenom: zStringRequired,
-            nom: zStringRequired,
-            description: zStringRequired,
-            cgu: z.literal(true),
-          }
-        )
-        .check(
-          z.refine(checkOtherType, {
-            error: USER_ERROR_KEYS.otherTypeRequired,
-            path: ["other_type"],
-          })
-        ),
+      body: z.pipe(
+        z
+          .extend(
+            z.pick(zUser, {
+              type: true,
+              other_type: true,
+            }),
+            {
+              // Requis à l'inscription, bien que nullable en base (utilisateurs existants sans valeur).
+              prenom: zStringRequired,
+              nom: zStringRequired,
+              description: zStringRequired,
+              cgu: z.literal(true),
+            }
+          )
+          .check(
+            z.refine(checkOtherType, {
+              error: USER_ERROR_KEYS.otherTypeRequired,
+              path: ["other_type"],
+            })
+          ),
+        // Si le formulaire a changé de type après avoir renseigné une précision, la valeur
+        // résiduelle est purgée (cf. normalizeOtherType).
+        z.transform(normalizeOtherType)
+      ),
       response: {
         "200": zSession,
       },

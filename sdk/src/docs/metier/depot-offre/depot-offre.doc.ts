@@ -71,8 +71,10 @@ export const depotOffrePageDoc = {
           rows: {
             workplace: rechercheOffrePageDoc.data[0].sections.workplace.rows.workplace,
             location: {
-              ...rechercheOffrePageDoc.data[0].sections.workplace.rows.location,
               description: { en: workplaceLocationDescEn, fr: workplaceLocationDescFr },
+              // Le payload de dépôt n'expose que `address` : `geopoint` est déduit côté serveur,
+              // contrairement à la page recherche d'offre d'où venait cette ligne.
+              tags: [".address"],
             },
           },
         },

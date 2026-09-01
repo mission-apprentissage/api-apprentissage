@@ -78,7 +78,7 @@ export const offerWriteModelDoc = {
                   fr: "Adresse du lieu d'exécution du contrat",
                 },
                 {
-                  en: "In the case of job offer publication, a custom address can be provided. If so, it must be as precise as possible as it is used to derive the GPS coordinates of the location, via the [Adresse API](https://www.data.gouv.fr/dataservices/api-adresse-base-adresse-nationale-ban). If no address is provided, the address and the geolocation of the offer are derived from the company's SIRET.",
+                  en: "In the case of job offer publication, a custom address can be provided. If so, it must be as precise as possible because it is used to derive the GPS coordinates of the location, via the [Adresse API](https://www.data.gouv.fr/dataservices/api-adresse-base-adresse-nationale-ban). If no address is provided, the address and the geolocation of the offer are derived from the company's SIRET number.",
                   fr: "Dans le cas de la publication d'une offre d'emploi, une adresse personnalisée peut être fournie. Le cas échéant, elle doit être la plus précise possible car elle est utilisée pour déduire les coordonnées GPS du lieu, via l'[API Adresse](https://www.data.gouv.fr/dataservices/api-adresse-base-adresse-nationale-ban). Si aucune adresse n'est fournie, l'adresse ainsi que la géolocalisation de l'offre sont déduites du SIRET de l'entreprise.",
                 },
               ],

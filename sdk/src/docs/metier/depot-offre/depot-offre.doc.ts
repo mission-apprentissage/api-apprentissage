@@ -1,7 +1,9 @@
 import type { DocPage, OpenApiText } from "../../types.js"
 import { rechercheOffrePageDoc } from "../recherche-offre/recherche-offre.doc.js"
 import applyDescEn from "./en/apply.description.md.js"
+import workplaceLocationDescEn from "./en/workplace.location.description.md.js"
 import applyDescFr from "./fr/apply.description.md.js"
+import workplaceLocationDescFr from "./fr/workplace.location.description.md.js"
 
 export const depotOffrePageSummaryDoc = {
   title: {
@@ -68,7 +70,10 @@ export const depotOffrePageDoc = {
           name: rechercheOffrePageDoc.data[0].sections.workplace.name,
           rows: {
             workplace: rechercheOffrePageDoc.data[0].sections.workplace.rows.workplace,
-            location: rechercheOffrePageDoc.data[0].sections.workplace.rows.location,
+            location: {
+              ...rechercheOffrePageDoc.data[0].sections.workplace.rows.location,
+              description: { en: workplaceLocationDescEn, fr: workplaceLocationDescFr },
+            },
           },
         },
         apply: {

@@ -73,10 +73,13 @@ export const offerWriteModelDoc = {
           properties: {
             address: {
               descriptions: [
-                { en: "Address of the job offer", fr: "Adresse de l'offre d'emploi" },
                 {
-                  en: "In the case of job offer publication, a custom address can be provided; otherwise, the establishment's address will be used.\n\nThe geopoint field is derived from the address.",
-                  fr: "Dans le cas de la publication d'une offre d'emploi, une adresse personnalisée peut être fournie ; sinon, l'adresse de l'établissement sera utilisée.\n\nLe champ geopoint est dérivé de l'adresse.",
+                  en: "Address of the contract execution location",
+                  fr: "Adresse du lieu d'exécution du contrat",
+                },
+                {
+                  en: "In the case of job offer publication, a custom address can be provided. If so, it must be as precise as possible because it is used to derive the GPS coordinates of the location, via the [Adresse API](https://www.data.gouv.fr/dataservices/api-adresse-base-adresse-nationale-ban). If no address is provided, the address and the geolocation of the offer are derived from the company's SIRET number.",
+                  fr: "Dans le cas de la publication d'une offre d'emploi, une adresse personnalisée peut être fournie. Le cas échéant, elle doit être la plus précise possible car elle est utilisée pour déduire les coordonnées GPS du lieu, via l'[API Adresse](https://www.data.gouv.fr/dataservices/api-adresse-base-adresse-nationale-ban). Si aucune adresse n'est fournie, l'adresse ainsi que la géolocalisation de l'offre sont déduites du SIRET de l'entreprise.",
                 },
               ],
               examples: ["20 AVENUE DE SEGUR 75007 PARIS"],

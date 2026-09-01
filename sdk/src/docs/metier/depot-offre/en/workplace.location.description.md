@@ -1,0 +1,1 @@
+Postal address of the contract execution location. If provided, it must be as precise as possible because it is used to derive the GPS coordinates of the location, via the [Adresse API](https://www.data.gouv.fr/dataservices/api-adresse-base-adresse-nationale-ban). If no address is provided, the address and the geolocation of the offer are derived from the company’s SIRET number.

@@ -55,7 +55,10 @@ async function authApiKey(req: FastifyRequest): Promise<UserWithType<"user", IUs
   const token = extractBearerTokenFromHeader(req)
 
   if (!token) {
-    return null
+    // Header absent : le distinguer d'une clé invalide, sinon le message oriente vers la validité
+    // de la clé alors que le problème est le header. Cas remonté par le support : clé envoyée dans
+    // un header `api-key`, du nom du security scheme OpenAPI, qui n'est jamais lu.
+    throw unauthorized("Le header Authorization est absent. Fournissez votre clé d'API sous la forme 'Authorization: Bearer <clé>'")
   }
 
   try {

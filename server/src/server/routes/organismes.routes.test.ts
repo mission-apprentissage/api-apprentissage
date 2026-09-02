@@ -64,7 +64,7 @@ describe("GET /api/organisme/v1/recherche", () => {
     expect(response.json()).toEqual({
       statusCode: 401,
       name: "Unauthorized",
-      message: "Vous devez fournir une clé d'API valide pour accéder à cette ressource",
+      message: "Le header Authorization est absent. Fournissez votre clé d'API sous la forme 'Authorization: Bearer <clé>'",
     })
   })
 
@@ -233,7 +233,7 @@ describe("GET /api/organisme/v1/export", () => {
     expect(response.json()).toEqual({
       statusCode: 401,
       name: "Unauthorized",
-      message: "Vous devez fournir une clé d'API valide pour accéder à cette ressource",
+      message: "Le header Authorization est absent. Fournissez votre clé d'API sous la forme 'Authorization: Bearer <clé>'",
     })
   })
 

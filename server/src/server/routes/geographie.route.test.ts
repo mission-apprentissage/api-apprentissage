@@ -41,7 +41,7 @@ describe("GET /geographie/v1/commune/search", () => {
     expect(response.json()).toEqual({
       statusCode: 401,
       name: "Unauthorized",
-      message: "Vous devez fournir une clé d'API valide pour accéder à cette ressource",
+      message: "Le header Authorization est absent. Fournissez votre clé d'API sous la forme 'Authorization: Bearer <clé>'",
     })
   })
 
@@ -113,7 +113,7 @@ describe("GET /geographie/v1/departement", () => {
     expect(response.json()).toEqual({
       statusCode: 401,
       name: "Unauthorized",
-      message: "Vous devez fournir une clé d'API valide pour accéder à cette ressource",
+      message: "Le header Authorization est absent. Fournissez votre clé d'API sous la forme 'Authorization: Bearer <clé>'",
     })
   })
 
@@ -272,7 +272,7 @@ describe("GET /geographie/v1/mission-locale", () => {
     expect(response.json()).toEqual({
       statusCode: 401,
       name: "Unauthorized",
-      message: "Vous devez fournir une clé d'API valide pour accéder à cette ressource",
+      message: "Le header Authorization est absent. Fournissez votre clé d'API sous la forme 'Authorization: Bearer <clé>'",
     })
   })
 

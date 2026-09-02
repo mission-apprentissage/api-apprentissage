@@ -190,7 +190,7 @@ describe("GET /job/v1/search", () => {
     expect(response.json()).toEqual({
       statusCode: 401,
       name: "Unauthorized",
-      message: "Vous devez fournir une clé d'API valide pour accéder à cette ressource",
+      message: "Le header Authorization est absent. Fournissez votre clé d'API sous la forme 'Authorization: Bearer <clé>'",
     })
   })
 
@@ -289,7 +289,7 @@ describe("POST /job/v1/offer", () => {
     expect(response.json()).toEqual({
       statusCode: 401,
       name: "Unauthorized",
-      message: "Vous devez fournir une clé d'API valide pour accéder à cette ressource",
+      message: "Le header Authorization est absent. Fournissez votre clé d'API sous la forme 'Authorization: Bearer <clé>'",
     })
   })
 
@@ -463,7 +463,7 @@ describe("POST /job/v1/apply", () => {
     expect(response.json()).toEqual({
       statusCode: 401,
       name: "Unauthorized",
-      message: "Vous devez fournir une clé d'API valide pour accéder à cette ressource",
+      message: "Le header Authorization est absent. Fournissez votre clé d'API sous la forme 'Authorization: Bearer <clé>'",
     })
   })
 
@@ -568,7 +568,7 @@ describe("PUT /job/v1/offer/:id", () => {
     expect(response.json()).toEqual({
       statusCode: 401,
       name: "Unauthorized",
-      message: "Vous devez fournir une clé d'API valide pour accéder à cette ressource",
+      message: "Le header Authorization est absent. Fournissez votre clé d'API sous la forme 'Authorization: Bearer <clé>'",
     })
   })
 
@@ -660,7 +660,7 @@ describe("GET /job/v1/offer/:id", () => {
     expect(response.json()).toEqual({
       statusCode: 401,
       name: "Unauthorized",
-      message: "Vous devez fournir une clé d'API valide pour accéder à cette ressource",
+      message: "Le header Authorization est absent. Fournissez votre clé d'API sous la forme 'Authorization: Bearer <clé>'",
     })
   })
 

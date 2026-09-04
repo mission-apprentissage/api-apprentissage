@@ -1,5 +1,6 @@
 import { internal } from "@hapi/boom"
 import { captureException } from "@sentry/node"
+import { CONTACT_EMAIL } from "api-alternance-sdk/internal"
 import { renderFile } from "ejs"
 import { omit } from "lodash-es"
 import mjml from "mjml"
@@ -37,7 +38,6 @@ function isTransactionalTemplate(template: ITemplate): boolean {
   switch (template.name) {
     case "register":
     case "magic-link":
-    case "register-feedback":
     case "api-key-will-expire":
       return true
     default:
@@ -92,11 +92,8 @@ export async function sendEmail<T extends ITemplate>(template: T): Promise<void>
 export function getEmailSubject<T extends ITemplate>(template: T): string {
   switch (template.name) {
     case "register":
-      return "Vous avez demandé à recevoir un lien de connexion à l'espace développeurs La bonne alternance."
     case "magic-link":
       return "Vous avez demandé à recevoir un lien de connexion à l'espace développeurs La bonne alternance."
-    case "register-feedback":
-      return "Feedback de refus de création de compte"
     case "api-key-will-expire":
       return `📅 Votre clé API ${template.key_name} est sur le point d'expirer | Your API key ${template.key_name} is about to expire`
     default:
@@ -144,7 +141,7 @@ export async function renderEmail(template: ITemplate, emailEvent: IEmailEvent |
       preview: await getPreviewActionLink(template),
       markAsOpened: await getMarkAsOpenedActionLink(emailEvent),
     },
-    utils: { getPublicUrl },
+    utils: { getPublicUrl, contactEmail: CONTACT_EMAIL },
   })
 
   const { html } = mjml(buffer.toString(), { minify: true })

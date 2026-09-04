@@ -2,7 +2,7 @@
 import { fr } from "@codegouvfr/react-dsfr"
 import { Box, Typography } from "@mui/material"
 import type { DocPage, OpenapiSpec } from "api-alternance-sdk/internal"
-import { getTextOpenAPI, openapiSpec } from "api-alternance-sdk/internal"
+import { CONTACT_EMAIL, getTextOpenAPI, openapiSpec } from "api-alternance-sdk/internal"
 import { useTranslation } from "react-i18next"
 import type { WithLang } from "@/app/i18n/settings"
 import { Artwork } from "@/components/artwork/Artwork"
@@ -43,7 +43,7 @@ export function BesoinDesDonnes({ doc, lang, habilitation }: WithLang<{ doc: Doc
           {habilitationRequest && (
             <Typography>
               <DsfrLink
-                href={`mailto:support_api@apprentissage.beta.gouv.fr?subject=${encodeURIComponent(getTextOpenAPI(habilitationRequest.subject, lang))}&body=${getTextOpenAPI(habilitationRequest.body, lang)}`}
+                href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(getTextOpenAPI(habilitationRequest.subject, lang))}&body=${getTextOpenAPI(habilitationRequest.body, lang)}`}
                 size="lg"
               >
                 {t("besoinDonnees.demandeHabilitation", { lng: lang })}

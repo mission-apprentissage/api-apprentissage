@@ -18,6 +18,8 @@ export const up = async () => {
         ],
       },
     },
+    // @ts-expect-error "mission_apprentissage" n'est plus une valeur autorisée pour `type`
+    // (migration historique conservée telle quelle, cf. 20260826150000-user-fields.ts).
     { $set: { type: "mission_apprentissage" } }
   )
 }

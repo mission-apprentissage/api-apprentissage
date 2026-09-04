@@ -30,7 +30,10 @@ type Props = WithLang<{
   organisations: Jsonify<IOrganisationInternal[]>
 }>
 
-function getInputState(error: FieldError | undefined | null): {
+function getInputState(
+  error: FieldError | undefined | null,
+  translateError: (message: string) => string
+): {
   state: "default" | "error" | "success"
   stateRelatedMessage: string
 } {
@@ -38,7 +41,7 @@ function getInputState(error: FieldError | undefined | null): {
     return { state: "default", stateRelatedMessage: "" }
   }
 
-  return { state: "error", stateRelatedMessage: error.message ?? "Erreur de validation" }
+  return { state: "error", stateRelatedMessage: error.message ? translateError(error.message) : "Erreur de validation" }
 }
 
 export default function UserView({ user, organisations, lang }: Props) {
@@ -49,18 +52,27 @@ export default function UserView({ user, organisations, lang }: Props) {
     getValues,
     setValue,
     trigger,
+    watch,
   } = useForm<IUserAdminUpdate>({
     mode: "all",
     resolver: zodResolver(zRoutes.put["/_private/admin/users/:id"].body),
     defaultValues: {
       email: user.email,
+      prenom: user.prenom ?? "",
+      nom: user.nom ?? "",
       is_admin: user.is_admin,
       organisation: user.organisation ?? "",
       type: user.type,
+      other_type: user.other_type ?? "",
     },
   })
 
+  const typeValue = watch("type")
+
   const { t } = useTranslation("global", { lng: lang })
+  // Fiche admin non traduite (français uniquement) : messages d'erreur toujours en français,
+  // indépendamment de la langue de l'URL (cf. clefs "errors.*" du namespace "global").
+  const translateError = (message: string) => t(message as never, { lng: "fr" })
   const isAdminControl = control.register("is_admin")
   const queryClient = useQueryClient()
 
@@ -118,9 +130,20 @@ export default function UserView({ user, organisations, lang }: Props) {
       {mutation.isSuccess && <Box sx={{ marginTop: fr.spacing("2w") }}></Box>}
 
       <Box component="form" onSubmit={handleSubmit(async (d) => mutation.mutateAsync(d))}>
-        <Input label="Email" nativeInputProps={control.register("email")} {...getInputState(errors?.email)} />
+        <Input label="Email" nativeInputProps={control.register("email")} {...getInputState(errors?.email, translateError)} />
 
-        <Select label={<Typography>Organisation</Typography>} nativeSelectProps={control.register("organisation")} {...getInputState(errors?.organisation)}>
+        <Box
+          display="grid"
+          sx={{
+            gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
+            gap: fr.spacing("3w"),
+          }}
+        >
+          <Input label="Prénom" nativeInputProps={control.register("prenom")} {...getInputState(errors?.prenom, translateError)} />
+          <Input label="Nom" nativeInputProps={control.register("nom")} {...getInputState(errors?.nom, translateError)} />
+        </Box>
+
+        <Select label={<Typography>Organisation</Typography>} nativeSelectProps={control.register("organisation")} {...getInputState(errors?.organisation, translateError)}>
           <option value="">Selectionnez une option</option>
           {organisations.map((o) => (
             <option key={o.nom} value={o.nom}>
@@ -140,10 +163,23 @@ export default function UserView({ user, organisations, lang }: Props) {
             await trigger("is_admin")
           }}
         />
-        <Input label="Type" nativeInputProps={control.register("type")} {...getInputState(errors?.type)} />
-        <Input label="Activite" textArea nativeTextAreaProps={{ value: user.activite ?? "", name: "activite" }} disabled />
-        <Input label="Objectif" nativeInputProps={{ value: user.objectif ?? "", name: "objectif" }} disabled />
-        <Input label="Cas Usage" textArea nativeTextAreaProps={{ value: user.cas_usage ?? "", name: "cas_usage" }} disabled />
+        <Select label={<Typography>Type</Typography>} nativeSelectProps={control.register("type")} {...getInputState(errors?.type, translateError)}>
+          <option value="operateur_public">Opérateur public</option>
+          <option value="organisme_formation">Organisme de formation</option>
+          <option value="entreprise">Entreprise</option>
+          <option value="editeur_logiciel">Editeur de logiciel</option>
+          <option value="apprenant">Apprenant</option>
+          <option value="autre">Autre</option>
+        </Select>
+        {typeValue === "autre" && (
+          <Input label="Veuillez préciser votre profil :" nativeInputProps={control.register("other_type")} {...getInputState(errors?.other_type, translateError)} />
+        )}
+        <Input
+          label="Description du projet ou service (nom du projet, objectifs, url, public ciblé)"
+          textArea
+          nativeTextAreaProps={{ value: user.description ?? "", name: "description" }}
+          disabled
+        />
         <Input label="CGU Accépté le" nativeInputProps={{ value: formatNullableDate(user.cgu_accepted_at), name: "cgu_accepted_at" }} disabled />
         <Input label="Mise à jour le" nativeInputProps={{ value: formatDate(user.updated_at), name: "updated_at" }} disabled />
         <Input label="Créé le" nativeInputProps={{ value: formatDate(user.created_at), name: "created_at" }} disabled />

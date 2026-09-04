@@ -2,7 +2,7 @@ import { internal } from "@hapi/boom"
 import { zRoutes } from "shared"
 import { toPublicUser } from "shared/models/user.model"
 
-import { registerUser, sendRegisterFeedbackEmail, sendRequestLoginEmail } from "@/actions/auth.actions.js"
+import { registerUser, sendRequestLoginEmail } from "@/actions/auth.actions.js"
 import { startSession, stopSession } from "@/actions/sessions.actions.js"
 import type { Server } from "@/server/server.js"
 import { getDbCollection } from "@/services/mongodb/mongodbService.js"
@@ -98,27 +98,6 @@ export const authRoutes = ({ server }: { server: Server }) => {
         user: toPublicUser(user),
         organisation: request.organisation ?? null,
       })
-    }
-  )
-
-  server.post(
-    "/_private/auth/register-feedback",
-    {
-      schema: zRoutes.post["/_private/auth/register-feedback"],
-      onRequest: [server.auth(zRoutes.post["/_private/auth/register-feedback"])],
-      config: {
-        rateLimit: {
-          max: 5,
-          timeWindow: "10 minute",
-        },
-      },
-    },
-    async (request, response) => {
-      const { identity } = getUserFromRequest(request, zRoutes.post["/_private/auth/register-feedback"])
-
-      await sendRegisterFeedbackEmail(identity.email, request.body)
-
-      return response.status(200).send({ success: true })
     }
   )
 

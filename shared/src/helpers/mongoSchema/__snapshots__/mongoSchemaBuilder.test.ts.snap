@@ -1797,35 +1797,6 @@ exports[`zodToMongoSchema > should convert email_events schema 1`] = `
           "additionalProperties": false,
           "bsonType": "object",
           "properties": {
-            "comment": {
-              "bsonType": "string",
-            },
-            "from": {
-              "bsonType": "string",
-              "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
-            },
-            "name": {
-              "bsonType": "string",
-              "enum": [
-                "register-feedback",
-              ],
-            },
-            "to": {
-              "bsonType": "string",
-              "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
-            },
-          },
-          "required": [
-            "name",
-            "to",
-            "from",
-            "comment",
-          ],
-        },
-        {
-          "additionalProperties": false,
-          "bsonType": "object",
-          "properties": {
             "days_left": {
               "bsonType": "number",
             },
@@ -9399,17 +9370,6 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
     "_id": {
       "bsonType": "objectId",
     },
-    "activite": {
-      "anyOf": [
-        {
-          "bsonType": "string",
-          "minLength": 1,
-        },
-        {
-          "bsonType": "null",
-        },
-      ],
-    },
     "api_keys": {
       "bsonType": "array",
       "items": {
@@ -9474,7 +9434,13 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
         ],
       },
     },
-    "cas_usage": {
+    "cgu_accepted_at": {
+      "bsonType": "date",
+    },
+    "created_at": {
+      "bsonType": "date",
+    },
+    "description": {
       "anyOf": [
         {
           "bsonType": "string",
@@ -9485,12 +9451,6 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
         },
       ],
     },
-    "cgu_accepted_at": {
-      "bsonType": "date",
-    },
-    "created_at": {
-      "bsonType": "date",
-    },
     "email": {
       "bsonType": "string",
       "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
@@ -9498,14 +9458,11 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
     "is_admin": {
       "bsonType": "bool",
     },
-    "objectif": {
+    "nom": {
       "anyOf": [
         {
           "bsonType": "string",
-          "enum": [
-            "fiabiliser",
-            "concevoir",
-          ],
+          "minLength": 1,
         },
         {
           "bsonType": "null",
@@ -9518,6 +9475,23 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
         "null",
       ],
     },
+    "other_type": {
+      "bsonType": [
+        "string",
+        "null",
+      ],
+    },
+    "prenom": {
+      "anyOf": [
+        {
+          "bsonType": "string",
+          "minLength": 1,
+        },
+        {
+          "bsonType": "null",
+        },
+      ],
+    },
     "type": {
       "bsonType": "string",
       "enum": [
@@ -9525,9 +9499,7 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
         "organisme_formation",
         "entreprise",
         "editeur_logiciel",
-        "organisme_financeur",
         "apprenant",
-        "mission_apprentissage",
         "autre",
       ],
     },
@@ -9539,10 +9511,10 @@ exports[`zodToMongoSchema > should convert users schema 1`] = `
     "_id",
     "organisation",
     "email",
+    "prenom",
+    "nom",
     "type",
-    "activite",
-    "objectif",
-    "cas_usage",
+    "description",
     "cgu_accepted_at",
     "is_admin",
     "api_keys",

@@ -178,12 +178,6 @@ describe("Authentication", () => {
             path: "/_private/auth/register",
             resources: {},
           },
-          {
-            method: "post",
-            options: "all",
-            path: "/_private/auth/register-feedback",
-            resources: {},
-          },
         ],
       })
 
@@ -282,30 +276,6 @@ describe("Authentication", () => {
           to: "user@exemple.fr",
           token: expect.any(String),
         })
-      })
-    })
-  })
-
-  describe("POST /_private/auth/register-feedback", () => {
-    it("should send feedback email", async () => {
-      const token = await generateRegisterToken("user@exemple.fr")
-      const response = await app.inject({
-        method: "POST",
-        url: "/api/_private/auth/register-feedback",
-        headers: { authorization: `Bearer ${token}` },
-        body: {
-          comment: "My super comment",
-        },
-      })
-
-      expect(response.statusCode).toBe(200)
-      expect(JSON.parse(response.body)).toEqual({ success: true })
-
-      expect(vi.mocked(sendEmail)).toHaveBeenCalledWith({
-        name: "register-feedback",
-        to: "support_api@apprentissage.beta.gouv.fr",
-        comment: "My super comment",
-        from: "user@exemple.fr",
       })
     })
   })
@@ -481,9 +451,9 @@ describe("Authentication", () => {
         headers: { authorization: `Bearer ${token}` },
         body: {
           type: "entreprise",
-          activite: "",
-          objectif: "concevoir",
-          cas_usage: "Mon cas",
+          prenom: "Jean",
+          nom: "Dupont",
+          description: "Mon projet",
           cgu: true,
         },
       })
@@ -535,6 +505,75 @@ describe("Authentication", () => {
       expect(responseSession.json()).toEqual({ user: userData, organisation: null })
     })
 
+    it("should require other_type when type is 'autre'", async () => {
+      const token = await generateRegisterToken("user-autre@exemple.fr")
+      const response = await app.inject({
+        method: "POST",
+        url: "/api/_private/auth/register",
+        headers: { authorization: `Bearer ${token}` },
+        body: {
+          type: "autre",
+          prenom: "Jean",
+          nom: "Dupont",
+          description: "Mon projet",
+          cgu: true,
+        },
+      })
+
+      expect(response.statusCode).toBe(400)
+
+      const user = await getDbCollection("users").findOne({ email: "user-autre@exemple.fr" })
+      expect(user).toBe(null)
+    })
+
+    it("should create user with type 'autre' and other_type", async () => {
+      const token = await generateRegisterToken("user-autre@exemple.fr")
+      const response = await app.inject({
+        method: "POST",
+        url: "/api/_private/auth/register",
+        headers: { authorization: `Bearer ${token}` },
+        body: {
+          type: "autre",
+          other_type: "Association",
+          prenom: "Jean",
+          nom: "Dupont",
+          description: "Mon projet",
+          cgu: true,
+        },
+      })
+
+      expect(response.statusCode).toBe(200)
+
+      const user = await getDbCollection("users").findOne({ email: "user-autre@exemple.fr" })
+      expect(user?.type).toBe("autre")
+      expect(user?.other_type).toBe("Association")
+    })
+
+    // "other_type fantôme" : un client qui a rempli le champ puis changé de type avant de
+    // soumettre ne doit pas laisser de précision orpheline en base.
+    it("should discard other_type when type is not 'autre', even if sent", async () => {
+      const token = await generateRegisterToken("user-not-autre@exemple.fr")
+      const response = await app.inject({
+        method: "POST",
+        url: "/api/_private/auth/register",
+        headers: { authorization: `Bearer ${token}` },
+        body: {
+          type: "entreprise",
+          other_type: "Résidu d'une saisie précédente",
+          prenom: "Jean",
+          nom: "Dupont",
+          description: "Mon projet",
+          cgu: true,
+        },
+      })
+
+      expect(response.statusCode).toBe(200)
+
+      const user = await getDbCollection("users").findOne({ email: "user-not-autre@exemple.fr" })
+      expect(user?.type).toBe("entreprise")
+      expect(user?.other_type).toBe(null)
+    })
+
     describe("when signup is disabled (recette pré-prod interne)", () => {
       beforeEach(() => {
         config.signup_disabled = true
@@ -545,9 +584,9 @@ describe("Authentication", () => {
 
       const body = {
         type: "entreprise",
-        activite: "",
-        objectif: "concevoir",
-        cas_usage: "Mon cas",
+        prenom: "Jean",
+        nom: "Dupont",
+        description: "Mon projet",
         cgu: true,
       }
 

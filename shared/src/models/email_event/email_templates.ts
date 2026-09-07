@@ -14,12 +14,6 @@ const zTemplateMagicLink = z.object({
   to: z.string().check(z.email()),
   token: z.string(),
 })
-const zTemplateRegisterFeedback = z.object({
-  name: z.literal("register-feedback"),
-  to: z.string().check(z.email()),
-  from: z.string().check(z.email()),
-  comment: z.string(),
-})
 const zTemplateApiKeyWillExpire = z.object({
   name: z.literal("api-key-will-expire"),
   to: z.string().check(z.email()),
@@ -30,17 +24,15 @@ const zTemplateApiKeyWillExpire = z.object({
 
 type ITemplateRegister = z.output<typeof zTemplateRegister>
 type ITemplateMagicLink = z.output<typeof zTemplateMagicLink>
-type ITemplateRegisterFeedback = z.output<typeof zTemplateRegisterFeedback>
 type ITemplateApiKeyWillExpire = z.output<typeof zTemplateApiKeyWillExpire>
 
-export const zTemplate = z.discriminatedUnion("name", [zTemplateRegister, zTemplateMagicLink, zTemplateRegisterFeedback, zTemplateApiKeyWillExpire])
+export const zTemplate = z.discriminatedUnion("name", [zTemplateRegister, zTemplateMagicLink, zTemplateApiKeyWillExpire])
 
 export type ITemplate = z.output<typeof zTemplate>
 
 export type TemplatePayloads = {
   register: ITemplateRegister
   "magic-link": ITemplateMagicLink
-  "register-feedback": ITemplateRegisterFeedback
   "api-key-will-expire": ITemplateApiKeyWillExpire
 }
 

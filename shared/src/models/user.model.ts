@@ -67,14 +67,54 @@ const zStringTrimmedNullable = z.pipe(
   z.nullable(zStringTrimmed.check(z.minLength(1)))
 )
 
+// Les schémas ci-dessous ne portent que des CLEFS de traduction (namespace i18n "global", cf.
+// ui/app/i18n/locales/{fr,en}/global.json sous "errors"), jamais de texte final : `shared/` est
+// consommé aussi bien par `server/` que par `ui/` et ne doit pas connaître la langue de la page.
+// Charge à l'UI de résoudre `error.message` via `t(error.message)` avant affichage — les messages
+// Zod génériques (non custom, ex. email invalide) passent inchangés dans ce `t()` : la locale
+// zod (z.config) les a déjà résolus en texte final, et une clef introuvable renvoie sa valeur
+// d'origine telle quelle (comportement par défaut de i18next).
+export const USER_ERROR_KEYS = {
+  requiredField: "errors.requiredField",
+  selectOption: "errors.selectOption",
+  otherTypeRequired: "errors.otherTypeRequired",
+} as const
+
+// Champ texte requis (non nullable), utilisé pour les champs devenus obligatoires
+// à la saisie (formulaires) alors que la donnée en base reste nullable (utilisateurs existants).
+export const zStringRequired = z.string({ error: USER_ERROR_KEYS.requiredField }).check(z.trim(), z.minLength(1, { error: USER_ERROR_KEYS.requiredField }))
+
+// Requiert `other_type` non vide dès lors que `type` vaut "autre" (un `type` absent, ex. update
+// partielle sans ce champ, n'est jamais considéré comme "autre" et ne déclenche donc pas la règle).
+export function checkOtherType(data: { type?: string; other_type?: string | null }): boolean {
+  return data.type !== "autre" || (typeof data.other_type === "string" && data.other_type.trim().length > 0)
+}
+
+// Purge `other_type` dès que `type` n'est plus "autre" (ex. l'utilisateur bascule sur un autre type
+// après avoir renseigné une précision) : sans cette normalisation, la valeur reste "fantôme" en base,
+// invisible dans l'UI puisque le champ ne s'affiche plus, mais toujours présente en base. Appliquée
+// une seule fois ici plutôt que dans chacun des points d'entrée qui manipulent `type`/`other_type`
+// (inscription, mise à jour admin, lecture de la fiche admin). Un `type` absent (update partielle qui
+// ne touche pas ce champ) laisse `other_type` inchangé.
+export function normalizeOtherType<T extends { type?: string; other_type?: string | null }>(data: T): T {
+  if (data.type !== undefined && data.type !== "autre") {
+    return { ...data, other_type: null }
+  }
+  return data
+}
+
 export const zUser = z.object({
   _id: zObjectIdMini,
   organisation: z.nullable(z.string()),
   email: z.string().check(z.email(), z.toLowerCase()),
-  type: z.enum(["operateur_public", "organisme_formation", "entreprise", "editeur_logiciel", "organisme_financeur", "apprenant", "mission_apprentissage", "autre"]),
-  activite: zStringTrimmedNullable,
-  objectif: z.nullable(z.enum(["fiabiliser", "concevoir"])),
-  cas_usage: zStringTrimmedNullable,
+  prenom: zStringTrimmedNullable,
+  nom: zStringTrimmedNullable,
+  type: z.enum(["operateur_public", "organisme_formation", "entreprise", "editeur_logiciel", "apprenant", "autre"], {
+    error: USER_ERROR_KEYS.selectOption,
+  }),
+  // Précision du profil, saisie uniquement quand `type` vaut "autre" (cf. checkOtherType).
+  other_type: z.nullish(zStringTrimmed),
+  description: zStringTrimmedNullable,
   cgu_accepted_at: z.date(),
   is_admin: z.boolean(),
   api_keys: z.array(zApiKey),
@@ -98,32 +138,56 @@ export const zUserPublic = z.object({
   created_at: zUser.shape.created_at,
 })
 
-export const zUserAdminView = z.extend(
-  z.pick(zUser, {
-    _id: true,
-    email: true,
-    organisation: true,
-    is_admin: true,
-    type: true,
-    activite: true,
-    objectif: true,
-    cas_usage: true,
-    cgu_accepted_at: true,
-    updated_at: true,
-    created_at: true,
-  }),
-  {
-    api_keys: z.array(z.omit(zApiKey, { key: true })),
-  }
+export const zUserAdminView = z.pipe(
+  z.extend(
+    z.pick(zUser, {
+      _id: true,
+      email: true,
+      prenom: true,
+      nom: true,
+      organisation: true,
+      is_admin: true,
+      type: true,
+      other_type: true,
+      description: true,
+      cgu_accepted_at: true,
+      updated_at: true,
+      created_at: true,
+    }),
+    {
+      api_keys: z.array(z.omit(zApiKey, { key: true })),
+    }
+  ),
+  // Défensif : nettoie tout `other_type` fantôme déjà présent en base (cf. normalizeOtherType).
+  z.transform(normalizeOtherType)
 )
 
-export const zUserAdminUpdate = z.partial(
-  z.pick(zUser, {
-    email: true,
-    is_admin: true,
-    organisation: true,
-    type: true,
-  })
+export const zUserAdminUpdate = z.pipe(
+  z
+    .extend(
+      z.partial(
+        z.pick(zUser, {
+          email: true,
+          is_admin: true,
+          organisation: true,
+          type: true,
+          other_type: true,
+        })
+      ),
+      {
+        prenom: zStringRequired,
+        nom: zStringRequired,
+      }
+    )
+    .check(
+      z.refine(checkOtherType, {
+        error: USER_ERROR_KEYS.otherTypeRequired,
+        path: ["other_type"],
+      })
+    ),
+  // Si l'admin bascule `type` sur autre chose que "autre", `other_type` est purgé même si le
+  // formulaire en a conservé une valeur (cf. normalizeOtherType).
+  z.transform(normalizeOtherType)
 )
 
 export type IUser = z.output<typeof zUser>

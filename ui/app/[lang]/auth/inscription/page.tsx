@@ -4,11 +4,11 @@ import { Alert } from "@codegouvfr/react-dsfr/Alert"
 import { Button } from "@codegouvfr/react-dsfr/Button"
 import { Checkbox } from "@codegouvfr/react-dsfr/Checkbox"
 import { Input } from "@codegouvfr/react-dsfr/Input"
-import { RadioButtons } from "@codegouvfr/react-dsfr/RadioButtons"
 import { Select } from "@codegouvfr/react-dsfr/Select"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Box, Dialog, DialogContent, Typography } from "@mui/material"
 import { captureException } from "@sentry/nextjs"
+import { CONTACT_EMAIL } from "api-alternance-sdk/internal"
 import NextLink from "next/link"
 import { useRouter } from "next/navigation"
 import { use, useEffect, useState } from "react"
@@ -28,7 +28,10 @@ import { PAGES } from "@/utils/routes.utils"
 
 type Inputs = Jsonify<IBody<IPostRoutes["/_private/auth/register"]>>
 
-function getInputState(error: FieldError | undefined | null): {
+function getInputState(
+  error: FieldError | undefined | null,
+  translateError: (message: string) => string
+): {
   state: "default" | "error" | "success"
   stateRelatedMessage: string
 } {
@@ -36,7 +39,7 @@ function getInputState(error: FieldError | undefined | null): {
     return { state: "default", stateRelatedMessage: "" }
   }
 
-  return { state: "error", stateRelatedMessage: error.message ?? "Erreur de validation" }
+  return { state: "error", stateRelatedMessage: error.message ? translateError(error.message) : "Erreur de validation" }
 }
 
 const defaultErrorMessage = "Une erreur est survenue lors de l'envoi du formulaire. Veuillez réessayer ultérieurement."
@@ -51,12 +54,12 @@ export default function RegisterPage({ params }: PropsWithLangParams) {
   } = useForm<Inputs>({
     mode: "all",
     resolver: zodResolver(zRoutes.post["/_private/auth/register"].body),
-    defaultValues: {
-      objectif: null,
-    },
   })
   const { session, setSession } = useAuth()
   const { t } = useTranslation("inscription-connexion", { lng: lang })
+  // Les messages d'erreur Zod custom sont des clefs du namespace "global" (cf. shared/models/user.model.ts) ;
+  // les messages génériques Zod sont déjà résolus en texte via z.config (StartIntl) et passent inchangés.
+  const translateError = (message: string) => t(message as never, { lng: lang })
 
   const token = useJwtToken()
   const { push } = useRouter()
@@ -65,11 +68,6 @@ export default function RegisterPage({ params }: PropsWithLangParams) {
     name: "type",
     control,
     rules: { required: true },
-  })
-  const objectifController = useController({
-    name: "objectif",
-    control,
-    rules: { required: false },
   })
   const cguController = useController({
     name: "cgu",
@@ -130,7 +128,7 @@ export default function RegisterPage({ params }: PropsWithLangParams) {
       <DialogContent
         sx={{
           maxWidth: "md",
-          padding: fr.spacing("5w"),
+          padding: { xs: fr.spacing("2v"), md: fr.spacing("10v") },
         }}
       >
         <Box sx={{ textAlign: "right", marginBottom: fr.spacing("2w") }}>
@@ -146,9 +144,9 @@ export default function RegisterPage({ params }: PropsWithLangParams) {
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            padding: fr.spacing("5w"),
-            gap: fr.spacing("5w"),
-            marginBottom: fr.spacing("3w"),
+            padding: { xs: fr.spacing("4v"), md: fr.spacing("10v") },
+            gap: fr.spacing("10v"),
+            marginBottom: fr.spacing("6v"),
             border: "1px solid var(--light-border-default-grey, #DDD)",
             background: "var(--light-background-default-grey, #FFF)",
           }}
@@ -182,68 +180,56 @@ export default function RegisterPage({ params }: PropsWithLangParams) {
               flexDirection: "column",
             }}
           >
+            <Typography sx={{ marginBottom: fr.spacing("2w") }}>{t("creerCompte.tousChampsObligatoires", { lng: lang })}</Typography>
             <Select
-              label={
-                <Typography>
-                  {t("creerCompte.vousEtes", { lng: lang })} &nbsp;
-                  <Box component="span" sx={{ color: fr.colors.decisions.artwork.minor.redMarianne.default }}>
-                    *
-                  </Box>
-                </Typography>
-              }
+              label={<Typography>{t("creerCompte.vousEtes", { lng: lang })}</Typography>}
               nativeSelectProps={{
                 onChange: (event) => typeController.field.onChange(event.target.value),
                 value: typeController.field.value,
                 defaultValue: "",
               }}
               state={typeController.fieldState.error ? "error" : "default"}
-              stateRelatedMessage={typeController.fieldState.error?.message ?? ""}
+              stateRelatedMessage={typeController.fieldState.error?.message ? translateError(typeController.fieldState.error.message) : ""}
             >
               <option value="" disabled hidden>
                 {t("creerCompte.selectionnerOption", { lng: lang })}
               </option>
+              <option value="apprenant">{t("creerCompte.apprenant", { lng: lang })}</option>
               <option value="operateur_public">{t("creerCompte.operateurPublic", { lng: lang })}</option>
               <option value="organisme_formation">{t("creerCompte.organismeFormation", { lng: lang })}</option>
               <option value="entreprise">{t("creerCompte.entreprise", { lng: lang })}</option>
               <option value="editeur_logiciel">{t("creerCompte.editeurLogiciel", { lng: lang })}</option>
-              <option value="organisme_financeur">{t("creerCompte.organismeFinanceur", { lng: lang })}</option>
-              <option value="apprenant">{t("creerCompte.apprenant", { lng: lang })}</option>
-              <option value="mission_apprentissage">{t("creerCompte.missionApprentissage", { lng: lang })}</option>
               <option value="autre">{t("creerCompte.autre", { lng: lang })}</option>
             </Select>
+            {typeController.field.value === "autre" && (
+              <Input
+                label={t("creerCompte.autrePrecision", { lng: lang })}
+                {...getInputState(errors?.other_type, translateError)}
+                nativeInputProps={register("other_type", { required: true })}
+              />
+            )}
+            <Box
+              display="grid"
+              sx={{
+                gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
+                gap: { xs: fr.spacing("3v"), md: fr.spacing("6v") },
+              }}
+            >
+              <Box sx={{ marginBottom: fr.spacing("3v") }}>
+                <Input
+                  label={t("creerCompte.prenom", { lng: lang })}
+                  {...getInputState(errors?.prenom, translateError)}
+                  nativeInputProps={register("prenom", { required: true })}
+                />
+              </Box>
+              <Box sx={{ marginBottom: fr.spacing("3v") }}>
+                <Input label={t("creerCompte.nom", { lng: lang })} {...getInputState(errors?.nom, translateError)} nativeInputProps={register("nom", { required: true })} />
+              </Box>
+            </Box>
             <Input
-              label={t("creerCompte.quelleActivite", { lng: lang })}
-              hintText={t("creerCompte.activiteExemple", { lng: lang })}
-              {...getInputState(errors?.activite)}
-              nativeTextAreaProps={register("activite", { required: false })}
-              textArea
-            />
-            <RadioButtons
-              legend={t("creerCompte.souhaitUtiliserApi", { lng: lang })}
-              state={objectifController.fieldState.error ? "error" : "default"}
-              stateRelatedMessage={objectifController.fieldState.error?.message ?? ""}
-              options={[
-                {
-                  label: t("creerCompte.fiabiliserService", { lng: lang }),
-                  nativeInputProps: {
-                    checked: objectifController.field.value === "fiabiliser",
-                    onChange: () => objectifController.field.onChange("fiabiliser"),
-                  },
-                },
-                {
-                  label: t("creerCompte.concevoirService", { lng: lang }),
-                  nativeInputProps: {
-                    checked: objectifController.field.value === "concevoir",
-                    onChange: () => objectifController.field.onChange("concevoir"),
-                  },
-                },
-              ]}
-            />
-            <Input
-              label={t("creerCompte.quelsCasUsage", { lng: lang })}
-              hintText={t("creerCompte.casUsageExemple", { lng: lang })}
-              {...getInputState(errors?.cas_usage)}
-              nativeTextAreaProps={register("cas_usage", { required: false })}
+              label={t("creerCompte.description", { lng: lang })}
+              {...getInputState(errors?.description, translateError)}
+              nativeTextAreaProps={register("description", { required: true })}
               textArea
             />
             <Checkbox
@@ -257,10 +243,7 @@ export default function RegisterPage({ params }: PropsWithLangParams) {
                       <NextLink href={PAGES.static.cgu.getPath(lang)} target="_blank">
                         {t("creerCompte.conditionsGenerales", { lng: lang })}
                       </NextLink>
-                      &nbsp;{t("creerCompte.duService", { lng: lang })}&nbsp;
-                      <Box component="span" sx={{ color: fr.colors.decisions.artwork.minor.redMarianne.default }}>
-                        *
-                      </Box>
+                      &nbsp;{t("creerCompte.duService", { lng: lang })}
                     </Typography>
                   ),
                   nativeInputProps: register("cgu", { required: true }),
@@ -281,8 +264,8 @@ export default function RegisterPage({ params }: PropsWithLangParams) {
         </Box>
         <Typography textAlign="center" color={fr.colors.decisions.text.default.grey.default}>
           {t("creerCompte.problemesConnexion", { lng: lang })}{" "}
-          <Box component="a" href="mailto:support_api@apprentissage.beta.gouv.fr" sx={{ color: fr.colors.decisions.text.actionHigh.blueFrance.default }}>
-            support_api@apprentissage.beta.gouv.fr
+          <Box component="a" href={`mailto:${CONTACT_EMAIL}`} sx={{ color: fr.colors.decisions.text.actionHigh.blueFrance.default }}>
+            {CONTACT_EMAIL}
           </Box>
         </Typography>
       </DialogContent>

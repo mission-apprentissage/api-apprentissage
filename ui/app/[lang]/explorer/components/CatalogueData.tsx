@@ -2,7 +2,7 @@ import { fr } from "@codegouvfr/react-dsfr"
 import { Tabs } from "@codegouvfr/react-dsfr/Tabs"
 import { Box, Container, Typography } from "@mui/material"
 import type { DocDatum, DocModelRow, DocModelSection, DocPage, OpenApiText } from "api-alternance-sdk/internal"
-import { getTextOpenAPI, getTextOpenAPIArray } from "api-alternance-sdk/internal"
+import { CONTACT_EMAIL, getTextOpenAPI, getTextOpenAPIArray } from "api-alternance-sdk/internal"
 import type { WithLangAndT } from "@/app/i18n/settings"
 import { Artwork } from "@/components/artwork/Artwork"
 import { DsfrLink } from "@/components/link/DsfrLink"
@@ -234,7 +234,7 @@ function ContactSection({ t, lang }: WithLangAndT) {
             </Typography>
             <Box display="grid" gap={fr.spacing("2v")}>
               <Typography>
-                <DsfrLink href="mailto:support_api@apprentissage.beta.gouv.fr">{t("besoinDonnees.ditesLeNous", { lng: lang })}</DsfrLink>
+                <DsfrLink href={`mailto:${CONTACT_EMAIL}`}>{t("besoinDonnees.ditesLeNous", { lng: lang })}</DsfrLink>
               </Typography>
             </Box>
           </Box>

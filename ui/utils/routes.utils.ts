@@ -147,11 +147,6 @@ export const PAGES = {
       index: false,
       getTitle: (lang, t) => t("pages.inscription", { lang, ns: "global" }),
     }),
-    refusInscription: (token: string): IPage => ({
-      getPath: (lang) => `/${lang}/auth/refus-inscription?token=${token}`,
-      index: false,
-      getTitle: (lang, t) => t("pages.refusInscription", { lang, ns: "global" }),
-    }),
     adminUserView: (id: string): IPage => ({
       getPath: (lang) => `/${lang}/admin/utilisateurs/${id}`,
       index: false,

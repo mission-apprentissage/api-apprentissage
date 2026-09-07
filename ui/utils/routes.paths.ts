@@ -137,9 +137,6 @@ export function isDynamicPage(pathname: string): boolean {
   if (pathname === "/auth/inscription") {
     return true
   }
-  if (pathname === "/auth/refus-inscription") {
-    return true
-  }
   if (/^\/admin\/utilisateurs\/[^/]+$/.test(pathname)) {
     return true
   }

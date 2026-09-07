@@ -20,11 +20,6 @@ export async function generateRegisterToken(email: string): Promise<string> {
         options: "all",
         resources: {},
       }),
-      generateScope({
-        schema: zRoutes.post["/_private/auth/register-feedback"],
-        options: "all",
-        resources: {},
-      }),
     ],
     { expiresIn: "30d" }
   )
@@ -85,15 +80,6 @@ export async function sendRequestLoginEmail(email: string) {
   }
 }
 
-export async function sendRegisterFeedbackEmail(from: string, data: IBody<IPostRoutes["/_private/auth/register-feedback"]>) {
-  await sendEmail({
-    name: "register-feedback",
-    to: "support_api@apprentissage.beta.gouv.fr",
-    from,
-    comment: data.comment,
-  })
-}
-
 export async function registerUser(email: string, data: IBody<IPostRoutes["/_private/auth/register"]>): Promise<IUser> {
   const existingUser = await getDbCollection("users").findOne({ email })
 
@@ -115,10 +101,11 @@ export async function registerUser(email: string, data: IBody<IPostRoutes["/_pri
     _id: new ObjectId(),
     email,
     organisation: null,
+    prenom: data.prenom,
+    nom: data.nom,
     type: data.type,
-    activite: data.activite,
-    objectif: data.objectif,
-    cas_usage: data.cas_usage,
+    other_type: data.other_type ?? null,
+    description: data.description,
     is_admin: false,
     api_keys: [],
     cgu_accepted_at: now,

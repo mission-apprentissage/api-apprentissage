@@ -15,7 +15,6 @@
     "adminOrganisations": "Gestion des organisations",
     "adminProcessor": "Administration du processeur",
     "inscription": "Inscription",
-    "refusInscription": "Inscription",
     "adminUserView": "Fiche utilisateur",
     "adminOrganisationView": "Fiche Organisation",
     "adminProcessorJob": "Job {{name}}",
@@ -23,6 +22,11 @@
     "adminProcessorCron": "CRON {{name}}",
     "adminProcessorCronTask": "Tâche CRON {{id}}",
     "adminImporters": "Importeurs"
+  },
+  "errors": {
+    "requiredField": "Obligatoire : veuillez renseigner une valeur",
+    "selectOption": "Veuillez sélectionner une option",
+    "otherTypeRequired": "Veuillez préciser votre profil :"
   },
   "bandeauRecette": "Environnement de pré-production interne — pour tester l'API, créez une clé sandbox sur api.apprentissage.beta.gouv.fr"
 }

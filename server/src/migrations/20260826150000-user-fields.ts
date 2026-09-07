@@ -63,6 +63,12 @@ export const up = async () => {
     { $set: { type: "operateur_public" } },
     { bypassDocumentValidation: true }
   )
+
+  // Le template "register-feedback" est retiré de `zTemplate` : les `email_events` historiques
+  // deviendraient invalides au regard du validateur strict (`db:validate`, webhooks Brevo tardifs).
+  await getDbCollection("email_events").deleteMany({
+    "template.name": "register-feedback",
+  })
 }
 
 export const requireShutdown: boolean = true

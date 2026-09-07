@@ -20,6 +20,17 @@
         chdir: /opt/app
         cmd: "/opt/app/scripts/docker-compose.sh pull --policy missing"
 
+    # `app_version` est un tag mobile (recette, latest) : avec `--policy missing`, une image déjà
+    # présente sur l'hôte n'est pas rafraîchie. Les scripts migrations-status / migrations-up /
+    # trigger-indexes-creation passent par `docker compose run server` et tourneraient alors sur
+    # l'image du déploiement précédent, qui ne connaît pas les nouvelles migrations : le status
+    # répond "synced" et les migrations sont sautées. On force le pull de l'image server pour que
+    # ces étapes s'exécutent sur l'image qui va effectivement être déployée.
+    - name: Rafraîchissement de l'image server
+      shell:
+        chdir: /opt/app
+        cmd: "/opt/app/scripts/docker-compose.sh pull server"
+
     - name: Récupération du status de la stack
       shell:
         chdir: /opt/app

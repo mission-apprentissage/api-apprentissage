@@ -196,6 +196,21 @@ export type IUserCreate = Jsonify<z.output<typeof zUserCreate>>
 export type IUserAdminView = z.output<typeof zUserAdminView>
 export type IUserAdminUpdate = z.output<typeof zUserAdminUpdate>
 
+/**
+ * Date de dernière utilisation la plus récente parmi les clés API d'un utilisateur.
+ * Accepte des Date (côté serveur) ou des chaînes ISO (côté client après sérialisation JSON).
+ * Les valeurs null ou non parsables sont ignorées.
+ */
+export function getLastApiKeyUsedAt(apiKeys: ReadonlyArray<{ last_used_at: Date | string | null }>): Date | null {
+  return apiKeys.reduce<Date | null>((acc, key) => {
+    if (key.last_used_at === null) return acc
+    const d = new Date(key.last_used_at)
+    if (Number.isNaN(d.getTime())) return acc
+    if (acc === null || d.getTime() > acc.getTime()) return d
+    return acc
+  }, null)
+}
+
 export function toPublicUser(user: IUser): z.output<typeof zUserPublic> {
   return zUserPublic.parse({
     _id: user._id,
@@ -203,11 +218,7 @@ export function toPublicUser(user: IUser): z.output<typeof zUserPublic> {
     organisation: user.organisation,
     is_admin: user.is_admin,
     has_api_key: user.api_keys.length > 0,
-    api_key_used_at: user.api_keys.reduce<Date | null>((acc, key) => {
-      if (acc === null) return key.last_used_at
-      if (key.last_used_at === null) return acc
-      return acc.getTime() > key.last_used_at.getTime() ? acc : key.last_used_at
-    }, null),
+    api_key_used_at: getLastApiKeyUsedAt(user.api_keys),
     updated_at: user.updated_at,
     created_at: user.created_at,
   })

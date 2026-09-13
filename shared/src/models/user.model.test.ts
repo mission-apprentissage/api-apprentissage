@@ -2,7 +2,7 @@ import { ObjectId } from "bson"
 import { describe, expect, it } from "vitest"
 
 import { generateUserFixture } from "./fixtures/user.model.fixture.js"
-import { normalizeOtherType, USER_ERROR_KEYS, zUserAdminUpdate, zUserAdminView } from "./user.model.js"
+import { getLastApiKeyUsedAt, normalizeOtherType, USER_ERROR_KEYS, zUserAdminUpdate, zUserAdminView } from "./user.model.js"
 
 describe("normalizeOtherType", () => {
   it("should purge other_type when type is not 'autre'", () => {
@@ -69,5 +69,37 @@ describe("zUserAdminView", () => {
   it("should keep other_type when type is 'autre'", () => {
     const user = generateUserFixture({ type: "autre", other_type: "Association" })
     expect(zUserAdminView.parse(user).other_type).toBe("Association")
+  })
+})
+
+describe("getLastApiKeyUsedAt", () => {
+  it("should return null when there is no api key", () => {
+    expect(getLastApiKeyUsedAt([])).toBeNull()
+  })
+
+  it("should return null when no api key has been used", () => {
+    expect(getLastApiKeyUsedAt([{ last_used_at: null }, { last_used_at: null }])).toBeNull()
+  })
+
+  it("should return the most recent date whatever the order", () => {
+    const oldest = new Date("2024-01-01T00:00:00Z")
+    const newest = new Date("2026-09-13T12:00:00Z")
+    expect(getLastApiKeyUsedAt([{ last_used_at: oldest }, { last_used_at: newest }])).toEqual(newest)
+    expect(getLastApiKeyUsedAt([{ last_used_at: newest }, { last_used_at: oldest }])).toEqual(newest)
+  })
+
+  it("should ignore null values mixed with dates", () => {
+    const used = new Date("2025-06-01T00:00:00Z")
+    expect(getLastApiKeyUsedAt([{ last_used_at: null }, { last_used_at: used }, { last_used_at: null }])).toEqual(used)
+  })
+
+  it("should accept ISO strings as produced by JSON serialization", () => {
+    expect(getLastApiKeyUsedAt([{ last_used_at: "2024-03-21T00:00:00.000Z" }, { last_used_at: "2025-03-21T00:00:00.000Z" }])).toEqual(new Date("2025-03-21T00:00:00.000Z"))
+  })
+
+  it("should ignore unparsable values", () => {
+    const used = new Date("2025-06-01T00:00:00Z")
+    expect(getLastApiKeyUsedAt([{ last_used_at: "not-a-date" }, { last_used_at: used }])).toEqual(used)
+    expect(getLastApiKeyUsedAt([{ last_used_at: "not-a-date" }])).toBeNull()
   })
 })

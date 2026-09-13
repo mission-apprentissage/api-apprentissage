@@ -132,15 +132,16 @@ const UserList = ({ lang }: WithLang) => {
           {
             field: "api_keys",
             headerName: "Dernière utilisation API",
-            valueGetter: (value: Jsonify<IUserAdminView>["api_keys"]) => {
-              const lastUsedAt = value.reduce<Date | null>((acc, key) => {
+            type: "dateTime",
+            // Retourne une Date (ou null) pour que le tri soit chronologique et non alphabétique sur le libellé formaté
+            valueGetter: (value: Jsonify<IUserAdminView>["api_keys"]) =>
+              value.reduce<Date | null>((acc, key) => {
                 if (key.last_used_at === null) return acc
                 const d = new Date(key.last_used_at)
                 if (acc === null) return d
                 return acc.getTime() > d.getTime() ? acc : d
-              }, null)
-              return formatNullableDate(lastUsedAt, "PPP à p")
-            },
+              }, null),
+            valueFormatter: (value: Date | null) => formatNullableDate(value, "PPP à p"),
             minWidth: 180,
           },
           {

@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useCallback, useMemo, useState } from "react"
 import type { IUserAdminView } from "shared/models/user.model"
+import { getLastApiKeyUsedAt } from "shared/models/user.model"
 import type { Jsonify } from "type-fest"
 
 import { useDeleteUser } from "@/app/[lang]/admin/hooks/useDeleteUser"
@@ -132,15 +133,10 @@ const UserList = ({ lang }: WithLang) => {
           {
             field: "api_keys",
             headerName: "Dernière utilisation API",
-            valueGetter: (value: Jsonify<IUserAdminView>["api_keys"]) => {
-              const lastUsedAt = value.reduce<Date | null>((acc, key) => {
-                if (key.last_used_at === null) return acc
-                const d = new Date(key.last_used_at)
-                if (acc === null) return d
-                return acc.getTime() > d.getTime() ? acc : d
-              }, null)
-              return formatNullableDate(lastUsedAt, "PPP à p")
-            },
+            type: "dateTime",
+            // Retourne une Date (ou null) pour que le tri soit chronologique et non alphabétique sur le libellé formaté
+            valueGetter: (value: Jsonify<IUserAdminView>["api_keys"]) => getLastApiKeyUsedAt(value),
+            valueFormatter: (value: Date | null) => formatNullableDate(value, "PPP à p"),
             minWidth: 180,
           },
           {

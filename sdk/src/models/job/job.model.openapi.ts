@@ -147,8 +147,15 @@ const offerReadSchema = {
           type: ["string", "null"],
           enum: ["onsite", "remote", "hybrid"],
         },
+        start_type: {
+          type: ["string", "null"],
+          enum: ["des_que_possible", "precise_date"],
+        },
+        start_is_flexible: {
+          type: ["boolean", "null"],
+        },
       },
-      required: ["start", "duration", "type", "remote"],
+      required: ["start", "start_type", "start_is_flexible", "duration", "type", "remote"],
     },
     offer: {
       type: "object",
@@ -219,8 +226,29 @@ const offerReadSchema = {
           type: "string",
           enum: ["Active", "Filled", "Cancelled"],
         },
+        to_applicant_questions: {
+          type: ["array", "null"],
+          maxItems: 3,
+          items: {
+            type: "string",
+            minLength: 5,
+            maxLength: 200,
+          },
+        },
       },
-      required: ["title", "desired_skills", "to_be_acquired_skills", "access_conditions", "opening_count", "publication", "rome_codes", "description", "target_diploma", "status"],
+      required: [
+        "title",
+        "desired_skills",
+        "to_be_acquired_skills",
+        "access_conditions",
+        "opening_count",
+        "publication",
+        "rome_codes",
+        "description",
+        "target_diploma",
+        "status",
+        "to_applicant_questions",
+      ],
     },
     is_delegated: {
       type: "boolean",
@@ -284,7 +312,7 @@ const offerWriteSchema = {
     contract: {
       type: "object",
       properties: {
-        ...pickPropertiesOpenAPI(offerReadSchema.properties.contract.properties, ["duration", "start", "remote"]),
+        ...pickPropertiesOpenAPI(offerReadSchema.properties.contract.properties, ["duration", "start", "remote", "start_type", "start_is_flexible"]),
         type: {
           ...offerReadSchema.properties.contract.properties.type,
           default: ["Apprentissage", "Professionnalisation"],
@@ -348,6 +376,7 @@ const offerWriteSchema = {
           ...offerReadSchema.properties.offer.properties.status,
           default: "Active",
         },
+        to_applicant_questions: offerReadSchema.properties.offer.properties.to_applicant_questions,
       },
       required: ["title", "description"],
     },
@@ -391,6 +420,45 @@ const applicationWriteSchema = {
     recipient_id: {
       type: "string",
       description: "Identifiant unique de la ressource vers laquelle la candidature est faite, préfixé par le nom de la collection",
+    },
+    applicant_inscription_formation: {
+      type: ["boolean", "null"],
+    },
+    applicant_formation_description: {
+      type: ["string", "null"],
+      maxLength: 200,
+    },
+    applicant_rythm_description: {
+      type: ["string", "null"],
+      maxLength: 200,
+    },
+    applicant_contract_duration: {
+      type: ["string", "null"],
+    },
+    applicant_contract_start: {
+      type: ["array", "null"],
+      items: {
+        type: "string",
+      },
+    },
+    applicant_answers_to_recruiter_questions: {
+      type: ["array", "null"],
+      maxItems: 3,
+      items: {
+        type: "object",
+        properties: {
+          question: {
+            type: "string",
+            minLength: 1,
+            maxLength: 200,
+          },
+          answer: {
+            type: "string",
+            maxLength: 2000,
+          },
+        },
+        required: ["question", "answer"],
+      },
     },
   },
   required: ["applicant_first_name", "applicant_last_name", "applicant_email", "applicant_phone", "applicant_attachment_name", "applicant_attachment_content", "recipient_id"],

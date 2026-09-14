@@ -58,6 +58,19 @@ export const offerWriteModelDoc = {
           },
         },
         title: offerReadModelDoc.properties.offer.properties.title,
+        to_applicant_questions: {
+          ...offerReadModelDoc.properties.offer.properties.to_applicant_questions,
+          descriptions: [
+            {
+              en: "Questions asked by the recruiter to the applicants, up to 3. Free text, between 5 and 200 characters each; urls and email addresses are rejected.",
+              fr: "Questions posées par le recruteur aux candidats, 3 au maximum. Texte libre, de 5 à 200 caractères chacune ; les urls et les adresses email sont refusées.",
+            },
+            {
+              en: "These questions are displayed to the applicants on La bonne alternance, and their answers are forwarded to the recruiter.",
+              fr: "Ces questions sont affichées aux candidats sur La bonne alternance, et leurs réponses sont transmises au recruteur.",
+            },
+          ],
+        },
         to_be_acquired_skills: offerReadModelDoc.properties.offer.properties.to_be_acquired_skills,
       },
     },

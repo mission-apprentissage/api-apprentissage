@@ -86,6 +86,64 @@ export const candidatureOffrePageDoc = {
             },
           },
         },
+        search: {
+          name: { en: "Applicant's search", fr: "Recherche du candidat" },
+          rows: {
+            applicant_inscription_formation: {
+              description: {
+                en: "Whether the applicant is already enrolled in a training programme.",
+                fr: "Indique si le candidat est déjà inscrit en formation.",
+              },
+              information: {
+                en: "The school, training and rhythm fields below are only meaningful when this field is true.",
+                fr: "Les champs école, formation et rythme ci-dessous n'ont de sens que lorsque ce champ vaut true.",
+              },
+            },
+            applicant_formation_description: {
+              description: {
+                en: "Applicant's school and training programme, as free text (200 characters maximum).",
+                fr: "École et formation du candidat, en texte libre (200 caractères maximum).",
+              },
+              sample: { en: "IUT de Rennes / BUT Informatique / Rennes", fr: "IUT de Rennes / BUT Informatique / Rennes" },
+            },
+            applicant_rythm_description: {
+              description: {
+                en: "School/company rhythm of the applicant's training programme, as free text (200 characters maximum).",
+                fr: "Rythme école/entreprise de la formation du candidat, en texte libre (200 caractères maximum).",
+              },
+              sample: { en: "1 semaine à l'école / 2 semaines en entreprise", fr: "1 semaine à l'école / 2 semaines en entreprise" },
+            },
+            applicant_contract_duration: {
+              description: {
+                en: "Contract duration wished by the applicant, as a label.",
+                fr: "Durée de contrat souhaitée par le candidat, sous forme de libellé.",
+              },
+              sample: { en: "12 mois", fr: "12 mois" },
+            },
+            applicant_contract_start: {
+              description: {
+                en: "Start periods wished by the applicant, as labels. Several periods can be given.",
+                fr: "Périodes de démarrage souhaitées par le candidat, sous forme de libellés. Plusieurs périodes peuvent être indiquées.",
+              },
+              sample: { en: '["Dès que possible", "Septembre 2026"]', fr: '["Dès que possible", "Septembre 2026"]' },
+            },
+          },
+        },
+        questions: {
+          name: { en: "Recruiter's questions", fr: "Questions du recruteur" },
+          rows: {
+            applicant_answers_to_recruiter_questions: {
+              description: {
+                en: "Applicant's answers to the questions of the offer, found in `offer.to_applicant_questions` on the [alternance job opportunities search route](./recherche-offre).",
+                fr: "Réponses du candidat aux questions de l'offre, présentes dans `offer.to_applicant_questions` sur la [route de recherche d'opportunités d'emploi en alternance](./recherche-offre).",
+              },
+              information: {
+                en: "Answering is optional, even when the offer asks questions: your own application form is not expected to display them. When answers are provided, each `question` must exactly match one of the offer questions, otherwise the application is rejected.",
+                fr: "Y répondre est facultatif, même lorsque l'offre pose des questions : votre propre formulaire de candidature n'est pas censé les afficher. Si des réponses sont fournies, chaque `question` doit correspondre exactement à une question de l'offre, sinon la candidature est refusée.",
+              },
+            },
+          },
+        },
         recipient: {
           name: { en: "Recipient", fr: "Destinataire." },
           rows: {

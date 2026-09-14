@@ -443,14 +443,18 @@ const applicationWriteSchema = {
     },
     applicant_answers_to_recruiter_questions: {
       type: ["array", "null"],
+      maxItems: 3,
       items: {
         type: "object",
         properties: {
           question: {
             type: "string",
+            minLength: 1,
+            maxLength: 200,
           },
           answer: {
             type: "string",
+            maxLength: 2000,
           },
         },
         required: ["question", "answer"],

@@ -1847,12 +1847,15 @@ exports[`openapiSpec#models > should generate proper schema JobApplicationWrite 
             "examples": [
               "Votre engagement sur les mobilités douces correspond à ce que je veux faire.",
             ],
+            "maxLength": 2000,
             "type": "string",
           },
           "question": {
             "examples": [
               "Pourquoi souhaitez-vous rejoindre notre entreprise ?",
             ],
+            "maxLength": 200,
+            "minLength": 1,
             "type": "string",
           },
         },
@@ -1862,6 +1865,7 @@ exports[`openapiSpec#models > should generate proper schema JobApplicationWrite 
         ],
         "type": "object",
       },
+      "maxItems": 3,
       "type": [
         "array",
         "null",

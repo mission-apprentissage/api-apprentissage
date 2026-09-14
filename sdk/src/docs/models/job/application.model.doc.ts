@@ -90,6 +90,10 @@ export const applicationModelDoc = {
           en: "Optional, even when the offer asks questions. When provided, each `question` must exactly match one of the offer questions, otherwise the application is rejected.",
           fr: "Facultatif, même lorsque l'offre pose des questions. Si des réponses sont fournies, chaque `question` doit correspondre exactement à une question de l'offre, sinon la candidature est refusée.",
         },
+        {
+          en: "A given question can only be answered once: sending the same `question` twice is rejected.",
+          fr: "Une même question ne peut recevoir qu'une seule réponse : envoyer deux fois la même `question` est refusé.",
+        },
       ],
       items: {
         descriptions: [{ en: "Answer to one question of the offer", fr: "Réponse à une question de l'offre" }],

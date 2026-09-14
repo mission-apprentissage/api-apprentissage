@@ -2179,6 +2179,33 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
       "JobApplicationWrite": {
         "additionalProperties": false,
         "properties": {
+          "applicant_answers_to_recruiter_questions": {
+            "items": {
+              "properties": {
+                "answer": {
+                  "examples": [
+                    "Votre engagement sur les mobilités douces correspond à ce que je veux faire.",
+                  ],
+                  "type": "string",
+                },
+                "question": {
+                  "examples": [
+                    "Pourquoi souhaitez-vous rejoindre notre entreprise ?",
+                  ],
+                  "type": "string",
+                },
+              },
+              "required": [
+                "question",
+                "answer",
+              ],
+              "type": "object",
+            },
+            "type": [
+              "array",
+              "null",
+            ],
+          },
           "applicant_attachment_content": {
             "format": "byte",
             "maxLength": 4215276,
@@ -2189,6 +2216,28 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "pattern": "((.*?))(\\.)+([Dd][Oo][Cc][Xx]|[Pp][Dd][Ff])$",
             "type": "string",
           },
+          "applicant_contract_duration": {
+            "examples": [
+              "12 mois",
+            ],
+            "type": [
+              "string",
+              "null",
+            ],
+          },
+          "applicant_contract_start": {
+            "items": {
+              "examples": [
+                "Dès que possible",
+                "Septembre 2026",
+              ],
+              "type": "string",
+            },
+            "type": [
+              "array",
+              "null",
+            ],
+          },
           "applicant_email": {
             "format": "email",
             "type": "string",
@@ -2197,6 +2246,26 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             "maxLength": 50,
             "minLength": 1,
             "type": "string",
+          },
+          "applicant_formation_description": {
+            "examples": [
+              "IUT de Rennes / BUT Informatique / Rennes",
+            ],
+            "maxLength": 200,
+            "type": [
+              "string",
+              "null",
+            ],
+          },
+          "applicant_inscription_formation": {
+            "examples": [
+              true,
+              false,
+            ],
+            "type": [
+              "boolean",
+              "null",
+            ],
           },
           "applicant_last_name": {
             "maxLength": 50,
@@ -2211,6 +2280,16 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
           },
           "applicant_phone": {
             "type": "string",
+          },
+          "applicant_rythm_description": {
+            "examples": [
+              "1 semaine à l'école / 2 semaines en entreprise",
+            ],
+            "maxLength": 200,
+            "type": [
+              "string",
+              "null",
+            ],
           },
           "recipient_id": {
             "description": "Identifiant unique de la ressource vers laquelle la candidature est faite, préfixé par le nom de la collection",
@@ -2380,6 +2459,30 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                   "null",
                 ],
               },
+              "start_is_flexible": {
+                "examples": [
+                  true,
+                  false,
+                ],
+                "type": [
+                  "boolean",
+                  "null",
+                ],
+              },
+              "start_type": {
+                "enum": [
+                  "des_que_possible",
+                  "precise_date",
+                ],
+                "examples": [
+                  "des_que_possible",
+                  "precise_date",
+                ],
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
               "type": {
                 "items": {
                   "enum": [
@@ -2397,6 +2500,8 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
             },
             "required": [
               "start",
+              "start_type",
+              "start_is_flexible",
               "duration",
               "type",
               "remote",
@@ -2569,6 +2674,21 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 "minLength": 3,
                 "type": "string",
               },
+              "to_applicant_questions": {
+                "items": {
+                  "examples": [
+                    "Pourquoi souhaitez-vous rejoindre notre entreprise ?",
+                  ],
+                  "maxLength": 200,
+                  "minLength": 5,
+                  "type": "string",
+                },
+                "maxItems": 3,
+                "type": [
+                  "array",
+                  "null",
+                ],
+              },
               "to_be_acquired_skills": {
                 "items": {
                   "examples": [
@@ -2592,6 +2712,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
               "description",
               "target_diploma",
               "status",
+              "to_applicant_questions",
             ],
             "type": "object",
           },
@@ -2834,6 +2955,30 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                   "null",
                 ],
               },
+              "start_is_flexible": {
+                "examples": [
+                  true,
+                  false,
+                ],
+                "type": [
+                  "boolean",
+                  "null",
+                ],
+              },
+              "start_type": {
+                "enum": [
+                  "des_que_possible",
+                  "precise_date",
+                ],
+                "examples": [
+                  "des_que_possible",
+                  "precise_date",
+                ],
+                "type": [
+                  "string",
+                  "null",
+                ],
+              },
               "type": {
                 "default": [
                   "Apprentissage",
@@ -3005,6 +3150,21 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
                 ],
                 "minLength": 3,
                 "type": "string",
+              },
+              "to_applicant_questions": {
+                "items": {
+                  "examples": [
+                    "Pourquoi souhaitez-vous rejoindre notre entreprise ?",
+                  ],
+                  "maxLength": 200,
+                  "minLength": 5,
+                  "type": "string",
+                },
+                "maxItems": 3,
+                "type": [
+                  "array",
+                  "null",
+                ],
               },
               "to_be_acquired_skills": {
                 "default": [],

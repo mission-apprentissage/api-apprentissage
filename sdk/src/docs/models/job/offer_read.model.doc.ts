@@ -81,6 +81,28 @@ export const offerReadModelDoc = {
           descriptions: [{ en: "Work mode (on-site, remote, or hybrid)", fr: "Mode de travail (sur site, à distance ou hybride)" }],
           examples: ["onsite", "remote", "hybrid"],
         },
+        start_type: {
+          descriptions: [
+            {
+              en: "How the contract starts: `des_que_possible` when the recruiter wants to hire as soon as possible, `precise_date` when `start` is the targeted date.",
+              fr: "Mode de démarrage du contrat : `des_que_possible` quand le recruteur souhaite recruter au plus tôt, `precise_date` quand `start` est la date visée.",
+            },
+            {
+              en: "An offer with `des_que_possible` is presented as an urgent recruitment on La bonne alternance.",
+              fr: "Une offre en `des_que_possible` est présentée comme un recrutement urgent sur La bonne alternance.",
+            },
+          ],
+          examples: ["des_que_possible", "precise_date"],
+        },
+        start_is_flexible: {
+          descriptions: [
+            {
+              en: "Indicates that the recruiter accepts a start date close to `start`. Always false when `start_type` is `des_que_possible`.",
+              fr: "Indique que le recruteur accepte une date de démarrage proche de `start`. Toujours false quand `start_type` vaut `des_que_possible`.",
+            },
+          ],
+          examples: [true, false],
+        },
       },
     },
     offer: {
@@ -145,6 +167,22 @@ export const offerReadModelDoc = {
             },
           ],
           examples: ["Active"],
+        },
+        to_applicant_questions: {
+          descriptions: [
+            {
+              en: "Questions asked by the recruiter to the applicants, up to 3. Answers are sent back in `applicant_answers_to_recruiter_questions` when applying.",
+              fr: "Questions posées par le recruteur aux candidats, 3 au maximum. Les réponses sont transmises dans `applicant_answers_to_recruiter_questions` lors de la candidature.",
+            },
+            {
+              en: "Answering is optional when applying through the API: partner platforms do not display these questions in their own application form.",
+              fr: "Y répondre est facultatif lors d'une candidature par API : les plateformes partenaires n'affichent pas ces questions dans leur propre formulaire de candidature.",
+            },
+          ],
+          items: {
+            descriptions: [{ en: "Question asked by the recruiter", fr: "Question posée par le recruteur" }],
+            examples: ["Pourquoi souhaitez-vous rejoindre notre entreprise ?"],
+          },
         },
         target_diploma: {
           descriptions: [{ en: "Targeted diploma level at the end of studies.", fr: "Diplôme visé à l'issue des études." }],

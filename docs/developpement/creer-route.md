@@ -79,7 +79,6 @@ Le code relatif à la définition des routes, et de la documentation se trouve d
 La documentation technique est plus complexe à maintenir car:
 
 - La partie textuel et specification openapi sont dans des fichiers séparés, mais doivent cependant maintenir la meme structure. Cette contrainte est assurée par les tests du fichier `sdk/src/openapi/openapiSpec.test.ts`
-- La spécification openapi est maintenu manuellement, mais doit etre cohérente avec les évolutions de la route externe. Cette contrainte est assurée par un CRON job `Controle synchronisation de la documentation`.
 
 #### Création de la documentation technique des modeles
 
@@ -116,23 +115,6 @@ La documentation technique est plus complexe à maintenir car:
 #### Modification de la documentation technique
 
 Il est possible que certaines définitions générées ne soient pas correctes. Dans ce cas, il est possible de modifier les fichiers `sdk/src/docs/models/<nom>/<nom>.model.doc.ts` & `sdk/src/docs/routes/<nom>/<nom>.route.doc.ts` manuellement pour ajuster le modèle openapi (la documentation technique des champs est généré automatiquement par LBA, ainsi il y a certains points non géré correctement).
-
-#### Validation de la documentation technique
-
-Pour s'assurer que la documenatation technique est à jour avec l'API distante, nous avons mis en place un CRON job qui vérifie la cohérence de la documentation technique.
-
-Ce controle est effectué par le fichier `server/src/services/documentation/checkDocumentationSync.ts` qui compare la documentation technique avec la documentation de l'API distante.
-
-Étant donné que la documentation de l'API distante peut être modifié, il est possible de mettre à jour la documentation technique en utilisant le fichier `server/src/services/documentation/expectedDocumentationDelta.ts`.
-
-1. Mettre à jour la variable `OPERATION_MAPPING` avec le mapping de la nouvelle route dans le fichier `server/src/services/documentation/checkDocumentationSync.ts`
-2. Lancer la commande `yarn cli job:run -n doc:check_sync` pour vérifier la cohérence de la documentation technique.
-3. En cas d'erreur de synchronisation, la commande va afficher 2 variables:
-   1. `delta`: La liste des différences entre la delta attendu et la delta actuel
-   2. `result`: La liste des differences entre la documentation technique et la documentation de l'API distante actuel.
-4. Vous avez 2 possibilités pour corriger le problème:
-   1. Mettre à jour la documentation technique en utilisant le fichier `server/src/services/documentation/expectedDocumentationDelta.ts` via la valeur `result`
-   2. Mettre à jour la documentation technique pour qu'elle corresponde à la documentation de l'API distante via la valeur `delta`.
 
 ## Création d'une route native
 

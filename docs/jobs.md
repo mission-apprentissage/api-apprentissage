@@ -28,7 +28,6 @@ Ce document décrit tous les jobs d'import et de traitement de données de l'API
 ### Jobs d'indicateurs et maintenance
 
 - [indicateurs:source_kit_apprentissage:update](#indicateurssource_kit_apprentissageupdate) - Mise à jour des indicateurs Kit Apprentissage
-- [doc:check_sync](#doccheck_sync) - Vérification de la synchronisation de la documentation
 
 ### Tâches planifiées (Crons)
 
@@ -831,39 +830,6 @@ Ce job est déclenché automatiquement par :
 #### Planification
 
 - **Exécution** : Automatique après les jobs d'import associés
-
----
-
-### doc:check_sync
-
-#### Description
-
-Vérifie que la documentation de l'API Alternance est synchronisée avec la documentation de La Bonne Alternance (LBA) pour les endpoints partagés.
-
-#### Étapes du job
-
-1. **Récupération LBA** : Fetch de la spec OpenAPI de LBA
-2. **Construction API** : Génération de la spec OpenAPI locale
-3. **Dé-référencement** : Résolution des $ref dans les deux specs
-4. **Extraction** : Sélection des opérations mappées entre les deux APIs
-5. **Comparaison** : Diff des structures d'opérations
-6. **Validation** : Comparaison avec le delta attendu
-
-#### Opérations comparées
-
-| API Alternance                                   | LBA                                         |
-| ------------------------------------------------ | ------------------------------------------- |
-| `GET /job/v1/search`                             | `GET /v3/jobs/search`                       |
-| `POST /job/v1/offer`                             | `POST /v3/jobs`                             |
-| `PUT /job/v1/offer/{id}`                         | `PUT /v3/jobs/{id}`                         |
-| `POST /job/v1/apply`                             | `POST /v2/application`                      |
-| `GET /job/v1/offer/{id}/publishing-informations` | `GET /v3/jobs/{id}/publishing-informations` |
-| `GET /job/v1/export`                             | `GET /v3/jobs/export`                       |
-| `POST /formation/v1/appointment/generate-link`   | `POST /v2/appointment`                      |
-
-#### Planification
-
-- **Cron** : `0 0 * * *` (tous les jours à minuit)
 
 ---
 

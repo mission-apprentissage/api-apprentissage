@@ -3,7 +3,6 @@ import { zImportMetaFranceCompetence, zImportMetaNpec } from "shared/models/impo
 import { modelDescriptors } from "shared/models/models"
 import { z } from "zod/v4-mini"
 import config from "@/config.js"
-import { checkDocumentationSync } from "@/services/documentation/checkDocumentationSync.js"
 import logger, { createJobProcessorLogger } from "@/services/logger.js"
 import { configureDbSchemaValidation, createIndexes, getDatabase } from "@/services/mongodb/mongodbService.js"
 import { removeInactiveAccounts } from "../services/inactiveAccounts/inactiveAccounts.service.js"
@@ -37,11 +36,6 @@ export async function setupJobProcessor() {
         ? {}
         : {
             ...importers,
-            "Controle synchronisation de la documentation": {
-              cron_string: "0 0 * * *",
-              handler: checkDocumentationSync,
-              resumable: true,
-            },
             "Notification expiration clés API": {
               cron_string: "0 8 * * *",
               handler: notifyUsersAboutExpiringApiKeys,
@@ -169,9 +163,6 @@ export async function setupJobProcessor() {
       "indicateurs:source_kit_apprentissage:update": {
         handler: updateKitApprentissageIndicateurSource,
         resumable: true,
-      },
-      "doc:check_sync": {
-        handler: checkDocumentationSync,
       },
     },
   })

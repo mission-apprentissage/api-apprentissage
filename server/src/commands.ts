@@ -15,7 +15,6 @@ import { zApiKeyEnv } from "shared/models/user.model"
 
 import config from "./config.js"
 import createServer from "./server/server.js"
-import { checkDocumentationSync } from "./services/documentation/checkDocumentationSync.js"
 import { checkForwardSandboxConfig, createAuthToken } from "./services/forward/forwardApi.service.js"
 import logger from "./services/logger.js"
 import { closeMailer } from "./services/mailer/mailer.js"
@@ -209,8 +208,6 @@ program
   .action(async ({ name, ...options }) => {
     return createJobAction(name)(options)
   })
-
-program.command("document:sync:check").action(checkDocumentationSync)
 
 program
   .command("debug:auth:token")

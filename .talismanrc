@@ -42,7 +42,7 @@ fileignoreconfig:
 - filename: sdk/src/openapi/__snapshots__/openapiSpec.test.ts.snap
   checksum: 284171c0363887ae1e119800e17aafb6cad92ae6ca7037aaa59704d2b3f368a8
 - filename: sdk/src/utils/contact.ts
-  checksum: d444aecabf08cf831baba750184d5aaddaefef8cb082efd1b6b321bfa207d827
+  checksum: cffcc8e839df26080f7911d4f298e5f403ef8c20726b0952fb913a5915b11f75
 - filename: server/.env.test
   checksum: cf148442a20d22f0eee7ea48b3a43398dd508bf3f6c28863490812cd66a91af0
 - filename: server/src/jobs/importer/catalogue/fixtures/sample.ts

@@ -1,1 +1,1 @@
-export const CONTACT_EMAIL = "contact@labonnealternance.apprentissage.beta.gouv.fr"
+export const CONTACT_EMAIL = "contact-api@labonnealternance.apprentissage.beta.gouv.fr"

@@ -3646,7 +3646,7 @@ exports[`generateOpenApiSchema > should generate proper schema 1`] = `
   },
   "info": {
     "contact": {
-      "email": "contact@labonnealternance.apprentissage.beta.gouv.fr",
+      "email": "contact-api@labonnealternance.apprentissage.beta.gouv.fr",
       "name": "",
     },
     "description": "",

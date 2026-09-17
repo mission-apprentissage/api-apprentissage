@@ -1,7 +1,7 @@
 {
   "name": "api-alternance-sdk",
   "version": "0.0.0",
-  "author": "Mission interministérielle pour l’apprentissage",
+  "author": "API La bonne alternance",
   "license": "MIT",
   "sideEffects": [],
   "type": "module",

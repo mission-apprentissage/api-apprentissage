@@ -2,6 +2,7 @@ import { fr } from "@codegouvfr/react-dsfr"
 import { Summary } from "@codegouvfr/react-dsfr/Summary"
 import { Table } from "@codegouvfr/react-dsfr/Table"
 import { Grid, Typography } from "@mui/material"
+import { CONTACT_EMAIL } from "api-alternance-sdk/internal"
 
 import Section from "@/components/section/Section"
 
@@ -82,7 +83,7 @@ const PolitiqueDeConfidentialite = () => {
           </Typography>
           <Typography>
             Le ministère du Travail, de la Santé, des Solidarités et des Familles traite des données à caractère personnel dans le cadre de l’API Apprentissage. Ce service
-            numérique est à l’initiative de la DGEFP et développé au sein de la Mission interministérielle pour l’apprentissage.
+            numérique est à l’initiative de la DGEFP et développé au sein de l’API La bonne alternance.
             <br />
             L’objectif poursuivi est de simplifier l’accès à des données de l’apprentissage fiables et à jour grâce à un point d’entrée unique et documenté.
           </Typography>
@@ -163,7 +164,7 @@ const PolitiqueDeConfidentialite = () => {
             75007 Paris
             <br />
             <br />
-            Pour les exercer vous pouvez nous contacter par mail à l’adresse suivante : <a href="mailto:api@apprentissage.beta.gouv.fr">api@apprentissage.beta.gouv.fr</a>
+            Pour les exercer vous pouvez nous contacter par mail à l’adresse suivante : <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
             <br />
             <br />
             Nous nous engageons à vous répondre dans un délai d’un mois à compter de la réception de votre demande.
@@ -185,8 +186,8 @@ const PolitiqueDeConfidentialite = () => {
           </Typography>
           <ul>
             <li>
-              La Délégation générale à l’emploi et à la formation professionnelle (DGEFP) et les membres de la Mission interministérielle pour l’Apprentissage et plus
-              spécifiquement les membres de l’équipe API Apprentissage ;
+              La Délégation générale à l’emploi et à la formation professionnelle (DGEFP) et les membres de l’API La bonne alternance et plus spécifiquement les membres de l’équipe
+              API Apprentissage ;
             </li>
           </ul>
         </Section>

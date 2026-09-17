@@ -10,6 +10,7 @@ import { Box, Typography } from "@mui/material"
 import { styled } from "@mui/material/styles"
 import type { TooltipProps } from "@mui/material/Tooltip"
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip"
+import { CONTACT_EMAIL } from "api-alternance-sdk/internal"
 import { use, useMemo } from "react"
 import { useTranslation } from "react-i18next"
 import type { IApiKeyEnv } from "shared/models/user.model"
@@ -26,8 +27,6 @@ const CustomWidthTooltip = styled(({ className, ...props }: TooltipProps) => <To
     maxWidth: "none",
   },
 })
-
-const SUPPORT_EMAIL = "support_api@apprentissage.beta.gouv.fr"
 
 // Record dérivé de IApiKeyEnv : un nouvel environnement casse la compilation au lieu de retomber
 // silencieusement sur le badge production
@@ -161,8 +160,8 @@ const ProfilPage = ({ params }: PropsWithLangParams) => {
         description={
           <>
             {t("monCompte.encartSandbox", { lng: lang })} {t("monCompte.encartHabilitationProduction", { lng: lang })}{" "}
-            <Box component="a" href={`mailto:${SUPPORT_EMAIL}`} sx={{ color: fr.colors.decisions.text.actionHigh.blueFrance.default }}>
-              {SUPPORT_EMAIL}
+            <Box component="a" href={`mailto:${CONTACT_EMAIL}`} sx={{ color: fr.colors.decisions.text.actionHigh.blueFrance.default }}>
+              {CONTACT_EMAIL}
             </Box>
           </>
         }

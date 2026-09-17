@@ -2,7 +2,7 @@
   "name": "ui",
   "version": "0.0.0",
   "license": "MIT",
-  "author": "Mission apprentissage",
+  "author": "API La bonne alternance",
   "engines": {
     "node": ">=26",
     "npm": "please-use-yarn"

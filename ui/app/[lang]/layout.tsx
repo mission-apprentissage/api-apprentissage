@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     apple: [{ url: "/apple-touch-icon.png" }],
   },
   title: "Espace développeurs La bonne alternance",
-  description: "Un service de la Mission Apprentissage",
+  description: "Un service de l’API La bonne alternance",
 }
 
 export function generateStaticParams() {

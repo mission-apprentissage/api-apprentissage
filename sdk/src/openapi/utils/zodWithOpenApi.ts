@@ -2,6 +2,7 @@ import type { ContentObject, OperationObject, ParameterObject, ReferenceObject, 
 
 import type { DocTechnicalField, OpenApiText } from "../../docs/types.js"
 import { addErrorResponseOpenApi } from "../../models/errors/errors.model.openapi.js"
+import { CONTACT_EMAIL } from "../../utils/contact.js"
 import { tagsOpenapi } from "../tags.openapi.js"
 import type { OpenapiRoute } from "../types.js"
 
@@ -184,8 +185,8 @@ function getHabilitationNotice(security: OperationObject["security"], lang: "en"
 
   return getTextOpenAPI(
     {
-      fr: `**Habilitation requise : \`${habilitation}\`.** Accordée automatiquement avec une clé sandbox. Pour une clé production, la demande se fait par mail à [support_api@apprentissage.beta.gouv.fr](mailto:support_api@apprentissage.beta.gouv.fr).`,
-      en: `**Required habilitation: \`${habilitation}\`.** Granted automatically with a sandbox key. For a production key, request it by email at [support_api@apprentissage.beta.gouv.fr](mailto:support_api@apprentissage.beta.gouv.fr).`,
+      fr: `**Habilitation requise : \`${habilitation}\`.** Accordée automatiquement avec une clé sandbox. Pour une clé production, la demande se fait par mail à [${CONTACT_EMAIL}](mailto:${CONTACT_EMAIL}).`,
+      en: `**Required habilitation: \`${habilitation}\`.** Granted automatically with a sandbox key. For a production key, request it by email at [${CONTACT_EMAIL}](mailto:${CONTACT_EMAIL}).`,
     },
     lang
   )

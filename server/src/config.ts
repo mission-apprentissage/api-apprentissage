@@ -10,7 +10,7 @@ const config = {
   env: environement,
   publicUrl,
   email: env.get("EMAIL").required().asString(),
-  email_from: "Mission Apprentissage",
+  email_from: "API La bonne alternance",
   apiPublicUrl: environement === "local" ? "http://localhost:5002/api" : `${publicUrl}/api`,
   mongodb: {
     uri: env.get("MONGODB_URI").required().asString(),

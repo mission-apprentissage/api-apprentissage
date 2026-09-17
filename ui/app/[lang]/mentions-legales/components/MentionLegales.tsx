@@ -111,7 +111,7 @@ const MentionsLegales = () => {
             Standard : 09.72.10.07
             <br />
             <br />
-            La conception et la réalisation du site sont effectuées par La Mission Interministérielle pour l'apprentissage, située à l'adresse suivante :
+            La conception et la réalisation du site sont effectuées par l'API La bonne alternance, située à l'adresse suivante :
             <br />
             Beta.gouv
             <br />

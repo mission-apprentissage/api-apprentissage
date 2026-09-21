@@ -2,7 +2,7 @@
   "name": "server",
   "version": "0.0.0",
   "description": "[MNA] Template apprentissage server",
-  "author": "Mission apprentissage",
+  "author": "API La bonne alternance",
   "license": "MIT",
   "type": "module",
   "sideEffects": false,

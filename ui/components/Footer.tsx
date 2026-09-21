@@ -16,8 +16,8 @@ export default function Footer({ lang }: WithLang) {
       accessibility="partially compliant"
       contentDescription={
         <span>
-          Mandatée par plusieurs ministères, <Link href="https://beta.gouv.fr/startups/?incubateur=mission-apprentissage">La bonne alternance</Link> développe plusieurs services
-          destinés à faciliter les entrées en apprentissage.
+          Mandatée par plusieurs ministères, <Link href="https://labonnealternance.apprentissage.beta.gouv.fr/">La bonne alternance</Link> développe plusieurs services destinés à
+          faciliter les entrées en apprentissage.
         </span>
       }
       operatorLogo={{

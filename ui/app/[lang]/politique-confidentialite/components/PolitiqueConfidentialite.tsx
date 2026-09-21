@@ -83,7 +83,7 @@ const PolitiqueDeConfidentialite = () => {
           </Typography>
           <Typography>
             Le ministère du Travail, de la Santé, des Solidarités et des Familles traite des données à caractère personnel dans le cadre de l’API Apprentissage. Ce service
-            numérique est à l’initiative de la DGEFP et développé au sein de l’API La bonne alternance.
+            numérique est à l’initiative de la DGEFP et développé au sein de La bonne alternance.
             <br />
             L’objectif poursuivi est de simplifier l’accès à des données de l’apprentissage fiables et à jour grâce à un point d’entrée unique et documenté.
           </Typography>
@@ -186,8 +186,8 @@ const PolitiqueDeConfidentialite = () => {
           </Typography>
           <ul>
             <li>
-              La Délégation générale à l’emploi et à la formation professionnelle (DGEFP) et les membres de l’API La bonne alternance et plus spécifiquement les membres de l’équipe
-              API Apprentissage ;
+              La Délégation générale à l’emploi et à la formation professionnelle (DGEFP) et les membres de La bonne alternance et plus spécifiquement les membres de l’équipe API
+              Apprentissage ;
             </li>
           </ul>
         </Section>

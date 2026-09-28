@@ -3413,6 +3413,101 @@ exports[`openapiSpec#routes > should generate schema in sync with zod definition
     },
     "path": "/certification/v1",
   },
+  "get:/formation/v1/appointment/links": {
+    "id": "get:/formation/v1/appointment/links",
+    "method": "get",
+    "operation": {
+      "operationId": "get_formation_v1_appointment_links",
+      "responses": {
+        "200": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "items": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "id": {
+                          "examples": [
+                            "10013",
+                          ],
+                          "type": "string",
+                        },
+                        "url_emploi": {
+                          "examples": [
+                            "https://labonnealternance.apprentissage.beta.gouv.fr/recherche?mode=emplois&q=Boulangerie+-+viennoiserie&lieu_label=Tremblay-en-France&latitude=48.98&longitude=2.56&radius=60&search_source=partner_links&utm_source=parcoursup",
+                          ],
+                          "type": "string",
+                        },
+                        "url_rdva": {
+                          "examples": [
+                            "https://labonnealternance.apprentissage.beta.gouv.fr/rdva?referrer=parcoursup&cleMinistereEducatif=088281P01313885594860007038855948600070-67118%23L01",
+                          ],
+                          "type": "string",
+                        },
+                      },
+                      "required": [
+                        "id",
+                        "url_rdva",
+                        "url_emploi",
+                      ],
+                      "type": "object",
+                    },
+                    "type": "array",
+                  },
+                },
+                "required": [
+                  "data",
+                ],
+                "type": "object",
+              },
+            },
+          },
+          "description": "",
+        },
+        "400": {
+          "$ref": "#/components/responses/BadRequest",
+        },
+        "401": {
+          "$ref": "#/components/responses/Unauthorized",
+        },
+        "403": {
+          "$ref": "#/components/responses/Forbidden",
+        },
+        "404": {
+          "$ref": "#/components/responses/NotFound",
+        },
+        "409": {
+          "$ref": "#/components/responses/Conflict",
+        },
+        "419": {
+          "$ref": "#/components/responses/TooManyRequests",
+        },
+        "500": {
+          "$ref": "#/components/responses/InternalServerError",
+        },
+        "502": {
+          "$ref": "#/components/responses/BadGateway",
+        },
+        "503": {
+          "$ref": "#/components/responses/ServiceUnavailable",
+        },
+      },
+      "security": [
+        {
+          "api-key": [
+            "appointments:write",
+          ],
+        },
+      ],
+      "tags": [
+        "Training",
+      ],
+    },
+    "path": "/formation/v1/appointment/links",
+  },
   "get:/formation/v1/search": {
     "id": "get:/formation/v1/search",
     "method": "get",

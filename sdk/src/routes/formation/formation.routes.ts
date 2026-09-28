@@ -49,6 +49,18 @@ export const zFormationSearchApiResult = z.object({
   pagination: zPaginationInfo,
 })
 
+export const zFormationAppointmentLinksApiResult = z.object({
+  data: z.array(
+    z.object({
+      id: z.string(),
+      url_rdva: z.string(),
+      url_emploi: z.string(),
+    })
+  ),
+})
+
+export type IFormationAppointmentLinksApiResult = z.output<typeof zFormationAppointmentLinksApiResult>
+
 export type IFormationSearchApiQuery = z.output<typeof zFormationSearchApiQuery>
 export type IFormationSearchApiResult = z.output<typeof zFormationSearchApiResult>
 
@@ -64,6 +76,18 @@ export const zApiFormationRoutes = {
       securityScheme: {
         auth: "api-key",
         access: null,
+        ressources: {},
+      },
+    },
+    "/formation/v1/appointment/links": {
+      method: "get",
+      path: "/formation/v1/appointment/links",
+      response: {
+        "200": zFormationAppointmentLinksApiResult,
+      },
+      securityScheme: {
+        auth: "api-key",
+        access: "appointments:write",
         ressources: {},
       },
     },

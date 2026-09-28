@@ -1,4 +1,5 @@
 import { generateFormationAppointmentLinkRouteDoc } from "../../docs/routes/generateFormationAppointmentLink/generateFormationAppointmentLink.doc.js"
+import { listFormationAppointmentLinksRouteDoc } from "../../docs/routes/listFormationAppointmentLinks/listFormationAppointmentLinks.route.doc.js"
 import { searchFormationByIdRouteDoc } from "../../docs/routes/searchFormationById/searchFormationById.route.doc.js"
 import { searchFormationsRouteDoc } from "../../docs/routes/searchFormations/searchFormations.route.doc.js"
 import type { OpenapiRoutes } from "../../openapi/types.js"
@@ -8,6 +9,12 @@ export const formationRoutesOpenapi: OpenapiRoutes = {
     get: {
       tag: "formation",
       doc: searchFormationsRouteDoc,
+    },
+  },
+  "/formation/v1/appointment/links": {
+    get: {
+      tag: "formation",
+      doc: listFormationAppointmentLinksRouteDoc,
     },
   },
   "/formation/v1/:id": {

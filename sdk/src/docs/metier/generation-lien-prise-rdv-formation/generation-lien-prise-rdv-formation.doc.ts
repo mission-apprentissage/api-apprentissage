@@ -13,7 +13,7 @@ export const generationLienPriseRdvFormationPageSummaryDoc = {
 
 export const generationLienPriseRdvFormationPageDoc = {
   tag: "formation",
-  operationIds: ["generateFormationAppointmentLink"],
+  operationIds: ["generateFormationAppointmentLink", "get_formation_v1_appointment_links"],
   habilitation: "appointments:write",
   description: [
     {
@@ -31,6 +31,10 @@ export const generationLienPriseRdvFormationPageDoc = {
     {
       fr: "La clé ministère éducatif peut être récupérée via la route de [recherche de formations en apprentissage](./recherche-formation).",
       en: "The Ministry of Education key can be retrieved via the [search for apprenticeship training](./recherche-formation) route",
+    },
+    {
+      fr: "Parcoursup, Affelnet et ONISEP peuvent récupérer en un seul appel les liens de toutes leurs formations ouvertes à la prise de rendez-vous, avec pour chacune un lien de recherche d'entreprises La bonne alternance.",
+      en: "Parcoursup, Affelnet and ONISEP can retrieve in a single call the links of all their trainings open to appointment requests, each with a La bonne alternance company search link.",
     },
   ],
   frequenceMiseAJour: null,
@@ -96,6 +100,35 @@ export const generationLienPriseRdvFormationPageDoc = {
           rows: {
             error: {
               description: [{ fr: "Détail du message d'erreur s'il est présent.", en: "The error message" }],
+            },
+          },
+        },
+      },
+    },
+    {
+      name: { fr: "Liens de toutes les formations", en: "Links for all trainings" },
+      sections: {
+        success: {
+          name: null,
+          rows: {
+            id: {
+              description: [
+                {
+                  fr: "Identifiant de la formation dans votre système (Parcoursup, clé ministère éducatif pour Affelnet, identifiant d'action IDEO2 pour ONISEP).",
+                  en: "Training identifier in your system (Parcoursup, Ministry of Education key for Affelnet, IDEO2 action identifier for ONISEP).",
+                },
+              ],
+            },
+            url_rdva: {
+              description: [{ fr: "Lien vers le formulaire de prise de rendez-vous.", en: "Appointment request form link." }],
+            },
+            url_emploi: {
+              description: [
+                {
+                  fr: "Lien de recherche d'entreprises pour le métier de la formation, autour du lieu de formation.",
+                  en: "Company search link for the training's occupation, around the training location.",
+                },
+              ],
             },
           },
         },

@@ -327,7 +327,7 @@ describe("POST /formation/v1/appointment/generate-link", () => {
   })
 
   it.each<[keyof typeof tokens]>([["read"], ["applicationWrite"], ["jobWrite"]])(
-    "should returns 403 if organisation doesn't have habilitation appointment:write (%s)",
+    "should returns 403 if organisation doesn't have habilitation appointments:write (%s)",
     async (name) => {
       const response = await app.inject({
         method: "POST",
@@ -402,6 +402,59 @@ describe("POST /formation/v1/appointment/generate-link", () => {
 
     expect.soft(response.statusCode).toBe(200)
     expect(response.json()).toEqual({ form_url: "https://example.com" })
+  })
+})
+
+describe("GET /formation/v1/appointment/links", () => {
+  it("should returns 401 if api key is not provided", async () => {
+    const response = await app.inject({ method: "GET", url: "/api/formation/v1/appointment/links" })
+    expect(response.statusCode).toBe(401)
+  })
+
+  it("should returns 403 if user doesn't have organisation", async () => {
+    const response = await app.inject({
+      method: "GET",
+      url: "/api/formation/v1/appointment/links",
+      headers: { Authorization: `Bearer ${tokens.basic}` },
+    })
+    expect(response.statusCode).toBe(403)
+  })
+
+  it.each<[keyof typeof tokens]>([["read"], ["applicationWrite"], ["jobWrite"]])(
+    "should returns 403 if organisation doesn't have habilitation appointments:write (%s)",
+    async (name) => {
+      const response = await app.inject({
+        method: "GET",
+        url: "/api/formation/v1/appointment/links",
+        headers: { Authorization: `Bearer ${tokens[name]}` },
+      })
+      expect(response.statusCode).toBe(403)
+    }
+  )
+
+  it("should return result from lba", async () => {
+    const data = {
+      data: [
+        {
+          id: "10013",
+          url_rdva: "https://labonnealternance.apprentissage.beta.gouv.fr/rdva?referrer=parcoursup&cleMinistereEducatif=088281P01313885594860007038855948600070-67118%23L01",
+          url_emploi: "https://labonnealternance.apprentissage.beta.gouv.fr/recherche?mode=emplois&q=Boulangerie&search_source=partner_links&utm_source=parcoursup",
+        },
+      ],
+    }
+
+    const { matchHeader, expectAuth } = nockMatchUserAuthorization(users.appointmentsWrite, ["appointments:write"])
+    nock("https://labonnealternance-recette.apprentissage.beta.gouv.fr/api").get("/v2/appointment/links").matchHeader("authorization", matchHeader).reply(200, data)
+
+    const response = await app.inject({
+      method: "GET",
+      headers: { Authorization: `Bearer ${tokens.appointmentsWrite}` },
+      url: "/api/formation/v1/appointment/links",
+    })
+
+    await expectAuth()
+    expect.soft(response.statusCode).toBe(200)
+    expect(response.json()).toEqual(data)
   })
 })
 

@@ -30,6 +30,28 @@ export const formationRoutes = ({ server }: { server: Server }) => {
     }
   )
 
+  server.get(
+    "/formation/v1/appointment/links",
+    {
+      schema: zRoutes.get["/formation/v1/appointment/links"],
+      onRequest: [server.auth(zRoutes.get["/formation/v1/appointment/links"])],
+      config: { rateLimit: { max: 2, timeWindow: "1 minute" } },
+    },
+    async (request, response) => {
+      const user = getUserFromRequest(request, zRoutes.get["/formation/v1/appointment/links"])
+
+      return forwardApiRequest(
+        {
+          path: "/v2/appointment/links",
+          requestInit: { method: "GET" },
+          timeoutMs: 60_000,
+        },
+        response,
+        buildForwardIdentity(user, request)
+      )
+    }
+  )
+
   server.post(
     "/formation/v1/appointment/generate-link",
     {

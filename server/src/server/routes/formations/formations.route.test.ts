@@ -327,7 +327,7 @@ describe("POST /formation/v1/appointment/generate-link", () => {
   })
 
   it.each<[keyof typeof tokens]>([["read"], ["applicationWrite"], ["jobWrite"]])(
-    "should returns 403 if organisation doesn't have habilitation appointment:write (%s)",
+    "should returns 403 if organisation doesn't have habilitation appointments:write (%s)",
     async (name) => {
       const response = await app.inject({
         method: "POST",
@@ -421,7 +421,7 @@ describe("GET /formation/v1/appointment/links", () => {
   })
 
   it.each<[keyof typeof tokens]>([["read"], ["applicationWrite"], ["jobWrite"]])(
-    "should returns 403 if organisation doesn't have habilitation appointment:write (%s)",
+    "should returns 403 if organisation doesn't have habilitation appointments:write (%s)",
     async (name) => {
       const response = await app.inject({
         method: "GET",

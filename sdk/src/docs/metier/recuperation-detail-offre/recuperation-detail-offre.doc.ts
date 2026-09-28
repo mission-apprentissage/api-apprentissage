@@ -96,7 +96,7 @@ export const recuperationDetailOffrePageDoc = {
           rows: {
             contract: {
               description: { en: contractDescEn, fr: contractDescFr },
-              tags: [".duration", ".start", ".type", ".remote"],
+              tags: [".duration", ".start", ".start_type", ".start_is_flexible", ".type", ".remote"],
             },
           },
         },
@@ -109,7 +109,18 @@ export const recuperationDetailOffrePageDoc = {
                 en: "The ROME corresponds to the Operational Reference for Jobs and Occupations. Designed by France Travail (formerly Pôle Emploi), this reference system presents all professions grouped into profiles, organized by professional fields.",
                 fr: "Le ROME correspond au Référentiel Opérationnel des Métiers et des Emplois. Conçu par France Travail (anciennement Pôle Emploi), ce référentiel présente l'ensemble des métiers regroupés par fiches, organisées par domaines professionnels.",
               },
-              tags: [".access_conditions", ".description", ".desired_skills", ".opening_count", ".rome_codes", ".status", ".target_diploma", ".title", ".to_be_acquired_skills"],
+              tags: [
+                ".access_conditions",
+                ".description",
+                ".desired_skills",
+                ".opening_count",
+                ".rome_codes",
+                ".status",
+                ".target_diploma",
+                ".title",
+                ".to_applicant_questions",
+                ".to_be_acquired_skills",
+              ],
             },
             publication: {
               description: { en: offerPublicationDescEn, fr: offerPublicationDescFr },

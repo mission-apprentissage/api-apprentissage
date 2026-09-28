@@ -35,8 +35,8 @@ export const applicationModelDoc = {
     applicant_inscription_formation: {
       descriptions: [
         {
-          en: "Whether the applicant is already enrolled in a training programme. The three fields below are only relevant when it is true.",
-          fr: "Indique si le candidat est déjà inscrit en formation. Les trois champs ci-dessous n'ont de sens que lorsqu'il vaut true.",
+          en: "Whether the applicant is already enrolled in a training programme. `applicant_formation_description` and `applicant_rythm_description` are only relevant when it is true.",
+          fr: "Indique si le candidat est déjà inscrit en formation. `applicant_formation_description` et `applicant_rythm_description` n'ont de sens que lorsqu'il vaut true.",
         },
       ],
       examples: [true, false],

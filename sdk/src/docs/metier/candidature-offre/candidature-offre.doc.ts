@@ -95,8 +95,8 @@ export const candidatureOffrePageDoc = {
                 fr: "Indique si le candidat est déjà inscrit en formation.",
               },
               information: {
-                en: "The school, training and rhythm fields below are only meaningful when this field is true.",
-                fr: "Les champs école, formation et rythme ci-dessous n'ont de sens que lorsque ce champ vaut true.",
+                en: "`applicant_formation_description` and `applicant_rythm_description` are only meaningful when this field is true.",
+                fr: "`applicant_formation_description` et `applicant_rythm_description` n'ont de sens que lorsque ce champ vaut true.",
               },
             },
             applicant_formation_description: {

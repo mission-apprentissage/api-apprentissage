@@ -55,7 +55,7 @@ export function ApiKeyAction({ apiKey, lang, t }: WithLangAndT<{ apiKey: IApiKey
 
   const { error } = deleteMutation
   const deleteError = useMemo(() => {
-    const defaultErrorMessage = "Une erreur est survenue lors de la suppression du jeton. Veuillez réessayer ultérieurement."
+    const defaultErrorMessage = "Une erreur est survenue lors de la suppression de la clé. Veuillez réessayer ultérieurement."
     if (error) {
       if (error instanceof ApiError && error.context.statusCode < 500) {
         return error.context.message ?? defaultErrorMessage
@@ -73,9 +73,9 @@ export function ApiKeyAction({ apiKey, lang, t }: WithLangAndT<{ apiKey: IApiKey
         actions={[
           {
             type: "button",
-            label: t("monCompte.copierJeton", { lng: lang }),
+            label: t("monCompte.copierCle", { lng: lang }),
             icon: <i className={fr.cx("fr-icon-clipboard-line")} />,
-            // Un jeton expiré n'a pas de valeur à copier : l'action reste visible mais inerte
+            // Une clé expirée n'a pas de valeur à copier : l'action reste visible mais inerte
             disabled: !apiKey.value,
             onClick,
           },
@@ -88,7 +88,7 @@ export function ApiKeyAction({ apiKey, lang, t }: WithLangAndT<{ apiKey: IApiKey
         ]}
       />
       <modal.Component
-        title={`${t("monCompte.supprimerJeton", { lng: lang })}"${apiKey.name}"`}
+        title={`${t("monCompte.supprimerCle", { lng: lang })} "${apiKey.name}"`}
         buttons={[
           {
             children: t("monCompte.annuler", { lng: lang }),
@@ -102,7 +102,7 @@ export function ApiKeyAction({ apiKey, lang, t }: WithLangAndT<{ apiKey: IApiKey
           },
         ]}
       >
-        <Typography>{t("monCompte.etesVousSurDeSupprimerJeton", { lng: lang })}</Typography>
+        <Typography>{t("monCompte.etesVousSurDeSupprimerCle", { lng: lang })}</Typography>
         {deleteError && (
           <Box sx={{ marginTop: fr.spacing("2w") }}>
             <Alert description={deleteError} severity="error" small />
@@ -124,7 +124,7 @@ export function ApiKeyAction({ apiKey, lang, t }: WithLangAndT<{ apiKey: IApiKey
       >
         <Alert
           onClose={() => setCopyState(null)}
-          description={copyState === false ? `${t("monCompte.erreurCopieJeton", { lng: lang })} ${apiKey.value}` : t("monCompte.jetonCopiePressePapier", { lng: lang })}
+          description={copyState === false ? `${t("monCompte.erreurCopieCle", { lng: lang })} ${apiKey.value}` : t("monCompte.cleCopieePressePapier", { lng: lang })}
           closable
           severity={copyState === false ? "error" : "info"}
           small

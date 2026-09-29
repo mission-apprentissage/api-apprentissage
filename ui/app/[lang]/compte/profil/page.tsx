@@ -10,13 +10,15 @@ import { Box, Typography } from "@mui/material"
 import { styled } from "@mui/material/styles"
 import type { TooltipProps } from "@mui/material/Tooltip"
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip"
-import { CONTACT_EMAIL } from "api-alternance-sdk/internal"
+import { CONTACT_EMAIL, demandeHabilitationsOpenapi } from "api-alternance-sdk/internal"
 import { use, useMemo } from "react"
 import { useTranslation } from "react-i18next"
 import type { IApiKeyEnv } from "shared/models/user.model"
 import type { PropsWithLangParams } from "@/app/i18n/settings"
+import { AccesHabilitationsLink } from "@/components/link/AccesHabilitationsLink"
 import { DsfrLink } from "@/components/link/DsfrLink"
 import Toast, { useToast } from "@/components/toast/Toast"
+import { useAuth } from "@/context/AuthContext"
 import { PAGES } from "@/utils/routes.utils"
 import { ApiKeyAction } from "./components/ApiKeyAction"
 import { GenerateApiKey } from "./components/GenerateApiKey"
@@ -38,10 +40,11 @@ const ENV_BADGE = {
 const ProfilPage = ({ params }: PropsWithLangParams) => {
   const { lang } = use(params)
   const apiKeys = useApiKeys()
+  const { session } = useAuth()
   const { toast, setToast, handleClose } = useToast()
 
   const { t } = useTranslation("inscription-connexion", { lng: lang })
-  const onApiKeyCreated = () => setToast({ severity: "success", message: t("monCompte.votreJetonCree", { lng: lang }) })
+  const onApiKeyCreated = () => setToast({ severity: "success", message: t("monCompte.votreCleCreee", { lng: lang }) })
 
   const tableData = useMemo(() => {
     if (apiKeys.isLoading) {
@@ -63,29 +66,37 @@ const ProfilPage = ({ params }: PropsWithLangParams) => {
           key="habilitations"
           arrow
           title={
-            apiKey.habilitations.length === 0 ? (
-              <Box sx={{ margin: fr.spacing("1w") }} className={fr.cx("fr-text--xs")}>
-                {t("monCompte.habilitationsAucune", { lng: lang })}
-              </Box>
-            ) : (
-              <Box sx={{ margin: fr.spacing("1w") }} className={fr.cx("fr-text--xs")}>
-                {t("monCompte.habilitationsTitre", { lng: lang })}
-                <Box component="ul" sx={{ marginBottom: 0 }}>
-                  {apiKey.habilitations.map((habilitation) => (
-                    <li key={habilitation}>
-                      <code>{habilitation}</code>
-                    </li>
-                  ))}
-                </Box>
-              </Box>
-            )
+            <Box sx={{ margin: fr.spacing("1w") }} className={fr.cx("fr-text--xs")}>
+              {apiKey.habilitations.length === 0 ? (
+                t("monCompte.lectureSeuleDetail", { lng: lang })
+              ) : (
+                <>
+                  {t("monCompte.habilitationsTitre", { lng: lang })}
+                  <Box component="ul" sx={{ marginBottom: 0 }}>
+                    {apiKey.habilitations.map((habilitation) => {
+                      const { label, restriction } = demandeHabilitationsOpenapi[habilitation]
+                      return (
+                        <li key={habilitation}>
+                          {label[lang]} (<code>{habilitation}</code>){/* Accordée d'office à toute clé sandbox, mais filtrée par La bonne alternance sur l'organisation */}
+                          {apiKey.env === "sandbox" && restriction && (
+                            <>
+                              <br />
+                              {restriction[lang]}
+                            </>
+                          )}
+                        </li>
+                      )
+                    })}
+                  </Box>
+                </>
+              )}
+            </Box>
           }
         >
-          <Box
-            component="i"
-            sx={{ color: apiKey.habilitations.length === 0 ? fr.colors.decisions.text.disabled.grey.default : fr.colors.decisions.background.active.blueFrance.default }}
-            className={fr.cx(apiKey.habilitations.length === 0 ? "fr-icon-lock-line" : "fr-icon-shield-line")}
-          />
+          <Typography variant="body1" className="fr-text--sm">
+            {t(apiKey.habilitations.length === 0 ? "monCompte.lectureSeule" : "monCompte.lectureEcriture", { lng: lang })}
+            <Box component="i" sx={{ marginLeft: fr.spacing("1v"), color: fr.colors.decisions.background.active.blueFrance.default }} className={fr.cx("fr-icon-question-line")} />
+          </Typography>
         </CustomWidthTooltip>,
         <Typography
           variant="body1"
@@ -105,9 +116,9 @@ const ProfilPage = ({ params }: PropsWithLangParams) => {
           <CustomWidthTooltip
             title={
               <Box component="ul" sx={{ margin: fr.spacing("1w") }} className={fr.cx("fr-text--xs")}>
-                <li>{t("monCompte.jetonsDureeVie", { lng: lang })}</li>
-                <li>{t("monCompte.creerJetonProlongation", { lng: lang })}</li>
-                <li>{t("monCompte.possibiliteCreerJeton", { lng: lang })}</li>
+                <li>{t("monCompte.clesDureeVie", { lng: lang })}</li>
+                <li>{t("monCompte.creerCleProlongation", { lng: lang })}</li>
+                <li>{t("monCompte.possibiliteCreerCle", { lng: lang })}</li>
                 <li>{t("monCompte.impossibleProlonger", { lng: lang })}</li>
               </Box>
             }
@@ -147,25 +158,41 @@ const ProfilPage = ({ params }: PropsWithLangParams) => {
       </Typography>
       <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", flexWrap: "wrap" }}>
         <Typography variant="h2" color={fr.colors.decisions.artwork.minor.blueEcume.default}>
-          {t("monCompte.jetonsAPI", { lng: lang })}
+          {t("monCompte.clesApi", { lng: lang })}
         </Typography>
-        <Typography textAlign="right">
+        <Box sx={{ display: "flex", gap: fr.spacing("3w"), flexWrap: "wrap", justifyContent: "flex-end" }}>
+          <DsfrLink href={PAGES.static.explorerApi.getPath(lang)}>{PAGES.static.explorerApi.getTitle(lang, t)}</DsfrLink>
           <DsfrLink href={PAGES.static.documentationTechnique.getPath(lang)}>{t("monCompte.consulterDocTechnique", { lng: lang })}</DsfrLink>
-        </Typography>
+        </Box>
       </Box>
 
-      <Alert
-        severity="info"
-        small
-        description={
-          <>
-            {t("monCompte.encartSandbox", { lng: lang })} {t("monCompte.encartHabilitationProduction", { lng: lang })}{" "}
-            <Box component="a" href={`mailto:${CONTACT_EMAIL}`} sx={{ color: fr.colors.decisions.text.actionHigh.blueFrance.default }}>
-              {CONTACT_EMAIL}
-            </Box>
-          </>
-        }
-      />
+      <Box sx={{ display: "flex", flexDirection: "column", gap: fr.spacing("2w") }}>
+        {session && (
+          <Typography className={fr.cx("fr-text--sm")} sx={{ marginBottom: 0 }}>
+            {session.user.organisation === null ? (
+              t("monCompte.organisationAucune", { lng: lang })
+            ) : (
+              <>
+                {t("monCompte.organisation", { lng: lang })} <strong>{session.user.organisation}</strong>
+              </>
+            )}
+          </Typography>
+        )}
+
+        <Alert
+          severity="info"
+          small
+          description={
+            <>
+              <strong>{t("monCompte.encartLecture", { lng: lang })}</strong> {t("monCompte.encartEcriture", { lng: lang })}{" "}
+              <Box component="a" href={`mailto:${CONTACT_EMAIL}`} sx={{ color: fr.colors.decisions.text.actionHigh.blueFrance.default }}>
+                {CONTACT_EMAIL}
+              </Box>
+              . {t("monCompte.encartSandbox", { lng: lang })} {t("monCompte.encartEnSavoirPlus", { lng: lang })} <AccesHabilitationsLink lang={lang} size="sm" />
+            </>
+          }
+        />
+      </Box>
 
       <Box>
         {tableData.length > 0 && (
@@ -191,7 +218,7 @@ const ProfilPage = ({ params }: PropsWithLangParams) => {
         )}
       </Box>
 
-      {/* Toujours sous le tableau : la position ne doit pas changer après la création d'un jeton */}
+      {/* Toujours sous le tableau : la position ne doit pas changer après la création d'une clé */}
       <GenerateApiKey lang={lang} t={t} onCreated={onApiKeyCreated} />
       <Toast severity={toast?.severity} message={toast?.message} handleClose={handleClose} anchorOrigin={{ vertical: "top", horizontal: "right" }} />
     </Box>

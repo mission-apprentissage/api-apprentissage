@@ -23,7 +23,9 @@ export const zUserRoutes = {
     "/_private/user/api-key": {
       method: "post",
       path: "/_private/user/api-key",
-      body: z.object({ name: z.string().check(z.trim()), env: z._default(zApiKeyEnv, "sandbox") }),
+      // Pas de type par défaut : une clé sandbox interroge la recette de La bonne alternance y compris
+      // en lecture, le choix doit être explicite
+      body: z.object({ name: z.string().check(z.trim()), env: zApiKeyEnv }),
       response: {
         "200": zApiKeyPrivate,
       },

@@ -36,6 +36,10 @@ export const generationLienPriseRdvFormationPageDoc = {
       fr: "Parcoursup, Affelnet et ONISEP peuvent récupérer en un seul appel les liens de toutes leurs formations ouvertes à la prise de rendez-vous, avec pour chacune un lien de recherche d'entreprises La bonne alternance.",
       en: "Parcoursup, Affelnet and ONISEP can retrieve in a single call the links of all their trainings open to appointment requests, each with a La bonne alternance company search link.",
     },
+    {
+      fr: "**Cet outil est réservé aux organisations partenaires de la prise de rendez-vous** : Parcoursup, Affelnet, ONISEP et 1 jeune 1 solution pour la génération d'un lien, Parcoursup, Affelnet et ONISEP pour la récupération en un seul appel. Une clé sandbox ne lève pas cette restriction.",
+      en: "**This tool is restricted to appointment partner organisations**: Parcoursup, Affelnet, ONISEP and 1 jeune 1 solution for generating a link, Parcoursup, Affelnet and ONISEP for the single-call retrieval. A sandbox key does not lift this restriction.",
+    },
   ],
   frequenceMiseAJour: null,
   type: "outil",

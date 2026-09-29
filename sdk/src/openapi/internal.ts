@@ -1,5 +1,6 @@
 export * from "./builder/openapi.builder.js"
 export * from "./compare/compareOpenapiSchema.js"
+export * from "./habilitations.openapi.js"
 export * from "./openapiSpec.js"
 export * from "./tools/initTechnicalDocFromSource.openapi.js"
 export * from "./types.js"

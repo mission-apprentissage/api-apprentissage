@@ -76,6 +76,7 @@ describe("User Routes", () => {
         },
         body: {
           name: "My key",
+          env: "sandbox",
         },
       })
 
@@ -145,6 +146,25 @@ describe("User Routes", () => {
       expect(userFromDb?.api_keys[0].env).toBe(env)
     })
 
+    // Le formulaire du compte reprend ce schéma : sans défaut, une création sans type de clé est
+    // refusée au lieu de produire silencieusement une clé sandbox
+    it("should reject a key without env", async () => {
+      const response = await app.inject({
+        method: "POST",
+        url: "/api/_private/user/api-key",
+        headers: {
+          ["Cookie"]: `api_session=${sessionToken}`,
+        },
+        body: {
+          name: "My key",
+        },
+      })
+
+      expect.soft(response.statusCode).toBe(400)
+      const userFromDb = await getDbCollection("users").findOne({ _id: user._id })
+      expect(userFromDb?.api_keys).toHaveLength(0)
+    })
+
     it("should create key with default unique names", async () => {
       let userFromDb = await getDbCollection("users").findOne({ _id: user._id })
       expect(userFromDb?.api_keys).toHaveLength(0)
@@ -157,6 +177,7 @@ describe("User Routes", () => {
         },
         body: {
           name: "",
+          env: "production",
         },
       })
       const response2 = await app.inject({
@@ -167,6 +188,7 @@ describe("User Routes", () => {
         },
         body: {
           name: "",
+          env: "production",
         },
       })
       const response3 = await app.inject({
@@ -177,6 +199,7 @@ describe("User Routes", () => {
         },
         body: {
           name: "",
+          env: "production",
         },
       })
 

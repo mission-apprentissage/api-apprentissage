@@ -4,16 +4,18 @@
   "besoinDonnees": {
     "titre": "Need this data for your project?",
     "swagger": "View the swagger",
-    "obtenirJeton": "Get an access token",
+    "obtenirCle": "Get an API key",
     "donneesManquantes": "Are you missing one or more data to meet your needs?",
     "ditesLeNous": "Tell us",
-    "demandeHabilitation": "Request authorization"
+    "demandeHabilitation": "Request a habilitation"
   },
   "habilitationRequise": {
-    "titre": "Using this tool requires authorization",
+    "titre": "Using this tool requires a habilitation",
     "faireDemande": "Make a request",
-    "ouSandbox": "To test without any habilitation, use a sandbox token: exchanges go to a La bonne alternance test environment.",
-    "ouSandboxLien": "Create a sandbox token from my account"
+    "ouSandbox": "To build without waiting, use a sandbox key: the habilitation is granted automatically and exchanges go to a La bonne alternance test environment.",
+    "ouSandboxLien": "Create a sandbox key from my account",
+    "badge": "Habilitation required",
+    "enSavoirPlus": "Learn more:"
   },
   "frequenceMiseAJour": {
     "titre": "Update frequency:",

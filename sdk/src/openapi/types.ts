@@ -32,11 +32,15 @@ export type OpenapiSpec = {
       description: OpenApiText
     }
   >
-  demandeHabilitations: Record<
-    Exclude<Permission, "admin" | "user:manage">,
-    {
-      subject: OpenApiText
-      body: OpenApiText
-    }
-  >
+  demandeHabilitations: Record<OpenapiHabilitation, DemandeHabilitation>
+}
+
+export type OpenapiHabilitation = Exclude<Permission, "admin" | "user:manage">
+
+export type DemandeHabilitation = {
+  label: OpenApiText
+  subject: OpenApiText
+  body: OpenApiText
+  // Condition d'accès qui s'ajoute à l'habilitation et qu'une clé sandbox ne lève pas
+  restriction: OpenApiText | null
 }

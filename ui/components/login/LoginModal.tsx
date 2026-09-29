@@ -124,7 +124,7 @@ export function LoginModal({ lang }: WithLang) {
               {t("modal.seConnecterInscrire", { lng: lang })}
             </Typography>
             <Typography id="login-modal-description" className={fr.cx("fr-text--lead")}>
-              <strong> {t("modal.obtenirJetons", { lng: lang })}</strong> {t("modal.alApiApprentissage", { lng: lang })}
+              <strong> {t("modal.obtenirCles", { lng: lang })}</strong> {t("modal.alApiApprentissage", { lng: lang })}
             </Typography>
           </Box>
 

@@ -4,11 +4,14 @@ import { registry } from "zod/v4-mini"
 import { registerOpenApiErrorsSchema } from "../../models/errors/errors.model.openapi.js"
 import { zSiret, zUai } from "../../models/organisme/organismes.primitives.js"
 import { zTransformNullIfEmptyString } from "../../models/primitives/primitives.model.js"
+import type { IApiRouteSchema } from "../../routes/common.routes.js"
 import type { IApiRoutesDef } from "../../routes/index.js"
 import { zApiRoutes } from "../../routes/index.js"
 import { CONTACT_EMAIL } from "../../utils/contact.js"
 import { zParisLocalDate } from "../../utils/date.primitives.js"
+import { accesHabilitationsSectionOpenapi, demandeHabilitationsOpenapi } from "../habilitations.openapi.js"
 import { openapiSpec } from "../openapiSpec.js"
+import type { OpenapiHabilitation } from "../types.js"
 import { generateComponents, generateOpenApiOperationObjectFromZod } from "../utils/openapi.uils.js"
 import { addOperationDoc, addSchemaDoc, getTextOpenAPI } from "../utils/zodWithOpenApi.js"
 
@@ -37,17 +40,43 @@ function getContactName(lang: "en" | "fr" | null): string {
 }
 
 function getSecuritySchemeDescription(lang: "en" | "fr" | null): string {
+  const { title, anchor } = accesHabilitationsSectionOpenapi
+
   switch (lang) {
     case "fr":
-      return `Clé d'API à fournir dans le header \`Authorization\`, précédée de \`Bearer \` : \`Authorization: Bearer <votre clé d'API>\`. Si la route nécessite une habilitation particulière, une clé de type **sandbox** l'obtient automatiquement (les échanges avec La bonne alternance passent alors par un environnement de test) ; pour une clé de type **production**, veuillez contacter le support pour en faire la demande à [${CONTACT_EMAIL}](mailto:${CONTACT_EMAIL})`
+      return `Clé d'API à fournir dans le header \`Authorization\`, précédée de \`Bearer \` : \`Authorization: Bearer <votre clé d'API>\`. Seules les routes listées dans [${title.fr}](#${anchor.fr}) exigent une habilitation.`
     case "en":
-      return `API key to provide in the \`Authorization\` header, prefixed with \`Bearer \`: \`Authorization: Bearer <your API key>\`. If the route requires a particular authorization, a **sandbox** API key is granted it automatically (exchanges with La bonne alternance then go through a test environment); for a **production** key, please contact support to request it at [${CONTACT_EMAIL}](mailto:${CONTACT_EMAIL})`
+      return `API key to provide in the \`Authorization\` header, prefixed with \`Bearer \`: \`Authorization: Bearer <your API key>\`. Only the routes listed in [${title.en}](#${anchor.en}) require a habilitation.`
     default:
       return ""
   }
 }
 
+// Routes exigeant l'habilitation, dérivées du securityScheme : la même source que l'autorisation
+// appliquée à l'exécution, pour que le tableau de l'intro ne puisse pas diverger
+function getHabilitationRoutes(habilitation: OpenapiHabilitation): string {
+  return Object.values(zApiRoutes)
+    .flatMap((routes) => Object.values(routes) as IApiRouteSchema[])
+    .filter((route) => route.securityScheme?.access === habilitation)
+    .map((route) => `\`${route.method.toUpperCase()} ${route.path.replaceAll(/:([^:/]+)/g, "{$1}")}\``)
+    .join(", ")
+}
+
+function getHabilitationsTable(lang: "en" | "fr"): string {
+  const habilitations = Object.keys(demandeHabilitationsOpenapi) as OpenapiHabilitation[]
+  const header = lang === "fr" ? "| Habilitation | Usage | Routes |\n|---|---|---|" : "| Habilitation | Use | Routes |\n|---|---|---|"
+  const rows = habilitations.map((habilitation) => `| \`${habilitation}\` | ${demandeHabilitationsOpenapi[habilitation].label[lang]} | ${getHabilitationRoutes(habilitation)} |`)
+  const restrictions = habilitations.flatMap((habilitation) => {
+    const { restriction } = demandeHabilitationsOpenapi[habilitation]
+    return restriction ? [`\`${habilitation}\`${lang === "fr" ? " : " : ": "}${restriction[lang]}`] : []
+  })
+
+  return [[header, ...rows].join("\n"), ...restrictions].join("\n\n")
+}
+
 function getApiDescription(lang: "en" | "fr" | null, siteUrl: string): string {
+  const { title } = accesHabilitationsSectionOpenapi
+
   switch (lang) {
     case "fr":
       return `# Authentification
@@ -60,19 +89,34 @@ curl -H "Authorization: Bearer <votre clé d'API>" "https://api.apprentissage.be
 
 Sans header, sans le préfixe \`Bearer \`, ou avec une clé invalide, expirée ou révoquée, l'API répond **401**. Une clé valide sans l'habilitation exigée par la route reçoit **403**.
 
+# ${title.fr}
+
+**Consulter les données ne demande aucune habilitation** : offres d'emploi, formations, certifications, organismes et référentiel géographique sont accessibles avec toute clé d'API valide.
+
+Seules les routes suivantes exigent une habilitation :
+
+${getHabilitationsTable("fr")}
+
+Les habilitations sont accordées à une **organisation**, pas à une clé : une habilitation accordée s'applique immédiatement à toutes les clés production des comptes rattachés à l'organisation, sans avoir à en recréer. Pour en faire la demande, écrivez à [${CONTACT_EMAIL}](mailto:${CONTACT_EMAIL}) en précisant votre organisation et l'usage visé.
+
+Une clé sandbox reçoit d'office ces habilitations pour développer sans attendre : voir la section suivante.
+
 # Environnements : production et sandbox
 
-L'environnement est porté par le **type de votre clé API** (choisi à la création, sur [votre compte](${siteUrl}/compte/profil)), pas par l'URL : dans les deux cas, ciblez \`https://api.apprentissage.beta.gouv.fr/api\`.
+L'environnement est porté par le **type de votre clé d'API** (choisi à la création, sur [votre compte](${siteUrl}/compte/profil)), pas par l'URL : dans les deux cas, ciblez \`https://api.apprentissage.beta.gouv.fr/api\`.
 
-| | Clé **sandbox** | Clé **production** |
+| | Clé **production** | Clé **sandbox** |
 |---|---|---|
-| Habilitations d'écriture | Accordées automatiquement | Sur demande au support |
-| Échanges La bonne alternance (recherche et dépôt d'offres, candidatures, rendez-vous) | Environnement de test | Production |
-| Autres données (certifications, formations, organismes, géographie) | Identiques à la production | Production |
+| Habilitations | Celles de votre organisation | Accordées d'office, hors restrictions ci-dessus |
+| Échanges avec La bonne alternance : recherche, détail et export d'offres, dépôt d'offres, candidatures, rendez-vous | Production | Environnement de test |
+| Autres données (certifications, formations, organismes, géographie) | Production | Identiques à la production |
 
-Avec une clé sandbox, vos dépôts d'offres, candidatures et prises de rendez-vous sont routés vers l'environnement de recette de [labonnealternance-recette.apprentissage.beta.gouv.fr](https://labonnealternance-recette.apprentissage.beta.gouv.fr) — jumelé à votre clé sandbox — et non vers sa production : rien de ce que vous envoyez n'est visible par de vrais candidats ou employeurs.
+Avec une clé sandbox, toutes vos requêtes vers La bonne alternance, **lectures comprises**, sont routées vers son environnement de recette ([labonnealternance-recette.apprentissage.beta.gouv.fr](https://labonnealternance-recette.apprentissage.beta.gouv.fr)) et non vers sa production : la recherche d'offres interroge les données de recette, distinctes de celles de la production, et rien de ce que vous envoyez n'est visible par de vrais candidats ou employeurs.
 
-Commencez avec une clé sandbox pour développer votre intégration, puis créez une clé production pour passer en réel.
+Quelle clé choisir :
+
+- vous consultez uniquement des données : créez directement une clé production ;
+- vous déposez des offres ou envoyez des candidatures : développez avec une clé sandbox, puis passez sur une clé production une fois l'habilitation accordée à votre organisation.
 
 # Limites de débit (rate limiting)
 
@@ -109,19 +153,34 @@ curl -H "Authorization: Bearer <your API key>" "https://api.apprentissage.beta.g
 
 Without the header, without the \`Bearer \` prefix, or with an invalid, expired or revoked key, the API responds **401**. A valid key lacking the habilitation required by the route gets **403**.
 
+# ${title.en}
+
+**Reading data requires no habilitation**: job offers, trainings, certifications, organisations and the geographical referential are available with any valid API key.
+
+Only the following routes require a habilitation:
+
+${getHabilitationsTable("en")}
+
+Habilitations are granted to an **organisation**, not to a key: once granted, a habilitation applies immediately to every production key of the accounts attached to the organisation, with no need to create a new one. To request one, write to [${CONTACT_EMAIL}](mailto:${CONTACT_EMAIL}) stating your organisation and intended use.
+
+A sandbox key is granted these habilitations automatically so you can build without waiting: see the next section.
+
 # Environments: production and sandbox
 
 The environment is carried by the **type of your API key** (chosen at creation, on [your account](${siteUrl}/compte/profil)), not by the URL: in both cases, target \`https://api.apprentissage.beta.gouv.fr/api\`.
 
-| | **Sandbox** key | **Production** key |
+| | **Production** key | **Sandbox** key |
 |---|---|---|
-| Write habilitations | Granted automatically | On request to support |
-| La bonne alternance exchanges (job search and posting, applications, appointments) | Test environment | Production |
-| Other data (certifications, trainings, organisations, geography) | Identical to production | Production |
+| Habilitations | Your organisation's | Granted automatically, except for the restrictions above |
+| La bonne alternance exchanges: job search, details and export, job posting, applications, appointments | Production | Test environment |
+| Other data (certifications, trainings, organisations, geography) | Production | Identical to production |
 
-With a sandbox key, your job postings, applications and appointment bookings are routed to La bonne alternance's staging environment — [labonnealternance-recette.apprentissage.beta.gouv.fr](https://labonnealternance-recette.apprentissage.beta.gouv.fr), paired with your sandbox key — rather than its production: nothing you send is visible to real candidates or employers.
+With a sandbox key, all your requests to La bonne alternance, **reads included**, are routed to its staging environment ([labonnealternance-recette.apprentissage.beta.gouv.fr](https://labonnealternance-recette.apprentissage.beta.gouv.fr)) rather than its production: job search queries the staging data, which differs from production, and nothing you send is visible to real candidates or employers.
 
-Start with a sandbox key to build your integration, then create a production key to go live.
+Which key to choose:
+
+- you only read data: create a production key right away;
+- you post job offers or send applications: build with a sandbox key, then switch to a production key once your organisation has been granted the habilitation.
 
 # Rate limiting
 

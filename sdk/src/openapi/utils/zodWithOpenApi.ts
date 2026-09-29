@@ -2,7 +2,7 @@ import type { ContentObject, OperationObject, ParameterObject, ReferenceObject, 
 
 import type { DocTechnicalField, OpenApiText } from "../../docs/types.js"
 import { addErrorResponseOpenApi } from "../../models/errors/errors.model.openapi.js"
-import { CONTACT_EMAIL } from "../../utils/contact.js"
+import { accesHabilitationsSectionOpenapi, demandeHabilitationsOpenapi, isOpenapiHabilitation } from "../habilitations.openapi.js"
 import { tagsOpenapi } from "../tags.openapi.js"
 import type { OpenapiRoute } from "../types.js"
 
@@ -183,10 +183,13 @@ function getHabilitationNotice(security: OperationObject["security"], lang: "en"
     return ""
   }
 
+  const restriction = isOpenapiHabilitation(habilitation) ? demandeHabilitationsOpenapi[habilitation].restriction : null
+  const { title, anchor } = accesHabilitationsSectionOpenapi
+
   return getTextOpenAPI(
     {
-      fr: `**Habilitation requise : \`${habilitation}\`.** Accordée automatiquement avec une clé sandbox. Pour une clé production, la demande se fait par mail à [${CONTACT_EMAIL}](mailto:${CONTACT_EMAIL}).`,
-      en: `**Required habilitation: \`${habilitation}\`.** Granted automatically with a sandbox key. For a production key, request it by email at [${CONTACT_EMAIL}](mailto:${CONTACT_EMAIL}).`,
+      fr: `**Habilitation requise : \`${habilitation}\`.** ${restriction?.fr ?? "Accordée d'office avec une clé sandbox."} Pour l'obtenir sur une clé production, voir [${title.fr}](#${anchor.fr}).`,
+      en: `**Required habilitation: \`${habilitation}\`.** ${restriction?.en ?? "Granted automatically with a sandbox key."} To obtain it on a production key, see [${title.en}](#${anchor.en}).`,
     },
     lang
   )

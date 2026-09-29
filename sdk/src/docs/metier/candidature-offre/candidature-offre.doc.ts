@@ -30,11 +30,11 @@ export const candidatureOffrePageDoc = {
     },
     {
       en: "This API is intended for services processing a high volume of job applications. Access requests for individual or personal use will not be approved.",
-      fr: "Cette API est réservée aux services traitant un volume important de candidatures. Les demandes d'habilitation  pour un usage individuel ne seront pas accordées.",
+      fr: "Cette API est réservée aux services traitant un volume important de candidatures. Les demandes d'habilitation pour un usage individuel ne seront pas accordées.",
     },
   ],
   frequenceMiseAJour: null,
-  type: "data",
+  type: "outil",
   sources: [
     {
       name: "La bonne alternance",

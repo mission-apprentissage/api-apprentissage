@@ -113,7 +113,7 @@ function CommentUtiliserApiSection({ lang }: WithLang) {
               Comment utiliser nos API
             </Typography>
             <Typography>
-              Nos API sont ouvertes à tous et à toutes, <strong>créez votre compte</strong> pour obtenir et gérer <strong>vos jetons d’accès !</strong>
+              Nos API sont ouvertes à tous et à toutes, <strong>créez votre compte</strong> pour obtenir et gérer <strong>vos clés d’API !</strong>
             </Typography>
             <Box display="grid" gap={fr.spacing("2v")}>
               <Typography>

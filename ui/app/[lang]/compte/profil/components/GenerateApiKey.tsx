@@ -20,7 +20,7 @@ import type { WithLangAndT } from "@/app/i18n/settings"
 import { Artwork } from "@/components/artwork/Artwork"
 import { ApiError } from "@/utils/api.utils"
 
-const defaultErrorMessage = "Une erreur est survenue lors de la création du jeton. Veuillez réessayer ultérieurement."
+const defaultErrorMessage = "Une erreur est survenue lors de la création de la clé. Veuillez réessayer ultérieurement."
 
 export const generateApiKeyModal = createModal({
   id: "generate-api-key",
@@ -40,7 +40,7 @@ export function GenerateApiKey({ lang, t, onCreated }: WithLangAndT<{ onCreated:
     formState: { errors, isSubmitting },
   } = useForm<ICreateApiKeyInput>({
     resolver: zodResolver(zRoutes.post["/_private/user/api-key"].body),
-    defaultValues: { env: "sandbox" },
+    defaultValues: { name: "" },
   })
   const [submitError, setSubmitError] = useState<string | null>(null)
   const statut = useApiKeysStatut()
@@ -50,9 +50,9 @@ export function GenerateApiKey({ lang, t, onCreated }: WithLangAndT<{ onCreated:
       mutation.reset()
       await mutation.mutateAsync(data)
       generateApiKeyModal.close()
-      // Valeurs explicites : reset() sans argument déclenche un form.reset() natif qui décoche
-      // les radios (aucun defaultChecked HTML)
-      reset({ name: "", env: "sandbox" })
+      // Sans argument, reset() déclenche un form.reset() natif qui décoche les radios (aucun
+      // defaultChecked HTML) : cohérent avec l'absence de type de clé par défaut
+      reset()
       onCreated()
     } catch (error) {
       console.error(error)
@@ -68,14 +68,14 @@ export function GenerateApiKey({ lang, t, onCreated }: WithLangAndT<{ onCreated:
   const title = useMemo(() => {
     switch (statut) {
       case "none":
-        return t("monCompte.aucunJetonAPI", { lng: lang })
+        return t("monCompte.aucuneCleApi", { lng: lang })
       case "actif-encrypted":
       case "actif-ready":
-        return t("monCompte.besoinJetons", { lng: lang })
+        return t("monCompte.besoinCles", { lng: lang })
       case "expired":
-        return t("monCompte.jetonsExpires", { lng: lang })
+        return t("monCompte.clesExpirees", { lng: lang })
       default:
-        return t("monCompte.genererNouveauJeton", { lng: lang })
+        return t("monCompte.genererNouvelleCle", { lng: lang })
     }
   }, [statut, lang, t])
 
@@ -98,14 +98,14 @@ export function GenerateApiKey({ lang, t, onCreated }: WithLangAndT<{ onCreated:
       <Artwork name="outline_III" />
       <Typography textAlign="center">{title}</Typography>
       <Button nativeButtonProps={generateApiKeyModal.buttonProps} priority={statut === "none" || statut === "expired" ? "primary" : "secondary"}>
-        {statut === "none" ? t("monCompte.genererPremier", { lng: lang }) : t("monCompte.genererNouveauJeton", { lng: lang })}
+        {statut === "none" ? t("monCompte.genererPremiere", { lng: lang }) : t("monCompte.genererNouvelleCle", { lng: lang })}
       </Button>
 
       <generateApiKeyModal.Component
         title={
           <span>
             <i className={fr.cx("fr-icon-arrow-right-line", "fr-text--lg")} />
-            {statut === "none" ? t("monCompte.genererJeton", { lng: lang }) : t("monCompte.genererNouveauJeton", { lng: lang })}
+            {statut === "none" ? t("monCompte.genererCle", { lng: lang }) : t("monCompte.genererNouvelleCle", { lng: lang })}
           </span>
         }
         buttons={[
@@ -132,24 +132,26 @@ export function GenerateApiKey({ lang, t, onCreated }: WithLangAndT<{ onCreated:
           }}
         >
           <Input
-            label={t("monCompte.nommezJeton", { lng: lang })}
-            hintText={t("monCompte.nomJetonDefault", { lng: lang })}
+            label={t("monCompte.nommezCle", { lng: lang })}
+            hintText={t("monCompte.nomCleDefaut", { lng: lang })}
             state={errors?.name ? "error" : "default"}
             stateRelatedMessage={errors?.name?.message ?? "Erreur de validation"}
             nativeInputProps={register("name", { required: false })}
           />
           <RadioButtons
-            legend={t("monCompte.typeJeton", { lng: lang })}
+            legend={t("monCompte.typeCle", { lng: lang })}
+            state={errors?.env ? "error" : "default"}
+            stateRelatedMessage={t("monCompte.typeCleRequis", { lng: lang })}
             options={[
               {
-                label: t("monCompte.typeJetonSandbox", { lng: lang }),
-                hintText: t("monCompte.typeJetonSandboxHint", { lng: lang }),
-                nativeInputProps: { ...register("env"), value: "sandbox" },
+                label: t("monCompte.typeCleProduction", { lng: lang }),
+                hintText: t("monCompte.typeCleProductionHint", { lng: lang }),
+                nativeInputProps: { ...register("env"), value: "production" },
               },
               {
-                label: t("monCompte.typeJetonProduction", { lng: lang }),
-                hintText: t("monCompte.typeJetonProductionHint", { lng: lang }),
-                nativeInputProps: { ...register("env"), value: "production" },
+                label: t("monCompte.typeCleSandbox", { lng: lang }),
+                hintText: t("monCompte.typeCleSandboxHint", { lng: lang }),
+                nativeInputProps: { ...register("env"), value: "sandbox" },
               },
             ]}
           />

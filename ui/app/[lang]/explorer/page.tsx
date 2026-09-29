@@ -1,4 +1,5 @@
 import { fr } from "@codegouvfr/react-dsfr"
+import { Badge } from "@codegouvfr/react-dsfr/Badge"
 import { Breadcrumb } from "@codegouvfr/react-dsfr/Breadcrumb"
 import house from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/buildings/house.svg"
 import school from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/buildings/school.svg"
@@ -11,28 +12,78 @@ import locationFrance from "@codegouvfr/react-dsfr/dsfr/artwork/pictograms/map/l
 import { Tag as TagDsfr } from "@codegouvfr/react-dsfr/Tag"
 import { Tile } from "@codegouvfr/react-dsfr/Tile"
 import { Box, Container, Typography } from "@mui/material"
+import type { DocPage, OpenApiText } from "api-alternance-sdk/internal"
 import {
   CONTACT_EMAIL,
+  candidatureOffrePageDoc,
   candidatureOffrePageSummaryDoc,
+  certificationsPageDoc,
   certificationsPageSummaryDoc,
+  depotOffrePageDoc,
   depotOffrePageSummaryDoc,
+  generationLienPriseRdvFormationPageDoc,
   generationLienPriseRdvFormationPageSummaryDoc,
   getTextOpenAPI,
+  rechercheCommunePageDoc,
   rechercheCommunePageSummaryDoc,
+  rechercheFormationPageDoc,
   rechercheFormationPageSummaryDoc,
+  rechercheOffrePageDoc,
   rechercheOffrePageSummaryDoc,
+  recuperationDepartementsPageDoc,
   recuperationDepartementsPageSummaryDoc,
+  recuperationDetailOffrePageDoc,
   recuperationDetailOffrePageSummaryDoc,
+  recuperationFormationPageDoc,
   recuperationFormationPageSummaryDoc,
   recuperationMissionLocalePageSummaryDoc,
+  recuperationMissionLocalesPageDoc,
+  recuperationOrganismesPageDoc,
   recuperationOrganismesPageSummaryDoc,
 } from "api-alternance-sdk/internal"
+import type { CSSProperties } from "react"
 
 import { getServerTranslation } from "@/app/i18n"
 import type { PropsWithLangParams } from "@/app/i18n/settings"
 import { Artwork } from "@/components/artwork/Artwork"
 import { DsfrLink } from "@/components/link/DsfrLink"
+import type { IPage } from "@/utils/routes.utils"
 import { PAGES } from "@/utils/routes.utils"
+
+// Tag et badge dérivés de la page détail (doc.type, doc.habilitation) : la tuile ne peut pas la contredire
+type ExplorerTile = {
+  summary: { title: OpenApiText; headline: OpenApiText }
+  doc: DocPage
+  page: IPage
+  imageUrl: string
+  style?: CSSProperties
+}
+
+const tiles: ExplorerTile[] = [
+  { summary: rechercheOffrePageSummaryDoc, doc: rechercheOffrePageDoc, page: PAGES.static.rechercheOffre, imageUrl: search.src },
+  { summary: recuperationDetailOffrePageSummaryDoc, doc: recuperationDetailOffrePageDoc, page: PAGES.static.recuperationDetailOffre, imageUrl: search.src },
+  { summary: depotOffrePageSummaryDoc, doc: depotOffrePageDoc, page: PAGES.static.depotOffre, imageUrl: internet.src },
+  { summary: candidatureOffrePageSummaryDoc, doc: candidatureOffrePageDoc, page: PAGES.static.candidatureOffre, imageUrl: contract.src },
+  { summary: rechercheFormationPageSummaryDoc, doc: rechercheFormationPageDoc, page: PAGES.static.rechercheFormation, imageUrl: search.src },
+  { summary: recuperationFormationPageSummaryDoc, doc: recuperationFormationPageDoc, page: PAGES.static.recuperationFormation, imageUrl: search.src },
+  {
+    summary: generationLienPriseRdvFormationPageSummaryDoc,
+    doc: generationLienPriseRdvFormationPageDoc,
+    page: PAGES.static.generationLienPriseRdvFormation,
+    imageUrl: community.src,
+  },
+  {
+    summary: certificationsPageSummaryDoc,
+    doc: certificationsPageDoc,
+    page: PAGES.static.catalogueDesDonneesCertification,
+    imageUrl: book.src,
+    style: { color: fr.colors.decisions.text.title.grey.default },
+  },
+  { summary: recuperationOrganismesPageSummaryDoc, doc: recuperationOrganismesPageDoc, page: PAGES.static.recuperationOrganismes, imageUrl: school.src },
+  { summary: rechercheCommunePageSummaryDoc, doc: rechercheCommunePageDoc, page: PAGES.static.rechercheCommune, imageUrl: search.src },
+  { summary: recuperationDepartementsPageSummaryDoc, doc: recuperationDepartementsPageDoc, page: PAGES.static.recuperationDepartements, imageUrl: locationFrance.src },
+  { summary: recuperationMissionLocalePageSummaryDoc, doc: recuperationMissionLocalesPageDoc, page: PAGES.static.recuperationMissionLocales, imageUrl: house.src },
+]
 
 export default async function ExplorerApiPage({ params }: PropsWithLangParams) {
   const { lang } = await params
@@ -67,117 +118,28 @@ export default async function ExplorerApiPage({ params }: PropsWithLangParams) {
         </Box>
       </Box>
       <Box my={fr.spacing("5w")} display="grid" gridTemplateColumns={["1fr", "1fr 1fr", "1fr 1fr 1fr"]} gap={fr.spacing("2w")}>
-        <Tile
-          title={getTextOpenAPI(rechercheOffrePageSummaryDoc.title, lang)}
-          desc={getTextOpenAPI(rechercheOffrePageSummaryDoc.headline, lang)}
-          imageSvg
-          imageUrl={search.src}
-          enlargeLinkOrButton
-          start={<TagDsfr>{t(`type.data`, { lng: lang })}</TagDsfr>}
-          linkProps={{ href: PAGES.static.rechercheOffre.getPath(lang) }}
-        />
-        <Tile
-          title={getTextOpenAPI(recuperationDetailOffrePageSummaryDoc.title, lang)}
-          desc={getTextOpenAPI(recuperationDetailOffrePageSummaryDoc.headline, lang)}
-          imageSvg
-          imageUrl={search.src}
-          enlargeLinkOrButton
-          start={<TagDsfr>{t(`type.data`, { lng: lang })}</TagDsfr>}
-          linkProps={{ href: PAGES.static.recuperationDetailOffre.getPath(lang) }}
-        />
-        <Tile
-          title={getTextOpenAPI(depotOffrePageSummaryDoc.title, lang)}
-          desc={getTextOpenAPI(depotOffrePageSummaryDoc.headline, lang)}
-          imageSvg
-          imageUrl={internet.src}
-          enlargeLinkOrButton
-          linkProps={{ href: PAGES.static.depotOffre.getPath(lang) }}
-          start={<TagDsfr>{t(`type.outil`, { lng: lang })}</TagDsfr>}
-        />
-        <Tile
-          title={getTextOpenAPI(candidatureOffrePageSummaryDoc.title, lang)}
-          desc={getTextOpenAPI(candidatureOffrePageSummaryDoc.headline, lang)}
-          imageSvg
-          imageUrl={contract.src}
-          enlargeLinkOrButton
-          linkProps={{ href: PAGES.static.candidatureOffre.getPath(lang) }}
-          start={<TagDsfr>{t(`type.outil`, { lng: lang })}</TagDsfr>}
-        />
-        <Tile
-          title={getTextOpenAPI(rechercheFormationPageSummaryDoc.title, lang)}
-          desc={getTextOpenAPI(rechercheFormationPageSummaryDoc.headline, lang)}
-          imageSvg
-          imageUrl={search.src}
-          enlargeLinkOrButton
-          linkProps={{ href: PAGES.static.rechercheFormation.getPath(lang) }}
-          start={<TagDsfr>{t(`type.data`, { lng: lang })}</TagDsfr>}
-        />
-        <Tile
-          title={getTextOpenAPI(recuperationFormationPageSummaryDoc.title, lang)}
-          desc={getTextOpenAPI(recuperationFormationPageSummaryDoc.headline, lang)}
-          imageSvg
-          imageUrl={search.src}
-          enlargeLinkOrButton
-          linkProps={{ href: PAGES.static.recuperationFormation.getPath(lang) }}
-          start={<TagDsfr>{t(`type.data`, { lng: lang })}</TagDsfr>}
-        />
-        <Tile
-          title={getTextOpenAPI(generationLienPriseRdvFormationPageSummaryDoc.title, lang)}
-          desc={getTextOpenAPI(generationLienPriseRdvFormationPageSummaryDoc.headline, lang)}
-          imageSvg
-          imageUrl={community.src}
-          enlargeLinkOrButton
-          linkProps={{ href: PAGES.static.generationLienPriseRdvFormation.getPath(lang) }}
-          start={<TagDsfr>{t(`type.data`, { lng: lang })}</TagDsfr>}
-        />
-        <Tile
-          title={getTextOpenAPI(certificationsPageSummaryDoc.title, lang)}
-          desc={getTextOpenAPI(certificationsPageSummaryDoc.headline, lang)}
-          imageSvg
-          imageUrl={book.src}
-          enlargeLinkOrButton
-          linkProps={{ href: PAGES.static.catalogueDesDonneesCertification.getPath(lang) }}
-          style={{
-            color: fr.colors.decisions.text.title.grey.default,
-          }}
-          start={<TagDsfr>{t(`type.data`, { lng: lang })}</TagDsfr>}
-        />
-        <Tile
-          title={getTextOpenAPI(recuperationOrganismesPageSummaryDoc.title, lang)}
-          desc={getTextOpenAPI(recuperationOrganismesPageSummaryDoc.headline, lang)}
-          imageSvg
-          imageUrl={school.src}
-          enlargeLinkOrButton
-          linkProps={{ href: PAGES.static.recuperationOrganismes.getPath(lang) }}
-          start={<TagDsfr>{t(`type.data`, { lng: lang })}</TagDsfr>}
-        />
-        <Tile
-          title={getTextOpenAPI(rechercheCommunePageSummaryDoc.title, lang)}
-          desc={getTextOpenAPI(rechercheCommunePageSummaryDoc.headline, lang)}
-          imageSvg
-          imageUrl={search.src}
-          enlargeLinkOrButton
-          linkProps={{ href: PAGES.static.rechercheCommune.getPath(lang) }}
-          start={<TagDsfr>{t(`type.data`, { lng: lang })}</TagDsfr>}
-        />
-        <Tile
-          title={getTextOpenAPI(recuperationDepartementsPageSummaryDoc.title, lang)}
-          desc={getTextOpenAPI(recuperationDepartementsPageSummaryDoc.headline, lang)}
-          imageSvg
-          imageUrl={locationFrance.src}
-          enlargeLinkOrButton
-          linkProps={{ href: PAGES.static.recuperationDepartements.getPath(lang) }}
-          start={<TagDsfr>{t(`type.data`, { lng: lang })}</TagDsfr>}
-        />
-        <Tile
-          title={getTextOpenAPI(recuperationMissionLocalePageSummaryDoc.title, lang)}
-          desc={getTextOpenAPI(recuperationMissionLocalePageSummaryDoc.headline, lang)}
-          imageSvg
-          imageUrl={house.src}
-          enlargeLinkOrButton
-          linkProps={{ href: PAGES.static.recuperationMissionLocales.getPath(lang) }}
-          start={<TagDsfr>{t(`type.data`, { lng: lang })}</TagDsfr>}
-        />
+        {tiles.map(({ summary, doc, page, imageUrl, style }) => (
+          <Tile
+            key={page.getPath(lang)}
+            title={getTextOpenAPI(summary.title, lang)}
+            desc={getTextOpenAPI(summary.headline, lang)}
+            imageSvg
+            imageUrl={imageUrl}
+            enlargeLinkOrButton
+            linkProps={{ href: page.getPath(lang) }}
+            style={style}
+            start={
+              <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: fr.spacing("1w") }}>
+                <TagDsfr>{t(`type.${doc.type}`, { lng: lang })}</TagDsfr>
+                {doc.habilitation !== null && (
+                  <Badge as="span" severity="info" noIcon small>
+                    {t("habilitationRequise.badge", { lng: lang })}
+                  </Badge>
+                )}
+              </Box>
+            }
+          />
+        ))}
       </Box>
       <Box sx={{ background: fr.colors.decisions.background.alt.beigeGrisGalet.default }}>
         <Container maxWidth="xl" disableGutters>

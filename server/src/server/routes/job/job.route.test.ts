@@ -371,6 +371,25 @@ describe("POST /job/v1/offer", () => {
     const result = response.json()
     expect(result).toEqual({ id: "1" })
   })
+
+  // La doc technique (section « Accès et habilitations ») promet qu'une habilitation accordée à
+  // l'organisation s'applique aux clés production existantes, sans en recréer
+  it("should apply an habilitation granted after the key creation without regenerating the key", async () => {
+    const request = { method: "POST", url: "/api/job/v1/offer", body, headers: { Authorization: `Bearer ${tokens.read}` } } as const
+
+    expect.soft((await app.inject(request)).statusCode).toBe(403)
+
+    await getDbCollection("organisations").updateOne({ _id: organisations.read._id }, { $set: { habilitations: ["jobs:write"] } })
+
+    const { matchHeader, expectAuth } = nockMatchUserAuthorization(users.read, ["jobs:write"])
+    nock("https://labonnealternance-recette.apprentissage.beta.gouv.fr/api").post("/v3/jobs").matchHeader("authorization", matchHeader).reply(200, { id: "1" })
+
+    const response = await app.inject(request)
+
+    await expectAuth()
+    expect.soft(response.statusCode).toBe(200)
+    expect(response.json()).toEqual({ id: "1" })
+  })
 })
 
 describe("sandbox key routing", () => {

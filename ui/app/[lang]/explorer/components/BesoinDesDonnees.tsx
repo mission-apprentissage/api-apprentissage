@@ -1,8 +1,8 @@
 "use client"
 import { fr } from "@codegouvfr/react-dsfr"
 import { Box, Typography } from "@mui/material"
-import type { DocPage, OpenapiSpec } from "api-alternance-sdk/internal"
-import { CONTACT_EMAIL, getTextOpenAPI, openapiSpec } from "api-alternance-sdk/internal"
+import type { DocPage, OpenapiHabilitation } from "api-alternance-sdk/internal"
+import { getDemandeHabilitationMailto } from "api-alternance-sdk/internal"
 import { useTranslation } from "react-i18next"
 import type { WithLang } from "@/app/i18n/settings"
 import { Artwork } from "@/components/artwork/Artwork"
@@ -11,13 +11,11 @@ import { useAuth } from "@/context/AuthContext"
 import { PAGES } from "@/utils/routes.utils"
 import { SwaggerLink } from "./SwaggerLink"
 
-export function BesoinDesDonnes({ doc, lang, habilitation }: WithLang<{ doc: DocPage; habilitation: null | keyof OpenapiSpec["demandeHabilitations"] }>) {
+export function BesoinDesDonnes({ doc, lang, habilitation }: WithLang<{ doc: DocPage; habilitation: null | OpenapiHabilitation }>) {
   const { t } = useTranslation("explorer", { lng: lang })
 
   const { session } = useAuth()
   const hasHabilitation = habilitation === null || session?.organisation?.habilitations.includes(habilitation)
-
-  const habilitationRequest = hasHabilitation ? null : openapiSpec.demandeHabilitations[habilitation]
 
   return (
     <Box
@@ -33,19 +31,15 @@ export function BesoinDesDonnes({ doc, lang, habilitation }: WithLang<{ doc: Doc
           <Typography>
             <SwaggerLink lang={lang} doc={doc} />
           </Typography>
-          {hasHabilitation && (
+          {/* Toujours proposée : une clé sandbox ne dépend pas de l'habilitation de l'organisation */}
+          <Typography>
+            <DsfrLink href={PAGES.static.compteProfil.getPath(lang)} size="lg">
+              {t("besoinDonnees.obtenirCle", { lng: lang })}
+            </DsfrLink>
+          </Typography>
+          {!hasHabilitation && (
             <Typography>
-              <DsfrLink href={PAGES.static.compteProfil.getPath(lang)} size="lg">
-                {t("besoinDonnees.obtenirJeton", { lng: lang })}
-              </DsfrLink>
-            </Typography>
-          )}
-          {habilitationRequest && (
-            <Typography>
-              <DsfrLink
-                href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(getTextOpenAPI(habilitationRequest.subject, lang))}&body=${getTextOpenAPI(habilitationRequest.body, lang)}`}
-                size="lg"
-              >
+              <DsfrLink href={getDemandeHabilitationMailto(habilitation, lang)} size="lg">
                 {t("besoinDonnees.demandeHabilitation", { lng: lang })}
               </DsfrLink>
             </Typography>

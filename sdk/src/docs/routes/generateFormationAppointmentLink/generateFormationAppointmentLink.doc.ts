@@ -4,8 +4,10 @@ import type { DocRoute } from "../../types.js"
 export const generateFormationAppointmentLinkRouteDoc = {
   summary: generationLienPriseRdvFormationPageSummaryDoc.title,
   description: {
-    en: `${generationLienPriseRdvFormationPageSummaryDoc.headline.en}<br /><br />**Rate limit**: 10 calls per minute, per consumer.`,
-    fr: `${generationLienPriseRdvFormationPageSummaryDoc.headline.fr}<br /><br />**Limite de débit** : 10 appels par minute, par consommateur.`,
+    en: `${generationLienPriseRdvFormationPageSummaryDoc.headline.en}
+<br/>Restricted to Parcoursup, Affelnet, ONISEP and 1 jeune 1 solution: any other organisation gets **403**, sandbox keys included, since they carry your account's organisation.<br /><br />**Rate limit**: 10 calls per minute, per consumer.`,
+    fr: `${generationLienPriseRdvFormationPageSummaryDoc.headline.fr}
+<br/>Réservé à Parcoursup, Affelnet, ONISEP et 1 jeune 1 solution : toute autre organisation reçoit **403**, y compris avec une clé sandbox, qui reprend l'organisation de votre compte.<br /><br />**Limite de débit** : 10 appels par minute, par consommateur.`,
   },
   body: {
     description: {

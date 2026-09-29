@@ -2,18 +2,19 @@
 import { fr } from "@codegouvfr/react-dsfr"
 import { Button } from "@codegouvfr/react-dsfr/Button"
 import { Box, Typography } from "@mui/material"
-import type { OpenapiSpec } from "api-alternance-sdk/internal"
-import { CONTACT_EMAIL, getTextOpenAPI, openapiSpec } from "api-alternance-sdk/internal"
+import type { OpenapiHabilitation } from "api-alternance-sdk/internal"
+import { demandeHabilitationsOpenapi, getDemandeHabilitationMailto } from "api-alternance-sdk/internal"
 import { useTranslation } from "react-i18next"
 
 import type { WithLang } from "@/app/i18n/settings"
 import { Artwork } from "@/components/artwork/Artwork"
+import { AccesHabilitationsLink } from "@/components/link/AccesHabilitationsLink"
 import { DsfrLink } from "@/components/link/DsfrLink"
 import { useAuth } from "@/context/AuthContext"
 import { PAGES } from "@/utils/routes.utils"
 
 type Props = WithLang<{
-  habilitation: null | keyof OpenapiSpec["demandeHabilitations"]
+  habilitation: null | OpenapiHabilitation
 }>
 
 export function HabilitationRequise({ lang, habilitation }: Props) {
@@ -25,7 +26,7 @@ export function HabilitationRequise({ lang, habilitation }: Props) {
     return null
   }
 
-  const { subject, body } = openapiSpec.demandeHabilitations[habilitation]
+  const { restriction } = demandeHabilitationsOpenapi[habilitation]
 
   return (
     <Box
@@ -50,11 +51,18 @@ export function HabilitationRequise({ lang, habilitation }: Props) {
         >
           {t("habilitationRequise.titre", { lng: lang })}
         </Typography>
+        {restriction === null ? (
+          <Typography className={fr.cx("fr-text--sm")}>
+            {t("habilitationRequise.ouSandbox", { lng: lang })}{" "}
+            <DsfrLink href={PAGES.static.compteProfil.getPath(lang)}>{t("habilitationRequise.ouSandboxLien", { lng: lang })}</DsfrLink>
+          </Typography>
+        ) : (
+          <Typography className={fr.cx("fr-text--sm")}>{restriction[lang]}</Typography>
+        )}
         <Typography className={fr.cx("fr-text--sm")}>
-          {t("habilitationRequise.ouSandbox", { lng: lang })}{" "}
-          <DsfrLink href={PAGES.static.compteProfil.getPath(lang)}>{t("habilitationRequise.ouSandboxLien", { lng: lang })}</DsfrLink>
+          {t("habilitationRequise.enSavoirPlus", { lng: lang })} <AccesHabilitationsLink lang={lang} size="sm" />
         </Typography>
-        <DsfrLink href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(getTextOpenAPI(subject, lang))}&body=${getTextOpenAPI(body, lang)}`} arrow="none" external={false}>
+        <DsfrLink href={getDemandeHabilitationMailto(habilitation, lang)} arrow="none" external={false}>
           <Button priority="secondary" size="small">
             {t("habilitationRequise.faireDemande", { lng: lang })}
           </Button>

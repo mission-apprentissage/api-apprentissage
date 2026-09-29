@@ -4,7 +4,7 @@
   "besoinDonnees": {
     "titre": "Besoin de ces données pour votre projet ?",
     "swagger": "Consulter le swagger",
-    "obtenirJeton": "Obtenir un jeton d’accès",
+    "obtenirCle": "Obtenir une clé d’API",
     "donneesManquantes": "Il vous manque une ou plusieurs donnée(s) pour répondre à vos besoins ?",
     "ditesLeNous": "Dites-le nous",
     "demandeHabilitation": "Demander une habilitation"
@@ -12,8 +12,10 @@
   "habilitationRequise": {
     "titre": "L’utilisation de cet outil nécessite une habilitation",
     "faireDemande": "Faire une demande",
-    "ouSandbox": "Pour tester sans habilitation, utilisez un jeton de type sandbox : les échanges partent vers un environnement de test de La bonne alternance.",
-    "ouSandboxLien": "Créer un jeton sandbox depuis mon compte"
+    "ouSandbox": "Pour développer sans attendre, utilisez une clé sandbox : l'habilitation y est accordée d'office et les échanges partent vers un environnement de test de La bonne alternance.",
+    "ouSandboxLien": "Créer une clé sandbox depuis mon compte",
+    "badge": "Habilitation requise",
+    "enSavoirPlus": "En savoir plus :"
   },
   "frequenceMiseAJour": {
     "titre": "Fréquence de mise à jour :",

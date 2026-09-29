@@ -95,7 +95,7 @@ export function MonCompteQuickAccess({ lang, t }: WithLangAndT) {
               component={NextLink}
               href={PAGES.static.compteProfil.getPath(lang)}
             >
-              Jetons d'accès
+              Clés d'API
             </Link>
           </Typography>
           <Box component="hr" sx={{ padding: 0, height: "1px" }} />

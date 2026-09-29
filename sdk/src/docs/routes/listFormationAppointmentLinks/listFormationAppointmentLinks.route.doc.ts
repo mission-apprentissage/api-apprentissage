@@ -7,9 +7,9 @@ export const listFormationAppointmentLinksRouteDoc = {
   },
   description: {
     fr: `Renvoie en un seul appel, pour chaque formation ouverte à la prise de rendez-vous pour votre organisation, le lien de prise de rendez-vous et le lien de recherche d'entreprises La bonne alternance.
-<br/>Réservé à Parcoursup, Affelnet et ONISEP : l'organisation rattachée à votre clé d'API détermine l'identifiant renvoyé et le suivi des liens.<br /><br />**Limite de débit** : 2 appels par minute, par consommateur.`,
+<br/>Réservé à Parcoursup, Affelnet et ONISEP : l'organisation rattachée à votre clé d'API détermine l'identifiant renvoyé et le suivi des liens. Toute autre organisation reçoit **403**, y compris avec une clé sandbox, qui reprend l'organisation de votre compte.<br /><br />**Limite de débit** : 2 appels par minute, par consommateur.`,
     en: `Returns in a single call, for each training open to appointment requests for your organisation, the La bonne alternance appointment request link and company search link.
-<br/>Restricted to Parcoursup, Affelnet and ONISEP: the organisation of your API key determines the returned identifier and the link tracking.<br /><br />**Rate limit**: 2 calls per minute, per consumer.`,
+<br/>Restricted to Parcoursup, Affelnet and ONISEP: the organisation of your API key determines the returned identifier and the link tracking. Any other organisation gets **403**, sandbox keys included, since they carry your account's organisation.<br /><br />**Rate limit**: 2 calls per minute, per consumer.`,
   },
   response: {
     description: { fr: "Succès", en: "Success" },

@@ -39,9 +39,9 @@ function getContactName(lang: "en" | "fr" | null): string {
 function getSecuritySchemeDescription(lang: "en" | "fr" | null): string {
   switch (lang) {
     case "fr":
-      return `Clé d'API à fournir dans le header \`Authorization\`. Si la route nécessite une habilitation particulière, une clé de type **sandbox** l'obtient automatiquement (les échanges avec La bonne alternance passent alors par un environnement de test) ; pour une clé de type **production**, veuillez contacter le support pour en faire la demande à [${CONTACT_EMAIL}](mailto:${CONTACT_EMAIL})`
+      return `Clé d'API à fournir dans le header \`Authorization\`, précédée de \`Bearer \` : \`Authorization: Bearer <votre clé d'API>\`. Si la route nécessite une habilitation particulière, une clé de type **sandbox** l'obtient automatiquement (les échanges avec La bonne alternance passent alors par un environnement de test) ; pour une clé de type **production**, veuillez contacter le support pour en faire la demande à [${CONTACT_EMAIL}](mailto:${CONTACT_EMAIL})`
     case "en":
-      return `API key to provide in the \`Authorization\` header. If the route requires a particular authorization, a **sandbox** API key is granted it automatically (exchanges with La bonne alternance then go through a test environment); for a **production** key, please contact support to request it at [${CONTACT_EMAIL}](mailto:${CONTACT_EMAIL})`
+      return `API key to provide in the \`Authorization\` header, prefixed with \`Bearer \`: \`Authorization: Bearer <your API key>\`. If the route requires a particular authorization, a **sandbox** API key is granted it automatically (exchanges with La bonne alternance then go through a test environment); for a **production** key, please contact support to request it at [${CONTACT_EMAIL}](mailto:${CONTACT_EMAIL})`
     default:
       return ""
   }
@@ -50,7 +50,17 @@ function getSecuritySchemeDescription(lang: "en" | "fr" | null): string {
 function getApiDescription(lang: "en" | "fr" | null, siteUrl: string): string {
   switch (lang) {
     case "fr":
-      return `# Environnements : production et sandbox
+      return `# Authentification
+
+Chaque appel porte votre clé d'API dans le header \`Authorization\`, précédée de \`Bearer \` (avec un espace). La clé se crée sur [votre compte](${siteUrl}/compte/profil).
+
+\`\`\`bash
+curl -H "Authorization: Bearer <votre clé d'API>" "https://api.apprentissage.beta.gouv.fr/api/formation/v1/search"
+\`\`\`
+
+Sans header, ou sans le préfixe \`Bearer \`, l'API répond **401**. Une clé valide sans l'habilitation exigée par la route reçoit **403**.
+
+# Environnements : production et sandbox
 
 L'environnement est porté par le **type de votre clé API** (choisi à la création, sur [votre compte](${siteUrl}/compte/profil)), pas par l'URL : dans les deux cas, ciblez \`https://api.apprentissage.beta.gouv.fr/api\`.
 
@@ -89,7 +99,17 @@ Lorsque votre quota est atteint, l'API renvoie un code **HTTP 429 — Too Many R
 - Implémentez un mécanisme de retry avec backoff exponentiel respectant le \`retry-after\`.
 - Si vos volumes nécessitent des limites supérieures, contactez [${CONTACT_EMAIL}](mailto:${CONTACT_EMAIL}).`
     case "en":
-      return `# Environments: production and sandbox
+      return `# Authentication
+
+Every call carries your API key in the \`Authorization\` header, prefixed with \`Bearer \` (with a space). Create the key on [your account](${siteUrl}/compte/profil).
+
+\`\`\`bash
+curl -H "Authorization: Bearer <your API key>" "https://api.apprentissage.beta.gouv.fr/api/formation/v1/search"
+\`\`\`
+
+Without the header, or without the \`Bearer \` prefix, the API responds **401**. A valid key lacking the habilitation required by the route gets **403**.
+
+# Environments: production and sandbox
 
 The environment is carried by the **type of your API key** (chosen at creation, on [your account](${siteUrl}/compte/profil)), not by the URL: in both cases, target \`https://api.apprentissage.beta.gouv.fr/api\`.
 

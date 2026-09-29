@@ -11,8 +11,9 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Box, Snackbar, Typography } from "@mui/material"
 import { captureException } from "@sentry/nextjs"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useMemo } from "react"
 import type { FieldError } from "react-hook-form"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { useTranslation } from "react-i18next"
 import { zRoutes } from "shared"
 import type { IOrganisationInternal } from "shared/models/organisation.model"
@@ -21,6 +22,7 @@ import type { Jsonify } from "type-fest"
 
 import type { WithLang } from "@/app/i18n/settings"
 import Breadcrumb from "@/components/breadcrumb/Breadcrumb"
+import { AutocompleteSelect } from "@/components/select/AutocompleteSelect"
 import { apiPut } from "@/utils/api.utils"
 import { formatDate, formatNullableDate } from "@/utils/date.utils"
 import { PAGES } from "@/utils/routes.utils"
@@ -68,6 +70,11 @@ export default function UserView({ user, organisations, lang }: Props) {
   })
 
   const typeValue = watch("type")
+
+  const organisationOptions = useMemo(
+    () => organisations.map((o) => ({ key: o.nom, label: o.nom })).sort((a, b) => a.label.localeCompare(b.label, "fr", { sensitivity: "base" })),
+    [organisations]
+  )
 
   const { t } = useTranslation("global", { lng: lang })
   // Fiche admin non traduite (français uniquement) : messages d'erreur toujours en français,
@@ -143,14 +150,21 @@ export default function UserView({ user, organisations, lang }: Props) {
           <Input label="Nom" nativeInputProps={control.register("nom")} {...getInputState(errors?.nom, translateError)} />
         </Box>
 
-        <Select label={<Typography>Organisation</Typography>} nativeSelectProps={control.register("organisation")} {...getInputState(errors?.organisation, translateError)}>
-          <option value="">Selectionnez une option</option>
-          {organisations.map((o) => (
-            <option key={o.nom} value={o.nom}>
-              {o.nom}
-            </option>
-          ))}
-        </Select>
+        <Controller
+          control={control}
+          name="organisation"
+          render={({ field, fieldState }) => (
+            <AutocompleteSelect
+              id="organisation"
+              label="Organisation"
+              noOptionsText="Aucune organisation"
+              options={organisationOptions}
+              value={organisationOptions.find((o) => o.key === field.value) ?? null}
+              onChange={(option) => field.onChange(option?.key ?? "")}
+              {...getInputState(fieldState.error, translateError)}
+            />
+          )}
+        />
 
         <ToggleSwitch
           label="Administrateur"

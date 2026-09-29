@@ -58,7 +58,7 @@ Chaque appel porte votre clé d'API dans le header \`Authorization\`, précédé
 curl -H "Authorization: Bearer <votre clé d'API>" "https://api.apprentissage.beta.gouv.fr/api/formation/v1/search"
 \`\`\`
 
-Sans header, ou sans le préfixe \`Bearer \`, l'API répond **401**. Une clé valide sans l'habilitation exigée par la route reçoit **403**.
+Sans header, sans le préfixe \`Bearer \`, ou avec une clé invalide, expirée ou révoquée, l'API répond **401**. Une clé valide sans l'habilitation exigée par la route reçoit **403**.
 
 # Environnements : production et sandbox
 
@@ -107,7 +107,7 @@ Every call carries your API key in the \`Authorization\` header, prefixed with \
 curl -H "Authorization: Bearer <your API key>" "https://api.apprentissage.beta.gouv.fr/api/formation/v1/search"
 \`\`\`
 
-Without the header, or without the \`Bearer \` prefix, the API responds **401**. A valid key lacking the habilitation required by the route gets **403**.
+Without the header, without the \`Bearer \` prefix, or with an invalid, expired or revoked key, the API responds **401**. A valid key lacking the habilitation required by the route gets **403**.
 
 # Environments: production and sandbox
 

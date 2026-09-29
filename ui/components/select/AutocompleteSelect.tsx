@@ -19,9 +19,17 @@ interface AutocompleteSelectProps<T extends string | number> {
   noOptionsText: string
   id: string
   label: string
+  value?: AutocompleteSelectOption<T> | null
+  state?: "default" | "error" | "success"
+  stateRelatedMessage?: string
 }
 
-function renderOption<T extends string | number>(props: React.HTMLAttributes<HTMLLIElement>, option: AutocompleteSelectOption<T>, { inputValue }: AutocompleteRenderOptionState) {
+// MUI glisse une `key` dans les props de l'option : la retirer avant le spread (React refuse une key étalée).
+function renderOption<T extends string | number>(
+  { key: _key, ...props }: React.HTMLAttributes<HTMLLIElement> & { key?: React.Key },
+  option: AutocompleteSelectOption<T>,
+  { inputValue }: AutocompleteRenderOptionState
+) {
   const { key, label } = option
   const matches = match(label, inputValue, { insideWords: true, findAllOccurrences: true })
   const parts = parse(label, matches)
@@ -48,9 +56,14 @@ function PopperComponent(props: PopperProps) {
   return <Popper placement="bottom" modifiers={[{ name: "flip", enabled: false }]} {...props} />
 }
 
+// Sans saisie, la liste complète reste parcourable dans l'ordre fourni ; la limite ne vaut que pour les résultats filtrés.
 function filterOptions<T extends string | number>(options: AutocompleteSelectOption<T>[], { inputValue }: { inputValue: string }) {
-  const allResults = matchSorter(options, inputValue, { keys: ["label"] })
-  return allResults.slice(0, 50)
+  if (!inputValue.trim()) return options
+  return matchSorter(options, inputValue, { keys: ["label"] }).slice(0, 50)
+}
+
+function isOptionEqualToValue<T extends string | number>(option: AutocompleteSelectOption<T>, value: AutocompleteSelectOption<T>) {
+  return option.key === value.key
 }
 
 function getOptionKey<T extends string | number>(option: AutocompleteSelectOption<T>) {
@@ -63,8 +76,10 @@ function getOptionLabel<T extends string | number>(option: AutocompleteSelectOpt
 
 export function AutocompleteSelect<T extends string | number>(props: AutocompleteSelectProps<T>) {
   const renderInput = useCallback(
-    (params: AutocompleteRenderInputParams) => <Input label={props.label} ref={params.InputProps.ref} nativeInputProps={params.inputProps}></Input>,
-    [props.label]
+    (params: AutocompleteRenderInputParams) => (
+      <Input label={props.label} ref={params.InputProps.ref} nativeInputProps={params.inputProps} state={props.state} stateRelatedMessage={props.stateRelatedMessage} />
+    ),
+    [props.label, props.state, props.stateRelatedMessage]
   )
 
   return (
@@ -73,6 +88,8 @@ export function AutocompleteSelect<T extends string | number>(props: Autocomplet
       disablePortal
       openOnFocus
       options={props.options}
+      {...(props.value === undefined ? {} : { value: props.value })}
+      isOptionEqualToValue={isOptionEqualToValue}
       getOptionLabel={getOptionLabel}
       getOptionKey={getOptionKey}
       renderInput={renderInput}
@@ -84,6 +101,8 @@ export function AutocompleteSelect<T extends string | number>(props: Autocomplet
       noOptionsText={props.noOptionsText}
       size="small"
       renderOption={renderOption}
+      // La racine MUI enveloppe le fr-input-group, qui perd la marge DSFR `.fr-input-group:not(:last-child)`.
+      sx={{ "&:not(:last-child)": { marginBottom: "1.5rem" } }}
     />
   )
 }

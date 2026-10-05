@@ -2,7 +2,7 @@ import { forbidden, internal } from "@hapi/boom"
 import type { IApiRouteSchema, IOrganisationHabilitation, SchemaWithSecurity, WithSecurityScheme } from "api-alternance-sdk"
 import { ORGANISATION_HABILITATIONS } from "api-alternance-sdk"
 import type { AccessPermission, AccessResourcePath, PathParam, QueryString, Role } from "api-alternance-sdk/internal"
-import { AdminRole, getBaseRole, SandboxRole } from "api-alternance-sdk/internal"
+import { getAdminRole, getBaseRole, SandboxRole } from "api-alternance-sdk/internal"
 import type { FastifyRequest } from "fastify"
 import type { ObjectId } from "mongodb"
 import type { IOrganisationInternal } from "shared/models/organisation.model"
@@ -63,7 +63,7 @@ function getUserRole(user: IUser, organisation: IOrganisationInternal | null, ap
     return SandboxRole
   }
 
-  return user.is_admin ? AdminRole : getBaseRole(organisation)
+  return user.is_admin ? getAdminRole(organisation) : getBaseRole(organisation)
 }
 
 // Habilitations métier réellement portées par une clé, dérivées du MÊME rôle que celui appliqué à

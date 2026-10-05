@@ -154,8 +154,20 @@ describe("isAuthorizedUser", () => {
   })
 
   describe("jobs:write", () => {
-    it("admin user should be allowed", () => {
-      expect(isAuthorizedUser("jobs:write", admin1, { users: [] }, null, null)).toBe(true)
+    it("admin user without organisation should be denied", () => {
+      expect(isAuthorizedUser("jobs:write", admin1, { users: [] }, null, null)).toBe(false)
+    })
+
+    it("admin user of a ReadOnly org should be denied", () => {
+      expect(isAuthorizedUser("jobs:write", admin1, { users: [] }, orgRo, null)).toBe(false)
+    })
+
+    it("admin user of a Write org should be allowed", () => {
+      expect(isAuthorizedUser("jobs:write", admin1, { users: [] }, orgWrite, null)).toBe(true)
+    })
+
+    it("admin user of a Write org should keep the admin permission", () => {
+      expect(isAuthorizedUser("admin", admin1, { users: [] }, orgWrite, null)).toBe(true)
     })
 
     it("no org user should be denied", () => {

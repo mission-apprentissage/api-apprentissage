@@ -331,9 +331,7 @@ describe("User Routes", () => {
         expect(habilitations.sandbox).toEqual(["jobs:write", "appointments:write", "applications:write"])
       })
 
-      it("should not grant an admin the habilitations its organisation lacks", async () => {
-        // AdminRole REMPLACE le rôle organisation : il ne porte que `jobs:write` parmi les
-        // habilitations métier, même si l'organisation en détient davantage
+      it("should expose the organisation habilitations on an admin production key", async () => {
         const organisation = generateOrganisationFixture({ nom: "Org admin", habilitations: ["jobs:write", "appointments:write", "applications:write"] })
         const adminUser = generateUserFixture({ email: "admin@exemple.fr", is_admin: true, organisation: organisation.nom })
         await getDbCollection("organisations").insertOne(organisation)
@@ -343,7 +341,18 @@ describe("User Routes", () => {
 
         const habilitations = await getHabilitationsByKeyName(await createSessionToken(adminUser.email))
 
-        expect(habilitations.prod).toEqual(["jobs:write"])
+        expect(habilitations.prod).toEqual(["jobs:write", "appointments:write", "applications:write"])
+      })
+
+      it("should not grant any habilitation to an admin production key without organisation", async () => {
+        const adminUser = generateUserFixture({ email: "admin-sans-org@exemple.fr", is_admin: true, organisation: null })
+        await getDbCollection("users").insertOne(adminUser)
+        await generateApiKey("prod", "production", adminUser)
+        await createSession(adminUser.email)
+
+        const habilitations = await getHabilitationsByKeyName(await createSessionToken(adminUser.email))
+
+        expect(habilitations.prod).toEqual([])
       })
     })
 

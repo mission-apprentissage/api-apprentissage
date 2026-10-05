@@ -24,10 +24,19 @@ export function getBaseRole(organisation: IOrganisation | null): Role {
       }
 }
 
+// Permissions d'administration seules : les habilitations métier d'un admin sont celles de son
+// organisation, comme pour tout utilisateur (cf. getAdminRole)
 export const AdminRole = {
   name: "admin",
-  permissions: ["admin", "user:manage", "jobs:write"],
+  permissions: ["admin", "user:manage"],
 } satisfies Role
+
+export function getAdminRole(organisation: IOrganisation | null): Role {
+  return {
+    name: "admin",
+    permissions: [...AdminRole.permissions, ...getBaseRole(organisation).permissions],
+  }
+}
 
 // Rôle porté par une clé API sandbox : les habilitations métier (écriture forwardée vers LBA
 // recette) sont accordées d'office — self-service — jamais admin ni user:manage. Le rôle REMPLACE

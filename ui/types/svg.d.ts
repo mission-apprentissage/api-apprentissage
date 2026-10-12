@@ -1,14 +1,6 @@
 declare module "*.svg" {
-  /**
-   * Use `any` to avoid conflicts with
-   * `@svgr/webpack` plugin or
-   * `babel-plugin-inline-react-svg` plugin.
-   */
-  const content: {
-    src: string
-    width: number
-    height: number
-  }
+  /** Turbopack expose un import `.svg` comme l'URL de l'asset, sans objet `{ src, width, height }`. */
+  const url: string
 
-  export default content
+  export default url
 }

@@ -5,8 +5,7 @@ import "./overwride.css"
 
 import { fr } from "@codegouvfr/react-dsfr"
 import { Box, Container, Typography } from "@mui/material"
-import { captureException } from "@sentry/nextjs"
-import { use, useEffect, useRef } from "react"
+import { use, useEffect, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
 
 import type { PropsWithLangParams } from "@/app/i18n/settings"
@@ -18,9 +17,12 @@ export default function TryPage({ params }: PropsWithLangParams) {
   const { lang } = use(params)
   const { t } = useTranslation("documentation-technique")
   const swaggerRef = useRef<HTMLDivElement>(null)
+  const [loadError, setLoadError] = useState<unknown>(null)
 
   // Bundle précompilé plutôt que swagger-ui-react : Turbopack perd les enregistrements `refract`
-  // d'apidom et le dépliage d'un endpoint tourne à l'infini (vercel/next.js#86507).
+  // d'apidom et le dépliage d'un endpoint tourne à l'infini. Revenir à `<SwaggerUI url={…} />` de
+  // swagger-ui-react (et retirer types/swagger-ui-dist.d.ts) une fois corrigé :
+  // https://github.com/vercel/next.js/issues/86507 (PR upstream : https://github.com/vercel/next.js/pull/86584)
   useEffect(() => {
     let cancelled = false
     import("swagger-ui-dist/swagger-ui-bundle.js")
@@ -29,11 +31,16 @@ export default function TryPage({ params }: PropsWithLangParams) {
           SwaggerUIBundle({ url: `${publicConfig.apiEndpoint}/documentation/json`, domNode: swaggerRef.current })
         }
       })
-      .catch(captureException)
+      .catch(setLoadError)
     return () => {
       cancelled = true
     }
   }, [])
+
+  // Un échec de chargement du bundle remonte à error.tsx, comme le faisait l'import statique.
+  if (loadError) {
+    throw loadError
+  }
 
   return (
     <Container maxWidth="xl">

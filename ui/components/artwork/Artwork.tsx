@@ -59,9 +59,9 @@ const artworkData = {
     height: 40,
   },
   padlock: {
-    src: padlock.src,
-    width: padlock.width,
-    height: padlock.height,
+    src: padlock,
+    width: 80,
+    height: 80,
     alt: "Illustration d'un cadenas",
   },
 } as const satisfies IArtworkData

@@ -60,29 +60,29 @@ type ExplorerTile = {
 }
 
 const tiles: ExplorerTile[] = [
-  { summary: rechercheOffrePageSummaryDoc, doc: rechercheOffrePageDoc, page: PAGES.static.rechercheOffre, imageUrl: search.src },
-  { summary: recuperationDetailOffrePageSummaryDoc, doc: recuperationDetailOffrePageDoc, page: PAGES.static.recuperationDetailOffre, imageUrl: search.src },
-  { summary: depotOffrePageSummaryDoc, doc: depotOffrePageDoc, page: PAGES.static.depotOffre, imageUrl: internet.src },
-  { summary: candidatureOffrePageSummaryDoc, doc: candidatureOffrePageDoc, page: PAGES.static.candidatureOffre, imageUrl: contract.src },
-  { summary: rechercheFormationPageSummaryDoc, doc: rechercheFormationPageDoc, page: PAGES.static.rechercheFormation, imageUrl: search.src },
-  { summary: recuperationFormationPageSummaryDoc, doc: recuperationFormationPageDoc, page: PAGES.static.recuperationFormation, imageUrl: search.src },
+  { summary: rechercheOffrePageSummaryDoc, doc: rechercheOffrePageDoc, page: PAGES.static.rechercheOffre, imageUrl: search },
+  { summary: recuperationDetailOffrePageSummaryDoc, doc: recuperationDetailOffrePageDoc, page: PAGES.static.recuperationDetailOffre, imageUrl: search },
+  { summary: depotOffrePageSummaryDoc, doc: depotOffrePageDoc, page: PAGES.static.depotOffre, imageUrl: internet },
+  { summary: candidatureOffrePageSummaryDoc, doc: candidatureOffrePageDoc, page: PAGES.static.candidatureOffre, imageUrl: contract },
+  { summary: rechercheFormationPageSummaryDoc, doc: rechercheFormationPageDoc, page: PAGES.static.rechercheFormation, imageUrl: search },
+  { summary: recuperationFormationPageSummaryDoc, doc: recuperationFormationPageDoc, page: PAGES.static.recuperationFormation, imageUrl: search },
   {
     summary: generationLienPriseRdvFormationPageSummaryDoc,
     doc: generationLienPriseRdvFormationPageDoc,
     page: PAGES.static.generationLienPriseRdvFormation,
-    imageUrl: community.src,
+    imageUrl: community,
   },
   {
     summary: certificationsPageSummaryDoc,
     doc: certificationsPageDoc,
     page: PAGES.static.catalogueDesDonneesCertification,
-    imageUrl: book.src,
+    imageUrl: book,
     style: { color: fr.colors.decisions.text.title.grey.default },
   },
-  { summary: recuperationOrganismesPageSummaryDoc, doc: recuperationOrganismesPageDoc, page: PAGES.static.recuperationOrganismes, imageUrl: school.src },
-  { summary: rechercheCommunePageSummaryDoc, doc: rechercheCommunePageDoc, page: PAGES.static.rechercheCommune, imageUrl: search.src },
-  { summary: recuperationDepartementsPageSummaryDoc, doc: recuperationDepartementsPageDoc, page: PAGES.static.recuperationDepartements, imageUrl: locationFrance.src },
-  { summary: recuperationMissionLocalePageSummaryDoc, doc: recuperationMissionLocalesPageDoc, page: PAGES.static.recuperationMissionLocales, imageUrl: house.src },
+  { summary: recuperationOrganismesPageSummaryDoc, doc: recuperationOrganismesPageDoc, page: PAGES.static.recuperationOrganismes, imageUrl: school },
+  { summary: rechercheCommunePageSummaryDoc, doc: rechercheCommunePageDoc, page: PAGES.static.rechercheCommune, imageUrl: search },
+  { summary: recuperationDepartementsPageSummaryDoc, doc: recuperationDepartementsPageDoc, page: PAGES.static.recuperationDepartements, imageUrl: locationFrance },
+  { summary: recuperationMissionLocalePageSummaryDoc, doc: recuperationMissionLocalesPageDoc, page: PAGES.static.recuperationMissionLocales, imageUrl: house },
 ]
 
 export default async function ExplorerApiPage({ params }: PropsWithLangParams) {

@@ -34,6 +34,22 @@ export function shouldHandleFastifyError(error: unknown, replyStatusCode: number
 // dans les logs des conteneurs, mais n'ont rien à faire dans la liste des incidents.
 const NODE_RUNTIME_WARNING = /^\(node:\d+\) /
 
+// esbuild nomme les chunks du build `<nom>-<hash>.js` et le SDK en dérive le `module` des frames
+// (`main-QT4XI7V2`), que Sentry fait primer sur le nom de fichier pour regrouper les erreurs :
+// sans normalisation, chaque build ouvre de nouvelles issues pour les mêmes erreurs
+// (labonnealternance#5334).
+const BUNDLE_CHUNK_HASH = /-[A-Z2-7]{8}$/
+
+export function normalizeBundleChunkModule(frame: Sentry.StackFrame): Sentry.StackFrame {
+  // Les modules de node_modules (`pkg.dir:fichier`) et des sous-dossiers du build
+  // (`migrations:fichier`) contiennent un `:` et ne sont pas des chunks.
+  if (frame.module === undefined || frame.module.includes(":")) {
+    return frame
+  }
+
+  return { ...frame, module: frame.module.replace(BUNDLE_CHUNK_HASH, "") }
+}
+
 function getOptions(): Sentry.NodeOptions {
   return {
     tracesSampler: (samplingContext) => {
@@ -61,6 +77,9 @@ function getOptions(): Sentry.NodeOptions {
       Sentry.mongoIntegration(),
       Sentry.captureConsoleIntegration({ levels: ["error"] }),
       Sentry.extraErrorDataIntegration({ depth: 16 }),
+      // L'`iteratee` remplace la réécriture par défaut des `filename` en `app:///…` : seul le
+      // `module` des frames est modifié.
+      Sentry.rewriteFramesIntegration({ iteratee: normalizeBundleChunkModule }),
       nodeProfilingIntegration(),
     ],
   }

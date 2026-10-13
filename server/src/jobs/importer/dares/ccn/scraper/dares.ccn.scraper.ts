@@ -11,11 +11,24 @@ const client = axios.create({
   timeout: 300_000,
 })
 
+// travail-emploi.gouv.fr est derrière un anti-bot F5 qui répond en HTTP 200 avec une page de
+// challenge à la place de l'article (labonnealternance#5723). Toutes ses variantes affichent un
+// identifiant de support, à transmettre aux exploitants du site pour qu'ils retrouvent la requête.
+const ANTI_BOT_SUPPORT_ID_REGEX = /(?:Your support ID is|Identifiant de support)\s*:\s*(\d+)/i
+
 export async function scrapeRessourceCcn(): Promise<IImportMetaDares["resource"]> {
   const raw = await client.get<string>("/dialogue-social/negociation-collective/article/conventions-collectives-nomenclatures", { responseType: "document" })
   const root = parse(raw.data)
   const links = root.querySelectorAll('a.fr-link--download.file--x-office-spreadsheet[title*="Liste des conventions collectives et de leur code IDCC"]')
   const linkNode = links.at(0)
+
+  // Testé seulement en l'absence de lien : une page qui contient le lien est exploitable, quoi
+  // qu'elle contienne d'autre.
+  const supportId = links.length === 0 ? (ANTI_BOT_SUPPORT_ID_REGEX.exec(raw.data)?.[1] ?? null) : null
+
+  if (supportId !== null) {
+    throw internal("dares.ccn.scraper: blocked by anti-bot protection", { supportId })
+  }
 
   if (links.length !== 1 || linkNode == null) {
     throw internal("dares.ccn.scraper: unexpected number of links", { links })

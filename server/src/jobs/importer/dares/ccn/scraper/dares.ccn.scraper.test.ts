@@ -39,31 +39,16 @@ describe("scrapeRessourceCcn", () => {
     expect(nock.isDone()).toBe(true)
   })
 
-  describe("when the anti-bot protection answers instead of the article", () => {
-    it.each([
-      ["JavaScript challenge", "antibot-js-challenge.html"],
-      ["captcha", "antibot-captcha.html"],
-      ["request rejected", "antibot-request-rejected.html"],
-    ])("should report the %s with its support ID", async (_label, fixture) => {
-      nock("https://travail-emploi.gouv.fr")
-        .get(ARTICLE_PATH)
-        .reply(200, await readFixture(fixture))
+  it("should report the anti-bot protection with its support ID", async () => {
+    nock("https://travail-emploi.gouv.fr")
+      .get(ARTICLE_PATH)
+      .reply(200, await readFixture("../../fixtures/anti_bot.captcha.html"))
 
-      const error = await scrapeRessourceCcn().catch((e: unknown) => e)
+    const error = await scrapeRessourceCcn().catch((e: unknown) => e)
 
-      expect(error).toMatchObject({
-        message: "dares.ccn.scraper: blocked by anti-bot protection",
-        data: { supportId: "9255351497900000000" },
-      })
-    })
-
-    it("should detect the french support ID label alone", async () => {
-      const captcha = await readFixture("antibot-captcha.html")
-      const withoutNoscript = captcha.replace(/<noscript>.*?<\/noscript>/s, "")
-      expect(withoutNoscript).not.toContain("Your support ID is")
-      nock("https://travail-emploi.gouv.fr").get(ARTICLE_PATH).reply(200, withoutNoscript)
-
-      await expect(scrapeRessourceCcn()).rejects.toThrow("dares.ccn.scraper: blocked by anti-bot protection")
+    expect(error).toMatchObject({
+      message: "dares.ccn.scraper: blocked by anti-bot protection",
+      data: { supportId: "9255351497900000000" },
     })
   })
 
@@ -73,13 +58,6 @@ describe("scrapeRessourceCcn", () => {
       const withoutLink = article.replaceAll("fr-link--download", "fr-link")
       const withF5Script = withoutLink.replace("</head>", '<script type="text/javascript" src="/TSPD/0000?type=7"></script></head>')
       nock("https://travail-emploi.gouv.fr").get(ARTICLE_PATH).reply(200, withF5Script)
-
-      await expect(scrapeRessourceCcn()).rejects.toThrow("dares.ccn.scraper: unexpected number of links")
-    })
-
-    it("when the page mentions a support contact", async () => {
-      const page = "<html><body><p>Identifiant de support technique : contactez le support au 0800 000 000</p></body></html>"
-      nock("https://travail-emploi.gouv.fr").get(ARTICLE_PATH).reply(200, page)
 
       await expect(scrapeRessourceCcn()).rejects.toThrow("dares.ccn.scraper: unexpected number of links")
     })

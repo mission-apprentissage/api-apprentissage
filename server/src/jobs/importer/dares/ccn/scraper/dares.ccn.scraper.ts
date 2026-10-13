@@ -3,6 +3,7 @@ import axios from "axios"
 import type { ReadStream } from "fs"
 import { parse } from "node-html-parser"
 import type { IImportMetaDares } from "shared/models/import.meta.model"
+import { getDaresAntiBotSupportId } from "@/jobs/importer/dares/dares.anti_bot.js"
 import { withCause } from "@/services/errors/withCause.js"
 import { downloadFileAsStream } from "@/utils/apiUtils.js"
 
@@ -10,11 +11,6 @@ const client = axios.create({
   baseURL: "https://travail-emploi.gouv.fr",
   timeout: 300_000,
 })
-
-// travail-emploi.gouv.fr est derrière un anti-bot F5 qui répond en HTTP 200 avec une page de
-// challenge à la place de l'article (labonnealternance#5723). Toutes ses variantes affichent un
-// identifiant de support, à transmettre aux exploitants du site pour qu'ils retrouvent la requête.
-const ANTI_BOT_SUPPORT_ID_REGEX = /(?:Your support ID is|Identifiant de support)\s*:\s*(\d+)/i
 
 export async function scrapeRessourceCcn(): Promise<IImportMetaDares["resource"]> {
   const raw = await client.get<string>("/dialogue-social/negociation-collective/article/conventions-collectives-nomenclatures", { responseType: "document" })
@@ -24,7 +20,7 @@ export async function scrapeRessourceCcn(): Promise<IImportMetaDares["resource"]
 
   // Testé seulement en l'absence de lien : une page qui contient le lien est exploitable, quoi
   // qu'elle contienne d'autre.
-  const supportId = links.length === 0 ? (ANTI_BOT_SUPPORT_ID_REGEX.exec(raw.data)?.[1] ?? null) : null
+  const supportId = links.length === 0 ? getDaresAntiBotSupportId(raw.data) : null
 
   if (supportId !== null) {
     throw internal("dares.ccn.scraper: blocked by anti-bot protection", { supportId })

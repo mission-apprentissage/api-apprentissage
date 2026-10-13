@@ -50,7 +50,7 @@ export function normalizeBundleChunkModule(frame: Sentry.StackFrame): Sentry.Sta
   return { ...frame, module: frame.module.replace(BUNDLE_CHUNK_HASH, "") }
 }
 
-function getOptions(): Sentry.NodeOptions {
+export function getOptions(): Sentry.NodeOptions {
   return {
     tracesSampler: (samplingContext) => {
       // Continue trace decision, if there is any parentSampled information

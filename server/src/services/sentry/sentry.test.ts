@@ -2,10 +2,10 @@ import { mkdir, mkdtemp, readdir, rm, writeFile } from "node:fs/promises"
 import { tmpdir } from "node:os"
 import { join } from "node:path"
 import { badRequest, internal, notFound } from "@hapi/boom"
-import { createGetModuleFromFilename, rewriteFramesIntegration } from "@sentry/node"
+import { createGetModuleFromFilename } from "@sentry/node"
 import { build } from "tsup"
 import { afterAll, beforeAll, describe, expect, it } from "vitest"
-import { normalizeBundleChunkModule, shouldHandleFastifyError } from "./sentry.js"
+import { getOptions, normalizeBundleChunkModule, shouldHandleFastifyError } from "./sentry.js"
 
 describe("shouldHandleFastifyError", () => {
   // Le canal de diagnostic fastify remonte l'erreur avant que le statut ne soit posé sur la
@@ -108,11 +108,12 @@ describe("normalizeBundleChunkModule", () => {
     expect(normalizeBundleChunkModule(frame)).toBe(frame)
   })
 
-  it("should only rewrite the module of exception frames through the SDK integration", () => {
-    const integration = rewriteFramesIntegration({ iteratee: normalizeBundleChunkModule })
+  it("should only rewrite the module of exception frames with the integration passed to Sentry.init", () => {
+    const integrations = getOptions().integrations
+    const rewriteFrames = Array.isArray(integrations) ? integrations.find((i) => i.name === "RewriteFrames") : undefined
     const frame = { filename: "/app/server/dist/main-QT4XI7V2.js", module: "main-QT4XI7V2", function: "scrapeRessourceCcn", lineno: 1, colno: 1 }
 
-    const event = integration.processEvent?.({ exception: { values: [{ type: "Error", stacktrace: { frames: [frame] } }] } }, {}, {} as never)
+    const event = rewriteFrames?.processEvent?.({ exception: { values: [{ type: "Error", stacktrace: { frames: [frame] } }] } }, {}, {} as never)
 
     expect(event).toMatchObject({
       exception: { values: [{ stacktrace: { frames: [{ ...frame, module: "main" }] } }] },

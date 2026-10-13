@@ -3,7 +3,7 @@ import axios from "axios"
 import type { ReadStream } from "fs"
 import { parse } from "node-html-parser"
 import type { IImportMetaDares } from "shared/models/import.meta.model"
-import { getDaresAntiBotSupportId } from "@/jobs/importer/dares/dares.anti_bot.js"
+import { assertNotBlockedByDaresAntiBot } from "@/jobs/importer/dares/dares.anti_bot.js"
 import { withCause } from "@/services/errors/withCause.js"
 import { downloadFileAsStream } from "@/utils/apiUtils.js"
 
@@ -22,13 +22,7 @@ export async function scrapeRessourceApeIdcc(): Promise<IImportMetaDares["resour
 
   const linkNode = links.at(0)
 
-  // Testé seulement en l'absence de lien : une page qui contient le lien est exploitable, quoi
-  // qu'elle contienne d'autre.
-  const supportId = links.length === 0 ? getDaresAntiBotSupportId(raw.data) : null
-
-  if (supportId !== null) {
-    throw internal("dares.ape_idcc.scraper: blocked by anti-bot protection", { supportId })
-  }
+  assertNotBlockedByDaresAntiBot("dares.ape_idcc.scraper", raw.data, links.length)
 
   if (links.length !== 1 || linkNode == null) {
     throw internal("dares.ape_idcc.scraper: unexpected number of links", { links })

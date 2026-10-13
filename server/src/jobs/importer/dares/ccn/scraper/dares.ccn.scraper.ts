@@ -3,6 +3,7 @@ import axios from "axios"
 import type { ReadStream } from "fs"
 import { parse } from "node-html-parser"
 import type { IImportMetaDares } from "shared/models/import.meta.model"
+import { assertNotBlockedByDaresAntiBot } from "@/jobs/importer/dares/dares.anti_bot.js"
 import { withCause } from "@/services/errors/withCause.js"
 import { downloadFileAsStream } from "@/utils/apiUtils.js"
 
@@ -16,6 +17,8 @@ export async function scrapeRessourceCcn(): Promise<IImportMetaDares["resource"]
   const root = parse(raw.data)
   const links = root.querySelectorAll('a.fr-link--download.file--x-office-spreadsheet[title*="Liste des conventions collectives et de leur code IDCC"]')
   const linkNode = links.at(0)
+
+  assertNotBlockedByDaresAntiBot("dares.ccn.scraper", raw.data, links.length)
 
   if (links.length !== 1 || linkNode == null) {
     throw internal("dares.ccn.scraper: unexpected number of links", { links })

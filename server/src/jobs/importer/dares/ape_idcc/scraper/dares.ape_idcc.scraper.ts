@@ -3,6 +3,7 @@ import axios from "axios"
 import type { ReadStream } from "fs"
 import { parse } from "node-html-parser"
 import type { IImportMetaDares } from "shared/models/import.meta.model"
+import { assertNotBlockedByDaresAntiBot } from "@/jobs/importer/dares/dares.anti_bot.js"
 import { withCause } from "@/services/errors/withCause.js"
 import { downloadFileAsStream } from "@/utils/apiUtils.js"
 
@@ -20,6 +21,8 @@ export async function scrapeRessourceApeIdcc(): Promise<IImportMetaDares["resour
   const links = root.querySelectorAll(`a.xlsx[data-title^="${title}"]`)
 
   const linkNode = links.at(0)
+
+  assertNotBlockedByDaresAntiBot("dares.ape_idcc.scraper", raw.data, links.length)
 
   if (links.length !== 1 || linkNode == null) {
     throw internal("dares.ape_idcc.scraper: unexpected number of links", { links })

@@ -3,8 +3,9 @@
 }
 
 /* L'environnement (production/sandbox) est porté par le type de la clé API, pas par l'URL :
-   le sélecteur de server est masqué pour éviter toute confusion */
-.swagger-ui .scheme-container,
+   le sélecteur de server est masqué pour éviter toute confusion. Ne pas masquer .scheme-container :
+   il contient aussi le bouton Authorize et la modale de saisie de la clé ouverte par les cadenas */
+.swagger-ui .schemes-server-container,
 .swagger-ui .servers {
   display: none !important;
 }

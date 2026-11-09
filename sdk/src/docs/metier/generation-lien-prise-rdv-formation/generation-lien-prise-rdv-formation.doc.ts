@@ -118,8 +118,8 @@ export const generationLienPriseRdvFormationPageDoc = {
             id: {
               description: [
                 {
-                  fr: "Identifiant de la formation dans votre système (Parcoursup, clé ministère éducatif pour Affelnet, identifiant d'action IDEO2 pour ONISEP).",
-                  en: "Training identifier in your system (Parcoursup, Ministry of Education key for Affelnet, IDEO2 action identifier for ONISEP).",
+                  fr: "Identifiant de la formation dans votre système (Identifiant Parcoursup, clé ministère éducatif, identifiant d'action IDEO2).",
+                  en: "Training identifier in your system (Parcoursup identifier, Ministry of Education key, IDEO2 action identifier).",
                 },
               ],
             },

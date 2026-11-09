@@ -24,8 +24,8 @@ export const listFormationAppointmentLinksRouteDoc = {
               id: {
                 descriptions: [
                   {
-                    fr: "Identifiant de la formation dans votre système : identifiant Parcoursup pour Parcoursup, clé ministère éducatif pour Affelnet, identifiant d'action IDEO2 pour ONISEP. Un identifiant ONISEP qui couvre plusieurs formations apparaît sur plusieurs lignes.",
-                    en: "Training identifier in your system: Parcoursup identifier for Parcoursup, Ministry of Education key for Affelnet, IDEO2 action identifier for ONISEP. An ONISEP identifier covering several trainings appears on several rows.",
+                    fr: "Identifiant de la formation dans votre système : identifiant Parcoursup, clé ministère éducatif ou identifiant d'action IDEO2. Un identifiant d'action IDEO2 qui couvre plusieurs formations apparaît sur plusieurs lignes.",
+                    en: "Training identifier in your system: Parcoursup identifier, Ministry of Education key or IDEO2 action identifier. An IDEO2 action identifier covering several trainings appears on several rows.",
                   },
                 ],
                 examples: ["10013"],

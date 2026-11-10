@@ -15,6 +15,7 @@ import { use, useMemo } from "react"
 import { useTranslation } from "react-i18next"
 import type { IApiKeyEnv } from "shared/models/user.model"
 import type { PropsWithLangParams } from "@/app/i18n/settings"
+import { AvertissementCandidatAlert } from "@/components/alert/AvertissementCandidatAlert"
 import { AccesHabilitationsLink } from "@/components/link/AccesHabilitationsLink"
 import { DsfrLink } from "@/components/link/DsfrLink"
 import Toast, { useToast } from "@/components/toast/Toast"
@@ -178,6 +179,8 @@ const ProfilPage = ({ params }: PropsWithLangParams) => {
             )}
           </Typography>
         )}
+
+        <AvertissementCandidatAlert lang={lang} closable />
 
         <Alert
           severity="info"

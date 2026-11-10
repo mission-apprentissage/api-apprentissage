@@ -20,6 +20,7 @@ import { zRoutes } from "shared"
 import type { Jsonify } from "type-fest"
 
 import type { PropsWithLangParams } from "@/app/i18n/settings"
+import { AvertissementCandidatAlert } from "@/components/alert/AvertissementCandidatAlert"
 import { Artwork } from "@/components/artwork/Artwork"
 import { useAuth } from "@/context/AuthContext"
 import { useJwtToken } from "@/hooks/useJwtToken"
@@ -201,6 +202,7 @@ export default function RegisterPage({ params }: PropsWithLangParams) {
               <option value="editeur_logiciel">{t("creerCompte.editeurLogiciel", { lng: lang })}</option>
               <option value="autre">{t("creerCompte.autre", { lng: lang })}</option>
             </Select>
+            {typeController.field.value === "apprenant" && <AvertissementCandidatAlert lang={lang} className={fr.cx("fr-mb-3w")} />}
             {typeController.field.value === "autre" && (
               <Input
                 label={t("creerCompte.autrePrecision", { lng: lang })}

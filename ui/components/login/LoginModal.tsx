@@ -15,6 +15,7 @@ import { useTranslation } from "react-i18next"
 import type { IBody, IPostRoutes } from "shared"
 import { zRoutes } from "shared"
 import type { WithLang } from "@/app/i18n/settings"
+import { AvertissementCandidatAlert } from "@/components/alert/AvertissementCandidatAlert"
 import { Artwork } from "@/components/artwork/Artwork"
 import { ApiError, apiPost } from "@/utils/api.utils"
 import { PAGES } from "@/utils/routes.utils"
@@ -137,6 +138,7 @@ export function LoginModal({ lang }: WithLang) {
               flexDirection: "column",
             }}
           >
+            <AvertissementCandidatAlert lang={lang} closable className={fr.cx("fr-mb-3w")} />
             <Input label={t("modal.saisirEmail", { lng: lang })} {...getInputState(errors?.email)} nativeInputProps={register("email", { required: true })} />
 
             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>

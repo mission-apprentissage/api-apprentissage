@@ -1,3 +1,4 @@
+export * from "./avertissementCandidat.openapi.js"
 export * from "./builder/openapi.builder.js"
 export * from "./compare/compareOpenapiSchema.js"
 export * from "./habilitations.openapi.js"

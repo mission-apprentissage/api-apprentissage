@@ -8,7 +8,6 @@ import { emailsRoutes } from "./_private/emails.routes.js"
 import { simulateurRoutes } from "./_private/simulateur/simulateur.routes.js"
 import { userRoutes } from "./_private/user.routes.js"
 import { certificationsRoutes } from "./certification.routes.js"
-import { sourceAcceRoutes } from "./experimental/sources/acce.routes.js"
 import { formationRoutes } from "./formations/formations.routes.js"
 import { geographieRoutes } from "./geographie.route.js"
 import { healthcheckRoutes } from "./healthcheck.routes.js"
@@ -27,7 +26,6 @@ export const registerRoutes: RegisterRoutes = ({ server }) => {
   processorAdminRoutes({ server })
   certificationsRoutes({ server })
   organismeRoutes({ server })
-  sourceAcceRoutes({ server })
   simulateurRoutes({ server })
   jobRoutes({ server })
   formationRoutes({ server })

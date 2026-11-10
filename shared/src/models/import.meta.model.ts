@@ -46,7 +46,7 @@ export const zImportMetaNpec = z.object({
 export const zImportMetaSimple = z.object({
   _id: zObjectIdMini,
   import_date: z.date(),
-  type: z.enum(["bcn", "kit_apprentissage", "acce", "kali_ccn", "communes", "referentiel", "catalogue", "mission_locale"]),
+  type: z.enum(["bcn", "kit_apprentissage", "kali_ccn", "communes", "referentiel", "catalogue", "mission_locale"]),
   status: z.enum(["pending", "done", "failed"]),
 })
 

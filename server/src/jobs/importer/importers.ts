@@ -1,4 +1,3 @@
-import { getAcceeImporterStatus, runAcceImporter } from "./acce/acce.js"
 import { getBcnImporterStatus, runBcnImporter } from "./bcn/bcn.importer.js"
 import { getCatalogueImporterStatus, runCatalogueImporter } from "./catalogue/catalogue.importer.js"
 import { getCertificationImporterStatus, importCertifications } from "./certifications/certifications.importer.js"
@@ -21,14 +20,6 @@ const timings = {
 }
 
 export const importers: Record<string, Importer> = {
-  "Mise à jour acce": {
-    cron_string: timings.import_source,
-    handler: runAcceImporter,
-    resumable: true,
-    getStatus: getAcceeImporterStatus,
-    checkinMargin: 60, // 1h
-    maxRuntimeInMinutes: 30,
-  },
   "Import des données BCN": {
     cron_string: timings.import_source_main,
     handler: runBcnImporter,

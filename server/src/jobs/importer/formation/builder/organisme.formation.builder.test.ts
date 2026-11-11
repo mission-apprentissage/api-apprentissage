@@ -1,12 +1,20 @@
 import { useMongo } from "@tests/mongo.test.utils.js"
 import { generateOrganismeInternalFixture } from "shared/models/fixtures/index"
 import { beforeEach, describe, expect, it, vi } from "vitest"
-import { communesFixture, etablissementsFixture, expectedOrganismes, uniteLegaleFixture } from "@/jobs/importer/organisme/organisme.importer.fixtures.js"
+import {
+  communesFixture,
+  etablissementsFixture,
+  expectedOrganismes,
+  searchAdresseGeopointFixture,
+  uniteLegaleFixture,
+} from "@/jobs/importer/organisme/organisme.importer.fixtures.js"
+import { searchAdresseGeopoint } from "@/services/apis/adresse/adresse.api.js"
 import { getEtablissementDiffusible, getUniteLegaleDiffusible } from "@/services/apis/entreprise/entreprise.js"
 import { getDbCollection } from "@/services/mongodb/mongodbService.js"
 import { buildFormationOrganisme } from "./organisme.formation.builder.js"
 
 useMongo()
+vi.mock("@/services/apis/adresse/adresse.api.js", () => ({ searchAdresseGeopoint: vi.fn() }))
 vi.mock("@/services/apis/entreprise/entreprise.js", async (importOriginal) => {
   const actual = await importOriginal<typeof import("@/services/apis/entreprise/entreprise.js")>()
   return {
@@ -35,6 +43,8 @@ describe("buildFormationOrganisme", () => {
     vi.mocked(getUniteLegaleDiffusible).mockImplementation(async (siren: string) => {
       return uniteLegaleFixture.find((e) => e.siren === siren) ?? null
     })
+
+    vi.mocked(searchAdresseGeopoint).mockImplementation(searchAdresseGeopointFixture)
 
     await getDbCollection("commune").insertMany(communesFixture)
   })

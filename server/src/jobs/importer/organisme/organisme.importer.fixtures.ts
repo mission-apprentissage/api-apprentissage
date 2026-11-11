@@ -1,9 +1,11 @@
-import type { IOrganisme } from "api-alternance-sdk"
+import type { IGeoJsonPoint, IOrganisme } from "api-alternance-sdk"
 import { ObjectId } from "mongodb"
 import type { IApiEntEtablissement, IApiEntUniteLegale } from "shared/models/cache/cache.entreprise.model"
 import type { ICommuneInternal } from "shared/models/commune.model"
 import { generateOrganismeReferentielFixture } from "shared/models/fixtures/source.referentiel.model.fixture"
 import type { IOrganismeReferentiel } from "shared/models/source/referentiel/source.referentiel.model"
+
+import type { searchAdresseGeopoint } from "@/services/apis/adresse/adresse.api.js"
 
 export const sourceReferentielFixtures: IOrganismeReferentiel[] = [
   generateOrganismeReferentielFixture({
@@ -175,6 +177,23 @@ export const etablissementsFixture: IApiEntEtablissement[] = [
 ]
 
 export const etablissementNotFoundSiret = "19593255300108"
+
+// Réponses de l'API Adresse pour les adresses de etablissementsFixture. Une adresse absente lève une erreur
+// plutôt que de partir sur le réseau.
+const adresseGeopointFixtures: Record<string, IGeoJsonPoint | null> = {
+  "59790|59507|9 RUE DE L'UNIVERSITE": { type: "Point", coordinates: [3.082893, 50.611439] },
+  "22220|22362|TOUR SAINT MICHEL": { type: "Point", coordinates: [-3.2232, 48.783214] },
+  "59800|59350|38 BOULEVARD CARNOT": null,
+  "59800|59350|40 PLACE DU THEATRE": null,
+}
+
+export const searchAdresseGeopointFixture: typeof searchAdresseGeopoint = async (query) => {
+  const key = `${query.codePostal}|${query.codeInsee}|${query.adresse}`
+  if (!(key in adresseGeopointFixtures)) {
+    throw new Error(`Adresse absente de adresseGeopointFixtures : ${key}`)
+  }
+  return adresseGeopointFixtures[key]
+}
 
 export const uniteLegaleFixture: IApiEntUniteLegale[] = [
   {

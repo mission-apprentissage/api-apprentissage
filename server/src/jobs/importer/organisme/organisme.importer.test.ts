@@ -3,6 +3,7 @@ import { ObjectId } from "mongodb"
 import { generateOrganismeReferentielFixture } from "shared/models/fixtures/index"
 import type { IOrganismeInternal } from "shared/models/organisme.model"
 import { beforeEach, describe, expect, it, vi } from "vitest"
+import { searchAdresseGeopoint } from "@/services/apis/adresse/adresse.api.js"
 import { getEtablissementDiffusible, getUniteLegaleDiffusible } from "@/services/apis/entreprise/entreprise.js"
 import { getDbCollection } from "@/services/mongodb/mongodbService.js"
 import {
@@ -10,11 +11,13 @@ import {
   etablissementNotFoundSiret,
   etablissementsFixture,
   expectedOrganismes,
+  searchAdresseGeopointFixture,
   sourceReferentielFixtures,
   uniteLegaleFixture,
 } from "./organisme.importer.fixtures.js"
 import { importOrganismes } from "./organisme.importer.js"
 
+vi.mock("@/services/apis/adresse/adresse.api.js", () => ({ searchAdresseGeopoint: vi.fn() }))
 vi.mock("@/services/apis/entreprise/entreprise.js", async (importOriginal) => {
   const actual = await importOriginal<typeof import("@/services/apis/entreprise/entreprise.js")>()
   return {
@@ -73,6 +76,7 @@ describe("importOrganismes", () => {
   beforeEach(() => {
     vi.useFakeTimers()
     vi.setSystemTime(now)
+    vi.mocked(searchAdresseGeopoint).mockImplementation(searchAdresseGeopointFixture)
 
     return () => {
       vi.useRealTimers()

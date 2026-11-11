@@ -8,7 +8,6 @@ import { configureDbSchemaValidation, createIndexes, getDatabase } from "@/servi
 import { removeInactiveAccounts } from "../services/inactiveAccounts/inactiveAccounts.service.js"
 import { notifyUsersAboutExpiringApiKeys } from "./apiKey/apiKeyExpiration.notifier.js"
 import { validateModels } from "./db/schemaValidation.js"
-import { runAcceImporter } from "./importer/acce/acce.js"
 import { runBcnImporter } from "./importer/bcn/bcn.importer.js"
 import { runCatalogueImporter } from "./importer/catalogue/catalogue.importer.js"
 import { importCertifications } from "./importer/certifications/certifications.importer.js"
@@ -78,9 +77,6 @@ export async function setupJobProcessor() {
       },
       "migrations:create": {
         handler: async (job) => createMigration(job.payload as { description: string }),
-      },
-      "import:acce": {
-        handler: runAcceImporter,
       },
       "import:bcn": {
         handler: runBcnImporter,

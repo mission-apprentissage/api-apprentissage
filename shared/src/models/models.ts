@@ -14,7 +14,6 @@ import { indicateurUsageApiModelDescriptor } from "./indicateurs/usage_api.model
 import { organisationModelDescriptor } from "./organisation.model.js"
 import { organismeModelDescriptor } from "./organisme.model.js"
 import sessionsModelDescriptor from "./session.model.js"
-import sourceAcceModelDescriptor from "./source/acce/source.acce.model.js"
 import { sourceBcnModelDescriptor } from "./source/bcn/source.bcn.model.js"
 import sourceCatalogueModelDescriptor from "./source/catalogue/source.catalogue.model.js"
 import { sourceDaresApeIdccModelDescriptor } from "./source/dares/source.dares.ape_idcc.model.js"
@@ -39,7 +38,6 @@ export const modelDescriptorMap = {
   [sessionsModelDescriptor.collectionName]: sessionsModelDescriptor,
   [indicateurUsageApiModelDescriptor.collectionName]: indicateurUsageApiModelDescriptor,
   [indicateurSourceKitApprentissageModelDescriptor.collectionName]: indicateurSourceKitApprentissageModelDescriptor,
-  [sourceAcceModelDescriptor.collectionName]: sourceAcceModelDescriptor,
   [sourcReferentielModelDescriptor.collectionName]: sourcReferentielModelDescriptor,
   [sourceBcnModelDescriptor.collectionName]: sourceBcnModelDescriptor,
   [sourceKitApprentissageModelDescriptor.collectionName]: sourceKitApprentissageModelDescriptor,

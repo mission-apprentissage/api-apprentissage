@@ -197,7 +197,6 @@ program.command("import:certifications").option("-q, --queued", "Run job asynchr
 program.command("import:catalogue").option("-q, --queued", "Run job asynchronously", false).action(createJobAction("import:catalogue"))
 program.command("import:referentiel").option("-q, --queued", "Run job asynchronously", false).action(createJobAction("import:referentiel"))
 program.command("import:bcn").option("-q, --queued", "Run job asynchronously", false).action(createJobAction("import:bcn"))
-program.command("import:acce").option("-q, --queued", "Run job asynchronously", false).action(createJobAction("import:acce"))
 program.command("import:france_competence").option("-q, --queued", "Run job asynchronously", false).action(createJobAction("import:france_competence"))
 
 program

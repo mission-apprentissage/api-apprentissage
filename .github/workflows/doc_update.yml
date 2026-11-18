@@ -10,6 +10,7 @@ permissions:
 
 jobs:
   update-docs:
+    name: Transpile SDK documentation
     runs-on: ubuntu-latest
 
     steps:

@@ -49,6 +49,7 @@ on:
 jobs:
   # Quand build tourne, _build.yml fait cette vérification lui-même.
   npm-packages-check:
+    name: NPM dependency check
     if: ${{ !inputs.build && !inputs.skip_npm_check }}
     permissions:
       contents: read
@@ -66,7 +67,7 @@ jobs:
           repository: mission-apprentissage/mna-npm-check
           path: mna-npm-check
 
-      - name: Analyze NPM dependancies
+      - name: Analyze NPM dependencies
         run: mna-npm-check/npm-check.sh -p .
   build:
     if: ${{ inputs.build }}

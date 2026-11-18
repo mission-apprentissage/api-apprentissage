@@ -1,3 +1,4 @@
+name: Release SDK
 on:
   release:
     types: [published]
@@ -7,6 +8,7 @@ jobs:
     uses: "./.github/workflows/ci.yml"
 
   release:
+    name: Publish SDK to npm
     if: ${{ success() }}
     needs: ["tests"]
     permissions: write-all

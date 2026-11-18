@@ -16,6 +16,7 @@ jobs:
       OPENPGP_PRIVATE_SUBKEY: ${{ secrets.OPENPGP_PRIVATE_SUBKEY }}
 
   docker-scout:
+    name: Docker Scout scan
     concurrency:
       group: "scout-${{ github.workflow }}-${{ github.ref }}"
     needs: ["build"]

@@ -46,17 +46,17 @@
       "labels": {
         "org.opencontainers.image.source": "https://github.com/mission-apprentissage/${REPO_NAME}",
         "org.opencontainers.image.licenses": "MIT"
-      },
-      "cache-from": [
-        "type=gha,scope=${DEPS_ID}"
-      ],
-      "cache-to": [
-        "type=gha,mode=max,scope=${DEPS_ID}"
-      ]
+      }
     },
     "server": {
       "inherits": [
         "common"
+      ],
+      "cache-from": [
+        "type=gha,scope=server-${DEPS_ID}"
+      ],
+      "cache-to": [
+        "type=gha,mode=max,scope=server-${DEPS_ID}"
       ],
       "tags": [
         "ghcr.io/mission-apprentissage/mna_${PRODUCT_NAME}_server:${VERSION}",
@@ -80,6 +80,13 @@
         ]
       },
       "name": "ui-${ENV}",
+      "cache-from": [
+        "type=gha,scope=server-${DEPS_ID}",
+        "type=gha,scope=ui-${ENV}-${DEPS_ID}"
+      ],
+      "cache-to": [
+        "type=gha,mode=max,scope=ui-${ENV}-${DEPS_ID}"
+      ],
       "args": {
         "PUBLIC_ENV": "${ENV}"
       },

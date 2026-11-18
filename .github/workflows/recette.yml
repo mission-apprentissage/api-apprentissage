@@ -11,7 +11,6 @@ jobs:
     uses: "./.github/workflows/_build.yml"
     with:
       environment: "recette"
-      skip: false
     secrets:
       SLACK_WEBHOOK_NOTIF: ${{ secrets.SLACK_WEBHOOK_NOTIF }}
       OPENPGP_PRIVATE_SUBKEY: ${{ secrets.OPENPGP_PRIVATE_SUBKEY }}
@@ -72,6 +71,8 @@ jobs:
     with:
       environment: "recette"
       build: false
+      # Déjà vérifié par build / npm-packages-check, dont dépend deploy.
+      skip_npm_check: true
     secrets:
       DEPLOY_SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}
       DEPLOY_PASS: ${{ secrets.DEPLOY_PASS }}

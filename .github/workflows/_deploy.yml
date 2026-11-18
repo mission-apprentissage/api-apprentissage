@@ -21,9 +21,14 @@ on:
         type: string
         required: true
       build:
-        description: The build to deploy
+        description: Build the project before deploying
         type: boolean
         required: true
+      skip_npm_check:
+        description: Skip the NPM dependency check when the caller already ran it on the same commit
+        type: boolean
+        required: false
+        default: false
     secrets:
       DEPLOY_SSH_PRIVATE_KEY:
         description: SSH private key
@@ -42,7 +47,9 @@ on:
         required: true
 
 jobs:
+  # Quand build tourne, _build.yml fait cette vérification lui-même.
   npm-packages-check:
+    if: ${{ !inputs.build && !inputs.skip_npm_check }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout project
@@ -60,18 +67,18 @@ jobs:
       - name: Analyze NPM dependancies
         run: mna-npm-check/npm-check.sh -p .
   build:
-    if: ${{ success() }}
-    needs: ["npm-packages-check"]
+    if: ${{ inputs.build }}
     uses: "./.github/workflows/_build.yml"
     with:
       environment: ${{ inputs.environment }}
-      skip: ${{ !inputs.build }}
     secrets:
       SLACK_WEBHOOK_NOTIF: ${{ secrets.SLACK_WEBHOOK_NOTIF }}
       OPENPGP_PRIVATE_SUBKEY: ${{ secrets.OPENPGP_PRIVATE_SUBKEY }}
 
   deploy:
-    needs: ["build"]
+    # Un job sauté fait sauter ses dépendants par défaut : « skipped » est accepté explicitement.
+    if: ${{ !cancelled() && contains(fromJSON('["success", "skipped"]'), needs.npm-packages-check.result) && contains(fromJSON('["success", "skipped"]'), needs.build.result) }}
+    needs: ["npm-packages-check", "build"]
     name: Deploy ${{ github.ref_name }} on ${{ inputs.environment }}
     runs-on: ubuntu-latest
     steps:

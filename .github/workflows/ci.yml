@@ -5,6 +5,9 @@ on:
 
 jobs:
   npm-packages-check:
+    name: NPM dependency check
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     steps:
       - name: Checkout project
@@ -19,18 +22,25 @@ jobs:
           repository: mission-apprentissage/mna-npm-check
           path: mna-npm-check
 
-      - name: Analyze NPM dependancies
+      - name: Analyze NPM dependencies
         run: mna-npm-check/npm-check.sh -p .
   tests:
     if: ${{ success() }}
     needs: [npm-packages-check]
     timeout-minutes: 20
     name: "Tests"
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout project
         uses: actions/checkout@v7
+
+      # mongodb démarre pendant l'install, le typecheck et le lint ; l'étape « wait for mongodb »
+      # attend sa fin avant les tests.
+      - name: start mongodb (background)
+        run: nohup .github/scripts/ci-start-test-services.sh /tmp/services.exit > /tmp/services.log 2>&1 &
 
       - uses: actions/setup-node@v7
         with:
@@ -57,10 +67,20 @@ jobs:
       - name: check
         run: yarn check:ci
 
-      - name: start mongodb service
+      - name: wait for mongodb
+        id: services
         run: |
-          docker compose up --build -d --wait mongodb
-          yarn setup:mongodb
+          timeout 300 bash -c 'until [ -f /tmp/services.exit ]; do sleep 1; done' || { echo "::error::démarrage de mongodb non terminé après 300 s"; cat /tmp/services.log; exit 1; }
+          cat /tmp/services.log
+          exit "$(cat /tmp/services.exit)"
+
+      # Un conteneur qui sort au démarrage repasse en « restarting » (restart: unless-stopped) :
+      # `--wait` le rapporte « unhealthy » sans sa sortie, d'où l'état et les logs ici.
+      - name: diagnostic mongodb
+        if: failure() && steps.services.outcome == 'failure'
+        run: |
+          docker compose ps -a
+          docker compose logs --no-color --tail 200 mongodb
 
       - name: test
         run: yarn test:ci --maxWorkers=3

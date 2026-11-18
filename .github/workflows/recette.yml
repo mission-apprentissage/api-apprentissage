@@ -8,15 +8,23 @@ jobs:
     uses: "./.github/workflows/ci.yml"
 
   build:
+    # Plafond des jobs appelés : _build.yml demande packages: write pour pousser sur ghcr.io.
+    permissions:
+      contents: read
+      packages: write
     uses: "./.github/workflows/_build.yml"
     with:
       environment: "recette"
-      skip: false
     secrets:
       SLACK_WEBHOOK_NOTIF: ${{ secrets.SLACK_WEBHOOK_NOTIF }}
       OPENPGP_PRIVATE_SUBKEY: ${{ secrets.OPENPGP_PRIVATE_SUBKEY }}
 
   docker-scout:
+    name: Docker Scout scan
+    # security-events: write pour l'envoi des SARIF.
+    permissions:
+      contents: read
+      security-events: write
     concurrency:
       group: "scout-${{ github.workflow }}-${{ github.ref }}"
     needs: ["build"]
@@ -68,10 +76,16 @@ jobs:
       group: "deploy-${{ github.workflow }}-${{ github.ref }}"
     needs: ["build"]
     name: Deploy ${{ github.ref_name }} on recette
+    # Même plafond que build : _deploy.yml contient l'appel à _build.yml, même quand il est sauté.
+    permissions:
+      contents: read
+      packages: write
     uses: "./.github/workflows/_deploy.yml"
     with:
       environment: "recette"
       build: false
+      # Déjà vérifié par build / npm-packages-check, dont dépend deploy.
+      skip_npm_check: true
     secrets:
       DEPLOY_SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}
       DEPLOY_PASS: ${{ secrets.DEPLOY_PASS }}

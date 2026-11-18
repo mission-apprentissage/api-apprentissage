@@ -1,9 +1,12 @@
-name: PR CI and Preview
+name: Pull Request Checks
 on:
   pull_request:
-    types: [opened, synchronize, reopened, ready_for_review, closed]
+    types: [opened, synchronize, reopened, ready_for_review]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   tests:
-    if: github.event.pull_request.state == 'open'
     uses: "./.github/workflows/ci.yml"

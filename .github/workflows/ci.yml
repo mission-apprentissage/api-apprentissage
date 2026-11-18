@@ -6,6 +6,8 @@ on:
 jobs:
   npm-packages-check:
     name: NPM dependency check
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     steps:
       - name: Checkout project
@@ -27,6 +29,8 @@ jobs:
     needs: [npm-packages-check]
     timeout-minutes: 20
     name: "Tests"
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
 
     steps:

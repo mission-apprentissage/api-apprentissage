@@ -5,6 +5,9 @@ on:
 jobs:
   label:
     name: Require release label
+    permissions:
+      issues: read
+      pull-requests: read
     runs-on: ubuntu-latest
     steps:
       - uses: mheap/github-action-required-labels@v5

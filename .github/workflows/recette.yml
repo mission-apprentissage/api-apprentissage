@@ -17,6 +17,10 @@ jobs:
 
   docker-scout:
     name: Docker Scout scan
+    # security-events: write pour l'envoi des SARIF.
+    permissions:
+      contents: read
+      security-events: write
     concurrency:
       group: "scout-${{ github.workflow }}-${{ github.ref }}"
     needs: ["build"]

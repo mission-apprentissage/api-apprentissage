@@ -4,7 +4,7 @@ on:
     types: [opened, labeled, unlabeled, synchronize]
 jobs:
   label:
-    name: Require one release label
+    name: Require release label
     runs-on: ubuntu-latest
     steps:
       - uses: mheap/github-action-required-labels@v5

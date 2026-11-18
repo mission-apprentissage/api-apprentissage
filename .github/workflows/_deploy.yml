@@ -50,6 +50,8 @@ jobs:
   # Quand build tourne, _build.yml fait cette vérification lui-même.
   npm-packages-check:
     if: ${{ !inputs.build && !inputs.skip_npm_check }}
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     steps:
       - name: Checkout project
@@ -68,6 +70,10 @@ jobs:
         run: mna-npm-check/npm-check.sh -p .
   build:
     if: ${{ inputs.build }}
+    # Plafond du job appelé : au moins ce que demande le job build de _build.yml.
+    permissions:
+      contents: read
+      packages: write
     uses: "./.github/workflows/_build.yml"
     with:
       environment: ${{ inputs.environment }}
@@ -80,6 +86,8 @@ jobs:
     if: ${{ !cancelled() && contains(fromJSON('["success", "skipped"]'), needs.npm-packages-check.result) && contains(fromJSON('["success", "skipped"]'), needs.build.result) }}
     needs: ["npm-packages-check", "build"]
     name: Deploy ${{ github.ref_name }} on ${{ inputs.environment }}
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     steps:
       - name: Checkout project

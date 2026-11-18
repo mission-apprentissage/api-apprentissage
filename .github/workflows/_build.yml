@@ -38,7 +38,10 @@ jobs:
     needs: ["npm-packages-check"]
     concurrency:
       group: "build-${{ github.workflow }}-${{ github.ref }}"
-    permissions: write-all
+    # packages: write pour pousser les images sur ghcr.io.
+    permissions:
+      contents: read
+      packages: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout project

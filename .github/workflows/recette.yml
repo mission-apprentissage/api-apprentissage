@@ -8,6 +8,10 @@ jobs:
     uses: "./.github/workflows/ci.yml"
 
   build:
+    # Plafond des jobs appelés : _build.yml demande packages: write pour pousser sur ghcr.io.
+    permissions:
+      contents: read
+      packages: write
     uses: "./.github/workflows/_build.yml"
     with:
       environment: "recette"
@@ -72,6 +76,10 @@ jobs:
       group: "deploy-${{ github.workflow }}-${{ github.ref }}"
     needs: ["build"]
     name: Deploy ${{ github.ref_name }} on recette
+    # Même plafond que build : _deploy.yml contient l'appel à _build.yml, même quand il est sauté.
+    permissions:
+      contents: read
+      packages: write
     uses: "./.github/workflows/_deploy.yml"
     with:
       environment: "recette"

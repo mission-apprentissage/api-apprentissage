@@ -15,12 +15,6 @@ set +e
 docker buildx create --name "mna-${PRODUCT_NAME}" --driver docker-container --config "$SCRIPTS_DIR/buildkitd.toml" 2> /dev/null
 set -e
 
-if [[ ! -z "${CI:-}" ]]; then
-  export DEPS_ID=($(md5sum $ROOT_DIR/yarn.lock))
-else
-  export DEPS_ID=""
-fi
-
 if [ "$environement" == "production" ]; then
   export CHANNEL="latest"
 else

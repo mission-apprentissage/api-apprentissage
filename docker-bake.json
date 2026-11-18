@@ -3,8 +3,7 @@
     "PRODUCT_NAME": {},
     "REPO_NAME": {},
     "VERSION": {},
-    "CHANNEL": {},
-    "DEPS_ID": {}
+    "CHANNEL": {}
   },
   "group": {
     "production": {
@@ -53,10 +52,10 @@
         "common"
       ],
       "cache-from": [
-        "type=gha,scope=server-${DEPS_ID}"
+        "type=gha,scope=server"
       ],
       "cache-to": [
-        "type=gha,mode=max,scope=server-${DEPS_ID}"
+        "type=gha,mode=max,scope=server"
       ],
       "tags": [
         "ghcr.io/mission-apprentissage/mna_${PRODUCT_NAME}_server:${VERSION}",
@@ -81,11 +80,11 @@
       },
       "name": "ui-${ENV}",
       "cache-from": [
-        "type=gha,scope=server-${DEPS_ID}",
-        "type=gha,scope=ui-${ENV}-${DEPS_ID}"
+        "type=gha,scope=server",
+        "type=gha,scope=ui-${ENV}"
       ],
       "cache-to": [
-        "type=gha,mode=max,scope=ui-${ENV}-${DEPS_ID}"
+        "type=gha,mode=max,scope=ui-${ENV}"
       ],
       "args": {
         "PUBLIC_ENV": "${ENV}"

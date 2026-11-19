@@ -12,7 +12,6 @@ import { zAuthRoutes } from "./_private/auth.routes.js"
 import { zEmailRoutes } from "./_private/emails.routes.js"
 import { zSimulateurRoutes } from "./_private/simulateur/simulateur.routes.js"
 import { zUserRoutes } from "./_private/user.routes.js"
-import { zSourceAcceRoutes } from "./experimental/source/acce.routes.js"
 
 const zRoutesGet = {
   ...zUserAdminRoutes.get,
@@ -21,7 +20,6 @@ const zRoutesGet = {
   ...zAuthRoutes.get,
   ...zEmailRoutes.get,
   ...zApiRoutesGet,
-  ...zSourceAcceRoutes.get,
   ...zSimulateurRoutes.get,
   ...zOrganisationAdminRoutes.get,
   ...zImporterAdminRoutes.get,

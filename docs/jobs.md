@@ -7,7 +7,6 @@ Ce document décrit tous les jobs d'import et de traitement de données de l'API
 ### Jobs d'import de sources
 
 - [import:bcn](#importbcn) - Import des données BCN (Base Centrale des Nomenclatures)
-- [import:acce](#importacce) - Import des données ACCE (établissements éducatifs)
 - [import:kit_apprentissage](#importkit_apprentissage) - Import des correspondances CFD/RNCP
 - [import:referentiel](#importreferentiel) - Import des organismes depuis le Référentiel ONISEP
 - [import:catalogue](#importcatalogue) - Import du catalogue des formations en apprentissage
@@ -95,62 +94,6 @@ Importe les données de la BCN (Base Centrale des Nomenclatures) maintenue par l
 #### Planification
 
 - **Cron** : `0 */4 * * *` (toutes les 4 heures)
-- **Durée max** : 30 minutes
-
----
-
-### import:acce
-
-#### Description
-
-Importe les données des établissements éducatifs depuis l'ACCE (Annuaire Central des Établissements) maintenu par la DEPP. Ces données contiennent les informations sur les établissements identifiés par leur UAI (Unité Administrative Immatriculée).
-
-#### Source de données
-
-| Propriété            | Valeur                                                          |
-| -------------------- | --------------------------------------------------------------- |
-| **Source**           | ACCE - Annuaire Central des Établissements                      |
-| **URL**              | `https://acce.depp.education.fr/acce`                           |
-| **Authentification** | Formulaire (username/password)                                  |
-| **Format**           | ZIP contenant 5 fichiers CSV (encodage Latin-1, délimiteur `;`) |
-
-**Fichiers importés :**
-
-| Fichier              | Description                                        |
-| -------------------- | -------------------------------------------------- |
-| `ACCE_UAI.csv`       | Données principales des établissements (88 champs) |
-| `ACCE_UAI_ZONE.csv`  | Affectations zones/districts                       |
-| `ACCE_UAI_SPEC.csv`  | Spécialités des établissements                     |
-| `ACCE_UAI_MERE.csv`  | Relations établissements parents                   |
-| `ACCE_UAI_FILLE.csv` | Relations établissements enfants                   |
-
-#### Collection de destination
-
-| Collection    | Description                              |
-| ------------- | ---------------------------------------- |
-| `source.acce` | Stocke toutes les données ACCE importées |
-
-#### Étapes du job
-
-1. **Authentification** : Connexion au portail ACCE avec les identifiants
-2. **Extraction** : Demande d'extraction et téléchargement du fichier ZIP
-3. **Parsing** : Pour chaque fichier CSV dans le ZIP :
-   - Parsing avec délimiteur `;` et encodage Latin-1
-   - Validation des données via schémas Zod
-   - Insertion par lots de 100
-4. **Nettoyage** : Suppression des données des imports précédents
-5. **Finalisation** : Mise à jour du statut dans `import.meta`
-
-#### Pré-requis
-
-| Pré-requis          | Description                                  |
-| ------------------- | -------------------------------------------- |
-| `API_ACCE_USERNAME` | Variable d'environnement - Identifiant ACCE  |
-| `API_ACCE_PASSWORD` | Variable d'environnement - Mot de passe ACCE |
-
-#### Planification
-
-- **Cron** : `0 4 * * *` (tous les jours à 4h)
 - **Durée max** : 30 minutes
 
 ---
@@ -919,7 +862,7 @@ Supprime automatiquement les comptes utilisateurs inactifs depuis plus de 2 ans.
 
 | Timing                    | Cron                      | Jobs                                                                   |
 | ------------------------- | ------------------------- | ---------------------------------------------------------------------- |
-| **import_source**         | `0 4 * * *`               | acce, france_competence, kali_ccn, dares_ccn, mission_locale, communes |
+| **import_source**         | `0 4 * * *`               | france_competence, kali_ccn, dares_ccn, mission_locale, communes       |
 | **import_source_main**    | `0 */4 * * *`             | bcn, kit_apprentissage, referentiel, catalogue                         |
 | **import_compute_step_1** | `0 1,5,9,13,17,21 * * *`  | certifications, organismes                                             |
 | **import_compute_step_2** | `0 2,6,10,14,18,22 * * *` | formation                                                              |

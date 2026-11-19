@@ -63,10 +63,6 @@ const config = {
       // ce qui les rend structurellement invérifiables par LBA production
       private_key_sandbox: env.get("API_TOKEN_PRIVATE_KEY_SANDBOX").required().asString(),
     },
-    acce: {
-      username: env.get("API_ACCE_USERNAME").required().asString(),
-      password: env.get("API_ACCE_PASSWORD").required().asString(),
-    },
     referentielOnisep: {
       endpoint: "https://referentiel.apprentissage.onisep.fr/api/v1",
     },

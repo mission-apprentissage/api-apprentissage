@@ -11,6 +11,7 @@ import { formationModelDescriptor } from "./formation.model.js"
 import { importMetaModelDescriptor } from "./import.meta.model.js"
 import { indicateurSourceKitApprentissageModelDescriptor } from "./indicateurs/source_kit_apprentissage.model.js"
 import { indicateurUsageApiModelDescriptor } from "./indicateurs/usage_api.model.js"
+import { indicateurUsageMcpModelDescriptor } from "./indicateurs/usage_mcp.model.js"
 import { organisationModelDescriptor } from "./organisation.model.js"
 import { organismeModelDescriptor } from "./organisme.model.js"
 import sessionsModelDescriptor from "./session.model.js"
@@ -38,6 +39,7 @@ export const modelDescriptorMap = {
   [usersModelDescriptor.collectionName]: usersModelDescriptor,
   [sessionsModelDescriptor.collectionName]: sessionsModelDescriptor,
   [indicateurUsageApiModelDescriptor.collectionName]: indicateurUsageApiModelDescriptor,
+  [indicateurUsageMcpModelDescriptor.collectionName]: indicateurUsageMcpModelDescriptor,
   [indicateurSourceKitApprentissageModelDescriptor.collectionName]: indicateurSourceKitApprentissageModelDescriptor,
   [sourceAcceModelDescriptor.collectionName]: sourceAcceModelDescriptor,
   [sourcReferentielModelDescriptor.collectionName]: sourcReferentielModelDescriptor,

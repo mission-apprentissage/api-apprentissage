@@ -1,4 +1,4 @@
-import { gatewayTimeout, internal, isBoom } from "@hapi/boom"
+import { badGateway, gatewayTimeout, internal, isBoom } from "@hapi/boom"
 import { captureException } from "@sentry/node"
 import { createApiAlternanceToken, ORGANISATION_HABILITATIONS } from "api-alternance-sdk"
 import type { FastifyReply, FastifyRequest } from "fastify"
@@ -18,7 +18,7 @@ type ForwardApiRequestConfig = {
   timeoutMs?: number
 }
 
-type Identity = { user: IUser; organisation: IOrganisationInternal | null; apiKeyEnv: IApiKeyEnv }
+export type Identity = { user: IUser; organisation: IOrganisationInternal | null; apiKeyEnv: IApiKeyEnv }
 
 // Point unique de dérivation de l'identity de forward : toutes les routes forwardées sont en
 // auth "api-key", une api_key absente est un invariant cassé — on refuse plutôt que de retomber
@@ -204,4 +204,22 @@ export async function forwardApiRequest(request: ForwardApiRequestConfig, reply:
   }
 
   return reply.status(response.status).headers(responseHeaders).send(response.body)
+}
+
+// Variante de forwardApiRequest pour les appelants qui transforment la réponse LBA au lieu de la
+// relayer : même authentification, même timeout et même rejeu, mais le corps est lu et parsé ici.
+export async function fetchLbaJson(request: ForwardApiRequestConfig, identity: Identity): Promise<{ status: number; data: unknown }> {
+  const response = await getResponse(request, identity)
+  const text = await response.text()
+
+  try {
+    return { status: response.status, data: text === "" ? null : JSON.parse(text) }
+  } catch (error) {
+    throw withCause(badGateway("forwardApi.fetchLbaJson: réponse LBA non JSON", { request, status: response.status, apiKeyEnv: identity.apiKeyEnv }), error)
+  }
+}
+
+// Origine du site LBA servi par l'upstream de l'identité : les fiches publiques sont sur le même hôte que l'API.
+export function getLbaSiteUrl(identity: Identity): string {
+  return new URL(getLbaEndpoint(identity.apiKeyEnv)).origin
 }

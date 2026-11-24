@@ -61,6 +61,8 @@ fileignoreconfig:
   checksum: 0caa0a29b11f7ededdc9db66c429bb96e07675ba500e3b624e1f69e9f7b08028
 - filename: server/src/server/routes/formations/formations.route.test.ts
   checksum: cf58f5eb53c7bae8a7f5e050f46d8d5deb029e4776add912f0db279d542b5238
+- filename: server/src/server/routes/mcp/mcp.route.test.ts
+  checksum: 3e171dcad536d43f1a8508eed0067f5aa3f45bb866d9725900f78b12915c17e0
 - filename: server/src/services/apis/unml/unml.test.ts
   checksum: 71b196ba42a795b8a649fb9a17ac356cd719bfc9c254d4859a8aab22b05b03e5
 - filename: server/src/services/security/authenticationService.test.ts

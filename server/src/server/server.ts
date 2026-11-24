@@ -1,4 +1,5 @@
 import { fastifyCookie } from "@fastify/cookie"
+import type { FastifyCorsOptions, FastifyCorsOptionsDelegateCallback } from "@fastify/cors"
 import { fastifyCors } from "@fastify/cors"
 import { fastifyMultipart } from "@fastify/multipart"
 import { fastifyRateLimit } from "@fastify/rate-limit"
@@ -20,6 +21,7 @@ import { apiKeyUsageMiddleware } from "./middlewares/apiKeyUsageMiddleware.js"
 import { auth } from "./middlewares/authMiddleware.js"
 import { errorMiddleware } from "./middlewares/errorMiddleware.js"
 import { logMiddleware } from "./middlewares/logMiddleware.js"
+import { MCP_PATH, mcpRoutes } from "./routes/mcp/mcp.routes.js"
 import { registerRoutes } from "./routes/routes.js"
 
 export type Server = FastifyInstance<
@@ -37,8 +39,8 @@ export async function bind(app: Server) {
   app.setSerializerCompiler(serializerCompiler)
 
   // Register CORS early so it applies to all routes including swagger
-  app.register(fastifyCors, {
-    ...(config.env === "local"
+  const defaultCors: FastifyCorsOptions =
+    config.env === "local"
       ? {
           origin: config.publicUrl,
           credentials: true,
@@ -47,8 +49,20 @@ export async function bind(app: Server) {
       : {
           origin: [config.publicUrl, /(?:^|\.)data\.gouv\.fr$/],
           credentials: true,
-        }),
-  })
+        }
+  // Le endpoint MCP est appelé par des clients tiers, dont des clients navigateur : toute origine est
+  // admise, sans credentials — l'accès repose sur la clé d'API passée en en-tête, jamais sur un cookie.
+  const mcpCors: FastifyCorsOptions = {
+    origin: "*",
+    credentials: false,
+    methods: ["GET", "POST", "DELETE", "OPTIONS"],
+    exposedHeaders: ["Mcp-Session-Id"],
+  }
+  const corsDelegate: FastifyCorsOptionsDelegateCallback = (req, callback) => {
+    const pathname = req.url.split("?")[0].toLowerCase()
+    callback(null, pathname === MCP_PATH ? mcpCors : defaultCors)
+  }
+  app.register(fastifyCors, () => corsDelegate)
 
   const frSwaggerDoc = generateOpenApiSchema(config.version, config.env, config.apiPublicUrl, "fr")
   const enSwaggerDoc = generateOpenApiSchema(config.version, config.env, config.apiPublicUrl, "en")
@@ -111,6 +125,9 @@ export async function bind(app: Server) {
   app.decorate("auth", <S extends IApiRouteSchema & WithSecurityScheme>(scheme: S) => auth(scheme))
 
   app.register(fastifyMultipart)
+
+  // Enregistrée hors du plugin préfixé /api : le endpoint MCP parle JSON-RPC, il n'a pas de schéma dans zRoutes.
+  mcpRoutes({ server: app })
 
   app.register(
     async (instance: Server) => {

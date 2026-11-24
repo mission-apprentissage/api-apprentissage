@@ -4290,6 +4290,54 @@ exports[`zodToMongoSchema > should convert indicateurs.usage_api schema 1`] = `
 }
 `;
 
+exports[`zodToMongoSchema > should convert indicateurs.usage_mcp schema 1`] = `
+{
+  "additionalProperties": false,
+  "bsonType": "object",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+    },
+    "api_key_id": {
+      "bsonType": "objectId",
+    },
+    "client": {
+      "bsonType": "string",
+    },
+    "count": {
+      "bsonType": "number",
+    },
+    "date": {
+      "bsonType": "date",
+    },
+    "status": {
+      "bsonType": "string",
+      "enum": [
+        "success",
+        "tool_error",
+        "server_error",
+      ],
+    },
+    "tool": {
+      "bsonType": "string",
+    },
+    "user_id": {
+      "bsonType": "objectId",
+    },
+  },
+  "required": [
+    "_id",
+    "date",
+    "user_id",
+    "api_key_id",
+    "tool",
+    "client",
+    "status",
+    "count",
+  ],
+}
+`;
+
 exports[`zodToMongoSchema > should convert organisations schema 1`] = `
 {
   "additionalProperties": false,

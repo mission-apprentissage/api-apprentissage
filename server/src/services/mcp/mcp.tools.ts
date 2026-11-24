@@ -105,6 +105,10 @@ function toQuerystring(params: Record<string, string | number | undefined>): str
 }
 
 function parseLba<S extends z.ZodType>(schema: S, path: string, response: { status: number; data: unknown }): z.output<S> {
+  // Seul le 400 est corrigible par l'appelant ; le message de LBA n'est pas relayé.
+  if (response.status === 400) {
+    throw new McpToolError("La bonne alternance a refusé ces critères de recherche. Vérifier les valeurs fournies (lieu, rayon, niveau de diplôme, codes) puis réessayer.")
+  }
   if (response.status !== 200) {
     throw badGateway(`mcp.tools: réponse LBA inattendue sur ${path}`, { status: response.status, data: response.data })
   }

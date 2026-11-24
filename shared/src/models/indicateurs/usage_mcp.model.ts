@@ -14,8 +14,9 @@ export const zIndicateurUsageMcp = z.object({
   date: z.date(),
   user_id: zObjectIdMini,
   api_key_id: zObjectIdMini,
+  // Nom d'un outil déclaré, ou « outil_inconnu »
   tool: z.string(),
-  // Nom déclaré par le client MCP, à défaut produit du User-Agent : valeur libre fournie par l'appelant
+  // Produit du User-Agent, cf. resolveClientName : valeur choisie par l'appelant
   client: z.string(),
   status: zIndicateurUsageMcpStatus,
   count: z.number(),

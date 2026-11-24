@@ -50,8 +50,7 @@ type RpcOptions = { token?: string | null; headers?: Record<string, string> }
 
 let rpcId = 0
 
-async function rpc(method: string, params: unknown, { token = tokens.alice, headers = {} }: RpcOptions = {}) {
-  rpcId += 1
+async function post(payload: unknown, { token = tokens.alice, headers = {} }: RpcOptions = {}) {
   return app.inject({
     method: "POST",
     url: "/api/mcp",
@@ -61,8 +60,20 @@ async function rpc(method: string, params: unknown, { token = tokens.alice, head
       ...(token === null ? {} : { authorization: `Bearer ${token}` }),
       ...headers,
     },
-    payload: { jsonrpc: "2.0", id: rpcId, method, params },
+    payload: JSON.stringify(payload),
   })
+}
+
+async function rpc(method: string, params: unknown, options?: RpcOptions) {
+  rpcId += 1
+  return post({ jsonrpc: "2.0", id: rpcId, method, params }, options)
+}
+
+async function usageRows() {
+  return getDbCollection("indicateurs.usage_mcp")
+    .find({}, { projection: { _id: 0, date: 0, api_key_id: 0, user_id: 0 } })
+    .sort({ tool: 1, status: 1 })
+    .toArray()
 }
 
 function rpcResult<T>(response: { body: string }): T {
@@ -140,6 +151,29 @@ describe("authentification", () => {
       const response = await app.inject({ method, url: "/api/mcp", headers: { authorization: `Bearer ${tokens.alice}`, accept: "text/event-stream" } })
       expect.soft(response.statusCode, method).toBe(405)
     }
+  })
+})
+
+describe("requêtes groupées", () => {
+  const call = (id: number) => ({ jsonrpc: "2.0", id, method: "tools/call", params: { name: "rechercher_offres", arguments: { romes: ["M1805"] } } })
+
+  it.each([
+    ["d'un seul message", [call(1)]],
+    ["de plusieurs messages", [call(1), call(2), call(3)]],
+    ["vide", []],
+  ])("refuse un lot %s sans exécuter d'outil", async (_label, batch) => {
+    const scope = nock(`${LBA}/api`).get("/v3/jobs/search").query(true).reply(200, { jobs: [], recruiters: [], warnings: [] })
+
+    const response = await post(batch)
+
+    expect(response.statusCode).toBe(400)
+    expect(response.json()).toEqual({
+      jsonrpc: "2.0",
+      error: { code: -32600, message: "Les requêtes JSON-RPC groupées ne sont pas acceptées : envoyer un message par requête." },
+      id: null,
+    })
+    expect(scope.isDone()).toBe(false)
+    expect(await usageRows()).toEqual([])
   })
 })
 
@@ -350,6 +384,28 @@ describe("rechercher_offres", () => {
     expect(result.raw).not.toContain("stack interne LBA")
   })
 
+  it("signale au modèle des critères refusés par LBA (400), sans relayer le message de LBA", async () => {
+    nock(`${LBA}/api`).get("/v3/jobs/search").query(true).reply(400, { statusCode: 400, message: "détail de validation LBA" })
+
+    const result = await callTool("rechercher_offres", { romes: ["M1805"] })
+
+    expect(result.isError).toBe(true)
+    expect(result.text).toBe("La bonne alternance a refusé ces critères de recherche. Vérifier les valeurs fournies (lieu, rayon, niveau de diplôme, codes) puis réessayer.")
+    expect(result.raw).not.toContain("détail de validation LBA")
+    expect(await usageRows()).toEqual([{ tool: "rechercher_offres", client: "lightmyrequest", status: "tool_error", count: 1 }])
+  })
+
+  it.each([404, 403])("garde l'erreur générique quand LBA répond %i à une recherche", async (status) => {
+    // 404 : route LBA absente ; 403 : jeton refusé. Ni l'un ni l'autre n'est corrigible par l'appelant.
+    nock(`${LBA}/api`).get("/v3/search").query(true).reply(status, { statusCode: status, message: "refus LBA" })
+
+    const result = await callTool("rechercher_offres", { q: "boulanger" })
+
+    expect(result.isError).toBe(true)
+    expect(result.text).toBe("Le service est momentanément indisponible. Réessayer plus tard.")
+    expect(await usageRows()).toEqual([{ tool: "rechercher_offres", client: "lightmyrequest", status: "server_error", count: 1 }])
+  })
+
   it("route une clé sandbox vers l'upstream sandbox", async () => {
     const scope = nock(`${LBA_SANDBOX}/api`).get("/v3/jobs/search").query({ romes: "M1805" }).reply(200, { jobs: [], recruiters: [], warnings: [] })
 
@@ -421,6 +477,60 @@ describe("traçage", () => {
       { user_id: users.alice._id, tool: "rechercher_offres", client: "claude-code", status: "success", count: 2 },
       { user_id: users.alice._id, tool: "rechercher_offres", client: "claude-code", status: "tool_error", count: 1 },
     ])
+  })
+
+  it("compte en erreur d'outil un appel rejeté avant l'outil : arguments invalides, outil inconnu", async () => {
+    const invalid = await callTool("rechercher_offres", { romes: ["bad"] })
+    const unknown = await callTool("outil_fabrique_par_l_appelant", {})
+    const unnamed = await rpc("tools/call", { arguments: {} })
+
+    expect(invalid.isError).toBe(true)
+    expect(unknown.isError).toBe(true)
+    expect(unnamed.statusCode).toBe(200)
+    expect(await usageRows()).toEqual([
+      { tool: "outil_inconnu", client: "lightmyrequest", status: "tool_error", count: 2 },
+      { tool: "rechercher_offres", client: "lightmyrequest", status: "tool_error", count: 1 },
+    ])
+  })
+
+  it("ne compte ni les autres méthodes, ni un appel d'outil refusé par le transport", async () => {
+    const list = await rpc("tools/list", {})
+    const notAcceptable = await rpc("tools/call", { name: "rechercher_offres", arguments: { romes: ["M1805"] } }, { headers: { accept: "text/html" } })
+    // Notification : même méthode, mais sans id, donc sans réponse ni exécution.
+    const notification = await post({ jsonrpc: "2.0", method: "tools/call", params: { name: "rechercher_offres", arguments: { romes: ["M1805"] } } })
+
+    expect(list.statusCode).toBe(200)
+    expect(notAcceptable.statusCode).toBe(406)
+    expect(notification.statusCode).not.toBe(200)
+    expect(await usageRows()).toEqual([])
+  })
+
+  it("n'enregistre pas le nom déclaré à l'initialisation : le transport est sans session", async () => {
+    nock(`${LBA}/api`).get("/v3/jobs/search").query(true).reply(200, { jobs: [], recruiters: [], warnings: [] })
+    const headers = { "user-agent": "agent-http/1.0" }
+
+    const init = await rpc("initialize", { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "nom-declare", version: "1" } }, { headers })
+    await callTool("rechercher_offres", { romes: ["M1805"] }, { headers })
+
+    expect(init.statusCode).toBe(200)
+    expect(await usageRows()).toEqual([{ tool: "rechercher_offres", client: "agent-http", status: "success", count: 1 }])
+  })
+
+  it.each([
+    ["Claude-Code/2.1.0 (cli)", "claude-code"],
+    ["claude-code/9.9.9", "claude-code"],
+    ["Mozilla/5.0 (Macintosh)", "mozilla"],
+    ["<script>alert(1)</script>/1.0", "scriptalert1"],
+    ["$où.clé", "o.cl"],
+    [`${"a".repeat(80)}/1.0`, "a".repeat(40)],
+    ["éàü/1.0", "inconnu"],
+    ["/1.0", "inconnu"],
+  ])("réduit le User-Agent %j au client %j", async (userAgent, client) => {
+    nock(`${LBA}/api`).get("/v3/jobs/search").query(true).reply(200, { jobs: [], recruiters: [], warnings: [] })
+
+    await callTool("rechercher_offres", { romes: ["M1805"] }, { headers: { "user-agent": userAgent } })
+
+    expect(await usageRows()).toEqual([{ tool: "rechercher_offres", client, status: "success", count: 1 }])
   })
 })
 

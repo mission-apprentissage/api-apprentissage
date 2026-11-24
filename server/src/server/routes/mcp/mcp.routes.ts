@@ -33,7 +33,16 @@ export const mcpRoutes = ({ server }: { server: Server }) => {
       throw internal("mcp.routes: route MCP atteinte sans clé d'API")
     }
 
-    const mcpServer = createMcpServer({
+    // Un lot JSON-RPC exécuterait plusieurs appels d'outil pour une seule requête comptée par le quota.
+    if (Array.isArray(request.body)) {
+      return reply.status(400).send({
+        jsonrpc: "2.0",
+        error: { code: -32600, message: "Les requêtes JSON-RPC groupées ne sont pas acceptées : envoyer un message par requête." },
+        id: null,
+      })
+    }
+
+    const { server: mcpServer, recordRejectedCall } = createMcpServer({
       identity: buildForwardIdentity(request.user.value, request),
       apiKeyId: request.api_key._id,
       userAgent: request.headers["user-agent"] ?? null,
@@ -50,6 +59,12 @@ export const mcpRoutes = ({ server }: { server: Server }) => {
     try {
       await mcpServer.connect(transport)
       const response = await transport.handleRequest(new Request(new URL(request.url, config.apiPublicUrl), { method: "POST", headers }), { parsedBody: request.body })
+
+      // 200 : le transport a transmis une requête au serveur MCP (une notification reçoit 202, un refus du transport 4xx).
+      const message = request.body as { method?: unknown; params?: { name?: unknown } } | null
+      if (response.status === 200 && typeof message === "object" && message?.method === "tools/call") {
+        await recordRejectedCall(message.params?.name)
+      }
 
       reply.status(response.status)
       response.headers.forEach((value, name) => {

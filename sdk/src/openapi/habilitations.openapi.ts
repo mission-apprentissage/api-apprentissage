@@ -21,6 +21,7 @@ export const demandeHabilitationsOpenapi = {
       fr: "Bonjour,\n\nJe souhaite obtenir une habilitation pour déposer des offres d'emploi en alternance sur la plateforme La bonne alternance.\n\nOrganisation :\nUsage visé :",
     },
     restriction: null,
+    conditionProduction: null,
   },
   "applications:write": {
     label: { fr: "Envoi de candidatures", en: "Sending applications" },
@@ -33,6 +34,10 @@ export const demandeHabilitationsOpenapi = {
       fr: "Bonjour,\n\nJe souhaite obtenir une habilitation pour envoyer des candidatures à des offres d'emploi en alternance sur la plateforme La bonne alternance.\n\nOrganisation :\nUsage visé :",
     },
     restriction: null,
+    conditionProduction: {
+      fr: "En production, l'habilitation est réservée aux services entièrement gratuits pour les candidats.",
+      en: "In production, the habilitation is restricted to services that are entirely free for candidates.",
+    },
   },
   "appointments:write": {
     label: { fr: "Liens de prise de rendez-vous avec les centres de formation", en: "Appointment links with training centers" },
@@ -50,6 +55,7 @@ export const demandeHabilitationsOpenapi = {
       fr: "Réservée aux organisations partenaires de la prise de rendez-vous (Parcoursup, Affelnet, ONISEP et 1 jeune 1 solution selon la route) : une clé sandbox ne lève pas cette restriction.",
       en: "Restricted to appointment partner organisations (Parcoursup, Affelnet, ONISEP and 1 jeune 1 solution depending on the route): a sandbox key does not lift this restriction.",
     },
+    conditionProduction: null,
   },
 } as const satisfies Record<OpenapiHabilitation, DemandeHabilitation>
 

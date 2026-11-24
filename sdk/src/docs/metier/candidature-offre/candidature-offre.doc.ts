@@ -32,6 +32,10 @@ export const candidatureOffrePageDoc = {
       en: "This API is intended for services processing a high volume of job applications. Access requests for individual or personal use will not be approved.",
       fr: "Cette API est réservée aux services traitant un volume important de candidatures. Les demandes d'habilitation pour un usage individuel ne seront pas accordées.",
     },
+    {
+      en: "**Your service must be entirely free for candidates.** If you offer them a paid feature, even an optional one (CV analysis, cover letter writing assistance…), the habilitation to send applications in production will be denied. You may however charge companies or training organisations for services, provided that all features intended for candidates remain free.",
+      fr: "**Votre service doit être entièrement gratuit pour les candidats.** Si vous leur proposez une fonctionnalité payante, même optionnelle (analyse de CV, aide à la rédaction de lettre de motivation…), l'habilitation à envoyer des candidatures en production vous sera refusée. Vous pouvez en revanche facturer des prestations aux entreprises ou aux organismes de formation, à condition que toutes les fonctionnalités destinées aux candidats restent gratuites.",
+    },
   ],
   frequenceMiseAJour: null,
   type: "outil",

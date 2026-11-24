@@ -20,4 +20,4 @@ Les résultats sont retournés par priorité de source (La bonne alternance puis
 
 **📥Vous pouvez également télécharger l’ensemble de ces offres au format JSON en utilisant [cette route](/fr/documentation-technique#tag/Offre-Emploi/operation/jobsExport).**
 
-L'utilisation de cette API est gratuite et réservée à des usages non lucratifs. Notez que toute utilisation de ces données à des fins commerciales, telles que la revente ou la facturation de l'accès pour des tiers comme des candidats est interdite.
+L'utilisation de cette API est gratuite. **Elle est réservée aux services entièrement gratuits pour les candidats.** Si votre service leur propose une fonctionnalité payante, même optionnelle (analyse de CV, aide à la rédaction de lettre de motivation…), l'accès aux offres via l'API vous sera refusé. Vous pouvez en revanche facturer des prestations aux entreprises ou aux organismes de formation, à condition que toutes les fonctionnalités destinées aux candidats restent gratuites. La revente des données ou la facturation de leur accès à des tiers reste interdite.

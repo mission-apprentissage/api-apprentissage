@@ -18,4 +18,4 @@ Results are returned by source priority (La bonne alternance then its partners),
 
 **📥You can also download all job postings in JSON format using [this endpoint](/fr/documentation-technique#tag/Offre-Emploi/operation/jobsExport).**
 
-The use of this API is free and restrictied to non-profit uses. Note that any use of this data for commercial purposes, such as reselling or billing access to third parties such as candidates, companies, or schools, is prohibited.
+The use of this API is free. **It is restricted to services that are entirely free for candidates.** If your service offers them a paid feature, even an optional one (CV analysis, cover letter writing assistance…), access to job offers through the API will be denied. You may however charge companies or training organisations for services, provided that all features intended for candidates remain free. Reselling the data or charging third parties for access to it remains prohibited.

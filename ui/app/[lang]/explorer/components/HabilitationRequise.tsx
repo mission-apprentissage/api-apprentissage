@@ -26,7 +26,7 @@ export function HabilitationRequise({ lang, habilitation }: Props) {
     return null
   }
 
-  const { restriction } = demandeHabilitationsOpenapi[habilitation]
+  const { restriction, conditionProduction } = demandeHabilitationsOpenapi[habilitation]
 
   return (
     <Box
@@ -59,6 +59,7 @@ export function HabilitationRequise({ lang, habilitation }: Props) {
         ) : (
           <Typography className={fr.cx("fr-text--sm")}>{restriction[lang]}</Typography>
         )}
+        {conditionProduction !== null && <Typography className={fr.cx("fr-text--sm")}>{conditionProduction[lang]}</Typography>}
         <Typography className={fr.cx("fr-text--sm")}>
           {t("habilitationRequise.enSavoirPlus", { lng: lang })} <AccesHabilitationsLink lang={lang} size="sm" />
         </Typography>

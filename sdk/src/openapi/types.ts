@@ -43,4 +43,6 @@ export type DemandeHabilitation = {
   body: OpenApiText
   // Condition d'accès qui s'ajoute à l'habilitation et qu'une clé sandbox ne lève pas
   restriction: OpenApiText | null
+  // Condition d'octroi propre à une clé production, sans effet sur la sandbox
+  conditionProduction: OpenApiText | null
 }
